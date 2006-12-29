@@ -1,0 +1,127 @@
+/*       _\|/_
+         (o o)
++-----oOO-{_}-OOo--------------------------------------------------------+
+| toendaCMS - Content Management and Weblogging System with XML and SQL  |
++------------------------------------------------------------------------+
+| Copyright (c) Toenda Software Development                              |
+| Author: Jonathan Naumann                                               |
++------------------------------------------------------------------------+
+|
+| toendaCMS editor toolbar styles
+|
+| File:		tcms_editor.css
+| Version:	0.0.4
+|
++
+*/
+
+
+
+/*
+	CMS AND
+	EDITOR STYLES
+*/
+
+.tcms_editor {
+	display: block;
+	float: left;
+	height: 22px;
+	width: 23px;
+	font-size: 1px;
+	text-decoration: none;
+	border: 1px solid #ccc;
+}
+a.tcms_editor, a.tcms_editor:link, a.tcms_editor:visited {
+	display: block;
+	float: left;
+	height: 22px;
+	width: 23px;
+	font-size: 1px;
+	text-decoration: none;
+	border: 1px solid #ccc;
+}
+a.tcms_editor:hover {
+	text-decoration: none;
+	font-size: 1px;
+	border: 1px solid #336699;
+}
+
+
+
+.tcms_imagefont {
+	background: transparent url(../images/editor/button_image.png) no-repeat !important;
+}
+
+.tcms_headfont {
+	background: transparent url(../images/editor/button_headline.png) no-repeat !important;
+}
+
+.tcms_boldfont {
+	background: transparent url(../images/editor/button_bold.png) no-repeat !important;
+}
+
+.tcms_italicfont {
+	background: transparent url(../images/editor/button_italic.png) no-repeat !important;
+}
+
+.tcms_underlinedfont {
+	background: transparent url(../images/editor/button_underlined.png) no-repeat !important;
+}
+
+.tcms_ttfont {
+	background: transparent url(../images/editor/button_tt.png) no-repeat !important;
+}
+
+.tcms_citefont {
+	background: transparent url(../images/editor/button_cite.png) no-repeat !important;
+}
+
+.tcms_hrfont {
+	background: transparent url(../images/editor/button_hr.png) no-repeat !important;
+}
+
+.tcms_ulfont {
+	background: transparent url(../images/editor/button_ul.png) no-repeat !important;
+}
+
+.tcms_olfont {
+	background: transparent url(../images/editor/button_ol.png) no-repeat !important;
+}
+
+.tcms_lifont {
+	background: transparent url(../images/editor/button_li.png) no-repeat !important;
+}
+
+.tcms_centerfont {
+	background: transparent url(../images/editor/button_center.png) no-repeat !important;
+}
+
+.tcms_leftfont {
+	background: transparent url(../images/editor/button_left.png) no-repeat !important;
+}
+
+.tcms_rightfont {
+	background: transparent url(../images/editor/button_right.png) no-repeat !important;
+}
+
+.tcms_urlfont {
+	background: transparent url(../images/editor/button_url.png) no-repeat !important;
+}
+
+.tcms_clearfont {
+	background: transparent url(../images/editor/button_clear.png) no-repeat !important;
+}
+
+.tcms_morefont {
+	background: transparent url(../images/editor/button_more.png) no-repeat !important;
+}
+
+.tcms_help {
+	background: transparent url(../images/editor/button_help.png) no-repeat !important;
+}
+
+.tcms_link {
+	background: transparent url(../images/editor/button_link.png) no-repeat !important;
+}
+
+
