@@ -1,0 +1,7 @@
+<template>
+	<name>Default</name>
+	<autor>Jonathan Naumann - Toenda Software Development</autor>
+	<url>toenda.com</url>
+	<desc>The default toendaCMS backend theme.</desc>
+	<version>0.3.0</version>
+</template>
