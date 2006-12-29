@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?><global>
+	<menu>1</menu>
+	<second_menu>1</second_menu>
+	<meta></meta>
+	<charset>UTF-8</charset>
+	<wysiwyg>tinymce</wysiwyg>
+	<lang>english_EN</lang>
+	<front_lang>english_EN</front_lang>
+	<description></description>
+	<currency>EUR</currency>
+	<toendacms_in_sitetitle>0</toendacms_in_sitetitle>
+	<default_category>erdf4</default_category>
+	<topmenu_active>1</topmenu_active>
+	<statistics>0</statistics>
+	<seo_enabled>1</seo_enabled>
+	<server_folder>toendacms</server_folder>
+	<seo_format>1</seo_format>
+	<site_offline>0</site_offline>
+	<site_offline_text>This site is down for maintenance.<br /> Please check back again soon.</site_offline_text>
+	<show_top_pages></show_top_pages>
+	<cipher_email>1</cipher_email>
+	<js_browser_detect>1</js_browser_detect>
+	<use_cs>1</use_cs>
+	<captcha>1</captcha>
+	<captcha_clean_size>1024</captcha_clean_size>
+	<show_doc_autor>0</show_doc_autor>
+	<admin_topmenu>0</admin_topmenu>
+	<pathway_char>></pathway_char>
+	<anti_frame>1</anti_frame>
+	<revisit_after>2</revisit_after>
+	<robotsfile>http://www.toenda.com/robots.txt</robotsfile>
+	<pdflink>1</pdflink>
+	<cachecontrol>no-cache, must-revalidate</cachecontrol>
+	<pragma>no-cache</pragma>
+	<expires>0</expires>
+	<robots>index, follow</robots>
+	<last_changes>2006-12-12 18:42:53</last_changes>
+
+</global>
