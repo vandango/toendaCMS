@@ -1,0 +1,49 @@
+
+  Engine
+---------------------------------------------------------------------------------
+ - Documentsmanager (CMS, Verzeichnisverwaltung für zentral liegende Dokumente und Dateien)
+ - tCMS theming tutorial
+ - Multiple Webseiten Administrierbar, Auswahl beim Login
+ - Gallerien und Bilder sortierbar
+ - SQL <-> XML Import / Export
+ - Metadaten zu den Dokumenten
+ - Cookies
+ - HTML Editor ohne alles nl2br
+ - Layout Editor mit Syntax Higlighting (helene)
+ - Eigene Avatare
+ - Favatare
+ - Admin topmenu recode (php code)
+ - Newsletter mail unsubscribe fertig machen
+ - Multi-lingual Content
+ - Counter in sidebar
+ - Eigener Download counter
+ - Gallerie verbessern und mehr checks
+ - MathML
+ - Alben mit mehreren Seiten
+ - Banner Management
+ - Objectcaching (Menu’s, Pathway)
+ - Captchas mit timestamp als namen
+ - Servertime einstellbar (gmt)
+ - Sitemap
+ - Trash
+ - Image resizing
+ - Atom API import
+ - Topmenu mit Submenu
+ - Sidemenu mit mehreren Ebenen
+ - Sidemenu aktiver Link fett
+ - Business Logik Framework
+ - Linkbrowser
+         -> FAQ
+         -> Downloads
+         -> Products
+ - Sprachwahl bei Start nach dem Land des Browsers
+         -> als Option
+ - Pathway als Einstellung eines Dokumentes ähnlich den Kategorien
+ - Possibility to answer direct to a comment
+ - comments option: only registered can comment
+ - imagegalleries can set to a user
+ - content versoniering for the workflow
+ - faq to the workflow desktop
+ - generate a contact from a user (button)
+ - cookies
+ - private messaging system

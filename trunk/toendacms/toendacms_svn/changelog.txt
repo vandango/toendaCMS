@@ -1,0 +1,1095 @@
+############################################################################################
+
+
+         _\|/_
+         (o o)
++-----oOO-{_}-OOo--------------------------------------------------------+
+| toendaCMS - Content Management and Weblogging System with XML and SQL  |
++------------------------------------------------------------------------+
+| Copyright (c) Toenda Software Development                              |
+| Author: Jonathan Naumann                                               |
++------------------------------------------------------------------------+
+|
+| CHANGELOG
+|
++
+
+
+
+############################################################################################
+
+
+
+
+
+Version 1.1
+	- Version 1.1.0
+
+Developer Version
+	- 1.0.1 Development
+	- 1.0.2 Development
+	- 1.0.3 Development
+	- 1.0.4 Development
+	- 1.0.5 Development
+	- 1.0.6 Development
+	- 1.0.7 Development
+	- 1.1.0 Development
+
+Building Steps: 2320
+
+
+
+ Version 1.1.0 Development
+-----------------------------------------------------------------
+
+ - bug #0000122: login on frontpage
+ - bug #0000105: cross-site scripting security bug
+
+ - security fixed: cross-site scripting security bug
+
+ - bug fixed: mediabrowser bug in subfolders
+ - bug fixed: save faq item error (if save without a position number)
+
+ - changed: some framework class improvements
+ - changed: improvements on the backend layout
+ - changed: usermanagement and profile now with the new framework objects
+ - changed: dutch language update
+
+ - added: captcha comment check for the image comments
+ - added: possibillity to make a own target to the side and topmenu links
+ - added: export contact information in the adressbook as a vCard
+ - added: import new contacts via vCards
+ - added: news has now a frontpage visibility
+ - added: the pdf link in the footer can now be disabled
+ - added: more metadata settings
+ - added: yahoo search option to the search result page
+ - added: test environment, for the testing phase if page is offline
+
+
+
+
+ Version 1.0.7 Development
+-----------------------------------------------------------------
+
+ - bug #0000136: mediamanager button without function on creating faq categories
+ - bug #0000135: usergroup writer can change newsletter settings
+ - bug #0000132: table prefix on installation (mysql)
+ - bug #0000131: filecopy error on finishing mysql installation
+ - bug #0000133: sql imagegallery demo data
+
+ - security fixed: 
+
+ - bug fixed: 
+
+ - changed: newsletter now with the phpmailer class (complete html support)
+ - changed: mediabrowser supports now different folders
+
+ - added: 
+
+
+
+
+ Version 1.0.6 Development
+-----------------------------------------------------------------
+
+ - bug #0000124: 
+
+ - security fixed: 
+
+ - bug fixed: setup bug fixed
+
+ - changed: 
+
+ - added: 
+
+
+
+
+ Version 1.0.5 Development
+-----------------------------------------------------------------
+
+ - bug #0000124: fileRead() not exist
+ - bug #0000127: search news with error
+ - bug #0000123: ^^ (the same)
+ - bug #0000117: faq manager image for a category
+
+ - security fixed: 
+
+ - bug fixed: update destroy the database.php
+ - bug fixed: backend newslist doesn not have the value variable
+ - bug fixed: rss feeds doesnt contain the description
+ - bug fixed: download manager can save a category in its own category
+ - bug fixed: [XMLDB] search in downloads
+ - bug fixed: error on listing documents in the backend
+ - bug fixed: inserting images into sidebar
+ - bug fixed: inserting new topmenu items creating no ids
+
+ - changed: toendaCMS version info class
+ - changed: content of the database.php are no longer ciphered
+
+ - added: phpmailer, to send mails over your own email hoster
+          (gmx, gmail, hotmail, web.de, etc.)
+ - added: some new metainformation to edit
+ - added: pagelist like the guestbook for the downloads
+ - added: a hr line to seperate the single downloads
+ - added: support for iframe and scripts for tyinymce
+
+
+
+
+ Version 1.0.4 Development
+-----------------------------------------------------------------
+
+ - bug #0000120: hardcoded internal links
+ - bug #0000121: syndication dosnt cut the news at {tcms_more}
+ - bug #0000108: delete contacts without question
+ - bug #0000107: delete user without question
+ - bug #0000118: delete comments without question
+ - bug #0000115: false poll internal link
+ - bug #0000112: insert internal link if seo is off
+ - bug #0000072: ie6 and tinyMCE
+ - bug #0000111: image problem at editing content with tinymce
+ - bug #0000110: sql error
+ - bug #0000106: retrieve sql new password
+
+ - security fixed: 
+
+ - bug fixed: backend display for the news date
+
+ - changed: save now dialog
+ - changed: depricated method encode_text replaced with decodeText
+ - changed: some download manager improvements
+ - changed: some gallery and tcms_gd class improvements
+ - changed: 
+
+ - added: text for the newsmanager
+ - added: text for the contactform
+ - added: category title to the download category folder
+ - added: mssql server support
+ - added: GIF image support for IE compatibility for the mimetype icons
+ - added: new usergroup "writer" with more rights as a editor. he can add
+          content documents, polls, downloads and menu entrys
+ - added: possibility to change the spacing between news
+ - added: romanian language
+ - added: 
+
+
+
+
+ Version 1.0.3 Development
+-----------------------------------------------------------------
+
+ - bug #0000104: 
+
+ - security fixed: 
+
+ - bug fixed: pathway char bug
+ - bug fixed: news timesince bug
+ - bug fixed: smiley images in comments with false path
+ - bug fixed: some style improvements
+ - bug fixed: [XML] loading news data container (frontpage)
+ - bug fixed: tinyMCE IE bug fixed
+ - bug fixed: some statistics improvements
+ - bug fixed: some setup fixes
+
+ - changed: 
+
+ - added: 
+
+
+
+
+ Version 1.0.2 Development
+-----------------------------------------------------------------
+
+ - bug #0000104: add and edit users
+ - bug #0000103: news author in rss feed
+ - bug #0000102: register link
+
+ - security fixed: FCKEditor now as component
+
+ - bug fixed: contactform bug
+ - bug fixed: update method in installation buig
+ - bug fixed: bug with include on admin with fckeditor
+ - bug fixed: change from backend to frontend per click error
+ - bug fixed: 
+
+ - changed: new login layout
+ - changed: 
+
+ - added: global configuration API class
+ - added: country list with language support
+ - added: retrievement method to athentication class
+ - added: retrievement function to administration login
+ - added: class for the tincMCE configuration
+ - added: the contactemailadress can now disabled in contactform
+ - added: 
+
+
+
+
+ Version 1.0.1 Development
+-----------------------------------------------------------------
+
+ - bug #0000094: 
+
+ - security fixed: FCKEditor update to 2.3
+
+ - bug fixed: rss now with author's email adress
+ - bug fixed: comments and guestbook entry reload the admin theme after saving
+ - bug fixed: internal link insertaion bug
+ 
+ - changed: WYSIWYG editor's now as extension
+ 
+ - added: account provider class added
+
+
+
+############################################################################################
+
+
+
+
+
+Version 1.0
+	- Version 1.0.0 RC1
+	- Version 1.0.0
+
+Developer Version
+	- 0.7.1
+	- 0.7.9
+	- 0.8.0 Development
+	- 0.9.9 Beta1
+	- 0.9.9 Beta2
+	- 0.9.9 Beta3
+	- 0.9.9 Development
+
+Building Steps: 2034
+
+
+
+
+ Version 1.0 Stable
+-----------------------------------------------------------------
+
+ - bug #0000094: sending newsletter error
+ - bug #0000098: creating and uploading a image on xml imagegallery
+ - bug #0000093: error after installation on imagegallery
+ - bug #0000097: mysql_num_rows error
+ - bug #0000095: registration bug
+ - bug #0000092: news publishing date
+ - bug #0000100: contactform does not send the website var
+ - bug #0000057: closed (it is in feedcreator class)
+ - bug #0000099: k2 theme bug with polls
+
+ - security fixed: 
+
+ - bug fixed: mediabrowser cannot upload images
+ - bug fixed: edit news as another user with admin rights
+ - bug fixed: bug with filenames in the download manager
+ - bug fixed: some bugs in the guestbook
+ - bug fixed: imagegallery list error with xml db if albums empty
+ - bug fixed: notice error on admin
+ - bug fixed: notice error in main class
+ - bug fixed: some printer layout improvements
+ 
+ - changed: error message handling
+ - changed: downloads open now in a new window
+ - changed: authentication now in authentication class,
+            that means that the login, logout and user management
+            is now in its own class
+ - changed: more wotk on the toendaCMS Framework, created a compatibility layer
+ - changed: new default theme: business
+ - changed: anti-frame function is now a option
+ - changed: some write right checks into the installer
+ 
+ - added: possibility to change the char for the pathway
+ - added: you can now create folders in the media manager
+ - added: captcha engine to the guestbook (thanks for the idea: Felix Werner - fwerner.net)
+ - added: skype to the user profile
+
+
+
+
+ Version 1.0 RC1
+-----------------------------------------------------------------
+
+ - bug #0000019: timesince bug
+ - bug #0000021: search bugs
+ - bug #0000024: db pr�fix on installation, no user can be created
+ - bug #0000027: send email bug
+ - bug #0000028: search bugs
+ - bug #0000029: create new newsletter user
+ - bug #0000026: sidebar faq bug
+ - bug #0000039: news edit from frontpage (seo off)
+ - bug #0000038: link access
+ - bug #0000037: link access
+ - bug #0000032: new document, published flag does not save
+ - bug #0000035: insert links and images on impresusm (tinyMCE)
+ - bug #0000033: insert links on new documents (forgot folder)
+ - bug #0000030: error on sending a newsletter
+ - bug #0000031: inserting images and links to a newsletter
+ - bug #0000067: creating news pdf displays author
+ - bug #0000066: login links now to the currently active page
+ - bug #0000065: editor user cannot create/edit and/or delete polls in the backend
+ - bug #0000063: user cannot publish something if it disabled in backend
+ - bug #0000053: news are now disabled if htey written for the future
+ - bug #0000049: disabling the topmenu
+ - bug #0000061: creating a sort id in download manager
+ - bug #0000059: directory list in setup
+ - bug #0000051: saving frontpage configuration destroy all the images on the frontpage text
+ - bug #0000050: display the ciphered email on the legal page
+ - bug #0000056: news category association
+ - bug #0000062: registration and vaildation bugs
+ - bug #0000040: backend project list, link to a component does not create a new document
+ - bug #0000069: false image on register for the password
+ - bug #0000068: problem with demodata
+ - bug #0000070: security problem
+ - bug #0000045: delete question on components administration
+ - bug #0000041: rights problem with the components
+ - bug #0000071: bug in search engine
+ - bug #0000064: if save_mode is on, the gallery and the download manager is now disabled
+ - bug #0000046: deleting components
+ - bug #0000076: save profile changes
+ - bug #0000075: broken image in knowledgebase if no image is selected
+ - bug #0000074: delete question on knowledgebase (backend)
+ - bug #0000073: fckeditor image problem
+ - bug #0000078: contactform dont send website url
+ - bug #0000077: false file in download manager (frontpage)
+ - bug #0000058: fckeditor save bug with images
+ - bug #0000080: error on installation with xml db and safe_mode = on
+ - bug #0000091: userpage title
+ - bug #0000090: document search bug
+ - bug #0000088: safe_mode=on with gallery on frontpage
+ - bug #0000081: safe_mode message
+ - bug #0000085: display products without access check
+ - bug #0000084: display edit-pencel if logged in as user
+ - bug #0000082: safe_mode text
+ - bug #0000083: delete question in topmenu manager
+ - bug #0000087: insert an image in a new news on frontpage (seo=off)
+ - bug #0000033: insert links bug
+ - bug #0000089: search lists also limited access documents
+
+ - security fixed: new download manager doesn not check correct the access level
+ - security fixed: knowledgebase doesn not check correct the access level
+ - security fixed: edit news on frontpage
+ - security fixed: bug in reading news (business logic)
+ - security fixed: bug in rightssystem with editor
+
+ - bug fixed: new admin menu bug
+ - bug fixed: send email bug
+ - bug fixed: create the components and the captcha folder if not exist
+ - bug fixed: the installer updates now the layout.xml file
+ - bug fixed: the installer updates now the var.xml file
+ - bug fixed: sql installer script, one column bug
+ - bug fixed: [XMLDB] bug in knowledgebase, backend
+ - bug fixed: install doesn not install a user
+ - bug fixed: bug in amount of news on frontpage (with data container)
+ - bug fixed: bug in new admin menu
+ - bug fixed: news in sidebar bug - display images ...
+ - bug fixed: category archve bug
+ - bug fixed: bug in new download module
+ - bug fixed: session id is now in the links from the linkbrowser
+ - bug fixed: bug in print button on footer
+ - bug fixed: bug in poll - you cannot vote without an answer
+ - bug fixed: bug in news - error on loading news categories
+ - bug fixed: bug in seo module with the new doenload module
+ - bug fixed: bug in search function
+ - bug fixed: bug in profile
+ - bug fixed: bug in global settings
+ - bug fixed: bug in including the javascript files
+ - bug fixed: bug in javascript editor (tcmsScript)
+ - bug fixed: bug in rights in download manager
+ - bug fixed: bug in download manager backend creating sort id
+ - bug fixed: bug with tinyMCE - inserting images
+ - bug fixed: bug in contacts list
+ - bug fixed: bug with rss feed creator
+ 
+ - changed: updated bulgarian language
+ - changed: updated finnish language
+ - changed: some newsletter improvements
+ - changed: tinyMCE 2.0.2 to 2.0.5.1
+ - changed: tinyMCE 2.0.5.1 to 2.0.6.1
+ - changed: FCKEditor 2.1.1 to 2.2
+ - changed: download manager can now add multiply categories and downloads
+ - changed: cleaning up
+ - changed: metatags in only on defined tag
+ - changed: display a news is currently gone to the business logic
+ - changed: display news on frontpage currently gone to the business logic
+ - changed: news list in archive now with the business logic object
+ - changed: content now eith the business logic
+ - changed: italian language update
+ - changed: rss generating is now correct
+ - changed: link to polls now in the menumanager and not in the polls manager
+ 
+ - added: database optimization button (only mysql)
+ - added: new components system variable $_TCMS_CS_ID[$item]['path'] for the absolute module path
+
+
+
+
+ Version 0.9.9 Beta 2 | Version 0.9.9 Beta 3 | Version 1.0
+-----------------------------------------------------------------
+
+ - bug #0000002: 
+
+ - security fixed: access with XML DB
+
+ - bug fixed: [PG SQL] support for version 1.0
+ - bug fixed: timesince post time
+ - bug fixed: [XML DB] news archive with the day view
+ - bug fixed: [XML DB] product search result
+ - bug fixed: [XML DB] news archives in sidebar has a false order
+ - bug fixed: [MY SQL] news monthview shows also unpublished news
+ - bug fixed: some setup bugs fixed
+ - bug fixed: define bug fixed
+ - bug fixed: sitetitle bug fixed
+ - bug fixed: some little download manager bugs fixed
+ - bug fixed: register with SEO enabled
+ - bug fixed: Metatag in media.php
+ - bug fixed: small bug in questbook
+ - bug fixed: small bug in knowledgebase
+ - bug fixed: knowledgebase with sql db dont show entry's (access bug)
+ - bug fixed: bug in download manager on frontpage (if seo is disabled)
+ - bug fixed: language bug in installer
+ - bug fixed: database chooser with no sample data deletes now the image folders in installer
+ - bug fixed: postgresql installer bug
+ - bug fixed: META autor bug
+ - bug fixed: admin bug if var.xml file is missing
+ - bug fixed: installer update bug
+ - bug fixed: sitetitle bug fixed
+ - bug fixed: sitetitle (2) bug fixed
+ 
+ - changed: [XML DB] search engine can now search on faq's
+ - changed: metatags now with a better self 
+ - changed: some improvements on the blogger import
+ - changed: finished the recoding of the installer tool
+ - changed: change sortation for the gallery images
+ - changed: some login improvements
+ - changed: change the mimetype icons to Tango iconset
+ - changed: download manager - create new downlaod improvement
+ - changed: admin logout improved (!)
+ - changed: admin logout button improved (!)
+ - changed: user now ordered by group
+ 
+ - added: database backup (this time only mysql and xml)
+ - added: new component: coppermine gallery (only as a seperate download)
+ - added: a blogger ftp import
+ - added: a docbook xml (openoffice.org 2.0 docbook xml) import
+ - added: more object-oriented work, for a better object related cms
+ - added: microsoft sql server support
+ - added: flag to enable/disable the memberlist
+ - added: components upload manager
+ - added: toolbar files for some of the admin modules
+ - added: new administrationmenu as option
+
+
+
+
+Version 0.7.9 | 0.8.0 Development | 0.9.9 Development
+-----------------------------------------------------------------
+
+ - bug #0000011: print and pdf bug
+ - bug #0000016: not found
+ - bug #0000013: [XML DB] creating a download without a filled any fields creates an error on frontpage
+ - bug #0000017: [XML DB] memberlist & last_login in user datafile
+
+ - security fixed: 
+
+ - bug fixed: poll in sidebar has a false width
+ - bug fixed: sidemenu and topmenu has a bug with the poll menuitem
+ - bug fixed: sidemenu and topmenu has a bug with the components menuitem
+ - bug fixed: sidebar doesnt show the imagebutton if you have the FCKEditor
+ - bug fixed: js detected images has in internet explorer a bug
+ - bug fixed: feeds has a false date
+ - bug fixed: admin topmenu link to mod_guestbook
+ - bug fixed: tinyMCE bug with saving links and images
+ - bug fixed: news archives
+ - bug fixed: image path for images in documents with a image template
+ 
+ - changed: the version number from 0.7.x to 0.8.0 Development and Beta so that only bugfix and
+            security versions become a 0.7.1 or 0.8.1 version.
+ - changed: [XML DB] knowledgebase also with unlimited categories
+ - changed: [XML DB] fionished knowledgebase
+ - changed: added a better lokking SEO URL format (only slashes)
+ - changed: added the update support for version 1.0
+ - changed: update for the imagebrowser and linkbrowser
+ - changed: admin menu now with "list items" entry
+ - changed: admin login without reload after false login
+ - changed: media manager can now upload and administer audio and video files. information
+            are displayed with the overlib library and audio and video files now included
+            in the mediabrowser window and you can add a file to a document or news as link.
+  
+ - added: news archive for the sidebar ordered by months and years
+ - added: archiv for months and days (like the categories)
+ - added: diary component for sidebar and content page
+ - added: link browser for intern links
+ - added: disable contactperson in contactform
+ - added: disable adressbook in contactform
+ - added: disable contactperson in impressum
+ - added: new theme: eNews
+ - added: knowledgebase is now searchable
+ - added: swedish language pack
+ 
+
+
+
+
+ Version 0.7.1
+-----------------------------------------------------------------
+
+ - bug #0000002: 
+
+ - security fixed: 
+
+ - bug fixed: deleting comments
+ - bug fixed: [XML DB] encrypting bug in gallery
+ - bug fixed: no linebreak in news comments
+ 
+ - changed: k2 theme updated
+ - changed: italy language updated
+ - changed: bulgarian language updated
+ - changed: mimetypes icon complete changed to "krystaline" iconset
+ - changed: finished components system
+ - changed: changed some icons
+ - changed: database table prefix finished
+ - changed: bulgarian language updated
+ - changed: unpublished documents cannot be viewed
+ - changed: finished the admin theming
+ - changed: some changes in gallery
+  
+ - added: searchlink to the menumanagement
+ - added: knowledgebase, a faq and article database
+ - added: real name to profile page
+ - added: browser check for page loading with javascript (disable / enable)
+ - added: calendar component
+ - added: news in the sidebar
+ - added: added stript tags to the comments on news and imagegallery
+ - added: some new xml parser functions
+ - added: edit your news and documents from frontpage
+ - added: media manager became tabs to choose the image and the knowledgebase folder
+ - added: memberlist to frontpage
+ - added: register sends now a email to the admin on registration of a user
+ - added: a captcha function to the gd class
+ - added: an orange admin template
+ - added: new menu (JSCookMenu)
+
+
+
+############################################################################################
+
+
+
+
+
+Version 0.7
+	- Version 0.7.0
+
+Developer Version
+	- 0.6.9
+	- 0.6.3
+
+Building Steps: 1268
+
+
+
+
+Version 0.6.9
+-----------------------------------------------------------------
+
+ - bug #0000002: security
+ - bug #0000003: misc
+ - bug #0000004: pdf
+ - bug #0000005: poll sort
+ - bug #0000009: form does not send template var
+ - bug #0000007: deleting image does not delte comments folder
+ - bug #0000006: media manager shows all files in folder
+ - bug #0000008: register problem
+
+ - security fixed: admin info.php can opened without logged in
+ - security fixed: admin media.php can opened without logged in
+ - security fixed: frontpage browse.php can opened without logged in
+ - security fixed: image document template can upload all files
+
+ - bug fixed: some gallery bugs
+ - bug fixed: the setup does not create a user in sql setup
+ - bug fixed: bug in gallery fixed
+ - bug fixed: products price
+ - bug fixed: contacts without position
+ - bug fixed: gd class does not create errors
+ - bug fixed: 'news_to_categories' uid length changed to 32
+ - bug fixed: database update links now to the correct update file
+ - bug fixed: with seo links on images on frontpage dont display
+ - bug fixed: some bugs in products administration and frontpage fixed
+ - bug fixed: some display and save bugs in profile
+ - bug fixed: sidebar extensions - change tab and have changes now with a question
+ - bug fixed: [XML DB] sort order of guestbook
+ - bug fixed: [XML DB] deleting contract makes a error in impressum module
+ - bug fixed: guestbook sort
+ 
+ - changed: adress zipcode is now without a comma
+ - changed: email adress in contact and legal page is now with __NO_SPAM__
+ - changed: documentation loads in a iframe
+  
+ - added: finish translation
+ - added: FCKEditor 2.1.1
+ - added: tinyMCE 2.0.1
+ - added: if toendaCMS loads in a iframe, it reloads to a frameless site
+
+
+
+
+ Version 0.6.3
+-----------------------------------------------------------------
+
+ - bug #7e3f5: new charset: tuskish (iso-8859-9)
+ - bug #537d5: fixed
+ - bug #2bbc1: fixed sidemenu item deleting
+ - bug #861c1: mod_newsletter has as it's first form the settings
+ - bug #ceaab: new charset: iso-8859-2
+ - bug #8b791: hidden UNIX folders started with . is no more a problem
+ - bug #d0116: XMLFile data/global/footer.xml not found fixed
+ - bug #4c137: empty sql file included now
+ - bug #18b78: nature template for IE fixed
+
+ - bug fixed: deleting news categories fixed
+ - bug fixed: database update bug in setup fixed
+ - bug fixed: sitetitle save bug in installation
+ - bug fixed: no user can delete himself
+ - bug fixed: more-then-one-poll-one-a-day bug fixed
+ - bug fixed: products on frontpage are now listed by access level
+ - bug fixed: image upload on imagegallery mainpage is now fixed
+ - bug fixed: user registration bug
+ - bug fixed: new product image does not save if you set a new one
+ - bug fixed: creating album (mysql)
+ - bug fixed: no albums -> error on frontpage
+ - bug fixed: [XML DB] documents on desktop moved to false module
+ - bug fixed: [XML DB] polls cannot edited
+ - bug fixed: [XML DB] polls cannot deleted
+ - bug fixed: layout changer sends to a false adress
+ - bug fixed: [XML DB] polls are sorted in false order
+ - bug fixed: [XML DB] "all polls" link links to a errror
+ - bug fixed: [XML DB] contactform is disabled but the contacts (if enabled) are visible in sidebar
+ - bug fixed: search form sends to a false url
+ - bug fixed: gallery administration creates images without uid's
+ - bug fixed: if you change the image of a product article, the old images is now deleted
+ - bug fixed: choose a contact in impressum manager and delete him after creates an error on choose a new one
+ - bug fixed: if you have no polls and publish the link, on the poll page are a error
+ - bug fixed: if you have no polls and publish the poll side module, you gain error's
+ - bug fixed: not finalized documents are visible on frontpage
+ - bug fixed: layout editor has a false command in the toendaTemplate script toolbar
+ - bug fixed: empty topmenu does a error on frontpage in topmenu
+ - bug fixed: empty topmenu does a error on admin in freemenu
+ - bug fixed: empty topmenu does a error on admin in project
+ - bug fixed: empty sidemenu does a error on admin in project
+ - bug fixed: empty sidemenu does a error on frontpage in sidemenu
+ - bug fixed: empty sidemenu does a error on frontpage in linkway creating
+ - bug fixed: news list in admin has a false "all news" link
+ - bug fixed: comments list in admin has a false "all comments" link
+ - bug fixed: admin login to height
+ - bug fixed: printer link in content footer
+ - bug fixed: scrollbars in imagebrowser
+ - bug fixed: bug in "new_link" in topmenu
+ - bug fixed: bug in "new_link" in sidemenu
+ - bug fixed: statistics dont save any other os as windows
+ 
+ - changed: pack all build steps into one counting build number, and this is now 924
+ - changed: new archive sorting are now send with GET not with POST
+ - changed: some images updated
+ - changed: lost password more saver
+ - changed: user (editor) cannot see documents on desktop
+ - changed: user (editor) cannot change news settings
+ - changed: user (editor) cannot see and edit comments
+ - changed: user (editor) cannot see and edit news with private access
+ - changed: user (editor) cannot edit news from other users
+ - changed: user (editor) cannot change imagegallery settings
+ - changed: user (editor) cannot save and edit products with private access
+ - changed: user (editor) cannot change link page settings
+ - changed: order and layout of global website setting modul (now with tabs)
+ - changed: order and layout of the credits and system information
+ - changed: removed the mod_db and mod_userpage files and integrated them in the global settings
+            dialog and changed the order and layout to tabs (also in comments, credits, stats, etc.)
+ - changed: "nature" template redesigned with div tags and fixed all the IE bugs
+ - changed: some admin layout improvments
+ - changed: setup tool is recoded and massivly bug fixed
+ - changed: desktop layout
+ - changed: downloads can only inserted by an admin
+ - changed: media manager can only display jpg, jpeg, gif, png and bmp
+ - changed: tabs ask the user now if he want to save its maded changes
+ - changed: " and such chars are now correct in the text input field in backend
+ - changed: wiki tollbar images to editor toolbar
+ - changed: web links in projects file list are now as a seperate link and opens in a new window
+ - changed: recoded the guestbook
+ - changed: some code hooks on the profile code
+ - changed: changed the order of module settings, changed to tabbed browsing and order the "show module"
+            in one tab. this speed the code up to 80% faster as ever
+  
+ - added: trackback (not in version 0.6.2.1)
+ - added: reset statistics
+ - added: possibility to disable admin link in footer
+ - added: admin can change the autor of a document or news to each active user
+ - added: link to imagegallery from album in imagegallery
+ - added: no more then one contact can be a default contact
+ - added: "should delete ?" question to the sidebar items
+ - added: toendaCMS supports now user and search engine friendly url's (SEO)
+ - added: possibility to set site down (offline)
+ - added: charset encoding now with mbstring, if the extension is loaded
+ - added: pdf support for products
+ - added: document autor to footer (for documents)
+ - added: unset produkt image
+ - added: left sidebar in admin filelist now with links to topmenu and sidemenu manager
+ - added: spanish translation
+ - added: button to global settings to paste a sample text in footer text
+ - added: color chooser, mini application to choose a color (currently only at guestbook administration)
+ - added: language support for month names
+ - added: javascript calendar for the dates
+ - added: js calendar to product article page for the date
+ - added: js calendar to download page
+ - added: multiple pages for documents with {tcms_more}
+ - added: OSI certivication
+ - added: "should i delete" question to media manager
+
+ 
+
+############################################################################################
+
+
+
+
+Version 0.6
+	- Version 0.5.8 (skiped)
+	- Version 0.6.0.1
+	- Version 0.6.0.2
+	- Version 0.6.1
+	- Version 0.6.2
+
+Developer Version
+	- 0.5.7
+	- 0.5.9
+
+Building Steps: 600
+
+
+
+
+Version 0.6.2
+-----------------------------------------------------------------
+ - BUG FIXING
+ 	-> mysql field 'search_withbutton' not exist
+ 	-> little administration topmenu layout bug fixed
+ 	-> little document -> finalised bug
+ 	-> topmenu -> change the link type
+ 	-> download category title does not save if changed
+ - save the ip and domain from a comment for the new comment management module
+ - news are now complete formated with div tags
+ - new "edit" and "delete" buttons for the data entrys in administration backend
+ - administer comments over administration backend
+ - choose the location from a link, sidebar, main content or both
+ - new administration edit buttons
+ - link to archiv on frontpage
+ - NO-WYSIWYG Editor with header (h1 - h6)
+ - NO-WYSIWYG Editor with cite tag (blockquote)
+ - create you own text for the sitefooter
+ - NO-WYSIWYG Template Editor
+ - file handler class
+ - bug fixed error handler class
+ - NO-WYSIWYG Template Editor Toolbar for toendaTemplate and CSS
+ - you can now choose more than one category for your news
+ - and order the xml news by category
+ - show the last x/n images in sidebar, if you want
+ - speed up and optimize code toendaCMS a little bit
+ - upload images to the media manager from the frontpage
+ - you can now login in frontpage, click in the usermenu on administration and you dont must
+   log in a second time. otherwise too, from administration to frontpage, if you dont log out.
+ - the desktop list now all not published news and document pages and all unfinished document pages,
+   also can you change the published and finished state and change the note in your notebook
+ - publishing form manager has now a wysiwyg editor too
+ - the unsubscribe method for the newsletter is now integrated -> sorry, but later
+ - now we have statistics
+ - and a mini counter for the downloads in our statistics
+ - small update of the weblogger and the themer section in german documentation
+ - we have now syndication feeds: rss 0.91, rss 1.0, rss 2.0, atom 0.3 and opml
+ - more saver, no direct access to all toendacms software files and the data directories
+
+
+
+
+Version 0.6.1
+-----------------------------------------------------------------
+ - BUG FIXING
+ 	-> no polls take a error on frontpage
+ 	-> topmenu dont saves the "link to" value
+	-> gloal configuration change the default category
+	-> image path problem with fckeditor fixed
+	-> admin menu bug is fixed
+ - links as content page
+ - web links in topmenu
+ - NO-WYSIWYG editor with HTML
+ - new toendaScript tag: {ext#url=___URL___#} to include a extern file
+ - image comments
+ - better imagegallery layout
+ - comments are removed from frontpage, only on the newssite
+ - newsletter bug removed by Aren Slootweg
+ - some code in news.php is commented (sorting by category) - it is still under development
+ - tinyMCE has more features enabled
+ - installtool update
+
+
+
+
+Version 0.6.0
+	- 0.6.0.1
+	- 0.6.0.2
+-----------------------------------------------------------------
+ - BUG FIXING
+    -> Empty news and frontpage are now without error
+    -> Deleting comments folder is now without error
+    -> Topmenu have problems with Sidemenu
+    -> "read more" button
+    -> news false order
+    -> #1ff39: you can use now empty passwords (but not secure)
+       #f337f: ^^
+    -> #c9b33: setup folder exists msg correct
+    -> #172d2: you get a error at deleting downloads
+	-> #959b3: deleting all items in sidebar
+	-> #0e814: correct description in components system
+	-> #b26be: errors at creating product categorys
+	-> #455e8: u cannot delete documents and sidebar items with register globals off
+	-> #f50eb: frontpage is now forever
+	-> #c6753: bug in install
+	-> #1b063: creating new pages
+	-> #0622a: registerGlobal doesnt exists in mod_newpage.php
+	-> #33118: removed: use SOMTHING MODULE
+	-> #70d31: removed: use SOMTHING MODULE
+	-> #0b4b0: login data incorrect
+	-> #3ea1f: only unpublished news makes an error
+	-> #bef6a: creating new document entrys with menumanager creates a false tag
+	-> #bd1f6: sidemenu hirarchy is now correct
+	-> #591c9: creating albums are now correct
+	-> #67779: disabled contacts in sidebar is now fixed
+	-> #1d004: products loads now
+	-> #8c28a: load gallery config
+	-> #1ac77: thumb for album
+	-> #8b152: false variable name in admin.php
+	-> #c3c7c: admin cannot deleted
+	-> #e2faa: modconfig bug
+	-> #8c0ef: access bug in newsmodule
+	-> #6252e: link for global setting on frontpage
+	-> #a7734: guestbook must be rewritten
+	-> #9eaf7: wysiwyg editor for frontpage
+	-> #2c393: pictures from media manager now for choose in news config
+	-> #1243c: creating news in frontpage no access saved
+ - recoding the submenu builder (now into the sidemenu builder)
+ - rewriting the language packs into the newer and better CONSTANTS strings
+ - rewriting all modules with the CONSTANTS language strings
+ - deleting the last old stylesheets
+ - restructuring the "id - content id - submenu id" database design
+ - writing a new "new page" module
+ - rewrited contact manager and module
+ - more place for writing content (textarea)
+ - more options like publishing date and publishing/unpublishing of news
+ - more options for user -> first step to a forum module
+ - webcam module (CS)
+ - session better and safer
+ - new menu and linking structure
+ - usermenu is now created by the access level in mainmenu (sidemenu)
+ - new user profile page ... steps for a forum module
+ - new iconset - we cannot use foood.net icons
+ - some changes on admin design
+ - new login interface
+ - new module: mod_userpage -> for configuration the profile pages (for forum extension)
+ - components system: system for better installing and controlling own
+   written modules (components)
+ - index.php speed up
+ - search function
+ - download module with categorys
+ - content: "Static pages" -> "Documents"
+ - project tree works smarter and more stable
+ - filemamanager removed
+ - impressum has now the toendacms copyright
+ - sidebar modules can now take on/off
+ - admin login can submit now with enter
+ - imagealbum from zip file
+ - products manager, complete with categories and many information about your products (step
+   to my ToendaShop-Software
+ - the configuration of the newsmanager and the download module are now in the modules self.
+   click on the config icon in the toolbar
+ - deleting documents will delete all links to this document
+ - products can be enabled/disabled
+ - some layout options in side extensions (admin)
+ - two new templates (Toenda (leaf skin from nucleusCMS) and pushbutton (from Drupal))
+ - some updates in all files
+ - menutitle and sidemenu are be merged now
+ - <textarea>s for little data input are now <input>
+ - you can submit news from the front website (without admin interface)
+ - new usergroup: editor
+ - reordering menu in sidemenu
+ - you can take news-end-breaks in news for frontpage (more tcmsScript)
+ - ToendaCMS name changed to toendaCMS
+ - complete all LANG CONTANTS
+ - deleting sidemenu elements deletes all child elements too
+ - little cms name (toendaCMS) in sitetitle (you can switch on/off)
+ - reordering topmenu
+ - reordering submenu
+ - components system started
+ - news have now an archive and are sorted by month and year and you can choose how many news are shown without it
+ - registerGlobal can now be OFF!
+ - you can view the profile of a user who has written a news
+ - new wysiwyg editor: FCKeditor
+ - KOREAN language pack (under work)
+ - if you set frontpage news to 0, then nothing but the text is displayed
+ - frontpage is always the first page
+ - all no-linked documents are listed in new_page linkto list
+ - remove ./img folder
+ - removed: use SOMTHING MODULE
+ - ITALIAN language pack
+ - new menutyp: web, for weblinks
+ - image browser for news and content
+ - you can now choose the image for the gallery folder on frontpage
+ - you can now upload images from the frontpage
+ - you can now publish and unpublish your menuitems
+ - you can create a album from the website (frontpage)
+ - you can create now news categories and take it to the news
+ - new theme: kubrick (from wordpress and nucleus)
+ - simplify the url ( select = s )
+ - create categories on frontpage
+ - dutch language pack
+ - toendaSLQ Abstraction Layer - toendaCMS with SQL database servers
+ - starting documentation (a little bit)
+ - new language: bulgarian
+ - better search function (but not finished)
+ - news have now access level
+ - contactform messages can now translated
+ - on the way to XHTML2
+ - decode your content!
+ - printer template
+ - pdf support
+ - you can comments for each news en-disable
+ - link manager
+ - xhtml code
+ - sql connect error message
+ - desktop
+ - NO-WYSIWYG editor with toendaScript
+ 
+
+
+############################################################################################
+
+
+
+
+Version 0.5.6
+(Developer Version 0.5.5)
+Building Steps: 122
+
+ - BUG FIXING (some are here listed)
+    -> newsmanager has problem to create a new news and save it WITH text
+    -> imagegallery cannot delete pictures and description file
+    -> description cannot save in imagegallery
+    -> pathway has false links
+    -> session file deleted every time
+    -> imagegallery dont delete the thumbnails
+    -> imagegallery dont create the thumbnails folders
+    -> submenu returns errors and chows only one link
+    -> submenu sorted false
+    -> on creating an page (global id, menu, article) and saving it to submenu
+       it will have an false number
+    -> admin deleted all session files, but it must only ane
+    -> imagegallery dont deleted thumbnail folder if album deleted
+    -> if you want to edit a news, the imageblock is without imageinformation
+ - CODE OPTIMIZING and SPEED OPTIMIZING
+ - REWRITING OF THE CMS FUNCTIONS, SORTING IN LIB FILES
+ - you can change the laguage for website (not admin)
+ - updated layouts, with the new side extensions
+ - uploading of zip files (templates)
+ - deleting of your themes
+ - !!! TEMPORARLY REMOVED (moving the pages in filemanager)
+ - more features in the xml_parser
+ - better startpage of the administration framework
+ - changing and rewriting the core of toendacms to an cms-kernel
+ - wysiwyg editor (tinymce) for content and news
+ - poll/voting for the sidebar
+ - project sidebar in admin framework
+ - access level for the extensions (first the gallery... the others will follow)
+ - new toolbar for save, new and other options
+ - submenu and submenumanager
+ - media manager, to have on overview about your images and downloads
+ - speedometer (page loading time echo)
+ - menu subtitle and the manager
+ - imagegallery: convert function to upload an album to webspace (data/images/albums/) and
+   convert it onti an full toendacms album
+ - the comment feature for the news is now enabled
+ - gallery sorted by an timestamp
+
+
+
+############################################################################################
+
+
+Version 0.5.4
+(Developer Version 0.5.3)
+Building Steps: 98
+
+ - Bug Fixing
+ - New Navigation in Administration
+ - Rights Management
+ - Userlogin in Webfrontend (Wensite) with
+   profile and automated registration
+ - New section in administration, new order:
+   content -> only content
+   extension -> only extension in main of the website
+   side (NEW) -> extensions and content in the sidebar
+ - Usermenu for users on the website (include profile of
+   the user and logout button. and links controled in
+   administration.)
+ - 404 not found and 401 unauthorized error pages
+ - more Bugfixes
+ - New imagegallery (rewrited code, it had many bugs)
+   new: pictures with description
+ - Filemanager released, witch you can explore the pages
+   created by ToendaCMS
+ - Translation packages (currently english and german,
+   that was a great recode of all elements)
+ - New Template
+ - saving with charsets (äöü'"...)
+ - new section: help (currently information about the
+   supported charsets)
+
+
+
+############################################################################################
+
+
+Version 0.5.2
+(Developer Version 0.5.1)
+Building Steps: 45
+
+ - Bug Fixing
+ - New Templates
+ - Layout Changer Update: Now with onchange Thumbnail change
+ - Upload function for an sitelogo
+ - New Navigation in Administration // [ has Bugs, planned for next release ]
+ - Newsletter
+ - We going to make all classes in administration
+   dynamic to give us a way for designing new admin
+   templates
+ 
+
+
+
+############################################################################################
+
+
+Version 0.5.0
+(Developer Version 0.4.9)
+Building Steps: 55
+
+ - Bug Fixing
+ - Global Link creates empty content pages with the id
+ - News now with picture
+ - Imagegallery now with Thumbnailpreview
+ - Pictureviewer now with Amount and little bug Fixing
+ - The Engine is on the way to became an WYSIWYG-Editor
+ - Small redesign of the Layout
+ - Static content pages now with templates to create a complete layout with it
+ - more functions write to classes

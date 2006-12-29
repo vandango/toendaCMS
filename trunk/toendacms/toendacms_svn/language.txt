@@ -1,0 +1,676 @@
+############################################################################################
+
+
+         _\|/_
+         (o o)
++-----oOO-{_}-OOo--------------------------------------------------------+
+| toendaCMS - Content Management and Weblogging System with XML and SQL  |
++------------------------------------------------------------------------+
+| Copyright (c) Toenda Software Development                              |
+| Author: Jonathan Naumann                                               |
++------------------------------------------------------------------------+
+|
+| LANGUAGE CHANGELOG
+|
+| This is the changelog for all the changes, done in the english and
+| german language files.
+| If you write, update or manage a language pack, use this file as base
+| for you to update your work.
+|
++
+
+
+############################################################################################
+
+
+
+
+
+############################################################################################
+#
+# VERSION 1.1.0
+#
+############################################################################################
+
+**************************
+* ADD THIS
+*
+
+if(!defined('_TCMS_TEST_ENVIRONMENT'))         define('_TCMS_TEST_ENVIRONMENT', 'THIS IS A TEST ENVIRONMENT!');
+
+if(!defined('_CONTACT_VCARD'))                 define('_CONTACT_VCARD', 'vCard');
+if(!defined('_CONTACT_VCARD_IMPORT_TEXT'))     define('_CONTACT_VCARD_IMPORT_TEXT', 'If you have a .vcf file, upload it and toendaCMS will import the contact automatically.');
+if(!defined('_CONTACT_VCARD_VCF'))             define('_CONTACT_VCARD_VCF', 'vCard .vcf File');
+if(!defined('_CONTACT_VCARD_DOWNLOAD'))        define('_CONTACT_VCARD_DOWNLOAD', 'Download vCard');
+
+if(!defined('_GLOBAL_PDFLINK_IN_FOOTER'))      define('_GLOBAL_PDFLINK_IN_FOOTER', 'Show the PDF link in footer');
+if(!defined('_GLOBAL_CACHE_CONTROL'))          define('_GLOBAL_CACHE_CONTROL', 'Searchmachine-Chache Settings');
+if(!defined('_GLOBAL_PRAGMA'))                 define('_GLOBAL_PRAGMA', 'Searchmachine Pragma');
+if(!defined('_GLOBAL_EXPIRES'))                define('_GLOBAL_EXPIRES', 'Website can expire');
+if(!defined('_GLOBAL_ROBOTSSETTINGS'))         define('_GLOBAL_ROBOTSSETTINGS', 'Setting for the website robots (Webcrawler)');
+if(!defined('_GLOBAL_LAST_CHANGES'))           define('_GLOBAL_LAST_CHANGES', 'Last website changes');
+
+if(!defined('_NEWS_SHOW_ON_FRONTPAGE'))        define('_NEWS_SHOW_ON_FRONTPAGE', 'Show News on frontpage');
+
+if(!defined('_TABLE_FRONTPAGE'))               define('_TABLE_FRONTPAGE', 'Frontpage');
+
+*
+*
+**************************
+
+
+
+
+
+
+
+
+**************************
+* CHANGE THIS
+*
+
+this:
+
+
+to:
+
+
+*
+*
+**************************
+
+
+
+
+
+
+
+
+
+
+
+############################################################################################
+#
+# VERSION 1.0.5
+#
+############################################################################################
+
+**************************
+* ADD THIS
+*
+
+if(!defined('_TCMS_BASE_DIRECTORY'))           define('_TCMS_BASE_DIRECTORY', 'Base directory');
+if(!defined('_TCMS_OPEN_DIRECTORY'))           define('_TCMS_OPEN_DIRECTORY', 'Open folder');
+
+if(!defined('_NL_NEWSLETTER'))                 define('_NL_NEWSLETTER', 'Newsletter');
+
+if(!defined('_GLOBAL_MAIL_WITH_SMTP'))         define('_GLOBAL_MAIL_WITH_SMTP', 'Send mails with SMTP');
+if(!defined('_GLOBAL_MAIL_AS_HTML'))           define('_GLOBAL_MAIL_AS_HTML', 'Send mails as HTML');
+if(!defined('_GLOBAL_REVISIT_AFTER'))          define('_GLOBAL_REVISIT_AFTER', 'Days to a reindizing by a searchengine');
+if(!defined('_GLOBAL_ROBOTSFILE'))             define('_GLOBAL_ROBOTSFILE', 'URL to the "robots.txt" file');
+
+if(!defined('_MSG_SEND_FAILED'))               define('_MSG_SEND_FAILED', 'Error on sending!');
+
+*
+*
+**************************
+
+
+
+
+
+
+
+
+**************************
+* CHANGE THIS
+*
+
+this:
+if(!defined('_GLOBAL_MAIL_SERVER'))            define('_GLOBAL_MAIL_SERVER', 'Mailserver');
+
+to:
+if(!defined('_GLOBAL_MAIL_SERVER'))            define('_GLOBAL_MAIL_SERVER', 'Mailserver POP3');
+
+*
+*
+**************************
+
+
+
+
+
+
+
+
+
+
+
+############################################################################################
+#
+# VERSION 1.0.4
+#
+############################################################################################
+
+**************************
+* ADD THIS
+*
+
+if(!defined('_TCMS_ADMIN_BACK_TO_PAGE'))       define('_TCMS_ADMIN_BACK_TO_PAGE', 'Back to website');
+
+if(!defined('_EXT_CFORM_SHOW_CONTACTEMAIL'))   define('_EXT_CFORM_SHOW_CONTACTEMAIL', 'Show contact emailadress');
+
+if(!defined('_MSG_CHANGES'))                   define('_MSG_CHANGES', 'You have made changes.');
+if(!defined('_MSG_SAVE_NOW'))                  define('_MSG_SAVE_NOW', 'Do you want to save those now?');
+
+if(!defined('_GALLERY_MIMETYPE'))              define('_GALLERY_MIMETYPE', 'Mimetype');
+
+if(!defined('_EXT_NEWS_DISPLAY_MORE'))         define('_EXT_NEWS_DISPLAY_MORE', 'Representation of the <em>Read more</em>-Link');
+if(!defined('_EXT_NEWS_MORE_NL_LEFT'))         define('_EXT_NEWS_MORE_NL_LEFT', 'New line - left align');
+if(!defined('_EXT_NEWS_MORE_NL_RIGHT'))        define('_EXT_NEWS_MORE_NL_RIGHT', 'New line - right align');
+if(!defined('_EXT_NEWS_MORE_NL_DIRECT'))       define('_EXT_NEWS_MORE_NL_DIRECT', 'Self line - after text');
+if(!defined('_EXT_NEWS_NEWS_SPACING'))         define('_EXT_NEWS_NEWS_SPACING', 'News spacing');
+
+*
+*
+**************************
+
+
+
+
+
+
+
+
+**************************
+* CHANGE THIS
+*
+
+
+*
+*
+**************************
+
+
+
+
+
+
+
+
+
+
+
+############################################################################################
+#
+# VERSION 1.0.0
+#
+############################################################################################
+
+**************************
+* ADD THIS
+*
+
+// COMPONENTS UPLOAD
+define('_CS_UPLOAD_TEXT', 'If you have an .zip, use the Package File Upload. Otherwise, copy the complete component (the folder with all needed files) to the components directory. If you want, use the upload file dialog.');
+define('_CS_UPLOAD_ZTITLE', 'Upload and install Package File');
+define('_CS_UPLOAD_ZFILE', 'Package File (.zip)');
+
+define('_DB_BACKUP_AS_FILE', 'Save backup as file?');
+define('_DB_BACKUP_AS_STRUCTURE', 'Only database structure?');
+define('_DB_MSSQL', 'Microsoft SQL Server Database');
+define('_DB_BACKUP_OPTIMIZATION', 'Database Optimization');
+define('_DB_START_OPTIMIZATION', 'Start now optimization');
+define('_DB_OPTIMIZATION', 'Optimize Database');
+
+define('_TCMS_MENU_SEARCH', 'Suche');
+define('_TCMS_MENU_FAQ', 'Knowledgebase');
+define('_TCMS_MENU_CS_UPLOAD', 'Components install&amp;edit');
+
+define('_SEARCH_START', 'Enter your searchword.');
+
+define('_CONTENT_LAST_UPDATE', 'Last Updated');
+
+define('_GLOBAL_JS_BROWSER_DETECTION', 'Detect user browser with JavaScript');
+define('_GLOBAL_USE_CS', 'Use toendaCMS components system');
+define('_GLOBAL_SECURITY', 'Security');
+define('_GLOBAL_CAPTCHA', 'Use captcha for the comments');
+define('_GLOBAL_CAPTCHA_CLEAN', 'Size of the captcha cache to clean');
+define('_GLOBAL_SEO_FORMAT', 'SEO Format');
+define('_GLOBAL_SHOW_DOC_AUTOR', 'Show author of a document');
+define('_GLOBAL_USE_NEW_ADMINMENU', 'Use new adminmenu');
+define('_GLOBAL_PATHWAY_CHAR', 'Char for the pathway');
+define('_GLOBAL_ANTI_FRAME', 'Frame-Killer (toendaCMS cannot be loaded into a frame)');
+
+define('_TCMS_ADMIN_NEW_DIR', 'Add new directory...');
+define('_TCMS_ADMIN_NEW_DIR_BUTTON', 'Create Folder');
+define('_TCMS_ADMIN_NEW_POLL', 'Add new Poll...');
+define('_TCMS_ADMIN_NEW_ITEM', 'Add new Item...');
+define('_TCMS_ADMIN_NEW_USER', 'Add new User...');
+define('_TCMS_ADMIN_NEW_FTPALBUM', 'Add new Album from FTP Folder...');
+define('_TCMS_ADMIN_NEW_CATEGORY', 'Add new Category');
+define('_TCMS_ADMIN_LIST', 'List items');
+define('_TCMS_DAY_MONDAY', 'Monday');
+define('_TCMS_DAY_TUESDAY', 'Tuesday');
+define('_TCMS_DAY_WEDNESDAY', 'Wednesday');
+define('_TCMS_DAY_THURSDAY', 'Thursday');
+define('_TCMS_DAY_FRIDAY', 'Friday');
+define('_TCMS_DAY_SATURDAY', 'Saturday');
+define('_TCMS_DAY_SUNDAY', 'Sunday');
+define('_TCMS_DAY_MONDAY_XS', 'Mon');
+define('_TCMS_DAY_TUESDAY_XS', 'Tue');
+define('_TCMS_DAY_WEDNESDAY_XS', 'Wed');
+define('_TCMS_DAY_THURSDAY_XS', 'Thu');
+define('_TCMS_DAY_FRIDAY_XS', 'Fri');
+define('_TCMS_DAY_SATURDAY_XS', 'Sat');
+define('_TCMS_DAY_SUNDAY_XS', 'Sun');
+define('_TCMS_COLOR', 'Color');
+define('_TCMS_TODAY', 'Today');
+define('_TCMS_BACKGROUND', 'Background');
+define('_TCMS_BORDER', 'Border');
+define('_TCMS_WEEKDAY', 'Weekday');
+
+define('_FRONTPAGE_SIDEBAR_NEWS', 'Sidebar News');
+define('_FRONTPAGE_SIDEBAR_NEWS_USE', 'Show news in sidebar');
+define('_FRONTPAGE_SIDEBAR_NEWS_TITLE', 'Sidebar News title');
+define('_FRONTPAGE_SIDEBAR_NEWS_MUCH', 'How much news at the frontpage in the sidebar?');
+define('_FRONTPAGE_NEWS_DISPLAY', 'How to display the news in sidebar?');
+define('_FRONTPAGE_TDT', 'Title, Date and Time, Text');
+define('_FRONTPAGE_TD', 'Title, Date and Time');
+define('_FRONTPAGE_T', 'Title');
+define('_FRONT_CAPTCHA', 'Enter the following code');
+
+define('_TABLE_SORT_SIDE', 'Sidebar Position');
+define('_TABLE_SIDEBARFILE', 'Sidebar file');
+define('_TABLE_NOT_PUBLISHED', 'Not Published');
+define('_TABLE_IS_IN_WORK', 'In Work');
+define('_TABLE_GOUPBUTTON', 'Go up');
+define('_TABLE_LOCATION', 'Location');
+define('_TABLE_DATES', 'Dates');
+define('_TABLE_HELPBROWSER', 'toendaCSM Help');
+define('_TABLE_LINKBROWSER', 'Linkbrowser');
+define('_TABLE_LINKBROWSER_TEXT', 'Click on the button to use the link in your document. You can enter a title in the textfield to set the name of the link.');
+define('_TABLE_LINKBROWSER_TEXT_TINYMCE', '<strong>tinyMCE:</strong> You must have selected a text to change it into a link.');
+define('_TABLE_IMAGEBROWSER', 'Mediabrowser');
+define('_TABLE_IMAGEBROWSER_TEXT', 'Click on the button to use the mediafiles in your document.');
+define('_TABLE_DIARY_RSS', 'Diary RSS feeds');
+define('_TABLE_DIARY_TICKET', 'Tickets');
+define('_TABLE_IMPORT', 'Import');
+define('_TABLE_SORT', 'Sortation');
+define('_TABLE_SORT_DESC', 'Descending sortation');
+define('_TABLE_SORT_ASC', 'Ascending sortation');
+define('_TABLE_VIEW', 'View');
+
+define('_MSG_IF_DOWNLOAD_DOES_NOT_START', 'If your download does not start, click the follow link');
+define('_MSG_NOCAPTCHA', 'Please enter the code in the image');
+define('_MSG_CAPTCHA_NOT_VALID', 'The entered code and the code in the image are not the same');
+define('_MSG_NOPASSWORD', 'Passwords not valid!');
+define('_MSG_BACKUP_SUCCESSFULL', 'Database backup sucessfull.\nAffected tables:');
+define('_MSG_BACKUP_FAILED', 'Database backup failed!');
+define('_MSG_PHP_SAFE_MODE_SETTINGS', 'The \'safe_mode\' option is on your server \'on\' for PHP, you cannot use the imagegallery.');
+
+define('_CONTACT_SEND_A_EMAIL', 'Send a eMail');
+
+define('_MOD_KNOWLEDGEBASE', 'Knowledge Database');
+define('_MOD_COMPONENTS_UPLOAD', 'Components Install and Edit Manager');
+
+define('_FAQ_TITLE', 'Show All FAQ\'s and articles');
+define('_FAQ_TEXT', 'Here are all your news listed. You can edit thus or create a new one.');
+define('_FAQ_BASE_CATEGORY', 'Base Category');
+define('_FAQ_CFG_TITLE', 'Configure the knowledgebase');
+
+define('_LOGIN_LIST', 'Memberlist');
+define('_LOGIN_LIST_TEXT', 'This is the list of all members. You can click on the username to view his profile.');
+
+define('_PERSON_LASTLOGIN', 'Last login');
+
+define('_REG_EMAIL', 'A new user has been registrated.');
+define('_REG_SUCCESS_MAIL', 'A new user has been registrated over your webpage.');
+
+define('_LAYOUT_FRONTEND', 'Frontend Templates');
+define('_LAYOUT_BACKEND', 'Administrator Templates');
+
+
+// BACKEND TOPMENU
+define('_TCMS_TOPMENU_MAIN', 'Main');
+define('_TCMS_TOPMENU_MANAGE', 'Manage');
+define('_TCMS_TOPMENU_NAVIGATION', 'Navigation');
+define('_TCMS_TOPMENU_CONTENT', 'Content');
+define('_TCMS_TOPMENU_SIDEBAR', 'Sidebar');
+define('_TCMS_TOPMENU_EXTENSIONS', 'Extensions');
+define('_TCMS_TOPMENU_COMPONENTS', 'Components');
+define('_TCMS_TOPMENU_SITE', 'Site');
+define('_TCMS_TOPMENU_HELP', 'Help');
+
+define('_TCMS_MENU_SEARCH', 'Search');
+define('_TCMS_MENU_IMPORT', 'Import');
+
+define('_NEWS_ARCHIVES_TITLE', 'News Archives');
+define('_NEWS_ARCHIV_FOR', 'Archive for');
+
+define('_SIDEEXT_NEWS_ARCHIVES_SHOW', 'Show News Archives');
+define('_SIDEEXT_LOGIN_SHOW_MEMBERLIST', 'Show memberlist');
+
+define('_CONTACT_DETAIL', 'Contact details');
+
+define('_EXT_NEWS_D_TIMESINCE', 'Timesince');
+define('_EXT_NEWS_D_DATE', 'Normal Date');
+define('_EXT_NEWS_D_TEXT', 'Textual representation');
+define('_EXT_NEWS_DISPLAY', 'Representation of the date');
+define('_EXT_CFORM_USE_ADRESSBOOK', 'Use adressbook');
+define('_EXT_CFORM_USE_CONTACTPERSON', 'Show contactperson');
+
+define('_IMPRESSUM_NO_CONTACT', 'No contactperson');
+
+
+// IMPORT
+define('_IMPORT_BLOGGER_FTP', 'Blogger FTP');
+define('_IMPORT_BLOGGER_FTP_DESC', 'Import news and comments from a Blogger account who the blog is located on a own ftp server.');
+
+define('_MOD_IMPORT', 'Import');
+
+define('_GALLERY_LIST_NORMAL', 'Normal imagelist (one below the other, with informationen)');
+define('_GALLERY_LIST_3_THUMB', '3 thumbnail images side by side');
+
+define('_DOWNLOADS_SAVE_AS_MIMITYPE', 'Save the mimetype as image');
+
+define('_PERSON_SKYPE', 'Skype');
+
+*
+*
+**************************
+
+
+
+
+
+
+
+
+**************************
+* CHANGE THIS
+*
+
+this one ->
+
+define('_TCMS_ADMIN_CREATE', 'Create new album');
+define('_GLOBAL_SITE_NAVI', 'Site Navigation');
+define('_PERSON_TCMS_ENABLED', 'TCMS Script enabled');
+
+
+into this one ->
+
+define('_TCMS_ADMIN_CREATE', 'New Album...');
+define('_GLOBAL_SITE_NAVI', 'Navigation');
+define('_PERSON_TCMS_ENABLED', 'toendaScript enabled');
+
+
+delete this:
+
+define('_GROUP_TESTER', 'Website Tester');
+
+*
+*
+**************************
+
+
+
+
+
+
+
+
+
+
+
+############################################################################################
+#
+# VERSION 0.7.0
+#
+############################################################################################
+
+**************************
+* ADD THIS
+*
+
+define('_TCMS_COLOR_CHOOSER', 'Colorchooser');
+define('_TCMS_MONTH_JANUARY', 'January');
+define('_TCMS_MONTH_FEBUARY', 'Febuary');
+define('_TCMS_MONTH_MARCH', 'March');
+define('_TCMS_MONTH_APRIL', 'April');
+define('_TCMS_MONTH_MAY', 'May');
+define('_TCMS_MONTH_JUNE', 'June');
+define('_TCMS_MONTH_JULY', 'July');
+define('_TCMS_MONTH_AUGUST', 'August');
+define('_TCMS_MONTH_SEPTEMBER', 'September');
+define('_TCMS_MONTH_OCTOBER', 'October');
+define('_TCMS_MONTH_NOVEMBER', 'November');
+define('_TCMS_MONTH_DECEMBER', 'December');
+
+define('_TCMS_MENU_GUESTBOOK', 'Guestbook Entrys');
+
+define('_MOD_GUESTBOOK', 'Administer Guestbook Entrys');
+
+define('_GLOBAL_ADMIN_LINK_IN_FOOTER', 'Show Admin link in footer');
+define('_GLOBAL_SEO', 'SEO Search engine optimized URLs');
+define('_GLOBAL_SEO_ENABLED', 'SEO enabled');
+define('_GLOBAL_SEO_FOLDER', 'toendaCMS directory on server');
+define('_GLOBAL_SITE_OFFLINE', 'Site Offline');
+define('_GLOBAL_SITE_OFFLINE_TEXT', 'Offline Text');
+define('_GLOBAL_PASTE_FOOTER_TEXT', 'Paste Sampletext');
+define('_GLOBAL_SHOW_TOP_PAGES', 'Show pages on top of a document');
+define('_GLOBAL_CIPHER_EMAIL', 'Always cipher eMailadresses');
+
+define('_CREDITS_PHP_MODULES', 'PHP Modules');
+
+define('_USER_SELF', 'Own Username');
+define('_USER_ALL', 'All User');
+
+define('_STATS_RESET', 'Reset statistics');
+define('_STATS_RESET_TEXT', 'Here you can reset you statistics. <strong>ATTENTION!</strong> You cannot gain back your statistics after the reset.');
+define('_STATS_RESET_SUCCESS', 'Statistics successfull reseted.');
+define('_STATS_RESET_FAILED', 'Statistics reset failed.');
+
+define('_DB_PREFIX', 'SQL Server Database Prefix');
+define('_DB_DB', 'Database');
+
+define('_MSG_DISABLED_MODUL', 'The choosen module is disabled. You cannot use it!!');
+define('_MSG_CHANGE_DATABASE_ENGINE', 'Do you really want to change the database?\nYou should be loged out and cannot use your data in another database.\nSorry, but the XML - SQL Import feature is planned...');
+
+define('_EXT_NEWS_USE_TRACKBACK', 'Use Trackback');
+
+define('_NEWS_TRACKBACK', 'Trackback');
+
+define('_FRONT_OWN_TRACKBACK', 'Own Trackback URL');
+define('_FRONT_TRACKBACK_URL', 'Trackback Target URL');
+
+define('_FORM_FROM', 'This Newsletter is from ');
+
+define('_BOOK_ADD', 'Post an entry');
+define('_BOOK_FILTER_LINKS', 'Links (Weblinks, eMailadresses)');
+define('_BOOK_FILTER_SCRIPT', 'Scripte (Javascript, PHP)');
+define('_BOOK_FILTER_MAIL', 'Show eMailadress');
+define('_BOOK_FILTER_SPAM', 'Convert @ to __NO_SPAM__ in eMailadress');
+define('_BOOK_WIDTH_NAME', 'Width of Namefield (in Pixel)');
+define('_BOOK_WIDTH_TEXT', 'Width of Textfield (in Pixel)');
+define('_BOOK_COLOR_ROW_1', 'Color of row one');
+define('_BOOK_COLOR_ROW_2', 'Color of row two');
+define('_BOOK_TITLE', 'Guestbook Entrys');
+define('_BOOK_TEXT', 'Here can you administer the entry\'s of your guestbook. You can edit or delete them.');
+
+define('_TABLE_FILTER', 'Filter and Settings');
+
+define('_CONTENT_NEXT_PAGE', 'Next page');
+define('_CONTENT_LAST_PAGE', 'Last page');
+define('_CONTENT_BACK_PAGE', 'One page back');
+define('_CONTENT_FIRST_PAGE', 'First page');
+
+define('_SIDEEXT_MODUL', 'Modules');
+
+*
+*
+**************************
+
+
+
+
+
+
+
+
+**************************
+* CHANGE THIS
+*
+
+this one ->
+	define('_CREDITS_SET_XML', 'XML enabled');
+	define('_CREDITS_SET_GD', 'GD enabled');
+
+into this one ->
+	define('_CREDITS_SET', 'enabled');
+
+delete this:
+	define('_BOOK_NOT_ADD', 'Your data has not been added again!');
+	define('_BOOK_FILL_IN', 'Please fill in all data!');
+	define('_BOOK_DEL_MSG', 'Selected messages have been deleted!');
+	define('_BOOK_RIGHT_PASS', 'Insert right passcode!');
+	define('_BOOK_DELENTRY', 'DELETE THIS ENTRY');
+	define('_BOOK_ADMIN', 'Administration');
+	define('_BOOK_EXIT_ADMIN', 'Exit Administration');
+	define('_BOOK_ADMIN_PASS', 'Please insert confirmation password');
+
+*
+*
+**************************
+
+
+
+
+
+
+
+
+
+
+
+############################################################################################
+#
+# VERSION 0.6.2
+#
+############################################################################################
+
+**************************
+* ADD THIS
+*
+
+define('_MOD_COMMENTS', 'Administer Comments');
+
+define('_TCMS_MENU_COMMENTS', 'Comments');
+define('_TCMS_MENU_STATS', 'Statistics');
+define('_MOD_STATS', 'Website Statistics');
+
+define('_COMMENTS_TITLE', 'Administer Comments');
+define('_COMMENTS_TEXT', 'You can administer all the comments of your news and images here. If you wantm you can edit or delete them. Furthermore can you see here the eMail-Adresses, IP-Adresses and Domainnames of the commenting people.');
+
+define('_TABLE_IP', 'IP');
+define('_TABLE_DOMAIN', 'Domain');
+define('_TABLE_SIDEBAR', 'Sidebar');
+define('_TABLE_MAINCONTENT', 'Mainpage');
+define('_TABLE_BOTH', 'Both');
+
+define('_GLOBAL_DEFAULT_FOOTER', 'Show toendaCMS default footer');
+define('_GLOBAL_FOOTER_TEXT', 'Own website footer text');
+define('_GLOBAL_MAIL_SETTINGS', 'Mailserver settings');
+define('_GLOBAL_MAIL_SERVER', 'Mailserver');
+define('_GLOBAL_MAIL_PORT', 'Mailserver port');
+define('_GLOBAL_MAIL_POP3', 'POP3');
+define('_GLOBAL_MAIL_USER', 'eMail username');
+define('_GLOBAL_MAIL_PASSWORD', 'eMail password');
+define('_GLOBAL_USE_STATISTICS', 'Use statistics');
+
+define('_LINK_WICH_MODULE', 'Show link in this module');
+
+define('_SIDEEXT_NEWS_CATEGORIES_AMOUNT_SHOW', 'Show amount of news in categories');
+define('_SIDEEXT_SEARCH_WORD', 'Searchword in searchfield');
+
+define('_GALLERY_LAST_SHOW', 'Show newest images in sidebar');
+define('_GALLERY_LAST_SHOW_TITLE', 'Show newest images title');
+define('_GALLERY_LAST_MAX_IMG', 'How many images');
+define('_GALLERY_LAST_SIZE', 'Size of the images');
+define('_GALLERY_LAST_TEXT', 'Text for the newest images');
+define('_GALLERY_LAST_ALIGN', 'Alignment for the newest images');
+
+define('_USERPAGE_PUBLISH_PICTURE', 'User can publish images to media manager from frontpage');
+
+define('_LOGIN_SUBMIT_MEDIA', 'Submit Media');
+
+define('_TCMS_ADMIN_GOTOSITE', 'Go to your site');
+
+define('_DESKTOP_UNPUBLISHED_NEWS', 'Unpublished News');
+define('_DESKTOP_UNPUBLISHED_PAGES', 'Unpublished Documents');
+define('_DESKTOP_UNFINISHED_PAGES', 'Unfinished Documents');
+
+define('_NL_CHECKSTRING', 'PLEASE NO NEWSLETTER');
+define('_NL_CHECKFORUNSUBSCRIBE', 'Check for eMails with unsubscribing users');
+define('_NL_CHECK', 'Check');
+define('_NL_CHECKTITLE', 'Check eMails for unsubscribing users');
+define('_NL_CHECKTEXT', 'We check now the eMails on your eMail account for mails with the unsubscribing string inside. If there any mail with this string, we check if that user exists and if it so we delete him.');
+
+// STATS
+define('_STATS_HOST', 'Host');
+define('_STATS_REF', 'Referrer');
+define('_STATS_PAGE', 'Page');
+define('_STATS_COUNT', 'Counter');
+define('_STATS_SUM_CLICKS', 'Sum of all hits');
+define('_STATS_SUM_UNIQUE', 'Sum of all unique hits');
+define('_STATS_SUM_IP', 'Sum of different ip adresses');
+define('_STATS_BROWSER_OS', 'Browser, OS');
+define('_STATS_HITS', 'Hits, Page Impressions');
+define('_STATS_BROWSER', 'Browser');
+define('_STATS_OS', 'Operating System');
+
+define('_NEWS_SYNDICATION', 'Syndication');
+
+define('_EXT_NEWS_USE_FEEDS', 'Use Syndication (Feeds)');
+define('_EXT_NEWS_USE_RSS091', 'Use RSS 0.91');
+define('_EXT_NEWS_USE_RSS10', 'Use RSS 1.0');
+define('_EXT_NEWS_USE_RSS20', 'Use RSS 2.0');
+define('_EXT_NEWS_USE_ATOM03', 'Use ATOM 0.3');
+define('_EXT_NEWS_USE_OPML', 'Use OPML');
+define('_EXT_NEWS_SYN_AMOUNT', 'Amount of news in feed');
+define('_EXT_NEWS_USE_SYN_TITLE', 'Use Syndicationtitle in sidebar');
+define('_EXT_NEWS_DEFAULT_FEED', 'Default syndication feed');
+
+*
+*
+**************************
+
+
+
+
+
+
+
+
+**************************
+* CHANGE THIS
+*
+
+this one ->
+	// PAGE
+	define('_DESKTOP_TOP_TEXT', 'If you wish to edit the content of a page, please click the page title in the page tree to the left.');
+
+into this one ->
+	// DESKTOP
+	define('_DESKTOP_TOP_TEXT', 'If you wish to edit the content of a page, please click the page title in the page tree to the left.');
+
+
+and this one ->
+	define('_NL_MAILMESSAGE', 'If you dont want the newsletter in the future, write a message with PLEASE NO NEWSLETTER to');
+
+into this one ->
+	define('_NL_MAILMESSAGE', 'If you dont want the newsletter in the future, answer with');
+
+*
+*
+**************************

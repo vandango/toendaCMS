@@ -1,0 +1,30 @@
+##
+# @version $Id: htaccess.txt 002 2005-06-11 16:02:50Z sendai $
+# @package toendaCMS
+# @copyright Copyright (C) 2005 Toenda Software Development. All rights reserved.
+# @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+# toendaCMS is Free Software
+##
+
+#
+#  mod_rewrite in use
+#
+
+RewriteEngine On
+
+#  Uncomment following line if your webserver's URL 
+#  is not directly related to physical file paths.
+#  Update YourtoendaCMSDirectory (just / for root)
+
+#RewriteBase /YourtoendaCMSDirectory
+RewriteBase /toendacms
+
+#
+#  Rules
+#
+
+#RewriteCond %{REQUEST_FILENAME} !\.(jpg|jpeg|gif|png|css|js|pl|txt)$
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^(.*) index.php
