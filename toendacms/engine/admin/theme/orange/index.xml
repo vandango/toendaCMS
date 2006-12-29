@@ -1,0 +1,7 @@
+<template>
+	<name>Orange</name>
+	<autor>Jonathan Naumann - Toenda Software Development</autor>
+	<url>toenda.com</url>
+	<desc>A orange toendaCMS backend theme.</desc>
+	<version>0.1.0</version>
+</template>

@@ -1,0 +1,49 @@
+/*       _\|/_
+         (o o)
++-----oOO-{_}-OOo--------------------------------------------------------+
+| toendaCMS - Content Management and Weblogging System with XML and SQL  |
++------------------------------------------------------------------------+
+| Copyright (c) Toenda Software Development                              |
+| Author: Jonathan Naumann                                               |
++------------------------------------------------------------------------+
+| 
+| toendaCMS - Administrations Backend
+| Default Theme - IE Additions
+|
+| File:		tcms_main.css
+| Version:	0.4.0
+|
++
+*/
+
+.tcms_bg_blue_01 {
+	background: #336699 url(images/head_table.png) repeat-x;
+	height: 21px !important;
+	padding: 0px !important;
+	margin: 0px !important;
+	color: #333 !important;
+}
+
+.tcms_pagebody {
+	/*display: block;*/
+	/*margin: 10px;*/
+}
+
+.tcms_padding_mini {
+	padding: 5px !important;
+}
+
+
+
+/*___ DATABASE ___*/
+/* Database Title */
+.tcms_db_title {
+	border-top: 1px solid #640008;
+	color: #333;
+}
+
+
+/*___ PADDING ___*/
+.tcms_padding_mini {
+	padding: 3px 5px 3px 5px !important;
+}
