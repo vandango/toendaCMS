@@ -1,0 +1,769 @@
+/*       _\|/_
+         (o o)                         
++-----oOO-{_}-OOo--------------------------------------------------------+
+| toendaCMS - Content Management and Weblogging System with XML and SQL  |
++------------------------------------------------------------------------+
+| Copyright (c) Toenda Software Development                              |
+| Author: Jonathan Naumann                                               |
++------------------------------------------------------------------------+
+| 
+| toendaCMS - Administrations Framework
+| Default Theme
+|
+| File:		css.css
+| Version:	0.2.6
+|
++
+*/
+
+
+
+/****************** GLOBALS ******************/
+body{
+	background: #fff;
+}
+
+body, table, td	{
+	color: #000000;
+	font-size: 10px;
+	font-family: Verdana, arial, sans-serif;
+	margin: 0px !important;
+	padding: 0px !important;
+}
+
+textarea { width: 400px; height: 200px; font-family: Verdana, arial, sans-serif; overflow: hidden; }
+
+input { font-family: Verdana, arial, sans-serif; font-size: 10px; }
+
+i { color: #336699; font-style: italic; }
+
+
+
+
+
+/****************** DEFAULTS ******************/
+.noborder {
+    border: 0px;
+    margin: 0px !important;
+	padding: 0px !important;
+}
+.noinfo { font-style: italic; color: #808080; }
+
+
+
+
+
+/****************** COLORS ******************/
+.tcms_bg_grey_01 { background: #cccccc; }
+.tcms_bg_grey_02 { background: #eeeeee; }
+
+.tcms_bg_blue_01 { background: #336699; }
+.tcms_bg_blue_02 { background: #1d93bc; }
+.tcms_bg_blue_03 { background: #90aecc; }
+
+.tcms_ft_white { color: #333333; font-size: 16px; }
+.tcms_white { color: #fff; font-size: 16px; }
+
+.tcms_border_gray01 { border: 1px solid #aaaaaa; }
+
+.tcms_switchcolor_1{ background: #f5f5f5; }
+.tcms_switchcolor_2{ background: #eeeeee; }
+.tcms_switchcolor_3{ background: #dedede; }
+
+.tcms_ft_blue_01 { color: #336699; }
+.tcms_ft_blue_02 { color: #1d93bc; }
+.tcms_ft_blue_03 { color: #90aecc; }
+
+
+
+
+
+/****************** TCMS ******************/
+
+/*____  MAINBODY ____*/
+/* Mainbody Box */
+.tcms_main_body { border: #cccccc 1px solid; /*margin: 10px;*/ }
+/* Mainbody Title */
+.tcms_main_body_bg {
+	background-color: #f5f5f5;
+	border-bottom: #cccccc 2px solid;
+	padding: 5px;
+	font-size: 16px;
+}
+/* Mainbody Box Padding */
+.tcms_main_body_padding { padding: 15px; }
+/* Mainbody Footer */
+.tcms_footer{
+	border-top: 3px solid #468bb6;
+	background: #336699;
+}
+
+
+
+
+/* Explorer */
+.tcms_explorer{ height: 17px; }
+.tcms_explorer_top{ padding-top: 3px; padding-bottom: 3px; }
+
+
+
+
+/*____  MAIN BOX ____*/
+/* Main Box Title */
+.tcms_main_box_title {
+	background-color: #90aecc;
+	padding: 2px;
+	color: #fff;
+	border-top: #1d93bc 1px solid;
+	border-bottom: #1d93bc 1px solid;
+}
+
+/* Main Box Title */
+.tcms_main_box_fm {
+	border-right: #cccccc 1px solid;
+}
+
+
+
+
+/*___ NAVIGATION MENU ___*/
+/* Top Menu */
+td.tcms_top_menu { background-color: #eeeeee; border: 1px solid #eeeeee; color: #333333; font-family: Verdana, arial, sans-serif; font-weight: normal; font-size: 11px; height: 21px !important; cursor: default; }
+/*padding: 3px 7px 2px 7px;*/
+td.tcms_top_menu:hover { background-color: #cccccc; height: 11px; border: 1px solid #aaaaaa; }
+td.tcms_top_menu_tape { background-color: #eeeeee; border: 1px solid #eeeeee; padding: 3px 7px 2px 7px; color: #333333; font-family: Verdana, arial, sans-serif; font-size: 11px; height: 13px; cursor: default; }
+
+/*___ TOP MENU LINK ___*/
+a.tcms_top_menu_link, a.tcms_top_menu_link:link, a.tcms_top_menu_link:active, a.tcms_top_menu_link:visited {
+	color: #000000;
+	font-size: 11px;
+	text-decoration: none;
+	display: block;tcms_home_page
+	float: left;
+	width: 99%;
+	height: 21px !important;
+	padding-top: 5px;
+	padding-left: 2px;
+}
+a.tcms_top_menu_link:hover {
+	background: #cccccc;
+	text-decoration: none;
+	padding-left: 2px;
+}
+
+/* Main Menu */
+td.main_menu { background: url(../../images/admin_menu/main.jpg) no-repeat; width: 47px; }
+td.main_menu:hover { background: url(../../images/admin_menu/main_over.jpg) no-repeat; }
+
+/* Personal Menu */
+td.manage_menu { background: url(../../images/admin_menu/manage.jpg) no-repeat; width: 70px; }
+td.manage_menu:hover { background: url(../../images/admin_menu/manage_over.jpg) no-repeat; }
+
+/* Navigation Menu */
+td.navi_menu { background: url(../../images/admin_menu/navi.jpg) no-repeat; width: 77px; }
+td.navi_menu:hover { background: url(../../images/admin_menu/navi_over.jpg) no-repeat; }
+
+/* Content Menu */
+td.content_menu { background: url(../../images/admin_menu/content.jpg) no-repeat; width: 68px; }
+td.content_menu:hover { background: url(../../images/admin_menu/content_over.jpg) no-repeat; }
+
+/* Sidebar Menu */
+td.side_menu { background: url(../../images/admin_menu/sidebar.jpg) no-repeat; width: 68px; }
+td.side_menu:hover { background: url(../../images/admin_menu/sidebar_over.jpg) no-repeat; }
+
+/* Content Menu */
+td.ext_menu { background: url(../../images/admin_menu/ext.jpg) no-repeat; width: 80px; }
+td.ext_menu:hover { background: url(../../images/admin_menu/ext_over.jpg) no-repeat; }
+
+/* Site Menu */
+td.site_menu { background: url(../../images/admin_menu/site.jpg) no-repeat; width: 40px; }
+td.site_menu:hover { background: url(../../images/admin_menu/site_over.jpg) no-repeat; }
+
+/* Help Menu */
+td.help_menu { background: url(../../images/admin_menu/help.jpg) no-repeat; width: 40px; }
+td.help_menu:hover { background: url(../../images/admin_menu/help_over.jpg) no-repeat; }
+
+/* Help Menu */
+td.cs_menu { background: url(../../images/admin_menu/cs.jpg) no-repeat; width: 85px; }
+td.cs_menu:hover { background: url(../../images/admin_menu/cs_over.jpg) no-repeat; }
+
+/* Top Menu Line */
+.tcms_top_menu_line { border-bottom: 1px solid #cccccc; border-right: 0px; border-left: 0px; }
+.tcms_top_menu_line img { margin: 2px 0 0 0; border: 1px solid #f5f5f5; }
+.tcms_top_menu_line img:hover { border: 1px solid #ccc; }
+
+/* Top Menu Loged in */
+.tcms_top_menu_loged { color: #336699; }
+
+/* Top Menu Show */
+.tcms_top_menu_show { background: #eeeeee; border: 1px solid #aaaaaa; }
+
+
+
+
+/*____  INPUT ____*/
+/* Upload */
+.tcms_upload { border: #1d93bc 1px solid; height: 18px; width: 150px; font-size: 11px; font-family: Verdana, arial, sans-serif; }
+
+/* Input Textarea normal */
+.tcms_textarea_normal { border: #1d93bc 1px solid; height: 18px; width: 500px; font-size: 11px; font-family: Verdana, arial, sans-serif; }
+
+/* Input Textarea small */
+.tcms_textarea_small {
+	border: #1d93bc 1px solid;
+	height: 18px;
+	width: 200px;
+	font-size: 11px;
+	font-family: Verdana, arial, sans-serif;
+}
+
+/* Input Textarea low width */
+.tcms_textarea_low_width {
+	border: #1d93bc 1px solid;
+	height: 50px;
+	width: 300px;
+	font-size: 11px;
+	font-family: Verdana, arial, sans-serif;
+}
+
+/* Input Textarea mini */
+.tcms_textarea_mini {
+	border: #1d93bc 1px solid;
+	height: 18px;
+	width: 100px;
+	font-size: 11px;
+	font-family: Verdana, arial, sans-serif;
+}
+
+/* Input Textarea Newsletter Editor */
+.tcms_textarea_nl{
+	border: #1d93bc 1px solid;
+	height: 400px;
+	width: 95%;
+	overflow: auto !important;
+	font-size: 11px;
+	font-family: Verdana, arial, sans-serif;
+}
+
+/* Input Textarea Sourcecode Editor */
+.tcms_textarea_source{
+	border: #1d93bc 1px solid;
+	height: 580px;
+	width: 95%;
+	overflow: auto !important;
+	font-size: 11px;
+	font-family: Verdana, arial, sans-serif;
+}
+
+/* Input Textarea Huge */
+.tcms_textarea_huge {
+	border: #1d93bc 1px solid;
+	height: 600px;
+	/*width: 657px;*/
+	width: 95%;
+	/*width: 750px;*/
+	overflow: auto;
+	font-size: 11px;
+	font-family: Verdana, arial, sans-serif;
+}
+
+/* Input Textarea Big */
+.tcms_textarea_big {
+	border: #1d93bc 1px solid;
+	height: 100px;
+	width: 500px;
+	font-size: 11px;
+	font-family: Verdana, arial, sans-serif;
+}
+
+/* Input Textarea Fat */
+.tcms_textarea_fat {
+	border: #1d93bc 1px solid;
+	height: 200px;
+	width: 500px;
+	font-size: 11px;
+	font-family: Verdana, arial, sans-serif;
+}
+
+/* Input Textarea mini */
+.tcms_input_makro {
+	border: #1d93bc 1px solid;
+	height: 18px;
+	width: 25px;
+	font-size: 11px;
+	font-family: Verdana, arial, sans-serif;
+}
+
+/* Input Textarea mini */
+.tcms_input_mini {
+	border: #1d93bc 1px solid;
+	height: 18px;
+	width: 100px;
+	font-size: 11px;
+	font-family: Verdana, arial, sans-serif;
+}
+
+/* Input Textarea small */
+.tcms_input_small {
+	border: #1d93bc 1px solid;
+	height: 18px;
+	width: 200px;
+	font-size: 11px;
+	font-family: Verdana, arial, sans-serif;
+}
+
+/* Input Textarea normal */
+.tcms_input_normal {
+	border: #1d93bc 1px solid;
+	height: 18px;
+	width: 500px;
+	font-size: 11px;
+	font-family: Verdana, arial, sans-serif;
+}
+
+/* Select */
+.tcms_select {
+	border: #1d93bc 1px solid;
+	height: 18px;
+	width: 190px;
+	font-size: 11px;
+	font-family: Verdana, arial, sans-serif;
+}
+.tcms_select_day {
+	border: #1d93bc 1px solid;
+	height: 18px;
+	width: 40px;
+	font-size: 11px;
+	font-family: Verdana, arial, sans-serif;
+}
+.tcms_select_month {
+	border: #1d93bc 1px solid;
+	height: 18px;
+	width: 60px;
+	font-size: 11px;
+	font-family: Verdana, arial, sans-serif;
+}
+
+/* Little id box */
+.tcms_id_box { border: #1d93bc 1px solid; height: 18px; width: 50px; font-size: 11px; font-family: Verdana, arial, sans-serif; }
+
+/* Notebook */
+.tcms_notebook { border: #1d93bc 1px solid; height: 400px; width: 450px; font-size: 11px; font-family: Verdana, arial, sans-serif; }
+
+
+
+
+/*___ DATABASE ___*/
+/* Database Title */
+.tcms_db_title { border-top: 2px solid #1d93bc; border-bottom: 1px solid #1d93bc; color: #fff; }
+
+/* Database 2 */
+.tcms_db_2 { border-bottom: 1px solid #cccccc; padding: 0 3px 0 3px !important; }
+
+/* Database BG */
+.tcms_db_bg { background: #336699; }
+
+
+
+
+/*___ PLACEHOLDER ___*/
+.tcms_placeholder_120 { display: block; width: 120px; float: left; height: 18px; }
+.tcms_placeholder_200 { display: block; width: 200px; float: left; height: 18px; }
+.tcms_placeholder { display: block; width: 100%; height: 18px; }
+
+
+
+
+
+/*___ PADDING ___*/
+.tcms_padding_mini { padding: 2px; }
+
+
+
+
+
+/*___ ABOUT BOX ___*/
+.tcms_about_title { width: 620px; border-top: 1px solid #333333; border-left: 1px solid #333333; border-right: 1px solid #333333; padding: 3px; background-color: #cccccc; color: #000000; font-size: 13px; font-weight: bold; }
+.tcms_about_box { width: 620px; border: 1px solid #333333; padding: 3px; background-color: #eeeeee; }
+
+
+
+
+
+/*___ TCMS TABLE ___*/
+.tcms_table { border-top: 1px dotted #cccccc; border-left: 1px dotted #cccccc; font-family: Verdana, arial, sans-serif; }
+
+
+
+
+
+/*___ FONTS ___*/
+.tcms_bold { color: #555555; font-family: Verdana, arial, sans-serif; }
+.tcms_big { font-size: 14px; color: #000000; font-weight: bold; }
+
+
+
+
+/*___ INFOBOX ___*/
+.tcms_infobox { border: 1px solid #1d93bc; font-family: Verdana, arial, sans-serif; background: #ffffff; }
+a.tcms_infobox_link, a.tcms_infobox_link:link, a.tcms_infobox_link:visited, a.tcms_infobox_link:active {
+	font-family: Verdana, arial, sans-serif; background: #ffffff; text-decoration: none; display: block; width: 127px; padding-left: 3px; }
+a.tcms_infobox_link:hover { font-family: Verdana, arial, sans-serif; background: #eeeeee; }
+
+
+
+
+/*___ HELPBOX ___*/
+.tcms_help_title { width: 618px; border: 1px solid #333333; padding: 3px; background-color: #cccccc; color: #000000; font-size: 13px; font-weight: bold; }
+.tcms_help_box_title { border: 1px solid #333333; color: ffffff; background: #336699; width: 626px; }
+.tcms_help_box { border: 1px solid #333333; width: 626px; }
+.tcms_help_bb { padding: 3px !important; }
+
+
+
+
+/*___ EDITOR ___*/
+.tcms_more {
+	border: 1px solid #ccc;
+	background: #ececec;
+	height: 16px;
+	padding: 0 2px 2px 2px;
+}
+.tcms_more:hover {
+	border: 1px solid #336699;
+	background: #ccc;
+	height: 16px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/****************** LINKS ******************/
+
+/*___ TAB ___*/
+a.tcms_tab, a.tcms_tab:link, a.tcms_tab:active, a.tcms_tab:visited {
+	border: 1px solid #ccc;
+	background: #fff;
+	color: #333;
+	background: #f5f5f5;
+	font-weight: normal;
+	margin: 0 10px 0 0;
+	padding: 2px 6px 2px 6px;
+}
+a.tcms_tab:hover{
+	background: #ccc;
+	border-bottom: 1px solid #ccc;
+	color: #333;
+	text-decoration: none;
+}
+a.tcms_tabA, a.tcms_tabA:link, a.tcms_tabA:active, a.tcms_tabA:visited{
+	border-top: 3px solid #1d93bc;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;/*#1d93bc;*/
+	border-bottom: 1px solid #fff !important;
+	background: #fff;/*#336699;*/
+	color: #336699;
+	font-weight: bold;
+	margin: 0 10px 0 0;
+	padding: 2px 6px 2px 6px;
+}
+a.tcms_tabA:hover{
+	background: #ccc;
+	border-bottom: 1px solid #ccc;
+	color: #333;
+	text-decoration: none;
+}
+
+.tcms_tabPage{
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	margin: 0;
+	padding: 10px;
+}
+
+
+
+
+
+
+/*___ GLOBAL LINKS ___*/
+a, a:link, a:active, a:visited {
+	color: #333333;
+	font-size: 11px;
+	text-decoration: none;
+}
+a:hover {
+	color: #336699;
+	font-size: 11px;
+	text-decoration: underline;
+}
+
+
+
+/*___ TCMS FILEMANAGER LINKS ___*/
+a.tcms_fm, a.tcms_fm:link, a.tcms_fm:active, a.tcms_fm:visited {
+	color: #fff;
+	font-size: 10px;
+	text-decoration: underline;
+}
+a.tcms_fm:hover {
+	color: #f0b86e;
+	text-decoration: underline;
+}
+
+
+
+/*___ TCMS FILEMANAGER LINKS MENU ___*/
+a.tcms_fm_menu, a.tcms_fm_menu:link, a.tcms_fm_menu:active, a.tcms_fm_menu:visited {
+	color: #333333;
+	font-size: 11px;
+	background: #eeeeee;
+	text-decoration: none;
+	border: #336699 1px solid;
+	padding-right: 3px;
+	padding-left: 3px;
+}
+a.tcms_fm_menu:hover {
+	background: #cccccc;
+	border: #336699 1px solid;
+	text-decoration: none;
+}
+
+
+
+/*___ TOP MENU LINK ___*/
+a.tcms_about, a.tcms_about:link, a.tcms_about:active, a.tcms_about:visited {
+	color: #333333;
+	font-size: 11px;
+	text-decoration: underline;
+}
+a.tcms_about:hover {
+	color: #336699;
+}
+
+
+
+
+/*___ NAVIGATION BUTTONS ___*/
+a.tcms_navigation_button:link, a.tcms_navigation_button:active, a.tcms_navigation_button:visited {
+	color: #1d93bc;
+	background: #f8f8f8;
+	padding-right: 3px;
+	padding-left: 3px;
+	border: #1d93bc 1px solid;
+	font-size: 11px;
+	text-decoration: none;
+	font-weight: bold;
+}
+a.tcms_navigation_button:hover {
+	color: #f8f8f8;
+	background: #90aecc;
+}
+
+
+
+
+/*___ NAVIGATION BUTTONS ___*/
+a.tcms_edit:link, a.tcms_edit:active, a.tcms_edit:visited {
+	color: #1d93bc;
+	background: #f8f8f8;
+	padding-right: 3px;
+	padding-left: 3px;
+	display: block;
+	width: 75px;
+	text-align: center;
+	border: #1d93bc 1px solid;
+	font-size: 10px;
+	text-decoration: none;
+}
+a.tcms_edit:hover {
+	color: #f8f8f8;
+	background: #90aecc;
+}
+
+
+
+
+/*___ TEMPLATE LINKS ___*/
+a.tcms_db_template:link, a.tcms_db_template:active, a.tcms_db_template:visited {
+	color: #333333;
+	font-size: 10px;
+	text-decoration: none;
+}
+a.tcms_db_template:hover {
+	color: #1d93bc;
+	font-size: 10px;
+	text-decoration: underline;
+}
+
+
+
+
+/*___ START LINKS ___*/
+a.tcms_home:link, a.tcms_home:active, a.tcms_home:visited {
+	height: 48px;
+	padding: 10px 0 0 50px;
+	display: block;
+	text-decoration: none;
+}
+
+a.tcms_home_page:link, a.tcms_home_page:active, a.tcms_home_page:visited { background: url(../../images/website_big.gif) no-repeat; }
+a.tcms_home_page:hover { background: url(../../images/website_big_gray.gif) no-repeat; }
+
+a.tcms_home_gid:link, a.tcms_home_gid:active, a.tcms_home_gid:visited { background: url(../../images/links_big.gif) no-repeat; }
+a.tcms_home_gid:hover { background: url(../../images/links_big_gray.gif) no-repeat; }
+
+a.tcms_home_fm:link, a.tcms_home_fm:active, a.tcms_home_fm:visited { background: url(../../images/filemanager_big.gif) no-repeat; }
+a.tcms_home_fm:hover { background: url(../../images/filemanager_big_gray.gif) no-repeat; }
+
+a.tcms_home_config:link, a.tcms_home_config:active, a.tcms_home_config:visited { background: url(../../images/config_big.png) no-repeat; }
+a.tcms_home_config:hover { background: url(../../images/config_big_gray.png) no-repeat; }
+
+a.tcms_home_nm:link, a.tcms_home_nm:active, a.tcms_home_nm:visited { background: url(../../images/news_big.gif) no-repeat; }
+a.tcms_home_nm:hover { background: url(../../images/news_big_gray.gif) no-repeat; }
+
+a.tcms_home_ig:link, a.tcms_home_ig:active, a.tcms_home_ig:visited { background: url(../../images/image_big.gif) no-repeat; }
+a.tcms_home_ig:hover { background: url(../../images/image_big_gray.gif) no-repeat; }
+
+
+
+
+
+
+
+
+/*___ LOGINFORM ___*/
+.formbase{
+	margin: 80px auto 0 auto;
+	width: 293px;
+	height: 430px;
+	padding: 0;
+}
+
+.loginform{
+	width: 293px;
+	height: 430px;
+	background: transparent url(../../images/loginbox.png);
+	margin: 0;
+	padding: 0;
+	position: absolute;
+}
+
+.loginarea{
+	width: 160px;
+	margin: 5px auto 0 auto;
+	position: relative;
+	padding: 0;
+	text-align: left;
+}
+
+.logintitle{
+	width: 160px;
+	margin: 278px auto 0 auto;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+.loginbox {
+	border: #003366 1px solid;
+	width: 160px !important;
+	height: 15px;
+	background: #f5f5f5;
+	margin: 2px 6px 2px 2px;
+	font-family: Verdana, arial, sans-serif;
+}
+
+.loginbox:focus {
+	border: #003366 1px solid;
+	background: #fff;
+	height: 15px;
+	margin: 2px 6px 2px 2px;
+	font-family: Verdana, arial, sans-serif;
+}
+
+.loginput {
+	color: #32353a;
+	font-size: 10px;
+	font-weight: bold;
+	text-decoration: none;
+	border: 1px solid #32353a;
+	background: #ffffff;
+	padding: 0 5px 2px 5px;
+	margin: 4px 6px 0 2px;
+	height: 18px;
+}
+.loginput:hover {
+	color: #ffffff;
+	font-weight: bold;
+	border: 1px solid #32353a;
+	background: #468bb6;
+}
+
+
+
+
+
+
+
+
+/*************************************
+*
+* DEFAULT LEGAL STYLESHEET
+*
+******************/
+
+a.legal:link, a.legal:visited {
+	font-size: 9px;
+	color: #ffffff;
+	text-decoration: underline;
+	font-family: Verdana, arial, sans-serif;
+}
+a.legal:hover {
+	color: #f0b86e;
+	text-decoration: underline;
+}
+.legal {
+	font-size: 9px;
+	color: #ffffff;
+	font-family: Verdana, arial, sans-serif;
+}
+
+
+
+
+a.legal_index:link, a.legal_index:visited {
+	font-size: 9px;
+	color: #333;
+	text-decoration: none;
+	font-family: Verdana, arial, sans-serif;
+}
+a.legal_index:hover {
+	color: #35a;
+	color: #35a;
+	text-decoration: underline;
+}
+.legal_index {
+	font-size: 9px;
+	color: #333;
+	font-family: Verdana, arial, sans-serif;
+}
+
+
