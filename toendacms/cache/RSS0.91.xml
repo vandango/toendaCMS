@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- generator="FeedCreator 1.7.2" -->
+<rss version="0.91">
+    <channel>
+        <title>toendaCMS</title>
+        <description>Your ideas ahead</description>
+        <link>http://www.toendacms.com</link>
+        <lastBuildDate>Fri, 29 Dec 2006 16:59:13 +0100</lastBuildDate>
+        <generator>FeedCreator 1.7.2</generator>
+        <image>
+            <url>/toendacms/engine/images/logos/toendaCMS_button_01.png</url>
+            <title>toendaCMS Logo</title>
+            <link>http://www.toendacms.com</link>
+            <description>Feed provided by toendaCMS. Click to visit.</description>
+        </image>
+        <item>
+            <title>Hello world!</title>
+            <link>http://www.toendacms.com/toendacms/?id=newsmanager&amp;news=c4c846e167</link>
+            <description>Hello world. This is &lt;a href=&quot;http://www.google.de&quot;&gt;Dolly&lt;/a&gt;  and you reading my first post. If you want you can delete it, but you can edit it too. Or you write a new one and let this where it is. It&amp;#39;s your c hoice.
+&lt;br /&gt;
+&lt;br /&gt;
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer tellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam feugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio mauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris dolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+</description>
+            <author>Toenda Software Development</author>
+            <pubDate>Fri, 20 Oct 2006 22:00:00 +0100</pubDate>
+        </item>
+    </channel>
+</rss>
