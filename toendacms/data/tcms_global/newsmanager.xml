@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?><config>
+	<news_id>newsmanager</news_id>
+	<news_title>czo3OiJBcmNoaXZlIjs=</news_title>
+	<news_stamp>czozOToiSGVyZSBjYW4geW91IGZpbmQgYWxsIG5ld3Mgb2YgdGhpcyBzaXRlIjs=</news_stamp>
+	<news_image></news_image>
+	<use_comments>1</use_comments>
+	<show_autor>0</show_autor>
+	<show_autor_as_link>1</show_autor_as_link>
+	<news_amount>20</news_amount>
+	<access>Public</access>
+	<news_cut>0</news_cut>
+	<use_emoticons>1</use_emoticons>
+	<use_gravatar>0</use_gravatar>
+	<use_rss091>1</use_rss091>
+	<use_rss10>1</use_rss10>
+	<use_rss20>1</use_rss20>
+	<use_atom03>1</use_atom03>
+	<use_opml>1</use_opml>
+	<syn_amount>5</syn_amount>
+	<use_syn_title>0</use_syn_title>
+	<def_feed>RSS2.0</def_feed>
+	<use_trackback>0</use_trackback>
+	<use_timesince>0</use_timesince>
+
+</config>
