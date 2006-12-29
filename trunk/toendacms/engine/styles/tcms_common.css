@@ -1,0 +1,50 @@
+/*       _\|/_
+         (o o)
++-----oOO-{_}-OOo--------------------------------------------------------+
+| toendaCMS - Content Management and Weblogging System with XML and SQL  |
++------------------------------------------------------------------------+
+| Copyright (c) Toenda Software Development                              |
+| Author: Jonathan Naumann                                               |
++------------------------------------------------------------------------+
+|
+| Common toendaCMS styles
+|
+| File:		tcms_common.css
+| Version:	0.0.1
+|
++
+*/
+
+
+
+/*
+	CUSTOM STYLES
+*/
+
+.tableRowLight {
+	color: #000;
+	background-color: #ececec;
+}
+
+.tableRowDark {
+	color: #fff;
+	background-color: #333333;
+}
+
+.smallTextLight {
+	font-size: 10px;
+	color: #ababab;
+	line-height: 10px;
+}
+
+.smallTextDark {
+	font-size: 10px;
+	color: #000;
+	line-height: 10px;
+}
+
+
+
+
+
+
