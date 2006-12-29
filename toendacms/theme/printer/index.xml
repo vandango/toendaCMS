@@ -1,0 +1,7 @@
+<template>
+	<name>Printerskin</name>
+	<autor>Erik Lehmler :: C`zwo Computersysteme</autor>
+	<url>www.czwo.de</url>
+	<desc>Without navigation and graphical layout. The actual content is viewed and optimised for printer output.</desc>
+	<version>0.2</version>
+</template>

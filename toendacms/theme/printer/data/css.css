@@ -1,0 +1,190 @@
+/*****************************************************************
+* Printer-Skin
+* Version 0.2
+* Copyright (C) 2005 by Erik Lehmler
+* C`zwo Computersysteme - All rights reserved!
+*****************************************************************/
+
+
+/* ##################### GLOBALS ##################### */
+
+body { color: black; font-size: 11px; font-family: "Trebuchet MS", Arial, "Lucida Sans", Tahoma, Sans-Serif; text-align: center; padding: 0 0 }
+
+h2 { color: black; font-size: 14px; margin: 0 0 3px }
+h3 { color: black; font-size: 12px; margin: 0 0 8px }
+h4{ font-size: 11px; }
+
+textarea{ overflow: hidden; }
+
+ul{ list-style: none; padding: 0; margin: 0; }
+li { background: url("arrow.gif") no-repeat 0 6px; margin: 0 0 2px; padding: 0 0 0 9px }
+
+a:link, a:visited   { color: black; font-size: 11px; text-decoration: underline }
+a:hover, a:active   { color: black; font-size: 11px; text-decoration: underline }
+
+img{ border: none; }
+
+font{ font-size: 11px; }
+b { font-size: 11px; font-weight: bold }
+
+
+
+
+
+/* ##################### SKIN SPEZIFIC ##################### */
+
+#header{
+	position: center;
+	width: 600px;
+	height: 151px;
+	margin: auto;
+	}
+
+.clearing{
+	height: 0;
+	clear: both;
+}
+
+.topposition{
+	position: absolute;
+	top: 50px;
+}
+
+
+/*
+FONTCONTROL - VARIOUS CSS
+*/
+#fontcontrol { background-image: none; background-repeat: repeat; background-attachment: scroll; background-position: 0 0; position: absolute; top: 18px; left: 535px; width: 66px; height: 18px; nobr: nobr }
+
+
+/*
+CONTENT
+*/
+#wrapper{ width: 620px; margin: auto; repeat-y; text-align: center; }
+
+.contentdiv{
+	width: 620px;
+	float: left;
+	padding: 0px 0px 0px 0px;
+	text-align: justify;
+}
+
+
+
+/* ##################### ToendaCMS SPEZIFIC ##################### */
+
+/*
+TITLE
+*/
+.title   { color: black; font-size: 24px; font-family: "Trebuchet MS", Arial, "Lucida Sans", Tahoma, Sans-Serif; font-style: bold; font-weight: bold; line-height: 20px; text-align: left; display: block; margin: 0; padding-top: 22px; padding-left: 30px; float: left; text-shadow: black  }
+a.index   { color: black; font-size: 24px; font-family: "Trebuchet MS", Arial, "Lucida Sans", Tahoma, Sans-Serif }
+a.index:hover  { color: black; font-family: "Trebuchet MS", Arial, "Lucida Sans", Tahoma, Sans-Serif; text-decoration: none }
+.subtitle   { color: black; font-size: 18px; font-family: "Trebuchet MS", Arial, "Lucida Sans", Tahoma, Sans-Serif; font-style: bold; font-weight: bold; text-align: left; letter-spacing: 2px; display: block; padding-top: 11px; padding-left: 10px; float: left }
+.sitelogo{
+	padding-top      : 10px;
+	padding-left     : 10px;
+}
+
+
+/*
+CONTENT
+*/
+.contentheading { font-size: 15px; }
+.contentstamp { font-size: 13px; }
+.contentmain { font-size: 11px; }
+
+.text_small{ font-size: 9px; }
+.text_normal{ font-size: 11px; }
+.text_big{ font-size: 13px; }
+.text_huge{ font-size: 15px; }
+.titleBG   { font-size: 13px; background: #f8f8f8; margin: 0; padding-left: 4px; border-bottom: 2px dotted gray }
+.news_title_bg   { font-size: 13px; background: #f8f8f8; text-align: left; margin: 0; padding-left: 4px; border-bottom: 2px dotted gray }
+.news_content_bg{
+	font-size: 11px;
+}
+.hr_line{
+	padding: 0px 0 0 0;
+	background: url(dot.gif) top repeat-x;
+}
+.book_content{
+	font-size: 11px;
+}
+.download_top   { font-size: 13px; background: #f8f8f8; text-align: left; margin: 0; padding-left: 4px; border-bottom: 2px dotted gray }
+.poll_sheet { color: #111111; font-size: 10px; background-color: #f8f8f8; border: solid 1px #eeeeee }
+.sideheading  { color: black; font-size: 11px; font-style: bold; font-weight: bold; text-align: left }
+.sidemain  { color: black; font-size: 9px; padding: 3px }
+
+.imptitle  { color: black; font-size: 13px; font-weight: bold; text-align: left; text-transform: uppercase; letter-spacing: 2px; padding-left: 10px }
+.impoffice {
+	padding-left: 43px;
+	font-size: 11px;
+}
+
+.comment_title  { font-size: 10px; background: #f8f8f8; padding-right: 3px; padding-left: 3px; border-top: 1px solid gray; border-bottom: 1px solid gray }
+.comment_text { font-size: 10px; padding: 5px; border-bottom: 1px solid gray }
+
+.search_result_bar{
+	font-size        : 12px;
+	color            : #333333;
+	background       : #f8f8f8;
+	padding-left     : 2px;
+	border           : 1px solid #cccccc;
+	font-size        : 10px;
+}
+.search_result { color: black; font-size: 11px; background: #f8f8f8; padding-left: 2px; border: solid 1px #ececec }
+.menutitle  { color: #999; font-size: 14px; font-weight: bold; display: block; padding-left: 8px; width: 150px; float: left; clear: left }
+
+
+/*
+LINKS
+*/
+.pathway  { color: black; font-size: 10px; text-decoration: none }
+a.pathway:link, a.pathway:visited    { color: black; font-size: 10px; text-decoration: none }
+a.pathway:hover     { color: black; font-size: 10px; text-decoration: none }
+
+a.mainlevel, a.mainlevel:link, a.mainlevel:visited, a.mainlevel:active     { color: black; font-size: 12px; font-weight: bold; text-decoration: none; background: url("arrow_gray.gif") no-repeat left 50%; letter-spacing: 3px; padding: 0 0 0 10px }
+a.mainlevel:hover     { color: black; background: url("arrow_black.gif") no-repeat left 50% }
+
+a.submenu, a.submenu:link, a.submenu:visited, a.submenu:active     { color: black; font-size: 10px; font-weight: bold; text-decoration: none; background: url("arrow.gif") no-repeat left 50%; letter-spacing: 1px; margin: 0 0 0 14px; padding: 0 0 0 10px }
+a.submenu:hover     { color: black; background: url("arrow_black_2.gif") no-repeat left 50% }
+
+a.toplevel{
+	color: #4E4E4E;
+	margin-top: 2px;
+	width: 83px;
+	height: 20px;
+	line-height: 20px;
+	background: url(linkbg_1.gif) top repeat-y;
+	text-align: center;
+	display: block;
+	float: left;
+}
+a.toplevel:hover  { background: repeat-y 50% top }
+
+.main  { color: black; font-size: 12px; font-weight: bold; text-decoration: none; padding-left: 3px }
+a.main    { color: black; font-size: 12px; font-weight: bold; text-decoration: none; padding-left: 3px }
+a.main:hover     { color: black }
+
+.sublevel  { color: #000000; font-size: 10px; font-weight: normal; text-decoration: none; background-color: #f8f8f8; text-align: center; display: block; width: 70px; border: solid 1px #d5d5d5 }
+a.sublevel  { color: black; font-size: 10px; font-weight: normal; text-decoration: none; background-color: #f8f8f8; text-align: center; display: block; width: 70px; border: solid 1px #333333 }
+a.sublevel:hover     { color: white; font-size: 10px; font-weight: normal; text-decoration: none; background-color: black; border: solid 1px }
+
+
+/*
+Forum
+*/
+.user_profile_title { color: black; font-size: 12px; font-weight: bold; background: #f8f8f8; padding: 2px; border: solid 1px #cccccc }
+
+
+/*
+ToendaSHOP
+*/
+.products_top  { font-size: 14px; background: #f8f8f8; text-align: left; margin: 0; padding-left: 4px; border-bottom: 2px dotted #9bb2b9 }
+a.products_top, a.products_top:link, a.products_top:visited, a.products_top:active    { color: black; font-size: 14px; font-weight: bold; text-decoration: none }
+a.products_top:hover   { color: black }
+
+.products_onetop   { background: #f8f8f8; text-align: left; margin: 0; padding-left: 4px; border-bottom: 2px dotted gray }
+
+
+
+
