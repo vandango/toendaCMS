@@ -1,0 +1,607 @@
+/*   
+	
+	Business Layout
+	
+	Design by Jonathan Naumann
+	http://www.toenda.com
+	http://vandango.org
+	
+	Its absolutly free!
+	
+*/
+
+
+
+
+html {
+	/* IE Horizontal scrollbar fix */
+	overflow-y: scroll;
+	/* force scrollbars in moz */
+	height: 100%;
+	margin-bottom: 1px;
+}
+
+body {
+	font-size: 11px;
+	font-family: 'Segoe UI', 'Trebuchet MS', Verdana, Arial, Sans-Serif;
+	color: #444;
+	background-color: #fff;
+	margin: 0;
+	padding: 0;
+}
+
+hr { display: none; }
+li { quotes:"\00BB" "\00AB" "\203A" "\2039"; }
+a img { border: none; }
+p img { padding: 0; max-width: 100%; }
+
+
+/*
+	header 1-6
+*/
+h1, h2, h3, h4 { font-family: 'Century Gothic', Verdana, Arial, Sans-Serif; }
+h2 { font-size: 2em; font-weight: bold; margin: 20px 0 0; letter-spacing: -1px; }
+h3 { font-size: 1.6em; font-weight: bold; letter-spacing: -1px; padding: 0; margin: 20px 0 0; }
+h4 { font-size: 1.2em; font-weight: bold; letter-spacing: -1px; padding: 0; margin: 20px 0 0; }
+h2 span a, h2 span a:visited, h3 span a, h3 span a:visited, h4 span a, h4 span a:visited, .sidebar span a, .sidebar span a:visited { font-weight: normal !important; }
+h2 span a span { display: none; }
+h2 span a:hover > span { display: inline; }
+h1, h1 a, h1 a:visited, .description { text-decoration: none; color: white; }
+h1 a:hover { text-decoration: none !important; }
+h2, h2 a, h2 a:visited, h3, h3 a, h3 a:visited, h4, h4 a, h4 a:visited { color: #444 !important; }
+h2, h2 a, h2 a:hover, h2 a:visited, h3, h3 a, h3 a:hover, h3 a:visited, h4, h4 a, h4 a:hover, h4 a:visited, .sidebar h2 { text-decoration: none; }
+
+
+/*
+	links
+*/
+a {
+	color: #363E57;
+	text-decoration: none;
+}
+
+a:hover, a:visited:hover {
+	text-decoration: underline;
+	color: #6B471D !important;
+}
+
+
+
+
+/*
+	page
+*/
+#page {
+	text-align: left;
+	background-color: white;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+
+/*
+	header
+*/
+#header {
+	padding: 0;
+	margin: 0;
+	display: block;
+	background: #4C637A;
+	height: 18px;
+	border-bottom: 1px solid #fff;
+	width: 100%;
+}
+
+
+/*
+	search
+*/
+.searchmenu{
+	padding: 1px 0 0 0;
+	margin: 0 0 0 14px;
+}
+
+
+/*
+	logo
+*/
+#logo {
+	padding: 0;
+	margin: 0;
+	height: 90px;
+	/*border-bottom: 1px solid #777;*/
+	color: #676767;
+}
+
+#logo h1 {
+	color: #676767;
+	font-size: 3em;
+	letter-spacing: -1px;
+	padding: 20px 0 0 77px;
+	font-weight: bold !important;
+}
+
+#logo .description {
+	padding: 0 0 0 117px;
+	margin: -25px 0 0 0;
+	font-size: 1.2em;
+	text-decoration: none;
+	letter-spacing: 3px;
+	color: #555;
+	font-weight: bold !important;
+}
+
+
+/*
+	menu
+*/
+.menu {
+	width: 960px;
+	text-align: right;
+	margin: -20px 0 0 0;
+}
+
+.menu a {
+	padding: 3px 15px 4px;
+	margin: 0 0 0 5px;
+}
+
+
+/*
+	hrule
+*/
+#hrule {
+	padding: 1px 0 0 0;
+	margin: 5px 0 0 0;
+	background: #efefef;
+	height: 348px;
+	width: 100%;
+	/*border-bottom: 1px solid #777;*/
+}
+
+#hruleContent {
+	padding: 1px 0 0 0;
+	margin: 5px 0 0 0;
+	background: #efefef;
+	height: 17px;
+	width: 100%;
+	/*border-bottom: 1px solid #777;*/
+}
+
+
+/*
+	mainpage
+*/
+#mainpage {
+	border-top: 1px solid #fff;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+
+
+/*
+	sidebar
+*/
+.sidebar {
+	font: 1.1em/1.5em 'Segoe UI', 'Trebuchet MS', Verdana, Arial, Sans-Serif;
+	padding: 0 0 0 10px;
+	float: left;
+	margin: 0px;
+	width: 180px;
+	height: 100%;
+	color: #333;
+	background-color: #EAF8F7;
+}
+
+.sidebarimage01{
+	width: 190px;
+	/*background: transparent url(siteimage02.jpg) no-repeat;*/
+	padding: 0;
+	font-size: 0px;
+	margin: 0 0 10px -10px;
+	height: 100px;
+	border-bottom: 1px solid #fff;
+}
+
+.sidebar h2 {
+	font-family: 'Lucida Grande', Verdana, Sans-Serif;
+	font-size: 1.5em;
+	color: #fff;
+	font-weight: normal;
+	margin: 20px 0 0;
+	padding: 0;
+}
+.sidebar ul, .sidebar ul ol { margin: 0; padding: 0; }
+.sidebar ul li, li { list-style-type: none; list-style-image: none; }
+.sidebar ul p, .sidebar ul select { margin: 0 0 0; }
+.sidebar ul ul, .sidebar ul ol { margin: 0 0 0; }
+.sidebar ul ul ul, .sidebar ul ol { margin: 0 0 0 10px; }
+ol li, .sidebar ul ol li { list-style: decimal outside; }
+.sidebar ul ul li, .sidebar ul ol li { margin: 0 0 0; padding: 0; }
+
+
+/*
+	sidebar
+*/
+.mainText {
+	width: 720px;
+	height: 100%;
+	font: 11px 'Lucida Grande', Verdana, Arial, Sans-Serif;
+	text-align: justify;
+	padding: 10px 25px 20px 25px;
+	margin: 0;
+	line-height: 1.5em;
+	float: left;
+}
+
+.mainText img { margin-left: 5px; padding: 4px; }
+
+
+/*
+	footer
+*/
+#footerline{
+	padding: 0;
+	margin: 0;
+	font-size: 1px;
+	background: #8CD2BC;
+	height: 2px;
+	border-top: 1px solid #fff;
+	width: 100%;
+}
+
+#footer {
+	border-top: 1px solid #fff;
+	width: 100%;
+	padding: 10px 0 10px 0;
+	margin: 0;
+	float: left;
+	letter-spacing: 1px;
+	background-color: #fff;
+	/* 4C637A */
+}
+
+
+/*
+	content footer
+*/
+.clear { clear: both; }
+
+
+/*
+	input
+*/
+input[type=text], textarea {
+	font: 1em Verdana, Arial, Helvetica, Sans-Serif;
+	border: 1px #999 solid;
+	background: #efefef;
+	margin: 0;
+	color: #676767;
+}
+
+input[type=password], textarea {
+	font: 1em Verdana, Arial, Helvetica, Sans-Serif;
+	border: 1px #aaa solid;
+	background: #efefef;
+	margin: 0;
+	color: #676767;
+}
+
+input[type=text]:focus, input[type=password]:focus, textarea:focus {
+	background: #fff;
+	color: #333;
+	border-color: #676767;
+}
+
+input, textarea {
+	padding: 2px 0 2px 2px;
+	margin: 0;
+}
+
+input[type=radio] { text-align: left; margin: 0; padding: 0; }
+input[type=checkbox] { text-align: right; margin: 0; padding: 0; }
+
+
+
+
+
+
+
+html>body .item ul { margin-left: 0px; padding: 0 0 0 20px; list-style: none; text-indent: -14px; } 
+html>body .item ul li { margin: 0 0 0 10px; }
+.item ul li:before { content: "\00BB \00A0 \00A0 "; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*******************************************************************
+	toendaCMS specific code
+*/
+
+.news_content_box{ padding-bottom: 10px; }
+
+
+/* legal */
+.legal { font-size: 9px; color: #777; }
+a.legal:link, a.legal:visited { color: #777; text-decoration: none; }
+a.legal:hover { color: #333 !important; text-decoration: underline; }
+/* E3A14C */
+
+
+/* title */
+.title { color: #676767 !important; }
+a.index { color: #676767 !important; }
+a.index:hover { text-decoration: none; color: #676767 !important; }
+.subtitle {}
+.sitelogo{ padding-top: 10px; padding-left: 10px; }
+
+
+/*
+	input
+*/
+
+.inputtext {
+	font-size: 11px;
+	/*width: 245px;*/
+}
+
+.loginform {
+	width: 90px !important;
+}
+
+.logintext {
+	font-size: 11px;
+}
+
+.searchform {
+	width: 160px !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	height: 14px !important;
+	font-size: 10px !important;
+}
+
+.tcms_more {
+	font-size: 11px;
+}
+
+.inputbutton {
+	font-size: 11px;
+}
+
+.inputtextarea {
+	width: 400px;
+	height: 180px;
+	font-size: 11px;
+}
+
+.newsSubmit {
+	width: 690px;
+	height: 500px;
+	font-size: 11px;
+}
+
+
+/* content */
+.contentheading { font-family: 'Segoe UI', 'Trebuchet MS', Verdana, Arial, Sans-Serif; font-size: 15px; font-weight: bold; }
+.contentstamp { font-family: 'Segoe UI', 'Trebuchet MS', Verdana, Arial, Sans-Serif; font-size: 13px; }
+.contentmain { font-family: 'Segoe UI', 'Trebuchet MS', Verdana, Arial, Sans-Serif; font-size: 11px; }
+
+.newsCategories{ font-family: Arial, Helvetica, Sans-Serif; font-size: 10px; line-height: 1.5em; color: #777; }
+
+.text_small{ font-family: Arial, Helvetica, Sans-Serif; font-size: 10px; line-height: 1.5em; color: #777; }
+.text_normal{ font-size: 11px; }
+.text_big{ font-size: 14px; }
+.text_huge{ font-size: 15px; }
+
+.book_content{ font-size: 11px; }
+
+
+/* news */
+.news_title_bg { text-align: justify; }
+.news_title_bg a {
+	color: #444;
+	font-family: 'Century Gothic', Verdana, Sans-Serif;
+	font-size: 14px;
+	text-decoration: none;
+}
+.news_title_bg a:hover {
+	color: #4C637A !important;
+	font-family: 'Century Gothic', Verdana, Sans-Serif;
+	font-size: 14px;
+	text-decoration: underline;
+}
+.news_content_bg{ font-size: 11px; }
+
+
+/* table title */
+.titleBG{ font-size: 14px; border-bottom: 2px #9bb2b9 solid; padding-left: 4px; margin: 0px; }
+tr.titleBG{ font-size: 14px; border-bottom: 2px #9bb2b9 solid; padding-left: 4px; margin: 0px; }
+td.titleBG{ font-size: 14px; border-bottom: 2px #9bb2b9 solid; padding-left: 4px; margin: 0px; }
+th.titleBG{ font-size: 14px; border-bottom: 2px #9bb2b9 solid; padding-left: 4px; margin: 0px; }
+.download_top{ font-size: 14px;	border-bottom: 2px #9bb2b9 solid; padding-left: 4px; margin: 0px; text-align: left; }
+
+
+/* misc */
+.hr_line{ height: 1px; background-color: #ccc; display: block; border: 0px; }
+
+
+/* poll */
+.poll_sheet {
+	background-color: #f6f6f6;
+	border: 1px solid #eee;
+	font-size: 10px;
+	color: #111;
+}
+.poll_sidebar {
+	width: 200px;
+}
+
+
+/* sidebar content */
+.sideheading { font-size: 11px; font-weight: bold; color: #333333; text-align: left; }
+.sidemain { font-size: 10px; line-height: 12px; color: #444444; }
+
+
+/* impressum */
+.imptitle { font-size: 13px; padding-left: 5px; }
+.impoffice { padding-left: 38px; }
+
+
+/* comments */
+.comment_title{
+	font-family: 'Century Gothic', Verdana, Sans-Serif;
+	font-size: 17px;
+}
+.comment_text{
+	/*border-bottom: 1px solid #aaa;*/
+	padding: 5px 5px 5px 5px;
+	font-size: 11px;
+	display: block;
+}
+
+
+/* search */
+.search_result_bar{
+	font-size: 12px;
+	color: #333333;
+	background: #f8f8f8;
+	padding-left: 2px;
+	border: 1px solid #cccccc;
+}
+.search_result{
+	font-size: 11px;
+	color: #333333;
+	background: #fafafa;
+	padding-left: 2px;
+	border: 1px solid #ececec;
+}
+
+
+/* navigation */
+.menutitle {
+	color: #444;
+	font-family: 'Lucida Grande', Verdana, Sans-Serif;
+	/*background: #efefef;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;*/
+	font-size: 1.5em;
+	font-weight: normal;
+	margin: 0 0 2px -10px;
+	display: block;
+	padding: 0 0 2px 10px;
+}
+
+
+/* pathway */
+.pathway { font-size: 10px; text-decoration: none; }
+a.pathway:link, a.pathway:visited { font-size: 10px; text-decoration: none; }
+a.pathway:hover { font-size: 10px; text-decoration: underline; }
+
+
+/* mainlevel - mainmenu */
+a.mainlevel, a.mainlevel:link, a.mainlevel:visited, a.mainlevel:active { margin: 0; padding: 0 0 0 10px; text-decoration: none; }
+a.mainlevel:hover { text-decoration: underline; }
+
+
+/* submenu - submenu */
+a.submenu, 
+a.submenu:link, 
+a.submenu:visited, 
+a.submenu:active {
+	margin: 0;
+	padding: 0 0 0 20px;
+	text-decoration: none;
+}
+a.submenu:hover {
+	text-decoration: underline;
+}
+
+
+/* submenu - sublevel2 */
+a.sublevel2, 
+a.sublevel2:link, 
+a.sublevel2:visited, 
+a.sublevel2:active {
+	margin: 0;
+	padding: 0 0 0 20px;
+	text-decoration: none;
+}
+a.sublevel2:hover {
+	text-decoration: underline;
+}
+
+
+/* toplevel - topmenu */
+a.toplevel, a.toplevel:link, a.toplevel:visited {
+	font: 1.1em Arial, Sans-Serif;
+	text-transform: lowercase;
+	color: #333;
+	letter-spacing: 1px;
+	text-decoration: none;
+}
+a.toplevel:hover {
+	color: #E3A14C !important;
+	text-decoration: none;
+	letter-spacing: 1px;
+}
+a.toplevelActive {
+	font: 1.1em Arial, Sans-Serif;
+	text-transform: lowercase;
+	border-top: 1px solid #777;
+	color: #879FB8 !important;
+	text-decoration: none;
+	letter-spacing: 1px;
+	font-weight: bold;
+}
+a.toplevelActive:hover {
+	text-decoration: none;
+	font-weight: bold;
+	color: #E3A14C !important;
+	text-decoration: none;
+	letter-spacing: 1px;
+	border-top: 1px solid #777;
+}
+
+
+/* mainlinks - default links */
+.main { padding-left: 3px; font-size: 11px; font-weight: bold; color: #333; text-decoration: none; }
+a.main { padding-left: 3px; font-size: 11px; font-weight: bold; color: #333; text-decoration: none; }
+a.main:hover { color: #336699; }
+
+
+/* forum */
+.user_profile_title{
+	font-size: 12px;
+	font-weight: bold;
+	color: #333333;
+	background: #f8f8f8;
+	padding: 2px;
+	border: 1px solid #cccccc;
+}
+
+
+/* ToendaSHOP */
+td.products_top{ border-bottom: 2px #9bb2b9 solid; font-size: 14px; padding-left: 4px; margin: 0px; text-align: left; }
+a.products_top, a.products_top:link, a.products_top:visited, a.products_top:active { color: #23598C; font-size: 14px; text-decoration: none; }
+a.products_top:hover { color: #000000; }
+.products_onetop{ padding-left: 4px; margin: 0px; text-align: left; }
+
+
+.contentFooter {
+	margin: 0 0 0 -10px;
+}
+
+
