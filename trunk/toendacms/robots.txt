@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /data/
+Disallow: /engine/
+Disallow: /setup/
+Disallow: /cache/
+Disallow: /theme/
+Disallow: /tmp/
