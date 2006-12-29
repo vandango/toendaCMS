@@ -1,0 +1,167 @@
+/*       _\|/_
+         (o o)
++-----oOO-{_}-OOo--------------------------------------------------------+
+| toendaCMS - Content Management and Weblogging System with XML and SQL  |
++------------------------------------------------------------------------+
+| Copyright (c) Toenda Software Development                              |
+| Author: Jonathan Naumann                                               |
++------------------------------------------------------------------------+
+| 
+| toendaCMS - Setup assistent
+| Default Theme
+|
+| File:		css.css
+| Version:	0.1.1
+|
++
+*/
+
+
+
+
+/*
+	GLOBAL CONFIGS
+*/
+
+body {
+	color: #000000;
+	font-size: 11px;
+	font-family: 'Segoe UI', 'Trebuchet MS', Verdana, Arial, Helvetica, Sans-serif;
+	margin: 0px;
+	background: #fff;
+}
+
+table, td, div {
+	color: #000000;
+	font-size: 11px;
+	font-family: 'Segoe UI', 'Trebuchet MS', Verdana, Arial, Helvetica, Sans-serif;
+	margin: 0px;
+}
+
+
+i {
+	color: #336699;
+	font-style: italic;
+}
+
+hr {
+	height: 1px;
+	display: block;
+	background: #ccc;
+	border: 0px solid #ccc;
+}
+
+textarea {
+	width: 300px;
+	height: 100px;
+}
+
+
+
+
+
+
+/*
+	GLOBAL CONFIGS
+*/
+
+.tcms_steps {
+	margin: 20px auto 0 auto;
+	width: 250px;
+}
+
+.tcms_mainbody {
+	margin: 20px auto 0 auto;
+	width: 700px;
+}
+
+.tcms_tablehead {
+	color: #fff;
+	background: transparent url(../images/head_table.png) no-repeat;
+	padding: 1px !important;
+	font-weight: bold;
+	font-size: 16px;
+	text-align: center;
+}
+
+.tcms_tablebody {
+	padding: 7px !important;
+	background: transparent url(../images/body_table.png) repeat-y;
+}
+
+.tcms_tablefooter {
+	padding: 3px !important;
+	background: transparent url(../images/footer_table.png) no-repeat;
+}
+
+.tcms_input {
+	font-family: 'Segoe UI', 'Trebuchet MS', Verdana, Arial, Helvetica, Sans-serif;
+	width: 200px;
+}
+
+.tcms_input_site {
+	font-family: 'Segoe UI', 'Trebuchet MS', Verdana, Arial, Helvetica, Sans-serif;
+	width: 380px;
+}
+
+
+
+
+
+
+/*
+	LINKS
+*/
+
+.tcms_dbimage:hover {
+	border-bottom: 5px solid #336699;
+}
+
+.tcms_legal {
+	font-size: 10px;
+	color: #404040;
+	font-family: 'Segoe UI', 'Trebuchet MS', Verdana, Arial, Helvetica, Sans-serif;
+	font-weight: bold;
+}
+
+a.tcms_legal:link, a.tcms_legal:visited {
+	font-size: 10px;
+	color: #404040;
+	text-decoration: none;
+	font-family: 'Segoe UI', 'Trebuchet MS', Verdana, Arial, Helvetica, Sans-serif;
+	font-weight: bold;
+}
+
+a.tcms_legal:hover {
+	font-size: 10px;
+	color: #640008;
+	text-decoration: underline;
+	font-weight: bold;
+}
+
+
+.tcms_main {
+	font-size: 13px;
+	color: #640008;
+	font-family: 'Segoe UI', 'Trebuchet MS', Verdana, Arial, Helvetica, Sans-serif;
+	font-weight: bold;
+}
+
+a.tcms_main:link, a.tcms_main:visited {
+	font-size: 13px;
+	color: #640008;
+	text-decoration: none;
+	font-family: 'Segoe UI', 'Trebuchet MS', Verdana, Arial, Helvetica, Sans-serif;
+	font-weight: bold;
+}
+
+a.tcms_main:hover {
+	font-size: 13px;
+	color: #336699;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+
+
+
