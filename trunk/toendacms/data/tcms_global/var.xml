@@ -13,7 +13,7 @@
 	<topmenu_active>1</topmenu_active>
 	<statistics>0</statistics>
 	<seo_enabled>1</seo_enabled>
-	<server_folder>toendacms</server_folder>
+	<server_folder>toendacms_svn/toendacms</server_folder>
 	<seo_format>1</seo_format>
 	<site_offline>0</site_offline>
 	<site_offline_text>This site is down for maintenance.<br /> Please check back again soon.</site_offline_text>

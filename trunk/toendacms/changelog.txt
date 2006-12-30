@@ -35,7 +35,7 @@ Developer Version
 	- 1.0.7 Development
 	- 1.1.0 Development
 
-Building Steps: 2320
+Building Steps: 2321
 
 
 
@@ -316,7 +316,7 @@ Building Steps: 2034
 
  - bug #0000019: timesince bug
  - bug #0000021: search bugs
- - bug #0000024: db pr�fix on installation, no user can be created
+ - bug #0000024: db pr?fix on installation, no user can be created
  - bug #0000027: send email bug
  - bug #0000028: search bugs
  - bug #0000029: create new newsletter user
@@ -1051,7 +1051,7 @@ Building Steps: 98
  - Translation packages (currently english and german,
    that was a great recode of all elements)
  - New Template
- - saving with charsets (äöü'"...)
+ - saving with charsets (??????'"...)
  - new section: help (currently information about the
    supported charsets)
 
