@@ -10,7 +10,7 @@
 | toendaCMS Kernel - System framework
 |
 | File:		tcms.lib.php
-| Version:	1.8.7
+| Version:	1.9.1
 |
 +
 */
@@ -58,6 +58,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getUserID                   -> Return ID for username or realname
  * getUserInfo                 -> Get some information about a user
  *
+ * getPathContentAmount        -> Get the amount of related files in a path (without directorys)
  * getPathContent              -> Return a array of all files or folders inside a path
  * getXMLFiles                 -> Return a array of all xml files inside a path
  * getDirectorySize            -> Get the complete filesize of a directory
@@ -495,6 +496,35 @@ class tcms_main {
 		}
 		
 		return $arr_ws;
+	}
+	
+	
+	
+	/**
+	 * Get the amount of related files in a path (without directorys)
+	 * 
+	 * @param String $path
+	 * @return Integer
+	 */
+	function getPathContentAmount($path){
+		$handle = opendir($path);
+		$i = 0;
+		
+		while ($dir = readdir($handle)) {
+			if ($dir != '.' 
+			&& $dir != '..' 
+			&& $dir != 'CVS' 
+			&& $dir != '.svn'
+			&& $dir != '_svn'
+			&& $dir != '.SVN'
+			&& $dir != '_SVN'
+			&& substr($dir, 0, 9) != 'comments_' 
+			&& $dir != 'index.html') {
+				$i++;
+			}
+		}
+		
+		return $i;
 	}
 	
 	
@@ -1523,7 +1553,15 @@ class tcms_main {
 		$i = 0;
 		while ($files = readdir ($handle)) {
 			$del_files[$i] = substr($files, 0, 4);
-			if ($files != '.' && $files != '..' && $del_files[$i] != 'del_' && $files != 'CVS' && $files != 'index.html') {
+			if ($files != '.' 
+			&& $files != '..' 
+			&& $del_files[$i] != 'del_' 
+			&& $files != 'CVS'
+			&& $files != '.svn'
+			&& $files != '_svn'
+			&& $files != '.SVN'
+			&& $files != '_SVN'
+			&& $files != 'index.html') {
 				$all_xml = new xmlparser($path.$files,'r');
 				$check_id = $all_xml->read_section($parenttag, $tag);
 				
@@ -1548,7 +1586,15 @@ class tcms_main {
 		$i = 0;
 		while ($files = readdir ($handle)) {
 			$del_files[$i] = substr($files, 0, 4);
-			if ($files != '.' && $files != '..' && $del_files[$i] != 'del_' && $files != 'CVS' && $files != 'index.html') {
+			if ($files != '.' 
+			&& $files != '..' 
+			&& $del_files[$i] != 'del_' 
+			&& $files != 'CVS' 
+			&& $files != '.svn'
+			&& $files != '_svn'
+			&& $files != '.SVN'
+			&& $files != '_SVN'
+			&& $files != 'index.html') {
 				$all_xml = new xmlparser($path.$files,'r');
 				$check_id  = $all_xml->read_section($parenttag, $tag);
 				$check_sub = $all_xml->read_section($parenttag, $tag2);
@@ -1576,7 +1622,15 @@ class tcms_main {
 		$i = 0;
 		while ($files = readdir ($handle)) {
 			$del_files[$i] = substr($files, 0, 4);
-			if ($files != '.' && $files != '..' && $del_files[$i] != 'del_' && $files != 'CVS' && $files != 'index.html') {
+			if ($files != '.' 
+			&& $files != '..' 
+			&& $del_files[$i] != 'del_' 
+			&& $files != 'CVS' 
+			&& $files != '.svn'
+			&& $files != '_svn'
+			&& $files != '.SVN'
+			&& $files != '_SVN'
+			&& $files != 'index.html') {
 				$all_xml = new xmlparser($path.$files,'r');
 				$check_id  = $all_xml->read_section($parenttag, $tag);
 				$check_sub = $all_xml->read_section($parenttag, $tag2);
@@ -1601,7 +1655,14 @@ class tcms_main {
 		$handle = opendir($path);
 		$i = 0;
 		while($dir = readdir($handle)){
-			if($dir != '.' && $dir != '..' && $dir != 'CVS' && $dir != 'index.html'){
+			if($dir != '.' 
+			&& $dir != '..' 
+			&& $dir != 'CVS' 
+			&& $files != '.svn'
+			&& $files != '_svn'
+			&& $files != '.SVN'
+			&& $files != '_SVN'
+			&& $dir != 'index.html'){
 				if(substr($dir, 0, 9) == 'comments_'){
 					$arr_dirContent[$i] = $dir;
 					$i++;
@@ -1621,7 +1682,14 @@ class tcms_main {
 		$handle = opendir($path);
 		$i = 0;
 		while($dir = readdir($handle)){
-			if($dir != '.' && $dir != '..' && $dir != 'CVS' && $dir != 'index.html'){
+			if($dir != '.' 
+			&& $dir != '..' 
+			&& $dir != 'CVS' 
+			&& $files != '.svn'
+			&& $files != '_svn'
+			&& $files != '.SVN'
+			&& $files != '_SVN'
+			&& $dir != 'index.html'){
 				$arrThis = $this->readdir_comment($path.$dir.'/');
 				
 				if(is_array($arrThis)){
@@ -1641,24 +1709,6 @@ class tcms_main {
 		else{
 			return ( isset($arr_dirAlbum) && $arr_dirAlbum != '' && !empty($arr_dirAlbum) ? $arr_dirAlbum : NULL );
 		}
-	}
-	
-	
-	
-	/***
-	* @return Array with files from directory
-	* @desc Return a array with the files in "path"
-	*/
-	function readdir_count($path){
-		$handle = opendir($path);
-		$i = 0;
-		while ($dir = readdir($handle)) {
-			if ($dir != '.' && $dir != '..' && $dir != 'CVS' && substr($dir, 0, 9) != 'comments_' && $dir != 'index.html') {
-				$arr_albums['files'][$i] = $dir;
-				$i++;
-			}
-		}
-		return $i;
 	}
 	
 	
@@ -1697,7 +1747,14 @@ class tcms_main {
 		$c = 0;
 		
 		while($directories = readdir($handle)){
-			if($directories != '.' && $directories != '..' && $directories != 'CVS' && $directories != 'index.html'){
+			if($directories != '.' 
+			&& $directories != '..' 
+			&& $directories != 'CVS' 
+			&& $directories != '.svn'
+			&& $directories != '_svn'
+			&& $directories != '.SVN'
+			&& $directories != '_SVN'
+			&& $directories != 'index.html'){
 				if(strpos($directories, '.css')){
 					$arr_css['files'][$i] = $directories;
 					$i++;
@@ -1715,7 +1772,14 @@ class tcms_main {
 			foreach($arr_css['dir'] as $key => $value){
 				$handle = opendir($path.'/'.$value);
 				while($directories = readdir($handle)){
-					if($directories != '.' && $directories != '..' && $directories != 'CVS' && $directories != 'index.html'){
+					if($directories != '.' 
+					&& $directories != '..' 
+					&& $directories != 'CVS' 
+					&& $directories != '.svn'
+					&& $directories != '_svn'
+					&& $directories != '.SVN'
+					&& $directories != '_SVN'
+					&& $directories != 'index.html'){
 						if(strpos($directories, '.css')){
 							$arr_css['files'][$i] = $directories;
 							$i++;
@@ -1746,7 +1810,14 @@ class tcms_main {
 		if(!isset($s)){ $s = 0; }
 		
 		while ($directories = readdir ($handle)) {
-			if ($directories != '.' && $directories != '..' && $directories != 'CVS' && $directories != 'index.html') {
+			if ($directories != '.' 
+			&& $directories != '..' 
+			&& $directories != 'CVS' 
+			&& $directories != '.svn'
+			&& $directories != '_svn'
+			&& $directories != '.SVN'
+			&& $directories != '_SVN'
+			&& $directories != 'index.html') {
 				
 				$arr_xml['files'][$i] = $directories;
 				
@@ -1876,7 +1947,15 @@ class tcms_main {
 		
 		$check_handle = opendir($pp.'session/');
 		while($check_file = readdir($check_handle)){
-			if($check_file != '.' && $check_file != '..' && $check_file != $session && $check_file != 'CVS' && $check_file != 'index.html'){
+			if($check_file != '.' 
+			&& $check_file != '..' 
+			&& $check_file != $session 
+			&& $check_file != 'CVS' 
+			&& $check_file != '.svn'
+			&& $check_file != '_svn'
+			&& $check_file != '.SVN'
+			&& $check_file != '_SVN'
+			&& $check_file != 'index.html'){
 				if(date('U') - date('U', filemtime($pp.'session/'.$check_file)) > 36000){ unlink($pp.'session/'.$check_file); }
 			}
 		}
@@ -2028,7 +2107,15 @@ class tcms_main {
 			$handle = opendir($this->administer.'/'.$sqlTable.'/');
 			$i = 0;
 			while ($dir = readdir($handle)) {
-				if ($dir != '.' && $dir != '..' && $dir != 'CVS' && substr($dir, 0, 9) != 'comments_' && $dir != 'index.html') {
+				if ($dir != '.' 
+				&& $dir != '..' 
+				&& $dir != 'CVS' 
+				&& $dir != '.svn'
+				&& $dir != '_svn'
+				&& $dir != '.SVN'
+				&& $dir != '_SVN'
+				&& substr($dir, 0, 9) != 'comments_' 
+				&& $dir != 'index.html') {
 					$xmlUser = new xmlparser($this->administer.'/'.$sqlTable.'/'.$dir, 'r');
 					
 					switch($sqlTable){
@@ -2651,7 +2738,14 @@ class tcms_main {
 		$handle = opendir($this->administer.'/tcms_content/');
 		$i = 0;
 		while ($files = readdir($handle)) {
-			if ($files != '.' && $files != '..' && $files != 'CVS' && $files != 'index.html') {
+			if ($files != '.' 
+			&& $files != '..' 
+			&& $files != 'CVS' 
+			&& $files != '.svn'
+			&& $files != '_svn'
+			&& $files != '.SVN'
+			&& $files != '_SVN'
+			&& $files != 'index.html') {
 				$maintag = substr($files, 0, 10);
 				
 				$all_xml = new xmlparser($this->administer.'/tcms_content/'.$files,'r');
@@ -2673,7 +2767,14 @@ class tcms_main {
 		$handle = opendir($this->administer.'/tcms_contacts/');
 		$i = 0;
 		while($files = readdir($handle)){
-			if($files != '.' && $files != '..' && $files != 'CVS' && $files != 'index.html'){
+			if($files != '.' 
+			&& $files != '..' 
+			&& $files != 'CVS' 
+			&& $files != '.svn'
+			&& $files != '_svn'
+			&& $files != '.SVN'
+			&& $files != '_SVN'
+			&& $files != 'index.html'){
 				$len = strlen($files);
 				$maintag = substr($files, 0, $len);
 				
@@ -2761,10 +2862,10 @@ class tcms_main {
 		$string = str_replace('<BR>', "\n" , $string);
 		$string = str_replace('<li>', "\n - " , $string);
 		$string = str_replace('<LI>', "\n - " , $string);
-		$string = str_replace('&bull;', "" , $string);
+		$string = str_replace('&bull;', "??" , $string);
 		$string = str_replace('& #039;', "'" , $string);
 		$string = str_replace('& ldquo;', "\"" , $string);
-		$string = str_replace('& euro;', "" , $string);
+		$string = str_replace('& euro;', "??" , $string);
 		$string = str_replace('& rdquo;', "\"" , $string);
 		$string = str_replace('& quot;', "\"" , $string);
 		$string = str_replace('& rsquo;', "'" , $string);
@@ -2799,7 +2900,15 @@ class tcms_main {
 		$i = 0;
 		
 		while($files = readdir ($handle)){
-			if($files != '.' && $files != '..' && $files != 'CVS' && substr($files, 0, 9) != 'comments_' && $files != 'index.html'){
+			if($files != '.' 
+			&& $files != '..' 
+			&& $files != 'CVS' 
+			&& $files != '.svn'
+			&& $files != '_svn'
+			&& $files != '.SVN'
+			&& $files != '_SVN'
+			&& substr($files, 0, 9) != 'comments_' 
+			&& $files != 'index.html'){
 				$chkXML = new xmlparser($path.$files, 'r');
 				$chkACS = $chkXML->read_section('news', 'access');
 				
@@ -2883,7 +2992,15 @@ class tcms_main {
 		$return = false;
 		
 		while($files = readdir ($handle)){
-			if($files != '.' && $files != '..' && $files != 'CVS' && substr($files, 0, 9) != 'comments_' && $files != 'index.html'){
+			if($files != '.' 
+			&& $files != '..' 
+			&& $files != 'CVS' 
+			&& $files != '.svn'
+			&& $files != '_svn'
+			&& $files != '.SVN'
+			&& $files != '_SVN'
+			&& substr($files, 0, 9) != 'comments_' 
+			&& $files != 'index.html'){
 				$chkXML = new xmlparser($path.$files, 'r');
 				$chkACS = $chkXML->read_section('contact', 'default_con');
 				
@@ -2949,6 +3066,19 @@ class tcms_main {
 		
 		Deprecated functions
 	*/
+	
+	
+	
+	/**
+	 * DEPRECATED: Get the amount of related files in a path (without directorys)
+	 * 
+	 * @deprecated
+	 * @param String $path
+	 * @return Integer
+	 */
+	function readdir_count($path){
+		return $this->getPathContentAmount($path);
+	}
 	
 	
 	
@@ -3225,7 +3355,14 @@ class tcms_main {
 		$handle = opendir($path);
 		$i = 0;
 		while ($directories = readdir ($handle)) {
-			if ($directories != '.' && $directories != '..' && $directories != 'CVS' && $directories != 'index.html') {
+			if ($directories != '.' 
+			&& $directories != '..' 
+			&& $directories != 'CVS' 
+			&& $directories != '.svn'
+			&& $directories != '_svn'
+			&& $directories != '.SVN'
+			&& $directories != '_SVN'
+			&& $directories != 'index.html') {
 				
 				if(strpos($directories, '.xml')){
 					$arr_xml['files'][$i] = $directories;
@@ -3241,9 +3378,9 @@ class tcms_main {
 	
 	
 	/**
-	 * @deprecated
 	 * Checks if a file is CHMODable
 	 * 
+	 * @deprecated
 	 * @return Boolean
 	 */
 	function canCHMOD($file){

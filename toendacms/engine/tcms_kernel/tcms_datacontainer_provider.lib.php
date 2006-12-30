@@ -10,7 +10,7 @@
 | toendaCMS Data Container Provider
 |
 | File:		tcms_datacontainer_provider.lib.php
-| Version:	0.4.1
+| Version:	0.4.3
 |
 +
 */
@@ -27,27 +27,28 @@ defined('_TCMS_VALID') or die('Restricted access');
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
+ *
+ * <code>
+ * 
+ * TCMS Data Container methods
+ *
+ * __construct($charset, $tcms_administer_path = 'data')         -> PHP5 Constructor
+ * tcms_datacontainer_provider($charset, $tcms_administer_path)  -> PHP4 Constructor
+ *
+ * getNewsDC($newsID)                                            -> Get a specific news data container
+ * getNewsDCList($usergroup = '', $amount, $published = '1')     -> Get a list of news data container
+ *
+ * getCommentDCList($news, $module = 'news', $load = true)       -> Get a list of news data container
+ *
+ * getContentDC($contentID)                                      -> Get a specific content data container
+ *
+ * getImpressumtDC()                                             -> Get a impressum data container
+ *
+ * getSidebarModuleDC()                                          -> Get a sidebarmodul data container
+ * 
+ * </code>
+ *
  */
-
-
-/**********************************
-* TCMS Data Container methods
-*
-* __construct($charset, $tcms_administer_path = 'data')         -> PHP5 Constructor
-* tcms_datacontainer_provider($charset, $tcms_administer_path)  -> PHP4 Constructor
-*
-* getNewsDC($newsID)                                            -> Get a specific news data container
-* getNewsDCList($usergroup = '', $amount, $published = '1')     -> Get a list of news data container
-*
-* getCommentDCList($news, $module = 'news', $load = true)       -> Get a list of news data container
-*
-* getContentDC($contentID)                                      -> Get a specific content data container
-*
-* getImpressumtDC()                                             -> Get a impressum data container
-*
-* getSidebarModuleDC()                                          -> Get a sidebarmodul data container
-*
-*/
 
 
 class tcms_datacontainer_provider extends tcms_main {
@@ -279,7 +280,7 @@ class tcms_datacontainer_provider extends tcms_main {
 		$doFill = false;
 		
 		if($this->m_choosenDB == 'xml'){
-			$arr_filename = $this->readdir_ext($this->m_path.'/tcms_news/');
+			$arr_filename = $this->getPathContent($this->m_path.'/tcms_news/');
 			
 			$count = 0;
 			
@@ -297,16 +298,16 @@ class tcms_datacontainer_provider extends tcms_main {
 						$is_date = mktime(substr($is_date, 11, 2), substr($is_date, 14, 2), 0, substr($is_date, 3, 2), substr($is_date, 0, 2), substr($is_date, 6, 4));
 						
 						if($is_pub == 1 && $is_date < time()){
-              $is_sof = $xml->read_section('news', 'show_on_frontpage');
-              //if($is_sof == false) $is_sof  = 1;
-              
+							$is_sof = $xml->read_section('news', 'show_on_frontpage');
+							//if($is_sof == false) $is_sof  = 1;
+							
 							if($withShowOnFrontpage) {
 								if($is_sof == '1') {
 									$doFill = true;
 								}
-                else {
-                  $doFill = false;
-                }
+								else {
+									$doFill = false;
+								}
 							}
 							else {
 								$doFill = true;
@@ -327,7 +328,7 @@ class tcms_datacontainer_provider extends tcms_main {
 								$arr_news['pubd'][$count]  = $xml->read_section('news', 'publish_date');
 								$arr_news['image'][$count] = $xml->read_section('news', 'image');
 								$arr_news['acs'][$count]   = $is_auth;
-                $arr_news['sof'][$count]   = $is_sof;
+								$arr_news['sof'][$count]   = $is_sof;
 								
 								$xml->flush();
 								$xml->_xmlparser();
@@ -482,75 +483,75 @@ class tcms_datacontainer_provider extends tcms_main {
 				$wsPubD = mktime(substr($wsPubD, 11, 2), substr($wsPubD, 14, 2), 0, substr($wsPubD, 3, 2), substr($wsPubD, 0, 2), substr($wsPubD, 6, 4));
 				
 				if($wsPubD <= time()){
-          $wsSOF   = $sqlObj->show_on_frontpage;
-          if($wsSOF   == NULL) $wsSOF   = 1;
-          
-          if($withShowOnFrontpage) {
-            if($wsSOF == '1') {
-              $doFill = true;
-            }
-            else {
-              $doFill = false;
-            }
-          }
-          else {
-            $doFill = true;
-          }
-          
-          if($doFill) {
-            $newsDC = new tcms_dc_news();
-            
-            $wsTitle = $sqlObj->title;
-            $wsAutor = $sqlObj->autor;
-            $wsNews  = $sqlObj->newstext;
-            $wsPub   = $sqlObj->published;
-            $wsTime  = $sqlObj->time;
-            $wsDate  = $sqlObj->date;
-            $wsOrder = $sqlObj->uid;
-            $wsStamp = $sqlObj->stamp;
-            $wsCmt   = $sqlObj->comments_enabled;
-            $wsPubD  = $sqlObj->publish_date;
-            $wsImage = $sqlObj->image;
-            $wsAcs   = $sqlObj->access;
-            $wsCat   = $sqlObj->category;
-            
-            if($wsTitle == NULL) $wsTitle = '';
-            if($wsAutor == NULL) $wsAutor = '';
-            if($wsNews  == NULL) $wsNews  = '';
-            if($wsPub   == NULL) $wsPub   = '';
-            if($wsTime  == NULL) $wsTime  = '';
-            if($wsDate  == NULL) $wsDate  = '';
-            if($wsOrder == NULL) $wsOrder = '';
-            if($wsStamp == NULL) $wsStamp = '';
-            if($wsCat   == NULL) $wsCat   = '';
-            if($wsPubD  == NULL) $wsPubD  = '';
-            if($wsCmt   == NULL) $wsCmt   = '';
-            if($wsImage == NULL) $wsImage = '';
-            if($wsAcs   == NULL) $wsAcs   = '';
-            
-            $wsTitle = $this->decodeText($wsTitle, '2', $this->m_CHARSET);
-            $wsAutor = $this->decodeText($wsAutor, '2', $this->m_CHARSET);
-            $wsNews  = $this->decodeText($wsNews, '2', $this->m_CHARSET);
-            
-            $newsDC->SetTitle($wsTitle);
-            $newsDC->SetAutor($wsAutor);
-            $newsDC->SetDate($wsDate);
-            $newsDC->SetTime($wsTime);
-            $newsDC->SetText($wsNews);
-            $newsDC->SetID($wsOrder);
-            $newsDC->SetTimestamp($wsStamp);
-            $newsDC->SetPublished($wsPub);
-            $newsDC->SetPublishDate($wsPubD);
-            $newsDC->SetCommentsEnabled($wsCmt);
-            $newsDC->SetImage($wsImage);
-            $newsDC->SetCategories($wsCat);
-            $newsDC->SetAccess($wsAcs);
-            $newsDC->SetShowOnFrontpage($wsSOF);
-            
-            $arrReturn[$count] = $newsDC;
-            
-            $count++;
-          }
+					$wsSOF   = $sqlObj->show_on_frontpage;
+					if($wsSOF   == NULL) $wsSOF   = 1;
+					
+					if($withShowOnFrontpage) {
+						if($wsSOF == '1') {
+							$doFill = true;
+						}
+						else {
+							$doFill = false;
+						}
+					}
+					else {
+						$doFill = true;
+					}
+					
+					if($doFill) {
+						$newsDC = new tcms_dc_news();
+						
+						$wsTitle = $sqlObj->title;
+						$wsAutor = $sqlObj->autor;
+						$wsNews  = $sqlObj->newstext;
+						$wsPub   = $sqlObj->published;
+						$wsTime  = $sqlObj->time;
+						$wsDate  = $sqlObj->date;
+						$wsOrder = $sqlObj->uid;
+						$wsStamp = $sqlObj->stamp;
+						$wsCmt   = $sqlObj->comments_enabled;
+						$wsPubD  = $sqlObj->publish_date;
+						$wsImage = $sqlObj->image;
+						$wsAcs   = $sqlObj->access;
+						$wsCat   = $sqlObj->category;
+						
+						if($wsTitle == NULL) $wsTitle = '';
+						if($wsAutor == NULL) $wsAutor = '';
+						if($wsNews  == NULL) $wsNews  = '';
+						if($wsPub   == NULL) $wsPub   = '';
+						if($wsTime  == NULL) $wsTime  = '';
+						if($wsDate  == NULL) $wsDate  = '';
+						if($wsOrder == NULL) $wsOrder = '';
+						if($wsStamp == NULL) $wsStamp = '';
+						if($wsCat   == NULL) $wsCat   = '';
+						if($wsPubD  == NULL) $wsPubD  = '';
+						if($wsCmt   == NULL) $wsCmt   = '';
+						if($wsImage == NULL) $wsImage = '';
+						if($wsAcs   == NULL) $wsAcs   = '';
+						
+						$wsTitle = $this->decodeText($wsTitle, '2', $this->m_CHARSET);
+						$wsAutor = $this->decodeText($wsAutor, '2', $this->m_CHARSET);
+						$wsNews  = $this->decodeText($wsNews, '2', $this->m_CHARSET);
+						
+						$newsDC->SetTitle($wsTitle);
+						$newsDC->SetAutor($wsAutor);
+						$newsDC->SetDate($wsDate);
+						$newsDC->SetTime($wsTime);
+						$newsDC->SetText($wsNews);
+						$newsDC->SetID($wsOrder);
+						$newsDC->SetTimestamp($wsStamp);
+						$newsDC->SetPublished($wsPub);
+						$newsDC->SetPublishDate($wsPubD);
+						$newsDC->SetCommentsEnabled($wsCmt);
+						$newsDC->SetImage($wsImage);
+						$newsDC->SetCategories($wsCat);
+						$newsDC->SetAccess($wsAcs);
+						$newsDC->SetShowOnFrontpage($wsSOF);
+						
+						$arrReturn[$count] = $newsDC;
+						
+						$count++;
+					}
 				}
 			}
 			
