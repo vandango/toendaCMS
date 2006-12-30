@@ -10,7 +10,7 @@
 | Global Configuration
 |
 | File:		mod_global.php
-| Version:	1.0.8
+| Version:	1.0.9
 |
 +
 */
@@ -241,7 +241,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	echo '<script>
 	var CHANGED = false;
 	var RELOCATE = "0";
-	var _tcmsVALUE = "Site is proudly powered by toendaCMS &copy; 2003 - 2006 Toenda Software Development. All rights reserved.<br />toendaCMS is Free Software released under the GNU/GPL License.<br />";
+	var _tcmsVALUE = "Site is proudly powered by toendaCMS &copy; 2003 - 2007 Toenda Software Development. All rights reserved.<br />toendaCMS is Free Software released under the GNU/GPL License.<br />";
 	
 	function checkChanges(target){
 		if(CHANGED){

@@ -68,7 +68,7 @@ $tcms_administer_site = $tcms_site[0]['path'];
 
 // database
 require($tcms_administer_site.'/tcms_global/database.php');
-import($tcms_administer_site.'.database.settings');
+//import($tcms_administer_site.'.database.settings');
 
 $choosenDB = $tcms_db_engine;
 $sqlUser   = $tcms_db_user;
