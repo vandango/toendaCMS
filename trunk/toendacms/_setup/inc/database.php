@@ -10,7 +10,7 @@
 | Install database
 |
 | File:		database.php
-| Version:	0.5.6
+| Version:	0.5.7
 |
 +
 */
@@ -204,7 +204,7 @@ if($todo == 'update'){
 	.'</div>';
 	
 	echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-	.'<input checked="checked" name="new_update" type="radio" value="104_108" />'
+	.'<input checked="checked" name="new_update" type="radio" value="104_110" />'
 	.'</div>';
 	
 	echo '<div style="display: block; margin: 0 0 0 560px;">&nbsp;</div>';
@@ -218,7 +218,7 @@ if($todo == 'update'){
 	.'</div>';
 	
 	echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-	.'<input name="new_update" type="radio" value="103_108" />'
+	.'<input name="new_update" type="radio" value="103_110" />'
 	.'</div>';
 	
 	echo '<div style="display: block; margin: 0 0 0 560px;">&nbsp;</div>';
@@ -234,7 +234,7 @@ if($todo == 'update'){
 		.'</div>';
 		
 		echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-		.'<input name="new_update" type="radio" value="102_108" />'
+		.'<input name="new_update" type="radio" value="102_110" />'
 		.'</div>';
 		
 		echo '<div style="display: block; margin: 0 0 0 560px;">&nbsp;</div>';
@@ -249,22 +249,7 @@ if($todo == 'update'){
 	.'</div>';
 	
 	echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-	.'<input name="new_update" type="radio" value="100_108" />'
-	.'</div>';
-	
-	echo '<div style="display: block; margin: 0 0 0 560px;">&nbsp;</div>';
-	
-	
-	echo '<br />';
-	
-	
-	
-	echo '<div style="display: block; float: left; width: 220px; font-weight: bold;">'
-	._TCMS_DB_UPDATE_VERSION_100RC1
-	.'</div>';
-	
-	echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-	.'<input name="new_update" type="radio" value="100RC1_108" />'
+	.'<input name="new_update" type="radio" value="100_110" />'
 	.'</div>';
 	
 	echo '<div style="display: block; margin: 0 0 0 560px;">&nbsp;</div>';
@@ -279,7 +264,7 @@ if($todo == 'update'){
 	.'</div>';
 	
 	echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-	.'<input name="new_update" type="radio" value="070_108" />'
+	.'<input name="new_update" type="radio" value="070_110" />'
 	.'</div>';
 	
 	echo '<div style="display: block; margin: 0 0 0 560px;">&nbsp;</div>';
