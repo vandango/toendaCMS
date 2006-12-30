@@ -17,10 +17,10 @@
 	<reg_link>czoxMjoiUmVnaXN0ZXIgbm93Ijs=</reg_link>
 	<reg_user>czo4OiJVc2VybmFtZSI7</reg_user>
 	<reg_pass>czo4OiJQYXNzd29yZCI7</reg_pass>
-	<login_user>0</login_user>
+	<login_user>1</login_user>
 	<usermenu>1</usermenu>
 	<show_login_title>1</show_login_title>
 	<show_news_cat_amount>1</show_news_cat_amount>
-	<show_memberlist>0</show_memberlist>
+	<show_memberlist>1</show_memberlist>
 
 </side>

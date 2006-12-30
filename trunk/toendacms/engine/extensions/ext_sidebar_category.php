@@ -46,7 +46,7 @@ if($use_side_category == 1){
 	
 	
 	if($choosenDB == 'xml'){
-		$arrCatFile = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_news_categories/');
+		$arrCatFile = $tcms_main->getPathContent($tcms_administer_site.'/tcms_news_categories/');
 		
 		if($arrCatFile){
 			sort($arrCatFile);

@@ -10,7 +10,7 @@
 | Guestbook
 |
 | File:		ext_guestbook.php
-| Version:	0.4.1
+| Version:	0.4.2
 |
 +
 */
@@ -162,12 +162,12 @@ if($book_enabled == 1){
 			
 			if(isset($arr_guests) && !empty($arr_guests) && $arr_guests != ''){
 				array_multisort(
-					$arr_guests['date'], SORT_ASC, 
-					$arr_guests['time'], SORT_ASC, 
-					$arr_guests['name'], SORT_ASC, 
-					$arr_guests['mail'], SORT_ASC, 
-					$arr_guests['text'], SORT_ASC, 
-					$arr_guests['uid'], SORT_ASC
+					$arr_guests['date'], SORT_DESC, 
+					$arr_guests['time'], SORT_DESC, 
+					$arr_guests['name'], SORT_DESC, 
+					$arr_guests['mail'], SORT_DESC, 
+					$arr_guests['text'], SORT_DESC, 
+					$arr_guests['uid'], SORT_DESC
 				);
 			}
 		}

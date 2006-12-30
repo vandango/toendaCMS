@@ -995,14 +995,30 @@ if($cmd == '' && $news == ''){
 				}
 				
 				
-				if($nws_acc == 'Public'){ $show_this_news = true; }
+				if($nws_acc == 'Public') {
+					$show_this_news = true;
+				}
 				elseif($nws_acc == 'Protected'){
-					if($is_admin == 'User' || $is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor' || $is_admin == 'Presenter'){ $show_this_news = true; }
-					else{ $show_this_news = false; }
+					if($is_admin == 'User' 
+					|| $is_admin == 'Administrator' 
+					|| $is_admin == 'Developer' 
+					|| $is_admin == 'Writer' 
+					|| $is_admin == 'Editor' 
+					|| $is_admin == 'Presenter') {
+						$show_this_news = true;
+					}
+					else {
+						$show_this_news = false;
+					}
 				}
 				elseif($nws_acc == 'Private'){
-					if($is_admin == 'Administrator' || $is_admin == 'Developer'){ $show_this_news = true; }
-					else{ $show_this_news = false; }
+					if($is_admin == 'Administrator' 
+					|| $is_admin == 'Developer') {
+						$show_this_news = true;
+					}
+					else {
+						$show_this_news = false;
+					}
 				}
 				
 				
@@ -1181,7 +1197,11 @@ if($cmd == '' && $news == ''){
 			*/
 			if($use_news_comments == 1){
 				if($arr_newsItems['cmt'][$key] == 1){
-					if($choosenDB == 'xml'){ $nw_amount = $tcms_main->readdir_count($tcms_administer_site.'/tcms_news/comments_'.$arr_newsItems['order'][$key].'/'); }
+					if($choosenDB == 'xml'){
+						$nw_amount = $tcms_main->getPathContentAmount(
+							$tcms_administer_site.'/tcms_news/comments_'.$arr_newsItems['order'][$key].'/'
+						);
+					}
 					else{
 						$sqlAL = new sqlAbstractionLayer($choosenDB);
 						$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
@@ -1438,16 +1458,17 @@ if($cmd == '' && $news == ''){
 
 
 
+// ------------------------------------------
+// ARCHIVE
+// ------------------------------------------
 
-
-/*******************************************
-*
-* Archive
-*
-*/
 if($news != 'start' && $cmd != 'comment_save'){
 	if($news == 'archive'){
 		if($cmd != 'category'){
+			// -----------------------------------
+			// Archive
+			// -----------------------------------
+			
 			$arrNewsDC = $tcms_dcp->getNewsDCList($is_admin, 0);
 			
 			echo '<table cellpadding="0" cellspacing="0" border="0" width="100%">';
@@ -1505,6 +1526,10 @@ if($news != 'start' && $cmd != 'comment_save'){
 			}
 		}
 		elseif($cmd == 'category'){
+			// -----------------------------------
+			// Category Archive
+			// -----------------------------------
+			
 			if($choosenDB == 'xml'){
 				if(!empty($arr_news) && $arr_news != '' && isset($arr_news)){
 					$arr_cat_files = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_news_categories/');
@@ -1673,7 +1698,7 @@ if($news != 'start' && $cmd != 'comment_save'){
 			
 			$sortPoint = false;
 			
-			if(!empty($arr_newsItems['stamp']) && $arr_newsItems['stamp'] != '' && isset($arr_newsItems['stamp'])){
+			if($tcms_main->isReal($arr_newsItems['stamp'])){
 				foreach ($arr_newsItems['stamp'] as $key => $value){
 					if($arr_newsItems['categ'][$key] != $arr_newsItems['categ'][$key - 1]){
 						$sortPoint = false;
@@ -1735,21 +1760,15 @@ if($news != 'start' && $cmd != 'comment_save'){
 
 
 
-
-
-
-
-
-
-//******************************************
+// ------------------------------------------
 // DELETE COMMENT
-//
+// ------------------------------------------
 
 if($check_session){
-	if($is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Presenter'){
+	if($is_admin == 'Administrator' 
+	|| $is_admin == 'Developer' 
+	|| $is_admin == 'Presenter'){
 		if($cmd == 'delete'){
-			//*****************************************
-			
 			if($choosenDB == 'xml'){ unlink($tcms_administer_site.'/tcms_news/comments_'.$XMLplace.'/'.$XMLfile); }
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB);
@@ -1767,8 +1786,6 @@ if($check_session){
 			document.location=\''.$link.'\';
 			alert(\''._MSG_DELETE.'\');
 			</script>';
-			
-			//*****************************************
 		}
 	}
 }
