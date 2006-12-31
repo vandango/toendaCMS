@@ -87,11 +87,18 @@ if($use_poll == 1){
 		array_multisort($arr_polls, SORT_ASC, SORT_NUMERIC);
 		
 		
-		/* CURRENT POLL    */ if(!isset($current_poll)){ $current_poll = $arr_polls[0]; }
-		/* CURRENT POLLTAG */ $current_poll_tag = substr($current_poll, 0, 32);
-		/* YOU IP          */ $your_ip = getenv('REMOTE_ADDR');
+		// CURRENT POLL
+		if(!isset($current_poll)) {
+			$current_poll = $arr_polls[0];
+		}
 		
-		/* HAVE YOU VOTE?  */
+		// CURRENT POLLTAG
+		$current_poll_tag = substr($current_poll, 0, 32);
+		
+		// YOU IP
+		$your_ip = getenv('REMOTE_ADDR');
+		
+		// HAVE YOU VOTE?
 		if($choosenDB == 'xml'){
 			$arr_polls = $tcms_main->getXMLFiles($tcms_administer_site.'/tcms_polls/'.$current_poll_tag);
 		}
