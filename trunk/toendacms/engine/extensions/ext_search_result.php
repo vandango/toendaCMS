@@ -10,7 +10,7 @@
 | Search Result Page
 |
 | File:		ext_search_result.php
-| Version:	0.4.9
+| Version:	0.5.0
 |
 +
 */
