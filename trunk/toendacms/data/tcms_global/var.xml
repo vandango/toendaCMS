@@ -2,7 +2,7 @@
 	<menu>1</menu>
 	<second_menu>1</second_menu>
 	<meta></meta>
-	<charset>UTF-8</charset>
+	<charset>ISO-8859-1</charset>
 	<wysiwyg>tinymce</wysiwyg>
 	<lang>english_EN</lang>
 	<front_lang>english_EN</front_lang>
