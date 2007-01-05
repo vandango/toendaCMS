@@ -190,14 +190,26 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 					$tcms_gd = new tcms_gd();
 					
 					if($action == 'image'){
-						if(!file_exists('../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue))
-							$tcms_gd->createThumbnail('../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ), '../../'.$tcms_administer_site.'/images/upload_thumb/', $dvalue, 100);
+						if(!file_exists('../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue)) {
+							$tcms_gd->createThumbnail(
+								'../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ), 
+								'../../'.$tcms_administer_site.'/images/upload_thumb/', 
+								$dvalue, 
+								100
+							);
+						}
 						
 						$tcms_gd->readImageInformation('../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue);
 					}
 					else{
-						if(!file_exists('../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue))
-							$tcms_gd->createThumbnail('../../'.$tcms_administer_site.'/images/knowledgebase/', '../../'.$tcms_administer_site.'/images/upload_thumb/', $dvalue, 100);
+						if(!file_exists('../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue)) {
+							$tcms_gd->createThumbnail(
+								'../../'.$tcms_administer_site.'/images/knowledgebase/', 
+								'../../'.$tcms_administer_site.'/images/upload_thumb/', 
+								$dvalue, 
+								100
+							);
+						}
 						
 						$tcms_gd->readImageInformation('../../'.$tcms_administer_site.'/images/knowledgebase/'.$dvalue);
 					}

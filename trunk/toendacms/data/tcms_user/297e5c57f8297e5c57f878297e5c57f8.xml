@@ -5,7 +5,11 @@
 	<email>info@toenda.com</email>
 	<group>Administrator</group>
 	<join_date>2005.10.08-17:11:43</join_date>
+<<<<<<< .mine
+	<last_login>2007.01.04-20:18:16</last_login>
+=======
 	<last_login>2007.01.01-23:42:36</last_login>
+>>>>>>> .r109
 	<birthday>01.1.</birthday>
 	<gender>-</gender>
 	<occupation>czowOiIiOw==</occupation>

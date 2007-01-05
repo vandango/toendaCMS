@@ -852,7 +852,7 @@ define('_GLOBAL_PDFLINK_IN_FOOTER', 'PDF Link im Footer anzeigen');
 define('_GLOBAL_CACHE_CONTROL', 'Suchmaschinen-Chache Einstellungen');
 define('_GLOBAL_PRAGMA', 'Suchmaschinen Pragma');
 define('_GLOBAL_EXPIRES', 'Webseite kann ablaufen?');
-define('_GLOBAL_ROBOTSSETTINGS', 'Einstellungen für den Webseiten Bot');
+define('_GLOBAL_ROBOTSSETTINGS', 'Einstellungen f?r den Webseiten Bot');
 define('_GLOBAL_LAST_CHANGES', 'Letzte &Aumml;nderung an der Webseite');
 
 
@@ -973,7 +973,7 @@ define('_FORM_FOLLOWMSG', 'Folgende Nachricht wurde ueber unser Kontaktformular 
 define('_FORM_YOUR', 'Ihr');
 define('_FORM_CFORM', 'Kontaktformular');
 define('_FORM_SYSTEM', 'Diese Nachricht wurde von unserem System generiert. Bitte antworten Sie nicht darauf.');
-define('_FORM_GREETS', 'Mit freundlichem Gruß');
+define('_FORM_GREETS', 'Mit freundlichem Gru?');
 define('_FORM_FROM', 'Dies ist ein Newsletter von ');
 
 
@@ -1208,6 +1208,11 @@ define('_IMPORT_OOO2_DOCBOOK_XML_DESC', 'Importiert Dokumente von als <em>DocBoo
 define('_CS_UPLOAD_TEXT', 'Wenn Sie eine .zip Datei haben, benutzen Sie den Installationsdialog f&uuml;r gepackte Dateien. Ansonsten kopieren Sie die komplette Komponente (Ordner mit allen ben&ouml;tigten Dateien) in den Komponenten Ordner (data/components).');
 define('_CS_UPLOAD_ZTITLE', 'Gepackte Datei hochladen und installieren');
 define('_CS_UPLOAD_ZFILE', 'Gepackte Datei (.zip)');
+
+
+// LANGUAGE LIST
+define('_LANG_GERMAN', 'Deutsch');
+define('_LANG_ENGLISH', 'Englisch');
 
 
 // COUNTRY LIST

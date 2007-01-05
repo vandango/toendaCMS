@@ -296,12 +296,17 @@ switch($id){
 	case $imp_id         : break;
 	
 	default:
-		/*echo '&nbsp;&nbsp;'
+		echo '&nbsp;&nbsp;'
 		.'this page in: '
-		.'<select name="doc_language">'
-		.'<option value="">Default language</option>'
-		.'<option value="germany_DE">German</option>'
-		.'</select>';*/
+		.'<select name="doc_language">';
+		//.'<option value="">Default language</option>'
+		
+		
+		foreach($languages['tag'] as $key => $val) {
+			echo '<option value="'.$val.'">'.$languages['name'][$key].'</option>';
+		}
+		
+		echo '</select>';
 		break;
 }
 

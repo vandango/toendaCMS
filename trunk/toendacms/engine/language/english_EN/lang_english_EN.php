@@ -1209,6 +1209,11 @@ if(!defined('_CS_UPLOAD_ZTITLE'))              define('_CS_UPLOAD_ZTITLE', 'Uplo
 if(!defined('_CS_UPLOAD_ZFILE'))               define('_CS_UPLOAD_ZFILE', 'Package File (.zip)');
 
 
+// LANGUAGE LIST
+if(!defined('_LANG_GERMAN'))                   define('_LANG_GERMAN', 'German');
+if(!defined('_LANG_ENGLISH'))                  define('_LANG_ENGLISH', 'English');
+
+
 // COUNTRY LIST
 if(!defined('_COUNTRY_AFGHANISTAN'))           define('_COUNTRY_AFGHANISTAN', 'Afghanistan');
 if(!defined('_COUNTRY_ALBANIA'))               define('_COUNTRY_ALBANIA', 'Albania');
