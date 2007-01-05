@@ -10,7 +10,7 @@
 | Imagegallery Manager
 |
 | File:		mod_gallery.php
-| Version:	0.7.4
+| Version:	0.7.5
 |
 +
 */
@@ -665,18 +665,6 @@ if($param_save_mode == 'off'){
 		.'</form>'
 		.'<br /><br />';
 		
-		//=========================================================================
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		
 		
@@ -696,7 +684,7 @@ if($param_save_mode == 'off'){
 		.'</tr>';
 		
 		
-		$arr_dir = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/images/albums/'.$value.'/');
+		$arr_dir = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/images/albums/'.$value.'/');
 		
 		if($tcms_main->isReal($arr_dir)){
 			foreach($arr_dir as $dkey => $dvalue){
@@ -708,15 +696,18 @@ if($param_save_mode == 'off'){
 					}
 					
 					if(!file_exists('../../'.$tcms_administer_site.'/thumbnails/'.$value.'/thumb_'.$dvalue)){
-						$tcms_gd->createThumbnail('../../'.$tcms_administer_site.'/images/albums/'.$value.'/', '../../'.$tcms_administer_site.'/thumbnails/'.$value.'/', $dvalue, '100');
+						$tcms_gd->createThumbnail(
+							'../../'.$tcms_administer_site.'/images/albums/'.$value.'/', 
+							'../../'.$tcms_administer_site.'/thumbnails/'.$value.'/', 
+							$dvalue, 
+							'100'
+						);
 					}
 					
 					$tcms_gd->readImageInformation('../../'.$tcms_administer_site.'/images/albums/'.$value.'/'.$dvalue);
 					
 					$img_o_width  = $tcms_gd->getImageWidth();
 					$img_o_height = $tcms_gd->getImageHeight();
-					
-					//*********************************************************************************
 					
 					$des_file = $dvalue;
 					
@@ -740,7 +731,9 @@ if($param_save_mode == 'off'){
 						if($old_tc  == NULL){ $old_tc  = ''; }
 					}
 					
-					if($old_des == '' || empty($old_des)){ $old_des == ''; }
+					if($old_des == '' || empty($old_des)) {
+						$old_des == '';
+					}
 					
 					// CHARSETS
 					$old_des = $tcms_main->decodeText($old_des, '2', $c_charset);
@@ -814,19 +807,11 @@ if($param_save_mode == 'off'){
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	/*
 		CREATE ALBUM
 		FROM FTP UPLOAD
 	*/
+	
 	if($gg_albums == 'createftp'){
 		$arr_ftp_album = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/images/albums/');
 		
@@ -994,18 +979,6 @@ if($param_save_mode == 'off'){
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	/*
 		GZ OR ZIP UPLOAD
 		AND INSTALL
@@ -1068,17 +1041,11 @@ if($param_save_mode == 'off'){
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
 	/*
 		save
 		imagegallery configuration
 	*/
+	
 	if($todo == 'save'){
 		if($use_image_details       == '' || !isset($use_image_details))     { $use_image_details       = 0; }
 		if($use_image_comments      == '' || !isset($use_image_comments))    { $use_image_comments      = 0; }
@@ -1156,15 +1123,11 @@ if($param_save_mode == 'off'){
 	
 	
 	
-	
-	
-	
-	
-	
 	/*
 		create new album
 		for imagegallery
 	*/
+	
 	if($todo == 'create'){
 		$album_path = substr($album_id, 6, 6);
 		
@@ -1227,16 +1190,11 @@ if($param_save_mode == 'off'){
 	
 	
 	
-	
-	
-	
-	
-	
-	
 	/*
 		delete / edit
 		albums
 	*/
+	
 	if($todo == 'albums'){
 		if(isset($delete) && $delete == 'yes'){
 			/*
@@ -1324,17 +1282,11 @@ if($param_save_mode == 'off'){
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
 	/*
 		edit / delete
 		image
 	*/
+	
 	if($todo == 'del_img'){
 		if(isset($delimg)){
 			/*
@@ -1407,16 +1359,11 @@ if($param_save_mode == 'off'){
 	
 	
 	
-	
-	
-	
-	
-	
-	
 	/*
 		upload
 		images
 	*/
+	
 	if($todo == 'upload'){
 		// image file upload
 		if($_FILES['event']['size'] > 0 && $tcms_main->isImage($_FILES['event']['type'])){

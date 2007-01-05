@@ -10,7 +10,7 @@
 | toendaCMS GD Class
 |
 | File:		tcms_gd.lib.php
-| Version:	0.2.4
+| Version:	0.2.6
 |
 +
 */
@@ -27,10 +27,9 @@ defined('_TCMS_VALID') or die('Restricted access');
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
- */
-
-
-/**
+ *
+ * <code>
+ * 
  * Methods
  * 
  * __construct                       -> PHP5 Constructor
@@ -48,6 +47,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * DEPRECATED gd_thumbnail_with_transparency    -> creates thumbnails in png with transparenzy
  * DEPRECATED createftp                         -> creates tcms album from uploaded album
  * DEPRECATED createftp_sql                     -> creates tcms album from uploaded album - sql
+ * 
+ * </code>
  *
  */
 
@@ -66,19 +67,17 @@ class tcms_gd {
 	
 	
 	
-	/***
-	* @return 
-	* @desc PHP5: Default constructor
-	*/
+	/**
+	 * PHP5: Default constructor
+	 */
 	function __construct(){
 	}
 	
 	
 	
-	/***
-	* @return 
-	* @desc PHP4: Default constructor
-	*/
+	/**
+	 * PHP4: Default constructor
+	 */
 	function tcms_gd(){
 		$this->__construct();
 	}
@@ -162,76 +161,90 @@ class tcms_gd {
 	 * @param String $image
 	 * @param Integer $size
 	 * @param Boolean $withTransparency = false
+	 * @return Boolean
 	 */
 	function createThumbnail($path, $targetPath, $image, $size, $withTransparency = false){
 		global $tcms_main;
 		
-		if(strpos($image, '.jpg') != false || 
-		strpos($image, '.jpeg') != false || 
-		strpos($image, '.jpe') != false || 
-		strpos($image, '.JPG') != false || 
-		strpos($image, '.JPEG') != false || 
-		strpos($image, '.JPE') != false)
-			$img_src = @imagecreatefromjpeg($path.$image);
+		$isImage = true;
 		
-		if(strpos($image, '.png') != false || 
-		strpos($image, '.PNG') != false)
-			$img_src = @imagecreatefrompng($path.$image);
-		
-		if(strpos($image, '.gif') != false || 
-		strpos($image, '.GIF') != false)
-			$img_src = @imagecreatefromgif($path.$image);
-		
-		$img_o_width  = @imagesx($img_src);
-		$img_o_height = @imagesy($img_src);
-		
-		$X_factor100  = $img_o_width/$size;
-		
-		$img_width    = $img_o_width/$X_factor100;
-		$img_height   = $img_o_height/$X_factor100;
-		
-		$img_path     = $targetPath.'thumb_'.$image;
-		
-		if($withTransparency){
-			$img_file = @imagecreatetruecolor($img_width, $img_height);
-		}
-		else{
-			$img_file = @imagecreate($img_width, $img_height);
-			
-			$this->readImageInformation($path.$image);
-			
-			if($this->m_version == '89a' && $this->m_colorFlag == 1){
-				$transparent = @imagecolorallocate($img_file, 
-					$this->m_transparentRed, 
-					$this->m_transparentGreen, 
-					$this->m_transparentBlue);
-				@imagecolortransparent ($img_file, $transparent);
-			}
-		}
-		
-		@imagecopyresampled($img_file, $img_src, 0, 0, 0, 0, $img_width, $img_height, $img_o_width, $img_o_height);
-		//imagecolortransparent($img_file);
-		//@imagepng($img_file, $img_path);
-		
-		switch($tcms_main->getMimeType($image)){
+		switch($tcms_main->getMimeType($path.$image, true)) {
 			case 'jpg':
 			case 'jpeg':
 			case 'jpe':
-			case 'JPG':
-			case 'JPEG':
-			case 'JPE':
-				@imagejpeg($img_file, $img_path);
+				$img_src = @imagecreatefromjpeg($path.$image);
 				break;
 			
 			case 'png':
-			case 'PNG':
-				@imagepng($img_file, $img_path);
+				$img_src = @imagecreatefrompng($path.$image);
 				break;
 			
 			case 'gif':
-			case 'GIF':
-				@imagegif($img_file, $img_path);
+				$img_src = @imagecreatefromgif($path.$image);
 				break;
+			
+			default:
+				$isImage = false;
+				break;
+		}
+		
+		if($isImage) {
+			$img_o_width  = @imagesx($img_src);
+			$img_o_height = @imagesy($img_src);
+			
+			$X_factor100  = $img_o_width / $size;
+			
+			$img_width    = $img_o_width / $X_factor100;
+			$img_height   = $img_o_height / $X_factor100;
+			
+			$img_path     = $targetPath.'thumb_'.$image;
+			
+			if($withTransparency){
+				$img_file = @imagecreatetruecolor($img_width, $img_height);
+			}
+			else{
+				$img_file = @imagecreate($img_width, $img_height);
+				
+				$this->readImageInformation($path.$image);
+				
+				if($this->m_version == '89a' && $this->m_colorFlag == 1){
+					$transparent = @imagecolorallocate($img_file, 
+						$this->m_transparentRed, 
+						$this->m_transparentGreen, 
+						$this->m_transparentBlue);
+					@imagecolortransparent ($img_file, $transparent);
+				}
+			}
+		
+			@imagecopyresampled($img_file, $img_src, 0, 0, 0, 0, $img_width, $img_height, $img_o_width, $img_o_height);
+			//imagecolortransparent($img_file);
+			//@imagepng($img_file, $img_path);
+		
+			switch($tcms_main->getMimeType($image)){
+				case 'jpg':
+				case 'jpeg':
+				case 'jpe':
+				case 'JPG':
+				case 'JPEG':
+				case 'JPE':
+					@imagejpeg($img_file, $img_path);
+					break;
+				
+				case 'png':
+				case 'PNG':
+					@imagepng($img_file, $img_path);
+					break;
+				
+				case 'gif':
+				case 'GIF':
+					@imagegif($img_file, $img_path);
+					break;
+			}
+			
+			return true;
+		}
+		else {
+			return false;
 		}
 	}
 	
@@ -366,6 +379,7 @@ class tcms_gd {
 	/**
 	 * DEPRECATED: Get information about an image
 	 *
+	 * @deprecated 
 	 * @return String
 	 */
 	function gd_imginfo($filename){
@@ -398,6 +412,7 @@ class tcms_gd {
 	 * DEPRECATED: Create a thumbnail of a image located in "path"
 	 * and save it to "target_path"
 	 *
+	 * @deprecated 
 	 * @param String $path
 	 * @param String $targetPath
 	 * @param String $image
@@ -447,6 +462,7 @@ class tcms_gd {
 	 * DEPRECATED: Create a thumbnail of a image with
 	 * transparency located in "path" and save it to "target_path"
 	 *
+	 * @deprecated 
 	 * @param String $path
 	 * @param String $targetPath
 	 * @param String $image
@@ -504,6 +520,7 @@ class tcms_gd {
 	 * DEPRECATED: Generates all the needed data xml files for a
 	 * ftp uploaded image folder
 	 * 
+	 * @deprecated 
 	 * @param String $path
 	 * @param String $targetPath
 	 */
@@ -534,6 +551,7 @@ class tcms_gd {
 	 * DEPRECATED: Generates all the needed data in the database for a
 	 * ftp uploaded image folder
 	 * 
+	 * @deprecated 
 	 * @param String $choosenDB
 	 * @param String $sqlUser
 	 * @param String $sqlPass

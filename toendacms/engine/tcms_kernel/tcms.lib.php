@@ -10,7 +10,7 @@
 | toendaCMS Kernel - System framework
 |
 | File:		tcms.lib.php
-| Version:	1.9.1
+| Version:	1.9.2
 |
 +
 */
@@ -686,9 +686,10 @@ class tcms_main {
 	 * Get the mimetype of an filename
 	 *
 	 * @param String $filename
+	 * @param Boolean $tolower = false
 	 * @return String
 	 */
-	function getMimeType($filename){
+	function getMimeType($filename, $tolower = false){
 		// get the filename from an url
 		if(substr($filename, 0, 7) == 'http://' || substr($filename, 0, 6) == 'ftp://'){
 			$filename = substr(strrchr($filename, "/"), 1);
@@ -710,7 +711,10 @@ class tcms_main {
 				$mime = strtolower(str_replace('.', '', $mime));
 		}
 		
-		return $mime;
+		if($tolower)
+			return strtolower($mime);
+		else
+			return $mime;
 	}
 	
 	

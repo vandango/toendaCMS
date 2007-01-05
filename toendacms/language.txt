@@ -36,6 +36,11 @@
 * ADD THIS
 *
 
+
+// LANGUAGE LIST
+if(!defined('_LANG_GERMAN'))                   define('_LANG_GERMAN', 'German');
+if(!defined('_LANG_ENGLISH'))                  define('_LANG_ENGLISH', 'English');
+
 if(!defined('_TCMS_TEST_ENVIRONMENT'))         define('_TCMS_TEST_ENVIRONMENT', 'THIS IS A TEST ENVIRONMENT!');
 
 if(!defined('_CONTACT_VCARD'))                 define('_CONTACT_VCARD', 'vCard');

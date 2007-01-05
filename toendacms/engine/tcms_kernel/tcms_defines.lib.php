@@ -10,7 +10,7 @@
 | Global constants and defines
 |
 | File:		tcms_defines.lib.php
-| Version:	0.4.7
+| Version:	0.4.8
 |
 +
 */
@@ -47,6 +47,16 @@ $arr_fs['tag'][6] = 'folder_txt';
 $arr_fs['des'][6] = _FOLDER_DOCU;
 $arr_fs['tag'][7] = 'folder_video';
 $arr_fs['des'][7] = _FOLDER_VID;
+
+
+
+/*
+	LANGUAGE NAMES
+*/
+$languages['tag'][0]  = 'germany_DE';
+$languages['name'][0] = _LANG_GERMAN;
+$languages['tag'][1]  = 'english_EN';
+$languages['name'][1] = _LANG_ENGLISH;
 
 
 
@@ -201,7 +211,7 @@ $sitetitle = $sitetitle;
 if(!defined('_SITE_TITLE')) define('_SITE_TITLE', $sitetitle);
 
 
-/* Auslesen der ID für die META Daten */
+/* Auslesen der ID f?r die META Daten */
 switch($id){
 	case 'profile': $id_meta_ad = ''; break;
 	case 'register': $id_meta_ad = ''; break;

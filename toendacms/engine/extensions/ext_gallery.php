@@ -10,7 +10,7 @@
 | Imagegallery
 |
 | File:		ext_gallery.php
-| Version:	0.5.7
+| Version:	0.6.0
 |
 +
 */
@@ -151,16 +151,27 @@ if($albums == 'start'){
 			.'<a href="'.$link.'">';
 			
 			if($arr_albums['image'][$key] != ''){
-				if(!is_dir($tcms_administer_site.'/thumbnails/'.$value.'/'))
+				if(!is_dir($tcms_administer_site.'/thumbnails/'.$value.'/')) {
 					mkdir($tcms_administer_site.'/thumbnails/'.$value.'/', 0777);
+				}
 				
-				if(!file_exists($tcms_administer_site.'/thumbnails/'.$value.'/thumb_'.$arr_albums['image'][$key]))
-					tcms_gd::createThumbnail($tcms_administer_site.'/images/albums/'.$value.'/', $tcms_administer_site.'/thumbnails/'.$value.'/', $arr_albums['image'][$key], 100);
+				if(!file_exists($tcms_administer_site.'/thumbnails/'.$value.'/thumb_'.$arr_albums['image'][$key])) {
+					$tcms_gd->createThumbnail(
+						$tcms_administer_site.'/images/albums/'.$value.'/', 
+						$tcms_administer_site.'/thumbnails/'.$value.'/', 
+						$arr_albums['image'][$key], 
+						'100'
+					);
+				}
 				
-				echo '<img style="border: 1px solid #333333;" src="'.$imagePath.$tcms_administer_site.'/thumbnails/'.$value.'/thumb_'.$arr_albums['image'][$key].'" border="0" align="left" />';
+				echo '<img style="border: 1px solid #333333;" '
+					.'src="'.$imagePath.$tcms_administer_site.'/thumbnails/'.$value.'/thumb_'.$arr_albums['image'][$key].'" '
+					.'border="0" align="left" />';
 			}
 			else{
-				echo '<img style="border: 1px solid #333333;" src="'.$imagePath.'engine/images/no_picture.gif" border="0" align="left" />';
+				echo '<img style="border: 1px solid #333333;" '
+					.'src="'.$imagePath.'engine/images/no_picture.gif" '
+					.'border="0" align="left" />';
 			}
 			
 			echo '</a></td>';
@@ -175,11 +186,6 @@ if($albums == 'start'){
 	
 	echo '</table>';
 }
-
-
-
-
-
 
 
 
