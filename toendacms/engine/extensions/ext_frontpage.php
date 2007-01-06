@@ -10,7 +10,6 @@
 | Frontpage
 |
 | File:		ext_frontpage.php
-| Version:	1.2.8
 |
 +
 */
@@ -19,6 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * Frontpage
+ *
+ * This module provides a frontpage with news and a text.
+ *
+ * @version 1.2.9
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Content Modules
+ */
 
 
 if(isset($_GET['save'])){ $save = $_GET['save']; }
@@ -38,9 +47,12 @@ if(isset($_POST['comment_text'])){ $comment_text = $_POST['comment_text']; }
 
 if(!isset($cmd)) $cmd = '';
 
-include_once('engine/tcms_kernel/datacontainer/tcms_dc_news.lib.php');
-include_once('engine/tcms_kernel/datacontainer/tcms_dc_comment.lib.php');
-include_once('engine/tcms_kernel/datacontainer/tcms_dc_account.lib.php');
+using('toendacms.datacontainer.news');
+using('toendacms.datacontainer.comment');
+using('toendacms.datacontainer.account');
+//include_once('engine/tcms_kernel/datacontainer/tcms_dc_news.lib.php');
+//include_once('engine/tcms_kernel/datacontainer/tcms_dc_comment.lib.php');
+//include_once('engine/tcms_kernel/datacontainer/tcms_dc_account.lib.php');
 
 $hr_line_1 = '<tr class="hr_line"><td colspan="2"></td></tr>';
 $hr_line_2 = '<tr style="height: 15px;"><td colspan="2"><br /><br /></td></tr>';
@@ -236,7 +248,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 							substr($dcNews->GetDate(), 6, 4)
 						);
 						
-						echo time_since($timestamp);
+						echo $tcms_blogfeatures->timeSince($timestamp);
 						break;
 					
 					case 2:
@@ -250,7 +262,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 						echo substr($dcNews->GetDate(), 6, 4)
 						.' '.substr($dcNews->GetTime(), 0, 2).':'
 						.substr($dcNews->GetTime(), 3, 2).'h';
-						echo ' '.time_of_day(substr($dcNews->GetTime(), 0, 2));
+						echo ' '.$tcms_blogfeatures->timeOfDay(substr($dcNews->GetTime(), 0, 2));
 						break;
 					
 					default:

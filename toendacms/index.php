@@ -11,7 +11,6 @@
 | Startpage and Main file for toendaCMS
 |
 | File:		index.php
-| Version:	2.2.7
 |
 +
 */
@@ -49,6 +48,7 @@ if(isset($_POST['contact_email'])){ $contact_email = $_POST['contact_email']; }
  * This is the global startfile and the page loading
  * control.
  *
+ * @version 2.3.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -87,17 +87,17 @@ $noSEOFolder = false;
 $isTestEnvironment = false;
 
 using('toendacms.kernel.time');
+using('toendacms.kernel.xml');
+using('toendacms.kernel.parameter');
+//using('toendacms.kernel.globals');
+include_once('engine/tcms_kernel/tcms_globals.lib.php');
+using('toendacms.kernel.configuration');
+using('toendacms.kernel.version');
+using('toendacms.kernel.html');
 
 tcms_time::tcms_load_start();
 if(isset($choosenDB) && $choosenDB != 'xml')
 	tcms_time::tcms_query_count_start();
-
-include_once('engine/tcms_kernel/tcms_xml.lib.php');
-include_once('engine/tcms_kernel/tcms_parameter.lib.php');
-include_once('engine/tcms_kernel/tcms_globals.lib.php');
-include_once('engine/tcms_kernel/tcms_configuration.lib.php');
-include_once('engine/tcms_kernel/tcms_version.lib.php');
-include_once('engine/tcms_kernel/tcms_html.lib.php');
 
 // params
 $tcms_param = new tcms_parameter();
@@ -131,6 +131,7 @@ if(file_exists($tcms_administer_site.'/tcms_global/var.xml')){
 	// language
 	$language_stage = 'index';
 	include_once('engine/language/lang_admin.php');
+	//using('toendacms.language.admin');
 	
 	// site offline / test application
 	if($site_offline == 1) {
@@ -315,21 +316,23 @@ if($wsShowSite){
 		using('toendacms.kernel.gd');
 		using('toendacms.kernel.components');
 		using('toendacms.kernel.sql');
-		include_once('engine/tcms_kernel/tcms_modconfig.lib.php');
-		include_once('engine/tcms_kernel/tcms_error.lib.php');
-		include_once('engine/tcms_kernel/tcms_file.lib.php');
-		include_once('engine/tcms_kernel/tcms_statistics.lib.php');
-		include_once('engine/tcms_kernel/tcms_blogfeatures.php');
-		include_once('engine/tcms_kernel/tcms_datacontainer_provider.lib.php');
-		include_once('engine/tcms_kernel/tcms_menu_provider.lib.php');
-		include_once('engine/tcms_kernel/tcms_account_provider.lib.php');
-		include_once('engine/tcms_kernel/tcms_authentication.lib.php');
+		using('toendacms.kernel.modconfig');
+		using('toendacms.kernel.error');
+		using('toendacms.kernel.file');
+		using('toendacms.kernel.statistics');
+		using('toendacms.kernel.blogfeatures');
+		using('toendacms.kernel.datacontainer_provider');
+		using('toendacms.kernel.menu_provider');
+		using('toendacms.kernel.account_provider');
+		using('toendacms.kernel.authentication');
+		using('toendacms.kernel.modconfig');
 		
-		include_once('engine/tcms_kernel/feedcreator/feedcreator.class.php');
-		include_once('engine/tcms_kernel/phpmailer/class.phpmailer.php');
+		using('toendacms.tools.feedcreator.feedcreator_class');
+		using('toendacms.tools.phpmailer.class_phpmailer');
 		
-		if($wysiwygEditor == 'fckeditor')
-			include_once('engine/js/FCKeditor/fckeditor.php');
+		if($wysiwygEditor == 'fckeditor') {
+			using('toendacms.js.FCKeditor.fckeditor');
+		}
 		
 		
 		
@@ -505,31 +508,6 @@ if($wsShowSite){
 				
 				
 				/*
-					some objects
-				*/
-				// account provider
-				$tcms_ap = new tcms_account_provider($tcms_administer_site, $c_charset);
-				
-				// configuration
-				$tcms_modconfig = new tcms_modconfig($tcms_administer_site, $imagePath);
-				
-				// datacontainer
-				$tcms_dcp = new tcms_datacontainer_provider($tcms_administer_site, $c_charset);
-				
-				// menu
-				$tcms_menu = new tcms_menu_provider($tcms_administer_site, $c_charset, $is_admin);
-				
-				// components system
-				if($use_components == 1) {
-					$tcms_cs = new tcms_cs($tcms_administer_site, $imagePath);
-				}
-				
-				// authentication
-				$tcms_auth = new tcms_authentication($tcms_administer_site, $c_charset, $imagePath);
-				
-				
-				
-				/*
 					IF ACTIVE
 					START THE STATISTIC COUNTER
 				*/
@@ -607,8 +585,37 @@ if($wsShowSite){
 				
 				
 				/*
+					some objects
+				*/
+				// account provider
+				$tcms_ap = new tcms_account_provider($tcms_administer_site, $c_charset);
+				
+				// configuration
+				$tcms_modconfig = new tcms_modconfig($tcms_administer_site, $imagePath);
+				
+				// datacontainer
+				$tcms_dcp = new tcms_datacontainer_provider($tcms_administer_site, $c_charset);
+				
+				// menu object provider
+				$tcms_menu = new tcms_menu_provider($tcms_administer_site, $c_charset, $is_admin);
+				
+				// components system
+				if($use_components == 1) {
+					$tcms_cs = new tcms_cs($tcms_administer_site, $imagePath);
+				}
+				
+				// authentication
+				$tcms_auth = new tcms_authentication($tcms_administer_site, $c_charset, $imagePath);
+				
+				// blogfeatures
+				$tcms_blogfeatures = new tcms_blogfeatures();
+				
+				
+				
+				/*
 					Web Site config from XML
 				*/
+				
 				$namen_xml = new xmlparser(''.$tcms_administer_site.'/tcms_global/namen.xml','r');
 				$sitetitle = $namen_xml->read_section('namen', 'title');
 				$sitename  = $namen_xml->read_section('namen', 'name');
@@ -679,7 +686,7 @@ if($wsShowSite){
 				*/
 				if($start_tcms_loading){
 					// Sidebar modules
-					include_once('engine/tcms_kernel/datacontainer/tcms_dc_sidebarmodule.lib.php');
+					using('toendacms.datacontainer.sidebarmodule');
 					
 					$dcSidebarModule = new tcms_dc_sidebarmodule();
 					$dcSidebarModule = $tcms_dcp->getSidebarModuleDC();
@@ -752,12 +759,12 @@ if($wsShowSite){
 							$cut_news = ( $cut_news == 0 ? '1000000' : $cut_news );
 							
 							if($use_trackback == 1){
-								include_once('engine/tcms_kernel/tcms_trackback.lib.php');
+								using('toendacms.kernel.trackback');
 							}
 							break;
 						
 						case 'impressum':
-							include_once('engine/tcms_kernel/datacontainer/tcms_dc_impressum.lib.php');
+							using('toendacms.datacontainer.impressum');
 							
 							$dcImpressum = new tcms_dc_impressum();
 							$dcImpressum = $tcms_dcp->getImpressumDC();
@@ -801,7 +808,7 @@ if($wsShowSite){
 							$link_news  = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$news_id.'&amp;s='.$s;
 							
 							if($use_trackback == 1){
-								include_once('engine/tcms_kernel/tcms_trackback.lib.php');
+								using('toendacms.kernel.trackback');
 							}
 							break;
 						
@@ -1062,6 +1069,7 @@ if($wsShowSite){
 							Inluce Defines
 						*/
 						include_once('engine/tcms_kernel/tcms_defines.lib.php');
+						//using('toendacms.kernel.defines');
 						
 						
 						/*
@@ -1095,6 +1103,7 @@ if($wsShowSite){
 					}
 					else{
 						include_once('engine/tcms_kernel/tcms_defines.lib.php');
+						//using('toendacms.kernel.defines');
 						include(_ERROR_404);
 					}
 				}

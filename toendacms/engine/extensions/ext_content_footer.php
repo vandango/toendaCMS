@@ -25,6 +25,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Content footer with links for the "top of page", "print" 
  * and "pdf" functions.
  *
+ * @version 0.4.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS

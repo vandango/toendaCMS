@@ -10,7 +10,6 @@
 | Contentcentral
 |
 | File:		ext_content.php
-| Version:	0.7.0
 |
 +
 */
@@ -24,13 +23,14 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used as a base content loader.
  *
+ * @version 0.7.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
  */
 
 
-include_once('engine/tcms_kernel/datacontainer/tcms_dc_content.lib.php');
+using('toendacms.datacontainer.content');
 
 if(!isset($ws_auth)) $ws_auth = 0;
 if(!isset($page)) $page = 1;

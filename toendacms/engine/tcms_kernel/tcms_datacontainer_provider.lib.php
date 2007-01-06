@@ -10,7 +10,6 @@
 | toendaCMS Data Container Provider
 |
 | File:		tcms_datacontainer_provider.lib.php
-| Version:	0.4.3
 |
 +
 */
@@ -24,14 +23,17 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
+ * @version 0.4.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
  *
  * <code>
  * 
+ * ---------------------------------------------
  * TCMS Data Container methods
- *
+ * ---------------------------------------------
+ * 
  * __construct($charset, $tcms_administer_path = 'data')         -> PHP5 Constructor
  * tcms_datacontainer_provider($charset, $tcms_administer_path)  -> PHP4 Constructor
  *
@@ -41,6 +43,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getCommentDCList($news, $module = 'news', $load = true)       -> Get a list of news data container
  *
  * getContentDC($contentID)                                      -> Get a specific content data container
+ * getContentLanguages                                           -> Get a list of content languages
  *
  * getImpressumtDC()                                             -> Get a impressum data container
  *
@@ -733,9 +736,11 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * Get a content data container
 	 * 
 	 * @param String $contentID
+	 * @param Boolean $withLanguages = false
+	 * @param String $language = ''
 	 * @return tcms_content_dc Object
 	 */
-	function getContentDC($contentID){
+	function getContentDC($contentID, $withLanguages = false, $language = ''){
 		$contentDC = new tcms_dc_content();
 		
 		if($this->m_choosenDB == 'xml'){
@@ -773,116 +778,18 @@ class tcms_datacontainer_provider extends tcms_main {
 			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
 			$sqlCN = $sqlAL->sqlConnect($this->m_sqlUser, $this->m_sqlPass, $this->m_sqlHost, $this->m_sqlDB, $this->m_sqlPort);
 			
-			$sqlQR = $sqlAL->sqlGetOne($this->m_sqlPrefix.'content', $contentID);
-			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
-			
-			$wsID         = $sqlObj->uid;
-			$wsTitle      = $sqlObj->title;
-			$wsKeynote    = $sqlObj->key;
-			$wsText       = $sqlObj->content00;
-			$wsSecondText = $sqlObj->content01;
-			$wsFootText   = $sqlObj->foot;
-			$wsLayout     = $sqlObj->db_layout;
-			$wsAutor      = $sqlObj->autor;
-			$wsInWork     = $sqlObj->in_work;
-			$wsPub        = $sqlObj->published;
-			$wsAcs        = $sqlObj->access;
-			
-			$sqlAL->sqlFreeResult($sqlQR);
-			$sqlAL->_sqlAbstractionLayer();
-			unset($sqlAL);
-			
-			if($wsTitle      == NULL) $wsTitle      = '';
-			if($wsAutor      == NULL) $wsAutor      = '';
-			if($wsKeynote    == NULL) $wsKeynote    = '';
-			if($wsSecondText == NULL) $wsSecondText = '';
-			if($wsText       == NULL) $wsText       = '';
-			if($wsFootText   == NULL) $wsFootText   = '';
-			if($wsID         == NULL) $wsID         = '';
-			if($wsLayout     == NULL) $wsLayout     = '';
-			if($wsInWork     == NULL) $wsInWork     = '';
-			if($wsPub        == NULL) $wsPub        = '';
-			if($wsAcs        == NULL) $wsAcs        = '';
-		}
-		
-		$wsTitle      = $this->decodeText($wsTitle, '2', $this->m_CHARSET);
-		$wsKeynote    = $this->decodeText($wsKeynote, '2', $this->m_CHARSET);
-		$wsText       = $this->decodeText($wsText, '2', $this->m_CHARSET);
-		$wsSecondText = $this->decodeText($wsSecondText, '2', $this->m_CHARSET);
-		$wsFootText   = $this->decodeText($wsFootText, '2', $this->m_CHARSET);
-		
-		$contentDC->SetTitle($wsTitle);
-		$contentDC->SetKeynote($wsKeynote);
-		$contentDC->SetText($wsText);
-		$contentDC->SetSecondContent($wsSecondText);
-		$contentDC->SetFootText($wsFootText);
-		$contentDC->SetAutor($wsAutor);
-		$contentDC->SetTextLayout($wsLayout);
-		$contentDC->SetID($wsID);
-		$contentDC->SetInWorkState($wsInWork);
-		$contentDC->SetPublished($wsPub);
-		$contentDC->SetAccess($wsAcs);
-		
-		return $contentDC;
-	}
-	
-	
-	
-	/**
-	 * Get a content language data container
-	 * 
-	 * @param String $id
-	 * @return tcms_content_dc Object
-	 */
-	function getContentLanguageDC($id) {
-		$contentDC = new tcms_dc_content();
-		
-		if($this->m_choosenDB == 'xml'){
-			$xml = new xmlparser($this->m_path.'/tcms_content_languages/'.$id.'.xml', 'r');
-			
-			$wsTitle      = $xml->read_section('main', 'title');
-			$wsKeynote    = $xml->read_section('main', 'key');
-			$wsText       = $xml->read_section('main', 'content00');
-			$wsSecondText = $xml->read_section('main', 'content01');
-			$wsFootText   = $xml->read_section('main', 'foot');
-			$wsID         = $xml->read_section('main', 'order');
-			$wsLayout     = $xml->read_section('main', 'db_layout');
-			$wsAutor      = $xml->read_section('main', 'autor');
-			$wsInWork     = $xml->read_section('main', 'in_work');
-			$wsAcs        = $xml->read_section('main', 'access');
-			$wsPub        = $xml->read_section('main', 'published');
-			
-			$xml->flush();
-			$xml->_xmlparser();
-			unset($xml);
-			
-			if($wsTitle      == false) $wsTitle      = '';
-			if($wsAutor      == false) $wsAutor      = '';
-			if($wsKeynote    == false) $wsKeynote    = '';
-			if($wsSecondText == false) $wsSecondText = '';
-			if($wsText       == false) $wsText       = '';
-			if($wsFootText   == false) $wsFootText   = '';
-			if($wsID         == false) $wsID         = '';
-			if($wsLayout     == false) $wsLayout     = '';
-			if($wsInWork     == false) $wsInWork     = '';
-			if($wsPub        == false) $wsPub        = '';
-			if($wsAcs        == false) $wsAcs        = '';
-		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->m_sqlUser, $this->m_sqlPass, $this->m_sqlHost, $this->m_sqlDB, $this->m_sqlPort);
-			
-			$sqlQR = $sqlAL->sqlGetOne($this->m_sqlPrefix.'content_languages', $id);
-			
-			while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)) {
+			if($withLanguages) {
+				$sql = "SELECT * "
+				."FROM ".$this->m_sqlPrefix."content_languages "
+				."WHERE content_uid = '".$id."' "
+				."AND language = '".$language."'";
 				
+				$sqlQR = $sqlAL->sqlQuery($sql);
+			}
+			else {
+				$sqlQR = $sqlAL->sqlGetOne($this->m_sqlPrefix.'content', $contentID);
 			}
 			
-			//
-			//
-			//
-			
-			
 			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
 			
 			$wsID         = $sqlObj->uid;
@@ -896,6 +803,12 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsInWork     = $sqlObj->in_work;
 			$wsPub        = $sqlObj->published;
 			$wsAcs        = $sqlObj->access;
+			
+			if($withLanguages) {
+				$wsLang = $sqlObj->language;
+				
+				if($wsLang == NULL) $wsLang = 'english_EN';
+			}
 			
 			$sqlAL->sqlFreeResult($sqlQR);
 			$sqlAL->_sqlAbstractionLayer();
@@ -931,6 +844,10 @@ class tcms_datacontainer_provider extends tcms_main {
 		$contentDC->SetInWorkState($wsInWork);
 		$contentDC->SetPublished($wsPub);
 		$contentDC->SetAccess($wsAcs);
+		
+		if($withLanguages) {
+			$contentDC->SetLanguage($wsLang);
+		}
 		
 		return $contentDC;
 	}

@@ -10,7 +10,6 @@
 | Newsmanager
 |
 | File:		ext_news.php
-| Version:	1.2.4
 |
 +
 */
@@ -19,6 +18,17 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * Newsmanager
+ *
+ * This module provides a news manager with a news,
+ * a news view and a archive with different formats.
+ *
+ * @version 1.2.5
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Content Modules
+ */
 
 
 if(isset($_GET['news'])){ $news = $_GET['news']; }
@@ -48,7 +58,8 @@ if(isset($_POST['trackback_url'])){ $trackback_url = $_POST['trackback_url']; }
 	init
 */
 
-include_once('engine/tcms_kernel/datacontainer/tcms_dc_news.lib.php');
+//include_once('engine/tcms_kernel/datacontainer/tcms_dc_news.lib.php');
+using('toendacms.datacontainer.news');
 
 $hr_line_1 = '<tr class="hr_line"><td colspan="2"></td></tr>';
 $hr_line_2 = '<hr class="hr_line" /><div style="height: '.$news_spacing.'px;">&nbsp;</div>';
@@ -326,7 +337,7 @@ if($news != 'start' && $cmd != 'comment_save' && $news != 'archive' && !isset($c
 					substr($dcNews->GetDate(), 6, 4)
 				);
 				
-				echo time_since($timestamp);
+				echo $tcms_blogfeatures->timeSince($timestamp);
 				break;
 			
 			case 2:
@@ -340,7 +351,7 @@ if($news != 'start' && $cmd != 'comment_save' && $news != 'archive' && !isset($c
 				echo substr($dcNews->GetDate(), 6, 4)
 				.' '.substr($dcNews->GetTime(), 0, 2).':'
 				.substr($dcNews->GetTime(), 3, 2).'h';
-				echo ' '.time_of_day(substr($dcNews->GetTime(), 0, 2));
+				echo ' '.$tcms_blogfeatures->timeOfDay(substr($dcNews->GetTime(), 0, 2));
 				break;
 			
 			default:
@@ -1161,7 +1172,7 @@ if($cmd == '' && $news == ''){
 						substr($arr_newsItems['date'][$key], 6, 4)
 					);
 					
-					echo time_since($timestamp);
+					echo $tcms_blogfeatures->timeSince($timestamp);
 					break;
 				
 				case 2:
@@ -1175,7 +1186,7 @@ if($cmd == '' && $news == ''){
 					echo substr($arr_newsItems['date'][$key], 6, 4)
 					.' '.substr($arr_newsItems['time'][$key], 0, 2).':'
 					.substr($arr_newsItems['time'][$key], 3, 2).'h';
-					echo ' '.time_of_day(substr($arr_newsItems['time'], 0, 2));
+					echo ' '.$tcms_blogfeatures->timeOfDay(substr($arr_newsItems['time'], 0, 2));
 					break;
 				
 				default:
