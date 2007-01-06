@@ -10,7 +10,7 @@
 | Global Configuration
 |
 | File:		mod_global.php
-| Version:	1.0.9
+| Version:	1.1.1
 |
 +
 */
@@ -19,6 +19,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * Global Configuration
+ *
+ * This module is for the global configuration settings.
+ *
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Admin Backend
+ * 
+ */
 
 
 if(isset($_GET['action'])){ $action = $_GET['action']; }
@@ -88,6 +98,7 @@ if(isset($_POST['new_expires'])){ $new_expires = $_POST['new_expires']; }
 if(isset($_POST['new_date'])){ $new_date = $_POST['new_date']; }
 if(isset($_POST['new_robots'])){ $new_robots = $_POST['new_robots']; }
 if(isset($_POST['new_last_changes'])){ $new_last_changes = $_POST['new_last_changes']; }
+if(isset($_POST['new_use_content_l'])){ $new_use_content_l = $_POST['new_use_content_l']; }
 
 if(isset($_POST['new_mail_with_smtp'])){ $new_mail_with_smtp = $_POST['new_mail_with_smtp']; }
 if(isset($_POST['new_mail_as_html'])){ $new_mail_as_html = $_POST['new_mail_as_html']; }
@@ -198,6 +209,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	$old_expires        = $globals_xml->read_section('global', 'expires');
 	$old_robots         = $globals_xml->read_section('global', 'robots');
 	$old_last_changes   = $globals_xml->read_section('global', 'last_changes');
+	$old_use_content_l  = $globals_xml->read_section('global', 'use_content_language');
 	
 	
 	
@@ -546,6 +558,19 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		// table rows
 		if($action == 'site'){
 			echo '<tr style="background: '.$arr_color[1].';">'
+			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_USE_CONTENT_LANG.'</td>'
+			.'<td>'
+			.'<input onchange="CHANGED = true;" type="checkbox" name="new_use_content_l"'.($old_use_content_l == 1 ? ' checked="checked"' : '' ).' value="1" />'
+			.'</td></tr>';
+		}
+		else{
+			echo '<input name="new_use_content_l" type="hidden" class="tcms_input_normal" value="'.$old_use_content_l.'" />';
+		}
+		
+		
+		// table rows
+		if($action == 'site'){
+			echo '<tr style="background: '.$arr_color[0].';">'
 			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_CHARSET.'</td>'
 			.'<td>'
 			.'<select onchange="CHANGED = true;" name="charset" class="tcms_select">';
@@ -561,7 +586,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		
 		// table rows
 		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[0].';">'
+			echo '<tr style="background: '.$arr_color[1].';">'
 			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_LANG.'</td>'
 			.'<td>'
 			.'<select onchange="CHANGED = true;" name="tmp_lang" class="tcms_select">';
@@ -577,7 +602,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		
 		// table rows
 		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[1].';">'
+			echo '<tr style="background: '.$arr_color[0].';">'
 			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_FRONT_LANG.'</td>'
 			.'<td>'
 			.'<select onchange="CHANGED = true;" name="tmp_front_lang" class="tcms_select">';
@@ -593,7 +618,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		
 		// table rows
 		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[0].';">'
+			echo '<tr style="background: '.$arr_color[1].';">'
 			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_CURRENCY.'</td>'
 			.'<td>'
 			.'<select onchange="CHANGED = true;" name="tmp_currency" class="tcms_select">';
@@ -609,7 +634,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		
 		// table rows
 		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[1].';">'
+			echo '<tr style="background: '.$arr_color[0].';">'
 			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_WYSIWYG.'</td>'
 			.'<td>'
 			.'<select onchange="CHANGED = true;" name="tmp_use_wysiwyg" class="tcms_select">'
@@ -626,7 +651,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		
 		// default news category
 		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[0].';">'
+			echo '<tr style="background: '.$arr_color[1].';">'
 			.'<td valign="top" width="'.$width.'" height="25">'._TABLE_DEFAULT_NEWS_CATEGORY.'</td>'
 			.'<td valign="top">'
 			.'<select onchange="CHANGED = true;" name="new_default_cat" class="tcms_select">';
@@ -642,7 +667,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		
 		// own website footer
 		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[1].';">'
+			echo '<tr style="background: '.$arr_color[0].';">'
 			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" valign="top" height="25">'._GLOBAL_FOOTER_TEXT.'</td>'
 			.'<td valign="top">'
 			.'<textarea onchange="CHANGED = true;" id="new_footer_text" name="new_footer_text" class="tcms_textarea_big">'.$old_footer_text.'</textarea>'
@@ -1563,6 +1588,7 @@ $tcms_mail_password    = \''.$new_mail_password.'\';
 		if(empty($new_admin_topmenu))    { $new_admin_topmenu     = 0; }
 		if(empty($new_pdflink))          { $new_pdflink           = 0; }
 		if(empty($new_expires))          { $new_expires           = 0; }
+		if(empty($new_use_content_l))    { $new_use_content_l     = 0; }
 		
 		//
 		//***********
@@ -1670,6 +1696,7 @@ $tcms_mail_password    = \''.$new_mail_password.'\';
 		$xmluser->write_value('expires', $new_expires);
 		$xmluser->write_value('robots', $new_robots);
 		$xmluser->write_value('last_changes', $new_last_changes);
+		$xmluser->write_value('use_content_language', $new_use_content_l);
 		
 		$xmluser->xml_section_buffer();
 		$xmluser->xml_section_end('global');

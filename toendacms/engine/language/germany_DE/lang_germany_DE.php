@@ -88,6 +88,7 @@ define('_TCMS_WEEKDAY', 'Wochentag');
 define('_TCMS_BASE_DIRECTORY', 'Basisverzeichnis');
 define('_TCMS_OPEN_DIRECTORY', 'Ordner &ouml;ffnen');
 define('_TCMS_TEST_ENVIRONMENT', 'DIES IST EINE TESTUMGEBUNG!');
+define('_TCMS_THIS_PAGE_IN', 'Diese Seite in');
 
 
 // BACKEND TOPMENU
@@ -854,6 +855,7 @@ define('_GLOBAL_PRAGMA', 'Suchmaschinen Pragma');
 define('_GLOBAL_EXPIRES', 'Webseite kann ablaufen?');
 define('_GLOBAL_ROBOTSSETTINGS', 'Einstellungen f?r den Webseiten Bot');
 define('_GLOBAL_LAST_CHANGES', 'Letzte &Aumml;nderung an der Webseite');
+define('_GLOBAL_USE_CONTENT_LANG', 'Multible Sprachen verwenden');
 
 
 // POLL
@@ -1213,6 +1215,17 @@ define('_CS_UPLOAD_ZFILE', 'Gepackte Datei (.zip)');
 // LANGUAGE LIST
 define('_LANG_GERMAN', 'Deutsch');
 define('_LANG_ENGLISH', 'Englisch');
+define('_LANG_BULGARIAN', 'Bulgarisch');
+define('_LANG_DUTCH', 'Niederl&auml;ndisch');
+define('_LANG_FINNISH', 'Finisch');
+define('_LANG_ITALY', 'Italienisch');
+define('_LANG_KOREAN', 'Koreanisch');
+define('_LANG_NORWEGIAN', 'Norwegisch');
+define('_LANG_PORTUGUES', 'Portugisisch');
+define('_LANG_ROMANIAN', 'Rum&auml;nisch');
+define('_LANG_SLOVAK', 'Slovenisch');
+define('_LANG_SPANISH', 'Spanisch');
+define('_LANG_SWEDISH', 'Swedisch');
 
 
 // COUNTRY LIST

@@ -10,7 +10,7 @@
 | toendaCMS Content DataContainer
 |
 | File:		tcms_dc_content.lib.php
-| Version:	0.0.3
+| Version:	0.0.5
 |
 +
 */
@@ -19,6 +19,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * toendaCMS Content data container
+ *
+ * This class is used as a datacontainer object for
+ * content items.
+ *
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage tcms_kernel
+ */
 
 
 class tcms_dc_content {
@@ -33,13 +43,55 @@ class tcms_dc_content {
 	var $m_pub;
 	var $m_autor;
 	var $m_in_work;
+	var $m_language;
+	
+	// ---------------------------------------
+	// Constructors / Destructors
+	// ---------------------------------------
+	
+	/**
+	 * PHP5 Constructor
+	 *
+	 */
+	function __construct() {
+	}
+	
+	/**
+	 * PHP4 Constructor
+	 *
+	 */
+	function tcms_dc_content(){
+		$this->__construct();
+	}
+	
+	// ---------------------------------------
+	// Properties
+	// ---------------------------------------
 	
 	/***
-	* @return
-	* @desc Constructor: initialize the content data container
+	 * Set the content id
+	 * 
+	 * @param String $value
+	 * @return String
 	*/
-	function tcms_dc_content(){
+	function SetID($value){
+		$this->m_id = $value;
 	}
+	
+	/**
+	 * Get the content id
+	 * 
+	 * @return String
+	 */
+	function GetID(){
+		return $this->m_id;
+	}
+	
+	
+	
+	
+	
+	
 	
 	/***
 	* @return string
@@ -77,13 +129,6 @@ class tcms_dc_content {
 	
 	/***
 	* @return string
-	* @desc Get or set the news id
-	*/
-	function SetID($value){ $this->m_id = $value; }
-	function GetID(){ return $this->m_id; }
-	
-	/***
-	* @return string
 	* @desc Get or set the content text layout
 	*/
 	function SetTextLayout($value){ $this->m_text_layout = $value; }
@@ -116,4 +161,27 @@ class tcms_dc_content {
 	*/
 	function SetInWorkState($value){ $this->m_in_work = $value; }
 	function GetInWorkState(){ return $this->m_in_work; }
+	
+	
+	
+	
+	
+	/***
+	 * Set the content language
+	 * 
+	 * @param String $value
+	 * @return String
+	*/
+	function SetLanguage($value){
+		$this->m_language = $value;
+	}
+	
+	/**
+	 * Get the content language
+	 * 
+	 * @return String
+	 */
+	function GetLanguage(){
+		return $this->m_language;
+	}
 }

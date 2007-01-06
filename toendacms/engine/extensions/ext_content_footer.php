@@ -10,7 +10,7 @@
 | Website Content Footer
 |
 | File:		ext_content_footer.php
-| Version:	0.4.0
+| Version:	0.4.3
 |
 +
 */
@@ -132,7 +132,7 @@ echo '</a>';
 	PDF
 */
 
-if($tcms_config->getPDFLink() == '1') {
+if($tcms_config->usePDFLink()) {
 	if($id != 'register' 
 	&& $id != 'profile' 
 	&& $id != 'polls' 
@@ -278,36 +278,56 @@ switch($id){
 	language settings
 */
 
-switch($id){
-	case 'register'      : break;
-	case 'profile'       : break;
-	case 'search'        : break;
-	case 'polls'         : break;
-	case 'knowledgebase' : break;
-	case 'components'    : break;
-	case $download_id    : break;
-	case $products_id    : break;
-	case $send_id        : break;
-	case 'links'         : break;
-	case $book_id        : break;
-	case $image_id       : break;
-	case $news_id        : break;
-	case $front_id       : break;
-	case $imp_id         : break;
-	
-	default:
-		echo '&nbsp;&nbsp;'
-		.'this page in: '
-		.'<select name="doc_language">';
-		//.'<option value="">Default language</option>'
+if($tcms_config->useContentLanguage()) {
+	switch($id){
+		case 'register'      : break;
+		case 'profile'       : break;
+		case 'search'        : break;
+		case 'polls'         : break;
+		case 'knowledgebase' : break;
+		case 'components'    : break;
+		case $download_id    : break;
+		case $products_id    : break;
+		case $send_id        : break;
+		case 'links'         : break;
+		case $book_id        : break;
+		case $image_id       : break;
+		case $news_id        : break;
+		case $front_id       : break;
+		case $imp_id         : break;
 		
-		
-		foreach($languages['tag'] as $key => $val) {
-			echo '<option value="'.$val.'">'.$languages['name'][$key].'</option>';
-		}
-		
-		echo '</select>';
-		break;
+		default:
+			$arr_langs = $tcms_dcp->getContentLanguages($id);
+			
+			if($tcms_main->isReal($arr_langs)) {
+				//display: block; float: 
+				echo '<br /><div style="none; margin: 3px 0 3px 0;">';
+				
+				echo _TCMS_THIS_PAGE_IN.': '
+				.'<select name="doc_language">';
+				
+				foreach($languages['fine'] as $key => $val) {
+					if(in_array($languages['code'][$key], $arr_langs)
+					|| $languages['code'][$key] == $tcms_config->getLanguageFrontend()) {
+						//
+						// pr?fen ob sprache in url, dann diese, sonst die default
+						//
+						
+						if($tcms_config->getLanguageFrontend() == $languages['code'][$key])
+							$dl = ' selected="selected"';
+						else
+							$dl = '';
+						
+						echo '<option value="'.$val.'"'.$dl.'>'.$languages['name'][$key].'</option>';
+					}
+				}
+				
+				echo '</select>';
+				
+				echo '</div>';
+			}
+			break;
+	}
 }
 
 
