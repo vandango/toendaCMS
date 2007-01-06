@@ -10,7 +10,7 @@
 | toendaCMS Configuration
 |
 | File:		tcms_configuration.lib.php
-| Version:	0.2.4
+| Version:	0.2.5
 |
 +
 */
@@ -28,10 +28,10 @@ defined('_TCMS_VALID') or die('Restricted access');
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
- */
-
-
-/**
+ *
+ * 
+ * <code>
+ * 
  * Methods
  *
  * __construct                 -> PHP5 Constructor
@@ -68,7 +68,6 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getSidemenuEnabled          -> Get the setting if the sidemenu is enabled
  * getTopmenuEnabled           -> Get the setting if the topmenu is enabled
  * getAdminTopmenu             -> Get the setting which dropdown menu is enabled for the admin
- * getPDFLink                  -> Get the setting if the pdf link should be display in footer
  * getMetadataRevisitAfterDays -> Get the time in days to the next searchengine indizies
  * getMetadataRobotsFileURL    -> Get the url to the robots.txt file
  * getMetadataCacheControl     -> Get the setting for the cache control metasetting
@@ -76,6 +75,11 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getMetadataPragma           -> Get the pragma setting
  * getMetadataExpires          -> Get the setting if the site can disbaled on a time
  * getLastChanges              -> Get the last changes
+ * 
+ * useContentLanguage          -> Get the usage value for the content languages
+ * usePDFLink                  -> Get the setting if the pdf link should be display in footer
+ * 
+ * </code>
  *
  */
 
@@ -121,6 +125,7 @@ class tcms_configuration {
 	var $m_expires;
 	var $m_robots;
 	var $m_last_changes;
+	var $m_useContentLang;
 	
 	
 	
@@ -132,42 +137,43 @@ class tcms_configuration {
 	function __construct($administer){
 		$this->o_xml = new xmlparser($administer.'/tcms_global/var.xml', 'r');
 		
-		$this->m_charset         = $this->o_xml->read_section('global', 'charset');
-		$this->m_frontlang       = $this->o_xml->read_section('global', 'front_lang');
-		$this->m_lang            = $this->o_xml->read_section('global', 'lang');
-		$this->m_SEOpath         = $this->o_xml->read_section('global', 'server_folder');
-		$this->m_SEOenabled      = $this->o_xml->read_section('global', 'seo_enabled');
-		$this->m_SEOformat       = $this->o_xml->read_section('global', 'seo_format');
-		$this->m_cipherEmail     = $this->o_xml->read_section('global', 'cipher_email');
-		$this->m_detectBrowser   = $this->o_xml->read_section('global', 'js_browser_detect');
-		$this->m_statistics      = $this->o_xml->read_section('global', 'statistics');
-		$this->m_use_components  = $this->o_xml->read_section('global', 'use_cs');
-		$this->m_use_captcha     = $this->o_xml->read_section('global', 'captcha');
-		$this->m_captcha_clean   = $this->o_xml->read_section('global', 'captcha_clean_size');
-		$this->m_antiFrame       = $this->o_xml->read_section('global', 'anti_frame');
-		$this->m_showTopPages    = $this->o_xml->read_section('global', 'show_top_pages');
-		$this->m_siteOffline     = $this->o_xml->read_section('global', 'site_offline');
-		$this->m_siteOfflineText = $this->o_xml->read_section('global', 'site_offline_text');
-		$this->m_currency        = $this->o_xml->read_section('global', 'currency');
-		$this->m_wysiwygEditor   = $this->o_xml->read_section('global', 'wysiwyg');
-		$this->m_pathwayChar     = $this->o_xml->read_section('global', 'pathway_char');
-		$this->m_showDocAutor    = $this->o_xml->read_section('global', 'show_doc_autor');
-		$this->m_defaultCat      = $this->o_xml->read_section('global', 'default_category');
-		$this->m_tcmsinst        = $this->o_xml->read_section('global', 'toendacms_in_sitetitle');
-		$this->m_keywords        = $this->o_xml->read_section('global', 'meta');
-		$this->m_description     = $this->o_xml->read_section('global', 'description');
-		$this->m_activeTopmenu   = $this->o_xml->read_section('global', 'topmenu_active');
-		$this->m_sidemenu        = $this->o_xml->read_section('global', 'menu');
-		$this->m_topmenu         = $this->o_xml->read_section('global', 'second_menu');
-		$this->m_adminTopmenu    = $this->o_xml->read_section('global', 'admin_topmenu');
-		$this->m_revisit_after   = $this->o_xml->read_section('global', 'revisit_after');
-		$this->m_robotsfile      = $this->o_xml->read_section('global', 'robotsfile');
-		$this->m_pdflink         = $this->o_xml->read_section('global', 'pdflink');
-		$this->m_cachecontrol    = $this->o_xml->read_section('global', 'cachecontrol');
-		$this->m_pragma          = $this->o_xml->read_section('global', 'pragma');
-		$this->m_expires         = $this->o_xml->read_section('global', 'expires');
-		$this->m_robots          = $this->o_xml->read_section('global', 'robots');
-		$this->m_last_changes    = $this->o_xml->read_section('global', 'last_changes');
+		$this->m_charset          = $this->o_xml->read_section('global', 'charset');
+		$this->m_frontlang        = $this->o_xml->read_section('global', 'front_lang');
+		$this->m_lang             = $this->o_xml->read_section('global', 'lang');
+		$this->m_SEOpath          = $this->o_xml->read_section('global', 'server_folder');
+		$this->m_SEOenabled       = $this->o_xml->read_section('global', 'seo_enabled');
+		$this->m_SEOformat        = $this->o_xml->read_section('global', 'seo_format');
+		$this->m_cipherEmail      = $this->o_xml->read_section('global', 'cipher_email');
+		$this->m_detectBrowser    = $this->o_xml->read_section('global', 'js_browser_detect');
+		$this->m_statistics       = $this->o_xml->read_section('global', 'statistics');
+		$this->m_use_components   = $this->o_xml->read_section('global', 'use_cs');
+		$this->m_use_captcha      = $this->o_xml->read_section('global', 'captcha');
+		$this->m_captcha_clean    = $this->o_xml->read_section('global', 'captcha_clean_size');
+		$this->m_antiFrame        = $this->o_xml->read_section('global', 'anti_frame');
+		$this->m_showTopPages     = $this->o_xml->read_section('global', 'show_top_pages');
+		$this->m_siteOffline      = $this->o_xml->read_section('global', 'site_offline');
+		$this->m_siteOfflineText  = $this->o_xml->read_section('global', 'site_offline_text');
+		$this->m_currency         = $this->o_xml->read_section('global', 'currency');
+		$this->m_wysiwygEditor    = $this->o_xml->read_section('global', 'wysiwyg');
+		$this->m_pathwayChar      = $this->o_xml->read_section('global', 'pathway_char');
+		$this->m_showDocAutor     = $this->o_xml->read_section('global', 'show_doc_autor');
+		$this->m_defaultCat       = $this->o_xml->read_section('global', 'default_category');
+		$this->m_tcmsinst         = $this->o_xml->read_section('global', 'toendacms_in_sitetitle');
+		$this->m_keywords         = $this->o_xml->read_section('global', 'meta');
+		$this->m_description      = $this->o_xml->read_section('global', 'description');
+		$this->m_activeTopmenu    = $this->o_xml->read_section('global', 'topmenu_active');
+		$this->m_sidemenu         = $this->o_xml->read_section('global', 'menu');
+		$this->m_topmenu          = $this->o_xml->read_section('global', 'second_menu');
+		$this->m_adminTopmenu     = $this->o_xml->read_section('global', 'admin_topmenu');
+		$this->m_revisit_after    = $this->o_xml->read_section('global', 'revisit_after');
+		$this->m_robotsfile       = $this->o_xml->read_section('global', 'robotsfile');
+		$this->m_pdflink          = $this->o_xml->read_section('global', 'pdflink');
+		$this->m_cachecontrol     = $this->o_xml->read_section('global', 'cachecontrol');
+		$this->m_pragma           = $this->o_xml->read_section('global', 'pragma');
+		$this->m_expires          = $this->o_xml->read_section('global', 'expires');
+		$this->m_robots           = $this->o_xml->read_section('global', 'robots');
+		$this->m_last_changes     = $this->o_xml->read_section('global', 'last_changes');
+		$this->m_useContentLang   = $this->o_xml->read_section('global', 'use_content_language');
 		
 		$this->o_xml->flush();
 		$this->o_xml->_xmlparser();
@@ -562,17 +568,6 @@ class tcms_configuration {
 	
 	
 	/**
-	 * Get the setting if the pdf link should be display in footer
-	 *
-	 * @return Integer
-	 */
-	function getPDFLink(){
-		return $this->m_pdflink;
-	}
-	
-	
-	
-	/**
 	 * Get the usetting for the cache control metasetting
 	 *
 	 * @return Integer
@@ -623,6 +618,28 @@ class tcms_configuration {
 	 */
 	function getLastChanges(){
 		return $this->m_last_changes;
+	}
+	
+	
+	
+	/**
+	 * Get the usage value for the content languages
+	 *
+	 * @return String
+	 */
+	function useContentLanguage() {
+		return $this->m_useContentLang;
+	}
+	
+	
+	
+	/**
+	 * Get the setting if the pdf link should be display in footer
+	 *
+	 * @return Integer
+	 */
+	function usePDFLink(){
+		return $this->m_pdflink;
 	}
 }
 

@@ -166,6 +166,9 @@ if($content_published == 1){
 					CONTENT
 				*/
 				$dcContent = new tcms_dc_content();
+				
+				// pr�fen ob sprache in url, dann diese, sonst die default
+				
 				$dcContent = $tcms_dcp->getContentDC($id);
 				
 				$key       = $dcContent->GetKeynote();

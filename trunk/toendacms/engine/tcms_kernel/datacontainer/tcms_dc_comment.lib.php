@@ -19,6 +19,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * toendaCMS Comment data container
+ *
+ * This class is used as a datacontainer object for
+ * comment items.
+ *
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage tcms_kernel
+ */
 
 
 class tcms_dc_comment {

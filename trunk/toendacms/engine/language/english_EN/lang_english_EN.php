@@ -88,6 +88,7 @@ if(!defined('_TCMS_WEEKDAY'))                  define('_TCMS_WEEKDAY', 'Weekday'
 if(!defined('_TCMS_BASE_DIRECTORY'))           define('_TCMS_BASE_DIRECTORY', 'Base directory');
 if(!defined('_TCMS_OPEN_DIRECTORY'))           define('_TCMS_OPEN_DIRECTORY', 'Open folder');
 if(!defined('_TCMS_TEST_ENVIRONMENT'))         define('_TCMS_TEST_ENVIRONMENT', 'THIS IS A TEST ENVIRONMENT!');
+if(!defined('_TCMS_THIS_PAGE_IN'))             define('_TCMS_THIS_PAGE_IN', 'This page in');
 
 
 // BACKEND TOPMENU
@@ -852,6 +853,7 @@ if(!defined('_GLOBAL_PRAGMA'))                 define('_GLOBAL_PRAGMA', 'Searchm
 if(!defined('_GLOBAL_EXPIRES'))                define('_GLOBAL_EXPIRES', 'Website can expire');
 if(!defined('_GLOBAL_ROBOTSSETTINGS'))         define('_GLOBAL_ROBOTSSETTINGS', 'Setting for the website robots (Webcrawler)');
 if(!defined('_GLOBAL_LAST_CHANGES'))           define('_GLOBAL_LAST_CHANGES', 'Last website changes');
+if(!defined('_GLOBAL_USE_CONTENT_LANG'))       define('_GLOBAL_USE_CONTENT_LANG', 'Use content languages');
 
 
 // POLL
@@ -1212,6 +1214,17 @@ if(!defined('_CS_UPLOAD_ZFILE'))               define('_CS_UPLOAD_ZFILE', 'Packa
 // LANGUAGE LIST
 if(!defined('_LANG_GERMAN'))                   define('_LANG_GERMAN', 'German');
 if(!defined('_LANG_ENGLISH'))                  define('_LANG_ENGLISH', 'English');
+if(!defined('_LANG_BULGARIAN'))                define('_LANG_BULGARIAN', 'Bulgarian');
+if(!defined('_LANG_DUTCH'))                    define('_LANG_DUTCH', 'Dutch');
+if(!defined('_LANG_FINNISH'))                  define('_LANG_FINNISH', 'Finnish');
+if(!defined('_LANG_ITALY'))                    define('_LANG_ITALY', 'Italian');
+if(!defined('_LANG_KOREAN'))                   define('_LANG_KOREAN', 'Korean');
+if(!defined('_LANG_NORWEGIAN'))                define('_LANG_NORWEGIAN', 'Norwegian');
+if(!defined('_LANG_PORTUGUES'))                define('_LANG_PORTUGUES', 'Portugues');
+if(!defined('_LANG_ROMANIAN'))                 define('_LANG_ROMANIAN', 'Romania');
+if(!defined('_LANG_SLOVAK'))                   define('_LANG_SLOVAK', 'Slovak');
+if(!defined('_LANG_SPANISH'))                  define('_LANG_SPANISH', 'Espanol');
+if(!defined('_LANG_SWEDISH'))                  define('_LANG_SWEDISH', 'Swedish');
 
 
 // COUNTRY LIST

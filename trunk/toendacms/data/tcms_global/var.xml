@@ -35,5 +35,6 @@
 	<expires>0</expires>
 	<robots>index, follow</robots>
 	<last_changes>2006-12-12 18:42:53</last_changes>
+	<use_content_language>1</use_content_language>
 
 </global>

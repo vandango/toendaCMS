@@ -565,10 +565,14 @@ class tcms_datacontainer_provider extends tcms_main {
 	
 	
 	
-	/***
-	* @return tcms_dc_comment Object Array
-	* @desc Get a list of comment data container
-	*/
+	/**
+	 * Get a list of comment data container
+	 * 
+	 * @param String $newsID
+	 * @param String $module = 'news'
+	 * @param Boolean $load = true
+	 * @return tcms_dc_comment Object Array
+	 */
 	function getCommentDCList($newsID, $module = 'news', $load = true){
 		if($this->m_choosenDB == 'xml'){
 			if($module == 'news')
@@ -725,10 +729,12 @@ class tcms_datacontainer_provider extends tcms_main {
 	
 	
 	
-	/***
-	* @return tcms_content_dc Object
-	* @desc Get a content data container
-	*/
+	/**
+	 * Get a content data container
+	 * 
+	 * @param String $contentID
+	 * @return tcms_content_dc Object
+	 */
 	function getContentDC($contentID){
 		$contentDC = new tcms_dc_content();
 		
@@ -768,19 +774,19 @@ class tcms_datacontainer_provider extends tcms_main {
 			$sqlCN = $sqlAL->sqlConnect($this->m_sqlUser, $this->m_sqlPass, $this->m_sqlHost, $this->m_sqlDB, $this->m_sqlPort);
 			
 			$sqlQR = $sqlAL->sqlGetOne($this->m_sqlPrefix.'content', $contentID);
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
 			
-			$wsID         = $sqlARR['uid'];
-			$wsTitle      = $sqlARR['title'];
-			$wsKeynote    = $sqlARR['key'];
-			$wsText       = $sqlARR['content00'];
-			$wsSecondText = $sqlARR['content01'];
-			$wsFootText   = $sqlARR['foot'];
-			$wsLayout     = $sqlARR['db_layout'];
-			$wsAutor      = $sqlARR['autor'];
-			$wsInWork     = $sqlARR['in_work'];
-			$wsPub        = $sqlARR['published'];
-			$wsAcs        = $sqlARR['access'];
+			$wsID         = $sqlObj->uid;
+			$wsTitle      = $sqlObj->title;
+			$wsKeynote    = $sqlObj->key;
+			$wsText       = $sqlObj->content00;
+			$wsSecondText = $sqlObj->content01;
+			$wsFootText   = $sqlObj->foot;
+			$wsLayout     = $sqlObj->db_layout;
+			$wsAutor      = $sqlObj->autor;
+			$wsInWork     = $sqlObj->in_work;
+			$wsPub        = $sqlObj->published;
+			$wsAcs        = $sqlObj->access;
 			
 			$sqlAL->sqlFreeResult($sqlQR);
 			$sqlAL->_sqlAbstractionLayer();
@@ -822,10 +828,158 @@ class tcms_datacontainer_provider extends tcms_main {
 	
 	
 	
-	/***
-	* @return tcms_dc_impressum Object
-	* @desc Get a impressum data container
-	*/
+	/**
+	 * Get a content language data container
+	 * 
+	 * @param String $id
+	 * @return tcms_content_dc Object
+	 */
+	function getContentLanguageDC($id) {
+		$contentDC = new tcms_dc_content();
+		
+		if($this->m_choosenDB == 'xml'){
+			$xml = new xmlparser($this->m_path.'/tcms_content_languages/'.$id.'.xml', 'r');
+			
+			$wsTitle      = $xml->read_section('main', 'title');
+			$wsKeynote    = $xml->read_section('main', 'key');
+			$wsText       = $xml->read_section('main', 'content00');
+			$wsSecondText = $xml->read_section('main', 'content01');
+			$wsFootText   = $xml->read_section('main', 'foot');
+			$wsID         = $xml->read_section('main', 'order');
+			$wsLayout     = $xml->read_section('main', 'db_layout');
+			$wsAutor      = $xml->read_section('main', 'autor');
+			$wsInWork     = $xml->read_section('main', 'in_work');
+			$wsAcs        = $xml->read_section('main', 'access');
+			$wsPub        = $xml->read_section('main', 'published');
+			
+			$xml->flush();
+			$xml->_xmlparser();
+			unset($xml);
+			
+			if($wsTitle      == false) $wsTitle      = '';
+			if($wsAutor      == false) $wsAutor      = '';
+			if($wsKeynote    == false) $wsKeynote    = '';
+			if($wsSecondText == false) $wsSecondText = '';
+			if($wsText       == false) $wsText       = '';
+			if($wsFootText   == false) $wsFootText   = '';
+			if($wsID         == false) $wsID         = '';
+			if($wsLayout     == false) $wsLayout     = '';
+			if($wsInWork     == false) $wsInWork     = '';
+			if($wsPub        == false) $wsPub        = '';
+			if($wsAcs        == false) $wsAcs        = '';
+		}
+		else{
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
+			$sqlCN = $sqlAL->sqlConnect($this->m_sqlUser, $this->m_sqlPass, $this->m_sqlHost, $this->m_sqlDB, $this->m_sqlPort);
+			
+			$sqlQR = $sqlAL->sqlGetOne($this->m_sqlPrefix.'content_languages', $id);
+			
+			while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)) {
+				
+			}
+			
+			//
+			//
+			//
+			
+			
+			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+			
+			$wsID         = $sqlObj->uid;
+			$wsTitle      = $sqlObj->title;
+			$wsKeynote    = $sqlObj->key;
+			$wsText       = $sqlObj->content00;
+			$wsSecondText = $sqlObj->content01;
+			$wsFootText   = $sqlObj->foot;
+			$wsLayout     = $sqlObj->db_layout;
+			$wsAutor      = $sqlObj->autor;
+			$wsInWork     = $sqlObj->in_work;
+			$wsPub        = $sqlObj->published;
+			$wsAcs        = $sqlObj->access;
+			
+			$sqlAL->sqlFreeResult($sqlQR);
+			$sqlAL->_sqlAbstractionLayer();
+			unset($sqlAL);
+			
+			if($wsTitle      == NULL) $wsTitle      = '';
+			if($wsAutor      == NULL) $wsAutor      = '';
+			if($wsKeynote    == NULL) $wsKeynote    = '';
+			if($wsSecondText == NULL) $wsSecondText = '';
+			if($wsText       == NULL) $wsText       = '';
+			if($wsFootText   == NULL) $wsFootText   = '';
+			if($wsID         == NULL) $wsID         = '';
+			if($wsLayout     == NULL) $wsLayout     = '';
+			if($wsInWork     == NULL) $wsInWork     = '';
+			if($wsPub        == NULL) $wsPub        = '';
+			if($wsAcs        == NULL) $wsAcs        = '';
+		}
+		
+		$wsTitle      = $this->decodeText($wsTitle, '2', $this->m_CHARSET);
+		$wsKeynote    = $this->decodeText($wsKeynote, '2', $this->m_CHARSET);
+		$wsText       = $this->decodeText($wsText, '2', $this->m_CHARSET);
+		$wsSecondText = $this->decodeText($wsSecondText, '2', $this->m_CHARSET);
+		$wsFootText   = $this->decodeText($wsFootText, '2', $this->m_CHARSET);
+		
+		$contentDC->SetTitle($wsTitle);
+		$contentDC->SetKeynote($wsKeynote);
+		$contentDC->SetText($wsText);
+		$contentDC->SetSecondContent($wsSecondText);
+		$contentDC->SetFootText($wsFootText);
+		$contentDC->SetAutor($wsAutor);
+		$contentDC->SetTextLayout($wsLayout);
+		$contentDC->SetID($wsID);
+		$contentDC->SetInWorkState($wsInWork);
+		$contentDC->SetPublished($wsPub);
+		$contentDC->SetAccess($wsAcs);
+		
+		return $contentDC;
+	}
+	
+	
+	
+	/**
+	 * Get a list of content languages
+	 * 
+	 * @param String $id
+	 * @return Array
+	 */
+	function getContentLanguages($id) {
+		$count = 0;
+		
+		if($this->m_choosenDB == 'xml'){
+			
+		}
+		else {
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
+			$sqlCN = $sqlAL->sqlConnect($this->m_sqlUser, $this->m_sqlPass, $this->m_sqlHost, $this->m_sqlDB, $this->m_sqlPort);
+			
+			$sql = "SELECT * "
+			."FROM blog_content_languages "
+			."WHERE content_uid = '".$id."'";
+			
+			$sqlQR = $sqlAL->sqlQuery($sql);
+			
+			while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)) {
+				$arrReturn[$count] = $sqlObj->language;
+				
+				$count++;
+			}
+			
+			$sqlAL->sqlFreeResult($sqlQR);
+			$sqlAL->_sqlAbstractionLayer();
+			unset($sqlAL);
+		}
+		
+		return $arrReturn;
+	}
+	
+	
+	
+	/**
+	 * Get a impressum data container
+	 * 
+	 * @return tcms_dc_impressum Object
+	 */
 	function getImpressumDC(){
 		$impDC = new tcms_dc_impressum();
 		
@@ -902,10 +1056,11 @@ class tcms_datacontainer_provider extends tcms_main {
 	
 	
 	
-	/***
-	* @return tcms_dc_sidebarmodule Object
-	* @desc Get a sidebarmodul data container
-	*/
+	/**
+	 * Get a sidebarmodul data container
+	 * 
+	 * @return tcms_dc_sidebarmodule Object
+	 */
 	function GetSidebarModuleDC(){
 		$sbmDC = new tcms_dc_sidebarmodule();
 		
