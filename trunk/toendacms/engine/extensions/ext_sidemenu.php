@@ -44,7 +44,9 @@ if($navigation == 1){
 	
 	
 	
-	if($show_title == 1){ echo tcms_html::subtitle($menu_title); }
+	if($show_title == 1){
+		echo tcms_html::subtitle($menu_title);
+	}
 	
 	
 	

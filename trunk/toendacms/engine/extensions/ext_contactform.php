@@ -10,7 +10,6 @@
 | Contact Formular
 |
 | File:		ext_contactform.php
-| Version:	0.7.0
 |
 +
 */
@@ -34,6 +33,7 @@ if(isset($_POST['send_form'])){ $send_form = $_POST['send_form']; }
  * This module provides a contactform with a internal
  * adressbook with vcard export.
  *
+ * @version 0.7.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules

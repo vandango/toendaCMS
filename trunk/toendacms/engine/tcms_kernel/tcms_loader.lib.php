@@ -11,7 +11,6 @@
 | toendaCMS Framework Loader
 |
 | File:		tcms_loader.lib.php
-| Version:	0.0.3
 |
 +
 */
@@ -26,6 +25,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used for loading some framework
  * files.
  *
+ * @version 0.1.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -74,6 +74,12 @@ function using($namespace, $require = false) {
 			$endPath = '.lib.php';
 			break;
 		
+		case 'datacontainer':
+			$mainPath .= '/tcms_kernel';
+			$middlePath = '/datacontainer/tcms_dc_';
+			$endPath = '.lib.php';
+			break;
+		
 		case 'data':
 			$mainPath .= '/';
 			$middlePath = '';
@@ -86,12 +92,39 @@ function using($namespace, $require = false) {
 			$endPath = '.php';
 			break;
 		
+		case 'tools':
+			$mainPath .= '/tcms_kernel';
+			$middlePath = '/';
+			
+			$data[3] = str_replace('_', '.', $data[3]);
+			
+			$endPath = '/'.$data[3].'.php';
+			break;
+		
+		case 'js':
+			$mainPath .= '/tcms_kernel';
+			$middlePath = '/js/';
+			
+			$data[3] = str_replace('_', '.', $data[3]);
+			
+			$endPath = '/'.$data[3].'.php';
+			break;
+		
+		case 'language':
+			$mainPath .= '/'.$data[1];
+			$middlePath = '/lang_';
+			
+			$endPath = '.php';
+			break;
+		
 		default:
 			$mainPath .= '/tcms_';
 			$middlePath = '/tcms_';
 			$endPath = '.lib.php';
 			break;
 	}
+	
+	//echo $mainPath.$middlePath.$data[2].$endPath.'<br>';
 	
 	if($data[2] == 'main') {
 		if($require) {
