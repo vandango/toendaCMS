@@ -10,7 +10,6 @@
 | News Categories for Sidebar
 |
 | File:		ext_sidebar_category.php
-| Version:	0.3.4
 |
 +
 */
@@ -19,6 +18,17 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * News Categories for Sidebar
+ *
+ * This module provides the news categories for
+ * the sidebar.
+ *
+ * @version 0.3.5
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Sidebar Modules
+ */
 
 
 if($use_side_category == 1){
@@ -64,7 +74,9 @@ if($use_side_category == 1){
 					$catSideNO = $tcms_main->getNewsCatAmount(substr($cVal, 0, 5), $authSQL1, $authSQL2);
 				}
 				
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=newsmanager&amp;s='.$s.'&amp;cat='.substr($cVal, 0, 5);
+				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+				.'id=newsmanager&amp;s='.$s.'&amp;cat='.substr($cVal, 0, 5)
+				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlAmpReplace($link);
 				
 				echo '<span class="newsCategories" style="padding-left: 6px;">&raquo;&nbsp;';
@@ -144,7 +156,9 @@ if($use_side_category == 1){
 					break;
 			}
 			
-			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=newsmanager&amp;s='.$s.'&amp;cat='.$catSideUID;
+			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+			.'id=newsmanager&amp;s='.$s.'&amp;cat='.$catSideUID
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<span class="newsCategories" style="padding-left: 6px;">&raquo; ';

@@ -10,7 +10,6 @@
 | User Register Module
 |
 | File:		ext_register.php
-| Version:	0.5.1
 |
 +
 */
@@ -18,6 +17,17 @@
 
 defined('_TCMS_VALID') or die('Restricted access');
 
+
+/**
+ * toendaCMS User Register Module
+ *
+ * This module is used for the register functions.
+ *
+ * @version 0.5.3
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Content Modules
+ */
 
 
 if(isset($_GET['cmd'])){ $cmd = $_GET['cmd']; }
@@ -46,12 +56,7 @@ if(isset($_POST['new_hobby'])){ $new_hobby = $_POST['new_hobby']; }
 
 
 
-
-//if(!isset($todo)){ $todo = 'show'; }
 if(!isset($cmd)){ $cmd = 'register'; }
-
-
-
 
 
 
@@ -66,7 +71,7 @@ if($cmd == 'lostpassword'){
 	.tcms_html::contentmain(_REG_LPWTEXT)
 	.'<br />';
 	
-	echo '<form action="'.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$id.'&amp;s='.$s.'" method="post">'
+	echo '<form action="'.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$id.'&amp;s='.$s.( isset($lang) ? '&amp;lang='.$lang : '' ).'" method="post">'
 	.'<input name="cmd" type="hidden" value="retrieve" />';
 	
 	$width  = '150';
@@ -105,9 +110,6 @@ if($cmd == 'lostpassword'){
 
 
 
-
-
-
 /*
 	retrieve a new password
 */
@@ -118,7 +120,8 @@ if($cmd == 'retrieve'){
 	*/
 	
 	if($fulluser2 == '' || $fullemail2 == ''){
-		$link = '?id=register&s='.$s.'&cmd=lostpassword';
+		$link = '?id=register&s='.$s.'&cmd=lostpassword'
+		.( isset($lang) ? '&amp;lang='.$lang : '' );
 		$link = $tcms_main->urlAmpReplace($link);
 		
 		echo '<script>'
@@ -244,7 +247,7 @@ if($cmd == 'retrieve'){
 	//
 	//*************************************
 				
-				$link = '?';
+				$link = '?'.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlAmpReplace($link);
 				
 				echo '<script>document.location.href=\''.$link.'\';alert(\''._MSG_SEND.'\');</script>';
@@ -711,7 +714,9 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 						}
 						
 						if($checkUserExists){
-							$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id=frontpage&s='.$s;
+							$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
+							.'id=frontpage&s='.$s
+							.( isset($lang) ? '&amp;lang='.$lang : '' );
 							$link = $tcms_main->urlAmpReplace($link);
 							
 							echo '<script>'
@@ -720,7 +725,9 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 							.'</script>';
 						}
 						else{
-							$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id=frontpage&s='.$s;
+							$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
+							.'id=frontpage&s='.$s
+							.( isset($lang) ? '&amp;lang='.$lang : '' );
 							$link = $tcms_main->urlAmpReplace($link);
 							
 							echo '<script>'

@@ -53,6 +53,7 @@ if(!defined('_LANG_SLOVAK'))                   define('_LANG_SLOVAK', 'Slovak');
 if(!defined('_LANG_SPANISH'))                  define('_LANG_SPANISH', 'Espanol');
 if(!defined('_LANG_SWEDISH'))                  define('_LANG_SWEDISH', 'Swedish');
 
+if(!defined('_TCMS_LANGUAGES'))                define('_TCMS_LANGUAGES', 'Languages');
 if(!defined('_TCMS_TEST_ENVIRONMENT'))         define('_TCMS_TEST_ENVIRONMENT', 'THIS IS A TEST ENVIRONMENT!');
 
 if(!defined('_CONTACT_VCARD'))                 define('_CONTACT_VCARD', 'vCard');
@@ -71,6 +72,8 @@ if(!defined('_GLOBAL_USE_CONTENT_LANG'))       define('_GLOBAL_USE_CONTENT_LANG'
 if(!defined('_NEWS_SHOW_ON_FRONTPAGE'))        define('_NEWS_SHOW_ON_FRONTPAGE', 'Show News on frontpage');
 
 if(!defined('_TABLE_FRONTPAGE'))               define('_TABLE_FRONTPAGE', 'Frontpage');
+
+if(!defined('_SIDEEXT_LANGUAGE_SELECTOR'))     define('_SIDEEXT_LANGUAGE_SELECTOR', 'Language Selector');
 
 *
 *

@@ -10,7 +10,6 @@
 | Login Module
 |
 | File:		ext_login.php
-| Version:	0.4.3
 |
 +
 */
@@ -38,6 +37,7 @@ if(isset($_POST['reg_cookie'])){ $reg_cookie = $_POST['reg_cookie']; }
  * This module provides the login functionality
  * and a login formular.
  *
+ * @version 0.4.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -82,7 +82,8 @@ if($use_login == 1){
 		.'<input type="hidden" name="id" value="'.$id.'" />'
 		.'<input type="hidden" name="s" value="'.$s.'" />'
 		.'<input type="hidden" name="reg_login" value="login" />'
-		.( $tcms_main->isReal($news) ? '<input type="hidden" name="news" value="'.$news.'" />' : '');
+		.( $tcms_main->isReal($news) ? '<input type="hidden" name="news" value="'.$news.'" />' : '')
+		.( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' );
 		
 		echo '<div align="left" style="padding-top: 4px !important;" class="logintext">'
 		.'<input type="text" name="reg_user" class="inputtext loginform" value="" />&nbsp;'.$reg_username.'<br />'
@@ -98,7 +99,9 @@ if($use_login == 1){
 		
 		echo '<div align="left">';
 		
-		$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=register&amp;s='.$s.'&amp;cmd=lostpassword';
+		$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+		.'id=register&amp;s='.$s.'&amp;cmd=lostpassword'
+		.( isset($lang) ? '&amp;lang='.$lang : '' );
 		$link = $tcms_main->urlAmpReplace($link);
 		
 		echo '<span class="text_small">'
@@ -106,7 +109,9 @@ if($use_login == 1){
 		.'</span>';
 		
 		if($login_user == 1){
-			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=register&amp;s='.$s;
+			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+			.'id=register&amp;s='.$s
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<br />'
@@ -117,7 +122,9 @@ if($use_login == 1){
 		}
 		
 		if($show_ml == 1){
-			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=profile&amp;s='.$s.'&amp;action=list';
+			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+			.'id=profile&amp;s='.$s.'&amp;action=list'
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<br />'
@@ -148,11 +155,13 @@ if($reg_login == 'login'){
 			$linkAdd = '&code=setc';
 		}
 		
-		$link = '?session='.$session.'&id='.$id.'&s='.$s.$linkAdd;
+		$link = '?session='.$session.'&id='.$id.'&s='.$s.$linkAdd
+		.( isset($lang) ? '&amp;lang='.$lang : '' );
 		$link = $tcms_main->urlAmpReplace($link, false);
 	}
 	else{
-		$link = '?id='.$id.'&amp;s='.$s;
+		$link = '?id='.$id.'&amp;s='.$s
+		.( isset($lang) ? '&amp;lang='.$lang : '' );
 		$link = $tcms_main->urlAmpReplace($link);
 	}
 	
@@ -170,7 +179,7 @@ if($reg_login == 'login'){
 if($reg_login == 'logout'){
 	$tcms_auth->doLogout($session);
 	
-	$link = '?s='.$s;
+	$link = '?s='.$s.( isset($lang) ? '&amp;lang='.$lang : '' );
 	$link = $tcms_main->urlAmpReplace($link);
 	
 	echo '<script>document.location.href=\''.$link.'\';</script>';

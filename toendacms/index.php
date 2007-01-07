@@ -30,6 +30,7 @@ if(isset($_GET['session'])){ $session = $_GET['session']; }
 if(isset($_GET['item'])){ $item = $_GET['item']; }
 if(isset($_GET['feed'])){ $feed = $_GET['feed']; }
 if(isset($_GET['page'])){ $page = $_GET['page']; }
+if(isset($_GET['lang'])){ $lang = $_GET['lang']; }
 if(isset($_GET['contact_email'])){ $contact_email = $_GET['contact_email']; }
 
 if(isset($_POST['id'])){ $id = $_POST['id']; }
@@ -39,6 +40,7 @@ if(isset($_POST['session'])){ $session = $_POST['session']; }
 if(isset($_POST['item'])){ $item = $_POST['item']; }
 if(isset($_POST['feed'])){ $feed = $_POST['feed']; }
 if(isset($_POST['page'])){ $page = $_POST['page']; }
+if(isset($_POST['lang'])){ $lang = $_POST['lang']; }
 if(isset($_POST['contact_email'])){ $contact_email = $_POST['contact_email']; }
 
 
@@ -48,7 +50,7 @@ if(isset($_POST['contact_email'])){ $contact_email = $_POST['contact_email']; }
  * This is the global startfile and the page loading
  * control.
  *
- * @version 2.3.6
+ * @version 2.4.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -89,8 +91,6 @@ $isTestEnvironment = false;
 using('toendacms.kernel.time');
 using('toendacms.kernel.xml');
 using('toendacms.kernel.parameter');
-//using('toendacms.kernel.globals');
-include_once('engine/tcms_kernel/tcms_globals.lib.php');
 using('toendacms.kernel.configuration');
 using('toendacms.kernel.version');
 using('toendacms.kernel.html');
@@ -128,12 +128,76 @@ if(file_exists($tcms_administer_site.'/tcms_global/var.xml')){
 	$pathwayChar    = $tcms_config->getPathwayChar();
 	$site_offline   = $tcms_config->getSiteOffline();
 	
-	// language
+	
+	/*
+		SEO URL's
+	*/
+	if($seoEnabled == 1){
+		using('toendacms.kernel.seo');
+		
+		$tcms_seo = new tcms_seo();
+		
+		if($seoFormat == 0)
+			$arrSEO = $tcms_seo->explodeUrlColonFormat();
+		else
+			$arrSEO = $tcms_seo->explodeUrlSlashFormat();
+		
+		$tcms_seo->_tcms_seo();
+		
+		if(isset($id))
+			$noSEOFolder = true;
+		
+		if(!isset($id))             { $id              = trim($arrSEO['id']);            if($id              == ''){ unset($id); } }
+		if(!isset($s))              { $s               = trim($arrSEO['s']);             if($s               == ''){ unset($s); } }
+		if(!isset($news))           { $news            = trim($arrSEO['news']);          if($news            == ''){ unset($news); } }
+		if(!isset($feed))           { $feed            = trim($arrSEO['feed']);          if($feed            == ''){ unset($feed); } }
+		if(!isset($save))           { $save            = trim($arrSEO['save']);          if($save            == ''){ unset($save); } }
+		if(!isset($session))        { $session         = trim($arrSEO['session']);       if($session         == ''){ unset($session); } }
+		if(!isset($reg_login))      { $reg_login       = trim($arrSEO['reg_login']);     if($reg_login       == ''){ unset($reg_login); } }
+		if(!isset($todo))           { $todo            = trim($arrSEO['todo']);          if($todo            == ''){ unset($todo); } }
+		if(!isset($u))              { $u               = trim($arrSEO['u']);             if($u               == ''){ unset($u); } }
+		if(!isset($file))           { $file            = trim($arrSEO['file']);          if($file            == ''){ unset($file); } }
+		if(!isset($category))       { $category        = trim($arrSEO['category']);      if($category        == ''){ unset($category); } }
+		if(!isset($cat))            { $cat             = trim($arrSEO['cat']);           if($cat             == ''){ unset($cat); } }
+		if(!isset($article))        { $article         = trim($arrSEO['article']);       if($article         == ''){ unset($article); } }
+		if(!isset($action))         { $action          = trim($arrSEO['action']);        if($action          == ''){ unset($action); } }
+		if(!isset($albums))         { $albums          = trim($arrSEO['albums']);        if($albums          == ''){ unset($albums); } }
+		if(!isset($cmd))            { $cmd             = trim($arrSEO['command']);       if($cmd             == ''){ unset($cmd); } }
+		if(!isset($current_pollall)){ $current_pollall = trim($arrSEO['poll']);          if($current_pollall == ''){ unset($current_pollall); } }
+		if(!isset($ps))             { $ps              = trim($arrSEO['ps']);            if($ps              == ''){ unset($ps); } }
+		if(!isset($vote))           { $vote            = trim($arrSEO['vote']);          if($vote            == ''){ unset($vote); } }
+		if(!isset($XMLplace))       { $XMLplace        = trim($arrSEO['XMLplace']);      if($XMLplace        == ''){ unset($XMLplace); } }
+		if(!isset($XMLfile))        { $XMLfile         = trim($arrSEO['XMLfile']);       if($XMLfile         == ''){ unset($XMLfile); } }
+		if(!isset($page))           { $page            = trim($arrSEO['page']);          if($page            == ''){ unset($page); } }
+		if(!isset($item))           { $item            = trim($arrSEO['item']);          if($item            == ''){ unset($item); } }
+		if(!isset($contact_email))  { $contact_email   = trim($arrSEO['contact_email']); if($contact_email   == ''){ unset($contact_email); } }
+		if(!isset($date))           { $date            = trim($arrSEO['date']);          if($date            == ''){ unset($date); } }
+		if(!isset($code))           { $code            = trim($arrSEO['code']);          if($code            == ''){ unset($code); } }
+		if(!isset($c))              { $c               = trim($arrSEO['c']);             if($c               == ''){ unset($c); } }
+		if(!isset($lang))           { $lang            = trim($arrSEO['lang']);          if($lang            == ''){ unset($lang); } }
+		
+		if($seoFolder != '')
+			$seoFolder = '/'.$seoFolder;
+		else
+			$seoFolder = '';
+	}
+	else{
+		$seoFolder = '';
+	}
+	
+	
+	/*
+		language
+	*/
 	$language_stage = 'index';
 	include_once('engine/language/lang_admin.php');
 	//using('toendacms.language.admin');
 	
-	// site offline / test application
+	
+	/*
+		site offline
+		test application
+	*/
 	if($site_offline == 1) {
 		using('toendacms.kernel.seo');
 		using('toendacms.kernel.main');
@@ -252,63 +316,6 @@ if($wsShowSite){
 	}
 	else{
 		/*
-			SEO URL's
-		*/
-		if($seoEnabled == 1){
-			using('toendacms.kernel.seo');
-			
-			$tcms_seo = new tcms_seo();
-			
-			if($seoFormat == 0)
-				$arrSEO = $tcms_seo->explodeUrlColonFormat();
-			else
-				$arrSEO = $tcms_seo->explodeUrlSlashFormat();
-			
-			$tcms_seo->_tcms_seo();
-			
-			if(isset($id))
-				$noSEOFolder = true;
-			
-			if(!isset($id))             { $id              = trim($arrSEO['id']);            if($id              == ''){ unset($id); } }
-			if(!isset($s))              { $s               = trim($arrSEO['s']);             if($s               == ''){ unset($s); } }
-			if(!isset($news))           { $news            = trim($arrSEO['news']);          if($news            == ''){ unset($news); } }
-			if(!isset($feed))           { $feed            = trim($arrSEO['feed']);          if($feed            == ''){ unset($feed); } }
-			if(!isset($save))           { $save            = trim($arrSEO['save']);          if($save            == ''){ unset($save); } }
-			if(!isset($session))        { $session         = trim($arrSEO['session']);       if($session         == ''){ unset($session); } }
-			if(!isset($reg_login))      { $reg_login       = trim($arrSEO['reg_login']);     if($reg_login       == ''){ unset($reg_login); } }
-			if(!isset($todo))           { $todo            = trim($arrSEO['todo']);          if($todo            == ''){ unset($todo); } }
-			if(!isset($u))              { $u               = trim($arrSEO['u']);             if($u               == ''){ unset($u); } }
-			if(!isset($file))           { $file            = trim($arrSEO['file']);          if($file            == ''){ unset($file); } }
-			if(!isset($category))       { $category        = trim($arrSEO['category']);      if($category        == ''){ unset($category); } }
-			if(!isset($cat))            { $cat             = trim($arrSEO['cat']);           if($cat             == ''){ unset($cat); } }
-			if(!isset($article))        { $article         = trim($arrSEO['article']);       if($article         == ''){ unset($article); } }
-			if(!isset($action))         { $action          = trim($arrSEO['action']);        if($action          == ''){ unset($action); } }
-			if(!isset($albums))         { $albums          = trim($arrSEO['albums']);        if($albums          == ''){ unset($albums); } }
-			if(!isset($cmd))            { $cmd             = trim($arrSEO['command']);       if($cmd             == ''){ unset($cmd); } }
-			if(!isset($current_pollall)){ $current_pollall = trim($arrSEO['poll']);          if($current_pollall == ''){ unset($current_pollall); } }
-			if(!isset($ps))             { $ps              = trim($arrSEO['ps']);            if($ps              == ''){ unset($ps); } }
-			if(!isset($vote))           { $vote            = trim($arrSEO['vote']);          if($vote            == ''){ unset($vote); } }
-			if(!isset($XMLplace))       { $XMLplace        = trim($arrSEO['XMLplace']);      if($XMLplace        == ''){ unset($XMLplace); } }
-			if(!isset($XMLfile))        { $XMLfile         = trim($arrSEO['XMLfile']);       if($XMLfile         == ''){ unset($XMLfile); } }
-			if(!isset($page))           { $page            = trim($arrSEO['page']);          if($page            == ''){ unset($page); } }
-			if(!isset($item))           { $item            = trim($arrSEO['item']);          if($item            == ''){ unset($item); } }
-			if(!isset($contact_email))  { $contact_email   = trim($arrSEO['contact_email']); if($contact_email   == ''){ unset($contact_email); } }
-			if(!isset($date))           { $date            = trim($arrSEO['date']);          if($date            == ''){ unset($date); } }
-			if(!isset($code))           { $code            = trim($arrSEO['code']);          if($code            == ''){ unset($code); } }
-			if(!isset($c))              { $c               = trim($arrSEO['c']);             if($c               == ''){ unset($c); } }
-			
-			if($seoFolder != '')
-				$seoFolder = '/'.$seoFolder;
-			else
-				$seoFolder = '';
-		}
-		else{
-			$seoFolder = '';
-		}
-		
-		
-		
-		/*
 			INCLUDE LIBS
 		*/
 		using('toendacms.kernel.main');
@@ -326,6 +333,8 @@ if($wsShowSite){
 		using('toendacms.kernel.account_provider');
 		using('toendacms.kernel.authentication');
 		using('toendacms.kernel.modconfig');
+		//using('toendacms.kernel.globals');
+		include_once('engine/tcms_kernel/tcms_globals.lib.php');
 		
 		using('toendacms.tools.feedcreator.feedcreator_class');
 		using('toendacms.tools.phpmailer.class_phpmailer');
@@ -412,7 +421,9 @@ if($wsShowSite){
 				if(isset($date))            $date            = $tcms_main->cleanUrlString($date, true);
 				if(isset($code))            $code            = $tcms_main->cleanUrlString($code, true);
 				if(isset($c))               $c               = $tcms_main->cleanUrlString($c, true);
+				if(isset($lang))            $lang            = $tcms_main->cleanUrlString($lang, true);
 				
+					
 				// mail
 				require($tcms_administer_site.'/tcms_global/mail.php');
 				
@@ -433,6 +444,7 @@ if($wsShowSite){
 				if($param_save_mode)
 					$set_save_mode = $tcms_main->setPHPSetting('safe_mode', 'off');
 				
+				/*
 				if(isset($id))             { $id              = $tcms_main->cleanUrlString($id); }
 				if(isset($s))              { $s               = $tcms_main->cleanUrlString($s); }
 				if(isset($news))           { $news            = $tcms_main->cleanUrlString($news); }
@@ -460,8 +472,8 @@ if($wsShowSite){
 				if(isset($date))           { $date            = $tcms_main->cleanUrlString($date); }
 				if(isset($code))           { $code            = $tcms_main->cleanUrlString($code); }
 				if(isset($c))              { $c               = $tcms_main->cleanUrlString($c); }
-				
-				
+				if(isset($lang))           { $lang            = $tcms_main->cleanUrlString($lang); }
+				*/
 				
 				/*
 					Set Cookie
@@ -616,6 +628,10 @@ if($wsShowSite){
 					Web Site config from XML
 				*/
 				
+				if(!$tcms_main->isReal($lang)) {
+					$lang = strtolower($tcms_config->getLanguageCode());
+				}
+				
 				$namen_xml = new xmlparser(''.$tcms_administer_site.'/tcms_global/namen.xml','r');
 				$sitetitle = $namen_xml->read_section('namen', 'title');
 				$sitename  = $namen_xml->read_section('namen', 'name');
@@ -673,11 +689,15 @@ if($wsShowSite){
 						
 						unset($tcms_error);
 					}
-					else{ $start_tcms_loading = true; }
+					else {
+						$start_tcms_loading = true;
+					}
 					
 					$sqlAL->_sqlAbstractionLayer();
 				}
-				else{ $start_tcms_loading = true; }
+				else {
+					$start_tcms_loading = true;
+				}
 				
 				
 				
@@ -779,7 +799,8 @@ if($wsShowSite){
 							
 							unset($dcImpressum);
 							
-							$link_imp = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$imp_id.'&amp;s='.$s;
+							$link_imp = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+							.'id='.$imp_id.'&amp;s='.$s.'&amp;lang='.$lang;
 							break;
 						
 						case 'newsmanager':
@@ -805,7 +826,8 @@ if($wsShowSite){
 							
 							$cut_news = ( $cut_news == 0 ? '1000000' : $cut_news );
 							
-							$link_news  = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$news_id.'&amp;s='.$s;
+							$link_news  = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+							.'id='.$news_id.'&amp;s='.$s.'&amp;lang='.$lang;
 							
 							if($use_trackback == 1){
 								using('toendacms.kernel.trackback');
@@ -838,7 +860,8 @@ if($wsShowSite){
 							$use_contactad     = $arrCF['cf_usecon'];
 							$show_contactemail = $arrCF['cf_showce'];
 							
-							$link_contact = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$send_id.'&amp;s='.$s;
+							$link_contact = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+							.'id='.$send_id.'&amp;s='.$s.'&amp;lang='.$lang;
 							break;
 						
 						case 'guestbook':
@@ -850,7 +873,8 @@ if($wsShowSite){
 							$authorized   = $arrGB['access'];
 							$book_enabled = $arrGB['enabled'];
 							
-							$link_guest = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$book_id.'&amp;s='.$s;
+							$link_guest = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+							.'id='.$book_id.'&amp;s='.$s.'&amp;lang='.$lang;
 							break;
 						
 						case 'products':
@@ -877,7 +901,8 @@ if($wsShowSite){
 							$authorized         = $arrP['access'];
 							$list_option        = $arrP['list_option'];
 							
-							$link_image  = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$image_id.'&amp;s='.$s;
+							$link_image  = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+							.'id='.$image_id.'&amp;s='.$s.'&amp;lang='.$lang;
 							break;
 						
 						case 'links':
@@ -1037,19 +1062,19 @@ if($wsShowSite){
 						if($choosenDB == 'xml'){
 							$arr_files     = $tcms_main->readdir_ext(''.$tcms_administer_site.'/tcms_menu/');
 							$arr_filesT    = $tcms_main->readdir_ext(''.$tcms_administer_site.'/tcms_topmenu/');
-							$arr_side_navi = $tcms_main->mainmenu($arr_files, $c_charset, ( isset($session) ? $session : NULL ), $s, 'link');
+							$arr_side_navi = $tcms_main->mainmenu($arr_files, $c_charset, ( isset($session) ? $session : NULL ), $s, ( isset($lang) ? $lang : NULL ));
 							
 							$arr_filename = $tcms_main->readdir_ext(''.$tcms_administer_site.'/tcms_topmenu/');
-							$arr_top_navi = $tcms_main->topmenu($arr_filename, $c_charset, ( isset($session) ? $session : NULL ), $s);
+							$arr_top_navi = $tcms_main->topmenu($arr_filename, $c_charset, ( isset($session) ? $session : NULL ), $s, ( isset($lang) ? $lang : NULL ));
 							
-							$arrLinkway = $tcms_main->linkway($arr_files, $arr_filesT, $c_charset, ( isset($session) ? $session : NULL ), $s);
+							$arrLinkway = $tcms_main->linkway($arr_files, $arr_filesT, $c_charset, ( isset($session) ? $session : NULL ), $s, ( isset($lang) ? $lang : NULL ));
 						}
 						else{
-							$arr_side_navi = $tcms_main->mainmenuSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, ( isset($session) ? $session : NULL ), $s, 'link');
+							$arr_side_navi = $tcms_main->mainmenuSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, ( isset($session) ? $session : NULL ), $s, ( isset($lang) ? $lang : NULL ));
 							
-							$arr_top_navi = $tcms_main->topmenuSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, ( isset($session) ? $session : NULL ), $s);
+							$arr_top_navi = $tcms_main->topmenuSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, ( isset($session) ? $session : NULL ), $s, ( isset($lang) ? $lang : NULL ));
 							
-							$arrLinkway = $tcms_main->linkwaySQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, ( isset($session) ? $session : NULL ), $s);
+							$arrLinkway = $tcms_main->linkwaySQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, ( isset($session) ? $session : NULL ), $s, ( isset($lang) ? $lang : NULL ));
 						}
 						
 						

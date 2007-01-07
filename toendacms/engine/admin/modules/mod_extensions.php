@@ -485,7 +485,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		
 		// table rows
 		echo '<tr><td></td><td valign="top" colspan="2">'
-		.'<fieldset style="width: 400px;"><legend><strong class="tcms_bold">'._TABLE_FILTER.'</strong></legend>'
+		.'<fieldset style="width: 400px;"><legend><strong class="tcms_bold">'._TCMS_LANGUAGES.'</strong></legend>'
 		.'<br />'
 		.'<div style="margin: 0; padding: 0 0 4px 0;">'
 		.'<input onchange="CHANGED = true;" type="checkbox" style="margin: 0 0 -1px 0 !important;" name="new_clean_link" value="1"'.( $old_clean_link == true ? ' checked="checked"' : '' ).' />'

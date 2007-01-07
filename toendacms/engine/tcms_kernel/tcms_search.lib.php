@@ -10,7 +10,6 @@
 | toendaCMS Search class
 |
 | File:		tcms_search.lib.php
-| Version:	0.0.8
 |
 +
 */
@@ -25,13 +24,13 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide a dynamic
  * search class.
  *
+ * @version 0.0.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
- */
-
-
-/**
+ *
+ * <code>
+ * 
  * Methods
  *
  * __construct                 -> PHP5 Constructor
@@ -40,7 +39,9 @@ defined('_TCMS_VALID') or die('Restricted access');
  * _tcms_search                -> PHP4 Destructor
  * 
  * searchDocuments()           -> search in documents
- *
+ * 
+ * </code>
+ * 
  */
 
 
@@ -157,7 +158,9 @@ class tcms_search extends tcms_main {
 						$tit = $this->decodeText($tit, '2', $c_charset);
 						$key = $this->decodeText($key, '2', $c_charset);
 						
-						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.substr($sval, 0, 5).'&amp;s='.$this->m_skin;
+						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+						.'id='.substr($sval, 0, 5).'&amp;s='.$this->m_skin
+						.( isset($lang) ? '&amp;lang='.$lang : '' );
 						$link = $this->urlAmpReplace($link);
 						
 						echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
@@ -184,7 +187,9 @@ class tcms_search extends tcms_main {
 							$tit = $this->decodeText($tit, '2', $c_charset);
 							$key = $this->decodeText($key, '2', $c_charset);
 							
-							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.substr($sval, 0, 5).'&amp;s='.$this->m_skin;
+							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+							.'id='.substr($sval, 0, 5).'&amp;s='.$this->m_skin
+							.( isset($lang) ? '&amp;lang='.$lang : '' );
 							$link = $this->urlAmpReplace($link);
 							
 							echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
@@ -211,7 +216,9 @@ class tcms_search extends tcms_main {
 								$tit = $this->decodeText($tit, '2', $c_charset);
 								$key = $this->decodeText($key, '2', $c_charset);
 								
-								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.substr($sval, 0, 5).'&amp;s='.$this->m_skin;
+								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+								.'id='.substr($sval, 0, 5).'&amp;s='.$this->m_skin
+								.( isset($lang) ? '&amp;lang='.$lang : '' );
 								$link = $this->urlAmpReplace($link);
 								
 								echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
@@ -292,7 +299,9 @@ class tcms_search extends tcms_main {
 					$tit = $this->decodeText($tit, '2', $c_charset);
 					$key = $this->decodeText($key, '2', $c_charset);
 					
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$uid.'&amp;s='.$this->m_skin;
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id='.$uid.'&amp;s='.$this->m_skin
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $this->urlAmpReplace($link);
 					
 					echo '<a class="main" href="'.$link.'">'.$tit.'</a>';

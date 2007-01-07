@@ -10,7 +10,6 @@
 | RSS, Atom and OPML Syndication
 |
 | File:		ext_syndication.php
-| Version:	0.0.8
 |
 +
 */
@@ -19,8 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-
-
+/**
+ * RSS, Atom and OPML Syndication
+ *
+ * This module provides the syndication.
+ *
+ * @version 0.0.9
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Sidebar Modules
+ */
 
 
 if($use_syndication == 1){

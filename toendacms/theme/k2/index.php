@@ -50,6 +50,8 @@ switch($k2CSS){
 
 <div id="page">
 	<div id="header">
+		<? include(_LANG_SELECTOR); ?>
+		
 		<h1 class="title"><? echo _SITE_LOGO; ?><? echo _SITE_NAME; ?></h1>
 		<div class="description"><span class="subtitle"><? echo _SITE_KEY; ?></span></div>
 		

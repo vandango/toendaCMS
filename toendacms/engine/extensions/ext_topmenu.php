@@ -10,7 +10,6 @@
 | Topmenu
 |
 | File:		ext_topmenu.php
-| Version:	0.2.5
 |
 +
 */
@@ -18,6 +17,17 @@
 
 defined('_TCMS_VALID') or die('Restricted access');
 
+
+/**
+ * toendaCMS Topmenu
+ *
+ * This module is used as a topmenu.
+ *
+ * @version 0.2.6
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Content Modules
+ */
 
 
 if($second_navigation == 1){
@@ -106,7 +116,8 @@ if($second_navigation == 1){
 				$tm_poll_id = $arr_top_navi['last'][$key];
 			
 			if($key == ($tm_poll_id - 2) && $show_tm_poll == 1){
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=polls&amp;s='.$s;
+				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=polls&amp;s='.$s
+				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlAmpReplace($link);
 				
 				if($active_topmenu == 1){

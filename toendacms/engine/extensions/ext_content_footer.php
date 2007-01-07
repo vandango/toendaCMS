@@ -10,7 +10,6 @@
 | Website Content Footer
 |
 | File:		ext_content_footer.php
-| Version:	0.4.3
 |
 +
 */
@@ -25,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Content footer with links for the "top of page", "print" 
  * and "pdf" functions.
  *
- * @version 0.4.3
+ * @version 0.4.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -238,7 +237,8 @@ switch($id){
 			
 			if(trim($docAutor) != ''){
 				if($userID != false){
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=profile&amp;s='.$s.'&amp;u='.$userID;
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=profile&amp;s='.$s.'&amp;u='.$userID
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 					
 					echo '<a style="text-decoration: none !important;" class="text_small" href="'.$link.'">';

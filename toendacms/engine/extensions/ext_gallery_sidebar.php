@@ -10,7 +10,6 @@
 | Imagegallery
 |
 | File:		ext_gallery_sidebar.php
-| Version:	0.1.5
 |
 +
 */
@@ -19,6 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * Sidebar Imagegallery
+ *
+ * This module provides the sidebar imagegallery.
+ *
+ * @version 0.1.6
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Sidebar Modules
+ */
 
 
 if($use_side_gallery == 1){
@@ -163,7 +172,8 @@ if($use_side_gallery == 1){
 	
 	echo '<div style="margin: 4px 0 0 0; display: block;" align="'.$alignImg.'">';
 	
-	$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=imagegallery&amp;s='.$s;
+	$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=imagegallery&amp;s='.$s
+	.( isset($lang) ? '&amp;lang='.$lang : '' );
 	$link = $tcms_main->urlAmpReplace($link);
 	
 	echo '<a href="'.$link.'">'.$imgGalleryTitle.'</a><br />';

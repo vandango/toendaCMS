@@ -10,12 +10,9 @@
 | Administration backend
 |
 | File:		admin.php
-| Version:	1.0.0
 |
 +
 */
-
-
 
 
 if(isset($_GET['id_user'])){ $id_user = $_GET['id_user']; }
@@ -33,6 +30,17 @@ if(isset($_POST['maintag'])){ $maintag = $_POST['maintag']; }
 if(isset($_POST['action'])){ $action = $_POST['action']; }
 
 
+/**
+ * Administration backend
+ *
+ * This is used as global startpage for the
+ * administraion backend.
+ *
+ * @version 1.0.1
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 /*
@@ -80,6 +88,7 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 	include_once('../tcms_kernel/tcms_configuration.lib.php');
 	include_once('../tcms_kernel/tcms_version.lib.php');
 	include_once('../tcms_kernel/tcms_import.lib.php');
+	include_once('../tcms_kernel/tcms_globals.lib.php');
 	
 	include_once('../tcms_kernel/phpmailer/class.phpmailer.php');
 	

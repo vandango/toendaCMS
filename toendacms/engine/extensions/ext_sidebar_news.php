@@ -7,10 +7,9 @@
 | Author: Jonathan Naumann                                               |
 +------------------------------------------------------------------------+
 | 
-| Sidebar
+| Sidebar News
 |
 | File:		ext_sidebar_news.php
-| Version:	0.1.6
 |
 +
 */
@@ -18,6 +17,17 @@
 
 defined('_TCMS_VALID') or die('Restricted access');
 
+
+/**
+ * Sidebar News
+ *
+ * This module provides the sidebar news functionality.
+ *
+ * @version 0.1.7
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Sidebar Modules
+ */
 
 
 //$id == 'frontpage'
@@ -35,7 +45,9 @@ if($blah = 1){
 				$dcNews = new tcms_dc_news();
 				$dcNews = $arrNewsDC[$n_key];
 				
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=newsmanager&amp;s='.$s.'&amp;news='.$dcNews->GetID();
+				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+				.'id=newsmanager&amp;s='.$s.'&amp;news='.$dcNews->GetID()
+				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlAmpReplace($link);
 				
 				if($sb_news_display == 1 || $sb_news_display == 2 || $sb_news_display == 3){

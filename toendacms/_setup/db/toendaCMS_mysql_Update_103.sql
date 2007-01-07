@@ -22,4 +22,6 @@ CREATE TABLE `#####content_languages` (
 ) ENGINE = MyISAM;
 
 ALTER TABLE `#####news` ADD `show_on_frontpage` INT( 1 ) NOT NULL ;
-UPDATE `#####news` SET `show_on_frontpage` = 1
+UPDATE `#####news` SET `show_on_frontpage` = 1;
+
+ALTER TABLE `#####sidebar_extensions` ADD `lang` VARCHAR( 255 ) NOT NULL ;

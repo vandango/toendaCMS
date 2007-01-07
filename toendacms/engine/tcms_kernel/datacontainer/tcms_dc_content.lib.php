@@ -10,7 +10,6 @@
 | toendaCMS Content DataContainer
 |
 | File:		tcms_dc_content.lib.php
-| Version:	0.0.5
 |
 +
 */
@@ -25,6 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * content items.
  *
+ * @version 0.0.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -68,13 +68,12 @@ class tcms_dc_content {
 	// Properties
 	// ---------------------------------------
 	
-	/***
+	/**
 	 * Set the content id
 	 * 
 	 * @param String $value
-	 * @return String
-	*/
-	function SetID($value){
+	 */
+	function setID($value){
 		$this->m_id = $value;
 	}
 	
@@ -83,95 +82,195 @@ class tcms_dc_content {
 	 * 
 	 * @return String
 	 */
-	function GetID(){
+	function getID(){
 		return $this->m_id;
 	}
 	
+	/**
+	 * Set the content title
+	 * 
+	 * @param String $value
+	 */
+	function setTitle($value){
+		$this->m_title = $value;
+	}
 	
+	/**
+	 * Get the content title
+	 * 
+	 * @return String
+	 */
+	function getTitle(){
+		return $this->m_title;
+	}
 	
+	/**
+	 * Set the content key
+	 * 
+	 * @param String $value
+	 */
+	function setKeynote($value){
+		$this->m_key = $value;
+	}
 	
+	/**
+	 * Get the content key
+	 * 
+	 * @return String
+	 */
+	function getKeynote(){
+		return $this->m_key;
+	}
 	
+	/**
+	 * Set the content content00
+	 * 
+	 * @param String $value
+	 */
+	function setText($value){
+		$this->m_content00 = $value;
+	}
 	
+	/**
+	 * Get the content content00
+	 * 
+	 * @return String
+	 */
+	function getText(){
+		return $this->m_content00;
+	}
 	
-	/***
-	* @return string
-	* @desc Get or set the content title
-	*/
-	function SetTitle($value){ $this->m_title = $value; }
-	function GetTitle(){ return $this->m_title; }
+	/**
+	 * Set the content content01
+	 * 
+	 * @param String $value
+	 */
+	function setSecondContent($value){
+		$this->m_content01 = $value;
+	}
 	
-	/***
-	* @return string
-	* @desc Get or set the content key
-	*/
-	function SetKeynote($value){ $this->m_key = $value; }
-	function GetKeynote(){ return $this->m_key; }
-	/***
-	* @return string
-	* @desc Get or set the content content00
-	*/
-	function SetText($value){ $this->m_content00 = $value; }
-	function GetText(){ return $this->m_content00; }
+	/**
+	 * Get the content content01
+	 * 
+	 * @return String
+	 */
+	function getSecondContent(){
+		return $this->m_content01;
+	}
 	
-	/***
-	* @return string
-	* @desc Get or set the content content01
-	*/
-	function SetSecondContent($value){ $this->m_content01 = $value; }
-	function GetSecondContent(){ return $this->m_content01; }
+	/**
+	 * Set the footer
+	 * 
+	 * @param String $value
+	 */
+	function setFootText($value){
+		$this->m_foot = $value;
+	}
 	
-	/***
-	* @return string
-	* @desc Get or set the news footer
-	*/
-	function SetFootText($value){ $this->m_foot = $value; }
-	function GetFootText(){ return $this->m_foot; }
+	/**
+	 * Get the footer
+	 * 
+	 * @return String
+	 */
+	function getFootText(){
+		return $this->m_foot;
+	}
 	
-	/***
-	* @return string
-	* @desc Get or set the content text layout
-	*/
-	function SetTextLayout($value){ $this->m_text_layout = $value; }
-	function GetTextLayout(){ return $this->m_text_layout; }
+	/**
+	 * Set the text layout
+	 * 
+	 * @param String $value
+	 */
+	function setTextLayout($value){
+		$this->m_text_layout = $value;
+	}
 	
-	/***
-	* @return string
-	* @desc Get or set the content access
-	*/
-	function SetAccess($value){ $this->m_acs = $value; }
-	function GetAccess(){ return $this->m_acs; }
+	/**
+	 * Get the text layout
+	 * 
+	 * @return String
+	 */
+	function getTextLayout(){
+		return $this->m_text_layout;
+	}
 	
-	/***
-	* @return string
-	* @desc Get or set the content publishing state
-	*/
-	function SetPublished($value){ $this->m_pub = $value; }
-	function GetPublished(){ return $this->m_pub; }
+	/**
+	 * Set the access
+	 * 
+	 * @param String $value
+	 */
+	function setAccess($value){
+		$this->m_acs = $value;
+	}
 	
-	/***
-	* @return string
-	* @desc Get or set the content autor
-	*/
-	function SetAutor($value){ $this->m_autor = $value; }
-	function GetAutor(){ return $this->m_autor; }
+	/**
+	 * Get the access
+	 * 
+	 * @return String
+	 */
+	function getAccess(){
+		return $this->m_acs;
+	}
 	
-	/***
-	* @return string
-	* @desc Get or set the inWork state
-	*/
-	function SetInWorkState($value){ $this->m_in_work = $value; }
-	function GetInWorkState(){ return $this->m_in_work; }
+	/**
+	 * Set the autor
+	 * 
+	 * @param String $value
+	 */
+	function setAutor($value){
+		$this->m_autor = $value;
+	}
 	
+	/**
+	 * Get the autor
+	 * 
+	 * @return String
+	 */
+	function getAutor(){
+		return $this->m_autor;
+	}
 	
+	/**
+	 * Set the publishing state
+	 * 
+	 * @param Boolean $value
+	 */
+	function setPublished($value){
+		$this->m_pub = $value;
+	}
 	
+	/**
+	 * Get the publishing state
+	 * 
+	 * @return Boolean
+	 */
+	function getPublished(){
+		return $this->m_pub;
+	}
 	
+	/**
+	 * Set the inWork state
+	 * 
+	 * @param Boolean $value
+	 */
+	function SetInWorkState($value){
+		$this->m_in_work = $value;
+	}
 	
-	/***
+	/**
+	 * Get the inWork state
+	 * 
+	 * @return Boolean
+	 */
+	function GetInWorkState(){
+		return $this->m_in_work;
+	}
+	
+	/**
 	 * Set the content language
 	 * 
 	 * @param String $value
-	 * @return String
-	*/
+	 */
 	function SetLanguage($value){
 		$this->m_language = $value;
 	}

@@ -10,7 +10,6 @@
 | toendaCMS Kernel - System framework
 |
 | File:		tcms.lib.php
-| Version:	1.9.2
 |
 +
 */
@@ -24,11 +23,13 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
+ * @version 1.9.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
  *
  * <code>
+ * 
  * Methods
  *
  * --------------------------------------------------------
@@ -156,6 +157,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * DEPRECATED create_sql_session          -> see tcms_authentication
  * DEPRECATED load_xml_files              -> loads all xml files from an dir ( files or numbers files )
  * DEPRECATED canCHMOD                    -> isCHMODable
+ * 
  * </code>
  *
  */
@@ -2173,7 +2175,7 @@ class tcms_main {
 	*      title   => Sitetitle
 	*      pathway => Pathway
 	*/
-	function linkway($arr_files, $arr_filesT, $c_charset, $session, $s){
+	function linkway($arr_files, $arr_filesT, $c_charset, $session, $s, $lang){
 		foreach($arr_files as $fnk => $fnvalue){
 			if($fnvalue != 'index.html'){
 				$link_xml = new xmlparser($this->administer.'/tcms_menu/'.$fnvalue,'r');
@@ -2194,7 +2196,9 @@ class tcms_main {
 			);
 			
 			foreach ($arr_link['link'] as $key => $value){
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$value.'&amp;s='.$s;
+				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+				.'id='.$value.'&amp;s='.$s
+				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $this->urlAmpReplace($link);
 				
 				$arr_path[$value] = '<a class="pathway" href="'.$link.'">'.$arr_link['name'][$key].'</a>';
@@ -2223,7 +2227,9 @@ class tcms_main {
 			);
 			
 			foreach ($arr_link['link'] as $key => $value){
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$value.'&amp;s='.$s;
+				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+				.'id='.$value.'&amp;s='.$s
+				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $this->urlAmpReplace($link);
 				
 				$arr_pathT[$value] = '<a class="pathway" href="'.$link.'">'.$arr_link['name'][$key].'</a>';
@@ -2267,7 +2273,7 @@ class tcms_main {
 	*      title   => Sitetitle
 	*      pathway => Pathway
 	*/
-	function linkwaySQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, $session, $s){
+	function linkwaySQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, $session, $s, $lang){
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
 		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
@@ -2302,7 +2308,9 @@ class tcms_main {
 			
 			if(is_array($arr_link['link']) && !empty($arr_link['link'])){
 				foreach($arr_link['link'] as $key => $value){
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$value.'&amp;s='.$s;
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id='.$value.'&amp;s='.$s
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $this->urlAmpReplace($link);
 					
 					$arr_path[$value] = '<a class="pathway" href="'.$link.'">'.$arr_link['name'][$key].'</a>';
@@ -2343,7 +2351,9 @@ class tcms_main {
 			
 			if(is_array($arr_link['link']) && !empty($arr_link['link'])){
 				foreach($arr_link['link'] as $key => $value){
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$value.'&amp;s='.$s;
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id='.$value.'&amp;s='.$s
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $this->urlAmpReplace($link);
 					
 					$arr_pathT[$value] = '<a class="pathway" href="'.$link.'">'.$arr_link['name'][$key].'</a>';
@@ -2393,7 +2403,7 @@ class tcms_main {
 	*   array -> 'submenu'	-> complete submenu link
 	*   array -> 'name'		-> simple link name
 	*/
-	function mainmenu($arr_file, $c_charset, $session, $s){
+	function mainmenu($arr_file, $c_charset, $session, $s, $lang){
 		if(isset($arr_file) && !empty($arr_file) && $arr_file != ''){
 			foreach($arr_file as $key => $value){
 				if($value != 'index.html'){
@@ -2435,7 +2445,9 @@ class tcms_main {
 					$arr_mainmenu['link'][$mkey] = '<a'.$ltarget.' class="mainlevel" href="'.$arr_menu['link'][$mkey].'">'.$arr_menu['name'][$mkey].'</a>';
 				}
 				else{
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$arr_menu['link'][$mkey].'&amp;s='.$s;
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id='.$arr_menu['link'][$mkey].'&amp;s='.$s
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $this->urlAmpReplace($link);
 					
 					$arr_mainmenu['link'][$mkey] = '<a'.$ltarget.' class="mainlevel" href="'.$link.'">'.$arr_menu['name'][$mkey].'</a>';
@@ -2454,7 +2466,9 @@ class tcms_main {
 					$arr_mainmenu['submenu'][$mvalue][$mkey] = '<a'.$ltarget.' class="submenu" href="'.$arr_menu['link'][$mkey].'">'.$arr_menu['name'][$mkey].'</a>';
 				}
 				else{
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$arr_menu['link'][$mkey].'&amp;s='.$s;
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id='.$arr_menu['link'][$mkey].'&amp;s='.$s
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $this->urlAmpReplace($link);
 					
 					$arr_mainmenu['submenu'][$mvalue][$mkey] = '<a'.$ltarget.' class="submenu" href="'.$link.'">'.$arr_menu['name'][$mkey].'</a>';
@@ -2481,7 +2495,7 @@ class tcms_main {
 	*   array -> 'submenu'	-> complete submenu link
 	*   array -> 'name'		-> simple link name
 	*/
-	function mainmenuSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, $session, $s){
+	function mainmenuSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, $session, $s, $lang){
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
 		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
@@ -2538,7 +2552,9 @@ class tcms_main {
 					$arr_mainmenu['link'][$mkey] = '<a'.$ltarget.' class="mainlevel" href="'.trim($arr_menu['link'][$mkey]).'">'.trim($arr_menu['name'][$mkey]).'</a>';
 				}
 				else{
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$arr_menu['link'][$mkey].'&amp;s='.$s;
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id='.$arr_menu['link'][$mkey].'&amp;s='.$s
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $this->urlAmpReplace($link);
 					
 					$arr_mainmenu['link'][$mkey] = '<a'.$ltarget.' class="mainlevel" href="'.$link.'">'.trim($arr_menu['name'][$mkey]).'</a>';
@@ -2556,7 +2572,9 @@ class tcms_main {
 					$arr_mainmenu['submenu'][$mvalue][$mkey] = '<a'.$ltarget.' class="submenu" href="'.trim($arr_menu['link'][$mkey]).'">'.trim($arr_menu['name'][$mkey]).'</a>';
 				}
 				else{
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.trim($arr_menu['link'][$mkey]).'&amp;s='.$s;
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id='.trim($arr_menu['link'][$mkey]).'&amp;s='.$s
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $this->urlAmpReplace($link);
 					
 					$arr_mainmenu['submenu'][$mvalue][$mkey] = '<a'.$ltarget.' class="submenu" href="'.$link.'">'.trim($arr_menu['name'][$mkey]).'</a>';
@@ -2574,7 +2592,7 @@ class tcms_main {
 	* @return Topmenu links
 	* @desc 
 	*/
-	function topmenu($arr_filename, $c_charset, $session, $s){
+	function topmenu($arr_filename, $c_charset, $session, $s, $lang){
 		if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
 			foreach($arr_filename as $k => $v){
 				if($v != 'index.html'){
@@ -2613,7 +2631,9 @@ class tcms_main {
 					$arr_top_navi['link'][$key] = '<a'.$ltarget.' class="toplevel" href="'.trim($arr_top['link'][$key]).'">'.trim($arr_top['name'][$key]).'</a>';
 				}
 				else{
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.trim($arr_top['link'][$key]).'&amp;s='.$s;
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id='.trim($arr_top['link'][$key]).'&amp;s='.$s
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $this->urlAmpReplace($link);
 					
 					$arr_top_navi['link'][$key] = '<a'.$ltarget.' class="toplevel" href="'.$link.'">'.trim($arr_top['name'][$key]).'</a>';
@@ -2636,7 +2656,7 @@ class tcms_main {
 	* @return Topmenu links
 	* @desc 
 	*/
-	function topmenuSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, $session, $s){
+	function topmenuSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, $session, $s, $lang){
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
 		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
@@ -2693,7 +2713,9 @@ class tcms_main {
 					$arr_top_navi['link'][$key] = '<a'.$ltarget.' class="toplevel" href="'.trim($arr_top['link'][$key]).'">'.trim($arr_top['name'][$key]).'</a>';
 				}
 				else{
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.trim($arr_top['link'][$key]).'&amp;s='.$s;
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id='.trim($arr_top['link'][$key]).'&amp;s='.$s
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $this->urlAmpReplace($link);
 					
 					$arr_top_navi['link'][$key] = '<a'.$ltarget.' class="toplevel" href="'.$link.'">'.trim($arr_top['name'][$key]).'</a>';

@@ -10,7 +10,6 @@
 | User Menu
 |
 | File:		ext_usermenu.php
-| Version:	0.2.8
 |
 +
 */
@@ -18,6 +17,17 @@
 
 defined('_TCMS_VALID') or die('Restricted access');
 
+
+/**
+ * toendaCMS User Menu
+ *
+ * This module is used as a user menu.
+ *
+ * @version 0.2.9
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Content Modules
+ */
 
 
 if($user_navigation == 1){
@@ -63,7 +73,8 @@ if($user_navigation == 1){
 	if($npo == 1){
 		// Publish News
 		if($canEdit){
-			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;todo=submitNews';
+			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;todo=submitNews'
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<li><a class="mainlevel" href="'.$link.'">'._LOGIN_SUBMIT_NEWS.'</a></li>';
@@ -75,7 +86,8 @@ if($user_navigation == 1){
 	if($cpo == 1){
 		// Create category
 		if($canEdit){
-			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;todo=createCat';
+			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;todo=createCat'
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<li><a class="mainlevel" href="'.$link.'">'._LOGIN_CREATE_CATEGORY.'</a></li>';
@@ -87,7 +99,8 @@ if($user_navigation == 1){
 	if($ppo == 1){
 		// Upload image to mediamanager
 		if($canEdit){
-			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;todo=submitMedia';
+			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;todo=submitMedia'
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<li><a class="mainlevel" href="'.$link.'">'._LOGIN_SUBMIT_MEDIA.'</a></li>';
@@ -99,7 +112,8 @@ if($user_navigation == 1){
 	if($apo == 1){
 		// Create Album
 		if($canEdit){
-			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;todo=createAlbum';
+			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;todo=createAlbum'
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<li><a class="mainlevel" href="'.$link.'">'._LOGIN_CREATE_ALBUM.'</a></li>';
@@ -111,7 +125,8 @@ if($user_navigation == 1){
 	if($ipo == 1){
 		// Publish Images
 		if($canEdit){
-			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;todo=submitImages';
+			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;todo=submitImages'
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<li><a class="mainlevel" href="'.$link.'">'._LOGIN_SUBMIT_IMAGES.'</a></li>';
@@ -121,7 +136,8 @@ if($user_navigation == 1){
 	
 	
 	// Your Profile
-	$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;u='.$ws_id;
+	$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;u='.$ws_id
+	.( isset($lang) ? '&amp;lang='.$lang : '' );
 	$link = $tcms_main->urlAmpReplace($link);
 	
 	echo '<li><a class="mainlevel" href="'.$link.'">'._LOGIN_PROFILE.'</a></li>';
@@ -130,7 +146,8 @@ if($user_navigation == 1){
 	
 	if($show_ml == 1){
 		// Memberlist
-		$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;action=list';
+		$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;action=list'
+		.( isset($lang) ? '&amp;lang='.$lang : '' );
 		$link = $tcms_main->urlAmpReplace($link);
 		
 		echo '<li><a class="mainlevel" href="'.$link.'">'._LOGIN_LIST.'</a></li>';
@@ -139,7 +156,7 @@ if($user_navigation == 1){
 	
 	
 	// Administration
-		if($canEdit){
+	if($canEdit){
 		if($choosenDB == 'xml'){
 			echo '<li><a class="mainlevel" href="'.$imagePath.'engine/admin/admin.php?id_user='.$session.'&amp;setXMLSession=1">'._LOGIN_ADMIN.'</a></li>';
 		}
@@ -149,7 +166,8 @@ if($user_navigation == 1){
 	}
 	
 	// Logout
-	$link = '?session='.$session.'&amp;id='.$id.'&amp;s='.$s.'&amp;reg_login=logout';
+	$link = '?session='.$session.'&amp;id='.$id.'&amp;s='.$s.'&amp;reg_login=logout'
+	.( isset($lang) ? '&amp;lang='.$lang : '' );
 	$link = $tcms_main->urlAmpReplace($link);
 	
 	echo '<li><a class="mainlevel" href="'.$link.'">'._LOGIN_LOGOUT.'</a></li>';

@@ -10,7 +10,6 @@
 | Extension Newsletter
 |
 | File:		ext_newsletter.php
-| Version:	0.2.6
 |
 +
 */
@@ -18,6 +17,18 @@
 
 defined('_TCMS_VALID') or die('Restricted access');
 
+// .( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' )
+
+/**
+ * Newsletter Module
+ *
+ * This module provides the newsletter functionality.
+ *
+ * @version 0.3.0
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Sidebar Modules
+ */
 
 
 if(isset($_POST['newsletter'])){ $newsletter = $_POST['newsletter']; }
@@ -59,24 +70,22 @@ if($use_newsletter == 1){
 	if($show_ext_nl_title == 1){ echo tcms_html::subtitle($title_ext_newsletter, 'center'); }
 	echo tcms_html::text($text_ext_newsletter, 'left');
 	
-	echo '<div align="left">';
-	echo '<form name="selectform" action="'.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'" method="post">';
+	echo '<div align="left">'
+	.'<form name="selectform" action="'.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'" method="post">'
+	.'<input type="hidden" name="id" value="'.$id.'" />'
+	.'<input type="hidden" name="s" value="'.$s.'" />'
+	.'<input type="hidden" name="newsletter" value="subscribe" />'
+	.( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' );
 	
-	echo '<input type="text" name="nl_user" class="inputtext" style="width: 150px;" value="'._NL_USERNAME.'" onBlur="if(this.value==\'\') this.value=\''._NL_USERNAME.'\';" onfocus="if(this.value==\''._NL_USERNAME.'\') this.value=\'\';" /><br />';
-	echo '<input type="text" name="nl_email" class="inputtext" style="width: 150px;" value="'._NL_USEREMAIL.'" onBlur="if(this.value==\'\') this.value=\''._NL_USEREMAIL.'\';" onfocus="if(this.value==\''._NL_USEREMAIL.'\') this.value=\'\';" /><br />';
-	echo '<input type="submit" value="'.$link_ext_newsletter.'" class="inputbutton" />';
+	echo '<input type="text" name="nl_user" class="inputtext" style="width: 150px;" value="'._NL_USERNAME.'" onBlur="if(this.value==\'\') this.value=\''._NL_USERNAME.'\';" onfocus="if(this.value==\''._NL_USERNAME.'\') this.value=\'\';" /><br />'
+	.'<input type="text" name="nl_email" class="inputtext" style="width: 150px;" value="'._NL_USEREMAIL.'" onBlur="if(this.value==\'\') this.value=\''._NL_USEREMAIL.'\';" onfocus="if(this.value==\''._NL_USEREMAIL.'\') this.value=\'\';" /><br />'
+	.'<input type="submit" value="'.$link_ext_newsletter.'" class="inputbutton" />';
 	
-	echo '<input type="hidden" name="id" value="'.$id.'" />';
-	echo '<input type="hidden" name="s" value="'.$s.'" />';
-	echo '<input type="hidden" name="newsletter" value="subscribe" />';
-	
-	echo '</form>';
-	echo '</div>';
+	echo '</form>'
+	.'</div>';
 	
 	echo '<br /><br />';
 }
-
-
 
 
 //************************
@@ -86,7 +95,8 @@ if($use_newsletter == 1){
 if($use_newsletter == 1){
 	if($newsletter == 'subscribe'){
 		if($nl_email == '' || $nl_email == _NL_USEREMAIL || strpos($nl_email, '@') == false) {
-			$link = '?session='.$session.'&id='.$id.'&s='.$s;
+			$link = '?session='.$session.'&id='.$id.'&s='.$s
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<script>'
@@ -95,7 +105,8 @@ if($use_newsletter == 1){
 			.'</script>';
 		}
 		elseif($nl_user == '' || $nl_user == _NL_USERNAME) {
-			$link = '?session='.$session.'&id='.$id.'&s='.$s;
+			$link = '?session='.$session.'&id='.$id.'&s='.$s
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<script>'
@@ -149,7 +160,8 @@ if($use_newsletter == 1){
 				$sqlQR = $sqlAL->sqlCreateOne($tcms_db_prefix.'newsletter_items', $newSQLColumns, $newSQLData, $maintag);
 			}
 			
-			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id='.$id.'&s='.$s;
+			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id='.$id.'&s='.$s
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<script>'

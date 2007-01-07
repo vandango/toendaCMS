@@ -33,7 +33,7 @@ if(isset($_POST['send_form'])){ $send_form = $_POST['send_form']; }
  * This module provides a contactform with a internal
  * adressbook with vcard export.
  *
- * @version 0.7.0
+ * @version 0.7.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -103,6 +103,7 @@ if($cform_enabled == 1){
 		.'<input name="s" type="hidden" value="'.$s.'" />'
 		.'<input type="submit" class="inputbutton" value="'._TCMS_ADMIN_BACK.'" />'
 		.( isset($session) ? '<input name="session" type="hidden" value="'.$session.'" />' : '' )
+		.( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' )
 		.'</form><br />';
 		
 		if($choosenDB == 'xml'){
@@ -133,7 +134,9 @@ if($cform_enabled == 1){
 					if(!empty($csb_email)){
 						echo '<div style="display: block; float: right;">';
 						
-						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=contactform&amp;s='.$s.'&amp;contact_email='.$csb_email;
+						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+						.'id=contactform&amp;s='.$s.'&amp;contact_email='.$csb_email
+						.( isset($lang) ? '&amp;lang='.$lang : '' );
 						$link = $tcms_main->urlAmpReplace($link);
 						
 						echo '<a href="#" class="main" onclick="document.location=\''.$link.'\';" value="'._CONTACT_SEND_A_EMAIL.'" />';
@@ -158,7 +161,9 @@ if($cform_enabled == 1){
 						echo '<br />';
 						
 						
-						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=contactform&amp;s='.$s.'&amp;action=vcard&amp;c='.$csb_id;
+						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+						.'id=contactform&amp;s='.$s.'&amp;action=vcard&amp;c='.$csb_id
+						.( isset($lang) ? '&amp;lang='.$lang : '' );
 						$link = $tcms_main->urlAmpReplace($link);
 						
 						echo '<form name="vcard" action="engine/tcms_kernel/vcard/vcard.php" method="post">'
@@ -239,7 +244,9 @@ if($cform_enabled == 1){
 				if(!empty($csb_email)){
 					echo '<div style="display: block; float: right;">';
 					
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=contactform&amp;s='.$s.'&amp;contact_email='.$csb_email;
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id=contactform&amp;s='.$s.'&amp;contact_email='.$csb_email
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 					
 					echo '<a href="#" class="main" onclick="document.location=\''.$link.'\';" />';
@@ -265,7 +272,9 @@ if($cform_enabled == 1){
 					echo '<br />';
 					
 					
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=contactform&amp;s='.$s.'&amp;action=vcard&amp;c='.$csb_id;
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id=contactform&amp;s='.$s.'&amp;action=vcard&amp;c='.$csb_id
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 					
 					echo '<form name="vcard_'.$csb_id.'" action="engine/tcms_kernel/vcard/vcard.php" method="post">'
@@ -478,9 +487,9 @@ if($cform_enabled == 1){
 				echo '<form id="adress" action="'.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?" method="get">'
 				.'<input name="id" type="hidden" value="contactform" />'
 				.'<input name="s" type="hidden" value="'.$s.'" />'
-				.'<input name="item" type="hidden" value="adressbook" />';
-				
-				if(isset($session)) echo '<input name="session" type="hidden" id="session" value="'.$session.'" />';
+				.'<input name="item" type="hidden" value="adressbook" />'
+				.( isset($session) ? '<input type="hidden" name="session" value="'.$session.'" />' : '' )
+				.( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' );
 				
 				echo '<input style="float: left;" type="button" class="inputbutton" onclick="javascript:document.forms[\'adress\'].submit();" value="'._CONTACT_ADRESS_BOOK.'" />'
 				.'<noscript><input type="submit" class="inputbutton" value="'._CONTACT_ADRESS_BOOK.'" /></noscript>';
@@ -492,9 +501,9 @@ if($cform_enabled == 1){
 			echo '<form name="cform" id="cform" method="post" action="'.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?">'
 			.'<input name="send_form" type="hidden" id="send_form" value="1" />'
 			.'<input name="id" type="hidden" id="id" value="contactform" />'
-			.'<input name="s" type="hidden" id="s" value="'.$s.'" />';
-			
-			if(isset($session)) echo '<input name="session" type="hidden" id="session" value="'.$session.'" />';
+			.'<input name="s" type="hidden" id="s" value="'.$s.'" />'
+			.( isset($session) ? '<input type="hidden" name="session" value="'.$session.'" />' : '' )
+			.( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' );
 			
 			if($use_adressbook == 1){
 				echo '<input type="button" class="inputbutton" onclick="javascript:checkinputs(\'cform\');" value="'._FORM_SEND.'" />'
@@ -788,7 +797,8 @@ $mail_message
 				}
 			}
 			
-			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id='.$id;
+			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
+			.'id='.$id.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<script>'

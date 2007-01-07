@@ -10,7 +10,6 @@
 | toendaCMS Sidebar Module DataContainer
 |
 | File:		tcms_dc_sidebarmodule.lib.php
-| Version:	0.0.3
 |
 +
 */
@@ -25,6 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * sidemenu items.
  *
+ * @version 0.0.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel

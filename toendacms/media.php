@@ -10,12 +10,21 @@
 | JavaScript Window for ImageGallery
 |
 | File:		media.php
-| Version:	0.4.5
 |
 +
 */
 
 
+/**
+ * JavaScript Window for ImageGallery
+ *
+ * This module is used as a image viewer.
+ *
+ * @version 0.4.7
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS
+ */
 
 
 if(isset($_GET['album'])){ $album = $_GET['album']; }
@@ -725,7 +734,8 @@ if($cmd == 'comment_save' && $show_comments == 1){
 		}
 		
 		if(!$save_entry){
-			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id=guestbook&s='.$s;
+			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id=guestbook&s='.$s
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			$error_msg = $captcha_msg;

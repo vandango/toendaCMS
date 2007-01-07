@@ -10,7 +10,6 @@
 | Side Menu (with User Menu)
 |
 | File:		ext_sidemenu.php
-| Version:	0.4.3
 |
 +
 */
@@ -19,6 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * toendaCMS Side Menu (with User Menu)
+ *
+ * This module is used as a side menu.
+ *
+ * @version 0.4.4
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Content Modules
+ */
 
 
 if($navigation == 1){
@@ -75,7 +84,9 @@ if($navigation == 1){
 						break;
 					
 					case 'link':
-						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$menuItem->GetLink().'&amp;s='.$s;
+						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+						.'id='.$menuItem->GetLink().'&amp;s='.$s
+						.( isset($lang) ? '&amp;lang='.$lang : '' );
 						$link = $tcms_main->urlAmpReplace($link);
 						
 						echo '<a class="mainlevel" href="'.$link.'">'.$menuItem->GetTitle().'</a>';
@@ -108,7 +119,9 @@ if($navigation == 1){
 								break;
 							
 							case 'link':
-								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$subMenuItem->GetLink().'&amp;s='.$s;
+								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+								.'id='.$subMenuItem->GetLink().'&amp;s='.$s
+								.( isset($lang) ? '&amp;lang='.$lang : '' );
 								$link = $tcms_main->urlAmpReplace($link);
 								
 								echo '<a class="submenu" href="'.$link.'">'.$subMenuItem->GetTitle().'</a>';
@@ -141,7 +154,9 @@ if($navigation == 1){
 										break;
 									
 									case 'link':
-										$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$subMenu2Item->GetLink().'&amp;s='.$s;
+										$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+										.'id='.$subMenu2Item->GetLink().'&amp;s='.$s
+										.( isset($lang) ? '&amp;lang='.$lang : '' );
 										$link = $tcms_main->urlAmpReplace($link);
 										
 										echo '<a class="submenu sublevel2" href="'.$link.'">'.$subMenu2Item->GetTitle().'</a>';
@@ -290,7 +305,9 @@ if($navigation == 1){
 					//
 					if($arr_side_navi['id'][$key] == $sm_poll_id && $arr_side_navi['subid'][$key] == '-'){
 						if($show_sm_poll == 1){
-							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=polls&amp;s='.$s;
+							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+							.'id=polls&amp;s='.$s
+							.( isset($lang) ? '&amp;lang='.$lang : '' );
 							$link = $tcms_main->urlAmpReplace($link);
 							
 							echo '<li><a class="mainlevel" href="'.$link.'">'.$sm_poll_title.'</a></li>';

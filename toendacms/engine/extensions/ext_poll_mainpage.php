@@ -10,7 +10,6 @@
 | Poll Module (Contentplace)
 |
 | File:		ext_poll_mainpage.php
-| Version:	0.4.0
 |
 +
 */
@@ -19,7 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-
+/**
+ * toendaCMS Poll Module (Contentplace)
+ *
+ * This module is used as a poll module.
+ *
+ * @version 0.4.1
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Content Modules
+ */
 
 
 if(isset($_GET['paction'])){ $paction = $_GET['paction']; }
@@ -206,7 +214,9 @@ if($paction == 'poll'){
 	
 	echo '<input type="submit" value="'._TCMS_ADMIN_VOTE.'" border="0" class="inputbutton" />';
 	
-	$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=polls&amp;s='.$s.'&amp;ps=result&amp;vote='.$current_pollall_tag;
+	$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+	.'id=polls&amp;s='.$s.'&amp;ps=result&amp;vote='.$current_pollall_tag
+	.( isset($lang) ? '&amp;lang='.$lang : '' );
 	$link = $tcms_main->urlAmpReplace($link);
 	
 	echo '&nbsp;<a href="'.$link.'">'._POLL_RESULT.'</a>';
@@ -376,7 +386,9 @@ if(is_array($arr_allpolls)){
 		
 		$poll_subtitle = $tcms_main->decodeText($poll_subtitle, '2', $c_charset);
 		
-		$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=polls&amp;s='.$s.'&amp;current_pollall='.substr($value, 0, 32);
+		$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+		.'id=polls&amp;s='.$s.'&amp;current_pollall='.substr($value, 0, 32)
+		.( isset($lang) ? '&amp;lang='.$lang : '' );
 		$link = $tcms_main->urlAmpReplace($link);
 		
 		echo tcms_html::text('<a href="'.$link.'">'.$poll_subtitle.'</a><br />', 'left');
@@ -442,7 +454,9 @@ if($a_make == 'vote'){
 			$sqlQR = $sqlAL->sqlCreateOne($tcms_db_prefix.'poll_items', $newSQLColumns, $newSQLData, $maintag);
 		}
 		
-		$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$id.'&amp;s='.$s;
+		$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+		.'id='.$id.'&amp;s='.$s
+		.( isset($lang) ? '&amp;lang='.$lang : '' );
 		$link = $tcms_main->urlAmpReplace($link);
 		
 		echo '<script>'
@@ -451,7 +465,9 @@ if($a_make == 'vote'){
 		.'</script>';
 	}
 	else{
-		$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$id.'&amp;s='.$s;
+		$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+		.'id='.$id.'&amp;s='.$s
+		.( isset($lang) ? '&amp;lang='.$lang : '' );
 		$link = $tcms_main->urlAmpReplace($link);
 		
 		echo '<script>'

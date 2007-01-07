@@ -77,7 +77,7 @@ define('_TCMS_MENU_THEME_PREVIEW', '챘짱쨍챘짝짭챘쨀쨈챗쨍째');
 define('_TCMS_MENU_COPY', 'License');
 define('_TCMS_MENU_CREDITS', 'Credits &amp; System');
 define('_TCMS_MENU_DOCU', 'Documentation');
-define('_TCMS_MENU_HELP', '챘占쏙옙?챙?占승㏆옙);
+define('_TCMS_MENU_HELP', '챘占쏙옙?챙?占승㏆옙');
 define('_TCMS_MENU_SUPPORT', '챙짠??占쏙옙');
 define('_TCMS_MENU_ABOUT_MODULE', '챘짧짢챘??? 챙 ?챘쨀占�');
 define('_TCMS_MENU_ABOUT', 'toendaCMS 챙 ?챘쨀占�');

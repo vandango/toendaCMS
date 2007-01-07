@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides a frontpage with news and a text.
  *
- * @version 1.2.9
+ * @version 1.3.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -65,6 +65,7 @@ $hr_line_4 = '<div style="height: '.$news_spacing.'px;">&nbsp;</div>';
 /*
 	syndication
 */
+
 if($use_syndication == 1){
 	if(!$tcms_main->isReal($feed))
 		$feed = $def_feed;
@@ -91,8 +92,10 @@ if($use_syndication == 1){
 
 
 
-//***************************
-// Start page
+/*
+	Start page
+*/
+
 if(!isset($show)){ $show = 'start'; }
 
 if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
@@ -211,7 +214,9 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 				
 				
 				
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=newsmanager&amp;s='.$s.'&amp;news='.$dcNews->GetID();
+				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+				.'id=newsmanager&amp;s='.$s.'&amp;news='.$dcNews->GetID()
+				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlAmpReplace($link);
 				
 				echo '<div style="width: 100%;" class="news_title_bg">'
@@ -396,7 +401,9 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 							echo '&nbsp;'._NEWS_WRITTEN.'&nbsp;';
 							
 							if($userID != false){
-								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=profile&amp;s='.$s.'&amp;u='.$userID;
+								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+								.'id=profile&amp;s='.$s.'&amp;u='.$userID
+								.( isset($lang) ? '&amp;lang='.$lang : '' );
 								$link = $tcms_main->urlAmpReplace($link);
 								
 								echo '<a href="'.$link.'">'
@@ -418,7 +425,9 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 					foreach($catLink['link'] as $catKey => $catVal){
 						if($catKey != 0){ echo ','; }
 						
-						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=newsmanager&amp;s='.$s.'&amp;cat='.$catVal;
+						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+						.'id=newsmanager&amp;s='.$s.'&amp;cat='.$catVal
+						.( isset($lang) ? '&amp;lang='.$lang : '' );
 						$link = $tcms_main->urlAmpReplace($link);
 						
 						echo '&nbsp;<a href="'.$link.'">'
@@ -428,7 +437,9 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 				}
 				
 				if($use_trackback == 1){
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=newsmanager&amp;s='.$s.'&amp;news='.$dcNews->GetID().'&amp;cmd=trackback';
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id=newsmanager&amp;s='.$s.'&amp;news='.$dcNews->GetID().'&amp;cmd=trackback'
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 					
 					echo '&nbsp;|&nbsp;'
@@ -437,7 +448,9 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 				
 				if($use_news_comments == 1){
 					if($dcNews->GetCommentsEnabled() == 1){
-						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=newsmanager&amp;s='.$s.'&amp;news='.$dcNews->GetID();
+						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+						.'id=newsmanager&amp;s='.$s.'&amp;news='.$dcNews->GetID()
+						.( isset($lang) ? '&amp;lang='.$lang : '' );
 						$link = $tcms_main->urlAmpReplace($link);
 						
 						echo '&nbsp;|&nbsp;'
@@ -499,7 +512,9 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 				unset($toendaScript);
 				
 				if($toendaScript_more_show){
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=newsmanager&amp;s='.$s.'&amp;news='.$dcNews->GetID();
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id=newsmanager&amp;s='.$s.'&amp;news='.$dcNews->GetID()
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 					
 					switch($readmore_link){
@@ -537,7 +552,9 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 		
 		
 		if(count($arrNewsDC) >= $how_many){
-			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=newsmanager&amp;s='.$s;
+			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+			.'id=newsmanager&amp;s='.$s
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<hr class="hr_line" /><div align="right">'

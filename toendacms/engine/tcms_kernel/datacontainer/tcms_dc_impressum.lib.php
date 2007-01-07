@@ -10,7 +10,6 @@
 | toendaCMS Impressum DataContainer
 |
 | File:		tcms_dc_impressum.lib.php
-| Version:	0.0.1
 |
 +
 */
@@ -25,6 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * publishing form items.
  *
+ * @version 0.0.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
