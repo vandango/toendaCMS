@@ -58,7 +58,6 @@ if(isset($_POST['trackback_url'])){ $trackback_url = $_POST['trackback_url']; }
 	init
 */
 
-//include_once('engine/tcms_kernel/datacontainer/tcms_dc_news.lib.php');
 using('toendacms.datacontainer.news');
 
 $hr_line_1 = '<tr class="hr_line"><td colspan="2"></td></tr>';

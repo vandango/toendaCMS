@@ -10,7 +10,6 @@
 | Poll Module
 |
 | File:		ext_poll_sidebar.php
-| Version:	0.3.5
 |
 +
 */
@@ -18,6 +17,17 @@
 
 defined('_TCMS_VALID') or die('Restricted access');
 
+
+/**
+ * Poll Module
+ *
+ * This module provides the poll functionality.
+ *
+ * @version 0.3.7
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Sidebar Modules
+ */
 
 
 if($use_poll == 1){
@@ -206,22 +216,26 @@ if($use_poll == 1){
 					}while($question != NULL);
 				}
 				
-				echo '<input type="hidden" name="poll" value="'.$current_poll.'" />';
-				echo '<input type="hidden" name="ip" value="'.$your_ip.'" />';
-				echo '<input type="hidden" name="make" value="vote" />';
+				echo '<input type="hidden" name="poll" value="'.$current_poll.'" />'
+				.'<input type="hidden" name="ip" value="'.$your_ip.'" />'
+				.'<input type="hidden" name="make" value="vote" />'
+				.( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' );
 				
 				echo '<input type="submit" value="'._TCMS_ADMIN_VOTE.'" border="0" class="inputbutton" />';
 				
 				echo '</form>';
 				
 				
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=polls&amp;s='.$s;
+				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=polls&amp;s='.$s
+				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlAmpReplace($link);
 				
 				echo '<a href="'.$link.'">'._POLL_ALLPOLLS.'</a>';
 				
 				
-				$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id=polls&s='.$s.'&ps=result&vote='.$current_poll_tag;
+				$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
+				.'id=polls&s='.$s.'&ps=result&vote='.$current_poll_tag
+				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlAmpReplace($link);
 				
 				echo '&nbsp;&nbsp;<a href="'.$link.'">'._POLL_RESULT.'</a>';
@@ -319,7 +333,8 @@ if($use_poll == 1){
 			}
 			echo tcms_html::table_end();
 			
-			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id=polls&s='.$s;
+			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id=polls&s='.$s
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<br /><a href="'.$link.'">'._POLL_ALLPOLLS.'</a>';
@@ -383,7 +398,9 @@ if($use_poll == 1){
 					$sqlQR = $sqlAL->sqlCreateOne($tcms_db_prefix.'poll_items', $newSQLColumns, $newSQLData, $maintag);
 				}
 				
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$id.'&amp;s='.$s;
+				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+				.'id='.$id.'&amp;s='.$s
+				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlAmpReplace($link);
 				
 				echo '<script>'
@@ -392,7 +409,9 @@ if($use_poll == 1){
 				.'</script>';
 			}
 			else{
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$id.'&amp;s='.$s;
+				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+				.'id='.$id.'&amp;s='.$s
+				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlAmpReplace($link);
 				
 				echo '<script>'

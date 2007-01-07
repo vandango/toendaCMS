@@ -7,10 +7,9 @@
 | Author: Jonathan Naumann                                               |
 +------------------------------------------------------------------------+
 | 
-| News Categories for Sidebar
+| News Monthview for Sidebar
 |
 | File:		ext_sidebar_monthview.php
-| Version:	0.2.3
 |
 +
 */
@@ -19,6 +18,17 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * News Monthview for Sidebar
+ *
+ * This module provides news nonthview for
+ * the sidebar.
+ *
+ * @version 0.2.4
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Sidebar Modules
+ */
 
 
 if($use_side_archives == 1){
@@ -66,7 +76,9 @@ if($use_side_archives == 1){
 						
 						$sideDate = $monthName[$ccMonth].'&nbsp;'.$sideYear;
 						
-						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=newsmanager&amp;s='.$s.'&amp;date='.$sideYear.$sideMonth;
+						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+						.'id=newsmanager&amp;s='.$s.'&amp;date='.$sideYear.$sideMonth
+						.( isset($lang) ? '&amp;lang='.$lang : '' );
 						$link = $tcms_main->urlAmpReplace($link);
 						
 						echo '<span class="newsCategories" style="padding-left: 6px;">&raquo;&nbsp;';
@@ -115,7 +127,9 @@ if($use_side_archives == 1){
 				
 				$sideDate = $monthName[$ccMonth].'&nbsp;'.$cYear;
 				
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=newsmanager&amp;s='.$s.'&amp;date='.$cYear.$cMonth;
+				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+				.'id=newsmanager&amp;s='.$s.'&amp;date='.$cYear.$cMonth
+				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlAmpReplace($link);
 				
 				echo '<span class="newsCategories" style="padding-left: 6px;">&raquo; ';

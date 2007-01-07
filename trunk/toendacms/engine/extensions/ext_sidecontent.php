@@ -10,7 +10,6 @@
 | Sidebar
 |
 | File:		ext_sidecontent.php
-| Version:	0.4.7
 |
 +
 */
@@ -19,6 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * Sidebar
+ *
+ * This module provides the sidebar functionality.
+ *
+ * @version 0.4.8
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Sidebar Modules
+ */
 
 
 if($use_sidebar == 1){
@@ -256,7 +265,9 @@ if($id != 'register' && $id != 'profile' && $id != 'polls'){
 		if($check_products_amount > 0){
 			foreach($arr_art['sort'] as $key => $value){
 				if($arr_art['pub'][$key] == 1){
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=products&amp;s='.$s.'&amp;category='.$arr_art['dir'][$key];
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id=products&amp;s='.$s.'&amp;category='.$arr_art['dir'][$key]
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 					
 					echo '<strong class="text_normal"><a href="'.$link.'">'.$arr_art['name'][$key].'</a></strong><br />';

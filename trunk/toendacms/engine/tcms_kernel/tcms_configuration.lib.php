@@ -10,7 +10,6 @@
 | toendaCMS Configuration
 |
 | File:		tcms_configuration.lib.php
-| Version:	0.2.5
 |
 +
 */
@@ -25,6 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide the global
  * configuration data.
  *
+ * @version 0.2.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -246,12 +246,40 @@ class tcms_configuration {
 			case 'germany_DE': $return = 'DE'; break;
 			case 'italy_IT': $return = 'IT'; break;
 			case 'korean_KR': $return = 'KR'; break;
-			case 'bulgarian_BG': $return = 'NO'; break;
+			case 'norwegian_NO': $return = 'NO'; break;
 			case 'portugues_BR': $return = 'BR'; break;
 			case 'romanian_RO': $return = 'RO'; break;
 			case 'slovak_SK': $return = 'SK'; break;
 			case 'spanish_ES': $return = 'ES'; break;
 			case 'swedish_SE': $return = 'SE'; break;
+		}
+		
+		return $return;
+	}
+	
+	
+	
+	/**
+	 * Get the language code for toendaCMS
+	 *
+	 * @param String $langCode
+	 * @return String
+	 */
+	function getLanguageCodeForTCMS($langCode){
+		switch(strtolower($langCode)){
+			case 'bg': $return = 'bulgarian_BG'; break;
+			case 'nl': $return = 'dutch_NL'; break;
+			case 'en': $return = 'english_EN'; break;
+			case 'fi': $return = 'finnish_FI'; break;
+			case 'de': $return = 'germany_DE'; break;
+			case 'it': $return = 'italy_IT'; break;
+			case 'kr': $return = 'korean_KR'; break;
+			case 'no': $return = 'norwegian_NO'; break;
+			case 'br': $return = 'portugues_BR'; break;
+			case 'ro': $return = 'romanian_RO'; break;
+			case 'sk': $return = 'slovak_SK'; break;
+			case 'es': $return = 'spanish_ES'; break;
+			case 'se': $return = 'swedish_SE'; break;
 		}
 		
 		return $return;

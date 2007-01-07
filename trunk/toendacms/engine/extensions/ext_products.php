@@ -10,7 +10,6 @@
 | Products Manager
 |
 | File:		ext_products.php
-| Version:	0.2.8
 |
 +
 */
@@ -18,6 +17,17 @@
 
 defined('_TCMS_VALID') or die('Restricted access');
 
+
+/**
+ * toendaCMS Products Manager
+ *
+ * This module is used as a product manager.
+ *
+ * @version 0.2.9
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Content Modules
+ */
 
 
 if(isset($_GET['action'])){ $action = $_GET['action']; }
@@ -208,7 +218,9 @@ if($action == 'showall'){
 			if($arr_dw['status'][$key] == 1){
 				echo tcms_html::table_head('0', '0', '0', '100%');
 				
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=products&amp;s='.$s.'&amp;action=showone&amp;category='.$main_category.'&amp;article='.$arr_dw['tag'][$key];
+				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+				.'id=products&amp;s='.$s.'&amp;action=showone&amp;category='.$main_category.'&amp;article='.$arr_dw['tag'][$key]
+				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlAmpReplace($link);
 				
 				echo '<tr><td valign="middle" colspan="2" class="products_top">'

@@ -10,7 +10,6 @@
 | toendaCMS Search Engine Optimization
 |
 | File:		tcms_seo.lib.php
-| Version:	0.2.9
 |
 +
 */
@@ -25,6 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used for the search engine
  * optimization.
  *
+ * @version 0.3.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -38,10 +38,9 @@ class tcms_seo {
 	
 	
 	
-	/***
-	* @return
-	* @desc PHP5 Constructor
-	*/
+	/**
+	 * PHP5 Constructor
+	 */
 	function __construct(){
 		$this->m_urlArray = explode('/', $_SERVER['REQUEST_URI']);
 		$this->m_RequestUri = $_SERVER['REQUEST_URI'];
@@ -51,39 +50,35 @@ class tcms_seo {
 	
 	
 	
-	/***
-	* @return
-	* @desc PHP4 Constructor
-	*/
+	/**
+	 * PHP4 Constructor
+	 */
 	function tcms_seo(){
 		$this->__construct();
 	}
 	
 	
 	
-	/***
-	* @return
-	* @desc PHP5 Destructor
-	*/
+	/**
+	 * PHP5 Destructor
+	 */
 	function __destruct(){
 	}
 	
 	
 	
-	/***
-	* @return
-	* @desc PHP4 Destructor
-	*/
+	/**
+	 * PHP4 Destructor
+	 */
 	function _tcms_seo(){
 		$this->__destruct();
 	}
 	
 	
 	
-	/***
-	* @return
-	* @desc
-	*/
+	/**
+	 * Explode the url in colon format
+	 */
 	function explodeUrlColonFormat(){
 		$arrSEO = '';
 		
@@ -198,6 +193,10 @@ class tcms_seo {
 			if(substr($urlValue, 0, 2) == 'c:' && $urlKey > 2){
 				$arrSEO['c'] = substr($urlValue, 2, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 2 ));
 			}
+			
+			if(substr($urlValue, 0, 4) == 'lang:' && $urlKey > 4){
+				$arrSEO['c'] = substr($urlValue, 4, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 4 ));
+			}
 		}
 		
 		return ( $arrSEO == '' ? null : $arrSEO );
@@ -205,10 +204,9 @@ class tcms_seo {
 	
 	
 	
-	/***
-	* @return
-	* @desc
-	*/
+	/**
+	 * Explode the url in slash format
+	 */
 	function explodeUrlSlashFormat(){
 		$arrSEO = '';
 		
@@ -325,6 +323,10 @@ class tcms_seo {
 				
 				case 'c':
 					$arrSEO['c'] = $this->m_urlArray[$urlKey + 1];
+					break;
+				
+				case 'lang':
+					$arrSEO['lang'] = $this->m_urlArray[$urlKey + 1];
 					break;
 			}
 		}

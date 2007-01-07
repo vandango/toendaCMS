@@ -10,7 +10,6 @@
 | "Layout Changer" Extension
 |
 | File:		ext_layoutchanger.php
-| Version:	0.2.2
 |
 +
 */
@@ -18,6 +17,17 @@
 
 defined('_TCMS_VALID') or die('Restricted access');
 
+
+/**
+ * "Layout Changer" Extension
+ *
+ * This module provides the layout changer functionality.
+ *
+ * @version 0.2.3
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Sidebar Modules
+ */
 
 
 if($use_layout_chooser == 1){
@@ -42,13 +52,9 @@ if($use_layout_chooser == 1){
 	}
 	
 	
-	
-	
 	$arr_webtheme  = $tcms_main->readdir_ext('theme/');
 	
 	
-	
-
 	if($show_ct == 1){ echo tcms_html::subtitle($chooser_title); }
 	
 	echo '<div align="center">';
@@ -57,7 +63,8 @@ if($use_layout_chooser == 1){
 	$link = '?'.( isset($session) ? 'session='.$session : '' ).( isset($u) ? '&amp;u='.$u : '' );
 	
 	echo '<form name="selectform" action="'.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).''.$link.'" method="post">'
-	.'<input type="hidden" name="id" value="'.$id.'" />';
+	.'<input type="hidden" name="id" value="'.$id.'" />'
+	.( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' );
 	
 	echo '<select name="s" onchange="document.getElementById(\'show_thumbnail\').src=\''.$imagePath.'theme/\'+this.value+\'/thumbnail.jpg\';">';
 	

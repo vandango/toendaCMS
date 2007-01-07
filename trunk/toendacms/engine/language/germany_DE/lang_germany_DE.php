@@ -89,6 +89,7 @@ define('_TCMS_BASE_DIRECTORY', 'Basisverzeichnis');
 define('_TCMS_OPEN_DIRECTORY', 'Ordner &ouml;ffnen');
 define('_TCMS_TEST_ENVIRONMENT', 'DIES IST EINE TESTUMGEBUNG!');
 define('_TCMS_THIS_PAGE_IN', 'Diese Seite in');
+define('_TCMS_LANGUAGES', 'Sprachen');
 
 
 // BACKEND TOPMENU
@@ -743,6 +744,7 @@ define('_SIDEEXT_NEWS_CATEGORIES_SHOW', 'Neuigkeiten Kategorien anzeigen');
 define('_SIDEEXT_NEWS_ARCHIVES_SHOW', 'Neuigkeiten Archiv anzeigen');
 define('_SIDEEXT_NEWS_CATEGORIES_AMOUNT_SHOW', 'Anzahl Neuigkeiten in Kategorien anzeigen');
 define('_SIDEEXT_MODUL', 'Module');
+define('_SIDEEXT_LANGUAGE_SELECTOR', 'Sprach W&auml;hler');
 
 
 // NEWSLETTER

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 0.4.4
+ * @version 0.4.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -48,6 +48,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getImpressumtDC()                                             -> Get a impressum data container
  *
  * getSidebarModuleDC()                                          -> Get a sidebarmodul data container
+ * getSidebarExtensionSettings()                                 -> Get the sidebar extension settings
  * 
  * </code>
  *
@@ -1024,6 +1025,56 @@ class tcms_datacontainer_provider extends tcms_main {
 		$sbmDC->SetPoll($arrASM['use_poll']);
 		
 		return $sbmDC;
+	}
+	
+	
+	
+	/**
+	 * Get the sidebar extension settings
+	 * 
+	 * @return String
+	 */
+	function getSidebarExtensionSettings() {
+		$se = new tcms_dc_sidebarextensions();
+		
+		if($this->m_choosenDB == 'xml'){
+			$xml = new xmlparser(''.$this->m_path.'/tcms_global/sidebar.xml', 'r');
+			
+			$wsLang          = $xml->read_section('side', 'lang');
+			$wsSidemenuTitle = $xml->read_section('side', 'sidemenu_title');
+			
+			$xml->flush();
+			$xml->_xmlparser();
+			unset($xml);
+			
+			if($wsLang          == false) $wsLang          = '';
+			if($wsSidemenuTitle == false) $wsSidemenuTitle = '';
+		}
+		else{
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
+			$sqlCN = $sqlAL->sqlConnect($this->m_sqlUser, $this->m_sqlPass, $this->m_sqlHost, $this->m_sqlDB, $this->m_sqlPort);
+			
+			$sqlQR = $sqlAL->sqlGetOne($this->m_sqlPrefix.'sidebar_extensions', 'sidebar_extensions');
+			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+			
+			$wsLang          = $sqlObj->lang;
+			$wsSidemenuTitle = $sqlObj->sidemenu_title;
+			
+			$sqlAL->sqlFreeResult($sqlQR);
+			$sqlAL->_sqlAbstractionLayer();
+			unset($sqlAL);
+			
+			if($wsLang          == NULL) $wsLang          = '';
+			if($wsSidemenuTitle == NULL) $wsSidemenuTitle = '';
+		}
+		
+		//$wsTitle   = $this->decodeText($wsTitle, '2', $this->m_CHARSET);
+		
+		$se->setID('sidebar_extensions');
+		$se->setLanguages($wsLang);
+		$se->setSidemenuTitle($wsSidemenuTitle);
+		
+		return $se;
 	}
 }
 

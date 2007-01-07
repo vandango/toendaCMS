@@ -10,7 +10,6 @@
 | toendaCMS Menu Provider
 |
 | File:		tcms_menu_provider.lib.php
-| Version:	0.1.0
 |
 +
 */
@@ -25,13 +24,13 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a provider for sidemenu datacontainer
  * objects.
  *
+ * @version 0.1.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
- */
-
-
-/**
+ *
+ * <code>
+ * 
  * TCMS Menu methods
  *
  * __construct()                           -> PHP5 Constructor
@@ -40,6 +39,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * _checkIDByLink                          -> Check a menuitem by link
  * _getIDByLink                            -> Get a menuitem by link
  * getSidemenu                             -> Get a array of menu items
+ * 
+ * </code>
  *
  */
 
@@ -808,7 +809,9 @@ class tcms_menu_provider extends tcms_main {
 						$arr_mainmenu['link'][$mkey] = '<a class="mainlevel" href="'.trim($arr_menu['link'][$mkey]).'" target="_blank">'.trim($arr_menu['name'][$mkey]).'</a>';
 					}
 					else{
-						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$arr_menu['link'][$mkey].'&amp;s='.$s;
+						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+						.'id='.$arr_menu['link'][$mkey].'&amp;s='.$s
+						.( isset($lang) ? '&amp;lang='.$lang : '' );
 						$link = $this->urlAmpReplace($link);
 						
 						$arr_mainmenu['link'][$mkey] = '<a class="mainlevel" href="'.$link.'">'.trim($arr_menu['name'][$mkey]).'</a>';
@@ -826,7 +829,9 @@ class tcms_menu_provider extends tcms_main {
 						$arr_mainmenu['submenu'][$mvalue][$mkey] = '<a class="submenu" href="'.trim($arr_menu['link'][$mkey]).'" target="_blank">'.trim($arr_menu['name'][$mkey]).'</a>';
 					}
 					else{
-						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.trim($arr_menu['link'][$mkey]).'&amp;s='.$s;
+						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+						.'id='.trim($arr_menu['link'][$mkey]).'&amp;s='.$s
+						.( isset($lang) ? '&amp;lang='.$lang : '' );
 						$link = $this->urlAmpReplace($link);
 						
 						$arr_mainmenu['submenu'][$mvalue][$mkey] = '<a class="submenu" href="'.$link.'">'.trim($arr_menu['name'][$mkey]).'</a>';

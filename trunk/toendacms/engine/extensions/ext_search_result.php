@@ -10,7 +10,6 @@
 | Search Result Page
 |
 | File:		ext_search_result.php
-| Version:	0.5.0
 |
 +
 */
@@ -18,6 +17,17 @@
 
 defined('_TCMS_VALID') or die('Restricted access');
 
+
+/**
+ * toendaCMS Search Result Page
+ *
+ * This module is used as a search module.
+ *
+ * @version 0.5.1
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Content Modules
+ */
 
 
 if(isset($_POST['option'])){ $option = $_POST['option']; }
@@ -54,7 +64,8 @@ echo tcms_html::contentheading(_SEARCH_TITLE)
 echo '<form action="'.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?" method="post">'
 .'<input type="hidden" name="id" value="search" />'
 .'<input type="hidden" name="s" value="'.$s.'" />'
-.( isset($session) ? '<input type="hidden" name="session" value="'.$session.'" />' : '' );
+.( isset($session) ? '<input type="hidden" name="session" value="'.$session.'" />' : '' )
+.( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' );
 
 
 echo '<div align="left" class="text_normal">'

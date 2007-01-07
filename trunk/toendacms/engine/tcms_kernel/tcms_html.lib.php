@@ -10,7 +10,6 @@
 | toendaCMS Html structure class
 |
 | File:		tcms_html.lib.php
-| Version:	0.4.0
 |
 +
 */
@@ -25,6 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide some often used html
  * codes.
  *
+ * @version 0.4.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -550,7 +550,6 @@ class tcms_html {
 	function userProfileTitle($title){
 		return '<div style="display: block; width: 90%;" class="user_profile_title">'.$title.'</div>';
 	}
-	
 	
 	
 	// ------------------------------------

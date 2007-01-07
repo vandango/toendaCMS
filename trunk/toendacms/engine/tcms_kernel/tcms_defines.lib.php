@@ -10,7 +10,6 @@
 | Global constants and defines
 |
 | File:		tcms_defines.lib.php
-| Version:	0.5.0
 |
 +
 */
@@ -18,6 +17,17 @@
 
 defined('_TCMS_VALID') or die('Restricted access');
 
+
+/**
+ * Global constants and defines
+ *
+ * This is used for global values
+ *
+ * @version 0.5.2
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS
+ */
 
 
 /*
@@ -194,6 +204,7 @@ $dayName['short']['sun'] = _TCMS_DAY_SUNDAY_XS;
 /*_LAST_IMAGES*/   if(!defined('_LAST_IMAGES'))    define('_LAST_IMAGES', 'engine/extensions/ext_gallery_sidebar.php');
 /*_SYNDICATION*/   if(!defined('_SYNDICATION'))    define('_SYNDICATION', 'engine/extensions/ext_syndication.php');
 /*_FRONT_NEWS*/    if(!defined('_FRONT_NEWS'))     define('_FRONT_NEWS', 'engine/extensions/ext_sidebar_news.php');
+/*_LANG_SELECTOR*/ if(!defined('_LANG_SELECTOR'))  define('_LANG_SELECTOR', 'engine/extensions/ext_language_selector.php');
 
 //
 // --> IN CONTENT
@@ -243,7 +254,8 @@ $dayName['short']['sun'] = _TCMS_DAY_SUNDAY_XS;
 	SITE NAMES
 */
 /*_SITE_NAME*/
-$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'s='.$s;
+$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'s='.$s
+.( isset($lang) ? '&amp;lang='.$lang : '' );
 $link = $tcms_main->urlAmpReplace($link);
 
 if(!defined('_SITE_NAME')) define('_SITE_NAME', '<a name="top"></a><span class="title"><a class="index" href="'.$link.'">'.$sitename.'</a></span>');
@@ -334,7 +346,8 @@ if(!defined('_SITE_METATAG_AUTOR')) define('_SITE_METATAG_AUTOR', $websiteownerM
 
 /* _SITE_LOGO */
 if($sitelogo != ''){
-	$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'s='.$s;
+	$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'s='.$s
+	.( isset($lang) ? '&amp;lang='.$lang : '' );
 	$link = $tcms_main->urlAmpReplace($link);
 	$sitelogo = '<a href="'.$link.'">'.$sitelogo.'</a>';
 }

@@ -89,6 +89,7 @@ if(!defined('_TCMS_BASE_DIRECTORY'))           define('_TCMS_BASE_DIRECTORY', 'B
 if(!defined('_TCMS_OPEN_DIRECTORY'))           define('_TCMS_OPEN_DIRECTORY', 'Open folder');
 if(!defined('_TCMS_TEST_ENVIRONMENT'))         define('_TCMS_TEST_ENVIRONMENT', 'THIS IS A TEST ENVIRONMENT!');
 if(!defined('_TCMS_THIS_PAGE_IN'))             define('_TCMS_THIS_PAGE_IN', 'This page in');
+if(!defined('_TCMS_LANGUAGES'))                define('_TCMS_LANGUAGES', 'Languages');
 
 
 // BACKEND TOPMENU
@@ -741,6 +742,7 @@ define('_SIDEEXT_NEWS_CATEGORIES_SHOW', 'Show News Categories');
 define('_SIDEEXT_NEWS_ARCHIVES_SHOW', 'Show News Archives');
 define('_SIDEEXT_NEWS_CATEGORIES_AMOUNT_SHOW', 'Show amount of news in categories');
 define('_SIDEEXT_MODUL', 'Modules');
+if(!defined('_SIDEEXT_LANGUAGE_SELECTOR'))     define('_SIDEEXT_LANGUAGE_SELECTOR', 'Language Selector');
 
 
 // NEWSLETTER

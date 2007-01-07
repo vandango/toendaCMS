@@ -10,7 +10,6 @@
 | Search
 |
 | File:		ext_search.php
-| Version:	0.1.8
 |
 +
 */
@@ -19,7 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-
+/**
+ * Search Extension
+ *
+ * This module provides the search form.
+ *
+ * @version 0.1.9
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Sidebar Modules
+ */
 
 
 if($use_search == 1){
@@ -57,8 +65,6 @@ if($use_search == 1){
 		}
 	}
 	
-	
-	
 
 	if($show_st == 1)
 		echo tcms_html::subtitle(_SEARCH_TITLE).'<br />';
@@ -78,7 +84,8 @@ if($use_search == 1){
 	echo '<input type="hidden" name="id" value="search" />'
 	.'<input type="hidden" name="s" value="'.$s.'" />'
 	.'<input type="hidden" name="option" value="all" />'
-	.( isset($session) ? '<input type="hidden" name="session" value="'.$session.'" />' : '' );
+	.( isset($session) ? '<input type="hidden" name="session" value="'.$session.'" />' : '' )
+	.( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' );
 	
 	echo '</form>'
 	.'</div>';

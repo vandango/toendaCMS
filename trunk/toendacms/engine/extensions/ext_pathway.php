@@ -10,7 +10,6 @@
 | Pathway
 |
 | File:		ext_pathway.php
-| Version:	0.4.9
 |
 +
 */
@@ -18,6 +17,17 @@
 
 defined('_TCMS_VALID') or die('Restricted access');
 
+
+/**
+ * toendaCMS Pathway
+ *
+ * This module is used as a pathway.
+ *
+ * @version 0.5.0
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Content Modules
+ */
 
 
 if(isset($_GET['albums'])){ $albums = $_GET['albums']; }
@@ -37,7 +47,8 @@ if(!isset($task)){ $task = 'register'; }
 
 
 
-$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'s='.$s;
+$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'s='.$s
+.( isset($lang) ? '&amp;lang='.$lang : '' );
 $link = $tcms_main->urlAmpReplace($link);
 
 $_HOMEPATH = '&nbsp;<a class="pathway" href="'.$link.'">'._PATH_HOME.'</a>';
@@ -193,7 +204,9 @@ switch($id){
 			echo '&nbsp;'.$pathwayChar.'&nbsp;';
 			
 			// list
-			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=download&amp;s='.$s.'&amp;action=showall';
+			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+			.'id=download&amp;s='.$s.'&amp;action=showall'
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<a class="pathway" href="'.$link.'">'.$download_title.'</a>';
@@ -203,14 +216,18 @@ switch($id){
 				echo '&nbsp;'.$pathwayChar.'&nbsp;';
 				
 				if($i != 0){
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=download&amp;s='.$s.'&amp;action=showall&amp;category='.$arrFAQparent['uid'][$i];
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id=download&amp;s='.$s.'&amp;action=showall&amp;category='.$arrFAQparent['uid'][$i]
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 					
 					echo '<a class="pathway" href="'.$link.'">'.$arrFAQparent['title'][$i].'</a>';
 				}
 				else{
 					if(isset($article)){
-						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=download&amp;s='.$s.'&amp;action=showall&amp;category='.$arrFAQparent['uid'][$i];
+						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+						.'id=download&amp;s='.$s.'&amp;action=showall&amp;category='.$arrFAQparent['uid'][$i]
+						.( isset($lang) ? '&amp;lang='.$lang : '' );
 						$link = $tcms_main->urlAmpReplace($link);
 						
 						echo '<a class="pathway" href="'.$link.'">'.$arrFAQparent['title'][$i].'</a>';
@@ -529,7 +546,9 @@ switch($id){
 			echo '&nbsp;'.$pathwayChar.'&nbsp;';
 			
 			
-			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=knowledgebase&amp;s='.$s.'&amp;action=list';
+			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+			.'id=knowledgebase&amp;s='.$s.'&amp;action=list'
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<a class="pathway" href="'.$link.'">'.$faq_title.'</a>';
@@ -539,14 +558,18 @@ switch($id){
 				echo '&nbsp;'.$pathwayChar.'&nbsp;';
 				
 				if($i != 0){
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=knowledgebase&amp;s='.$s.'&amp;action=list&amp;category='.$arrFAQparent['uid'][$i];
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id=knowledgebase&amp;s='.$s.'&amp;action=list&amp;category='.$arrFAQparent['uid'][$i]
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 					
 					echo '<a class="pathway" href="'.$link.'">'.$arrFAQparent['title'][$i].'</a>';
 				}
 				else{
 					if(isset($article)){
-						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=knowledgebase&amp;s='.$s.'&amp;action=list&amp;category='.$arrFAQparent['uid'][$i];
+						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+						.'id=knowledgebase&amp;s='.$s.'&amp;action=list&amp;category='.$arrFAQparent['uid'][$i]
+						.( isset($lang) ? '&amp;lang='.$lang : '' );
 						$link = $tcms_main->urlAmpReplace($link);
 						
 						echo '<a class="pathway" href="'.$link.'">'.$arrFAQparent['title'][$i].'</a>';

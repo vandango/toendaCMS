@@ -7,10 +7,9 @@
 | Author: Jonathan Naumann                                               |
 +------------------------------------------------------------------------+
 | 
-| Extensions: Sidebar
+| Sidebar Extensions
 |
 | File:		mod_side_extensions.php
-| Version:	0.3.8
 |
 +
 */
@@ -19,9 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-
-
-
+/**
+ * Sidebar Extensions
+ *
+ * This module is used for the sidebar extensions.
+ *
+ * @version 0.4.1
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 if(isset($_GET['action'])){ $action = $_GET['action']; }
@@ -50,6 +56,7 @@ if(isset($_POST['show_lt'])){ $show_lt = $_POST['show_lt']; }
 if(isset($_POST['new_usermenu_title'])){ $new_usermenu_title = $_POST['new_usermenu_title']; }
 if(isset($_POST['new_ncamount_show'])){ $new_ncamount_show = $_POST['new_ncamount_show']; }
 if(isset($_POST['new_show_ml'])){ $new_show_ml = $_POST['new_show_ml']; }
+if(isset($_POST['new_lang'])){ $new_lang = $_POST['new_lang']; }
 
 if(isset($_POST['sidebar'])){ $sidebar = $_POST['sidebar']; }
 if(isset($_POST['login'])){ $login = $_POST['login']; }
@@ -67,9 +74,9 @@ if(isset($_POST['new_use_side_archives'])){ $new_use_side_archives = $_POST['new
 
 
 
-
-
-
+//=====================================================
+// HTML
+//=====================================================
 
 if($id_group == 'Developer' || $id_group == 'Administrator'){
 	if(!isset($action)){ $action = 'modules'; }
@@ -113,16 +120,11 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	
 	
 	
-	
-	
-	
-	
+	//=====================================================
+	// MODULES
+	//=====================================================
 	
 	if($action == 'modules'){
-		//=====================================================
-		//	INIT
-		//=====================================================
-		
 		$xmlActive = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/modules.xml','r');
 		
 		$arrASM['use_side_gallery']   = $xmlActive->read_section('config', 'side_gallery');
@@ -241,15 +243,11 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	
 	
 	
-	
-	
-	
-	
+	//=====================================================
+	// SETTINGS
+	//=====================================================
 	
 	if($action == 'settings'){
-		//=====================================================
-		//	INIT
-		//=====================================================
 		if($choosenDB == 'xml'){
 			$layout_xml         = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/sidebar.xml','r');
 			$tmp_sidemenu_title = $layout_xml->read_section('side', 'sidemenu_title');
@@ -274,6 +272,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 			$tmp_usermenu       = $layout_xml->read_section('side', 'usermenu');
 			$tmp_show_lt        = $layout_xml->read_section('side', 'show_login_title');
 			$tmp_ncamount_show  = $layout_xml->read_section('side', 'show_news_cat_amount');
+			$old_lang_arr       = $layout_xml->read_section('side', 'lang');
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
@@ -305,6 +304,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 			$tmp_show_lt        = $sqlARR['show_login_title'];
 			$tmp_ncamount_show  = $sqlARR['show_news_cat_amount'];
 			$tmp_show_ml        = $sqlARR['show_memberlist'];
+			$old_lang_arr       = $sqlARR['lang'];
 			
 			if($tmp_sidemenu_title == NULL){ $tmp_sidemenu_title = ''; }
 			if($tmp_sidemenu       == NULL){ $tmp_sidemenu       = ''; }
@@ -329,6 +329,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 			if($tmp_show_lt        == NULL){ $tmp_show_lt        = ''; }
 			if($tmp_ncamount_show  == NULL){ $tmp_ncamount_show  = 0; }
 			if($tmp_show_ml        == NULL){ $tmp_show_ml        = ''; }
+			if($old_lang_arr       == NULL){ $old_lang_arr       = ''; }
 		}
 		
 		// CHARSETS
@@ -500,7 +501,8 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		
 		
 		// row
-		echo '<tr><td colspan="2" class="tcms_db_title tcms_bg_blue_01 tcms_padding_mini"><strong>'._SIDEEXT_LOGIN.'</strong></td></tr>';
+		echo '<tr><td colspan="2" class="tcms_db_title tcms_bg_blue_01 tcms_padding_mini">'
+		.'<strong>'._SIDEEXT_LOGIN.'</strong></td></tr>';
 		
 		
 		// row
@@ -573,6 +575,42 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		.'</td></tr>';
 		
 		
+		// row
+		echo '<tr height: 28px;"><td colspan="2">&nbsp;</td></tr>';
+		
+		
+		// row
+		echo '<tr><td colspan="2" class="tcms_db_title tcms_bg_blue_01 tcms_padding_mini">'
+		.'<strong>'._SIDEEXT_LANGUAGE_SELECTOR.'</strong></td></tr>';
+		
+		
+		// row
+		echo '<tr><td></td><td valign="top" colspan="2">'
+		.'<fieldset style="width: 400px;"><legend><strong class="tcms_bold">'._TCMS_LANGUAGES.'</strong></legend>'
+		.'<br />';
+		
+		
+		$old_lang = explode(';', $old_lang_arr);
+		
+		foreach($languages['fine'] as $key => $val) {
+			echo '<div style="margin: 0; padding: 0 0 4px 0;">'
+			.'<input onchange="CHANGED = true;" '
+			.'type="checkbox" style="margin: 0 0 -1px 0 !important;" '
+			.'name="new_lang['.$val.']" id="new_lang['.$val.']" value="1"';
+			
+			echo ( in_array($val, $old_lang) ? ' checked="checked"' : '' );
+			
+			echo ' />'
+			.'<label for="new_lang['.$val.']">'
+			.'&nbsp;'.$languages['name'][$key]
+			.'</label>'
+			.'</div>';
+		}
+		
+		echo '</fieldset>'
+		.'</td></tr>';
+		
+		
 		// Table end
 		echo '</table><br />';
 		
@@ -580,6 +618,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	}
 	
 	
+	// end tabs
 	
 	echo '</div>';
 	
@@ -587,19 +626,11 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	
 	
 	
-	
-	
-	
 	//==================================================
-	// SAVE
+	// SAVE MODULES
 	//==================================================
 	
 	if($todo == 'save_modules'){
-		//***************************************
-		//
-		// WRITE XML
-		//
-		
 		if(empty($tmp_use_poll_s))       { $tmp_use_poll_s        = 0; }
 		if(empty($new_side_gallery))     { $new_side_gallery      = 0; }
 		if(empty($chooser))              { $chooser               = 0; }
@@ -645,19 +676,11 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	
 	
 	
-	
-	
-	
-	
-	
+	//=====================================================
+	// SAVE
+	//=====================================================
 	
 	if($todo == 'save'){
-		//***************************************
-		//
-		// WRITE XML
-		//
-		
-		
 		if($new_sidemenu_title == ''){ $new_sidemenu_title = '[TYPE TITLE]'; }
 		if(empty($sidemenu))         { $sidemenu           = 0; }
 		if($sidebar_title == '')     { $sidebar_title      = '[TYPE TITLE]'; }
@@ -680,6 +703,12 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		if(empty($search_button))    { $search_button      = 0; }
 		if(empty($new_ncamount_show)){ $new_ncamount_show  = 0; }
 		if(empty($new_show_ml))      { $new_show_ml        = 0; }
+		
+		
+		// languages
+		foreach($new_lang as $key => $val) {
+			$ws_lang .= $key.';';
+		}
 		
 		
 		// CHARSETS
@@ -723,6 +752,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 			$xmluser->write_value('show_login_title', $show_lt);
 			$xmluser->write_value('show_news_cat_amount', $new_ncamount_show);
 			$xmluser->write_value('show_memberlist', $new_show_ml);
+			$xmluser->write_value('lang', $ws_lang);
 			
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('side');
@@ -755,7 +785,8 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 			.$tcms_db_prefix.'sidebar_extensions.usermenu='.$usermenu.', '
 			.$tcms_db_prefix.'sidebar_extensions.show_login_title='.$show_lt.', '
 			.$tcms_db_prefix.'sidebar_extensions.show_news_cat_amount='.$new_ncamount_show.', '
-			.$tcms_db_prefix.'sidebar_extensions.show_memberlist='.$new_show_ml;
+			.$tcms_db_prefix.'sidebar_extensions.show_memberlist='.$new_show_ml.', '
+			.$tcms_db_prefix.'sidebar_extensions.lang="'.$ws_lang.'"';
 			
 			$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'sidebar_extensions', $newSQLData, 'sidebar_extensions');
 		}
@@ -766,8 +797,6 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		else{
 			echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_side_extensions&action=modules\';</script>';
 		}
-		
-		//***************************************
 	}
 }
 else{

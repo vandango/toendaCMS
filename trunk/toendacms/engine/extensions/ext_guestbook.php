@@ -10,7 +10,6 @@
 | Guestbook
 |
 | File:		ext_guestbook.php
-| Version:	0.4.2
 |
 +
 */
@@ -18,6 +17,17 @@
 
 defined('_TCMS_VALID') or die('Restricted access');
 
+
+/**
+ * toendaCMS Contentcentral
+ *
+ * This module is used as a guestbook.
+ *
+ * @version 0.4.3
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Content Modules
+ */
 
 
 if(isset($_GET['page'])){ $page = $_GET['page']; }
@@ -339,14 +349,18 @@ if($book_enabled == 1){
 		
 		if($page > 1){
 			if($showME1){
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=guestbook&amp;s='.$s.'&amp;page=1';
+				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+				.'id=guestbook&amp;s='.$s.'&amp;page=1'
+				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlAmpReplace($link);
 				
 				echo '<a href="'.$link.'" style="font-size: 14px;"><u>&laquo;</u></a>'
 				.'&nbsp;&nbsp;';
 				
 				
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=guestbook&amp;s='.$s.'&amp;page='.( $page - 1 );
+				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+				.'id=guestbook&amp;s='.$s.'&amp;page='.( $page - 1 )
+				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlAmpReplace($link);
 				
 				echo '<a href="'.$link.'" style="font-size: 14px;"><u>&#8249;</u></a>'
@@ -380,7 +394,9 @@ if($book_enabled == 1){
 			
 			
 			if($showLink){
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=guestbook&amp;s='.$s.'&amp;page='.$thisPage;
+				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+				.'id=guestbook&amp;s='.$s.'&amp;page='.$thisPage
+				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlAmpReplace($link);
 				
 				
@@ -401,7 +417,9 @@ if($book_enabled == 1){
 		
 		if($page < $pageAmount){
 			if($showME2){
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=guestbook&amp;s='.$s.'&amp;page='.( $page + 1 );
+				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+				.'id=guestbook&amp;s='.$s.'&amp;page='.( $page + 1 )
+				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlAmpReplace($link);
 				
 				echo '<a href="'.$link.'" style="font-size: 14px;"><u>&#8250;</u></a>';
@@ -410,7 +428,9 @@ if($book_enabled == 1){
 				echo '&nbsp;&nbsp;';
 				
 				
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=guestbook&amp;s='.$s.'&amp;page='.$pageAmount;
+				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+				.'id=guestbook&amp;s='.$s.'&amp;page='.$pageAmount
+				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlAmpReplace($link);
 				
 				echo '<a href="'.$link.'" style="font-size: 14px;"><u>&raquo;</u></a>';
@@ -512,7 +532,8 @@ if($book_enabled == 1){
 			}
 			
 			if(!$save_entry){
-				$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id=guestbook&s='.$s;
+				$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id=guestbook&s='.$s
+				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlAmpReplace($link);
 				
 				$error_msg = $captcha_msg;
@@ -521,7 +542,8 @@ if($book_enabled == 1){
 		}
 		
 		if($guest_name == '' && $save_now){
-			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id=guestbook&s='.$s;
+			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id=guestbook&s='.$s
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			$error_msg = _MSG_NONAME;
@@ -529,7 +551,8 @@ if($book_enabled == 1){
 		}
 		
 		if($guest_msg == '' && $save_now){
-			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id=guestbook&s='.$s;
+			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id=guestbook&s='.$s
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			$error_msg = _MSG_NOMSG;
@@ -620,7 +643,8 @@ if($book_enabled == 1){
 			}
 			
 			
-			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id=guestbook&s='.$s;
+			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id=guestbook&s='.$s
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			if($seoEnabled == 1) $link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<script>'

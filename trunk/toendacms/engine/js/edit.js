@@ -10,7 +10,7 @@
 | Edit JavaScript Functions
 |
 | File:		edit.js
-| Version:	0.4.2
+| Version:	0.4.3
 |
 +
 */
@@ -207,6 +207,7 @@ function createTemplateToolbar(form, script){
 	document.write('<input type="button" name="tcms_more" class="tcms_more" value="Syndication" onclick="insertCommand(\'' + form + '\', \'content\', \'syn\', \'' + script + '\');" />');
 	document.write('<input type="button" name="tcms_more" class="tcms_more" value="Sidebar Components" onclick="insertCommand(\'' + form + '\', \'content\', \'cs\', \'' + script + '\');" />');
 	document.write('<input type="button" name="tcms_more" class="tcms_more" value="Sidebar News" onclick="insertCommand(\'' + form + '\', \'content\', \'sbn\', \'' + script + '\');" />');
+	document.write('<input type="button" name="tcms_more" class="tcms_more" value="Language Selector" onclick="insertCommand(\'' + form + '\', \'content\', \'ls\', \'' + script + '\');" />');
 	
 	document.write('<br />');
 }
@@ -652,6 +653,11 @@ function insertCommand(form, id, command, script){
 					commandValuePre = '<\? include(_MONTHVIEW); \?>\n';
 					commandValuePost = '';
 					break;
+				
+				case 'ls':
+					commandValuePre = '<\? include(_LANG_SELECTOR); \?>\n';
+					commandValuePost = '';
+					break;
 			}
 			break;
 		
@@ -795,7 +801,7 @@ function insertCommand(form, id, command, script){
 		var re = new RegExp('^[0-9]{0,3}$');
 		
 		while(!re.test(pos)){
-			//pos = prompt("Einfügen an Position (0.." + input.value.length + "):", "0");
+			//pos = prompt("Einfï¿½gen an Position (0.." + input.value.length + "):", "0");
 			pos = input.value.length;
 		}
 		

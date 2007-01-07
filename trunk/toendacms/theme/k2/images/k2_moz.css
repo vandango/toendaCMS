@@ -477,5 +477,25 @@ a.products_top:hover { color: #000000; }
 }
 
 
+/*
+	language selector
+*/
+
+.langSelector {
+	display: block;
+	float: right;
+	margin: -17px 5px 0 0;
+}
+
+a.langSelectorLink,
+a.langSelectorLink:link,
+a.langSelectorLink:visited,
+a.langSelectorLink:active {
+}
+
+a.langSelectorLink:hover {
+}
+
+
 
 /* http://en.wikipedia.org/wiki/K2 */

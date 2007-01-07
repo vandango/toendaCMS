@@ -10,7 +10,6 @@
 | Website Footer
 |
 | File:		ext_footer.php
-| Version:	0.3.3
 |
 +
 */
@@ -18,6 +17,17 @@
 
 defined('_TCMS_VALID') or die('Restricted access');
 
+
+/**
+ * toendaCMS Website Footer
+ *
+ * This module is used as a footer.
+ *
+ * @version 0.3.4
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Content Modules
+ */
 
 
 $footer_xml   = new xmlparser($tcms_administer_site.'/tcms_global/footer.xml','r');
@@ -60,7 +70,8 @@ echo '<div class="legal">';
 	FOOTER TOP
 */
 
-$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=impressum&amp;s='.$s;
+$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=impressum&amp;s='.$s
+.( isset($lang) ? '&amp;lang='.$lang : '' );
 $link = $tcms_main->urlAmpReplace($link);
 
 echo '<a class="legal" href="'.$owner_url.'" target="_blank">'.$websiteowner.'</a>&nbsp;'
@@ -119,7 +130,7 @@ if($show_plt == 1){
 
 /*
 echo '<br />'
-.'<p class="legal">Diese Website erfüllt die folgenden Standards: </p>';
+.'<p class="legal">Diese Website erfï¿½llt die folgenden Standards: </p>';
 
 echo '<a title="Diese Website entspricht den Section-508-Barrierefreiheitsrichtlinien der US-Regierung." '
 .'class="legal" href="http://www.section508.gov" target="_blank">'
@@ -139,20 +150,20 @@ echo '<a title="Diese toendaCMS-Website entspricht den W3C-WAI-Richtlinien zur B
 .'</a>'
 .'&nbsp;';
 
-echo '<a title="Diese toendaCMS-Website enthält valides XHTML." '
+echo '<a title="Diese toendaCMS-Website enthï¿½lt valides XHTML." '
 .'class="legal" href="http://validator.w3.org/check/referer" target="_blank">'
 .'<img align="center" '
-.'alt="Diese toendaCMS-Website enthält valides XHTML." '
-.'title="Diese toendaCMS-Website enthält valides XHTML." '
+.'alt="Diese toendaCMS-Website enthï¿½lt valides XHTML." '
+.'title="Diese toendaCMS-Website enthï¿½lt valides XHTML." '
 .'src="'.$imagePath.'engine/images/logos/check_xhtml.png" border="0" />'
 .'</a>'
 .'&nbsp;';
 
-echo '<a title="Diese Website wurde mit gültigem CSS erstellt." '
+echo '<a title="Diese Website wurde mit gï¿½ltigem CSS erstellt." '
 .'class="legal" href="http://jigsaw.w3.org/css-validator/check/referer" target="_blank">'
 .'<img align="center" '
-.'alt="Diese Website wurde mit gültigem CSS erstellt." '
-.'title="Diese Website wurde mit gültigem CSS erstellt." '
+.'alt="Diese Website wurde mit gï¿½ltigem CSS erstellt." '
+.'title="Diese Website wurde mit gï¿½ltigem CSS erstellt." '
 .'src="'.$imagePath.'engine/images/logos/check_css.png" border="0" />'
 .'</a>'
 .'&nbsp;';

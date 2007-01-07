@@ -10,7 +10,6 @@
 | News Manager
 |
 | File:		mod_news.php
-| Version:	1.4.1
 |
 +
 */
@@ -19,6 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * News Manager
+ *
+ * This module is used for the news.
+ *
+ * @version 1.4.2
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 if(isset($_GET['minValue'])){ $minValue = $_GET['minValue']; }

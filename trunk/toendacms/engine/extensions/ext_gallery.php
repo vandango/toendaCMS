@@ -10,7 +10,6 @@
 | Imagegallery
 |
 | File:		ext_gallery.php
-| Version:	0.6.0
 |
 +
 */
@@ -19,6 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * toendaCMS Imagegallery
+ *
+ * This module is used as a imagegallery.
+ *
+ * @version 0.6.1
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Content Modules
+ */
 
 
 if(isset($_GET['albums'])){ $albums = $_GET['albums']; }
@@ -33,9 +42,10 @@ $hr_line_2 = '<tr style="height: 5px;"><td colspan="2"><hr class="hrule" noshade
 
 
 
+/*
+	Load Albums
+*/
 
-//***************************
-// Load Albums
 if($choosenDB == 'xml'){
 	$arr_albums['count'] = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_albums/');
 	
@@ -111,12 +121,10 @@ else{
 
 
 
+/*
+	Start page
+*/
 
-
-
-
-//***************************
-// Start page
 if(!isset($albums)){ $albums = 'start'; }
 
 if($albums == 'start'){
@@ -135,7 +143,9 @@ if($albums == 'start'){
 	
 	if(is_array($arr_albums['path'])){
 		foreach($arr_albums['path'] as $key => $value){
-			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$id.'&amp;s='.$s.'&amp;albums='.$arr_albums['path'][$key];
+			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+			.'id='.$id.'&amp;s='.$s.'&amp;albums='.$arr_albums['path'][$key]
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<tr><td valign="top" colspan="2" class="text_big">'
@@ -225,7 +235,9 @@ if($albums != 'start'){
 			$album_title = $tcms_main->decodeText($album_title, '2', $c_charset);
 			$album_desc  = $tcms_main->decodeText($album_desc, '2', $c_charset);
 			
-			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=imagegallery&amp;s='.$s;
+			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+			.'id=imagegallery&amp;s='.$s
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<div class="contentheading">'._GALLERY_THISIS.' '.$album_title.' '._GALLERY_THISIS2.'</div>'
