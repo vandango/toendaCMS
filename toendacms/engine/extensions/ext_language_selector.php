@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for a language selector.
  *
- * @version 0.0.3
+ * @version 0.0.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -50,8 +50,12 @@ if($tcms_config->useContentLanguage()){
 				.'id='.$id.'&amp;s='.$s.'&amp;lang='.$val;
 				$link = $tcms_main->urlAmpReplace($link);
 				
-				echo '<a class="langSelectorLink" href="'.$link.'">
-				<img src="'.$imagePath.'engine/images/flags/'.$val.'.png" border="0" /></a>';
+				$title = ' title="'.$languages['name'][$key].'"';
+				$alt = ' alt="'.$languages['name'][$key].'"';
+				
+				echo '<a'.$title.$alt.' class="langSelectorLink" href="'.$link.'">
+				<img'.$title.$alt.' src="'.$imagePath.'engine/images/flags/'.$val.'.png" border="0" />'
+				.'</a>';
 			}
 		}
 	}
