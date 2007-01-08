@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide the global
  * configuration data.
  *
- * @version 0.2.8
+ * @version 0.3.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -235,9 +235,10 @@ class tcms_configuration {
 	/**
 	 * Get the language code
 	 *
+	 * @param Boolean $inLowerCase = false
 	 * @return String
 	 */
-	function getLanguageCode(){
+	function getLanguageCode($inLowerCase = false){
 		switch($this->m_lang){
 			case 'bulgarian_BG': $return = 'BG'; break;
 			case 'dutch_NL': $return = 'NL'; break;
@@ -254,13 +255,17 @@ class tcms_configuration {
 			case 'swedish_SE': $return = 'SE'; break;
 		}
 		
-		return $return;
+		if($inLowerCase)
+			return strtolower($return);
+		else
+			return $return;
 	}
 	
 	
 	
 	/**
-	 * Get the language code for toendaCMS
+	 * Get the language code for toendaCMS.
+	 * Change <de> into <germany_DE> and <en> into <english_EN>.
 	 *
 	 * @param String $langCode
 	 * @return String

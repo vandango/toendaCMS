@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Content footer with links for the "top of page", "print" 
  * and "pdf" functions.
  *
- * @version 0.4.4
+ * @version 0.5.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -304,26 +304,43 @@ if($tcms_config->useContentLanguage()) {
 				//display: block; float: 
 				echo '<br /><div style="none; margin: 3px 0 3px 0;">';
 				
+				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+				.'id='.$id
+				.'&amp;s='.$s
+				.'&amp;lang=';
+				$link = $tcms_main->urlAmpReplace($link);
+				
+				$js = ' onchange="document.location=\''.$link.'\' + this.value;"';
+				
 				echo _TCMS_THIS_PAGE_IN.': '
-				.'<select name="doc_language">';
+				.'<select id="doc_language" name="doc_language"'.$js.'>';
 				
 				foreach($languages['fine'] as $key => $val) {
 					if(in_array($languages['code'][$key], $arr_langs)
 					|| $languages['code'][$key] == $tcms_config->getLanguageFrontend()) {
-						//
-						// pr?fen ob sprache in url, dann diese, sonst die default
-						//
+						$defLang = $tcms_config->getLanguageCode(true);
 						
-						if($tcms_config->getLanguageFrontend() == $languages['code'][$key])
-							$dl = ' selected="selected"';
-						else
-							$dl = '';
+						if($defLang == $lang) {
+							if($tcms_config->getLanguageFrontend() == $languages['code'][$key])
+								$dl = ' selected="selected"';
+							else
+								$dl = '';
+						}
+						else {
+							if($lang == $val)
+								$dl = ' selected="selected"';
+							else
+								$dl = '';
+						}
 						
 						echo '<option value="'.$val.'"'.$dl.'>'.$languages['name'][$key].'</option>';
 					}
 				}
 				
-				echo '</select>';
+				$js = ' onclick="document.location=\''.$link.'\' + getSelectedValue(getElementById(\'doc_language\'));"';
+				
+				echo '</select>'
+				.'<input type="submit" value="'._FORM_GO.'" class="inputbutton"'.$js.' />';
 				
 				echo '</div>';
 			}

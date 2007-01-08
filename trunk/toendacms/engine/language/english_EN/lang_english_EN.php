@@ -978,6 +978,7 @@ define('_FORM_CFORM', 'Contactform');
 define('_FORM_SYSTEM', 'This is a system generated message, please do not aswer.');
 define('_FORM_GREETS', 'With kind regards');
 define('_FORM_FROM', 'This Newsletter is from ');
+if(!defined('_FORM_GO'))                       define('_FORM_GO', 'Go');
 
 
 // GUESTBOOK

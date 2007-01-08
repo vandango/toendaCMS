@@ -744,6 +744,8 @@ class tcms_datacontainer_provider extends tcms_main {
 	function getContentDC($contentID, $withLanguages = false, $language = ''){
 		$contentDC = new tcms_dc_content();
 		
+		$no = 0;
+		
 		if($this->m_choosenDB == 'xml'){
 			$xml = new xmlparser($this->m_path.'/tcms_content/'.$contentID.'.xml', 'r');
 			
@@ -782,10 +784,15 @@ class tcms_datacontainer_provider extends tcms_main {
 			if($withLanguages) {
 				$sql = "SELECT * "
 				."FROM ".$this->m_sqlPrefix."content_languages "
-				."WHERE content_uid = '".$id."' "
+				."WHERE content_uid = '".$contentID."' "
 				."AND language = '".$language."'";
 				
 				$sqlQR = $sqlAL->sqlQuery($sql);
+				$no = $sqlAL->sqlGetNumber($sqlQR);
+				
+				if($no == 0) {
+					$sqlQR = $sqlAL->sqlGetOne($this->m_sqlPrefix.'content', $contentID);
+				}
 			}
 			else {
 				$sqlQR = $sqlAL->sqlGetOne($this->m_sqlPrefix.'content', $contentID);
@@ -805,7 +812,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsPub        = $sqlObj->published;
 			$wsAcs        = $sqlObj->access;
 			
-			if($withLanguages) {
+			if($withLanguages && $no > 0) {
 				$wsLang = $sqlObj->language;
 				
 				if($wsLang == NULL) $wsLang = 'english_EN';
@@ -846,7 +853,7 @@ class tcms_datacontainer_provider extends tcms_main {
 		$contentDC->SetPublished($wsPub);
 		$contentDC->SetAccess($wsAcs);
 		
-		if($withLanguages) {
+		if($withLanguages && $no > 0) {
 			$contentDC->SetLanguage($wsLang);
 		}
 		

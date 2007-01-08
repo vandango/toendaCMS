@@ -10,7 +10,6 @@
 | toendaCMS SQL Abstraction Layer
 |
 | File:		tcms_sql.lib.php
-| Version:	0.4.0
 |
 +
 */
@@ -41,11 +40,14 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Untested Database Server:
  * - SQLite        -> sqlite
  *
+ * @version 0.4.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
  *
+ * 
  * <code>
+ * 
  * Methods
  *
  *--------------------------------------------------------
