@@ -10,7 +10,6 @@
 | Static Content Manager
 |
 | File:		mod_content.php
-| Version:	0.9.6
 |
 +
 */
@@ -18,6 +17,17 @@
 
 defined('_TCMS_VALID') or die('Restricted access');
 
+
+/**
+ * Static Content Manager
+ *
+ * This is used as a documents manager.
+ *
+ * @version 0.9.7
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 if(isset($_GET['action'])){ $action = $_GET['action']; }
@@ -925,10 +935,14 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				}
 				
 				if($sender == 'desktop'){
-					echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\';</script>';
+					echo '<script type="text/javascript">'
+					.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\';'
+					.'</script>';
 				}
 				else{
-					echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_content\';</script>';
+					echo '<script type="text/javascript">'
+					.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_content\';'
+					.'</script>';
 				}
 				break;
 		}

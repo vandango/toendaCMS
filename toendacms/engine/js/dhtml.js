@@ -10,7 +10,7 @@
 | DHTML and JavaScript Functions
 |
 | File:		dhtml.js
-| Version:	0.3.7
+| Version:	0.4.0
 |
 +
 */
@@ -52,9 +52,22 @@
 
 
 
-//***************************************
+
+
+// --------------------------------------
+// ROTATE IMAGES
+// --------------------------------------
+
+function getSelectedValue(select) {
+	return select.options[select.options.selectedIndex].value;
+}
+
+
+
+// --------------------------------------
 // SHOW MENU
-//***************************************
+// --------------------------------------
+
 function show(id, top, left){
 	document.getElementById(id).style.visibility='visible';
 	document.getElementById(id).style.top=top;
@@ -72,14 +85,9 @@ function hide(id){
 
 
 
-
-
-
-
-
-//***************************************
+// --------------------------------------
 // Backgroundcolor Changer
-//***************************************
+// --------------------------------------
 
 function wxlBgCol(id,farbe) {
 	if (document.all){
@@ -101,14 +109,10 @@ function wxlBgCol(id,farbe) {
 
 
 
-
-
-
-
-
-//***************************************
+// --------------------------------------
 // SAVE FORM VALUE
-//***************************************
+// --------------------------------------
+
 function save(){
 	document.forms[0].submit();
 }
@@ -137,18 +141,10 @@ function submitXML(id, action, newvalue){
 
 
 
-
-
-
-
-
-
-
-
-
-//***************************************
+// --------------------------------------
 // OPEN WINDOWS
-//***************************************
+// --------------------------------------
+
 function imageWindow(img, param){
 	var path;
 	
@@ -256,7 +252,9 @@ function helpWindow(path){
 	}
 }
 
-
+/*
+	open a window
+*/
 function openWindow(file, title, width, height, scroll, resize){
 	if(title == '') title = 'Window';
 	if(width == '') width = 400;
@@ -277,18 +275,10 @@ function openWindow(file, title, width, height, scroll, resize){
 
 
 
+// --------------------------------------
+// ACCEPT IMAGE TO CONTENT
+// --------------------------------------
 
-
-
-
-
-
-
-
-
-/*************************************
-* ACCEPT IMAGE TO CONTENT
-*/
 function setImageNL(img, id, script, url){
 	if(script == 'toendaScript') var commandValue = '{img#' + url + 'data/images/Image/' + img + '#border=0#}';
 	else var commandValue = '<img title="' + img + '" alt="' + img + '" src="' + url + 'data/images/Image/' + img + '" border="0" />';
@@ -523,18 +513,10 @@ function deleteMediafile(session, action, image, message){
 
 
 
-
-
-
-
-
-
-
-
-
-//***************************************
+// --------------------------------------
 // ROTATE IMAGES
-//***************************************
+// --------------------------------------
+
 function showImage(){
 	var theImages = new Array();
 	

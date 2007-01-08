@@ -977,8 +977,9 @@ define('_FORM_FOLLOWMSG', 'Folgende Nachricht wurde ueber unser Kontaktformular 
 define('_FORM_YOUR', 'Ihr');
 define('_FORM_CFORM', 'Kontaktformular');
 define('_FORM_SYSTEM', 'Diese Nachricht wurde von unserem System generiert. Bitte antworten Sie nicht darauf.');
-define('_FORM_GREETS', 'Mit freundlichem Gru?');
+define('_FORM_GREETS', 'Mit freundlichem Gru&szlig;?');
 define('_FORM_FROM', 'Dies ist ein Newsletter von ');
+define('_FORM_GO', 'Anzeigen');
 
 
 // GUESTBOOK

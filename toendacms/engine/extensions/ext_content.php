@@ -169,7 +169,16 @@ if($content_published == 1){
 				
 				// pr�fen ob sprache in url, dann diese, sonst die default
 				
-				$dcContent = $tcms_dcp->getContentDC($id);
+				$defLang = $tcms_config->getLanguageCode(true);
+				
+				if($defLang != $lang) {
+					$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
+					
+					$dcContent = $tcms_dcp->getContentDC($id, true, $getLang);
+				}
+				else {
+					$dcContent = $tcms_dcp->getContentDC($id);
+				}
 				
 				$key       = $dcContent->GetKeynote();
 				$content00 = $dcContent->GetText();

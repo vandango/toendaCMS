@@ -21,6 +21,11 @@ CREATE TABLE `#####content_languages` (
 	`autor` VARCHAR( 255 ) NULL
 ) ENGINE = MyISAM;
 
+ALTER TABLE `#####content_languages` ADD `db_layout` VARCHAR( 50 ) NOT NULL ,
+ADD `access` VARCHAR( 10 ) NOT NULL ,
+ADD `in_work` INT NOT NULL DEFAULT '0',
+ADD `published` INT NOT NULL DEFAULT '0';
+
 ALTER TABLE `#####news` ADD `show_on_frontpage` INT( 1 ) NOT NULL ;
 UPDATE `#####news` SET `show_on_frontpage` = 1;
 
