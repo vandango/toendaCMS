@@ -38,7 +38,7 @@ if(isset($_POST['lang'])){ $lang = $_POST['lang']; }
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 1.0.2
+ * @version 1.0.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -123,6 +123,9 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 	// account provider
 	$tcms_ap = new tcms_account_provider($tcms_administer_path, $c_charset);
 	
+	// html
+	$tcms_html = new tcms_html();
+	
 	
 	// database
 	$choosenDB = $tcms_db_engine;
@@ -175,6 +178,9 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 	
 	$version = '&nbsp;'.$cms_name.' &bull; '.$release.' ['.$codename.'] &bull; '.$status.'&nbsp;';
 	
+	$cms_version = $release;
+	$cms_build = $build;
+	
 	
 	
 	/*
@@ -203,6 +209,7 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 <meta http-equiv="Content-Type" content="text/html; charset='.$c_charset.'" />
 <!--
  This website is powered by '.$cms_name.' - '.$cms_tagline.'!
+ Version '.$cms_version.' - '.$cms_build.'
  '.$cms_name.' is a free open source Content Management Framework created by Jonathan Naumann and licensed under the GNU/GPL license.
  '.$cms_name.' is copyright (c) '.$toenda_copy.' of Toenda Software Development.
  Components are copyright (c) of their respective owners.

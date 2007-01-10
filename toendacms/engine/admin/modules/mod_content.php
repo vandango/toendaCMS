@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used as a documents manager.
  *
- * @version 0.9.8
+ * @version 1.0.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -49,11 +49,15 @@ if(isset($_POST['new_in_work'])){ $new_in_work = $_POST['new_in_work']; }
 if(isset($_POST['new_published'])){ $new_published = $_POST['new_published']; }
 if(isset($_POST['new_autor'])){ $new_autor = $_POST['new_autor']; }
 if(isset($_POST['sender'])){ $sender = $_POST['sender']; }
+if(isset($_POST['original'])){ $original = $_POST['original']; }
+if(isset($_POST['language'])){ $language = $_POST['language']; }
 
 
 
-if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Writer'){
-	if($show_wysiwyg == 'tinymce'){
+if($id_group == 'Developer' 
+|| $id_group == 'Administrator' 
+|| $id_group == 'Writer'){
+	if($show_wysiwyg == 'tinymce') {
 		echo '<script language="JavaScript" src="../js/dhtml.js"></script>';
 		echo '<style>.tableRowLight{ background-color: #ececec; }.tableRowDark{ background-color: #333333; }</style>';
 		
@@ -153,6 +157,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
+			// get docs
 			$sqlSTR = "SELECT * "
 			."FROM ".$tcms_db_prefix."content "
 			."WHERE NOT (uid IS NULL) "
@@ -186,6 +191,95 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			}
 			
 			$sqlAL->sqlFreeResult($sqlQR);
+			
+			// get languages
+			$sqlSTR = "SELECT * "
+			."FROM ".$tcms_db_prefix."content_languages "
+			."WHERE NOT (uid IS NULL) "
+			."ORDER BY title ASC, uid ASC";
+			
+			$sqlQR = $sqlAL->sqlQuery($sqlSTR);
+			
+			while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)) {
+				$arr_content['tag'][$count]    = $sqlObj->uid.$sqlObj->language;
+				
+				$arr_content['title'][$count]  = $sqlObj->title
+				.' ('.$sqlObj->language.' / '.$sqlObj->content_uid.')';
+				
+				$arr_content['id'][$count]     = $sqlObj->uid;
+				$arr_content['access'][$count] = $sqlObj->access;
+				$arr_content['pub'][$count]    = $sqlObj->published;
+				$arr_content['autor'][$count]  = $sqlObj->autor;
+				$arr_content['inw'][$count]    = $sqlObj->in_work;
+				
+				if($arr_content['tag'][$count]    == NULL){ $arr_content['tag'][$count]    = ''; }
+				if($arr_content['title'][$count]  == NULL){ $arr_content['title'][$count]  = ''; }
+				if($arr_content['id'][$count]     == NULL){ $arr_content['id'][$count]     = ''; }
+				if($arr_content['access'][$count] == NULL){ $arr_content['access'][$count] = ''; }
+				if($arr_content['pub'][$count]    == NULL){ $arr_content['pub'][$count]    = ''; }
+				if($arr_content['autor'][$count]  == NULL){ $arr_content['autor'][$count]  = ''; }
+				if($arr_content['inw'][$count]    == NULL){ $arr_content['inw'][$count]    = ''; }
+				
+				// CHARSETS
+				$arr_content['title'][$count] = $tcms_main->decodeText($arr_content['title'][$count], '2', $c_charset);
+				
+				$count++;
+			}
+			
+			$sqlAL->sqlFreeResult($sqlQR);
+			
+			if(is_array($arr_content)){
+				array_multisort(
+					$arr_content['title'], SORT_ASC, 
+					$arr_content['id'], SORT_ASC, 
+					$arr_content['tag'], SORT_ASC, 
+					$arr_content['pub'], SORT_ASC, 
+					$arr_content['autor'], SORT_ASC, 
+					$arr_content['inw'], SORT_ASC, 
+					$arr_content['access'], SORT_SC
+				);
+			}
+			
+			/*
+			// get docs
+			$sqlSTR = "CREATE TABLE tmp_c SELECT * FROM ".$tcms_db_prefix."content AS c; "
+			."INSERT INTO tmp_c (uid, title, access, published, autor, in_work) "
+			."SELECT cl.uid, "
+			."CONCAT(cl.title, ' (', cl.language, ' / ', cl.content_uid, ')'), "
+			."cl.access, cl.published, cl.autor, cl.in_work "
+			."FROM ".$tcms_db_prefix."content_languages AS cl; "
+			."SELECT * FROM tmp_c ORDER by title ASC;";
+			
+			$sqlQR = $sqlAL->sqlQuery($sqlSTR);
+			
+			$count = 0;
+			
+			while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)){
+				$arr_content['tag'][$count]    = $sqlObj->uid;
+				$arr_content['title'][$count]  = $sqlObj->title;
+				$arr_content['id'][$count]     = $sqlObj->uid;
+				$arr_content['access'][$count] = $sqlObj->access;
+				$arr_content['pub'][$count]    = $sqlObj->published;
+				$arr_content['autor'][$count]  = $sqlObj->autor;
+				$arr_content['inw'][$count]    = $sqlObj->in_work;
+				
+				if($arr_content['tag'][$count]    == NULL){ $arr_content['tag'][$count]    = ''; }
+				if($arr_content['title'][$count]  == NULL){ $arr_content['title'][$count]  = ''; }
+				if($arr_content['id'][$count]     == NULL){ $arr_content['id'][$count]     = ''; }
+				if($arr_content['access'][$count] == NULL){ $arr_content['access'][$count] = ''; }
+				if($arr_content['pub'][$count]    == NULL){ $arr_content['pub'][$count]    = ''; }
+				if($arr_content['autor'][$count]  == NULL){ $arr_content['autor'][$count]  = ''; }
+				if($arr_content['inw'][$count]    == NULL){ $arr_content['inw'][$count]    = ''; }
+				
+				// CHARSETS
+				$arr_content['title'][$count] = $tcms_main->decodeText($arr_content['title'][$count], '2', $c_charset);
+				
+				$count++;
+			}
+			
+			$sqlAL->sqlDeleteTable('tmp_c');
+			$sqlAL->sqlFreeResult($sqlQR);
+			*/
 		}
 		
 		echo '<table cellpadding="3" cellspacing="0" border="0" class="noborder">';
@@ -203,10 +297,22 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		if(isset($arr_content['id']) && !empty($arr_content['id']) && $arr_content['id'] != ''){
 			foreach ($arr_content['id'] as $key => $value){
 				$bgkey++;
-				if(is_integer($bgkey/2)) $ws_farbe = $arr_farbe[0];
-				else $ws_farbe = $arr_farbe[1];
+				if(is_integer($bgkey/2)) {
+					$ws_farbe = $arr_farbe[0];
+				}
+				else {
+					$ws_farbe = $arr_farbe[1];
+				}
 				
-				$strJS = ' onclick="document.location=\'admin.php?id_user='.$id_user.'&amp;site=mod_content&amp;todo=edit&amp;maintag='.$arr_content['tag'][$key].'\';"';
+				if(strlen($arr_content['tag'][$key]) > 5) {
+					$wsLang = substr($arr_content['tag'][$key], 5);
+					$arr_content['tag'][$key] = substr($arr_content['tag'][$key], 0, 5);
+					
+					$wsLang = '&amp;lang='.$tcms_config->getLanguageCodeByTCMSCode($wsLang);
+				}
+				
+				$strJS = ' onclick="document.location=\'admin.php?id_user='.$id_user.'&amp;site=mod_content'
+				.'&amp;todo=edit&amp;maintag='.$arr_content['tag'][$key].$wsLang.'\';"';
 				
 				$ws_link='&amp;val='.$key;
 				
@@ -248,11 +354,15 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				.'</td>';
 				
 				echo '<td class="tcms_db_2" align="right">'
-				.'<a title="'._TABLE_EDITBUTTON.'" href="admin.php?id_user='.$id_user.'&amp;site=mod_content&amp;todo=edit&amp;maintag='.$arr_content['tag'][$key].'">'
-				.'<img title="'._TABLE_EDITBUTTON.'" alt="'._TABLE_EDITBUTTON.'" style="padding-top: 3px;" border="0" src="../images/a_edit.gif" />'
+				.'<a title="'._TABLE_EDITBUTTON.'" href="admin.php?id_user='.$id_user.'&amp;site=mod_content'
+				.'&amp;todo=edit&amp;maintag='.$arr_content['tag'][$key].$wsLang.'">'
+				.'<img title="'._TABLE_EDITBUTTON.'" alt="'._TABLE_EDITBUTTON.'" style="padding-top: 3px;" '
+				.'border="0" src="../images/a_edit.gif" />'
 				.'</a>&nbsp;'
-				.'<a title="'._TABLE_DELBUTTON.'" href="admin.php?id_user='.$id_user.'&amp;site=mod_content&amp;todo=delete&amp;maintag='.$arr_content['tag'][$key].'" onclick="chk=confirm(\''._MSG_DELETE_SUBMIT.'\');return chk;">'
-				.'<img title="'._TABLE_DELBUTTON.'" alt="'._TABLE_DELBUTTON.'" style="padding-top: 3px;" border="0" src="../images/a_delete.gif" />'
+				.'<a title="'._TABLE_DELBUTTON.'" href="admin.php?id_user='.$id_user.'&amp;site=mod_content'
+				.'&amp;todo=delete&amp;maintag='.$arr_content['tag'][$key].'" onclick="chk=confirm(\''._MSG_DELETE_SUBMIT.'\');return chk;">'
+				.'<img title="'._TABLE_DELBUTTON.'" alt="'._TABLE_DELBUTTON.'" style="padding-top: 3px;" '
+				.'border="0" src="../images/a_delete.gif" />'
 				.'</a>&nbsp;'
 				.'</td>';
 				
@@ -278,7 +388,17 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			if($choosenDB == 'xml'){
 				$val = 0;
 				
-				$main_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml','r');
+				if($tcms_main->isReal($lang)) {
+					$main_xml = new xmlparser(
+						'../../'.$tcms_administer_site.'/tcms_content_languages/'.$maintag.'.xml','r'
+					);
+				}
+				else {
+					$main_xml = new xmlparser(
+						'../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml','r'
+					);
+				}
+				
 				$arr_content['title'][$val]     = $main_xml->read_section('main', 'title');
 				$arr_content['key'][$val]       = $main_xml->read_section('main', 'key');
 				$arr_content['text0'][$val]     = $main_xml->read_section('main', 'content00');
@@ -290,6 +410,19 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				$arr_content['autor'][$val]     = $main_xml->read_section('main', 'autor');
 				$arr_content['pub'][$val]       = $main_xml->read_section('main', 'published');
 				$arr_content['inw'][$val]       = $main_xml->read_section('main', 'in_work');
+				
+				if($tcms_main->isReal($lang)) {
+					$arr_content['lang'][$val]      = $main_xml->read_section('main', 'language');
+					$arr_content['orgiginal'][$val] = $main_xml->read_section('main', 'content_uid');
+					
+					if($arr_content['lang'][$val] == null) {
+						$arr_content['lang'][$val] = $tcms_config->getLanguageCode(true);
+					}
+					
+					if($arr_content['orgiginal'][$val] == null) {
+						$arr_content['orgiginal'][$val] = '';
+					}
+				}
 				
 				if(!$arr_content['title'][$val])     { $arr_content['title'][$val]     = ''; }
 				if(!$arr_content['key'][$val])       { $arr_content['key'][$val]       = ''; }
@@ -311,20 +444,39 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				$sqlAL = new sqlAbstractionLayer($choosenDB);
 				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
-				$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'content', $maintag);
-				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+				if($tcms_main->isReal($lang)) {
+					$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'content_languages', $maintag);
+				}
+				else {
+					$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'content', $maintag);
+				}
 				
-				$arr_content['title'][$val]     = $sqlARR['title'];
-				$arr_content['key'][$val]       = $sqlARR['key'];
-				$arr_content['text0'][$val]     = $sqlARR['content00'];
-				$arr_content['text1'][$val]     = $sqlARR['content01'];
-				$arr_content['foot'][$val]      = $sqlARR['foot'];
-				$arr_content['id'][$val]        = $sqlARR['uid'];
-				$arr_content['db_layout'][$val] = $sqlARR['db_layout'];
-				$arr_content['access'][$val]    = $sqlARR['access'];
-				$arr_content['autor'][$val]     = $sqlARR['autor'];
-				$arr_content['pub'][$val]       = $sqlARR['published'];
-				$arr_content['inw'][$val]       = $sqlARR['in_work'];
+				$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+				
+				$arr_content['title'][$val]     = $sqlObj->title;
+				$arr_content['key'][$val]       = $sqlObj->key;
+				$arr_content['text0'][$val]     = $sqlObj->content00;
+				$arr_content['text1'][$val]     = $sqlObj->content01;
+				$arr_content['foot'][$val]      = $sqlObj->foot;
+				$arr_content['id'][$val]        = $sqlObj->uid;
+				$arr_content['db_layout'][$val] = $sqlObj->db_layout;
+				$arr_content['access'][$val]    = $sqlObj->access;
+				$arr_content['autor'][$val]     = $sqlObj->autor;
+				$arr_content['pub'][$val]       = $sqlObj->published;
+				$arr_content['inw'][$val]       = $sqlObj->in_work;
+				
+				if($tcms_main->isReal($lang)) {
+					$arr_content['lang'][$val]      = $sqlObj->language;
+					$arr_content['orgiginal'][$val] = $sqlObj->content_uid;
+					
+					if($arr_content['lang'][$val] == null) {
+						$arr_content['lang'][$val] = $tcms_config->getLanguageCode(true);
+					}
+					
+					if($arr_content['orgiginal'][$val] == null) {
+						$arr_content['orgiginal'][$val] = '';
+					}
+				}
 				
 				if($arr_content['title'][$val]     == NULL){ $arr_content['title'][$val]     = ''; }
 				if($arr_content['key'][$val]       == NULL){ $arr_content['key'][$val]       = ''; }
@@ -338,7 +490,9 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				if($arr_content['pub'][$val]       == NULL){ $arr_content['pub'][$val]       = ''; }
 				if($arr_content['inw'][$val]       == NULL){ $arr_content['inw'][$val]       = ''; }
 				
-				if(!isset($db_layout)){ $db_layout = $arr_content['db_layout'][$val]; }
+				if(!isset($db_layout)){
+					$db_layout = $arr_content['db_layout'][$val];
+				}
 			}
 		}
 		else{
@@ -356,7 +510,14 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			$arr_content['pub'][$val] = 0;
 			$arr_content['inw'][$val] = 0;
 			
-			if(!isset($db_layout)){ $db_layout = $arr_content['db_layout'][$val]; }
+			if($tcms_main->isReal($lang)) {
+				$arr_content['lang'][$val] = $tcms_config->getLanguageCode(true);
+				$arr_content['orgiginal'][$val] = '';
+			}
+			
+			if(!isset($db_layout)){
+				$db_layout = $arr_content['db_layout'][$val];
+			}
 			
 			$bFileless = true;
 		}
@@ -405,10 +566,14 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		
 		
 		
-		if($arr_content['title'][$val] == ''){ echo tcms_html::bold(_TABLE_NEW); }
-		else{ echo tcms_html::bold(_TABLE_EDIT); }
-		echo tcms_html::text(_CONTENT_TEXT_PAGE.'<br /><br />', 'left');
+		if($arr_content['title'][$val] == '') {
+			echo $tcms_html->bold(_TABLE_NEW);
+		}
+		else {
+			echo $tcms_html->bold(_TABLE_EDIT);
+		}
 		
+		echo $tcms_html->text(_CONTENT_TEXT_PAGE.'<br /><br />', 'left');
 		
 		
 		
@@ -452,10 +617,15 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		
 		
 		$width = '150';
-		if($arr_content['title'][$val] == ''){ $make = 'next'; }else{ $make = 'save'; }
+		if($arr_content['title'][$val] == '') {
+			$make = 'next';
+		}
+		else {
+			$make = 'save';
+		}
 		
-		if($bFileless == true){
-			if($choosenDB == 'xml'){
+		if($bFileless == true) {
+			/*if($choosenDB == 'xml') {
 				while(($maintag=substr(md5(time()),0,5)) && file_exists('../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml')){}
 				while(($arr_content['id'][$val]=substr(md5(time()),0,5)) && file_exists('../../'.$tcms_administer_site.'/tcms_content/'.$arr_content['id'][$val].'.xml')){}
 			}
@@ -463,6 +633,9 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				$maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'content', 5);
 				$arr_content['id'][$val] = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'content', 5);
 			}
+			*/
+			$maintag = $tcms_main->getNewUID(5, 'content');
+			$arr_content['id'][$val] = $tcms_main->getNewUID(5, 'content');
 		}
 		
 		
@@ -472,6 +645,10 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		.'<input name="todo" type="hidden" value="'.$make.'" />'
 		.'<input name="maintag" type="hidden" value="'.$maintag.'" />'
 		.'<input name="new_id" type="hidden" value="'.$arr_content['id'][$val].'" />';
+		
+		if($tcms_main->isReal($lang)) {
+			echo '<input name="lang" type="hidden" value="'.$lang.'" />';
+		}
 		
 		
 		// table row
@@ -487,10 +664,47 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			
 			
 			if($tcms_main->isReal($lang)) {
+				// row
 				echo '<tr><td valign="top" width="'.$width.'">'
-				.'<strong class="tcms_bold">'._TABLE_TITLE.'</strong>'
+				.'<strong class="tcms_bold">'._CONTENT_ORG_DOCUMENT.'</strong>'
 				.'</td><td>'
-				.'HIER SELECT MIT DOCUMENTS AUSWAHL FUER LANG-DOC.'
+				.'<select id="original" name="original">';
+				
+				$arr_docs = $tcms_main->getAllDocuments();
+				
+				foreach($arr_docs['id'] as $key => $value) {
+					if($arr_content['orgiginal'][$val] == $value)
+						$dl = ' selected="selected"';
+					else
+						$dl = '';
+					
+					echo '<option value="'.$value.'"'.$dl.'>'.$arr_docs['name'][$key].'</option>';
+				}
+				
+				echo '</select>'
+				.'</td></tr>';
+				
+				
+				// row
+				echo '<tr><td valign="top" width="'.$width.'">'
+				.'<strong class="tcms_bold">'._TCMS_LANGUAGE.'</strong>'
+				.'</td><td>'
+				.'<select id="language" name="language">';
+				
+				foreach($languages['code'] as $key => $value) {
+					if($value != $tcms_config->getLanguageCode(true)) {
+						if($arr_content['lang'][$val] == $value)
+							$dl = ' selected="selected"';
+						else
+							$dl = '';
+						
+						echo '<option value="'.$value.'"'.$dl.'>'
+						.$languages['name'][$key]
+						.'</option>';
+					}
+				}
+				
+				echo '</select>'
 				.'</td></tr>';
 			}
 			
@@ -685,8 +899,6 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 	//=====================================================
 	
 	if($todo == 'save'){
-		//***************************************
-		
 		if($show_wysiwyg == 'tinymce'){
 			$content = stripslashes($content);
 		}
@@ -708,9 +920,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		if($new_in_work   == '' || empty($new_in_work)   || !isset($new_in_work))  { $new_in_work   = 0; }
 		if($new_autor     == ''){ $new_autor = ''; }
 		
-		//***********
-		// Image
-		//
+		
 		if(isset($_FILES['content01']) || isset($content01)){
 			if($_FILES['content01']['size'] > 0 && (
 			$_FILES['content01']['type'] == 'image/gif' || 
@@ -737,8 +947,6 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		else{
 			$msg = '';
 		}
-		//
-		//***********
 		
 		
 		// CHARSETS
@@ -754,7 +962,13 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		
 		
 		if($choosenDB == 'xml'){
-			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml', 'w');
+			if($tcms_main->isReal($lang)) {
+				$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_content_languages/'.$maintag.'.xml', 'w');
+			}
+			else {
+				$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml', 'w');
+			}
+			
 			$xmluser->xml_c_declaration($c_charset);
 			$xmluser->xml_section('main');
 			
@@ -770,6 +984,10 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			$xmluser->write_value('autor', $new_autor);
 			$xmluser->write_value('in_work', $new_in_work);
 			
+			if($tcms_main->isReal($lang)) {
+				$xmluser->write_value('language', $language);
+				$xmluser->write_value('content_uid', $original);
+			}
 			
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('main');
@@ -779,26 +997,40 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
+			if($tcms_main->isReal($lang)) {
+				$tmp = 'content_languages';
+			}
+			else {
+				$tmp = 'content';
+			}
+			
 			$newSQLData = ''
-			.$tcms_db_prefix.'content.title="'.$titel.'", '
-			.$tcms_db_prefix.'content.key="'.$key.'", '
-			.$tcms_db_prefix.'content.content00="'.$content.'", '
-			.$tcms_db_prefix.'content.content01="'.$content01.'", '
-			.$tcms_db_prefix.'content.foot="'.$foot.'", '
-			.$tcms_db_prefix.'content.db_layout="'.$db_layout.'", '
-			.$tcms_db_prefix.'content.access="'.$access.'", '
-			.$tcms_db_prefix.'content.autor="'.$new_autor.'", '
-			.$tcms_db_prefix.'content.published='.$new_published.', '
-			.$tcms_db_prefix.'content.in_work='.$new_in_work;
+			.$tcms_db_prefix.$tmp.'.title="'.$titel.'", '
+			.$tcms_db_prefix.$tmp.'.key="'.$key.'", '
+			.$tcms_db_prefix.$tmp.'.content00="'.$content.'", '
+			.$tcms_db_prefix.$tmp.'.content01="'.$content01.'", '
+			.$tcms_db_prefix.$tmp.'.foot="'.$foot.'", '
+			.$tcms_db_prefix.$tmp.'.db_layout="'.$db_layout.'", '
+			.$tcms_db_prefix.$tmp.'.access="'.$access.'", '
+			.$tcms_db_prefix.$tmp.'.autor="'.$new_autor.'", '
+			.$tcms_db_prefix.$tmp.'.published='.$new_published.', '
+			.$tcms_db_prefix.$tmp.'.in_work='.$new_in_work;
 			
-			//echo '<script>alert(\''.$newSQLData.'\');</script>';
+			if($tcms_main->isReal($lang)) {
+				$newSQLData .= ', '.$tcms_db_prefix.$tmp.'.language="'.$language.'", ';
+				$newSQLData .= $tcms_db_prefix.$tmp.'.content_uid="'.$original.'"';
+			}
 			
-			$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'content', $newSQLData, $maintag);
+			$sqlQR = $sqlAL->sqlUpdateOne(
+				$tcms_db_prefix.$tmp, 
+				$newSQLData, 
+				$maintag, true
+			);
 		}
 		
-		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_content\'</script>';
-		
-		//***************************************
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_content\''
+		.'</script>';
 	}
 	
 	
@@ -810,9 +1042,6 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 	//===================================================================================
 	
 	if($todo == 'next'){
-		//***************************************
-		
-		
 		if($show_wysiwyg == 'tinymce'){
 			$content = stripslashes($content);
 		}
@@ -840,9 +1069,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		if($new_in_work   == '' || empty($new_in_work)   || !isset($new_in_work))  { $new_in_work   = 0; }
 		if($new_autor     == ''){ $new_autor = ''; }
 		
-		//***********
-		// Image
-		//
+		
 		if($_FILES['content01']['size'] > 0){
 			$fileName = $_FILES['content01']['name'];
 			$imgDir = '../../'.$tcms_administer_site.'/images/Image/';
@@ -858,11 +1085,16 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			$content01 = $tmp_content01;
 			$msg = _MSG_NOIMAGE;
 		}
-		//
-		//***********
+		
 		
 		if($choosenDB == 'xml'){
-			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml', 'w');
+			if($tcms_main->isReal($lang)) {
+				$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_content_languages/'.$maintag.'.xml', 'w');
+			}
+			else {
+				$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml', 'w');
+			}
+			
 			$xmluser->xml_c_declaration($c_charset);
 			$xmluser->xml_section('main');
 			
@@ -878,6 +1110,11 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			$xmluser->write_value('autor', $new_autor);
 			$xmluser->write_value('in_work', $new_in_work);
 			
+			if($tcms_main->isReal($lang)) {
+				$xmluser->write_value('language', $language);
+				$xmluser->write_value('content_uid', $original);
+			}
+			
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('main');
 			$xmluser->_xmlparser();
@@ -890,27 +1127,49 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				case 'mysql':
 					$newSQLColumns = '`title`, `key`, `content00`, `content01`, `foot`, `db_layout`, '
 					.'`access`, `autor`, `published`, `in_work`';
+					
+					if($tcms_main->isReal($lang)) {
+						$newSQLColumns .= ', `language`, `content_uid`';
+					}
 					break;
 				
 				case 'pgsql':
 					$newSQLColumns = 'title, "key", content00, content01, foot, db_layout, '
 					.'"access", autor, published, in_work';
+					
+					if($tcms_main->isReal($lang)) {
+						$newSQLColumns .= ', "language", content_uid';
+					}
 					break;
 				
 				case 'mssql':
 					$newSQLColumns = '[title], [key], [content00], [content01], [foot], [db_layout], '
 					.'[access], [autor], [published], [in_work]';
+					
+					if($tcms_main->isReal($lang)) {
+						$newSQLColumns .= ', [language], [content_uid]';
+					}
 					break;
 			}
 			
-			$newSQLData = "'".$titel."', '".$key."', '".$content."', '".$content01."', '".$foot."', '".$db_layout."', '".$access."', '".$new_autor."', ".$new_published.", ".$new_in_work;
+			$newSQLData = "'".$titel."', '".$key."', '".$content."', '".$content01."', '".$foot."', "
+			."'".$db_layout."', '".$access."', '".$new_autor."', ".$new_published.", ".$new_in_work;
 			
-			$sqlQR = $sqlAL->sqlCreateOne($tcms_db_prefix.'content', $newSQLColumns, $newSQLData, $maintag);
+			if($tcms_main->isReal($lang)) {
+				$newSQLData .= ", '".$language."', '".$original."'";
+			}
+			
+			$sqlQR = $sqlAL->sqlCreateOne(
+				( $tcms_main->isReal($lang) ? $tcms_db_prefix.'content_languages' : $tcms_db_prefix.'content'), 
+				$newSQLColumns, 
+				$newSQLData, 
+				$maintag
+			);
 		}
 		
-		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_content\'</script>';
-		
-		//***************************************
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_content\''
+		.'</script>';
 	}
 	
 	

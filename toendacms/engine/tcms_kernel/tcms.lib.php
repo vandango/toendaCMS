@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 1.9.3
+ * @version 1.9.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -58,7 +58,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getUser                     -> Return the username
  * getUserID                   -> Return ID for username or realname
  * getUserInfo                 -> Get some information about a user
- *
+ * 
+ * getAllDocuments             -> Get all documents
  * getPathContentAmount        -> Get the amount of related files in a path (without directorys)
  * getPathContent              -> Return a array of all files or folders inside a path
  * getXMLFiles                 -> Return a array of all xml files inside a path
@@ -498,6 +499,76 @@ class tcms_main {
 		}
 		
 		return $arr_ws;
+	}
+	
+	
+	
+	/**
+	 * Get all documents
+	 * 
+	 * @return Array
+	 */
+	function getAllDocuments() {
+		$count = 0;
+		
+		$tcms_config = new tcms_configuration($this->administer);
+		$c_charset = $tcms_config->getCharset();
+		unset($tcms_config);
+		
+		if($this->db_choosenDB == 'xml'){
+			$arr_docs = $this->getPathContent($this->administer);
+			
+			if($this->isReal($arr_docs)) {
+				foreach($arr_docs as $key => $val) {
+					$xml = new xmlparser($this->administer.'/tcms_content/'.$val,'r');
+					
+					$arrDocuments['id'][$count] = $xml->read_section('main', 'id');
+					$arrDocuments['name'][$count] = $this->decodeText(
+						$xml->read_section('main', 'title'), '2', $c_charset
+					);
+					
+					$xml->flush();
+					$xml->_xmlparser();
+					unset($xml);
+					
+					$count++;
+				}
+			}
+			
+			
+			$arrDocuments = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_content/');
+			foreach($arrDocuments as $key => $val){
+				if($val != 'index.html'){
+					$xmlFileList    = new xmlparser('../../'.$tcms_administer_site.'/tcms_content/'.$val,'r');
+					$xmlID    = $xmlFileList->read_section('main', 'id');
+					
+					//if(!in_array($xmlID, $arrXMLID)){
+						$xmlTitle = $xmlFileList->read_section('main', 'title');
+						$arr_linkcom['name'][$i] = '* '.$tcms_main->decodeText($xmlTitle, '2', $c_charset);
+						$arr_linkcom['link'][$i] = $xmlID;
+						
+						$i++;
+					//}
+				}
+			}
+		}
+		else {
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB);
+			$sqlCN = $sqlAL->sqlConnect($this->db_user, $this->db_pass, $this->db_host, $this->db_database, $this->db_port);
+			
+			$sqlQR = $sqlAL->sqlGetAll($this->db_prefix.'content');
+			
+			while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)){
+				$arrDocuments['id'][$count] = $sqlObj->uid;
+				$arrDocuments['name'][$count] = $this->decodeText($sqlObj->title, '2', $c_charset);
+				
+				$count++;
+			}
+			
+			$sqlAL->sqlFreeResult($sqlQR);
+		}
+		
+		return $arrDocuments;
 	}
 	
 	

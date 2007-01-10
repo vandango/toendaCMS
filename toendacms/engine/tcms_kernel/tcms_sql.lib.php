@@ -40,7 +40,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Untested Database Server:
  * - SQLite        -> sqlite
  *
- * @version 0.4.1
+ * @version 0.4.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -114,6 +114,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * sqlCreateUID($sqlTable, $sqlNumber)               -> Create a uid for a $sqlTable with length $sqlNumber
  *
  * sqlGetStats()                                     -> Get sql server state
+ * 
+ * sqlDeleteTable($tableName, $withDebug = false)    -> Delete Table
  * </code>
  *
  */
@@ -451,16 +453,18 @@ class sqlAbstractionLayer{
 	 * SQL Query
 	 * 
 	 * @param String $sqlQueryString
+	 * @param Boolean $withDebug = false
 	 * @return Boolean
 	 */
-	function sqlQuery($sqlQueryString){
+	function sqlQuery($sqlQueryString, $withDebug = false){
 		switch($this->_sqlInterface){
 			case 'mysql':
-				/*
-				$fp = fopen('log_sqlQuery_'.microtime().'.txt', 'w');
-				fwrite($fp, $sqlQueryString);
-				fclose($fp);
-				*/
+				if($withDebug) {
+					$fp = fopen('log_sqlQuery_'.microtime().'.txt', 'w');
+					fwrite($fp, $sqlQueryString);
+					fclose($fp);
+				}
+				
 				tcms_time::tcms_query_counter();
 				$sqlResult = mysql_query($sqlQueryString);
 				if(!$sqlResult)
@@ -468,11 +472,12 @@ class sqlAbstractionLayer{
 				break;
 			
 			case 'pgsql':
-				/*
-				$fp = fopen('log_sqlQuery_'.microtime().'.txt', 'w');
-				fwrite($fp, $sqlQueryString);
-				fclose($fp);
-				*/
+				if($withDebug) {
+					$fp = fopen('log_sqlQuery_'.microtime().'.txt', 'w');
+					fwrite($fp, $sqlQueryString);
+					fclose($fp);
+				}
+				
 				tcms_time::tcms_query_counter();
 				$sqlResult = pg_query($sqlQueryString);
 				if(!$sqlResult)
@@ -488,11 +493,12 @@ class sqlAbstractionLayer{
 				break;
 			
 			case 'mssql':
-				/*
-				$fp = fopen('log_sqlQuery_'.microtime().'.txt', 'w');
-				fwrite($fp, $sqlQueryString);
-				fclose($fp);
-				*/
+				if($withDebug) {
+					$fp = fopen('log_sqlQuery_'.microtime().'.txt', 'w');
+					fwrite($fp, $sqlQueryString);
+					fclose($fp);
+				}
+				
 				tcms_time::tcms_query_counter();
 				$sqlResult = mssql_query($sqlQueryString);
 				if(!$sqlResult)
@@ -592,11 +598,12 @@ class sqlAbstractionLayer{
 	
 	
 	
-	/***
-	* SQL Get All
-	* @return Return all data from a table
-	* @desc 
-	*/
+	/**
+	 * Return all data from a table
+	 * 
+	 * @param String $sqlTable
+	 * @return Fetchable Result
+	 */
 	function sqlGetAll($sqlTable){
 		switch($this->_sqlInterface){
 			case 'mysql':
@@ -630,11 +637,13 @@ class sqlAbstractionLayer{
 	
 	
 	
-	/***
-	* SQL Get One
-	* @return Return all from a table where UID = ?
-	* @desc 
-	*/
+	/**
+	 * Return all from a table where UID = ?
+	 * 
+	 * @param String $sqlTable
+	 * @param String $sqlUID
+	 * @return Fetchable Result
+	 */
 	function sqlGetOne($sqlTable, $sqlUID){
 		switch($this->_sqlInterface){
 			case 'mysql':
@@ -674,19 +683,24 @@ class sqlAbstractionLayer{
 	
 	
 	
-	/***
-	* SQL Update One
-	* @return Return true/false
-	* @desc Update one from a Table where UID = ?
-	*/
-	function sqlUpdateOne($sqlTable, $newDataString, $sqlUID){
+	/**
+	 * Update one from a Table where UID = ?
+	 * 
+	 * @param String $sqlTable
+	 * @param String $newDataString
+	 * @param String $sqlUID
+	 * @param String $withDebug = false
+	 * @return Integer
+	 */
+	function sqlUpdateOne($sqlTable, $newDataString, $sqlUID, $withDebug = false){
 		switch($this->_sqlInterface){
 			case 'mysql':
-				/*
-				$fp = fopen('log_sqlUpdateOne_'.microtime().'.txt', 'w');
-				fwrite($fp, 'UPDATE '.$sqlTable.' SET '.$newDataString.' WHERE uid = "'.$sqlUID.'"');
-				fclose($fp);
-				*/
+				if($withDebug) {
+					$fp = fopen('log_sqlUpdateOne_'.microtime().'.txt', 'w');
+					fwrite($fp, 'UPDATE '.$sqlTable.' SET '.$newDataString.' WHERE uid = "'.$sqlUID.'"');
+					fclose($fp);
+				}
+				
 				tcms_time::tcms_query_counter();
 				$sqlResult = mysql_query('UPDATE '.$sqlTable.' SET '.$newDataString.' WHERE uid = "'.$sqlUID.'"');
 				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . mysql_error(); }
@@ -699,11 +713,11 @@ class sqlAbstractionLayer{
 				$newDataString = str_replace($sqlTable.'.', '"', $newDataString);
 				$newDataString = str_replace('=', '"=', $newDataString);
 				
-				/*
-				$fp = fopen('log_sqlUpdateOne_'.microtime().'.txt', 'w');
-				fwrite($fp, "UPDATE ".$sqlTable." SET ".$newDataString."  WHERE uid = '".$sqlUID."'");
-				fclose($fp);
-				*/
+				if($withDebug) {
+					$fp = fopen('log_sqlUpdateOne_'.microtime().'.txt', 'w');
+					fwrite($fp, "UPDATE ".$sqlTable." SET ".$newDataString."  WHERE uid = '".$sqlUID."'");
+					fclose($fp);
+				}
 				
 				$sqlResult = pg_query("UPDATE ".$sqlTable." SET ".$newDataString."  WHERE uid = '".$sqlUID."'");
 				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . pg_result_error(); }
@@ -723,11 +737,12 @@ class sqlAbstractionLayer{
 				$newDataString = str_replace($sqlTable.'.', $sqlTable.'.[', $newDataString);
 				$newDataString = str_replace('=', ']=', $newDataString);
 				
-				/*
-				$fp = fopen('log_sqlUpdateOne_'.microtime().'.txt', 'w');
-				fwrite($fp, "UPDATE ".$sqlTable." SET ".$newDataString."  WHERE [uid] = '".$sqlUID."'");
-				fclose($fp);
-				*/
+				if($withDebug) {
+					$fp = fopen('log_sqlUpdateOne_'.microtime().'.txt', 'w');
+					fwrite($fp, "UPDATE ".$sqlTable." SET ".$newDataString."  WHERE [uid] = '".$sqlUID."'");
+					fclose($fp);
+				}
+				
 				$sqlResult = mssql_query("UPDATE ".$sqlTable." SET ".$newDataString."  WHERE [uid] = '".$sqlUID."'");
 				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . $sqlQueryString; }
 				break;
@@ -738,31 +753,40 @@ class sqlAbstractionLayer{
 	
 	
 	
-	/***
-	* SQL Create One
-	* @return Return true/false
-	* @desc Create a entry in a Table where UID = ?
-	*/
-	function sqlCreateOne($sqlTable, $sqlColumns, $newDataString, $sqlUID){
+	/**
+	 * Create a entry in a Table where UID = ?
+	 * 
+	 * @param String $sqlTable
+	 * @param String $sqlColumns
+	 * @param String $newDataString
+	 * @param String $sqlUID
+	 * @param String $withDebug = false
+	 * @return Integer
+	 */
+	function sqlCreateOne($sqlTable, $sqlColumns, $newDataString, $sqlUID, $withDebug = false){
 		switch($this->_sqlInterface){
 			case 'mysql':
 				tcms_time::tcms_query_counter();
-				/*
-				$fp = fopen('log_sqlCreateOne_'.microtime().'.txt', 'w');
-				fwrite($fp, "INSERT INTO ".$sqlTable." ( ".$sqlColumns.", `uid`) VALUES( ".$newDataString." , '".$sqlUID."' )");
-				fclose($fp);
-				*/
+				
+				if($withDebug) {
+					$fp = fopen('log_sqlCreateOne_'.microtime().'.txt', 'w');
+					fwrite($fp, "INSERT INTO ".$sqlTable." ( ".$sqlColumns.", `uid`) VALUES( ".$newDataString." , '".$sqlUID."' )");
+					fclose($fp);
+				}
+				
 				$sqlResult = mysql_query("INSERT INTO ".$sqlTable." ( ".$sqlColumns.", `uid`) VALUES( ".$newDataString." , '".$sqlUID."' )");
 				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . mysql_error(); }
 				break;
 			
 			case 'pgsql':
 				tcms_time::tcms_query_counter();
-				/*
-				$fp = fopen('log_sqlCreateOne_'.microtime().'.txt', 'w');
-				fwrite($fp, "INSERT INTO ".$sqlTable." ( ".$sqlColumns.", uid) VALUES( ".$newDataString." , '".$sqlUID."' )");
-				fclose($fp);
-				*/
+				
+				if($withDebug) {
+					$fp = fopen('log_sqlCreateOne_'.microtime().'.txt', 'w');
+					fwrite($fp, "INSERT INTO ".$sqlTable." ( ".$sqlColumns.", uid) VALUES( ".$newDataString." , '".$sqlUID."' )");
+					fclose($fp);
+				}
+				
 				$sqlResult = pg_query("INSERT INTO ".$sqlTable." ( ".$sqlColumns.", uid) VALUES( ".$newDataString." , '".$sqlUID."' )");
 				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . pg_result_error(); }
 				break;
@@ -775,11 +799,12 @@ class sqlAbstractionLayer{
 				break;
 			
 			case 'mssql':
-				/*
-				$fp = fopen('log_sqlCreateOne_'.microtime().'.txt', 'w');
-				fwrite($fp, "INSERT INTO ".$sqlTable." ( ".$sqlColumns.", \"uid\") VALUES( ".$newDataString." , '".$sqlUID."' )");
-				fclose($fp);
-				*/
+				if($withDebug) {
+					$fp = fopen('log_sqlCreateOne_'.microtime().'.txt', 'w');
+					fwrite($fp, "INSERT INTO ".$sqlTable." ( ".$sqlColumns.", \"uid\") VALUES( ".$newDataString." , '".$sqlUID."' )");
+					fclose($fp);
+				}
+				
 				tcms_time::tcms_query_counter();
 				$sqlResult = mssql_query("INSERT INTO ".$sqlTable." ( ".$sqlColumns.", [uid]) VALUES( ".$newDataString." , '".$sqlUID."' )");
 				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . $sqlQueryString; }
@@ -791,19 +816,23 @@ class sqlAbstractionLayer{
 	
 	
 	
-	/***
-	* SQL Delete One
-	* @return Return true/false
-	* @desc Delete one from a Table where UID = ?
-	*/
-	function sqlDeleteOne($sqlTable, $sqlUID){
+	/**
+	 * Delete one from a Table where UID = ?
+	 * 
+	 * @param String $sqlTable
+	 * @param String $sqlUID
+	 * @param String $withDebug = false
+	 * @return Integer
+	 */
+	function sqlDeleteOne($sqlTable, $sqlUID, $withDebug = false){
 		switch($this->_sqlInterface){
 			case 'mysql':
-				/*
-				$fp = fopen('log.txt', 'w');
-				fwrite($fp, 'DELETE FROM '.$sqlTable.' WHERE uid = "'.$sqlUID.'"');
-				fclose($fp);
-				*/
+				if($withDebug) {
+					$fp = fopen('log.txt', 'w');
+					fwrite($fp, 'DELETE FROM '.$sqlTable.' WHERE uid = "'.$sqlUID.'"');
+					fclose($fp);
+				}
+				
 				tcms_time::tcms_query_counter();
 				$sqlResult = mysql_query('DELETE FROM '.$sqlTable.' WHERE uid = "'.$sqlUID.'"');
 				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . mysql_error(); }
@@ -834,11 +863,14 @@ class sqlAbstractionLayer{
 	
 	
 	
-	/***
-	* SQL Delete Individual
-	* @return Return true/false
-	* @desc Delete one from a Table where "individual" = ?
-	*/
+	/**
+	 * Delete one from a Table where "individual" = ?
+	 * 
+	 * @param String $sqlTable
+	 * @param String $sqlIndividual
+	 * @param String $sqlValue
+	 * @return Integer
+	 */
 	function sqlDeleteIdv($sqlTable, $sqlIndividual, $sqlValue){
 		switch($this->_sqlInterface){
 			case 'mysql':
@@ -872,11 +904,12 @@ class sqlAbstractionLayer{
 	
 	
 	
-	/***
-	* SQL Get Number
-	* @return Return the number of rows of a query
-	* @desc 
-	*/
+	/**
+	 * Return the number of affected rows of a query
+	 * 
+	 * @param String $sqlQueryResult
+	 * @return Integer
+	 */
 	function sqlGetNumber($sqlQueryResult){
 		switch($this->_sqlInterface){
 			case 'mysql':
@@ -901,19 +934,24 @@ class sqlAbstractionLayer{
 	
 	
 	
-	/***
-	* SQL Get Number
-	* @return Return the number of rows of a query
-	* @desc 
-	*/
-	function sqlSearch($sqlTable, $sqlSearchColumn, $sqlSearchWord){
+	/**
+	 * Search
+	 * 
+	 * @param String $sqlTable
+	 * @param String $sqlSearchColumn
+	 * @param String $sqlSearchWord
+	 * @param String $withDebug = false
+	 * @return Integer
+	 */
+	function sqlSearch($sqlTable, $sqlSearchColumn, $sqlSearchWord, $withDebug = false){
 		switch($this->_sqlInterface){
 			case 'mysql':
-				/*
-				$fp = fopen('log_'.microtime().'.txt', 'w');
-				fwrite($fp, 'SELECT * FROM '.$sqlTable.' WHERE '.$sqlSearchColumn.' REGEXP "'.$sqlSearchWord.'" OR '.$sqlSearchColumn.' LIKE "%'.$sqlSearchWord.'%"');
-				fclose($fp);
-				*/
+				if($withDebug) {
+					$fp = fopen('log_'.microtime().'.txt', 'w');
+					fwrite($fp, 'SELECT * FROM '.$sqlTable.' WHERE '.$sqlSearchColumn.' REGEXP "'.$sqlSearchWord.'" OR '.$sqlSearchColumn.' LIKE "%'.$sqlSearchWord.'%"');
+					fclose($fp);
+				}
+				
 				tcms_time::tcms_query_counter();
 				$sqlResult = mysql_query('SELECT * FROM '.$sqlTable.' WHERE '.$sqlSearchColumn.' REGEXP "'.$sqlSearchWord.'" OR '.$sqlSearchColumn.' LIKE "%'.$sqlSearchWord.'%"');
 				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . mysql_error(); }
@@ -1005,6 +1043,7 @@ class sqlAbstractionLayer{
 	 * 
 	 * @param String $sqlTable
 	 * @param String $sqlNumber
+	 * @return String
 	 */
 	function sqlCreateUID($sqlTable, $sqlNumber){
 		$uidExists = true;
@@ -1055,6 +1094,8 @@ class sqlAbstractionLayer{
 	
 	/**
 	 * Get sql server state
+	 * 
+	 * @return String
 	 */
 	function sqlGetStats(){
 		switch($this->_sqlInterface){
@@ -1072,6 +1113,76 @@ class sqlAbstractionLayer{
 		}
 		
 		return $sqlStats;
+	}
+	
+	
+	
+	/**
+	 * Delete Table
+	 * 
+	 * @param String $tableName
+	 * @param Boolean $withDebug = false
+	 * @return Boolean
+	 */
+	function sqlDeleteTable($tableName, $withDebug = false){
+		switch($this->_sqlInterface){
+			case 'mysql':
+				$sql = 'DROP TABLE '.$tableName;
+				
+				if($withDebug) {
+					$fp = fopen('log_deleteTable_'.microtime().'.txt', 'w');
+					fwrite($fp, $sql);
+					fclose($fp);
+				}
+				
+				tcms_time::tcms_query_counter();
+				$sqlResult = mysql_query($sqlQueryString);
+				if(!$sqlResult)
+					$sqlResult = 'Invalid query: ' . mysql_error();
+				break;
+			
+			case 'pgsql':
+				$sql = 'DROP TABLE '.$tableName;
+				
+				if($withDebug) {
+					$fp = fopen('log_deleteTable_'.microtime().'.txt', 'w');
+					fwrite($fp, $sql);
+					fclose($fp);
+				}
+				
+				tcms_time::tcms_query_counter();
+				$sqlResult = pg_query($sqlQueryString);
+				if(!$sqlResult)
+					$sqlResult = 'Invalid query: ' . pg_result_error();
+				break;
+			
+			case 'sqlite':
+				$sql = 'DROP TABLE '.$tableName;
+				
+				tcms_time::tcms_query_counter();
+				$sqlResult = sqlite_query($sqlQueryString);
+				$sqlError  = sqlite_last_error($this->_sqlDB);
+				if(!$sqlResult)
+					$sqlResult = 'Invalid query: ' . sqlite_error_string($sqlError);
+				break;
+			
+			case 'mssql':
+				$sql = 'DROP TABLE ['.$tableName.']';
+				
+				if($withDebug) {
+					$fp = fopen('log_deleteTable_'.microtime().'.txt', 'w');
+					fwrite($fp, $sql);
+					fclose($fp);
+				}
+				
+				tcms_time::tcms_query_counter();
+				$sqlResult = mssql_query($sqlQueryString);
+				if(!$sqlResult)
+					$sqlResult = 'Invalid query: ' . $sqlQueryString;
+				break;
+		}
+		
+		return $sqlResult;
 	}
 }
 
