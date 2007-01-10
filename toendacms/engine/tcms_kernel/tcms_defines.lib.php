@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for global values
  *
- * @version 0.5.2
+ * @version 0.5.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -364,7 +364,7 @@ $xml->_xmlparser();
 unset($xml);
 
 $strMetaData = '<meta http-equiv="Content-Type" content="text/html; charset='.$c_charset.'" />
-<meta name="generator" content="'.$cms_name.' - '.$cms_tagline.' | Copyright '.$toenda_copyright.' Toenda Software Development. '._TCMS_ADMIN_RIGHT.'" />
+<meta name="generator" content="'.$cms_name.' - '.$cms_tagline.' - Version '.$cms_version.' '.$cms_build.' | Copyright '.$toenda_copyright.' Toenda Software Development. '._TCMS_ADMIN_RIGHT.'" />
 <meta name="description" content="'._SITE_METATAG_DESCRIPTION.'" />
 <meta name="keywords" content="'._SITE_METATAG_KEYWORDS.'" />
 <meta name="Page-topic" content="'._SITE_METATAG_KEYWORDS.'" />

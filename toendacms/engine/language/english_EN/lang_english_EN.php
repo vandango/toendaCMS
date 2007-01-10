@@ -495,20 +495,21 @@ if(!defined('_MENUTITLE_TEXT'))                define('_MENUTITLE_TEXT', 'The Po
 
 
 // CONTENT
-define('_CONTENT_TITLE', 'Show Static Content Pages');
-define('_CONTENT_TEXT', 'The ID-Number is the number you need to link all pages.');
-define('_CONTENT_TEXT_PAGE', 'Please enter all data here. As like as the title of the page, a little subtitle, of curse, the text af the page and, if you want a footnote.');
-define('_CONTENT_TEMPLATE', 'Content Template');
-define('_CONTENT_SECOND', 'Second Text');
-define('_CONTENT_OLDIMAGE', 'Old image');
-define('_CONTENT_IMAGEUNDER', 'Image under the Text');
-define('_CONTENT_IMAGERIGHT', 'Image right of the text');
-define('_CONTENT_FOOT', 'Foot note');
-define('_CONTENT_NEXT_PAGE', 'Next page');
-define('_CONTENT_LAST_PAGE', 'Last page');
-define('_CONTENT_BACK_PAGE', 'One page back');
-define('_CONTENT_FIRST_PAGE', 'First page');
-define('_CONTENT_LAST_UPDATE', 'Last Updated');
+if(!defined('_CONTENT_TITLE'))                 define('_CONTENT_TITLE', 'Show Static Content Pages');
+if(!defined('_CONTENT_TEXT'))                  define('_CONTENT_TEXT', 'The ID-Number is the number you need to link all pages.');
+if(!defined('_CONTENT_TEXT_PAGE'))             define('_CONTENT_TEXT_PAGE', 'Please enter all data here. As like as the title of the page, a little subtitle, of curse, the text af the page and, if you want a footnote.');
+if(!defined('_CONTENT_TEMPLATE'))              define('_CONTENT_TEMPLATE', 'Content Template');
+if(!defined('_CONTENT_SECOND'))                define('_CONTENT_SECOND', 'Second Text');
+if(!defined('_CONTENT_OLDIMAGE'))              define('_CONTENT_OLDIMAGE', 'Old image');
+if(!defined('_CONTENT_IMAGEUNDER'))            define('_CONTENT_IMAGEUNDER', 'Image under the Text');
+if(!defined('_CONTENT_IMAGERIGHT'))            define('_CONTENT_IMAGERIGHT', 'Image right of the text');
+if(!defined('_CONTENT_FOOT'))                  define('_CONTENT_FOOT', 'Foot note');
+if(!defined('_CONTENT_NEXT_PAGE'))             define('_CONTENT_NEXT_PAGE', 'Next page');
+if(!defined('_CONTENT_LAST_PAGE'))             define('_CONTENT_LAST_PAGE', 'Last page');
+if(!defined('_CONTENT_BACK_PAGE'))             define('_CONTENT_BACK_PAGE', 'One page back');
+if(!defined('_CONTENT_FIRST_PAGE'))            define('_CONTENT_FIRST_PAGE', 'First page');
+if(!defined('_CONTENT_LAST_UPDATE'))           define('_CONTENT_LAST_UPDATE', 'Last Updated');
+if(!defined('_CONTENT_NEW_LANG_DOCUMENT'))     define('_CONTENT_NEW_LANG_DOCUMENT', 'New document with another language');
 
 
 // IMPRESSUM

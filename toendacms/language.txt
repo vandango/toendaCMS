@@ -77,6 +77,8 @@ if(!defined('_SIDEEXT_LANGUAGE_SELECTOR'))     define('_SIDEEXT_LANGUAGE_SELECTO
 
 if(!defined('_FORM_GO'))                       define('_FORM_GO', 'Go');
 
+if(!defined('_CONTENT_NEW_LANG_DOCUMENT'))     define('_CONTENT_NEW_LANG_DOCUMENT', 'New document with another language');
+
 *
 *
 **************************

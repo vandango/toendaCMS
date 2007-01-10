@@ -855,7 +855,8 @@ if($todo == 'show'){
 		.'<th valign="middle" class="tcms_db_title" width="5%" align="center">'._TABLE_COMMENTS.'</th>'
 		.'<th valign="middle" class="tcms_db_title" width="5%" align="center">'._TABLE_FRONTPAGE.'</th>'
 		.'<th valign="middle" class="tcms_db_title" width="10%" align="center">'._TABLE_ACCESS.'</th>'
-		.'<th valign="middle" class="tcms_db_title" width="10%" align="right">'._TABLE_FUNCTIONS.'</th><tr>';
+		.'<th valign="middle" class="tcms_db_title" width="10%" align="right">'._TABLE_FUNCTIONS.'</th>'
+		.'<tr>';
 	
 	if(isset($arr_news['stamp']) && !empty($arr_news['stamp']) && $arr_news['stamp'] != ''){
 		$count = -1;
@@ -883,10 +884,21 @@ if($todo == 'show'){
 					.'onMouseOver="wxlBgCol(\'row'.$count.'\',\'#ececec\')" '
 					.'onMouseOut="wxlBgCol(\'row'.$count.'\',\''.$ws_farbe.'\')">';
 					
-					echo '<td align="center" class="tcms_db_2"'.$strJS.'><img src="../images/news.gif" border="0" /></td>';
-					echo '<td align="center" class="tcms_db_2"'.$strJS.'>'.($arr_news['date'][$count]==''?'<em>-empty-</em>':$arr_news['date'][$count]).'&nbsp;</td>';
-					echo '<td class="tcms_db_2"'.$strJS.'>'.(empty($arr_news['title'][$count])?'<em>-empty-</em>':$arr_news['title'][$count]).'</td>';
-					echo '<td class="tcms_db_2"'.$strJS.'>'.(empty($arr_news['autor'][$count])?'<em>-empty-</em>':$arr_news['autor'][$count]).'</td>';
+					echo '<td align="center" class="tcms_db_2"'.$strJS.'>'
+					.'<img src="../images/news.gif" border="0" />'
+					.'</td>';
+					
+					echo '<td align="center" class="tcms_db_2"'.$strJS.'>'
+					.( $tcms_main->isReal($arr_news['date'][$count]) ? '&nbsp;' : $arr_news['date'][$count] )
+					.'</td>';
+					
+					echo '<td class="tcms_db_2"'.$strJS.'>'
+					.( $tcms_main->isReal($arr_news['title'][$count]) ? '&nbsp;' : $arr_news['title'][$count] )
+					.'</td>';
+					
+					echo '<td class="tcms_db_2"'.$strJS.'>'
+					.( $tcms_main->isReal($arr_news['autor'][$count]) ? '&nbsp;' : $arr_news['autor'][$count] )
+					.'</td>';
 					
 					echo '<td align="center" class="tcms_db_2"'.$strJS.'>'
 					.'<a href="admin.php?id_user='.$id_user.'&amp;site=mod_news&amp;todo=publishItem&amp;action='.( $arr_news['pub'][$count] == 1 ? 'off' : 'on' ).'&amp;maintag='.$arr_news['order'][$count].'">'

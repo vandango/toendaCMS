@@ -10,7 +10,6 @@
 | Admin Framework - Top Menu
 |
 | File:		admin_top_menu.php
-| Version:	0.9.0
 |
 +
 */
@@ -18,6 +17,17 @@
 
 defined('_TCMS_VALID') or die('Restricted access');
 
+
+/**
+ * Admin Framework - Top Menu
+ *
+ * This is used as top menu.
+ *
+ * @version 0.9.2
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 if(isset($_GET['category'])){ $category = $_GET['category']; }
@@ -410,8 +420,13 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 
 
 // init
-if(!isset($todo)){ $todo = 'show'; }
-if(!isset($gg_albums)){ $gg_albums = 'show'; }
+if(!isset($todo)) {
+	$todo = 'show';
+}
+
+if(!isset($gg_albums)) {
+	$gg_albums = 'show';
+}
 
 
 
@@ -494,7 +509,7 @@ if($mod_title['show'][$site] == 2){
 		}
 		
 		// WYSIWYG
-		if($site == 'mod_content' || $site == 'mod_news'){// || $site == 'mod_links' || $site == 'mod_frontpage'){
+		if($site == 'mod_news'){
 			if($show_wysiwyg == 'tinymce' && $todo != 'config'){
 				echo '<a style="padding: 3px 3px 0 3px;" href="javascript:tinyMCE.triggerSave();tinyMCE.updateContent(\'content\');save();"><img title="'._TCMS_ADMIN_SAVE.'" alt="'._TCMS_ADMIN_SAVE.'" src="../images/admin_menu/save.png" border="0" /></a>';
 			}
@@ -512,39 +527,6 @@ if($mod_title['show'][$site] == 2){
 				echo '<a style="padding: 3px 3px 0 3px;" href="javascript:save();"><img title="'._TCMS_ADMIN_SAVE.'" alt="'._TCMS_ADMIN_SAVE.'" src="../images/admin_menu/save.png" border="0" /></a>';
 			}
 		}
-	}
-}
-
-
-
-
-//*************
-//
-// DOWNLOADS
-//
-if($mod_title['show'][$site] == 5){
-	echo '<img src="../images/admin_menu/line.gif" border="0" />';
-	
-	if($todo == 'edit'){
-		echo '<a style="padding: 3px 3px 0 3px;" href="admin.php?id_user='.$id_user.'&amp;site='.$site.'"><img title="'._TCMS_ADMIN_BACK.'" alt="'._TCMS_ADMIN_BACK.'" src="../images/admin_menu/back.png" border="0" /></a>';
-		echo '<img src="../images/admin_menu/line.gif" border="0" />';
-		echo '<a style="padding: 3px 3px 0 3px;" href="admin.php?id_user='.$id_user.'&amp;site='.$site.'&amp;todo=edit'.( isset($category) ? '&amp;category='.$category : '' ).'"><img title="'._TCMS_ADMIN_NEW.'" alt="'._TCMS_ADMIN_NEW.'" src="../images/admin_menu/new_file.png" border="0" /></a>';
-		echo '<a style="padding: 3px 3px 0 3px;" href="javascript:save();"><img title="'._TCMS_ADMIN_SAVE.'" alt="'._TCMS_ADMIN_SAVE.'" src="../images/admin_menu/save.png" border="0" /></a>';
-	}
-	elseif($todo == 'config'){
-		echo '<a style="padding: 3px 3px 0 3px;" href="admin.php?id_user='.$id_user.'&amp;site='.$site.'"><img title="'._TCMS_ADMIN_BACK.'" alt="'._TCMS_ADMIN_BACK.'" src="../images/admin_menu/back.png" border="0" /></a>';
-		echo '<img src="../images/admin_menu/line.gif" border="0" />';
-		echo '<a style="padding: 3px 3px 0 3px;" href="javascript:save();"><img title="'._TCMS_ADMIN_SAVE.'" alt="'._TCMS_ADMIN_SAVE.'" src="../images/admin_menu/save.png" border="0" /></a>';
-	}
-	elseif($todo == 'create'){
-		echo '<a style="padding: 3px 3px 0 3px;" href="admin.php?id_user='.$id_user.'&amp;site='.$site.'"><img title="'._TCMS_ADMIN_BACK.'" alt="'._TCMS_ADMIN_BACK.'" src="../images/admin_menu/back.png" border="0" /></a>';
-		echo '<img src="../images/admin_menu/line.gif" border="0" />';
-		echo '<a style="padding: 3px 3px 0 3px;" href="javascript:save();"><img title="'._TCMS_ADMIN_SAVE.'" alt="'._TCMS_ADMIN_SAVE.'" src="../images/admin_menu/save.png" border="0" /></a>';
-	}
-	else{
-		echo '<a style="padding: 3px 3px 0 3px;" href="admin.php?id_user='.$id_user.'&amp;site='.$site.'&amp;todo=config"><img title="'._TCMS_ADMIN_CONFIG.'" alt="'._TCMS_ADMIN_CONFIG.'" src="../images/admin_menu/config.png" border="0" /></a>';
-		echo '<img src="../images/admin_menu/line.gif" border="0" />';
-		echo '<a style="padding: 3px 3px 0 3px;" href="admin.php?id_user='.$id_user.'&amp;site='.$site.'&amp;todo=create"><img title="'._TCMS_ADMIN_NEW.'" alt="'._TCMS_ADMIN_NEW.'" src="../images/admin_menu/new_file.png" border="0" /></a>';
 	}
 }
 

@@ -10,7 +10,6 @@
 | Knowledgebase / FAQ and Article database
 |
 | File:		ext_knowledgebase.php
-| Version:	0.4.0
 |
 +
 */
@@ -19,7 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-
+/**
+ * Knowledgebase / FAQ and Article database
+ *
+ * This module is used as a Knowledgebase / FAQ and Article database.
+ *
+ * @version 0.4.1
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Content Modules
+ */
 
 
 if(isset($_GET['cmd'])){ $cmd = $_GET['cmd']; }
@@ -29,7 +37,9 @@ if(isset($_GET['article'])){ $article = $_GET['article']; }
 
 
 
-
+// ---------------------------------
+// CONTENT
+// ---------------------------------
 
 if(trim($faq_enabled) == 1){
 	if(!isset($cmd) || $cmd == 'showall') $cmd = 'list';
@@ -314,7 +324,9 @@ if(trim($faq_enabled) == 1){
 						
 						switch(trim($arrFAQ['type'][$key])){
 							case 'c':
-								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=knowledgebase&amp;s='.$s.'&amp;cmd=list&amp;category='.$arrFAQ['uid'][$key];
+								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+								.'id=knowledgebase&amp;s='.$s.'&amp;cmd=list&amp;category='.$arrFAQ['uid'][$key]
+								.( isset($lang) ? '&amp;lang='.$lang : '' );
 								$link = $tcms_main->urlAmpReplace($link);
 								
 								echo '<a href="'.$link.'">';
@@ -345,7 +357,9 @@ if(trim($faq_enabled) == 1){
 								break;
 							
 							case 'a':
-								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=knowledgebase&amp;s='.$s.'&amp;cmd=detail'.( $arrFAQ['cat'][$key] != '' ? '&amp;category='.$arrFAQ['cat'][$key] : '' ).'&amp;article='.$arrFAQ['uid'][$key];
+								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+								.'id=knowledgebase&amp;s='.$s.'&amp;cmd=detail'.( $arrFAQ['cat'][$key] != '' ? '&amp;category='.$arrFAQ['cat'][$key] : '' ).'&amp;article='.$arrFAQ['uid'][$key]
+								.( isset($lang) ? '&amp;lang='.$lang : '' );
 								$link = $tcms_main->urlAmpReplace($link);
 								
 								echo '<a href="'.$link.'">';
@@ -383,12 +397,16 @@ if(trim($faq_enabled) == 1){
 						
 						switch(trim($arrFAQ['type'][$key])){
 							case 'c':
-								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=knowledgebase&amp;s='.$s.'&amp;cmd=list&amp;category='.$arrFAQ['uid'][$key];
+								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+								.'id=knowledgebase&amp;s='.$s.'&amp;cmd=list&amp;category='.$arrFAQ['uid'][$key]
+								.( isset($lang) ? '&amp;lang='.$lang : '' );
 								$link = $tcms_main->urlAmpReplace($link);
 								break;
 							
 							case 'a':
-								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=knowledgebase&amp;s='.$s.'&amp;cmd=detail'.( $arrFAQ['cat'][$key] != '' ? '&amp;category='.$arrFAQ['cat'][$key] : '' ).'&amp;article='.$arrFAQ['uid'][$key];
+								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+								.'id=knowledgebase&amp;s='.$s.'&amp;cmd=detail'.( $arrFAQ['cat'][$key] != '' ? '&amp;category='.$arrFAQ['cat'][$key] : '' ).'&amp;article='.$arrFAQ['uid'][$key]
+								.( isset($lang) ? '&amp;lang='.$lang : '' );
 								$link = $tcms_main->urlAmpReplace($link);
 								break;
 						}
@@ -566,10 +584,14 @@ if(trim($faq_enabled) == 1){
 			
 			if($show_this_category){
 				if(trim($arrFAQ['cat']) == ''){
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=knowledgebase&amp;s='.$s.'&amp;cmd=list';
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					'id=knowledgebase&amp;s='.$s.'&amp;cmd=list'
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 				}
 				else{
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=knowledgebase&amp;s='.$s.'&amp;cmd=list&amp;category='.$arrFAQ['cat'];
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id=knowledgebase&amp;s='.$s.'&amp;cmd=list&amp;category='.$arrFAQ['cat']
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 				}
 				$link = $tcms_main->urlAmpReplace($link);
 				
@@ -596,7 +618,9 @@ if(trim($faq_enabled) == 1){
 					.'<span class="text_small">';
 					
 					if($faq_autorlink == 1){
-						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=profile&amp;s='.$s.'&amp;u='.$arrFAQ['autorid'];
+						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+						.'id=profile&amp;s='.$s.'&amp;u='.$arrFAQ['autorid']
+						.( isset($lang) ? '&amp;lang='.$lang : '' );
 						$link = $tcms_main->urlAmpReplace($link);
 					}
 					

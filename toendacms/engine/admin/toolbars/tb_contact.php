@@ -10,7 +10,6 @@
 | Toolbar for contactmanager
 |
 | File:		tb_contact.php
-| Version:	0.0.1
 |
 +
 */
@@ -19,7 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-
+/**
+ * Toolbar for contactmanager
+ *
+ * This is used as toolbar for the contact manager.
+ *
+ * @version 0.0.2
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 switch($todo){
@@ -63,7 +71,5 @@ switch($todo){
 		.'</a>';
 		break;
 }
-
-
 
 ?>

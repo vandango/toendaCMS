@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used as a documents manager.
  *
- * @version 0.9.7
+ * @version 0.9.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -145,7 +145,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 					$arr_content['pub'], SORT_ASC, 
 					$arr_content['autor'], SORT_ASC, 
 					$arr_content['inw'], SORT_ASC, 
-					$arr_content['access'], SORT_ASC
+					$arr_content['access'], SORT_SC
 				);
 			}
 		}
@@ -156,7 +156,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			$sqlSTR = "SELECT * "
 			."FROM ".$tcms_db_prefix."content "
 			."WHERE NOT (uid IS NULL) "
-			."ORDER BY title DESC, uid DESC";
+			."ORDER BY title ASC, uid ASC";
 			
 			$sqlQR = $sqlAL->sqlQuery($sqlSTR);
 			
@@ -190,13 +190,15 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		
 		echo '<table cellpadding="3" cellspacing="0" border="0" class="noborder">';
 		echo '<tr class="tcms_bg_blue_01">'
-			.'<th valign="middle" class="tcms_db_title" width="70%" colspan="2" align="left">'._TABLE_TITLE.'</th>'
-			.'<th valign="middle" class="tcms_db_title" width="5%">'._TABLE_ORDER.'</th>'
+			.'<th valign="middle" class="tcms_db_title" width="2%" colspan="2">&nbsp;</th>'
+			.'<th valign="middle" class="tcms_db_title" width="58%" align="left">'._TABLE_TITLE.'</th>'
+			.'<th valign="middle" class="tcms_db_title" width="5%" align="left">'._TABLE_ORDER.'</th>'
 			.'<th valign="middle" class="tcms_db_title" width="10%" align="left">'._TABLE_AUTOR.'</th>'
-			.'<th valign="middle" class="tcms_db_title" width="5%" align="left">'._TABLE_PUBLISHED.'</th>'
-			.'<th valign="middle" class="tcms_db_title" width="5%" align="left">'._TABLE_IN_WORK.'</th>'
-			.'<th valign="middle" class="tcms_db_title" width="5%">'._TABLE_MACCESS.'</th>'
-			.'<th valign="middle" class="tcms_db_title" width="20%" align="right">'._TABLE_FUNCTIONS.'</th></tr>';
+			.'<th valign="middle" class="tcms_db_title" width="5%" align="center">'._TABLE_PUBLISHED.'</th>'
+			.'<th valign="middle" class="tcms_db_title" width="5%" align="center">'._TABLE_IN_WORK.'</th>'
+			.'<th valign="middle" class="tcms_db_title" width="10%" align="center">'._TABLE_ACCESS.'</th>'
+			.'<th valign="middle" class="tcms_db_title" width="10%" align="right">'._TABLE_FUNCTIONS.'</th>'
+			.'</tr>';
 		
 		if(isset($arr_content['id']) && !empty($arr_content['id']) && $arr_content['id'] != ''){
 			foreach ($arr_content['id'] as $key => $value){
@@ -213,11 +215,11 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				.'onMouseOver="wxlBgCol(\'row'.$key.'\',\'#ececec\')" '
 				.'onMouseOut="wxlBgCol(\'row'.$key.'\',\''.$ws_farbe.'\')">';
 				
-				echo '<td class="tcms_db_2" style="width: 11px !important;"'.$strJS.'>'
+				echo '<td colspan="2" class="tcms_db_2" width="20"'.$strJS.'>'
 				.'<img border="0" src="../images/page.png" />'
 				.'</td>';
 				
-				echo '<td class="tcms_db_2" width="70%"'.$strJS.'>'
+				echo '<td class="tcms_db_2" '.$strJS.'>'
 				.$arr_content['title'][$key]
 				.'</td>';
 				
@@ -423,11 +425,17 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			
 			foreach($arr_db['filename'] as $db_key => $db_value){
 				echo '<tr><td width="15" valign="top">'
-					.'<input name="db_layout" type="radio" value="'.$db_value.'" onclick="document.location=\'admin.php?id_user='.$id_user.'&site=mod_content&todo=edit&db_layout='.$db_value.( isset($maintag) ? '&amp;maintag='.$maintag : '' ).'\'" />'
+					.'<input name="db_layout" type="radio" value="'.$db_value.'" '
+					.'onclick="document.location=\'admin.php?id_user='.$id_user.'&site=mod_content&todo=edit&db_layout='.$db_value.( isset($maintag) ? '&amp;maintag='.$maintag : '' ).'\'" />'
 				.'</td><td width="34" valign="top">'
 					.'<img src="../images/db_layout/'.$arr_db['imagename'][$db_key].'" border="0" />'
 				.'</td><td width="300" valign="top">'
-					.'<a class="tcms_db_template" href="admin.php?id_user='.$id_user.'&amp;site=mod_content&amp;todo=edit&amp;db_layout='.$db_value.( isset($maintag) ? '&amp;maintag='.$maintag : '' ).'"><strong>'.$arr_db['templatename'][$db_key].'</strong>'
+					.'<a class="tcms_db_template" '
+					.'href="admin.php?id_user='.$id_user.'&amp;site=mod_content&amp;todo=edit&amp;db_layout='.$db_value
+					.( isset($maintag) ? '&amp;maintag='.$maintag : '' )
+					.( isset($lang) ? '&amp;lang='.$lang : '' )
+					.'">'
+					.'<strong>'.$arr_db['templatename'][$db_key].'</strong>'
 					.'<br />'.$arr_db['templatedes'][$db_key].'</a>'
 				.'<td></tr>';
 				
@@ -476,6 +484,15 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			
 			// table head
 			echo '<table width="100%" cellpadding="1" cellspacing="5" class="tcms_table">';
+			
+			
+			if($tcms_main->isReal($lang)) {
+				echo '<tr><td valign="top" width="'.$width.'">'
+				.'<strong class="tcms_bold">'._TABLE_TITLE.'</strong>'
+				.'</td><td>'
+				.'HIER SELECT MIT DOCUMENTS AUSWAHL FUER LANG-DOC.'
+				.'</td></tr>';
+			}
 			
 			
 			// table row
@@ -1098,7 +1115,9 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			}
 		}
 		
-		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_content\';</script>';
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_content\';'
+		.'</script>';
 	}
 }
 else{
