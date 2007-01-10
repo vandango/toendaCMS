@@ -10,12 +10,10 @@
 | Index Admin (Login interface)
 |
 | File:		index.php
-| Version:	0.5.9
 |
 +
 */
 
-//echo md5('7eed40ad');
 
 if(isset($_POST['username'])){ $username = $_POST['username']; }
 if(isset($_POST['password'])){ $password = $_POST['password']; }
@@ -28,6 +26,18 @@ if(isset($_GET['cmd'])){ $cmd = $_GET['cmd']; }
 if(isset($_GET['todo'])){ $todo = $_GET['todo']; }
 if(isset($_GET['id_user'])){ $id_user = $_GET['id_user']; }
 
+
+/**
+ * Index Admin (Login interface)
+ *
+ * This is used as global startpage for the
+ * administraion backend.
+ *
+ * @version 0.6.0
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 /*
@@ -113,6 +123,9 @@ $ver_xml->_xmlparser();
 
 $version = '&nbsp;'.$cms_name.' &bull; '.$release.' ['.$codename.'] &bull; '.$status.'&nbsp;';
 
+$cms_version = $release;
+$cms_build = $build;
+
 
 
 echo '
@@ -123,6 +136,7 @@ echo '
 <meta http-equiv="Content-Type" content="text/html; charset='.$c_charset.'" />
 <!--
  This website is powered by '.$cms_name.' - '.$cms_tagline.'!
+ Version '.$cms_version.' - '.$cms_build.'
  '.$cms_name.' is a free open source Content Management Framework created by Jonathan Naumann and licensed under the GNU/GPL license.
  '.$cms_name.' is copyright (c) '.$toenda_copy.' of Toenda Software Development.
  Components are copyright (c) of their respective owners.

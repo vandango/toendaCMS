@@ -90,6 +90,7 @@ define('_TCMS_OPEN_DIRECTORY', 'Ordner &ouml;ffnen');
 define('_TCMS_TEST_ENVIRONMENT', 'DIES IST EINE TESTUMGEBUNG!');
 define('_TCMS_THIS_PAGE_IN', 'Diese Seite in');
 define('_TCMS_LANGUAGES', 'Sprachen');
+define('_TCMS_LANGUAGE', 'Sprache');
 
 
 // BACKEND TOPMENU
@@ -141,7 +142,7 @@ define('_TCMS_MENU_QBOOK', 'G&auml;stebuch');
 define('_TCMS_MENU_CS', 'Komponentensystem');
 define('_TCMS_MENU_CS_UPLOAD', 'Komponenten Install&amp;edit');
 define('_TCMS_MENU_GLOBAL', 'Systemeinstellungen');
-define('_TCMS_MENU_DB', 'Datenbankeinstellungen');#
+define('_TCMS_MENU_DB', 'Datenbankeinstellungen');
 define('_TCMS_MENU_STATS', 'Statistik');
 define('_TCMS_MENU_THEME', 'Vorlagenmanager');
 define('_TCMS_MENU_THEME_UPLOAD', 'Vorlagen Install&amp;edit');
@@ -512,6 +513,7 @@ define('_CONTENT_LAST_PAGE', 'Letzte Seite');
 define('_CONTENT_FIRST_PAGE', 'Letzte Seite');
 define('_CONTENT_LAST_UPDATE', 'Letzte &Auml;nderung am');
 define('_CONTENT_NEW_LANG_DOCUMENT', 'Neues Dokument mit einer anderen Sprache');
+define('_CONTENT_ORG_DOCUMENT', 'Original Dokument');
 
 
 
@@ -1325,6 +1327,8 @@ define('_COUNTRY_JAMAICA', 'Jamaika');
 define('_COUNTRY_JAPAN', 'Japan');
 define('_COUNTRY_YEMEN', 'Jemen');
 define('_COUNTRY_JORDAN', 'Jordanien');
+define('_COUNTRY_YUGOSLAVIA', 'Jugoslawien (ehem.)');
+define('_COUNTRY_VIRGINISLANDS', 'Jungferninseln');
 
 define('_COUNTRY_MALI', 'Mali');
 define('_COUNTRY_MALTA', 'Malta');
@@ -1332,7 +1336,9 @@ define('_COUNTRY_MAROCCO', 'Marokko');
 define('_COUNTRY_MARSHALLISLANDS', 'Marshall Inseln');
 
 define('_COUNTRY_SUDAN', 'Sudan');
+define('_COUNTRY_SURINAME', 'Surinam');
 
+define('_COUNTRY_BELARUS', 'Wei&#223;ru&#223;land');
 define('_COUNTRY_WESTERNSAHARA', 'Westsahahra');
 define('_COUNTRY_ZAIRE', 'Zaire');
 define('_COUNTRY_ZAMBIA', 'Zambia');

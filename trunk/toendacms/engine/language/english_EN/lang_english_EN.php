@@ -90,6 +90,7 @@ if(!defined('_TCMS_OPEN_DIRECTORY'))           define('_TCMS_OPEN_DIRECTORY', 'O
 if(!defined('_TCMS_TEST_ENVIRONMENT'))         define('_TCMS_TEST_ENVIRONMENT', 'THIS IS A TEST ENVIRONMENT!');
 if(!defined('_TCMS_THIS_PAGE_IN'))             define('_TCMS_THIS_PAGE_IN', 'This page in');
 if(!defined('_TCMS_LANGUAGES'))                define('_TCMS_LANGUAGES', 'Languages');
+if(!defined('_TCMS_LANGUAGE'))                 define('_TCMS_LANGUAGE', 'Language');
 
 
 // BACKEND TOPMENU
@@ -510,6 +511,7 @@ if(!defined('_CONTENT_BACK_PAGE'))             define('_CONTENT_BACK_PAGE', 'One
 if(!defined('_CONTENT_FIRST_PAGE'))            define('_CONTENT_FIRST_PAGE', 'First page');
 if(!defined('_CONTENT_LAST_UPDATE'))           define('_CONTENT_LAST_UPDATE', 'Last Updated');
 if(!defined('_CONTENT_NEW_LANG_DOCUMENT'))     define('_CONTENT_NEW_LANG_DOCUMENT', 'New document with another language');
+if(!defined('_CONTENT_ORG_DOCUMENT'))          define('_CONTENT_ORG_DOCUMENT', 'Original Document');
 
 
 // IMPRESSUM
@@ -1323,6 +1325,8 @@ if(!defined('_COUNTRY_JAMAICA'))               define('_COUNTRY_JAMAICA', 'Jamai
 if(!defined('_COUNTRY_JAPAN'))                 define('_COUNTRY_JAPAN', 'Japan');
 if(!defined('_COUNTRY_YEMEN'))                 define('_COUNTRY_YEMEN', 'Yemen');
 if(!defined('_COUNTRY_JORDAN'))                define('_COUNTRY_JORDAN', 'Jordan');
+if(!defined('_COUNTRY_YUGOSLAVIA'))            define('_COUNTRY_YUGOSLAVIA', 'Yugoslavia (alumni)');
+if(!defined('_COUNTRY_VIRGINISLANDS'))         define('_COUNTRY_VIRGINISLANDS', 'Virgin Islands');
 
 if(!defined('_COUNTRY_MALI'))                  define('_COUNTRY_MALI', 'Mali');
 if(!defined('_COUNTRY_MALTA'))                 define('_COUNTRY_MALTA', 'Malta');
@@ -1330,7 +1334,9 @@ if(!defined('_COUNTRY_MAROCCO'))               define('_COUNTRY_MAROCCO', 'Maroc
 if(!defined('_COUNTRY_MARSHALLISLANDS'))       define('_COUNTRY_MARSHALLISLANDS', 'Marshall Islands');
 
 if(!defined('_COUNTRY_SUDAN'))                 define('_COUNTRY_SUDAN', 'Sudan');
+if(!defined('_COUNTRY_SURINAME'))              define('_COUNTRY_SURINAME', 'Suriname');
 
+if(!defined('_COUNTRY_BELARUS'))               define('_COUNTRY_BELARUS', 'Belarus');
 if(!defined('_COUNTRY_WESTERNSAHARA'))         define('_COUNTRY_WESTERNSAHARA', 'Western Sahahra');
 if(!defined('_COUNTRY_ZAIRE'))                 define('_COUNTRY_ZAIRE', 'Zaire');
 if(!defined('_COUNTRY_ZAMBIA'))                define('_COUNTRY_ZAMBIA', 'Zambia');

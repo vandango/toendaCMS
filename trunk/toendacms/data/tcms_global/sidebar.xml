@@ -21,6 +21,7 @@
 	<usermenu>1</usermenu>
 	<show_login_title>1</show_login_title>
 	<show_news_cat_amount>1</show_news_cat_amount>
-	<show_memberlist>1</show_memberlist>
+	<show_memberlist>0</show_memberlist>
+	<lang>de;en;bg;nl;fi;it;kr;no;br;ro;sk;es;se;</lang>
 
 </side>

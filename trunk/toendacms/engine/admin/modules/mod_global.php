@@ -10,7 +10,6 @@
 | Global Configuration
 |
 | File:		mod_global.php
-| Version:	1.1.1
 |
 +
 */
@@ -21,9 +20,10 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 /**
  * Global Configuration
- *
+ * 
  * This module is for the global configuration settings.
- *
+ * 
+ * @version 1.1.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Admin Backend
@@ -253,7 +253,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	echo '<script>
 	var CHANGED = false;
 	var RELOCATE = "0";
-	var _tcmsVALUE = "Site is proudly powered by toendaCMS &copy; 2003 - 2007 Toenda Software Development. All rights reserved.<br />toendaCMS is Free Software released under the GNU/GPL License.<br />";
+	var _tcmsVALUE = "Site is proudly powered by toendaCMS &#169; 2003 - 2007 Toenda Software Development. All rights reserved.<br />toendaCMS is Free Software released under the GNU/GPL License.<br />";
 	
 	function checkChanges(target){
 		if(CHANGED){
