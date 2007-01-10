@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a news manager with a news,
  * a news view and a archive with different formats.
  *
- * @version 1.2.5
+ * @version 1.2.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -128,7 +128,9 @@ if($news == 'start' && !isset($cat)){
 			.lang_date(substr($dcNews->GetDate(), 0, 2), substr($dcNews->GetDate(), 3, 2), substr($dcNews->GetDate(), 6, 4), substr($dcNews->GetTime(), 0, 2), substr($dcNews->GetTime(), 3, 2), '')
 			.'</td>';
 			
-			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=newsmanager&amp;s='.$s.'&amp;news='.$dcNews->GetID();
+			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+			.'id=newsmanager&amp;s='.$s.'&amp;news='.$dcNews->GetID()
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<td valign="top">'
@@ -150,20 +152,26 @@ if($news == 'start' && !isset($cat)){
 		TAB
 	*/
 	echo '<div style="display: block; float: left; padding-right: 5px;">';
-	$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id=newsmanager&s='.$s;
+	$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
+	.'id=newsmanager&s='.$s
+	.( isset($lang) ? '&amp;lang='.$lang : '' );
 	$link = $tcms_main->urlAmpReplace($link);
 	echo '<input class="inputbutton" type="button" onclick="document.location=\''.$link.'\';" value="'._NEWS_ARCHIVE.' ('._NEWS_LAST.' '.$news_amount.')" />';
 	echo '</div>';
 	
 	
 	echo '<div style="display: block; float: left; padding-right: 5px;">';
-	$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id=newsmanager&s='.$s.'&news=archive';
+	$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
+	.'id=newsmanager&s='.$s.'&news=archive'
+	.( isset($lang) ? '&amp;lang='.$lang : '' );
 	$link = $tcms_main->urlAmpReplace($link);
 	echo '<input class="inputbutton" type="button" onclick="document.location=\''.$link.'\';" value="'._NEWS_ARCHIVE.' ('._NEWS_ORDER_BY_TIME.')" />';
 	echo '</div>';
 	
 	
-	$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id=newsmanager&s='.$s.'&news=archive&cmd=category';
+	$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
+	.'id=newsmanager&s='.$s.'&news=archive&cmd=category'
+	.( isset($lang) ? '&amp;lang='.$lang : '' );
 	$link = $tcms_main->urlAmpReplace($link);
 	echo '<input class="inputbutton" type="button" onclick="document.location=\''.$link.'\';" value="'._NEWS_ARCHIVE.' ('._NEWS_ORDER_BY_CAT.')" />';
 	
@@ -371,7 +379,9 @@ if($news != 'start' && $cmd != 'comment_save' && $news != 'archive' && !isset($c
 			foreach($catLink['link'] as $catKey => $catVal){
 				if($catKey != 0){ echo ','; }
 				
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=newsmanager&amp;s='.$s.'&amp;cat='.$catVal;
+				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+				.'id=newsmanager&amp;s='.$s.'&amp;cat='.$catVal
+				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlAmpReplace($link);
 				
 				echo '&nbsp;<a href="'.$link.'">'
@@ -392,7 +402,9 @@ if($news != 'start' && $cmd != 'comment_save' && $news != 'archive' && !isset($c
 					echo _NEWS_WRITTEN.'&nbsp;';
 					
 					if($userID != false){
-						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=profile&amp;s='.$s.'&amp;u='.$userID;
+						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+						.'id=profile&amp;s='.$s.'&amp;u='.$userID
+						.( isset($lang) ? '&amp;lang='.$lang : '' );
 						$link = $tcms_main->urlAmpReplace($link);
 						
 						echo '<a href="'.$link.'">'.$dcNews->GetAutor().'</a>';
@@ -435,7 +447,9 @@ if($news != 'start' && $cmd != 'comment_save' && $news != 'archive' && !isset($c
 				echo '<strong class="news_title_bg text_huge">'.$nw_amount.' '.( $nw_amount == 1 ? _FRONT_COMMENT : _FRONT_COMMENTS ).'</strong>';
 				
 				if($use_trackback == 1){
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=newsmanager&amp;s='.$s.'&amp;news='.$dcNews->GetID().'&amp;cmd=trackback';
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id=newsmanager&amp;s='.$s.'&amp;news='.$dcNews->GetID().'&amp;cmd=trackback'
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 					
 					echo '&nbsp;(&nbsp;<a href="'.$link.'">'._NEWS_TRACKBACK.'</a>&nbsp;)';
@@ -573,7 +587,10 @@ if($news != 'start' && $cmd != 'comment_save' && $news != 'archive' && !isset($c
 							
 							if($check_session){
 								if($is_admin == 'Administrator' || $is_admin == 'Developer'){
-									$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$id.'&amp;s='.$s.'&amp;cmd=delete&amp;XMLplace='.$commentDC->GetID().'&amp;XMLfile='.$commentDC->GetTimestamp();
+									$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+									.'id='.$id.'&amp;s='.$s.'&amp;cmd=delete&amp;XMLplace='.$commentDC->GetID()
+									.'&amp;XMLfile='.$commentDC->GetTimestamp()
+									.( isset($lang) ? '&amp;lang='.$lang : '' );
 									$link = $tcms_main->urlAmpReplace($link);
 									
 									echo '<a class="main" href="'.$link.'"><strong>'._TCMS_ADMIN_DELETE.'</strong></a>';
@@ -780,13 +797,18 @@ if($use_news_comments == 1){
 			}
 			
 			
-			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id='.$id.'&s='.$s.'&news='.$news;
-			if($seoEnabled == 1) $link = $tcms_main->urlAmpReplace($link);
+			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
+			.'id='.$id.'&s='.$s.'&news='.$news
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
+			if($seoEnabled == 1)
+				$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<script>document.location=\''.$link.'\'</script>';
 			
 			
-			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$id.'&amp;s='.$s.'&amp;news='.$news;
+			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+			.'id='.$id.'&amp;s='.$s.'&amp;news='.$news
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<a href="'.$link.'">'._TCMS_ADMIN_BACK.'</a>';
@@ -1131,7 +1153,9 @@ if($cmd == '' && $news == ''){
 	
 	if(!empty($arr_newsItems['stamp']) && $arr_newsItems['stamp'] != '' && isset($arr_newsItems['stamp'])){
 		foreach($arr_newsItems['stamp'] as $key => $value){
-			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=newsmanager&amp;s='.$s.'&amp;news='.$arr_newsItems['order'][$key];
+			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+			.'id=newsmanager&amp;s='.$s.'&amp;news='.$arr_newsItems['order'][$key]
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<div style="width: 100%;" class="news_title_bg">'
@@ -1331,7 +1355,9 @@ if($cmd == '' && $news == ''){
 						echo '&nbsp;'._NEWS_WRITTEN.'&nbsp;';
 						
 						if($userID != false){
-							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=profile&amp;s='.$s.'&amp;u='.$userID;
+							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+							.'id=profile&amp;s='.$s.'&amp;u='.$userID
+							.( isset($lang) ? '&amp;lang='.$lang : '' );
 							$link = $tcms_main->urlAmpReplace($link);
 							
 							echo '<a href="'.$link.'">'.$arr_newsItems['autor'][$key].'</a>';
@@ -1350,7 +1376,9 @@ if($cmd == '' && $news == ''){
 				echo '&nbsp;'._NEWS_IN;
 				
 				foreach($catLink['link'] as $catKey => $catVal){
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=newsmanager&amp;s='.$s.'&amp;cat='.$catVal;
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id=newsmanager&amp;s='.$s.'&amp;cat='.$catVal
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 					
 					if($catKey != 0){ echo ','; }
@@ -1361,7 +1389,9 @@ if($cmd == '' && $news == ''){
 			}
 			
 			if($use_trackback == 1){
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=newsmanager&amp;s='.$s.'&amp;news='.$arr_newsItems['order'][$key].'&amp;cmd=trackback';
+				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+				.'id=newsmanager&amp;s='.$s.'&amp;news='.$arr_newsItems['order'][$key].'&amp;cmd=trackback'
+				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlAmpReplace($link);
 				
 				echo '&nbsp;|&nbsp;<a href="'.$link.'">'._NEWS_TRACKBACK.'</a>';
@@ -1369,7 +1399,9 @@ if($cmd == '' && $news == ''){
 			
 			if($use_news_comments == 1){
 				if($arr_newsItems['cmt'][$key] == 1){
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=newsmanager&amp;s='.$s.'&amp;news='.$arr_newsItems['order'][$key];
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id=newsmanager&amp;s='.$s.'&amp;news='.$arr_newsItems['order'][$key]
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 					
 					echo '&nbsp;|&nbsp;<a href="'.$link.'#comments">'.$nw_amount.' '.( $nw_amount == 1 ? _FRONT_COMMENT : _FRONT_COMMENTS ).'</a>';
@@ -1427,7 +1459,9 @@ if($cmd == '' && $news == ''){
 			}
 			
 			if($toendaScript_more_show){
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=newsmanager&amp;s='.$s.'&amp;news='.$arr_newsItems['order'][$key];
+				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+				.'id=newsmanager&amp;s='.$s.'&amp;news='.$arr_newsItems['order'][$key]
+				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlAmpReplace($link);
 				
 				switch($readmore_link){
@@ -1526,7 +1560,9 @@ if($news != 'start' && $cmd != 'comment_save'){
 					.lang_date(substr($dcNews->GetDate(), 0, 2), substr($dcNews->GetDate(), 3, 2), substr($dcNews->GetDate(), 6, 4), substr($dcNews->GetTime(), 0, 2), substr($dcNews->GetTime(), 3, 2), '')
 					.'</td>';
 					
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$id.'&amp;s='.$s.'&amp;news='.$dcNews->GetID();
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id='.$id.'&amp;s='.$s.'&amp;news='.$dcNews->GetID()
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 					
 					echo '<td valign="top">'.( $dcNews->GetTitle() == '' ? '' : '<a href="'.$link.'">'.$dcNews->GetTitle().'</a>' ).'</td>';
@@ -1730,7 +1766,9 @@ if($news != 'start' && $cmd != 'comment_save'){
 					.lang_date(substr($arr_newsItems['date'][$key], 0, 2), substr($arr_newsItems['date'][$key], 3, 2), substr($arr_newsItems['date'][$key], 6, 4), substr($arr_newsItems['time'][$key], 0, 2), substr($arr_newsItems['time'][$key], 3, 2), '')
 					.'</td>';
 					
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$id.'&amp;s='.$s.'&amp;news='.$arr_newsItems['order'][$key];
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id='.$id.'&amp;s='.$s.'&amp;news='.$arr_newsItems['order'][$key]
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 					
 					echo '<td valign="top">'.( empty($arr_newsItems['title'][$key]) ? '' : '<a href="'.$link.'">'.$arr_newsItems['title'][$key].'</a>' ).'</td>';
@@ -1747,20 +1785,26 @@ if($news != 'start' && $cmd != 'comment_save'){
 			TAB
 		*/
 		echo '<div style="display: block; float: left; padding-right: 5px;">';
-		$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id=newsmanager&s='.$s;
+		$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
+		.'id=newsmanager&s='.$s
+		.( isset($lang) ? '&amp;lang='.$lang : '' );
 		$link = $tcms_main->urlAmpReplace($link);
 		echo '<input class="inputbutton" type="button" onclick="document.location=\''.$link.'\';" value="'._NEWS_ARCHIVE.' ('._NEWS_LAST.' '.$news_amount.')" />';
 		echo '</div>';
 		
 		
 		echo '<div style="display: block; float: left; padding-right: 5px;">';
-		$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id=newsmanager&s='.$s.'&news=archive';
+		$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
+		.'id=newsmanager&s='.$s.'&news=archive'
+		.( isset($lang) ? '&amp;lang='.$lang : '' );
 		$link = $tcms_main->urlAmpReplace($link);
 		echo '<input class="inputbutton" type="button" onclick="document.location=\''.$link.'\';" value="'._NEWS_ARCHIVE.' ('._NEWS_ORDER_BY_TIME.')" />';
 		echo '</div>';
 		
 		
-		$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id=newsmanager&s='.$s.'&news=archive&cmd=category';
+		$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
+		.'id=newsmanager&s='.$s.'&news=archive&cmd=category'
+		.( isset($lang) ? '&amp;lang='.$lang : '' );
 		$link = $tcms_main->urlAmpReplace($link);
 		echo '<input class="inputbutton" type="button" onclick="document.location=\''.$link.'\';" value="'._NEWS_ARCHIVE.' ('._NEWS_ORDER_BY_CAT.')" />';
 	}
@@ -1789,7 +1833,9 @@ if($check_session){
 				$sqlAL->sqlQuery($strSQL);
 			}
 			
-			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id='.$id.'&s='.$s.'&news='.$XMLplace;
+			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
+			.'id='.$id.'&s='.$s.'&news='.$XMLplace
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<script>

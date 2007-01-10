@@ -10,7 +10,6 @@
 | Knowledgebase
 |
 | File:		mod_knowledgebase.php
-| Version:	0.5.0
 |
 +
 */
@@ -19,7 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-
+/**
+ * Knowledgebase
+ *
+ * This is used as a Knowledgebase.
+ *
+ * @version 0.5.1
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 if(isset($_GET['action'])){ $action = $_GET['action']; }
@@ -554,14 +562,13 @@ if($todo == 'show'){
 	
 	echo '<table cellpadding="3" cellspacing="0" border="0" class="noborder">';
 	echo '<tr class="tcms_bg_blue_01">'
-		.'<th valign="middle" class="tcms_db_title" width="2%" align="left">&nbsp;</th>'
-		.'<th valign="middle" class="tcms_db_title" width="25%" align="left">'._TABLE_TITLE.'</th>'
-		.'<th valign="middle" class="tcms_db_title" width="100%" align="left">'._TABLE_SUBTITLE.'</th>'
-		.'<th valign="middle" class="tcms_db_title" width="15%" align="left">'._TABLE_DATE.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="35%" align="left" colspan="2">'._TABLE_TITLE.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="20%" align="left">'._TABLE_SUBTITLE.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="10%" align="left">'._TABLE_DATE.'</th>'
 		.'<th valign="middle" class="tcms_db_title" width="10%" align="left">'._TABLE_AUTOR.'</th>'
-		.'<th valign="middle" class="tcms_db_title" width="5%" align="left">'._TABLE_PUBLISHED.'</th>'
-		.'<th valign="middle" class="tcms_db_title" width="5%" align="left">'._TABLE_ACCESS.'</th>'
-		.'<th valign="middle" class="tcms_db_title" width="20%" align="right">'._TABLE_FUNCTIONS.'</th></tr>';
+		.'<th valign="middle" class="tcms_db_title" width="5%" align="center">'._TABLE_PUBLISHED.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="10%" align="center">'._TABLE_ACCESS.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="10%" align="right">'._TABLE_FUNCTIONS.'</th></tr>';
 	
 	if($tcms_main->isArray($arrFAQ)){
 		foreach($arrFAQ['uid'] as $key => $value){
@@ -859,7 +866,7 @@ if($todo == 'edit'){
 	
 	// table row
 	echo '<tr><td valign="top" colspan="2"><br />'
-	.'<strong class="tcms_bold">'._TABLE_TEXT.' ('._TCMS_MENU_FAQ.' '._TABLE_ORDER.': '.$maintag.')</strong>123'
+	.'<strong class="tcms_bold">'._TABLE_TEXT.' ('._TCMS_MENU_FAQ.' '._TABLE_ORDER.': '.$maintag.')</strong>'
 	.( $show_wysiwyg != 'fckeditor' ? '<br /><br />' : '' )
 	.( $type == 'a' ? '<script>createToendaToolbar(\'faq\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');</script>' : '' );
 	

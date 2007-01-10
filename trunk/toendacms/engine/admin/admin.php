@@ -21,6 +21,7 @@ if(isset($_GET['todo'])){ $todo = $_GET['todo']; }
 if(isset($_GET['id'])){ $id = $_GET['id']; }
 if(isset($_GET['maintag'])){ $maintag = $_GET['maintag']; }
 if(isset($_GET['action'])){ $action = $_GET['action']; }
+if(isset($_GET['lang'])){ $lang = $_GET['lang']; }
 
 if(isset($_POST['id_user'])){ $id_user = $_POST['id_user']; }
 if(isset($_POST['site'])){ $site = $_POST['site']; }
@@ -28,6 +29,7 @@ if(isset($_POST['todo'])){ $todo = $_POST['todo']; }
 if(isset($_POST['id'])){ $id = $_POST['id']; }
 if(isset($_POST['maintag'])){ $maintag = $_POST['maintag']; }
 if(isset($_POST['action'])){ $action = $_POST['action']; }
+if(isset($_POST['lang'])){ $lang = $_POST['lang']; }
 
 
 /**
@@ -36,7 +38,7 @@ if(isset($_POST['action'])){ $action = $_POST['action']; }
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 1.0.1
+ * @version 1.0.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend

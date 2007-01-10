@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a search module.
  *
- * @version 0.5.1
+ * @version 0.5.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -226,7 +226,9 @@ function search_news($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 					
 					$tit = $tcms_main->decodeText($tit, '2', $c_charset);
 					
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=newsmanager&amp;news='.substr($sval, 0, 10).'&amp;s='.$s;
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id=newsmanager&amp;news='.substr($sval, 0, 10).'&amp;s='.$s
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 					
 					echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
@@ -244,7 +246,9 @@ function search_news($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 						
 						$tit = $tcms_main->decodeText($tit, '2', $c_charset);
 						
-						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=newsmanager&amp;news='.substr($sval, 0, 10).'&amp;s='.$s;
+						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+						.'id=newsmanager&amp;news='.substr($sval, 0, 10).'&amp;s='.$s
+						.( isset($lang) ? '&amp;lang='.$lang : '' );
 						$link = $tcms_main->urlAmpReplace($link);
 						
 						echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
@@ -324,7 +328,9 @@ function search_news($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 				
 				$tit = $tcms_main->decodeText($tit, '2', $c_charset);
 				
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=newsmanager&amp;news='.$uid.'&amp;s='.$s;
+				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+				.'id=newsmanager&amp;news='.$uid.'&amp;s='.$s
+				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlAmpReplace($link);
 				
 				echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
@@ -383,7 +389,9 @@ function search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, 
 									$desc = $toendaScript->toendaScript_trigger();
 									$key = $toendaScript->checkSEO($key, $imagePath);
 									
-									$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=products&amp;category='.$category.'&amp;article='.substr($sval, 0, 10).'&amp;s='.$s;
+									$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+									.'id=products&amp;category='.$category.'&amp;article='.substr($sval, 0, 10).'&amp;s='.$s
+									.( isset($lang) ? '&amp;lang='.$lang : '' );
 									$link = $tcms_main->urlAmpReplace($link);
 									
 									echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
@@ -406,7 +414,9 @@ function search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, 
 										$desc = $toendaScript->toendaScript_trigger();
 										$key = $toendaScript->checkSEO($key, $imagePath);
 										
-										$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=products&amp;category='.$category.'&amp;article='.substr($sval, 0, 10).'&amp;s='.$s;
+										$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+										.'id=products&amp;category='.$category.'&amp;article='.substr($sval, 0, 10).'&amp;s='.$s
+										.( isset($lang) ? '&amp;lang='.$lang : '' );
 										$link = $tcms_main->urlAmpReplace($link);
 										
 										echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
@@ -494,7 +504,9 @@ function search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, 
 				$desc = $toendaScript->toendaScript_trigger();
 				$desc = $toendaScript->checkSEO($desc, $imagePath);
 				
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=products&amp;category='.$category.'&amp;article='.$uid.'&amp;s='.$s;
+				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+				.'id=products&amp;category='.$category.'&amp;article='.$uid.'&amp;s='.$s
+				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlAmpReplace($link);
 				
 				echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
@@ -538,11 +550,15 @@ function search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost,
 						$out = $xml->search_value_front('info', 'title', $searchword);
 						
 						if($type == 'f'){
-							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=download&amp;category='.$uid.'&amp;s='.$s;
+							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+							.'id=download&amp;category='.$uid.'&amp;s='.$s
+							.( isset($lang) ? '&amp;lang='.$lang : '' );
 							$link = $tcms_main->urlAmpReplace($link);
 						}
 						else{
-							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=download'.( $parent != null ? '&amp;category='.$parent : '' ).'&amp;s='.$s;
+							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+							.'id=download'.( $parent != null ? '&amp;category='.$parent : '' ).'&amp;s='.$s
+							.( isset($lang) ? '&amp;lang='.$lang : '' );
 							$link = $tcms_main->urlAmpReplace($link);
 						}
 						
@@ -671,11 +687,15 @@ function search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost,
 				$key = $toendaScript->checkSEO($key, $imagePath);
 				
 				if($type == 'f'){
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=download&amp;category='.$uid.'&amp;s='.$s;
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id=download&amp;category='.$uid.'&amp;s='.$s
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 				}
 				else{
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=download'.( $parent != null ? '&amp;category='.$parent : '' ).'&amp;s='.$s;
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id=download'.( $parent != null ? '&amp;category='.$parent : '' ).'&amp;s='.$s
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 				}
 				
@@ -725,7 +745,9 @@ function search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $s
 							$toendaScript = new toendaScript($desc);
 							$desc = $toendaScript->toendaScript_trigger();
 							
-							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=imagegallery&amp;albums='.$category.'&amp;s='.$s;
+							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+							.'id=imagegallery&amp;albums='.$category.'&amp;s='.$s
+							.( isset($lang) ? '&amp;lang='.$lang : '' );
 							$link = $tcms_main->urlAmpReplace($link);
 							
 							echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
@@ -787,7 +809,9 @@ function search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $s
 				$desc = $toendaScript->toendaScript_trigger();
 				$desc = $toendaScript->checkSEO($desc, $imagePath);
 				
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=imagegallery&amp;albums='.$category.'&amp;s='.$s;
+				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+				.'id=imagegallery&amp;albums='.$category.'&amp;s='.$s
+				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlAmpReplace($link);
 				
 				echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
@@ -815,7 +839,9 @@ function search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $s
 					$tit = $tcms_main->decodeText($tit, '2', $c_charset);
 					$desc = $tcms_main->decodeText($desc, '2', $c_charset);
 					
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=imagegallery&amp;albums='.$category.'&amp;s='.$s;
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id=imagegallery&amp;albums='.$category.'&amp;s='.$s
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 					
 					echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
@@ -880,13 +906,21 @@ function search_faqs($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 									|| $is_admin == 'Developer' 
 									|| $is_admin == 'Editor' 
 									|| $is_admin == 'Writer' 
-									|| $is_admin == 'Presenter'){ $show_this_category = true; }
-									else{ $show_this_category = false; }
+									|| $is_admin == 'Presenter') {
+										$show_this_category = true;
+									}
+									else {
+										$show_this_category = false;
+									}
 									break;
 								
 								case 'Private':
-									if($is_admin == 'Administrator' || $is_admin == 'Developer'){ $show_this_category = true; }
-									else{ $show_this_category = false; }
+									if($is_admin == 'Administrator' || $is_admin == 'Developer') {
+										$show_this_category = true;
+									}
+									else {
+										$show_this_category = false;
+									}
 									break;
 							}
 						}
@@ -902,10 +936,11 @@ function search_faqs($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 						$tit = $tcms_main->decodeText($tit, '2', $c_charset);
 						$subtit = $tcms_main->decodeText($subtit, '2', $c_charset);
 						
-						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=knowledgebase&amp;action=detail'.( $category != '' ? '&amp;category' : '' ).'&amp;article='.substr($sval, 0, 10).'&amp;s='.$s;
+						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+						.'id=knowledgebase&amp;action=detail'
+						.( $category != '' ? '&amp;category' : '' ).'&amp;article='.substr($sval, 0, 10).'&amp;s='.$s
+						.( isset($lang) ? '&amp;lang='.$lang : '' );
 						$link = $tcms_main->urlAmpReplace($link);
-						
-						//echo '<div class="search_result"><span class="text_small">'.$date.' - '.$subtit.'</span></div>';
 						
 						echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
 						echo tcms_html::search_result($subtit);
@@ -1001,12 +1036,16 @@ function search_faqs($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 				
 				switch($type){
 					case 'c':
-						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=knowledgebase&amp;s='.$s.'&amp;cmd=list'.( $cat != '' ? '&amp;category='.$cat : '' );
+						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+						.'id=knowledgebase&amp;s='.$s.'&amp;cmd=list'.( $cat != '' ? '&amp;category='.$cat : '' )
+						.( isset($lang) ? '&amp;lang='.$lang : '' );
 						$link = $tcms_main->urlAmpReplace($link);
 						break;
 					
 					case 'a':
-						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=knowledgebase&amp;s='.$s.'&amp;cmd=detail'.( $cat != '' ? '&amp;category='.$cat : '' ).'&amp;article='.$uid;
+						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+						.'id=knowledgebase&amp;s='.$s.'&amp;cmd=detail'.( $cat != '' ? '&amp;category='.$cat : '' ).'&amp;article='.$uid
+						.( isset($lang) ? '&amp;lang='.$lang : '' );
 						$link = $tcms_main->urlAmpReplace($link);
 						break;
 				}

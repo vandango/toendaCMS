@@ -17,14 +17,13 @@
 
 defined('_TCMS_VALID') or die('Restricted access');
 
-// .( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' )
 
 /**
  * Newsletter Module
  *
  * This module provides the newsletter functionality.
  *
- * @version 0.3.0
+ * @version 0.3.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -67,8 +66,13 @@ if($use_newsletter == 1){
 	$title_ext_newsletter = $tcms_main->decodeText($title_ext_newsletter, '2', $c_charset);
 	$link_ext_newsletter  = $tcms_main->decodeText($link_ext_newsletter, '2', $c_charset);
 	
-	if($show_ext_nl_title == 1){ echo tcms_html::subtitle($title_ext_newsletter, 'center'); }
-	echo tcms_html::text($text_ext_newsletter, 'left');
+	if($show_ext_nl_title == 1) {
+		echo $tcms_html->subTitle($title_ext_newsletter, 'center');
+	}
+	else {
+		//echo $tcms_html->text($text_ext_newsletter, 'left');
+		$tcms_html->text($text_ext_newsletter, 'left');
+	}
 	
 	echo '<div align="left">'
 	.'<form name="selectform" action="'.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'" method="post">'
@@ -88,13 +92,18 @@ if($use_newsletter == 1){
 }
 
 
-//************************
-// SUBSCRIBING
-//************************
 
-if($use_newsletter == 1){
-	if($newsletter == 'subscribe'){
-		if($nl_email == '' || $nl_email == _NL_USEREMAIL || strpos($nl_email, '@') == false) {
+
+
+// -----------------------------------
+// SUBSCRIBING
+// -----------------------------------
+
+if($use_newsletter == 1) {
+	if($newsletter == 'subscribe') {
+		if($nl_email == '' 
+		|| $nl_email == _NL_USEREMAIL 
+		|| strpos($nl_email, '@') == false) {
 			$link = '?session='.$session.'&id='.$id.'&s='.$s
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);

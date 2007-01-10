@@ -10,7 +10,6 @@
 | User Profile Module
 |
 | File:		ext_profile.php
-| Version:	0.9.6
 |
 +
 */
@@ -19,6 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * User Profile Module
+ *
+ * This module is used as a base module fpr user operations.
+ *
+ * @version 0.9.8
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Content Modules
+ */
 
 
 if(isset($_GET['todo'])){ $todo = $_GET['todo']; }
@@ -91,7 +100,7 @@ include_once('engine/tcms_kernel/datacontainer/tcms_dc_account.lib.php');
 	values
 */
 
-if($choosenDB == 'xml'){
+if($choosenDB == 'xml') {
 	if(file_exists($tcms_administer_site.'/tcms_user/'.$ws_id.'.xml')){ $checkUserExists = true; }
 	else{ $checkUserExists = false; }
 }
@@ -106,7 +115,7 @@ else{
 	else{ $checkUserExists = false; }
 }
 
-if($checkUserExists){
+if($checkUserExists) {
 	if($choosenDB == 'xml'){
 		$mtu_xml = new xmlparser($tcms_administer_site.'/tcms_global/sidebar.xml','r');
 		$menu_title_user = $mtu_xml->read_section('side', 'usermenu_title');
@@ -133,11 +142,20 @@ if($checkUserExists){
 	}
 	
 	
-	/*
-		PUBLISH NEWS
-	*/
-	if($tcms_main->isReal($todo) && $todo == 'submitNews' && $npo == 1){		
-		if($is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor'){
+	
+	
+	
+	// -----------------------------------
+	// PUBLISH NEWS
+	// -----------------------------------
+	
+	if($tcms_main->isReal($todo) 
+	&& $todo == 'submitNews' 
+	&& $npo == 1) {		
+		if($is_admin == 'Administrator' 
+		|| $is_admin == 'Developer' 
+		|| $is_admin == 'Writer' 
+		|| $is_admin == 'Editor') {
 			$show_wysiwyg = $tcms_config->getWYSIWYGEditor();
 			
 			
@@ -256,7 +274,8 @@ if($checkUserExists){
 			
 			
 			
-			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s;
+			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			
@@ -409,7 +428,6 @@ if($checkUserExists){
 			
 			echo '</td></tr>';
 			
-			//================================================
 			echo '</table>';
 			
 			if($show_wysiwyg == 'tinymce'){
@@ -431,15 +449,18 @@ if($checkUserExists){
 	
 	
 	
+	// -----------------------------------
+	// UPLOAD IMAGES
+	// -----------------------------------
 	
-	/*********************************
-	*
-	* UPLOAD IMAGES
-	*
-	*/
-	if(!$param_save_mode){
-		if($tcms_main->isReal($todo) && $todo == 'submitImages' && $ipo == 1){
-			if($is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor'){
+	if(!$param_save_mode) {
+		if($tcms_main->isReal($todo) 
+		&& $todo == 'submitImages' 
+		&& $ipo == 1) {
+			if($is_admin == 'Administrator' 
+			|| $is_admin == 'Developer' 
+			|| $is_admin == 'Writer' 
+			|| $is_admin == 'Editor') {
 				$show_wysiwyg = $tcms_config->getWYSIWYGEditor();
 				
 				if($choosenDB == 'xml'){
@@ -458,12 +479,11 @@ if($checkUserExists){
 					$width2 = $sqlARR['input_width'];
 				}
 				
-				
-				
 				echo tcms_html::contentheading(_LOGIN_SUBMIT_IMAGES);
 				echo '<br />';
 				
-				$link = '?session='.$session.'&amp;id=profile&amp;s='.$s;
+				$link = '?session='.$session.'&amp;id=profile&amp;s='.$s
+				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlAmpReplace($link);
 				
 				echo '<form action="'.$link.'" method="post" enctype="multipart/form-data">'
@@ -475,7 +495,6 @@ if($checkUserExists){
 				
 				
 				
-				//================================================
 				echo '<tr style="height: 28px;"><td valign="top" width="'.$width.'">
 					<span class="text_normal">'._TABLE_ALBUM.'</span>
 				</td><td valign="top">';
@@ -544,7 +563,6 @@ if($checkUserExists){
 				.'</td></tr>';
 				
 				
-				
 				echo '</table>';
 				
 				
@@ -563,14 +581,17 @@ if($checkUserExists){
 	
 	
 	
+	// -----------------------------------
+	// CREATE ALBUM
+	// -----------------------------------
 	
-	/*********************************
-	*
-	* CREATE ALBUM
-	*
-	*/
-	if($tcms_main->isReal($todo) && $todo == 'createAlbum' && $apo == 1){
-		if($is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor'){
+	if($tcms_main->isReal($todo) 
+	&& $todo == 'createAlbum' 
+	&& $apo == 1) {
+		if($is_admin == 'Administrator' 
+		|| $is_admin == 'Developer' 
+		|| $is_admin == 'Writer' 
+		|| $is_admin == 'Editor') {
 			$show_wysiwyg = $tcms_config->getWYSIWYGEditor();
 			
 			if($choosenDB == 'xml'){
@@ -594,7 +615,8 @@ if($checkUserExists){
 			echo tcms_html::contentheading(_LOGIN_CREATE_ALBUM);
 			echo '<br />';
 			
-			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s;
+			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<form action="'.$link.'" method="post">'
@@ -628,8 +650,6 @@ if($checkUserExists){
 			.'</td></tr>';
 			
 			
-			//=========================================================================
-			// Table end
 			if($choosenDB == 'xml'){
 				while(($maintag=substr(md5(time()),0,6)) && file_exists($tcms_administer_site.'/tcms_albums/album_'.$maintag.'.xml')){}
 			}
@@ -657,14 +677,17 @@ if($checkUserExists){
 	
 	
 	
+	// -----------------------------------
+	// CREATE CATEGORY
+	// -----------------------------------
 	
-	/*********************************
-	*
-	* CREATE CATEGORY
-	*
-	*/
-	if($tcms_main->isReal($todo) && $todo == 'createCat' && $cpo == 1){
-		if($is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor'){
+	if($tcms_main->isReal($todo) 
+	&& $todo == 'createCat' 
+	&& $cpo == 1) {
+		if($is_admin == 'Administrator' 
+		|| $is_admin == 'Developer' 
+		|| $is_admin == 'Writer' 
+		|| $is_admin == 'Editor') {
 			if($choosenDB == 'xml'){
 				$userp_xml = new xmlparser($tcms_administer_site.'/tcms_global/userpage.xml','r');
 				$width  = $userp_xml->read_section('userpage', 'text_width');
@@ -686,11 +709,11 @@ if($checkUserExists){
 			}
 			
 			
-			
 			echo tcms_html::contentheading(_LOGIN_CREATE_CATEGORY);
 			echo '<br />';
 			
-			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s;
+			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			
@@ -734,11 +757,18 @@ if($checkUserExists){
 	
 	
 	
-	/*
-		UOPLOAD MEDIA
-	*/
-	if($tcms_main->isReal($todo) && $todo == 'submitMedia' && $ppo == 1){
-		if($is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor'){
+	
+	// -----------------------------------
+	// UPLOAD MEDIA
+	// -----------------------------------
+	
+	if($tcms_main->isReal($todo) 
+	&& $todo == 'submitMedia' 
+	&& $ppo == 1) {
+		if($is_admin == 'Administrator' 
+		|| $is_admin == 'Developer' 
+		|| $is_admin == 'Writer' 
+		|| $is_admin == 'Editor') {
 			if($choosenDB == 'xml'){
 				$userp_xml = new xmlparser($tcms_administer_site.'/tcms_global/userpage.xml','r');
 				$width  = $userp_xml->read_section('userpage', 'text_width');
@@ -761,7 +791,8 @@ if($checkUserExists){
 			echo '<br />';
 			
 			
-			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s;
+			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<form name="upload" id="upload" action="'.$link.'" method="post" enctype="multipart/form-data">'
@@ -789,17 +820,17 @@ if($checkUserExists){
 
 
 
+// -----------------------------------
+// ONLY MODs
+// -----------------------------------
 
-
-
-
-if($is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor'){
-	if($todo == 'saveNews'){
-		//*****************************************
-		
+if($is_admin == 'Administrator' 
+|| $is_admin == 'Developer' 
+|| $is_admin == 'Writer' 
+|| $is_admin == 'Editor') {
+	if($todo == 'saveNews') {
 		if($new_news_published   == '' || empty($new_news_published)   || !isset($new_news_published))  { $new_news_published   = 0; }
 		if($new_comments_enabled == '' || empty($new_comments_enabled) || !isset($new_comments_enabled)){ $new_comments_enabled = 0; }
-		
 		
 		
 		if($choosenDB == 'xml'){
@@ -847,7 +878,6 @@ if($is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Wri
 				}
 			}
 		}
-		
 		
 		
 		if($show_wysiwyg == 'fckeditor'){
@@ -937,29 +967,24 @@ if($is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Wri
 			$sqlQR = $sqlAL->sqlCreateOne($tcms_db_prefix.'news', $newSQLColumns, $newSQLData, $maintag);
 		}
 		
-		//*****************************************
-		
-		$link = '?session='.$session.'&s='.$s;
+		$link = '?session='.$session.'&s='.$s
+		.( isset($lang) ? '&amp;lang='.$lang : '' );
 		$link = $tcms_main->urlAmpReplace($link);
 		
-		echo '<script>document.location=\''.$link.'\'</script>';
-		
-		//*****************************************
+		echo '<script>'
+		.'document.location=\''.$link.'\''
+		.'</script>';
 	}
 	
 	
 	
 	
 	
+	// -----------------------------------
+	// SAVE IMAGE
+	// -----------------------------------
 	
-	
-	
-	
-	
-	if($todo == 'saveImage'){
-		//*****************************************
-		
-		
+	if($todo == 'saveImage') {
 		if($_FILES['pubFile']['size'] > 0 && (
 		$_FILES['pubFile']['type'] == 'image/gif' || 
 		$_FILES['pubFile']['type'] == 'image/png' || 
@@ -1011,15 +1036,15 @@ if($is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Wri
 				$sqlQR = $sqlAL->sqlCreateOne($tcms_db_prefix.'imagegallery', $newSQLColumns, $newSQLData, $new_image_id);
 			}
 			
-			//*****************************************
-			
-			$link = '?session='.$session.'&id=imagegallery&s='.$s;
+			$link = '?session='.$session.'&id=imagegallery&s='.$s
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<script>document.location=\''.$link.'\'</script>';
 		}
 		else{
-			$link = '?session='.$session.'&id=profile&s='.$s.'&todo=submitImages';
+			$link = '?session='.$session.'&id=profile&s='.$s.'&todo=submitImages'
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<script>'
@@ -1027,22 +1052,17 @@ if($is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Wri
 			.'document.location=\''.$link.'\';'
 			.'</script>';
 		}
-		
-		//*****************************************
 	}
 	
 	
 	
 	
 	
+	// -----------------------------------
+	// SAVE ALBUM
+	// -----------------------------------
 	
-	
-	
-	
-	
-	if($todo == 'saveAlbum'){
-		//*****************************************
-		
+	if($todo == 'saveAlbum') {
 		if($pubAlbum == ''){ $pubAlbum = '[TYPE DESCRIPTION]'; }else{ $pubAlbum = $pubAlbum; }
 		if($pubDesc  == ''){ $pubDesc  = '[TYPE DESCRIPTION]'; }else{ $pubDesc  = $pubDesc; }
 		if(!isset($pubLished) || $pubLished == ''){ $pubLished = 0; }
@@ -1096,30 +1116,25 @@ if($is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Wri
 			mkdir($tcms_administer_site.'/images/albums/'.$album_path, 0777);
 			mkdir($tcms_administer_site.'/thumbnails/'.$album_path, 0777);
 		}
-			
-		//*****************************************
 		
-		$link = '?session='.$session.'&id=imagegallery&s='.$s;
+		$link = '?session='.$session.'&id=imagegallery&s='.$s
+		.( isset($lang) ? '&amp;lang='.$lang : '' );
 		$link = $tcms_main->urlAmpReplace($link);
 		
-		echo '<script>document.location=\''.$link.'\'</script>';
-		//alert(\''._MSG_SAVED.'\');
-		
-		//*****************************************
+		echo '<script>'
+		.'document.location=\''.$link.'\''
+		.'</script>';
 	}
 	
 	
 	
 	
 	
+	// -----------------------------------
+	// SAVE CAT
+	// -----------------------------------
 	
-	
-	
-	
-	
-	if($todo == 'saveCat'){
-		//*****************************************
-		
+	if($todo == 'saveCat') {
 		if($new_cat == '' || !isset($new_cat)){ $new_cat = ''; }
 		if($pubDesc == '' || !isset($pubDesc)){ $pubDesc = ''; }
 		
@@ -1161,29 +1176,25 @@ if($is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Wri
 			
 			$sqlQR = $sqlAL->sqlCreateOne($tcms_db_prefix.'news_categories', $newSQLColumns, $newSQLData, $maintag);
 		}
-			
-		//*****************************************
 		
-		$link = '?session='.$session.'&id=frontpage&s='.$s;
+		$link = '?session='.$session.'&id=frontpage&s='.$s
+		.( isset($lang) ? '&amp;lang='.$lang : '' );
 		$link = $tcms_main->urlAmpReplace($link);
 		
-		echo '<script>document.location=\''.$link.'\'</script>';
-		
-		//*****************************************
+		echo '<script>'
+		.'document.location=\''.$link.'\''
+		.'</script>';
 	}
 	
 	
 	
 	
 	
+	// -----------------------------------
+	// SAVE MEDIA
+	// -----------------------------------
 	
-	
-	
-	
-	
-	if($todo == 'saveMedia'){
-		//*****************************************
-		
+	if($todo == 'saveMedia') {
 		if($_FILES['mediaImage']['size'] > 0 && (
 		$_FILES['mediaImage']['type'] == 'image/gif' || 
 		$_FILES['mediaImage']['type'] == 'image/png' || 
@@ -1202,17 +1213,17 @@ if($is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Wri
 			$msg = _MSG_NOUPLOAD;
 			$relocate = 0;
 		}
-			
-		//*****************************************
 		
 		if($relocate == 1){
-			$link = '?session='.$session.'&id=frontpage&s='.$s;
+			$link = '?session='.$session.'&id=frontpage&s='.$s
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<script>document.location=\''.$link.'\';</script>';
 		}
 		else{
-			$link = '?session='.$session.'&id=profile&s='.$s.'&todo=submitMedia';
+			$link = '?session='.$session.'&id=profile&s='.$s.'&todo=submitMedia'
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<script>'
@@ -1220,8 +1231,6 @@ if($is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Wri
 			.'document.location=\''.$link.'\';'
 			.'</script>';
 		}
-		
-		//*****************************************
 	}
 }
 
@@ -1414,7 +1423,9 @@ if($todo != 'submitNews' && $todo != 'submitImages' && $todo != 'createAlbum' &&
 			
 			if($check_session){
 				if($u == $ws_id){
-					$link = '?'.( isset($session) ? 'session='.$session.'' : '' ).'&amp;id=profile&amp;s='.$s.'&amp;todo=edit&amp;u='.$u;
+					$link = '?'.( isset($session) ? 'session='.$session.'' : '' )
+					.'&amp;id=profile&amp;s='.$s.'&amp;todo=edit&amp;u='.$u
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 					
 					echo '<form action="'.$link.'" method="post">';
@@ -1746,7 +1757,8 @@ if($todo != 'submitNews' && $todo != 'submitImages' && $todo != 'createAlbum' &&
 					
 					$tcms_ap->saveAccount($dcUser);
 					
-					$link = '?session='.$session.'&id='.$id.'&s='.$s.'&u='.$u;
+					$link = '?session='.$session.'&id='.$id.'&s='.$s.'&u='.$u
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					
 					if($seoEnabled == 1)
 						$link = $tcms_main->urlAmpReplace($link);
@@ -1897,7 +1909,8 @@ if($action == 'list'){
 				
 				
 				
-				$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;u='.$arr_user['tag'][$key];
+				$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;u='.$arr_user['tag'][$key]
+				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlAmpReplace($link);
 				
 				echo '<td valign="middle" width="'.$width_2.'">'

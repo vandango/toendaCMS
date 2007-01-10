@@ -10,7 +10,6 @@
 | Download Manager
 |
 | File:		ext_download.php
-| Version:	0.7.7
 |
 +
 */
@@ -32,6 +31,7 @@ if(isset($_GET['category'])){ $category = $_GET['category']; }
  *
  * This module provides a download manager..
  *
+ * @version 0.7.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -382,7 +382,9 @@ if($action == 'showall'){
 					
 					if($arr_dw['st'][$key] == 'd'){
 						if($showThis){
-							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=download&amp;s='.$s.'&amp;action=showall&amp;category='.$arr_dw['uid'][$key];
+							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+							.'id=download&amp;s='.$s.'&amp;action=showall&amp;category='.$arr_dw['uid'][$key]
+							.( isset($lang) ? '&amp;lang='.$lang : '' );
 							$link = $tcms_main->urlAmpReplace($link);
 							
 							echo '<a href="'.$link.'">';
@@ -424,18 +426,17 @@ if($action == 'showall'){
 					else{
 						if($showThis){
 							if($arr_dw['mir'][$key] == 0 && $tcms_main->checkWebLink($arr_dw['file'][$key]) == false){
-								//if($seoEnabled == 1) $downFile = $arr_dw['dir'][$key].';'.$arr_dw['file'][$key];
-								//else $downFile = $arr_dw['dir'][$key].';'.$arr_dw['file'][$key];
-								
 								$downFile = $arr_dw['file'][$key];
 								
-								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=download&amp;s='.$s.'&amp;action=start&amp;category='.$arr_dw['uid'][$key].'&amp;file='.$downFile;
+								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+								.'id=download&amp;s='.$s.'&amp;action=start&amp;category='.$arr_dw['uid'][$key].'&amp;file='.$downFile
+								.( isset($lang) ? '&amp;lang='.$lang : '' );
 								$link = $tcms_main->urlAmpReplace($link);
-								//$link = $link.$arr_dw['file'][$key];
-								//$link = $link.$downFile;
 							}
 							else{
-								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=download&amp;s='.$s.'&amp;action=start&amp;category='.$arr_dw['uid'][$key].'&amp;c=_mirror_&amp;file=';
+								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+								.( isset($lang) ? 'lang='.$lang.'&amp;' : '' )
+								.'id=download&amp;s='.$s.'&amp;action=start&amp;category='.$arr_dw['uid'][$key].'&amp;c=_mirror_&amp;file=';
 								$link = $tcms_main->urlAmpReplace($link);
 								$link = $link.$arr_dw['file'][$key];
 							}
@@ -572,14 +573,18 @@ if($action == 'showall'){
 			
 			if($page > 1){
 				if($showME1){
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=download&amp;s='.$s.'&action=showall'.( trim($category) != '' ? '&category='.$category : '' ).'&amp;page=1';
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id=download&amp;s='.$s.'&action=showall'.( trim($category) != '' ? '&category='.$category : '' ).'&amp;page=1'
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 					
 					echo '<a href="'.$link.'" style="font-size: 14px;"><u>&laquo;</u></a>'
 					.'&nbsp;&nbsp;';
 					
 					
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=download&amp;s='.$s.'&action=showall'.( trim($category) != '' ? '&category='.$category : '' ).'&amp;page='.( $page - 1 );
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id=download&amp;s='.$s.'&action=showall'.( trim($category) != '' ? '&category='.$category : '' ).'&amp;page='.( $page - 1 )
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 					
 					echo '<a href="'.$link.'" style="font-size: 14px;"><u>&#8249;</u></a>'
@@ -613,17 +618,17 @@ if($action == 'showall'){
 				
 				
 				if($showLink){
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=download&amp;s='.$s.'&action=showall'.( trim($category) != '' ? '&category='.$category : '' ).'&amp;page='.$thisPage;
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id=download&amp;s='.$s.'&action=showall'.( trim($category) != '' ? '&category='.$category : '' ).'&amp;page='.$thisPage
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 					
 					
-					if($thisPage != $page){
+					if($thisPage != $page) {
 						echo '<a href="'.$link.'"><u>'.$thisPage.'</u></a>';
-						//echo '<a href="'.$link.'"><u>['.$thisPage.']</u></a>';
 					}
 					else{
 						echo '<span style="font-weight: bold !important;">'.$thisPage.'</span>';
-						//echo '<span style="font-weight: bold !important;">('.$thisPage.')</span>';
 					}
 					
 					echo '&nbsp;&nbsp;';
@@ -634,7 +639,9 @@ if($action == 'showall'){
 			
 			if($page < $pageAmount){
 				if($showME2){
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=download&amp;s='.$s.'&action=showall'.( trim($category) != '' ? '&category='.$category : '' ).'&amp;page='.( $page + 1 );
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id=download&amp;s='.$s.'&action=showall'.( trim($category) != '' ? '&category='.$category : '' ).'&amp;page='.( $page + 1 )
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 					
 					echo '<a href="'.$link.'" style="font-size: 14px;"><u>&#8250;</u></a>';
@@ -643,7 +650,9 @@ if($action == 'showall'){
 					echo '&nbsp;&nbsp;';
 					
 					
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=download&amp;s='.$s.'&action=showall'.( trim($category) != '' ? '&category='.$category : '' ).'&amp;page='.$pageAmount;
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id=download&amp;s='.$s.'&action=showall'.( trim($category) != '' ? '&category='.$category : '' ).'&amp;page='.$pageAmount
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 					
 					echo '<a href="'.$link.'" style="font-size: 14px;"><u>&raquo;</u></a>';
@@ -743,13 +752,20 @@ if($action == 'start'){
 		echo tcms_html::contentmain($strDown1.$strDown2).'<br /><br />';
 		
 		
-		if(isset($c) && $c == '_mirror_')
-			echo '<script>setTimeout("document.location=\''.$file.'\'", 100);</script>';
-		else
-			echo '<script>setTimeout("document.location=\''.$imagePath.'data/files/'.$category.'/'.$file.'\'", 100);</script>';
+		if(isset($c) && $c == '_mirror_') {
+			echo '<script>'
+			.'setTimeout("document.location=\''.$file.'\'", 100);</script>';
+		}
+		else {
+			echo '<script>'
+			.'setTimeout("document.location=\''.$imagePath.'data/files/'.$category.'/'.$file.'\'", 100);'
+			.'</script>';
+		}
 		
 			
-		$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=download&amp;s='.$s.'&amp;action=showall'.( $down_main != '' ? '&amp;category='.$down_main : '' );
+		$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+		.'id=download&amp;s='.$s.'&amp;action=showall'.( $down_main != '' ? '&amp;category='.$down_main : '' )
+		.( isset($lang) ? '&amp;lang='.$lang : '' );
 		$link = $tcms_main->urlAmpReplace($link);
 		
 		echo '<a class="main" href="'.$link.'">'._TCMS_ADMIN_BACK.'</a>';

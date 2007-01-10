@@ -10,7 +10,6 @@
 | Free Menu Entrys
 |
 | File:		tcms_freemenu.lib.php
-| Version:	0.3.67
 +
 */
 
@@ -18,13 +17,21 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * Free Menu Entrys
+ *
+ * This is used for globar backend values.
+ *
+ * @version 0.3.8
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage tcms_kernel
+ */
 
 
-
-
-//***********************
+// ----------------------------------
 // MENU
-//
+// ----------------------------------
 
 // Home
 $mod_title['name']['mod_start'] = _MOD_HOME.' &bull; '.$id_name.' ( '.$id_group.' )';
@@ -35,8 +42,6 @@ $mod_title['show']['mod_newpage'] = 2;
 
 $mod_title['name']['mod_notebook'] = _MOD_NOTE;
 $mod_title['show']['mod_notebook'] = 1;
-
-
 
 
 // Personal
@@ -56,8 +61,6 @@ $mod_title['name']['mod_guestbook'] = _MOD_GUESTBOOK;
 $mod_title['show']['mod_guestbook'] = 2;
 
 
-
-
 // Navigation
 $mod_title['name']['mod_sidemenu'] = _MOD_SIDEMENU;
 $mod_title['show']['mod_sidemenu'] = 'tb_sidemenu.php';
@@ -66,11 +69,9 @@ $mod_title['name']['mod_topmenu'] = _MOD_TOPMENU;
 $mod_title['show']['mod_topmenu'] = 'tb_topmenu.php';
 
 
-
-
 // Content
-$mod_title['name']['mod_content']=_MOD_CONTENT;
-$mod_title['show']['mod_content']=2;
+$mod_title['name']['mod_content'] = _MOD_CONTENT;
+$mod_title['show']['mod_content'] = 'tb_content.php';
 
 $mod_title['name']['mod_news']=_MOD_NEWS;
 $mod_title['show']['mod_news']=2;
@@ -78,8 +79,8 @@ $mod_title['show']['mod_news']=2;
 $mod_title['name']['mod_download'] = _MOD_DOWN;
 $mod_title['show']['mod_download'] = 'tb_download.php';
 
-$mod_title['name']['mod_products']=_MOD_PRODUCTS;
-$mod_title['show']['mod_products']=5;
+$mod_title['name']['mod_products'] = _MOD_PRODUCTS;
+$mod_title['show']['mod_products'] = 'tb_products.php';
 
 $mod_title['name']['mod_gallery'] = _MOD_GALLERY;
 $mod_title['show']['mod_gallery'] = 'tb_gallery.php';
@@ -89,8 +90,6 @@ $mod_title['show']['mod_links']=2;
 
 $mod_title['name']['mod_knowledgebase'] = _MOD_KNOWLEDGEBASE;
 $mod_title['show']['mod_knowledgebase'] = 'tb_knowledgebase.php';
-
-
 
 
 // Sidebar Extensions
@@ -105,8 +104,6 @@ $mod_title['show']['mod_newsletter'] = 'tb_newsletter.php';
 
 $mod_title['name']['mod_poll']=_MOD_POLL;
 $mod_title['show']['mod_poll']=2;
-
-
 
 
 // Extension
@@ -129,14 +126,12 @@ $mod_title['name']['mod_userpage']=_MOD_USERPAGE;
 $mod_title['show']['mod_userpage']=2;
 
 
-
 // Site
 $mod_title['name']['mod_components'] = _MOD_COMPONENTS;
 $mod_title['show']['mod_components'] = 'tb_components.php';
 
 $mod_title['name']['mod_upload_components'] = _MOD_COMPONENTS_UPLOAD;
 $mod_title['show']['mod_upload_components'] = 'tb_upload_components.php';
-
 
 
 // Site

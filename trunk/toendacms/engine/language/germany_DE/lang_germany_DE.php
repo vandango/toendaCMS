@@ -511,6 +511,8 @@ define('_CONTENT_BACK_PAGE', 'Vorherige Seite');
 define('_CONTENT_LAST_PAGE', 'Letzte Seite');
 define('_CONTENT_FIRST_PAGE', 'Letzte Seite');
 define('_CONTENT_LAST_UPDATE', 'Letzte &Auml;nderung am');
+define('_CONTENT_NEW_LANG_DOCUMENT', 'Neues Dokument mit einer anderen Sprache');
+
 
 
 // IMPRESSUM
@@ -855,8 +857,8 @@ define('_GLOBAL_PDFLINK_IN_FOOTER', 'PDF Link im Footer anzeigen');
 define('_GLOBAL_CACHE_CONTROL', 'Suchmaschinen-Chache Einstellungen');
 define('_GLOBAL_PRAGMA', 'Suchmaschinen Pragma');
 define('_GLOBAL_EXPIRES', 'Webseite kann ablaufen?');
-define('_GLOBAL_ROBOTSSETTINGS', 'Einstellungen f?r den Webseiten Bot');
-define('_GLOBAL_LAST_CHANGES', 'Letzte &Aumml;nderung an der Webseite');
+define('_GLOBAL_ROBOTSSETTINGS', 'Einstellungen f&uuml;r den Webseiten Bot');
+define('_GLOBAL_LAST_CHANGES', 'Letzte &Auml;nderung an der Webseite');
 define('_GLOBAL_USE_CONTENT_LANG', 'Multible Sprachen verwenden');
 
 
