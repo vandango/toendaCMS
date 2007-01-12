@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used as a base language loader.
  *
- * @version 0.1.2
+ * @version 0.1.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -48,16 +48,22 @@ switch($language_stage){
 		&& trim($lang) != '' 
 		&& !empty($lang) 
 		&& $lang != NULL) {
-			$tcmslang = $tcms_config->getLanguageCodeForTCMS($lang);
+			$tcms_lang = $tcms_config->getLanguageCodeForTCMS($lang);
 			
-			include_once('engine/language/'.$tcmslang.'/lang_'.$tcmslang.'.php');
+			if(!file_exists('engine/language/'.$tcms_lang.'/lang_'.$tcms_lang.'.php')
+			|| $tcms_lang == '') {
+				$tcms_lang = $tcms_config->getLanguageFrontend();
+			}
+			
+			include_once('engine/language/'.$tcms_lang.'/lang_'.$tcms_lang.'.php');
 		}
 		else {
-			$xml = new xmlparser('data/tcms_global/var.xml', 'r');
+			/*$xml = new xmlparser('data/tcms_global/var.xml', 'r');
 			$tcms_lang = $xml->read_section('global', 'front_lang');
 			$xml->flush();
 			$xml->_xmlparser();
-			unset($xml);
+			unset($xml);*/
+			$tcms_lang = $tcms_config->getLanguageFrontend();
 			
 			include_once('engine/language/'.$tcms_lang.'/lang_'.$tcms_lang.'.php');
 		}
@@ -68,16 +74,20 @@ switch($language_stage){
 		&& trim($lang) != '' 
 		&& !empty($lang) 
 		&& $lang != NULL) {
-			$tcmslang = $tcms_config->getLanguageCodeForTCMS($lang);
+			$tcms_lang = $tcms_config->getLanguageCodeForTCMS($lang);
 			
-			include_once('engine/language/'.$tcmslang.'/lang_'.$tcmslang.'.php');
+			if(!file_exists('engine/language/'.$tcms_lang.'/lang_'.$tcms_lang.'.php'))
+				$tcms_lang = $tcms_config->getLanguageFrontend();
+			
+			include_once('engine/language/'.$tcms_lang.'/lang_'.$tcms_lang.'.php');
 		}
 		else {
-			$xml = new xmlparser('data/tcms_global/var.xml', 'r');
+			/*$xml = new xmlparser('data/tcms_global/var.xml', 'r');
 			$tcms_lang = $xml->read_section('global', 'front_lang');
 			$xml->flush();
 			$xml->_xmlparser();
-			unset($xml);
+			unset($xml);*/
+			$tcms_lang = $tcms_config->getLanguageFrontend();
 			
 			include_once('engine/language/'.$tcms_lang.'/lang_'.$tcms_lang.'.php');
 		}
