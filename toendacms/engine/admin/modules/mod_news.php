@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the news.
  *
- * @version 1.4.2
+ * @version 1.4.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -77,7 +77,6 @@ if(isset($_POST['new_use_timesince'])){ $new_use_timesince = $_POST['new_use_tim
 if(isset($_POST['new_readmore_link'])){ $new_readmore_link = $_POST['new_readmore_link']; }
 if(isset($_POST['new_news_spacing'])){ $new_news_spacing = $_POST['new_news_spacing']; }
 if(isset($_POST['new_sof'])){ $new_sof = $_POST['new_sof']; }
-
 
 
 
@@ -865,11 +864,20 @@ if($todo == 'show'){
 			$count++;
 			
 			if($key >= $minValue && $key < $maxValue){
-				if($id_group == 'Developer' || $id_group == 'Administrator'){ $showAll = true; }
-				else{
-					if($arr_news['acc'][$key] == 'Public' || $arr_news['acc'][$key] == 'Protected'){ $showAll = true; }
-					else{ $showAll = false; }
+				if($id_group == 'Developer' 
+				|| $id_group == 'Administrator') {
+					$showAll = true;
 				}
+				else {
+					if($arr_news['acc'][$key] == 'Public' 
+					|| $arr_news['acc'][$key] == 'Protected') {
+						$showAll = true;
+					}
+					else {
+						$showAll = false;
+					}
+				}
+				//}
 				
 				if($showAll == true){
 					$bgkey++;
@@ -889,15 +897,15 @@ if($todo == 'show'){
 					.'</td>';
 					
 					echo '<td align="center" class="tcms_db_2"'.$strJS.'>'
-					.( $tcms_main->isReal($arr_news['date'][$count]) ? '&nbsp;' : $arr_news['date'][$count] )
+					.( !$tcms_main->isReal($arr_news['date'][$count]) ? '&nbsp;' : $arr_news['date'][$count] )
 					.'</td>';
 					
 					echo '<td class="tcms_db_2"'.$strJS.'>'
-					.( $tcms_main->isReal($arr_news['title'][$count]) ? '&nbsp;' : $arr_news['title'][$count] )
+					.( !$tcms_main->isReal($arr_news['title'][$count]) ? '&nbsp;' : $arr_news['title'][$count] )
 					.'</td>';
 					
 					echo '<td class="tcms_db_2"'.$strJS.'>'
-					.( $tcms_main->isReal($arr_news['autor'][$count]) ? '&nbsp;' : $arr_news['autor'][$count] )
+					.( !$tcms_main->isReal($arr_news['autor'][$count]) ? '&nbsp;' : $arr_news['autor'][$count] )
 					.'</td>';
 					
 					echo '<td align="center" class="tcms_db_2"'.$strJS.'>'
@@ -1789,6 +1797,8 @@ if($todo == 'save'){
 		$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'news', $newSQLData, $maintag);
 	}
 	
+	$tcms_dcp->generateFeed();
+	
 	echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_news\'</script>';
 }
 
@@ -1941,6 +1951,8 @@ if($todo == 'next'){
 		
 		$sqlQR = $sqlAL->sqlCreateOne($tcms_db_prefix.'news', $newSQLColumns, $newSQLData, $maintag);
 	}
+	
+	$tcms_dcp->generateFeed();
 	
 	echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_news\'</script>';
 }

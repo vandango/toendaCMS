@@ -50,9 +50,6 @@ if(!isset($cmd)) $cmd = '';
 using('toendacms.datacontainer.news');
 using('toendacms.datacontainer.comment');
 using('toendacms.datacontainer.account');
-//include_once('engine/tcms_kernel/datacontainer/tcms_dc_news.lib.php');
-//include_once('engine/tcms_kernel/datacontainer/tcms_dc_comment.lib.php');
-//include_once('engine/tcms_kernel/datacontainer/tcms_dc_account.lib.php');
 
 $hr_line_1 = '<tr class="hr_line"><td colspan="2"></td></tr>';
 $hr_line_2 = '<tr style="height: 15px;"><td colspan="2"><br /><br /></td></tr>';

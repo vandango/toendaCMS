@@ -15,9 +15,9 @@
 +
 */
 
-$tcms_db_engine   = 'xml';
+$tcms_db_engine   = 'mysql';
 $tcms_db_user     = 'root';
-$tcms_db_password = 'banane';
+$tcms_db_password = '';
 $tcms_db_host     = 'localhost';
 $tcms_db_database = 'tcms_blog';
 $tcms_db_port     = '';
