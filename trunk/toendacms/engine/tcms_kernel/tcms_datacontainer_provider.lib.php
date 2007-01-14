@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 0.4.6
+ * @version 0.4.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -44,6 +44,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * getContentDC($contentID)                                      -> Get a specific content data container
  * getContentLanguages                                           -> Get a list of content languages
+ * getXmlIdFromContentLanguage                                   -> Get the id of a language content file
  *
  * getImpressumtDC()                                             -> Get a impressum data container
  *
@@ -747,7 +748,28 @@ class tcms_datacontainer_provider extends tcms_main {
 		$no = 0;
 		
 		if($this->m_choosenDB == 'xml'){
-			$xml = new xmlparser($this->m_path.'/tcms_content/'.$contentID.'.xml', 'r');
+			if($withLanguages) {
+				$wsCUid = $this->getXmlIdFromContentLanguage(
+					$contentID, 
+					$language
+				);
+				
+				if($wsCUid != '') {
+					$xml = new xmlparser(
+						$this->m_path.'/tcms_content_languages/'.$wsCUid.'.xml', 'r'
+					);
+				}
+				else {
+					$xml = new xmlparser(
+						$this->m_path.'/tcms_content/'.$contentID.'.xml', 'r'
+					);
+				}
+			}
+			else {
+				$xml = new xmlparser(
+					$this->m_path.'/tcms_content/'.$contentID.'.xml', 'r'
+				);
+			}
 			
 			$wsTitle      = $xml->read_section('main', 'title');
 			$wsKeynote    = $xml->read_section('main', 'key');
@@ -760,6 +782,12 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsInWork     = $xml->read_section('main', 'in_work');
 			$wsAcs        = $xml->read_section('main', 'access');
 			$wsPub        = $xml->read_section('main', 'published');
+			
+			if($withLanguages && $no > 0) {
+				$wsLang = $xml->read_section('main', 'language');
+				
+				if(!$wsLang == false) $wsLang = 'english_EN';
+			}
 			
 			$xml->flush();
 			$xml->_xmlparser();
@@ -872,7 +900,12 @@ class tcms_datacontainer_provider extends tcms_main {
 		$count = 0;
 		
 		if($this->m_choosenDB == 'xml'){
+			$arr_docs = $this->getPathContent(
+				$this->m_path.'/tcms_content_languages/'
+			);
 			
+			
+			//
 		}
 		else {
 			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
@@ -896,6 +929,49 @@ class tcms_datacontainer_provider extends tcms_main {
 		}
 		
 		return $arrReturn;
+	}
+	
+	
+	
+	/**
+	 * Get the id of a language content file
+	 * 
+	 * @param String $id
+	 * @param String $lang
+	 * @return String
+	 */
+	function getXmlIdFromContentLanguage($id, $language) {
+		if($this->m_choosenDB == 'xml'){
+			$arr_docs = $this->getPathContent(
+				$this->m_path.'/tcms_content_languages/'
+			);
+			
+			$wsCUid = '';
+			
+			if($this->isReal($arr_docs)) {
+				foreach($arr_docs as $key => $val) {
+					$xml = new xmlparser(
+						$this->m_path.'/tcms_content_languages/'.$val, 'r'
+					);
+					
+					$wsLang = $xml->read_value('language');
+					$wsUid  = $xml->read_value('content_uid');
+					
+					if($id == $wsUid && $language == $wsLang) {
+						$wsCUid = substr($val, 0, 5);
+					}
+					
+					$xml->flush();
+					$xml->_xmlparser();
+					unset($xml);
+				}
+			}
+			
+			return $wsCUid;
+		}
+		else {
+			return '';
+		}
 	}
 	
 	

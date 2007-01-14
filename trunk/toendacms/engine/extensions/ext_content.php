@@ -167,8 +167,6 @@ if($content_published == 1){
 				*/
 				$dcContent = new tcms_dc_content();
 				
-				// pr�fen ob sprache in url, dann diese, sonst die default
-				
 				$defLang = $tcms_config->getLanguageCode(true);
 				
 				if($defLang != $lang) {
