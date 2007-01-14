@@ -571,6 +571,15 @@ class tcms_datacontainer_provider extends tcms_main {
 	
 	
 	/**
+	 * ReGenerate the news syndication feeds
+	 */
+	function generateFeed() {
+		//using('toendacms.tools.feedcreator.feedcreator_class');
+	}
+	
+	
+	
+	/**
 	 * Get a list of comment data container
 	 * 
 	 * @param String $newsID

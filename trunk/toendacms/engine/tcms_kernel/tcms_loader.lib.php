@@ -25,7 +25,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used for loading some framework
  * files.
  *
- * @version 0.1.0
+ * @version 0.1.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -47,15 +47,16 @@ function import($namespace) {
  *
  * @param String $namespace
  * @param Boolean $require = false
+ * @param String $admin = false
  */
-function using($namespace, $require = false) {
+function using($namespace, $require = false, $admin = false) {
 	//return tcms_loader::import($namespace);
 	
 	$data = explode('.', $namespace);
 	
 	switch($data[0]) {
 		case 'toendacms':
-			$mainPath = 'engine';
+			$mainPath = ( $admin ? '..' : 'engine' );
 			$middlePath = '/tcms_';
 			$endPath = '.lib.php';
 			break;

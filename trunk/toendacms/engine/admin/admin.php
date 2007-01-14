@@ -38,7 +38,7 @@ if(isset($_POST['lang'])){ $lang = $_POST['lang']; }
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 1.0.4
+ * @version 1.0.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -57,7 +57,7 @@ include_once('../../site.php');
 $tcms_administer_site = $tcms_site[0]['path'];
 $tcms_administer_path = '../../'.$tcms_site[0]['path'];
 
-
+include_once('../tcms_kernel/tcms_loader.lib.php');
 
 
 /*
@@ -85,6 +85,7 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 	include_once('../tcms_kernel/tcms_sql.lib.php');
 	include_once('../tcms_kernel/tcms_file.lib.php');
 	include_once('../tcms_kernel/tcms_components.lib.php');
+	using('toendacms.kernel.datacontainer_provider', false, true);
 	include_once('../tcms_kernel/tcms_account_provider.lib.php');
 	include_once('../tcms_kernel/tcms_authentication.lib.php');
 	include_once('../tcms_kernel/tcms_configuration.lib.php');
@@ -125,6 +126,9 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 	
 	// html
 	$tcms_html = new tcms_html();
+	
+	// datacontainer
+	$tcms_dcp = new tcms_datacontainer_provider($tcms_administer_site, $c_charset);
 	
 	
 	// database
@@ -360,53 +364,6 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 			 	include_once ('../tcms_kernel/tcms_array.lib.php');
 				include_once ('../tcms_kernel/tcms_freemenu.lib.php');
 				
-				/*
-				// pagebody
-				echo '<div class="tcms_pagebody">';
-				
-				// header
-				echo '<div class="tcms_header">'
-				.'<div class="tcms_header_left"></div>'
-				.'<div class="tcms_header_right"></div>'
-				.'</div>';
-				
-				// menu
-				include('admin_top_menu.php');
-				
-				
-				// content area
-				echo '<div class="tcms_main_box">'
-				.'<div class="tcms_main_box_div">';
-				
-				// left box
-				include('modules/mod_project.php');
-				
-				echo '</div><div class="tcms_main_box_content tcms_main_body_padding">';
-				
-				// content
-				include('modules/'.$site.'.php');
-				
-				echo '</div></div>';
-				
-				
-				// footer
-				$page_load_time = tcms_time::tcms_load_end();
-				
-				echo '<div class="tcms_footer">'
-				.'<strong>'.$version.'</strong>&nbsp;'.$page_load_time;
-				
-				if($choosenDB != 'xml'){
-					$page_query_count = tcms_time::tcms_query_count_end_out();
-					echo '.&nbsp;'.$page_query_count;
-				}
-				
-				echo '<br />&nbsp;'._TCMS_ADMIN_DEV
-				.'&nbsp;<a class="legal" href="http://www.toenda.com" target="_blank">Toenda Software Development</a> &copy; '
-				.$toenda_copy.' '._TCMS_ADMIN_RIGHT;
-				
-				echo '</div>';
-				
-				*/
 				
 				echo '<table cellpadding="0" cellspacing="0" border="0" '
 				.'width="100%" height="100%" class="noborder tcms_pagebody">';
