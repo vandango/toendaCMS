@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 1.9.4
+ * @version 1.9.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -516,9 +516,11 @@ class tcms_main {
 		unset($tcms_config);
 		
 		if($this->db_choosenDB == 'xml'){
-			$arr_docs = $this->getPathContent($this->administer);
+			$arr_docs = $this->getPathContent($this->administer.'/tcms_content/');
 			
 			if($this->isReal($arr_docs)) {
+				unset($val);
+				
 				foreach($arr_docs as $key => $val) {
 					$xml = new xmlparser($this->administer.'/tcms_content/'.$val,'r');
 					
@@ -532,23 +534,6 @@ class tcms_main {
 					unset($xml);
 					
 					$count++;
-				}
-			}
-			
-			
-			$arrDocuments = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_content/');
-			foreach($arrDocuments as $key => $val){
-				if($val != 'index.html'){
-					$xmlFileList    = new xmlparser('../../'.$tcms_administer_site.'/tcms_content/'.$val,'r');
-					$xmlID    = $xmlFileList->read_section('main', 'id');
-					
-					//if(!in_array($xmlID, $arrXMLID)){
-						$xmlTitle = $xmlFileList->read_section('main', 'title');
-						$arr_linkcom['name'][$i] = '* '.$tcms_main->decodeText($xmlTitle, '2', $c_charset);
-						$arr_linkcom['link'][$i] = $xmlID;
-						
-						$i++;
-					//}
 				}
 			}
 		}

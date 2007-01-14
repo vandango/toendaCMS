@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for global values
  *
- * @version 0.0.5
+ * @version 0.0.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -123,8 +123,8 @@ $arrCountry['ye'] = _COUNTRY_YEMEN;
 $arrCountry['jo'] = _COUNTRY_JORDAN;
 $arrCountry['yu'] = _COUNTRY_YUGOSLAVIA;
 $arrCountry['vi'] = _COUNTRY_VIRGINISLANDS;
-$arrCountry['kh'] = 'Kambodscha';
-$arrCountry['cm'] = 'Kamerun';
+$arrCountry['kh'] = _COUNTRY_CAMBODIA;
+$arrCountry['cm'] = _COUNTRY_CAMEROON;
 $arrCountry['ca'] = 'Kanada';
 $arrCountry['cv'] = 'Kapverdische Inseln';
 $arrCountry['kz'] = 'Kasachstan';

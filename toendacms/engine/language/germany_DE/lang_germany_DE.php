@@ -1329,6 +1329,8 @@ define('_COUNTRY_YEMEN', 'Jemen');
 define('_COUNTRY_JORDAN', 'Jordanien');
 define('_COUNTRY_YUGOSLAVIA', 'Jugoslawien (ehem.)');
 define('_COUNTRY_VIRGINISLANDS', 'Jungferninseln');
+define('_COUNTRY_CAMBODIA', 'Kambodscha');
+define('_COUNTRY_CAMEROON', 'Kamerun');
 
 define('_COUNTRY_MALI', 'Mali');
 define('_COUNTRY_MALTA', 'Malta');

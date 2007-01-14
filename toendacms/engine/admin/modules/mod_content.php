@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used as a documents manager.
  *
- * @version 1.0.3
+ * @version 1.0.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -86,7 +86,11 @@ if($id_group == 'Developer'
 		load data
 	*/
 	
-	if($choosenDB == 'xml'){ $arr_filename  = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_content/'); }
+	if($choosenDB == 'xml'){
+		$arr_filename  = $tcms_main->getPathContent(
+			'../../'.$tcms_administer_site.'/tcms_content/'
+		);
+	}
 	
 	$arr_db_layout = $tcms_main->readdir_ext('../db_layout/');
 	$db_layout_xml = new xmlparser('../db_layout/db_templates.xml','r');
@@ -118,6 +122,8 @@ if($id_group == 'Developer'
 		echo tcms_html::bold(_CONTENT_TITLE);
 		echo tcms_html::text(_CONTENT_TEXT.'<br /><br />', 'left');
 		
+		$count = 0;
+		
 		if($choosenDB == 'xml'){
 			if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
 				foreach($arr_filename as $key => $value){
@@ -138,6 +144,45 @@ if($id_group == 'Developer'
 					if(!$arr_content['inw'][$key])   { $arr_content['inw'][$key]    = ''; }
 					
 					$arr_content['title'][$key] = $tcms_main->decodeText($arr_content['title'][$key], '2', $c_charset);
+					
+					$count++;
+				}
+			}
+			
+			$arr_filename  = $tcms_main->getPathContent(
+				'../../'.$tcms_administer_site.'/tcms_content_languages/'
+			);
+			
+			if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
+				foreach($arr_filename as $key => $value){
+					$main_xml = new xmlparser(
+						'../../'.$tcms_administer_site.'/tcms_content_languages/'.$value, 'r'
+					);
+					
+					$arr_content['title'][$count]  = $main_xml->read_section('main', 'title');
+					$arr_content['id'][$count]     = $main_xml->read_section('main', 'id');
+					$arr_content['access'][$count] = $main_xml->read_section('main', 'access');
+					$arr_content['pub'][$count]    = $main_xml->read_section('main', 'published');
+					$arr_content['autor'][$count]  = $main_xml->read_section('main', 'autor');
+					$arr_content['inw'][$count]    = $main_xml->read_section('main', 'in_work');
+					
+					$obj_lang = $main_xml->read_section('main', 'language');
+					$obj_uid  = $main_xml->read_section('main', 'content_uid');
+					
+					$arr_content['tag'][$count] = substr($value, 0, 5).$obj_lang;
+					
+					if(!$arr_content['title'][$count]) { $arr_content['title'][$count]  = ''; }
+					if(!$arr_content['id'][$count])    { $arr_content['id'][$count]     = ''; }
+					if(!$arr_content['access'][$count]){ $arr_content['access'][$count] = ''; }
+					if(!$arr_content['pub'][$count])   { $arr_content['pub'][$count]    = ''; }
+					if(!$arr_content['autor'][$count]) { $arr_content['autor'][$count]  = ''; }
+					if(!$arr_content['inw'][$count])   { $arr_content['inw'][$count]    = ''; }
+					
+					$arr_content['title'][$count] = $tcms_main->decodeText($arr_content['title'][$count], '2', $c_charset);
+					
+					$arr_content['title'][$count] .= ' ('.$obj_lang.' / '.$obj_uid.')';
+					
+					$count++;
 				}
 			}
 			
@@ -164,8 +209,6 @@ if($id_group == 'Developer'
 			."ORDER BY title ASC, uid ASC";
 			
 			$sqlQR = $sqlAL->sqlQuery($sqlSTR);
-			
-			$count = 0;
 			
 			while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)){
 				$arr_content['tag'][$count]    = $sqlObj->uid;
@@ -295,7 +338,7 @@ if($id_group == 'Developer'
 			.'</tr>';
 		
 		if(isset($arr_content['id']) && !empty($arr_content['id']) && $arr_content['id'] != ''){
-			foreach ($arr_content['id'] as $key => $value){
+			foreach($arr_content['id'] as $key => $value){
 				$bgkey++;
 				if(is_integer($bgkey/2)) {
 					$ws_farbe = $arr_farbe[0];
@@ -664,13 +707,14 @@ if($id_group == 'Developer'
 			
 			
 			if($tcms_main->isReal($lang)) {
+				$arr_docs = $tcms_main->getAllDocuments();
+				unset($value);
+				
 				// row
 				echo '<tr><td valign="top" width="'.$width.'">'
 				.'<strong class="tcms_bold">'._CONTENT_ORG_DOCUMENT.'</strong>'
 				.'</td><td>'
 				.'<select id="original" name="original">';
-				
-				$arr_docs = $tcms_main->getAllDocuments();
 				
 				foreach($arr_docs['id'] as $key => $value) {
 					if($arr_content['orgiginal'][$val] == $value)

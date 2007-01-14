@@ -1327,6 +1327,8 @@ if(!defined('_COUNTRY_YEMEN'))                 define('_COUNTRY_YEMEN', 'Yemen')
 if(!defined('_COUNTRY_JORDAN'))                define('_COUNTRY_JORDAN', 'Jordan');
 if(!defined('_COUNTRY_YUGOSLAVIA'))            define('_COUNTRY_YUGOSLAVIA', 'Yugoslavia (alumni)');
 if(!defined('_COUNTRY_VIRGINISLANDS'))         define('_COUNTRY_VIRGINISLANDS', 'Virgin Islands');
+if(!defined('_COUNTRY_CAMBODIA'))              define('_COUNTRY_CAMBODIA', 'Cambodia');
+if(!defined('_COUNTRY_CAMEROON'))              define('_COUNTRY_CAMEROON', 'Cameroon');
 
 if(!defined('_COUNTRY_MALI'))                  define('_COUNTRY_MALI', 'Mali');
 if(!defined('_COUNTRY_MALTA'))                 define('_COUNTRY_MALTA', 'Malta');
