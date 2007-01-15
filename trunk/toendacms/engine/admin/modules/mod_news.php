@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the news.
  *
- * @version 1.4.3
+ * @version 1.4.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -1797,7 +1797,33 @@ if($todo == 'save'){
 		$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'news', $newSQLData, $maintag);
 	}
 	
-	$tcms_dcp->generateFeed();
+	// regenerate feeds
+	if($choosenDB == 'xml'){
+		$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/newsmanager.xml','r');
+		$defaultFeed = $news_xml->read_section('config', 'def_feed');
+		$synAmount   = $news_xml->read_section('config', 'syn_amount');
+		$showAutor   = $news_xml->read_section('config', 'show_autor');
+		$xml->flush();
+		$xml->_xmlparser();
+		unset($xml);
+	}
+	else{
+		$sqlAL = new sqlAbstractionLayer($choosenDB);
+		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		
+		$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'newsmanager', 'newsmanager');
+		$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+		
+		$defaultFeed = $sqlObj->def_feed;
+		$synAmount   = $sqlObj->syn_amount;
+		$showAutor   = $sqlObj->show_autor;
+		
+		if($defaultFeed == NULL){ $defaultFeed = 'RSS2.0'; }
+		
+		$sqlAL->sqlFreeResult($sqlQR);
+	}
+	
+	$tcms_dcp->generateFeed($defaultFeed, $seoFolder, true, $synAmount, $showAutor);
 	
 	echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_news\'</script>';
 }
@@ -1952,7 +1978,33 @@ if($todo == 'next'){
 		$sqlQR = $sqlAL->sqlCreateOne($tcms_db_prefix.'news', $newSQLColumns, $newSQLData, $maintag);
 	}
 	
-	$tcms_dcp->generateFeed();
+	// regenerate feeds
+	if($choosenDB == 'xml'){
+		$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/newsmanager.xml','r');
+		$defaultFeed = $news_xml->read_section('config', 'def_feed');
+		$synAmount   = $news_xml->read_section('config', 'syn_amount');
+		$showAutor   = $news_xml->read_section('config', 'show_autor');
+		$xml->flush();
+		$xml->_xmlparser();
+		unset($xml);
+	}
+	else{
+		$sqlAL = new sqlAbstractionLayer($choosenDB);
+		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		
+		$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'newsmanager', 'newsmanager');
+		$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+		
+		$defaultFeed = $sqlObj->def_feed;
+		$synAmount   = $sqlObj->syn_amount;
+		$showAutor   = $sqlObj->show_autor;
+		
+		if($defaultFeed == NULL){ $defaultFeed = 'RSS2.0'; }
+		
+		$sqlAL->sqlFreeResult($sqlQR);
+	}
+	
+	$tcms_dcp->generateFeed($defaultFeed, $seoFolder, true, $synAmount, $showAutor);
 	
 	echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_news\'</script>';
 }
@@ -2133,6 +2185,34 @@ if($todo == 'delete'){
 		$sqlAL->sqlDeleteOne($tcms_db_prefix.'comments', $maintag);
 		$sqlAL->sqlQuery("DELETE FROM ".$tcms_db_prefix."news_to_categories WHERE news_uid = '".$maintag."'");
 	}
+	
+	// regenerate feeds
+	if($choosenDB == 'xml'){
+		$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/newsmanager.xml','r');
+		$defaultFeed = $news_xml->read_section('config', 'def_feed');
+		$synAmount   = $news_xml->read_section('config', 'syn_amount');
+		$showAutor   = $news_xml->read_section('config', 'show_autor');
+		$xml->flush();
+		$xml->_xmlparser();
+		unset($xml);
+	}
+	else{
+		$sqlAL = new sqlAbstractionLayer($choosenDB);
+		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		
+		$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'newsmanager', 'newsmanager');
+		$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+		
+		$defaultFeed = $sqlObj->def_feed;
+		$synAmount   = $sqlObj->syn_amount;
+		$showAutor   = $sqlObj->show_autor;
+		
+		if($defaultFeed == NULL){ $defaultFeed = 'RSS2.0'; }
+		
+		$sqlAL->sqlFreeResult($sqlQR);
+	}
+	
+	$tcms_dcp->generateFeed($defaultFeed, $seoFolder, true, $synAmount, $showAutor);
 	
 	echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_news\';</script>';
 }

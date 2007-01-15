@@ -78,7 +78,7 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 	include_once('../tcms_kernel/tcms_time.lib.php');
 	include_once('../tcms_kernel/tcms_xml.lib.php');
 	include_once('../tcms_kernel/tcms.lib.php');
-	include_once('../tcms_kernel/tcms_script.lib.php');
+	using('toendacms.kernel.script', false, true);
 	include_once('../tcms_kernel/tcms_html.lib.php');
 	include_once('../tcms_kernel/pclzip/pclzip.lib.php');
 	include_once('../tcms_kernel/tcms_gd.lib.php');
@@ -86,7 +86,7 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 	include_once('../tcms_kernel/tcms_file.lib.php');
 	include_once('../tcms_kernel/tcms_components.lib.php');
 	using('toendacms.kernel.datacontainer_provider', false, true);
-	include_once('../tcms_kernel/tcms_account_provider.lib.php');
+	using('toendacms.kernel.account_provider', false, true);
 	include_once('../tcms_kernel/tcms_authentication.lib.php');
 	include_once('../tcms_kernel/tcms_configuration.lib.php');
 	include_once('../tcms_kernel/tcms_version.lib.php');
@@ -112,6 +112,7 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 	$adminTopmenu    = $tcms_config->getAdminTopmenu();
 	$seoEnabled      = $tcms_config->getSEOEnabled();
 	$tcms_path       = $tcms_config->getSEOPath();
+	$seoFolder       = $tcms_path;
 	//$seoFormat       = $tcms_config->getSEOFormat();
 	$tcms_lang       = $tcms_config->getLanguageBackend();
 	
@@ -128,7 +129,7 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 	$tcms_html = new tcms_html();
 	
 	// datacontainer
-	$tcms_dcp = new tcms_datacontainer_provider($tcms_administer_site, $c_charset);
+	$tcms_dcp = new tcms_datacontainer_provider($tcms_administer_path, $c_charset);
 	
 	
 	// database

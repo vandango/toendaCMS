@@ -50,7 +50,7 @@ if(isset($_POST['contact_email'])){ $contact_email = $_POST['contact_email']; }
  * This is the global startfile and the page loading
  * control.
  *
- * @version 2.4.1
+ * @version 2.4.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -632,7 +632,7 @@ if($wsShowSite){
 					$lang = strtolower($tcms_config->getLanguageCode());
 				}
 				
-				$namen_xml = new xmlparser(''.$tcms_administer_site.'/tcms_global/namen.xml','r');
+				$namen_xml = new xmlparser($tcms_administer_site.'/tcms_global/namen.xml','r');
 				$sitetitle = $namen_xml->read_section('namen', 'title');
 				$sitename  = $namen_xml->read_section('namen', 'name');
 				$sitekey   = $namen_xml->read_section('namen', 'key');
@@ -937,7 +937,7 @@ if($wsShowSite){
 					$description    = $tcms_config->getMetadataDescription();
 					$active_topmenu = $tcms_config->getTopmenuActive();
 					
-					$footer_xml       = new xmlparser(''.$tcms_administer_site.'/tcms_global/footer.xml','r');
+					$footer_xml       = new xmlparser($tcms_administer_site.'/tcms_global/footer.xml','r');
 					$websiteowner     = $footer_xml->read_section('footer', 'websiteowner');
 					$websitecopyright = $footer_xml->read_section('footer', 'copyright');
 					$websiteowner_url = $footer_xml->read_section('footer', 'owner_url');

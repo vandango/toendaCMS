@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 0.4.8
+ * @version 0.5.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -572,9 +572,119 @@ class tcms_datacontainer_provider extends tcms_main {
 	
 	/**
 	 * ReGenerate the news syndication feeds
+	 * 
+	 * @param String $defaultFormat = 'RSS2.0'
+	 * @param String $seoFolder = ''
+	 * @param Boolean $admin = false
+	 * @param Integer $amount = 5
+	 * @param Boolean $show_autor = false
 	 */
-	function generateFeed() {
-		//using('toendacms.tools.feedcreator.feedcreator_class');
+	function generateFeed($defaultFormat = 'RSS2.0', $seoFolder = '', $admin = false, $amount = 5, $show_autor = false) {
+		if($admin) {
+			using('toendacms.tools.feedcreator.feedcreator_class', false, true);
+			using('toendacms.kernel.script', false, true);
+			using('toendacms.kernel.account_provider', false, true);
+			using('toendacms.datacontainer.news', false, true);
+			using('toendacms.datacontainer.account', false, true);
+		}
+		else {
+			using('toendacms.tools.feedcreator.feedcreator_class');
+			using('toendacms.kernel.script');
+			using('toendacms.kernel.account_provider');
+			using('toendacms.datacontainer.news');
+			using('toendacms.datacontainer.account');
+		}
+		
+		$xml = new xmlparser($this->m_path.'/tcms_global/namen.xml','r');
+		$wstitle = $xml->read_section('namen', 'title');
+		$wsname  = $xml->read_section('namen', 'name');
+		$wskey   = $xml->read_section('namen', 'key');
+		$logo      = $xml->read_section('namen', 'logo');
+		$xml->flush();
+		$xml->_xmlparser();
+		unset($xml);
+		
+		$xml = new xmlparser($this->m_path.'/tcms_global/footer.xml','r');
+		$wsowner     = $xml->read_section('footer', 'websiteowner');
+		$wscopyright = $xml->read_section('footer', 'copyright');
+		$wsowner_url = $xml->read_section('footer', 'owner_url');
+		$xml->flush();
+		$xml->_xmlparser();
+		unset($xml);
+		
+		$rss = new UniversalFeedCreator();
+		$rss->_setFormat($defaultFormat);
+		$rss->useCached();
+		$rss->title = $wsname;
+		$rss->description = $wskey;
+		$rss->link = $wsowner_url;
+		$rss->syndicationURL = $wsowner_url.$seoFolder.'/cache/'.$defaultFormat.'.xml';
+		
+		$image = new FeedImage();
+		$image->title = $wsname.' Logo';
+		$image->url = '../engine/images/logos/toendaCMS_button_01.png';
+		$image->link = $wsowner_url;
+		$image->description = 'Feed provided by '.$wsname.'. Click to visit.';
+		
+		$rss->image = $image;
+		
+		// generate now ...
+		$_tcms_ap = new tcms_account_provider($this->m_path, $c_charset);
+		
+		if($seoFolder != ''){
+			$imagePath = $seoFolder.'/';
+		}
+		else{
+			$imagePath = '/';
+		}
+		
+		$arrNewsDC = $this->getNewsDCList('Guest', $amount, '1', true);
+		
+		if($this->isReal($arrNewsDC)) {
+			foreach($arrNewsDC as $n_key => $n_value){
+				$dcNews = new tcms_dc_news();
+				$dcNews = $arrNewsDC[$n_key];
+				
+				$dcAcc = new tcms_dc_account();
+				$dcAcc = $_tcms_ap->getAccountByUsername($dcNews->GetAutor());
+				
+				$item = new FeedItem();
+				
+				$item->title = $dcNews->GetTitle();
+				$item->link = $wsowner_url.$seoFolder.'/?id=newsmanager&news='.$dcNews->GetID();
+				
+				$toendaScript = new toendaScript();
+				$news_content = $toendaScript->checkSEO($dcNews->GetText(), $imagePath);
+				$news_content = $toendaScript->cutAtTcmsMoreTag($news_content);
+				
+				$item->description = $news_content;
+				$item->date = mktime(
+					substr($dcNews->GetTime(), 0, 2), 
+					substr($dcNews->GetTime(), 3, 2), 
+					0, 
+					substr($dcNews->GetDate(), 3, 2), 
+					substr($dcNews->GetDate(), 0, 2), 
+					substr($dcNews->GetDate(), 6, 4)
+				);
+				$item->source = $wsowner_url;
+				
+				$item->author = ( $show_autor == 1 ? $dcNews->GetAutor() : $wsowner );
+				
+				if($show_autor == 1)
+					$item->authorEmail = $dcAcc->GetEmail();
+				
+				$rss->addItem($item);
+				
+				unset($toendaScript);
+			}
+		}
+		
+		if($admin) {
+			$rss->saveFeed($feed, '../../cache/'.$defaultFormat.'.xml', false);
+		}
+		else {
+			$rss->saveFeed($feed, 'cache/'.$defaultFormat.'.xml', false);
+		}
 	}
 	
 	

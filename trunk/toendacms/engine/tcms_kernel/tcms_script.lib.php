@@ -10,7 +10,6 @@
 | toendaScript - Parser and Libary
 |
 | File:		tcms_script.lib.php
-| Version:	0.4.4
 |
 +
 */
@@ -24,7 +23,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used as a parser and a base class
  * for the toendaScript.
- *
+ * 
+ * @version 0.4.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -217,13 +217,30 @@ class toendaScript{
 		}
 		
 		if($tcms_main->isReal($session)){
-			$text = preg_replace('/<a href="\/'.$seoPath.'\/\?/i', '<a href="/'.$seoPath.'/?session='.$session.'&amp;', $text);
+			//echo $text;
+			//$text = preg_replace('/<a href="\/'.$seoPath.'\/\?/i', '<a href="/'.$seoPath.'/?session='.$session.'&amp;', $text);
+			$text = str_replace(
+				'<a href="'.$seoPath.'/?', 
+				'<a href="'.$seoPath.'/?session='.$session.'&amp;', 
+				$text
+			);
+			//echo $text;
 			
 			if($seoFormat == 0){
-				$text = preg_replace('/<a href="\/'.$seoPath.'\/\index.php\//i', '<a href="/'.$seoPath.'/index.php/session:'.$session.'/', $text);
+				//$text = preg_replace('/<a href="\/'.$seoPath.'\/\index.php\//i', '<a href="/'.$seoPath.'/index.php/session:'.$session.'/', $text);
+				$text = str_replace(
+					'<a href="'.$seoPath.'/index.php/', 
+					'<a href="'.$seoPath.'/index.php/session:'.$session.'/', 
+					$text
+				);
 			}
 			else{
-				$text = preg_replace('/<a href="\/'.$seoPath.'\/\index.php\//i', '<a href="/'.$seoPath.'/index.php/session/'.$session.'/', $text);
+				//$text = preg_replace('/<a href="\/'.$seoPath.'\/\index.php\//i', '<a href="/'.$seoPath.'/index.php/session/'.$session.'/', $text);
+				$text = str_replace(
+					'<a href="'.$seoPath.'/index.php/', 
+					'<a href="'.$seoPath.'/index.php/session/'.$session.'/', 
+					$text
+				);
 			}
 		}
 		
