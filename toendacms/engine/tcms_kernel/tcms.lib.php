@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 1.9.5
+ * @version 1.9.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -993,9 +993,19 @@ class tcms_main {
 		if(substr($dir, strlen($dir) - 1, 1) != '/')
 			$dir .= '/';
 		
+		//if($this->canCHMOD($dir))
+			//chmod($dir, 777);
+		
 		if($handle = opendir($dir)){
 			while($obj = readdir($handle)){
-				if($obj != '.' && $obj != '..'){
+				if($obj != '.' 
+				&& $obj != '..'
+				&& $obj != 'CVS'
+				&& $obj != 'cvs'
+				&& $obj != '.SVN'
+				&& $obj != '.svn'
+				&& $obj != '_svn'
+				&& $obj != '_SVN'){
 					if(is_dir($dir.$obj)){
 						if(!$this->deleteDir($dir.$obj))
 							return false;
@@ -1030,9 +1040,19 @@ class tcms_main {
 		if(substr($dir, strlen($dir) - 1, 1) != '/')
 			$dir .= '/';
 		
+		//if($this->canCHMOD($dir))
+			//chmod($dir, 777);
+		
 		if($handle = opendir($dir)){
 			while($obj = readdir($handle)){
-				if($obj != '.' && $obj != '..'){
+				if($obj != '.' 
+				&& $obj != '..'
+				&& $obj != 'CVS'
+				&& $obj != 'cvs'
+				&& $obj != '.SVN'
+				&& $obj != '.svn'
+				&& $obj != '_svn'
+				&& $obj != '_SVN'){
 					if(is_dir($dir.$obj)){
 						if(!$this->deleteDir($dir.$obj))
 							return false;

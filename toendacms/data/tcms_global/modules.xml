@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?><config>
 	<side_gallery>0</side_gallery>
 	<layout_chooser>0</layout_chooser>
-	<side_links>1</side_links>
-	<login>1</login>
+	<side_links>0</side_links>
+	<login>0</login>
 	<side_category>1</side_category>
 	<side_archives>1</side_archives>
 	<syndication>1</syndication>

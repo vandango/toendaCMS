@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a Knowledgebase / FAQ and Article database.
  *
- * @version 0.4.1
+ * @version 0.4.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -585,7 +585,7 @@ if(trim($faq_enabled) == 1){
 			if($show_this_category){
 				if(trim($arrFAQ['cat']) == ''){
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-					'id=knowledgebase&amp;s='.$s.'&amp;cmd=list'
+					.'id=knowledgebase&amp;s='.$s.'&amp;cmd=list'
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
 				}
 				else{

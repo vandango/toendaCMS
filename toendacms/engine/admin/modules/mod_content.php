@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used as a documents manager.
  *
- * @version 1.0.6
+ * @version 1.0.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -279,7 +279,7 @@ if($id_group == 'Developer'
 					$arr_content['pub'], SORT_ASC, 
 					$arr_content['autor'], SORT_ASC, 
 					$arr_content['inw'], SORT_ASC, 
-					$arr_content['access'], SORT_SC
+					$arr_content['access'], SORT_ASC
 				);
 			}
 			
@@ -381,13 +381,13 @@ if($id_group == 'Developer'
 				.'</td>';
 				
 				echo '<td align="center" class="tcms_db_2"'.$strJS.'>'
-				.'<a href="admin.php?id_user='.$id_user.'&amp;site=mod_content&amp;todo=publishItem&amp;action='.( $arr_content['pub'][$key] == 1 ? 'off' : 'on' ).'&amp;maintag='.$arr_content['tag'][$key].'">'
+				.'<a href="admin.php?id_user='.$id_user.'&amp;site=mod_content&amp;todo=publishItem&amp;action='.( $arr_content['pub'][$key] == 1 ? 'off' : 'on' ).'&amp;maintag='.$arr_content['tag'][$key].$wsLang.'">'
 				.( $arr_content['pub'][$key] == 1 ? '<img src="../images/yes.png" border="0" />' : '<img src="../images/no.png" border="0" />' )
 				.'</a>'
 				.'</td>';
 				
 				echo '<td align="center" class="tcms_db_2"'.$strJS.'>'
-				.'<a href="admin.php?id_user='.$id_user.'&amp;site=mod_content&amp;todo=finalize&amp;action='.( $arr_content['inw'][$key] == 1 ? 'off' : 'on' ).'&amp;maintag='.$arr_content['tag'][$key].'">'
+				.'<a href="admin.php?id_user='.$id_user.'&amp;site=mod_content&amp;todo=finalize&amp;action='.( $arr_content['inw'][$key] == 1 ? 'off' : 'on' ).'&amp;maintag='.$arr_content['tag'][$key].$wsLang.'">'
 				.( $arr_content['inw'][$key] == 1 ? '<img src="../images/yes.png" border="0" />' : '<img src="../images/no.png" border="0" />' )
 				.'</a>'
 				.'</td>';
@@ -668,15 +668,6 @@ if($id_group == 'Developer'
 		}
 		
 		if($bFileless == true) {
-			/*if($choosenDB == 'xml') {
-				while(($maintag=substr(md5(time()),0,5)) && file_exists('../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml')){}
-				while(($arr_content['id'][$val]=substr(md5(time()),0,5)) && file_exists('../../'.$tcms_administer_site.'/tcms_content/'.$arr_content['id'][$val].'.xml')){}
-			}
-			else{
-				$maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'content', 5);
-				$arr_content['id'][$val] = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'content', 5);
-			}
-			*/
 			$maintag = $tcms_main->getNewUID(5, 'content');
 			$arr_content['id'][$val] = $tcms_main->getNewUID(5, 'content');
 		}
@@ -1228,12 +1219,36 @@ if($id_group == 'Developer'
 		switch($action){
 			// Take it off
 			case 'off':
-				if($choosenDB == 'xml'){ xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml', 'in_work', '1', '0'); }
+				if($choosenDB == 'xml') {
+					if($tcms_main->isReal($lang)) {
+						xmlparser::edit_value(
+							'../../'.$tcms_administer_site.'/tcms_content_languages/'.$maintag.'.xml', 
+							'in_work', 
+							'1', 
+							'0'
+						);
+					}
+					else {
+						xmlparser::edit_value(
+							'../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml', 
+							'in_work', 
+							'1', 
+							'0'
+						);
+					}
+				}
 				else{
 					$sqlAL = new sqlAbstractionLayer($choosenDB);
 					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-					$newSQLData = $tcms_db_prefix.'content.in_work=0';
-					$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'content', $newSQLData, $maintag);
+					
+					if($tcms_main->isReal($lang)) {
+						$newSQLData = $tcms_db_prefix.'content_languages.in_work=0';
+						$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'content_languages', $newSQLData, $maintag);
+					}
+					else {
+						$newSQLData = $tcms_db_prefix.'content.in_work=0';
+						$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'content', $newSQLData, $maintag);
+					}
 				}
 				
 				if($sender == 'desktop'){
@@ -1246,12 +1261,36 @@ if($id_group == 'Developer'
 			
 			// Take it on
 			case 'on':
-				if($choosenDB == 'xml'){ xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml', 'in_work', '0', '1'); }
+				if($choosenDB == 'xml') {
+					if($tcms_main->isReal($lang)) {
+						xmlparser::edit_value(
+							'../../'.$tcms_administer_site.'/tcms_content_languages/'.$maintag.'.xml', 
+							'in_work', 
+							'0', 
+							'1'
+						);
+					}
+					else {
+						xmlparser::edit_value(
+							'../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml', 
+							'in_work', 
+							'0', 
+							'1'
+						);
+					}
+				}
 				else{
 					$sqlAL = new sqlAbstractionLayer($choosenDB);
 					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-					$newSQLData = $tcms_db_prefix.'content.in_work=1';
-					$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'content', $newSQLData, $maintag);
+					
+					if($tcms_main->isReal($lang)) {
+						$newSQLData = $tcms_db_prefix.'content_languages.in_work=1';
+						$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'content_languages', $newSQLData, $maintag);
+					}
+					else {
+						$newSQLData = $tcms_db_prefix.'content.in_work=1';
+						$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'content', $newSQLData, $maintag);
+					}
 				}
 				
 				if($sender == 'desktop'){
@@ -1280,12 +1319,36 @@ if($id_group == 'Developer'
 		switch($action){
 			// Take it off
 			case 'off':
-				if($choosenDB == 'xml'){ xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml', 'published', '1', '0'); }
+				if($choosenDB == 'xml') {
+					if($tcms_main->isReal($lang)) {
+						xmlparser::edit_value(
+							'../../'.$tcms_administer_site.'/tcms_content_languages/'.$maintag.'.xml', 
+							'published', 
+							'1', 
+							'0'
+						);
+					}
+					else {
+						xmlparser::edit_value(
+							'../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml', 
+							'published', 
+							'1', 
+							'0'
+						);
+					}
+				}
 				else{
 					$sqlAL = new sqlAbstractionLayer($choosenDB);
 					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-					$newSQLData = $tcms_db_prefix.'content.published=0';
-					$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'content', $newSQLData, $maintag);
+					
+					if($tcms_main->isReal($lang)) {
+						$newSQLData = $tcms_db_prefix.'content_languages.published=0';
+						$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'content_languages', $newSQLData, $maintag);
+					}
+					else {
+						$newSQLData = $tcms_db_prefix.'content.published=0';
+						$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'content', $newSQLData, $maintag);
+					}
 				}
 				
 				if($sender == 'desktop'){
@@ -1302,7 +1365,19 @@ if($id_group == 'Developer'
 					if($check != 'yes'){ $check = 'no'; }
 					
 					if($check == 'no'){
-						$news_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml','r');
+						if($tcms_main->isReal($lang)) {
+							$news_xml = new xmlparser(
+								'../../'.$tcms_administer_site.'/tcms_content_languages/'.$maintag.'.xml',
+								'r'
+							);
+						}
+						else {
+							$news_xml = new xmlparser(
+								'../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml',
+								'r'
+							);
+						}
+						
 						$checkFinalize = $news_xml->read_section('main', 'in_work');
 						
 						if($checkFinalize == 0){
@@ -1327,7 +1402,22 @@ if($id_group == 'Developer'
 					}
 					
 					if($check == 'yes'){
-						xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml', 'published', '0', '1');
+						if($tcms_main->isReal($lang)) {
+							xmlparser::edit_value(
+								'../../'.$tcms_administer_site.'/tcms_content_languages/'.$maintag.'.xml', 
+								'published', 
+								'0', 
+								'1'
+							);
+						}
+						else {
+							xmlparser::edit_value(
+								'../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml', 
+								'published', 
+								'0', 
+								'1'
+							);
+						}
 					}
 				}
 				else{
@@ -1337,7 +1427,13 @@ if($id_group == 'Developer'
 						$sqlAL = new sqlAbstractionLayer($choosenDB);
 						$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 						
-						$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'content', $maintag);
+						if($tcms_main->isReal($lang)) {
+							$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'content_languages', $maintag);
+						}
+						else {
+							$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'content', $maintag);
+						}
+						
 						$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
 						$checkFinalize = $sqlARR['in_work'];
 						
@@ -1365,8 +1461,15 @@ if($id_group == 'Developer'
 					if($check == 'yes'){
 						$sqlAL = new sqlAbstractionLayer($choosenDB);
 						$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-						$newSQLData = $tcms_db_prefix.'content.published=1';
-						$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'content', $newSQLData, $maintag);
+						
+						if($tcms_main->isReal($lang)) {
+							$newSQLData = $tcms_db_prefix.'content_languages.published=1';
+							$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'content_languages', $newSQLData, $maintag);
+						}
+						else {
+							$newSQLData = $tcms_db_prefix.'content.published=1';
+							$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'content', $newSQLData, $maintag);
+						}
 					}
 				}
 				

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a imagegallery.
  *
- * @version 0.6.1
+ * @version 0.6.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -37,7 +37,6 @@ if(isset($_GET['albums'])){ $albums = $_GET['albums']; }
 
 $hr_line_1 = '<tr class="hr_line"><td colspan="2"></td></tr>';
 $hr_line_2 = '<tr style="height: 5px;"><td colspan="2"><hr class="hrule" noshade="noshade" /></td></tr>';
-
 
 
 
@@ -120,7 +119,6 @@ else{
 
 
 
-
 /*
 	Start page
 */
@@ -196,7 +194,6 @@ if($albums == 'start'){
 	
 	echo '</table>';
 }
-
 
 
 
