@@ -20,7 +20,7 @@ $skinPath = $templatePath.'src/';
 
 <div id="page">
 	<div id="header">
-		<div class="searchmenu"><? include(_SEARCH); ?></div>
+		<div class="searchmenu"><? include(_SEARCH); include(_LANG_SELECTOR); ?></div>
 	</div>
 	
 	<div id="logo">
