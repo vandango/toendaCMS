@@ -20,7 +20,7 @@
  *
  * This module is used as a image viewer.
  *
- * @version 0.4.7
+ * @version 0.4.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -69,11 +69,8 @@ if(!isset($dvalue))
 	$dvalue = '';
 
 
-
 define('_TCMS_VALID', 1);
 
-$language_stage = 'index';
-include_once('engine/language/lang_admin.php');
 include_once('engine/tcms_kernel/tcms.lib.php');
 include_once('engine/tcms_kernel/tcms_time.lib.php');
 include_once('engine/tcms_kernel/tcms_xml.lib.php');
@@ -84,16 +81,34 @@ include_once('engine/tcms_kernel/tcms_configuration.lib.php');
 include_once('engine/tcms_kernel/tcms_version.lib.php');
 
 
-
 tcms_time::tcms_load_start();
 if($choosenDB != 'xml')
 	tcms_time::tcms_query_count_start();
-
 	
 
 $tcms_administer_site = 'data';
 require($tcms_administer_site.'/tcms_global/database.php');
 
+
+// version
+$tcms_version = new tcms_version();
+
+$toenda_copy  = $tcms_version->getToendaCopyright();
+
+
+// config
+$tcms_config  = new tcms_configuration($tcms_administer_site);
+
+$use_captcha  = $tcms_config->getCaptchaEnabled();
+$tcmsinst     = $tcms_config->getToendaCMSInSitetitle();
+
+
+// language
+$language_stage = 'index';
+include_once('engine/language/lang_admin.php');
+
+
+// main obj
 $tcms_main = new tcms_main('data', $choosenDB);
 
 $choosenDB = $tcms_main->secure_password($tcms_db_engine, 'en');
@@ -106,7 +121,6 @@ $sqlPrefix = $tcms_main->secure_password($tcms_db_prefix, 'en');
 $tcms_db_prefix = $sqlPrefix;
 
 $tcms_main->setDatabaseInfo($choosenDB);
-
 
 
 if($choosenDB == 'xml'){
@@ -128,7 +142,6 @@ else{
 }
 
 
-
 if(!isset($s)){
 	$layout_xml = new xmlparser($tcms_administer_site.'/tcms_global/layout.xml','r');
 	$s = $layout_xml->read_section('layout', 'select');
@@ -143,19 +156,6 @@ $sitekey   = $namen_xml->read_section('namen', 'key');
 $sitetitle  = $tcms_main->decodeText($sitetitle, '2', $c_charset);
 $sitename   = $tcms_main->decodeText($sitename, '2', $c_charset);
 $sitekey    = $tcms_main->decodeText($sitekey, '2', $c_charset);
-
-
-// version
-$tcms_version = new tcms_version();
-
-$toenda_copy  = $tcms_version->getToendaCopyright();
-
-
-// config
-$tcms_config  = new tcms_configuration($tcms_administer_site);
-
-$use_captcha    = $tcms_config->getCaptchaEnabled();
-$tcmsinst       = $tcms_config->getToendaCMSInSitetitle();
 
 
 
@@ -846,9 +846,8 @@ if($cmd == 'comment_save' && $show_comments == 1){
 
 echo '<hr class="hr_line" noshade="noshade" />';
 
-$version_xml = new xmlparser('engine/tcms_kernel/tcms_version.xml','r');
-$cms_name         = $version_xml->read_section('version', 'name');
-$toenda_copyright = $version_xml->read_section('version', 'toenda_copyright');
+$cms_name         = $tcms_version->getName();
+$toenda_copyright = $tcms_version->getToendaCopyright();
 
 $footer_xml   = new xmlparser($tcms_administer_site.'/tcms_global/footer.xml','r');
 $websiteowner = $footer_xml->read_section('footer', 'websiteowner');
