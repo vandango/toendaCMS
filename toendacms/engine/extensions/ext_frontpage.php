@@ -74,7 +74,8 @@ if($use_syndication == 1){
 		$rss->title = $sitename;
 		$rss->description = $sitekey;
 		$rss->link = $websiteowner_url;
-		$rss->syndicationURL = $websiteowner_url.$seoFolder.$PHP_SELF;
+		//$rss->syndicationURL = $websiteowner_url.$seoFolder.$PHP_SELF;
+		$rss->syndicationURL = $websiteowner_url.$seoFolder.'/cache/'.$defaultFormat.'.xml';
 		
 		$image = new FeedImage();
 		$image->title = $sitename.' Logo';
@@ -113,6 +114,10 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 	
 	if($use_syndication == 1){
 		if($tcms_main->isReal($feed)){
+			// ??????????????
+			// generate using data container provider
+			// ??????????????
+			
 			$arrNewsDC = $tcms_dcp->getNewsDCList($is_admin, $syn_amount, '1', true);
 			
 			if($tcms_main->isReal($arrNewsDC)){
