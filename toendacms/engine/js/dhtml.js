@@ -10,15 +10,21 @@
 | DHTML and JavaScript Functions
 |
 | File:		dhtml.js
-| Version:	0.4.0
+| Version:	0.4.1
 |
 +
 */
 
 
-/************************************************
+/*
 *
 * JAVASCRIPT FUNCTIONS
+*
+* - addLoadEvent(func)
+* - getKeyCode(event)
+* - displayKeyCode(object)
+*
+* - getSelectedValue(select)
 *
 * - show(id, top, left)               -> show box on place top and left
 * - show_easy(id)                     -> show box without setting place
@@ -53,9 +59,42 @@
 
 
 
+// --------------------------------------
+// SCRIPT
+// --------------------------------------
+
+/**
+/* Script Registrar from Simon Wilson 
+*/
+function addLoadEvent(func) {
+	var oldonload = window.onload;
+	if(typeof window.onload != 'function') {
+		window.onload = func;
+	}
+	else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+function getKeyCode(event) {
+   event = event || window.event;
+   return event.keyCode;
+}
+
+function displayKeyCode(object) {
+	object.onkeydown = function(event) {
+		var charCode = getKeyCode(event);
+		var charString = String.fromCharCode(charCode);
+	}
+}
+
+
 
 // --------------------------------------
-// ROTATE IMAGES
+// SELECT OPTIONS
 // --------------------------------------
 
 function getSelectedValue(select) {

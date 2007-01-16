@@ -33,7 +33,7 @@ if(isset($_GET['id_user'])){ $id_user = $_GET['id_user']; }
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 0.6.0
+ * @version 0.6.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -147,55 +147,58 @@ echo '
 <link href="theme/'.$adminTheme.'/tcms_editor.css" rel="stylesheet" type="text/css" />
 <link rel="shortcut icon" href="../images/favicon.png">
 <style> body{ background: #fff; } </style>
+<script language="JavaScript" src="../js/dhtml.js"></script>
 <script language="JavaScript">
 
 function doLogin(){
 	var sendOK = true;
 	
-	if(document.forms[\'login\'].username.value == \'\'){
+	if(document.getElementById(\'username\').value == \'\'){
 		sendOK = false;
 		alert(\''._LOGIN_USERNAME_JS.'\');
-		document.forms[\'login\'].username.focus();
+		document.getElementById(\'username\').focus();
 		return false;
 	}
 	
-	if(document.forms[\'login\'].password.value == \'\'){
+	if(document.getElementById(\'password\').value == \'\'){
 		sendOK = false;
 		alert(\''._LOGIN_PASSWORD_JS.'\');
-		document.forms[\'login\'].password.focus();
+		document.getElementById(\'password\').focus();
 		return false;
 	}
 	
-	if(sendOK)
-		document.forms[\'login\'].submit();
+	if(sendOK) {
+		document.getElementById(\'login\').submit();
+	}
 }
 
 function doRetrieve(){
 	var sendOK = true;
 	
-	if(document.forms[\'retrieve\'].username.value == \'\'){
+	if(document.getElementById(\'username\').value == \'\'){
 		sendOK = false;
 		alert(\''._LOGIN_USERNAME_JS.'\');
-		document.forms[\'retrieve\'].username.focus();
+		document.getElementById(\'username\').focus();
 		return false;
 	}
 	
-	if(document.forms[\'retrieve\'].email.value == \'\'){
+	if(document.getElementById(\'email\').value == \'\'){
 		sendOK = false;
 		alert(\''._MSG_NOEMAIL.'\');
-		document.forms[\'retrieve\'].email.focus();
+		document.getElementById(\'email\').focus();
 		return false;
 	}
 	
-	if(document.forms[\'retrieve\'].email.value.indexOf(\'@\') == -1){
+	if(document.getElementById(\'email\').value.indexOf(\'@\') == -1){
 		sendOK = false;
 		alert(\''._MSG_NOEMAIL.'\');
-		document.forms[\'retrieve\'].email.focus();
+		document.getElementById(\'email\').focus();
 		return false;
 	}
 	
-	if(sendOK)
-		document.forms[\'retrieve\'].submit();
+	if(sendOK) {
+		document.getElementById(\'retrieve\').submit();
+	}
 }
 
 function setFocus(){
@@ -218,10 +221,35 @@ function checkBrowser(){
 
 checkBrowser();
 
+addLoadEvent(displayKeyCode);
+
+function displayKeyCode() {
+	var usr = document.getElementById(\'username\');
+	var pwd = document.getElementById(\'password\');
+	
+	usr.onkeydown = function(event) {
+		var charCode = getKeyCode(event);
+		
+		//alert(charCode);
+		
+		if(charCode == 13) {
+			pwd.focus();
+		}
+	}
+	
+	pwd.onkeydown = function(event) {
+		var charCode = getKeyCode(event);
+		
+		if(charCode == 13) {
+			doLogin();
+		}
+	}
+}
+
 </script>
 </head>
 
-<body topmargin="0" rightmargin="0" leftmargin="0" onload="setFocus();">
+<body topmargin="0" rightmargin="0" leftmargin="0" onload="setFocus(); displayKeyCode();">
 ';
 
 
@@ -275,9 +303,10 @@ if($cmd == ''){
 			<br />
 			<input class="loginbox" style="width: 120px;" type="password" id="password" name="password" value="'.( isset($password) ? $password : '' ).'" />
 			
-			<input class="loginput" type="submit" onclick="javascript:doLogin();" value="Login" />
 			<input type="hidden" name="cmd" value="login" />
 			<input type="hidden" name="id_user" value="'.$id_user.'" />
+			
+			<input class="loginput" type="button" onclick="doLogin();" value="Login" />
 			</form>
 		</div>
 	</div>

@@ -35,7 +35,7 @@ Developer Version
 	- 1.0.7 Development
 	- 1.1.0 Development
 
-Building Steps: 2410
+Building Steps: 2415
 
 
 
@@ -63,6 +63,7 @@ Building Steps: 2410
  - changed: usermanagement and profile now with the new framework objects
  - changed: dutch language update
  - changed: added all new functionality for the postgresql database
+ - changed: inputbox checker for the admin login page corrected
 
  - added: captcha comment check for the image comments
  - added: possibillity to make a own target to the side and topmenu links

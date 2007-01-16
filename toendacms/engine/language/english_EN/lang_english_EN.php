@@ -1107,7 +1107,7 @@ define('_FRONT_CAPTCHA', 'Enter the following code');
 
 // DOCUMENTATION
 if(!defined('_DOCU_TITLE'))                    define('_DOCU_TITLE', 'Documentation');
-if(!defined('_DOCU_TEXT'))                     define('_DOCU_TEXT', 'DO YOU WANT TO WRITE SOMEONE?');
+if(!defined('_DOCU_TEXT'))                     define('_DOCU_TEXT', 'DO YOU WANT TO WRITE SOMETHING?');
 
 
 // SEARCH
