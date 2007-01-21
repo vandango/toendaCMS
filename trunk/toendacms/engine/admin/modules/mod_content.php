@@ -21,7 +21,7 @@ defined('_TCMS_VALID') or die('Restricted access');
 /**
  * Static Content Manager
  *
- * This is used as a documents manager.
+ * This module is used as a documents manager.
  *
  * @version 1.0.8
  * @author	Jonathan Naumann <jonathan@toenda.com>

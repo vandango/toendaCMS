@@ -38,7 +38,7 @@ if(isset($_POST['lang'])){ $lang = $_POST['lang']; }
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 1.0.6
+ * @version 1.0.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -130,6 +130,9 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 	
 	// datacontainer
 	$tcms_dcp = new tcms_datacontainer_provider($tcms_administer_path, $c_charset);
+	
+	// image class
+	$tcms_gd = new tcms_gd();
 	
 	
 	// database
