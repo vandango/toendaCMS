@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 23. Dezember 2006 um 20:12
+-- Erstellungszeit: 22. Januar 2007 um 23:10
 -- Server Version: 5.0.21
 -- PHP-Version: 5.2.0
 -- 
@@ -159,14 +159,18 @@ CREATE TABLE `blog_content_languages` (
   `content00` text collate utf8_unicode_ci,
   `content01` text collate utf8_unicode_ci,
   `foot` varchar(255) collate utf8_unicode_ci default NULL,
-  `autor` varchar(255) collate utf8_unicode_ci default NULL
+  `autor` varchar(255) collate utf8_unicode_ci default NULL,
+  `db_layout` varchar(50) collate utf8_unicode_ci NOT NULL,
+  `access` varchar(10) collate utf8_unicode_ci NOT NULL,
+  `in_work` int(11) NOT NULL default '0',
+  `published` int(11) NOT NULL default '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- 
 -- Daten für Tabelle `blog_content_languages`
 -- 
 
-INSERT INTO `blog_content_languages` (`uid`, `content_uid`, `language`, `title`, `key`, `content00`, `content01`, `foot`, `autor`) VALUES ('fdgd7', '66115', 'germany_DE', 'sub1', 'testtext in deutsch', 'testtext in deutsch testtext in deutsch testtext in deutsch testtext in deutsch testtext in deutsch testtext in deutsch testtext in deutsch testtext in deutsch testtext in deutsch testtext in deutsch testtext in deutsch testtext in deutsch', NULL, NULL, 'root');
+INSERT INTO `blog_content_languages` (`uid`, `content_uid`, `language`, `title`, `key`, `content00`, `content01`, `foot`, `autor`, `db_layout`, `access`, `in_work`, `published`) VALUES ('fdgd7', '66115', 'germany_DE', 'sub1', 'testtext in deutsch', 'testtext in deutsch testtext in deutsch testtext in deutsch testtext in deutsch testtext in deutsch testtext in deutsch testtext in deutsch testtext in deutsch testtext in deutsch testtext in deutsch testtext in deutsch testtext in deutsch', NULL, NULL, 'root', '', '', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -226,6 +230,7 @@ INSERT INTO `blog_downloads_config` (`uid`, `download_id`, `download_title`, `do
 
 CREATE TABLE `blog_frontpage` (
   `uid` varchar(9) NOT NULL default '',
+  `language` varchar(25) NOT NULL,
   `front_id` varchar(9) NOT NULL default '',
   `front_title` varchar(255) default NULL,
   `front_stamp` varchar(255) default NULL,
@@ -245,7 +250,8 @@ CREATE TABLE `blog_frontpage` (
 -- Daten für Tabelle `blog_frontpage`
 -- 
 
-INSERT INTO `blog_frontpage` (`uid`, `front_id`, `front_title`, `front_stamp`, `front_text`, `news_title`, `news_cut`, `module_use_0`, `sb_news_title`, `sb_news_amount`, `sb_news_chars`, `sb_news_enabled`, `sb_news_display`) VALUES ('frontpage', 'frontpage', 'Welcome to the Home of toendaCMS', 'Open Source Content Management Framework', 'Welcome to the Samplesite of the free Open Source Content Management Framework toendaCMS.&lt;br&gt;\r\nIt is for enterprise purposes and/or private uses on the web. It offers\r\nfull flexibility and extendability while featuring an accomplished set\r\nof ready-made interfaces, function''s and modules.', 'News', 0, 5, ' Latest News', 5, 100, 0, 3);
+INSERT INTO `blog_frontpage` (`uid`, `language`, `front_id`, `front_title`, `front_stamp`, `front_text`, `news_title`, `news_cut`, `module_use_0`, `sb_news_title`, `sb_news_amount`, `sb_news_chars`, `sb_news_enabled`, `sb_news_display`) VALUES ('24k58ilp6', 'english_EN', 'frontpage', 'Welcome to the Home of toendaCMS', 'Open Source Content Management Framework', 'Welcome to the Samplesite of the free Open Source Content Management Framework toendaCMS.&lt;br /&gt;\r\nIt is for enterprise purposes and/or private uses on the web. It offers\r\nfull flexibility and extendability while featuring an accomplished set\r\nof ready-made interfaces, function&amp;#39;s and modules.\r\n', 'News', 0, 5, 'Latest News', 5, 100, 0, 3),
+('4frtgh587', 'germany_DE', 'frontpage', 'Willkommen auf der Demoseite von toendaCMS', 'Open Source Content Management Framework', 'Willkommen auf der Demoseite des Open-Source Content Management Frameworks toendaCMS.&lt;br /&gt;\r\n It is for enterprise purposes and/or private uses on the web. It offers full flexibility and extendability while featuring an accomplished set of ready-made interfaces, function&amp;#39;&amp;#39;s and modules.\r\n', 'Neuigkeiten', 0, 5, 'Die letzten Neuigkeiten', 5, 100, 0, 3);
 
 -- --------------------------------------------------------
 
@@ -353,6 +359,7 @@ INSERT INTO `blog_imagegallery_config` (`uid`, `image_id`, `image_title`, `image
 
 CREATE TABLE `blog_impressum` (
   `uid` varchar(9) NOT NULL default '',
+  `language` varchar(25) NOT NULL,
   `imp_id` varchar(9) NOT NULL default '',
   `imp_title` varchar(255) default NULL,
   `imp_stamp` varchar(255) default NULL,
@@ -366,7 +373,8 @@ CREATE TABLE `blog_impressum` (
 -- Daten für Tabelle `blog_impressum`
 -- 
 
-INSERT INTO `blog_impressum` (`uid`, `imp_id`, `imp_title`, `imp_stamp`, `imp_contact`, `taxno`, `ustid`, `legal`) VALUES ('impressum', 'impressum', 'Disclaimer', 'Information about this website', '10a1b5f6ab', '123456789', '123123d', 'No portion of this web site may be reproduced without express written consent from its owner.');
+INSERT INTO `blog_impressum` (`uid`, `language`, `imp_id`, `imp_title`, `imp_stamp`, `imp_contact`, `taxno`, `ustid`, `legal`) VALUES ('impressum', 'english_EN', 'impressum', 'Disclaimer', 'Information about this website', '10a1b5f6ab', '123456789', '123123d', 'No portion of this web site may be reproduced without express written consent from its owner.'),
+('hgztkj87r', 'germany_DE', 'impressum', 'Impressum', 'Informationen &uuml;ber diese Webseite', '10a1b5f6ab', '123456789', '123123d', 'No portion of this web site may be reproduced without express written consent from its owner.');
 
 -- --------------------------------------------------------
 
@@ -618,14 +626,17 @@ CREATE TABLE `blog_newsmanager` (
   `use_trackback` int(11) default NULL,
   `use_timesince` int(1) NOT NULL default '0',
   `readmore_link` int(1) NOT NULL default '0',
-  `news_spacing` int(2) NOT NULL default '0'
+  `news_spacing` int(2) NOT NULL default '0',
+  `language` varchar(25) NOT NULL,
+  PRIMARY KEY  (`uid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- 
 -- Daten für Tabelle `blog_newsmanager`
 -- 
 
-INSERT INTO `blog_newsmanager` (`uid`, `news_id`, `news_title`, `news_stamp`, `news_text`, `news_image`, `use_comments`, `show_autor`, `show_autor_as_link`, `news_amount`, `access`, `news_cut`, `use_gravatar`, `use_emoticons`, `use_rss091`, `use_rss10`, `use_rss20`, `use_atom03`, `use_opml`, `syn_amount`, `use_syn_title`, `def_feed`, `use_trackback`, `use_timesince`, `readmore_link`, `news_spacing`) VALUES ('newsmanager', 'newsmanager', 'News', 'Current', '', '', 1, 0, 1, 20, 'Public', 0, 0, 1, 1, 1, 1, 1, 1, 5, 0, 'RSS2.0', 0, 2, 0, 0);
+INSERT INTO `blog_newsmanager` (`uid`, `news_id`, `news_title`, `news_stamp`, `news_text`, `news_image`, `use_comments`, `show_autor`, `show_autor_as_link`, `news_amount`, `access`, `news_cut`, `use_gravatar`, `use_emoticons`, `use_rss091`, `use_rss10`, `use_rss20`, `use_atom03`, `use_opml`, `syn_amount`, `use_syn_title`, `def_feed`, `use_trackback`, `use_timesince`, `readmore_link`, `news_spacing`, `language`) VALUES ('newsmanager', 'newsmanager', 'News', 'Current', 'My newstext&lt;br /&gt;\r\n', '', 1, 0, 1, 20, 'Public', 0, 0, 1, 1, 1, 1, 1, 1, 5, 0, 'RSS2.0', 0, 2, 0, 0, 'english_EN'),
+('45789hgtzu', 'newsmanager', 'Neuigkeiten', 'Aktuell', 'Mein Neuigkeitentext und noch viel mehr&lt;br /&gt;\r\n', '', 1, 0, 1, 20, 'Public', 0, 0, 1, 1, 1, 1, 1, 1, 5, 0, 'RSS2.0', 0, 2, 0, 0, 'germany_DE');
 
 -- --------------------------------------------------------
 
@@ -672,7 +683,7 @@ CREATE TABLE `blog_poll_config` (
 -- Daten für Tabelle `blog_poll_config`
 -- 
 
-INSERT INTO `blog_poll_config` (`uid`, `poll_title`, `allpoll_title`, `show_poll_title`, `poll_side_width`, `poll_main_width`, `poll_sm_title`, `use_poll_sidemenu`, `poll_sidemenu_id`, `poll_tm_title`, `use_poll_topmenu`, `poll_topmenu_id`) VALUES ('poll', 'Poll', 'All Polls', 1, 110, 700, 'Poll', 0, 2, 'Poll', 0, 4);
+INSERT INTO `blog_poll_config` (`uid`, `poll_title`, `allpoll_title`, `show_poll_title`, `poll_side_width`, `poll_main_width`, `poll_sm_title`, `use_poll_sidemenu`, `poll_sidemenu_id`, `poll_tm_title`, `use_poll_topmenu`, `poll_topmenu_id`) VALUES ('poll', 'Poll', 'All Polls', 1, 110, 500, 'Poll', 0, 2, 'Poll', 0, 4);
 
 -- --------------------------------------------------------
 
@@ -795,7 +806,7 @@ CREATE TABLE `blog_session` (
 -- 
 
 INSERT INTO `blog_session` (`uid`, `date`, `user`, `user_id`) VALUES ('a579eefac60b0139da98e972c19432dc', '1153685958', 'root', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff'),
-('842fc54a53409eb1a64d549dcbe9495b', '1166190562', 'root', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff');
+('52c52ebb9a18274b12f510ead4a25f9c', '1169473767', 'root', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff');
 
 -- --------------------------------------------------------
 
@@ -848,14 +859,15 @@ CREATE TABLE `blog_sidebar_extensions` (
   `usermenu` int(1) NOT NULL default '0',
   `show_login_title` int(1) NOT NULL default '0',
   `show_news_cat_amount` int(1) default '0',
-  `show_memberlist` int(11) NOT NULL default '0'
+  `show_memberlist` int(11) NOT NULL default '0',
+  `lang` varchar(255) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- 
 -- Daten für Tabelle `blog_sidebar_extensions`
 -- 
 
-INSERT INTO `blog_sidebar_extensions` (`uid`, `sidemenu_title`, `sidemenu`, `sidebar_title`, `show_sidebar_title`, `chooser_title`, `show_chooser_title`, `search_title`, `show_search_title`, `search_alignment`, `search_withbr`, `search_withbutton`, `search_word`, `login_title`, `usermenu_title`, `nologin`, `reg_link`, `reg_user`, `reg_pass`, `login_user`, `usermenu`, `show_login_title`, `show_news_cat_amount`, `show_memberlist`) VALUES ('sidebar_extensions', 'Sidemenu', 0, 'Sidebar', 0, 'Showcase', 1, 'Search website', 0, 'left', 0, 0, 'Search website', 'Login', 'Usermenu', 'No account yet?', 'Create one', 'Username', 'Password', 1, 1, 1, 1, 1);
+INSERT INTO `blog_sidebar_extensions` (`uid`, `sidemenu_title`, `sidemenu`, `sidebar_title`, `show_sidebar_title`, `chooser_title`, `show_chooser_title`, `search_title`, `show_search_title`, `search_alignment`, `search_withbr`, `search_withbutton`, `search_word`, `login_title`, `usermenu_title`, `nologin`, `reg_link`, `reg_user`, `reg_pass`, `login_user`, `usermenu`, `show_login_title`, `show_news_cat_amount`, `show_memberlist`, `lang`) VALUES ('sidebar_extensions', 'Sidemenu', 0, 'Sidebar', 0, 'Showcase', 1, 'Search website', 0, 'left', 0, 0, '', 'Login', 'Usermenu', 'No account yet?', 'Create one', 'Username', 'Password', 1, 1, 1, 1, 1, 'de;en;nl;');
 
 -- --------------------------------------------------------
 
@@ -1010,7 +1022,7 @@ CREATE TABLE `blog_user` (
 -- Daten für Tabelle `blog_user`
 -- 
 
-INSERT INTO `blog_user` (`uid`, `name`, `username`, `password`, `email`, `group`, `join_date`, `last_login`, `birthday`, `gender`, `occupation`, `homepage`, `icq`, `aim`, `yim`, `msn`, `skype`, `enabled`, `tcms_enabled`, `static_value`, `signature`, `location`, `hobby`) VALUES ('ccdc5cfffaf3cd9342e40dd9dcb3a3ff', 'Mister Toenda', 'root', '5473e3f141e0328ce87dac9366e0aace', 'info@toenda.com', 'Administrator', '2006.01.22-22:26:44', '2006.12.15-14:49:22', '26.11.1982', '-', '', 'http://www.vandango.org', '', '', '', '', '', 1, 1, 1, '', '', ''),
+INSERT INTO `blog_user` (`uid`, `name`, `username`, `password`, `email`, `group`, `join_date`, `last_login`, `birthday`, `gender`, `occupation`, `homepage`, `icq`, `aim`, `yim`, `msn`, `skype`, `enabled`, `tcms_enabled`, `static_value`, `signature`, `location`, `hobby`) VALUES ('ccdc5cfffaf3cd9342e40dd9dcb3a3ff', 'Mister Toenda', 'root', '5473e3f141e0328ce87dac9366e0aace', 'info@toenda.com', 'Administrator', '2006.01.22-22:26:44', '2007.01.22-14:49:27', '26.11.1982', '-', '', 'http://www.vandango.org', '', '', '', '', '', 1, 1, 1, '', '', ''),
 ('9e07ddbe2eb87663511e4716cb94eef2', 'writer', 'writer', 'a82feee3cc1af8bcabda979e8775ef0f', 'info@toenda.com', 'Writer', '2006.08.21-23:09:14', '2006.10.06-20:43:46', '01.1.', '-', '', '', '', '', '', '', '', 1, 1, 0, '', '', '');
 
 -- --------------------------------------------------------

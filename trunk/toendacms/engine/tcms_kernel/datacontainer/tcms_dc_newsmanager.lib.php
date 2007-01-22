@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * the newsmanager.
  *
- * @version 0.0.5
+ * @version 0.0.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -82,12 +82,12 @@ class tcms_dc_newsmanager {
 	// Properties
 	// ---------------------------------------
 	
-	/***
+	/**
 	 * Set the id
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setID($value){
 		$this->m_id = $value;
 	}
@@ -120,12 +120,12 @@ class tcms_dc_newsmanager {
 		return $this->m_lang;
 	}
 	
-	/***
+	/**
 	 * Set the title
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setTitle($value){
 		$this->m_title = $value;
 	}
@@ -157,12 +157,12 @@ class tcms_dc_newsmanager {
 		return $this->m_key;
 	}
 	
-	/***
+	/**
 	 * Set the text
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setText($value){
 		$this->m_text = $value;
 	}
@@ -176,12 +176,12 @@ class tcms_dc_newsmanager {
 		return $this->m_text;
 	}
 	
-	/***
+	/**
 	 * Set the image
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setImage($value){
 		$this->m_image = $value;
 	}
@@ -195,12 +195,12 @@ class tcms_dc_newsmanager {
 		return $this->m_image;
 	}
 	
-	/***
+	/**
 	 * Set the UseComments
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setUseComments($value){
 		$this->m_UseComments = $value;
 	}
@@ -214,12 +214,12 @@ class tcms_dc_newsmanager {
 		return $this->m_UseComments;
 	}
 	
-	/***
+	/**
 	 * Set the ShowAutor
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setShowAutor($value){
 		$this->m_ShowAutor = $value;
 	}
@@ -233,12 +233,12 @@ class tcms_dc_newsmanager {
 		return $this->m_ShowAutor;
 	}
 	
-	/***
+	/**
 	 * Set the ShowAutorAsLink
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setShowAutorAsLink($value){
 		$this->m_ShowAutorAsLink = $value;
 	}
@@ -252,12 +252,12 @@ class tcms_dc_newsmanager {
 		return $this->m_ShowAutorAsLink;
 	}
 	
-	/***
+	/**
 	 * Set the NewsAmount
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setNewsAmount($value){
 		$this->m_NewsAmount = $value;
 	}
@@ -271,12 +271,12 @@ class tcms_dc_newsmanager {
 		return $this->m_NewsAmount;
 	}
 	
-	/***
+	/**
 	 * Set the NewsChars
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setNewsChars($value){
 		$this->m_NewsChars = $value;
 	}
@@ -290,12 +290,12 @@ class tcms_dc_newsmanager {
 		return $this->m_NewsChars;
 	}
 	
-	/***
+	/**
 	 * Set the Access
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setAccess($value){
 		$this->m_Access = $value;
 	}
@@ -309,12 +309,12 @@ class tcms_dc_newsmanager {
 		return $this->m_Access;
 	}
 	
-	/***
+	/**
 	 * Set the UseGravatar
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setUseGravatar($value){
 		$this->m_UseGravatar = $value;
 	}
@@ -328,12 +328,12 @@ class tcms_dc_newsmanager {
 		return $this->m_UseGravatar;
 	}
 	
-	/***
+	/**
 	 * Set the UseEmoticons
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setUseEmoticons($value){
 		$this->m_UseEmoticons = $value;
 	}
@@ -347,12 +347,12 @@ class tcms_dc_newsmanager {
 		return $this->m_UseEmoticons;
 	}
 	
-	/***
+	/**
 	 * Set the UseTrachback
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setUseTrachback($value){
 		$this->m_UseTrachback = $value;
 	}
@@ -366,12 +366,12 @@ class tcms_dc_newsmanager {
 		return $this->m_UseTrachback;
 	}
 	
-	/***
+	/**
 	 * Set the UseTimesince
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setUseTimesince($value){
 		$this->m_UseTimesince = $value;
 	}
@@ -385,12 +385,12 @@ class tcms_dc_newsmanager {
 		return $this->m_UseTimesince;
 	}
 	
-	/***
+	/**
 	 * Set the ReadmoreLink
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setReadmoreLink($value){
 		$this->m_ReadmoreLink = $value;
 	}
@@ -404,12 +404,12 @@ class tcms_dc_newsmanager {
 		return $this->m_ReadmoreLink;
 	}
 	
-	/***
+	/**
 	 * Set the NewsSpacing
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setNewsSpacing($value){
 		$this->m_NewsSpacing = $value;
 	}
@@ -423,12 +423,12 @@ class tcms_dc_newsmanager {
 		return $this->m_NewsSpacing;
 	}
 	
-	/***
+	/**
 	 * Set the SynRSS091
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setSyndicationRSS091($value){
 		$this->m_SynRSS091 = $value;
 	}
@@ -442,12 +442,12 @@ class tcms_dc_newsmanager {
 		return $this->m_SynRSS091;
 	}
 	
-	/***
+	/**
 	 * Set the SynRSS10
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setSyndicationRSS10($value){
 		$this->m_SynRSS10 = $value;
 	}
@@ -461,12 +461,12 @@ class tcms_dc_newsmanager {
 		return $this->m_SynRSS10;
 	}
 	
-	/***
+	/**
 	 * Set the SynRSS20
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setSyndicationRSS20($value){
 		$this->m_SynRSS20 = $value;
 	}
@@ -480,12 +480,12 @@ class tcms_dc_newsmanager {
 		return $this->m_SynRSS20;
 	}
 	
-	/***
+	/**
 	 * Set the SynRSSAtom
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setSyndicationRSSAtom($value){
 		$this->m_SynRSSAtom = $value;
 	}
@@ -499,12 +499,12 @@ class tcms_dc_newsmanager {
 		return $this->m_SynRSSAtom;
 	}
 	
-	/***
+	/**
 	 * Set the SynRSSOpml
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setSyndicationRSSOpml($value){
 		$this->m_SynRSSOpml = $value;
 	}
@@ -518,12 +518,12 @@ class tcms_dc_newsmanager {
 		return $this->m_SynRSSOpml;
 	}
 	
-	/***
+	/**
 	 * Set the SynAmount
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setSyndicationAmount($value){
 		$this->m_SynAmount = $value;
 	}
@@ -537,12 +537,12 @@ class tcms_dc_newsmanager {
 		return $this->m_SynAmount;
 	}
 	
-	/***
+	/**
 	 * Set the SynUseTitle
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setSyndicationUseTitle($value){
 		$this->m_SynUseTitle = $value;
 	}
@@ -556,12 +556,12 @@ class tcms_dc_newsmanager {
 		return $this->m_SynUseTitle;
 	}
 	
-	/***
+	/**
 	 * Set the SynDefaultFeed
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setSyndicationDefaultFeed($value){
 		$this->m_SynDefaultFeed = $value;
 	}

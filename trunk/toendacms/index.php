@@ -50,7 +50,7 @@ if(isset($_POST['contact_email'])){ $contact_email = $_POST['contact_email']; }
  * This is the global startfile and the page loading
  * control.
  *
- * @version 2.4.7
+ * @version 2.4.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -768,15 +768,15 @@ if($wsShowSite){
 							using('toendacms.datacontainer.impressum');
 							
 							$dcImpressum = new tcms_dc_impressum();
-							$dcImpressum = $tcms_dcp->getImpressumDC();
+							$dcImpressum = $tcms_dcp->getImpressumDC($getLang);
 							
-							$imp_id      = $dcImpressum->GetID();
-							$imp_title   = $dcImpressum->GetTitle();
-							$imp_stamp   = $dcImpressum->GetKeynote();
-							$legal       = $dcImpressum->GetText();
-							$imp_contact = $dcImpressum->GetContact();
-							$taxno       = $dcImpressum->GetTaxNumber();
-							$ustid       = $dcImpressum->GetUstID();
+							$imp_id      = $dcImpressum->getID();
+							$imp_title   = $dcImpressum->getTitle();
+							$imp_stamp   = $dcImpressum->getSubtitle();
+							$legal       = $dcImpressum->getText();
+							$imp_contact = $dcImpressum->getContact();
+							$taxno       = $dcImpressum->getTaxNumber();
+							$ustid       = $dcImpressum->getUstID();
 							
 							unset($dcImpressum);
 							

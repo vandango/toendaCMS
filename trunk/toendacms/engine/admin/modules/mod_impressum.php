@@ -9,8 +9,7 @@
 | 
 | Impressum Designer
 |
-| File:		mod_impressum.php
-| Version:	0.5.3
+| File:	mod_impressum.php
 |
 +
 */
@@ -19,7 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-
+/**
+ * Impressum Designer
+ *
+ * This module is used for the publishing form.
+ *
+ * @version 0.5.5
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 if(isset($_GET['vall'])){ $vall = $_GET['vall']; }
@@ -33,14 +41,12 @@ if(isset($_POST['ustid'])){ $ustid = $_POST['ustid']; }
 if(isset($_POST['legal'])){ $legal = $_POST['legal']; }
 if(isset($_POST['vall'])){ $vall = $_POST['vall']; }
 if(isset($_POST['content'])){ $content = $_POST['content']; }
+if(isset($_POST['lang_exist'])){ $lang_exist = $_POST['lang_exist']; }
+if(isset($_POST['new_imp_lang'])){ $new_imp_lang = $_POST['new_imp_lang']; }
 
 
-
-
-
-
-
-if($id_group == 'Developer' || $id_group == 'Administrator'){
+if($id_group == 'Developer' 
+|| $id_group == 'Administrator'){
 	if($todo != 'save'){
 		if($show_wysiwyg == 'tinymce'){
 			include('../tcms_kernel/tcms_tinyMCE.lib.php');
@@ -50,42 +56,60 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		}
 		
 		
-		/*
-			legal configuration
-		*/
+		// -----------------------------------------------------
+		// INIT
+		// -----------------------------------------------------
+		
+		if($tcms_main->isReal($lang))
+			$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
+		else
+			$getLang = $tcms_front_lang;
 		
 		if($choosenDB == 'xml'){
-			$imp_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/impressum.xml','r');
-			$old_imp_id       = $imp_xml->read_section('imp', 'imp_id');
-			$old_imp_title    = $imp_xml->read_section('imp', 'imp_title');
-			$old_imp_stamp    = $imp_xml->read_section('imp', 'imp_stamp');
-			$old_taxno        = $imp_xml->read_section('imp', 'taxno');
-			$old_ustid        = $imp_xml->read_section('imp', 'ustid');
-			$old_legal        = $imp_xml->read_section('imp', 'legal');
-			$test_imp_contact = $imp_xml->read_section('imp', 'imp_contact');
-			
-			if(!$old_imp_id)       { $old_imp_id       = ''; }
-			if(!$old_imp_title)    { $old_imp_title    = ''; }
-			if(!$old_imp_stamp)    { $old_imp_stamp    = ''; }
-			if(!$old_taxno)        { $old_taxno        = ''; }
-			if(!$old_ustid)        { $old_ustid        = ''; }
-			if(!$old_legal)        { $old_legal        = ''; }
-			if(!$test_imp_contact) { $test_imp_contact = ''; }
+			if(file_exists('../../'.$tcms_administer_site.'/tcms_global/impressum.'.$getLang.'.xml')) {
+				$imp_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/impressum.'.$getLang.'.xml','r');
+				$old_imp_id       = $imp_xml->read_section('imp', 'imp_id');
+				$old_imp_title    = $imp_xml->read_section('imp', 'imp_title');
+				$old_imp_stamp    = $imp_xml->read_section('imp', 'imp_stamp');
+				$old_taxno        = $imp_xml->read_section('imp', 'taxno');
+				$old_ustid        = $imp_xml->read_section('imp', 'ustid');
+				$old_legal        = $imp_xml->read_section('imp', 'legal');
+				$test_imp_contact = $imp_xml->read_section('imp', 'imp_contact');
+				$old_imp_lang     = $imp_xml->read_section('imp', 'language');
+				
+				if(!$old_imp_id)       { $old_imp_id       = ''; }
+				if(!$old_imp_title)    { $old_imp_title    = ''; }
+				if(!$old_imp_stamp)    { $old_imp_stamp    = ''; }
+				if(!$old_taxno)        { $old_taxno        = ''; }
+				if(!$old_ustid)        { $old_ustid        = ''; }
+				if(!$old_legal)        { $old_legal        = ''; }
+				if(!$test_imp_contact) { $test_imp_contact = ''; }
+			}
+			else {
+				$langExist = 0;
+				$old_imp_id = 'impressum';
+			}
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'impressum', 'impressum');
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+			$strQuery = "SELECT * "
+			."FROM ".$tcms_db_prefix."impressum "
+			."WHERE language = '".$getLang."'";
 			
-			$old_imp_id       = $sqlARR['imp_id'];
-			$old_imp_title    = $sqlARR['imp_title'];
-			$old_imp_stamp    = $sqlARR['imp_stamp'];
-			$old_taxno        = $sqlARR['taxno'];
-			$old_ustid        = $sqlARR['ustid'];
-			$old_legal        = $sqlARR['legal'];
-			$test_imp_contact = $sqlARR['imp_contact'];
+			$sqlQR = $sqlAL->sqlQuery($strQuery);
+			$langExist = $sqlAL->sqlGetNumber($sqlQR);
+			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+			
+			$old_imp_id       = $sqlObj->imp_id;
+			$old_imp_title    = $sqlObj->imp_title;
+			$old_imp_stamp    = $sqlObj->imp_stamp;
+			$old_taxno        = $sqlObj->taxno;
+			$old_ustid        = $sqlObj->ustid;
+			$old_legal        = $sqlObj->legal;
+			$test_imp_contact = $sqlObj->imp_contact;
+			$old_imp_lang     = $sqlObj->language;
 			
 			if($old_imp_id       == NULL){ $old_imp_id       = ''; }
 			if($old_imp_title    == NULL){ $old_imp_title    = ''; }
@@ -95,6 +119,12 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 			if($old_legal        == NULL){ $old_legal        = ''; }
 			if($test_imp_contact == NULL){ $test_imp_contact = ''; }
 		}
+		
+		
+		if($langExist == 0) {
+			$old_imp_lang = $getLang;
+		}
+		
 		
 		// CHARSETS
 		$old_imp_title = $tcms_main->decodeText($old_imp_title, '2', $c_charset);
@@ -182,37 +212,79 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		
 		
 		// frontpage news settings
-		echo '<table width="100%" cellpadding="0" cellspacing="0" class="tcms_noborder"><tr class="tcms_bg_blue_01">';
-		echo '<th valign="middle" align="left" class="tcms_db_title tcms_padding_mini">'._IMPRESSUM_CONFIG.'</th>';
-		echo '</tr></table>';
+		echo '<table width="100%" cellpadding="0" cellspacing="0" class="tcms_noborder">'
+		.'<tr class="tcms_bg_blue_01">'
+		.'<th valign="middle" align="left" class="tcms_db_title tcms_padding_mini">'._TCMS_ADMIN_EDIT_LANG.'</th>'
+		.'</tr></table>';
 		
-		echo '<table width="100%" cellpadding="1" cellspacing="5" class="tcms_table" border="0">';
+		echo $tcms_html->tableHeadClass('1', '5', '0', '100%', 'tcms_table');
+		
+		// row
+		$link = 'admin.php?id_user='.$id_user.'&site=mod_impressum'
+		.'&amp;lang=';
+		
+		$js = ' onchange="document.location=\''.$link.'\' + this.value;"';
+		
+		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
+		.'<strong class="tcms_bold">'._TCMS_LANGUAGE.'</strong>'
+		.'</td><td>'
+		.'<select id="new_imp_lang" name="new_imp_lang"'.$js.'>';
+		
+		foreach($languages['fine'] as $key => $value) {
+			if($old_imp_lang == $languages['code'][$key])
+				$dl = ' selected="selected"';
+			else
+				$dl = '';
+			
+			echo '<option value="'.$value.'"'.$dl.'>'
+			.$languages['name'][$key]
+			.'</option>';
+		}
+		
+		echo '</select>'
+		.'</td></tr>';
+		
+		echo '<tr><td class="tcms_padding_mini"><br /></td></tr>'
+		.$tcms_html->tableEnd();
+		
+		
+		// frontpage news settings
+		echo '<table width="100%" cellpadding="0" cellspacing="0" class="tcms_noborder">'
+		.'<tr class="tcms_bg_blue_01">'
+		.'<th valign="middle" align="left" class="tcms_db_title tcms_padding_mini">'._IMPRESSUM_CONFIG.'</th>'
+		.'</tr></table>';
+		
+		echo $tcms_html->tableHeadClass('1', '5', '0', '100%', 'tcms_table');
 		
 		
 		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'._IMPRESSUM_ID.'</td>'
-		.'<td valign="top"><img src="../images/bullet_1.gif" border="0" style="margin: 5px 2px 0 0 !important;" />'
+		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
+		.'<strong class="tcms_bold">'._IMPRESSUM_ID.'</strong>'
+		.'</td><td valign="top">'
 		.'<input readonly name="imp_id" class="tcms_input_small" value="'.$old_imp_id.'" />'
 		.'</td></tr>';
 		
 		
 		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'._IMPRESSUM_TITLE.'</td>'
-		.'<td valign="top"><img src="../images/bullet_1.gif" border="0" style="margin: 5px 2px 0 0 !important;" />'
+		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
+		.'<strong class="tcms_bold">'._IMPRESSUM_TITLE.'</strong>'
+		.'</td><td valign="top">'
 		.'<input name="imp_title" class="tcms_input_normal" value="'.$old_imp_title.'" />'
 		.'</td></tr>';
 		
 		
 		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'._IMPRESSUM_SUBTITLE.'</td>'
-		.'<td valign="top"><img src="../images/bullet_1.gif" border="0" style="margin: 5px 2px 0 0 !important;" />'
+		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
+		.'<strong class="tcms_bold">'._IMPRESSUM_SUBTITLE.'</strong>'
+		.'</td><td valign="top">'
 		.'<input name="imp_stamp" class="tcms_input_normal" value="'.$old_imp_stamp.'" />'
 		.'</td></tr>';
 		
 		
 		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'._IMPRESSUM_CONTACT.'</td>'
-		.'<td valign="top"><img src="../images/bullet_1.gif" border="0" style="margin: 5px 2px 0 0 !important;" />'
+		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
+		.'<strong class="tcms_bold">'._IMPRESSUM_CONTACT.'</strong>'
+		.'</td><td valign="top">'
 		.'<select class="tcms_select" onchange="document.location=\'admin.php?id_user='.$id_user.'&site=mod_impressum&vall=\'+this.value;">'
 		.'<option value=""> &bull; '._IMPRESSUM_SELECT.' &bull; </option>'
 		.'<option value="_no_contact_"'.( $vall == '_no_contact_' ? ' selected="selected"' : '' ).'> &bull; '._IMPRESSUM_NO_CONTACT.' &bull; </option>';
@@ -228,7 +300,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		
 		// table rows
 		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">&nbsp;</td>'
-		.'<td valign="top"><img src="../images/px.png" width="9" border="0" style="margin: 5px 2px 0 0 !important;" />'
+		.'<td valign="top">'
 		.'<textarea name="text" id="text" class="tcms_textarea_big">';
 		
 		if(isset($vall)){
@@ -322,15 +394,17 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		
 		
 		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'._IMPRESSUM_TAX.'</td>'
-		.'<td valign="top"><img src="../images/bullet_1.gif" border="0" style="margin: 5px 2px 0 0 !important;" />'
+		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
+		.'<strong class="tcms_bold">'._IMPRESSUM_TAX.'</strong>'
+		.'</td><td valign="top">'
 		.'<input name="taxno" class="tcms_input_normal" value="'.$old_taxno.'" />'
 		.'</td></tr>';
 		
 		
 		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'._IMPRESSUM_UST.'</td>'
-		.'<td valign="top"><img src="../images/bullet_1.gif" border="0" style="margin: 5px 2px 0 0 !important;" />'
+		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
+		.'<strong class="tcms_bold">'._IMPRESSUM_UST.'</strong>'
+		.'</td><td valign="top">'
 		.'<input name="ustid" class="tcms_input_normal" value="'.$old_ustid.'" />'
 		.'</td></tr>';
 		
@@ -381,16 +455,11 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	
 	
 	
-	
-	
-	
-	
-	
 	//==================================================
 	// SAVE, EDIT AND DELETE
 	//==================================================
+	
 	if($todo == 'save'){
-		//****************************************
 		if($show_wysiwyg != 'tinymce' && $show_wysiwyg != 'fckeditor'){
 			$legal = $tcms_main->nl2br($legal);
 		}
@@ -429,10 +498,17 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		$ustid       = $tcms_main->decode_text($ustid, '2', $c_charset);
 		$content     = $tcms_main->decode_text($content, '2', $c_charset);
 		
-		//****************************************
+		
+		if($tcms_main->isReal($new_imp_lang)) {
+			$setLang = $tcms_config->getLanguageCodeForTCMS($new_imp_lang);
+		}
+		else {
+			$setLang = '';
+		}
+		
 		
 		if($choosenDB == 'xml'){
-			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/impressum.xml', 'w');
+			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/impressum.'.$setLang.'.xml', 'w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('imp');
 			
@@ -452,23 +528,79 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			$newSQLData = ''
-			.$tcms_db_prefix.'impressum.imp_id="'.$imp_id.'", '
-			.$tcms_db_prefix.'impressum.imp_title="'.$imp_title.'", '
-			.$tcms_db_prefix.'impressum.imp_stamp="'.$imp_stamp.'", '
-			.$tcms_db_prefix.'impressum.imp_contact="'.$imp_contact.'", '
-			.$tcms_db_prefix.'impressum.taxno="'.$taxno.'", '
-			.$tcms_db_prefix.'impressum.ustid="'.$ustid.'", '
-			.$tcms_db_prefix.'impressum.legal="'.$content.'"';
-			
-			$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'impressum', $newSQLData, 'impressum');
+			if($lang_exist == '1') {
+				$newSQLData = ''
+				.$tcms_db_prefix.'impressum.imp_id="'.$imp_id.'", '
+				.$tcms_db_prefix.'impressum.imp_title="'.$imp_title.'", '
+				.$tcms_db_prefix.'impressum.imp_stamp="'.$imp_stamp.'", '
+				.$tcms_db_prefix.'impressum.imp_contact="'.$imp_contact.'", '
+				.$tcms_db_prefix.'impressum.taxno="'.$taxno.'", '
+				.$tcms_db_prefix.'impressum.ustid="'.$ustid.'", '
+				.$tcms_db_prefix.'impressum.legal="'.$content.'"';
+				
+				switch($choosenDB) {
+					case 'mysql':
+						$sqlQR = $sqlAL->sqlUpdateField(
+							$tcms_db_prefix.'impressum', 
+							$newSQLData, 
+							'imp_id', 
+							'impressum" AND language = "'.$setLang
+						);
+						break;
+					
+					default:
+						$sqlQR = $sqlAL->sqlUpdateField(
+							$tcms_db_prefix.'impressum', 
+							$newSQLData, 
+							'imp_id', 
+							"impressum' AND language = '".$setLang
+						);
+						break;
+				}
+			}
+			else {
+				switch($choosenDB){
+					case 'mysql':
+						$newSQLColumns = '`front_id`, `front_title`, `front_stamp`, `front_text`, '
+						.'`news_title`, `news_cut`, `module_use_0`, `sb_news_title`, '
+						.'`sb_news_amount`, `sb_news_chars`, `sb_news_enabled`, `sb_news_display`, '
+						.'`language`';
+						break;
+					
+					case 'pgsql':
+						$newSQLColumns = 'front_id, front_title, front_stamp, front_text, '
+						.'"news_title", news_cut, module_use_0, sb_news_title, '
+						.'sb_news_amount, sb_news_chars, sb_news_enabled, "sb_news_display", '
+						.'"language"';
+						break;
+					
+					case 'mssql':
+						$newSQLColumns = '[front_id], [front_title], [front_stamp], [front_text], '
+						.'[news_title], [news_cut], [module_use_0], [sb_news_title], '
+						.'[sb_news_amount], [sb_news_chars], [sb_news_enabled], [sb_news_display], '
+						.'[language]';
+						break;
+				}
+				
+				$newSQLData = "'".$front_id."', '".$front_title."', '".$front_stamp."', '".$content."', "
+				."'".$new_news_title."', ".$news_cut.", ".$module_use_0.", '".$new_sb_news_title."', "
+				.$sb_module_use_0.", ".$sb_news_cut.", ".$new_sb_enabled.", ".$new_sb_display.", "
+				."'".$setLang."'";
+				
+				$maintag = $tcms_main->getNewUID(9, 'frontpage');
+				
+				$sqlQR = $sqlAL->sqlCreateOne(
+					$tcms_db_prefix.'frontpage', 
+					$newSQLColumns, 
+					$newSQLData, 
+					$maintag
+				);
+			}
 		}
 		
-		//****************************************
-		
-		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_impressum\';</script>';
-		
-		//****************************************
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_impressum\';'
+		.'</script>';
 	}
 }
 else{

@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * publishing form items.
  *
- * @version 0.0.2
+ * @version 0.0.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -39,61 +39,180 @@ class tcms_dc_impressum {
 	var $m_id;
 	var $m_taxno;
 	var $m_ustid;
+	var $m_lang;
 	
-	/***
-	* @return
-	* @desc Constructor: initialize the data container
-	*/
+	// ---------------------------------------
+	// Constructors / Destructors
+	// ---------------------------------------
+	
+	/**
+	 * PHP5 Constructor
+	 *
+	 */
+	function __construct() {
+	}
+	
+	/**
+	 * PHP4 Constructor
+	 *
+	 */
 	function tcms_dc_impressum(){
 	}
 	
-	/***
-	* @return string
-	* @desc Get or set the title
-	*/
-	function SetTitle($value){ $this->m_title = $value; }
-	function GetTitle(){ return $this->m_title; }
+	// ---------------------------------------
+	// Properties
+	// ---------------------------------------
 	
-	/***
-	* @return string
-	* @desc Get or set the key
-	*/
-	function SetKeynote($value){ $this->m_key = $value; }
-	function GetKeynote(){ return $this->m_key; }
-	/***
-	* @return string
-	* @desc Get or set the text
-	*/
-	function SetText($value){ $this->m_legal = $value; }
-	function GetText(){ return $this->m_legal; }
+	/**
+	 * Set the id
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	function setID($value){
+		$this->m_id = $value;
+	}
 	
-	/***
-	* @return string
-	* @desc Get or set the content content01
-	*/
-	function SetContact($value){ $this->m_contact = $value; }
-	function GetContact(){ return $this->m_contact; }
+	/**
+	 * Get the id
+	 * 
+	 * @return String
+	 */
+	function getID(){
+		return $this->m_id;
+	}
 	
-	/***
-	* @return string
-	* @desc Get or set the news id
-	*/
-	function SetID($value){ $this->m_id = $value; }
-	function GetID(){ return $this->m_id; }
+	/**
+	 * Set the language
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	function setLanguage($value){
+		$this->m_lang = $value;
+	}
 	
-	/***
-	* @return string
-	* @desc Get or set the tax no
-	*/
-	function SetTaxNumber($value){ $this->m_taxno = $value; }
-	function GetTaxNumber(){ return $this->m_taxno; }
+	/**
+	 * Get the language
+	 * 
+	 * @return String
+	 */
+	function getLanguage(){
+		return $this->m_lang;
+	}
 	
-	/***
-	* @return string
-	* @desc Get or set the ust id
-	*/
-	function SetUstID($value){ $this->m_ustid = $value; }
-	function GetUstID(){ return $this->m_ustid; }
+	/**
+	 * Set the title
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	function setTitle($value){
+		$this->m_title = $value;
+	}
+	
+	/**
+	 * Get the title
+	 * 
+	 * @return String
+	 */
+	function getTitle(){
+		return $this->m_title;
+	}
+	
+	/**
+	 * Set the subtitle
+	 * 
+	 * @param String $value
+	 */
+	function setSubtitle($value){
+		$this->m_key = $value;
+	}
+	
+	/**
+	 * Get the subtitle
+	 * 
+	 * @return String
+	 */
+	function getSubtitle(){
+		return $this->m_key;
+	}
+	
+	/**
+	 * Set the text
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	function setText($value){
+		$this->m_legal = $value;
+	}
+	
+	/**
+	 * Get the text
+	 * 
+	 * @return String
+	 */
+	function getText(){
+		return $this->m_legal;
+	}
+	
+	/**
+	 * Set the contact person
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	function setContact($value){
+		$this->m_contact = $value;
+	}
+	
+	/**
+	 * Get the contact person
+	 * 
+	 * @return String
+	 */
+	function getContact(){
+		return $this->m_contact;
+	}
+	
+	/**
+	 * Set the tax number
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	function setTaxNumber($value){
+		$this->m_taxno = $value;
+	}
+	
+	/**
+	 * Get the tax number
+	 * 
+	 * @return String
+	 */
+	function getTaxNumber(){
+		return $this->m_taxno;
+	}
+	
+	/**
+	 * Set the ustdid
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	function setUstID($value){
+		$this->m_ustid = $value;
+	}
+	
+	/**
+	 * Get the ustdid
+	 * 
+	 * @return String
+	 */
+	function getUstID(){
+		return $this->m_ustid;
+	}
 }
 
 ?>
