@@ -9,8 +9,7 @@
 |
 | toendaCMS Content DataContainer
 |
-| File:		tcms_dc_account.lib.php
-| Version:	0.1.0
+| File:	tcms_dc_account.lib.php
 |
 +
 */
@@ -25,6 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * user accounts items.
  *
+ * @version 0.1.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -508,3 +508,5 @@ class tcms_dc_account {
 		return $this->m_hobby;
 	}
 }
+
+?>

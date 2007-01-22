@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide some often used html
  * codes.
  *
- * @version 0.4.1
+ * @version 0.4.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -84,6 +84,8 @@ class tcms_html {
 		
 		if(trim($text)  != '')
 			$output .= $this->contentText($text).'<br />';
+		else
+			$output .= '<br />';
 		
 		return $output;
 	}

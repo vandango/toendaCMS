@@ -9,7 +9,7 @@
 | 
 | Newsmanager
 |
-| File:		ext_news.php
+| File:	ext_news.php
 |
 +
 */
@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a news manager with a news,
  * a news view and a archive with different formats.
  *
- * @version 1.2.6
+ * @version 1.2.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -75,9 +75,7 @@ if(isset($day)){ $news = ''; $cmd = ''; $cat = ''; $date = ''; }
 
 if($news == 'start' || $news == 'archive'){
 	if($cat == '' || !isset($cat)){
-		if(trim($news_title)    != '') echo tcms_html::contentheading($news_title);
-		if(trim($news_stamp)    != '') echo tcms_html::contentstamp($news_stamp).'<br />';
-		if(trim($news_maintext) != '') echo tcms_html::contentmain($news_maintext).'<br />';
+		echo $tcms_html->contentModuleHeader($news_title, $news_stamp, $news_maintext);
 	}
 }
 
@@ -87,15 +85,21 @@ if($news == 'start' || $news == 'archive'){
 /*
 	access authentication
 */
-if($check_session){
-	if($is_admin == 'User' || $is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor' || $is_admin == 'Presenter'){
+if($check_session) {
+	if($is_admin == 'User' 
+	|| $is_admin == 'Administrator' 
+	|| $is_admin == 'Developer' 
+	|| $is_admin == 'Writer' 
+	|| $is_admin == 'Editor' 
+	|| $is_admin == 'Presenter') {
 		$auth_down = 'Protected';
 	}
-	if($is_admin == 'Administrator' || $is_admin == 'Developer'){
+	if($is_admin == 'Administrator' 
+	|| $is_admin == 'Developer') {
 		$auth_down = 'Private';
 	}
 }
-else{
+else {
 	$auth_down = 'Public';
 }
 
@@ -125,7 +129,14 @@ if($news == 'start' && !isset($cat)){
 			echo '<tr class="news_content_bg">';
 			
 			echo '<td valign="top">'
-			.lang_date(substr($dcNews->GetDate(), 0, 2), substr($dcNews->GetDate(), 3, 2), substr($dcNews->GetDate(), 6, 4), substr($dcNews->GetTime(), 0, 2), substr($dcNews->GetTime(), 3, 2), '')
+			.lang_date(
+				substr($dcNews->GetDate(), 0, 2), 
+				substr($dcNews->GetDate(), 3, 2), 
+				substr($dcNews->GetDate(), 6, 4), 
+				substr($dcNews->GetTime(), 0, 2), 
+				substr($dcNews->GetTime(), 3, 2), 
+				''
+			)
 			.'</td>';
 			
 			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
@@ -156,7 +167,8 @@ if($news == 'start' && !isset($cat)){
 	.'id=newsmanager&s='.$s
 	.( isset($lang) ? '&amp;lang='.$lang : '' );
 	$link = $tcms_main->urlAmpReplace($link);
-	echo '<input class="inputbutton" type="button" onclick="document.location=\''.$link.'\';" value="'._NEWS_ARCHIVE.' ('._NEWS_LAST.' '.$news_amount.')" />';
+	echo '<input class="inputbutton" type="button" onclick="document.location=\''.$link.'\';"'
+	.' value="'._NEWS_ARCHIVE.' ('._NEWS_LAST.' '.$news_amount.')" />';
 	echo '</div>';
 	
 	
@@ -165,7 +177,8 @@ if($news == 'start' && !isset($cat)){
 	.'id=newsmanager&s='.$s.'&news=archive'
 	.( isset($lang) ? '&amp;lang='.$lang : '' );
 	$link = $tcms_main->urlAmpReplace($link);
-	echo '<input class="inputbutton" type="button" onclick="document.location=\''.$link.'\';" value="'._NEWS_ARCHIVE.' ('._NEWS_ORDER_BY_TIME.')" />';
+	echo '<input class="inputbutton" type="button" onclick="document.location=\''.$link.'\';"'
+	.' value="'._NEWS_ARCHIVE.' ('._NEWS_ORDER_BY_TIME.')" />';
 	echo '</div>';
 	
 	
@@ -173,7 +186,8 @@ if($news == 'start' && !isset($cat)){
 	.'id=newsmanager&s='.$s.'&news=archive&cmd=category'
 	.( isset($lang) ? '&amp;lang='.$lang : '' );
 	$link = $tcms_main->urlAmpReplace($link);
-	echo '<input class="inputbutton" type="button" onclick="document.location=\''.$link.'\';" value="'._NEWS_ARCHIVE.' ('._NEWS_ORDER_BY_CAT.')" />';
+	echo '<input class="inputbutton" type="button" onclick="document.location=\''.$link.'\';"'
+	.' value="'._NEWS_ARCHIVE.' ('._NEWS_ORDER_BY_CAT.')" />';
 	
 	
 	if(trim($news_image) != '')

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the news.
  *
- * @version 1.4.5
+ * @version 1.5.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -77,6 +77,8 @@ if(isset($_POST['new_use_timesince'])){ $new_use_timesince = $_POST['new_use_tim
 if(isset($_POST['new_readmore_link'])){ $new_readmore_link = $_POST['new_readmore_link']; }
 if(isset($_POST['new_news_spacing'])){ $new_news_spacing = $_POST['new_news_spacing']; }
 if(isset($_POST['new_sof'])){ $new_sof = $_POST['new_sof']; }
+if(isset($_POST['new_news_lang'])){ $new_news_lang = $_POST['new_news_lang']; }
+if(isset($_POST['lang_exist'])){ $lang_exist = $_POST['lang_exist']; }
 
 
 
@@ -100,9 +102,9 @@ if($show_wysiwyg == 'tinymce'){
 
 
 
-//=====================================================
+// -----------------------------------------------------
 // INIT
-//=====================================================
+// -----------------------------------------------------
 
 if(!isset($todo)){ $todo = 'show'; }
 
@@ -131,40 +133,56 @@ if($todo == 'config'){
 	if($id_group == 'Developer' || $id_group == 'Administrator'){
 		if(!isset($action)){ $action = 'news'; }
 		
+		if($tcms_main->isReal($lang))
+			$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
+		else
+			$getLang = $tcms_front_lang;
+		
 		if($choosenDB == 'xml'){
-			$news_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/newsmanager.xml','r');
-			
-			$old_news_mm_id       = $news_xml->read_section('config', 'news_id');
-			$old_news_mm_title    = $news_xml->read_section('config', 'news_title');
-			$old_news_mm_stamp    = $news_xml->read_section('config', 'news_stamp');
-			$old_news_mm_text     = $news_xml->read_section('config', 'news_text');
-			$old_news_mm_image    = $news_xml->read_section('config', 'news_image');
-			$old_news_mm_usec     = $news_xml->read_section('config', 'use_comments');
-			$old_news_mm_usea     = $news_xml->read_section('config', 'show_autor');
-			$old_news_mm_useal    = $news_xml->read_section('config', 'show_autor_as_link');
-			$old_news_mm_amount   = $news_xml->read_section('config', 'news_amount');
-			$old_news_mm_access   = $news_xml->read_section('config', 'access');
-			$old_news_cut         = $news_xml->read_section('config', 'news_cut');
-			$old_use_gravatar     = $news_xml->read_section('config', 'use_gravatar');
-			$old_use_emoticons    = $news_xml->read_section('config', 'use_emoticons');
-			$old_use_rss091       = $news_xml->read_section('config', 'use_rss091');
-			$old_use_rss10        = $news_xml->read_section('config', 'use_rss10');
-			$old_use_rss20        = $news_xml->read_section('config', 'use_rss20');
-			$old_use_atom03       = $news_xml->read_section('config', 'use_atom03');
-			$old_use_opml         = $news_xml->read_section('config', 'use_opml');
-			$old_syn_amount       = $news_xml->read_section('config', 'syn_amount');
-			$old_use_syn_title    = $news_xml->read_section('config', 'use_syn_title');
-			$old_def_feed         = $news_xml->read_section('config', 'def_feed');
-			$old_use_trackback    = $news_xml->read_section('config', 'use_trackback');
-			$old_use_timesince    = $news_xml->read_section('config', 'use_timesince');
-			$old_readmore_link    = $news_xml->read_section('config', 'readmore_link');
-			$old_news_spacing     = $news_xml->read_section('config', 'news_spacing');
+			if(file_exists('../../'.$tcms_administer_site.'/tcms_global/newsmanager.'.$getLang.'.xml')) {
+				$news_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/newsmanager.'.$getLang.'.xml','r');
+				
+				$old_news_mm_id       = $news_xml->read_section('config', 'news_id');
+				$old_news_mm_title    = $news_xml->read_section('config', 'news_title');
+				$old_news_mm_stamp    = $news_xml->read_section('config', 'news_stamp');
+				$old_news_mm_text     = $news_xml->read_section('config', 'news_text');
+				$old_news_mm_image    = $news_xml->read_section('config', 'news_image');
+				$old_news_mm_usec     = $news_xml->read_section('config', 'use_comments');
+				$old_news_mm_usea     = $news_xml->read_section('config', 'show_autor');
+				$old_news_mm_useal    = $news_xml->read_section('config', 'show_autor_as_link');
+				$old_news_mm_amount   = $news_xml->read_section('config', 'news_amount');
+				$old_news_mm_access   = $news_xml->read_section('config', 'access');
+				$old_news_cut         = $news_xml->read_section('config', 'news_cut');
+				$old_use_gravatar     = $news_xml->read_section('config', 'use_gravatar');
+				$old_use_emoticons    = $news_xml->read_section('config', 'use_emoticons');
+				$old_use_rss091       = $news_xml->read_section('config', 'use_rss091');
+				$old_use_rss10        = $news_xml->read_section('config', 'use_rss10');
+				$old_use_rss20        = $news_xml->read_section('config', 'use_rss20');
+				$old_use_atom03       = $news_xml->read_section('config', 'use_atom03');
+				$old_use_opml         = $news_xml->read_section('config', 'use_opml');
+				$old_syn_amount       = $news_xml->read_section('config', 'syn_amount');
+				$old_use_syn_title    = $news_xml->read_section('config', 'use_syn_title');
+				$old_def_feed         = $news_xml->read_section('config', 'def_feed');
+				$old_use_trackback    = $news_xml->read_section('config', 'use_trackback');
+				$old_use_timesince    = $news_xml->read_section('config', 'use_timesince');
+				$old_readmore_link    = $news_xml->read_section('config', 'readmore_link');
+				$old_news_spacing     = $news_xml->read_section('config', 'news_spacing');
+				$old_news_lang        = $news_xml->read_section('config', 'language');
+			}
+			else {
+				$langExist = 0;
+			}
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'newsmanager', 'newsmanager');
+			$strQuery = "SELECT * "
+			."FROM ".$tcms_db_prefix."newsmanager "
+			."WHERE language = '".$getLang."'";
+			
+			$sqlQR = $sqlAL->sqlQuery($strQuery);
+			$langExist = $sqlAL->sqlGetNumber($sqlQR);
 			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
 			
 			$old_news_mm_id     = $sqlObj->news_id;
@@ -192,6 +210,7 @@ if($todo == 'config'){
 			$old_use_timesince  = $sqlObj->use_timesince;
 			$old_readmore_link  = $sqlObj->readmore_link;
 			$old_news_spacing   = $sqlObj->news_spacing;
+			$old_news_lang      = $sqlObj->language;
 			
 			if($old_news_mm_id     == NULL){ $old_news_mm_id     = ''; }
 			if($old_news_mm_title  == NULL){ $old_news_mm_title  = ''; }
@@ -218,6 +237,12 @@ if($todo == 'config'){
 			if($old_use_timesince  == NULL){ $old_use_timesince  = 0; }
 			if($old_readmore_link  == NULL){ $old_readmore_link  = 0; }
 			if($old_news_spacing   == NULL){ $old_news_spacing   = 0; }
+		}
+		
+		
+		if($langExist == 0) {
+			$old_news_mm_id = 'newsmanager';
+			$old_news_lang = $getLang;
 		}
 		
 		
@@ -277,6 +302,7 @@ if($todo == 'config'){
 		// begin form
 		echo '<form action="admin.php?id_user='.$id_user.'&amp;site=mod_news" method="post">'
 		.'<input name="todo" type="hidden" value="save_config" />'
+		.'<input name="lang_exist" type="hidden" value="'.$langExist.'" />'
 		.'<input name="extra" type="hidden" value="'.( $action == 'news' ? '1' : '0' ).'" />'
 		.'<input name="_RELOCATE" id="_RELOCATE" type="hidden" value="0" />';
 		
@@ -318,8 +344,49 @@ if($todo == 'config'){
 		.'<br />';
 		
 		
+		// frontpage news settings
+		echo '<table width="100%" cellpadding="0" cellspacing="0" class="tcms_noborder">'
+		.'<tr class="tcms_bg_blue_01">'
+		.'<th valign="middle" align="left" class="tcms_db_title tcms_padding_mini">'._TCMS_ADMIN_EDIT_LANG.'</th>'
+		.'</tr></table>';
+		
+		echo $tcms_html->tableHeadNoBorder('1', '5', '0', '100%');
+		
+		// row
+		$link = 'admin.php?id_user='.$id_user.'&site=mod_news'
+		.'&amp;todo=config'
+		.'&amp;action='.$action
+		.'&amp;lang=';
+		
+		$js = ' onchange="document.location=\''.$link.'\' + this.value;"';
+		
+		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
+		.'<strong class="tcms_bold">'._TCMS_LANGUAGE.'</strong>'
+		.'</td><td>'
+		.'<select id="new_news_lang" name="new_news_lang"'.$js.'>';
+		
+		foreach($languages['fine'] as $key => $value) {
+			if($old_news_lang == $languages['code'][$key])
+				$dl = ' selected="selected"';
+			else
+				$dl = '';
+			
+			echo '<option value="'.$value.'"'.$dl.'>'
+			.$languages['name'][$key]
+			.'</option>';
+		}
+		
+		echo '</select>'
+		.'</td></tr>';
+		
+		
+		// table end
+		echo '<tr><td class="tcms_padding_mini"><br /></td></tr>'
+		.$tcms_html->tableEnd();
+		
+		
 		// table head
-		echo '<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
+		echo $tcms_html->tableHeadNoBorder('0', '0', '0', '100%');
 		
 		
 		// table row
@@ -702,7 +769,7 @@ if($todo == 'config'){
 		
 		
 		// Table end
-		echo '</table>'
+		echo $tcms_html->tableEnd()
 		.'<br />'
 		.'</div>'
 		.'</form>';
@@ -1565,11 +1632,20 @@ if($todo == 'save_config'){
 	}
 	
 	
+	if($tcms_main->isReal($new_news_lang)) {
+		$setLang = $tcms_config->getLanguageCodeForTCMS($new_news_lang);
+	}
+	else {
+		$setLang = '';
+	}
+	
+	
 	if($choosenDB == 'xml'){
-		$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/newsmanager.xml', 'w');
+		$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/newsmanager.'.$setLang.'.xml', 'w');
 		$xmluser->xml_declaration();
 		$xmluser->xml_section('config');
 		
+		$xmluser->write_value('language', $setLang);
 		$xmluser->write_value('news_id', $new_news_mm_id);
 		$xmluser->write_value('news_title', $news_mm_title);
 		$xmluser->write_value('news_stamp', $news_mm_stamp);
@@ -1604,42 +1680,134 @@ if($todo == 'save_config'){
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
 		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$newSQLData = ''
-		.$tcms_db_prefix.'newsmanager.news_id="'.$new_news_mm_id.'", '
-		.$tcms_db_prefix.'newsmanager.news_title="'.$news_mm_title.'", '
-		.$tcms_db_prefix.'newsmanager.news_stamp="'.$news_mm_stamp.'", '
-		.$tcms_db_prefix.'newsmanager.news_text="'.$content.'", '
-		.$tcms_db_prefix.'newsmanager.news_image="'.$news_mm_image.'", '
-		.$tcms_db_prefix.'newsmanager.use_comments='.$new_use_comments.', '
-		.$tcms_db_prefix.'newsmanager.show_autor='.$new_use_autor.', '
-		.$tcms_db_prefix.'newsmanager.show_autor_as_link='.$new_use_autor_link.', '
-		.$tcms_db_prefix.'newsmanager.news_amount='.$new_news_mm_amount.', '
-		.$tcms_db_prefix.'newsmanager.access="'.$news_mm_access.'", '
-		.$tcms_db_prefix.'newsmanager.news_cut='.$new_news_cut.', '
-		.$tcms_db_prefix.'newsmanager.use_emoticons='.$use_emoticons.', '
-		.$tcms_db_prefix.'newsmanager.use_gravatar='.$use_gravatar.', '
-		.$tcms_db_prefix.'newsmanager.use_rss091='.$new_use_rss091.', '
-		.$tcms_db_prefix.'newsmanager.use_rss10='.$new_use_rss10.', '
-		.$tcms_db_prefix.'newsmanager.use_rss20='.$new_use_rss20.', '
-		.$tcms_db_prefix.'newsmanager.use_atom03='.$new_use_atom03.', '
-		.$tcms_db_prefix.'newsmanager.use_opml='.$new_use_opml.', '
-		.$tcms_db_prefix.'newsmanager.syn_amount='.$new_syn_amount.', '
-		.$tcms_db_prefix.'newsmanager.use_syn_title='.$new_use_syn_title.', '
-		.$tcms_db_prefix.'newsmanager.def_feed="'.$new_def_feed.'", '
-		.$tcms_db_prefix.'newsmanager.use_trackback='.$new_use_trackback.', '
-		.$tcms_db_prefix.'newsmanager.use_timesince='.$new_use_timesince.', '
-		.$tcms_db_prefix.'newsmanager.readmore_link='.$new_readmore_link.', '
-		.$tcms_db_prefix.'newsmanager.news_spacing='.$new_news_spacing;
-		
-		$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'newsmanager', $newSQLData, 'newsmanager');
+		if($lang_exist == '1') {
+			$newSQLData = ''
+			.$tcms_db_prefix.'newsmanager.news_id="'.$new_news_mm_id.'", '
+			.$tcms_db_prefix.'newsmanager.news_title="'.$news_mm_title.'", '
+			.$tcms_db_prefix.'newsmanager.news_stamp="'.$news_mm_stamp.'", '
+			.$tcms_db_prefix.'newsmanager.news_text="'.$content.'", '
+			.$tcms_db_prefix.'newsmanager.news_image="'.$news_mm_image.'", '
+			.$tcms_db_prefix.'newsmanager.use_comments='.$new_use_comments.', '
+			.$tcms_db_prefix.'newsmanager.show_autor='.$new_use_autor.', '
+			.$tcms_db_prefix.'newsmanager.show_autor_as_link='.$new_use_autor_link.', '
+			.$tcms_db_prefix.'newsmanager.news_amount='.$new_news_mm_amount.', '
+			.$tcms_db_prefix.'newsmanager.access="'.$news_mm_access.'", '
+			.$tcms_db_prefix.'newsmanager.news_cut='.$new_news_cut.', '
+			.$tcms_db_prefix.'newsmanager.use_emoticons='.$use_emoticons.', '
+			.$tcms_db_prefix.'newsmanager.use_gravatar='.$use_gravatar.', '
+			.$tcms_db_prefix.'newsmanager.use_rss091='.$new_use_rss091.', '
+			.$tcms_db_prefix.'newsmanager.use_rss10='.$new_use_rss10.', '
+			.$tcms_db_prefix.'newsmanager.use_rss20='.$new_use_rss20.', '
+			.$tcms_db_prefix.'newsmanager.use_atom03='.$new_use_atom03.', '
+			.$tcms_db_prefix.'newsmanager.use_opml='.$new_use_opml.', '
+			.$tcms_db_prefix.'newsmanager.syn_amount='.$new_syn_amount.', '
+			.$tcms_db_prefix.'newsmanager.use_syn_title='.$new_use_syn_title.', '
+			.$tcms_db_prefix.'newsmanager.def_feed="'.$new_def_feed.'", '
+			.$tcms_db_prefix.'newsmanager.use_trackback='.$new_use_trackback.', '
+			.$tcms_db_prefix.'newsmanager.use_timesince='.$new_use_timesince.', '
+			.$tcms_db_prefix.'newsmanager.readmore_link='.$new_readmore_link.', '
+			.$tcms_db_prefix.'newsmanager.news_spacing='.$new_news_spacing;
+			
+			switch($choosenDB) {
+				case 'mysql':
+					$sqlQR = $sqlAL->sqlUpdateField(
+						$tcms_db_prefix.'newsmanager', 
+						$newSQLData, 
+						'news_id', 
+						'newsmanager" AND language = "'.$setLang
+					);
+					break;
+				
+				default:
+					$sqlQR = $sqlAL->sqlUpdateField(
+						$tcms_db_prefix.'newsmanager', 
+						$newSQLData, 
+						'news_id', 
+						"newsmanager' AND language = '".$setLang
+					);
+					break;
+			}
+		}
+		else {
+			switch($choosenDB){
+				case 'mysql':
+					$newSQLColumns = '`news_id`, `news_title`, `news_stamp`, `news_text`, '
+					.'`news_image`, `use_comments`, `show_autor`, `show_autor_as_link`, '
+					.'`news_amount`, `access`, `news_cut`, `use_emoticons`, '
+					.'`language`, `use_gravatar`, `syn_amount`, `use_syn_title`, '
+					.'`use_rss091`, `use_rss10`, `use_rss20`, `use_atom03`, `use_opml`, '
+					.'`def_feed`, `use_trackback`, `use_timesince`, `readmore_link`, `news_spacing`';
+					break;
+				
+				case 'pgsql':
+					$newSQLColumns = 'news_id, news_title, news_stamp, news_text, '
+					.'"news_image", use_comments, show_autor, show_autor_as_link, '
+					.'news_amount, access, news_cut, "use_emoticons", '
+					.'"language", use_gravatar, syn_amount, use_syn_title, '
+					.'use_rss091, use_rss10, use_rss20, "use_atom03", "use_opml", '
+					.'def_feed, use_trackback, use_timesince, "readmore_link", "news_spacing"';
+					break;
+				
+				case 'mssql':
+					$newSQLColumns = '[news_id], [news_title], [news_stamp], [news_text], '
+					.'[news_image], [use_comments], [show_autor], [show_autor_as_link], '
+					.'[news_amount], [access], [news_cut], [use_emoticons], '
+					.'[language], [use_gravatar], [syn_amount], [use_syn_title], '
+					.'[use_rss091], [use_rss10], [use_rss20], [use_atom03], [use_opml], '
+					.'[def_feed], [use_trackback], [use_timesince], [readmore_link], [news_spacing]';
+					break;
+			}
+			
+			$newSQLData = "'".$new_news_mm_id."', '".$news_mm_title."', '".$news_mm_stamp."', '".$content."', "
+			."'".$news_mm_image."', ".$new_use_comments.", ".$new_use_autor.", ".$new_use_autor_link.", "
+			.$new_news_mm_amount.", '".$news_mm_access."', ".$new_news_cut.", ".$use_emoticons.", "
+			."'".$setLang."', ".$use_gravatar.", ".$new_syn_amount.", ".$new_use_syn_title.", "
+			.$new_use_rss091.", ".$new_use_rss10.", ".$new_use_rss20.", ".$new_use_atom03.", ".$new_use_opml.", "
+			."'".$new_def_feed."', ".$new_use_trackback.", ".$new_use_timesince.", ".$new_readmore_link
+			.", ".$new_news_spacing;
+			
+			$maintag = $tcms_main->getNewUID(11, 'newsmanager');
+			
+			$sqlQR = $sqlAL->sqlCreateOne(
+				$tcms_db_prefix.'newsmanager', 
+				$newSQLColumns, 
+				$newSQLData, 
+				$maintag
+			);
+		}
 	}
-	
 	
 	if($extra == 1){
-		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_news&todo=config&action=news\'</script>';
+		if($setLang != '') {
+			$setLang = $tcms_config->getLanguageCodeByTCMSCode($setLang);
+			
+			echo '<script>'
+			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_news'
+			.'&todo=config&action='.$action.'&lang='.$setLang.'\''
+			.'</script>';
+		}
+		else {
+			echo '<script>'
+			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_news'
+			.'&todo=config&action='.$action.'\''
+			.'</script>';
+		}
 	}
 	else{
-		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_news&todo=config&action=extra\'</script>';
+		if($setLang != '') {
+			$setLang = $tcms_config->getLanguageCodeByTCMSCode($setLang);
+			
+			echo '<script>'
+			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_news'
+			.'&todo=config&action=news&lang='.$setLang.'\''
+			.'</script>';
+		}
+		else {
+			echo '<script>'
+			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_news'
+			.'&todo=config&action=extra&lang='.$setLang.'\''
+			.'</script>';
+		}
 	}
 }
 

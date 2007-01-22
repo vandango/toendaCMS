@@ -118,3 +118,7 @@ ALTER TABLE "public"."#####newsmanager"
 
 ALTER TABLE "public"."#####newsmanager"
   ALTER COLUMN "news_spacing" SET DEFAULT 0;
+
+ALTER TABLE "public"."#####frontpage"
+  ADD COLUMN "language" VARCHAR(25);
+

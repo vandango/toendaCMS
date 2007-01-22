@@ -9,8 +9,7 @@
 |
 | toendaCMS Content DataContainer
 |
-| File:		tcms_dc_contact.lib.php
-| Version:	0.0.3
+| File:	tcms_dc_contact.lib.php
 |
 +
 */
@@ -25,6 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * contact items.
  *
+ * @version 0.0.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel

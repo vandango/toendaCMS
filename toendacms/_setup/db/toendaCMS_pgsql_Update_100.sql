@@ -95,3 +95,6 @@ CREATE TABLE "public"."#####content_languages" (
 ALTER TABLE "public"."#####newsmanager"
   ADD COLUMN "news_spacing" INTEGER;
 
+ALTER TABLE "public"."#####frontpage"
+  ADD COLUMN "language" VARCHAR(25);
+

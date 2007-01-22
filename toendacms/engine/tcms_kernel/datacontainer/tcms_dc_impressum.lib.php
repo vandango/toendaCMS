@@ -9,7 +9,7 @@
 |
 | toendaCMS Impressum DataContainer
 |
-| File:		tcms_dc_impressum.lib.php
+| File:	tcms_dc_impressum.lib.php
 |
 +
 */
@@ -95,3 +95,5 @@ class tcms_dc_impressum {
 	function SetUstID($value){ $this->m_ustid = $value; }
 	function GetUstID(){ return $this->m_ustid; }
 }
+
+?>
