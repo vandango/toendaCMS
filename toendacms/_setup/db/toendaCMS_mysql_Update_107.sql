@@ -29,3 +29,4 @@ ALTER TABLE `#####sidebar_extensions` ADD `lang` VARCHAR( 255 ) NOT NULL ;
 ALTER TABLE `#####frontpage` ADD `language` VARCHAR( 25 ) NOT NULL AFTER `uid` ;
 
 ALTER TABLE `#####newsmanager` ADD `language` VARCHAR( 25 ) NOT NULL ;
+ALTER TABLE `#####impressum` ADD `language` VARCHAR( 25 ) NOT NULL AFTER `uid` ;

@@ -235,9 +235,7 @@ if($id_group == 'Developer'
 		.'<th valign="middle" align="left" class="tcms_db_title tcms_padding_mini">'._TCMS_ADMIN_EDIT_LANG.'</th>'
 		.'</tr></table>';
 		
-		
-		echo '<table width="100%" cellpadding="1" cellspacing="5" class="tcms_table" border="0">';
-		
+		echo $tcms_html->tableHeadClass('1', '5', '0', '100%', 'tcms_table');
 		
 		// row
 		$link = 'admin.php?id_user='.$id_user.'&site=mod_frontpage'
@@ -265,9 +263,8 @@ if($id_group == 'Developer'
 		echo '</select>'
 		.'</td></tr>';
 		
-		
-		// table end
-		echo '<tr><td class="tcms_padding_mini"><br /></td></tr></table>';
+		echo '<tr><td class="tcms_padding_mini"><br /></td></tr>'
+		.$tcms_html->tableEnd();
 		
 		
 		// frontpage news settings

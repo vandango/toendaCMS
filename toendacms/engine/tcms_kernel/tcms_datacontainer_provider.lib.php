@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 0.6.0
+ * @version 0.6.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -1101,11 +1101,11 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * 
 	 * @return tcms_dc_impressum Object
 	 */
-	function getImpressumDC(){
+	function getImpressumDC($language){
 		$impDC = new tcms_dc_impressum();
 		
 		if($this->m_choosenDB == 'xml'){
-			$xml = new xmlparser(''.$this->m_path.'/tcms_global/impressum.xml', 'r');
+			$xml = new xmlparser(''.$this->m_path.'/tcms_global/impressum.'.$language.'.xml', 'r');
 			$wsID      = $xml->read_section('imp', 'imp_id');
 			$wsTitle   = $xml->read_section('imp', 'imp_title');
 			$wsKeynote = $xml->read_section('imp', 'imp_stamp');
@@ -1132,7 +1132,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			
 			$strQuery = "SELECT imp_title, imp_stamp, imp_contact, taxno, ustid, legal "
 			."FROM ".$this->m_sqlPrefix."impressum "
-			."WHERE uid = 'impressum'";
+			."WHERE language = '".$language."'";
 			
 			$sqlQR = $sqlAL->sqlQuery($strQuery);
 			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
@@ -1164,13 +1164,13 @@ class tcms_datacontainer_provider extends tcms_main {
 		$wsUstID   = $this->decodeText($wsUstID, '2', $this->m_CHARSET);
 		$wsTaxno   = $this->decodeText($wsTaxno, '2', $this->m_CHARSET);
 		
-		$impDC->SetTitle($wsTitle);
-		$impDC->SetKeynote($wsKeynote);
-		$impDC->SetText($wsText);
-		$impDC->SetContact($wsContact);
-		$impDC->SetID($wsID);
-		$impDC->SetTaxNumber($wsTaxno);
-		$impDC->SetUstID($wsUstID);
+		$impDC->setTitle($wsTitle);
+		$impDC->setSubtitle($wsKeynote);
+		$impDC->setText($wsText);
+		$impDC->setContact($wsContact);
+		$impDC->setID($wsID);
+		$impDC->setTaxNumber($wsTaxno);
+		$impDC->setUstID($wsUstID);
 		
 		return $impDC;
 	}
