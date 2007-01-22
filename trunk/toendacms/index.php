@@ -50,7 +50,7 @@ if(isset($_POST['contact_email'])){ $contact_email = $_POST['contact_email']; }
  * This is the global startfile and the page loading
  * control.
  *
- * @version 2.4.2
+ * @version 2.4.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -445,37 +445,6 @@ if($wsShowSite){
 					$set_save_mode = $tcms_main->setPHPSetting('safe_mode', 'off');
 				
 				/*
-				if(isset($id))             { $id              = $tcms_main->cleanUrlString($id); }
-				if(isset($s))              { $s               = $tcms_main->cleanUrlString($s); }
-				if(isset($news))           { $news            = $tcms_main->cleanUrlString($news); }
-				if(isset($feed))           { $feed            = $tcms_main->cleanUrlString($feed); }
-				if(isset($save))           { $save            = $tcms_main->cleanUrlString($save); }
-				if(isset($session))        { $session         = $tcms_main->cleanUrlString($session); }
-				if(isset($reg_login))      { $reg_login       = $tcms_main->cleanUrlString($reg_login); }
-				if(isset($todo))           { $todo            = $tcms_main->cleanUrlString($todo); }
-				if(isset($u))              { $u               = $tcms_main->cleanUrlString($u); }
-				if(isset($file))           { $file            = $tcms_main->cleanUrlString($file); }
-				if(isset($category))       { $category        = $tcms_main->cleanUrlString($category); }
-				if(isset($cat))            { $cat             = $tcms_main->cleanUrlString($cat); }
-				if(isset($article))        { $article         = $tcms_main->cleanUrlString($article); }
-				if(isset($action))         { $action          = $tcms_main->cleanUrlString($action); }
-				if(isset($albums))         { $albums          = $tcms_main->cleanUrlString($albums); }
-				if(isset($cmd))            { $cmd             = $tcms_main->cleanUrlString($cmd); }
-				if(isset($current_pollall)){ $current_pollall = $tcms_main->cleanUrlString($current_pollall); }
-				if(isset($ps))             { $ps              = $tcms_main->cleanUrlString($ps); }
-				if(isset($vote))           { $vote            = $tcms_main->cleanUrlString($vote); }
-				if(isset($XMLplace))       { $XMLplace        = $tcms_main->cleanUrlString($XMLplace); }
-				if(isset($XMLfile))        { $XMLfile         = $tcms_main->cleanUrlString($XMLfile); }
-				if(isset($page))           { $page            = $tcms_main->cleanUrlString($page); }
-				if(isset($item))           { $item            = $tcms_main->cleanUrlString($item); }
-				if(isset($contact_email))  { $contact_email   = $tcms_main->cleanUrlString($contact_email); }
-				if(isset($date))           { $date            = $tcms_main->cleanUrlString($date); }
-				if(isset($code))           { $code            = $tcms_main->cleanUrlString($code); }
-				if(isset($c))              { $c               = $tcms_main->cleanUrlString($c); }
-				if(isset($lang))           { $lang            = $tcms_main->cleanUrlString($lang); }
-				*/
-				
-				/*
 					Set Cookie
 				*/
 				if($code == 'setc') {
@@ -705,6 +674,8 @@ if($wsShowSite){
 					Start loading site
 				*/
 				if($start_tcms_loading){
+					$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
+					
 					// Sidebar modules
 					using('toendacms.datacontainer.sidebarmodule');
 					
@@ -729,15 +700,19 @@ if($wsShowSite){
 					
 					// Syndication
 					if($use_syndication == 1){
-						$arrSD = $tcms_modconfig->getSyndicationConfig($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-						$use_rss091    = $arrSD['use_rss091'];
-						$use_rss10     = $arrSD['use_rss10'];
-						$use_rss20     = $arrSD['use_rss20'];
-						$use_atom03    = $arrSD['use_atom03'];
-						$use_opml      = $arrSD['use_opml'];
-						$syn_amount    = $arrSD['syn_amount'];
-						$use_syn_title = $arrSD['use_syn_title'];
-						$def_feed      = $arrSD['def_feed'];
+						using('toendacms.datacontainer.newsmanager');
+						
+						$dcNewsMan = new tcms_dc_newsmanager();
+						$dcNewsMan = $tcms_dcp->getNewsmanagerDC($getLang);
+						
+						$use_rss091    = $dcNewsMan->getSyndicationRSS091();
+						$use_rss10     = $dcNewsMan->getSyndicationRSS10();
+						$use_rss20     = $dcNewsMan->getSyndicationRSS20();
+						$use_atom03    = $dcNewsMan->getSyndicationRSSAtom();
+						$use_opml      = $dcNewsMan->getSyndicationRSSOpml();
+						$syn_amount    = $dcNewsMan->getSyndicationAmount();
+						$use_syn_title = $dcNewsMan->getSyndicationUseTitle();
+						$def_feed      = $dcNewsMan->getSyndicationDefaultFeed();
 					}
 					
 					
@@ -750,31 +725,37 @@ if($wsShowSite){
 					
 					switch($id){
 						case 'frontpage':
-							$arrFP = $tcms_modconfig->getFrontpageConfig($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+							using('toendacms.datacontainer.frontpage');
+							using('toendacms.datacontainer.newsmanager');
 							
-							$front_id           = $arrFP['front_id'];
-							$front_title        = $arrFP['front_title'];
-							$front_stamp        = $arrFP['front_stamp'];
-							$front_text         = $arrFP['front_text'];
-							$front_news_title   = $arrFP['front_news_title'];
-							$cut_news           = $arrFP['cut_news'];
-							$how_many           = $arrFP['how_many'];
+							$dcFront = new tcms_dc_frontpage();
+							$dcFront = $tcms_dcp->getFrontpageDC($getLang);
 							
-							$sb_news_enabled    = $arrFP['front_s_enabled'];
-							$sb_news_display    = $arrFP['front_s_display'];
-							$front_s_title      = $arrFP['front_s_title'];
-							$sb_cut_news        = $arrFP['front_s_cut_news'];
-							$sb_how_many        = $arrFP['front_s_how_many'];
+							$front_id         = $dcFront->getID();
+							$front_title      = $dcFront->getTitle();
+							$front_stamp      = $dcFront->getSubtitle();
+							$front_text       = $dcFront->getText();
+							$front_news_title = $dcFront->getNewsTitle();
+							$cut_news         = $dcFront->getNewsChars();
+							$how_many         = $dcFront->getNewsAmount();
+							$sb_news_enabled  = $dcFront->getSidebarNewsEnabled();
+							$sb_news_display  = $dcFront->getSidebarNewsDisplay();
+							$front_s_title    = $dcFront->getSidebarNewsTitle();
+							$sb_cut_news      = $dcFront->getSidebarNewsChars();
+							$sb_how_many      = $dcFront->getSidebarNewsAmount();
 							
-							$use_news_comments  = $arrFP['use_news_comments'];
-							$show_autor         = $arrFP['show_autor'];
-							$show_autor_as_link = $arrFP['show_autor_as_link'];
-							$use_gravatar       = $arrFP['use_gravatar'];
-							$use_emoticons      = $arrFP['use_emoticons'];
-							$use_trackback      = $arrFP['use_trackback'];
-							$use_timesince      = $arrFP['use_timesince'];
-							$readmore_link      = $arrFP['readmore_link'];
-							$news_spacing       = $arrFP['news_spacing'];
+							$dcNewsMan = new tcms_dc_newsmanager();
+							$dcNewsMan = $tcms_dcp->getNewsmanagerDC($getLang);
+							
+							$use_news_comments  = $dcNewsMan->getUseComments();
+							$show_autor         = $dcNewsMan->getShowAutor();
+							$show_autor_as_link = $dcNewsMan->getShowAutorAsLink();
+							$use_gravatar       = $dcNewsMan->getUseGravatar();
+							$use_emoticons      = $dcNewsMan->getUseEmoticons();
+							$use_trackback      = $dcNewsMan->getUseTrachback();
+							$use_timesince      = $dcNewsMan->getUseTimesince();
+							$readmore_link      = $dcNewsMan->getReadmoreLink();
+							$news_spacing       = $dcNewsMan->getNewsSpacing();
 							
 							$cut_news = ( $cut_news == 0 ? '1000000' : $cut_news );
 							
@@ -804,25 +785,28 @@ if($wsShowSite){
 							break;
 						
 						case 'newsmanager':
-							$arrNM = $tcms_modconfig->getNewsmanagerConfig($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+							using('toendacms.datacontainer.newsmanager');
 							
-							$news_id            = $arrNM['news_id'];
-							$news_title         = $arrNM['news_title'];
-							$news_stamp         = $arrNM['news_stamp'];
-							$news_maintext      = $arrNM['news_text'];
-							$news_image         = $arrNM['news_image'];
-							$use_news_comments  = $arrNM['use_news_comments'];
-							$show_autor         = $arrNM['show_autor'];
-							$show_autor_as_link = $arrNM['show_autor_as_link'];
-							$news_amount        = $arrNM['news_amount'];
-							$cut_news           = $arrNM['cut_news'];
-							$authorized         = $arrNM['access'];
-							$use_gravatar       = $arrNM['use_gravatar'];
-							$use_emoticons      = $arrNM['use_emoticons'];
-							$use_trackback      = $arrNM['use_trackback'];
-							$use_timesince      = $arrNM['use_timesince'];
-							$readmore_link      = $arrNM['readmore_link'];
-							$news_spacing       = $arrNM['news_spacing'];
+							$dcNewsMan = new tcms_dc_newsmanager();
+							$dcNewsMan = $tcms_dcp->getNewsmanagerDC($getLang);
+							
+							$news_id            = $dcNewsMan->getID();
+							$news_title         = $dcNewsMan->getTitle();
+							$news_stamp         = $dcNewsMan->getSubtitle();
+							$news_maintext      = $dcNewsMan->getText();
+							$news_image         = $dcNewsMan->getImage();
+							$use_news_comments  = $dcNewsMan->getUseComments();
+							$show_autor         = $dcNewsMan->getShowAutor();
+							$show_autor_as_link = $dcNewsMan->getShowAutorAsLink();
+							$news_amount        = $dcNewsMan->getNewsAmount();
+							$cut_news           = $dcNewsMan->getNewsChars();
+							$authorized         = $dcNewsMan->getAccess();
+							$use_gravatar       = $dcNewsMan->getUseGravatar();
+							$use_emoticons      = $dcNewsMan->getUseEmoticons();
+							$use_trackback      = $dcNewsMan->getUseTrachback();
+							$use_timesince      = $dcNewsMan->getUseTimesince();
+							$readmore_link      = $dcNewsMan->getReadmoreLink();
+							$news_spacing       = $dcNewsMan->getNewsSpacing();
 							
 							$cut_news = ( $cut_news == 0 ? '1000000' : $cut_news );
 							

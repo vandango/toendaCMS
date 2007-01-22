@@ -9,8 +9,7 @@
 |
 | toendaCMS Sidemenu Item DataContainer
 |
-| File:		tcms_dc_sidemenuitem.lib.php
-| Version:	0.0.5
+| File:	tcms_dc_sidemenuitem.lib.php
 |
 +
 */
@@ -25,6 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * sidemenu items.
  *
+ * @version 0.0.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -256,3 +256,5 @@ class tcms_dc_sidemenuitem {
 		return $this->m_acs;
 	}
 }
+
+?>

@@ -9,7 +9,7 @@
 |
 | toendaCMS Sidebar Extensions
 |
-| File:		tcms_dc_sidebarmodule.lib.php
+| File:	tcms_dc_sidebarmodule.lib.php
 |
 +
 */
@@ -108,3 +108,5 @@ class tcms_dc_sidebarextensions {
 		return $this->m_sidemenu_title;
 	}
 }
+
+?>

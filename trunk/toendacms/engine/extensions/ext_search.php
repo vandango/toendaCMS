@@ -71,7 +71,9 @@ if($use_search == 1){
 	
 	echo '<div align="'.$sb_align.'">'
 	.'<form action="'.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?" method="post" style="margin: 0px !important; padding: 0px !important;">'
-	.'<input class="inputtext searchform" type="text" name="searchword" value="'.$sb_searchword.'" onBlur="if(this.value==\'\') this.value=\''.$sb_searchword.'\';" onFocus="if(this.value==\''.$sb_searchword.'\') this.value=\'\';" />';
+	.'<input class="inputtext searchform" type="text" name="searchword" value="'.$sb_searchword.'"'
+	.' onBlur="if(this.value==\'\') this.value=\''.$sb_searchword.'\';"'
+	.' onFocus="if(this.value==\''.$sb_searchword.'\') this.value=\'\';" />';
 	
 	// style="width: 100px;"
 	

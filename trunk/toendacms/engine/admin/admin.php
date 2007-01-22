@@ -9,7 +9,7 @@
 | 
 | Administration backend
 |
-| File:		admin.php
+| File:	admin.php
 |
 +
 */
@@ -38,7 +38,7 @@ if(isset($_POST['lang'])){ $lang = $_POST['lang']; }
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 1.0.7
+ * @version 1.0.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -115,6 +115,7 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 	$seoFolder       = $tcms_path;
 	//$seoFormat       = $tcms_config->getSEOFormat();
 	$tcms_lang       = $tcms_config->getLanguageBackend();
+	$tcms_front_lang = $tcms_config->getLanguageFrontend();
 	
 	// mainclass
 	$tcms_main = new tcms_main($tcms_administer_path);
@@ -184,7 +185,10 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 	$release_date = $tcms_version->getReleaseDate();
 	$toenda_copy  = $tcms_version->getToendaCopyright();
 	
-	$version = '&nbsp;'.$cms_name.' &bull; '.$release.' ['.$codename.'] &bull; '.$status.'&nbsp;';
+	$version = ''
+	.$tcms_version->getName().' - '.$tcms_version->getTagline().'!'
+	.' &bull; Version '.$tcms_version->getVersion()
+	.' ['.$tcms_version->getCodename().']';
 	
 	$cms_version = $release;
 	$cms_build = $build;
@@ -411,7 +415,7 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 				
 				$page_load_time = tcms_time::tcms_load_end();
 				
-				echo '<strong>'.$version.'</strong>&nbsp;'.$page_load_time;
+				echo '<strong>'.$version.' &bull;</strong> '.$page_load_time;
 				
 				if($choosenDB != 'xml'){
 					$page_query_count = tcms_time::tcms_query_count_end_out();

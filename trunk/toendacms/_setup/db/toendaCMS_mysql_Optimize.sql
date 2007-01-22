@@ -4,7 +4,6 @@ ALTER TABLE `#####contacts` ADD PRIMARY KEY ( `uid` ) ;
 ALTER TABLE `#####content` ADD PRIMARY KEY ( `uid` ) ;
 ALTER TABLE `#####downloads` ADD PRIMARY KEY ( `uid` ) ;
 ALTER TABLE `#####downloads_config` ADD PRIMARY KEY ( `uid` ) ;
-ALTER TABLE `#####frontpage` ADD PRIMARY KEY ( `uid` ) ;
 ALTER TABLE `#####guestbook` ADD PRIMARY KEY ( `uid` ) ;
 ALTER TABLE `#####guestbook_items` ADD PRIMARY KEY ( `uid` ) ;
 ALTER TABLE `#####imagegallery` ADD PRIMARY KEY ( `uid` ) ;
@@ -17,7 +16,6 @@ ALTER TABLE `#####links_config` ADD PRIMARY KEY ( `uid` ) ;
 ALTER TABLE `#####news` ADD PRIMARY KEY ( `uid` ) ;
 ALTER TABLE `#####newsletter` ADD PRIMARY KEY ( `uid` ) ;
 ALTER TABLE `#####newsletter_items` ADD PRIMARY KEY ( `uid` ) ;
-ALTER TABLE `#####newsmanager` ADD PRIMARY KEY ( `uid` ) ;
 ALTER TABLE `#####news_categories` ADD PRIMARY KEY ( `uid` ) ;
 ALTER TABLE `#####news_to_categories` ADD PRIMARY KEY ( `uid` ) ;
 ALTER TABLE `#####notepad` ADD PRIMARY KEY ( `uid` ) ;
@@ -36,4 +34,8 @@ ALTER TABLE `#####topmenu` ADD PRIMARY KEY ( `uid` ) ;
 ALTER TABLE `#####user` ADD PRIMARY KEY ( `uid` ) ;
 ALTER TABLE `#####usergroup` ADD PRIMARY KEY ( `uid` ) ;
 ALTER TABLE `#####userpage` ADD PRIMARY KEY ( `uid` ) ;
+
+
+ALTER TABLE `#####frontpage` ADD PRIMARY KEY ( `uid` ) ;
+ALTER TABLE `#####newsmanager` ADD PRIMARY KEY ( `uid` ) ;
 

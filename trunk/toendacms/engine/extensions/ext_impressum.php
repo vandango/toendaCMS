@@ -7,10 +7,9 @@
 | Author: Jonathan Naumann                                               |
 +------------------------------------------------------------------------+
 | 
-| law-concurring Impressum
+| law-concurring publishing form
 |
-| File:		ext_impressum.php
-| Version:	0.2.9
+| File:	ext_impressum.php
 |
 +
 */
@@ -19,11 +18,22 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * toendaCMS law-concurring publishing form
+ *
+ * This module is used as a law-concurring
+ * publishing form.
+ *
+ * @version 0.3.0
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Content Modules
+ */
 
 
-
-//***************************
-// Start page
+/*
+	INIT
+*/
 
 //require_once('engine/tcms_kernel/tcms_countrylist.lib.php');
 

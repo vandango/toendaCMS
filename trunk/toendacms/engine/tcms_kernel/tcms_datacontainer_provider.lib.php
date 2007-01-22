@@ -9,7 +9,7 @@
 |
 | toendaCMS Data Container Provider
 |
-| File:		tcms_datacontainer_provider.lib.php
+| File:	tcms_datacontainer_provider.lib.php
 |
 +
 */
@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 0.5.0
+ * @version 0.6.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -46,7 +46,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getContentLanguages                                           -> Get a list of content languages
  * getXmlIdFromContentLanguage                                   -> Get the id of a language content file
  *
- * getImpressumtDC()                                             -> Get a impressum data container
+ * getImpressumDC                                                -> Get a impressum data container
+ * getFrontpageDC                                                -> Get a frontpage data container
  *
  * getSidebarModuleDC()                                          -> Get a sidebarmodul data container
  * getSidebarExtensionSettings()                                 -> Get the sidebar extension settings
@@ -680,10 +681,10 @@ class tcms_datacontainer_provider extends tcms_main {
 		}
 		
 		if($admin) {
-			$rss->saveFeed($feed, '../../cache/'.$defaultFormat.'.xml', false);
+			$rss->saveFeed($defaultFormat, '../../cache/'.$defaultFormat.'.xml', false);
 		}
 		else {
-			$rss->saveFeed($feed, 'cache/'.$defaultFormat.'.xml', false);
+			$rss->saveFeed($defaultFormat, 'cache/'.$defaultFormat.'.xml', false);
 		}
 	}
 	
@@ -1134,15 +1135,15 @@ class tcms_datacontainer_provider extends tcms_main {
 			."WHERE uid = 'impressum'";
 			
 			$sqlQR = $sqlAL->sqlQuery($strQuery);
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
 			
 			$wsID      = 'impressum';
-			$wsTitle   = $sqlARR['imp_title'];
-			$wsKeynote = $sqlARR['imp_stamp'];
-			$wsText    = $sqlARR['legal'];
-			$wsContact = $sqlARR['imp_contact'];
-			$wsTaxno   = $sqlARR['taxno'];
-			$wsUstID   = $sqlARR['ustid'];
+			$wsTitle   = $sqlObj->imp_title;
+			$wsKeynote = $sqlObj->imp_stamp;
+			$wsText    = $sqlObj->legal;
+			$wsContact = $sqlObj->imp_contact;
+			$wsTaxno   = $sqlObj->taxno;
+			$wsUstID   = $sqlObj->ustid;
 			
 			$sqlAL->sqlFreeResult($sqlQR);
 			$sqlAL->_sqlAbstractionLayer();
@@ -1177,11 +1178,245 @@ class tcms_datacontainer_provider extends tcms_main {
 	
 	
 	/**
+	 * Get a frontpage data container
+	 * 
+	 * @param String $language
+	 * @return tcms_dc_frontpage Object
+	 */
+	function getFrontpageDC($language){
+		$frontDC = new tcms_dc_frontpage();
+		
+		if($this->m_choosenDB == 'xml'){
+			$xml = new xmlparser(''.$this->m_path.'/tcms_global/frontpage.'.$language.'.xml', 'r');
+			$wsID            = $xml->read_section('front', 'front_id');
+			$wsLang          = $xml->read_section('front', 'language');
+			$wsTitle         = $xml->read_section('front', 'front_title');
+			$wsSubtitle      = $xml->read_section('front', 'front_stamp');
+			$wsText          = $xml->read_section('front', 'front_text');
+			$wsNewsTitle     = $xml->read_section('front', 'news_title');
+			$wsNewsCut       = $xml->read_section('front', 'news_cut');
+			$wsNewsAmount    = $xml->read_section('front', 'module_use_0');
+			$wsSBNewsTitle   = $xml->read_section('front', 'sb_news_title');
+			$wsSBNewsAmount  = $xml->read_section('front', 'sb_news_amount');
+			$wsSBNewsCut     = $xml->read_section('front', 'sb_news_chars');
+			$wsSBNewsEnabled = $xml->read_section('front', 'sb_news_enabled');
+			$wsSBNewsDisplay = $xml->read_section('front', 'sb_news_display');
+			
+			$xml->flush();
+			$xml->_xmlparser();
+			unset($xml);
+			
+			if($wsTitle   == false) $wsTitle   = '';
+		}
+		else{
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
+			$sqlCN = $sqlAL->sqlConnect($this->m_sqlUser, $this->m_sqlPass, $this->m_sqlHost, $this->m_sqlDB, $this->m_sqlPort);
+			
+			$strQuery = "SELECT language, front_title, front_stamp, front_text, news_title, news_cut, "
+			."module_use_0, sb_news_title, sb_news_amount, sb_news_chars, sb_news_enabled, "
+			."sb_news_display "
+			."FROM ".$this->m_sqlPrefix."frontpage "
+			."WHERE language = '".$language."'";
+			
+			$sqlQR = $sqlAL->sqlQuery($strQuery);
+			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+			
+			$wsID            = 'frontpage';
+			$wsLang          = $sqlObj->language;
+			$wsTitle         = $sqlObj->front_title;
+			$wsSubtitle      = $sqlObj->front_stamp;
+			$wsText          = $sqlObj->front_text;
+			$wsNewsTitle     = $sqlObj->news_title;
+			$wsNewsCut       = $sqlObj->news_cut;
+			$wsNewsAmount    = $sqlObj->module_use_0;
+			$wsSBNewsTitle   = $sqlObj->sb_news_title;
+			$wsSBNewsAmount  = $sqlObj->sb_news_amount;
+			$wsSBNewsCut     = $sqlObj->sb_news_chars;
+			$wsSBNewsEnabled = $sqlObj->sb_news_enabled;
+			$wsSBNewsDisplay = $sqlObj->sb_news_display;
+			
+			$sqlAL->sqlFreeResult($sqlQR);
+			$sqlAL->_sqlAbstractionLayer();
+			unset($sqlAL);
+			
+			if($wsID            == NULL) $wsID            = '';
+			if($wsLang          == NULL) $wsLang          = '';
+			if($wsTitle         == NULL) $wsTitle         = '';
+			if($wsSubtitle      == NULL) $wsSubtitle      = '';
+			if($wsText          == NULL) $wsText          = '';
+			if($wsNewsTitle     == NULL) $wsNewsTitle     = '';
+			if($wsNewsCut       == NULL) $wsNewsCut       = '';
+			if($wsNewsAmount    == NULL) $wsNewsAmount    = '';
+			if($wsSBNewsTitle   == NULL) $wsSBNewsTitle   = '';
+			if($wsSBNewsAmount  == NULL) $wsSBNewsAmount  = '';
+			if($wsSBNewsCut     == NULL) $wsSBNewsCut     = '';
+			if($wsSBNewsEnabled == NULL) $wsSBNewsEnabled = '';
+			if($wsSBNewsDisplay == NULL) $wsSBNewsDisplay = '';
+		}
+		
+		$wsTitle       = $this->decodeText($wsTitle, '2', $this->m_CHARSET);
+		$wsSubtitle    = $this->decodeText($wsSubtitle, '2', $this->m_CHARSET);
+		$wsText        = $this->decodeText($wsText, '2', $this->m_CHARSET);
+		$wsNewsTitle   = $this->decodeText($wsNewsTitle, '2', $this->m_CHARSET);
+		$wsSBNewsTitle = $this->decodeText($wsSBNewsTitle, '2', $this->m_CHARSET);
+		
+		$frontDC->setID($wsID);
+		$frontDC->setLanguage($wsLang);
+		$frontDC->setTitle($wsTitle);
+		$frontDC->setSubtitle($wsSubtitle);
+		$frontDC->setText($wsText);
+		$frontDC->setNewsTitle($wsNewsTitle);
+		$frontDC->setNewsChars($wsNewsCut);
+		$frontDC->setNewsAmount($wsNewsAmount);
+		$frontDC->setSidebarNewsTitle($wsSBNewsTitle);
+		$frontDC->setSidebarNewsAmount($wsSBNewsAmount);
+		$frontDC->setSidebarNewsChars($wsSBNewsCut);
+		$frontDC->setSidebarNewsEnabled($wsSBNewsEnabled);
+		$frontDC->setSidebarNewsDisplay($wsSBNewsDisplay);
+		
+		return $frontDC;
+	}
+	
+	
+	
+	/**
+	 * Get a newsmanager data container
+	 * 
+	 * @param String $language
+	 * @return tcms_dc_newsmanager Object
+	 */
+	function getNewsmanagerDC($language){
+		$newsDC = new tcms_dc_newsmanager();
+		
+		if($this->m_choosenDB == 'xml'){
+			$xml = new xmlparser(''.$this->m_path.'/tcms_global/newsmanager.'.$language.'.xml', 'r');
+			$wsID              = $xml->read_section('config', 'news_id');
+			$wsLang            = $xml->read_section('config', 'language');
+			$wsTitle           = $xml->read_section('config', 'news_title');
+			$wsSubtitle        = $xml->read_section('config', 'news_stamp');
+			$wsText            = $xml->read_section('config', 'news_text');
+			$wsImage           = $xml->read_section('config', 'news_image');
+			$wsUseComments     = $xml->read_section('config', 'use_comments');
+			$wsShowAutor       = $xml->read_section('config', 'show_autor');
+			$wsShowAutorAsLink = $xml->read_section('config', 'show_autor_as_link');
+			$wsNewsAmount      = $xml->read_section('config', 'news_amount');
+			$wsNewsChars       = $xml->read_section('config', 'news_cut');
+			$wsAccess          = $xml->read_section('config', 'access');
+			$wsUseGravatar     = $xml->read_section('config', 'use_gravatar');
+			$wsUseEmoticons    = $xml->read_section('config', 'use_emoticons');
+			$wsUseTrachback    = $xml->read_section('config', 'use_trackback');
+			$wsUseTimesince    = $xml->read_section('config', 'use_timesince');
+			$wsReadmoreLink    = $xml->read_section('config', 'readmore_link');
+			$wsNewsSpacing     = $xml->read_section('config', 'news_spacing');
+			$wsSynRSS091       = $xml->read_section('config', 'use_rss091');
+			$wsSynRSS10        = $xml->read_section('config', 'use_rss10');
+			$wsSynRSS20        = $xml->read_section('config', 'use_rss20');
+			$wsSynRSSAtom      = $xml->read_section('config', 'use_atom03');
+			$wsSynRSSOpml      = $xml->read_section('config', 'use_opml');
+			$wsSynAmount       = $xml->read_section('config', 'syn_amount');
+			$wsSynUseTitle     = $xml->read_section('config', 'use_syn_title');
+			$wsSynDefaultFeed  = $xml->read_section('config', 'def_feed');
+			
+			$xml->flush();
+			$xml->_xmlparser();
+			unset($xml);
+			
+			if($wsTitle   == false) $wsTitle   = '';
+		}
+		else{
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
+			$sqlCN = $sqlAL->sqlConnect($this->m_sqlUser, $this->m_sqlPass, $this->m_sqlHost, $this->m_sqlDB, $this->m_sqlPort);
+			
+			$strQuery = "SELECT language, news_title, news_stamp, news_image, use_comments, show_autor, "
+			."show_autor_as_link, news_amount, news_cut, access, use_gravatar, use_emoticons, "
+			."use_trackback, use_timesince, news_text, readmore_link, news_spacing, use_rss091, use_rss10, "
+			."use_rss20, use_atom03, use_opml, syn_amount, use_syn_title, def_feed "
+			."FROM ".$this->m_sqlPrefix."newsmanager "
+			."WHERE language = '".$language."'";
+			
+			$sqlQR = $sqlAL->sqlQuery($strQuery);
+			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+			
+			$wsID              = 'newsmanager';
+			$wsLang            = $sqlObj->language;
+			$wsTitle           = $sqlObj->news_title;
+			$wsSubtitle        = $sqlObj->news_stamp;
+			$wsText            = $sqlObj->news_text;
+			$wsImage           = $sqlObj->news_image;
+			$wsUseComments     = $sqlObj->use_comments;
+			$wsShowAutor       = $sqlObj->show_autor;
+			$wsShowAutorAsLink = $sqlObj->show_autor_as_link;
+			$wsNewsAmount      = $sqlObj->news_amount;
+			$wsNewsChars       = $sqlObj->news_cut;
+			$wsAccess          = $sqlObj->access;
+			$wsUseGravatar     = $sqlObj->use_gravatar;
+			$wsUseEmoticons    = $sqlObj->use_emoticons;
+			$wsUseTrachback    = $sqlObj->use_trackback;
+			$wsUseTimesince    = $sqlObj->use_timesince;
+			$wsReadmoreLink    = $sqlObj->readmore_link;
+			$wsNewsSpacing     = $sqlObj->news_spacing;
+			$wsSynRSS091       = $sqlObj->use_rss091;
+			$wsSynRSS10        = $sqlObj->use_rss10;
+			$wsSynRSS20        = $sqlObj->use_rss20;
+			$wsSynRSSAtom      = $sqlObj->use_atom03;
+			$wsSynRSSOpml      = $sqlObj->use_opml;
+			$wsSynAmount       = $sqlObj->syn_amount;
+			$wsSynUseTitle     = $sqlObj->use_syn_title;
+			$wsSynDefaultFeed  = $sqlObj->def_feed;
+			
+			$sqlAL->sqlFreeResult($sqlQR);
+			$sqlAL->_sqlAbstractionLayer();
+			unset($sqlAL);
+			
+			if($wsID            == NULL) $wsID            = '';
+			if($wsLang          == NULL) $wsLang          = '';
+			if($wsTitle         == NULL) $wsTitle         = '';
+			if($wsSubtitle      == NULL) $wsSubtitle      = '';
+			if($wsText          == NULL) $wsText          = '';
+		}
+		
+		$wsTitle       = $this->decodeText($wsTitle, '2', $this->m_CHARSET);
+		$wsSubtitle    = $this->decodeText($wsSubtitle, '2', $this->m_CHARSET);
+		$wsText        = $this->decodeText($wsText, '2', $this->m_CHARSET);
+		
+		$newsDC->setID($wsID);
+		$newsDC->setLanguage($wsLang);
+		$newsDC->setTitle($wsTitle);
+		$newsDC->setSubtitle($wsSubtitle);
+		$newsDC->setText($wsText);
+		$newsDC->setImage($wsImage);
+		$newsDC->setUseComments($wsUseComments);
+		$newsDC->setShowAutor($wsShowAutor);
+		$newsDC->setShowAutorAsLink($wsShowAutorAsLink);
+		$newsDC->setNewsAmount($wsNewsAmount);
+		$newsDC->setNewsChars($wsNewsChars);
+		$newsDC->setAccess($wsAccess);
+		$newsDC->setUseGravatar($wsUseGravatar);
+		$newsDC->setUseEmoticons($wsUseEmoticons);
+		$newsDC->setUseTrachback($wsUseTrachback);
+		$newsDC->setUseTimesince($wsUseTimesince);
+		$newsDC->setReadmoreLink($wsReadmoreLink);
+		$newsDC->setNewsSpacing($wsNewsSpacing);
+		$newsDC->setSyndicationRSS091($wsSynRSS091);
+		$newsDC->setSyndicationRSS10($wsSynRSS10);
+		$newsDC->setSyndicationRSS20($wsSynRSS20);
+		$newsDC->setSyndicationRSSAtom($wsSynRSSAtom);
+		$newsDC->setSyndicationRSSOpml($wsSynRSSOpml);
+		$newsDC->setSyndicationAmount($wsSynAmount);
+		$newsDC->setSyndicationUseTitle($wsSynUseTitle);
+		$newsDC->setSyndicationDefaultFeed($wsSynDefaultFeed);
+				
+		return $newsDC;
+	}
+	
+	
+	
+	/**
 	 * Get a sidebarmodul data container
 	 * 
 	 * @return tcms_dc_sidebarmodule Object
 	 */
-	function GetSidebarModuleDC(){
+	function getSidebarModuleDC(){
 		$sbmDC = new tcms_dc_sidebarmodule();
 		
 		$xmlActive = new xmlparser(''.$this->m_path.'/tcms_global/modules.xml','r');

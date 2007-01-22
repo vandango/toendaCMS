@@ -9,7 +9,7 @@
 |
 | toendaCMS Content DataContainer
 |
-| File:		tcms_dc_content.lib.php
+| File:	tcms_dc_content.lib.php
 |
 +
 */
@@ -284,3 +284,5 @@ class tcms_dc_content {
 		return $this->m_language;
 	}
 }
+
+?>

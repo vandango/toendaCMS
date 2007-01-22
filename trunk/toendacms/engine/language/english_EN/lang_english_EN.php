@@ -49,6 +49,7 @@ if(!defined('_TCMS_ADMIN_DEV'))                define('_TCMS_ADMIN_DEV', 'develo
 if(!defined('_TCMS_ADMIN_RIGHT'))              define('_TCMS_ADMIN_RIGHT', 'All rights reserved.');
 if(!defined('_TCMS_ADMIN_LOGED'))              define('_TCMS_ADMIN_LOGED', 'Loged in as');
 if(!defined('_TCMS_ADMIN_GOTOSITE'))           define('_TCMS_ADMIN_GOTOSITE', 'Go to your site');
+if(!defined('_TCMS_ADMIN_EDIT_LANG'))          define('_TCMS_ADMIN_EDIT_LANG', 'Edit this language');
 if(!defined('_TCMS_TOP_OF_PAGE'))              define('_TCMS_TOP_OF_PAGE', 'Go to the top of this page ...');
 if(!defined('_TCMS_PRINT_PAGE'))               define('_TCMS_PRINT_PAGE', 'Print this page ...');
 if(!defined('_TCMS_PDF_PAGE'))                 define('_TCMS_PDF_PAGE', 'Generate PDF of this page ...');
@@ -949,17 +950,18 @@ if(!defined('_ABOUTMOD_DESCRIPTION'))          define('_ABOUTMOD_DESCRIPTION', '
 
 
 // ABOUT
-define('_ABOUT_TITLE', 'toendaCMS Professional Web Content Management and Weblogging System');
-define('_ABOUT_TEXT', 'toendaCMS is a free open source Content Management Framework based on PHP4, PHP5, XML and various database servers.');
-define('_ABOUT_TEXT2', 'Go to <a class="tcms_about" href="http://www.toenda.com/" target="_blank">http://www.toenda.com</a> for details. toendaCMS comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions. Obstructing the appearance of this notice is prohibited by law.');
-define('_ABOUT_EMAIL_INFO', 'Information and Technical Support');
-define('_ABOUT_EMAIL_BUG', 'Bug Reporting');
-define('_ABOUT_URL_DEVELOPMENT', 'Development of toendaCMS');
-define('_ABOUT_URL', 'The Official demonstration site of toendaCMS');
-define('_ABOUT_URL_DOWNLOAD', 'Downloads and Patches');
-define('_ABOUT_FREE_SOFTWARE', 'is Free Software released under the GNU/GPL License.');
-define('_ABOUT_CODE_IS_POESIE', '<strong>Remember forever:</strong> Code is poetry.');
-define('_ABOUT_POWERED_BY', 'Site is proudly powered by');
+if(!defined('_ABOUT_TITLE'))                   define('_ABOUT_TITLE', 'toendaCMS Professional Web Content Management and Weblogging System');
+if(!defined('_ABOUT_TEXT'))                    define('_ABOUT_TEXT', 'toendaCMS is a free open source Content Management Framework based on PHP4, PHP5, XML and various database servers.');
+if(!defined('_ABOUT_TEXT2'))                   define('_ABOUT_TEXT2', 'Go to <a class="tcms_about" href="http://www.toenda.com/" target="_blank">http://www.toenda.com</a> for details. toendaCMS comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions. Obstructing the appearance of this notice is prohibited by law.');
+if(!defined('_ABOUT_EMAIL_INFO'))              define('_ABOUT_EMAIL_INFO', 'Information and Technical Support');
+if(!defined('_ABOUT_EMAIL_BUG'))               define('_ABOUT_EMAIL_BUG', 'Bug Reporting');
+if(!defined('_ABOUT_URL_DEVELOPMENT'))         define('_ABOUT_URL_DEVELOPMENT', 'Development of toendaCMS');
+if(!defined('_ABOUT_URL'))                     define('_ABOUT_URL', 'The Official demonstration site of toendaCMS');
+if(!defined('_ABOUT_URL_DOWNLOAD'))            define('_ABOUT_URL_DOWNLOAD', 'Downloads and Patches');
+if(!defined('_ABOUT_SVN_REPO'))                define('_ABOUT_SVN_REPO', 'SVN Repository');
+if(!defined('_ABOUT_FREE_SOFTWARE'))           define('_ABOUT_FREE_SOFTWARE', 'is Free Software released under the GNU/GPL License.');
+if(!defined('_ABOUT_CODE_IS_POESIE'))          define('_ABOUT_CODE_IS_POESIE', '<strong>Remember forever:</strong> Code is poetry.');
+if(!defined('_ABOUT_POWERED_BY'))              define('_ABOUT_POWERED_BY', 'Site is proudly powered by');
 
 
 // CONTACTFORM

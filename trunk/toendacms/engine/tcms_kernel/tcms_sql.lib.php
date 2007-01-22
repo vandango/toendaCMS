@@ -40,7 +40,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Untested Database Server:
  * - SQLite        -> sqlite
  *
- * @version 0.4.7
+ * @version 0.4.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -95,6 +95,9 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * sqlUpdateOne($sqlTable, $newDataString, $sqlUID)
  * -> Update one row in table where UID = ? and set ...
+ *    ($newDataString = [name_of_column="new value", name_of_column="new value"])
+ * sqlUpdateField($sqlTable, $newDataString, $sqlField, $sqlUID, $withDebug = false)
+ * -> Update one row in table where $sqlField = ? and set ...
  *    ($newDataString = [name_of_column="new value", name_of_column="new value"])
  * 
  * sqlCreateOne($sqlTable, $newDataString, $sqlUID)
@@ -744,6 +747,77 @@ class sqlAbstractionLayer{
 				}
 				
 				$sqlResult = mssql_query("UPDATE ".$sqlTable." SET ".$newDataString."  WHERE [uid] = '".$sqlUID."'");
+				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . $sqlQueryString; }
+				break;
+		}
+		
+		return $sqlResult;
+	}
+	
+	
+	
+	/**
+	 * Update one from a Table where UID = ?
+	 * 
+	 * @param String $sqlTable
+	 * @param String $newDataString
+	 * @param String $sqlField
+	 * @param String $sqlUID
+	 * @param String $withDebug = false
+	 * @return Integer
+	 */
+	function sqlUpdateField($sqlTable, $newDataString, $sqlField, $sqlUID, $withDebug = false){
+		switch($this->_sqlInterface){
+			case 'mysql':
+				if($withDebug) {
+					$fp = fopen('log_sqlUpdateOne_'.microtime().'.txt', 'w');
+					fwrite($fp, 'UPDATE '.$sqlTable.' SET '.$newDataString.' WHERE '.$sqlField.' = "'.$sqlUID.'"');
+					fclose($fp);
+				}
+				
+				tcms_time::tcms_query_counter();
+				$sqlResult = mysql_query('UPDATE '.$sqlTable.' SET '.$newDataString.' WHERE '.$sqlField.' = "'.$sqlUID.'"');
+				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . mysql_error(); }
+				break;
+			
+			case 'pgsql':
+				tcms_time::tcms_query_counter();
+				
+				$newDataString = str_replace('"', "'", $newDataString);
+				$newDataString = str_replace($sqlTable.'.', '"', $newDataString);
+				$newDataString = str_replace('=', '"=', $newDataString);
+				
+				if($withDebug) {
+					$fp = fopen('log_sqlUpdateOne_'.microtime().'.txt', 'w');
+					fwrite($fp, "UPDATE ".$sqlTable." SET ".$newDataString."  WHERE ".$sqlField." = '".$sqlUID."'");
+					fclose($fp);
+				}
+				
+				$sqlResult = pg_query("UPDATE ".$sqlTable." SET ".$newDataString."  WHERE ".$sqlField." = '".$sqlUID."'");
+				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . pg_result_error(); }
+				break;
+			
+			case 'sqlite':
+				tcms_time::tcms_query_counter();
+				$sqlResult = sqlite_query('UPDATE '.$sqlTable.' SET '.$newDataString.' WHERE '.$sqlField.' = "'.$sqlUID.'"');
+				$sqlError  = sqlite_last_error($this->_sqlDB);
+				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . sqlite_error_string($sqlError); }
+				break;
+			
+			case 'mssql':
+				tcms_time::tcms_query_counter();
+				
+				$newDataString = str_replace('"', "'", $newDataString);
+				$newDataString = str_replace($sqlTable.'.', $sqlTable.'.[', $newDataString);
+				$newDataString = str_replace('=', ']=', $newDataString);
+				
+				if($withDebug) {
+					$fp = fopen('log_sqlUpdateOne_'.microtime().'.txt', 'w');
+					fwrite($fp, "UPDATE ".$sqlTable." SET ".$newDataString."  WHERE [".$sqlField."] = '".$sqlUID."'");
+					fclose($fp);
+				}
+				
+				$sqlResult = mssql_query("UPDATE ".$sqlTable." SET ".$newDataString."  WHERE [".$sqlField."] = '".$sqlUID."'");
 				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . $sqlQueryString; }
 				break;
 		}

@@ -25,3 +25,7 @@ ALTER TABLE `#####news` ADD `show_on_frontpage` INT( 1 ) NOT NULL ;
 UPDATE `#####news` SET `show_on_frontpage` = 1;
 
 ALTER TABLE `#####sidebar_extensions` ADD `lang` VARCHAR( 255 ) NOT NULL ;
+
+ALTER TABLE `#####frontpage` ADD `language` VARCHAR( 25 ) NOT NULL AFTER `uid` ;
+
+ALTER TABLE `#####newsmanager` ADD `language` VARCHAR( 25 ) NOT NULL ;

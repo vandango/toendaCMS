@@ -9,7 +9,7 @@
 |
 | toendaCMS Sidebar Module DataContainer
 |
-| File:		tcms_dc_sidebarmodule.lib.php
+| File:	tcms_dc_sidebarmodule.lib.php
 |
 +
 */
@@ -268,3 +268,5 @@ class tcms_dc_sidebarmodule {
 		return $this->m_poll;
 	}
 }
+
+?>

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides a frontpage with news and a text.
  *
- * @version 1.3.0
+ * @version 1.3.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -45,6 +45,12 @@ if(isset($_POST['comment_text'])){ $comment_text = $_POST['comment_text']; }
 
 
 
+/*
+	INIT
+*/
+
+$toendaScript_more_show = false;
+
 if(!isset($cmd)) $cmd = '';
 
 using('toendacms.datacontainer.news');
@@ -60,122 +66,24 @@ $hr_line_4 = '<div style="height: '.$news_spacing.'px;">&nbsp;</div>';
 
 
 /*
-	syndication
-*/
-
-if($use_syndication == 1){
-	if(!$tcms_main->isReal($feed))
-		$feed = $def_feed;
-	
-	if($tcms_main->isReal($feed)){
-		$rss = new UniversalFeedCreator();
-		$rss->_setFormat($feed);
-		$rss->useCached();
-		$rss->title = $sitename;
-		$rss->description = $sitekey;
-		$rss->link = $websiteowner_url;
-		//$rss->syndicationURL = $websiteowner_url.$seoFolder.$PHP_SELF;
-		$rss->syndicationURL = $websiteowner_url.$seoFolder.'/cache/'.$defaultFormat.'.xml';
-		
-		$image = new FeedImage();
-		$image->title = $sitename.' Logo';
-		$image->url = $imagePath.'engine/images/logos/toendaCMS_button_01.png';
-		$image->link = $websiteowner_url;
-		$image->description = 'Feed provided by '.$sitename.'. Click to visit.';
-		
-		$rss->image = $image;
-	}
-}
-
-
-
-
-/*
-	Start page
+	LOAD
 */
 
 if(!isset($show)){ $show = 'start'; }
 
 if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
-	if(trim($front_title) != '') echo tcms_html::contentheading($front_title);
-	if(trim($front_stamp) != '') echo tcms_html::contentstamp($front_stamp).'<br />';
-	if(trim($front_text)  != '') echo tcms_html::contentmain($front_text).'<br />';
+	echo $tcms_html->contentModuleHeader($front_title, $front_stamp, $front_text);
 	
 	
-	
-	
-	//***************************************
-	// The RSS
-	//***************************************
-	
-	$counting = 0;
-	$toendaScript_more_show = false;
-	
-	
-	if($use_syndication == 1){
-		if($tcms_main->isReal($feed)){
-			// ??????????????
-			// generate using data container provider
-			// ??????????????
-			
-			$arrNewsDC = $tcms_dcp->getNewsDCList($is_admin, $syn_amount, '1', true);
-			
-			if($tcms_main->isReal($arrNewsDC)){
-				foreach($arrNewsDC as $n_key => $n_value){
-					$dcNews = new tcms_dc_news();
-					$dcNews = $arrNewsDC[$n_key];
-					
-					$dcAcc = new tcms_dc_account();
-					$dcAcc = $tcms_ap->getAccountByUsername($dcNews->GetAutor());
-					
-					$item = new FeedItem();
-					
-					$item->title = $dcNews->GetTitle();
-					$item->link = $websiteowner_url.$seoFolder.'/?id=newsmanager&news='.$dcNews->GetID();
-					
-					$toendaScript = new toendaScript();
-					$news_content = $toendaScript->checkSEO($dcNews->GetText(), $imagePath);
-					$news_content = $toendaScript->cutAtTcmsMoreTag($news_content);
-					
-					$item->description = $news_content;
-					$item->date = mktime(
-						substr($dcNews->GetTime(), 0, 2), 
-						substr($dcNews->GetTime(), 3, 2), 
-						0, 
-						substr($dcNews->GetDate(), 3, 2), 
-						substr($dcNews->GetDate(), 0, 2), 
-						substr($dcNews->GetDate(), 6, 4)
-					);
-					$item->source = $websiteowner_url;
-					
-					$item->author = ( $show_autor == 1 ? $dcNews->GetAutor() : $websiteowner );
-					
-					if($show_autor == 1)
-						$item->authorEmail = $dcAcc->GetEmail();
-					
-					$rss->addItem($item);
-					
-					unset($toendaScript);
-				}
-			}
-			
-			unset($arrNewsDC);
-		}
-	}
-	
-	
-	//***************************************
-	// The News
-	//***************************************
+	/*
+		LOAD NEWS
+	*/
 	
 	if($how_many != 0){
-		/*
-			Load News
-		*/
 		if($front_news_title != ''){
-			echo tcms_html::contentheading($front_news_title);
-			echo '<hr class="hr_line" />';
-			echo '<br />';
+			echo $tcms_html->contentTitle($front_news_title)
+			.'<hr class="hr_line" />'
+			.'<br />';
 		}
 		
 		$arrNewsDC = $tcms_dcp->getNewsDCList($is_admin, $how_many, '1', true);
@@ -568,13 +476,20 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 	
 	if($use_syndication == 1){
 		if($tcms_main->isReal($feed)){
+			$tcms_dcp->generateFeed(
+				$feed, 
+				$seoFolder, 
+				false, 
+				$syn_amount, 
+				$show_autor
+			);
+			
 			if(isset($save) && $save == true){
-				$rss->saveFeed($feed, 'cache/'.$feed.'.xml', false);
-				//$rss->saveFeed($feed, 'cache/'.$feed.'.xml');
+				//$rss->saveFeed($feed, 'cache/'.$feed.'.xml', false);
 				echo '<script>document.location=\''.$imagePath.'cache/'.$feed.'.xml\'</script>';
 			}
 			else{
-				$rss->saveFeed($feed, 'cache/'.$feed.'.xml', false);
+				//$rss->saveFeed($feed, 'cache/'.$feed.'.xml', false);
 			}
 		}
 	}

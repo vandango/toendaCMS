@@ -9,8 +9,7 @@
 |
 | toendaCMS Comment DataContainer
 |
-| File:		tcms_dc_comment.lib.php
-| Version:	0.0.1
+| File:	tcms_dc_comment.lib.php
 |
 +
 */
@@ -25,6 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * comment items.
  *
+ * @version 0.0.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -120,3 +120,5 @@ class tcms_dc_comment {
 	function SetModule($value){ $this->m_module = $value; }
 	function GetModule(){ return $this->m_module; }
 }
+
+?>

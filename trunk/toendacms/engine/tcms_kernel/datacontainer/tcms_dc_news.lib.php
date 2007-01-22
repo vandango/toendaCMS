@@ -9,8 +9,7 @@
 |
 | toendaCMS News DataContainer
 |
-| File:		tcms_dc_news.lib.php
-| Version:	0.1.3
+| File:	tcms_dc_news.lib.php
 |
 +
 */
@@ -24,6 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used as a datacontainer for the news.
  *
+ * @version 0.1.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -335,3 +335,5 @@ class tcms_dc_news {
 		return $this->m_frontpage;
 	}
 }
+
+?>

@@ -28,7 +28,7 @@
 
 ############################################################################################
 #
-# VERSION 1.1.0
+# VERSION 1.5.0
 #
 ############################################################################################
 
@@ -37,6 +37,10 @@
 *
 
 if(!defined('_TCMS_THIS_PAGE_IN'))             define('_TCMS_THIS_PAGE_IN', 'This page in');
+if(!defined('_TCMS_ADMIN_EDIT_LANG'))          define('_TCMS_ADMIN_EDIT_LANG', 'Edit this language');
+if(!defined('_TCMS_LANGUAGES'))                define('_TCMS_LANGUAGES', 'Languages');
+if(!defined('_TCMS_LANGUAGE'))                 define('_TCMS_LANGUAGE', 'Language');
+if(!defined('_TCMS_TEST_ENVIRONMENT'))         define('_TCMS_TEST_ENVIRONMENT', 'THIS IS A TEST ENVIRONMENT!');
 
 // LANGUAGE LIST
 if(!defined('_LANG_GERMAN'))                   define('_LANG_GERMAN', 'German');
@@ -52,10 +56,6 @@ if(!defined('_LANG_ROMANIAN'))                 define('_LANG_ROMANIAN', 'Romania
 if(!defined('_LANG_SLOVAK'))                   define('_LANG_SLOVAK', 'Slovak');
 if(!defined('_LANG_SPANISH'))                  define('_LANG_SPANISH', 'Espanol');
 if(!defined('_LANG_SWEDISH'))                  define('_LANG_SWEDISH', 'Swedish');
-
-if(!defined('_TCMS_LANGUAGES'))                define('_TCMS_LANGUAGES', 'Languages');
-if(!defined('_TCMS_LANGUAGE'))                 define('_TCMS_LANGUAGE', 'Language');
-if(!defined('_TCMS_TEST_ENVIRONMENT'))         define('_TCMS_TEST_ENVIRONMENT', 'THIS IS A TEST ENVIRONMENT!');
 
 if(!defined('_CONTACT_VCARD'))                 define('_CONTACT_VCARD', 'vCard');
 if(!defined('_CONTACT_VCARD_IMPORT_TEXT'))     define('_CONTACT_VCARD_IMPORT_TEXT', 'If you have a .vcf file, upload it and toendaCMS will import the contact automatically.');
@@ -80,6 +80,8 @@ if(!defined('_FORM_GO'))                       define('_FORM_GO', 'Go');
 
 if(!defined('_CONTENT_NEW_LANG_DOCUMENT'))     define('_CONTENT_NEW_LANG_DOCUMENT', 'New document with another language');
 if(!defined('_CONTENT_ORG_DOCUMENT'))          define('_CONTENT_ORG_DOCUMENT', 'Original Document');
+
+if(!defined('_ABOUT_SVN_REPO'))                define('_ABOUT_SVN_REPO', 'SVN Repository');
 
 *
 *
