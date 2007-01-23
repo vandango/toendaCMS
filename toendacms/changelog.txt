@@ -35,7 +35,7 @@ Developer Version
 	- 1.0.7 Development
 	- 1.5.0 Development
 
-Building Steps: 2450
+Building Steps: 2477
 
 
 
@@ -65,6 +65,12 @@ Building Steps: 2450
  - changed: added all new functionality for the postgresql database
  - changed: inputbox checker for the admin login page corrected
  - changed: mediamanager layout and handle improvements
+ - changed: new tabpane for the global settings
+ - changed: new tabpane for the sidebar extension settings
+ - changed: new tabpane for the news settings
+ - changed: new tabpane for the frontpage settings
+ - changed: news edit-layout improvements
+ - changed: content edit-layout improvements
 
  - added: captcha comment check for the image comments
  - added: possibillity to make a own target to the side and topmenu links
@@ -77,7 +83,9 @@ Building Steps: 2450
  - added: test environment, for the testing phase if page is offline
  - added: content language selector to footer
  - added: change page language per link (language selector)
- - added: multi-language for frontpage and newsmanager
+ - added: multi-language for the frontpage
+ - added: multi-language for the impressum
+ - added: multi-language for the newsmanager
 
 
 

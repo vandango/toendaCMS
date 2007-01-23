@@ -9,8 +9,7 @@
 | 
 | Filemanager for all Sites
 |
-| File:		mod_project.php
-| Version:	0.3.4
+| File:	mod_project.php
 |
 +
 */
@@ -19,13 +18,23 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-echo '<script language="JavaScript" src="../js/dhtml.js"></script>';
+/**
+ * Filemanager for all Sites
+ *
+ * This module is used as a filemanager for all Sites
+ *
+ * @version 0.3.4
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
-
-//=====================================================
+// -----------------------------------------------------
 // INIT
-//=====================================================
+// -----------------------------------------------------
+
+echo '<script language="JavaScript" src="../js/dhtml.js"></script>';
 
 $tbgz         = 0;
 $tfm_menu     = 0;
@@ -61,14 +70,9 @@ $cs_id     = 'components';
 
 
 
-
-
-
-
-
-
-
-
+// -----------------------------------------------------
+// SIDEMENU
+// -----------------------------------------------------
 
 if($sidemenu_active == 1){
 	//=====================================================
@@ -279,7 +283,7 @@ echo '<table cellpadding="0" cellspacing="0" border="0" width="200" class="nobor
 
 
 
-/*
+
 echo '<tr><td style="height: 5px;"></td></tr>';
 
 if($topmenu_active == 1){
@@ -289,10 +293,6 @@ if($topmenu_active == 1){
 	._TABLE_TOPMENU
 	.'</a>'
 	.'</strong></td></tr>';
-	
-	echo '<tr><td style="height: 5px; padding: 0 0 5px 3px;">'
-	.'<a href="javascript: d.openAll();">open all</a> | <a href="javascript: d.closeAll();">close all</a>'
-	.'</td></tr>';
 	
 	echo '<tr><td>
 	<div class="dtree">
@@ -416,7 +416,7 @@ if($topmenu_active == 1){
 	//unset($ekey);
 	//unset($evalue);
 }
-*/
+
 		/*
 		d.add(1,0,'Node 1','example01.html');
 		d.add(2,0,'Node 2','example01.html');

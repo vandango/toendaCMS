@@ -62,6 +62,7 @@ if(!defined('_CONTACT_VCARD_IMPORT_TEXT'))     define('_CONTACT_VCARD_IMPORT_TEX
 if(!defined('_CONTACT_VCARD_VCF'))             define('_CONTACT_VCARD_VCF', 'vCard .vcf File');
 if(!defined('_CONTACT_VCARD_DOWNLOAD'))        define('_CONTACT_VCARD_DOWNLOAD', 'Download vCard');
 
+if(!defined('_GLOBAL'))                        define('_GLOBAL', 'Site');
 if(!defined('_GLOBAL_PDFLINK_IN_FOOTER'))      define('_GLOBAL_PDFLINK_IN_FOOTER', 'Show the PDF link in footer');
 if(!defined('_GLOBAL_CACHE_CONTROL'))          define('_GLOBAL_CACHE_CONTROL', 'Searchmachine-Chache Settings');
 if(!defined('_GLOBAL_PRAGMA'))                 define('_GLOBAL_PRAGMA', 'Searchmachine Pragma');
@@ -100,9 +101,11 @@ if(!defined('_ABOUT_SVN_REPO'))                define('_ABOUT_SVN_REPO', 'SVN Re
 
 this:
 
+define('_CREDITS_SYSTEM', 'System Information');
 
 to:
 
+define('_CREDITS_SYSTEM', 'System');
 
 *
 *

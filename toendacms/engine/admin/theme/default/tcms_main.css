@@ -153,16 +153,25 @@ i {
 	padding: 15px;
 }
 
+
 /* Mainbody Footer */
 .tcms_footer{
-	border-top: 1px solid #333;
-	background: #d1d9e8;
+	/*border-top: 1px solid #333;*/
+	/*background: #d1d9e8;*/
+	background: transparent url(images/bottom.png);
 }
+
 .tcms_footer_img{
-	background: #d1d9e8 url(images/tcms_admin.png) no-repeat;
+	display: block;
+	float: left;
+	height: 30px;
+	width: 50px;
+	background: transparent url(images/tcms_admin.png) no-repeat;
 }
+
 .tcms_footer_color{
 }
+
 
 /* Help frame */
 .tcms_help_frame {
@@ -926,16 +935,16 @@ a.tcms_home_ig:hover { background: url(../../../images/image_big_gray.gif) no-re
 
 a.legal:link, a.legal:visited {
 	font-size: 10px;
-	color: #333;
+	color: #f3f3f3;
 	text-decoration: underline;
 }
 a.legal:hover {
-	color: #000;
+	color: #222;
 	text-decoration: underline;
 }
 .legal {
 	font-size: 10px;
-	color: #333;
+	color: #f3f3f3;
 }
 
 

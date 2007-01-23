@@ -404,12 +404,12 @@
 <credits>
 	<h2>The Development Team</h2>
 	
-	<table cellpadding="0" cellspacing="0" width="650" border="0" class="noborder">
+	<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">
 	
 	<tr><td><h3 style="margin: 0 0 5px 0;">Mainteam</h3></td></tr>
 	
 	<tr bgcolor="#ececec"><td valign="top" style="border: 1px solid #333333; padding: 2px !important;"><strong>Jonathan Naumann</strong> - [Germany] - (<a href="http://vandango.org" target="_blank">www</a>)</td></tr>
-	<tr bgcolor="#f8f8f8"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">
+	<tr bgcolor="#ffffff"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">
 		Lead Developer / toendaCMS Owner<br />
 		Complete TCMS Engine, mostly modules, toendaScript, rights system, tab system, imagegallery, 
 		guestbook, components system, knowledgebase, Calendar component, Diary component, Business logic - object model, 
@@ -427,12 +427,12 @@
 	<tr><td><h3 style="margin: 35px 0 5px 0;">Contributors and Tester</h3></td></tr>
 	
 	<tr bgcolor="#ececec"><td valign="top" style="border: 1px solid #333333; padding: 2px !important;"><strong>Benjamin Naumann</strong> - [Germany]</td></tr>
-	<tr bgcolor="#f8f8f8"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">Logo Design</td></tr>
+	<tr bgcolor="#ffffff"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">Logo Design</td></tr>
 	
 	<tr><td>&nbsp;</td></tr>
 	
 	<tr bgcolor="#ececec"><td valign="top" style="border: 1px solid #333333; padding: 2px !important;"><strong>Aren Slootweg</strong> - [Netherlands] - (<a href="http://www.aena.nl" target="_blank">www</a>)</td></tr>
-	<tr bgcolor="#f8f8f8"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">
+	<tr bgcolor="#ffffff"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">
 		Testing<br />
 		Code snippet in Imagegallery<br />
 		Webcam component<br />
@@ -443,7 +443,7 @@
 	<tr><td>&nbsp;</td></tr>
 	
 	<tr bgcolor="#ececec"><td valign="top" style="border: 1px solid #333333; padding: 2px !important;"><strong>Erik Lehmler</strong> - [Germany] - (<a href="http://www.czwo.de" target="_blank">www</a>)</td></tr>
-	<tr bgcolor="#f8f8f8"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">
+	<tr bgcolor="#ffffff"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">
 		Testing<br />
 		First German Install and <em>firstStep</em> Documentation<br />
 		Printer template
@@ -452,7 +452,7 @@
 	<tr><td>&nbsp;</td></tr>
 	
 	<tr bgcolor="#ececec"><td valign="top" style="border: 1px solid #333333; padding: 2px !important;"><strong>Gereon Frey</strong> - [Germany] - (<a href="http://www.gereonfrey.de" target="_blank">www</a>)</td></tr>
-	<tr bgcolor="#f8f8f8"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">
+	<tr bgcolor="#ffffff"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">
 		Testing<br />
 		Massivly ideas<br />
 		Timesince Plugin Bugfix
@@ -461,7 +461,7 @@
 	<tr><td>&nbsp;</td></tr>
 	
 	<tr bgcolor="#ececec"><td valign="top" style="border: 1px solid #333333; padding: 2px !important;"><strong>Falk Ulbrich</strong> - [Germany] - (<a href="mailto:falkone__NP_SPAM__gmx.de" target="_blank">email</a>)</td></tr>
-	<tr bgcolor="#f8f8f8"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">
+	<tr bgcolor="#ffffff"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">
 		Testing<br />
 		Bug fixing<br />
 		Better FCKEditor integration
@@ -470,14 +470,14 @@
 	<tr><td>&nbsp;</td></tr>
 	
 	<tr bgcolor="#ececec"><td valign="top" style="border: 1px solid #333333; padding: 2px !important;"><strong>Ramez Hanna</strong> - [?] - (<a href="mailto:ramez.hanna__NP_SPAM__gmail.com" target="_blank">email</a>)</td></tr>
-	<tr bgcolor="#f8f8f8"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">
+	<tr bgcolor="#ffffff"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">
 		Blogger Import (First step)
 	</td></tr>
 	
 	<tr><td>&nbsp;</td></tr>
 	
 	<tr bgcolor="#ececec"><td valign="top" style="border: 1px solid #333333; padding: 2px !important;"><strong>Bernd Binder</strong> - [Germany] - (<a href="http://www.berndbinder.de" target="_blank">www</a>)</td></tr>
-	<tr bgcolor="#f8f8f8"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">
+	<tr bgcolor="#ffffff"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">
 		Gallery Thumblist (3 thumbs in a row)<br />
 		New administrationmenu
 	</td></tr>
@@ -485,7 +485,7 @@
 	<tr><td>&nbsp;</td></tr>
 	
 	<tr bgcolor="#ececec"><td valign="top" style="border: 1px solid #333333; padding: 2px !important;"><strong>Felix Werner</strong> - [?] - (<a href="http://fwerner.net" target="_blank">www</a>)</td></tr>
-	<tr bgcolor="#f8f8f8"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">
+	<tr bgcolor="#ffffff"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">
 		Idea for the captcha engine in the guestbook and a code example.
 	</td></tr>
 	
@@ -493,7 +493,7 @@
 	<tr><td><h3 style="margin: 35px 0 5px 0;">Translation</h3></td></tr>
 	
 	<tr bgcolor="#ececec"><td valign="top" style="border: 1px solid #333333; padding: 2px !important;"><strong>Davide Foresti</strong> - [Italian]</td></tr>
-	<tr bgcolor="#f8f8f8"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">
+	<tr bgcolor="#ffffff"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">
 		Italian Translation<br />
 		Testing and some ideas
 	</td></tr>
@@ -501,22 +501,22 @@
 	<tr><td>&nbsp;</td></tr>
 	
 	<tr bgcolor="#ececec"><td valign="top" style="border: 1px solid #333333; padding: 2px !important;"><strong>Kim, Michael</strong> - [Korea] - (<a href="http://e.user.or.kr/" target="_blank">www</a>)</td></tr>
-	<tr bgcolor="#f8f8f8"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">Korean Translation</td></tr>
+	<tr bgcolor="#ffffff"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">Korean Translation</td></tr>
 	
 	<tr><td>&nbsp;</td></tr>
 	
 	<tr bgcolor="#ececec"><td valign="top" style="border: 1px solid #333333; padding: 2px !important;"><strong>Carlo Sciolla</strong> - [Italian]</td></tr>
-	<tr bgcolor="#f8f8f8"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">Italian Translation</td></tr>
+	<tr bgcolor="#ffffff"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">Italian Translation</td></tr>
 	
 	<tr><td>&nbsp;</td></tr>
 	
 	<tr bgcolor="#ececec"><td valign="top" style="border: 1px solid #333333; padding: 2px !important;"><strong>Vesko Nedev</strong> - [Bulgarian] - (<a href="http://veskonedev.com">www</a>)</td></tr>
-	<tr bgcolor="#f8f8f8"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">Bulgarian Translation</td></tr>
+	<tr bgcolor="#ffffff"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">Bulgarian Translation</td></tr>
 	
 	<tr><td>&nbsp;</td></tr>
 	
 	<tr bgcolor="#ececec"><td valign="top" style="border: 1px solid #333333; padding: 2px !important;"><strong>Juliano Toazza</strong> - [Portuguese / Brazilian] - (<a href="http://crab.com.br/" target="_blank">www</a>)</td></tr>
-	<tr bgcolor="#f8f8f8"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">
+	<tr bgcolor="#ffffff"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">
 		Portuguese / Brazilian Translation<br />
 		New Icons on Administration Startpage
 	</td></tr>
@@ -524,37 +524,37 @@
 	<tr><td>&nbsp;</td></tr>
 	
 	<tr bgcolor="#ececec"><td valign="top" style="border: 1px solid #333333; padding: 2px !important;"><strong>Daniel Kacer</strong> - [Slovenia]</td></tr>
-	<tr bgcolor="#f8f8f8"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">Slovak Translation</td></tr>
+	<tr bgcolor="#ffffff"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">Slovak Translation</td></tr>
 	
 	<tr><td>&nbsp;</td></tr>
 	
 	<tr bgcolor="#ececec"><td valign="top" style="border: 1px solid #333333; padding: 2px !important;"><strong>Ignacio Varela</strong> - [Espania]</td></tr>
-	<tr bgcolor="#f8f8f8"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">Espanol Translation (old version)</td></tr>
+	<tr bgcolor="#ffffff"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">Espanol Translation (old version)</td></tr>
 	
 	<tr><td>&nbsp;</td></tr>
 	
-	<tr bgcolor="#ececec"><td valign="top" style="border: 1px solid #333333; padding: 2px !important;"><strong>Bernabé Soliño</strong> - [Espania]</td></tr>
-	<tr bgcolor="#f8f8f8"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">Espanol Translation</td></tr>
+	<tr bgcolor="#ececec"><td valign="top" style="border: 1px solid #333333; padding: 2px !important;"><strong>Bernabï¿½ Soliï¿½o</strong> - [Espania]</td></tr>
+	<tr bgcolor="#ffffff"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">Espanol Translation</td></tr>
 	
 	<tr><td>&nbsp;</td></tr>
 	
 	<tr bgcolor="#ececec"><td valign="top" style="border: 1px solid #333333; padding: 2px !important;"><strong>Apubitti / Markus Hynn&auml;</strong> - [Finnish] - (<a href="mailto:apubitti__NO_SPAM__netti.fi" target="_blank">email</a>)</td></tr>
-	<tr bgcolor="#f8f8f8"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">Finnish Translation</td></tr>
+	<tr bgcolor="#ffffff"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">Finnish Translation</td></tr>
 	
 	<tr><td>&nbsp;</td></tr>
 	
 	<tr bgcolor="#ececec"><td valign="top" style="border: 1px solid #333333; padding: 2px !important;"><strong>David Bruhn</strong> - [Swedish] - (<a href="mailto:david.bruhn__NO__SPAM__bredband.net" target="_blank">email</a>)</td></tr>
-	<tr bgcolor="#f8f8f8"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">Swedish Translation</td></tr>
+	<tr bgcolor="#ffffff"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">Swedish Translation</td></tr>
 	
 	<tr><td>&nbsp;</td></tr>
 	
 	<tr bgcolor="#ececec"><td valign="top" style="border: 1px solid #333333; padding: 2px !important;"><strong>Dervis Uyuducu</strong> - [Norway] - (<a href="mailto:dervis_uyuducu__NO__SPAM__hotmail.com" target="_blank">email</a>)</td></tr>
-	<tr bgcolor="#f8f8f8"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">Norwegian Translation</td></tr>
+	<tr bgcolor="#ffffff"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">Norwegian Translation</td></tr>
 	
 	<tr><td>&nbsp;</td></tr>
 	
 	<tr bgcolor="#ececec"><td valign="top" style="border: 1px solid #333333; padding: 2px !important;"><strong>c00l2sv</strong> - [Romania] - (<a href="mailto:c00l2sv__NO__SPAM__gmail.com" target="_blank">email</a>)</td></tr>
-	<tr bgcolor="#f8f8f8"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">Romanian Translation</td></tr>
+	<tr bgcolor="#ffffff"><td valign="top" style="border: 1px solid #cccccc; padding: 2px !important;">Romanian Translation</td></tr>
 	
 	<tr><td>&nbsp;</td></tr>
 	</table>
@@ -564,7 +564,7 @@
 	
 	<h2>Other Librarys</h2>
 	
-	<table cellpadding="3" cellspacing="0" border="0" class="noborder" style="border: 1px solid #666666;">
+	<table cellpadding="3" cellspacing="0" border="0" width="100%" class="noborder" style="border: 1px solid #fff;">
 	
 	<tr bgcolor="#ececec"><td width="250"><strong>PhpConcept Library - Zip Module 2.3</strong>
 	</td><td width="200"><a href="http://www.phpconcept.net" target="_blank">www.phpconcept.net</a>
@@ -572,7 +572,7 @@
 	</td><td width="74"><a href="http://www.gnu.org/copyleft/lesser.html" target="_blank">LGPL</a>
 	</td></tr>
 	
-	<tr bgcolor="#f8f8f8"><td width="250"><img src="../images/logos/tinymce.png" border="0" />
+	<tr bgcolor="#ffffff"><td width="250"><img src="../images/logos/tinymce.png" border="0" />
 	</td><td width="200"><a href="http://tinymce.moxiecode.com/" target="_blank">tinymce.moxiecode.com</a>
 	</td><td width="100">Version 2.0.6.1
 	</td><td width="74"><a href="http://www.gnu.org/copyleft/lesser.html" target="_blank">LGPL</a>
@@ -584,7 +584,7 @@
 	</td><td width="74"><a href="http://www.gnu.org/copyleft/lesser.html" target="_blank">LGPL</a>
 	</td></tr>
 	
-	<tr bgcolor="#f8f8f8"><td width="250"><strong>Tango Iconset</strong>
+	<tr bgcolor="#ffffff"><td width="250"><strong>Tango Iconset</strong>
 	</td><td width="200">Tango Desktop Project
 	</td><td width="100">Version 0.7.1
 	</td><td width="74"><a href="http://www.creativecommons.org/" target="_blank">CC</a>
@@ -596,13 +596,7 @@
 	</td><td width="74"><a href="http://www.gnu.org/" target="_blank">GPL</a>
 	</td></tr>
 	
-	<tr bgcolor="#ececec"><td width="250"><strong>html2fpdf</strong>
-	</td><td width="200"><a href="http://html2fpdf.sourceforge.net/" target="_blank">html2fpdf.sourceforge.net</a>
-	</td><td width="100">Version 3.0.2b
-	</td><td width="74"><a href="http://www.creativecommons.org/" target="_blank">CC</a>
-	</td></tr>
-	
-	<tr bgcolor="#f8f8f8"><td width="250"><strong>Gravatar Icons</strong>
+	<tr bgcolor="#ffffff"><td width="250"><strong>Gravatar Icons</strong>
 	</td><td width="200"><a href="http://www.gravatar.com/" target="_blank">www.gravatar.com</a>
 	</td><td width="100">?
 	</td><td width="74">?
@@ -614,7 +608,7 @@
 	</td><td width="74"><a href="http://www.gnu.org/" target="_blank">LGPL</a>
 	</td></tr>
 	
-	<tr bgcolor="#f8f8f8"><td width="250"><strong>NO-WYSIWYG Editor Toolbar Images</strong>
+	<tr bgcolor="#ffffff"><td width="250"><strong>NO-WYSIWYG Editor Toolbar Images</strong>
 	</td><td width="200"><a href="http://www.mediawiki.org/" target="_blank">www.mediawiki.org</a>
 	</td><td width="100">Version 1.5.2
 	</td><td width="74"><a href="http://www.gnu.org/" target="_blank">GPL</a>
@@ -626,7 +620,7 @@
 	</td><td width="74"><a href="http://www.gnu.org/" target="_blank">GPL</a>
 	</td></tr>
 	
-	<tr bgcolor="#f8f8f8"><td width="250"><strong>Silk Iconset</strong>
+	<tr bgcolor="#ffffff"><td width="250"><strong>Silk Iconset</strong>
 	</td><td width="200"><a href="http://www.famfamfam.com/lab/icons/silk/" target="_blank">Mark James</a>
 	</td><td width="100">Version 1.2
 	</td><td width="74"><a href="http://creativecommons.org/licenses/by/2.5/" target="_blank">CCA 2.5</a>
@@ -638,7 +632,7 @@
 	</td><td width="74"><a href="http://www.cs.ucla.edu/~heng/JSCookMenu/copyright.html" target="_blank">License</a>
 	</td></tr>
 	
-	<tr bgcolor="#f8f8f8"><td width="250"><strong>overLIB</strong>
+	<tr bgcolor="#ffffff"><td width="250"><strong>overLIB</strong>
 	</td><td width="200"><a href="http://www.bosrup.com/web/overlib/" target="_blank">Erik Bosrup</a>
 	</td><td width="100">Version 4.21
 	</td><td width="74"><a href="http://www.bosrup.com/web/overlib/?License" target="_blank">License</a>
@@ -650,7 +644,7 @@
 	</td><td width="74"><a href="http://www.gnu.org" target="_blank">GPL</a>
 	</td></tr>
 	
-	<tr bgcolor="#f8f8f8"><td width="250"><strong>Trackback Class</strong>
+	<tr bgcolor="#ffffff"><td width="250"><strong>Trackback Class</strong>
 	</td><td width="200"><a href="http://www.blogish.org" target="_blank">Ran Aroussi</a>
 	</td><td width="100">???
 	</td><td width="74"><a href="http://www.gnu.org/" target="_blank">GPL</a>
@@ -662,6 +656,18 @@
 	</td><td width="74"><a href="http://www.gnu.org" target="_blank">GPL</a>
 	</td></tr>
 	
+	<tr bgcolor="#ffffff"><td width="250" valign="top"><strong>Tab Pane (WebFX)</strong>
+	</td><td width="200" valign="top"><a href="http://webfx.eae.net/dhtml/tabpane/tabpane.html" target="_blank">Erik Arvidsson</a>
+	</td><td width="100" valign="top">Version 1.0.2
+	</td><td width="74" valign="top"><a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache Software License 2.0</a>
+	</td></tr>
+	
+	<tr bgcolor="#ececec"><td width="250"><strong>html2fpdf</strong>
+	</td><td width="200"><a href="http://html2fpdf.sourceforge.net/" target="_blank">html2fpdf.sourceforge.net</a>
+	</td><td width="100">Version 3.0.2b
+	</td><td width="74"><a href="http://www.creativecommons.org/" target="_blank">CC</a>
+	</td></tr>
+	
 	</table>
 	
 	<br />
@@ -669,11 +675,15 @@
 	
 	<h2>Thanks to this projects for the inspiration</h2>
 	
-	<strong><a href="http://www.typo3.org" target="_blank">Typo3 - Enterprise Content Management</a></strong><br />
-	<strong><a href="http://www.joomla.org" target="_blank">Joomla! - (More free) Professional Content Management and Portal Software</a></strong></br>
-	<strong><a href="http://www.mamboserver.com" target="_blank">Mambo - Professional Content Management and Portal Software</a></strong><br />
-	<strong><a href="http://www.wordpress.org" target="_blank">Wordpress - <em>State of the Art</em> Weblogging</a></strong></br>
-	<strong><a href="http://www.drupal.org" target="_blank">Drupal - The Content Drop</a></strong></br>
+	<strong><a href="http://www.typo3.org" target="_blank">Typo3 - Enterprise Content Management</a></strong>
+	<br />
+	<strong><a href="http://www.joomla.org" target="_blank">Joomla! - (More free) Professional Content Management and Portal Software</a></strong>
+	<br />
+	<strong><a href="http://www.mamboserver.com" target="_blank">Mambo - Professional Content Management and Portal Software</a></strong>
+	<br />
+	<strong><a href="http://www.wordpress.org" target="_blank">Wordpress - <em>state-of-the-art semantic personal publishing platform</em></a></strong>
+	<br />
+	<strong><a href="http://www.drupal.org" target="_blank">Drupal - The Content Drop</a></strong>
 	
 	<br />
 </credits>
