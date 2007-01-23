@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the frontpage.
  *
- * @version 0.7.2
+ * @version 0.7.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -51,7 +51,7 @@ if(isset($_POST['lang_exist'])){ $lang_exist = $_POST['lang_exist']; }
 if($id_group == 'Developer' 
 || $id_group == 'Administrator'){
 	if($show_wysiwyg == 'tinymce'){
-		if($todo == 'config'){
+		if($todo != 'config'){
 			echo '<style>.tableRowLight{ background-color: #ececec; }.tableRowDark{ background-color: #333333; }</style>';
 			include('../tcms_kernel/tcms_tinyMCE.lib.php');
 			
@@ -203,7 +203,7 @@ if($id_group == 'Developer'
 		}
 	}
 	else{
-		$old_front_text = $tcms_main->encodeBase64($old_front_text);
+		//$old_front_text = $tcms_main->encodeBase64($old_front_text);
 	}
 	
 	
@@ -212,290 +212,225 @@ if($id_group == 'Developer'
 	
 	
 	
+	echo '<script type="text/javascript" src="../js/tabs/tabpane.js"></script>
+	<link type="text/css" rel="StyleSheet" href="../js/tabs/css/luna/tab.css" />
+	<!--<link type="text/css" rel="StyleSheet" href="../js/tabs/tabpane.css" />-->';
+	
 	
 	echo '<form action="admin.php?id_user='.$id_user.'&amp;site=mod_frontpage" method="post" id="front">';
 	
 	
-	if($todo == 'config'){
-		// BEGIN FORM
-		echo '<input name="todo" type="hidden" value="save" />'
-		.'<input name="extra" type="hidden" value="1" />'
-		.'<input name="lang_exist" type="hidden" value="'.$langExist.'" />'
-		.'<input name="front_title" type="hidden" value="'.$old_front_title.'" />'
-		.'<input name="front_stamp" type="hidden" value="'.$old_front_stamp.'" />'
-		.'<input name="content" type="hidden" value="'.$old_front_text.'" />';
+	// frontpage news settings
+	echo '<table width="100%" cellpadding="0" cellspacing="0" class="tcms_noborder">'
+	.'<tr class="tcms_bg_blue_01">'
+	.'<th valign="middle" align="left" class="tcms_db_title tcms_padding_mini">'._TCMS_ADMIN_EDIT_LANG.'</th>'
+	.'</tr></table>';
+	
+	echo $tcms_html->tableHeadNoBorder('1', '5', '0', '100%');
+	
+	// row
+	$link = 'admin.php?id_user='.$id_user.'&site=mod_frontpage'
+	.'&amp;lang=';
+	
+	$js = ' onchange="document.location=\''.$link.'\' + this.value;"';
+	
+	echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
+	.'<strong class="tcms_bold">'._TCMS_LANGUAGE.'</strong>'
+	.'</td><td>'
+	.'<select id="new_front_lang" name="new_front_lang"'.$js.'>';
+	
+	foreach($languages['fine'] as $key => $value) {
+		if($old_front_lang == $languages['code'][$key])
+			$dl = ' selected="selected"';
+		else
+			$dl = '';
 		
-		// table rows
-		$front_id = $old_front_id;
+		echo '<option value="'.$value.'"'.$dl.'>'
+		.$languages['name'][$key]
+		.'</option>';
+	}
+	
+	echo '</select>'
+	.'</td></tr>';
+	
+	echo '<tr><td class="tcms_padding_mini"><br /></td></tr>'
+	.$tcms_html->tableEnd();
+	
+	
+	/*
+		tabpane start
+	*/
+	
+	echo '<div class="tab-pane" id="tab-pane-1">';
+	
+	
+	/*
+		mod tab
+	*/
+	
+	echo '<div class="tab-page" id="tab-page-text">'
+	.'<h2 class="tab">'._TABLE_DESCRIPTION.'</h2>'
+	.'<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
+	
+	
+	echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
+	.'<strong class="tcms_bold">'._FRONTPAGE_TITLE.'</strong>'
+	.'</td><td valign="top">'
+	.'<input name="front_title" class="tcms_input_normal" value="'.$old_front_title.'" />'
+	.'</td></tr>';
+	
+	
+	// table rows
+	echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
+	.'<strong class="tcms_bold">'._FRONTPAGE_SUBTITLE.'</strong>'
+	.'</td><td valign="top">'
+	.'<input name="front_stamp" class="tcms_input_normal" value="'.$old_front_stamp.'" />'
+	.'</td></tr>';
+	
+	
+	echo '<tr><td class="tcms_padding_mini" colspan="2" valign="top">'
+	.'<br /></td></tr>';
+	
+	
+	// table row
+	echo '<tr><td valign="top" colspan="2">'
+	.( $show_wysiwyg != 'fckeditor' ? ''
+	.'<script>createToendaToolbar(\'front\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');</script>'
+	: '' );
+	
+	if($show_wysiwyg == 'tinymce'){ echo '<br />'; }
+	elseif($show_wysiwyg == 'fckeditor'){ }
+	else{
+		if($show_wysiwyg == 'toendaScript'){ echo '<script>createToolbar(\'front\', \''.$tcms_lang.'\', \'toendaScript\');</script>'; }
+		else{ echo '<script>createToolbar(\'front\', \''.$tcms_lang.'\', \'HTML\');</script>'; }
+	}
+	
+	if($show_wysiwyg != 'fckeditor'){
+		echo '<br />';
+	}
+	
+	if($show_wysiwyg == 'tinymce'){
+		echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content" mce_editable="true">'.$old_front_text.'</textarea>';
+	}
+	elseif($show_wysiwyg == 'fckeditor'){
+		$sBasePath = '../js/FCKeditor/';
 		
-		
-		// frontpage news settings
-		echo '<table width="100%" cellpadding="0" cellspacing="0" class="tcms_noborder">'
-		.'<tr class="tcms_bg_blue_01">'
-		.'<th valign="middle" align="left" class="tcms_db_title tcms_padding_mini">'._TCMS_ADMIN_EDIT_LANG.'</th>'
-		.'</tr></table>';
-		
-		echo $tcms_html->tableHeadClass('1', '5', '0', '100%', 'tcms_table');
-		
-		// row
-		$link = 'admin.php?id_user='.$id_user.'&site=mod_frontpage'
-		.'&amp;todo=config'
-		.'&amp;lang=';
-		
-		$js = ' onchange="document.location=\''.$link.'\' + this.value;"';
-		
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
-		.'<strong class="tcms_bold">'._TCMS_LANGUAGE.'</strong>'
-		.'</td><td>'
-		.'<select id="new_front_lang" name="new_front_lang"'.$js.'>';
-		
-		foreach($languages['fine'] as $key => $value) {
-			if($old_front_lang == $languages['code'][$key])
-				$dl = ' selected="selected"';
-			else
-				$dl = '';
-			
-			echo '<option value="'.$value.'"'.$dl.'>'
-			.$languages['name'][$key]
-			.'</option>';
-		}
-		
-		echo '</select>'
-		.'</td></tr>';
-		
-		echo '<tr><td class="tcms_padding_mini"><br /></td></tr>'
-		.$tcms_html->tableEnd();
-		
-		
-		// frontpage news settings
-		echo '<table width="100%" cellpadding="0" cellspacing="0" class="tcms_noborder">'
-		.'<tr class="tcms_bg_blue_01">'
-		.'<th valign="middle" align="left" class="tcms_db_title tcms_padding_mini">'._FRONTPAGE_NEWS.'</th>'
-		.'</tr></table>';
-		
-		
-		echo '<table width="100%" cellpadding="1" cellspacing="5" class="tcms_table" border="0">';
-		
-		
-		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
-		.'<strong class="tcms_bold">'._FRONTPAGE_NEWS_TITLE.'</strong>'
-		.'</td><td valign="top">'
-		.'<input name="new_news_title" class="tcms_input_normal" value="'.$old_news_title.'" />'
-		.'</td></tr>';
-		
-		
-		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
-		.'<strong class="tcms_bold">'._FRONTPAGE_NEWS_MUCH.'</strong>'
-		.'</td><td valign="top">'
-		.'<input name="module_use_0" class="tcms_id_box" value="'.$old_module_use_0.'" />'
-		.'</td></tr>';
-		
-		
-		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
-		.'<strong class="tcms_bold">'._FRONTPAGE_NEWS_CHARS.'</strong>'
-		.'</td><td valign="top">'
-		.'<input name="news_cut" class="tcms_id_box" value="'.$old_news_cut.'" />'
-		.'</td></tr>';
-		
-		
-		// table end
-		echo '<tr><td class="tcms_padding_mini"><br /></td></tr></table>';
-		
-		
-		// frontpage news settings
-		echo '<table width="100%" cellpadding="0" cellspacing="0" class="tcms_noborder">'
-		.'<tr class="tcms_bg_blue_01">'
-		.'<th valign="middle" align="left" class="tcms_db_title tcms_padding_mini">'._FRONTPAGE_SIDEBAR_NEWS.'</th>'
-		.'</tr></table>';
-		
-		echo '<table width="100%" cellpadding="1" cellspacing="5" class="tcms_table" border="0">';
-		
-		
-		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
-		.'<strong class="tcms_bold">'._FRONTPAGE_SIDEBAR_NEWS_USE.'</strong>'
-		.'</td><td valign="top">'
-		.'<input type="checkbox" name="new_sb_enabled" '.( $old_sb_enabled == 1 ? 'checked="checked"' : '' ).' value="1" />'
-		.'</td></tr>';
-		
-		
-		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
-		.'<strong class="tcms_bold">'._FRONTPAGE_SIDEBAR_NEWS_TITLE.'</strong>'
-		.'</td><td valign="top">'
-		.'<input name="new_sb_news_title" class="tcms_input_normal" value="'.$old_sb_news_title.'" />'
-		.'</td></tr>';
-		
-		
-		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
-		.'<strong class="tcms_bold">'._FRONTPAGE_SIDEBAR_NEWS_MUCH.'</strong>'
-		.'</td><td valign="top">'
-		.'<input name="sb_module_use_0" class="tcms_id_box" value="'.$old_sb_module_use_0.'" />'
-		.'</td></tr>';
-		
-		
-		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
-		.'<strong class="tcms_bold">'._FRONTPAGE_NEWS_CHARS.'</strong>'
-		.'</td><td valign="top">'
-		.'<input name="sb_news_cut" class="tcms_id_box" value="'.$old_sb_news_cut.'" />'
-		.'</td></tr>';
-		
-		
-		// table row
-		echo '<tr><td class="tcms_padding_mini">'
-		.'<strong class="tcms_bold">'._FRONTPAGE_NEWS_DISPLAY.'</strong>'
-		.'</td><td>'
-		.'<select name="new_sb_display" class="tcms_select">'
-		.'<option value="1"'.( $old_sb_display == '1' ? ' selected="selected"' : '' ).'>'._FRONTPAGE_TDT.'</option>'
-		.'<option value="2"'.( $old_sb_display == '2' ? ' selected="selected"' : '' ).'>'._FRONTPAGE_TD.'</option>'
-		.'<option value="3"'.( $old_sb_display == '3' ? ' selected="selected"' : '' ).'>'._FRONTPAGE_T.'</option>'
-		.'</select></td></tr>';
-		
-		
-		// table end
-		echo '<tr><td class="tcms_padding_mini"><br /></td></tr></table>';
+		$oFCKeditor = new FCKeditor('content') ;
+		$oFCKeditor->BasePath = $sBasePath;
+		$oFCKeditor->Value = $old_front_text;
+		$oFCKeditor->Create();
 	}
 	else{
-		// BEGIN FORM
-		echo '<input name="todo" type="hidden" value="save" />'
-		.'<input name="lang_exist" type="hidden" value="'.$langExist.'" />'
-		.'<input name="new_news_title" type="hidden" value="'.$old_news_title.'" />'
-		.'<input name="module_use_0" type="hidden" value="'.$old_module_use_0.'" />'
-		.'<input name="news_cut" type="hidden" value="'.$old_news_cut.'" />'
-		.'<input name="new_sb_news_title" type="hidden" value="'.$old_sb_news_title.'" />'
-		.'<input name="sb_module_use_0" type="hidden" value="'.$old_sb_module_use_0.'" />'
-		.'<input name="new_sb_enabled" type="hidden" value="'.$old_sb_enabled.'" />'
-		.'<input name="new_sb_display" type="hidden" value="'.$old_sb_display.'" />'
-		.'<input name="sb_news_cut" type="hidden" value="'.$old_sb_news_cut.'" />';
-		
-		
-		// TABLE FOR OUTPUT AND INPUT
-		echo '<table width="100%" cellpadding="0" cellspacing="0" class="tcms_noborder">'
-		.'<tr class="tcms_bg_blue_01">'
-		.'<th valign="top" align="left" class="tcms_db_title tcms_padding_mini">'._TCMS_ADMIN_EDIT_LANG.'</th>'
-		.'</tr></table>';
-		
-		echo '<table width="100%" cellpadding="1" cellspacing="5" class="tcms_table" border="0">';
-		
-		
-		// table rows
-		$front_id = $old_front_id;
-		
-		
-		// row
-		$link = 'admin.php?id_user='.$id_user.'&site=mod_frontpage'
-		.'&amp;lang=';
-		
-		$js = ' onchange="document.location=\''.$link.'\' + this.value;"';
-		
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
-		.'<strong class="tcms_bold">'._TCMS_LANGUAGE.'</strong>'
-		.'</td><td>'
-		.'<select id="new_front_lang" name="new_front_lang"'.$js.'>';
-		
-		foreach($languages['fine'] as $key => $value) {
-			if($old_front_lang == $languages['code'][$key])
-				$dl = ' selected="selected"';
-			else
-				$dl = '';
-			
-			echo '<option value="'.$value.'"'.$dl.'>'
-			.$languages['name'][$key]
-			.'</option>';
-		}
-		
-		echo '</select>'
-		.'</td></tr>';
-		
-		
-		// table end
-		echo '<tr><td class="tcms_padding_mini"><br /></td></tr></table>';
-		
-		
-		// TABLE FOR OUTPUT AND INPUT
-		echo '<table width="100%" cellpadding="0" cellspacing="0" class="tcms_noborder">'
-		.'<tr class="tcms_bg_blue_01">'
-		.'<th valign="top" align="left" class="tcms_db_title tcms_padding_mini">'._FRONTPAGE_CONFIG.'</th>'
-		.'</tr></table>';
-		
-		echo '<table width="100%" cellpadding="1" cellspacing="5" class="tcms_table" border="0">';
-		
-		
-		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
-		.'<strong class="tcms_bold">'._FRONTPAGE_TITLE.'</strong>'
-		.'</td><td valign="top">'
-		.'<input name="front_title" class="tcms_input_normal" value="'.$old_front_title.'" />'
-		.'</td></tr>';
-		
-		
-		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
-		.'<strong class="tcms_bold">'._FRONTPAGE_SUBTITLE.'</strong>'
-		.'</td><td valign="top">'
-		.'<input name="front_stamp" class="tcms_input_normal" value="'.$old_front_stamp.'" />'
-		.'</td></tr>';
-		
-		
-		// table end
-		echo '<tr><td class="tcms_padding_mini"><br /></td></tr></table>';
-		
-		
-		// table rows
-		echo '<table width="100%" cellpadding="0" cellspacing="0" class="tcms_noborder">'
-		.'<tr class="tcms_bg_blue_01">'
-		.'<th valign="top" align="left" class="tcms_db_title tcms_padding_mini">'._FRONTPAGE_TEXT.'</th>'
-		.'</tr></table>';
-		
-		
-		// table
-		echo '<table width="100%" cellpadding="1" cellspacing="5" class="tcms_table" border="0">';
-		
-		
-		// table row
-		echo '<tr><td valign="top" colspan="2">'
-		.( $show_wysiwyg != 'fckeditor' ? ''
-		.'<script>createToendaToolbar(\'front\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');</script>'
-		: '' );
-		
-		if($show_wysiwyg == 'tinymce'){ echo '<br />'; }
-		elseif($show_wysiwyg == 'fckeditor'){ }
-		else{
-			if($show_wysiwyg == 'toendaScript'){ echo '<script>createToolbar(\'front\', \''.$tcms_lang.'\', \'toendaScript\');</script>'; }
-			else{ echo '<script>createToolbar(\'front\', \''.$tcms_lang.'\', \'HTML\');</script>'; }
-		}
-		
-		if($show_wysiwyg != 'fckeditor'){
-			echo '<br />';
-		}
-		
-		if($show_wysiwyg == 'tinymce'){
-			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content" mce_editable="true">'.$old_front_text.'</textarea>';
-		}
-		elseif($show_wysiwyg == 'fckeditor'){
-			$sBasePath = '../js/FCKeditor/';
-			
-			$oFCKeditor = new FCKeditor('content') ;
-			$oFCKeditor->BasePath = $sBasePath;
-			$oFCKeditor->Value = $old_front_text;
-			$oFCKeditor->Create();
-		}
-		else{
-			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content">'.$old_front_text.'</textarea>';
-		}
-		
-		echo '</td></tr>';
-		
-		echo '</table>';
+		echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content">'.$old_front_text.'</textarea>';
 	}
 	
+	echo '</td></tr>';
 	
-	echo '</form><br />';
+	
+	echo '</table>'
+	.'</div>';
+	
+	
+	/*
+		mod tab
+	*/
+	
+	echo '<div class="tab-page" id="tab-page-set">'
+	.'<h2 class="tab">'._TABLE_SETTINGS.'</h2>'
+	.'<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
+	
+	
+	// table rows
+	echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
+	.'<strong class="tcms_bold">'._FRONTPAGE_NEWS_TITLE.'</strong>'
+	.'</td><td valign="top">'
+	.'<input name="new_news_title" class="tcms_input_normal" value="'.$old_news_title.'" />'
+	.'</td></tr>';
+	
+	
+	// table rows
+	echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
+	.'<strong class="tcms_bold">'._FRONTPAGE_NEWS_MUCH.'</strong>'
+	.'</td><td valign="top">'
+	.'<input name="module_use_0" class="tcms_id_box" value="'.$old_module_use_0.'" />'
+	.'</td></tr>';
+	
+	
+	// table rows
+	echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
+	.'<strong class="tcms_bold">'._FRONTPAGE_NEWS_CHARS.'</strong>'
+	.'</td><td valign="top">'
+	.'<input name="news_cut" class="tcms_id_box" value="'.$old_news_cut.'" />'
+	.'</td></tr>';
+	
+	
+	echo '<tr><td class="tcms_padding_mini" colspan="2" valign="top">'
+	.'<br /></td></tr>';
+	
+	
+	// table rows
+	echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
+	.'<strong class="tcms_bold">'._FRONTPAGE_SIDEBAR_NEWS_USE.'</strong>'
+	.'</td><td valign="top">'
+	.'<input type="checkbox" name="new_sb_enabled" '.( $old_sb_enabled == 1 ? 'checked="checked"' : '' ).' value="1" />'
+	.'</td></tr>';
+	
+	
+	// table rows
+	echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
+	.'<strong class="tcms_bold">'._FRONTPAGE_SIDEBAR_NEWS_TITLE.'</strong>'
+	.'</td><td valign="top">'
+	.'<input name="new_sb_news_title" class="tcms_input_normal" value="'.$old_sb_news_title.'" />'
+	.'</td></tr>';
+	
+	
+	// table rows
+	echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
+	.'<strong class="tcms_bold">'._FRONTPAGE_SIDEBAR_NEWS_MUCH.'</strong>'
+	.'</td><td valign="top">'
+	.'<input name="sb_module_use_0" class="tcms_id_box" value="'.$old_sb_module_use_0.'" />'
+	.'</td></tr>';
+	
+	
+	// table rows
+	echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
+	.'<strong class="tcms_bold">'._FRONTPAGE_NEWS_CHARS.'</strong>'
+	.'</td><td valign="top">'
+	.'<input name="sb_news_cut" class="tcms_id_box" value="'.$old_sb_news_cut.'" />'
+	.'</td></tr>';
+	
+	
+	// table row
+	echo '<tr><td class="tcms_padding_mini">'
+	.'<strong class="tcms_bold">'._FRONTPAGE_NEWS_DISPLAY.'</strong>'
+	.'</td><td>'
+	.'<select name="new_sb_display" class="tcms_select">'
+	.'<option value="1"'.( $old_sb_display == '1' ? ' selected="selected"' : '' ).'>'._FRONTPAGE_TDT.'</option>'
+	.'<option value="2"'.( $old_sb_display == '2' ? ' selected="selected"' : '' ).'>'._FRONTPAGE_TD.'</option>'
+	.'<option value="3"'.( $old_sb_display == '3' ? ' selected="selected"' : '' ).'>'._FRONTPAGE_T.'</option>'
+	.'</select></td></tr>';
+	
+	
+	echo '</table>'
+	.'</div>';
+	
+	
+	/*
+		tabpane end
+	*/
+	
+	echo '</div>'
+	.'<script type="text/javascript">
+	var tabPane1 = new WebFXTabPane(document.getElementById("tab-pane-1"));
+	tabPane1.addTabPage(document.getElementById("tab-page-text"));
+	tabPane1.addTabPage(document.getElementById("tab-page-set"));
+	setupAllTabs();
+	</script>'
+	.'<br />';
+	
+	
+	echo '</form>'
+	.'<br />';
 	
 	
 	
@@ -543,7 +478,7 @@ if($id_group == 'Developer'
 			$content           = $tcms_main->decode_text($content, '2', $c_charset);
 		}
 		else{
-			$content = $tcms_main->decodeBase64($content);
+			//$content = $tcms_main->decodeBase64($content);
 		}
 		
 		$new_news_title    = $tcms_main->decode_text($new_news_title, '2', $c_charset);

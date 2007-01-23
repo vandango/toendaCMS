@@ -9,7 +9,7 @@
 | 
 | News Manager
 |
-| File:		mod_news.php
+| File:	mod_news.php
 |
 +
 */
@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the news.
  *
- * @version 1.5.0
+ * @version 1.5.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -84,10 +84,13 @@ if(isset($_POST['lang_exist'])){ $lang_exist = $_POST['lang_exist']; }
 
 
 
-echo '<script language="JavaScript" src="../js/jscalendar/calendar.js"></script>';
-echo '<script language="Javascript" src="../js/jscalendar/lang/calendar-en.js"></script>';
-echo '<script language="Javascript" src="../js/jscalendar/calendar-setup.js"></script>';
-echo '<link rel="stylesheet" type="text/css" media="all" href="../js/jscalendar/calendar-toendaCMS.css" title="toendaCMS" />';
+echo '<script language="JavaScript" src="../js/jscalendar/calendar.js"></script>
+<script language="Javascript" src="../js/jscalendar/lang/calendar-en.js"></script>
+<script language="Javascript" src="../js/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" type="text/css" media="all" href="../js/jscalendar/calendar-toendaCMS.css" title="toendaCMS" />
+<script type="text/javascript" src="../js/tabs/tabpane.js"></script>
+<link type="text/css" rel="StyleSheet" href="../js/tabs/css/luna/tab.css" />
+<!--<link type="text/css" rel="StyleSheet" href="../js/tabs/tabpane.css" />-->';
 
 if($show_wysiwyg == 'tinymce'){
 	include('../tcms_kernel/tcms_tinyMCE.lib.php');
@@ -291,8 +294,8 @@ if($todo == 'config'){
 			}
 		}
 		else{
-			if(trim($old_news_mm_text) != '')
-				$old_news_mm_text = $tcms_main->encodeBase64($old_news_mm_text);
+			//if(trim($old_news_mm_text) != '')
+				//$old_news_mm_text = $tcms_main->encodeBase64($old_news_mm_text);
 		}
 		
 		
@@ -303,45 +306,7 @@ if($todo == 'config'){
 		echo '<form action="admin.php?id_user='.$id_user.'&amp;site=mod_news" method="post">'
 		.'<input name="todo" type="hidden" value="save_config" />'
 		.'<input name="lang_exist" type="hidden" value="'.$langExist.'" />'
-		.'<input name="extra" type="hidden" value="'.( $action == 'news' ? '1' : '0' ).'" />'
-		.'<input name="_RELOCATE" id="_RELOCATE" type="hidden" value="0" />';
-		
-		
-		echo '<script>
-		var CHANGED = false;
-		var RELOCATE = false;
-		
-		function checkChanges(target){
-			if(CHANGED){
-				var confirmSave = confirm("'._MSG_CHANGES.'\n'._MSG_SAVE_NOW.'");
-				
-				if(confirmSave == false){
-					RELOCATE = false;
-					document.getElementById(\'_RELOCATE\').value = \'0\';
-					document.location = \'admin.php?id_user='.$id_user.'&site=mod_news&todo=config&action=\' + target;
-				}
-				else{
-					RELOCATE = true;
-					document.getElementById(\'_RELOCATE\').value = \'1\';
-					save();
-				}
-			}
-			else{
-				RELOCATE = false;
-				document.getElementById(\'_RELOCATE\').value = \'0\';
-				document.location = \'admin.php?id_user='.$id_user.'&site=mod_news&todo=config&action=\' + target;
-			}
-		}
-		</script>';
-		
-		echo '<div style="display: block; width: 100%; border-bottom: 1px solid #ccc; padding-bottom: 2px; margin: 10px 0 0 0;">'
-		.'<div style="display: block; width: 30px; float: left;">&nbsp;</div>'
-		.'<a'.( $action == 'news' ? ' class="tcms_tabA"' : ' class="tcms_tab"' ).' onclick="checkChanges(\'news\');" href="#">'._TABLE_DESCRIPTION.'</a>'
-		.'<a'.( $action == 'extra' ? ' class="tcms_tabA"' : ' class="tcms_tab"' ).' onclick="checkChanges(\'extra\');" href="#">'._TABLE_SETTINGS.'</a>'
-		.'</div>';
-		
-		echo '<div class="tcms_tabPage">'
-		.'<br />';
+		.'<input name="extra" type="hidden" value="'.( $action == 'news' ? '1' : '0' ).'" />';
 		
 		
 		// frontpage news settings
@@ -385,394 +350,273 @@ if($todo == 'config'){
 		.$tcms_html->tableEnd();
 		
 		
-		// table head
-		echo $tcms_html->tableHeadNoBorder('0', '0', '0', '100%');
+		/*
+			tabpane start
+		*/
+		
+		echo '<div class="tab-pane" id="tab-pane-1">';
 		
 		
-		// table row
-		if($action == 'news'){
-			echo '<tr class="tcms_bg_blue_01"><td colspan="2" class="tcms_db_title tcms_padding_mini">'
-			.'<strong>'._EXT_NEWS.' '._TABLE_DESCRIPTION.'</strong></td></tr>'
-			.'<tr><td colspan="2" style="height: 4px;"></td></tr>';
-		}
+		/*
+			mod tab
+		*/
+		
+		echo '<div class="tab-page" id="tab-page-text">'
+		.'<h2 class="tab">'._TABLE_DESCRIPTION.'</h2>'
+		.'<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
+		
+		
+		echo '<tr><td class="tcms_padding_mini" valign="top">'._EXT_NEWS_ID.'</td>'
+		.'<td valign="top">'
+		.'<input name="new_news_mm_id" readonly class="tcms_input_small" value="'.$old_news_mm_id.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr><td class="tcms_padding_mini">'._TABLE_ACCESS.'</td>'
+		.'<td>'
+		.'<select name="news_mm_access" class="tcms_select">'
+		.'<option value="Public"'.( $old_news_mm_access == 'Public' ? ' selected="selected"' : '' ).'>'._TABLE_PUBLIC.'</option>'
+		.'<option value="Protected"'.( $old_news_mm_access == 'Protected' ? ' selected="selected"' : '' ).'>'._TABLE_PROTECTED.'</option>'
+		.'<option value="Private"'.( $old_news_mm_access == 'Private' ? ' selected="selected"' : '' ).'>'._TABLE_PRIVATE.'</option>'
+		.'</select></td></tr>';
+		
+		
+		echo '<tr><td class="tcms_padding_mini" valign="top">'._EXT_NEWS_TITLE.'</td>'
+		.'<td valign="top">'
+		.'<input name="news_mm_title" class="tcms_input_normal" value="'.$old_news_mm_title.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr><td class="tcms_padding_mini" valign="top">'._EXT_NEWS_SUBTITLE.'</td>'
+		.'<td valign="top">'
+		.'<input name="news_mm_stamp" class="tcms_input_normal" value="'.$old_news_mm_stamp.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr><td valign="top" colspan="2"><br />'._TABLE_TEXT
+		.( $show_wysiwyg != 'fckeditor' ? '<br /><br />'
+		.'<script>createToendaToolbar(\'imp\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');</script>'
+		.'<br />' : '' );
+		
+		if($show_wysiwyg == 'tinymce'){ }
+		elseif($show_wysiwyg == 'fckeditor'){ }
 		else{
-			echo '<tr class="tcms_bg_blue_01"><td colspan="2" class="tcms_db_title tcms_padding_mini">'
-			.'<strong>'._EXT_NEWS.' '._TABLE_SETTINGS.'</strong></td></tr>';
+			if($show_wysiwyg == 'toendaScript'){ echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'toendaScript\');</script>'; }
+			else{ echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'HTML\');</script>'; }
 		}
 		
+		echo '<br /><br />';
 		
-		// table rows
-		if($action == 'extra'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_USE_COMMENTS.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_use_comments" '.( $old_news_mm_usec == 1 ? 'checked="checked"' : '' ).' value="1" />'
-			.'</td></tr>';
+		if($show_wysiwyg == 'tinymce'){
+			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content" mce_editable="true">'.$old_news_mm_text.'</textarea>';
 		}
-		else{
-			echo '<input type="hidden" name="new_use_comments" value="'.$old_news_mm_usec.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'extra'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_USE_GRAVATAR.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="use_gravatar" '.( $old_use_gravatar == 1 ? 'checked="checked"' : '' ).' value="1" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="use_gravatar" value="'.$old_use_gravatar.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'extra'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_USE_EMOTICONS.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="use_emoticons" '.( $old_use_emoticons == 1 ? 'checked="checked"' : '' ).' value="1" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="use_emoticons" value="'.$old_use_emoticons.'" />';
-		}
-		
-		
-		// table row
-		if($action == 'extra'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td class="tcms_padding_mini">'._EXT_NEWS_DISPLAY.'</td>'
-			.'<td><img src="../images/px.png" border="0" width="1" />'
-			.'<select name="new_use_timesince" class="tcms_select">'
-			.'<option value="0"'.( $old_use_timesince == '0' ? ' selected="selected"' : '' ).'>'._EXT_NEWS_D_DATE.'</option>'
-			.'<option value="1"'.( $old_use_timesince == '1' ? ' selected="selected"' : '' ).'>'._EXT_NEWS_D_TIMESINCE.'</option>'
-			.'<option value="2"'.( $old_use_timesince == '2' ? ' selected="selected"' : '' ).'>'._EXT_NEWS_D_TEXT.'</option>'
-			.'</select></td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_use_timesince" value="'.$old_use_timesince.'" />';
-		}
-		
-		
-		// table row
-		if($action == 'extra'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td class="tcms_padding_mini">'._EXT_NEWS_DISPLAY_MORE.'</td>'
-			.'<td><img src="../images/px.png" border="0" width="1" />'
-			.'<select name="new_readmore_link" class="tcms_select">'
-			.'<option value="0"'.( $old_readmore_link == '0' ? ' selected="selected"' : '' ).'>'._EXT_NEWS_MORE_NL_LEFT.'</option>'
-			.'<option value="1"'.( $old_readmore_link == '1' ? ' selected="selected"' : '' ).'>'._EXT_NEWS_MORE_NL_RIGHT.'</option>'
-			.'<option value="2"'.( $old_readmore_link == '2' ? ' selected="selected"' : '' ).'>'._EXT_NEWS_MORE_NL_DIRECT.'</option>'
-			.'</select></td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_use_timesince" value="'.$old_use_timesince.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'extra'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_USE_AUTOR.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_use_autor" '.( $old_news_mm_usea == 1 ? 'checked="checked"' : '' ).' value="1" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_use_autor" value="'.$old_news_mm_usea.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'extra'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_USE_AUTOR_LINK.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_use_autor_link" '.( $old_news_mm_useal == 1 ? 'checked="checked"' : '' ).' value="1" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_use_autor_link" value="'.$old_news_mm_useal.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'extra'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td class="tcms_padding_mini" valign="top">'._EXT_NEWS_NEWSAMOUNT.'</td>'
-			.'<td valign="top">'
-			.'<input onchange="CHANGED = true;" name="new_news_mm_amount" class="tcms_input_small" value="'.$old_news_mm_amount.'" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_news_mm_amount" value="'.$old_news_mm_amount.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'extra'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td class="tcms_padding_mini" width="250" valign="top">'._FRONTPAGE_NEWS_CHARS.'</td>'
-			.'<td valign="top">'
-			.'<input onchange="CHANGED = true;" name="new_news_cut" class="tcms_id_box" value="'.$old_news_cut.'" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_news_cut" value="'.$old_news_cut.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'news'){
-			echo '<tr><td class="tcms_padding_mini" valign="top">'._EXT_NEWS_ID.'</td>'
-			.'<td valign="top">'
-			.'<input onchange="CHANGED = true;" name="new_news_mm_id" readonly class="tcms_input_small" value="'.$old_news_mm_id.'" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_news_mm_id" value="'.$old_news_mm_id.'" />';
-		}
-		
-		
-		// table row
-		if($action == 'news'){
-			echo '<tr><td class="tcms_padding_mini">'._TABLE_ACCESS.'</td>'
-			.'<td>'
-			.'<select name="news_mm_access" class="tcms_select">'
-			.'<option value="Public"'.( $old_news_mm_access == 'Public' ? ' selected="selected"' : '' ).'>'._TABLE_PUBLIC.'</option>'
-			.'<option value="Protected"'.( $old_news_mm_access == 'Protected' ? ' selected="selected"' : '' ).'>'._TABLE_PROTECTED.'</option>'
-			.'<option value="Private"'.( $old_news_mm_access == 'Private' ? ' selected="selected"' : '' ).'>'._TABLE_PRIVATE.'</option>'
-			.'</select></td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="news_mm_access" value="'.$old_news_mm_access.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'news'){
-			echo '<tr><td class="tcms_padding_mini" valign="top">'._EXT_NEWS_TITLE.'</td>'
-			.'<td valign="top">'
-			.'<input onchange="CHANGED = true;" name="news_mm_title" class="tcms_input_normal" value="'.$old_news_mm_title.'" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="news_mm_title" value="'.$old_news_mm_title.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'news'){
-			echo '<tr><td class="tcms_padding_mini" valign="top">'._EXT_NEWS_SUBTITLE.'</td>'
-			.'<td valign="top">'
-			.'<input onchange="CHANGED = true;" name="news_mm_stamp" class="tcms_input_normal" value="'.$old_news_mm_stamp.'" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="news_mm_stamp" value="'.$old_news_mm_stamp.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'news'){
-			echo '<tr><td valign="top" colspan="2"><br />'._TABLE_TEXT
-			.( $show_wysiwyg != 'fckeditor' ? '<br /><br />'
-			.'<script>createToendaToolbar(\'imp\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');</script>'
-			.'<br />' : '' );
+		elseif($show_wysiwyg == 'fckeditor'){
+			$sBasePath = '../js/FCKeditor/';
 			
-			if($show_wysiwyg == 'tinymce'){ }
-			elseif($show_wysiwyg == 'fckeditor'){ }
-			else{
-				if($show_wysiwyg == 'toendaScript'){ echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'toendaScript\');</script>'; }
-				else{ echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'HTML\');</script>'; }
-			}
-			
-			echo '<br /><br />';
-			
-			if($show_wysiwyg == 'tinymce'){
-				echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content" mce_editable="true">'.$old_news_mm_text.'</textarea>';
-			}
-			elseif($show_wysiwyg == 'fckeditor'){
-				$sBasePath = '../js/FCKeditor/';
-				
-				$oFCKeditor = new FCKeditor('content') ;
-				$oFCKeditor->BasePath = $sBasePath;
-				$oFCKeditor->Value = $old_news_mm_text;
-				$oFCKeditor->Create();
-			}
-			else{
-				echo '<textarea class="tcms_textarea_huge" style="width: 95%;" id="content" name="content">'.$old_news_mm_text.'</textarea>';
-			}
-			
-			echo '<br /></td></tr>';
+			$oFCKeditor = new FCKeditor('content') ;
+			$oFCKeditor->BasePath = $sBasePath;
+			$oFCKeditor->Value = $old_news_mm_text;
+			$oFCKeditor->Create();
 		}
 		else{
-			echo '<input type="hidden" name="content" value="'.$old_news_mm_text.'" />';
+			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" id="content" name="content">'.$old_news_mm_text.'</textarea>';
 		}
 		
-		
-		// table row
-		if($action == 'news'){
-			echo '<tr><td class="tcms_padding_mini" valign="top">'._EXT_NEWS_IMAGE.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="button" name="tcms" value="'._TCMSSCRIPT_IMAGES.'" onclick="window.open(\'media.php?id_user='.$id_user.'&v=news_config\', \'ImageBrowser\', \'width=400,height=500,left=50,top=50,scrollbars=yes\');" />'
-			.'<input onchange="CHANGED = true;" type="button" name="tcms" value="'._EXT_NEWS_DESELECT.'" onclick="document.getElementById(\'news_mm_image\').src=\'\';document.getElementById(\'news_tt_image\').value=\'\';document.getElementById(\'news_mm_image\').style.visibility=\'hidden\';" />'
-			.'<br />';
-			
-			if(isset($new_news_mm_image)){ $old_news_mm_image = $new_news_mm_image; }
-			
-			echo '<img width="100"'.( $old_news_mm_image == '' ? ' style="visibility:hidden;"' : '' ).' id="news_mm_image" src="../../'.$tcms_administer_site.'/images/Image/'.$old_news_mm_image.'" border="0" />'
-			.'<input onchange="CHANGED = true;" name="news_mm_image" id="news_tt_image" value="'.$old_news_mm_image.'" type="hidden" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="news_mm_image" value="'.$old_news_mm_image.'" />';
-		}
+		echo '<br /></td></tr>';
 		
 		
-		// table rows
-		if($action == 'extra'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_NEWS_SPACING.' (px)</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="text" class="tcms_id_box" name="new_news_spacing" value="'.$old_news_spacing.'" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_news_spacing" value="'.$old_news_spacing.'" />';
-		}
+		echo '<tr><td class="tcms_padding_mini" valign="top">'._EXT_NEWS_IMAGE.'</td>'
+		.'<td>'
+		.'<input type="button" name="tcms" value="'._TCMSSCRIPT_IMAGES.'" onclick="window.open(\'media.php?id_user='.$id_user.'&v=news_config\', \'ImageBrowser\', \'width=400,height=500,left=50,top=50,scrollbars=yes\');" />'
+		.'<input type="button" name="tcms" value="'._EXT_NEWS_DESELECT.'" onclick="document.getElementById(\'news_mm_image\').src=\'\';document.getElementById(\'news_tt_image\').value=\'\';document.getElementById(\'news_mm_image\').style.visibility=\'hidden\';" />'
+		.'<br />';
+		
+		if(isset($new_news_mm_image)){ $old_news_mm_image = $new_news_mm_image; }
+		
+		echo '<img width="100"'.( $old_news_mm_image == '' ? ' style="visibility:hidden;"' : '' ).' id="news_mm_image" src="../../'.$tcms_administer_site.'/images/Image/'.$old_news_mm_image.'" border="0" />'
+		.'<input name="news_mm_image" id="news_tt_image" value="'.$old_news_mm_image.'" type="hidden" />'
+		.'</td></tr>';
 		
 		
-		// table rows
-		if($action == 'extra'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_USE_TRACKBACK.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_use_trackback" '.( $old_use_trackback == 1 ? 'checked="checked"' : '' ).' value="1" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_use_trackback" value="'.$old_use_trackback.'" />';
-		}
+		echo '</table>'
+		.'</div>';
 		
 		
-		// table rows
-		if($action == 'extra'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_USE_SYN_TITLE.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_use_syn_title" '.( $old_use_syn_title == 1 ? 'checked="checked"' : '' ).' value="1" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_use_syn_title" value="'.$old_use_syn_title.'" />';
-		}
+		/*
+			mod tab
+		*/
+		
+		echo '<div class="tab-page" id="tab-page-set">'
+		.'<h2 class="tab">'._TABLE_SETTINGS.'</h2>'
+		.'<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
 		
 		
-		// table rows
-		if($action == 'extra'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_USE_RSS091.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_use_rss091" '.( $old_use_rss091 == 1 ? 'checked="checked"' : '' ).' value="1" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_use_rss091" value="'.$old_use_rss091.'" />';
-		}
+		echo '<tr>'
+		.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_USE_COMMENTS.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_use_comments" '.( $old_news_mm_usec == 1 ? 'checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
 		
 		
-		// table rows
-		if($action == 'extra'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_USE_RSS10.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_use_rss10" '.( $old_use_rss10 == 1 ? 'checked="checked"' : '' ).' value="1" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_use_rss10" value="'.$old_use_rss10.'" />';
-		}
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_USE_GRAVATAR.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="use_gravatar" '.( $old_use_gravatar == 1 ? 'checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
 		
 		
-		// table rows
-		if($action == 'extra'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_USE_RSS20.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_use_rss20" '.( $old_use_rss20 == 1 ? 'checked="checked"' : '' ).' value="1" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_use_rss20" value="'.$old_use_rss20.'" />';
-		}
+		echo '<tr>'
+		.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_USE_EMOTICONS.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="use_emoticons" '.( $old_use_emoticons == 1 ? 'checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
 		
 		
-		// table rows
-		if($action == 'extra'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_USE_ATOM03.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_use_atom03" '.( $old_use_atom03 == 1 ? 'checked="checked"' : '' ).' value="1" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_use_atom03" value="'.$old_use_atom03.'" />';
-		}
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td class="tcms_padding_mini">'._EXT_NEWS_DISPLAY.'</td>'
+		.'<td><img src="../images/px.png" border="0" width="1" />'
+		.'<select name="new_use_timesince" class="tcms_select">'
+		.'<option value="0"'.( $old_use_timesince == '0' ? ' selected="selected"' : '' ).'>'._EXT_NEWS_D_DATE.'</option>'
+		.'<option value="1"'.( $old_use_timesince == '1' ? ' selected="selected"' : '' ).'>'._EXT_NEWS_D_TIMESINCE.'</option>'
+		.'<option value="2"'.( $old_use_timesince == '2' ? ' selected="selected"' : '' ).'>'._EXT_NEWS_D_TEXT.'</option>'
+		.'</select></td></tr>';
 		
 		
-		// table rows
-		if($action == 'extra'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_USE_OPML.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_use_opml" '.( $old_use_opml == 1 ? 'checked="checked"' : '' ).' value="1" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_use_opml" value="'.$old_use_opml.'" />';
-		}
+		echo '<tr>'
+		.'<td class="tcms_padding_mini">'._EXT_NEWS_DISPLAY_MORE.'</td>'
+		.'<td><img src="../images/px.png" border="0" width="1" />'
+		.'<select name="new_readmore_link" class="tcms_select">'
+		.'<option value="0"'.( $old_readmore_link == '0' ? ' selected="selected"' : '' ).'>'._EXT_NEWS_MORE_NL_LEFT.'</option>'
+		.'<option value="1"'.( $old_readmore_link == '1' ? ' selected="selected"' : '' ).'>'._EXT_NEWS_MORE_NL_RIGHT.'</option>'
+		.'<option value="2"'.( $old_readmore_link == '2' ? ' selected="selected"' : '' ).'>'._EXT_NEWS_MORE_NL_DIRECT.'</option>'
+		.'</select></td></tr>';
 		
 		
-		// table rows
-		if($action == 'extra'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_SYN_AMOUNT.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" class="tcms_id_box" name="new_syn_amount" value="'.$old_syn_amount.'" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_syn_amount" value="'.$old_syn_amount.'" />';
-		}
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_USE_AUTOR.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_use_autor" '.( $old_news_mm_usea == 1 ? 'checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
 		
 		
-		// table rows
-		if($action == 'extra'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_DEFAULT_FEED.'</td>'
-			.'<td>'
-			.'<select name="new_def_feed" class="tcms_select">'
-				.'<option value="RSS0.91"'.( $old_def_feed == 'RSS0.91' ? ' selected="selected"' : '' ).'>RSS 0.91</option>'
-				.'<option value="RSS1.0"'.( $old_def_feed == 'RSS1.0' ? ' selected="selected"' : '' ).'>RSS 1.0</option>'
-				.'<option value="RSS2.0"'.( $old_def_feed == 'RSS2.0' ? ' selected="selected"' : '' ).'>RSS 2.0</option>'
-				.'<option value="AT0M0.3"'.( $old_def_feed == 'ATOM0.3' ? ' selected="selected"' : '' ).'>Atom 0.3</option>'
-				.'<option value="OPML"'.( $old_def_feed == 'OPML' ? ' selected="selected"' : '' ).'>OPML</option>'
-			.'</select>'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_def_feed" value="'.$old_def_feed.'" />';
-		}
+		echo '<tr>'
+		.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_USE_AUTOR_LINK.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_use_autor_link" '.( $old_news_mm_useal == 1 ? 'checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td class="tcms_padding_mini" valign="top">'._EXT_NEWS_NEWSAMOUNT.'</td>'
+		.'<td valign="top">'
+		.'<input name="new_news_mm_amount" class="tcms_input_small" value="'.$old_news_mm_amount.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td class="tcms_padding_mini" width="250" valign="top">'._FRONTPAGE_NEWS_CHARS.'</td>'
+		.'<td valign="top">'
+		.'<input name="new_news_cut" class="tcms_id_box" value="'.$old_news_cut.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_NEWS_SPACING.' (px)</td>'
+		.'<td>'
+		.'<input type="text" class="tcms_id_box" name="new_news_spacing" value="'.$old_news_spacing.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_USE_TRACKBACK.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_use_trackback" '.( $old_use_trackback == 1 ? 'checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_USE_SYN_TITLE.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_use_syn_title" '.( $old_use_syn_title == 1 ? 'checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_USE_RSS091.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_use_rss091" '.( $old_use_rss091 == 1 ? 'checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_USE_RSS10.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_use_rss10" '.( $old_use_rss10 == 1 ? 'checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_USE_RSS20.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_use_rss20" '.( $old_use_rss20 == 1 ? 'checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_USE_ATOM03.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_use_atom03" '.( $old_use_atom03 == 1 ? 'checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_USE_OPML.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_use_opml" '.( $old_use_opml == 1 ? 'checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_SYN_AMOUNT.'</td>'
+		.'<td>'
+		.'<input class="tcms_id_box" name="new_syn_amount" value="'.$old_syn_amount.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_DEFAULT_FEED.'</td>'
+		.'<td>'
+		.'<select name="new_def_feed" class="tcms_select">'
+			.'<option value="RSS0.91"'.( $old_def_feed == 'RSS0.91' ? ' selected="selected"' : '' ).'>RSS 0.91</option>'
+			.'<option value="RSS1.0"'.( $old_def_feed == 'RSS1.0' ? ' selected="selected"' : '' ).'>RSS 1.0</option>'
+			.'<option value="RSS2.0"'.( $old_def_feed == 'RSS2.0' ? ' selected="selected"' : '' ).'>RSS 2.0</option>'
+			.'<option value="AT0M0.3"'.( $old_def_feed == 'ATOM0.3' ? ' selected="selected"' : '' ).'>Atom 0.3</option>'
+			.'<option value="OPML"'.( $old_def_feed == 'OPML' ? ' selected="selected"' : '' ).'>OPML</option>'
+		.'</select>'
+		.'</td></tr>';
+		
+		
+		echo '</table>'
+		.'</div>';
+		
+		
+		/*
+			tabpane end
+		*/
+		
+		echo '</div>'
+		.'<script type="text/javascript">
+		var tabPane1 = new WebFXTabPane(document.getElementById("tab-pane-1"));
+		tabPane1.addTabPage(document.getElementById("tab-page-text"));
+		tabPane1.addTabPage(document.getElementById("tab-page-set"));
+		setupAllTabs();
+		</script>'
+		.'<br />';
 		
 		
 		// Table end
-		echo $tcms_html->tableEnd()
-		.'<br />'
-		.'</div>'
-		.'</form>';
+		echo '</form>'
+		.'<br />';
 	}
 	else{
 		echo '<strong>'._MSG_NOTENOUGH_USERRIGHTS.'</strong>';
@@ -1323,21 +1167,153 @@ if($todo == 'edit'){
 			.'<input name="order" type="hidden" value="'.$maintag.'" />';
 			
 			
+			/*
+				tabpane start
+			*/
 			
-			// table header
-			echo '<table width="100%" cellpadding="0" cellspacing="0" class="tcms_noborder"><tr class="tcms_bg_blue_01">'
-			.'<th valign="middle" align="left" class="tcms_db_title tcms_padding_mini">'._TABLE_DETAILS.'</th>'
-			.'</tr></table>';
+			echo '<div class="tab-pane" id="tab-pane-1">';
 			
 			
+			/*
+				text tab
+			*/
 			
-			// table begin
-			echo '<table width="100%" border="0" cellpadding="1" cellspacing="5" class="tcms_table">';
+			echo '<div class="tab-page" id="tab-page-text">'
+			.'<h2 class="tab">'._TABLE_EDIT.'</h2>'
+			.'<table cellpadding="1" cellspacing="5" width="100%" border="0" class="noborder">';
 			
 			
 			// table row
-			echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._TABLE_TITLE.'</strong></td>'
-			.'<td valign="top"><input class="tcms_input_normal" name="titel" type="text" value="'.$nws_title.'" /></td></tr>';
+			echo '<tr><td valign="top" width="'.$width.'">'
+			.'<strong class="tcms_bold">'._TABLE_TITLE.'</strong>'
+			.'</td><td valign="top">'
+			.'<input class="tcms_input_normal" name="titel" type="text" value="'.$nws_title.'" />'
+			.'</td></tr>';
+			
+			
+			// table row
+			echo '<tr><td valign="top" colspan="3">'
+			.'<br /><strong class="tcms_bold">'._NEWS_MAINTEXT.' ('._NEWS_ID.': '.$maintag.')</strong>'
+			.'<br /><br />'
+			.'<script>createToendaToolbar(\'news\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');</script>'
+			.'<script>createToendaHelpButton(\''.$tcms_lang.'\', \''._NEWS_IMAGE_HELP
+			.( $show_wysiwyg == 'fckeditor' ? '<br /><br /><strong>'._TCMSSCRIPT_MORE.': {tcms_more}</strong>' : '' )
+			.'\');</script>';
+			
+			if($show_wysiwyg == 'tinymce'){ }
+			elseif($show_wysiwyg == 'fckeditor'){ }
+			else{
+				if($show_wysiwyg == 'toendaScript'){ echo '<script>createToolbar(\'news\', \''.$tcms_lang.'\', \'toendaScript\');</script>'; }
+				else{ echo '<script>createToolbar(\'news\', \''.$tcms_lang.'\', \'HTML\');</script>'; }
+			}
+			
+			echo '<br /><br />'
+			.'</td></tr>';
+			
+			
+			// table row
+			echo '<tr><td valign="top" colspan="2">';
+			
+			if($show_wysiwyg == 'tinymce'){
+				echo '<textarea cols="75" rows="50" class="tcms_textarea_huge" style="width: 100%;" id="content" name="content" mce_editable="true">'
+				.$nws_news
+				.'</textarea>';
+				//mce_editable="true"
+			}
+			elseif($show_wysiwyg == 'fckeditor'){
+				$sBasePath = '../js/FCKeditor/';
+				
+				$oFCKeditor = new FCKeditor('content') ;
+				$oFCKeditor->BasePath = $sBasePath;
+				
+				$oFCKeditor->Value = $nws_news;
+				$oFCKeditor->Create();
+			}
+			else{
+				?>
+				<script language="JavaScript" type="text/javascript">
+				function contentResizer(id){
+					if(document.layers){
+						document.layers[0].left = id.pageX;
+						document.layers[0].top = id.pageY;
+					}
+					else if(document.getElementById){
+						//document.getElementById('content_body').style.width = id.pageX + "px";
+						//if(document.getElementById('content_body').style.height > 20)
+							document.getElementById('content_body').style.height = ( id.pageY - 450 ) + "px";
+					}
+				}
+				
+				//document.getElementById('content_resizer').onmouseover = contentResizer;
+				//document.onmouseover = contentResizer;
+				</script>
+				<!--<style type="text/css">
+				div.ebene {
+				  position: relative;
+				  width: 100%;
+				  height: 200px;
+				  visibility: visible;
+				}
+				</style>-->
+				<?
+				echo '<div class="ebene" id="content_body">'
+				.'<textarea class="tcms_textarea_huge" id="content" name="content">'.$nws_news.'</textarea>'
+				.'</div>'
+				.'<div class="tcms_textarea_bottom" onmousedown="contentResizer(\'content\');" id="content_resizer"></div>';
+			}
+			
+			echo '<br />'
+			.'</td>';
+			
+			
+			// table row
+			echo '<td width="250" valign="top">'
+			.'<div style="width: 200px; overflow: auto; border: 0px solid #fff; padding: 3px;">'
+			.'<fieldset><legend><strong class="tcms_bold">'._TABLE_CATEGORY.'</strong></legend>'
+			.'<br />';
+			
+			$globals_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/var.xml','r');
+			$old_default_cat = $globals_xml->read_section('global', 'default_category');
+			
+			foreach($arrNewsCat['tag'] as $key => $value){
+				$checkME = false;
+				
+				if(!empty($arr_cat)){
+					foreach($arr_cat as $ckey => $cval){
+						if($cval == $value){ $checkME = true; }
+					}
+				}
+				else{
+					if($old_default_cat == $value){ $checkME = true; }
+					else{ $checkME = false; }
+				}
+				
+				echo '<div class="tcms_switchcolor_4" style="margin: 0; padding: 0 0 4px 0;" onmouseover="this.style.background=\''.$arr_farbe[1].'\';" onmouseout="this.style.background=\''.$arr_farbe[0].'\';">'
+				.'<label for="new_cat_'.$key.'">'
+				.'<input type="checkbox" style="margin: 0 0 0px 0 !important;" id="new_cat_'.$key.'" name="new_cat_'.$key.'" value="'.$value.'"'.( $checkME == true ? ' checked="checked"' : '' ).' />'
+				.'&nbsp;'.$arrNewsCat['name'][$key]
+				.'</label>'
+				.'</div>';
+				
+				$catAmount = $key;
+			}
+			echo '</fieldset>'
+			.'</div>'
+			.'</td></tr>';
+			//.'<br /><br />'
+			
+			
+			echo '</table>'
+			.'</div>';
+			
+			
+			/*
+				settings tab
+			*/
+			
+			echo '<div class="tab-page" id="tab-page-set">'
+			.'<h2 class="tab">'._TABLE_SETTINGS.'</h2>'
+			.'<table cellpadding="1" cellspacing="5" width="100%" border="0" class="noborder">';
 			
 			
 			// table row
@@ -1440,119 +1416,23 @@ if($todo == 'edit'){
 			.'</td></tr>';
 			
 			
-			// table row
-			echo '<tr><td valign="top" colspan="3"><br /><strong class="tcms_bold">'._NEWS_MAINTEXT.' ('._NEWS_ID.': '.$maintag.')</strong>'
-			.'<br /><br />'
-			.'<script>createToendaToolbar(\'news\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');</script>'
-			.'<script>createToendaHelpButton(\''.$tcms_lang.'\', \''._NEWS_IMAGE_HELP
-			.( $show_wysiwyg == 'fckeditor' ? '<br /><br /><strong>'._TCMSSCRIPT_MORE.': {tcms_more}</strong>' : '' )
-			.'\');</script>';
-			
-			if($show_wysiwyg == 'tinymce'){ }
-			elseif($show_wysiwyg == 'fckeditor'){ }
-			else{
-				if($show_wysiwyg == 'toendaScript'){ echo '<script>createToolbar(\'news\', \''.$tcms_lang.'\', \'toendaScript\');</script>'; }
-				else{ echo '<script>createToolbar(\'news\', \''.$tcms_lang.'\', \'HTML\');</script>'; }
-			}
-			
-			echo '<br /><br />'
-			.'</td></tr>';
+			echo '</table>'
+			.'</div>';
 			
 			
-			// table row
-			echo '<tr><td valign="top" colspan="2">';
+			/*
+				tabpane end
+			*/
 			
-			if($show_wysiwyg == 'tinymce'){
-				echo '<textarea cols="75" rows="50" class="tcms_textarea_huge" style="width: 100%;" id="content" name="content" mce_editable="true">'
-				.$nws_news
-				.'</textarea>';
-				//mce_editable="true"
-			}
-			elseif($show_wysiwyg == 'fckeditor'){
-				$sBasePath = '../js/FCKeditor/';
-				
-				$oFCKeditor = new FCKeditor('content') ;
-				$oFCKeditor->BasePath = $sBasePath;
-				
-				$oFCKeditor->Value = $nws_news;
-				$oFCKeditor->Create();
-			}
-			else{
-				?>
-				<script language="JavaScript" type="text/javascript">
-				function contentResizer(id){
-					if(document.layers){
-						document.layers[0].left = id.pageX;
-						document.layers[0].top = id.pageY;
-					}
-					else if(document.getElementById){
-						//document.getElementById('content_body').style.width = id.pageX + "px";
-						//if(document.getElementById('content_body').style.height > 20)
-							document.getElementById('content_body').style.height = ( id.pageY - 450 ) + "px";
-					}
-				}
-				
-				//document.getElementById('content_resizer').onmouseover = contentResizer;
-				//document.onmouseover = contentResizer;
-				</script>
-				<!--<style type="text/css">
-				div.ebene {
-				  position: relative;
-				  width: 100%;
-				  height: 200px;
-				  visibility: visible;
-				}
-				</style>-->
-				<?
-				echo '<div class="ebene" id="content_body">'
-				.'<textarea class="tcms_textarea_huge" title="This is tooltip text 1" id="content" name="content">'.$nws_news.'</textarea>'
-				.'</div>'
-				.'<div class="tcms_textarea_bottom" onmousedown="contentResizer(\'content\');" id="content_resizer"></div>';
-			}
-			
-			echo '<br /><br />'
-			.'</td>';
-			
-			
-			// table row
-			echo '<td width="250" valign="top">'
-			.'<div style="width: 200px; overflow: auto; border: 0px solid #fff; padding: 3px;">'
-			.'<fieldset><legend><strong class="tcms_bold">'._TABLE_CATEGORY.'</strong></legend>'
+			echo '</div>'
+			.'<script type="text/javascript">'
+			.'var tabPane1 = new WebFXTabPane(document.getElementById("tab-pane-1"));'
+			.'tabPane1.addTabPage(document.getElementById("tab-page-text"));'
+			.'tabPane1.addTabPage(document.getElementById("tab-page-set"));'
+			.'setupAllTabs();'
+			.'</script>'
 			.'<br />';
 			
-			$globals_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/var.xml','r');
-			$old_default_cat = $globals_xml->read_section('global', 'default_category');
-			
-			foreach($arrNewsCat['tag'] as $key => $value){
-				$checkME = false;
-				
-				if(!empty($arr_cat)){
-					foreach($arr_cat as $ckey => $cval){
-						if($cval == $value){ $checkME = true; }
-					}
-				}
-				else{
-					if($old_default_cat == $value){ $checkME = true; }
-					else{ $checkME = false; }
-				}
-				
-				echo '<div class="tcms_switchcolor_4" style="margin: 0; padding: 0 0 4px 0;" onmouseover="this.style.background=\''.$arr_farbe[1].'\';" onmouseout="this.style.background=\''.$arr_farbe[0].'\';">'
-				.'<label for="new_cat_'.$key.'">'
-				.'<input type="checkbox" style="margin: 0 0 0px 0 !important;" id="new_cat_'.$key.'" name="new_cat_'.$key.'" value="'.$value.'"'.( $checkME == true ? ' checked="checked"' : '' ).' />'
-				.'&nbsp;'.$arrNewsCat['name'][$key]
-				.'</label>'
-				.'</div>';
-				
-				$catAmount = $key;
-			}
-			echo '</fieldset>'
-			.'</div>'
-			.'</td></tr>';
-			//.'<br /><br />'
-			
-			
-			// tabel end
-			echo '</table>';
 			
 			/*
 				END
@@ -1628,7 +1508,7 @@ if($todo == 'save_config'){
 		$content = $tcms_main->encodeText($content, '2', $c_charset);
 	}
 	else{
-		$content = $tcms_main->decodeBase64($content);
+		//$content = $tcms_main->decodeBase64($content);
 	}
 	
 	

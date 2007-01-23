@@ -795,6 +795,7 @@ if(!defined('_CONTACT_VCARD_DOWNLOAD'))        define('_CONTACT_VCARD_DOWNLOAD',
 
 
 // GLOBALS
+if(!defined('_GLOBAL'))                        define('_GLOBAL', 'Site');
 if(!defined('_GLOBAL_CONFIG'))                 define('_GLOBAL_CONFIG', 'Site Configuration');
 if(!defined('_GLOBAL_TITLE'))                  define('_GLOBAL_TITLE', 'Website title');
 define('_GLOBAL_NAME', 'Website name');
@@ -930,7 +931,7 @@ define('_LU_DES_VERSION', 'Version of your Template');
 
 
 // CREDITS
-define('_CREDITS_SYSTEM', 'System Information');
+define('_CREDITS_SYSTEM', 'System');
 define('_CREDITS_RELEVANT', 'Relevent for the Content Management System');
 define('_CREDITS_VERSION', 'toendaCMS Version');
 define('_CREDITS_PLATFORM', 'Platform');
@@ -1331,6 +1332,22 @@ if(!defined('_COUNTRY_YUGOSLAVIA'))            define('_COUNTRY_YUGOSLAVIA', 'Yu
 if(!defined('_COUNTRY_VIRGINISLANDS'))         define('_COUNTRY_VIRGINISLANDS', 'Virgin Islands');
 if(!defined('_COUNTRY_CAMBODIA'))              define('_COUNTRY_CAMBODIA', 'Cambodia');
 if(!defined('_COUNTRY_CAMEROON'))              define('_COUNTRY_CAMEROON', 'Cameroon');
+if(!defined('_COUNTRY_CANADA'))                define('_COUNTRY_CANADA', 'Canada');
+if(!defined('_COUNTRY_CAPEVERDEISLANDS'))      define('_COUNTRY_CAPEVERDEISLANDS', 'Cape Verde Islands');
+if(!defined('_COUNTRY_KAZAKHSTAN'))            define('_COUNTRY_KAZAKHSTAN', 'Kazakhstan');
+if(!defined('_COUNTRY_KATAR'))                 define('_COUNTRY_KATAR', 'Katar');
+if(!defined('_COUNTRY_KENYA'))                 define('_COUNTRY_KENYA', 'Kenya');
+if(!defined('_COUNTRY_KYRGYZSTAN'))            define('_COUNTRY_KYRGYZSTAN', 'Kyrgyzstan');
+if(!defined('_COUNTRY_KIRIBATI'))              define('_COUNTRY_KIRIBATI', 'Kiribati');
+if(!defined('_COUNTRY_COCOSISLANDS'))          define('_COUNTRY_COCOSISLANDS', 'Cocos Islands');
+if(!defined('_COUNTRY_COLOMBIA'))              define('_COUNTRY_COLOMBIA', 'Colombia');
+if(!defined('_COUNTRY_COMOROS'))               define('_COUNTRY_COMOROS', 'Comoros');
+if(!defined('_COUNTRY_CONGO'))                 define('_COUNTRY_CONGO', 'Congo');
+if(!defined('_COUNTRY_CROATIA'))               define('_COUNTRY_CROATIA', 'Croatia');
+if(!defined('_COUNTRY_CUBA'))                  define('_COUNTRY_CUBA', 'Cuba');
+if(!defined('_COUNTRY_KUWAIT'))                define('_COUNTRY_KUWAIT', 'Kuwait');
+if(!defined('_COUNTRY_LAOS'))                  define('_COUNTRY_LAOS', 'Laos');
+if(!defined('_COUNTRY_LESOTHO'))               define('_COUNTRY_LESOTHO', 'Lesotho');
 
 if(!defined('_COUNTRY_MALI'))                  define('_COUNTRY_MALI', 'Mali');
 if(!defined('_COUNTRY_MALTA'))                 define('_COUNTRY_MALTA', 'Malta');

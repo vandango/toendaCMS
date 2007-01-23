@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a documents manager.
  *
- * @version 1.0.8
+ * @version 1.1.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -57,6 +57,11 @@ if(isset($_POST['language'])){ $language = $_POST['language']; }
 if($id_group == 'Developer' 
 || $id_group == 'Administrator' 
 || $id_group == 'Writer'){
+	echo '<script type="text/javascript" src="../js/tabs/tabpane.js"></script>'
+	.'<link type="text/css" rel="StyleSheet" href="../js/tabs/css/luna/tab.css" />'
+	.'<!--<link type="text/css" rel="StyleSheet" href="../js/tabs/tabpane.css" />-->';
+	
+	
 	if($show_wysiwyg == 'tinymce') {
 		echo '<script language="JavaScript" src="../js/dhtml.js"></script>';
 		echo '<style>.tableRowLight{ background-color: #ececec; }.tableRowDark{ background-color: #333333; }</style>';
@@ -685,16 +690,25 @@ if($id_group == 'Developer'
 		}
 		
 		
+		/*
+			EDIT CONTENT
+		*/
 		// table row
 		if($db_layout != ''){
-			// table head
-			echo '<table width="100%" cellpadding="0" cellspacing="0" class="noborder"><tr class="tcms_bg_blue_01">'
-			.'<th valign="top" align="left" class="tcms_db_title tcms_padding_mini">'._TABLE_DETAILS.'</th>'
-			.'</tr></table>';
+			/*
+				tabpane start
+			*/
+			
+			echo '<div class="tab-pane" id="tab-pane-1">';
 			
 			
-			// table head
-			echo '<table width="100%" cellpadding="1" cellspacing="5" class="tcms_table">';
+			/*
+				text tab
+			*/
+			
+			echo '<div class="tab-page" id="tab-page-text">'
+			.'<h2 class="tab">'._TABLE_EDIT.'</h2>'
+			.'<table cellpadding="1" cellspacing="5" width="100%" border="0" class="noborder">';
 			
 			
 			if($tcms_main->isReal($lang)) {
@@ -705,7 +719,7 @@ if($id_group == 'Developer'
 				echo '<tr><td valign="top" width="'.$width.'">'
 				.'<strong class="tcms_bold">'._CONTENT_ORG_DOCUMENT.'</strong>'
 				.'</td><td>'
-				.'<select id="original" name="original">';
+				.'<select class="tcms_select" id="original" name="original">';
 				
 				foreach($arr_docs['id'] as $key => $value) {
 					if($arr_content['orgiginal'][$val] == $value)
@@ -724,7 +738,7 @@ if($id_group == 'Developer'
 				echo '<tr><td valign="top" width="'.$width.'">'
 				.'<strong class="tcms_bold">'._TCMS_LANGUAGE.'</strong>'
 				.'</td><td>'
-				.'<select id="language" name="language">';
+				.'<select class="tcms_select" id="language" name="language">';
 				
 				foreach($languages['code'] as $key => $value) {
 					if($value != $tcms_config->getLanguageCode(true)) {
@@ -754,6 +768,85 @@ if($id_group == 'Developer'
 			echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._TABLE_SUBTITLE.'</strong></td>'
 			.'<td><input class="tcms_input_normal" name="key" type="text" value="'.$arr_content['key'][$val].'" />'
 			.'</td></tr>';
+			
+			
+			// table row
+			echo '<tr><td valign="top" colspan="2"><strong class="tcms_bold">'._TABLE_TEXT.' ('._TABLE_ORDER.': '.$arr_content['id'][$val].')</strong>'
+			.'<br /><br />'
+			.'<script>createToendaToolbar(\'contentPage\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');</script>';
+			
+			if($show_wysiwyg == 'tinymce'){ }
+			elseif($show_wysiwyg == 'fckeditor'){ echo ''._TCMSSCRIPT_MORE.': {tcms_more}'; }
+			else{
+				if($show_wysiwyg == 'toendaScript'){ echo '<script>createToolbar(\'contentPage\', \''.$tcms_lang.'\', \'toendaScript\');</script>'; }
+				else{ echo '<script>createToolbar(\'contentPage\', \''.$tcms_lang.'\', \'HTML\');</script>'; }
+			}
+			
+			echo '</td></tr>'
+			.'<tr><td valign="top" colspan="2">';
+			
+			if($show_wysiwyg == 'tinymce'){
+				echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content" mce_editable="true">'.$arr_content['text0'][$val].'</textarea>';
+			}
+			elseif($show_wysiwyg == 'fckeditor'){
+				$sBasePath = '../js/FCKeditor/';
+				
+				$oFCKeditor = new FCKeditor('content');
+				$oFCKeditor->BasePath = $sBasePath;
+				$oFCKeditor->Value = $arr_content['text0'][$val];
+				$oFCKeditor->Create();
+			}
+			else{
+				echo '<textarea class="tcms_textarea_huge" style="width: 95%;" id="content" name="content">'.$arr_content['text0'][$val].'</textarea>';
+			}
+			
+			echo '</td></tr>';
+			
+			
+			// table row
+			if($db_layout == 'db_content_default.php'){
+				// table row
+				$content01 = '';
+			}
+			elseif($db_layout == 'db_content_image.php'){
+				// table row
+				echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._CONTENT_OLDIMAGE.'</strong></td>'
+				.'<td valign="top">'
+				.'<textarea class="tcms_textarea_normal" name="tmp_content01" type="text">'.$arr_content['text1'][$val].'</textarea>'
+				.'</td></tr>';
+				
+				
+				// table row
+				echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._CONTENT_IMAGEUNDER.'</strong></td>'
+				.'<td><input class="tcms_upload" name="content01" type="file" accept="image/*" />'
+				.'</td></tr>';
+			}
+			elseif($db_layout == 'db_content_image_right.php'){
+				// table row
+				echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._CONTENT_OLDIMAGE.'</strong></td>'
+				.'<td valign="top">'
+				.'<textarea class="tcms_textarea_normal" name="tmp_content01" type="text">'.$arr_content['text1'][$val].'</textarea>'
+				.'</td></tr>';
+				
+				
+				// table row
+				echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._CONTENT_IMAGERIGHT.'</strong></td>'
+				.'<td valign="top"><input class="tcms_upload" name="content01" type="file" accept="image/*" />'
+				.'</td></tr>';
+			}
+			
+			
+			echo '</table>'
+			.'</div>';
+			
+			
+			/*
+				settings tab
+			*/
+			
+			echo '<div class="tab-page" id="tab-page-set">'
+			.'<h2 class="tab">'._TABLE_SETTINGS.'</h2>'
+			.'<table cellpadding="1" cellspacing="5" width="100%" border="0" class="noborder">';
 			
 			
 			// table row
@@ -822,98 +915,30 @@ if($id_group == 'Developer'
 			echo '</td></tr>';
 			
 			
-			// table row
-			echo '<tr><td class="tcms_padding_mini"><br /></td></tr></table>';
+			// table head
+			echo '<tr><td valign="top" width="'.$width.'">'
+			.'<strong class="tcms_bold">'._CONTENT_FOOT.'</strong>'
+			.'</td><td>'
+			.'<textarea class="tcms_textarea_big" name="foot" type="text">'.$arr_content['foot'][$val].'</textarea>'
+			.'</td></tr>';
 			
 			
+			echo '</table>'
+			.'</div>';
 			
 			
 			/*
-				content
+				tabpane end
 			*/
 			
-			
-			// table content
-			echo '<table width="100%" cellpadding="1" cellspacing="5" class="tcms_table" border="0">';
-			
-			
-			// table row
-			echo '<tr><td valign="top" colspan="2"><strong class="tcms_bold">'._TABLE_TEXT.' ('._TABLE_ORDER.': '.$arr_content['id'][$val].')</strong>'
-			.'<br /><br />'
-			.'<script>createToendaToolbar(\'contentPage\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');</script>';
-			
-			if($show_wysiwyg == 'tinymce'){ }
-			elseif($show_wysiwyg == 'fckeditor'){ echo ''._TCMSSCRIPT_MORE.': {tcms_more}'; }
-			else{
-				if($show_wysiwyg == 'toendaScript'){ echo '<script>createToolbar(\'contentPage\', \''.$tcms_lang.'\', \'toendaScript\');</script>'; }
-				else{ echo '<script>createToolbar(\'contentPage\', \''.$tcms_lang.'\', \'HTML\');</script>'; }
-			}
-			
-			echo '</td></tr>'
-			.'<tr><td valign="top" colspan="2">';
-			
-			if($show_wysiwyg == 'tinymce'){
-				echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content" mce_editable="true">'.$arr_content['text0'][$val].'</textarea>';
-			}
-			elseif($show_wysiwyg == 'fckeditor'){
-				$sBasePath = '../js/FCKeditor/';
-				
-				$oFCKeditor = new FCKeditor('content');
-				$oFCKeditor->BasePath = $sBasePath;
-				$oFCKeditor->Value = $arr_content['text0'][$val];
-				$oFCKeditor->Create();
-			}
-			else{
-				echo '<textarea class="tcms_textarea_huge" style="width: 95%;" id="content" name="content">'.$arr_content['text0'][$val].'</textarea>';
-			}
-			
-			echo '</td></tr>';
-			
-			
-			
-			// table row
-			if($db_layout == 'db_content_default.php'){
-				// table row
-				$content01 = '';
-			}
-			elseif($db_layout == 'db_content_image.php'){
-				// table row
-				echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._CONTENT_OLDIMAGE.'</strong></td>'
-				.'<td valign="top">'
-				.'<textarea class="tcms_textarea_normal" name="tmp_content01" type="text">'.$arr_content['text1'][$val].'</textarea>'
-				.'</td></tr>';
-				
-				
-				// table row
-				echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._CONTENT_IMAGEUNDER.'</strong></td>'
-				.'<td><input class="tcms_upload" name="content01" type="file" accept="image/*" />'
-				.'</td></tr>';
-			}
-			elseif($db_layout == 'db_content_image_right.php'){
-				// table row
-				echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._CONTENT_OLDIMAGE.'</strong></td>'
-				.'<td valign="top">'
-				.'<textarea class="tcms_textarea_normal" name="tmp_content01" type="text">'.$arr_content['text1'][$val].'</textarea>'
-				.'</td></tr>';
-				
-				
-				// table row
-				echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._CONTENT_IMAGERIGHT.'</strong></td>'
-				.'<td valign="top"><input class="tcms_upload" name="content01" type="file" accept="image/*" />'
-				.'</td></tr>';
-			}
-			
-			
-			// table end
-			echo '</table>';
-			
-			
-			// table head
-			echo '<table width="100%" cellpadding="1" cellspacing="5" class="tcms_table">'
-			.'<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._CONTENT_FOOT.'</strong></td>'
-			.'<td><textarea class="tcms_textarea_big" name="foot" type="text">'.$arr_content['foot'][$val].'</textarea>'
-			.'</td></tr>'
-			.'</table>';
+			echo '</div>'
+			.'<script type="text/javascript">'
+			.'var tabPane1 = new WebFXTabPane(document.getElementById("tab-pane-1"));'
+			.'tabPane1.addTabPage(document.getElementById("tab-page-text"));'
+			.'tabPane1.addTabPage(document.getElementById("tab-page-set"));'
+			.'setupAllTabs();'
+			.'</script>'
+			.'<br />';
 			
 			
 			/*

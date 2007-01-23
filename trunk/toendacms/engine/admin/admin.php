@@ -38,7 +38,7 @@ if(isset($_POST['lang'])){ $lang = $_POST['lang']; }
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 1.0.8
+ * @version 1.0.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -407,11 +407,9 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 				
 				
 				// footer
-				echo '<tr><td colspan="2" height="20">'
-				.'<table cellpaddign="0" cellsracing="0" border="0" width="100%" class="noborder tcms_footer">'
-				.'<tr><td width="175" class="tcms_footer_color tcms_footer_img">'
-				.'&nbsp;'
-				.'</td><td class="legal tcms_footer_color">';
+				echo '<tr><td colspan="2" height="45" class="tcms_footer" valign="bottom">'
+				.'<div class="tcms_footer_img">&nbsp;</div>'
+				.'<div class="legal tcms_footer_color">';
 				
 				$page_load_time = tcms_time::tcms_load_end();
 				
@@ -422,12 +420,11 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 					echo '.&nbsp;'.$page_query_count;
 				}
 				
-				echo '<br />&nbsp;'._TCMS_ADMIN_DEV
+				echo '<br />'._TCMS_ADMIN_DEV
 				.'&nbsp;<a class="legal" href="http://www.toenda.com" target="_blank">Toenda Software Development</a> &copy; '
 				.$toenda_copy.' '._TCMS_ADMIN_RIGHT;
 				
-				echo '</td></tr>'
-				.'</table>'
+				echo '</div>'
 				.'</td></tr>'
 				.'</table>';
 				

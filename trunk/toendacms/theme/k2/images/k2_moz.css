@@ -321,8 +321,16 @@ th.titleBG{ font-size: 14px; border-bottom: 2px #9bb2b9 solid; padding-left: 4px
 
 
 /* impressum */
-.imptitle { font-size: 13px; padding-left: 5px; }
-.impoffice { padding-left: 38px; }
+.imptitle {
+	color: #444;
+	font-family: 'Century Gothic', Verdana, Sans-Serif;
+	font-size: 17px;
+	text-decoration: none;
+}
+
+.impoffice {
+	padding-left: 38px;
+}
 
 
 /* comments */

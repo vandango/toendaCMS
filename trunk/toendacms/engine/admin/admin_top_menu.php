@@ -440,10 +440,6 @@ if(file_exists('toolbars/'.$mod_title['show'][$site]) && $mod_title['show'][$sit
 if($mod_title['show'][$site] == 1){
 	echo '<img src="../images/admin_menu/line.gif" border="0" />';
 	
-	if($site == 'mod_frontpage' && $todo != 'config'){
-		echo '<a style="padding: 3px 3px 0 3px;" href="admin.php?id_user='.$id_user.'&amp;site='.$site.'&amp;todo=config"><img title="'._TCMS_ADMIN_CONFIG.'" alt="'._TCMS_ADMIN_CONFIG.'" src="../images/admin_menu/config.png" border="0" /></a>';
-		echo '<img src="../images/admin_menu/line.gif" border="0" />';
-	}
 	if($todo == 'config'){
 		echo '<a style="padding: 3px 3px 0 3px;" href="admin.php?id_user='.$id_user.'&amp;site='.$site.'"><img title="'._TCMS_ADMIN_BACK.'" alt="'._TCMS_ADMIN_BACK.'" src="../images/admin_menu/back.png" border="0" /></a>';
 		echo '<img src="../images/admin_menu/line.gif" border="0" />';

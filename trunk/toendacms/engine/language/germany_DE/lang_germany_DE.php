@@ -798,6 +798,7 @@ define('_CONTACT_VCARD_DOWNLOAD', 'vCard herunterladen');
 
 
 // GLOBALS
+define('_GLOBAL', 'Seite');
 define('_GLOBAL_CONFIG', 'Seiten Konfiguration');
 define('_GLOBAL_TITLE', 'Webseiten Titel');
 define('_GLOBAL_NAME', 'Webseiten Name');
@@ -932,7 +933,7 @@ define('_LU_DES_VERSION', 'Version des Templates');
 
 
 // CREDITS
-define('_CREDITS_SYSTEM', 'System Informationen');
+define('_CREDITS_SYSTEM', 'System');
 define('_CREDITS_RELEVANT', 'Relevant f&uuml;r das Content Management System');
 define('_CREDITS_VERSION', 'toendaCMS Version');
 define('_CREDITS_PLATFORM', 'Plattform');
@@ -1333,6 +1334,22 @@ define('_COUNTRY_YUGOSLAVIA', 'Jugoslawien (ehem.)');
 define('_COUNTRY_VIRGINISLANDS', 'Jungferninseln');
 define('_COUNTRY_CAMBODIA', 'Kambodscha');
 define('_COUNTRY_CAMEROON', 'Kamerun');
+define('_COUNTRY_CANADA', 'Kanada');
+define('_COUNTRY_CAPEVERDEISLANDS', 'Kapverdische Inseln');
+define('_COUNTRY_KAZAKHSTAN', 'Kasachstan');
+define('_COUNTRY_KATAR', 'Katar');
+define('_COUNTRY_KENYA', 'Kenia');
+define('_COUNTRY_KYRGYZSTAN', 'Kirgisien');
+define('_COUNTRY_KIRIBATI', 'Kiribati');
+define('_COUNTRY_COCOSISLANDS', 'Kokosinseln');
+define('_COUNTRY_COLOMBIA', 'Kolumbien');
+define('_COUNTRY_COMOROS', 'Komoren');
+define('_COUNTRY_CONGO', 'Kongo');
+define('_COUNTRY_CROATIA', 'Kroatien');
+define('_COUNTRY_CUBA', 'Kuba');
+define('_COUNTRY_KUWAIT', 'Kuwait');
+define('_COUNTRY_LAOS', 'Laos');
+define('_COUNTRY_LESOTHO', 'Lesotho');
 
 define('_COUNTRY_MALI', 'Mali');
 define('_COUNTRY_MALTA', 'Malta');

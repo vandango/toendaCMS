@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used as a law-concurring
  * publishing form.
  *
- * @version 0.3.0
+ * @version 0.3.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -38,7 +38,7 @@ defined('_TCMS_VALID') or die('Restricted access');
 //require_once('engine/tcms_kernel/tcms_countrylist.lib.php');
 
 if(trim($imp_title) != ''){ echo tcms_html::contentheading($imp_title); }
-if(trim($imp_stamp) != ''){ echo tcms_html::contentstamp($imp_stamp).'<br /><br /><br />'; }
+if(trim($imp_stamp) != ''){ echo tcms_html::contentstamp($imp_stamp).'<br /><br />'; }
 
 
 echo '<span class="contentmain">';
@@ -138,7 +138,8 @@ if($imp_contact != '_no_contact_'){
 	.( $tcms_main->isReal($contact['fax']) ? '<strong>'._IMPRESSUM_FAX.':</strong> '.$contact['fax'] : '' );
 	
 	
-	echo '<br /><br />';
+	echo '<br />';
+	//echo '<br />';
 	
 	
 	// office

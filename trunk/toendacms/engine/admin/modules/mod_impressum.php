@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the publishing form.
  *
- * @version 0.5.5
+ * @version 0.5.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -561,36 +561,28 @@ if($id_group == 'Developer'
 			else {
 				switch($choosenDB){
 					case 'mysql':
-						$newSQLColumns = '`front_id`, `front_title`, `front_stamp`, `front_text`, '
-						.'`news_title`, `news_cut`, `module_use_0`, `sb_news_title`, '
-						.'`sb_news_amount`, `sb_news_chars`, `sb_news_enabled`, `sb_news_display`, '
-						.'`language`';
+						$newSQLColumns = '`imp_id`, `imp_title`, `imp_stamp`, `imp_contact`, '
+						.'`taxno`, `ustid`, `legal`, `language`';
 						break;
 					
 					case 'pgsql':
-						$newSQLColumns = 'front_id, front_title, front_stamp, front_text, '
-						.'"news_title", news_cut, module_use_0, sb_news_title, '
-						.'sb_news_amount, sb_news_chars, sb_news_enabled, "sb_news_display", '
-						.'"language"';
+						$newSQLColumns = 'imp_id, imp_title, imp_stamp, imp_contact, '
+						.'"taxno", ustid, "legal", "language"';
 						break;
 					
 					case 'mssql':
-						$newSQLColumns = '[front_id], [front_title], [front_stamp], [front_text], '
-						.'[news_title], [news_cut], [module_use_0], [sb_news_title], '
-						.'[sb_news_amount], [sb_news_chars], [sb_news_enabled], [sb_news_display], '
-						.'[language]';
+						$newSQLColumns = '[imp_id], [imp_title], [imp_stamp], [imp_contact], '
+						.'[taxno], [ustid], [legal], [language]';
 						break;
 				}
 				
-				$newSQLData = "'".$front_id."', '".$front_title."', '".$front_stamp."', '".$content."', "
-				."'".$new_news_title."', ".$news_cut.", ".$module_use_0.", '".$new_sb_news_title."', "
-				.$sb_module_use_0.", ".$sb_news_cut.", ".$new_sb_enabled.", ".$new_sb_display.", "
-				."'".$setLang."'";
+				$newSQLData = "'".$imp_id."', '".$imp_title."', '".$imp_stamp."', '".$imp_contact."', "
+				."'".$taxno."', '".$ustid."', '".$content."', '".$setLang."'";
 				
-				$maintag = $tcms_main->getNewUID(9, 'frontpage');
+				$maintag = $tcms_main->getNewUID(9, 'impressum');
 				
 				$sqlQR = $sqlAL->sqlCreateOne(
-					$tcms_db_prefix.'frontpage', 
+					$tcms_db_prefix.'impressum', 
 					$newSQLColumns, 
 					$newSQLData, 
 					$maintag

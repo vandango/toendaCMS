@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * This module is for the global configuration settings.
  * 
- * @version 1.1.2
+ * @version 1.1.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Admin Backend
@@ -133,11 +133,9 @@ if(isset($_POST['new_anti_frame'])){ $new_anti_frame = $_POST['new_anti_frame'];
 
 
 
-if($id_group == 'Developer' || $id_group == 'Administrator'){
-	//***************************
-	//
-	// Title
-	//
+if($id_group == 'Developer' 
+|| $id_group == 'Administrator'){
+	// title
 	$namen_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/namen.xml','r');
 	
 	$sitetitle = $namen_xml->read_section('namen', 'title');
@@ -146,10 +144,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	$logo      = $namen_xml->read_section('namen', 'logo');
 	
 	
-	//***************************
-	//
-	// Footer Config
-	//
+	// footer
 	$footer_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/footer.xml','r');
 	
 	$old_websiteowner = $footer_xml->read_section('footer', 'websiteowner');
@@ -168,9 +163,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	}
 	
 	
-	
-	//***************************
-	// Main Contact Form Config
+	// var
 	$globals_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/var.xml','r');
 	
 	$old_menu           = $globals_xml->read_section('global', 'menu');
@@ -212,11 +205,41 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	$old_use_content_l  = $globals_xml->read_section('global', 'use_content_language');
 	
 	
+	// userpage
+	if($choosenDB == 'xml'){
+		$contactform_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/userpage.xml','r');
+		$old_text_width   = $contactform_xml->read_section('userpage', 'text_width');
+		$old_input_width  = $contactform_xml->read_section('userpage', 'input_width');
+		$old_news_publish = $contactform_xml->read_section('userpage', 'news_publish');
+		$old_img_publish  = $contactform_xml->read_section('userpage', 'image_publish');
+		$old_alb_publish  = $contactform_xml->read_section('userpage', 'album_publish');
+		$old_cat_publish  = $contactform_xml->read_section('userpage', 'cat_publish');
+		$old_pic_publish  = $contactform_xml->read_section('userpage', 'pic_publish');
+	}
+	else{
+		$sqlAL = new sqlAbstractionLayer($choosenDB);
+		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		
+		$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'userpage', 'userpage');
+		$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+		
+		$old_text_width   = $sqlARR['text_width'];
+		$old_input_width  = $sqlARR['input_width'];
+		$old_news_publish = $sqlARR['news_publish'];
+		$old_img_publish  = $sqlARR['image_publish'];
+		$old_alb_publish  = $sqlARR['album_publish'];
+		$old_cat_publish  = $sqlARR['cat_publish'];
+		$old_pic_publish  = $sqlARR['pic_publish'];
+	}
 	
 	
 	
-	//*****************************
-	// Charsets
+	
+	
+	/*
+		charsets
+	*/
+	
 	$sitetitle        = $tcms_main->decodeText($sitetitle, '2', $c_charset);
 	$sitename         = $tcms_main->decodeText($sitename, '2', $c_charset);
 	$sitekey          = $tcms_main->decodeText($sitekey, '2', $c_charset);
@@ -246,1047 +269,632 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	
 	
 	
-	
-	
-	if(!isset($action)){ $action = 'site'; }
-	
-	echo '<script>
-	var CHANGED = false;
-	var RELOCATE = "0";
-	var _tcmsVALUE = "Site is proudly powered by toendaCMS &#169; 2003 - 2007 Toenda Software Development. All rights reserved.<br />toendaCMS is Free Software released under the GNU/GPL License.<br />";
-	
-	function checkChanges(target){
-		if(CHANGED){
-			var confirmSave = confirm("'._MSG_CHANGES.'\n'._MSG_SAVE_NOW.'");
-			
-			if(confirmSave == false){
-				RELOCATE = "0";
-				document.getElementById(\'_RELOCATE\').value = "0";
-				document.location = "admin.php?id_user='.$id_user.'&site=mod_global&action=" + target;
-			}
-			else{
-				RELOCATE = target;
-				document.getElementById(\'_RELOCATE\').value = target;
-				save();
-			}
-		}
-		else{
-			RELOCATE = "0";
-			document.getElementById(\'_RELOCATE\').value = "0";
-			document.location = "admin.php?id_user='.$id_user.'&site=mod_global&action=" + target;
-		}
-	}
-	</script>';
-	
-	echo '<div style="display: block; width: 100%; border-bottom: 1px solid #ccc; padding-bottom: 2px; margin: 10px 0 0 0;">'
-	.'<div style="display: block; width: 30px; float: left;">&nbsp;</div>'
-	.'<a'.( $action == 'site' ? ' class="tcms_tabA"' : ' class="tcms_tab"' ).' onclick="checkChanges(\'site\');" href="#">'._GLOBAL_CONFIG.'</a>'
-	.'<a'.( $action == 'sec' ? ' class="tcms_tabA"' : ' class="tcms_tab"' ).' onclick="checkChanges(\'sec\');" href="#">'._GLOBAL_SECURITY.'</a>'
-	.'<a'.( $action == 'nav' ? ' class="tcms_tabA"' : ' class="tcms_tab"' ).' onclick="checkChanges(\'nav\');" href="#">'._GLOBAL_SITE_NAVI.'</a>'
-	.'<a'.( $action == 'mail' ? ' class="tcms_tabA"' : ' class="tcms_tab"' ).' onclick="checkChanges(\'mail\');" href="#">'._GLOBAL_MAIL_SETTINGS.'</a>'
-	.'<a'.( $action == 'meta' ? ' class="tcms_tabA"' : ' class="tcms_tab"' ).' onclick="checkChanges(\'meta\');" href="#">'._GLOBAL_METATAGS.'</a>'
-	.'<a'.( $action == 'seo' ? ' class="tcms_tabA"' : ' class="tcms_tab"' ).' onclick="checkChanges(\'seo\');" href="#">'._GLOBAL_SEO.'</a>'
-	.'<a'.( $action == 'user' ? ' class="tcms_tabA"' : ' class="tcms_tab"' ).' onclick="checkChanges(\'user\');" href="#">'._USERPAGE.'</a>'
-	.'<a'.( $action == 'db' ? ' class="tcms_tabA"' : ' class="tcms_tab"' ).' onclick="checkChanges(\'db\');" href="#">'._DB_DB.'</a>'
-	.'</div>';
-	
-	echo '<div class="tcms_tabPage"><br />';
-	
-	
-	
-	if($action != 'user' && $action != 'db'){
+	if($todo != 'optimize' && $todo != 'backup'){
+		echo '<script type="text/javascript" src="../js/tabs/tabpane.js"></script>
+		<link type="text/css" rel="StyleSheet" href="../js/tabs/css/luna/tab.css" />
+		<!--<link type="text/css" rel="StyleSheet" href="../js/tabs/tabpane.css" />-->
+		<script>
+		var _tcmsVALUE = "Site is proudly powered by toendaCMS &#169; 2003 - 2007 Toenda Software Development. All rights reserved.<br />toendaCMS is Free Software released under the GNU/GPL License.<br />";
+		</script>';
+		
+		
+		
 		// BEGIN FORM
 		echo '<form action="admin.php?id_user='.$id_user.'&amp;site=mod_global" method="post" enctype="multipart/form-data">'
 		.'<input name="todo" type="hidden" value="save" />'
-		.'<input name="action" type="hidden" value="'.$action.'" />'
-		.'<input name="_RELOCATE" id="_RELOCATE" type="hidden" value="0" />';
+		.'<input name="action" type="hidden" value="'.$action.'" />';
 		
 		
-		// table head
-		echo '<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
-	}
-	
-	
-	if($action != 'user' && $action != 'db'){
-		// table title
-		if($action == 'site'){
-			echo '<tr class="tcms_bg_blue_01"><td colspan="2" class="tcms_db_title tcms_padding_mini">&nbsp;<strong>'._GLOBAL_CONFIG.'</strong></td></tr>';
+		/*
+			tabpane start
+		*/
+		
+		echo '<div class="tab-pane" id="tab-pane-1">';
+		
+		
+		/*
+			site tab
+		*/
+		
+		echo '<div class="tab-page" id="tab-page-site">'
+		.'<h2 class="tab">'._GLOBAL.'</h2>'
+		.'<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
+		
+		
+		echo '<tr>'
+		.'<td width="300" height="25" style="width: 300px !important;" class="tcms_padding_mini" valign="top">'
+		._GLOBAL_SITE_OFFLINE.'</td>'
+		.'<td>'
+		.'<input type="radio" name="new_site_offline" id="config_offline0" value="0"'.($old_site_offline == 0 ? ' checked="checked"' : '' ).' />'
+		.'<label for="config_offline0">No</label>'
+		.'<input type="radio" name="new_site_offline" id="config_offline1" value="1"'.($old_site_offline == 1 ? ' checked="checked"' : '' ).' />'
+		.'<label for="config_offline1">Yes</label>'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25" valign="top">'
+		._GLOBAL_SITE_OFFLINE_TEXT.'</td>'
+		.'<td valign="top">'
+		.'<textarea name="new_site_off_text" class="tcms_textarea_big">'.$old_site_off_text.'</textarea>'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25" valign="top">'
+		._GLOBAL_TITLE.'</td>'
+		.'<td>'
+		.'<input name="title" class="tcms_input_normal" value="'.$sitetitle.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_NAME.'</td>'
+		.'<td>'
+		.'<input name="name" class="tcms_input_normal" value="'.$sitename.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_SUBTITLE.'</td>'
+		.'<td>'
+		.'<input name="new_key" class="tcms_input_normal" value="'.$sitekey.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25" valign="top">'._GLOBAL_LOGO.'</td>'
+		.'<td>'
+		.'<input title="Old Logo" name="tmp_logo" class="tcms_input_normal" value="'.$logo.'" />'
+		.'<br /><img src="../images/px.png" border="0" width="9" height="18" />'
+		.'<input class="tcms_upload" name="logo" type="file" accept="image/*" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_OWNER.'</td>'
+		.'<td>'
+		.'<input name="owner" class="tcms_input_normal" value="'.$old_websiteowner.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_URL.'</td>'
+		.'<td>'
+		.'<input name="owner_url" class="tcms_input_normal" value="'.$old_owner_url.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_EMAIL.'</td>'
+		.'<td>'
+		.'<input name="email" class="tcms_input_normal" value="'.$old_owner_email.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_YEAR.'</td>'
+		.'<td>'
+		.'<input name="copy" class="tcms_input_normal" value="'.$old_copyright.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_DEFAULT_FOOTER.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_show_defaultfoot"'.($show_defaultfoot == 1 ? ' checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_TCMSLOGO.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_show_tcmslogo"'.($show_tcmslogo == 1 ? ' checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_TCMSLOGO_IN_SITETITLE.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_tcmsinst"'.($old_tcmsinst == 1 ? ' checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_PAGELOADINGTIME.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_show_plt"'.($show_plt == 1 ? ' checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_USE_STATISTICS.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_statistics"'.($old_statistics == 1 ? ' checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_JS_BROWSER_DETECTION.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_js_browser_detect"'.($js_browser_detect == 1 ? ' checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_SHOW_DOC_AUTOR.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_doc_autor"'.($old_doc_autor == 1 ? ' checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_USE_CS.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_use_cs"'.($use_cs == 1 ? ' checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_USE_NEW_ADMINMENU.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_admin_topmenu"'.($old_admin_topmenu == 1 ? ' checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_USE_CONTENT_LANG.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_use_content_l"'.($old_use_content_l == 1 ? ' checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_CHARSET.'</td>'
+		.'<td>'
+		.'<select name="charset" class="tcms_select">';
+		foreach($arr_char as $ch_key => $ch_value){
+			echo '<option value="'.$ch_value.'"'.( $old_charset == $ch_value ? ' selected="selected"' : '' ).'>'.$ch_value.'</option>';
 		}
+		echo '</select></td></tr>';
 		
 		
-		// defaultfooter
-		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" height="25" style="width: 300px !important;" class="tcms_padding_mini">'._GLOBAL_SITE_OFFLINE.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="radio" name="new_site_offline" id="config_offline0" value="0"'.($old_site_offline == 0 ? ' checked="checked"' : '' ).' />'
-			.'<label for="config_offline0">No</label>'
-			.'<input onchange="CHANGED = true;" type="radio" name="new_site_offline" id="config_offline1" value="1"'.($old_site_offline == 1 ? ' checked="checked"' : '' ).' />'
-			.'<label for="config_offline1">Yes</label>'
-			.'</td></tr>';
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_LANG.'</td>'
+		.'<td>'
+		.'<select name="tmp_lang" class="tcms_select">';
+		foreach($arr_lang as $lg_key => $lg_value){
+			echo '<option value="'.$lg_value.'"'.( $old_lang == $lg_value ? ' selected="selected"' : '' ).'>'.$lg_value.'</option>';
 		}
-		else{
-			echo '<input name="new_site_offline" type="hidden" class="tcms_input_normal" value="'.$old_site_offline.'" />';
+		echo '</select></td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_FRONT_LANG.'</td>'
+		.'<td>'
+		.'<select name="tmp_front_lang" class="tcms_select">';
+		foreach($arr_lang as $lg_key => $lg_value){
+			echo '<option value="'.$lg_value.'"'.( $old_front_lang == $lg_value ? ' selected="selected"' : '' ).'>'.$lg_value.'</option>';
 		}
+		echo '</select></td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_CURRENCY.'</td>'
+		.'<td>'
+		.'<select name="tmp_currency" class="tcms_select">';
+		foreach($arr_currency['name'] as $lg_key => $lg_value){
+			echo '<option value="'.$arr_currency['code'][$lg_key].'"'.( $old_currency == $arr_currency['code'][$lg_key] ? ' selected="selected"' : '' ).'>'.$lg_value.'</option>';
+		}
+		echo '</select></td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_WYSIWYG.'</td>'
+		.'<td>'
+		.'<select name="tmp_use_wysiwyg" class="tcms_select">'
+			.( file_exists('../js/tinymce') ? '<option value="tinymce"'.( $old_use_wysiwyg == 'tinymce' ? ' selected="selected"' : '' ).'>tinyMCE</option>' : '' )
+			.( file_exists('../js/FCKeditor') ? '<option value="fckeditor"'.( $old_use_wysiwyg == 'fckeditor' ? ' selected="selected"' : '' ).'>FCKEditor</option>' : '' )
+			.'<option value="toendaScript"'.( $old_use_wysiwyg == 'toendaScript' ? ' selected="selected"' : '' ).'>'._TCMS_ADMIN_NO.' WYSIWYG (toendaScript)</option>'
+			.'<option value="no"'.(           $old_use_wysiwyg == 'no'           ? ' selected="selected"' : '' ).'>'._TCMS_ADMIN_NO.' WYSIWYG (HTML)</option>'
+		.'</select></td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" valign="top" height="25">'._TABLE_DEFAULT_NEWS_CATEGORY.'</td>'
+		.'<td valign="top">'
+		.'<select name="new_default_cat" class="tcms_select">';
+		foreach($arrNewsCat['tag'] as $key => $value){
+			echo '<option value="'.$value.'"'.( $old_default_cat == $value ? ' selected="selected"' : '' ).'>'.$arrNewsCat['name'][$key].'</option>';
+		}
+		echo '</select></td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" valign="top" height="25">'._GLOBAL_FOOTER_TEXT.'</td>'
+		.'<td valign="top">'
+		.'<textarea id="new_footer_text" name="new_footer_text" class="tcms_textarea_big">'.$old_footer_text.'</textarea>'
+		.'<br /><img src="../images/px.png" width="9" height="9" border="0" style="margin: 5px 2px 0 0 !important;" align="left" />'
+		.'<input type="button" name="_paste_tcmsVALUE" value="'._GLOBAL_PASTE_FOOTER_TEXT.'" onclick="document.getElementById(\'new_footer_text\').value = document.getElementById(\'new_footer_text\').value + _tcmsVALUE" />'
+		.'</td></tr>';
+		
+		
+		echo '</table>'
+		.'</div>';
+		
+		
+		/*
+			security tab
+		*/
+		
+		echo '<div class="tab-page" id="tab-page-sec">'
+		.'<h2 class="tab">'._GLOBAL_SECURITY.'</h2>'
+		.'<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_CIPHER_EMAIL.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_cipher_email"'.($cipher_email == 1 ? ' checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_CIPHER_EMAIL.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_cipher_email"'.($cipher_email == 1 ? ' checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_CAPTCHA.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_captcha"'.($captcha == 1 ? ' checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_CAPTCHA_CLEAN.'</td>'
+		.'<td>'
+		.'<input name="new_captcha_clean" class="tcms_id_box" value="'.$captcha_clean.'" />'
+		.'&nbsp;KB'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_ANTI_FRAME.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_anti_frame"'.($anti_frame == 1 ? ' checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '</table>'
+		.'</div>';
+		
+		
+		/*
+			navi tab
+		*/
+		
+		echo '<div class="tab-page" id="tab-page-navi">'
+		.'<h2 class="tab">'._GLOBAL_SITE_NAVI.'</h2>'
+		.'<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_SITE_NAVI_TOP.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="second_menu"'.($old_second_menu == 1 ? ' checked' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_SITE_NAVI_SIDE.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="menu"'.($old_menu == 1 ? ' checked' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_LEGAL_LINK_IN_FOOTER.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_legallink"'.($old_legallink == 1 ? ' checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_ADMIN_LINK_IN_FOOTER.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_adminlink"'.($old_adminlink == 1 ? ' checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_ACTIVE_TOPMENU_LINKS.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_topmenu_active"'.($old_topmenu_active == 1 ? ' checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_SHOW_TOP_PAGES.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_show_top_pages"'.($old_show_top_pages == 1 ? ' checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_PATHWAY_CHAR.'</td>'
+		.'<td>'
+		.'<input name="new_pathchar" class="tcms_id_box" value="'.$old_pathchar.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_PDFLINK_IN_FOOTER.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_pdflink"'.($old_pdflink == 1 ? ' checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '</table>'
+		.'</div>';
+		
+		
+		/*
+			mail tab
+		*/
+		
+		echo '<div class="tab-page" id="tab-page-mail">'
+		.'<h2 class="tab">'._GLOBAL_MAIL_SETTINGS.'</h2>'
+		.'<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini">'._GLOBAL_MAIL_WITH_SMTP.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_mail_with_smtp"'.($mail_with_smtp == 1 ? ' checked' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini">'._GLOBAL_MAIL_AS_HTML.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_mail_as_html"'.($mail_as_html == 1 ? ' checked' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_MAIL_SERVER.'</td>'
+		.'<td>'
+		.'<input name="new_mail_server_pop3" class="tcms_input_normal" value="'.$mail_server_pop3.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_MAIL_SERVER_SMTP.'</td>'
+		.'<td>'
+		.'<input name="new_mail_server_smtp" class="tcms_input_normal" value="'.$mail_server_smtp.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_MAIL_PORT.'</td>'
+		.'<td>'
+		.'<input name="new_mail_port" class="tcms_id_box" value="'.$mail_port.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini">'._GLOBAL_MAIL_POP3.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_mail_pop3"'.($mail_pop3 == 1 ? ' checked' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_MAIL_USER.'</td>'
+		.'<td>'
+		.'<input name="new_mail_user" class="tcms_input_normal" value="'.$mail_user.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_MAIL_PASSWORD.'</td>'
+		.'<td>'
+		.'<input name="new_mail_password" class="tcms_input_normal" value="'.$mail_password.'" />'
+		.'</td></tr>';
+		
+		
+		echo '</table>'
+		.'</div>';
+		
+		
+		/*
+			meta tab
+		*/
+		
+		echo '<div class="tab-page" id="tab-page-meta">'
+		.'<h2 class="tab">'._GLOBAL_METATAGS.'</h2>'
+		.'<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" valign="top" height="25">'._GLOBAL_METATAGS.'</td>'
+		.'<td valign="top">'
+		.'<textarea name="keywords" class="tcms_textarea_big">'.$old_keywords.'</textarea>'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" valign="top" height="25">'._GLOBAL_DESCRIPTION.'</td>'
+		.'<td valign="top">'
+		.'<textarea name="description" class="tcms_textarea_big">'.$old_description.'</textarea>'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_REVISIT_AFTER.'</td>'
+		.'<td>'
+		.'<input name="new_revisit_after" class="tcms_id_box" value="'.$old_revisit_after.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_ROBOTSFILE.'</td>'
+		.'<td>'
+		.'<input name="new_robotsfile" class="tcms_input_normal" value="'.$old_robotsfile.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_CACHE_CONTROL.'</td>'
+		.'<td>'
+		.'<input name="new_cache_control" class="tcms_input_normal" value="'.$old_cache_control.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_PRAGMA.'</td>'
+		.'<td>'
+		.'<input name="new_pragma" class="tcms_input_normal" value="'.$old_pragma.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_EXPIRES.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_expires"'.($old_expires == 1 ? ' checked' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_ROBOTSSETTINGS.'</td>'
+		.'<td>'
+		.'<input name="new_robots" class="tcms_input_normal" value="'.$old_robots.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_LAST_CHANGES.'</td>'
+		.'<td>'
+		.$old_last_changes
+		.'<input name="new_last_changes" type="hidden" value="'.$old_last_changes.'" />'
+		.'</td></tr>';
+		
+		
+		echo '</table>'
+		.'</div>';
+		
+		
+		/*
+			seo tab
+		*/
+		
+		echo '<div class="tab-page" id="tab-page-seo">'
+		.'<h2 class="tab">'._GLOBAL_SEO.'</h2>'
+		.'<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
+		
+		
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_SEO_ENABLED.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_seo_enabled"'.($old_seo_enabled == 1 ? ' checked' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_SEO_FOLDER.'</td>'
+		.'<td>'
+		.'<input name="new_seo_folder" class="tcms_input_normal" value="'.$old_seo_folder.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td width="300" height="25" style="width: 300px !important;" class="tcms_padding_mini">'._GLOBAL_SEO_FORMAT.'</td>'
+		.'<td>'
+		.'<input type="radio" name="new_seo_format" id="config_offline0" value="0"'.($old_seo_format == 0 ? ' checked="checked"' : '' ).' />'
+		.'<label for="config_offline0">index.php/section:frontpage/</label><br />'
+		.'<input type="radio" name="new_seo_format" id="config_offline1" value="1"'.($old_seo_format == 1 ? ' checked="checked"' : '' ).' />'
+		.'<label for="config_offline1">index.php/section/frontpage/</label>'
+		.'</td></tr>';
+		
+		
+		echo '</table>'
+		.'</div>';
+		
+		
+		/*
+			userpage tab
+		*/
+		
+		echo '<div class="tab-page" id="tab-page-userpage">'
+		.'<h2 class="tab">'._USERPAGE.'</h2>'
+		.'<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
 		
 		
 		// table rows
-		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25" valign="top">'._GLOBAL_SITE_OFFLINE_TEXT.'</td>'
-			.'<td valign="top">'
-			.'<textarea onchange="CHANGED = true;" name="new_site_off_text" class="tcms_textarea_big">'.$old_site_off_text.'</textarea>'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input name="new_site_off_text" type="hidden" class="tcms_input_normal" value="'.$old_site_off_text.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25" width="300" style="width: 300px !important;">'._GLOBAL_TITLE.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" name="title" class="tcms_input_normal" value="'.$sitetitle.'" /></td></tr>';
-		}
-		else{
-			echo '<input name="title" type="hidden" class="tcms_input_normal" value="'.$sitetitle.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_NAME.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" name="name" class="tcms_input_normal" value="'.$sitename.'" /></td></tr>';
-		}
-		else{
-			echo '<input name="name" type="hidden" class="tcms_input_normal" value="'.$sitename.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_SUBTITLE.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" name="new_key" class="tcms_input_normal" value="'.$sitekey.'" /></td></tr>';
-		}
-		else{
-			echo '<input name="new_key" type="hidden" class="tcms_input_normal" value="'.$sitekey.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25" valign="top">'._GLOBAL_LOGO.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" title="Old Logo" name="tmp_logo" class="tcms_input_normal" value="'.$logo.'" />'
-			.'<br /><img src="../images/px.png" border="0" width="9" height="18" />'
-			.'<input onchange="CHANGED = true;" class="tcms_upload" name="logo" type="file" accept="image/*" /></td></tr>';
-		}
-		else{
-			echo '<input name="tmp_logo" type="hidden" class="tcms_input_normal" value="'.$logo.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_OWNER.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" name="owner" class="tcms_input_normal" value="'.$old_websiteowner.'" /></td></tr>';
-		}
-		else{
-			echo '<input name="owner" type="hidden" class="tcms_input_normal" value="'.$old_websiteowner.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_URL.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" name="owner_url" class="tcms_input_normal" value="'.$old_owner_url.'" /></td></tr>';
-		}
-		else{
-			echo '<input name="owner_url" type="hidden" class="tcms_input_normal" value="'.$old_owner_url.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_EMAIL.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" name="email" class="tcms_input_normal" value="'.$old_owner_email.'" /></td></tr>';
-		}
-		else{
-			echo '<input name="email" type="hidden" class="tcms_input_normal" value="'.$old_owner_email.'" />';
-		}
-		
-		
-		// copyright year
-		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_YEAR.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" name="copy" class="tcms_input_normal" value="'.$old_copyright.'" /></td></tr>';
-		}
-		else{
-			echo '<input name="copy" type="hidden" class="tcms_input_normal" value="'.$old_copyright.'" />';
-		}
-		
-		
-		// defaultfooter
-		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_DEFAULT_FOOTER.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_show_defaultfoot"'.($show_defaultfoot == 1 ? ' checked="checked"' : '' ).' value="1" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input name="new_show_defaultfoot" type="hidden" class="tcms_input_normal" value="'.$show_defaultfoot.'" />';
-		}
-		
-		
-		// toendaCMS logo on footer
-		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_TCMSLOGO.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_show_tcmslogo"'.($show_tcmslogo == 1 ? ' checked="checked"' : '' ).' value="1" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input name="new_show_tcmslogo" type="hidden" class="tcms_input_normal" value="'.$show_tcmslogo.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_TCMSLOGO_IN_SITETITLE.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_tcmsinst"'.($old_tcmsinst == 1 ? ' checked="checked"' : '' ).' value="1" /></td></tr>';
-		}
-		else{
-			echo '<input name="new_tcmsinst" type="hidden" class="tcms_input_normal" value="'.$old_tcmsinst.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_PAGELOADINGTIME.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_show_plt"'.($show_plt == 1 ? ' checked="checked"' : '' ).' value="1" /></td></tr>';
-		}
-		else{
-			echo '<input name="new_show_plt" type="hidden" class="tcms_input_normal" value="'.$show_plt.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_USE_STATISTICS.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_statistics"'.($old_statistics == 1 ? ' checked="checked"' : '' ).' value="1" /></td></tr>';
-		}
-		else{
-			echo '<input name="new_statistics" type="hidden" class="tcms_input_normal" value="'.$old_statistics.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_JS_BROWSER_DETECTION.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_js_browser_detect"'.($js_browser_detect == 1 ? ' checked="checked"' : '' ).' value="1" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input name="new_js_browser_detect" type="hidden" class="tcms_input_normal" value="'.$js_browser_detect.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_SHOW_DOC_AUTOR.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_doc_autor"'.($old_doc_autor == 1 ? ' checked="checked"' : '' ).' value="1" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input name="new_doc_autor" type="hidden" class="tcms_input_normal" value="'.$old_doc_autor.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_USE_CS.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_use_cs"'.($use_cs == 1 ? ' checked="checked"' : '' ).' value="1" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input name="new_use_cs" type="hidden" class="tcms_input_normal" value="'.$use_cs.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_USE_NEW_ADMINMENU.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_admin_topmenu"'.($old_admin_topmenu == 1 ? ' checked="checked"' : '' ).' value="1" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input name="new_admin_topmenu" type="hidden" class="tcms_input_normal" value="'.$old_admin_topmenu.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_USE_CONTENT_LANG.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_use_content_l"'.($old_use_content_l == 1 ? ' checked="checked"' : '' ).' value="1" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input name="new_use_content_l" type="hidden" class="tcms_input_normal" value="'.$old_use_content_l.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_CHARSET.'</td>'
-			.'<td>'
-			.'<select onchange="CHANGED = true;" name="charset" class="tcms_select">';
-			foreach($arr_char as $ch_key => $ch_value){
-				echo '<option value="'.$ch_value.'"'.( $old_charset == $ch_value ? ' selected="selected"' : '' ).'>'.$ch_value.'</option>';
-			}
-			echo '</select></td></tr>';
-		}
-		else{
-			echo '<input name="charset" type="hidden" class="tcms_input_normal" value="'.$old_charset.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_LANG.'</td>'
-			.'<td>'
-			.'<select onchange="CHANGED = true;" name="tmp_lang" class="tcms_select">';
-			foreach($arr_lang as $lg_key => $lg_value){
-				echo '<option value="'.$lg_value.'"'.( $old_lang == $lg_value ? ' selected="selected"' : '' ).'>'.$lg_value.'</option>';
-			}
-			echo '</select></td></tr>';
-		}
-		else{
-			echo '<input name="tmp_lang" type="hidden" class="tcms_input_normal" value="'.$old_lang.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_FRONT_LANG.'</td>'
-			.'<td>'
-			.'<select onchange="CHANGED = true;" name="tmp_front_lang" class="tcms_select">';
-			foreach($arr_lang as $lg_key => $lg_value){
-				echo '<option value="'.$lg_value.'"'.( $old_front_lang == $lg_value ? ' selected="selected"' : '' ).'>'.$lg_value.'</option>';
-			}
-			echo '</select></td></tr>';
-		}
-		else{
-			echo '<input name="tmp_front_lang" type="hidden" class="tcms_input_normal" value="'.$old_front_lang.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_CURRENCY.'</td>'
-			.'<td>'
-			.'<select onchange="CHANGED = true;" name="tmp_currency" class="tcms_select">';
-			foreach($arr_currency['name'] as $lg_key => $lg_value){
-				echo '<option value="'.$arr_currency['code'][$lg_key].'"'.( $old_currency == $arr_currency['code'][$lg_key] ? ' selected="selected"' : '' ).'>'.$lg_value.'</option>';
-			}
-			echo '</select></td></tr>';
-		}
-		else{
-			echo '<input name="tmp_currency" type="hidden" class="tcms_input_normal" value="'.$old_currency.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_WYSIWYG.'</td>'
-			.'<td>'
-			.'<select onchange="CHANGED = true;" name="tmp_use_wysiwyg" class="tcms_select">'
-				.( file_exists('../js/tinymce') ? '<option value="tinymce"'.( $old_use_wysiwyg == 'tinymce' ? ' selected="selected"' : '' ).'>tinyMCE</option>' : '' )
-				.( file_exists('../js/FCKeditor') ? '<option value="fckeditor"'.( $old_use_wysiwyg == 'fckeditor' ? ' selected="selected"' : '' ).'>FCKEditor</option>' : '' )
-				.'<option value="toendaScript"'.( $old_use_wysiwyg == 'toendaScript' ? ' selected="selected"' : '' ).'>'._TCMS_ADMIN_NO.' WYSIWYG (toendaScript)</option>'
-				.'<option value="no"'.(           $old_use_wysiwyg == 'no'           ? ' selected="selected"' : '' ).'>'._TCMS_ADMIN_NO.' WYSIWYG (HTML)</option>'
-			.'</select></td></tr>';
-		}
-		else{
-			echo '<input name="tmp_use_wysiwyg" type="hidden" class="tcms_input_normal" value="'.$old_use_wysiwyg.'" />';
-		}
-		
-		
-		// default news category
-		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td valign="top" width="'.$width.'" height="25">'._TABLE_DEFAULT_NEWS_CATEGORY.'</td>'
-			.'<td valign="top">'
-			.'<select onchange="CHANGED = true;" name="new_default_cat" class="tcms_select">';
-			foreach($arrNewsCat['tag'] as $key => $value){
-				echo '<option value="'.$value.'"'.( $old_default_cat == $value ? ' selected="selected"' : '' ).'>'.$arrNewsCat['name'][$key].'</option>';
-			}
-			echo '</select></td></tr>';
-		}
-		else{
-			echo '<input name="new_default_cat" type="hidden" class="tcms_input_normal" value="'.$old_default_cat.'" />';
-		}
-		
-		
-		// own website footer
-		if($action == 'site'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" valign="top" height="25">'._GLOBAL_FOOTER_TEXT.'</td>'
-			.'<td valign="top">'
-			.'<textarea onchange="CHANGED = true;" id="new_footer_text" name="new_footer_text" class="tcms_textarea_big">'.$old_footer_text.'</textarea>'
-			.'<br /><img src="../images/px.png" width="9" height="9" border="0" style="margin: 5px 2px 0 0 !important;" align="left" />'
-			.'<input type="button" name="_paste_tcmsVALUE" value="'._GLOBAL_PASTE_FOOTER_TEXT.'" onclick="document.getElementById(\'new_footer_text\').value = document.getElementById(\'new_footer_text\').value + _tcmsVALUE" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input name="new_footer_text" type="hidden" class="tcms_input_normal" value="'.$old_footer_text.'" />';
-		}
-		
-		
-		if($action == 'site'){
-			// table title
-			echo '<tr><td colspan="2"><br /></td></tr>';
-		}
-		
-		
-		
-		
-		//=========================================================================
-		if($action == 'sec'){
-			echo '<tr class="tcms_bg_blue_01"><td colspan="2" class="tcms_db_title tcms_padding_mini">&nbsp;<strong>'._GLOBAL_SITE_NAVI.'</strong></td></tr>';
-		}
-		
-		
-		// cipher all email adresses
-		if($action == 'sec'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_CIPHER_EMAIL.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_cipher_email"'.($cipher_email == 1 ? ' checked="checked"' : '' ).' value="1" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input name="new_cipher_email" type="hidden" class="tcms_input_normal" value="'.$cipher_email.'" />';
-		}
-		
-		
-		// captcha
-		if($action == 'sec'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_CAPTCHA.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_captcha"'.($captcha == 1 ? ' checked="checked"' : '' ).' value="1" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input name="new_captcha" type="hidden" class="tcms_input_normal" value="'.$captcha.'" />';
-		}
-		
-		
-		// captcha cache
-		if($action == 'sec'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_CAPTCHA_CLEAN.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" name="new_captcha_clean" class="tcms_id_box" value="'.$captcha_clean.'" />'
-			.'&nbsp;KB'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input name="new_captcha_clean" type="hidden" class="tcms_input_normal" value="'.$captcha_clean.'" />';
-		}
-		
-		
-		// anti-frame
-		if($action == 'sec'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_ANTI_FRAME.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_anti_frame"'.($anti_frame == 1 ? ' checked="checked"' : '' ).' value="1" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input name="new_anti_frame" type="hidden" class="tcms_input_normal" value="'.$anti_frame.'" />';
-		}
-		
-		
-		
-		
-		//=========================================================================
-		if($action == 'nav'){
-			echo '<tr class="tcms_bg_blue_01"><td colspan="2" class="tcms_db_title tcms_padding_mini">&nbsp;<strong>'._GLOBAL_SITE_NAVI.'</strong></td></tr>';
-		}
-		
-		
-		// table rows
-		if($action == 'nav'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_SITE_NAVI_TOP.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="second_menu"'.($old_second_menu == 1 ? ' checked' : '' ).' value="1" /></td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="second_menu" value="'.$old_second_menu.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'nav'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_SITE_NAVI_SIDE.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="menu"'.($old_menu == 1 ? ' checked' : '' ).' value="1" /></td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="menu" value="'.$old_menu.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'nav'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_LEGAL_LINK_IN_FOOTER.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_legallink"'.($old_legallink == 1 ? ' checked="checked"' : '' ).' value="1" /></td></tr>';
-		}
-		else{
-			echo '<input name="new_legallink" type="hidden" class="tcms_input_normal" value="'.$old_legallink.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'nav'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_ADMIN_LINK_IN_FOOTER.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_adminlink"'.($old_adminlink == 1 ? ' checked="checked"' : '' ).' value="1" /></td></tr>';
-		}
-		else{
-			echo '<input name="new_adminlink" type="hidden" class="tcms_input_normal" value="'.$old_adminlink.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'nav'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_ACTIVE_TOPMENU_LINKS.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_topmenu_active"'.($old_topmenu_active == 1 ? ' checked="checked"' : '' ).' value="1" /></td></tr>';
-		}
-		else{
-			echo '<input name="new_topmenu_active" type="hidden" class="tcms_input_normal" value="'.$old_topmenu_active.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'nav'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_SHOW_TOP_PAGES.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_show_top_pages"'.($old_show_top_pages == 1 ? ' checked="checked"' : '' ).' value="1" /></td></tr>';
-		}
-		else{
-			echo '<input name="new_show_top_pages" type="hidden" class="tcms_input_normal" value="'.$old_show_top_pages.'" />';
-		}
-		
-		
-		// table row
-		if($action == 'nav'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_PATHWAY_CHAR.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" name="new_pathchar" class="tcms_id_box" value="'.$old_pathchar.'" /></td></tr>';
-		}
-		else{
-			echo '<input name="new_pathchar" type="hidden" class="tcms_input_normal" value="'.$old_pathchar.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'nav'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_PDFLINK_IN_FOOTER.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_pdflink"'.($old_pdflink == 1 ? ' checked="checked"' : '' ).' value="1" /></td></tr>';
-		}
-		else{
-			echo '<input name="new_pdflink" type="hidden" class="tcms_input_normal" value="'.$old_pdflink.'" />';
-		}
-		
-		
-		// table title
-		if($action == 'nav'){
-			echo '<tr><td colspan="2"><br /></td></tr>';
-		}
-		
-		
-		
-		
-		//=========================================================================
-		if($action == 'mail'){
-			echo '<tr class="tcms_bg_blue_01"><td colspan="2" class="tcms_db_title tcms_padding_mini">&nbsp;<strong>'._GLOBAL_MAIL_SETTINGS.'</strong></td></tr>';
-		}
-		
-		
-		// table rows
-		if($action == 'mail'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini">'._GLOBAL_MAIL_WITH_SMTP.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_mail_with_smtp"'.($mail_with_smtp == 1 ? ' checked' : '' ).' value="1" /></td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_mail_with_smtp" value="'.$mail_with_smtp.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'mail'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini">'._GLOBAL_MAIL_AS_HTML.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_mail_as_html"'.($mail_as_html == 1 ? ' checked' : '' ).' value="1" /></td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_mail_as_html" value="'.$mail_as_html.'" />';
-		}
-		
-		
-		// table row
-		if($action == 'mail'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_MAIL_SERVER.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" name="new_mail_server_pop3" class="tcms_input_normal" value="'.$mail_server_pop3.'" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_mail_server_pop3" value="'.$mail_server_pop3.'" />';
-		}
-		
-		
-		// table row
-		if($action == 'mail'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_MAIL_SERVER_SMTP.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" name="new_mail_server_smtp" class="tcms_input_normal" value="'.$mail_server_smtp.'" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_mail_server_smtp" value="'.$mail_server_smtp.'" />';
-		}
-		
-		
-		// table row
-		if($action == 'mail'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_MAIL_PORT.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" name="new_mail_port" class="tcms_id_box" value="'.$mail_port.'" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_mail_port" value="'.$mail_port.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'mail'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini">'._GLOBAL_MAIL_POP3.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_mail_pop3"'.($mail_pop3 == 1 ? ' checked' : '' ).' value="1" /></td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_mail_pop3" value="'.$mail_pop3.'" />';
-		}
-		
-		
-		// table row
-		if($action == 'mail'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_MAIL_USER.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" name="new_mail_user" class="tcms_input_normal" value="'.$mail_user.'" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_mail_user" value="'.$mail_user.'" />';
-		}
-		
-		
-		// table row
-		if($action == 'mail'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_MAIL_PASSWORD.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" name="new_mail_password" class="tcms_input_normal" value="'.$mail_password.'" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_mail_password" value="'.$mail_password.'" />';
-		}
-		
-		
-		// table title
-		if($action == 'mail'){
-			echo '<tr><td colspan="2"><br /></td></tr>';
-		}
-		
-		
-		
-		
-		//=========================================================================
-		if($action == 'meta'){
-			echo '<tr class="tcms_bg_blue_01"><td colspan="2" class="tcms_db_title tcms_padding_mini">&nbsp;<strong>'._GLOBAL_META.'</strong></td></tr>';
-		}
-		
-		
-		// table rows
-		if($action == 'meta'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" valign="top" height="25">'._GLOBAL_METATAGS.'</td>'
-			.'<td valign="top">'
-			.'<textarea onchange="CHANGED = true;" name="keywords" class="tcms_textarea_big">'.$old_keywords.'</textarea></td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="keywords" value="'.$old_keywords.'" />';
-		}
-		
-		
-		// table rows
-		if($action == 'meta'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" valign="top" height="25">'._GLOBAL_DESCRIPTION.'</td>'
-			.'<td valign="top">'
-			.'<textarea onchange="CHANGED = true;" name="description" class="tcms_textarea_big">'.$old_description.'</textarea></td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="description" value="'.$old_description.'" />';
-		}
-		
-		
-		// table row
-		if($action == 'meta'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_REVISIT_AFTER.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" name="new_revisit_after" class="tcms_id_box" value="'.$old_revisit_after.'" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_revisit_after" value="'.$old_revisit_after.'" />';
-		}
-		
-		
-		// table row
-		if($action == 'meta'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_ROBOTSFILE.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" name="new_robotsfile" class="tcms_input_normal" value="'.$old_robotsfile.'" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_robotsfile" value="'.$old_robotsfile.'" />';
-		}
-		
-		
-		// table row
-		if($action == 'meta'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_CACHE_CONTROL.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" name="new_cache_control" class="tcms_input_normal" value="'.$old_cache_control.'" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_cache_control" value="'.$old_cache_control.'" />';
-		}
-		
-		
-		// table row
-		if($action == 'meta'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_PRAGMA.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" name="new_pragma" class="tcms_input_normal" value="'.$old_pragma.'" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_pragma" value="'.$old_pragma.'" />';
-		}
-		
-		
-		// table row
-		if($action == 'meta'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_EXPIRES.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_expires"'.($old_expires == 1 ? ' checked' : '' ).' value="1" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_expires" value="'.$old_expires.'" />';
-		}
-		
-		
-		// table row
-		if($action == 'meta'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_ROBOTSSETTINGS.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" name="new_robots" class="tcms_input_normal" value="'.$old_robots.'" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_robots" value="'.$old_robots.'" />';
-		}
-		
-		
-		// table row
-		if($action == 'meta'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_LAST_CHANGES.'</td>'
-			.'<td>'
-			.$old_last_changes
-			.'<input name="new_last_changes" type="hidden" value="'.$old_last_changes.'" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_last_changes" value="'.$old_last_changes.'" />';
-		}
-		
-		
-		// table title
-		if($action == 'meta'){
-			echo '<tr><td colspan="2"><br /></td></tr>';
-		}
-		
-		
-		
-		
-		
-		//=========================================================================
-		if($action == 'seo'){
-			echo '<tr class="tcms_bg_blue_01"><td colspan="2" class="tcms_db_title tcms_padding_mini">&nbsp;<strong>'._GLOBAL_SEO.'</strong></td></tr>';
-		}
-		
-		
-		// table row
-		if($action == 'seo'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_SEO_ENABLED.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="checkbox" name="new_seo_enabled"'.($old_seo_enabled == 1 ? ' checked' : '' ).' value="1" /></td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_seo_enabled" value="'.$old_seo_enabled.'" />';
-		}
-		
-		
-		// table row
-		if($action == 'seo'){
-			echo '<tr style="background: '.$arr_color[1].';">'
-			.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_SEO_FOLDER.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" name="new_seo_folder" class="tcms_input_normal" value="'.$old_seo_folder.'" />'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input type="hidden" name="new_seo_folder" value="'.$old_seo_folder.'" />';
-		}
-		
-		
-		// row
-		if($action == 'seo'){
-			echo '<tr style="background: '.$arr_color[0].';">'
-			.'<td width="300" height="25" style="width: 300px !important;" class="tcms_padding_mini">'._GLOBAL_SEO_FORMAT.'</td>'
-			.'<td>'
-			.'<input onchange="CHANGED = true;" type="radio" name="new_seo_format" id="config_offline0" value="0"'.($old_seo_format == 0 ? ' checked="checked"' : '' ).' />'
-			.'<label for="config_offline0">index.php/section:frontpage/</label><br />'
-			.'<input onchange="CHANGED = true;" type="radio" name="new_seo_format" id="config_offline1" value="1"'.($old_seo_format == 1 ? ' checked="checked"' : '' ).' />'
-			.'<label for="config_offline1">index.php/section/frontpage/</label>'
-			.'</td></tr>';
-		}
-		else{
-			echo '<input name="new_seo_format" type="hidden" class="tcms_input_normal" value="'.$old_seo_format.'" />';
-		}
-	}
-	
-	
-	if($action != 'user' && $action != 'db'){
-		// Table end
-		echo '</table></form><br />';
-	}
-	
-	
-	
-	
-	
-	
-	
-	/*
-		userpage
-		settings
-	*/
-	if($action == 'user'){
-		if($choosenDB == 'xml'){
-			$contactform_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/userpage.xml','r');
-			$old_text_width   = $contactform_xml->read_section('userpage', 'text_width');
-			$old_input_width  = $contactform_xml->read_section('userpage', 'input_width');
-			$old_news_publish = $contactform_xml->read_section('userpage', 'news_publish');
-			$old_img_publish  = $contactform_xml->read_section('userpage', 'image_publish');
-			$old_alb_publish  = $contactform_xml->read_section('userpage', 'album_publish');
-			$old_cat_publish  = $contactform_xml->read_section('userpage', 'cat_publish');
-			$old_pic_publish  = $contactform_xml->read_section('userpage', 'pic_publish');
-		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-			
-			$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'userpage', 'userpage');
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
-			
-			$old_text_width   = $sqlARR['text_width'];
-			$old_input_width  = $sqlARR['input_width'];
-			$old_news_publish = $sqlARR['news_publish'];
-			$old_img_publish  = $sqlARR['image_publish'];
-			$old_alb_publish  = $sqlARR['album_publish'];
-			$old_cat_publish  = $sqlARR['cat_publish'];
-			$old_pic_publish  = $sqlARR['pic_publish'];
-		}
-		
-		
-		
-		echo tcms_html::bold(_USERPAGE);
-		echo tcms_html::text(_USERPAGE_TEXT.'<br /><br />', 'left');
-		
-		
-		// begin form
-		echo '<form action="admin.php?id_user='.$id_user.'&amp;site=mod_global" method="post">'
-		.'<input name="todo" type="hidden" value="save_user" />'
-		.'<input name="action" type="hidden" value="'.$action.'" />'
-		.'<input name="_RELOCATE" id="_RELOCATE" type="hidden" value="0" />';
-		
-		
-		// table header
-		echo '<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
-		
-		
-		// table head
-		echo '<tr class="tcms_bg_blue_01"><td colspan="2" class="tcms_db_title tcms_padding_mini">&nbsp;<strong>'._TABLE_SETTINGS.'</strong></td></tr>';
-		
-		
-		// table hr
-		echo '<tr><td colspan="2" class="tcms_padding_mini"></td></tr>';
-		
-		
-		// table rows
-		echo '<tr style="background: '.$arr_color[0].';">'
+		echo '<tr>'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._USERPAGE_TEXT_WIDTH.'</td>'
-		.'<td><input onchange="CHANGED = true;" type="text" name="new_text_width" class="tcms_id_box" value="'.$old_text_width.'" />'
+		.'<td><input type="text" name="new_text_width" class="tcms_id_box" value="'.$old_text_width.'" />'
 		.'</td></tr>';
 		
 		
 		// table rows
 		echo '<tr style="background: '.$arr_color[1].';">'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._USERPAGE_INPUT_WIDTH.'</td>'
-		.'<td><input onchange="CHANGED = true;" type="text" name="new_input_width" class="tcms_id_box" value="'.$old_input_width.'" />'
+		.'<td><input type="text" name="new_input_width" class="tcms_id_box" value="'.$old_input_width.'" />'
 		.'</td></tr>';
 		
 		
 		// table rows
-		echo '<tr style="background: '.$arr_color[0].';">'
+		echo '<tr>'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._USERPAGE_PUBLISH_NEWS.'</td>'
-		.'<td><input onchange="CHANGED = true;" type="checkbox" name="new_news_publish"'.( $old_news_publish == 1 ? ' checked="checked"' : '' ).' value="1" />'
+		.'<td><input type="checkbox" name="new_news_publish"'.( $old_news_publish == 1 ? ' checked="checked"' : '' ).' value="1" />'
 		.'</td></tr>';
 		
 		
 		// table rows
 		echo '<tr style="background: '.$arr_color[1].';">'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._USERPAGE_PUBLISH_IMAGES.'</td>'
-		.'<td><input onchange="CHANGED = true;" type="checkbox" name="new_img_publish"'.( $old_img_publish == 1 ? ' checked="checked"' : '' ).' value="1" />'
+		.'<td><input type="checkbox" name="new_img_publish"'.( $old_img_publish == 1 ? ' checked="checked"' : '' ).' value="1" />'
 		.'</td></tr>';
 		
 		
 		// table rows
-		echo '<tr style="background: '.$arr_color[0].';">'
+		echo '<tr>'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._USERPAGE_PUBLISH_ALBUMS.'</td>'
-		.'<td><input onchange="CHANGED = true;" type="checkbox" name="new_alb_publish"'.( $old_alb_publish == 1 ? ' checked="checked"' : '' ).' value="1" />'
+		.'<td><input type="checkbox" name="new_alb_publish"'.( $old_alb_publish == 1 ? ' checked="checked"' : '' ).' value="1" />'
 		.'</td></tr>';
 		
 		
 		// table rows
 		echo '<tr style="background: '.$arr_color[1].';">'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._USERPAGE_CREATE_CATEGORIES.'</td>'
-		.'<td><input onchange="CHANGED = true;" type="checkbox" name="new_cat_publish"'.( $old_cat_publish == 1 ? ' checked="checked"' : '' ).' value="1" />'
+		.'<td><input type="checkbox" name="new_cat_publish"'.( $old_cat_publish == 1 ? ' checked="checked"' : '' ).' value="1" />'
 		.'</td></tr>';
 		
 		
 		// table rows
-		echo '<tr style="background: '.$arr_color[0].';">'
+		echo '<tr>'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._USERPAGE_PUBLISH_PICTURE.'</td>'
-		.'<td><input onchange="CHANGED = true;" type="checkbox" name="new_pic_publish"'.( $old_pic_publish == 1 ? ' checked="checked"' : '' ).' value="1" />'
+		.'<td><input type="checkbox" name="new_pic_publish"'.( $old_pic_publish == 1 ? ' checked="checked"' : '' ).' value="1" />'
 		.'</td></tr>';
 		
 		
-		// Table end
-		echo '</table><br /></form>';
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/*
-		database
-		settings
-	*/
-	if($action == 'db'){
+		echo '</table>'
+		.'</div>';
+		
+		
+		/*
+			db tab
+		*/
+		
+		echo '<div class="tab-page" id="tab-page-db">'
+		.'<h2 class="tab">'._DB_DB.'</h2>'
+		.'<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
+		
+		
 		$old_engine   = $choosenDB;
 		$old_user     = $sqlUser;
 		$old_password = $sqlPass;
@@ -1304,129 +912,83 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		if($old_prefix   == NULL){ $old_prefix   = ''; }
 		
 		
-		
-		
-		
-		// BEGIN FORM
-		echo '<form action="admin.php?id_user='.$id_user.'&amp;site=mod_global" method="post">'
-		.'<input name="todo" type="hidden" value="save_db" />'
-		.'<input name="old_engine" type="hidden" value="'.$old_engine.'" />'
-		.'<input name="action" type="hidden" value="'.$action.'" />'
-		.'<input name="_RELOCATE" id="_RELOCATE" type="hidden" value="0" />';
-		
-		
-		// table
-		echo '<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
-		
-		
-		// table title
-		echo '<tr class="tcms_bg_blue_01"><td colspan="2" class="tcms_db_title tcms_padding_mini">&nbsp;<strong>'._DB_CONFIG.'</strong></td></tr>';
-		
-		
 		// table rows
-		echo '<tr style="background: '.$arr_color[0].';">'
+		echo '<tr>'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" width="300" height="25">'._DB_USER.'</td>'
 		.'<td>'
-		.'<input onchange="CHANGED = true;" name="new_user" class="tcms_input_normal" value="'.$old_user.'" /></td></tr>';
+		.'<input name="new_user" class="tcms_input_normal" value="'.$old_user.'" />'
+		.'</td></tr>';
 		
 		
 		// table rows
 		echo '<tr style="background: '.$arr_color[1].';">'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._DB_PASSWORD.'</td>'
 		.'<td>'
-		.'<input onchange="CHANGED = true;" name="new_password" class="tcms_input_normal" value="'.$old_password.'" /></td></tr>';
+		.'<input name="new_password" class="tcms_input_normal" value="'.$old_password.'" />'
+		.'</td></tr>';
 		
 		
 		// table rows
-		echo '<tr style="background: '.$arr_color[0].';">'
+		echo '<tr>'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._DB_HOST.'</td>'
 		.'<td>'
-		.'<input onchange="CHANGED = true;" name="new_host" class="tcms_input_normal" value="'.$old_host.'" /></td></tr>';
+		.'<input name="new_host" class="tcms_input_normal" value="'.$old_host.'" />'
+		.'</td></tr>';
 		
 		
 		// table rows
 		echo '<tr style="background: '.$arr_color[1].';">'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._DB_DATABASE.'</td>'
 		.'<td>'
-		.'<input onchange="CHANGED = true;" name="new_database" class="tcms_input_normal" value="'.$old_datadase.'" /></td></tr>';
+		.'<input name="new_database" class="tcms_input_normal" value="'.$old_datadase.'" />'
+		.'</td></tr>';
 		
 		
 		// table rows
-		echo '<tr style="background: '.$arr_color[0].';">'
+		echo '<tr>'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._DB_PORT.'</td>'
 		.'<td>'
-		.'<input onchange="CHANGED = true;" name="new_port" class="tcms_input_normal" value="'.$old_port.'" /></td></tr>';
+		.'<input name="new_port" class="tcms_input_normal" value="'.$old_port.'" />'
+		.'</td></tr>';
 		
 		
 		// table rows
 		echo '<tr style="background: '.$arr_color[1].';">'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._DB_PREFIX.'</td>'
 		.'<td>'
-		.'<input onchange="CHANGED = true;" name="new_prefix" class="tcms_input_normal" value="'.$old_prefix.'" /></td></tr>';
+		.'<input name="new_prefix" class="tcms_input_normal" value="'.$old_prefix.'" />'
+		.'</td></tr>';
 		
 		
 		// table rows
-		echo '<tr style="background: '.$arr_color[0].';">'
+		echo '<tr>'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._DB_CHOOSE.'</td>'
 		.'<td>'
-		.'<select onchange="CHANGED = true;" name="new_engine" class="tcms_upload">';
+		.'<select name="new_engine" class="tcms_upload">';
 		foreach($arrDB['tech'] as $dbKey => $dbVal){
 			echo '<option value="'.$dbVal.'"'.( $old_engine == $dbVal ? ' selected' : '' ).'>'.$arrDB['name'][$dbKey].'</option>';
 		}
-		echo '</select></td></tr>';
-		
-		
-		// Table end
-		echo '</table><br />';
-		
-		echo '</form>';
-		
-		
-		
+		echo '</select>'
+		.'</td></tr>';
 		
 		
 		if($choosenDB == 'mysql'){
-			// table
-			echo '<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
+			echo '<tr><td colspan="2" class="tcms_padding_mini">'
+			.'<br /></td></tr>';
 			
 			
-			// table title
-			echo '<tr class="tcms_bg_blue_01"><td colspan="2" class="tcms_db_title tcms_padding_mini">'
-			.'<strong>'._DB_BACKUP_OPTIMIZATION.'</strong></td></tr>';
-			
-			
-			// table rows
-			echo '<tr><td width="300" style="width: 300px !important;" class="tcms_padding_mini" width="300" height="25" valign="top">'._DB_OPTIMIZATION.'</td>'
+			echo '<tr><td class="tcms_padding_mini" height="25" valign="top">'._DB_OPTIMIZATION.'</td>'
 			.'<td><input type="button" value="'._DB_START_OPTIMIZATION.'" '
 			.'onclick="document.location=\'admin.php?id_user='.$id_user.'&site=mod_global&todo=optimize&this_engine='.$choosenDB.'&action='.$action.'\'" />'
 			.'</td></tr>';
-			
-			// Table end
-			echo '</table><br />';
 		}
 		
 		
+		echo '<tr><td colspan="2" class="tcms_padding_mini">'
+		.'<br /></td></tr>';
 		
 		
-		
-		echo '<form action="admin.php?id_user='.$id_user.'&amp;site=mod_global" id="db_backup" method="post">'
-		.'<input name="todo" type="hidden" value="backup" />'
-		.'<input name="this_engine" type="hidden" value="'.$old_engine.'" />'
-		.'<input name="action" type="hidden" value="'.$action.'" />'
-		.'<input name="_RELOCATE" id="_RELOCATE" type="hidden" value="0" />';
-		
-		
-		// table
-		echo '<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
-		
-		
-		// table title
-		echo '<tr class="tcms_bg_blue_01"><td colspan="2" class="tcms_db_title tcms_padding_mini">'
-		.'<strong>'._DB_BACKUP_RESTORE.'</strong></td></tr>';
-		
-		
-		// table rows
-		echo '<tr><td width="300" style="width: 300px !important;" class="tcms_padding_mini" width="300" height="25" valign="top">'._DB_BACKUP.'</td>'
+		echo '<tr><td class="tcms_padding_mini" height="25" valign="top">'._DB_BACKUP.'</td>'
 		.'<td>'
 		.( $old_engine != 'xml' ?
 			'<div style="margin: 0; padding: 0 0 2px 0;">'
@@ -1446,19 +1008,33 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		.'</td></tr>';
 		
 		
-		// table rows
-		//echo '<tr><td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._DB_RESTORE.'</td>'
-		//.'<td><input type="button" name="this_restore" id="this_restore" value="'._DB_START_RESTORE.'" onclick="document.location=\'admin.php?id_user='.$id_user.'&site=mod_db&todo=restore&this_engine='.$old_engine.'\';" />'
-		//.'</td></tr>';
+		echo '</table>'
+		.'</div>';
+		
+		
+		/*
+			tabpane end
+		*/
+		
+		echo '</div>'
+		.'<script type="text/javascript">
+		var tabPane1 = new WebFXTabPane(document.getElementById("tab-pane-1"));
+		tabPane1.addTabPage(document.getElementById("tab-page-site"));
+		tabPane1.addTabPage(document.getElementById("tab-page-sec"));
+		tabPane1.addTabPage(document.getElementById("tab-page-navi"));
+		tabPane1.addTabPage(document.getElementById("tab-page-mail"));
+		tabPane1.addTabPage(document.getElementById("tab-page-meta"));
+		tabPane1.addTabPage(document.getElementById("tab-page-seo"));
+		tabPane1.addTabPage(document.getElementById("tab-page-userpage"));
+		tabPane1.addTabPage(document.getElementById("tab-page-db"));
+		setupAllTabs();
+		</script>'
+		.'<br />';
+		
 		
 		// Table end
-		echo '</table><br />';
-		
-		echo '</form>';
+		echo '</form><br />';
 	}
-	
-	
-	echo '</div>';
 	
 	
 	
@@ -1514,6 +1090,49 @@ $tcms_mail_password    = \''.$new_mail_password.'\';
 		$fp = fopen('../../'.$tcms_administer_site.'/tcms_global/mail.php', 'w');
 		fwrite($fp, $fp_header);
 		fclose($fp);
+		
+		
+		
+		if(empty($new_text_width)   || $new_text_width   == ''){ $new_text_width   = 150; }
+		if(empty($new_input_width)  || $new_input_width  == ''){ $new_input_width  = 150; }
+		if(empty($new_news_publish) || $new_news_publish == ''){ $new_news_publish = 0; }
+		if(empty($new_img_publish)  || $new_img_publish  == ''){ $new_img_publish  = 0; }
+		if(empty($new_alb_publish)  || $new_alb_publish  == ''){ $new_alb_publish  = 0; }
+		if(empty($new_cat_publish)  || $new_cat_publish  == ''){ $new_cat_publish  = 0; }
+		if(empty($new_pic_publish)  || $new_pic_publish  == ''){ $new_pic_publish  = 0; }
+		
+		if($choosenDB == 'xml'){
+			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/userpage.xml', 'w');
+			$xmluser->xml_declaration();
+			$xmluser->xml_section('userpage');
+			
+			$xmluser->write_value('text_width', $new_text_width);
+			$xmluser->write_value('input_width', $new_input_width);
+			$xmluser->write_value('news_publish', $new_news_publish);
+			$xmluser->write_value('image_publish', $new_img_publish);
+			$xmluser->write_value('album_publish', $new_alb_publish);
+			$xmluser->write_value('cat_publish', $new_cat_publish);
+			$xmluser->write_value('pic_publish', $new_pic_publish);
+			
+			$xmluser->xml_section_buffer();
+			$xmluser->xml_section_end('userpage');
+			$xmluser->_xmlparser();
+		}
+		else{
+			$sqlAL = new sqlAbstractionLayer($choosenDB);
+			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			
+			$newSQLData = ''
+			.$tcms_db_prefix.'userpage.text_width="'.$new_text_width.'", '
+			.$tcms_db_prefix.'userpage.input_width="'.$new_input_width.'", '
+			.$tcms_db_prefix.'userpage.news_publish='.$new_news_publish.', '
+			.$tcms_db_prefix.'userpage.image_publish='.$new_img_publish.', '
+			.$tcms_db_prefix.'userpage.album_publish='.$new_alb_publish.', '
+			.$tcms_db_prefix.'userpage.cat_publish='.$new_cat_publish.', '
+			.$tcms_db_prefix.'userpage.pic_publish='.$new_pic_publish;
+			
+			$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'userpage', $newSQLData, 'userpage');
+		}
 		
 		
 		
@@ -1702,89 +1321,15 @@ $tcms_mail_password    = \''.$new_mail_password.'\';
 		$xmluser->xml_section_end('global');
 		$xmluser->_xmlparser();
 		
-		if($_RELOCATE == '0'){
-			echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_global&action='.$action.'\';</script>';
-		}
-		else{
-			echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_global&action='.$_RELOCATE.'\';</script>';
-		}
-	}
-	
-	
-	
-	
-	
-	//==================================================
-	// SAVE, EDIT AND DELETE
-	//==================================================
-	
-	if($todo == 'save_user'){
-		if(empty($new_text_width)   || $new_text_width   == ''){ $new_text_width   = 150; }
-		if(empty($new_input_width)  || $new_input_width  == ''){ $new_input_width  = 150; }
-		if(empty($new_news_publish) || $new_news_publish == ''){ $new_news_publish = 0; }
-		if(empty($new_img_publish)  || $new_img_publish  == ''){ $new_img_publish  = 0; }
-		if(empty($new_alb_publish)  || $new_alb_publish  == ''){ $new_alb_publish  = 0; }
-		if(empty($new_cat_publish)  || $new_cat_publish  == ''){ $new_cat_publish  = 0; }
-		if(empty($new_pic_publish)  || $new_pic_publish  == ''){ $new_pic_publish  = 0; }
 		
-		if($choosenDB == 'xml'){
-			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/userpage.xml', 'w');
-			$xmluser->xml_declaration();
-			$xmluser->xml_section('userpage');
-			
-			$xmluser->write_value('text_width', $new_text_width);
-			$xmluser->write_value('input_width', $new_input_width);
-			$xmluser->write_value('news_publish', $new_news_publish);
-			$xmluser->write_value('image_publish', $new_img_publish);
-			$xmluser->write_value('album_publish', $new_alb_publish);
-			$xmluser->write_value('cat_publish', $new_cat_publish);
-			$xmluser->write_value('pic_publish', $new_pic_publish);
-			
-			$xmluser->xml_section_buffer();
-			$xmluser->xml_section_end('userpage');
-			$xmluser->_xmlparser();
-		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-			
-			$newSQLData = ''
-			.$tcms_db_prefix.'userpage.text_width="'.$new_text_width.'", '
-			.$tcms_db_prefix.'userpage.input_width="'.$new_input_width.'", '
-			.$tcms_db_prefix.'userpage.news_publish='.$new_news_publish.', '
-			.$tcms_db_prefix.'userpage.image_publish='.$new_img_publish.', '
-			.$tcms_db_prefix.'userpage.album_publish='.$new_alb_publish.', '
-			.$tcms_db_prefix.'userpage.cat_publish='.$new_cat_publish.', '
-			.$tcms_db_prefix.'userpage.pic_publish='.$new_pic_publish;
-			
-			$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'userpage', $newSQLData, 'userpage');
-		}
-		
-		if($_RELOCATE == '0'){
-			echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_global&action=user\';</script>';
-		}
-		else{
-			echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_global&action='.$_RELOCATE.'\';</script>';
-		}
-	}
-	
-	
-	
-	
-	
-	//==================================================
-	// SAVE, EDIT AND DELETE
-	//==================================================
-	
-	if($todo == 'save_db'){
-		if($old_engine != $new_engine){
+		if($old_engine != $new_engine) {
 			echo '<script type="text/javascript">
 			var delCheck = confirm("'._MSG_CHANGE_DATABASE_ENGINE.'");
 			if(delCheck == false){
 				document.location=\'admin.php?id_user='.$id_user.'&site=mod_global&action='.( trim($_RELOCATE) == '0' ? 'db' : $_RELOCATE ).'\';
 			}
 			else{
-				document.location=\'admin.php?id_user='.$id_user.'&site=mod_global&todo=save_db&check=yes'
+				document.location=\'admin.php?id_user='.$id_user.'&site=mod_global&todo=save&check=yes'
 				.'&old_engine='.$new_engine
 				.'&new_engine='.$new_engine
 				.'&new_user='.$new_user
@@ -1845,15 +1390,17 @@ $tcms_db_prefix   = \''.$new_prefix.'\';
 			if($check == 'yes'){
 				echo '<script>document.location=\'index.php\'</script>';
 			}
-			else{
-				if($_RELOCATE == '0'){
-					echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_global&action=db\';</script>';
-				}
-				else{
-					echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_global&action='.$_RELOCATE.'\';</script>';
-				}
+			else {
+				echo '<script>'
+				.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_global\';'
+				.'</script>';
 			}
 		}
+		
+		
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_global\';'
+		.'</script>';
 	}
 	
 	
@@ -1863,6 +1410,7 @@ $tcms_db_prefix   = \''.$new_prefix.'\';
 	//==================================================
 	// BACKUP
 	//==================================================
+	
 	if($todo == 'backup'){
 		if($this_engine == 'xml'){
 			$archive = new PclZip('../../cache/xml_database_backup.zip');
@@ -1906,6 +1454,7 @@ $tcms_db_prefix   = \''.$new_prefix.'\';
 	//==================================================
 	// OPTIMIZE
 	//==================================================
+	
 	if($todo == 'optimize'){
 		if($this_engine == 'mysql'){
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
@@ -1939,7 +1488,9 @@ $tcms_db_prefix   = \''.$new_prefix.'\';
 	//==================================================
 	
 	if($todo == 'restore'){
-		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_global&action='.$action.'\'</script>';
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_global\''
+		.'</script>';
 	}
 }
 else{
