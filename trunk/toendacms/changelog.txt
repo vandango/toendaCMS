@@ -35,7 +35,7 @@ Developer Version
 	- 1.0.7 Development
 	- 1.5.0 Development
 
-Building Steps: 2477
+Building Steps: 2480
 
 
 
@@ -71,6 +71,7 @@ Building Steps: 2477
  - changed: new tabpane for the frontpage settings
  - changed: news edit-layout improvements
  - changed: content edit-layout improvements
+ - changed: new tabpane for the statistics page
 
  - added: captcha comment check for the image comments
  - added: possibillity to make a own target to the side and topmenu links

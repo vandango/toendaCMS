@@ -9,8 +9,7 @@
 | 
 | Website statistics
 |
-| File:		mod_stats.php
-| Version:	0.2.3
+| File:	mod_stats.php
 |
 +
 */
@@ -18,6 +17,17 @@
 
 defined('_TCMS_VALID') or die('Restricted access');
 
+
+/**
+ * Website statistics
+ *
+ * This module is used as a statistics provider.
+ *
+ * @version 0.2.5
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 if(isset($_GET['old_engine'])){ $old_engine = $_GET['old_engine']; }
@@ -30,8 +40,14 @@ if(isset($_POST['reset'])){ $reset = $_POST['reset']; }
 
 
 
+echo '<script type="text/javascript" src="../js/tabs/tabpane.js"></script>
+<!--<link type="text/css" rel="StyleSheet" href="../js/tabs/css/luna/tab.css" />-->
+<link type="text/css" rel="StyleSheet" href="../js/tabs/tabpane.css" />';
 
-if($id_group == 'Developer' || $id_group == 'Administrator'){
+
+
+if($id_group == 'Developer' 
+|| $id_group == 'Administrator'){
 	/*
 		init
 	*/
@@ -77,12 +93,12 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	
 	
 	
-	if($statistics == 0){
+	if($statistics == 0) {
 		echo '<h3>';
 		echo 'The statistics module is disabled.';
 		echo '</h3>';
 	}
-	else{
+	else {
 		if($choosenDB == 'xml'){
 			//echo '<strong>'._DB_XML.'</strong>: XML database is online<br />';
 			//echo '<strong>'._DB_XML.' '._GALLERY_IMGSIZE.'</strong>: '
@@ -112,201 +128,227 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 			
 			
 			
+			/*
+				tabpane start
+			*/
+			
+			echo '<div class="tab-pane" id="tab-pane-1">';
+			
 			
 			/*
-				tab for module news and image
+				hits tab
 			*/
-			if(!isset($action)){ $action = 'hits'; }
-			echo '<div style="display: block; width: 100%; border-bottom: 1px solid #ccc; padding-bottom: 2px; margin: 10px 0 0 0;">'
-			.'<div style="display: block; width: 30px; float: left;">&nbsp;</div>'
-			.'<a'.( $action == 'hits' ? ' class="tcms_tabA"' : ' class="tcms_tab"' ).' href="admin.php?id_user='.$id_user.'&amp;site=mod_stats&amp;action=hits">'._STATS_HITS.'</a>'
-			.'<a'.( $action == 'software' ? ' class="tcms_tabA"' : ' class="tcms_tab"' ).' href="admin.php?id_user='.$id_user.'&amp;site=mod_stats&amp;action=software">'._STATS_BROWSER_OS.'</a>'
-			.'<a'.( $action == 'reset' ? ' class="tcms_tabA"' : ' class="tcms_tab"' ).' href="admin.php?id_user='.$id_user.'&amp;site=mod_stats&amp;action=reset">'._STATS_RESET.'</a>'
-			.'</div>';
 			
-			echo '<div class="tcms_tabPage"><br />';
+			echo '<div class="tab-page" id="tab-page-hits">'
+			.'<h2 class="tab">'._STATS_HITS.'</h2>';
 			
 			
+			$arr_statfiles = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_statistics/');
 			
-			
-			if($action == 'hits'){
-				$arr_statfiles = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_statistics/');
-				
-				if(!empty($arr_statfiles) && $arr_statfiles != '' && isset($arr_statfiles)){
-					foreach($arr_statfiles as $key => $value){
-						$statXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_statistics/'.$value, 'r');
-						
-						$arr_stat['host'][$key]      = $statXML->read_value('host');
-						$arr_stat['url'][$key]       = $statXML->read_value('site_url');
-						$arr_stat['value'][$key]     = $statXML->read_value('value');
-						$arr_stat['referrer'][$key]  = $statXML->read_value('referrer');
-						$arr_stat['timestamp'][$key] = $statXML->read_value('timestamp');
-						
-						if($arr_stat['host'][$key]      == false){ $arr_stat['host'][$key]      = ''; }
-						if($arr_stat['site_url'][$key]  == false){ $arr_stat['site_url'][$key]  = ''; }
-						if($arr_stat['value'][$key]     == false){ $arr_stat['value'][$key]     = ''; }
-						if($arr_stat['referrer'][$key]  == false){ $arr_stat['referrer'][$key]  = ''; }
-						if($arr_stat['timestamp'][$key] == false){ $arr_stat['timestamp'][$key] = ''; }
-					}
+			if(!empty($arr_statfiles) && $arr_statfiles != '' && isset($arr_statfiles)){
+				foreach($arr_statfiles as $key => $value){
+					$statXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_statistics/'.$value, 'r');
+					
+					$arr_stat['host'][$key]      = $statXML->read_value('host');
+					$arr_stat['url'][$key]       = $statXML->read_value('site_url');
+					$arr_stat['value'][$key]     = $statXML->read_value('value');
+					$arr_stat['referrer'][$key]  = $statXML->read_value('referrer');
+					$arr_stat['timestamp'][$key] = $statXML->read_value('timestamp');
+					
+					if($arr_stat['host'][$key]      == false){ $arr_stat['host'][$key]      = ''; }
+					if($arr_stat['site_url'][$key]  == false){ $arr_stat['site_url'][$key]  = ''; }
+					if($arr_stat['value'][$key]     == false){ $arr_stat['value'][$key]     = ''; }
+					if($arr_stat['referrer'][$key]  == false){ $arr_stat['referrer'][$key]  = ''; }
+					if($arr_stat['timestamp'][$key] == false){ $arr_stat['timestamp'][$key] = ''; }
 				}
-				
-				/*
-				if(is_array($arr_stat)){
-					array_multisort(
-						$arr_stat['value'], SORT_DESC, SORT_NUMERIC, 
-						$arr_stat['timestamp'], SORT_DESC, SORT_NUMERIC, 
-						$arr_stat['referrer'], SORT_DESC, SORT_STRING, 
-						$arr_stat['host'], SORT_DESC, SORT_STRING, 
-						$arr_stat['site_url'], SORT_DESC, SORT_STRING
-					);
-				}
-				*/
-				
-				echo '<table cellpadding="3" cellspacing="0" border="0" class="noborder" width="100%">';
-				echo '<tr class="tcms_bg_blue_01">'
-					.'<th valign="middle" class="tcms_db_title" width="15%" align="left">'._TABLE_TIME.'</th>'
-					.'<th valign="middle" class="tcms_db_title" width="5%" align="left">'._STATS_COUNT.'</th>'
-					.'<th valign="middle" class="tcms_db_title" width="15%" align="left">'._STATS_HOST.'</th>'
-					.'<th valign="middle" class="tcms_db_title" width="50%" align="left">'._STATS_PAGE.'</th>'
-					.'<th valign="middle" class="tcms_db_title" width="40%" align="left">'._STATS_REF.'</th></tr>';
-				
-				if(is_array($arr_stat) && !empty($arr_stat)){
-					foreach($arr_stat['host'] as $key => $val){
-						if($key < 20){
-							if(is_integer($key/2)){ $wsc = 0; }
-							else{ $wsc = 1; }
-							
-							echo '<tr height="25" id="row'.$key.'" '
-							.'bgcolor="'.$arr_color[$wsc].'" '
-							.'onMouseOver="wxlBgCol(\'row'.$key.'\',\'#ececec\')" '
-							.'onMouseOut="wxlBgCol(\'row'.$key.'\',\''.$arr_color[$wsc].'\')">';
-							
-							echo '<td class="tcms_db_2">'.$arr_stat['timestamp'][$key].'&nbsp;</td>';
-							echo '<td class="tcms_db_2">'.$arr_stat['value'][$key].'&nbsp;</td>';
-							echo '<td class="tcms_db_2">'.$arr_stat['host'][$key].'&nbsp;</td>';
-							echo '<td class="tcms_db_2">'.$arr_stat['url'][$key].'&nbsp;</td>';
-							echo '<td class="tcms_db_2" title="'.$arr_stat['referrer'][$key].'">'.( strlen($arr_stat['referrer'][$key]) > 50 ? substr($arr_stat['referrer'][$key], 0, 50).'...' : $arr_stat['referrer'][$key] ).'&nbsp;</td>';
-							
-							echo '</tr>';
-						}
-					}
-				}
-				
-				echo '</table><br />';
 			}
-			elseif($action == 'software'){
-				$arr_statfiles = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_statistics_os/');
-				
-				if(!empty($arr_statfiles) && $arr_statfiles != '' && isset($arr_statfiles)){
-					foreach($arr_statfiles as $key => $value){
-						$statXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_statistics_os/'.$value, 'r');
-						
-						$arr_stat['browser'][$key] = $statXML->read_value('browser');
-						$arr_stat['os'][$key]      = $statXML->read_value('os');
-						$arr_stat['value'][$key]   = $statXML->read_value('value');
-						
-						if($arr_stat['browser'][$key] == false){ $arr_stat['browser'][$key] = ''; }
-						if($arr_stat['os'][$key]      == false){ $arr_stat['os'][$key]      = ''; }
-						if($arr_stat['value'][$key]   == false){ $arr_stat['value'][$key]   = ''; }
-					}
-				}
-				
-				/*
-				if(is_array($arr_stat)){
-					array_multisort(
-						$arr_stat['value'], SORT_DESC, SORT_NUMERIC, 
-						$arr_stat['browser'], SORT_DESC, SORT_NUMERIC, 
-						$arr_stat['os'], SORT_DESC, SORT_STRING
-					);
-				}
-				*/
-				
-				echo '<table cellpadding="3" cellspacing="0" border="0" class="noborder" width="100%">';
-				echo '<tr class="tcms_bg_blue_01">'
-					.'<th valign="middle" class="tcms_db_title" width="5%" align="left">'._STATS_COUNT.'</th>'
-					.'<th valign="middle" class="tcms_db_title" width="40%" align="left">'._STATS_BROWSER.'</th>'
-					.'<th valign="middle" class="tcms_db_title" width="60%" align="left">'._STATS_OS.'</th></tr>';
-				
-				if(is_array($arr_stat) && !empty($arr_stat)){
-					foreach($arr_stat['value'] as $key => $val){
-						//if($key < 20){
-							if(is_integer($key/2)){ $wsc = 0; }
-							else{ $wsc = 1; }
-							
-							echo '<tr height="25" id="row'.$key.'" '
-							.'bgcolor="'.$arr_color[$wsc].'" '
-							.'onMouseOver="wxlBgCol(\'row'.$key.'\',\'#ececec\')" '
-							.'onMouseOut="wxlBgCol(\'row'.$key.'\',\''.$arr_color[$wsc].'\')">';
-							
-							echo '<td class="tcms_db_2">'.$arr_stat['value'][$key].'&nbsp;</td>';
-							echo '<td class="tcms_db_2">'.$arr_stat['browser'][$key].'&nbsp;</td>';
-							echo '<td class="tcms_db_2">'.$arr_stat['os'][$key].'&nbsp;</td>';
-							
-							echo '</tr>';
-						//}
-					}
-				}
-				
-				echo '</table><br />';
+			
+			/*
+			if(is_array($arr_stat)){
+				array_multisort(
+					$arr_stat['value'], SORT_DESC, SORT_NUMERIC, 
+					$arr_stat['timestamp'], SORT_DESC, SORT_NUMERIC, 
+					$arr_stat['referrer'], SORT_DESC, SORT_STRING, 
+					$arr_stat['host'], SORT_DESC, SORT_STRING, 
+					$arr_stat['site_url'], SORT_DESC, SORT_STRING
+				);
 			}
-			else{
-				/*
-					reset statistics
-				*/
-				
-				
-				echo _STATS_RESET_TEXT.'<br /><br />';
-				
-				
-				echo '<input type="button" name="reset" value="'._STATS_RESET.'" '
-				.'style="font-size: 16px; font-family: Verdana, arial, sans-serif; font-weight: bold;" '
-				.'onclick="document.location=\'admin.php?id_user='.$id_user.'&site=mod_stats&action=reset&reset=1\';" />';
-				
-				
-				if($reset == 1){
-					// delete hit stats
-					$tcms_main->rmdirr('../../'.$tcms_administer_site.'/tcms_statistics/');
-					mkdir('../../'.$tcms_administer_site.'/tcms_statistics/', 0777);
-					chmod('../../'.$tcms_administer_site.'/tcms_statistics/', 0777);
-					$hitStats = 0;
-					
-					
-					
-					// delete ip stats
-					$tcms_main->rmdirr('../../'.$tcms_administer_site.'/tcms_statistics_ip/');
-					mkdir('../../'.$tcms_administer_site.'/tcms_statistics_ip/', 0777);
-					chmod('../../'.$tcms_administer_site.'/tcms_statistics_ip/', 0777);
-					$ipStats = 0;
-					
-					
-					
-					// delete software stats
-					$tcms_main->rmdirr('../../'.$tcms_administer_site.'/tcms_statistics_os/');
-					mkdir('../../'.$tcms_administer_site.'/tcms_statistics_os/', 0777);
-					chmod('../../'.$tcms_administer_site.'/tcms_statistics_os/', 0777);
-					$osStats = 0;
-					
-					
-					
-					if($hitStats == 0 && $ipStats == 0 && $osStats == 0){
-						echo '<script>'
-						.'alert(\''._STATS_RESET_SUCCESS.'\');'
-						.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_stats\';'
-						.'</script>';
+			*/
+			
+			echo '<table cellpadding="3" cellspacing="0" border="0" class="noborder" width="100%">';
+			echo '<tr class="tcms_bg_blue_01">'
+				.'<th valign="middle" class="tcms_db_title" width="15%" align="left">'._TABLE_TIME.'</th>'
+				.'<th valign="middle" class="tcms_db_title" width="5%" align="left">'._STATS_COUNT.'</th>'
+				.'<th valign="middle" class="tcms_db_title" width="15%" align="left">'._STATS_HOST.'</th>'
+				.'<th valign="middle" class="tcms_db_title" width="50%" align="left">'._STATS_PAGE.'</th>'
+				.'<th valign="middle" class="tcms_db_title" width="40%" align="left">'._STATS_REF.'</th></tr>';
+			
+			if(is_array($arr_stat) && !empty($arr_stat)){
+				foreach($arr_stat['host'] as $key => $val){
+					if($key < 20){
+						if(is_integer($key/2)){ $wsc = 0; }
+						else{ $wsc = 1; }
+						
+						echo '<tr height="25" id="row'.$key.'" '
+						.'bgcolor="'.$arr_color[$wsc].'" '
+						.'onMouseOver="wxlBgCol(\'row'.$key.'\',\'#ececec\')" '
+						.'onMouseOut="wxlBgCol(\'row'.$key.'\',\''.$arr_color[$wsc].'\')">';
+						
+						echo '<td class="tcms_db_2">'.$arr_stat['timestamp'][$key].'&nbsp;</td>';
+						echo '<td class="tcms_db_2">'.$arr_stat['value'][$key].'&nbsp;</td>';
+						echo '<td class="tcms_db_2">'.$arr_stat['host'][$key].'&nbsp;</td>';
+						echo '<td class="tcms_db_2">'.$arr_stat['url'][$key].'&nbsp;</td>';
+						echo '<td class="tcms_db_2" title="'.$arr_stat['referrer'][$key].'">'.( strlen($arr_stat['referrer'][$key]) > 50 ? substr($arr_stat['referrer'][$key], 0, 50).'...' : $arr_stat['referrer'][$key] ).'&nbsp;</td>';
+						
+						echo '</tr>';
 					}
-					else{
-						echo '<script>'
-						.'alert(\''._STATS_RESET_FAILED.'\');'
-						.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_stats\';'
-						.'</script>';
-					}
+				}
+			}
+			
+			echo '</table><br />';
+			
+			
+			echo '</div>';
+			
+			
+			/*
+				hits tab
+			*/
+			
+			echo '<div class="tab-page" id="tab-page-software">'
+			.'<h2 class="tab">'._STATS_BROWSER_OS.'</h2>';
+			
+			
+			$arr_statfiles = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_statistics_os/');
+			
+			if(!empty($arr_statfiles) && $arr_statfiles != '' && isset($arr_statfiles)){
+				foreach($arr_statfiles as $key => $value){
+					$statXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_statistics_os/'.$value, 'r');
+					
+					$arr_stat['browser'][$key] = $statXML->read_value('browser');
+					$arr_stat['os'][$key]      = $statXML->read_value('os');
+					$arr_stat['value'][$key]   = $statXML->read_value('value');
+					
+					if($arr_stat['browser'][$key] == false){ $arr_stat['browser'][$key] = ''; }
+					if($arr_stat['os'][$key]      == false){ $arr_stat['os'][$key]      = ''; }
+					if($arr_stat['value'][$key]   == false){ $arr_stat['value'][$key]   = ''; }
+				}
+			}
+			
+			/*
+			if(is_array($arr_stat)){
+				array_multisort(
+					$arr_stat['value'], SORT_DESC, SORT_NUMERIC, 
+					$arr_stat['browser'], SORT_DESC, SORT_NUMERIC, 
+					$arr_stat['os'], SORT_DESC, SORT_STRING
+				);
+			}
+			*/
+			
+			echo '<table cellpadding="3" cellspacing="0" border="0" class="noborder" width="100%">';
+			echo '<tr class="tcms_bg_blue_01">'
+				.'<th valign="middle" class="tcms_db_title" width="5%" align="left">'._STATS_COUNT.'</th>'
+				.'<th valign="middle" class="tcms_db_title" width="40%" align="left">'._STATS_BROWSER.'</th>'
+				.'<th valign="middle" class="tcms_db_title" width="60%" align="left">'._STATS_OS.'</th></tr>';
+			
+			if(is_array($arr_stat) && !empty($arr_stat)){
+				foreach($arr_stat['value'] as $key => $val){
+					//if($key < 20){
+						if(is_integer($key/2)){ $wsc = 0; }
+						else{ $wsc = 1; }
+						
+						echo '<tr height="25" id="row'.$key.'" '
+						.'bgcolor="'.$arr_color[$wsc].'" '
+						.'onMouseOver="wxlBgCol(\'row'.$key.'\',\'#ececec\')" '
+						.'onMouseOut="wxlBgCol(\'row'.$key.'\',\''.$arr_color[$wsc].'\')">';
+						
+						echo '<td class="tcms_db_2">'.$arr_stat['value'][$key].'&nbsp;</td>';
+						echo '<td class="tcms_db_2">'.$arr_stat['browser'][$key].'&nbsp;</td>';
+						echo '<td class="tcms_db_2">'.$arr_stat['os'][$key].'&nbsp;</td>';
+						
+						echo '</tr>';
+					//}
+				}
+			}
+			
+			echo '</table><br />';
+			
+			
+			echo '</div>';
+			
+			
+			/*
+				hits tab
+			*/
+			
+			echo '<div class="tab-page" id="tab-page-reset">'
+			.'<h2 class="tab">'._STATS_RESET.'</h2>';
+			
+			
+			echo _STATS_RESET_TEXT.'<br /><br />';
+			
+			echo '<input type="button" name="reset" value="'._STATS_RESET.'" '
+			.'style="font-size: 16px; font-family: Verdana, arial, sans-serif; font-weight: bold;" '
+			.'onclick="document.location=\'admin.php?id_user='.$id_user.'&site=mod_stats&action=reset&reset=1\';" />';
+			
+			if($reset == 1){
+				// delete hit stats
+				$tcms_main->rmdirr('../../'.$tcms_administer_site.'/tcms_statistics/');
+				mkdir('../../'.$tcms_administer_site.'/tcms_statistics/', 0777);
+				chmod('../../'.$tcms_administer_site.'/tcms_statistics/', 0777);
+				$hitStats = 0;
+				
+				
+				
+				// delete ip stats
+				$tcms_main->rmdirr('../../'.$tcms_administer_site.'/tcms_statistics_ip/');
+				mkdir('../../'.$tcms_administer_site.'/tcms_statistics_ip/', 0777);
+				chmod('../../'.$tcms_administer_site.'/tcms_statistics_ip/', 0777);
+				$ipStats = 0;
+				
+				
+				
+				// delete software stats
+				$tcms_main->rmdirr('../../'.$tcms_administer_site.'/tcms_statistics_os/');
+				mkdir('../../'.$tcms_administer_site.'/tcms_statistics_os/', 0777);
+				chmod('../../'.$tcms_administer_site.'/tcms_statistics_os/', 0777);
+				$osStats = 0;
+				
+				
+				
+				if($hitStats == 0 && $ipStats == 0 && $osStats == 0){
+					echo '<script>'
+					.'alert(\''._STATS_RESET_SUCCESS.'\');'
+					.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_stats\';'
+					.'</script>';
+				}
+				else{
+					echo '<script>'
+					.'alert(\''._STATS_RESET_FAILED.'\');'
+					.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_stats\';'
+					.'</script>';
 				}
 			}
 			
 			
 			echo '</div>';
+			
+			
+			/*
+				tabpane end
+			*/
+			
+			echo '</div>'
+			.'<script type="text/javascript">
+			var tabPane1 = new WebFXTabPane(document.getElementById("tab-pane-1"));
+			tabPane1.addTabPage(document.getElementById("tab-page-hits"));
+			tabPane1.addTabPage(document.getElementById("tab-page-software"));
+			tabPane1.addTabPage(document.getElementById("tab-page-reset"));
+			setupAllTabs();
+			</script>'
+			.'<br />';
 		}
-		else{
+		else {
 			/*
 				site statistics
 				1. hits
@@ -348,255 +390,292 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 			
 			
 			
+			/*
+				tabpane start
+			*/
+			
+			echo '<div class="tab-pane" id="tab-pane-1">';
+			
 			
 			/*
-				tab for module news and image
+				hits tab
 			*/
-			if(!isset($action)){ $action = 'hits'; }
-			echo '<div style="display: block; width: 100%; border-bottom: 1px solid #ccc; padding-bottom: 2px; margin: 10px 0 0 0;">'
-			.'<div style="display: block; width: 30px; float: left;">&nbsp;</div>'
-			.'<a'.( $action == 'hits' ? ' class="tcms_tabA"' : ' class="tcms_tab"' ).' href="admin.php?id_user='.$id_user.'&amp;site=mod_stats&amp;action=hits">'._STATS_HITS.'</a>'
-			.'<a'.( $action == 'os' ? ' class="tcms_tabA"' : ' class="tcms_tab"' ).' href="admin.php?id_user='.$id_user.'&amp;site=mod_stats&amp;action=os">'._STATS_OS.'</a>'
-			.'<a'.( $action == 'browser' ? ' class="tcms_tabA"' : ' class="tcms_tab"' ).' href="admin.php?id_user='.$id_user.'&amp;site=mod_stats&amp;action=browser">'._STATS_BROWSER.'</a>'
-			.'<a'.( $action == 'reset' ? ' class="tcms_tabA"' : ' class="tcms_tab"' ).' href="admin.php?id_user='.$id_user.'&amp;site=mod_stats&amp;action=reset">'._STATS_RESET.'</a>'
-			.'</div>';
 			
-			echo '<div class="tcms_tabPage"><br />';
+			echo '<div class="tab-page" id="tab-page-hits">'
+			.'<h2 class="tab">'._STATS_HITS.'</h2>';
 			
 			
+			$sqlSTR = "SELECT * "
+			."FROM ".$tcms_db_prefix."statistics "
+			."WHERE NOT (ip_uid IS NULL) "
+			."ORDER BY value DESC, timestamp DESC";
 			
+			$sqlQR = $sqlAL->sqlQuery($sqlSTR);
+			$oldValue = $sqlAL->sqlGetNumber($sqlQR);
 			
-			if($action == 'hits'){
-				$sqlSTR = "SELECT * "
-				."FROM ".$tcms_db_prefix."statistics "
-				."WHERE NOT (ip_uid IS NULL) "
-				."ORDER BY value DESC, timestamp DESC";
+			$count = 0;
+			
+			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+				$arr_stat['host'][$count]       = $sqlARR['host'];
+				$arr_stat['url'][$count]        = $sqlARR['site_url'];
+				$arr_stat['value'][$count]      = $sqlARR['value'];
+				$arr_stat['referrer'][$count]   = $sqlARR['referrer'];
+				$arr_stat['timestamp'][$count]  = $sqlARR['timestamp'];
 				
+				if($arr_stat['host'][$count]       == NULL){ $arr_stat['host'][$count]       = ''; }
+				if($arr_stat['url'][$count]        == NULL){ $arr_stat['url'][$count]        = ''; }
+				if($arr_stat['value'][$count]      == NULL){ $arr_stat['value'][$count]      = ''; }
+				if($arr_stat['referrer'][$count]   == NULL){ $arr_stat['referrer'][$count]   = ''; }
+				if($arr_stat['timestamp'][$count]  == NULL){ $arr_stat['timestamp'][$count]  = ''; }
+				
+				$count++;
+			}
+			
+			
+			echo '<table cellpadding="3" cellspacing="0" border="0" class="noborder" width="100%">';
+			echo '<tr class="tcms_bg_blue_01">'
+				.'<th valign="middle" class="tcms_db_title" width="15%" align="left">'._TABLE_TIME.'</th>'
+				.'<th valign="middle" class="tcms_db_title" width="5%" align="left">'._STATS_COUNT.'</th>'
+				.'<th valign="middle" class="tcms_db_title" width="15%" align="left">'._STATS_HOST.'</th>'
+				.'<th valign="middle" class="tcms_db_title" width="50%" align="left">'._STATS_PAGE.'</th>'
+				.'<th valign="middle" class="tcms_db_title" width="40%" align="left">'._STATS_REF.'</th></tr>';
+			
+			if(is_array($arr_stat) && !empty($arr_stat)){
+				foreach($arr_stat['host'] as $key => $val){
+					//if($key < 20){
+						if(is_integer($key/2)){ $wsc = 0; }
+						else{ $wsc = 1; }
+						
+						echo '<tr height="25" id="row'.$key.'" '
+						.'bgcolor="'.$arr_color[$wsc].'" '
+						.'onMouseOver="wxlBgCol(\'row'.$key.'\',\'#ececec\')" '
+						.'onMouseOut="wxlBgCol(\'row'.$key.'\',\''.$arr_color[$wsc].'\')">';
+						
+						echo '<td class="tcms_db_2">'.$arr_stat['timestamp'][$key].'&nbsp;</td>';
+						echo '<td class="tcms_db_2">'.$arr_stat['value'][$key].'&nbsp;</td>';
+						echo '<td class="tcms_db_2">'.$arr_stat['host'][$key].'&nbsp;</td>';
+						echo '<td class="tcms_db_2">'.$arr_stat['url'][$key].'&nbsp;</td>';
+						echo '<td class="tcms_db_2" title="'.$arr_stat['referrer'][$key].'">'.( strlen($arr_stat['referrer'][$key]) > 50 ? substr($arr_stat['referrer'][$key], 0, 50).'...' : $arr_stat['referrer'][$key] ).'&nbsp;</td>';
+						
+						echo '</tr>';
+					//}
+				}
+			}
+			
+			echo '</table><br />';
+			
+			
+			echo '</div>';
+			
+			
+			/*
+				os tab
+			*/
+			
+			echo '<div class="tab-page" id="tab-page-os">'
+			.'<h2 class="tab">'._STATS_OS.'</h2>';
+			
+			
+			$sqlSTR = "SELECT * "
+			."FROM ".$tcms_db_prefix."statistics_os "
+			."WHERE NOT (uid IS NULL) "
+			."ORDER BY value DESC, os DESC";
+			
+			$sqlQR = $sqlAL->sqlQuery($sqlSTR);
+			$oldValue = $sqlAL->sqlGetNumber($sqlQR);
+			
+			$count = 0;
+			
+			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+				//$arr_stat['browser'][$count] = $sqlARR['browser'];
+				$arr_stat['os'][$count]      = $sqlARR['os'];
+				$arr_stat['value'][$count]   = $sqlARR['value'];
+				
+				//if($arr_stat['browser'][$count] == NULL){ $arr_stat['browser'][$count] = ''; }
+				if($arr_stat['os'][$count]      == NULL){ $arr_stat['os'][$count]      = ''; }
+				if($arr_stat['value'][$count]   == NULL){ $arr_stat['value'][$count]   = ''; }
+				
+				$count++;
+			}
+			
+			
+			echo '<table cellpadding="3" cellspacing="0" border="0" class="noborder" width="100%">';
+			echo '<tr class="tcms_bg_blue_01">'
+				.'<th valign="middle" class="tcms_db_title" width="10%" align="left">'._STATS_COUNT.'</th>'
+				//.'<th valign="middle" class="tcms_db_title" width="40%" align="left">'._STATS_BROWSER.'</th>'
+				.'<th valign="middle" class="tcms_db_title" width="90%" align="left">'._STATS_OS.'</th>'
+				.'</tr>';
+			
+			if(is_array($arr_stat) && !empty($arr_stat)){
+				foreach($arr_stat['value'] as $key => $val){
+					//if($key < 20){
+						if(is_integer($key/2)){ $wsc = 0; }
+						else{ $wsc = 1; }
+						
+						echo '<tr height="25" id="row'.$key.'" '
+						.'bgcolor="'.$arr_color[$wsc].'" '
+						.'onMouseOver="wxlBgCol(\'row'.$key.'\',\'#ececec\')" '
+						.'onMouseOut="wxlBgCol(\'row'.$key.'\',\''.$arr_color[$wsc].'\')">';
+						
+						echo '<td class="tcms_db_2">'.$arr_stat['value'][$key].'&nbsp;</td>';
+						//echo '<td class="tcms_db_2">'.$arr_stat['browser'][$key].'&nbsp;</td>';
+						echo '<td class="tcms_db_2">'.$arr_stat['os'][$key].'&nbsp;</td>';
+						
+						echo '</tr>';
+					//}
+				}
+			}
+			
+			echo '</table><br />';
+			
+			
+			echo '</div>';
+			
+			
+			/*
+				os tab
+			*/
+			
+			echo '<div class="tab-page" id="tab-page-browser">'
+			.'<h2 class="tab">'._STATS_BROWSER.'</h2>';
+			
+			
+			$sqlSTR = "SELECT * "
+			."FROM ".$tcms_db_prefix."statistics_os "
+			."WHERE NOT (uid IS NULL) "
+			."ORDER BY value DESC, browser DESC";
+			
+			$sqlQR = $sqlAL->sqlQuery($sqlSTR);
+			$oldValue = $sqlAL->sqlGetNumber($sqlQR);
+			
+			$count = 0;
+			
+			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+				$arr_stat['browser'][$count] = $sqlARR['browser'];
+				//$arr_stat['os'][$count]      = $sqlARR['os'];
+				$arr_stat['value'][$count]   = $sqlARR['value'];
+				
+				if($arr_stat['browser'][$count] == NULL){ $arr_stat['browser'][$count] = ''; }
+				//if($arr_stat['os'][$count]      == NULL){ $arr_stat['os'][$count]      = ''; }
+				if($arr_stat['value'][$count]   == NULL){ $arr_stat['value'][$count]   = ''; }
+				
+				$count++;
+			}
+			
+			
+			echo '<table cellpadding="3" cellspacing="0" border="0" class="noborder" width="100%">';
+			echo '<tr class="tcms_bg_blue_01">'
+				.'<th valign="middle" class="tcms_db_title" width="10%" align="left">'._STATS_COUNT.'</th>'
+				.'<th valign="middle" class="tcms_db_title" width="90%" align="left">'._STATS_BROWSER.'</th>'
+				//.'<th valign="middle" class="tcms_db_title" width="60%" align="left">'._STATS_OS.'</th>'
+				.'</tr>';
+			
+			if(is_array($arr_stat) && !empty($arr_stat)){
+				foreach($arr_stat['value'] as $key => $val){
+					//if($key < 20){
+						if(is_integer($key/2)){ $wsc = 0; }
+						else{ $wsc = 1; }
+						
+						echo '<tr height="25" id="row'.$key.'" '
+						.'bgcolor="'.$arr_color[$wsc].'" '
+						.'onMouseOver="wxlBgCol(\'row'.$key.'\',\'#ececec\')" '
+						.'onMouseOut="wxlBgCol(\'row'.$key.'\',\''.$arr_color[$wsc].'\')">';
+						
+						echo '<td class="tcms_db_2">'.$arr_stat['value'][$key].'&nbsp;</td>';
+						echo '<td class="tcms_db_2">'.$arr_stat['browser'][$key].'&nbsp;</td>';
+						//echo '<td class="tcms_db_2">'.$arr_stat['os'][$key].'&nbsp;</td>';
+						
+						echo '</tr>';
+					//}
+				}
+			}
+			
+			echo '</table><br />';
+			
+			
+			echo '</div>';
+			
+			
+			/*
+				os tab
+			*/
+			
+			echo '<div class="tab-page" id="tab-page-reset">'
+			.'<h2 class="tab">'._STATS_RESET.'</h2>';
+			
+			
+			echo _STATS_RESET_TEXT.'<br /><br />';
+			
+			echo '<input type="button" name="reset" value="'._STATS_RESET.'" '
+			.'style="font-size: 16px; font-family: Verdana, arial, sans-serif; font-weight: bold;" '
+			.'onclick="document.location=\'admin.php?id_user='.$id_user.'&site=mod_stats&action=reset&reset=1\';" />';
+			
+			if($reset == 1){
+				// delete hit stats
+				$sqlSTR = "DELETE FROM ".$tcms_db_prefix."statistics WHERE NOT (ip_uid IS NULL)";
 				$sqlQR = $sqlAL->sqlQuery($sqlSTR);
-				$oldValue = $sqlAL->sqlGetNumber($sqlQR);
-				
-				$count = 0;
-				
-				while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
-					$arr_stat['host'][$count]       = $sqlARR['host'];
-					$arr_stat['url'][$count]        = $sqlARR['site_url'];
-					$arr_stat['value'][$count]      = $sqlARR['value'];
-					$arr_stat['referrer'][$count]   = $sqlARR['referrer'];
-					$arr_stat['timestamp'][$count]  = $sqlARR['timestamp'];
-					
-					if($arr_stat['host'][$count]       == NULL){ $arr_stat['host'][$count]       = ''; }
-					if($arr_stat['url'][$count]        == NULL){ $arr_stat['url'][$count]        = ''; }
-					if($arr_stat['value'][$count]      == NULL){ $arr_stat['value'][$count]      = ''; }
-					if($arr_stat['referrer'][$count]   == NULL){ $arr_stat['referrer'][$count]   = ''; }
-					if($arr_stat['timestamp'][$count]  == NULL){ $arr_stat['timestamp'][$count]  = ''; }
-					
-					$count++;
-				}
-				
-				
-				echo '<table cellpadding="3" cellspacing="0" border="0" class="noborder" width="100%">';
-				echo '<tr class="tcms_bg_blue_01">'
-					.'<th valign="middle" class="tcms_db_title" width="15%" align="left">'._TABLE_TIME.'</th>'
-					.'<th valign="middle" class="tcms_db_title" width="5%" align="left">'._STATS_COUNT.'</th>'
-					.'<th valign="middle" class="tcms_db_title" width="15%" align="left">'._STATS_HOST.'</th>'
-					.'<th valign="middle" class="tcms_db_title" width="50%" align="left">'._STATS_PAGE.'</th>'
-					.'<th valign="middle" class="tcms_db_title" width="40%" align="left">'._STATS_REF.'</th></tr>';
-				
-				if(is_array($arr_stat) && !empty($arr_stat)){
-					foreach($arr_stat['host'] as $key => $val){
-						//if($key < 20){
-							if(is_integer($key/2)){ $wsc = 0; }
-							else{ $wsc = 1; }
-							
-							echo '<tr height="25" id="row'.$key.'" '
-							.'bgcolor="'.$arr_color[$wsc].'" '
-							.'onMouseOver="wxlBgCol(\'row'.$key.'\',\'#ececec\')" '
-							.'onMouseOut="wxlBgCol(\'row'.$key.'\',\''.$arr_color[$wsc].'\')">';
-							
-							echo '<td class="tcms_db_2">'.$arr_stat['timestamp'][$key].'&nbsp;</td>';
-							echo '<td class="tcms_db_2">'.$arr_stat['value'][$key].'&nbsp;</td>';
-							echo '<td class="tcms_db_2">'.$arr_stat['host'][$key].'&nbsp;</td>';
-							echo '<td class="tcms_db_2">'.$arr_stat['url'][$key].'&nbsp;</td>';
-							echo '<td class="tcms_db_2" title="'.$arr_stat['referrer'][$key].'">'.( strlen($arr_stat['referrer'][$key]) > 50 ? substr($arr_stat['referrer'][$key], 0, 50).'...' : $arr_stat['referrer'][$key] ).'&nbsp;</td>';
-							
-							echo '</tr>';
-						//}
-					}
-				}
-				
-				echo '</table><br />';
-			}
-			elseif($action == 'os'){
-				$sqlSTR = "SELECT * "
-				."FROM ".$tcms_db_prefix."statistics_os "
-				."WHERE NOT (uid IS NULL) "
-				."ORDER BY value DESC, os DESC";
-				
+				unset($sqlQR);
+				$sqlSTR = "SELECT * FROM ".$tcms_db_prefix."statistics WHERE NOT (ip_uid IS NULL)";
 				$sqlQR = $sqlAL->sqlQuery($sqlSTR);
-				$oldValue = $sqlAL->sqlGetNumber($sqlQR);
-				
-				$count = 0;
-				
-				while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
-					//$arr_stat['browser'][$count] = $sqlARR['browser'];
-					$arr_stat['os'][$count]      = $sqlARR['os'];
-					$arr_stat['value'][$count]   = $sqlARR['value'];
-					
-					//if($arr_stat['browser'][$count] == NULL){ $arr_stat['browser'][$count] = ''; }
-					if($arr_stat['os'][$count]      == NULL){ $arr_stat['os'][$count]      = ''; }
-					if($arr_stat['value'][$count]   == NULL){ $arr_stat['value'][$count]   = ''; }
-					
-					$count++;
-				}
+				$hitStats = $sqlAL->sqlGetNumber($sqlQR);
+				unset($sqlQR);
 				
 				
-				echo '<table cellpadding="3" cellspacing="0" border="0" class="noborder" width="100%">';
-				echo '<tr class="tcms_bg_blue_01">'
-					.'<th valign="middle" class="tcms_db_title" width="10%" align="left">'._STATS_COUNT.'</th>'
-					//.'<th valign="middle" class="tcms_db_title" width="40%" align="left">'._STATS_BROWSER.'</th>'
-					.'<th valign="middle" class="tcms_db_title" width="90%" align="left">'._STATS_OS.'</th>'
-					.'</tr>';
 				
-				if(is_array($arr_stat) && !empty($arr_stat)){
-					foreach($arr_stat['value'] as $key => $val){
-						//if($key < 20){
-							if(is_integer($key/2)){ $wsc = 0; }
-							else{ $wsc = 1; }
-							
-							echo '<tr height="25" id="row'.$key.'" '
-							.'bgcolor="'.$arr_color[$wsc].'" '
-							.'onMouseOver="wxlBgCol(\'row'.$key.'\',\'#ececec\')" '
-							.'onMouseOut="wxlBgCol(\'row'.$key.'\',\''.$arr_color[$wsc].'\')">';
-							
-							echo '<td class="tcms_db_2">'.$arr_stat['value'][$key].'&nbsp;</td>';
-							//echo '<td class="tcms_db_2">'.$arr_stat['browser'][$key].'&nbsp;</td>';
-							echo '<td class="tcms_db_2">'.$arr_stat['os'][$key].'&nbsp;</td>';
-							
-							echo '</tr>';
-						//}
-					}
-				}
-				
-				echo '</table><br />';
-			}
-			elseif($action == 'browser'){
-				$sqlSTR = "SELECT * "
-				."FROM ".$tcms_db_prefix."statistics_os "
-				."WHERE NOT (uid IS NULL) "
-				."ORDER BY value DESC, browser DESC";
-				
+				// delete ip stats
+				$sqlSTR = "DELETE FROM ".$tcms_db_prefix."statistics_ip WHERE NOT (uid IS NULL)";
 				$sqlQR = $sqlAL->sqlQuery($sqlSTR);
-				$oldValue = $sqlAL->sqlGetNumber($sqlQR);
+				unset($sqlQR);
+				$sqlSTR = "SELECT * FROM ".$tcms_db_prefix."statistics_ip WHERE NOT (uid IS NULL)";
+				$sqlQR = $sqlAL->sqlQuery($sqlSTR);
+				$ipStats = $sqlAL->sqlGetNumber($sqlQR);
+				unset($sqlQR);
 				
-				$count = 0;
 				
-				while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
-					$arr_stat['browser'][$count] = $sqlARR['browser'];
-					//$arr_stat['os'][$count]      = $sqlARR['os'];
-					$arr_stat['value'][$count]   = $sqlARR['value'];
-					
-					if($arr_stat['browser'][$count] == NULL){ $arr_stat['browser'][$count] = ''; }
-					//if($arr_stat['os'][$count]      == NULL){ $arr_stat['os'][$count]      = ''; }
-					if($arr_stat['value'][$count]   == NULL){ $arr_stat['value'][$count]   = ''; }
-					
-					$count++;
+				
+				// delete software stats
+				$sqlSTR = "DELETE FROM ".$tcms_db_prefix."statistics_os WHERE NOT (uid IS NULL)";
+				$sqlQR = $sqlAL->sqlQuery($sqlSTR);
+				unset($sqlQR);
+				$sqlSTR = "SELECT * FROM ".$tcms_db_prefix."statistics_os WHERE NOT (uid IS NULL)";
+				$sqlQR = $sqlAL->sqlQuery($sqlSTR);
+				$osStats = $sqlAL->sqlGetNumber($sqlQR);
+				
+				
+				
+				if($hitStats == 0 && $ipStats == 0 && $osStats == 0){
+					echo '<script>'
+					.'alert(\''._STATS_RESET_SUCCESS.'\');'
+					.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_stats\';'
+					.'</script>';
 				}
-				
-				
-				echo '<table cellpadding="3" cellspacing="0" border="0" class="noborder" width="100%">';
-				echo '<tr class="tcms_bg_blue_01">'
-					.'<th valign="middle" class="tcms_db_title" width="10%" align="left">'._STATS_COUNT.'</th>'
-					.'<th valign="middle" class="tcms_db_title" width="90%" align="left">'._STATS_BROWSER.'</th>'
-					//.'<th valign="middle" class="tcms_db_title" width="60%" align="left">'._STATS_OS.'</th>'
-					.'</tr>';
-				
-				if(is_array($arr_stat) && !empty($arr_stat)){
-					foreach($arr_stat['value'] as $key => $val){
-						//if($key < 20){
-							if(is_integer($key/2)){ $wsc = 0; }
-							else{ $wsc = 1; }
-							
-							echo '<tr height="25" id="row'.$key.'" '
-							.'bgcolor="'.$arr_color[$wsc].'" '
-							.'onMouseOver="wxlBgCol(\'row'.$key.'\',\'#ececec\')" '
-							.'onMouseOut="wxlBgCol(\'row'.$key.'\',\''.$arr_color[$wsc].'\')">';
-							
-							echo '<td class="tcms_db_2">'.$arr_stat['value'][$key].'&nbsp;</td>';
-							echo '<td class="tcms_db_2">'.$arr_stat['browser'][$key].'&nbsp;</td>';
-							//echo '<td class="tcms_db_2">'.$arr_stat['os'][$key].'&nbsp;</td>';
-							
-							echo '</tr>';
-						//}
-					}
-				}
-				
-				echo '</table><br />';
-			}
-			else{
-				/*
-					reset statistics
-				*/
-				
-				
-				echo _STATS_RESET_TEXT.'<br /><br />';
-				
-				
-				echo '<input type="button" name="reset" value="'._STATS_RESET.'" '
-				.'style="font-size: 16px; font-family: Verdana, arial, sans-serif; font-weight: bold;" '
-				.'onclick="document.location=\'admin.php?id_user='.$id_user.'&site=mod_stats&action=reset&reset=1\';" />';
-				
-				
-				if($reset == 1){
-					// delete hit stats
-					$sqlSTR = "DELETE FROM ".$tcms_db_prefix."statistics WHERE NOT (ip_uid IS NULL)";
-					$sqlQR = $sqlAL->sqlQuery($sqlSTR);
-					unset($sqlQR);
-					$sqlSTR = "SELECT * FROM ".$tcms_db_prefix."statistics WHERE NOT (ip_uid IS NULL)";
-					$sqlQR = $sqlAL->sqlQuery($sqlSTR);
-					$hitStats = $sqlAL->sqlGetNumber($sqlQR);
-					unset($sqlQR);
-					
-					
-					
-					// delete ip stats
-					$sqlSTR = "DELETE FROM ".$tcms_db_prefix."statistics_ip WHERE NOT (uid IS NULL)";
-					$sqlQR = $sqlAL->sqlQuery($sqlSTR);
-					unset($sqlQR);
-					$sqlSTR = "SELECT * FROM ".$tcms_db_prefix."statistics_ip WHERE NOT (uid IS NULL)";
-					$sqlQR = $sqlAL->sqlQuery($sqlSTR);
-					$ipStats = $sqlAL->sqlGetNumber($sqlQR);
-					unset($sqlQR);
-					
-					
-					
-					// delete software stats
-					$sqlSTR = "DELETE FROM ".$tcms_db_prefix."statistics_os WHERE NOT (uid IS NULL)";
-					$sqlQR = $sqlAL->sqlQuery($sqlSTR);
-					unset($sqlQR);
-					$sqlSTR = "SELECT * FROM ".$tcms_db_prefix."statistics_os WHERE NOT (uid IS NULL)";
-					$sqlQR = $sqlAL->sqlQuery($sqlSTR);
-					$osStats = $sqlAL->sqlGetNumber($sqlQR);
-					
-					
-					
-					if($hitStats == 0 && $ipStats == 0 && $osStats == 0){
-						echo '<script>'
-						.'alert(\''._STATS_RESET_SUCCESS.'\');'
-						.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_stats\';'
-						.'</script>';
-					}
-					else{
-						echo '<script>'
-						.'alert(\''._STATS_RESET_FAILED.'\');'
-						.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_stats\';'
-						.'</script>';
-					}
+				else{
+					echo '<script>'
+					.'alert(\''._STATS_RESET_FAILED.'\');'
+					.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_stats\';'
+					.'</script>';
 				}
 			}
+			
+			
+			echo '</div>';
+			
+			
+			/*
+				tabpane end
+			*/
+			
+			echo '</div>'
+			.'<script type="text/javascript">
+			var tabPane1 = new WebFXTabPane(document.getElementById("tab-pane-1"));
+			tabPane1.addTabPage(document.getElementById("tab-page-hits"));
+			tabPane1.addTabPage(document.getElementById("tab-page-os"));
+			tabPane1.addTabPage(document.getElementById("tab-page-browser"));
+			tabPane1.addTabPage(document.getElementById("tab-page-reset"));
+			setupAllTabs();
+			</script>'
+			.'<br />';
 		}
-		
-		
-		echo '</div>';
 	}
 }
 else{

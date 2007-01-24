@@ -30,7 +30,6 @@ defined('_TCMS_VALID') or die('Restricted access');
  */
 
 
-
 if(isset($_GET['action'])){ $action = $_GET['action']; }
 
 if(isset($_POST['action'])){ $action = $_POST['action']; }
