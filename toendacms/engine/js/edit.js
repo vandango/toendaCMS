@@ -10,7 +10,7 @@
 | Edit JavaScript Functions
 |
 | File:		edit.js
-| Version:	0.4.3
+| Version:	0.4.4
 |
 +
 */
@@ -533,7 +533,7 @@ function insertCommand(form, id, command, script){
 		case 'toendaTemplate':
 			switch(command){
 				case 'st':
-					commandValuePre = '<\? echo _SITE_TITLE.' | '; include(_SITETITLE); \?>';
+					commandValuePre = '<\? echo _SITE_TITLE.\' | \'; include(_SITETITLE); \?>';
 					commandValuePost = '';
 					break;
 				
