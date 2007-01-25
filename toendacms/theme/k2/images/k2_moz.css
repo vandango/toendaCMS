@@ -472,11 +472,33 @@ a.products_top:hover { color: #000000; }
 
 
 /* input */
-.inputtext{ font-size: 11px; height: 18px; }
-.inputbutton{ font-size: 11px; height: 23px; }
-.inputtextarea{ width: 480px; height: 150px; font-size: 11px; }
-/*.inputtextarea{ width: 252px; height: 180px; font-size: 11px; }*/
-.newsSubmit{ width: 490px; height: 500px; font-size: 11px; margin: 0 0 2px 0; }
+.inputtext {
+	font-size: 11px;
+	height: 18px;
+	width: 480px;
+}
+
+.inputbutton {
+	font-size: 11px;
+	height: 23px;
+}
+
+.inputtextarea {
+	width: 480px;
+	height: 150px;
+	font-size: 11px;
+}
+
+.newsSubmit {
+	width: 490px;
+	height: 500px;
+	font-size: 11px;
+	margin: 0 0 2px 0;
+}
+
+.captcha {
+	width: 80px !important;
+}
 
 
 

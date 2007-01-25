@@ -642,7 +642,7 @@ if($news != 'start' && $cmd != 'comment_save' && $news != 'archive' && !isset($c
 					.'<img src="'.$imagePath.'cache/captcha/'.$captchaImage.'.png" border="0" style="padding: 0px 3px 0 0;" /></div>';
 					
 					echo '<div style="display: block; margin: 0 0 3px 1px; width: 300px;">'
-					.'<input name="comment_captcha" id="comment_captcha" class="inputtext" type="text" /></div>';
+					.'<input name="comment_captcha" id="comment_captcha" class="inputtext captcha" type="text" /></div>';
 					
 					echo '<input name="check_captcha" id="check_captcha" value="'.$captchaImage.'" type="hidden" />'
 					.'<br /><br />';

@@ -9,7 +9,7 @@
 | 
 | Static Content Manager
 |
-| File:		mod_content.php
+| File:	mod_content.php
 |
 +
 */

@@ -184,10 +184,10 @@ $dcCon = $tcms_ap->getContact($c);
 // create vCard
 $v = new vCard();
 
-$v->setPhoneNumber($dcCon->GetPhone(), "PREF;HOME;VOICE");
-$v->setFormattedName($dcCon->GetName());
+$v->setPhoneNumber($dcCon->getPhone(), "PREF;HOME;VOICE");
+$v->setFormattedName($dcCon->getName());
 //$v->setName($dcCon->GetLastname(), $dcCon->GetFirstname(), '', $dcCon->GetNameAdd());
-$v->setEmail($dcCon->GetEmail());
+$v->setEmail($dcCon->getEmail());
 //$v->setNote('');
 //$v->setURL("http://www.thomas-mustermann.de", "WORK");
 //$v->setBirthday("1960-07-31");
@@ -195,11 +195,11 @@ $v->setEmail($dcCon->GetEmail());
 $v->setAddress(
 	'', 
 	'', 
-	$dcCon->GetStreet(), 
-	$dcCon->GetCity(),
-	$dcCon->GetState(), 
-	$dcCon->GetZipcode(), 
-	$dcCon->GetCountry()
+	$dcCon->getStreet(), 
+	$dcCon->getCity(),
+	$dcCon->getState(), 
+	$dcCon->getZipcode(), 
+	$dcCon->getCountry()
 );
 
 $output = $v->getVCard();

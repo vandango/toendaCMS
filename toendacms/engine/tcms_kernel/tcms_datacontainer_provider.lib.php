@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 0.6.2
+ * @version 0.6.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -48,6 +48,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * getImpressumDC                                                -> Get a impressum data container
  * getFrontpageDC                                                -> Get a frontpage data container
+ * getNewsmanagerDC                                              -> Get a newsmanager data container
+ * getContactformDC                                              -> Get a contactform data container
  *
  * getSidebarModuleDC()                                          -> Get a sidebarmodul data container
  * getSidebarExtensionSettings()                                 -> Get the sidebar extension settings
@@ -1407,6 +1409,106 @@ class tcms_datacontainer_provider extends tcms_main {
 		$newsDC->setSyndicationDefaultFeed($wsSynDefaultFeed);
 				
 		return $newsDC;
+	}
+	
+	
+	
+	/**
+	 * Get a Contactform data container
+	 * 
+	 * @return tcms_dc_contactform Object
+	 */
+	function getContactformDC($language){
+		$cfDC = new tcms_dc_contactform();
+		
+		if($this->m_choosenDB == 'xml'){
+			$xml = new xmlparser($this->m_path.'/tcms_global/contactform.'.$language.'.xml', 'r');
+			
+			$wsID      = 'contactform';
+			$wsTitle   = $xml->read_section('email', 'contacttitle');
+			$wsKeynote = $xml->read_section('email', 'contactstamp');
+			$wsText    = $xml->read_section('email', 'contacttext');
+			$wsContact = $xml->read_section('email', 'contact');
+			$wsSCIS    = $xml->read_section('email', 'show_contacts_in_sidebar');
+			$wsAccess  = $xml->read_section('email', 'access');
+			$wsEnabled = $xml->read_section('email', 'enabled');
+			$wsUA      = $xml->read_section('email', 'use_adressbook');
+			$wsUC      = $xml->read_section('email', 'use_contact');
+			$wsSC      = $xml->read_section('email', 'show_contactemail');
+			
+			$xml->flush();
+			$xml->_xmlparser();
+			unset($xml);
+			
+			if($wsID      == false) $wsID      = '';
+			if($wsTitle   == false) $wsTitle   = '';
+			if($wsKeynote == false) $wsKeynote = '';
+			if($wsText    == false) $wsText    = '';
+			if($wsContact == false) $wsContact = '';
+			//if($wsSCIS    == false) $wsSCIS    = '';
+			if($wsAccess  == false) $wsAccess  = '';
+			//if($wsEnabled == false) $wsEnabled = '';
+			//if($wsUA      == false) $wsUA      = '';
+			//if($wsUC      == false) $wsUC      = '';
+			//if($wsSC      == false) $wsSC      = '';
+		}
+		else{
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
+			$sqlCN = $sqlAL->sqlConnect($this->m_sqlUser, $this->m_sqlPass, $this->m_sqlHost, $this->m_sqlDB, $this->m_sqlPort);
+			
+			$strQuery = "SELECT * "
+			."FROM ".$this->m_sqlPrefix."contactform "
+			."WHERE language = '".$language."'";
+			
+			$sqlQR = $sqlAL->sqlQuery($strQuery);
+			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+			
+			$wsID      = 'contactform';
+			$wsTitle   = $sqlObj->contacttitle;
+			$wsKeynote = $sqlObj->contactstamp;
+			$wsText    = $sqlObj->contacttext;
+			$wsContact = $sqlObj->contact;
+			$wsSCIS    = $sqlObj->show_contacts_in_sidebar;
+			$wsAccess  = $sqlObj->access;
+			$wsEnabled = $sqlObj->enabled;
+			$wsUA      = $sqlObj->use_adressbook;
+			$wsUC      = $sqlObj->use_contact;
+			$wsSC      = $sqlObj->show_contactemail;
+			
+			$sqlAL->sqlFreeResult($sqlQR);
+			$sqlAL->_sqlAbstractionLayer();
+			unset($sqlAL);
+			
+			if($wsID      == NULL) $wsID      = '';
+			if($wsTitle   == NULL) $wsTitle   = '';
+			if($wsKeynote == NULL) $wsKeynote = '';
+			if($wsText    == NULL) $wsText    = '';
+			if($wsContact == NULL) $wsContact = '';
+			if($wsSCIS    == NULL) $wsSCIS    = '';
+			if($wsAccess  == NULL) $wsAccess  = '';
+			if($wsEnabled == NULL) $wsEnabled = '';
+			if($wsUA      == NULL) $wsUA      = '';
+			if($wsUC      == NULL) $wsUC      = '';
+			if($wsSC      == NULL) $wsSC      = '';
+		}
+		
+		$wsTitle   = $this->decodeText($wsTitle, '2', $this->m_CHARSET);
+		$wsKeynote = $this->decodeText($wsKeynote, '2', $this->m_CHARSET);
+		$wsText    = $this->decodeText($wsText, '2', $this->m_CHARSET);
+		
+		$cfDC->setID($wsID);
+		$cfDC->setTitle($wsTitle);
+		$cfDC->setSubtitle($wsKeynote);
+		$cfDC->setText($wsText);
+		$cfDC->setContact($wsContact);
+		$cfDC->setShowContactsInSidebar($wsSCIS);
+		$cfDC->setAccess($wsAccess);
+		$cfDC->setEnabled($wsEnabled);
+		$cfDC->setUseAdressbook($wsUA);
+		$cfDC->setUseContact($wsUC);
+		$cfDC->setShowContactemail($wsSC);
+		
+		return $cfDC;
 	}
 	
 	

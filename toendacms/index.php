@@ -10,7 +10,7 @@
 | 
 | Startpage and Main file for toendaCMS
 |
-| File:		index.php
+| File:	index.php
 |
 +
 */
@@ -46,11 +46,11 @@ if(isset($_POST['contact_email'])){ $contact_email = $_POST['contact_email']; }
 
 /**
  * Startpage and Main file for toendaCMS
- *
+ * 
  * This is the global startfile and the page loading
  * control.
- *
- * @version 2.4.8
+ * 
+ * @version 2.5.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -828,21 +828,24 @@ if($wsShowSite){
 							break;
 						
 						case 'contactform':
-							$arrCF = $tcms_modconfig->getContactformConfig($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+							using('toendacms.datacontainer.contactform');
+							
+							$dcCF = new tcms_dc_contactform();
+							$dcCF = $tcms_dcp->getContactformDC($getLang);
 							
 							if(!isset($contact_email))
-								$contact_email = $arrCF['cf_contact'];
+								$contact_email = $dcCF->getContact();
 							
-							$send_id           = $arrCF['cf_id'];
-							$contact_title     = $arrCF['cf_title'];
-							$contact_stamp     = $arrCF['cf_stamp'];
-							$contact_text      = $arrCF['cf_text'];
-							$authorized        = $arrCF['cf_access'];
-							$show_cisb         = $arrCF['cf_scisb'];
-							$cform_enabled     = $arrCF['cf_enabled'];
-							$use_adressbook    = $arrCF['cf_adbook'];
-							$use_contactad     = $arrCF['cf_usecon'];
-							$show_contactemail = $arrCF['cf_showce'];
+							$send_id           = $dcCF->getID();
+							$contact_title     = $dcCF->getTitle();
+							$contact_stamp     = $dcCF->getSubtitle();
+							$contact_text      = $dcCF->getText();
+							$show_cisb         = $dcCF->getShowContactsInSidebar();
+							$authorized        = $dcCF->getAccess();
+							$cform_enabled     = $dcCF->getEnabled();
+							$use_adressbook    = $dcCF->getUseAdressbook();
+							$use_contactad     = $dcCF->getUseContact();
+							$show_contactemail = $dcCF->getShowContactemail();
 							
 							$link_contact = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 							.'id='.$send_id.'&amp;s='.$s.'&amp;lang='.$lang;

@@ -215,7 +215,7 @@ misc
 .poll_sheet     	- Poll formating
 .poll_sidebar       - POll sidebar formating
 .download_top		- Download header
-.contentFooter      - Footer
+.langSelector       - The language selector
 
 
 
@@ -254,6 +254,7 @@ Content
 .sidemain			- Text on sidebar
 .newsCategories     - news categories in sidebar
 .gallery_text       - imagegallery text
+.contentFooter      - The content footer
 
 
 
@@ -280,6 +281,7 @@ News and comments
 .comment_title		- Comment title
 .comment_text		- Comment text
 .newsSubmit			- Textarea for publish news
+.captcha            - Captcha field
 
 
 

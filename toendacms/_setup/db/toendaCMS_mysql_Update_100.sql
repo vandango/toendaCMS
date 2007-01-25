@@ -65,3 +65,5 @@ ALTER TABLE `#####frontpage` ADD `language` VARCHAR( 25 ) NOT NULL AFTER `uid` ;
 ALTER TABLE `#####newsmanager` ADD `language` VARCHAR( 25 ) NOT NULL ;
 
 ALTER TABLE `#####impressum` ADD `language` VARCHAR( 25 ) NOT NULL AFTER `uid` ;
+
+ALTER TABLE `#####contactform` ADD `language` VARCHAR( 25 ) NOT NULL AFTER `uid` ;
