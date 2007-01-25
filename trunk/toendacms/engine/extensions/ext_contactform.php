@@ -9,7 +9,7 @@
 | 
 | Contact Formular
 |
-| File:		ext_contactform.php
+| File:	ext_contactform.php
 |
 +
 */
@@ -33,7 +33,7 @@ if(isset($_POST['send_form'])){ $send_form = $_POST['send_form']; }
  * This module provides a contactform with a internal
  * adressbook with vcard export.
  *
- * @version 0.7.2
+ * @version 0.7.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -41,63 +41,20 @@ if(isset($_POST['send_form'])){ $send_form = $_POST['send_form']; }
 
 
 if($cform_enabled == 1){
-	echo $tcms_html->contentModuleHeader($contact_title, $contact_stamp, $contact_text);
+	echo $tcms_html->contentModuleHeader(
+		$contact_title, 
+		$contact_stamp, 
+		$contact_text
+	);
 	
 	
 	echo '<span class="contentmain">';
 	
-	include_once('engine/tcms_kernel/datacontainer/tcms_dc_contact.lib.php');
+	using('toendacms.datacontainer.contact');
 	
 	
-	
-	
-	
-	if($action == 'vcard'){
-		/*include_once('engine/tcms_kernel/vcard/vcard.php');
-		
-		$dcCon = new tcms_dc_contact();
-		$dcCon = $tcms_ap->getContact($c);
-		
-		// create vCard
-		$v = new vCard();
-		
-		$v->setPhoneNumber($dcCon->GetPhone(), "PREF;HOME;VOICE");
-		$v->setFormattedName($dcCon->GetName());
-		//$v->setName($dcCon->GetLastname(), $dcCon->GetFirstname(), '', $dcCon->GetNameAdd());
-		$v->setEmail($dcCon->GetEmail());
-		//$v->setNote('');
-		//$v->setURL("http://www.thomas-mustermann.de", "WORK");
-		//$v->setBirthday("1960-07-31");
-		
-		$v->setAddress(
-			'', 
-			'', 
-			$dcCon->GetStreet(), 
-			$dcCon->GetCity(),
-			$dcCon->GetState(), 
-			$dcCon->GetZipcode(), 
-			$dcCon->GetCountry()
-		);
-		
-		$filename = $v->getFileName();
-		
-		$tcms_file = new tcms_file('cache/vcard.vcf', 'w');
-		$tcms_file->Write($v->getVCard());
-		$tcms_file->Close();
-		
-		echo '<script>document.location=\''.$imagePath.'cache/vcard.vcf\'</script>';
-		
-		$tcms_file->Delete();
-		
-		$tcms_file->_tcms_file();
-		unset($tcms_file);*/
-	}
-	
-	
-	
-	
-	
-	if($item == 'adressbook' && $use_adressbook == 1){
+	if($item == 'adressbook' 
+	&& $use_adressbook == 1){
 		echo '<form action="?" method="get">'
 		.'<input name="id" type="hidden" value="contactform" />'
 		.'<input name="s" type="hidden" value="'.$s.'" />'
@@ -143,17 +100,17 @@ if($cform_enabled == 1){
 						
 						if($detect_browser == 1){
 							echo '<script>if(browser == \'ie\'){
-							document.write(\'<img alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.gif" border="0" />\');
+							document.write(\'<img style="margin-bottom: -7px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.gif" border="0" />\');
 							}else{
-							document.write(\'<img alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="padding-bottom: 0px; padding-top: 1px;" src="'.$imagePath.'engine/images/email.png" border="0" />\');
+							document.write(\'<img style="margin-bottom: -7px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="padding-bottom: 0px; padding-top: 1px;" src="'.$imagePath.'engine/images/email.png" border="0" />\');
 							}</script>';
 							
 							echo '<noscript>'
-							.'<img alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.gif" border="0" />'
+							.'<img style="margin-bottom: -7px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.gif" border="0" />'
 							.'</noscript>';
 						}
 						else{
-							echo '<img alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.png" border="0" />';
+							echo '<img style="margin-bottom: -7px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.png" border="0" />';
 						}
 						
 						echo '<strong style="padding-bottom: 3px; padding-top: 0px;">'._CONTACT_SEND_A_EMAIL.'</strong></a>';
@@ -170,9 +127,9 @@ if($cform_enabled == 1){
 						.'<input type="hidden" name="c" value="'.$csb_id.'">' // contact_id
 						.'</form>';
 						
-						//echo '<a href="#" class="main" onclick="document.location=\''.$link.'\';" />'
 						echo '<a href="#" class="main" onclick="document.vcard.submit();" />'
-						.'<img alt="'._CONTACT_VCARD_DOWNLOAD.'" title="'._CONTACT_VCARD_DOWNLOAD.'" style="" src="'.$imagePath.'engine/images/vcard.png" border="0" />'
+						.'<img style="margin-bottom: -7px;" alt="'._CONTACT_VCARD_DOWNLOAD.'" title="'._CONTACT_VCARD_DOWNLOAD.'"'
+						.' src="'.$imagePath.'engine/images/vcard.png" border="0" />'
 						.'&nbsp;<strong style="padding-bottom: 3px; padding-top: 0px;">'._CONTACT_VCARD_DOWNLOAD.'</strong>'
 						.'</a>';
 						
@@ -253,17 +210,17 @@ if($cform_enabled == 1){
 					
 					if($detect_browser == 1){
 						echo '<script>if(browser == \'ie\'){'
-						.'document.write(\'<img alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.gif" border="0" />\');'
+						.'document.write(\'<img style="margin-bottom: -7px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.gif" border="0" />\');'
 						.'}else{'
-						.'document.write(\'<img alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="padding-bottom: 0px; padding-top: 1px;" src="'.$imagePath.'engine/images/email.png" border="0" />\');'
+						.'document.write(\'<img style="margin-bottom: -7px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="padding-bottom: 0px; padding-top: 1px;" src="'.$imagePath.'engine/images/email.png" border="0" />\');'
 						.'}</script>';
 						
 						echo '<noscript>'
-						.'<img alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.png" border="0" />'
+						.'<img style="margin-bottom: -7px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.png" border="0" />'
 						.'</noscript>';
 					}
 					else{
-						echo '<img alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.png" border="0" />';
+						echo '<img style="margin-bottom: -7px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.png" border="0" />';
 					}
 					
 					echo '&nbsp;<strong style="padding-bottom: 3px; padding-top: 0px;">'._CONTACT_SEND_A_EMAIL.'</strong></a>';
@@ -281,9 +238,9 @@ if($cform_enabled == 1){
 					.'<input type="hidden" name="c" value="'.$csb_id.'">' // contact_id
 					.'</form>';
 					
-					//echo '<a href="#" class="main" onclick="document.location=\''.$link.'\';" />'
 					echo '<a href="#" class="main" onclick="document.vcard_'.$csb_id.'.submit();" />'
-					.'<img alt="'._CONTACT_VCARD_DOWNLOAD.'" title="'._CONTACT_VCARD_DOWNLOAD.'" style="" src="'.$imagePath.'engine/images/vcard.png" border="0" />'
+					.'<img style="margin-bottom: -7px;" alt="'._CONTACT_VCARD_DOWNLOAD.'" title="'._CONTACT_VCARD_DOWNLOAD.'"'
+					.' src="'.$imagePath.'engine/images/vcard.png" border="0" />'
 					.'&nbsp;<strong style="padding-bottom: 3px; padding-top: 0px;">'._CONTACT_VCARD_DOWNLOAD.'</strong>'
 					.'</a>';
 					
@@ -329,104 +286,51 @@ if($cform_enabled == 1){
 			
 			if($choosenDB == 'xml'){
 				$con_file = $tcms_main->get_default_contact();
-				
-				if($con_file != false && !empty($con_file) && $con_file != '' && isset($con_file)){
-					$contact_xml = new xmlparser($tcms_administer_site.'/tcms_contacts/'.$con_file,'r');
-					
-					$name     = $contact_xml->read_section('contact', 'name');
-					$position = $contact_xml->read_section('contact', 'position');
-					$email    = $contact_xml->read_section('contact', 'email');
-					$street   = $contact_xml->read_section('contact', 'street');
-					$country  = $contact_xml->read_section('contact', 'country');
-					$state    = $contact_xml->read_section('contact', 'state');
-					$town     = $contact_xml->read_section('contact', 'town');
-					$postal   = $contact_xml->read_section('contact', 'postal');
-					$telefon  = $contact_xml->read_section('contact', 'phone');
-					$fax      = $contact_xml->read_section('contact', 'fax');
-				}
-				
-				if(!$name)    { $name     = ''; }
-				if(!$position){ $position = ''; }
-				if(!$email)   { $email    = ''; }
-				if(!$street)  { $street   = ''; }
-				if(!$country) { $country  = ''; }
-				if(!$state)   { $state    = ''; }
-				if(!$town)    { $town     = ''; }
-				if(!$postal)  { $postal   = ''; }
-				if(!$telefon) { $telefon  = ''; }
-				if(!$fax)     { $fax      = ''; }
 			}
 			else{
 				$con_file = $tcms_main->get_default_sql_contact($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			}
+			
+			$dcCon = new tcms_dc_contact();
+			$dcCon = $tcms_ap->getContact($con_file);
+			
+			
+			$name     = $dcCon->getName();
+			$position = $dcCon->getPosition();
+			$email    = $dcCon->getEmail();
+			$street   = $dcCon->getStreet();
+			$country  = $dcCon->getCountry();
+			$state    = $dcCon->getState();
+			$town     = $dcCon->getCity();
+			$postal   = $dcCon->getZipcode();
+			$telefon  = $dcCon->getPhone();
+			$fax      = $dcCon->getFax();
+			
+			
+			if($dcCon->getPublished() == '1') {
+				echo ( !empty($name) ? '<strong class="contentheading">'.$name.'</strong>&nbsp;&bull;&nbsp;' :'' );
+				echo ( !empty($position) ? '<span class="contentmain">'.$position.'<br />' :'' );
 				
-				if($con_file != NULL && $con_file != false && !empty($con_file) && $con_file != '' && isset($con_file)){
-					$sqlAL = new sqlAbstractionLayer($choosenDB);
-					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-					
-					$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'contacts', $con_file);
-					$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
-					
-					$name     = $sqlObj->name;
-					$position = $sqlObj->position;
-					$email    = $sqlObj->email;
-					$street   = $sqlObj->street;
-					$country  = $sqlObj->country;
-					$state    = $sqlObj->state;
-					$town     = $sqlObj->town;
-					$postal   = $sqlObj->postal;
-					$telefon  = $sqlObj->phone;
-					$fax      = $sqlObj->fax;
+				if($cipher_email == 1){
+					echo ( !empty($email) ? '<strong>'._PERSON_EMAIL.':</strong> <script>JSCrypt.displayCryptMail(\''.$tcms_main->encodeBase64($email).'\', \''.$name.'\');</script><br />' : '' );
+				}
+				else{
+					echo ( !empty($email) ? '<strong>'._PERSON_EMAIL.':</strong> <a href="mailto:'.$email.'">'.$email.'</a><br />' : '' );
 				}
 				
-				if($name     == NULL){ $name     = ''; }
-				if($position == NULL){ $position = ''; }
-				if($email    == NULL){ $email    = ''; }
-				if($street   == NULL){ $street   = ''; }
-				if($country  == NULL){ $country  = ''; }
-				if($state    == NULL){ $state    = ''; }
-				if($town     == NULL){ $town     = ''; }
-				if($postal   == NULL){ $postal   = ''; }
-				if($telefon  == NULL){ $telefon  = ''; }
-				if($fax      == NULL){ $fax      = ''; }
+				echo ( !empty($telefon) ? '<strong>'._PERSON_PHONE.':</strong> '.$telefon.'<br />' : '' );
+				echo ( !empty($fax)     ? '<strong>'._PERSON_FAX.':</strong> '.$fax.'<br />' : '' );
+				
+				echo '<br />';
+				
+				echo ( !empty($street)  ? $street.'<br />' : '' );
+				echo ( !empty($postal)  ? $postal : '' );
+				echo ( !empty($town)    ? ' '.$town.'<br />' : '' );
+				echo ( !empty($country) ? $country : '' );
+				echo ( !empty($state)   ? ', '.$state.'<br />' : '' );
+				
+				echo '</span><br /><br />';
 			}
-			
-			
-			
-			$name     = $tcms_main->decodeText($name, '2', $c_charset);
-			$position = $tcms_main->decodeText($position, '2', $c_charset);
-			$email    = $tcms_main->decodeText($email, '2', $c_charset);
-			$street   = $tcms_main->decodeText($street, '2', $c_charset);
-			$country  = $tcms_main->decodeText($country, '2', $c_charset);
-			$state    = $tcms_main->decodeText($state, '2', $c_charset);
-			$town     = $tcms_main->decodeText($town, '2', $c_charset);
-			$postal   = $tcms_main->decodeText($postal, '2', $c_charset);
-			$telefon  = $tcms_main->decodeText($telefon, '2', $c_charset);
-			$fax      = $tcms_main->decodeText($fax, '2', $c_charset);
-			
-			
-			
-			echo ( !empty($name) ? '<strong class="contentheading">'.$name.'</strong>&nbsp;&bull;&nbsp;' :'' );
-			echo ( !empty($position) ? '<span class="contentmain">'.$position.'<br />' :'' );
-			
-			if($cipher_email == 1){
-				echo ( !empty($email)   ? '<strong>'._PERSON_EMAIL.':</strong> <script>JSCrypt.displayCryptMail(\''.$tcms_main->encodeBase64($email).'\', \''.$name.'\');</script><br />' : '' );
-			}
-			else{
-				echo ( !empty($email)   ? '<strong>'._PERSON_EMAIL.':</strong> <a href="mailto:'.$email.'">'.$email.'</a><br />' : '' );
-			}
-			
-			echo ( !empty($telefon) ? '<strong>'._PERSON_PHONE.':</strong> '.$telefon.'<br />' : '' );
-			echo ( !empty($fax)     ? '<strong>'._PERSON_FAX.':</strong> '.$fax.'<br />' : '' );
-			
-			echo '<br />';
-			
-			echo ( !empty($street)  ? $street.'<br />' : '' );
-			echo ( !empty($postal)  ? $postal : '' );
-			echo ( !empty($town)    ? ' '.$town.'<br />' : '' );
-			echo ( !empty($country) ? $country : '' );
-			echo ( !empty($state)   ? ', '.$state.'<br />' : '' );
-			
-			echo '</span><br /><br />';
 		}
 		
 		
@@ -578,13 +482,28 @@ if($cform_enabled == 1){
 			if($use_adressbook == 0){
 				echo '<br />';
 				
-				echo '<input type="button" class="inputbutton" onclick="javascript:checkinputs(\'cform\');" value="'._FORM_SEND.'" />'
+				echo '<input type="button" style="float: left;" class="inputbutton" onclick="javascript:checkinputs(\'cform\');" value="'._FORM_SEND.'" />'
 				.'<noscript><input type="submit" class="inputbutton" value="'._FORM_SEND.'" /></noscript>';
 			}
 			
 			
 			// end form
 			echo '</form>';
+			
+			/*
+			if($use_adressbook == 1){
+				echo '<form id="adress" action="'.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?" method="get">'
+				.'<input name="id" type="hidden" value="contactform" />'
+				.'<input name="s" type="hidden" value="'.$s.'" />'
+				.'<input name="item" type="hidden" value="adressbook" />'
+				.( isset($session) ? '<input type="hidden" name="session" value="'.$session.'" />' : '' )
+				.( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' );
+				
+				echo '<input style="float: right;" type="button" class="inputbutton" onclick="javascript:document.forms[\'adress\'].submit();" value="'._CONTACT_ADRESS_BOOK.'" />'
+				.'<noscript><input type="submit" class="inputbutton" value="'._CONTACT_ADRESS_BOOK.'" /></noscript>';
+				
+				echo '</form>';
+			}*/
 		}
 		
 		

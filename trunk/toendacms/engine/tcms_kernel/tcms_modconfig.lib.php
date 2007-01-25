@@ -25,7 +25,6 @@ defined('_TCMS_VALID') or die('Restricted access');
 *
 * tcms_modconfig             -> toendaCMS webpage path
 * getDownloadConfig          -> Return a array with all download configuration data
-* getContactformConfig       -> Return a array with all contactform configuration data
 * getGuestbookConfig         -> Return a array with all guestbook configuration data
 * getProductsConfig          -> Return a array with all products configuration data
 * getImagegalleryConfig      -> Return a array with all imagegallery configuration data
@@ -111,92 +110,6 @@ class tcms_modconfig {
 		$arrDW['download_text']  = $tcms_main->decodeText($arrDW['download_text'], '2', $c_charset);
 		
 		return $arrDW;
-	}
-	
-	
-	
-	
-	
-	/***
-	* @return Return a array with all contactform configuration data
-	* @desc ...
-	*/
-	function getContactformConfig($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort){
-		global $tcms_main;
-		
-		if($choosenDB == 'xml'){
-			$contactform_xml = new xmlparser(''.$this->tcms_main_path.'/tcms_global/contactform.xml','r');
-			
-			$arrCF['cf_contact'] = $contactform_xml->read_section('email', 'contact');
-			$arrCF['cf_id']      = $contactform_xml->read_section('email', 'send_id');
-			$arrCF['cf_title']   = $contactform_xml->read_section('email', 'contacttitle');
-			$arrCF['cf_stamp']   = $contactform_xml->read_section('email', 'contactstamp');
-			$arrCF['cf_text']    = $contactform_xml->read_section('email', 'contacttext');
-			$arrCF['cf_access']  = $contactform_xml->read_section('email', 'access');
-			$arrCF['cf_scisb']   = $contactform_xml->read_section('email', 'show_contacts_in_sidebar');
-			$arrCF['cf_enabled'] = $contactform_xml->read_section('email', 'enabled');
-			$arrCF['cf_adbook']  = $contactform_xml->read_section('email', 'use_adressbook');
-			$arrCF['cf_usecon']  = $contactform_xml->read_section('email', 'use_contact');
-			$arrCF['cf_showce']  = $contactform_xml->read_section('email', 'show_contactemail');
-			
-			if(!$arrCF['cf_contact']){ $arrCF['cf_contact'] = ''; }
-			if(!$arrCF['cf_id'])     { $arrCF['cf_id']      = ''; }
-			if(!$arrCF['cf_title'])  { $arrCF['cf_title']   = ''; }
-			if(!$arrCF['cf_stamp'])  { $arrCF['cf_stamp']   = ''; }
-			if(!$arrCF['cf_text'])   { $arrCF['cf_text']    = ''; }
-			if(!$arrCF['cf_access']) { $arrCF['cf_access']  = 'Public'; }
-			if(!$arrCF['cf_scisb'])  { $arrCF['cf_scisb']   = 0; }
-			if(!$arrCF['cf_enabled']){ $arrCF['cf_enabled'] = 0; }
-			if(!$arrCF['cf_adbook']) { $arrCF['cf_adbook']  = 0; }
-			if(!$arrCF['cf_usecon']) { $arrCF['cf_usecon']  = 0; }
-			if(!$arrCF['cf_showce']) { $arrCF['cf_showce']  = 0; }
-		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-			
-			$strQuery = "SELECT contact, send_id, contacttitle, contactstamp, "
-			."access, show_contacts_in_sidebar, enabled, use_adressbook, use_contact, "
-			."show_contactemail, contacttext "
-			."FROM ".$this->tcms_db_prefix."contactform "
-			."WHERE uid = 'contactform'";
-			
-			$sqlQR = $sqlAL->sqlQuery($strQuery);
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
-			
-			$arrCF['cf_contact'] = $sqlARR['contact'];
-			$arrCF['cf_id']      = $sqlARR['send_id'];
-			$arrCF['cf_title']   = $sqlARR['contacttitle'];
-			$arrCF['cf_stamp']   = $sqlARR['contactstamp'];
-			$arrCF['cf_text']    = $sqlARR['contacttext'];
-			$arrCF['cf_access']  = $sqlARR['access'];
-			$arrCF['cf_scisb']   = $sqlARR['show_contacts_in_sidebar'];
-			$arrCF['cf_enabled'] = $sqlARR['enabled'];
-			$arrCF['cf_adbook']  = $sqlARR['use_adressbook'];
-			$arrCF['cf_usecon']  = $sqlARR['use_contact'];
-			$arrCF['cf_showce']  = $sqlARR['show_contactemail'];
-			
-			$sqlAL->_sqlAbstractionLayer();
-			
-			if($arrCF['cf_contact'] == NULL){ $arrCF['cf_contact'] = ''; }
-			if($arrCF['cf_id']      == NULL){ $arrCF['cf_id']      = ''; }
-			if($arrCF['cf_title']   == NULL){ $arrCF['cf_title']   = ''; }
-			if($arrCF['cf_stamp']   == NULL){ $arrCF['cf_stamp']   = ''; }
-			if($arrCF['cf_text']    == NULL){ $arrCF['cf_text']    = ''; }
-			if($arrCF['cf_access']  == NULL){ $arrCF['cf_access']  = ''; }
-			if($arrCF['cf_scisb']   == NULL){ $arrCF['cf_scisb']   = ''; }
-			if($arrCF['cf_enabled'] == NULL){ $arrCF['cf_enabled'] = ''; }
-			if($arrCF['cf_adbook']  == NULL){ $arrCF['cf_adbook']  = ''; }
-			if($arrCF['cf_usecon']  == NULL){ $arrCF['cf_usecon']  = ''; }
-			if($arrCF['cf_showce']  == NULL){ $arrCF['cf_showce']  = ''; }
-		}
-		
-		$arrCF['cf_contact'] = $tcms_main->decodeText($arrCF['cf_contact'], '2', $c_charset);
-		$arrCF['cf_title']   = $tcms_main->decodeText($arrCF['cf_title'], '2', $c_charset);
-		$arrCF['cf_stamp']   = $tcms_main->decodeText($arrCF['cf_stamp'], '2', $c_charset);
-		$arrCF['cf_text']    = $tcms_main->decodeText($arrCF['cf_text'], '2', $c_charset);
-		
-		return $arrCF;
 	}
 	
 	

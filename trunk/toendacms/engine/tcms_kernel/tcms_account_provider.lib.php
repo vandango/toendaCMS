@@ -9,8 +9,7 @@
 | 
 | toendaCMS Account Provider
 |
-| File:		tcms_account_provider.lib.php
-| Version:	0.1.9
+| File:	tcms_account_provider.lib.php
 |
 +
 */
@@ -21,17 +20,17 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 /**
  * toendaCMS Account Provider
- *
+ * 
  * This class is used to provide methods to get and
  * save user accounts and also contacts.
- *
+ * 
+ * @version 0.2.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
- */
-
-
-/**
+ * 
+ * <code>
+ * 
  * Methods
  *
  * __construct                 -> PHP5 Constructor
@@ -45,6 +44,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * createNewUser               -> Create a new user
  * saveAccount                 -> Save a account
  * getContact                  -> Get a contact item
+ * 
+ * </code>
  *
  */
 
@@ -596,21 +597,21 @@ class tcms_account_provider extends tcms_main {
 		
 		$dcCon = new tcms_dc_contact();
 		
-		$dcCon->SetID($id);
-		$dcCon->SetName($tc_name);
-		//$dcCon->SetFirstname($arr_names[0]);
-		//$dcCon->SetLastname($arr_names[1]);
-		$dcCon->SetPosition($tc_position);
-		$dcCon->SetEmail($tc_email);
-		$dcCon->SetStreet($tc_street);
-		$dcCon->SetCountry($tc_country);
-		$dcCon->SetState($tc_state);
-		$dcCon->SetCity($tc_town);
-		$dcCon->SetZipcode($tc_postal);
-		$dcCon->SetPhone($tc_phone);
-		$dcCon->SetFax($tc_fax);
-		$dcCon->SetDefaultContact($tc_defcon);
-		$dcCon->SetPublished($tc_pub);
+		$dcCon->setID($id);
+		$dcCon->setName($tc_name);
+		//$dcCon->setFirstname($arr_names[0]);
+		//$dcCon->setLastname($arr_names[1]);
+		$dcCon->setPosition($tc_position);
+		$dcCon->setEmail($tc_email);
+		$dcCon->setStreet($tc_street);
+		$dcCon->setCountry($tc_country);
+		$dcCon->setState($tc_state);
+		$dcCon->setCity($tc_town);
+		$dcCon->setZipcode($tc_postal);
+		$dcCon->setPhone($tc_phone);
+		$dcCon->setFax($tc_fax);
+		$dcCon->setDefaultContact($tc_defcon);
+		$dcCon->setPublished($tc_pub);
 		
 		return $dcCon;
 	}

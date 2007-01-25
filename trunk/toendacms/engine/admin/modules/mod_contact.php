@@ -9,8 +9,7 @@
 | 
 | Contacts Manager
 |
-| File:		mod_contact.php
-| Version:	0.3.8
+| File:	mod_contact.php
 |
 +
 */
@@ -19,7 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-
+/**
+ * Contacts Manager
+ *
+ * This module is used as a contacts manager.
+ *
+ * @version 0.4.0
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 if(isset($_GET['action'])){ $action = $_GET['action']; }
@@ -42,7 +50,8 @@ if(isset($_POST['zlib_upload'])){ $zlib_upload = $_POST['zlib_upload']; }
 
 
 
-if($id_group == 'Developer' || $id_group == 'Administrator'){
+if($id_group == 'Developer' 
+|| $id_group == 'Administrator'){
 	//=====================================================
 	// INIT
 	//=====================================================
@@ -242,18 +251,18 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 			$dcCon = new tcms_dc_contact();
 			$dcCon = $tcms_ap->getContact($maintag);
 			
-			$tc_defcon   = $dcCon->GetDefaultContact();
-			$tc_pub      = $dcCon->GetPublished();
-			$tc_name     = $dcCon->GetName();
-			$tc_position = $dcCon->GetPosition();
-			$tc_email    = $dcCon->GetEmail();
-			$tc_street   = $dcCon->GetStreet();
-			$tc_country  = $dcCon->GetCountry();
-			$tc_state    = $dcCon->GetState();
-			$tc_town     = $dcCon->GetCity();
-			$tc_postal   = $dcCon->GetZipcode();
-			$tc_phone    = $dcCon->GetPhone();
-			$tc_fax      = $dcCon->GetFax();
+			$tc_defcon   = $dcCon->getDefaultContact();
+			$tc_pub      = $dcCon->getPublished();
+			$tc_name     = $dcCon->getName();
+			$tc_position = $dcCon->getPosition();
+			$tc_email    = $dcCon->getEmail();
+			$tc_street   = $dcCon->getStreet();
+			$tc_country  = $dcCon->getCountry();
+			$tc_state    = $dcCon->getState();
+			$tc_town     = $dcCon->getCity();
+			$tc_postal   = $dcCon->getZipcode();
+			$tc_phone    = $dcCon->getPhone();
+			$tc_fax      = $dcCon->getFax();
 			
 			echo tcms_html::bold(_TABLE_EDIT);
 			$odot = 'save';
@@ -444,8 +453,6 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	//=====================================================
 	
 	if($todo == 'save'){
-		//***************************************
-		
 		if($new_defcon == ''){ $new_defcon = 0; }
 		if($new_pub    == ''){ $new_pub    = 0; }
 		
