@@ -159,6 +159,8 @@ define('_TCMS_MENU_ABOUT_MODULE', 'Modulbeschreibung');
 define('_TCMS_MENU_ABOUT', '&Uuml;ber toendaCMS');
 define('_TCMS_MENU_SEARCH', 'Suche');
 define('_TCMS_MENU_IMPORT', 'Import');
+define('_TCMS_MENU_CFORM', 'Kontaktformular');
+define('_TCMS_MENU_BOOK', 'G&auml;stebuch');
 
 
 // MODULE
@@ -184,6 +186,8 @@ define('_MOD_SIDEBAR', 'Statische Inhalte der Seitenleiste verwalten');
 define('_MOD_NEWSLETTER', 'Newsletter verwalten');
 define('_MOD_POLL', 'Umfrage');
 define('_MOD_EXTENSIONS', 'Konfiguration der globalen Erweiterungen');
+define('_MOD_CFORM', 'Kontaktformular Konfiguration');
+define('_MOD_BOOK', 'G&auml;stebuch Konfiguration');
 define('_MOD_FRONTPAGE', 'Startseiten Konfiguration');
 define('_MOD_IMPRESSUM', 'Impressum Konfiguration');
 define('_MOD_GALLERY', 'Bildergalerie Konfiguration');

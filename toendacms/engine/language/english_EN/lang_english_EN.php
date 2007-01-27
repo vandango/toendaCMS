@@ -158,6 +158,8 @@ if(!defined('_TCMS_MENU_ABOUT_MODULE'))        define('_TCMS_MENU_ABOUT_MODULE',
 if(!defined('_TCMS_MENU_ABOUT'))               define('_TCMS_MENU_ABOUT', 'About toendaCMS');
 if(!defined('_TCMS_MENU_SEARCH'))              define('_TCMS_MENU_SEARCH', 'Search');
 if(!defined('_TCMS_MENU_IMPORT'))              define('_TCMS_MENU_IMPORT', 'Import');
+if(!defined('_TCMS_MENU_CFORM'))               define('_TCMS_MENU_CFORM', 'Contactform');
+if(!defined('_TCMS_MENU_BOOK'))                define('_TCMS_MENU_BOOK', 'Guestbook');
 
 
 // MODULES
@@ -181,8 +183,10 @@ if(!defined('_MOD_PRODUCTS'))                  define('_MOD_PRODUCTS', 'Products
 if(!defined('_MOD_SIDEBAR_EXTENSION'))         define('_MOD_SIDEBAR_EXTENSION', 'Sidebar Extension Configuration');
 if(!defined('_MOD_SIDEBAR'))                   define('_MOD_SIDEBAR', 'Sidebar Content Manager');
 if(!defined('_MOD_NEWSLETTER'))                define('_MOD_NEWSLETTER', 'Newsletter Manager');
-define('_MOD_POLL', 'Poll');
-define('_MOD_EXTENSIONS', 'Global Extension Configuration');
+if(!defined('_MOD_POLL'))                      define('_MOD_POLL', 'Poll');
+if(!defined('_MOD_EXTENSIONS'))                define('_MOD_EXTENSIONS', 'Global Extension Configuration');
+if(!defined('_MOD_CFORM'))                     define('_MOD_CFORM', 'Contactform Configuration');
+if(!defined('_MOD_BOOK'))                      define('_MOD_BOOK', 'Guestbook Configuration');
 define('_MOD_FRONTPAGE', 'Frontpage Configuration');
 define('_MOD_IMPRESSUM', 'Impressum Designer Configuration');
 define('_MOD_GALLERY', 'Imagegallery Configuration');
