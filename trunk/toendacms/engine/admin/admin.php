@@ -38,7 +38,7 @@ if(isset($_POST['lang'])){ $lang = $_POST['lang']; }
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 1.0.9
+ * @version 1.1.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -233,6 +233,8 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 <script language="JavaScript" src="../js/menu.js"></script>
 <script language="JavaScript" src="../js/edit.js"></script>
 <script language="JavaScript" src="../js/ajax.js"></script>
+
+<!-- overLib -->
 <script language="JavaScript" src="../js/overlib/overlib_mini.js"></script>
 
 <!-- JSCookMenu -->
@@ -266,7 +268,8 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 	tcms_time::tcms_query_count_start();
 	
 	
-	echo '<body'.( $site == 'mod_upload_layout' ? ' onload="init();"' : '' ).'>';
+	echo '<body'.( $site == 'mod_upload_layout' ? ' onload="init();"' : '' ).'>'
+	.'<a name="top"></a>';
 	
 	
 	/*
