@@ -150,7 +150,7 @@ function ajaxContentResizer(mouseevent){
 		if(newheight > 0) {
 			box.style.height = newheight + "px";
 			document.location = '#top';
-			document.getElementsByTagName('body')[0].style.height = '100%';
+			document.getElementsByTagName('body')[0].style.height = '100% !important';
 		}
 		
 		//box.value += "newheight: " + newheight + "\n";
