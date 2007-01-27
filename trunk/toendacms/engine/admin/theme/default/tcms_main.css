@@ -423,6 +423,11 @@ td.tcms_top_menu_tape {
 
 .tcms_textarea_bottom {
 	cursor: s-resize;
+	padding: 0 0 0 0;
+	margin: -1px 0 0 0;
+	border: 1px solid #1d93bc;
+	border-top: none;
+	width: 100%;
 }
 
 

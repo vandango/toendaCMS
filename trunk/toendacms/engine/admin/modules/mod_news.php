@@ -1234,7 +1234,7 @@ if($todo == 'edit'){
 				.'<textarea class="tcms_textarea_huge" id="content" name="content">'.$nws_news.'</textarea>'
 				.'</div>'
 				.'<div class="tcms_textarea_bottom" id="content_resizer">'
-				.'000'
+				.'&nbsp;'
 				.'</div>';
 				
 				echo '<script language="JavaScript" type="text/javascript">
