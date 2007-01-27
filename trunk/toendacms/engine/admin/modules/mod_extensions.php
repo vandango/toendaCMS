@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the contactform configuration.
  *
- * @version 0.4.1
+ * @version 0.4.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -64,6 +64,7 @@ if(isset($_POST['new_use_adressbook'])){ $new_use_adressbook = $_POST['new_use_a
 if(isset($_POST['new_use_contact'])){ $new_use_contact = $_POST['new_use_contact']; }
 if(isset($_POST['new_show_ce'])){ $new_show_ce = $_POST['new_show_ce']; }
 if(isset($_POST['new_lang'])){ $new_lang = $_POST['new_lang']; }
+if(isset($_POST['lang_exist'])){ $lang_exist = $_POST['lang_exist']; }
 
 
 
@@ -409,8 +410,16 @@ if($id_group == 'Developer'
 		if(empty($contact_stamp))     { $contact_stamp      = ''; }
 		
 		
+		if($tcms_main->isReal($new_lang)) {
+			$setLang = $tcms_config->getLanguageCodeForTCMS($new_lang);
+		}
+		else {
+			$setLang = '';
+		}
+		
+		
 		if($choosenDB == 'xml'){
-			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/contactform.xml', 'w');
+			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/contactform.'.$setLang.'.xml', 'w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('email');
 			
@@ -425,6 +434,7 @@ if($id_group == 'Developer'
 			$xmluser->write_value('use_adressbook', $new_use_adressbook);
 			$xmluser->write_value('use_contact', $new_use_contact);
 			$xmluser->write_value('show_contactemail', $new_show_ce);
+			$xmluser->write_value('language', $new_lang);
 			
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('email');
@@ -434,20 +444,98 @@ if($id_group == 'Developer'
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			$newSQLData = ''
-			.$tcms_db_prefix.'contactform.contact="'.$email.'", '
-			.$tcms_db_prefix.'contactform.show_contacts_in_sidebar='.$use_show_cisb.', '
-			.$tcms_db_prefix.'contactform.send_id="'.$new_send_id.'", '
-			.$tcms_db_prefix.'contactform.contacttitle="'.$tmp_contact_title.'", '
-			.$tcms_db_prefix.'contactform.contactstamp="'.$contact_stamp.'", '
-			.$tcms_db_prefix.'contactform.contacttext="'.$content.'", '
-			.$tcms_db_prefix.'contactform.access="'.$cform_access.'", '
-			.$tcms_db_prefix.'contactform.enabled='.$new_enabled.', '
-			.$tcms_db_prefix.'contactform.use_adressbook='.$new_use_adressbook.', '
-			.$tcms_db_prefix.'contactform.use_contact='.$new_use_contact.', '
-			.$tcms_db_prefix.'contactform.show_contactemail='.$new_show_ce;
-			
-			$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'contactform', $newSQLData, 'contactform');
+			if($lang_exist == '1') {
+				$newSQLData = ''
+				.$tcms_db_prefix.'contactform.contact="'.$email.'", '
+				.$tcms_db_prefix.'contactform.show_contacts_in_sidebar='.$use_show_cisb.', '
+				.$tcms_db_prefix.'contactform.send_id="'.$new_send_id.'", '
+				.$tcms_db_prefix.'contactform.contacttitle="'.$tmp_contact_title.'", '
+				.$tcms_db_prefix.'contactform.contactstamp="'.$contact_stamp.'", '
+				.$tcms_db_prefix.'contactform.contacttext="'.$content.'", '
+				.$tcms_db_prefix.'contactform.access="'.$cform_access.'", '
+				.$tcms_db_prefix.'contactform.enabled='.$new_enabled.', '
+				.$tcms_db_prefix.'contactform.use_adressbook='.$new_use_adressbook.', '
+				.$tcms_db_prefix.'contactform.use_contact='.$new_use_contact.', '
+				.$tcms_db_prefix.'contactform.show_contactemail='.$new_show_ce;
+				
+				switch($choosenDB) {
+					case 'mysql':
+						$sqlQR = $sqlAL->sqlUpdateField(
+							$tcms_db_prefix.'contactform', 
+							$newSQLData, 
+							'send_id', 
+							'contactform" AND language = "'.$setLang
+						);
+						break;
+					
+					default:
+						$sqlQR = $sqlAL->sqlUpdateField(
+							$tcms_db_prefix.'contactform', 
+							$newSQLData, 
+							'send_id', 
+							"contactform' AND language = '".$setLang
+						);
+						break;
+				}
+			}
+			else {
+				$newSQLData = ''
+				.$tcms_db_prefix.'contactform.show_contacts_in_sidebar='.$use_show_cisb.', '
+				.$tcms_db_prefix.'contactform.send_id="'.$new_send_id.'", '
+				.$tcms_db_prefix.'contactform.contacttitle="'.$tmp_contact_title.'", '
+				.$tcms_db_prefix.'contactform.contactstamp="'.$contact_stamp.'", '
+				.$tcms_db_prefix.'contactform.contacttext="'.$content.'", '
+				.$tcms_db_prefix.'contactform.access="'.$cform_access.'", '
+				.$tcms_db_prefix.'contactform.enabled='.$new_enabled.', '
+				.$tcms_db_prefix.'contactform.use_adressbook='.$new_use_adressbook.', '
+				.$tcms_db_prefix.'contactform.use_contact='.$new_use_contact.', '
+				.$tcms_db_prefix.'contactform.show_contactemail='.$new_show_ce;
+				switch($choosenDB){
+					case 'mysql':
+						$newSQLColumns = '`contact`, `news_title`, `news_stamp`, `news_text`, '
+						.'`news_image`, `use_comments`, `show_autor`, `show_autor_as_link`, '
+						.'`news_amount`, `access`, `news_cut`, `use_emoticons`, '
+						.'`language`, `use_gravatar`, `syn_amount`, `use_syn_title`, '
+						.'`use_rss091`, `use_rss10`, `use_rss20`, `use_atom03`, `use_opml`, '
+						.'`def_feed`, `use_trackback`, `use_timesince`, `readmore_link`, `news_spacing`';
+						break;
+					
+					case 'pgsql':
+						$newSQLColumns = 'contact, news_title, news_stamp, news_text, '
+						.'"news_image", use_comments, show_autor, show_autor_as_link, '
+						.'news_amount, access, news_cut, "use_emoticons", '
+						.'"language", use_gravatar, syn_amount, use_syn_title, '
+						.'use_rss091, use_rss10, use_rss20, "use_atom03", "use_opml", '
+						.'def_feed, use_trackback, use_timesince, "readmore_link", "news_spacing"';
+						break;
+					
+					case 'mssql':
+						$newSQLColumns = '[contact], [news_title], [news_stamp], [news_text], '
+						.'[news_image], [use_comments], [show_autor], [show_autor_as_link], '
+						.'[news_amount], [access], [news_cut], [use_emoticons], '
+						.'[language], [use_gravatar], [syn_amount], [use_syn_title], '
+						.'[use_rss091], [use_rss10], [use_rss20], [use_atom03], [use_opml], '
+						.'[def_feed], [use_trackback], [use_timesince], [readmore_link], [news_spacing]';
+						break;
+				}
+				
+				$newSQLData = "'".$email."', '".$news_mm_title."', '".$news_mm_stamp."', '".$content."', "
+				."'".$news_mm_image."', ".$new_use_comments.", ".$new_use_autor.", ".$new_use_autor_link.", "
+				.$new_news_mm_amount.", '".$news_mm_access."', ".$new_news_cut.", ".$use_emoticons.", "
+				."'".$setLang."', ".$use_gravatar.", ".$new_syn_amount.", ".$new_use_syn_title.", "
+				.$new_use_rss091.", ".$new_use_rss10.", ".$new_use_rss20.", ".$new_use_atom03.", ".$new_use_opml.", "
+				."'".$new_def_feed."', ".$new_use_trackback.", ".$new_use_timesince.", ".$new_readmore_link
+				.", ".$new_news_spacing;
+				
+				$maintag = $tcms_main->getNewUID(11, 'contactform');
+				
+				$sqlQR = $sqlAL->sqlCreateOne(
+					$tcms_db_prefix.'contactform', 
+					$newSQLColumns, 
+					$newSQLData, 
+					$maintag
+				);
+			}
 		}
 		
 		
