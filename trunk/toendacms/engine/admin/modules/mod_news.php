@@ -328,7 +328,7 @@ if($todo == 'config'){
 		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
 		.'<strong class="tcms_bold">'._TCMS_LANGUAGE.'</strong>'
 		.'</td><td>'
-		.'<select id="new_news_lang" name="new_news_lang"'.$js.'>';
+		.'<select class="tcms_select" id="new_news_lang" name="new_news_lang"'.$js.'>';
 		
 		foreach($languages['fine'] as $key => $value) {
 			if($old_news_lang == $languages['code'][$key])
@@ -1193,18 +1193,23 @@ if($todo == 'edit'){
 			
 			// table row
 			echo '<tr><td valign="top" colspan="3">'
-			.'<br /><strong class="tcms_bold">'._NEWS_MAINTEXT.' ('._NEWS_ID.': '.$maintag.')</strong>'
+			.'<br />'
+			.'<strong class="tcms_bold">'._NEWS_MAINTEXT.' ('._NEWS_ID.': '.$maintag.')</strong>'
 			.'<br /><br />'
-			.'<script>createToendaToolbar(\'news\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');</script>'
-			.'<script>createToendaHelpButton(\''.$tcms_lang.'\', \''._NEWS_IMAGE_HELP
+			.'<script>'
+			.'createToendaToolbar(\'news\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');'
+			.'createToendaHelpButton(\''.$tcms_lang.'\', \''._NEWS_IMAGE_HELP
 			.( $show_wysiwyg == 'fckeditor' ? '<br /><br /><strong>'._TCMSSCRIPT_MORE.': {tcms_more}</strong>' : '' )
-			.'\');</script>';
+			.'\');'
+			.'</script>';
 			
-			if($show_wysiwyg == 'tinymce'){ }
-			elseif($show_wysiwyg == 'fckeditor'){ }
-			else{
-				if($show_wysiwyg == 'toendaScript'){ echo '<script>createToolbar(\'news\', \''.$tcms_lang.'\', \'toendaScript\');</script>'; }
-				else{ echo '<script>createToolbar(\'news\', \''.$tcms_lang.'\', \'HTML\');</script>'; }
+			if($show_wysiwyg != 'tinymce' && $show_wysiwyg != 'fckeditor') {
+				if($show_wysiwyg == 'toendaScript') {
+					echo '<script>createToolbar(\'news\', \''.$tcms_lang.'\', \'toendaScript\');</script>';
+				}
+				else {
+					echo '<script>createToolbar(\'news\', \''.$tcms_lang.'\', \'HTML\');</script>';
+				}
 			}
 			
 			echo '<br /><br />'

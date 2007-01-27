@@ -9,7 +9,7 @@
 | 
 | Free Menu Entrys
 |
-| File:		tcms_freemenu.lib.php
+| File:	tcms_freemenu.lib.php
 +
 */
 
@@ -22,7 +22,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for globar backend values.
  *
- * @version 0.3.8
+ * @version 0.3.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -107,8 +107,11 @@ $mod_title['show']['mod_poll']=2;
 
 
 // Extension
-$mod_title['name']['mod_extensions']=_MOD_EXTENSIONS;
+$mod_title['name']['mod_extensions']=_MOD_CFORM;
 $mod_title['show']['mod_extensions']=1;
+
+$mod_title['name']['mod_guestbook_config']=_MOD_BOOK;
+$mod_title['show']['mod_guestbook_config']=1;
 
 $mod_title['name']['mod_frontpage']=_MOD_FRONTPAGE;
 $mod_title['show']['mod_frontpage']=1;

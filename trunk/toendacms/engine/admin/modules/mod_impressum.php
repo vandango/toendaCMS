@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the publishing form.
  *
- * @version 0.5.6
+ * @version 0.5.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -228,7 +228,7 @@ if($id_group == 'Developer'
 		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
 		.'<strong class="tcms_bold">'._TCMS_LANGUAGE.'</strong>'
 		.'</td><td>'
-		.'<select id="new_imp_lang" name="new_imp_lang"'.$js.'>';
+		.'<select class="tcms_select" id="new_imp_lang" name="new_imp_lang"'.$js.'>';
 		
 		foreach($languages['fine'] as $key => $value) {
 			if($old_imp_lang == $languages['code'][$key])

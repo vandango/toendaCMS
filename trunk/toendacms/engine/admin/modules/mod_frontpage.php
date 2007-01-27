@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the frontpage.
  *
- * @version 0.7.3
+ * @version 0.7.43
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -237,7 +237,7 @@ if($id_group == 'Developer'
 	echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
 	.'<strong class="tcms_bold">'._TCMS_LANGUAGE.'</strong>'
 	.'</td><td>'
-	.'<select id="new_front_lang" name="new_front_lang"'.$js.'>';
+	.'<select class="tcms_select" id="new_front_lang" name="new_front_lang"'.$js.'>';
 	
 	foreach($languages['fine'] as $key => $value) {
 		if($old_front_lang == $languages['code'][$key])

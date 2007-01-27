@@ -86,6 +86,12 @@ if(!defined('_CONTENT_ORG_DOCUMENT'))          define('_CONTENT_ORG_DOCUMENT', '
 
 if(!defined('_ABOUT_SVN_REPO'))                define('_ABOUT_SVN_REPO', 'SVN Repository');
 
+if(!defined('_TCMS_MENU_CFORM'))               define('_TCMS_MENU_CFORM', 'Contactform');
+if(!defined('_TCMS_MENU_BOOK'))                define('_TCMS_MENU_BOOK', 'Guestbook');
+
+if(!defined('_MOD_CFORM'))                     define('_MOD_CFORM', 'Contactform Configuration');
+if(!defined('_MOD_BOOK'))                      define('_MOD_BOOK', 'Guestbook Configuration');
+
 *
 *
 **************************
