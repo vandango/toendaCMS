@@ -41,6 +41,8 @@ if(!defined('_TCMS_ADMIN_EDIT_LANG'))          define('_TCMS_ADMIN_EDIT_LANG', '
 if(!defined('_TCMS_LANGUAGES'))                define('_TCMS_LANGUAGES', 'Languages');
 if(!defined('_TCMS_LANGUAGE'))                 define('_TCMS_LANGUAGE', 'Language');
 if(!defined('_TCMS_TEST_ENVIRONMENT'))         define('_TCMS_TEST_ENVIRONMENT', 'THIS IS A TEST ENVIRONMENT!');
+if(!defined('_TCMS_OPEN_ALL'))                 define('_TCMS_OPEN_ALL', 'Open all');
+if(!defined('_TCMS_CLOSE_ALL'))                define('_TCMS_CLOSE_ALL', 'Close all');
 
 // LANGUAGE LIST
 if(!defined('_LANG_GERMAN'))                   define('_LANG_GERMAN', 'German');

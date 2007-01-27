@@ -10,7 +10,7 @@
 | Ajax Functions
 |
 | File:		ajax.js
-| Version:	0.0.8
+| Version:	0.0.9
 |
 +
 */
@@ -33,6 +33,7 @@
 * ajaxChangeSidemenuType(type)
 * ajaxChangeTopmenuType(type)
 * ajaxChangeDateTime(item, value)
+* ajaxContentResizer(mouseevent)
 *
 */
 
@@ -111,6 +112,74 @@ function ajaxChangeDateTime(item, value){
 
 
 
+function ajaxTextAreaSize(height) {
+	var grip = document.getElementById('content_resizer');
+	var box = document.getElementById('content');
+	
+	box.style.height = height + "px";
+	grip.style.cursor = 's-resize';
+}
+
+
+
+function ajaxContentResizer(mouseevent){
+	if(!mouseevent)
+		mouseevent = window.event;
+	
+	if(document.getElementById){
+		var grip = document.getElementById('content_resizer');
+		var box = document.getElementById('content');
+		var boxheight = 0;
+		
+		if(box.style.height == '') {
+			boxheight = 600;
+			grip.style.cursor = 's-resize';
+		}
+		else if(box.style.height == '200px') {
+			boxheight = 600;
+			grip.style.cursor = 'n-resize';
+		}
+		else {
+			boxheight = 200;//parseInt(box.style.height);
+			grip.style.cursor = 's-resize';
+		}
+		
+		//var newheight = mouseevent.clientY - 40;
+		var newheight = boxheight;
+		
+		if(newheight > 0) {
+			box.style.height = newheight + "px";
+		}
+		
+		//box.value += "newheight: " + newheight + "\n";
+		/*box.value += "mouseevent.clientY: " + mouseevent.clientY + "\n";
+		box.value += "mouseevent.layerY: " + mouseevent.layerY + "\n";
+		box.value += "mouseevent.screenY: " + mouseevent.screenY + "\n";
+		box.value += "mouseevent.button: " + mouseevent.button + "\n";
+		box.value += "mouseevent.type: " + mouseevent.type + "\n";
+		box.value += "mouseevent.x: " + mouseevent.x + "\n";
+		box.value += "mouseevent.y: " + mouseevent.y + "\n";*/
+	}
+	else if(document.all) {
+		var grip = document.all.content_resizer;
+		var box = document.all.content;
+		var boxheight = 0;
+		
+		if(box.style.height == '')
+			boxheight = 600;
+		else
+			boxheight = parseInt(box.style.height);
+		
+		var newheight = mouseevent.clientY - 40;
+		
+		if(newheight > 0) {
+			box.style.height = newheight + "px";
+		}
+	}
+}
+
+
+
 /*
 	Class
 */
@@ -118,6 +187,8 @@ function tcmsJSAjax(){
 	this.ajaxChangeSidemenuType = ajaxChangeSidemenuType;
 	this.ajaxChangeTopmenuType = ajaxChangeTopmenuType;
 	this.ajaxChangeDateTime = ajaxChangeDateTime;
+	this.ajaxContentResizer = ajaxContentResizer;
+	this.ajaxTextAreaSize = ajaxTextAreaSize;
 }
 
 
