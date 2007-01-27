@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a filemanager for all Sites
  *
- * @version 0.3.4
+ * @version 0.4.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -71,14 +71,10 @@ $cs_id     = 'components';
 
 
 // -----------------------------------------------------
-// SIDEMENU
+// SIDEMENU ITEMS
 // -----------------------------------------------------
 
 if($sidemenu_active == 1){
-	//=====================================================
-	// CREATE ARRAY FROM XML
-	//=====================================================
-	
 	if($choosenDB == 'xml'){
 		$arr_explore['link'] = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_menu/');
 		// IDS
@@ -148,12 +144,11 @@ if($sidemenu_active == 1){
 
 
 
+// -----------------------------------------------------
+// TOPMENU ITEMS
+// -----------------------------------------------------
 
 if($topmenu_active == 1){
-	//=====================================================
-	// CREATE ARRAY FROM XML
-	//=====================================================
-	
 	if($choosenDB == 'xml'){
 		$arr_explore['link'] = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_topmenu/');
 		// IDS
@@ -216,9 +211,10 @@ if($topmenu_active == 1){
 
 
 
+// -----------------------------------------------------
+// CONTENT ITEMS
+// -----------------------------------------------------
 
-
-// CONTENT/MAIN
 if(!isset($wpC)){ $wpC = 0; }
 
 if($choosenDB == 'xml'){
@@ -264,25 +260,17 @@ else{
 
 
 
-
-
-
-
-
-
-
-
-
-
-//=====================================================
+// -----------------------------------------------------
 // EXPLORE THE FILES
-//=====================================================
+// -----------------------------------------------------
 
-echo '<table cellpadding="0" cellspacing="0" border="0" width="200" class="noborder">';
-
-
+echo $tcms_html->tableHeadNoBorder('0', '0', '0', '200');
 
 
+
+/*
+	SIDEMENU
+*/
 
 echo '<tr><td style="height: 5px;"></td></tr>';
 
@@ -294,114 +282,131 @@ if($topmenu_active == 1){
 	.'</a>'
 	.'</strong></td></tr>';
 	
-	echo '<tr><td>
-	<div class="dtree">
+	echo '<tr><td>&nbsp;'
+	.'<a href="javascript: d.openAll();">'._TCMS_OPEN_ALL.'</a> | '
+	.'<a href="javascript: d.closeAll();">'._TCMS_CLOSE_ALL.'</a>'
+	.'<br />';
+	
+	echo '<div class="dtree">
 	<script type="text/javascript">
 	<!--
 	d = new dTree(\'d\');
+	-->
 	d.add(0, -1, \''.$sitename.'\', \'admin.php?id_user='.$id_user.'&amp;site=mod_page\');
 	';
 	
 	$iCounterPages = 1;
+	$tbMod = false;
 	
 	if(is_array($arr_expT['id']) && !empty($arr_expT['id'])){
 		foreach($arr_expT['id'] as $ekey => $evalue){
 			$prjLink = '';
 			
-			
-			
-			
-			
 			// NEWS
-			if($arr_expT['link'][$ekey] == $news_id)
+			if($arr_expT['link'][$ekey] == $news_id) {
 				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_news';
+				$tbMod = true;
+			}
 			
 			// FRONTPAGE
-			if($arr_expT['link'][$ekey] == $front_id)
+			if($arr_expT['link'][$ekey] == $front_id) {
 				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_frontpage';
+				$tbMod = true;
+			}
 			
 			// IMPRESSUM
-			if($arr_expT['link'][$ekey] == $imp_id)
+			if($arr_expT['link'][$ekey] == $imp_id) {
 				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_impressum';
+				$tbMod = true;
+			}
 			
 			// IMAGEGALLERY
-			if($arr_expT['link'][$ekey] == $image_id)
+			if($arr_expT['link'][$ekey] == $image_id) {
 				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_gallery';
+				$tbMod = true;
+			}
 			
 			// GUESTBOOK
-			if($arr_expT['link'][$ekey] == $guest_id)
+			if($arr_expT['link'][$ekey] == $guest_id) {
 				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_extensions';
+				$tbMod = true;
+			}
 			
 			// CONTACT FORM
-			if($arr_expT['link'][$ekey] == $cform_id)
+			if($arr_expT['link'][$ekey] == $cform_id) {
 				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_extensions';
+				$tbMod = true;
+			}
 			
 			// DOWNLOAD
-			if($arr_expT['link'][$ekey] == $down_id)
+			if($arr_expT['link'][$ekey] == $down_id) {
 				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_download';
+				$tbMod = true;
+			}
 			
 			// PRODUCTS
-			if($arr_expT['link'][$ekey] == $pro_id)
+			if($arr_expT['link'][$ekey] == $pro_id) {
 				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_products';
+				$tbMod = true;
+			}
 			
 			// LINKS
-			if($arr_expT['link'][$ekey] == $links_id)
+			if($arr_expT['link'][$ekey] == $links_id) {
 				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_links';
+				$tbMod = true;
+			}
 			
 			// FAQ
-			if($arr_expT['link'][$ekey] == $faq_id)
+			if($arr_expT['link'][$ekey] == $faq_id) {
 				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_knowledgebase';
+				$tbMod = true;
+			}
+			
+			// POLLS
+			if($arr_expT['link'][$ekey] == 'polls') {
+				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_poll';
+				$tbMod = true;
+			}
+			
+			// POLLS
+			if($arr_expT['link'][$ekey] == 'search') {
+				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_side_extensions';
+				$tbMod = true;
+			}
 			
 			// CS
-			if(ereg($cs_id, $arr_expT['link'][$ekey]))
+			if(ereg($cs_id, $arr_expT['link'][$ekey])) {
 				$prjLink = $arr_expT['link'][$ekey];
+				$tbMod = true;
+			}
 			
 			// CONTENT
 			if($tbMod == false){
 				for($cMM = 0; $cMM < $wpC; $cMM++){
 					if($arr_maint['id'][$cMM] == $arr_expT['link'][$ekey]){
 						if($arr_expT['type'][$ekey] == 'web'){
-							$twp_link = '<span style="color: #'.$fm_color.'; font-size: 11px;" title="id = '.$arr_expT['link'][$ekey].'">'
-							.$arr_expT['name'][$ekey]
-							.'&nbsp;(&nbsp;'
-							.'<a target="_blank" style="color: #'.$fm_color.'; font-size: 11px;" title="id = '.$arr_expT['link'][$ekey].'" href="'.$arr_expT['link'][$ekey].'">'
-							.'<img src="../images/link_to.gif" border="0" /></a>)'
-							.'</span>';
+							$prjLink = $arr_expT['link'][$ekey];
 						}
 						else{
-							$twp_link = '<a style="color: #'.$fm_color.';" title="id = '.$arr_expT['link'][$ekey].'" href="admin.php?id_user='.$id_user.'&amp;site=mod_content&amp;todo=edit&amp;maintag='.$arr_expT['link'][$ekey].'">'
-							.$arr_expT['name'][$ekey]
-							.'</a>';
+							$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_content&amp;todo=edit&amp;maintag='.$arr_expT['link'][$ekey];
 						}
 					}
 					else{
 						if($arr_expT['type'][$ekey] == 'web'){
-							$twp_link = '<span style="color: #'.$fm_color.'; font-size: 11px;" title="id = '.$arr_expT['link'][$ekey].'">'
-							.$arr_expT['name'][$ekey]
-							.'&nbsp;(&nbsp;'
-							.'<a target="_blank" style="color: #'.$fm_color.'; font-size: 11px;" title="id = '.$arr_expT['link'][$ekey].'" href="'.$arr_expT['link'][$ekey].'">'
-							.'<img src="../images/link_to.gif" border="0" /></a>)'
-							.'</span>';
+							$prjLink = $arr_expT['link'][$ekey];
 						}
 						else{
-							$twp_link = '<a style="color: #'.$fm_color.';" title="id = '.$arr_expT['link'][$ekey].'" href="admin.php?id_user='.$id_user.'&amp;site=mod_content&amp;todo=edit&amp;maintag='.$arr_expT['link'][$ekey].'">'
-							.$arr_expT['name'][$ekey]
-							.'</a>';
+							$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_content&amp;todo=edit&amp;maintag='.$arr_expT['link'][$ekey];
 						}
 					}
 				}
 			}
 			
 			
-			
 			echo 'd.add('.$iCounterPages.', 0, \''.$arr_expT['name'][$ekey].'\', \''.$prjLink.'\');'.chr(13);
-			//$arr_expT['link'][$ekey]
-			
-			
 			
 			$iCounterPages++;
-			//$tfm_menu++;
-			//$tbMod = false;
+			$tbMod = false;
 		}
 	}
 	
@@ -411,30 +416,171 @@ if($topmenu_active == 1){
 	</script>
 	</div>
 	</td></tr>';
-	
-	
-	//unset($ekey);
-	//unset($evalue);
 }
 
-		/*
-		d.add(1,0,'Node 1','example01.html');
-		d.add(2,0,'Node 2','example01.html');
-		d.add(3,1,'Node 1.1','example01.html');
-		d.add(4,0,'Node 3','example01.html');
-		d.add(5,3,'Node 1.1.1','example01.html');
-		d.add(6,5,'Node 1.1.1.1','example01.html');
-		d.add(7,0,'Node 4','example01.html');
-		d.add(8,1,'Node 1.2','example01.html');
-		d.add(9,0,'My Pictures','example01.html','Pictures I\'ve taken over the years','','','../js/dtree/img/imgfolder.gif');
-		d.add(10,9,'The trip to Iceland','example01.html','Pictures of Gullfoss and Geysir');
-		d.add(11,9,'Mom\'s birthday','example01.html');
-		d.add(12,0,'Recycle Bin','example01.html','','','../js/dtree/img/trash.gif');
 
-		
 
+/*
+	SIDEMENU
 */
 
+echo '<tr><td style="height: 5px;"></td></tr>';
+
+if($sidemenu_active == 1){
+	echo '<tr bgcolor="#ececec" height="25">';
+	echo '<td valign="middle"><img style="padding: 1px 2px 0 3px;" align="left" src="../images/menu.png" border="0" /><strong style="font-size: 14px;">'
+	.'<a style="font-size: 14px; color: #000;" href="admin.php?id_user='.$id_user.'&amp;site=mod_sidemenu">'
+	._TABLE_SIDEMENU
+	.'</a>'
+	.'</strong></td></tr>';
+	
+	echo '<tr><td>&nbsp;'
+	.'<a href="javascript: d2.openAll();">'._TCMS_OPEN_ALL.'</a> | '
+	.'<a href="javascript: d2.closeAll();">'._TCMS_CLOSE_ALL.'</a>'
+	.'<br />';
+	
+	echo '<div class="dtree">
+	<script type="text/javascript">
+	<!--
+	d2 = new dTree(\'d2\');
+	d2.add(0, -1, \''.$sitename.'\', \'admin.php?id_user='.$id_user.'&amp;site=mod_page\');
+	';
+	
+	$iCounterPages = 1;
+	$iSub = 1;
+	$tbMod = false;
+	
+	if(is_array($arr_exp['id']) && !empty($arr_exp['id'])){
+		foreach($arr_exp['id'] as $ekey => $evalue){
+			$prjLink = '';
+			$tmpPage = $iCounterPages;
+			
+			// NEWS
+			if($arr_exp['link'][$ekey] == $news_id) {
+				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_news';
+				$tbMod = true;
+			}
+			
+			// FRONTPAGE
+			if($arr_exp['link'][$ekey] == $front_id) {
+				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_frontpage';
+				$tbMod = true;
+			}
+			
+			// IMPRESSUM
+			if($arr_exp['link'][$ekey] == $imp_id) {
+				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_impressum';
+				$tbMod = true;
+			}
+			
+			// IMAGEGALLERY
+			if($arr_exp['link'][$ekey] == $image_id) {
+				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_gallery';
+				$tbMod = true;
+			}
+			
+			// GUESTBOOK
+			if($arr_exp['link'][$ekey] == $guest_id) {
+				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_extensions';
+				$tbMod = true;
+			}
+			
+			// CONTACT FORM
+			if($arr_exp['link'][$ekey] == $cform_id) {
+				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_extensions';
+				$tbMod = true;
+			}
+			
+			// DOWNLOAD
+			if($arr_exp['link'][$ekey] == $down_id) {
+				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_download';
+				$tbMod = true;
+			}
+			
+			// PRODUCTS
+			if($arr_exp['link'][$ekey] == $pro_id) {
+				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_products';
+				$tbMod = true;
+			}
+			
+			// LINKS
+			if($arr_exp['link'][$ekey] == $links_id) {
+				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_links';
+				$tbMod = true;
+			}
+			
+			// FAQ
+			if($arr_exp['link'][$ekey] == $faq_id) {
+				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_knowledgebase';
+				$tbMod = true;
+			}
+			
+			// POLLS
+			if($arr_exp['link'][$ekey] == 'polls') {
+				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_poll';
+				$tbMod = true;
+			}
+			
+			// POLLS
+			if($arr_exp['link'][$ekey] == 'search') {
+				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_side_extensions';
+				$tbMod = true;
+			}
+			
+			// CS
+			if(ereg($cs_id, $arr_exp['link'][$ekey])) {
+				$prjLink = $arr_exp['link'][$ekey];
+				$tbMod = true;
+			}
+			
+			// CONTENT
+			if($tbMod == false){
+				for($cMM = 0; $cMM < $wpC; $cMM++){
+					if($arr_maint['id'][$cMM] == $arr_exp['link'][$ekey]){
+						if($arr_exp['type'][$ekey] == 'web'){
+							$prjLink = $arr_exp['link'][$ekey];
+						}
+						else{
+							$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_content&amp;todo=edit&amp;maintag='.$arr_exp['link'][$ekey];
+						}
+					}
+					else{
+						if($arr_exp['type'][$ekey] == 'web'){
+							$prjLink = $arr_exp['link'][$ekey];
+						}
+						else{
+							$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_content&amp;todo=edit&amp;maintag='.$arr_exp['link'][$ekey];
+						}
+					}
+				}
+			}
+			
+			
+			if($arr_exp['sub'][$ekey] == '-'){
+				$iCounterPages++;
+				
+				echo 'd2.add('.$iCounterPages.', 0, \''.$arr_exp['name'][$ekey].'\', \''.$prjLink.'\');'.chr(13);
+				
+				$iSub = 1;
+			}
+			else {
+				echo 'd2.add('.$iSub.', '.$iCounterPages.', \''.$arr_exp['name'][$ekey].'\', \''.$prjLink.'\');'.chr(13);
+				
+				$iSub++;
+			}
+			
+			
+			$tbMod = false;
+		}
+	}
+	
+	echo '
+	document.write(d2);
+	//-->
+	</script>
+	</div>
+	</td></tr>';
+}
 
 
 
@@ -443,6 +589,7 @@ if($topmenu_active == 1){
 
 
 
+/*
 
 
 echo '<tr><td style="height: 5px;"></td></tr>';
@@ -857,12 +1004,10 @@ if($sidemenu_active == 1){
 
 
 
+*/
 
-
-
-
-
-echo '</table><br />';
+echo $tcms_html->tableEnd()
+.'<br />';
 
 
 ?>

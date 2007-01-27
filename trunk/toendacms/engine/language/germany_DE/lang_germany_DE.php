@@ -92,6 +92,8 @@ define('_TCMS_TEST_ENVIRONMENT', 'DIES IST EINE TESTUMGEBUNG!');
 define('_TCMS_THIS_PAGE_IN', 'Diese Seite in');
 define('_TCMS_LANGUAGES', 'Sprachen');
 define('_TCMS_LANGUAGE', 'Sprache');
+define('_TCMS_OPEN_ALL', 'Alle &#246;ffnen');
+define('_TCMS_CLOSE_ALL', 'Alle schliessen');
 
 
 // BACKEND TOPMENU
@@ -1047,7 +1049,7 @@ define('_NEWS_WRITTEN', 'Geschrieben von');
 define('_NEWS_CATEGORIE_IN', 'Kategorisiert');
 define('_NEWS_TITLE', 'Zeige alle Neuigkeiten');
 define('_NEWS_TEXT', 'Hier sind Ihre Neuigkeiten aufgelistet. Sie k&ouml;nnen diese bearbeiten oder auch neue erstellen.');
-define('_NEWS_EDIT_CURRENT', 'Bearbeite die aktuelle Neuigkeit.');
+define('_NEWS_EDIT_CURRENT', 'Bearbeite diese Neuigkeit.');
 define('_NEWS_NEW_CURRENT', 'Erstelle eine neue Neuigkeit.');
 define('_NEWS_ID', 'News ID');
 define('_NEWS_DATE', 'Datum');

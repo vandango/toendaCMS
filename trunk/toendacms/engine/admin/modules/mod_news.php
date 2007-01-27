@@ -1180,7 +1180,7 @@ if($todo == 'edit'){
 			
 			echo '<div class="tab-page" id="tab-page-text">'
 			.'<h2 class="tab">'._TABLE_EDIT.'</h2>'
-			.'<table cellpadding="1" cellspacing="5" width="100%" border="0" class="noborder">';
+			.$tcms_html->tableHeadNoBorder('1', '5', '0', '100%');
 			
 			
 			// table row
@@ -1230,36 +1230,18 @@ if($todo == 'edit'){
 				$oFCKeditor->Create();
 			}
 			else{
-				?>
-				<script language="JavaScript" type="text/javascript">
-				function contentResizer(id){
-					if(document.layers){
-						document.layers[0].left = id.pageX;
-						document.layers[0].top = id.pageY;
-					}
-					else if(document.getElementById){
-						//document.getElementById('content_body').style.width = id.pageX + "px";
-						//if(document.getElementById('content_body').style.height > 20)
-							document.getElementById('content_body').style.height = ( id.pageY - 450 ) + "px";
-					}
-				}
-				
-				//document.getElementById('content_resizer').onmouseover = contentResizer;
-				//document.onmouseover = contentResizer;
-				</script>
-				<!--<style type="text/css">
-				div.ebene {
-				  position: relative;
-				  width: 100%;
-				  height: 200px;
-				  visibility: visible;
-				}
-				</style>-->
-				<?
 				echo '<div class="ebene" id="content_body">'
 				.'<textarea class="tcms_textarea_huge" id="content" name="content">'.$nws_news.'</textarea>'
 				.'</div>'
-				.'<div class="tcms_textarea_bottom" onmousedown="contentResizer(\'content\');" id="content_resizer"></div>';
+				.'<div class="tcms_textarea_bottom" id="content_resizer">'
+				.'000'
+				.'</div>';
+				
+				echo '<script language="JavaScript" type="text/javascript">
+				JSAjax.ajaxTextAreaSize(200);
+				document.getElementById(\'content_resizer\').onmousedown = JSAjax.ajaxContentResizer;
+				//document.getElementById(\'content_resizer\').onmousemove = JSAjax.ajaxContentResizer;
+				</script>';
 			}
 			
 			echo '<br />'
@@ -1267,7 +1249,7 @@ if($todo == 'edit'){
 			
 			
 			// table row
-			echo '<td width="250" valign="top">'
+			echo '<td width="210" valign="top">'
 			.'<div style="width: 200px; overflow: auto; border: 0px solid #fff; padding: 3px;">'
 			.'<fieldset><legend><strong class="tcms_bold">'._TABLE_CATEGORY.'</strong></legend>'
 			.'<br />';

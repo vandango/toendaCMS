@@ -92,6 +92,8 @@ if(!defined('_TCMS_TEST_ENVIRONMENT'))         define('_TCMS_TEST_ENVIRONMENT', 
 if(!defined('_TCMS_THIS_PAGE_IN'))             define('_TCMS_THIS_PAGE_IN', 'This page in');
 if(!defined('_TCMS_LANGUAGES'))                define('_TCMS_LANGUAGES', 'Languages');
 if(!defined('_TCMS_LANGUAGE'))                 define('_TCMS_LANGUAGE', 'Language');
+if(!defined('_TCMS_OPEN_ALL'))                 define('_TCMS_OPEN_ALL', 'Open all');
+if(!defined('_TCMS_CLOSE_ALL'))                define('_TCMS_CLOSE_ALL', 'Close all');
 
 
 // BACKEND TOPMENU
@@ -1045,8 +1047,8 @@ define('_NEWS_WRITTEN', 'Posted by');
 define('_NEWS_CATEGORIE_IN', 'Categorised');
 define('_NEWS_TITLE', 'Show All News');
 define('_NEWS_TEXT', 'Here are all your news listed. You can edit thus or create a new one.');
-define('_NEWS_EDIT_CURRENT', 'Edit this current News.');
-define('_NEWS_NEW_CURRENT', 'Create new News.');
+define('_NEWS_EDIT_CURRENT', 'Edit this news.');
+define('_NEWS_NEW_CURRENT', 'Create new news.');
 define('_NEWS_ID', 'News ID');
 define('_NEWS_DATE', 'Date');
 define('_NEWS_TIME', 'Time');
