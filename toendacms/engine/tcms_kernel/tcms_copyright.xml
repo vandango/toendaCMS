@@ -665,7 +665,13 @@
 	<tr bgcolor="#ececec"><td width="250"><strong>html2fpdf</strong>
 	</td><td width="200"><a href="http://html2fpdf.sourceforge.net/" target="_blank">html2fpdf.sourceforge.net</a>
 	</td><td width="100">Version 3.0.2b
-	</td><td width="74"><a href="http://www.creativecommons.org/" target="_blank">CC</a>
+	</td><td width="74"><a href="http://www.opensource.org/licenses/lgpl-license.php" target="_blank">LGPL</a>
+	</td></tr>
+	
+	<tr bgcolor="#ffffff"><td width="250" valign="top"><strong>dTree</strong>
+	</td><td width="200" valign="top"><a href="http://www.destroydrop.com/javascripts/tree/" target="_blank">Geir Landr&#246;</a>
+	</td><td width="100" valign="top">Version 2.0.5
+	</td><td width="74" valign="top"><a href="http://www.?" target="_blank">?</a>
 	</td></tr>
 	
 	</table>

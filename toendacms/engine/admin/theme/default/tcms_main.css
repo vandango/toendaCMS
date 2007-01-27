@@ -421,6 +421,10 @@ td.tcms_top_menu_tape {
 	width: 450px;
 }
 
+.tcms_textarea_bottom {
+	cursor: s-resize;
+}
+
 
 
 
