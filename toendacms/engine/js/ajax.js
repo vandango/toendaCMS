@@ -126,7 +126,7 @@ function ajaxContentResizer(mouseevent){
 	if(!mouseevent)
 		mouseevent = window.event;
 	
-	if(document.getElementById){
+	//if(document.getElementById){
 		var grip = document.getElementById('content_resizer');
 		var box = document.getElementById('content');
 		var boxheight = 0;
@@ -149,6 +149,8 @@ function ajaxContentResizer(mouseevent){
 		
 		if(newheight > 0) {
 			box.style.height = newheight + "px";
+			document.location = '#top';
+			document.getElementsByTagName('body')[0].style.height = '100%';
 		}
 		
 		//box.value += "newheight: " + newheight + "\n";
@@ -159,7 +161,7 @@ function ajaxContentResizer(mouseevent){
 		box.value += "mouseevent.type: " + mouseevent.type + "\n";
 		box.value += "mouseevent.x: " + mouseevent.x + "\n";
 		box.value += "mouseevent.y: " + mouseevent.y + "\n";*/
-	}
+	/*}
 	else if(document.all) {
 		var grip = document.all.content_resizer;
 		var box = document.all.content;
@@ -175,7 +177,7 @@ function ajaxContentResizer(mouseevent){
 		if(newheight > 0) {
 			box.style.height = newheight + "px";
 		}
-	}
+	}*/
 }
 
 
