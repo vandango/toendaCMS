@@ -22,7 +22,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for globar backend values.
  *
- * @version 0.3.9
+ * @version 0.4.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -107,11 +107,11 @@ $mod_title['show']['mod_poll']=2;
 
 
 // Extension
-$mod_title['name']['mod_extensions']=_MOD_CFORM;
-$mod_title['show']['mod_extensions']=1;
+$mod_title['name']['mod_extensions'] = _MOD_CFORM;
+$mod_title['show']['mod_extensions'] = 'tb_extensions.php';
 
-$mod_title['name']['mod_guestbook_config']=_MOD_BOOK;
-$mod_title['show']['mod_guestbook_config']=1;
+$mod_title['name']['mod_guestbook_config'] = _MOD_BOOK;
+$mod_title['show']['mod_guestbook_config'] = 'tb_guestbook_config.php';
 
 $mod_title['name']['mod_frontpage']=_MOD_FRONTPAGE;
 $mod_title['show']['mod_frontpage']=1;
@@ -155,17 +155,11 @@ $mod_title['show']['mod_upload_layout'] = 'tb_upload_layout.php';
 
 
 // Help
-$mod_title['name']['mod_copyright'] = _MOD_LICENSE;
-$mod_title['show']['mod_copyright'] = '';
+$mod_title['name']['mod_credits'] = _MOD_CREDITS;
+$mod_title['show']['mod_credits'] = '';
 
 $mod_title['name']['mod_help'] = _MOD_HELP;
 $mod_title['show']['mod_help'] = '';
-
-$mod_title['name']['mod_documentation'] = _MOD_DOCU;
-$mod_title['show']['mod_documentation'] = '';
-
-$mod_title['name']['mod_credits'] = _MOD_CREDITS;
-$mod_title['show']['mod_credits'] = '';
 
 $mod_title['name']['mod_aboutmodule'] = _MOD_ABOUT_MODULE;
 $mod_title['show']['mod_aboutmodule'] = '';

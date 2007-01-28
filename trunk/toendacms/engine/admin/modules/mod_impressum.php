@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the publishing form.
  *
- * @version 0.5.7
+ * @version 0.5.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -84,6 +84,8 @@ if($id_group == 'Developer'
 				if(!$old_ustid)        { $old_ustid        = ''; }
 				if(!$old_legal)        { $old_legal        = ''; }
 				if(!$test_imp_contact) { $test_imp_contact = ''; }
+				
+				$langExist = 1;
 			}
 			else {
 				$langExist = 0;
@@ -208,6 +210,7 @@ if($id_group == 'Developer'
 		
 		// BEGIN FORM
 		echo '<form action="admin.php?id_user='.$id_user.'&amp;site=mod_impressum" method="post" id="imp">'
+		.'<input name="lang_exist" type="hidden" value="'.$langExist.'" />'
 		.'<input name="todo" type="hidden" value="save" />';
 		
 		
@@ -528,7 +531,7 @@ if($id_group == 'Developer'
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			if($lang_exist == '1') {
+			if($lang_exist > 0) {
 				$newSQLData = ''
 				.$tcms_db_prefix.'impressum.imp_id="'.$imp_id.'", '
 				.$tcms_db_prefix.'impressum.imp_title="'.$imp_title.'", '
@@ -590,9 +593,20 @@ if($id_group == 'Developer'
 			}
 		}
 		
-		echo '<script>'
-		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_impressum\';'
-		.'</script>';
+		
+		if($setLang != '') {
+			$setLang = $tcms_config->getLanguageCodeByTCMSCode($setLang);
+			
+			echo '<script>'
+			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_impressum'
+			.'&lang='.$setLang.'\''
+			.'</script>';
+		}
+		else {
+			echo '<script>'
+			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_impressum'
+			.'</script>';
+		}
 	}
 }
 else{

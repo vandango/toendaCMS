@@ -9,11 +9,20 @@
 | 
 | German Language
 |
-| File:		lang_admin.php
-| Version:	0.3.4
+| File:	lang_germany_DE.php
 |
 +
 */
+
+
+/**
+ * German Language
+ * 
+ * @version 0.4.0
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 // ADMIN
@@ -94,6 +103,9 @@ define('_TCMS_LANGUAGES', 'Sprachen');
 define('_TCMS_LANGUAGE', 'Sprache');
 define('_TCMS_OPEN_ALL', 'Alle &#246;ffnen');
 define('_TCMS_CLOSE_ALL', 'Alle schliessen');
+define('_TCMS_HELP', 'Hilfe');
+define('_TCMS_DOCU', 'Wiki');
+define('_TCMS_TSCRIPT_SYNTAX_REF', 'toendaScript - Syntax Referenz');
 
 
 // BACKEND TOPMENU

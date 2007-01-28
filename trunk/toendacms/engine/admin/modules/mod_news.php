@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the news.
  *
- * @version 1.5.2
+ * @version 1.5.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -171,6 +171,8 @@ if($todo == 'config'){
 				$old_readmore_link    = $news_xml->read_section('config', 'readmore_link');
 				$old_news_spacing     = $news_xml->read_section('config', 'news_spacing');
 				$old_news_lang        = $news_xml->read_section('config', 'language');
+				
+				$langExist = 1;
 			}
 			else {
 				$langExist = 0;
@@ -1547,7 +1549,7 @@ if($todo == 'save_config'){
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
 		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		if($lang_exist == '1') {
+		if($lang_exist > 0) {
 			$newSQLData = ''
 			.$tcms_db_prefix.'newsmanager.news_id="'.$new_news_mm_id.'", '
 			.$tcms_db_prefix.'newsmanager.news_title="'.$news_mm_title.'", '
