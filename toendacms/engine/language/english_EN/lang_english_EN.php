@@ -9,11 +9,20 @@
 | 
 | English Language
 |
-| File:		lang_english_EN.php
-| Version:	0.3.5
+| File:	lang_english_EN.php
 |
 +
 */
+
+
+/**
+ * English Language
+ * 
+ * @version 0.4.0
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 // ADMIN
@@ -94,6 +103,9 @@ if(!defined('_TCMS_LANGUAGES'))                define('_TCMS_LANGUAGES', 'Langua
 if(!defined('_TCMS_LANGUAGE'))                 define('_TCMS_LANGUAGE', 'Language');
 if(!defined('_TCMS_OPEN_ALL'))                 define('_TCMS_OPEN_ALL', 'Open all');
 if(!defined('_TCMS_CLOSE_ALL'))                define('_TCMS_CLOSE_ALL', 'Close all');
+if(!defined('_TCMS_HELP'))                     define('_TCMS_HELP', 'Help');
+if(!defined('_TCMS_DOCU'))                     define('_TCMS_DOCU', 'Wiki');
+if(!defined('_TCMS_TSCRIPT_SYNTAX_REF'))       define('_TCMS_TSCRIPT_SYNTAX_REF', 'toendaScript - Syntax Reference');
 
 
 // BACKEND TOPMENU

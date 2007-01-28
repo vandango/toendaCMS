@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the contactform configuration.
  *
- * @version 0.4.2
+ * @version 0.4.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -74,294 +74,297 @@ echo '<script language="JavaScript" src="../js/dhtml.js"></script>';
 
 if($id_group == 'Developer' 
 || $id_group == 'Administrator'){
-	// BEGIN FORM
-	echo '<form action="admin.php?id_user='.$id_user.'&amp;site=mod_extensions" method="post">';
-	
-	
-	
-	if($show_wysiwyg == 'tinymce'){
-		include('../tcms_kernel/tcms_tinyMCE.lib.php');
-		
-		$tcms_tinyMCE = new tcms_tinyMCE($tcms_path, $seoEnabled);
-		$tcms_tinyMCE->initTinyMCE();
-		
-		unset($tcms_tinyMCE);
-	}
-	
-	
-	if($tcms_main->isReal($lang))
-		$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
-	else
-		$getLang = $tcms_front_lang;
-	
-	
-	if($choosenDB == 'xml'){
-		if(file_exists('../../'.$tcms_administer_site.'/tcms_global/contactform.'.$getLang.'.xml')) {
-			$contactform_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/contactform.'.$getLang.'.xml','r');
-			$old_show_cisb      = $contactform_xml->read_section('email', 'show_contacts_in_sidebar');
-			$old_email          = $contactform_xml->read_section('email', 'contact');
-			$old_contact_title  = $contactform_xml->read_section('email', 'contacttitle');
-			$old_contact_stamp  = $contactform_xml->read_section('email', 'contactstamp');
-			$old_contact_text   = $contactform_xml->read_section('email', 'contacttext');
-			$old_send_id        = $contactform_xml->read_section('email', 'send_id');
-			$old_cform_access   = $contactform_xml->read_section('email', 'access');
-			$old_enabled        = $contactform_xml->read_section('email', 'enabled');
-			$old_use_adressbook = $contactform_xml->read_section('email', 'use_adressbook');
-			$old_use_contact    = $contactform_xml->read_section('email', 'use_contact');
-			$old_show_ce        = $contactform_xml->read_section('email', 'show_contactemail');
-			$old_lang           = $contactform_xml->read_section('email', 'language');
-		}
-		else {
-			$langExist = 0;
-		}
-	}
-	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-		
-		$strQuery = "SELECT * "
-		."FROM ".$tcms_db_prefix."contactform "
-		."WHERE language = '".$getLang."'";
-		
-		$sqlQR = $sqlAL->sqlQuery($strQuery);
-		$langExist = $sqlAL->sqlGetNumber($sqlQR);
-		$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
-		
-		$old_show_cisb      = $sqlObj->show_contacts_in_sidebar;
-		$old_email          = $sqlObj->contact;
-		$old_contact_title  = $sqlObj->contacttitle;
-		$old_contact_stamp  = $sqlObj->contactstamp;
-		$old_contact_text   = $sqlObj->contacttext;
-		$old_send_id        = $sqlObj->send_id;
-		$old_cform_access   = $sqlObj->access;
-		$old_enabled        = $sqlObj->enabled;
-		$old_use_adressbook = $sqlObj->use_adressbook;
-		$old_use_contact    = $sqlObj->use_contact;
-		$old_show_ce        = $sqlObj->show_contactemail;
-		$old_lang           = $sqlObj->language;
-	}
-	
-	
-	if($langExist == 0) {
-		$old_send_id = 'contactform';
-		$old_lang = $getLang;
-	}
-	
-	
-	// CHARSETS
-	$old_email         = $tcms_main->decodeText($old_email, '2', $c_charset);
-	$old_contact_title = $tcms_main->decodeText($old_contact_title, '2', $c_charset);
-	$old_contact_stamp = $tcms_main->decodeText($old_contact_stamp, '2', $c_charset);
-	$old_contact_text  = $tcms_main->decodeText($old_contact_text, '2', $c_charset);
-	
-	$old_contact_title = htmlspecialchars($old_contact_title);
-	$old_contact_stamp = htmlspecialchars($old_contact_stamp);
-	$old_contact_text  = htmlspecialchars($old_contact_text);
-	
-	
-	switch(trim($show_wysiwyg)){
-		case 'tinymce':
-			//$old_front_text = str_replace('src="', 'src="../../', $old_front_text);
-			$old_contact_text = stripslashes($old_contact_text);
-			break;
-		
-		case 'fckeditor':
-			$old_contact_text = str_replace('src="', 'src="../../../../', $old_contact_text);
-			$old_contact_text = str_replace('src="../../../../http:', 'src="http:', $old_contact_text);
-			$old_contact_text = str_replace('src="../../../../https:', 'src="https:', $old_contact_text);
-			$old_contact_text = str_replace('src="../../../../ftp:', 'src="ftp:', $old_contact_text);
-			$old_contact_text = str_replace('src="../../../..//', 'src="/', $old_contact_text);
-			break;
-		
-		default:
-			$old_contact_text = ereg_replace('<br />'.chr(10), chr(13), $old_contact_text);
-			$old_contact_text = ereg_replace('<br />'.chr(13), chr(13), $old_contact_text);
-			$old_contact_text = ereg_replace('<br />', chr(13), $old_contact_text);
+	if($todo != 'save_cform'){
+		if($show_wysiwyg == 'tinymce'){
+			include('../tcms_kernel/tcms_tinyMCE.lib.php');
 			
-			$old_contact_text = ereg_replace('<br/>'.chr(10), chr(13), $old_contact_text);
-			$old_contact_text = ereg_replace('<br/>'.chr(13), chr(13), $old_contact_text);
-			$old_contact_text = ereg_replace('<br/>', chr(13), $old_contact_text);
+			$tcms_tinyMCE = new tcms_tinyMCE($tcms_path, $seoEnabled);
+			$tcms_tinyMCE->initTinyMCE();
 			
-			$old_contact_text = ereg_replace('<br>'.chr(10), chr(13), $old_contact_text);
-			$old_contact_text = ereg_replace('<br>'.chr(13), chr(13), $old_contact_text);
-			$old_contact_text = ereg_replace('<br>', chr(13), $old_contact_text);
-			break;
-	}
-	
-	
-	if($seoEnabled == 0 && $show_wysiwyg == 'tinymce'){
-		//$old_contact_text = str_replace('src="', 'src="../../', $old_contact_text);
-	}
-	
-	
-	
-	// frontpage news settings
-	echo '<table width="100%" cellpadding="0" cellspacing="0" class="tcms_noborder">'
-	.'<tr class="tcms_bg_blue_01">'
-	.'<th valign="middle" align="left" class="tcms_db_title tcms_padding_mini">'._TCMS_ADMIN_EDIT_LANG.'</th>'
-	.'</tr></table>';
-	
-	echo $tcms_html->tableHeadNoBorder('1', '0', '0', '100%');
-	
-	// row
-	$link = 'admin.php?id_user='.$id_user.'&site=mod_extensions'
-	.'&amp;lang=';
-	
-	$js = ' onchange="document.location=\''.$link.'\' + this.value;"';
-	
-	echo '<tr><td class="tcms_padding_mini" width="300" valign="top">'
-	.'<strong class="tcms_bold">'._TCMS_LANGUAGE.'</strong>'
-	.'</td><td>'
-	.'<select class="tcms_select" id="new_lang" name="new_lang"'.$js.'>';
-	
-	foreach($languages['fine'] as $key => $value) {
-		if($old_lang == $languages['code'][$key])
-			$dl = ' selected="selected"';
+			unset($tcms_tinyMCE);
+		}
+		
+		
+		if($tcms_main->isReal($lang))
+			$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
 		else
-			$dl = '';
+			$getLang = $tcms_front_lang;
 		
-		echo '<option value="'.$value.'"'.$dl.'>'
-		.$languages['name'][$key]
-		.'</option>';
-	}
-	
-	echo '</select>'
-	.'</td></tr>';
-	
-	
-	// table end
-	echo '<tr><td class="tcms_padding_mini"><br /></td></tr>'
-	.$tcms_html->tableEnd();
-	
-	
-	
-	//table
-	echo $tcms_html->tableHeadNoBorder('1', '0', '0', '100%')
-	.'<input name="todo" type="hidden" value="save_cform" />'
-	.'<input name="_RELOCATE" id="_RELOCATE" type="hidden" value="0" />';
-	
-	
-	//table head
-	echo '<tr class="tcms_bg_blue_01"><td colspan="3" class="tcms_db_title tcms_padding_mini">'
-	.'<strong>'._EXT_CFORM.'</strong></td></tr>';
-	
-	
-	// table row
-	echo '<tr><td width="300" style="width: 300px !important;" class="tcms_padding_mini">'._TABLE_ENABLED.'</td>'
-	.'<td>'
-	.'<input type="radio" onchange="CHANGED = true;" name="new_enabled" id="config_offline0" value="0"'.($old_enabled == 0 ? ' checked="checked"' : '' ).' />'
-	.'<label for="config_offline0">No</label>'
-	.'<input type="radio" onchange="CHANGED = true;" name="new_enabled" id="config_offline1" value="1"'.($old_enabled == 1 ? ' checked="checked"' : '' ).' />'
-	.'<label for="config_offline1">Yes</label>'
-	.'</td></tr>';
-	
-	
-	// table rows
-	echo '<tr><td width="300" style="width: 300px !important;" class="tcms_padding_mini">'._EXT_CFORM_SHOW_CONTACTS_IN_SIDEBAR.'</td>'
-	.'<td colspan="2">'
-	.'<input type="checkbox" onchange="CHANGED = true;" name="use_show_cisb" '.( $old_show_cisb == 1 ? 'checked="checked"' : '' ).' value="1" /></td></tr>';
-	
-	
-	// table rows
-	echo '<tr><td width="300" style="width: 300px !important;" class="tcms_padding_mini">'._EXT_CFORM_USE_ADRESSBOOK.'</td>'
-	.'<td colspan="2">'
-	.'<input type="checkbox" onchange="CHANGED = true;" name="new_use_adressbook" '.( $old_use_adressbook == 1 ? 'checked="checked"' : '' ).' value="1" /></td></tr>';
-	
-	
-	// table rows
-	echo '<tr><td width="300" style="width: 300px !important;" class="tcms_padding_mini">'._EXT_CFORM_USE_CONTACTPERSON.'</td>'
-	.'<td colspan="2">'
-	.'<input type="checkbox" onchange="CHANGED = true;" name="new_use_contact" '.( $old_use_contact == 1 ? 'checked="checked"' : '' ).' value="1" /></td></tr>';
-	
-	
-	// table rows
-	echo '<tr><td width="300" style="width: 300px !important;" class="tcms_padding_mini">'._EXT_CFORM_SHOW_CONTACTEMAIL.'</td>'
-	.'<td colspan="2">'
-	.'<input type="checkbox" onchange="CHANGED = true;" name="new_show_ce" '.( $old_show_ce == 1 ? 'checked="checked"' : '' ).' value="1" /></td></tr>';
-	
-	
-	// table rows
-	echo '<tr><td class="tcms_padding_mini" valign="top">'._EXT_CFORM_ID.'</td>'
-	.'<td valign="top" colspan="2">'
-	.'<input name="new_send_id" onchange="CHANGED = true;" readonly class="tcms_input_small" value="'.$old_send_id.'" /></td></tr>';
-	
-	
-	// table row
-	echo '<tr><td class="tcms_padding_mini">'._TABLE_ACCESS.'</td>'
-	.'<td colspan="2">'
-	.'<select onchange="CHANGED = true;" name="cform_access" class="tcms_select">'
-		.'<option value="Public"'.( $old_cform_access == 'Public' ? ' selected="selected"' : '' ).'>'._TABLE_PUBLIC.'</option>'
-		.'<option value="Protected"'.( $old_cform_access == 'Protected' ? ' selected="selected"' : '' ).'>'._TABLE_PROTECTED.'</option>'
-		.'<option value="Private"'.( $old_cform_access == 'Private' ? ' selected="selected"' : '' ).'>'._TABLE_PRIVATE.'</option>'
-	.'</select></td></tr>';
-	
-	
-	// table rows
-	echo '<tr><td class="tcms_padding_mini" valign="top">'._EXT_CFORM_EMAIL.'</td>'
-	.'<td valign="top" colspan="2">'
-	.'<input onchange="CHANGED = true;" name="email" class="tcms_input_normal" value="'.$old_email.'" /></td></tr>';
-	
-	
-	// table rows
-	echo '<tr><td class="tcms_padding_mini" valign="top">'._EXT_CFORM_TITLE.'</td>'
-	.'<td valign="top" colspan="2">'
-	.'<input onchange="CHANGED = true;" name="tmp_contact_title" class="tcms_input_normal" value="'.$old_contact_title.'" /></td></tr>';
-	
-	
-	// table rows
-	echo '<tr><td class="tcms_padding_mini" valign="top">'._EXT_CFORM_SUBTITLE.'</td>'
-	.'<td valign="top" colspan="2">'
-	.'<input onchange="CHANGED = true;" name="contact_stamp" class="tcms_input_normal" value="'.$old_contact_stamp.'" /></td></tr>';
-	
-	
-	// table rows
-	echo '<tr><td valign="top" colspan="2"><br />'._TABLE_TEXT
-	.( $show_wysiwyg != 'fckeditor' ? '<br /><br />'
-	.'<script>'
-	.'createToendaToolbar(\'imp\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');'
-	.'</script>' : '' );
-	
-	if($show_wysiwyg != 'tinymce' && $show_wysiwyg != 'fckeditor') {
-		if($show_wysiwyg == 'toendaScript') {
-			echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'toendaScript\');</script>';
-		}
-		else {
-			echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'HTML\');</script>';
-		}
-	}
-	
-	echo '<br /><br />';
-	
-	if($show_wysiwyg == 'tinymce'){
-		echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content" mce_editable="true">'
-		.$old_contact_text
-		.'</textarea>';
-	}
-	elseif($show_wysiwyg == 'fckeditor'){
-		$sBasePath = '../js/FCKeditor/';
 		
-		$oFCKeditor = new FCKeditor('content') ;
-		$oFCKeditor->BasePath = $sBasePath;
-		$oFCKeditor->Value = $old_contact_text;
-		$oFCKeditor->Create();
+		if($choosenDB == 'xml'){
+			if(file_exists('../../'.$tcms_administer_site.'/tcms_global/contactform.'.$getLang.'.xml')) {
+				$contactform_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/contactform.'.$getLang.'.xml','r');
+				$old_show_cisb      = $contactform_xml->read_section('email', 'show_contacts_in_sidebar');
+				$old_email          = $contactform_xml->read_section('email', 'contact');
+				$old_contact_title  = $contactform_xml->read_section('email', 'contacttitle');
+				$old_contact_stamp  = $contactform_xml->read_section('email', 'contactstamp');
+				$old_contact_text   = $contactform_xml->read_section('email', 'contacttext');
+				$old_send_id        = $contactform_xml->read_section('email', 'send_id');
+				$old_cform_access   = $contactform_xml->read_section('email', 'access');
+				$old_enabled        = $contactform_xml->read_section('email', 'enabled');
+				$old_use_adressbook = $contactform_xml->read_section('email', 'use_adressbook');
+				$old_use_contact    = $contactform_xml->read_section('email', 'use_contact');
+				$old_show_ce        = $contactform_xml->read_section('email', 'show_contactemail');
+				$old_lang           = $contactform_xml->read_section('email', 'language');
+				
+				$langExist = 1;
+			}
+			else {
+				$langExist = 0;
+			}
+		}
+		else{
+			$sqlAL = new sqlAbstractionLayer($choosenDB);
+			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			
+			$strQuery = "SELECT * "
+			."FROM ".$tcms_db_prefix."contactform "
+			."WHERE language = '".$getLang."'";
+			
+			$sqlQR = $sqlAL->sqlQuery($strQuery);
+			$langExist = $sqlAL->sqlGetNumber($sqlQR);
+			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+			
+			$old_show_cisb      = $sqlObj->show_contacts_in_sidebar;
+			$old_email          = $sqlObj->contact;
+			$old_contact_title  = $sqlObj->contacttitle;
+			$old_contact_stamp  = $sqlObj->contactstamp;
+			$old_contact_text   = $sqlObj->contacttext;
+			$old_send_id        = $sqlObj->send_id;
+			$old_cform_access   = $sqlObj->access;
+			$old_enabled        = $sqlObj->enabled;
+			$old_use_adressbook = $sqlObj->use_adressbook;
+			$old_use_contact    = $sqlObj->use_contact;
+			$old_show_ce        = $sqlObj->show_contactemail;
+			$old_lang           = $sqlObj->language;
+		}
+		
+		
+		if($langExist == 0) {
+			$old_send_id = 'contactform';
+			$old_lang = $getLang;
+		}
+		
+		
+		// CHARSETS
+		$old_email         = $tcms_main->decodeText($old_email, '2', $c_charset);
+		$old_contact_title = $tcms_main->decodeText($old_contact_title, '2', $c_charset);
+		$old_contact_stamp = $tcms_main->decodeText($old_contact_stamp, '2', $c_charset);
+		$old_contact_text  = $tcms_main->decodeText($old_contact_text, '2', $c_charset);
+		
+		$old_contact_title = htmlspecialchars($old_contact_title);
+		$old_contact_stamp = htmlspecialchars($old_contact_stamp);
+		$old_contact_text  = htmlspecialchars($old_contact_text);
+		
+		
+		switch(trim($show_wysiwyg)){
+			case 'tinymce':
+				//$old_front_text = str_replace('src="', 'src="../../', $old_front_text);
+				$old_contact_text = stripslashes($old_contact_text);
+				break;
+			
+			case 'fckeditor':
+				$old_contact_text = str_replace('src="', 'src="../../../../', $old_contact_text);
+				$old_contact_text = str_replace('src="../../../../http:', 'src="http:', $old_contact_text);
+				$old_contact_text = str_replace('src="../../../../https:', 'src="https:', $old_contact_text);
+				$old_contact_text = str_replace('src="../../../../ftp:', 'src="ftp:', $old_contact_text);
+				$old_contact_text = str_replace('src="../../../..//', 'src="/', $old_contact_text);
+				break;
+			
+			default:
+				$old_contact_text = ereg_replace('<br />'.chr(10), chr(13), $old_contact_text);
+				$old_contact_text = ereg_replace('<br />'.chr(13), chr(13), $old_contact_text);
+				$old_contact_text = ereg_replace('<br />', chr(13), $old_contact_text);
+				
+				$old_contact_text = ereg_replace('<br/>'.chr(10), chr(13), $old_contact_text);
+				$old_contact_text = ereg_replace('<br/>'.chr(13), chr(13), $old_contact_text);
+				$old_contact_text = ereg_replace('<br/>', chr(13), $old_contact_text);
+				
+				$old_contact_text = ereg_replace('<br>'.chr(10), chr(13), $old_contact_text);
+				$old_contact_text = ereg_replace('<br>'.chr(13), chr(13), $old_contact_text);
+				$old_contact_text = ereg_replace('<br>', chr(13), $old_contact_text);
+				break;
+		}
+		
+		
+		if($seoEnabled == 0 && $show_wysiwyg == 'tinymce'){
+			//$old_contact_text = str_replace('src="', 'src="../../', $old_contact_text);
+		}
+		
+		
+		// BEGIN FORM
+		echo '<form action="admin.php?id_user='.$id_user.'&amp;site=mod_extensions" method="post">'
+		.'<input name="lang_exist" type="hidden" value="'.$langExist.'" />';
+		
+		
+		// frontpage news settings
+		echo '<table width="100%" cellpadding="0" cellspacing="0" class="tcms_noborder">'
+		.'<tr class="tcms_bg_blue_01">'
+		.'<th valign="middle" align="left" class="tcms_db_title tcms_padding_mini">'._TCMS_ADMIN_EDIT_LANG.'</th>'
+		.'</tr></table>';
+		
+		echo $tcms_html->tableHeadNoBorder('1', '0', '0', '100%');
+		
+		// row
+		$link = 'admin.php?id_user='.$id_user.'&site=mod_extensions'
+		.'&amp;lang=';
+		
+		$js = ' onchange="document.location=\''.$link.'\' + this.value;"';
+		
+		echo '<tr><td class="tcms_padding_mini" width="300" valign="top">'
+		.'<strong class="tcms_bold">'._TCMS_LANGUAGE.'</strong>'
+		.'</td><td>'
+		.'<select class="tcms_select" id="new_lang" name="new_lang"'.$js.'>';
+		
+		foreach($languages['fine'] as $key => $value) {
+			if($old_lang == $languages['code'][$key])
+				$dl = ' selected="selected"';
+			else
+				$dl = '';
+			
+			echo '<option value="'.$value.'"'.$dl.'>'
+			.$languages['name'][$key]
+			.'</option>';
+		}
+		
+		echo '</select>'
+		.'</td></tr>';
+		
+		
+		// table end
+		echo '<tr><td class="tcms_padding_mini"><br /></td></tr>'
+		.$tcms_html->tableEnd();
+		
+		
+		
+		//table
+		echo $tcms_html->tableHeadNoBorder('1', '0', '0', '100%')
+		.'<input name="todo" type="hidden" value="save_cform" />'
+		.'<input name="_RELOCATE" id="_RELOCATE" type="hidden" value="0" />';
+		
+		
+		//table head
+		echo '<tr class="tcms_bg_blue_01"><td colspan="3" class="tcms_db_title tcms_padding_mini">'
+		.'<strong>'._EXT_CFORM.'</strong></td></tr>';
+		
+		
+		// table row
+		echo '<tr><td width="300" style="width: 300px !important;" class="tcms_padding_mini">'._TABLE_ENABLED.'</td>'
+		.'<td>'
+		.'<input type="radio" onchange="CHANGED = true;" name="new_enabled" id="config_offline0" value="0"'.($old_enabled == 0 ? ' checked="checked"' : '' ).' />'
+		.'<label for="config_offline0">No</label>'
+		.'<input type="radio" onchange="CHANGED = true;" name="new_enabled" id="config_offline1" value="1"'.($old_enabled == 1 ? ' checked="checked"' : '' ).' />'
+		.'<label for="config_offline1">Yes</label>'
+		.'</td></tr>';
+		
+		
+		// table rows
+		echo '<tr><td width="300" style="width: 300px !important;" class="tcms_padding_mini">'._EXT_CFORM_SHOW_CONTACTS_IN_SIDEBAR.'</td>'
+		.'<td colspan="2">'
+		.'<input type="checkbox" onchange="CHANGED = true;" name="use_show_cisb" '.( $old_show_cisb == 1 ? 'checked="checked"' : '' ).' value="1" /></td></tr>';
+		
+		
+		// table rows
+		echo '<tr><td width="300" style="width: 300px !important;" class="tcms_padding_mini">'._EXT_CFORM_USE_ADRESSBOOK.'</td>'
+		.'<td colspan="2">'
+		.'<input type="checkbox" onchange="CHANGED = true;" name="new_use_adressbook" '.( $old_use_adressbook == 1 ? 'checked="checked"' : '' ).' value="1" /></td></tr>';
+		
+		
+		// table rows
+		echo '<tr><td width="300" style="width: 300px !important;" class="tcms_padding_mini">'._EXT_CFORM_USE_CONTACTPERSON.'</td>'
+		.'<td colspan="2">'
+		.'<input type="checkbox" onchange="CHANGED = true;" name="new_use_contact" '.( $old_use_contact == 1 ? 'checked="checked"' : '' ).' value="1" /></td></tr>';
+		
+		
+		// table rows
+		echo '<tr><td width="300" style="width: 300px !important;" class="tcms_padding_mini">'._EXT_CFORM_SHOW_CONTACTEMAIL.'</td>'
+		.'<td colspan="2">'
+		.'<input type="checkbox" onchange="CHANGED = true;" name="new_show_ce" '.( $old_show_ce == 1 ? 'checked="checked"' : '' ).' value="1" /></td></tr>';
+		
+		
+		// table rows
+		echo '<tr><td class="tcms_padding_mini" valign="top">'._EXT_CFORM_ID.'</td>'
+		.'<td valign="top" colspan="2">'
+		.'<input name="new_send_id" onchange="CHANGED = true;" readonly class="tcms_input_small" value="'.$old_send_id.'" /></td></tr>';
+		
+		
+		// table row
+		echo '<tr><td class="tcms_padding_mini">'._TABLE_ACCESS.'</td>'
+		.'<td colspan="2">'
+		.'<select onchange="CHANGED = true;" name="cform_access" class="tcms_select">'
+			.'<option value="Public"'.( $old_cform_access == 'Public' ? ' selected="selected"' : '' ).'>'._TABLE_PUBLIC.'</option>'
+			.'<option value="Protected"'.( $old_cform_access == 'Protected' ? ' selected="selected"' : '' ).'>'._TABLE_PROTECTED.'</option>'
+			.'<option value="Private"'.( $old_cform_access == 'Private' ? ' selected="selected"' : '' ).'>'._TABLE_PRIVATE.'</option>'
+		.'</select></td></tr>';
+		
+		
+		// table rows
+		echo '<tr><td class="tcms_padding_mini" valign="top">'._EXT_CFORM_EMAIL.'</td>'
+		.'<td valign="top" colspan="2">'
+		.'<input onchange="CHANGED = true;" name="email" class="tcms_input_normal" value="'.$old_email.'" /></td></tr>';
+		
+		
+		// table rows
+		echo '<tr><td class="tcms_padding_mini" valign="top">'._EXT_CFORM_TITLE.'</td>'
+		.'<td valign="top" colspan="2">'
+		.'<input onchange="CHANGED = true;" name="tmp_contact_title" class="tcms_input_normal" value="'.$old_contact_title.'" /></td></tr>';
+		
+		
+		// table rows
+		echo '<tr><td class="tcms_padding_mini" valign="top">'._EXT_CFORM_SUBTITLE.'</td>'
+		.'<td valign="top" colspan="2">'
+		.'<input onchange="CHANGED = true;" name="contact_stamp" class="tcms_input_normal" value="'.$old_contact_stamp.'" /></td></tr>';
+		
+		
+		// table rows
+		echo '<tr><td valign="top" colspan="2"><br />'._TABLE_TEXT
+		.( $show_wysiwyg != 'fckeditor' ? '<br /><br />'
+		.'<script>'
+		.'createToendaToolbar(\'imp\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');'
+		.'</script>' : '' );
+		
+		if($show_wysiwyg != 'tinymce' && $show_wysiwyg != 'fckeditor') {
+			if($show_wysiwyg == 'toendaScript') {
+				echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'toendaScript\');</script>';
+			}
+			else {
+				echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'HTML\');</script>';
+			}
+		}
+		
+		echo '<br /><br />';
+		
+		if($show_wysiwyg == 'tinymce'){
+			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content" mce_editable="true">'
+			.$old_contact_text
+			.'</textarea>';
+		}
+		elseif($show_wysiwyg == 'fckeditor'){
+			$sBasePath = '../js/FCKeditor/';
+			
+			$oFCKeditor = new FCKeditor('content') ;
+			$oFCKeditor->BasePath = $sBasePath;
+			$oFCKeditor->Value = $old_contact_text;
+			$oFCKeditor->Create();
+		}
+		else{
+			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" id="content" name="content">'
+			.$old_contact_text
+			.'</textarea>';
+		}
+		
+		echo '<br /></td></tr>';
+		
+		
+		// table title
+		echo '<tr><td colspan="3"><br /></td></tr>';
+		
+		// Table end
+		echo '</table>';
+		
+		// Table end
+		echo '</form><br />';
 	}
-	else{
-		echo '<textarea class="tcms_textarea_huge" style="width: 95%;" id="content" name="content">'
-		.$old_contact_text
-		.'</textarea>';
-	}
-	
-	echo '<br /></td></tr>';
-	
-	
-	// table title
-	echo '<tr><td colspan="3"><br /></td></tr>';
-	
-	// Table end
-	echo '</table>';
-	
-	// Table end
-	echo '</form><br />';
 	
 	
 	
@@ -444,7 +447,7 @@ if($id_group == 'Developer'
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			if($lang_exist == '1') {
+			if($lang_exist > 0) {
 				$newSQLData = ''
 				.$tcms_db_prefix.'contactform.contact="'.$email.'", '
 				.$tcms_db_prefix.'contactform.show_contacts_in_sidebar='.$use_show_cisb.', '
@@ -464,7 +467,7 @@ if($id_group == 'Developer'
 							$tcms_db_prefix.'contactform', 
 							$newSQLData, 
 							'send_id', 
-							'contactform" AND language = "'.$setLang
+							'contactform" AND language = "'.$setLang, true
 						);
 						break;
 					
@@ -479,53 +482,35 @@ if($id_group == 'Developer'
 				}
 			}
 			else {
-				$newSQLData = ''
-				.$tcms_db_prefix.'contactform.show_contacts_in_sidebar='.$use_show_cisb.', '
-				.$tcms_db_prefix.'contactform.send_id="'.$new_send_id.'", '
-				.$tcms_db_prefix.'contactform.contacttitle="'.$tmp_contact_title.'", '
-				.$tcms_db_prefix.'contactform.contactstamp="'.$contact_stamp.'", '
-				.$tcms_db_prefix.'contactform.contacttext="'.$content.'", '
-				.$tcms_db_prefix.'contactform.access="'.$cform_access.'", '
-				.$tcms_db_prefix.'contactform.enabled='.$new_enabled.', '
-				.$tcms_db_prefix.'contactform.use_adressbook='.$new_use_adressbook.', '
-				.$tcms_db_prefix.'contactform.use_contact='.$new_use_contact.', '
-				.$tcms_db_prefix.'contactform.show_contactemail='.$new_show_ce;
 				switch($choosenDB){
 					case 'mysql':
-						$newSQLColumns = '`contact`, `news_title`, `news_stamp`, `news_text`, '
-						.'`news_image`, `use_comments`, `show_autor`, `show_autor_as_link`, '
-						.'`news_amount`, `access`, `news_cut`, `use_emoticons`, '
-						.'`language`, `use_gravatar`, `syn_amount`, `use_syn_title`, '
-						.'`use_rss091`, `use_rss10`, `use_rss20`, `use_atom03`, `use_opml`, '
-						.'`def_feed`, `use_trackback`, `use_timesince`, `readmore_link`, `news_spacing`';
+						$newSQLColumns = '`contact`, `show_contacts_in_sidebar`, '
+						.'`send_id`, `contacttitle`, `contactstamp`, `contacttext`, '
+						.'`access`, `enabled`, `use_adressbook`, `use_contact`, '
+						.'`show_contactemail`, `language`';
 						break;
 					
 					case 'pgsql':
-						$newSQLColumns = 'contact, news_title, news_stamp, news_text, '
-						.'"news_image", use_comments, show_autor, show_autor_as_link, '
-						.'news_amount, access, news_cut, "use_emoticons", '
-						.'"language", use_gravatar, syn_amount, use_syn_title, '
-						.'use_rss091, use_rss10, use_rss20, "use_atom03", "use_opml", '
-						.'def_feed, use_trackback, use_timesince, "readmore_link", "news_spacing"';
+						$newSQLColumns = 'contact, show_contacts_in_sidebar, '
+						.'send_id, contacttitle, "contactstamp", contacttext, '
+						.'access, enabled, use_adressbook, use_contact, '
+						.'show_contactemail, "language"';
 						break;
 					
 					case 'mssql':
-						$newSQLColumns = '[contact], [news_title], [news_stamp], [news_text], '
-						.'[news_image], [use_comments], [show_autor], [show_autor_as_link], '
-						.'[news_amount], [access], [news_cut], [use_emoticons], '
-						.'[language], [use_gravatar], [syn_amount], [use_syn_title], '
-						.'[use_rss091], [use_rss10], [use_rss20], [use_atom03], [use_opml], '
-						.'[def_feed], [use_trackback], [use_timesince], [readmore_link], [news_spacing]';
+						$newSQLColumns = '[contact], [show_contacts_in_sidebar], '
+						.'[send_id], [contacttitle], [contactstamp], [contacttext], '
+						.'[access], [enabled], [use_adressbook], [use_contact], '
+						.'[show_contactemail], [language]';
 						break;
 				}
 				
-				$newSQLData = "'".$email."', '".$news_mm_title."', '".$news_mm_stamp."', '".$content."', "
-				."'".$news_mm_image."', ".$new_use_comments.", ".$new_use_autor.", ".$new_use_autor_link.", "
-				.$new_news_mm_amount.", '".$news_mm_access."', ".$new_news_cut.", ".$use_emoticons.", "
-				."'".$setLang."', ".$use_gravatar.", ".$new_syn_amount.", ".$new_use_syn_title.", "
-				.$new_use_rss091.", ".$new_use_rss10.", ".$new_use_rss20.", ".$new_use_atom03.", ".$new_use_opml.", "
-				."'".$new_def_feed."', ".$new_use_trackback.", ".$new_use_timesince.", ".$new_readmore_link
-				.", ".$new_news_spacing;
+				$newSQLData = "'".$email."', ".$use_show_cisb.", "
+				."'".$new_send_id."', '".$tmp_contact_title."', "
+				."'".$contact_stamp."', '".$content."', "
+				."'".$cform_access."', ".$new_enabled.", "
+				.$new_use_adressbook.", ".$new_use_contact.", "
+				.$new_show_ce.", '".$setLang."'";
 				
 				$maintag = $tcms_main->getNewUID(11, 'contactform');
 				
@@ -539,9 +524,19 @@ if($id_group == 'Developer'
 		}
 		
 		
-		echo '<script>'
-		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_extensions\';'
-		.'</script>';
+		if($setLang != '') {
+			$setLang = $tcms_config->getLanguageCodeByTCMSCode($setLang);
+			
+			echo '<script>'
+			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_extensions'
+			.'&lang='.$setLang.'\''
+			.'</script>';
+		}
+		else {
+			echo '<script>'
+			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_extensions'
+			.'</script>';
+		}
 	}
 }
 else{

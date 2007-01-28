@@ -9,8 +9,7 @@
 | 
 | Help for toendaCMS
 |
-| File:		mod_help.php
-| Version:	0.1.2
+| File:	mod_help.php
 |
 +
 */
@@ -19,8 +18,69 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * Help for toendaCMS
+ *
+ * This is used for help and as a documents wiki wrapper.
+ *
+ * @version 0.1.3
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
-echo '<div class="tcms_help_title">toendaScript - Syntax Reference</div>';
+
+echo '<script type="text/javascript" src="../js/tabs/tabpane.js"></script>
+<link type="text/css" rel="StyleSheet" href="../js/tabs/css/luna/tab.css" />
+<!--<link type="text/css" rel="StyleSheet" href="../js/tabs/tabpane.css" />-->';
+
+
+/*
+	tabpane start
+*/
+
+echo '<div class="tab-pane" id="tab-pane-1">';
+
+
+/*
+	docu tab
+*/
+
+echo '<div class="tab-page" id="tab-page-docu">'
+.'<h2 class="tab">'._TCMS_DOCU.'</h2>';
+
+
+echo _DOCU_TEXT;
+echo '<br /><br />';
+
+
+echo '<iframe src="http://wiki.toendacms.com/index.php/Main_Page" class="tcms_help_frame" frameborder="1" />';
+
+$lang_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/var.xml', 'r');
+$tcms_lang = $lang_xml->read_section('global', 'lang');
+
+if(file_exists('documentation/documentation_'.$tcms_lang.'.html')) {
+	include('documentation_'.$tcms_lang.'.html');
+}
+else {
+	include('documentation_english_EN.html');
+}
+
+echo '</iframe>';
+
+
+echo '</div>';
+
+
+/*
+	mod tab
+*/
+
+echo '<div class="tab-page" id="tab-page-info">'
+.'<h2 class="tab">'._TCMS_HELP.'</h2>';
+
+
+echo '<div class="tcms_help_title">'._TCMS_TSCRIPT_SYNTAX_REF.'</div>';
 
 echo '<br /><table border="0" class="tcms_help_box" cellpadding="4" cellspacing="0">
 <tr class="tcms_help_box_title">
@@ -169,5 +229,22 @@ echo '<br /><table border="0" class="tcms_help_box" cellpadding="4" cellspacing=
 	<td class="tcms_help_bb" valign="top">Japanese</td>
 </tr>
 </table>';
+
+
+echo '</div>';
+
+
+/*
+	tabpane end
+*/
+
+echo '</div>'
+.'<script type="text/javascript">
+var tabPane1 = new WebFXTabPane(document.getElementById("tab-pane-1"));
+tabPane1.addTabPage(document.getElementById("tab-page-docu"));
+tabPane1.addTabPage(document.getElementById("tab-page-info"));
+setupAllTabs();
+</script>'
+.'<br />';
 
 ?>

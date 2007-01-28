@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the frontpage.
  *
- * @version 0.7.43
+ * @version 0.7.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -106,6 +106,8 @@ if($id_group == 'Developer'
 			if($old_sb_news_cut     == false){ $old_sb_news_cut     = ''; }
 			if($old_sb_enabled      == false){ $old_sb_enabled      = ''; }
 			if($old_sb_display      == false){ $old_sb_display      = ''; }
+			
+			$langExist = 1;
 		}
 		else {
 			$langExist = 0;
@@ -217,7 +219,8 @@ if($id_group == 'Developer'
 	<!--<link type="text/css" rel="StyleSheet" href="../js/tabs/tabpane.css" />-->';
 	
 	
-	echo '<form action="admin.php?id_user='.$id_user.'&amp;site=mod_frontpage" method="post" id="front">';
+	echo '<form action="admin.php?id_user='.$id_user.'&amp;site=mod_frontpage" method="post" id="front">'
+	.'<input name="lang_exist" type="hidden" value="'.$langExist.'" />';
 	
 	
 	// frontpage news settings
@@ -520,7 +523,7 @@ if($id_group == 'Developer'
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			if($lang_exist == '1') {
+			if($lang_exist > 0) {
 				$newSQLData = ''
 				.$tcms_db_prefix.'frontpage.front_id="'.$front_id.'", '
 				.$tcms_db_prefix.'frontpage.front_title="'.$front_title.'", '

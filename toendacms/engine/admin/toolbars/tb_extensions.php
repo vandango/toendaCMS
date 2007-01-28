@@ -7,9 +7,9 @@
 | Author: Jonathan Naumann                                               |
 +------------------------------------------------------------------------+
 | 
-| toendaCMS documentation
+| Toolbar for contactform configuration
 |
-| File:		mod_documentation.php
+| File:	tb_extensions.php
 |
 +
 */
@@ -19,35 +19,31 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 /**
- * toendaCMS documentation
+ * Toolbar for contactform configuration
  *
- * This is used as a documents wiki wrapper.
+ * This is used as toolbar for the contactform configuration.
  *
- * @version 0.0.4
+ * @version 0.0.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
  */
 
 
-echo tcms_html::bold(_DOCU_TITLE);
-echo _DOCU_TEXT;
-echo '<br /><br />';
+if(isset($_GET['type'])){ $type = $_GET['type']; }
 
 
-echo '<iframe src="http://wiki.toendacms.com/index.php/Main_Page" class="tcms_help_frame" frameborder="1" />';
-
-$lang_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/var.xml', 'r');
-$tcms_lang = $lang_xml->read_section('global', 'lang');
-
-if(file_exists('documentation/documentation_'.$tcms_lang.'.html')) {
-	include('documentation_'.$tcms_lang.'.html');
-}
-else {
-	include('documentation_english_EN.html');
+switch($todo){
+	default:
+		echo '<img src="../images/admin_menu/line.gif" border="0" />';
+		
+		echo '<a style="padding: 3px 3px 0 3px;" href="javascript:save();">'
+		.'<img title="'._TCMS_ADMIN_SAVE.'" alt="'._TCMS_ADMIN_SAVE.'"'
+		.' src="../images/admin_menu/save.png" border="0" />'
+		.'</a>';
+		break;
 }
 
-echo '</iframe>';
 
 
-?> 
+?>

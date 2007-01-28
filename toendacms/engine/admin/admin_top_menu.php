@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used as top menu.
  *
- * @version 0.9.4
+ * @version 0.9.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -200,9 +200,7 @@ $position_help = 509;
 				
 				
 				[null,'&nbsp;<? echo _TCMS_TOPMENU_HELP; ?>&nbsp;',null,null,null,
-					['<img src="../images/docu.gif" />','<? echo _TCMS_MENU_DOCU; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_documentation','_self',null], 
 					['<img src="../images/help.png" />','<? echo _TCMS_MENU_HELP; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_help','_self',null], 
-					['<img src="../images/license.png" />','<? echo _TCMS_MENU_COPY; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_copyright','_self',null], 
 					['<img src="../images/info.png" />','<? echo _TCMS_MENU_CREDITS; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_credits','_self',null], 
 					['<img src="../images/about.png" />','<? echo _TCMS_MENU_ABOUT; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_about','_self',null]
 				]
@@ -359,9 +357,7 @@ $position_help = 509;
 				
 				
 				[null,'&nbsp;<? echo _TCMS_TOPMENU_HELP; ?>&nbsp;',null,null,null,
-					['<img src="../images/docu.gif" />','<? echo _TCMS_MENU_DOCU; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_documentation','_self',null], 
 					['<img src="../images/help.png" />','<? echo _TCMS_MENU_HELP; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_help','_self',null], 
-					['<img src="../images/license.png" />','<? echo _TCMS_MENU_COPY; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_copyright','_self',null], 
 					['<img src="../images/info.png" />','<? echo _TCMS_MENU_CREDITS; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_credits','_self',null], 
 					['<img src="../images/about.png" />','<? echo _TCMS_MENU_ABOUT; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_about','_self',null]
 				]

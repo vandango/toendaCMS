@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a info provider.
  *
- * @version 0.1.7
+ * @version 0.1.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -40,8 +40,12 @@ if(isset($_POST['action'])){ $action = $_POST['action']; }
 // INIT
 // --------------------------------------------------------------------
 
-$credits_xml = new xmlparser('../../engine/tcms_kernel/tcms_copyright.xml','r');
-$credits = $credits_xml->read_value('credits');
+$lxml = new xmlparser('../../engine/tcms_kernel/tcms_copyright.xml','r');
+$credits = $lxml->read_value('credits');
+$copy    = $lxml->read_value('copy');
+$lxml->flush();
+$lxml->_xmlparser();
+unset($lxml);
 
 $cs_version = ''
 .$tcms_version->getName().' - '.$tcms_version->getTagline().'!'
@@ -177,6 +181,21 @@ echo '</div>';
 
 
 /*
+	licence tab
+*/
+
+echo '<div class="tab-page" id="tab-page-licence">'
+.'<h2 class="tab">'._TCMS_MENU_COPY.'</h2>';
+
+
+echo $copy;
+echo '<br /><br />';
+
+
+echo '</div>';
+
+
+/*
 	tabpane end
 */
 
@@ -185,6 +204,7 @@ echo '</div>'
 var tabPane1 = new WebFXTabPane(document.getElementById("tab-pane-1"));
 tabPane1.addTabPage(document.getElementById("tab-page-info"));
 tabPane1.addTabPage(document.getElementById("tab-page-php"));
+tabPane1.addTabPage(document.getElementById("tab-page-licence"));
 setupAllTabs();
 </script>'
 .'<br />';
