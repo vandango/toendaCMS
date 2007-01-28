@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used as top menu.
  *
- * @version 0.9.3
+ * @version 0.9.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -177,7 +177,7 @@ $position_help = 509;
 						['<img src="../images/config.png" />', '<? echo _TCMS_ADMIN_CONFIG; ?>', 'admin.php?id_user=<? echo $id_user; ?>&site=mod_frontpage&todo=config', '_self', null]
 					], 
 					['<img src="../images/extensions.gif" />','<? echo _TCMS_MENU_CFORM; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_extensions','_self',null], 
-					['<img src="../images/extensions.gif" />','<? echo _TCMS_MENU_BOOK; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_guestbook_config','_self',null], 
+					['<img src="../images/guests.gif" />','<? echo _TCMS_MENU_BOOK; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_guestbook_config','_self',null], 
 					['<img src="../images/impressum.png" />','<? echo _TCMS_MENU_IMP; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_impressum','_self',null]
 				<? } ?>
 				], 
@@ -288,7 +288,7 @@ $position_help = 509;
 					], 
 					['<img src="../images/extensions.gif" />','<? echo _TCMS_MENU_SIDE.' '._TCMS_MENU_SIDEEXT; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_side_extensions','_self',null], 
 					['<img src="../images/extensions.gif" />','<? echo _TCMS_MENU_CFORM; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_extensions','_self',null], 
-					['<img src="../images/extensions.gif" />','<? echo _TCMS_MENU_BOOK; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_guestbook_config','_self',null], 
+					['<img src="../images/guests.gif" />','<? echo _TCMS_MENU_BOOK; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_guestbook_config','_self',null], 
 					['<img src="../images/impressum.png" />','<? echo _TCMS_MENU_IMP; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_impressum','_self',null],
 				<? } ?>
 					['<img src="../images/config.gif" />','<? echo _TCMS_MENU_GLOBAL; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_global','_self',null], 
