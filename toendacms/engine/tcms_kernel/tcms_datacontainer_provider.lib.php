@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 0.6.5
+ * @version 0.6.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -138,11 +138,12 @@ class tcms_datacontainer_provider extends tcms_main {
 	/**
 	 * Get a news data container
 	 *
+	 * @param String $language
 	 * @param String $newsID = ''
 	 * @param String $usergroup = ''
 	 * @return tcms_news_dc Object
 	 */
-	function getNewsDC($newsID, $usergroup){
+	function getNewsDC($language, $newsID, $usergroup){
 		$newsDC = new tcms_dc_news();
 		
 		if($this->m_choosenDB == 'xml'){
@@ -210,6 +211,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$sqlStr = "SELECT * "
 			."FROM ".$this->m_sqlPrefix."news "
 			."WHERE uid = '".$newsID."' "
+			."AND language = '".$language."' "
 			."AND ( access = 'Public' "
 			.$strAdd;
 			
@@ -255,20 +257,20 @@ class tcms_datacontainer_provider extends tcms_main {
 		$wsAutor = $this->decodeText($wsAutor, '2', $this->m_CHARSET);
 		$wsNews  = $this->decodeText($wsNews, '2', $this->m_CHARSET);
 		
-		$newsDC->SetTitle($wsTitle);
-		$newsDC->SetAutor($wsAutor);
-		$newsDC->SetDate($wsDate);
-		$newsDC->SetTime($wsTime);
-		$newsDC->SetText($wsNews);
-		$newsDC->SetID($wsOrder);
-		$newsDC->SetTimestamp($wsStamp);
-		$newsDC->SetPublished($wsPub);
-		$newsDC->SetPublishDate($wsPubD);
-		$newsDC->SetCommentsEnabled($wsCmt);
-		$newsDC->SetImage($wsImage);
-		$newsDC->SetCategories($wsCat);
-		$newsDC->SetAccess($wsAcs);
-		$newsDC->SetShowOnFrontpage($wsSOF);
+		$newsDC->setTitle($wsTitle);
+		$newsDC->setAutor($wsAutor);
+		$newsDC->setDate($wsDate);
+		$newsDC->setTime($wsTime);
+		$newsDC->setText($wsNews);
+		$newsDC->setID($wsOrder);
+		$newsDC->setTimestamp($wsStamp);
+		$newsDC->setPublished($wsPub);
+		$newsDC->setPublishDate($wsPubD);
+		$newsDC->setCommentsEnabled($wsCmt);
+		$newsDC->setImage($wsImage);
+		$newsDC->setCategories($wsCat);
+		$newsDC->setAccess($wsAcs);
+		$newsDC->setShowOnFrontpage($wsSOF);
 		
 		return $newsDC;
 	}
@@ -278,13 +280,14 @@ class tcms_datacontainer_provider extends tcms_main {
 	/**
 	 * Get a list of news data container
 	 * 
+	 * @param String $language
 	 * @param String $usergroup
 	 * @param Integer $amount
 	 * @param String $published = '1'
 	 * @param Boolean $withShowOnFrontpage = false
 	 * @return tcms_news_dc Object Array
 	 */
-	function getNewsDCList($usergroup = '', $amount, $published = '1', $withShowOnFrontpage = false){
+	function getNewsDCList($language, $usergroup = '', $amount, $published = '1', $withShowOnFrontpage = false){
 		$doFill = false;
 		
 		if($this->m_choosenDB == 'xml'){
@@ -416,20 +419,20 @@ class tcms_datacontainer_provider extends tcms_main {
 					if($all) {
 						$newsDC = new tcms_dc_news();
 						
-						$newsDC->SetTitle($arr_news['title'][$n_key]);
-						$newsDC->SetAutor($arr_news['autor'][$n_key]);
-						$newsDC->SetDate($arr_news['date'][$n_key]);
-						$newsDC->SetTime($arr_news['time'][$n_key]);
-						$newsDC->SetText($arr_news['news'][$n_key]);
-						$newsDC->SetID($arr_news['order'][$n_key]);
-						$newsDC->SetTimestamp($arr_news['stamp'][$n_key]);
-						$newsDC->SetPublished($arr_news['pub'][$n_key]);
-						$newsDC->SetPublishDate($arr_news['pubd'][$n_key]);
-						$newsDC->SetCommentsEnabled($arr_news['cmt'][$n_key]);
-						$newsDC->SetImage($arr_news['image'][$n_key]);
-						$newsDC->SetCategories($arr_news['cat'][$n_key]);
-						$newsDC->SetAccess($arr_news['acs'][$n_key]);
-						$newsDC->SetShowOnFrontpage($arr_news['sof'][$n_key]);
+						$newsDC->setTitle($arr_news['title'][$n_key]);
+						$newsDC->setAutor($arr_news['autor'][$n_key]);
+						$newsDC->setDate($arr_news['date'][$n_key]);
+						$newsDC->setTime($arr_news['time'][$n_key]);
+						$newsDC->setText($arr_news['news'][$n_key]);
+						$newsDC->setID($arr_news['order'][$n_key]);
+						$newsDC->setTimestamp($arr_news['stamp'][$n_key]);
+						$newsDC->setPublished($arr_news['pub'][$n_key]);
+						$newsDC->setPublishDate($arr_news['pubd'][$n_key]);
+						$newsDC->setCommentsEnabled($arr_news['cmt'][$n_key]);
+						$newsDC->setImage($arr_news['image'][$n_key]);
+						$newsDC->setCategories($arr_news['cat'][$n_key]);
+						$newsDC->setAccess($arr_news['acs'][$n_key]);
+						$newsDC->setShowOnFrontpage($arr_news['sof'][$n_key]);
 						
 						$arrReturn[$count] = $newsDC;
 						
@@ -476,6 +479,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$sqlStr = "SELECT * "
 			."FROM ".$this->m_sqlPrefix."news "
 			."WHERE published = ".$published." "
+			."AND language = '".$language."' "
 			."AND ( access = 'Public' "
 			.$strAdd
 			.$strAddSOF
@@ -541,20 +545,20 @@ class tcms_datacontainer_provider extends tcms_main {
 						$wsAutor = $this->decodeText($wsAutor, '2', $this->m_CHARSET);
 						$wsNews  = $this->decodeText($wsNews, '2', $this->m_CHARSET);
 						
-						$newsDC->SetTitle($wsTitle);
-						$newsDC->SetAutor($wsAutor);
-						$newsDC->SetDate($wsDate);
-						$newsDC->SetTime($wsTime);
-						$newsDC->SetText($wsNews);
-						$newsDC->SetID($wsOrder);
-						$newsDC->SetTimestamp($wsStamp);
-						$newsDC->SetPublished($wsPub);
-						$newsDC->SetPublishDate($wsPubD);
-						$newsDC->SetCommentsEnabled($wsCmt);
-						$newsDC->SetImage($wsImage);
-						$newsDC->SetCategories($wsCat);
-						$newsDC->SetAccess($wsAcs);
-						$newsDC->SetShowOnFrontpage($wsSOF);
+						$newsDC->setTitle($wsTitle);
+						$newsDC->setAutor($wsAutor);
+						$newsDC->setDate($wsDate);
+						$newsDC->setTime($wsTime);
+						$newsDC->setText($wsNews);
+						$newsDC->setID($wsOrder);
+						$newsDC->setTimestamp($wsStamp);
+						$newsDC->setPublished($wsPub);
+						$newsDC->setPublishDate($wsPubD);
+						$newsDC->setCommentsEnabled($wsCmt);
+						$newsDC->setImage($wsImage);
+						$newsDC->setCategories($wsCat);
+						$newsDC->setAccess($wsAcs);
+						$newsDC->setShowOnFrontpage($wsSOF);
 						
 						$arrReturn[$count] = $newsDC;
 						
@@ -576,13 +580,14 @@ class tcms_datacontainer_provider extends tcms_main {
 	/**
 	 * ReGenerate the news syndication feeds
 	 * 
+	 * @param String $language
 	 * @param String $defaultFormat = 'RSS2.0'
 	 * @param String $seoFolder = ''
 	 * @param Boolean $admin = false
 	 * @param Integer $amount = 5
 	 * @param Boolean $show_autor = false
 	 */
-	function generateFeed($defaultFormat = 'RSS2.0', $seoFolder = '', $admin = false, $amount = 5, $show_autor = false) {
+	function generateFeed($language, $defaultFormat = 'RSS2.0', $seoFolder = '', $admin = false, $amount = 5, $show_autor = false) {
 		if($admin) {
 			using('toendacms.tools.feedcreator.feedcreator_class', false, true);
 			using('toendacms.kernel.script', false, true);
@@ -641,7 +646,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$imagePath = '/';
 		}
 		
-		$arrNewsDC = $this->getNewsDCList('Guest', $amount, '1', true);
+		$arrNewsDC = $this->getNewsDCList($language, 'Guest', $amount, '1', true);
 		
 		if($this->isReal($arrNewsDC)) {
 			foreach($arrNewsDC as $n_key => $n_value){
@@ -649,32 +654,32 @@ class tcms_datacontainer_provider extends tcms_main {
 				$dcNews = $arrNewsDC[$n_key];
 				
 				$dcAcc = new tcms_dc_account();
-				$dcAcc = $_tcms_ap->getAccountByUsername($dcNews->GetAutor());
+				$dcAcc = $_tcms_ap->getAccountByUsername($dcNews->getAutor());
 				
 				$item = new FeedItem();
 				
-				$item->title = $dcNews->GetTitle();
-				$item->link = $wsowner_url.$seoFolder.'/?id=newsmanager&news='.$dcNews->GetID();
+				$item->title = $dcNews->getTitle();
+				$item->link = $wsowner_url.$seoFolder.'/?id=newsmanager&news='.$dcNews->getID();
 				
 				$toendaScript = new toendaScript();
-				$news_content = $toendaScript->checkSEO($dcNews->GetText(), $imagePath);
+				$news_content = $toendaScript->checkSEO($dcNews->getText(), $imagePath);
 				$news_content = $toendaScript->cutAtTcmsMoreTag($news_content);
 				
 				$item->description = $news_content;
 				$item->date = mktime(
-					substr($dcNews->GetTime(), 0, 2), 
-					substr($dcNews->GetTime(), 3, 2), 
+					substr($dcNews->getTime(), 0, 2), 
+					substr($dcNews->getTime(), 3, 2), 
 					0, 
-					substr($dcNews->GetDate(), 3, 2), 
-					substr($dcNews->GetDate(), 0, 2), 
-					substr($dcNews->GetDate(), 6, 4)
+					substr($dcNews->getDate(), 3, 2), 
+					substr($dcNews->getDate(), 0, 2), 
+					substr($dcNews->getDate(), 6, 4)
 				);
 				$item->source = $wsowner_url;
 				
-				$item->author = ( $show_autor == 1 ? $dcNews->GetAutor() : $wsowner );
+				$item->author = ( $show_autor == 1 ? $dcNews->getAutor() : $wsowner );
 				
 				if($show_autor == 1)
-					$item->authorEmail = $dcAcc->GetEmail();
+					$item->authorEmail = $dcAcc->getEmail();
 				
 				$rss->addItem($item);
 				
@@ -763,16 +768,16 @@ class tcms_datacontainer_provider extends tcms_main {
 					foreach($arr_news['time'] as $n_key => $n_value){
 						$commentDC = new tcms_dc_comment();
 						
-						$commentDC->SetName($arr_news['name'][$n_key]);
-						$commentDC->SetEMail($arr_news['email'][$n_key]);
-						$commentDC->SetURL($arr_news['url'][$n_key]);
-						$commentDC->SetModule($module);
-						$commentDC->SetText($arr_news['text'][$n_key]);
-						$commentDC->SetDomain($arr_news['domain'][$n_key]);
-						$commentDC->SetIP($arr_news['ip'][$n_key]);
-						$commentDC->SetID($arr_news['id'][$n_key]);
-						$commentDC->SetTime($arr_news['time'][$n_key]);
-						$commentDC->SetTimestamp($arr_news['time'][$n_key]);
+						$commentDC->setName($arr_news['name'][$n_key]);
+						$commentDC->setEMail($arr_news['email'][$n_key]);
+						$commentDC->setURL($arr_news['url'][$n_key]);
+						$commentDC->setModule($module);
+						$commentDC->setText($arr_news['text'][$n_key]);
+						$commentDC->setDomain($arr_news['domain'][$n_key]);
+						$commentDC->setIP($arr_news['ip'][$n_key]);
+						$commentDC->setID($arr_news['id'][$n_key]);
+						$commentDC->setTime($arr_news['time'][$n_key]);
+						$commentDC->setTimestamp($arr_news['time'][$n_key]);
 						
 						$arrReturn[$count] = $commentDC;
 						
@@ -826,16 +831,16 @@ class tcms_datacontainer_provider extends tcms_main {
 					
 					$wsMsg = $this->decodeText($wsMsg, '2', $this->m_CHARSET);
 					
-					$commentDC->SetName($wsName);
-					$commentDC->SetEMail($wEMail);
-					$commentDC->SetURL($wsWeb);
-					$commentDC->SetModule($wsModule);
-					$commentDC->SetText($wsMsg);
-					$commentDC->SetDomain($wsDomain);
-					$commentDC->SetIP($wsIP);
-					$commentDC->SetID($wsID);
-					$commentDC->SetTime($wsTime);
-					$commentDC->SetTimestamp($wsStamp);
+					$commentDC->setName($wsName);
+					$commentDC->setEMail($wEMail);
+					$commentDC->setURL($wsWeb);
+					$commentDC->setModule($wsModule);
+					$commentDC->setText($wsMsg);
+					$commentDC->setDomain($wsDomain);
+					$commentDC->setIP($wsIP);
+					$commentDC->setID($wsID);
+					$commentDC->setTime($wsTime);
+					$commentDC->setTimestamp($wsStamp);
 					
 					$arrReturn[$count] = $commentDC;
 					
@@ -991,20 +996,20 @@ class tcms_datacontainer_provider extends tcms_main {
 		$wsSecondText = $this->decodeText($wsSecondText, '2', $this->m_CHARSET);
 		$wsFootText   = $this->decodeText($wsFootText, '2', $this->m_CHARSET);
 		
-		$contentDC->SetTitle($wsTitle);
-		$contentDC->SetKeynote($wsKeynote);
-		$contentDC->SetText($wsText);
-		$contentDC->SetSecondContent($wsSecondText);
-		$contentDC->SetFootText($wsFootText);
-		$contentDC->SetAutor($wsAutor);
-		$contentDC->SetTextLayout($wsLayout);
-		$contentDC->SetID($wsID);
-		$contentDC->SetInWorkState($wsInWork);
-		$contentDC->SetPublished($wsPub);
-		$contentDC->SetAccess($wsAcs);
+		$contentDC->setTitle($wsTitle);
+		$contentDC->setKeynote($wsKeynote);
+		$contentDC->setText($wsText);
+		$contentDC->setSecondContent($wsSecondText);
+		$contentDC->setFootText($wsFootText);
+		$contentDC->setAutor($wsAutor);
+		$contentDC->setTextLayout($wsLayout);
+		$contentDC->setID($wsID);
+		$contentDC->setInWorkState($wsInWork);
+		$contentDC->setPublished($wsPub);
+		$contentDC->setAccess($wsAcs);
 		
 		if($withLanguages && $no > 0) {
-			$contentDC->SetLanguage($wsLang);
+			$contentDC->setLanguage($wsLang);
 		}
 		
 		return $contentDC;
@@ -1551,17 +1556,17 @@ class tcms_datacontainer_provider extends tcms_main {
 		if($arrASM['use_sidebar']        == false) $arrASM['use_sidebar']        = '';
 		if($arrASM['use_poll']           == false) $arrASM['use_poll']           = '';
 		
-		$sbmDC->SetSideGallery($arrASM['use_side_gallery']);
-		$sbmDC->SetLayoutChooser($arrASM['use_layout_chooser']);
-		$sbmDC->SetSideLinks($arrASM['use_side_links']);
-		$sbmDC->SetLogin($arrASM['use_login']);
-		$sbmDC->SetSideCategory($arrASM['use_side_category']);
-		$sbmDC->SetSideArchive($arrASM['use_side_archives']);
-		$sbmDC->SetSyndication($arrASM['use_syndication']);
-		$sbmDC->SetNewsletter($arrASM['use_newsletter']);
-		$sbmDC->SetSearch($arrASM['use_search']);
-		$sbmDC->SetSidebar($arrASM['use_sidebar']);
-		$sbmDC->SetPoll($arrASM['use_poll']);
+		$sbmDC->setSideGallery($arrASM['use_side_gallery']);
+		$sbmDC->setLayoutChooser($arrASM['use_layout_chooser']);
+		$sbmDC->setSideLinks($arrASM['use_side_links']);
+		$sbmDC->setLogin($arrASM['use_login']);
+		$sbmDC->setSideCategory($arrASM['use_side_category']);
+		$sbmDC->setSideArchive($arrASM['use_side_archives']);
+		$sbmDC->setSyndication($arrASM['use_syndication']);
+		$sbmDC->setNewsletter($arrASM['use_newsletter']);
+		$sbmDC->setSearch($arrASM['use_search']);
+		$sbmDC->setSidebar($arrASM['use_sidebar']);
+		$sbmDC->setPoll($arrASM['use_poll']);
 		
 		return $sbmDC;
 	}

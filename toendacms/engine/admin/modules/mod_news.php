@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the news.
  *
- * @version 1.5.3
+ * @version 1.5.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -79,6 +79,7 @@ if(isset($_POST['new_news_spacing'])){ $new_news_spacing = $_POST['new_news_spac
 if(isset($_POST['new_sof'])){ $new_sof = $_POST['new_sof']; }
 if(isset($_POST['new_news_lang'])){ $new_news_lang = $_POST['new_news_lang']; }
 if(isset($_POST['lang_exist'])){ $lang_exist = $_POST['lang_exist']; }
+if(isset($_POST['language'])){ $language = $_POST['language']; }
 
 
 
@@ -737,6 +738,7 @@ if($todo == 'show'){
 			$arr_news['acc'][$count]   = $sqlObj->access;
 			$arr_news['autor'][$count] = $sqlObj->autor;
 			$arr_news['sof'][$count]   = $sqlObj->show_on_frontpage;
+			$arr_news['lang'][$count]  = $sqlObj->language;
 			
 			if($arr_news['order'][$count] == NULL){ $arr_news['order'][$count] = ''; }
 			if($arr_news['title'][$count] == NULL){ $arr_news['title'][$count] = ''; }
@@ -747,6 +749,7 @@ if($todo == 'show'){
 			if($arr_news['acc'][$count]   == NULL){ $arr_news['acc'][$count]   = ''; }
 			if($arr_news['autor'][$count] == NULL){ $arr_news['autor'][$count] = ''; }
 			if($arr_news['sof'][$count]   == NULL){ $arr_news['sof'][$count]   = 1; }
+			if($arr_news['lang'][$count]  == NULL){ $arr_news['lang'][$count]  = ''; }
 			
 			// CHARSETS
 			$arr_news['title'][$count] = $tcms_main->decodeText($arr_news['title'][$count], '2', $c_charset);
@@ -761,7 +764,8 @@ if($todo == 'show'){
 	echo '<table cellpadding="3" cellspacing="0" border="0" class="noborder">';
 	echo '<tr class="tcms_bg_blue_01">'
 		.'<th valign="middle" class="tcms_db_title" width="10%" colspan="2">'._TABLE_DATE.'</th>'
-		.'<th valign="middle" class="tcms_db_title" width="55%" align="left">'._TABLE_TITLE.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="45%" align="left">'._TABLE_TITLE.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="10%" align="left">'._TCMS_LANGUAGE.'</th>'
 		.'<th valign="middle" class="tcms_db_title" width="10%" align="left">'._TABLE_AUTOR.'</th>'
 		.'<th valign="middle" class="tcms_db_title" width="5%" align="left">'._TABLE_PUBLISHED.'</th>'
 		.'<th valign="middle" class="tcms_db_title" width="5%" align="center">'._TABLE_COMMENTS.'</th>'
@@ -818,6 +822,10 @@ if($todo == 'show'){
 					.'</td>';
 					
 					echo '<td class="tcms_db_2"'.$strJS.'>'
+					.( !$tcms_main->isReal($arr_news['lang'][$count]) ? '&nbsp;' : $arr_news['lang'][$count] )
+					.'</td>';
+					
+					echo '<td class="tcms_db_2"'.$strJS.'>'
 					.( !$tcms_main->isReal($arr_news['autor'][$count]) ? '&nbsp;' : $arr_news['autor'][$count] )
 					.'</td>';
 					
@@ -860,7 +868,7 @@ if($todo == 'show'){
 		
 		
 		echo '<tr class="tcms_bg_blue_01">'
-		.'<td height="18" align="center" class="tcms_db_title tcms_padding_mini" colspan="9"'
+		.'<td height="18" align="center" class="tcms_db_title tcms_padding_mini" colspan="10"'
 		.'<strong>';
 		
 		if($minValue > 0 || $maxValue == $morePages){
@@ -1040,6 +1048,7 @@ if($todo == 'edit'){
 			$nws_image        = $sqlObj->image;
 			$nws_access       = $sqlObj->access;
 			$nws_sof          = $sqlObj->show_on_frontpage;
+			$nws_lang         = $sqlObj->language;
 			
 			if($nws_title        == NULL){ $nws_title        = ''; }
 			if($nws_autor        == NULL){ $nws_autor        = ''; }
@@ -1054,6 +1063,7 @@ if($todo == 'edit'){
 			if($nws_image        == NULL){ $nws_image        = ''; }
 			if($nws_access       == NULL){ $nws_access       = ''; }
 			if($nws_sof          == NULL){ $nws_sof          = ''; }
+			if($nws_lang         == NULL){ $nws_lang         = ''; }
 			
 			
 			unset($sqlARR);
@@ -1109,6 +1119,7 @@ if($todo == 'edit'){
 		$nws_cat          = '';
 		$nws_access       = 'Public';
 		$nws_sof          = 1;
+		$nws_lang         = $tcms_config->getLanguageFrontend();
 		
 		echo tcms_html::bold(_TABLE_NEW);
 		$edit_add_news = _NEWS_EDIT_CURRENT;
@@ -1305,9 +1316,34 @@ if($todo == 'edit'){
 			.'<table cellpadding="1" cellspacing="5" width="100%" border="0" class="noborder">';
 			
 			
+			// row
+			echo '<tr><td valign="top" width="'.$width.'">'
+			.'<strong class="tcms_bold">'._TCMS_LANGUAGE.'</strong>'
+			.'</td><td>'
+			.'<select class="tcms_select" id="language" name="language">';
+			
+			foreach($languages['code'] as $key => $value) {
+				if($value != $tcms_config->getLanguageCode(true)) {
+					if($nws_lang == $value)
+						$dl = ' selected="selected"';
+					else
+						$dl = '';
+					
+					echo '<option value="'.$value.'"'.$dl.'>'
+					.$languages['name'][$key]
+					.'</option>';
+				}
+			}
+			
+			echo '</select>'
+			.'</td></tr>';
+			
+			
 			// table row
-			echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._TABLE_AUTOR.'</strong></td>'
-			.'<td valign="top"><select class="tcms_select" name="autor">';
+			echo '<tr><td valign="top" width="'.$width.'">'
+			.'<strong class="tcms_bold">'._TABLE_AUTOR.'</strong>'
+			.'</td><td valign="top">'
+			.'<select class="tcms_select" name="autor">';
 			
 			if($id_group == 'Developer' || $id_group == 'Administrator'){
 				echo '<optgroup label="'._USER_SELF.'">'
@@ -1808,6 +1844,7 @@ if($todo == 'save'){
 		$xmluser->write_value('category', $new_cat);
 		$xmluser->write_value('access', $new_access);
 		$xmluser->write_value('show_on_frontpage', $new_sof);
+		$xmluser->write_value('language', $language);
 		
 		$xmluser->xml_section_buffer();
 		$xmluser->xml_section_end('news');
@@ -1829,6 +1866,7 @@ if($todo == 'save'){
 		.$tcms_db_prefix.'news.comments_enabled='.$new_comments_en.', '
 		.$tcms_db_prefix.'news.image="'.$news_image.'", '
 		.$tcms_db_prefix.'news.access="'.$new_access.'", '
+		.$tcms_db_prefix.'news.language="'.$language.'", '
 		.$tcms_db_prefix.'news.show_on_frontpage='.$new_sof;
 		
 		$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'news', $newSQLData, $maintag);
@@ -1860,7 +1898,9 @@ if($todo == 'save'){
 		$sqlAL->sqlFreeResult($sqlQR);
 	}
 	
-	$tcms_dcp->generateFeed($defaultFeed, $seoFolder, true, $synAmount, $showAutor);
+	$getLang = $tcms_config->getLanguageFrontend();
+	
+	$tcms_dcp->generateFeed($getLang, $defaultFeed, $seoFolder, true, $synAmount, $showAutor);
 	
 	echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_news\'</script>';
 }
@@ -1978,6 +2018,7 @@ if($todo == 'next'){
 		$xmluser->write_value('category', $new_cat);
 		$xmluser->write_value('access', $new_access);
 		$xmluser->write_value('show_on_frontpage', $new_sof);
+		$xmluser->write_value('language', $language);
 		
 		$xmluser->xml_section_buffer();
 		$xmluser->xml_section_end('news');
@@ -1994,23 +2035,23 @@ if($todo == 'next'){
 		switch($choosenDB){
 			case 'mysql':
 				$newSQLColumns = '`title`, `autor`, `date`, `time`, `newstext`, `stamp`, `published`, '
-				.'`publish_date`, `comments_enabled`, `image`, `access`, `show_on_frontpage`';
+				.'`publish_date`, `comments_enabled`, `image`, `access`, `show_on_frontpage`, `language`';
 				break;
 			
 			case 'pgsql':
 				$newSQLColumns = 'title, autor, date, "time", newstext, stamp, published, '
-				.'publish_date, comments_enabled, image, "access", "show_on_frontpage"';
+				.'publish_date, comments_enabled, image, "access", "show_on_frontpage", "language"';
 				break;
 			
 			case 'mssql':
 				$newSQLColumns = '[title], [autor], [date], [time], [newstext], [stamp], [published], '
-				.'[publish_date], [comments_enabled], [image], [access], [show_on_frontpage]';
+				.'[publish_date], [comments_enabled], [image], [access], [show_on_frontpage], [language]';
 				break;
 		}
 		
 		$newSQLData = "'".$titel."', '".$autor."', '".$new_date."', '".$new_time."', '".$content."', "
 		.$stamp.", ".$new_published.", '".$new_publish_date."', ".$new_comments_en.", '".$news_image."', "
-		."'".$new_access."', ".$new_sof;
+		."'".$new_access."', ".$new_sof.", '".$language."'";
 		
 		$sqlQR = $sqlAL->sqlCreateOne($tcms_db_prefix.'news', $newSQLColumns, $newSQLData, $maintag);
 	}
@@ -2041,7 +2082,9 @@ if($todo == 'next'){
 		$sqlAL->sqlFreeResult($sqlQR);
 	}
 	
-	$tcms_dcp->generateFeed($defaultFeed, $seoFolder, true, $synAmount, $showAutor);
+	$getLang = $tcms_config->getLanguageFrontend();
+	
+	$tcms_dcp->generateFeed($getLang, $defaultFeed, $seoFolder, true, $synAmount, $showAutor);
 	
 	echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_news\'</script>';
 }
@@ -2249,7 +2292,9 @@ if($todo == 'delete'){
 		$sqlAL->sqlFreeResult($sqlQR);
 	}
 	
-	$tcms_dcp->generateFeed($defaultFeed, $seoFolder, true, $synAmount, $showAutor);
+	$getLang = $tcms_config->getLanguageFrontend();
+	
+	$tcms_dcp->generateFeed($getLang, $defaultFeed, $seoFolder, true, $synAmount, $showAutor);
 	
 	echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_news\';</script>';
 }

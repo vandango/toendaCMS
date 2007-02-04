@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a news manager with a news,
  * a news view and a archive with different formats.
  *
- * @version 1.2.8
+ * @version 1.3.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -58,6 +58,8 @@ if(isset($_POST['trackback_url'])){ $trackback_url = $_POST['trackback_url']; }
 	init
 */
 
+$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
+
 using('toendacms.datacontainer.news');
 
 $hr_line_1 = '<tr class="hr_line"><td colspan="2"></td></tr>';
@@ -75,7 +77,11 @@ if(isset($day)){ $news = ''; $cmd = ''; $cat = ''; $date = ''; }
 
 if($news == 'start' || $news == 'archive'){
 	if($cat == '' || !isset($cat)){
-		echo $tcms_html->contentModuleHeader($news_title, $news_stamp, $news_maintext);
+		echo $tcms_html->contentModuleHeader(
+			$news_title, 
+			$news_stamp, 
+			$news_maintext
+		);
 	}
 }
 
@@ -111,7 +117,7 @@ else {
 */
 
 if($news == 'start' && !isset($cat)){
-	$arrNewsDC = $tcms_dcp->getNewsDCList($is_admin, $news_amount);
+	$arrNewsDC = $tcms_dcp->getNewsDCList($getLang, $is_admin, $news_amount);
 	
 	echo '<table cellpadding="0" cellspacing="0" border="0" width="100%">'
 	.'<tr>'
@@ -130,26 +136,26 @@ if($news == 'start' && !isset($cat)){
 			
 			echo '<td valign="top">'
 			.lang_date(
-				substr($dcNews->GetDate(), 0, 2), 
-				substr($dcNews->GetDate(), 3, 2), 
-				substr($dcNews->GetDate(), 6, 4), 
-				substr($dcNews->GetTime(), 0, 2), 
-				substr($dcNews->GetTime(), 3, 2), 
+				substr($dcNews->getDate(), 0, 2), 
+				substr($dcNews->getDate(), 3, 2), 
+				substr($dcNews->getDate(), 6, 4), 
+				substr($dcNews->getTime(), 0, 2), 
+				substr($dcNews->getTime(), 3, 2), 
 				''
 			)
 			.'</td>';
 			
 			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-			.'id=newsmanager&amp;s='.$s.'&amp;news='.$dcNews->GetID()
+			.'id=newsmanager&amp;s='.$s.'&amp;news='.$dcNews->getID()
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
 			echo '<td valign="top">'
 			.
-			( $dcNews->GetTitle() == ''
+			( $dcNews->getTitle() == ''
 				? ''
 				: '<a href="'.$link.'">'
-				.$dcNews->GetTitle().'</a>'
+				.$dcNews->getTitle().'</a>'
 			)
 			.'</td>';
 			
@@ -203,11 +209,11 @@ if($news == 'start' && !isset($cat)){
 */
 if($news != 'start' && $cmd != 'comment_save' && $news != 'archive' && !isset($cat)){
 	$dcNews = new tcms_dc_news();
-	$dcNews = $tcms_dcp->getNewsDC($news, $is_admin);
+	$dcNews = $tcms_dcp->getNewsDC($getLang, $news, $is_admin);
 	
-	if($dcNews->GetPublished() == 1){
+	if($dcNews->getPublished() == 1){
 		if($check_session && $canEdit){
-			$link = ( $seoFolder == '' ? '' : $seoFolder.'/' ).'engine/admin/admin.php?id_user='.$session.'&amp;site=mod_news&amp;todo=edit&amp;maintag='.$dcNews->GetID();
+			$link = ( $seoFolder == '' ? '' : $seoFolder.'/' ).'engine/admin/admin.php?id_user='.$session.'&amp;site=mod_news&amp;todo=edit&amp;maintag='.$dcNews->getID();
 			
 			echo '<div style="display: block; float: right;">';
 			
@@ -233,15 +239,15 @@ if($news != 'start' && $cmd != 'comment_save' && $news != 'archive' && !isset($c
 		echo '<div class="contentmain">';
 		
 		echo '<div style="width: 100%;" class="news_title_bg text_huge">'
-		.$dcNews->GetTitle()
+		.$dcNews->getTitle()
 		.'</div>';
 			
 		
 		if($show_autor_as_link == 1){
 			if($choosenDB == 'xml')
-				$userID = $tcms_main->getUserID($dcNews->GetAutor());
+				$userID = $tcms_main->getUserID($dcNews->getAutor());
 			else
-				$userID = $tcms_main->getUserIDfromSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $dcNews->GetAutor());
+				$userID = $tcms_main->getUserIDfromSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $dcNews->getAutor());
 		}
 		
 		
@@ -299,7 +305,7 @@ if($news != 'start' && $cmd != 'comment_save' && $news != 'archive' && !isset($c
 			$strSQL = "SELECT * "
 			."FROM ".$tcms_db_prefix."news_to_categories "
 			."INNER JOIN ".$tcms_db_prefix."news_categories ON (".$tcms_db_prefix."news_to_categories.cat_uid = ".$tcms_db_prefix."news_categories.uid) "
-			."WHERE (".$tcms_db_prefix."news_to_categories.news_uid = '".$dcNews->GetID()."')";
+			."WHERE (".$tcms_db_prefix."news_to_categories.news_uid = '".$dcNews->getID()."')";
 			
 			$sqlQR = $sqlAL->sqlQuery($strSQL);
 			$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
@@ -339,49 +345,49 @@ if($news != 'start' && $cmd != 'comment_save' && $news != 'archive' && !isset($c
 		switch($use_timesince){
 			case 0:
 				echo lang_date(
-					substr($dcNews->GetDate(), 0, 2), 
-					substr($dcNews->GetDate(), 3, 2), 
-					substr($dcNews->GetDate(), 6, 4), 
-					substr($dcNews->GetTime(), 0, 2), 
-					substr($dcNews->GetTime(), 3, 2), 
+					substr($dcNews->getDate(), 0, 2), 
+					substr($dcNews->getDate(), 3, 2), 
+					substr($dcNews->getDate(), 6, 4), 
+					substr($dcNews->getTime(), 0, 2), 
+					substr($dcNews->getTime(), 3, 2), 
 					''
 				);
 				break;
 			
 			case 1:
 				$timestamp = mktime(
-					substr($dcNews->GetTime(), 0, 2), 
-					substr($dcNews->GetTime(), 3, 2), 
+					substr($dcNews->getTime(), 0, 2), 
+					substr($dcNews->getTime(), 3, 2), 
 					'00', 
-					substr($dcNews->GetDate(), 3, 2), 
-					substr($dcNews->GetDate(), 0, 2), 
-					substr($dcNews->GetDate(), 6, 4)
+					substr($dcNews->getDate(), 3, 2), 
+					substr($dcNews->getDate(), 0, 2), 
+					substr($dcNews->getDate(), 6, 4)
 				);
 				
 				echo $tcms_blogfeatures->timeSince($timestamp);
 				break;
 			
 			case 2:
-				$month = substr($dcNews->GetDate(), 3, 2);
-				echo substr($dcNews->GetDate(), 0, 2).'. '
+				$month = substr($dcNews->getDate(), 3, 2);
+				echo substr($dcNews->getDate(), 0, 2).'. '
 				.$monthName[((
 					substr($month, 0, 1) == 0 ?
 					substr($month, 1, 1) :
 					$month
 				))].' ';
-				echo substr($dcNews->GetDate(), 6, 4)
-				.' '.substr($dcNews->GetTime(), 0, 2).':'
-				.substr($dcNews->GetTime(), 3, 2).'h';
-				echo ' '.$tcms_blogfeatures->timeOfDay(substr($dcNews->GetTime(), 0, 2));
+				echo substr($dcNews->getDate(), 6, 4)
+				.' '.substr($dcNews->getTime(), 0, 2).':'
+				.substr($dcNews->getTime(), 3, 2).'h';
+				echo ' '.$tcms_blogfeatures->timeOfDay(substr($dcNews->getTime(), 0, 2));
 				break;
 			
 			default:
 				echo lang_date(
-					substr($dcNews->GetDate(), 0, 2), 
-					substr($dcNews->GetDate(), 3, 2), 
-					substr($dcNews->GetDate(), 6, 4), 
-					substr($dcNews->GetTime(), 0, 2), 
-					substr($dcNews->GetTime(), 3, 2), 
+					substr($dcNews->getDate(), 0, 2), 
+					substr($dcNews->getDate(), 3, 2), 
+					substr($dcNews->getDate(), 6, 4), 
+					substr($dcNews->getTime(), 0, 2), 
+					substr($dcNews->getTime(), 3, 2), 
 					''
 				);
 				break;
@@ -412,7 +418,7 @@ if($news != 'start' && $cmd != 'comment_save' && $news != 'archive' && !isset($c
 			echo '&nbsp;&bull;&nbsp;';
 			
 			if($show_autor_as_link == 1){
-				if($dcNews->GetAutor() != ''){
+				if($dcNews->getAutor() != ''){
 					echo _NEWS_WRITTEN.'&nbsp;';
 					
 					if($userID != false){
@@ -421,15 +427,15 @@ if($news != 'start' && $cmd != 'comment_save' && $news != 'archive' && !isset($c
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
 						$link = $tcms_main->urlAmpReplace($link);
 						
-						echo '<a href="'.$link.'">'.$dcNews->GetAutor().'</a>';
+						echo '<a href="'.$link.'">'.$dcNews->getAutor().'</a>';
 					}
 					else{
-						echo $dcNews->GetAutor();
+						echo $dcNews->getAutor();
 					}
 				}
 			}
 			else{
-				echo _NEWS_WRITTEN.' '.$dcNews->GetAutor();
+				echo _NEWS_WRITTEN.' '.$dcNews->getAutor();
 			}
 		}
 		
@@ -439,7 +445,7 @@ if($news != 'start' && $cmd != 'comment_save' && $news != 'archive' && !isset($c
 		/*
 			content
 		*/
-		$news_content = $dcNews->GetText();
+		$news_content = $dcNews->getText();
 		
 		$toendaScript = new toendaScript($news_content);
 		$news_content = $toendaScript->toendaScript_trigger();
@@ -455,14 +461,14 @@ if($news != 'start' && $cmd != 'comment_save' && $news != 'archive' && !isset($c
 			comments?
 		*/
 		if($use_news_comments == 1){
-			if($dcNews->GetCommentsEnabled() == 1){
-				$nw_amount = $tcms_dcp->getCommentDCList($dcNews->GetID(), 'news', false);
+			if($dcNews->getCommentsEnabled() == 1){
+				$nw_amount = $tcms_dcp->getCommentDCList($dcNews->getID(), 'news', false);
 				
 				echo '<strong class="news_title_bg text_huge">'.$nw_amount.' '.( $nw_amount == 1 ? _FRONT_COMMENT : _FRONT_COMMENTS ).'</strong>';
 				
 				if($use_trackback == 1){
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-					.'id=newsmanager&amp;s='.$s.'&amp;news='.$dcNews->GetID().'&amp;cmd=trackback'
+					.'id=newsmanager&amp;s='.$s.'&amp;news='.$dcNews->getID().'&amp;cmd=trackback'
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 					
@@ -482,7 +488,7 @@ if($news != 'start' && $cmd != 'comment_save' && $news != 'archive' && !isset($c
 			if($use_trackback == 1){
 				if(isset($trackback_url) && $trackback_url != ''){
 					$trackback = new tcms_trackback($sitename, $arr_news['autor'], $c_charset);
-					$trackback->ping($trackback_url, $websiteowner_url, $dcNews->GetTitle());
+					$trackback->ping($trackback_url, $websiteowner_url, $dcNews->getTitle());
 				}
 				else{
 					$footer_xml = new xmlparser('data/tcms_global/footer.xml','r');
@@ -508,7 +514,7 @@ if($news != 'start' && $cmd != 'comment_save' && $news != 'archive' && !isset($c
 		
 		
 		if($use_news_comments == 1){
-			if($dcNews->GetCommentsEnabled() == 1){
+			if($dcNews->getCommentsEnabled() == 1){
 				//************************************
 				// COMMENT FORM
 				//
@@ -578,20 +584,20 @@ if($news != 'start' && $cmd != 'comment_save' && $news != 'archive' && !isset($c
 							$commentDC = $arrCommentDC[$key];
 							
 							if($use_gravatar == 1){
-								$grav_url = 'http://www.gravatar.com/avatar.php?gravatar_id='.md5($commentDC->GetEMail()).'&amp;default='.urlencode('http://www.somewhere.com/homestar.jpg').'&amp;size=32';
+								$grav_url = 'http://www.gravatar.com/avatar.php?gravatar_id='.md5($commentDC->getEMail()).'&amp;default='.urlencode('http://www.somewhere.com/homestar.jpg').'&amp;size=32';
 								echo '<a href="http://www.gravatar.com" title="What is this?" target="_blank"><img align="right" border="0" src="'.$grav_url.'" alt="?" /></a><br />';
 							}
 							
 							echo '<strong class="comment_title">'.$count.'. ';
-							if($commentDC->GetURL() != ''){ echo '<a href="'.$commentDC->GetURL().'">'.$commentDC->GetName().'</a>'; }
-							else{ echo $commentDC->GetName(); }
+							if($commentDC->getURL() != ''){ echo '<a href="'.$commentDC->getURL().'">'.$commentDC->getName().'</a>'; }
+							else{ echo $commentDC->getName(); }
 							echo '</strong>';
 							
-							echo '<span class="text_small" style="padding: 3px 0 0 3px;">'.lang_date(substr($commentDC->GetTime(), 6, 2), substr($commentDC->GetTime(), 4, 2), substr($commentDC->GetTime(), 0, 4), substr($commentDC->GetTime(), 8, 2), substr($commentDC->GetTime(), 10, 2), substr($commentDC->GetTime(), 12, 2)).'</span>';
+							echo '<span class="text_small" style="padding: 3px 0 0 3px;">'.lang_date(substr($commentDC->getTime(), 6, 2), substr($commentDC->getTime(), 4, 2), substr($commentDC->getTime(), 0, 4), substr($commentDC->getTime(), 8, 2), substr($commentDC->getTime(), 10, 2), substr($commentDC->getTime(), 12, 2)).'</span>';
 							
 							echo $hr_line_5;
 							
-							$msg = $commentDC->GetText();
+							$msg = $commentDC->getText();
 							if($use_emoticons == 1)
 								$msg = $tcms_main->replaceSmilyTags($msg, $imagePath);
 							
@@ -602,8 +608,8 @@ if($news != 'start' && $cmd != 'comment_save' && $news != 'archive' && !isset($c
 							if($check_session){
 								if($is_admin == 'Administrator' || $is_admin == 'Developer'){
 									$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-									.'id='.$id.'&amp;s='.$s.'&amp;cmd=delete&amp;XMLplace='.$commentDC->GetID()
-									.'&amp;XMLfile='.$commentDC->GetTimestamp()
+									.'id='.$id.'&amp;s='.$s.'&amp;cmd=delete&amp;XMLplace='.$commentDC->getID()
+									.'&amp;XMLfile='.$commentDC->getTimestamp()
 									.( isset($lang) ? '&amp;lang='.$lang : '' );
 									$link = $tcms_main->urlAmpReplace($link);
 									
@@ -1527,7 +1533,7 @@ if($news != 'start' && $cmd != 'comment_save'){
 			// Archive
 			// -----------------------------------
 			
-			$arrNewsDC = $tcms_dcp->getNewsDCList($is_admin, 0);
+			$arrNewsDC = $tcms_dcp->getNewsDCList($getLang, $is_admin, 0);
 			
 			echo '<table cellpadding="0" cellspacing="0" border="0" width="100%">';
 			echo '<tr>'
@@ -1541,9 +1547,9 @@ if($news != 'start' && $cmd != 'comment_save'){
 					$dcNews = new tcms_dc_news();
 					$dcNews = $arrNewsDC[$n_key];
 					
-					$sortDay   = substr($dcNews->GetDate(), 0, 2);
-					$sortMonth = substr($dcNews->GetDate(), 3, 2);
-					$sortYear  = substr($dcNews->GetDate(), 6, 4);
+					$sortDay   = substr($dcNews->getDate(), 0, 2);
+					$sortMonth = substr($dcNews->getDate(), 3, 2);
+					$sortYear  = substr($dcNews->getDate(), 6, 4);
 					
 					if(isset($sortLastYear)){
 						if($sortLastYear != $sortYear){ $sortPoint = false; }
@@ -1571,15 +1577,15 @@ if($news != 'start' && $cmd != 'comment_save'){
 					echo '<td valign="top" style="padding-left: 10px;">&nbsp;</td>';
 					
 					echo '<td valign="top">'
-					.lang_date(substr($dcNews->GetDate(), 0, 2), substr($dcNews->GetDate(), 3, 2), substr($dcNews->GetDate(), 6, 4), substr($dcNews->GetTime(), 0, 2), substr($dcNews->GetTime(), 3, 2), '')
+					.lang_date(substr($dcNews->getDate(), 0, 2), substr($dcNews->getDate(), 3, 2), substr($dcNews->getDate(), 6, 4), substr($dcNews->getTime(), 0, 2), substr($dcNews->getTime(), 3, 2), '')
 					.'</td>';
 					
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-					.'id='.$id.'&amp;s='.$s.'&amp;news='.$dcNews->GetID()
+					.'id='.$id.'&amp;s='.$s.'&amp;news='.$dcNews->getID()
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 					
-					echo '<td valign="top">'.( $dcNews->GetTitle() == '' ? '' : '<a href="'.$link.'">'.$dcNews->GetTitle().'</a>' ).'</td>';
+					echo '<td valign="top">'.( $dcNews->getTitle() == '' ? '' : '<a href="'.$link.'">'.$dcNews->getTitle().'</a>' ).'</td>';
 					
 					echo '</tr>';
 				}

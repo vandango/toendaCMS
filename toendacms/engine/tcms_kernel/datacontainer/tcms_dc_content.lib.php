@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * content items.
  *
- * @version 0.0.6
+ * @version 0.0.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -253,7 +253,7 @@ class tcms_dc_content {
 	 * 
 	 * @param Boolean $value
 	 */
-	function SetInWorkState($value){
+	function setInWorkState($value){
 		$this->m_in_work = $value;
 	}
 	
@@ -262,7 +262,7 @@ class tcms_dc_content {
 	 * 
 	 * @return Boolean
 	 */
-	function GetInWorkState(){
+	function getInWorkState(){
 		return $this->m_in_work;
 	}
 	
@@ -271,7 +271,7 @@ class tcms_dc_content {
 	 * 
 	 * @param String $value
 	 */
-	function SetLanguage($value){
+	function setLanguage($value){
 		$this->m_language = $value;
 	}
 	
@@ -280,7 +280,7 @@ class tcms_dc_content {
 	 * 
 	 * @return String
 	 */
-	function GetLanguage(){
+	function getLanguage(){
 		return $this->m_language;
 	}
 }

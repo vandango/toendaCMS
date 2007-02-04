@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides a frontpage with news and a text.
  *
- * @version 1.3.3
+ * @version 1.3.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -48,6 +48,8 @@ if(isset($_POST['comment_text'])){ $comment_text = $_POST['comment_text']; }
 /*
 	INIT
 */
+
+$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
 
 $toendaScript_more_show = false;
 
@@ -86,7 +88,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 			.'<br />';
 		}
 		
-		$arrNewsDC = $tcms_dcp->getNewsDCList($is_admin, $how_many, '1', true);
+		$arrNewsDC = $tcms_dcp->getNewsDCList($getLang, $is_admin, $how_many, '1', true);
 		
 		
 		/*
@@ -477,6 +479,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 	if($use_syndication == 1){
 		if($tcms_main->isReal($feed)){
 			$tcms_dcp->generateFeed(
+				$getLang, 
 				$feed, 
 				$seoFolder, 
 				false, 

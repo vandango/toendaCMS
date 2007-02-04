@@ -23,11 +23,13 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the sidebar news functionality.
  *
- * @version 0.1.7
+ * @version 0.1.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
  */
+
+$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
 
 
 //$id == 'frontpage'
@@ -37,7 +39,7 @@ if($blah = 1){
 		//echo '<br />';
 		
 		$arrNewsDC = new tcms_dc_news();
-		$arrNewsDC = $tcms_dcp->getNewsDCList($is_admin, $how_many);
+		$arrNewsDC = $tcms_dcp->getNewsDCList($getLang, $is_admin, $how_many);
 		
 		
 		if(!empty($arrNewsDC) && $arrNewsDC != '' && isset($arrNewsDC)){
