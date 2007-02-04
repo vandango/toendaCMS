@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a base content loader.
  *
- * @version 0.7.3
+ * @version 0.7.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -178,14 +178,14 @@ if($content_published == 1){
 					$dcContent = $tcms_dcp->getContentDC($id);
 				}
 				
-				$key       = $dcContent->GetKeynote();
-				$content00 = $dcContent->GetText();
-				$content01 = $dcContent->GetSecondContent();
-				$foot      = $dcContent->GetFootText();
-				$layout_id = $dcContent->GetTextLayout();
-				$docAutor  = $dcContent->GetAutor();
+				$key       = $dcContent->getKeynote();
+				$content00 = $dcContent->getText();
+				$content01 = $dcContent->getSecondContent();
+				$foot      = $dcContent->getFootText();
+				$layout_id = $dcContent->getTextLayout();
+				$docAutor  = $dcContent->getAutor();
 				
-				if($dcContent->GetInWorkState() == 1){
+				if($dcContent->getInWorkState() == 1){
 					if($check_session && $canEdit){
 						$link = $seoFolder.'/engine/admin/admin.php?id_user='.$session.'&amp;site=mod_content&amp;todo=edit&amp;maintag='.$id;
 						
@@ -233,12 +233,12 @@ if($content_published == 1){
 					/*
 						Load Layout ID for Content Templates
 					*/
-					if($dcContent->GetTextLayout() == '')
+					if($dcContent->getTextLayout() == '')
 						$dcContent->SetTextLayout('db_content_default.php');
 					
-					include_once('engine/db_layout/'.$dcContent->GetTextLayout());
+					include_once('engine/db_layout/'.$dcContent->getTextLayout());
 					
-					$content_template = str_replace('{$title}', $dcContent->GetTitle(), $content_template);
+					$content_template = str_replace('{$title}', $dcContent->getTitle(), $content_template);
 					$content_template = str_replace('{$key}', $key, $content_template);
 					$content_template = str_replace('{$content00}', $content00, $content_template);
 					$content_template = str_replace('{$content01}', $content01, $content_template);

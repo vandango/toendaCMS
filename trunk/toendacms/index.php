@@ -16,6 +16,19 @@
 */
 
 
+/*
+
+
+UPDATE blog_news
+SET language = 'english_EN'
+WHERE language IS NULL 
+OR language = ''
+
+
+
+*/
+
+
 //echo md5('banane').'<br />';
 //for($i = 0; $i<5; $i++) echo md5(microtime()).'<br />';
 
@@ -50,7 +63,7 @@ if(isset($_POST['contact_email'])){ $contact_email = $_POST['contact_email']; }
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.5.1
+ * @version 2.5.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -682,17 +695,17 @@ if($wsShowSite){
 					$dcSidebarModule = new tcms_dc_sidebarmodule();
 					$dcSidebarModule = $tcms_dcp->getSidebarModuleDC();
 					
-					$use_side_gallery   = $dcSidebarModule->GetSideGallery();
-					$use_side_category  = $dcSidebarModule->GetSideCategory();
-					$use_side_archives  = $dcSidebarModule->GetSideArchive();
-					$use_side_links     = $dcSidebarModule->GetSideLinks();
-					$use_layout_chooser = $dcSidebarModule->GetLayoutChooser();
-					$use_login          = $dcSidebarModule->GetLogin();
-					$use_syndication    = $dcSidebarModule->GetSyndication();
-					$use_newsletter     = $dcSidebarModule->GetNewsletter();
-					$use_search         = $dcSidebarModule->GetSearch();
-					$use_sidebar        = $dcSidebarModule->GetSidebar();
-					$use_poll           = $dcSidebarModule->GetPoll();
+					$use_side_gallery   = $dcSidebarModule->getSideGallery();
+					$use_side_category  = $dcSidebarModule->getSideCategory();
+					$use_side_archives  = $dcSidebarModule->getSideArchive();
+					$use_side_links     = $dcSidebarModule->getSideLinks();
+					$use_layout_chooser = $dcSidebarModule->getLayoutChooser();
+					$use_login          = $dcSidebarModule->getLogin();
+					$use_syndication    = $dcSidebarModule->getSyndication();
+					$use_newsletter     = $dcSidebarModule->getNewsletter();
+					$use_search         = $dcSidebarModule->getSearch();
+					$use_sidebar        = $dcSidebarModule->getSidebar();
+					$use_poll           = $dcSidebarModule->getPoll();
 					
 					unset($dcSidebarModule);
 					
