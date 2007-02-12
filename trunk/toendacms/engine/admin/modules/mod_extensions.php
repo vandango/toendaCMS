@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the contactform configuration.
  *
- * @version 0.4.5
+ * @version 0.4.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -105,7 +105,8 @@ if($id_group == 'Developer'
 				$old_use_adressbook = $contactform_xml->read_section('email', 'use_adressbook');
 				$old_use_contact    = $contactform_xml->read_section('email', 'use_contact');
 				$old_show_ce        = $contactform_xml->read_section('email', 'show_contactemail');
-				$old_lang           = $contactform_xml->read_section('email', 'language');
+				$old_lang           = $getLang;
+				//$contactform_xml->read_section('email', 'language');
 				
 				$langExist = 1;
 			}
@@ -194,7 +195,9 @@ if($id_group == 'Developer'
 		
 		// BEGIN FORM
 		echo '<form action="admin.php?id_user='.$id_user.'&amp;site=mod_extensions" method="post">'
-		.'<input name="lang_exist" type="hidden" value="'.$langExist.'" />';
+		.'<input name="lang_exist" type="hidden" value="'.$langExist.'" />'
+		.'<input name="extra" type="hidden" value="1" />'
+		.'<input name="todo" type="hidden" value="save_cform" />';
 		
 		
 		// frontpage news settings
@@ -238,9 +241,7 @@ if($id_group == 'Developer'
 		
 		
 		//table
-		echo $tcms_html->tableHeadNoBorder('1', '0', '0', '100%')
-		.'<input name="todo" type="hidden" value="save_cform" />'
-		.'<input name="_RELOCATE" id="_RELOCATE" type="hidden" value="0" />';
+		echo $tcms_html->tableHeadNoBorder('1', '0', '0', '100%');
 		
 		
 		//table head
@@ -251,9 +252,9 @@ if($id_group == 'Developer'
 		// table row
 		echo '<tr><td width="300" style="width: 300px !important;" class="tcms_padding_mini">'._TABLE_ENABLED.'</td>'
 		.'<td>'
-		.'<input type="radio" onchange="CHANGED = true;" name="new_enabled" id="config_offline0" value="0"'.($old_enabled == 0 ? ' checked="checked"' : '' ).' />'
+		.'<input type="radio" name="new_enabled" id="config_offline0" value="0"'.($old_enabled == 0 ? ' checked="checked"' : '' ).' />'
 		.'<label for="config_offline0">No</label>'
-		.'<input type="radio" onchange="CHANGED = true;" name="new_enabled" id="config_offline1" value="1"'.($old_enabled == 1 ? ' checked="checked"' : '' ).' />'
+		.'<input type="radio" name="new_enabled" id="config_offline1" value="1"'.($old_enabled == 1 ? ' checked="checked"' : '' ).' />'
 		.'<label for="config_offline1">Yes</label>'
 		.'</td></tr>';
 		
@@ -261,37 +262,37 @@ if($id_group == 'Developer'
 		// table rows
 		echo '<tr><td width="300" style="width: 300px !important;" class="tcms_padding_mini">'._EXT_CFORM_SHOW_CONTACTS_IN_SIDEBAR.'</td>'
 		.'<td colspan="2">'
-		.'<input type="checkbox" onchange="CHANGED = true;" name="use_show_cisb" '.( $old_show_cisb == 1 ? 'checked="checked"' : '' ).' value="1" /></td></tr>';
+		.'<input type="checkbox" name="use_show_cisb" '.( $old_show_cisb == 1 ? 'checked="checked"' : '' ).' value="1" /></td></tr>';
 		
 		
 		// table rows
 		echo '<tr><td width="300" style="width: 300px !important;" class="tcms_padding_mini">'._EXT_CFORM_USE_ADRESSBOOK.'</td>'
 		.'<td colspan="2">'
-		.'<input type="checkbox" onchange="CHANGED = true;" name="new_use_adressbook" '.( $old_use_adressbook == 1 ? 'checked="checked"' : '' ).' value="1" /></td></tr>';
+		.'<input type="checkbox" name="new_use_adressbook" '.( $old_use_adressbook == 1 ? 'checked="checked"' : '' ).' value="1" /></td></tr>';
 		
 		
 		// table rows
 		echo '<tr><td width="300" style="width: 300px !important;" class="tcms_padding_mini">'._EXT_CFORM_USE_CONTACTPERSON.'</td>'
 		.'<td colspan="2">'
-		.'<input type="checkbox" onchange="CHANGED = true;" name="new_use_contact" '.( $old_use_contact == 1 ? 'checked="checked"' : '' ).' value="1" /></td></tr>';
+		.'<input type="checkbox" name="new_use_contact" '.( $old_use_contact == 1 ? 'checked="checked"' : '' ).' value="1" /></td></tr>';
 		
 		
 		// table rows
 		echo '<tr><td width="300" style="width: 300px !important;" class="tcms_padding_mini">'._EXT_CFORM_SHOW_CONTACTEMAIL.'</td>'
 		.'<td colspan="2">'
-		.'<input type="checkbox" onchange="CHANGED = true;" name="new_show_ce" '.( $old_show_ce == 1 ? 'checked="checked"' : '' ).' value="1" /></td></tr>';
+		.'<input type="checkbox" name="new_show_ce" '.( $old_show_ce == 1 ? 'checked="checked"' : '' ).' value="1" /></td></tr>';
 		
 		
 		// table rows
 		echo '<tr><td class="tcms_padding_mini" valign="top">'._EXT_CFORM_ID.'</td>'
 		.'<td valign="top" colspan="2">'
-		.'<input name="new_send_id" onchange="CHANGED = true;" readonly class="tcms_input_small" value="'.$old_send_id.'" /></td></tr>';
+		.'<input name="new_send_id" readonly class="tcms_input_small" value="'.$old_send_id.'" /></td></tr>';
 		
 		
 		// table row
 		echo '<tr><td class="tcms_padding_mini">'._TABLE_ACCESS.'</td>'
 		.'<td colspan="2">'
-		.'<select onchange="CHANGED = true;" name="cform_access" class="tcms_select">'
+		.'<select name="cform_access" class="tcms_select">'
 			.'<option value="Public"'.( $old_cform_access == 'Public' ? ' selected="selected"' : '' ).'>'._TABLE_PUBLIC.'</option>'
 			.'<option value="Protected"'.( $old_cform_access == 'Protected' ? ' selected="selected"' : '' ).'>'._TABLE_PROTECTED.'</option>'
 			.'<option value="Private"'.( $old_cform_access == 'Private' ? ' selected="selected"' : '' ).'>'._TABLE_PRIVATE.'</option>'
@@ -301,19 +302,19 @@ if($id_group == 'Developer'
 		// table rows
 		echo '<tr><td class="tcms_padding_mini" valign="top">'._EXT_CFORM_EMAIL.'</td>'
 		.'<td valign="top" colspan="2">'
-		.'<input onchange="CHANGED = true;" name="email" class="tcms_input_normal" value="'.$old_email.'" /></td></tr>';
+		.'<input name="email" class="tcms_input_normal" value="'.$old_email.'" /></td></tr>';
 		
 		
 		// table rows
 		echo '<tr><td class="tcms_padding_mini" valign="top">'._EXT_CFORM_TITLE.'</td>'
 		.'<td valign="top" colspan="2">'
-		.'<input onchange="CHANGED = true;" name="tmp_contact_title" class="tcms_input_normal" value="'.$old_contact_title.'" /></td></tr>';
+		.'<input name="tmp_contact_title" class="tcms_input_normal" value="'.$old_contact_title.'" /></td></tr>';
 		
 		
 		// table rows
 		echo '<tr><td class="tcms_padding_mini" valign="top">'._EXT_CFORM_SUBTITLE.'</td>'
 		.'<td valign="top" colspan="2">'
-		.'<input onchange="CHANGED = true;" name="contact_stamp" class="tcms_input_normal" value="'.$old_contact_stamp.'" /></td></tr>';
+		.'<input name="contact_stamp" class="tcms_input_normal" value="'.$old_contact_stamp.'" /></td></tr>';
 		
 		
 		// table rows

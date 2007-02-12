@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 0.6.7
+ * @version 0.6.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -607,7 +607,7 @@ class tcms_datacontainer_provider extends tcms_main {
 		$wstitle = $xml->read_section('namen', 'title');
 		$wsname  = $xml->read_section('namen', 'name');
 		$wskey   = $xml->read_section('namen', 'key');
-		$logo      = $xml->read_section('namen', 'logo');
+		$logo    = $xml->read_section('namen', 'logo');
 		$xml->flush();
 		$xml->_xmlparser();
 		unset($xml);
@@ -619,6 +619,13 @@ class tcms_datacontainer_provider extends tcms_main {
 		$xml->flush();
 		$xml->_xmlparser();
 		unset($xml);
+		
+		$wstitle     = $this->decodeText($wstitle, '2', $this->m_CHARSET);
+		$wsname      = $this->decodeText($wsname, '2', $this->m_CHARSET);
+		$wskey       = $this->decodeText($wskey, '2', $this->m_CHARSET);
+		$wsowner     = $this->decodeText($wsowner, '2', $this->m_CHARSET);
+		$wscopyright = $this->decodeText($wscopyright, '2', $this->m_CHARSET);
+		$wsowner_url = $this->decodeText($wsowner_url, '2', $this->m_CHARSET);
 		
 		$rss = new UniversalFeedCreator();
 		$rss->_setFormat($defaultFormat);
