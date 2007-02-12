@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?><config>
+	<language>germany_DE</language>
 	<news_id>newsmanager</news_id>
-	<news_title>czo3OiJBcmNoaXZlIjs=</news_title>
-	<news_stamp>czozOToiSGVyZSBjYW4geW91IGZpbmQgYWxsIG5ld3Mgb2YgdGhpcyBzaXRlIjs=</news_stamp>
-	<news_text></news_text>
+	<news_title>czo2OiJBcmNoaXYiOw==</news_title>
+	<news_stamp>czoxOToiQWt0dWVsbCBOZXVpZ2tlaXRlbiI7</news_stamp>
+	<news_text>czowOiIiOw==</news_text>
 	<news_image></news_image>
 	<use_comments>1</use_comments>
 	<show_autor>0</show_autor>

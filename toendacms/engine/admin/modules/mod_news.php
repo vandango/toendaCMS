@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the news.
  *
- * @version 1.5.5
+ * @version 1.6.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -171,7 +171,8 @@ if($todo == 'config'){
 				$old_use_timesince    = $news_xml->read_section('config', 'use_timesince');
 				$old_readmore_link    = $news_xml->read_section('config', 'readmore_link');
 				$old_news_spacing     = $news_xml->read_section('config', 'news_spacing');
-				$old_news_lang        = $news_xml->read_section('config', 'language');
+				$old_news_lang        = $getLang;
+				//$news_xml->read_section('config', 'language');
 				
 				$langExist = 1;
 			}
@@ -252,53 +253,47 @@ if($todo == 'config'){
 		}
 		
 		
-		if($action == 'news'){
-			$old_news_mm_title = $tcms_main->decodeText($old_news_mm_title, '2', $c_charset);
-			$old_news_mm_stamp = $tcms_main->decodeText($old_news_mm_stamp, '2', $c_charset);
-			$old_news_mm_text  = $tcms_main->decodeText($old_news_mm_text, '2', $c_charset);
+		$old_news_mm_title = $tcms_main->decodeText($old_news_mm_title, '2', $c_charset);
+		$old_news_mm_stamp = $tcms_main->decodeText($old_news_mm_stamp, '2', $c_charset);
+		$old_news_mm_text  = $tcms_main->decodeText($old_news_mm_text, '2', $c_charset);
+		
+		$old_news_mm_title = htmlspecialchars($old_news_mm_title);
+		$old_news_mm_stamp = htmlspecialchars($old_news_mm_stamp);
+		$old_news_mm_text  = htmlspecialchars($old_news_mm_text);
+		
+		
+		switch(trim($show_wysiwyg)){
+			case 'tinymce':
+				//$old_front_text = str_replace('src="', 'src="../../', $old_front_text);
+				$old_news_mm_text = stripslashes($old_news_mm_text);
+				break;
 			
-			$old_news_mm_title = htmlspecialchars($old_news_mm_title);
-			$old_news_mm_stamp = htmlspecialchars($old_news_mm_stamp);
-			$old_news_mm_text  = htmlspecialchars($old_news_mm_text);
+			case 'fckeditor':
+				$old_news_mm_text = str_replace('src="', 'src="../../../../', $old_news_mm_text);
+				$old_news_mm_text = str_replace('src="../../../../http:', 'src="http:', $old_news_mm_text);
+				$old_news_mm_text = str_replace('src="../../../../https:', 'src="https:', $old_news_mm_text);
+				$old_news_mm_text = str_replace('src="../../../../ftp:', 'src="ftp:', $old_news_mm_text);
+				$old_news_mm_text = str_replace('src="../../../..//', 'src="/', $old_news_mm_text);
+				break;
 			
-			
-			switch(trim($show_wysiwyg)){
-				case 'tinymce':
-					//$old_front_text = str_replace('src="', 'src="../../', $old_front_text);
-					$old_news_mm_text = stripslashes($old_news_mm_text);
-					break;
+			default:
+				$old_news_mm_text = ereg_replace('<br />'.chr(10), chr(13), $old_news_mm_text);
+				$old_news_mm_text = ereg_replace('<br />'.chr(13), chr(13), $old_news_mm_text);
+				$old_news_mm_text = ereg_replace('<br />', chr(13), $old_news_mm_text);
 				
-				case 'fckeditor':
-					$old_news_mm_text = str_replace('src="', 'src="../../../../', $old_news_mm_text);
-					$old_news_mm_text = str_replace('src="../../../../http:', 'src="http:', $old_news_mm_text);
-					$old_news_mm_text = str_replace('src="../../../../https:', 'src="https:', $old_news_mm_text);
-					$old_news_mm_text = str_replace('src="../../../../ftp:', 'src="ftp:', $old_news_mm_text);
-					$old_news_mm_text = str_replace('src="../../../..//', 'src="/', $old_news_mm_text);
-					break;
+				$old_news_mm_text = ereg_replace('<br/>'.chr(10), chr(13), $old_news_mm_text);
+				$old_news_mm_text = ereg_replace('<br/>'.chr(13), chr(13), $old_news_mm_text);
+				$old_news_mm_text = ereg_replace('<br/>', chr(13), $old_news_mm_text);
 				
-				default:
-					$old_news_mm_text = ereg_replace('<br />'.chr(10), chr(13), $old_news_mm_text);
-					$old_news_mm_text = ereg_replace('<br />'.chr(13), chr(13), $old_news_mm_text);
-					$old_news_mm_text = ereg_replace('<br />', chr(13), $old_news_mm_text);
-					
-					$old_news_mm_text = ereg_replace('<br/>'.chr(10), chr(13), $old_news_mm_text);
-					$old_news_mm_text = ereg_replace('<br/>'.chr(13), chr(13), $old_news_mm_text);
-					$old_news_mm_text = ereg_replace('<br/>', chr(13), $old_news_mm_text);
-					
-					$old_news_mm_text = ereg_replace('<br>'.chr(10), chr(13), $old_news_mm_text);
-					$old_news_mm_text = ereg_replace('<br>'.chr(13), chr(13), $old_news_mm_text);
-					$old_news_mm_text = ereg_replace('<br>', chr(13), $old_news_mm_text);
-					break;
-			}
-			
-			
-			if($seoEnabled == 0 && $show_wysiwyg == 'tinymce'){
-				//$old_news_mm_text = str_replace('src="', 'src="../../', $old_news_mm_text);
-			}
+				$old_news_mm_text = ereg_replace('<br>'.chr(10), chr(13), $old_news_mm_text);
+				$old_news_mm_text = ereg_replace('<br>'.chr(13), chr(13), $old_news_mm_text);
+				$old_news_mm_text = ereg_replace('<br>', chr(13), $old_news_mm_text);
+				break;
 		}
-		else{
-			//if(trim($old_news_mm_text) != '')
-				//$old_news_mm_text = $tcms_main->encodeBase64($old_news_mm_text);
+		
+		
+		if($seoEnabled == 0 && $show_wysiwyg == 'tinymce'){
+			//$old_news_mm_text = str_replace('src="', 'src="../../', $old_news_mm_text);
 		}
 		
 		
@@ -309,7 +304,7 @@ if($todo == 'config'){
 		echo '<form action="admin.php?id_user='.$id_user.'&amp;site=mod_news" method="post">'
 		.'<input name="todo" type="hidden" value="save_config" />'
 		.'<input name="lang_exist" type="hidden" value="'.$langExist.'" />'
-		.'<input name="extra" type="hidden" value="'.( $action == 'news' ? '1' : '0' ).'" />';
+		.'<input name="extra" type="hidden" value="1" />';
 		
 		
 		// frontpage news settings
@@ -1877,10 +1872,10 @@ if($todo == 'save'){
 	
 	// regenerate feeds
 	if($choosenDB == 'xml'){
-		$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/newsmanager.xml','r');
-		$defaultFeed = $news_xml->read_section('config', 'def_feed');
-		$synAmount   = $news_xml->read_section('config', 'syn_amount');
-		$showAutor   = $news_xml->read_section('config', 'show_autor');
+		$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/newsmanager.'.$language.'.xml','r');
+		$defaultFeed = $xml->read_section('config', 'def_feed');
+		$synAmount   = $xml->read_section('config', 'syn_amount');
+		$showAutor   = $xml->read_section('config', 'show_autor');
 		$xml->flush();
 		$xml->_xmlparser();
 		unset($xml);
@@ -1889,7 +1884,11 @@ if($todo == 'save'){
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
 		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'newsmanager', 'newsmanager');
+		$strQuery = "SELECT * "
+		."FROM ".$tcms_db_prefix."newsmanager "
+		."WHERE language = '".$language."'";
+		
+		$sqlQR = $sqlAL->sqlQuery($strQuery);
 		$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
 		
 		$defaultFeed = $sqlObj->def_feed;
@@ -2061,10 +2060,10 @@ if($todo == 'next'){
 	
 	// regenerate feeds
 	if($choosenDB == 'xml'){
-		$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/newsmanager.xml','r');
-		$defaultFeed = $news_xml->read_section('config', 'def_feed');
-		$synAmount   = $news_xml->read_section('config', 'syn_amount');
-		$showAutor   = $news_xml->read_section('config', 'show_autor');
+		$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/newsmanager.'.$language.'.xml','r');
+		$defaultFeed = $xml->read_section('config', 'def_feed');
+		$synAmount   = $xml->read_section('config', 'syn_amount');
+		$showAutor   = $xml->read_section('config', 'show_autor');
 		$xml->flush();
 		$xml->_xmlparser();
 		unset($xml);
@@ -2073,7 +2072,11 @@ if($todo == 'next'){
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
 		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'newsmanager', 'newsmanager');
+		$strQuery = "SELECT * "
+		."FROM ".$tcms_db_prefix."newsmanager "
+		."WHERE language = '".$language."'";
+		
+		$sqlQR = $sqlAL->sqlQuery($strQuery);
 		$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
 		
 		$defaultFeed = $sqlObj->def_feed;
@@ -2104,8 +2107,15 @@ if($todo == 'enableComments'){
 	switch($action){
 		// Take it off
 		case 'off':
-			if($choosenDB == 'xml'){ xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_news/'.$maintag.'.xml', 'comments_enabled', '1', '0'); }
-			else{
+			if($choosenDB == 'xml'){
+				xmlparser::edit_value(
+					'../../'.$tcms_administer_site.'/tcms_news/'.$maintag.'.xml', 
+					'comments_enabled', 
+					'1', 
+					'0'
+				);
+			}
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB);
 				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				$newSQLData = $tcms_db_prefix.'news.comments_enabled=0';
@@ -2271,10 +2281,13 @@ if($todo == 'delete'){
 	
 	// regenerate feeds
 	if($choosenDB == 'xml'){
-		$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/newsmanager.xml','r');
-		$defaultFeed = $news_xml->read_section('config', 'def_feed');
-		$synAmount   = $news_xml->read_section('config', 'syn_amount');
-		$showAutor   = $news_xml->read_section('config', 'show_autor');
+		$xml = new xmlparser(
+			'../../'.$tcms_administer_site.'/tcms_global/newsmanager.'.$tcms_config->getLanguageFrontend().'.xml',
+			'r'
+		);
+		$defaultFeed = $xml->read_section('config', 'def_feed');
+		$synAmount   = $xml->read_section('config', 'syn_amount');
+		$showAutor   = $xml->read_section('config', 'show_autor');
 		$xml->flush();
 		$xml->_xmlparser();
 		unset($xml);
@@ -2283,7 +2296,11 @@ if($todo == 'delete'){
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
 		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'newsmanager', 'newsmanager');
+		$strQuery = "SELECT * "
+		."FROM ".$tcms_db_prefix."newsmanager "
+		."WHERE language = '".$tcms_config->getLanguageFrontend()."'";
+		
+		$sqlQR = $sqlAL->sqlQuery($strQuery);
 		$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
 		
 		$defaultFeed = $sqlObj->def_feed;

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the publishing form.
  *
- * @version 0.5.9
+ * @version 0.6.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -75,7 +75,8 @@ if($id_group == 'Developer'
 				$old_ustid        = $imp_xml->read_section('imp', 'ustid');
 				$old_legal        = $imp_xml->read_section('imp', 'legal');
 				$test_imp_contact = $imp_xml->read_section('imp', 'imp_contact');
-				$old_imp_lang     = $imp_xml->read_section('imp', 'language');
+				$old_imp_lang     = $getLang;
+				//$imp_xml->read_section('imp', 'language');
 				
 				if(!$old_imp_id)       { $old_imp_id       = ''; }
 				if(!$old_imp_title)    { $old_imp_title    = ''; }
@@ -211,6 +212,7 @@ if($id_group == 'Developer'
 		// BEGIN FORM
 		echo '<form action="admin.php?id_user='.$id_user.'&amp;site=mod_impressum" method="post" id="imp">'
 		.'<input name="lang_exist" type="hidden" value="'.$langExist.'" />'
+		.'<input name="extra" type="hidden" value="1" />'
 		.'<input name="todo" type="hidden" value="save" />';
 		
 		

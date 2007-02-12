@@ -173,9 +173,7 @@ $position_help = 509;
 						['<img src="../images/people_add.png" />','<? echo _TCMS_ADMIN_NEW_ITEM; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_contact&todo=edit','_self',null], 
 						['<img src="../images/vcard.png" />','<? echo _TCMS_ADMIN_IMPORT.' '._CONTACT_VCARD; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_contact&todo=import','_self',null]
 					], 
-					['<img src="../images/front.png" />', '<? echo _TCMS_MENU_FRONT; ?>', 'admin.php?id_user=<? echo $id_user; ?>&site=mod_frontpage', '_self', null,
-						['<img src="../images/config.png" />', '<? echo _TCMS_ADMIN_CONFIG; ?>', 'admin.php?id_user=<? echo $id_user; ?>&site=mod_frontpage&todo=config', '_self', null]
-					], 
+					['<img src="../images/front.png" />', '<? echo _TCMS_MENU_FRONT; ?>', 'admin.php?id_user=<? echo $id_user; ?>&site=mod_frontpage', '_self', null], 
 					['<img src="../images/extensions.gif" />','<? echo _TCMS_MENU_CFORM; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_extensions','_self',null], 
 					['<img src="../images/guests.gif" />','<? echo _TCMS_MENU_BOOK; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_guestbook_config','_self',null], 
 					['<img src="../images/impressum.png" />','<? echo _TCMS_MENU_IMP; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_impressum','_self',null]
