@@ -25,16 +25,16 @@
 	<captcha_clean_size>1024</captcha_clean_size>
 	<show_doc_autor>0</show_doc_autor>
 	<admin_topmenu>0</admin_topmenu>
-	<pathway_char>></pathway_char>
+	<pathway_char>»</pathway_char>
 	<anti_frame>1</anti_frame>
-	<revisit_after>2</revisit_after>
+	<revisit_after>1</revisit_after>
 	<robotsfile>http://www.toenda.com/robots.txt</robotsfile>
 	<pdflink>1</pdflink>
 	<cachecontrol>no-cache, must-revalidate</cachecontrol>
 	<pragma>no-cache</pragma>
 	<expires>0</expires>
 	<robots>index, follow</robots>
-	<last_changes>2006-12-12 18:42:53</last_changes>
+	<last_changes></last_changes>
 	<use_content_language>1</use_content_language>
 
 </global>

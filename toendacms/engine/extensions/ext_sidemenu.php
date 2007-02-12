@@ -23,11 +23,14 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a side menu.
  *
- * @version 0.4.4
+ * @version 0.4.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
  */
+
+
+$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
 
 
 if($navigation == 1){
@@ -63,7 +66,7 @@ if($navigation == 1){
 		include_once('engine/tcms_kernel/datacontainer/tcms_dc_sidemenuitem.lib.php');
 		
 		$arrMenuItem = new tcms_dc_sidemenuitem();
-		$arrMenuItem = $tcms_menu->getBasemenu();
+		$arrMenuItem = $tcms_menu->getBasemenu($getLang);
 		
 		if($tcms_main->isArray($arrMenuItem)){
 			echo '<ul style="list-style-type: none !important;">';
@@ -80,7 +83,7 @@ if($navigation == 1){
 						break;
 					
 					case 'title':
-						echo tcms_html::subtitle($menuItem->GetTitle());
+						echo $tcms_html->subTitle($menuItem->GetTitle());
 						break;
 					
 					case 'link':
@@ -98,7 +101,7 @@ if($navigation == 1){
 				//
 				// submenu
 				//
-				$arrSubMenuItem = $tcms_menu->getSubmenu(1, $menuItem->GetID(), $id, $item);
+				$arrSubMenuItem = $tcms_menu->getSubmenu($getLang, 1, $menuItem->GetID(), $id, $item);
 				
 				if($tcms_main->isArray($arrSubMenuItem)){
 					echo '<li><ul style="list-style-type: none !important;">';
@@ -115,7 +118,7 @@ if($navigation == 1){
 								break;
 							
 							case 'title':
-								echo tcms_html::subtitle($subMenuItem->GetTitle());
+								echo $tcms_html->subTitle($subMenuItem->GetTitle());
 								break;
 							
 							case 'link':
@@ -133,7 +136,7 @@ if($navigation == 1){
 						//
 						// submenu, level 2
 						//
-						$arrSubMenu2Item = $tcms_menu->getSubmenu(2, $subMenuItem->GetID(), $id, $item);
+						$arrSubMenu2Item = $tcms_menu->getSubmenu($getLang, 2, $subMenuItem->GetID(), $id, $item);
 						
 						if($tcms_main->isArray($arrSubMenu2Item)){
 							echo '<ul style="list-style-type: none !important;">';
@@ -150,7 +153,7 @@ if($navigation == 1){
 										break;
 									
 									case 'title':
-										echo tcms_html::subtitle($subMenu2Item->GetTitle());
+										echo $tcms_html->subTitle($subMenu2Item->GetTitle());
 										break;
 									
 									case 'link':

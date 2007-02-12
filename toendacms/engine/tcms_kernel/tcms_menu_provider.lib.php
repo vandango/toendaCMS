@@ -9,7 +9,7 @@
 |
 | toendaCMS Menu Provider
 |
-| File:		tcms_menu_provider.lib.php
+| File:	tcms_menu_provider.lib.php
 |
 +
 */
@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a provider for sidemenu datacontainer
  * objects.
  *
- * @version 0.1.1
+ * @version 0.1.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -38,7 +38,11 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * _checkIDByLink                          -> Check a menuitem by link
  * _getIDByLink                            -> Get a menuitem by link
+ * 
+ * getBasemenu                             -> Get a array of sidemenu items from the base
+ * getSubmenu                              -> Get a array of sidemenu items from the base
  * getSidemenu                             -> Get a array of menu items
+ * generateLinkWay                         -> Generate a linkway arraylist
  * 
  * </code>
  *
@@ -108,13 +112,14 @@ class tcms_menu_provider extends tcms_main {
 	/**
 	 * [PRIVATE] Check the parent id of a item
 	 *
+	 * @param String $lang
 	 * @param String $id
 	 * @param String $root
 	 * @param Integer $level = 0
 	 * @param Integer $item_id
 	 * @return String
 	 */
-	function _checkIDByLink($id, $root, $level = 0, $item_id){
+	function _checkIDByLink($lang, $id, $root, $level = 0, $item_id){
 		//$menuItem = new tcms_dc_sidemenuitem();
 		
 		//$menuItem->SetLink('_NOTHING_');
@@ -174,6 +179,7 @@ class tcms_menu_provider extends tcms_main {
 			$strSQL = "SELECT *"
 			." FROM ".$this->m_sqlPrefix."sidemenu"
 			." WHERE link = '".$id."'"
+			." AND LANGUAGE = '".$lang."'"
 			." AND published = 1"
 			." AND ( access = 'Public' ".$strAdd
 			." ORDER BY id ASC, subid ASC";
@@ -222,12 +228,13 @@ class tcms_menu_provider extends tcms_main {
 	/**
 	 * [PRIVATE] Get the parent id of a item
 	 *
+	 * @param String $lang
 	 * @param String $id
 	 * @param String $root
 	 * @param Integer $level = 0
 	 * @return String
 	 */
-	function _getDByLink($id, $root, $level = 0){
+	function _getDByLink($lang, $id, $root, $level = 0){
 		$result = '0';
 		
 		if($this->m_choosenDB == 'xml'){
@@ -284,6 +291,7 @@ class tcms_menu_provider extends tcms_main {
 			$strSQL = "SELECT *"
 			." FROM ".$this->m_sqlPrefix."sidemenu"
 			." WHERE uid = '".$root."'"
+			." AND LANGUAGE = '".$lang."'"
 			." AND published = 1"
 			." AND ( access = 'Public' ".$strAdd
 			." ORDER BY id ASC, subid ASC";
@@ -302,9 +310,10 @@ class tcms_menu_provider extends tcms_main {
 	/**
 	 * Get a array of sidemenu items from the base
 	 *
+	 * @param String $lang
 	 * @return Array
 	 */
-	function getBasemenu() {
+	function getBasemenu($lang) {
 		if($this->m_choosenDB == 'xml') {
 			/*foreach($arr_file as $key => $value){
 				if($value != 'index.html'){
@@ -368,6 +377,7 @@ class tcms_menu_provider extends tcms_main {
 			$strSQL = "SELECT *"
 			." FROM ".$this->m_sqlPrefix."sidemenu"
 			." WHERE ".$sql_parent
+			." AND LANGUAGE = '".$lang."'"
 			." AND published = 1"
 			." AND ( access = 'Public' ".$strAdd
 			." ORDER BY id ASC, subid ASC";
@@ -412,19 +422,26 @@ class tcms_menu_provider extends tcms_main {
 	/**
 	 * Get a array of sidemenu items from the base
 	 *
+	 * @param String $lang
 	 * @param Integer $level = 1
 	 * @param String $subMenuOf
 	 * @param String $currentPage
 	 * @param String $currentPageItem
 	 * @return Array
 	 */
-	function getSubmenu($level = 1, $subMenuOf, $currentPage, $currentPageItem) {
+	function getSubmenu($lang, $level = 1, $subMenuOf, $currentPage, $currentPageItem) {
 		if($this->m_choosenDB == 'xml') {
 			
 		}
 		else {
 			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->m_sqlUser, $this->m_sqlPass, $this->m_sqlHost, $this->m_sqlDB, $this->m_sqlPort);
+			$sqlCN = $sqlAL->sqlConnect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
 			
 			$executeQuery = false;
 			
@@ -454,9 +471,9 @@ class tcms_menu_provider extends tcms_main {
 				$currentPage = $currentPage.'&item='.$currentPageItem;
 			}
 			
-			$item_id = $this->_getDByLink($currentPage, $subMenuOf, $level);
+			$item_id = $this->_getDByLink($lang, $currentPage, $subMenuOf, $level);
 			//echo $currentPage.' - '.$subMenuOf.' - '.$level.' - '.$item_id.'<br>';
-			$executeQuery = $this->_checkIDByLink($currentPage, $subMenuOf, $level, $item_id);
+			$executeQuery = $this->_checkIDByLink($lang, $currentPage, $subMenuOf, $level, $item_id);
 			
 			
 			//
@@ -481,6 +498,7 @@ class tcms_menu_provider extends tcms_main {
 			$strSQL = "SELECT *"
 			." FROM ".$this->m_sqlPrefix."sidemenu"
 			." WHERE ".$sql_parent
+			." AND LANGUAGE = '".$lang."'"
 			." AND published = 1"
 			." AND ( access = 'Public' ".$strAdd
 			." ORDER BY id ASC, subid ASC";
@@ -531,6 +549,7 @@ class tcms_menu_provider extends tcms_main {
 	/**
 	 * Get a array of sidemenu items
 	 *
+	 * @param String $lang
 	 * @param String $item_id = ''
 	 * @param Integer $level = 0
 	 * @param String $id = ''
@@ -538,7 +557,7 @@ class tcms_menu_provider extends tcms_main {
 	 * @param String $root = ''
 	 * @return Array
 	 */
-	function getSidemenu($item_id = '', $level = 0, $id = '', $item = '', $root = ''){
+	function getSidemenu($lang, $item_id = '', $level = 0, $id = '', $item = '', $root = ''){
 		if($this->m_choosenDB == 'xml'){
 			/*$arr_filename = $this->readdir_ext($this->m_path.'/tcms_menu/');
 			
@@ -685,7 +704,7 @@ class tcms_menu_provider extends tcms_main {
 				if($id == 'components')
 					$id = $id.'&item='.$item;
 				
-				$executeQuery = $this->_getIDByLink($id, $item_id, $level);
+				$executeQuery = $this->_getIDByLink($lang, $id, $item_id, $level);
 				
 				//echo '<b>'.$root.' - '.( $executeQuery ? '1' : '0' ).'</b>';
 				// - '.$id.' ('.$level.'): '.$item_id.' == '.$currentID.'</b><br />';
@@ -712,6 +731,7 @@ class tcms_menu_provider extends tcms_main {
 			$strSQL = "SELECT *"
 			." FROM ".$this->m_sqlPrefix."sidemenu"
 			." WHERE ".$sql_parent
+			." AND LANGUAGE = '".$lang."'"
 			." AND published = 1"
 			." AND ( access = 'Public' ".$strAdd
 			." ORDER BY id ASC, subid ASC";
@@ -748,102 +768,139 @@ class tcms_menu_provider extends tcms_main {
 			
 			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
+		}
+		
+		return $arrReturn;
+	}
+	
+	
+	
+	/**
+	 * Generate a linkway arraylist
+	 * 
+	 * @param String $session
+	 * @param String $template
+	 * @param String $language
+	 * @return Array
+	 */
+	function generateLinkWay($session, $template, $language) {
+		if($this->m_choosenDB == 'xml') {
 			
+		}
+		else {
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
+			$sqlCN = $sqlAL->sqlConnect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
 			
+			$sqlStr = "SELECT * "
+			."FROM ".$this->db_prefix."sidemenu "
+			."WHERE language = '".$tcms_config->getLanguageCodeForTCMS($language)."' "
+			."ORDER BY id ASC, name ASC, link ASC";
 			
-			
-			
-			
-			/*
-			
-			
-			
-			
-			
-			
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-			
-			$sqlQR = $sqlAL->sqlGetAll($this->db_prefix.'sidemenu');
+			$sqlQR = $sqlAL->sqlQuery($sqlStr);
 			
 			$count = 0;
 			
-			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
-				$arr_menu['tag'][$count]  = $sqlARR['uid'];
-				$arr_menu['name'][$count] = $sqlARR['name'];
-				$arr_menu['id'][$count]   = $sqlARR['id'];
-				$arr_menu['sub'][$count]  = $sqlARR['subid'];
-				$arr_menu['type'][$count] = $sqlARR['type'];
-				$arr_menu['link'][$count] = $sqlARR['link'];
-				$arr_menu['par'][$count]  = $sqlARR['parent'];
-				$arr_menu['pub'][$count]  = $sqlARR['published'];
-				$arr_menu['auth'][$count] = $sqlARR['access'];
+			while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)){
+				$arr_link['name'][$count] = $sqlObj->name;
+				$arr_link['id'][$count]   = $sqlObj->id;
+				$arr_link['link'][$count] = $sqlObj->link;
 				
-				if($arr_menu['name'][$count] == NULL){ $arr_menu['name'][$count] = ''; }
-				if($arr_menu['id'][$count]   == NULL){ $arr_menu['id'][$count]   = ''; }
-				if($arr_menu['auth'][$count] == NULL){ $arr_menu['auth'][$count] = ''; }
-				if($arr_menu['link'][$count] == NULL){ $arr_menu['link'][$count] = ''; }
-				if($arr_menu['pub'][$count]  == NULL){ $arr_menu['pub'][$count]  = ''; }
+				if($arr_link['name'][$count] == NULL){ $arr_link['name'][$count] = ''; }
+				if($arr_link['id'][$count]   == NULL){ $arr_link['id'][$count]   = ''; }
+				if($arr_link['link'][$count] == NULL){ $arr_link['link'][$count] = ''; }
 				
 				// CHARSETS
-				$arr_menu['name'][$count] = $this->decodeText($arr_menu['name'][$count], '2', $c_charset);
+				$arr_link['name'][$count] = $this->decodeText($arr_link['name'][$count], '2', $c_charset);
 				
 				$checkReorder = $count;
 				$count++;
 			}
 			
-			if(is_array($arr_menu)){
-				array_multisort(
-					$arr_menu['id'], SORT_ASC, 
-					$arr_menu['sub'], SORT_ASC, 
-					$arr_menu['name'], SORT_ASC, 
-					$arr_menu['type'], SORT_ASC, 
-					$arr_menu['link'], SORT_ASC, 
-					$arr_menu['auth'], SORT_ASC, 
-					$arr_menu['pub'], SORT_ASC, 
-					$arr_menu['par'], SORT_ASC
-				);
-				
-				foreach($arr_menu['id'] as $mkey => $mvalue){
-					if($arr_menu['type'][$mkey] == 'web'){
-						$arr_mainmenu['link'][$mkey] = '<a class="mainlevel" href="'.trim($arr_menu['link'][$mkey]).'" target="_blank">'.trim($arr_menu['name'][$mkey]).'</a>';
-					}
-					else{
+			
+			if($which != 'check_id'){
+				if(is_array($arr_link['link']) && !empty($arr_link['link'])){
+					foreach($arr_link['link'] as $key => $value){
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-						.'id='.$arr_menu['link'][$mkey].'&amp;s='.$s
+						.'id='.$value.'&amp;s='.$s
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
 						$link = $this->urlAmpReplace($link);
 						
-						$arr_mainmenu['link'][$mkey] = '<a class="mainlevel" href="'.$link.'">'.trim($arr_menu['name'][$mkey]).'</a>';
-					}
-					$arr_mainmenu['auth'][$mkey] = trim($arr_menu['auth'][$mkey]);
-					$arr_mainmenu['id'][$mkey] = trim($arr_menu['id'][$mkey]);
-					$arr_mainmenu['type'][$mkey] = trim($arr_menu['type'][$mkey]);
-					$arr_mainmenu['subid'][$mkey] = trim($arr_menu['sub'][$mkey]);
-					$arr_mainmenu['parent'][$mkey] = trim($arr_menu['par'][$mkey]);
-					$arr_mainmenu['name'][$mkey] = trim($arr_menu['name'][$mkey]);
-					$arr_mainmenu['pub'][$mkey] = trim($arr_menu['pub'][$mkey]);
-					$arr_mainmenu['url'][$mkey] = trim($arr_menu['link'][$mkey]);
-					
-					if($arr_menu['type'][$mkey] == 'web'){
-						$arr_mainmenu['submenu'][$mvalue][$mkey] = '<a class="submenu" href="'.trim($arr_menu['link'][$mkey]).'" target="_blank">'.trim($arr_menu['name'][$mkey]).'</a>';
-					}
-					else{
-						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-						.'id='.trim($arr_menu['link'][$mkey]).'&amp;s='.$s
-						.( isset($lang) ? '&amp;lang='.$lang : '' );
-						$link = $this->urlAmpReplace($link);
-						
-						$arr_mainmenu['submenu'][$mvalue][$mkey] = '<a class="submenu" href="'.$link.'">'.trim($arr_menu['name'][$mkey]).'</a>';
+						$arr_path[$value] = '<a class="pathway" href="'.$link.'">'.$arr_link['name'][$key].'</a>';
+						$titleway[$value] = $arr_link['name'][$key];
+						$pathway[$value]  = $arr_link['name'][$key];
 					}
 				}
-				
-				return $arr_mainmenu;
 			}
-			else{ return ''; }*/
+			
+			$sqlStr = "SELECT * "
+			."FROM ".$this->db_prefix."topmenu "
+			."WHERE language = '".$tcms_config->getLanguageCodeForTCMS($lang)."' "
+			."ORDER BY id ASC, name ASC, link ASC";
+			
+			$sqlQR = $sqlAL->sqlQuery($sqlStr);
+			
+			$count = 0;
+			
+			while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)){
+				$arr_link['name'][$count] = $sqlObj->name;
+				$arr_link['id'][$count]   = $sqlObj->id;
+				$arr_link['link'][$count] = $sqlObj->link;
+				
+				if($arr_link['name'][$count] == NULL){ $arr_link['name'][$count] = ''; }
+				if($arr_link['id'][$count]   == NULL){ $arr_link['id'][$count]   = ''; }
+				if($arr_link['link'][$count] == NULL){ $arr_link['link'][$count] = ''; }
+				
+				// CHARSETS
+				$arr_link['name'][$count] = $this->decodeText($arr_link['name'][$count], '2', $c_charset);
+				
+				$checkReorder = $count;
+				$count++;
+			}
+			
+			
+			if($which != 'check_id'){
+				if(is_array($arr_link['link']) && !empty($arr_link['link'])){
+					foreach($arr_link['link'] as $key => $value){
+						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+						.'id='.$value.'&amp;s='.$s
+						.( isset($lang) ? '&amp;lang='.$lang : '' );
+						$link = $this->urlAmpReplace($link);
+						
+						$arr_pathT[$value] = '<a class="pathway" href="'.$link.'">'.$arr_link['name'][$key].'</a>';
+						$titlewayT[$value] = $arr_link['name'][$key];
+						$pathwayT[$value]  = $arr_link['name'][$key];
+					}
+				}
+			}
 		}
 		
-		return $arrReturn;
+		if(is_array($pathwayT) && !empty($pathwayT)){
+			foreach($pathwayT as $key => $value){ $tmpPathway[$key] = $value; }
+		}
+		
+		if(is_array($pathway) && !empty($pathway)){
+			foreach($pathway as $key => $value){ $tmpPathway[$key] = $value; }
+		}
+		
+		if(!is_array($arr_path)) { $arr_path[0]  = ''; }
+		if(!is_array($arr_pathT)){ $arr_pathT[0] = ''; }
+		if(!is_array($titleway)) { $titleway[0]  = ''; }
+		if(!is_array($titlewayT)){ $titlewayT[0] = ''; }
+		
+		$arr_path = array_merge($arr_path, $arr_pathT);
+		$titleway = array_merge($titleway, $titlewayT);
+		
+		$arrLinkway['path']    = $arr_path;
+		$arrLinkway['title']   = $titleway;
+		$arrLinkway['pathway'] = $tmpPathway;
+		
+		return $arrLinkway;
 	}
 }
 

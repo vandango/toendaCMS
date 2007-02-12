@@ -665,6 +665,7 @@ if($todo == 'show'){
 					$arr_news['acc'][$count]   = $main_xml->read_value('access');
 					$arr_news['autor'][$count] = $main_xml->read_value('autor');
 					$arr_news['sof'][$count]   = $main_xml->read_value('show_on_frontpage');
+					$arr_news['lang'][$count]  = $main_xml->read_value('language');
 					
 					if(!$arr_news['title'][$count]){ $arr_news['title'][$count] = ''; }
 					if(!$arr_news['date'][$count]) { $arr_news['date'][$count]  = ''; }
@@ -701,7 +702,8 @@ if($todo == 'show'){
 				$arr_news['order'], SORT_DESC, 
 				$arr_news['autor'], SORT_DESC, 
 				$arr_news['acc'], SORT_DESC, 
-				$arr_news['sof'], SORT_DESC
+				$arr_news['sof'], SORT_DESC, 
+				$arr_news['lang'], SORT_DESC
 			);
 		}
 	}
@@ -822,7 +824,7 @@ if($todo == 'show'){
 					.'</td>';
 					
 					echo '<td class="tcms_db_2"'.$strJS.'>'
-					.( !$tcms_main->isReal($arr_news['lang'][$count]) ? '&nbsp;' : $arr_news['lang'][$count] )
+					.$tcms_main->getLanguageNameByTCMSLanguageCode($languages, $arr_news['lang'][$count])
 					.'</td>';
 					
 					echo '<td class="tcms_db_2"'.$strJS.'>'
@@ -983,6 +985,7 @@ if($todo == 'edit'){
 				$nws_cat          = $main_xml->read_value('category');
 				$nws_access       = $main_xml->read_value('access');
 				$nws_sof          = $main_xml->read_value('show_on_frontpage');
+				$nws_lang         = $main_xml->read_value('language');
 				
 				if(!$nws_title)       { $nws_title        = ''; }
 				if(!$nws_autor)       { $nws_autor        = ''; }

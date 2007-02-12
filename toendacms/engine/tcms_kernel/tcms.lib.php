@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 1.9.6
+ * @version 1.9.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -36,38 +36,39 @@ defined('_TCMS_VALID') or die('Restricted access');
  * CONSTRUCTOR AND DESTRUCTOR
  * --------------------------------------------------------
  *
- * __construct                 -> PHP5 Constructor
- * tcms_main                   -> PHP4 Constructor
- * __destruct                  -> PHP5 Destructor
- * _tcms_main                  -> PHP4 Destructor
+ * __construct                       -> PHP5 Constructor
+ * tcms_main                         -> PHP4 Constructor
+ * __destruct                        -> PHP5 Destructor
+ * _tcms_main                        -> PHP4 Destructor
  *
  * --------------------------------------------------------
  * MAIN FUNCTIONS
  * --------------------------------------------------------
  *
- * setDatabaseInfo             -> Setter for the databse information
- * setURLSEO                   -> Setter for urlSEO
- * setGlobalFolder             -> Set the global folder
- * getAdministerSite           -> Get the administer-site string
+ * setDatabaseInfo                   -> Setter for the databse information
+ * setURLSEO                         -> Setter for urlSEO
+ * setGlobalFolder                   -> Set the global folder
+ * getAdministerSite                 -> Get the administer-site string
  *
  * --------------------------------------------------------
  * PUBLIC METHODS
  * --------------------------------------------------------
  *
  * // todo: take into account class
- * getUser                     -> Return the username
- * getUserID                   -> Return ID for username or realname
- * getUserInfo                 -> Get some information about a user
+ * getUser                           -> Return the username
+ * getUserID                         -> Return ID for username or realname
+ * getUserInfo                       -> Get some information about a user
  * 
- * getAllDocuments             -> Get all documents
- * getPathContentAmount        -> Get the amount of related files in a path (without directorys)
- * getPathContent              -> Return a array of all files or folders inside a path
- * getXMLFiles                 -> Return a array of all xml files inside a path
- * getDirectorySize            -> Get the complete filesize of a directory
- * getDirectorySizeString      -> Get the complete filesize of a directory as a string
- * getNewUID                   -> Get a new guid
- * getMimeType                 -> Get the mimetype of a filename
- * getPHPSetting               -> Get a PHP setting
+ * getAllDocuments                   -> Get all documents
+ * getPathContentAmount              -> Get the amount of related files in a path (without directorys)
+ * getPathContent                    -> Return a array of all files or folders inside a path
+ * getXMLFiles                       -> Return a array of all xml files inside a path
+ * getDirectorySize                  -> Get the complete filesize of a directory
+ * getDirectorySizeString            -> Get the complete filesize of a directory as a string
+ * getNewUID                         -> Get a new guid
+ * getMimeType                       -> Get the mimetype of a filename
+ * getPHPSetting                     -> Get a PHP setting
+ * getLanguageNameByTCMSLanguageCode -> Get the name of a language by it's TCMS language code
  * setPHPSetting               -> Set a PHP setting
  * isArray                     -> Check if a array is realy a array
  * isImage                     -> Check if a file type is a image file
@@ -116,7 +117,6 @@ defined('_TCMS_VALID') or die('Restricted access');
  * create_sort_id_sub          -> create a sort id for subid tag (with parent as parent)
  * linkway                     -> return arrays with links for sitetitle and pathway
  * mainmenu                    -> return links for the sidemenu
- * mainmenuSQL                 -> return links for the sidemenu (read from database)
  * topmenu                     -> return links for the topmenu
  * topmenuSQL                  -> return links for the topmenu (read from database)
  * get_max_id                  -> return the max id
@@ -158,6 +158,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * DEPRECATED create_sql_session          -> see tcms_authentication
  * DEPRECATED load_xml_files              -> loads all xml files from an dir ( files or numbers files )
  * DEPRECATED canCHMOD                    -> isCHMODable
+ * DEPRECATED mainmenuSQL                 -> return links for the sidemenu (read from database)
  * 
  * </code>
  *
@@ -791,6 +792,28 @@ class tcms_main {
 		else{
 			$r = (ini_get($value) == '1' || ini_get($value) == 'on' ? true : false);
 			return $r;
+		}
+	}
+	
+	
+	
+	/**
+	 * Get the name of a language by it's TCMS language code
+	 * 
+	 * @param Array $array
+	 * @param String $code
+	 * @return String
+	 */
+	function getLanguageNameByTCMSLanguageCode($array, $code) {
+		if($this->isReal($code)) {
+			foreach($array['code'] as $key => $value) {
+				if($value == $code) {
+					return $array['name'][$key];
+				}
+			}
+		}
+		else {
+			return '&nbsp;';
 		}
 	}
 	
@@ -2350,12 +2373,21 @@ class tcms_main {
 	*      pathway => Pathway
 	*/
 	function linkwaySQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, $session, $s, $lang){
+		global $tcms_config;
+		
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
 		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
+		$sqlStr = "SELECT * "
+		."FROM ".$this->db_prefix."sidemenu "
+		."WHERE language = '".$tcms_config->getLanguageCodeForTCMS($lang)."' "
+		."ORDER BY id ASC, name ASC, link ASC";
 		
-		$sqlQR = $sqlAL->sqlGetAll($this->db_prefix.'sidemenu');
+		//$sqlQR = $sqlAL->sqlGetAll($this->db_prefix.'sidemenu');
+		$sqlQR = $sqlAL->sqlQuery($sqlStr);
+		
 		$count = 0;
+		
 		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
 			$arr_link['name'][$count] = $sqlARR['name'];
 			$arr_link['id'][$count]   = $sqlARR['id'];
@@ -2374,13 +2406,13 @@ class tcms_main {
 		
 		
 		if($which != 'check_id'){
-			if(is_array($arr_link)){
+			/*if(is_array($arr_link)){
 				array_multisort(
 					$arr_link['id'], SORT_ASC, 
 					$arr_link['name'], SORT_ASC, 
 					$arr_link['link'], SORT_ASC
 				);
-			}
+			}*/
 			
 			if(is_array($arr_link['link']) && !empty($arr_link['link'])){
 				foreach($arr_link['link'] as $key => $value){
@@ -2396,8 +2428,15 @@ class tcms_main {
 			}
 		}
 		
+		$sqlStr = "SELECT * "
+		."FROM ".$this->db_prefix."topmenu "
+		."WHERE language = '".$tcms_config->getLanguageCodeForTCMS($lang)."' "
+		."ORDER BY id ASC, name ASC, link ASC";
 		
-		$sqlQR = $sqlAL->sqlGetAll($this->db_prefix.'topmenu');
+		//$sqlQR = $sqlAL->sqlGetAll($this->db_prefix.'sidemenu');
+		$sqlQR = $sqlAL->sqlQuery($sqlStr);
+		
+		//$sqlQR = $sqlAL->sqlGetAll($this->db_prefix.'topmenu');
 		$count = 0;
 		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
 			$arr_link['name'][$count] = $sqlARR['name'];
@@ -2417,13 +2456,13 @@ class tcms_main {
 		
 		
 		if($which != 'check_id'){
-			if(is_array($arr_link)){
+			/*if(is_array($arr_link)){
 				array_multisort(
 					$arr_link['id'], SORT_ASC, 
 					$arr_link['name'], SORT_ASC, 
 					$arr_link['link'], SORT_ASC
 				);
-			}
+			}*/
 			
 			if(is_array($arr_link['link']) && !empty($arr_link['link'])){
 				foreach($arr_link['link'] as $key => $value){
@@ -2559,112 +2598,6 @@ class tcms_main {
 	
 	
 	/***
-	* @return Mainmenu links (for SQL DB)
-	* @desc returns an multi array with all mainmenulinks as array, the follow idizies exists
-	*   array -> 'link'		-> complete link
-	*   array -> 'auth'		-> access level
-	*   array -> 'id'		-> position
-	*   array -> 'subid'	-> position in submenu
-	*   array -> 'type'		-> type of menuetry
-	*   array -> 'parent'	-> which parent item
-	*   array -> 'pub'      -> is item published or not
-	*   array -> 'submenu'	-> complete submenu link
-	*   array -> 'name'		-> simple link name
-	*/
-	function mainmenuSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, $session, $s, $lang){
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-		
-		$sqlQR = $sqlAL->sqlGetAll($this->db_prefix.'sidemenu');
-		
-		$count = 0;
-		
-		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
-			$arr_menu['tag'][$count]  = $sqlARR['uid'];
-			$arr_menu['name'][$count] = $sqlARR['name'];
-			$arr_menu['id'][$count]   = $sqlARR['id'];
-			$arr_menu['sub'][$count]  = $sqlARR['subid'];
-			$arr_menu['type'][$count] = $sqlARR['type'];
-			$arr_menu['link'][$count] = $sqlARR['link'];
-			$arr_menu['par'][$count]  = $sqlARR['parent'];
-			$arr_menu['pub'][$count]  = $sqlARR['published'];
-			$arr_menu['auth'][$count] = $sqlARR['access'];
-			$arr_menu['tar'][$count]  = $sqlARR['target'];
-			
-			if($arr_menu['name'][$count] == NULL){ $arr_menu['name'][$count] = ''; }
-			if($arr_menu['id'][$count]   == NULL){ $arr_menu['id'][$count]   = ''; }
-			if($arr_menu['auth'][$count] == NULL){ $arr_menu['auth'][$count] = ''; }
-			if($arr_menu['link'][$count] == NULL){ $arr_menu['link'][$count] = ''; }
-			if($arr_menu['pub'][$count]  == NULL){ $arr_menu['pub'][$count]  = ''; }
-			if($arr_menu['tar'][$count]  == NULL){ $arr_menu['tar'][$count]  = ''; }
-			
-			// CHARSETS
-			$arr_menu['name'][$count] = $this->decodeText($arr_menu['name'][$count], '2', $c_charset);
-			
-			$checkReorder = $count;
-			$count++;
-		}
-		
-		if(is_array($arr_menu)){
-			array_multisort(
-				$arr_menu['id'], SORT_ASC, 
-				$arr_menu['sub'], SORT_ASC, 
-				$arr_menu['name'], SORT_ASC, 
-				$arr_menu['type'], SORT_ASC, 
-				$arr_menu['link'], SORT_ASC, 
-				$arr_menu['auth'], SORT_ASC, 
-				$arr_menu['pub'], SORT_ASC, 
-				$arr_menu['par'], SORT_ASC, 
-				$arr_menu['tar'], SORT_ASC
-			);
-			
-			foreach($arr_menu['id'] as $mkey => $mvalue){
-				if($arr_menu['tar'][$mkey] != '')
-					$ltarget = ' target="'.$arr_menu['tar'][$mkey].'"';
-				else
-					$ltarget = '';
-				
-				if($arr_menu['type'][$mkey] == 'web'){
-					$arr_mainmenu['link'][$mkey] = '<a'.$ltarget.' class="mainlevel" href="'.trim($arr_menu['link'][$mkey]).'">'.trim($arr_menu['name'][$mkey]).'</a>';
-				}
-				else{
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-					.'id='.$arr_menu['link'][$mkey].'&amp;s='.$s
-					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $this->urlAmpReplace($link);
-					
-					$arr_mainmenu['link'][$mkey] = '<a'.$ltarget.' class="mainlevel" href="'.$link.'">'.trim($arr_menu['name'][$mkey]).'</a>';
-				}
-				$arr_mainmenu['auth'][$mkey] = trim($arr_menu['auth'][$mkey]);
-				$arr_mainmenu['id'][$mkey] = trim($arr_menu['id'][$mkey]);
-				$arr_mainmenu['type'][$mkey] = trim($arr_menu['type'][$mkey]);
-				$arr_mainmenu['subid'][$mkey] = trim($arr_menu['sub'][$mkey]);
-				$arr_mainmenu['parent'][$mkey] = trim($arr_menu['par'][$mkey]);
-				$arr_mainmenu['name'][$mkey] = trim($arr_menu['name'][$mkey]);
-				$arr_mainmenu['pub'][$mkey] = trim($arr_menu['pub'][$mkey]);
-				$arr_mainmenu['url'][$mkey] = trim($arr_menu['link'][$mkey]);
-				
-				if($arr_menu['type'][$mkey] == 'web'){
-					$arr_mainmenu['submenu'][$mvalue][$mkey] = '<a'.$ltarget.' class="submenu" href="'.trim($arr_menu['link'][$mkey]).'">'.trim($arr_menu['name'][$mkey]).'</a>';
-				}
-				else{
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-					.'id='.trim($arr_menu['link'][$mkey]).'&amp;s='.$s
-					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $this->urlAmpReplace($link);
-					
-					$arr_mainmenu['submenu'][$mvalue][$mkey] = '<a'.$ltarget.' class="submenu" href="'.$link.'">'.trim($arr_menu['name'][$mkey]).'</a>';
-				}
-			}
-			
-			return $arr_mainmenu;
-		}
-		else{ return ''; }
-	}
-	
-	
-	
-	/***
 	* @return Topmenu links
 	* @desc 
 	*/
@@ -2733,10 +2666,20 @@ class tcms_main {
 	* @desc 
 	*/
 	function topmenuSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, $session, $s, $lang){
+		global $tcms_config;
+		
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
 		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$sqlQR = $sqlAL->sqlGetAll($this->db_prefix.'topmenu');
+		$sqlStr = "SELECT * "
+		."FROM ".$this->db_prefix."topmenu "
+		."WHERE language = '".$tcms_config->getLanguageCodeForTCMS($lang)."' "
+		."ORDER BY id ASC, name ASC";
+		
+		//$sqlQR = $sqlAL->sqlGetAll($this->db_prefix.'sidemenu');
+		$sqlQR = $sqlAL->sqlQuery($sqlStr);
+		
+		//$sqlQR = $sqlAL->sqlGetAll($this->db_prefix.'topmenu');
 		
 		$count = 0;
 		
@@ -2765,7 +2708,7 @@ class tcms_main {
 			$count++;
 		}
 		
-		if(is_array($arr_top)){
+		/*if(is_array($arr_top)){
 			array_multisort(
 				$arr_top['id'], SORT_ASC, 
 				$arr_top['name'], SORT_ASC, 
@@ -2775,7 +2718,7 @@ class tcms_main {
 				$arr_top['link'], SORT_ASC, 
 				$arr_top['tar'], SORT_ASC
 			);
-		}
+		}*/
 		
 		if(!empty($arr_top) && isset($arr_top)){
 			foreach($arr_top['id'] as $key => $value){
@@ -3495,6 +3438,122 @@ class tcms_main {
 			}
 		
 		return false;
+	}
+	
+	
+	
+	/**
+	 * @deprecated 
+	 * @return Mainmenu links (for SQL DB)
+	 * @desc returns an multi array with all mainmenulinks as array, the follow idizies exists
+	 *   array -> 'link'		-> complete link
+	 *   array -> 'auth'		-> access level
+	 *   array -> 'id'		-> position
+	 *   array -> 'subid'	-> position in submenu
+	 *   array -> 'type'		-> type of menuetry
+	 *   array -> 'parent'	-> which parent item
+	 *   array -> 'pub'      -> is item published or not
+	 *   array -> 'submenu'	-> complete submenu link
+	 *   array -> 'name'		-> simple link name
+	 */
+	function mainmenuSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, $session, $s, $lang){
+		global $tcms_config;
+		
+		$sqlAL = new sqlAbstractionLayer($choosenDB);
+		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		
+		$sqlStr = "SELECT * "
+		."FROM ".$this->db_prefix."sidemenu "
+		."WHERE language = '".$tcms_config->getLanguageCodeForTCMS($lang)."' "
+		."ORDER BY id ASC, subid ASC, name ASC";
+		
+		//$sqlQR = $sqlAL->sqlGetAll($this->db_prefix.'sidemenu');
+		$sqlQR = $sqlAL->sqlQuery($sqlStr);
+		//$sqlQR = $sqlAL->sqlGetAll($this->db_prefix.'sidemenu');
+		
+		$count = 0;
+		
+		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+			$arr_menu['tag'][$count]  = $sqlARR['uid'];
+			$arr_menu['name'][$count] = $sqlARR['name'];
+			$arr_menu['id'][$count]   = $sqlARR['id'];
+			$arr_menu['sub'][$count]  = $sqlARR['subid'];
+			$arr_menu['type'][$count] = $sqlARR['type'];
+			$arr_menu['link'][$count] = $sqlARR['link'];
+			$arr_menu['par'][$count]  = $sqlARR['parent'];
+			$arr_menu['pub'][$count]  = $sqlARR['published'];
+			$arr_menu['auth'][$count] = $sqlARR['access'];
+			$arr_menu['tar'][$count]  = $sqlARR['target'];
+			
+			if($arr_menu['name'][$count] == NULL){ $arr_menu['name'][$count] = ''; }
+			if($arr_menu['id'][$count]   == NULL){ $arr_menu['id'][$count]   = ''; }
+			if($arr_menu['auth'][$count] == NULL){ $arr_menu['auth'][$count] = ''; }
+			if($arr_menu['link'][$count] == NULL){ $arr_menu['link'][$count] = ''; }
+			if($arr_menu['pub'][$count]  == NULL){ $arr_menu['pub'][$count]  = ''; }
+			if($arr_menu['tar'][$count]  == NULL){ $arr_menu['tar'][$count]  = ''; }
+			
+			// CHARSETS
+			$arr_menu['name'][$count] = $this->decodeText($arr_menu['name'][$count], '2', $c_charset);
+			
+			$checkReorder = $count;
+			$count++;
+		}
+		
+		if(is_array($arr_menu)){
+			/*array_multisort(
+				$arr_menu['id'], SORT_ASC, 
+				$arr_menu['sub'], SORT_ASC, 
+				$arr_menu['name'], SORT_ASC, 
+				$arr_menu['type'], SORT_ASC, 
+				$arr_menu['link'], SORT_ASC, 
+				$arr_menu['auth'], SORT_ASC, 
+				$arr_menu['pub'], SORT_ASC, 
+				$arr_menu['par'], SORT_ASC, 
+				$arr_menu['tar'], SORT_ASC
+			);*/
+			
+			foreach($arr_menu['id'] as $mkey => $mvalue){
+				if($arr_menu['tar'][$mkey] != '')
+					$ltarget = ' target="'.$arr_menu['tar'][$mkey].'"';
+				else
+					$ltarget = '';
+				
+				if($arr_menu['type'][$mkey] == 'web'){
+					$arr_mainmenu['link'][$mkey] = '<a'.$ltarget.' class="mainlevel" href="'.trim($arr_menu['link'][$mkey]).'">'.trim($arr_menu['name'][$mkey]).'</a>';
+				}
+				else{
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id='.$arr_menu['link'][$mkey].'&amp;s='.$s
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
+					$link = $this->urlAmpReplace($link);
+					
+					$arr_mainmenu['link'][$mkey] = '<a'.$ltarget.' class="mainlevel" href="'.$link.'">'.trim($arr_menu['name'][$mkey]).'</a>';
+				}
+				$arr_mainmenu['auth'][$mkey] = trim($arr_menu['auth'][$mkey]);
+				$arr_mainmenu['id'][$mkey] = trim($arr_menu['id'][$mkey]);
+				$arr_mainmenu['type'][$mkey] = trim($arr_menu['type'][$mkey]);
+				$arr_mainmenu['subid'][$mkey] = trim($arr_menu['sub'][$mkey]);
+				$arr_mainmenu['parent'][$mkey] = trim($arr_menu['par'][$mkey]);
+				$arr_mainmenu['name'][$mkey] = trim($arr_menu['name'][$mkey]);
+				$arr_mainmenu['pub'][$mkey] = trim($arr_menu['pub'][$mkey]);
+				$arr_mainmenu['url'][$mkey] = trim($arr_menu['link'][$mkey]);
+				
+				if($arr_menu['type'][$mkey] == 'web'){
+					$arr_mainmenu['submenu'][$mvalue][$mkey] = '<a'.$ltarget.' class="submenu" href="'.trim($arr_menu['link'][$mkey]).'">'.trim($arr_menu['name'][$mkey]).'</a>';
+				}
+				else{
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id='.trim($arr_menu['link'][$mkey]).'&amp;s='.$s
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
+					$link = $this->urlAmpReplace($link);
+					
+					$arr_mainmenu['submenu'][$mvalue][$mkey] = '<a'.$ltarget.' class="submenu" href="'.$link.'">'.trim($arr_menu['name'][$mkey]).'</a>';
+				}
+			}
+			
+			return $arr_mainmenu;
+		}
+		else{ return ''; }
 	}
 }
 
