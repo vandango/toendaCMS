@@ -1070,7 +1070,7 @@ if($wsShowSite){
 							$arrLinkway = $tcms_main->linkway($arr_files, $arr_filesT, $c_charset, ( isset($session) ? $session : NULL ), $s, ( isset($lang) ? $lang : NULL ));
 						}
 						else{
-							$arr_side_navi = $tcms_main->mainmenuSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, ( isset($session) ? $session : NULL ), $s, ( isset($lang) ? $lang : NULL ));
+							//$arr_side_navi = $tcms_main->mainmenuSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, ( isset($session) ? $session : NULL ), $s, ( isset($lang) ? $lang : NULL ));
 							
 							$arr_top_navi = $tcms_main->topmenuSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, ( isset($session) ? $session : NULL ), $s, ( isset($lang) ? $lang : NULL ));
 							

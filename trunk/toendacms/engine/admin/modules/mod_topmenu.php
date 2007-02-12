@@ -9,8 +9,7 @@
 | 
 | Top Menu Manager
 |
-| File:		mod_topmenu.php
-| Version:	0.5.5
+| File:	mod_topmenu.php
 |
 +
 */
@@ -19,6 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * Top Menu Manager
+ *
+ * This module is used for the topmenu items.
+ *
+ * @version 0.5.6
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 if(isset($_GET['action'])){ $action = $_GET['action']; }
@@ -34,6 +43,7 @@ if(isset($_POST['new_tm_type'])){ $new_tm_type = $_POST['new_tm_type']; }
 if(isset($_POST['new_tm_pub'])){ $new_tm_pub = $_POST['new_tm_pub']; }
 if(isset($_POST['new_tm_access'])){ $new_tm_access = $_POST['new_tm_access']; }
 if(isset($_POST['new_tm_target'])){ $new_tm_target = $_POST['new_tm_target']; }
+if(isset($_POST['language'])){ $language = $_POST['language']; }
 
 
 
@@ -69,6 +79,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 					$arr_top_menu['type'][$key]   = $menu_xml->read_section('top', 'type');
 					$arr_top_menu['link'][$key]   = $menu_xml->read_section('top', 'link');
 					$arr_top_menu['pub'][$key]    = $menu_xml->read_section('top', 'published');
+					$arr_top_menu['lang'][$key]   = $menu_xml->read_section('top', 'language');
 					
 					if(!$arr_top_menu['name'][$key])  { $arr_top_menu['name'][$key]   = ''; }
 					//if(!$arr_top_menu['id'][$key])    { $arr_top_menu['id'][$key]     = ''; }
@@ -83,23 +94,50 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 					$checkReorder = $key;
 				}
 			}
+			
+			if(is_array($arr_top_menu)){
+				array_multisort(
+					$arr_top_menu['id'], SORT_ASC, 
+					$arr_top_menu['name'], SORT_ASC, 
+					$arr_top_menu['link'], SORT_ASC, 
+					$arr_top_menu['access'], SORT_ASC, 
+					$arr_top_menu['pub'], SORT_ASC, 
+					$arr_top_menu['type'], SORT_ASC, 
+					$arr_top_menu['tag'], SORT_ASC, 
+					$arr_top_menu['lang'], SORT_ASC
+				);
+			}
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix.'topmenu');
+			if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Writer'){
+				$strAdd = "";
+			}
+			else{
+				$strAdd = "AND ( autor = '".$id_username."' OR autor = '".$id_name."' ) ";
+			}
+			
+			$sqlSTR = "SELECT * "
+			."FROM ".$tcms_db_prefix."topmenu "
+			."WHERE NOT (uid IS NULL) "
+			.$strAdd
+			."ORDER BY id ASC, name ASC, link ASC";
+			
+			$sqlQR = $sqlAL->sqlQuery($sqlSTR);
 			
 			$count = 0;
 			
-			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
-				$arr_top_menu['tag'][$count]    = $sqlARR['uid'];
-				$arr_top_menu['name'][$count]   = $sqlARR['name'];
-				$arr_top_menu['id'][$count]     = $sqlARR['id'];
-				$arr_top_menu['access'][$count] = $sqlARR['access'];
-				$arr_top_menu['link'][$count]   = $sqlARR['link'];
-				$arr_top_menu['type'][$count]   = $sqlARR['type'];
-				$arr_top_menu['pub'][$count]    = $sqlARR['published'];
+			while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)){
+				$arr_top_menu['tag'][$count]    = trim($sqlObj->uid);
+				$arr_top_menu['name'][$count]   = trim($sqlObj->name);
+				$arr_top_menu['id'][$count]     = trim($sqlObj->id);
+				$arr_top_menu['access'][$count] = trim($sqlObj->access);
+				$arr_top_menu['link'][$count]   = trim($sqlObj->link);
+				$arr_top_menu['type'][$count]   = trim($sqlObj->type);
+				$arr_top_menu['pub'][$count]    = trim($sqlObj->published);
+				$arr_top_menu['lang'][$count]   = trim($sqlObj->language);
 				
 				if($arr_top_menu['name'][$count]   == NULL){ $arr_top_menu['name'][$count]   = ''; }
 				if($arr_top_menu['id'][$count]     == NULL){ $arr_top_menu['id'][$count]     = ''; }
@@ -118,23 +156,12 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			$sqlAL->sqlFreeResult($sqlQR);
 		}
 		
-		if(is_array($arr_top_menu)){
-			array_multisort(
-				$arr_top_menu['id'], SORT_ASC, 
-				$arr_top_menu['name'], SORT_ASC, 
-				$arr_top_menu['link'], SORT_ASC, 
-				$arr_top_menu['access'], SORT_ASC, 
-				$arr_top_menu['pub'], SORT_ASC, 
-				$arr_top_menu['type'], SORT_ASC, 
-				$arr_top_menu['tag'], SORT_ASC
-			);
-		}
-		
 		echo '<table cellpadding="3" cellspacing="0" border="0" class="noborder">';
 		echo '<tr class="tcms_bg_blue_01">'
-			.'<th valign="middle" class="tcms_db_title" width="60%" align="left">'._TABLE_NAME.'</th>'
+			.'<th valign="middle" class="tcms_db_title" width="50%" align="left">'._TABLE_NAME.'</th>'
 			.'<th valign="middle" class="tcms_db_title" width="5%" align="left">'._TABLE_REORDER.'</th>'
 			.'<th valign="middle" class="tcms_db_title" width="5%">'._TABLE_ORDER.'</th>'
+			.'<th valign="middle" class="tcms_db_title" width="10%" align="left">'._TCMS_LANGUAGE.'</th>'
 			.'<th valign="middle" class="tcms_db_title" width="5%">'._TABLE_TYPE.'</th>'
 			.'<th valign="middle" class="tcms_db_title" width="5%">'._TABLE_LINK.'</th>'
 			.'<th valign="middle" class="tcms_db_title" width="5%">'._TABLE_ENABLED.'</th>'
@@ -175,8 +202,13 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				echo '</td>';
 				
 				
+				echo '<td class="tcms_db_2" align="center"'.$strJS.'>'
+				.$arr_top_menu['id'][$key]
+				.'</td>';
 				
-				echo '<td class="tcms_db_2" align="center"'.$strJS.'>'.$arr_top_menu['id'][$key].'</td>';
+				echo '<td class="tcms_db_2"'.$strJS.'>'
+				.$tcms_main->getLanguageNameByTCMSLanguageCode($languages, $arr_top_menu['lang'][$key])
+				.'</td>';
 				
 				echo '<td class="tcms_db_2" align="center"'.$strJS.'>';
 					switch(trim($arr_top_menu['type'][$key])){
@@ -235,6 +267,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 					$tm_type   = $user_xml->read_value('type');
 					$tm_access = $user_xml->read_value('access');
 					$tm_target = $user_xml->read_value('target');
+					$tm_lang   = $user_xml->read_value('language');
 				}
 				
 				if($tm_name == false)   { $tm_name   = ''; }
@@ -258,6 +291,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				$tm_pub    = trim($sqlObj->published);
 				$tm_access = trim($sqlObj->access);
 				$tm_target = trim($sqlObj->target);
+				$tm_lang   = trim($sqlObj->language);
 				
 				if($tm_name   == NULL){ $tm_name   = ''; }
 				if($tm_id     == NULL){ $tm_id     = ''; }
@@ -284,6 +318,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			$tm_type   = 'link';
 			$tm_access = '';
 			$tm_target = '';
+			$tm_lang   = $tcms_config->getLanguageFrontend();
 			
 			$maintag = $tcms_main->getNewUID(5, 'topmenu');
 			
@@ -320,8 +355,32 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		
 		
 		// row
-		echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._TABLE_TYPE.'</strong></td>'
-		.'<td valign="top">'
+		echo '<tr><td valign="top" width="'.$width.'">'
+		.'<strong class="tcms_bold">'._TCMS_LANGUAGE.'</strong>'
+		.'</td><td>'
+		.'<select class="tcms_select" id="language" name="language">';
+		
+		foreach($languages['code'] as $key => $value) {
+			if($value != $tcms_config->getLanguageCode(true)) {
+				if($tm_lang == $value)
+					$dl = ' selected="selected"';
+				else
+					$dl = '';
+				
+				echo '<option value="'.$value.'"'.$dl.'>'
+				.$languages['name'][$key]
+				.'</option>';
+			}
+		}
+		
+		echo '</select>'
+		.'</td></tr>';
+		
+		
+		// row
+		echo '<tr><td valign="top" width="'.$width.'">'
+		.'<strong class="tcms_bold">'._TABLE_TYPE.'</strong>'
+		.'</td><td valign="top">'
 		.'<select name="new_tm_type" class="tcms_select" onchange="ajaxChangeTopmenuType(this.value);">'
 			.'<option'.( $newType == 'link' ? ' selected' : '' ).' value="link">'._TABLE_MENULINK.'</option>'
 			.'<option'.( $newType == 'web' ? ' selected' : '' ).' value="web">'._TABLE_MENUWEB.'</option>'
@@ -466,6 +525,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			$xmluser->write_value('published', $new_tm_pub);
 			$xmluser->write_value('access', $new_tm_access);
 			$xmluser->write_value('target', $new_tm_target);
+			$xmluser->write_value('language', $language);
 			
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('top');
@@ -482,6 +542,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			.$tcms_db_prefix.'topmenu.link="'.$new_tm_link.'", '
 			.$tcms_db_prefix.'topmenu.published='.$new_tm_pub.', '
 			.$tcms_db_prefix.'topmenu.access="'.$new_tm_access.'", '
+			.$tcms_db_prefix.'topmenu.language="'.$language.'", '
 			.$tcms_db_prefix.'topmenu.target="'.$new_tm_target.'"';
 			
 			$sqlAL->sqlUpdateOne($tcms_db_prefix.'topmenu', $newSQLData, $maintag);
@@ -518,22 +579,49 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			$new_tm_link = $tcms_main->getNewUID(5, 'content');
 			
 			if($choosenDB == 'xml'){
-				$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_content/'.$new_tm_link.'.xml', 'w');
-				$xmluser->xml_c_declaration($c_charset);
-				$xmluser->xml_section('main');
-				
-				$xmluser->write_value('title', $new_tm_name);
-				$xmluser->write_value('key', '');
-				$xmluser->write_value('content00', '');
-				$xmluser->write_value('content01', '');
-				$xmluser->write_value('foot', '');
-				$xmluser->write_value('id', $new_tm_link);
-				$xmluser->write_value('db_layout', '');
-				$xmluser->write_value('access', $new_tm_access);
-				
-				$xmluser->xml_section_buffer();
-				$xmluser->xml_section_end('main');
-				$xmluser->_xmlparser();
+				if($language != $tcms_config->getLanguageFrontend()) {
+					$xmluser = new xmlparser(
+						'../../'.$tcms_administer_site.'/tcms_content_languages/'.$new_tm_link.'.xml', 
+						'w'
+					);
+					$xmluser->xml_c_declaration($c_charset);
+					$xmluser->xml_section('main');
+					
+					$xmluser->write_value('title', $new_tm_name);
+					$xmluser->write_value('key', '');
+					$xmluser->write_value('content00', '');
+					$xmluser->write_value('content01', '');
+					$xmluser->write_value('foot', '');
+					$xmluser->write_value('id', $new_tm_link);
+					$xmluser->write_value('db_layout', '');
+					$xmluser->write_value('access', $new_tm_access);
+					$xmluser->write_value('language', $language);
+					
+					$xmluser->xml_section_buffer();
+					$xmluser->xml_section_end('main');
+					$xmluser->_xmlparser();
+				}
+				else {
+					$xmluser = new xmlparser(
+						'../../'.$tcms_administer_site.'/tcms_content/'.$new_tm_link.'.xml', 
+						'w'
+					);
+					$xmluser->xml_c_declaration($c_charset);
+					$xmluser->xml_section('main');
+					
+					$xmluser->write_value('title', $new_tm_name);
+					$xmluser->write_value('key', '');
+					$xmluser->write_value('content00', '');
+					$xmluser->write_value('content01', '');
+					$xmluser->write_value('foot', '');
+					$xmluser->write_value('id', $new_tm_link);
+					$xmluser->write_value('db_layout', '');
+					$xmluser->write_value('access', $new_tm_access);
+					
+					$xmluser->xml_section_buffer();
+					$xmluser->xml_section_end('main');
+					$xmluser->_xmlparser();
+				}
 			}
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB);
@@ -555,7 +643,38 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				
 				$newSQLData = "'".$new_tm_name."', '".$new_tm_access."'";
 				
-				$sqlQR = $sqlAL->sqlCreateOne($tcms_db_prefix.'content', $newSQLColumns, $newSQLData, $new_tm_link);
+				if($language != $tcms_config->getLanguageFrontend()) {
+					switch($choosenDB){
+						case 'mysql':
+							$newSQLColumns .= ', `language`';
+							break;
+						
+						case 'pgsql':
+							$newSQLColumns .= ', "language"';
+							break;
+						
+						case 'mssql':
+							$newSQLColumns .= ', [language]';
+							break;
+					}
+					
+					$newSQLData .= ", '".$language."'";
+					
+					$sqlQR = $sqlAL->sqlCreateOne(
+						$tcms_db_prefix.'content_languages', 
+						$newSQLColumns, 
+						$newSQLData, 
+						$new_tm_link
+					);
+				}
+				else {
+					$sqlQR = $sqlAL->sqlCreateOne(
+						$tcms_db_prefix.'content', 
+						$newSQLColumns, 
+						$newSQLData, 
+						$new_tm_link
+					);
+				}
 			}
 		}
 		
@@ -572,6 +691,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			$xmluser->write_value('published', $new_tm_pub);
 			$xmluser->write_value('access', $new_tm_access);
 			$xmluser->write_value('target', $new_tm_target);
+			$xmluser->write_value('language', $language);
 			
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('top');
@@ -583,20 +703,20 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			
 			switch($choosenDB){
 				case 'mysql':
-					$newSQLColumns = '`name`, `id`, `type`, `link`, `published`, `access`, `target`';
+					$newSQLColumns = '`name`, `id`, `type`, `link`, `published`, `access`, `target`, `language`';
 					break;
 				
 				case 'pgsql':
-					$newSQLColumns = 'name, id, "type", link, published, "access", "target"';
+					$newSQLColumns = 'name, id, "type", link, published, "access", "target", "language"';
 					break;
 				
 				case 'mssql':
-					$newSQLColumns = '[name], [id], [type], [link], [published], [access], [target]';
+					$newSQLColumns = '[name], [id], [type], [link], [published], [access], [target], [language]';
 					break;
 			}
 			
 			$newSQLData = "'".$new_tm_name."', ".$new_tm_id.", '".$new_tm_type."', '"
-			.$new_tm_link."', ".$new_tm_pub.", '".$new_tm_access."', '".$new_tm_target."'";
+			.$new_tm_link."', ".$new_tm_pub.", '".$new_tm_access."', '".$new_tm_target."', '".$language."'";
 			
 			$sqlAL->sqlCreateOne($tcms_db_prefix.'topmenu', $newSQLColumns, $newSQLData, $maintag);
 		}

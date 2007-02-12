@@ -15,7 +15,7 @@
 +
 */
 
-$tcms_db_engine   = 'mysql';
+$tcms_db_engine   = 'xml';
 $tcms_db_user     = 'root';
 $tcms_db_password = 'banane';
 $tcms_db_host     = 'localhost';

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a filemanager for all Sites
  *
- * @version 0.4.1
+ * @version 0.4.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -376,7 +376,8 @@ if($topmenu_active == 1){
 			
 			// CS
 			if(ereg($cs_id, $arr_expT['link'][$ekey])) {
-				$prjLink = $arr_expT['link'][$ekey];
+				$_prjLink = str_replace('components&item=', '', $arr_expT['link'][$ekey]);
+				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_components&amp;todo=edit&amp;maintag='.$_prjLink;
 				$tbMod = true;
 			}
 			
@@ -529,7 +530,9 @@ if($sidemenu_active == 1){
 			
 			// CS
 			if(ereg($cs_id, $arr_exp['link'][$ekey])) {
-				$prjLink = $arr_exp['link'][$ekey];
+				//$prjLink = $arr_exp['link'][$ekey];
+				$_prjLink = str_replace('components&item=', '', $arr_exp['link'][$ekey]);
+				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_components&amp;todo=edit&amp;maintag='.$_prjLink;
 				$tbMod = true;
 			}
 			
