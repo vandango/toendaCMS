@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the sidebar news functionality.
  *
- * @version 0.1.8
+ * @version 0.2.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -39,7 +39,7 @@ if($blah = 1){
 		//echo '<br />';
 		
 		$arrNewsDC = new tcms_dc_news();
-		$arrNewsDC = $tcms_dcp->getNewsDCList($getLang, $is_admin, $how_many);
+		$arrNewsDC = $tcms_dcp->getNewsDCList($getLang, $is_admin, $sb_how_many);
 		
 		
 		if(!empty($arrNewsDC) && $arrNewsDC != '' && isset($arrNewsDC)){
@@ -47,12 +47,28 @@ if($blah = 1){
 				$dcNews = new tcms_dc_news();
 				$dcNews = $arrNewsDC[$n_key];
 				
+				
+				if($sb_news_display == 4){
+					echo lang_date(
+						substr($dcNews->GetDate(), 0, 2), 
+						substr($dcNews->GetDate(), 3, 2), 
+						substr($dcNews->GetDate(), 6, 4), 
+						substr($dcNews->GetTime(), 0, 2), 
+						substr($dcNews->GetTime(), 3, 2), 
+						''
+					);
+				}
+				
+				
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id=newsmanager&amp;s='.$s.'&amp;news='.$dcNews->GetID()
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlAmpReplace($link);
 				
-				if($sb_news_display == 1 || $sb_news_display == 2 || $sb_news_display == 3){
+				if($sb_news_display == 1 
+				|| $sb_news_display == 2 
+				|| $sb_news_display == 3 
+				|| $sb_news_display == 4){
 					echo ( $sb_news_display == 3 ? '<span class="newsCategories" style="padding-left: 6px;">&raquo;</span>' : '' )
 					.'<strong class="newsCategories" style="padding-left: 6px;">'
 					.'<a href="'.$link.'">'
@@ -88,23 +104,23 @@ if($blah = 1){
 				if($sb_news_display == 1){
 					echo '<div class="sidemain" style="padding-left: 6px;">';
 					
-					$news_content = $tcms_main->cleanAllImagesFromString($dcNews->GetText());
+					$sb_news_content = $tcms_main->cleanAllImagesFromString($dcNews->GetText());
 					
-					$toendaScript = new toendaScript($news_content);
-					$news_content = $toendaScript->toendaScript_trigger();
-					$news_content = $toendaScript->checkSEO($news_content, $imagePath);
+					$toendaScript = new toendaScript($sb_news_content);
+					$sb_news_content = $toendaScript->toendaScript_trigger();
+					$sb_news_content = $toendaScript->checkSEO($sb_news_content, $imagePath);
 					
-					$news_content = str_replace('{tcms_more}', '', $news_content);
+					$sb_news_content = str_replace('{tcms_more}', '', $sb_news_content);
 					
-					if(strlen($news_content) > $sb_cut_news){
-						$str_off = strpos($news_content, ' ', $sb_cut_news);
-						$news = substr($news_content, 0, $str_off);
-						$news = trim($news);
+					if(strlen($sb_news_content) > $sb_cut_news){
+						$str_off = strpos($sb_news_content, ' ', $sb_cut_news);
+						$sb_news = substr($sb_news_content, 0, $str_off);
+						$sb_news = trim($sb_news);
 						echo $news.' ...';
 					}
-					elseif(strlen($news_content) < $sb_cut_news){
-						$news_content = trim($news_content);
-						echo $news_content;
+					elseif(strlen($sb_news_content) < $sb_cut_news){
+						$sb_news_content = trim($sb_news_content);
+						echo $sb_news_content;
 					}
 					
 					echo '</div>'
