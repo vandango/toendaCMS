@@ -1124,6 +1124,7 @@ define('_FRONTPAGE_NEWS_DISPLAY', 'Wie sollen die Neuigkeiten in der Seitenleist
 define('_FRONTPAGE_TDT', 'Titel, Datum und Uhrzeit, Text');
 define('_FRONTPAGE_TD', 'Titel, Datum und Uhrzeit');
 define('_FRONTPAGE_T', 'Titel');
+define('_FRONTPAGE_DT', 'Datum und Uhrzeit, Titel');
 define('_FRONT_CAPTCHA', 'Bitte geben sie folgenden Code ein');
 
 

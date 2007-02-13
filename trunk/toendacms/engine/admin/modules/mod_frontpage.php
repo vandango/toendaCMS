@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the frontpage.
  *
- * @version 0.7.7
+ * @version 0.7.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -415,6 +415,7 @@ if($id_group == 'Developer'
 		.'<option value="1"'.( $old_sb_display == '1' ? ' selected="selected"' : '' ).'>'._FRONTPAGE_TDT.'</option>'
 		.'<option value="2"'.( $old_sb_display == '2' ? ' selected="selected"' : '' ).'>'._FRONTPAGE_TD.'</option>'
 		.'<option value="3"'.( $old_sb_display == '3' ? ' selected="selected"' : '' ).'>'._FRONTPAGE_T.'</option>'
+		.'<option value="4"'.( $old_sb_display == '4' ? ' selected="selected"' : '' ).'>'._FRONTPAGE_DT.'</option>'
 		.'</select></td></tr>';
 		
 		

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?><front>
+	<language>english_EN</language>
 	<front_id>frontpage</front_id>
 	<front_title>czozMjoiV2VsY29tZSB0byB0aGUgSG9tZSBvZiB0b2VuZGFDTVMiOw==</front_title>
 	<front_stamp>czoxNzoiWW91ciBpZGVhcyBhaGVhZCEiOw==</front_stamp>
-	<front_text>czozNjU6IiZsdDtzdHJvbmcmZ3Q7V2VsY29tZSB0byB0aGUgU2FtcGxlc2l0ZSZsdDsvc3Ryb25nJmd0OyBvZiB0aGUgZnJlZSBPcGVuLVNvdXJjZSBjb250ZW50IG1hbmFnZW1lbnQgYW5kIHdlYmxvZ2dpbmcgc3lzdGVtIHRvZW5kYUNNUy4mbHQ7YnIgLyZndDsgICAmbHQ7YnIgLyZndDsgIEl0IGlzIGZvciBlbnRlcnByaXNlIHB1cnBvc2VzIGFuZC9vciBwcml2YXRlIHVzZXMgb24gdGhlIHdlYi4gSXQgb2ZmZXJzIGZ1bGwgZmxleGliaWxpdHkgYW5kIGV4dGVuZGFiaWxpdHkgd2hpbGUgZmVhdHVyaW5nIGFuIGFjY29tcGxpc2hlZCBzZXQgb2YgcmVhZHktbWFkZSBpbnRlcmZhY2VzLCBmdW5jdGlvblwncyBhbmQgbW9kdWxlcy4mbHQ7YnIgLyZndDsgIjs=</front_text>
+	<front_text>czozNzI6IiZsdDtzdHJvbmcmZ3Q7V2VsY29tZSB0byB0aGUgU2FtcGxlc2l0ZSZsdDsvc3Ryb25nJmd0OyBvZiB0aGUgZnJlZSBPcGVuLVNvdXJjZSBjb250ZW50IG1hbmFnZW1lbnQgYW5kIHdlYmxvZ2dpbmcgc3lzdGVtIHRvZW5kYUNNUy4mbHQ7YnIgLyZndDsNCiZsdDticiAvJmd0Ow0KSXQgaXMgZm9yIGVudGVycHJpc2UgcHVycG9zZXMgYW5kL29yIHByaXZhdGUgdXNlcyBvbiB0aGUgd2ViLiBJdCBvZmZlcnMgZnVsbCBmbGV4aWJpbGl0eSBhbmQgZXh0ZW5kYWJpbGl0eSB3aGlsZSBmZWF0dXJpbmcgYW4gYWNjb21wbGlzaGVkIHNldCBvZiByZWFkeS1tYWRlIGludGVyZmFjZXMsIGZ1bmN0aW9uJmFtcDsjMzk7cyBhbmQgbW9kdWxlcy4mbHQ7YnIgLyZndDsNCiI7</front_text>
 	<news_title>czo3OiJKb3VybmFsIjs=</news_title>
 	<news_cut>0</news_cut>
 	<module_use_0>3</module_use_0>
 	<sb_news_title>czowOiIiOw==</sb_news_title>
-	<sb_news_amount>0</sb_news_amount>
-	<sb_news_chars>0</sb_news_chars>
+	<sb_news_amount>1</sb_news_amount>
+	<sb_news_chars>100</sb_news_chars>
 	<sb_news_enabled>0</sb_news_enabled>
-	<sb_news_display>1</sb_news_display>
+	<sb_news_display>2</sb_news_display>
 
 </front>

@@ -95,6 +95,8 @@ if(!defined('_TCMS_MENU_BOOK'))                define('_TCMS_MENU_BOOK', 'Guestb
 if(!defined('_MOD_CFORM'))                     define('_MOD_CFORM', 'Contactform Configuration');
 if(!defined('_MOD_BOOK'))                      define('_MOD_BOOK', 'Guestbook Configuration');
 
+if(!defined('_FRONTPAGE_DT'))                  define('_FRONTPAGE_DT', 'Date and Time, Title');
+
 *
 *
 **************************

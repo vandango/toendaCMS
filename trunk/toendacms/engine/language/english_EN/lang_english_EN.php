@@ -1120,10 +1120,11 @@ define('_FRONTPAGE_SIDEBAR_NEWS_USE', 'Show news in sidebar');
 define('_FRONTPAGE_SIDEBAR_NEWS_TITLE', 'Sidebar News title');
 define('_FRONTPAGE_SIDEBAR_NEWS_MUCH', 'How much news at the frontpage in the sidebar?');
 define('_FRONTPAGE_NEWS_DISPLAY', 'How to display the news in sidebar?');
-define('_FRONTPAGE_TDT', 'Title, Date and Time, Text');
-define('_FRONTPAGE_TD', 'Title, Date and Time');
-define('_FRONTPAGE_T', 'Title');
-define('_FRONT_CAPTCHA', 'Enter the following code');
+if(!defined('_FRONTPAGE_TDT'))                 define('_FRONTPAGE_TDT', 'Title, Date and Time, Text');
+if(!defined('_FRONTPAGE_TD'))                  define('_FRONTPAGE_TD', 'Title, Date and Time');
+if(!defined('_FRONTPAGE_T'))                   define('_FRONTPAGE_T', 'Title');
+if(!defined('_FRONTPAGE_DT'))                  define('_FRONTPAGE_DT', 'Date and Time, Title');
+if(!defined('_FRONT_CAPTCHA'))                 define('_FRONT_CAPTCHA', 'Enter the following code');
 
 
 // DOCUMENTATION
