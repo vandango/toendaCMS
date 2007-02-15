@@ -634,6 +634,30 @@ $tcms_db_port     = \''.$set_port.'\';
 					$sqlQR = $sqlAL->sqlQuery($pieces[$i]);
 				}
 			}
+			
+			
+			// update to new multi-language
+			$layout_xml = new xmlparser('../'.$tcms_administer_site.'/tcms_global/var.xml','r');
+			$plang = $layout_xml->read_value('front_lang');
+			
+			$fp = fopen('db/toendaCMS_'.$new_engine.'_Update_ML.sql', 'r');
+			$tcms_ml = fread($fp, filesize('db/toendaCMS_'.$new_engine.'_Update_ML.sql'));
+			fclose($fp);
+			
+			$sqlAL = new sqlAbstractionLayer($new_engine);
+			
+			$sqlCN = $sqlAL->sqlConnect($new_user, $new_password, $new_host, $new_database, $new_port);
+			
+			$pieces = $tcms_main->split_sql($tcms_ml);
+			
+			for($i = 0; $i < count($pieces); $i++){
+				$pieces[$i] = trim($pieces[$i]);
+				if(!empty($pieces[$i]) && $pieces[$i] != '#'){
+					$pieces[$i] = str_replace( "#####", $new_prefix, $pieces[$i]);
+					$pieces[$i] = str_replace( "+++++", $plang, $pieces[$i]);
+					$sqlQR = $sqlAL->sqlQuery($pieces[$i]);
+				}
+			}
 		}
 	}
 	

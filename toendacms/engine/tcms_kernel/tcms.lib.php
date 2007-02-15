@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 1.9.8
+ * @version 2.0.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -2275,65 +2275,104 @@ class tcms_main {
 	*      pathway => Pathway
 	*/
 	function linkway($arr_files, $arr_filesT, $c_charset, $session, $s, $lang){
-		foreach($arr_files as $fnk => $fnvalue){
-			if($fnvalue != 'index.html'){
-				$link_xml = new xmlparser($this->administer.'/tcms_menu/'.$fnvalue,'r');
-				$arr_link['name'][$fnk] = $link_xml->read_value('name');
-				$arr_link['id'][$fnk]   = $link_xml->read_value('id');
-				$arr_link['link'][$fnk] = $link_xml->read_value('link');
-				
-				// CHARSETS
-				$arr_link['name'][$fnk] = $this->decodeText($arr_link['name'][$fnk], '2', $c_charset);
-			}
-		}
+		global $tcms_config;
 		
-		if($which != 'check_id'){
-			array_multisort(
-				$arr_link['id'], SORT_ASC, 
-				$arr_link['name'], SORT_ASC, 
-				$arr_link['link'], SORT_ASC
-			);
+		$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
+		$count = 0;
+		
+		
+		// from sidemenu
+		if($this->isArray($arr_files)) {
+			foreach($arr_files as $fnk => $fnvalue){
+				if($fnvalue != 'index.html'){
+					$link_xml = new xmlparser($this->administer.'/tcms_menu/'.$fnvalue,'r');
+					
+					$is_lang = $link_xml->read_value('language');
+					
+					if($getLang == $is_lang) {
+						$arr_link['name'][$count] = $link_xml->read_value('name');
+						$arr_link['id'][$count]   = $link_xml->read_value('id');
+						$arr_link['link'][$count] = $link_xml->read_value('link');
+						
+						// CHARSETS
+						$arr_link['name'][$count] = $this->decodeText($arr_link['name'][$count], '2', $c_charset);
+						
+						$count++;
+					}
+					
+					$link_xml->flush();
+					$link_xml->_xmlparser();
+					unset($link_xml);
+				}
+			}
 			
-			foreach ($arr_link['link'] as $key => $value){
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-				.'id='.$value.'&amp;s='.$s
-				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $this->urlAmpReplace($link);
-				
-				$arr_path[$value] = '<a class="pathway" href="'.$link.'">'.$arr_link['name'][$key].'</a>';
-				$titleway[$value] = $arr_link['name'][$key];
-				$pathway[$value]  = $arr_link['name'][$key];
+			if($this->isArray($arr_link)) {
+				if($which != 'check_id'){
+					array_multisort(
+						$arr_link['id'], SORT_ASC, 
+						$arr_link['name'], SORT_ASC, 
+						$arr_link['link'], SORT_ASC
+					);
+					
+					foreach ($arr_link['link'] as $key => $value){
+						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+						.'id='.$value.'&amp;s='.$s
+						.( isset($lang) ? '&amp;lang='.$lang : '' );
+						$link = $this->urlAmpReplace($link);
+						
+						$arr_path[$value] = '<a class="pathway" href="'.$link.'">'.$arr_link['name'][$key].'</a>';
+						$titleway[$value] = $arr_link['name'][$key];
+						$pathway[$value]  = $arr_link['name'][$key];
+					}
+				}
 			}
 		}
 		
-		foreach($arr_filesT as $fnk => $fnvalue){
-			if($fnvalue != 'index.html'){
-				$link_xml = new xmlparser($this->administer.'/tcms_topmenu/'.$fnvalue,'r');
-				$arr_link['name'][$fnk] = $link_xml->read_value('name');
-				$arr_link['id'][$fnk]   = $link_xml->read_value('id');
-				$arr_link['link'][$fnk] = $link_xml->read_value('link');
-				
-				// CHARSETS
-				$arr_link['name'][$fnk] = $this->decodeText($arr_link['name'][$fnk], '2', $c_charset);
-			}
-		}
 		
-		if($which != 'check_id'){
-			array_multisort(
-				$arr_link['id'], SORT_ASC, 
-				$arr_link['name'], SORT_ASC, 
-				$arr_link['link'], SORT_ASC
-			);
+		// from topmenu
+		if($this->isArray($arr_filesT)) {
+			foreach($arr_filesT as $fnk => $fnvalue){
+				if($fnvalue != 'index.html'){
+					$link_xml = new xmlparser($this->administer.'/tcms_topmenu/'.$fnvalue,'r');
+					
+					$is_lang = $link_xml->read_value('language');
+					
+					if($getLang == $is_lang) {
+						$arr_link['name'][$count] = $link_xml->read_value('name');
+						$arr_link['id'][$count]   = $link_xml->read_value('id');
+						$arr_link['link'][$count] = $link_xml->read_value('link');
+						
+						// CHARSETS
+						$arr_link['name'][$count] = $this->decodeText($arr_link['name'][$count], '2', $c_charset);
+						
+						$count++;
+					}
+					
+					$link_xml->flush();
+					$link_xml->_xmlparser();
+					unset($link_xml);
+				}
+			}
 			
-			foreach ($arr_link['link'] as $key => $value){
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-				.'id='.$value.'&amp;s='.$s
-				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $this->urlAmpReplace($link);
-				
-				$arr_pathT[$value] = '<a class="pathway" href="'.$link.'">'.$arr_link['name'][$key].'</a>';
-				$titlewayT[$value] = $arr_link['name'][$key];
-				$pathwayT[$value]  = $arr_link['name'][$key];
+			if($this->isArray($arr_link)) {
+				if($which != 'check_id'){
+					array_multisort(
+						$arr_link['id'], SORT_ASC, 
+						$arr_link['name'], SORT_ASC, 
+						$arr_link['link'], SORT_ASC
+					);
+					
+					foreach ($arr_link['link'] as $key => $value){
+						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+						.'id='.$value.'&amp;s='.$s
+						.( isset($lang) ? '&amp;lang='.$lang : '' );
+						$link = $this->urlAmpReplace($link);
+						
+						$arr_pathT[$value] = '<a class="pathway" href="'.$link.'">'.$arr_link['name'][$key].'</a>';
+						$titlewayT[$value] = $arr_link['name'][$key];
+						$pathwayT[$value]  = $arr_link['name'][$key];
+					}
+				}
 			}
 		}
 		
@@ -2519,74 +2558,92 @@ class tcms_main {
 	*   array -> 'name'		-> simple link name
 	*/
 	function mainmenu($arr_file, $c_charset, $session, $s, $lang){
-		if(isset($arr_file) && !empty($arr_file) && $arr_file != ''){
+		global $tcms_config;
+		
+		$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
+		$count = 0;
+		
+		if($this->isArray($arr_file)) {
 			foreach($arr_file as $key => $value){
 				if($value != 'index.html'){
 					$side_xml = new xmlparser($this->administer.'/tcms_menu/'.$value,'r');
-					$arr_menu['name'][$key] = $side_xml->read_value('name');
-					$arr_menu['id'][$key]   = $side_xml->read_value('id');
-					$arr_menu['sub'][$key]  = $side_xml->read_value('subid');
-					$arr_menu['type'][$key] = $side_xml->read_value('type');
-					$arr_menu['link'][$key] = $side_xml->read_value('link');
-					$arr_menu['pub'][$key]  = $side_xml->read_value('published');
-					$arr_menu['auth'][$key] = $side_xml->read_value('access');
-					$arr_menu['par'][$key]  = $side_xml->read_value('parent');
-					$arr_menu['tar'][$key]  = $side_xml->read_value('target');
 					
-					// CHARSETS
-					$arr_menu['name'][$key] = $this->decodeText($arr_menu['name'][$key], '2', $c_charset);
+					$is_lang = $side_xml->read_value('language');
+					
+					if($getLang == $is_lang) {
+						$arr_menu['name'][$count] = $side_xml->read_value('name');
+						$arr_menu['id'][$count]   = $side_xml->read_value('id');
+						$arr_menu['sub'][$count]  = $side_xml->read_value('subid');
+						$arr_menu['type'][$count] = $side_xml->read_value('type');
+						$arr_menu['link'][$count] = $side_xml->read_value('link');
+						$arr_menu['pub'][$count]  = $side_xml->read_value('published');
+						$arr_menu['auth'][$count] = $side_xml->read_value('access');
+						$arr_menu['par'][$count]  = $side_xml->read_value('parent');
+						$arr_menu['tar'][$count]  = $side_xml->read_value('target');
+						
+						// CHARSETS
+						$arr_menu['name'][$count] = $this->decodeText($arr_menu['name'][$count], '2', $c_charset);
+						
+						$count++;
+					}
+					
+					$side_xml->flush();
+					$side_xml->_xmlparser();
+					unset($side_xml);
 				}
 			}
 			
-			array_multisort(
-				$arr_menu['id'], SORT_ASC, 
-				$arr_menu['sub'], SORT_ASC, 
-				$arr_menu['name'], SORT_ASC, 
-				$arr_menu['type'], SORT_ASC, 
-				$arr_menu['link'], SORT_ASC, 
-				$arr_menu['auth'], SORT_ASC, 
-				$arr_menu['pub'], SORT_ASC, 
-				$arr_menu['par'], SORT_ASC, 
-				$arr_menu['tar'], SORT_ASC
-			);
-			
-			foreach($arr_menu['id'] as $mkey => $mvalue){
-				if($arr_menu['tar'][$mkey] != '')
-					$ltarget = ' target="'.$arr_menu['tar'][$mkey].'"';
-				else
-					$ltarget = '';
+			if($this->isArray($arr_menu)) {
+				array_multisort(
+					$arr_menu['id'], SORT_ASC, 
+					$arr_menu['sub'], SORT_ASC, 
+					$arr_menu['name'], SORT_ASC, 
+					$arr_menu['type'], SORT_ASC, 
+					$arr_menu['link'], SORT_ASC, 
+					$arr_menu['auth'], SORT_ASC, 
+					$arr_menu['pub'], SORT_ASC, 
+					$arr_menu['par'], SORT_ASC, 
+					$arr_menu['tar'], SORT_ASC
+				);
 				
-				if($arr_menu['type'][$mkey] == 'web'){
-					$arr_mainmenu['link'][$mkey] = '<a'.$ltarget.' class="mainlevel" href="'.$arr_menu['link'][$mkey].'">'.$arr_menu['name'][$mkey].'</a>';
-				}
-				else{
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-					.'id='.$arr_menu['link'][$mkey].'&amp;s='.$s
-					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $this->urlAmpReplace($link);
+				foreach($arr_menu['id'] as $mkey => $mvalue){
+					if($arr_menu['tar'][$mkey] != '')
+						$ltarget = ' target="'.$arr_menu['tar'][$mkey].'"';
+					else
+						$ltarget = '';
 					
-					$arr_mainmenu['link'][$mkey] = '<a'.$ltarget.' class="mainlevel" href="'.$link.'">'.$arr_menu['name'][$mkey].'</a>';
-				}
-				
-				$arr_mainmenu['auth'][$mkey] = $arr_menu['auth'][$mkey];
-				$arr_mainmenu['id'][$mkey] = $arr_menu['id'][$mkey];
-				$arr_mainmenu['type'][$mkey] = $arr_menu['type'][$mkey];
-				$arr_mainmenu['subid'][$mkey] = $arr_menu['sub'][$mkey];
-				$arr_mainmenu['parent'][$mkey] = $arr_menu['par'][$mkey];
-				$arr_mainmenu['name'][$mkey] = $arr_menu['name'][$mkey];
-				$arr_mainmenu['pub'][$mkey] = $arr_menu['pub'][$mkey];
-				$arr_mainmenu['url'][$mkey] = $arr_menu['link'][$mkey];
-				
-				if($arr_menu['type'][$mkey] == 'web'){
-					$arr_mainmenu['submenu'][$mvalue][$mkey] = '<a'.$ltarget.' class="submenu" href="'.$arr_menu['link'][$mkey].'">'.$arr_menu['name'][$mkey].'</a>';
-				}
-				else{
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-					.'id='.$arr_menu['link'][$mkey].'&amp;s='.$s
-					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $this->urlAmpReplace($link);
+					if($arr_menu['type'][$mkey] == 'web'){
+						$arr_mainmenu['link'][$mkey] = '<a'.$ltarget.' class="mainlevel" href="'.$arr_menu['link'][$mkey].'">'.$arr_menu['name'][$mkey].'</a>';
+					}
+					else{
+						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+						.'id='.$arr_menu['link'][$mkey].'&amp;s='.$s
+						.( isset($lang) ? '&amp;lang='.$lang : '' );
+						$link = $this->urlAmpReplace($link);
+						
+						$arr_mainmenu['link'][$mkey] = '<a'.$ltarget.' class="mainlevel" href="'.$link.'">'.$arr_menu['name'][$mkey].'</a>';
+					}
 					
-					$arr_mainmenu['submenu'][$mvalue][$mkey] = '<a'.$ltarget.' class="submenu" href="'.$link.'">'.$arr_menu['name'][$mkey].'</a>';
+					$arr_mainmenu['auth'][$mkey] = $arr_menu['auth'][$mkey];
+					$arr_mainmenu['id'][$mkey] = $arr_menu['id'][$mkey];
+					$arr_mainmenu['type'][$mkey] = $arr_menu['type'][$mkey];
+					$arr_mainmenu['subid'][$mkey] = $arr_menu['sub'][$mkey];
+					$arr_mainmenu['parent'][$mkey] = $arr_menu['par'][$mkey];
+					$arr_mainmenu['name'][$mkey] = $arr_menu['name'][$mkey];
+					$arr_mainmenu['pub'][$mkey] = $arr_menu['pub'][$mkey];
+					$arr_mainmenu['url'][$mkey] = $arr_menu['link'][$mkey];
+					
+					if($arr_menu['type'][$mkey] == 'web'){
+						$arr_mainmenu['submenu'][$mvalue][$mkey] = '<a'.$ltarget.' class="submenu" href="'.$arr_menu['link'][$mkey].'">'.$arr_menu['name'][$mkey].'</a>';
+					}
+					else{
+						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+						.'id='.$arr_menu['link'][$mkey].'&amp;s='.$s
+						.( isset($lang) ? '&amp;lang='.$lang : '' );
+						$link = $this->urlAmpReplace($link);
+						
+						$arr_mainmenu['submenu'][$mvalue][$mkey] = '<a'.$ltarget.' class="submenu" href="'.$link.'">'.$arr_menu['name'][$mkey].'</a>';
+					}
 				}
 			}
 			
@@ -2602,56 +2659,74 @@ class tcms_main {
 	* @desc 
 	*/
 	function topmenu($arr_filename, $c_charset, $session, $s, $lang){
-		if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
+		global $tcms_config;
+		
+		$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
+		$count = 0;
+		
+		if($this->isArray($arr_filename)) {
 			foreach($arr_filename as $k => $v){
 				if($v != 'index.html'){
 					$all_xml = new xmlparser($this->administer.'/tcms_topmenu/'.$v,'r');
-					$arr_top['name'][$k] = $all_xml->read_value('name');
-					$arr_top['id'][$k]   = $all_xml->read_value('id');
-					$arr_top['link'][$k] = $all_xml->read_value('link');
-					$arr_top['type'][$k] = $all_xml->read_value('type');
-					$arr_top['pub'][$k]  = $all_xml->read_value('published');
-					$arr_top['acs'][$k]  = $all_xml->read_value('access');
-					$arr_top['tar'][$k]  = $all_xml->read_value('target');
 					
-					// CHARSETS
-					$arr_top['name'][$k] = $this->decodeText($arr_top['name'][$k], '2', $c_charset);
+					$is_lang = $all_xml->read_value('language');
+					
+					if($getLang == $is_lang) {
+						$arr_top['name'][$count] = $all_xml->read_value('name');
+						$arr_top['id'][$count]   = $all_xml->read_value('id');
+						$arr_top['link'][$count] = $all_xml->read_value('link');
+						$arr_top['type'][$count] = $all_xml->read_value('type');
+						$arr_top['pub'][$count]  = $all_xml->read_value('published');
+						$arr_top['acs'][$count]  = $all_xml->read_value('access');
+						$arr_top['tar'][$count]  = $all_xml->read_value('target');
+						
+						// CHARSETS
+						$arr_top['name'][$count] = $this->decodeText($arr_top['name'][$count], '2', $c_charset);
+						
+						$count++;
+					}
+					
+					$all_xml->flush();
+					$all_xml->_xmlparser();
+					unset($all_xml);
 				}
 			}
 			
-			array_multisort(
-				$arr_top['id'], SORT_ASC, 
-				$arr_top['name'], SORT_ASC, 
-				$arr_top['pub'], SORT_ASC, 
-				$arr_top['acs'], SORT_ASC, 
-				$arr_top['type'], SORT_ASC, 
-				$arr_top['link'], SORT_ASC, 
-				$arr_top['tar'], SORT_ASC
-			);
-			
-			foreach($arr_top['id'] as $key => $value){
-				if($arr_top['tar'][$key] != '')
-					$ltarget = ' target="'.$arr_top['tar'][$key].'"';
-				else
-					$ltarget = '';
+			if($this->isArray($arr_top)) {
+				array_multisort(
+					$arr_top['id'], SORT_ASC, 
+					$arr_top['name'], SORT_ASC, 
+					$arr_top['pub'], SORT_ASC, 
+					$arr_top['acs'], SORT_ASC, 
+					$arr_top['type'], SORT_ASC, 
+					$arr_top['link'], SORT_ASC, 
+					$arr_top['tar'], SORT_ASC
+				);
 				
-				
-				if(trim($arr_top['type'][$key]) == 'web'){
-					$arr_top_navi['link'][$key] = '<a'.$ltarget.' class="toplevel" href="'.trim($arr_top['link'][$key]).'">'.trim($arr_top['name'][$key]).'</a>';
-				}
-				else{
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-					.'id='.trim($arr_top['link'][$key]).'&amp;s='.$s
-					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $this->urlAmpReplace($link);
+				foreach($arr_top['id'] as $key => $value){
+					if($arr_top['tar'][$key] != '')
+						$ltarget = ' target="'.$arr_top['tar'][$key].'"';
+					else
+						$ltarget = '';
 					
-					$arr_top_navi['link'][$key] = '<a'.$ltarget.' class="toplevel" href="'.$link.'">'.trim($arr_top['name'][$key]).'</a>';
+					
+					if(trim($arr_top['type'][$key]) == 'web'){
+						$arr_top_navi['link'][$key] = '<a'.$ltarget.' class="toplevel" href="'.trim($arr_top['link'][$key]).'">'.trim($arr_top['name'][$key]).'</a>';
+					}
+					else{
+						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+						.'id='.trim($arr_top['link'][$key]).'&amp;s='.$s
+						.( isset($lang) ? '&amp;lang='.$lang : '' );
+						$link = $this->urlAmpReplace($link);
+						
+						$arr_top_navi['link'][$key] = '<a'.$ltarget.' class="toplevel" href="'.$link.'">'.trim($arr_top['name'][$key]).'</a>';
+					}
+					
+					$arr_top_navi['pub'][$key] = trim($arr_top['pub'][$key]);
+					$arr_top_navi['access'][$key] = trim($arr_top['acs'][$key]);
+					$arr_top_navi['last'][$key] = max($arr_top['id']);
+					$arr_top_navi['id'][$key] = trim($arr_top['link'][$key]);
 				}
-				
-				$arr_top_navi['pub'][$key] = trim($arr_top['pub'][$key]);
-				$arr_top_navi['access'][$key] = trim($arr_top['acs'][$key]);
-				$arr_top_navi['last'][$key] = max($arr_top['id']);
-				$arr_top_navi['id'][$key] = trim($arr_top['link'][$key]);
 			}
 			
 			return $arr_top_navi;
