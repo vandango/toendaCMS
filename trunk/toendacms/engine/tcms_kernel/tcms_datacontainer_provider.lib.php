@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 0.6.8
+ * @version 0.7.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -302,68 +302,71 @@ class tcms_datacontainer_provider extends tcms_main {
 					$is_pub  = $xml->read_section('news', 'published');
 					$is_date = $xml->read_section('news', 'publish_date');
 					$is_auth = $xml->read_section('news', 'access');
+					$is_lang = $xml->read_section('news', 'language');
 					
-					$show_this_news = $this->checkAccess($is_auth, $usergroup);
-					
-					if($show_this_news == true){
-						$is_date = mktime(substr($is_date, 11, 2), substr($is_date, 14, 2), 0, substr($is_date, 3, 2), substr($is_date, 0, 2), substr($is_date, 6, 4));
+					if($is_lang == $language) {
+						$show_this_news = $this->checkAccess($is_auth, $usergroup);
 						
-						if($is_pub == 1 && $is_date < time()){
-							$is_sof = $xml->read_section('news', 'show_on_frontpage');
-							//if($is_sof == false) $is_sof  = 1;
+						if($show_this_news == true){
+							$is_date = mktime(substr($is_date, 11, 2), substr($is_date, 14, 2), 0, substr($is_date, 3, 2), substr($is_date, 0, 2), substr($is_date, 6, 4));
 							
-							if($withShowOnFrontpage) {
-								if($is_sof == '1') {
-									$doFill = true;
+							if($is_pub == 1 && $is_date < time()){
+								$is_sof = $xml->read_section('news', 'show_on_frontpage');
+								//if($is_sof == false) $is_sof  = 1;
+								
+								if($withShowOnFrontpage) {
+									if($is_sof == '1') {
+										$doFill = true;
+									}
+									else {
+										$doFill = false;
+									}
 								}
 								else {
-									$doFill = false;
+									$doFill = true;
 								}
-							}
-							else {
-								$doFill = true;
-							}
-							
-							if($doFill) {
-								$n_maintag = substr($arr_filename[$nkey], 0, 10);
-								$arr_news['title'][$count] = $xml->read_section('news', 'title');
-								$arr_news['autor'][$count] = $xml->read_section('news', 'autor');
-								$arr_news['news'][$count]  = $xml->read_section('news', 'newstext');
-								$arr_news['pub'][$count]   = $is_pub;
-								$arr_news['date'][$count]  = $xml->read_section('news', 'date');
-								$arr_news['time'][$count]  = $xml->read_section('news', 'time');
-								$arr_news['order'][$count] = $xml->read_section('news', 'order');
-								$arr_news['stamp'][$count] = $xml->read_section('news', 'stamp');
-								$arr_news['cat'][$count]   = $xml->read_section('news', 'category');
-								$arr_news['cmt'][$count]   = $xml->read_section('news', 'comments_enabled');
-								$arr_news['pubd'][$count]  = $xml->read_section('news', 'publish_date');
-								$arr_news['image'][$count] = $xml->read_section('news', 'image');
-								$arr_news['acs'][$count]   = $is_auth;
-								$arr_news['sof'][$count]   = $is_sof;
 								
-								$xml->flush();
-								$xml->_xmlparser();
-								
-								if($arr_news['title'][$count] == false) $arr_news['title'][$count] = '';
-								if($arr_news['autor'][$count] == false) $arr_news['autor'][$count] = '';
-								if($arr_news['news'][$count]  == false) $arr_news['news'][$count]  = '';
-								if($arr_news['pub'][$count]   == false) $arr_news['pub'][$count]   = '';
-								if($arr_news['time'][$count]  == false) $arr_news['time'][$count]  = '';
-								if($arr_news['date'][$count]  == false) $arr_news['date'][$count]  = '';
-								if($arr_news['order'][$count] == false) $arr_news['order'][$count] = '';
-								if($arr_news['stamp'][$count] == false) $arr_news['stamp'][$count] = '';
-								if($arr_news['cat'][$count]   == false) $arr_news['cat'][$count]   = '';
-								if($arr_news['pubd'][$count]  == false) $arr_news['pubd'][$count]  = '';
-								if($arr_news['cmt'][$count]   == false) $arr_news['cmt'][$count]   = '';
-								if($arr_news['image'][$count] == false) $arr_news['image'][$count] = '';
-								if($arr_news['acs'][$count]   == false) $arr_news['acs'][$count]   = '';
-								
-								$arr_news['title'][$count] = $this->decodeText($arr_news['title'][$count], '2', $this->m_CHARSET);
-								$arr_news['autor'][$count] = $this->decodeText($arr_news['autor'][$count], '2', $this->m_CHARSET);
-								$arr_news['news'][$count]  = $this->decodeText($arr_news['news'][$count], '2', $this->m_CHARSET);
-								
-								$count++;
-								$counting++;
+								if($doFill) {
+									$n_maintag = substr($arr_filename[$nkey], 0, 10);
+									$arr_news['title'][$count] = $xml->read_section('news', 'title');
+									$arr_news['autor'][$count] = $xml->read_section('news', 'autor');
+									$arr_news['news'][$count]  = $xml->read_section('news', 'newstext');
+									$arr_news['pub'][$count]   = $is_pub;
+									$arr_news['date'][$count]  = $xml->read_section('news', 'date');
+									$arr_news['time'][$count]  = $xml->read_section('news', 'time');
+									$arr_news['order'][$count] = $xml->read_section('news', 'order');
+									$arr_news['stamp'][$count] = $xml->read_section('news', 'stamp');
+									$arr_news['cat'][$count]   = $xml->read_section('news', 'category');
+									$arr_news['cmt'][$count]   = $xml->read_section('news', 'comments_enabled');
+									$arr_news['pubd'][$count]  = $xml->read_section('news', 'publish_date');
+									$arr_news['image'][$count] = $xml->read_section('news', 'image');
+									$arr_news['acs'][$count]   = $is_auth;
+									$arr_news['sof'][$count]   = $is_sof;
+									
+									$xml->flush();
+									$xml->_xmlparser();
+									
+									if($arr_news['title'][$count] == false) $arr_news['title'][$count] = '';
+									if($arr_news['autor'][$count] == false) $arr_news['autor'][$count] = '';
+									if($arr_news['news'][$count]  == false) $arr_news['news'][$count]  = '';
+									if($arr_news['pub'][$count]   == false) $arr_news['pub'][$count]   = '';
+									if($arr_news['time'][$count]  == false) $arr_news['time'][$count]  = '';
+									if($arr_news['date'][$count]  == false) $arr_news['date'][$count]  = '';
+									if($arr_news['order'][$count] == false) $arr_news['order'][$count] = '';
+									if($arr_news['stamp'][$count] == false) $arr_news['stamp'][$count] = '';
+									if($arr_news['cat'][$count]   == false) $arr_news['cat'][$count]   = '';
+									if($arr_news['pubd'][$count]  == false) $arr_news['pubd'][$count]  = '';
+									if($arr_news['cmt'][$count]   == false) $arr_news['cmt'][$count]   = '';
+									if($arr_news['image'][$count] == false) $arr_news['image'][$count] = '';
+									if($arr_news['acs'][$count]   == false) $arr_news['acs'][$count]   = '';
+									
+									$arr_news['title'][$count] = $this->decodeText($arr_news['title'][$count], '2', $this->m_CHARSET);
+									$arr_news['autor'][$count] = $this->decodeText($arr_news['autor'][$count], '2', $this->m_CHARSET);
+									$arr_news['news'][$count]  = $this->decodeText($arr_news['news'][$count], '2', $this->m_CHARSET);
+									
+									$count++;
+									$counting++;
+								}
 							}
 						}
 					}
