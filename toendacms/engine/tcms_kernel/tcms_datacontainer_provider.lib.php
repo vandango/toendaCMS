@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 0.7.0
+ * @version 0.7.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -39,6 +39,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * getNewsDC($newsID)                                            -> Get a specific news data container
  * getNewsDCList($usergroup = '', $amount, $published = '1')     -> Get a list of news data container
+ * generateFeed                                                  -> ReGenerate the news syndication feeds
  *
  * getCommentDCList($news, $module = 'news', $load = true)       -> Get a list of news data container
  *
@@ -1122,7 +1123,25 @@ class tcms_datacontainer_provider extends tcms_main {
 		$impDC = new tcms_dc_impressum();
 		
 		if($this->m_choosenDB == 'xml'){
-			$xml = new xmlparser(''.$this->m_path.'/tcms_global/impressum.'.$language.'.xml', 'r');
+			if(file_exists($this->m_path.'/tcms_global/impressum.'.$language.'.xml')) {
+				$xml = new xmlparser(
+					$this->m_path.'/tcms_global/impressum.'.$language.'.xml',
+					'r'
+				);
+			}
+			else {
+				$xml = new xmlparser($this->m_path.'/tcms_global/var.xml','r');
+				$language = $xml->read_value('front_lang');
+				$xml->flush();
+				$xml->_xmlparser();
+				unset($xml);
+				
+				$xml = new xmlparser(
+					$this->m_path.'/tcms_global/impressum.'.$language.'.xml',
+					'r'
+				);
+			}
+			
 			$wsID      = $xml->read_section('imp', 'imp_id');
 			$wsTitle   = $xml->read_section('imp', 'imp_title');
 			$wsKeynote = $xml->read_section('imp', 'imp_stamp');
@@ -1204,7 +1223,25 @@ class tcms_datacontainer_provider extends tcms_main {
 		$frontDC = new tcms_dc_frontpage();
 		
 		if($this->m_choosenDB == 'xml'){
-			$xml = new xmlparser(''.$this->m_path.'/tcms_global/frontpage.'.$language.'.xml', 'r');
+			if(file_exists($this->m_path.'/tcms_global/frontpage.'.$language.'.xml')) {
+				$xml = new xmlparser(
+					$this->m_path.'/tcms_global/frontpage.'.$language.'.xml',
+					'r'
+				);
+			}
+			else {
+				$xml = new xmlparser($this->m_path.'/tcms_global/var.xml','r');
+				$language = $xml->read_value('front_lang');
+				$xml->flush();
+				$xml->_xmlparser();
+				unset($xml);
+				
+				$xml = new xmlparser(
+					$this->m_path.'/tcms_global/frontpage.'.$language.'.xml',
+					'r'
+				);
+			}
+			
 			$wsID            = $xml->read_section('front', 'front_id');
 			$wsLang          = $xml->read_section('front', 'language');
 			$wsTitle         = $xml->read_section('front', 'front_title');
@@ -1306,7 +1343,25 @@ class tcms_datacontainer_provider extends tcms_main {
 		$newsDC = new tcms_dc_newsmanager();
 		
 		if($this->m_choosenDB == 'xml'){
-			$xml = new xmlparser(''.$this->m_path.'/tcms_global/newsmanager.'.$language.'.xml', 'r');
+			if(file_exists($this->m_path.'/tcms_global/newsmanager.'.$language.'.xml')) {
+				$xml = new xmlparser(
+					$this->m_path.'/tcms_global/newsmanager.'.$language.'.xml',
+					'r'
+				);
+			}
+			else {
+				$xml = new xmlparser($this->m_path.'/tcms_global/var.xml','r');
+				$language = $xml->read_value('front_lang');
+				$xml->flush();
+				$xml->_xmlparser();
+				unset($xml);
+				
+				$xml = new xmlparser(
+					$this->m_path.'/tcms_global/newsmanager.'.$language.'.xml',
+					'r'
+				);
+			}
+			
 			$wsID              = $xml->read_section('config', 'news_id');
 			$wsLang            = $xml->read_section('config', 'language');
 			$wsTitle           = $xml->read_section('config', 'news_title');
@@ -1437,7 +1492,24 @@ class tcms_datacontainer_provider extends tcms_main {
 		$cfDC = new tcms_dc_contactform();
 		
 		if($this->m_choosenDB == 'xml'){
-			$xml = new xmlparser($this->m_path.'/tcms_global/contactform.'.$language.'.xml', 'r');
+			if(file_exists($this->m_path.'/tcms_global/contactform.'.$language.'.xml')) {
+				$xml = new xmlparser(
+					$this->m_path.'/tcms_global/contactform.'.$language.'.xml',
+					'r'
+				);
+			}
+			else {
+				$xml = new xmlparser($this->m_path.'/tcms_global/var.xml','r');
+				$language = $xml->read_value('front_lang');
+				$xml->flush();
+				$xml->_xmlparser();
+				unset($xml);
+				
+				$xml = new xmlparser(
+					$this->m_path.'/tcms_global/contactform.'.$language.'.xml',
+					'r'
+				);
+			}
 			
 			$wsID      = 'contactform';
 			$wsTitle   = $xml->read_section('email', 'contacttitle');
