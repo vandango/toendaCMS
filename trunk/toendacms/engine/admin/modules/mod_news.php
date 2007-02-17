@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the news.
  *
- * @version 1.6.0
+ * @version 1.6.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -80,6 +80,7 @@ if(isset($_POST['new_sof'])){ $new_sof = $_POST['new_sof']; }
 if(isset($_POST['new_news_lang'])){ $new_news_lang = $_POST['new_news_lang']; }
 if(isset($_POST['lang_exist'])){ $lang_exist = $_POST['lang_exist']; }
 if(isset($_POST['language'])){ $language = $_POST['language']; }
+if(isset($_POST['draft'])){ $draft = $_POST['draft']; }
 
 
 
@@ -1175,7 +1176,8 @@ if($todo == 'edit'){
 			.'<input name="todo" type="hidden" value="'.$odot.'" />'
 			.'<input name="maintag" type="hidden" value="'.$maintag.'" />'
 			.'<input name="stamp" type="hidden" value="'.$nws_stamp.'" />'
-			.'<input name="order" type="hidden" value="'.$maintag.'" />';
+			.'<input name="order" type="hidden" value="'.$maintag.'" />'
+			.'<input name="draft" id="draft" type="hidden" value="1" />';
 			
 			
 			/*
@@ -1904,7 +1906,16 @@ if($todo == 'save'){
 	
 	$tcms_dcp->generateFeed($getLang, $defaultFeed, $seoFolder, true, $synAmount, $showAutor);
 	
-	echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_news\'</script>';
+	if($draft == '1') {
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_news\''
+		.'</script>';
+	}
+	else {
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_news&todo=edit&maintag='.$maintag.'\''
+		.'</script>';
+	}
 }
 
 
@@ -2092,7 +2103,16 @@ if($todo == 'next'){
 	
 	$tcms_dcp->generateFeed($getLang, $defaultFeed, $seoFolder, true, $synAmount, $showAutor);
 	
-	echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_news\'</script>';
+	if($draft == '1') {
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_news\''
+		.'</script>';
+	}
+	else {
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_news&todo=edit&maintag='.$maintag.'\''
+		.'</script>';
+	}
 }
 
 

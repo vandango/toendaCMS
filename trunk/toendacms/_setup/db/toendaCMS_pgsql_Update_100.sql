@@ -92,9 +92,11 @@ CREATE TABLE "public"."#####content_languages" (
   PRIMARY KEY("uid")
 ) WITH OIDS;
 
-ALTER TABLE "public"."#####newsmanager"
-  ADD COLUMN "news_spacing" INTEGER;
-
-ALTER TABLE "public"."#####frontpage"
-  ADD COLUMN "language" VARCHAR(25);
-
+ALTER TABLE "public"."#####newsmanager" ADD COLUMN "news_spacing" INTEGER;
+ALTER TABLE "public"."#####frontpage" ADD COLUMN "language" VARCHAR(25);
+ALTER TABLE "public"."#####newsmanager" ADD COLUMN "language" VARCHAR(25);
+ALTER TABLE "public"."#####impressum" ADD COLUMN "language" VARCHAR(25);
+ALTER TABLE "public"."#####contactform" ADD COLUMN "language" VARCHAR(25);
+ALTER TABLE "public"."#####news" ADD COLUMN "language" VARCHAR(25);
+ALTER TABLE "public"."#####topmenu" ADD COLUMN "language" VARCHAR(25);
+ALTER TABLE "public"."#####sidemenu" ADD COLUMN "language" VARCHAR(25);

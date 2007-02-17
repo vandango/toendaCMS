@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used as top menu.
  *
- * @version 0.9.7
+ * @version 0.9.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -471,7 +471,7 @@ if($mod_title['show'][$site] == 2){
 	echo '<img src="../images/admin_menu/line.gif" border="0" />';
 	
 	// CONFIG NEWS
-	if($site == 'mod_news' || $site == 'mod_links' && $todo != 'config'){
+	if($site == 'mod_links' && $todo != 'config'){
 		echo '<a style="padding: 3px 3px 0 3px;" href="admin.php?id_user='.$id_user.'&amp;site='.$site.'&amp;todo=config"><img title="'._TCMS_ADMIN_CONFIG.'" alt="'._TCMS_ADMIN_CONFIG.'" src="../images/admin_menu/config.png" border="0" /></a>';
 		echo '<img src="../images/admin_menu/line.gif" border="0" />';
 	}
@@ -501,23 +501,13 @@ if($mod_title['show'][$site] == 2){
 		}
 		
 		// WYSIWYG
-		if($site == 'mod_news'){
-			if($show_wysiwyg == 'tinymce' && $todo != 'config'){
-				echo '<a style="padding: 3px 3px 0 3px;" href="javascript:tinyMCE.triggerSave();tinyMCE.updateContent(\'content\');save();"><img title="'._TCMS_ADMIN_SAVE.'" alt="'._TCMS_ADMIN_SAVE.'" src="../images/admin_menu/save.png" border="0" /></a>';
-			}
-			else{
+		if($site == 'mod_comments'){
+			if($todo == 'edit'){
 				echo '<a style="padding: 3px 3px 0 3px;" href="javascript:save();"><img title="'._TCMS_ADMIN_SAVE.'" alt="'._TCMS_ADMIN_SAVE.'" src="../images/admin_menu/save.png" border="0" /></a>';
 			}
 		}
 		else{
-			if($site == 'mod_comments'){
-				if($todo == 'edit'){
-					echo '<a style="padding: 3px 3px 0 3px;" href="javascript:save();"><img title="'._TCMS_ADMIN_SAVE.'" alt="'._TCMS_ADMIN_SAVE.'" src="../images/admin_menu/save.png" border="0" /></a>';
-				}
-			}
-			else{
-				echo '<a style="padding: 3px 3px 0 3px;" href="javascript:save();"><img title="'._TCMS_ADMIN_SAVE.'" alt="'._TCMS_ADMIN_SAVE.'" src="../images/admin_menu/save.png" border="0" /></a>';
-			}
+			echo '<a style="padding: 3px 3px 0 3px;" href="javascript:save();"><img title="'._TCMS_ADMIN_SAVE.'" alt="'._TCMS_ADMIN_SAVE.'" src="../images/admin_menu/save.png" border="0" /></a>';
 		}
 	}
 }

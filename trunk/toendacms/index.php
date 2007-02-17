@@ -63,7 +63,7 @@ if(isset($_POST['contact_email'])){ $contact_email = $_POST['contact_email']; }
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.5.2
+ * @version 2.5.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -292,7 +292,7 @@ if(file_exists($tcms_administer_site.'/tcms_global/var.xml')){
 	// !! at a root level or in a directory
 	if($seoEnabled == 1){
 		if($seoFolder != '')
-			$toendaCMSimage = '/'.$seoFolder.'/';
+			$toendaCMSimage = $seoFolder.'/';
 		else
 			$toendaCMSimage = '';
 	}

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * This module is for the global configuration settings.
  * 
- * @version 1.1.6
+ * @version 1.2.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Admin Backend
@@ -129,6 +129,7 @@ if(isset($_POST['new_prefix'])){ $new_prefix = $_POST['new_prefix']; }
 if(isset($_POST['with_output'])){ $with_output = $_POST['with_output']; }
 if(isset($_POST['structure_only'])){ $structure_only = $_POST['structure_only']; }
 if(isset($_POST['new_anti_frame'])){ $new_anti_frame = $_POST['new_anti_frame']; }
+if(isset($_POST['new_valid_links'])){ $new_valid_links = $_POST['new_valid_links']; }
 
 
 
@@ -203,6 +204,7 @@ if($id_group == 'Developer'
 	$old_robots         = $globals_xml->read_section('global', 'robots');
 	$old_last_changes   = $globals_xml->read_section('global', 'last_changes');
 	$old_use_content_l  = $globals_xml->read_section('global', 'use_content_language');
+	$old_valid_links    = $globals_xml->read_section('global', 'valid_links');
 	
 	
 	// userpage
@@ -273,8 +275,9 @@ if($id_group == 'Developer'
 		echo '<script type="text/javascript" src="../js/tabs/tabpane.js"></script>
 		<link type="text/css" rel="StyleSheet" href="../js/tabs/css/luna/tab.css" />
 		<!--<link type="text/css" rel="StyleSheet" href="../js/tabs/tabpane.css" />-->
-		<script>
+		<script language="Javascript">
 		var _tcmsVALUE = "Site is proudly powered by toendaCMS &#169; 2003 - 2007 Toenda Software Development. All rights reserved.<br />toendaCMS is Free Software released under the GNU/GPL License.<br />";
+		var _tcmsOFFLINE = "This site is down for maintenance.<br /> Please check back again soon.";
 		</script>';
 		
 		
@@ -316,7 +319,12 @@ if($id_group == 'Developer'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25" valign="top">'
 		._GLOBAL_SITE_OFFLINE_TEXT.'</td>'
 		.'<td valign="top">'
-		.'<textarea name="new_site_off_text" class="tcms_textarea_big">'.$old_site_off_text.'</textarea>'
+		.'<textarea id="new_site_off_text" name="new_site_off_text" class="tcms_textarea_big">'
+		.$old_site_off_text.'</textarea>'
+		.'<br />'
+		.'<img src="../images/px.png" width="9" height="9" border="0" style="margin: 5px 2px 0 0 !important;" align="left" />'
+		.'<input type="button" name="_paste_tcmsOFFLINE" value="'._GLOBAL_PASTE_FOOTER_TEXT.'"'
+		.' onclick="document.getElementById(\'new_site_off_text\').value = document.getElementById(\'new_site_off_text\').value + _tcmsOFFLINE" />'
 		.'</td></tr>';
 		
 		
@@ -408,48 +416,55 @@ if($id_group == 'Developer'
 		
 		
 		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_VALIDLINKS.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="new_valid_links"'.($old_valid_links == 1 ? ' checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_USE_STATISTICS.'</td>'
 		.'<td>'
 		.'<input type="checkbox" name="new_statistics"'.($old_statistics == 1 ? ' checked="checked"' : '' ).' value="1" />'
 		.'</td></tr>';
 		
 		
-		echo '<tr style="background: '.$arr_color[1].';">'
+		echo '<tr>'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_JS_BROWSER_DETECTION.'</td>'
 		.'<td>'
 		.'<input type="checkbox" name="new_js_browser_detect"'.($js_browser_detect == 1 ? ' checked="checked"' : '' ).' value="1" />'
 		.'</td></tr>';
 		
 		
-		echo '<tr>'
+		echo '<tr style="background: '.$arr_color[1].';">'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_SHOW_DOC_AUTOR.'</td>'
 		.'<td>'
 		.'<input type="checkbox" name="new_doc_autor"'.($old_doc_autor == 1 ? ' checked="checked"' : '' ).' value="1" />'
 		.'</td></tr>';
 		
 		
-		echo '<tr style="background: '.$arr_color[1].';">'
+		echo '<tr>'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_USE_CS.'</td>'
 		.'<td>'
 		.'<input type="checkbox" name="new_use_cs"'.($use_cs == 1 ? ' checked="checked"' : '' ).' value="1" />'
 		.'</td></tr>';
 		
 		
-		echo '<tr>'
+		echo '<tr style="background: '.$arr_color[1].';">'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_USE_NEW_ADMINMENU.'</td>'
 		.'<td>'
 		.'<input type="checkbox" name="new_admin_topmenu"'.($old_admin_topmenu == 1 ? ' checked="checked"' : '' ).' value="1" />'
 		.'</td></tr>';
 		
 		
-		echo '<tr style="background: '.$arr_color[1].';">'
+		echo '<tr>'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_USE_CONTENT_LANG.'</td>'
 		.'<td>'
 		.'<input type="checkbox" name="new_use_content_l"'.($old_use_content_l == 1 ? ' checked="checked"' : '' ).' value="1" />'
 		.'</td></tr>';
 		
 		
-		echo '<tr>'
+		echo '<tr style="background: '.$arr_color[1].';">'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_CHARSET.'</td>'
 		.'<td>'
 		.'<select name="charset" class="tcms_select">';
@@ -459,7 +474,7 @@ if($id_group == 'Developer'
 		echo '</select></td></tr>';
 		
 		
-		echo '<tr style="background: '.$arr_color[1].';">'
+		echo '<tr>'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_LANG.'</td>'
 		.'<td>'
 		.'<select name="tmp_lang" class="tcms_select">';
@@ -469,7 +484,7 @@ if($id_group == 'Developer'
 		echo '</select></td></tr>';
 		
 		
-		echo '<tr>'
+		echo '<tr style="background: '.$arr_color[1].';">'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_FRONT_LANG.'</td>'
 		.'<td>'
 		.'<select name="tmp_front_lang" class="tcms_select">';
@@ -479,7 +494,7 @@ if($id_group == 'Developer'
 		echo '</select></td></tr>';
 		
 		
-		echo '<tr style="background: '.$arr_color[1].';">'
+		echo '<tr>'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_CURRENCY.'</td>'
 		.'<td>'
 		.'<select name="tmp_currency" class="tcms_select">';
@@ -489,7 +504,7 @@ if($id_group == 'Developer'
 		echo '</select></td></tr>';
 		
 		
-		echo '<tr>'
+		echo '<tr style="background: '.$arr_color[1].';">'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_WYSIWYG.'</td>'
 		.'<td>'
 		.'<select name="tmp_use_wysiwyg" class="tcms_select">'
@@ -500,7 +515,7 @@ if($id_group == 'Developer'
 		.'</select></td></tr>';
 		
 		
-		echo '<tr style="background: '.$arr_color[1].';">'
+		echo '<tr>'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" valign="top" height="25">'._TABLE_DEFAULT_NEWS_CATEGORY.'</td>'
 		.'<td valign="top">'
 		.'<select name="new_default_cat" class="tcms_select">';
@@ -510,12 +525,13 @@ if($id_group == 'Developer'
 		echo '</select></td></tr>';
 		
 		
-		echo '<tr>'
+		echo '<tr style="background: '.$arr_color[1].';">'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" valign="top" height="25">'._GLOBAL_FOOTER_TEXT.'</td>'
 		.'<td valign="top">'
 		.'<textarea id="new_footer_text" name="new_footer_text" class="tcms_textarea_big">'.$old_footer_text.'</textarea>'
 		.'<br /><img src="../images/px.png" width="9" height="9" border="0" style="margin: 5px 2px 0 0 !important;" align="left" />'
-		.'<input type="button" name="_paste_tcmsVALUE" value="'._GLOBAL_PASTE_FOOTER_TEXT.'" onclick="document.getElementById(\'new_footer_text\').value = document.getElementById(\'new_footer_text\').value + _tcmsVALUE" />'
+		.'<input type="button" name="_paste_tcmsVALUE" value="'._GLOBAL_PASTE_FOOTER_TEXT.'"'
+		.' onclick="document.getElementById(\'new_footer_text\').value = document.getElementById(\'new_footer_text\').value + _tcmsVALUE" />'
 		.'</td></tr>';
 		
 		
@@ -1329,6 +1345,7 @@ if($id_group == 'Developer'
 			$xmluser->write_value('robots', $new_robots);
 			$xmluser->write_value('last_changes', $new_last_changes);
 			$xmluser->write_value('use_content_language', $new_use_content_l);
+			$xmluser->write_value('valid_links', $new_valid_links);
 			
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('global');

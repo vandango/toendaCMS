@@ -10,7 +10,7 @@
 | DHTML and JavaScript Functions
 |
 | File:		dhtml.js
-| Version:	0.4.1
+| Version:	0.4.2
 |
 +
 */
@@ -24,6 +24,8 @@
 * - getKeyCode(event)
 * - displayKeyCode(object)
 *
+* - gebi(id)
+*
 * - getSelectedValue(select)
 *
 * - show(id, top, left)               -> show box on place top and left
@@ -32,6 +34,7 @@
 * - wxlBgCol(id, farbe)               -> change bgcolor of id if mouse over
 *
 * - save()                            -> send first form on page
+* - apply()                           -> apply
 * - save_id(id)                       -> send form by id
 * - accept(id)                        -> accept an form by id
 * - checkinputs()                     -> check inputs of an form
@@ -89,6 +92,16 @@ function displayKeyCode(object) {
 		var charCode = getKeyCode(event);
 		var charString = String.fromCharCode(charCode);
 	}
+}
+
+
+
+// --------------------------------------
+// GET ELEMENT BY ID
+// --------------------------------------
+
+function gebi(id) {
+	return document.getElementById(id);
 }
 
 
@@ -153,6 +166,11 @@ function wxlBgCol(id,farbe) {
 // --------------------------------------
 
 function save(){
+	document.forms[0].submit();
+}
+
+function apply(){
+	gebi('draft').value = '0';
 	document.forms[0].submit();
 }
 

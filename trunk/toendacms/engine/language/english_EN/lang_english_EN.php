@@ -31,10 +31,12 @@ if(!defined('_TCMS_ADMIN_BACK'))               define('_TCMS_ADMIN_BACK', 'Back'
 if(!defined('_TCMS_ADMIN_FORWARD'))            define('_TCMS_ADMIN_FORWARD', 'Forward');
 if(!defined('_TCMS_ADMIN_CLOSE'))              define('_TCMS_ADMIN_CLOSE', 'Close');
 if(!defined('_TCMS_ADMIN_SAVE'))               define('_TCMS_ADMIN_SAVE', 'Save');
+if(!defined('_TCMS_ADMIN_APPLY'))              define('_TCMS_ADMIN_APPLY', 'Apply');
 if(!defined('_TCMS_ADMIN_BACK_TO_PAGE'))       define('_TCMS_ADMIN_BACK_TO_PAGE', 'Back to website');
 if(!defined('_TCMS_ADMIN_NO'))                 define('_TCMS_ADMIN_NO', 'No');
 if(!defined('_TCMS_ADMIN_FTPUPLOAD'))          define('_TCMS_ADMIN_FTPUPLOAD', 'Create album from FTP-uploaded imagefolder');
 if(!defined('_TCMS_ADMIN_DELETE'))             define('_TCMS_ADMIN_DELETE', 'Delete');
+if(!defined('_TCMS_ADMIN_DELETE_ALL'))         define('_TCMS_ADMIN_DELETE_ALL', 'Delete all');
 if(!defined('_TCMS_ADMIN_UPLOAD'))             define('_TCMS_ADMIN_UPLOAD', 'Upload');
 if(!defined('_TCMS_ADMIN_INSTALL'))            define('_TCMS_ADMIN_INSTALL', 'Upload &amp Install');
 if(!defined('_TCMS_ADMIN_SEND'))               define('_TCMS_ADMIN_SEND', 'Send');
@@ -879,6 +881,7 @@ if(!defined('_GLOBAL_EXPIRES'))                define('_GLOBAL_EXPIRES', 'Websit
 if(!defined('_GLOBAL_ROBOTSSETTINGS'))         define('_GLOBAL_ROBOTSSETTINGS', 'Setting for the website robots (Webcrawler)');
 if(!defined('_GLOBAL_LAST_CHANGES'))           define('_GLOBAL_LAST_CHANGES', 'Last website changes');
 if(!defined('_GLOBAL_USE_CONTENT_LANG'))       define('_GLOBAL_USE_CONTENT_LANG', 'Use content languages');
+if(!defined('_GLOBAL_VALIDLINKS'))             define('_GLOBAL_VALIDLINKS', 'Show WebStandards Links');
 
 
 // POLL
@@ -1253,6 +1256,15 @@ if(!defined('_LANG_ROMANIAN'))                 define('_LANG_ROMANIAN', 'Romania
 if(!defined('_LANG_SLOVAK'))                   define('_LANG_SLOVAK', 'Slovak');
 if(!defined('_LANG_SPANISH'))                  define('_LANG_SPANISH', 'Espanol');
 if(!defined('_LANG_SWEDISH'))                  define('_LANG_SWEDISH', 'Swedish');
+
+
+// FOOTER
+if(!defined('_FOOTER_VALID_TITLE'))            define('_FOOTER_VALID_TITLE', 'This site conforms to the following standards');
+if(!defined('_FOOTER_VALID_US_805'))           define('_FOOTER_VALID_US_805', 'This toendaCMS site conforms to the US Government Section 508 Accessibility Guidelines.');
+if(!defined('_FOOTER_VALID_W3C_WAI'))          define('_FOOTER_VALID_W3C_WAI', 'This toendaCMS site conforms to the W3C-WAI Web Content Accessibility Guidelines.');
+if(!defined('_FOOTER_VALID_XHTML'))            define('_FOOTER_VALID_XHTML', 'This toendaCMS site is valid XHTML.');
+if(!defined('_FOOTER_VALID_CSS'))              define('_FOOTER_VALID_CSS', 'This toendaCMS site was built with valid CSS.');
+if(!defined('_FOOTER_VALID_ANY_BROWSER'))      define('_FOOTER_VALID_ANY_BROWSER', 'This toendaCMS site is usable in any web browser.');
 
 
 // COUNTRY LIST
