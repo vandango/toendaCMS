@@ -9,7 +9,7 @@
 | 
 | toendaCMS Configuration
 |
-| File:		tcms_configuration.lib.php
+| File:	tcms_configuration.lib.php
 |
 +
 */
@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide the global
  * configuration data.
  *
- * @version 0.3.1
+ * @version 0.3.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -81,6 +81,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * useContentLanguage          -> Get the usage value for the content languages
  * usePDFLink                  -> Get the setting if the pdf link should be display in footer
  * 
+ * showValidationLinks         -> Get the setting if the validation links should be displayed
+ * 
  * </code>
  *
  */
@@ -128,6 +130,7 @@ class tcms_configuration {
 	var $m_robots;
 	var $m_last_changes;
 	var $m_useContentLang;
+	var $m_validLinks;
 	
 	
 	
@@ -176,6 +179,7 @@ class tcms_configuration {
 		$this->m_robots           = $this->o_xml->read_section('global', 'robots');
 		$this->m_last_changes     = $this->o_xml->read_section('global', 'last_changes');
 		$this->m_useContentLang   = $this->o_xml->read_section('global', 'use_content_language');
+		$this->m_validLinks       = $this->o_xml->read_section('global', 'valid_links');
 		
 		$this->o_xml->flush();
 		$this->o_xml->_xmlparser();
@@ -703,6 +707,17 @@ class tcms_configuration {
 	 */
 	function usePDFLink(){
 		return $this->m_pdflink;
+	}
+	
+	
+	
+	/**
+	 * Get the setting if the validation links should be displayed
+	 *
+	 * @return Integer
+	 */
+	function showValidationLinks(){
+		return $this->m_validLinks;
 	}
 }
 

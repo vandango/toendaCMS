@@ -36,6 +36,8 @@
 * ADD THIS
 *
 
+if(!defined('_TCMS_ADMIN_APPLY'))              define('_TCMS_ADMIN_APPLY', 'Apply');
+if(!defined('_TCMS_ADMIN_DELETE_ALL'))         define('_TCMS_ADMIN_DELETE_ALL', 'Delete all');
 if(!defined('_TCMS_THIS_PAGE_IN'))             define('_TCMS_THIS_PAGE_IN', 'This page in');
 if(!defined('_TCMS_ADMIN_EDIT_LANG'))          define('_TCMS_ADMIN_EDIT_LANG', 'Edit this language');
 if(!defined('_TCMS_LANGUAGES'))                define('_TCMS_LANGUAGES', 'Languages');
@@ -75,6 +77,7 @@ if(!defined('_GLOBAL_EXPIRES'))                define('_GLOBAL_EXPIRES', 'Websit
 if(!defined('_GLOBAL_ROBOTSSETTINGS'))         define('_GLOBAL_ROBOTSSETTINGS', 'Setting for the website robots (Webcrawler)');
 if(!defined('_GLOBAL_LAST_CHANGES'))           define('_GLOBAL_LAST_CHANGES', 'Last website changes');
 if(!defined('_GLOBAL_USE_CONTENT_LANG'))       define('_GLOBAL_USE_CONTENT_LANG', 'Use content languages');
+if(!defined('_GLOBAL_VALIDLINKS'))             define('_GLOBAL_VALIDLINKS', 'Show WebStandards Links');
 
 if(!defined('_NEWS_SHOW_ON_FRONTPAGE'))        define('_NEWS_SHOW_ON_FRONTPAGE', 'Show News on frontpage');
 
@@ -96,6 +99,14 @@ if(!defined('_MOD_CFORM'))                     define('_MOD_CFORM', 'Contactform
 if(!defined('_MOD_BOOK'))                      define('_MOD_BOOK', 'Guestbook Configuration');
 
 if(!defined('_FRONTPAGE_DT'))                  define('_FRONTPAGE_DT', 'Date and Time, Title');
+
+// FOOTER
+if(!defined('_FOOTER_VALID_TITLE'))            define('_FOOTER_VALID_TITLE', 'This site conforms to the following standards');
+if(!defined('_FOOTER_VALID_US_805'))           define('_FOOTER_VALID_US_805', 'This toendaCMS site conforms to the US Government Section 508 Accessibility Guidelines.');
+if(!defined('_FOOTER_VALID_W3C_WAI'))          define('_FOOTER_VALID_W3C_WAI', 'This toendaCMS site conforms to the W3C-WAI Web Content Accessibility Guidelines.');
+if(!defined('_FOOTER_VALID_XHTML'))            define('_FOOTER_VALID_XHTML', 'This toendaCMS site is valid XHTML.');
+if(!defined('_FOOTER_VALID_CSS'))              define('_FOOTER_VALID_CSS', 'This toendaCMS site was built with valid CSS.');
+if(!defined('_FOOTER_VALID_ANY_BROWSER'))      define('_FOOTER_VALID_ANY_BROWSER', 'This toendaCMS site is usable in any web browser.');
 
 *
 *

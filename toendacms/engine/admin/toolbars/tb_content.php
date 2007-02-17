@@ -9,7 +9,7 @@
 |
 | Toolbar for contet manager
 |
-| File:		tb_content.php
+| File:	tb_content.php
 |
 +
 */

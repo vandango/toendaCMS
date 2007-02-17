@@ -31,10 +31,12 @@ define('_TCMS_ADMIN_BACK', 'Zur&uuml;ck');
 define('_TCMS_ADMIN_FORWARD', 'Vorw&auml;rts');
 define('_TCMS_ADMIN_CLOSE', 'Schliessen');
 define('_TCMS_ADMIN_SAVE', 'Speichern');
+define('_TCMS_ADMIN_APPLY', '&Uuml;bernehmen');
 define('_TCMS_ADMIN_BACK_TO_PAGE', 'Zur&uuml;ck zur Webseite');
 define('_TCMS_ADMIN_NO', 'Kein');
 define('_TCMS_ADMIN_FTPUPLOAD', 'Erstellen Sie ein Album aus einem per FTP hochgeladenem Bilderordner');
 define('_TCMS_ADMIN_DELETE', 'L&ouml;schen');
+define('_TCMS_ADMIN_DELETE_ALL', 'Alle L&ouml;schen');
 define('_TCMS_ADMIN_UPLOAD', 'Hochladen');
 define('_TCMS_ADMIN_INSTALL', 'Hochladen &amp installieren');
 define('_TCMS_ADMIN_SEND', 'Senden');
@@ -882,6 +884,7 @@ define('_GLOBAL_EXPIRES', 'Webseite kann ablaufen?');
 define('_GLOBAL_ROBOTSSETTINGS', 'Einstellungen f&uuml;r den Webseiten Bot');
 define('_GLOBAL_LAST_CHANGES', 'Letzte &Auml;nderung an der Webseite');
 define('_GLOBAL_USE_CONTENT_LANG', 'Multible Sprachen verwenden');
+define('_GLOBAL_VALIDLINKS', 'WebStandards Links anzeigen');
 
 
 // POLL
@@ -1255,6 +1258,15 @@ define('_LANG_ROMANIAN', 'Rum&auml;nisch');
 define('_LANG_SLOVAK', 'Slovenisch');
 define('_LANG_SPANISH', 'Spanisch');
 define('_LANG_SWEDISH', 'Swedisch');
+
+
+// FOOTER
+define('_FOOTER_VALID_TITLE', 'Diese Website erf&uuml;llt die folgenden Standards');
+define('_FOOTER_VALID_US_805', 'Diese toendaCMS-Website entspricht den Section-508-Barrierefreiheitsrichtlinien der US-Regierung.');
+define('_FOOTER_VALID_W3C_WAI', 'Diese toendaCMS-Website entspricht den W3C-WAI-Richtlinien zur Barrierefreiheit von Websites.');
+define('_FOOTER_VALID_XHTML', 'Diese toendaCMS-Website enth&auml;lt valides XHTML.');
+define('_FOOTER_VALID_CSS', 'Diese toendaCMS-Website wurde mit g&uuml;ltigem CSS erstellt.');
+define('_FOOTER_VALID_ANY_BROWSER', 'Diese toendaCMS-Website unterst&uuml;zt jeden Web Browser.');
 
 
 // COUNTRY LIST

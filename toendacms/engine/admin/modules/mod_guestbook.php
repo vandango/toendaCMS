@@ -9,8 +9,7 @@
 | 
 | Guestbook entrys
 |
-| File:		mod_guestbook.php
-| Version:	0.1.2
+| File:	mod_guestbook.php
 |
 +
 */
@@ -19,10 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-
-
-
-
+/**
+ * Guestbook entrys
+ *
+ * This module is used for the guestbook entrys.
+ *
+ * @version 0.1.5
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 if(isset($_POST['new_guest_name'])){ $new_guest_name = $_POST['new_guest_name']; }
@@ -31,9 +36,6 @@ if(isset($_POST['new_guest_text'])){ $new_guest_text = $_POST['new_guest_text'];
 if(isset($_POST['new_guest_date'])){ $new_guest_date = $_POST['new_guest_date']; }
 if(isset($_POST['new_guest_time'])){ $new_guest_time = $_POST['new_guest_time']; }
 if(isset($_POST['dbAction'])){ $dbAction = $_POST['dbAction']; }
-
-
-
 
 
 
@@ -52,16 +54,8 @@ echo '<link rel="stylesheet" type="text/css" media="all" href="../js/jscalendar/
 
 
 
-
-
-
-
-
-
-
-
-
-if($id_group == 'Developer' || $id_group == 'Administrator'){
+if($id_group == 'Developer' 
+|| $id_group == 'Administrator'){
 	//=====================================================
 	// SHOW OLD VALUES
 	//=====================================================
@@ -210,18 +204,11 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	
 	
 	
-	
-	
-	
-	
-	
 	//=====================================================
 	// FORM
 	//=====================================================
 	
-	if($todo == 'edit'){
-		//***************************
-		//
+	if($todo == 'edit') {
 		if(isset($maintag) && !empty($maintag) && $maintag != ''){
 			if($choosenDB == 'xml'){
 				$user_xml  = new xmlparser('../../'.$tcms_administer_site.'/tcms_guestbook/'.$maintag.'.xml','r');
@@ -302,9 +289,6 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 			$odot = 'save';
 			if($choosenDB != 'xml'){ $dbDo = 'next'; }
 		}
-		//
-		//***************************
-		
 		
 		
 		
@@ -389,15 +373,11 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	
 	
 	
-	
-	
 	//=====================================================
 	// SAVING
 	//=====================================================
 	
-	if($todo == 'save'){
-		//****************************************
-		
+	if($todo == 'save') {
 		if($new_guest_date == '' || !isset($new_guest_date)){ $new_guest_date = date('d.m.Y'); }
 		if($new_guest_time == '' || !isset($new_guest_time)){ $new_guest_time = date('H:i'); }
 		
@@ -465,35 +445,55 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 			}
 		}
 		
-		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_guestbook\'</script>';
-		
-		//****************************************
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_guestbook\''
+		.'</script>';
 	}
 	
 	
 	
 	
 	
-	
-	
-	
-	
-	//===================================================================================
+	//=====================================================
 	// DELETE
-	//===================================================================================
+	//=====================================================
+	
 	if($todo == 'delete'){
-		//****************************************
-		
-		if($choosenDB == 'xml'){ unlink('../../'.$tcms_administer_site.'/tcms_guestbook/'.$maintag.'.xml'); }
+		if($choosenDB == 'xml') {
+			unlink('../../'.$tcms_administer_site.'/tcms_guestbook/'.$maintag.'.xml');
+		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			$sqlAL->sqlDeleteOne($tcms_db_prefix.'guestbook_items', $maintag);
 		}
 		
-		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_guestbook\'</script>';
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_guestbook\''
+		.'</script>';
+	}
+	
+	
+	
+	
+	
+	//=====================================================
+	// DELETE ALL
+	//=====================================================
+	
+	if($todo == 'deleteall'){
+		if($choosenDB == 'xml') {
+			$tcms_main->deleteDirContent('../../'.$tcms_administer_site.'/tcms_guestbook/');
+		}
+		else{
+			$sqlAL = new sqlAbstractionLayer($choosenDB);
+			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL->sqlDeleteAll($tcms_db_prefix.'guestbook_items');
+		}
 		
-		//****************************************
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_guestbook\''
+		.'</script>';
 	}
 }
 else{

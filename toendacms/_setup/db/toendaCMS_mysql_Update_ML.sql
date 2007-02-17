@@ -1,10 +1,10 @@
 
 
-UPDATE * FROM `#####news` SET language = '+++++'
-UPDATE * FROM `#####frontpage` SET language = '+++++'
-UPDATE * FROM `#####newsmanager` SET language = '+++++'
-UPDATE * FROM `#####contactform` SET language = '+++++'
-UPDATE * FROM `#####impressum` SET language = '+++++'
-UPDATE * FROM `#####sidemenu` SET language = '+++++'
-UPDATE * FROM `#####topmenu` SET language = '+++++'
+UPDATE `#####news` SET `language` = '+++++';
+UPDATE `#####frontpage` SET `language` = '+++++';
+UPDATE `#####newsmanager` SET `language` = '+++++';
+UPDATE `#####contactform` SET `language` = '+++++';
+UPDATE `#####impressum` SET `language` = '+++++';
+UPDATE `#####sidemenu` SET `language` = '+++++';
+UPDATE `#####topmenu` SET `language` = '+++++';
 

@@ -9,7 +9,7 @@
 | 
 | toendaCMS SQL Abstraction Layer
 |
-| File:		tcms_sql.lib.php
+| File:	tcms_sql.lib.php
 |
 +
 */
@@ -40,7 +40,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Untested Database Server:
  * - SQLite        -> sqlite
  *
- * @version 0.4.8
+ * @version 0.6.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -58,6 +58,26 @@ defined('_TCMS_VALID') or die('Restricted access');
  * sqlAbstractionLayer($sqlInterface)                -> PHP4 Default constructor
  * __destruct()                                      -> PHP5 Default destructor
  * _sqlAbstractionLayer()                            -> PHP4 Default destructor
+ *
+ *--------------------------------------------------------
+ * SIMPLE LAYER
+ *--------------------------------------------------------
+ *
+ * Error($sqlErrorNumber)                         -> sqlError
+ * Connect($sqlUser, $sqlPassword, $sqlHost, $sqlDB, $sqlPort)        -> sqlConnect
+ * ConnectWithoutDB($sqlUser, $sqlPassword, $sqlHost, $sqlPort)       -> sqlConnectWithoutDB
+ * PersistConnect($sqlUser, $sqlPassword, $sqlHost, $sqlDB, $sqlPort) -> sqlPersistConnect
+ * Disconnect($sqlConnectionID)                   -> sqlDisconnect
+ * CreateDB($sqlConnectionID)                     -> sqlCreateDB
+ * Query($sqlQueryString)                         -> sqlQuery
+ * FetchArray($sqlQueryResult)                    -> sqlFetchArray
+ * FetchObject($sqlQueryResult)                   -> sqlFetchObject
+ * FreeResult($sqlQueryResult)                    -> sqlFreeResult
+ * GetAll($sqlTable)                              -> sqlGetAll
+ * GetOne($sqlTable, $sqlUID)                     -> sqlGetOne
+ * UpdateOne($sqlTable, $newDataString, $sqlUID, $withDebug = false)  -> sqlUpdateOne
+ * UpdateField($sqlTable, $newDataString, $sqlField, $sqlUID, $withDebug = false) -> sqlUpdateField
+ * CreateOne($sqlTable, $newDataString, $sqlUID, $withDebug = false)  -> sqlCreateOne
  *
  *--------------------------------------------------------
  * MAIN FUNCTIONS
@@ -93,21 +113,24 @@ defined('_TCMS_VALID') or die('Restricted access');
  * sqlGetAll($sqlTable)                              -> Get all data from table
  * sqlGetOne($sqlTable, $sqlUID)                     -> Get one from table where UID = ?
  * 
- * sqlUpdateOne($sqlTable, $newDataString, $sqlUID)
+ * sqlUpdateOne($sqlTable, $newDataString, $sqlUID, $withDebug = false)
  * -> Update one row in table where UID = ? and set ...
  *    ($newDataString = [name_of_column="new value", name_of_column="new value"])
+ * 
  * sqlUpdateField($sqlTable, $newDataString, $sqlField, $sqlUID, $withDebug = false)
  * -> Update one row in table where $sqlField = ? and set ...
  *    ($newDataString = [name_of_column="new value", name_of_column="new value"])
  * 
- * sqlCreateOne($sqlTable, $newDataString, $sqlUID)
+ * sqlCreateOne($sqlTable, $newDataString, $sqlUID, $withDebug = false)
  * -> Create one row in $sqlTable where UID must be $sqlUID
  *    ($newDataString = [name_of_column="new value", name_of_column="new value"])
+ * 
  * sqlDeleteOne($sqlTable, $sqlUID)                  -> Delete one row from $sqlTable where uid = $sqlUID
  *
- * sqlDeleteOne($sqlTable, $sqlIndividual, $sqlValue)
+ * sqlDeleteIdv($sqlTable, $sqlIndividual, $sqlValue, $withDebug = false)
  * -> Delete all from $sqlTable where $sqlIndividual = $sqlValue
- *
+ * 
+ * sqlDeleteAll($sqlTable, $withDebug = false)       -> Delete all from a table
  * sqlGetNumber($sqlQueryResult)                     -> Get number of rows of a query
  * 
  * sqlSearch($sqlTable, $sqlSearchColumn, $sqlSearchWord)
@@ -115,9 +138,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * sqlCreateBackup($sqlTable, $outfile)              -> Create a backup file of the selected table
  * sqlCreateUID($sqlTable, $sqlNumber)               -> Create a uid for a $sqlTable with length $sqlNumber
- *
  * sqlGetStats()                                     -> Get sql server state
- * 
  * sqlDeleteTable($tableName, $withDebug = false)    -> Delete Table
  * </code>
  *
@@ -175,6 +196,336 @@ class sqlAbstractionLayer{
 		$this->__destruct();
 	}
 	
+	
+	
+	
+	//--------------------------------------------------------
+	// SIMPLE LAYER
+	//--------------------------------------------------------
+	
+	/**
+	 * sqlError
+	 * 
+	 * Array:
+	 * -> num - Error Number
+	 * -> msg - Message
+	 * 
+	 * @param integer $sqlErrorNumber
+	 * @return Array SQL Error Message in an Array with fields:
+	 */
+	function Error($sqlErrorNumber) {
+		return $this->sqlError($sqlErrorNumber);
+	}
+	
+	
+	
+	/**
+	 * DB Connector
+	 * 
+	 * @param String $sqlUser
+	 * @param String $sqlPassword
+	 * @param String $sqlHost
+	 * @param String $sqlDB
+	 * @param Integer $sqlPort
+	 * @return Integer MySql Connection ID
+	 */
+	function Connect($sqlUser, $sqlPassword, $sqlHost, $sqlDB, $sqlPort) {
+		return $this->sqlConnect($sqlUser, $sqlPassword, $sqlHost, $sqlDB, $sqlPort);
+	}
+	
+	
+	
+	/**
+	 * DB Connector (without database)
+	 * 
+	 * @param String $sqlUser
+	 * @param String $sqlPassword
+	 * @param String $sqlHost
+	 * @param String $sqlDB
+	 * @param Integer $sqlPort
+	 * @return Integer MySql Connection ID
+	 */
+	function ConnectWithoutDB($sqlUser, $sqlPassword, $sqlHost, $sqlPort) {
+		return $this->sqlConnectWithoutDB($sqlUser, $sqlPassword, $sqlHost, $sqlPort);
+	}
+	
+	
+	
+	/**
+	 * DB Connector (persist)
+	 * 
+	 * @param String $sqlUser
+	 * @param String $sqlPassword
+	 * @param String $sqlHost
+	 * @param String $sqlDB
+	 * @param Integer $sqlPort
+	 * @return Integer MySql Connection ID
+	 */
+	function PersistConnect($sqlUser, $sqlPassword, $sqlHost, $sqlDB, $sqlPort) {
+		return $this->sqlPersistConnect($sqlUser, $sqlPassword, $sqlHost, $sqlDB, $sqlPort);
+	}
+	
+	
+	
+	/**
+	 * DB Disconnector
+	 * 
+	 * @param Integer $sqlConnectionID
+	 * @return Boolean
+	 */
+	function Disconnect($sqlConnectionID) {
+		return $this->sqlDisconnect($sqlConnectionID);
+	}
+	
+	
+	
+	/**
+	 * Create database
+	 * 
+	 * @param String $sqlNewDBTitle
+	 * @return Boolean
+	 */
+	function CreateDB($sqlNewDBTitle) {
+		return $this->sqlCreateDB($sqlNewDBTitle);
+	}
+	
+	
+	
+	/**
+	 * SQL Query
+	 * 
+	 * @param String $sqlQueryString
+	 * @param Boolean $withDebug = false
+	 * @return Boolean
+	 */
+	function Query($sqlQueryString, $withDebug = false){
+		return $this->sqlQuery($sqlQueryString, $withDebug);
+	}
+	
+	
+	
+	/**
+	 * SQL Fetch Array
+	 * 
+	 * @param Resource $sqlQueryResult
+	 * @return Array
+	 */
+	function FetchArray($sqlQueryResult) {
+		return $this->sqlFetchArray($sqlQueryResult);
+	}
+	
+	
+	
+	/**
+	 * SQL Fetch Object
+	 * 
+	 * @param Resource $sqlQueryResult
+	 * @return Object
+	 */
+	function FetchObject($sqlQueryResult) {
+		return $this->sqlFetchObject($sqlQueryResult);
+	}
+	
+	
+	
+	/**
+	 * Free the saveplace for data
+	 *
+	 * @param resource $sqlQueryResult
+	 */
+	function FreeResult($sqlQueryResult) {
+		$this->sqlFreeResult($sqlQueryResult);
+	}
+	
+	
+	
+	/**
+	 * Return all data from a table
+	 * 
+	 * @param String $sqlTable
+	 * @return Fetchable Result
+	 */
+	function GetAll($sqlTable) {
+		return $this->sqlGetAll($sqlTable);
+	}
+	
+	
+	
+	/**
+	 * Return all from a table where UID = ?
+	 * 
+	 * @param String $sqlTable
+	 * @param String $sqlUID
+	 * @return Fetchable Result
+	 */
+	function GetOne($sqlTable, $sqlUID) {
+		return $this->sqlGetOne($sqlTable, $sqlUID);
+	}
+	
+	
+	
+	/**
+	 * Update one from a Table where UID = ?
+	 * 
+	 * @param String $sqlTable
+	 * @param String $newDataString
+	 * @param String $sqlUID
+	 * @param String $withDebug = false
+	 * @return Integer
+	 */
+	function UpdateOne($sqlTable, $newDataString, $sqlUID, $withDebug = false) {
+		return $this->sqlUpdateOne($sqlTable, $newDataString, $sqlUID, $withDebug);
+	}
+	
+	
+	
+	/**
+	 * Update one from a Table where UID = ?
+	 * 
+	 * @param String $sqlTable
+	 * @param String $newDataString
+	 * @param String $sqlField
+	 * @param String $sqlUID
+	 * @param String $withDebug = false
+	 * @return Integer
+	 */
+	function UpdateField($sqlTable, $newDataString, $sqlField, $sqlUID, $withDebug = false) {
+		return $this->sqlUpdateField($sqlTable, $newDataString, $sqlField, $sqlUID, $withDebug);
+	}
+	
+	
+	
+	/**
+	 * Create a entry in a Table where UID = ?
+	 * 
+	 * @param String $sqlTable
+	 * @param String $sqlColumns
+	 * @param String $newDataString
+	 * @param String $sqlUID
+	 * @param String $withDebug = false
+	 * @return Integer
+	 */
+	function CreateOne($sqlTable, $sqlColumns, $newDataString, $sqlUID, $withDebug = false) {
+		return $this->sqlCreateOne($sqlTable, $sqlColumns, $newDataString, $sqlUID, $withDebug);
+	}
+	
+	
+	
+	/**
+	 * Delete one from a Table where UID = ?
+	 * 
+	 * @param String $sqlTable
+	 * @param String $sqlUID
+	 * @param String $withDebug = false
+	 * @return Integer
+	 */
+	function DeleteOne($sqlTable, $sqlUID, $withDebug = false) {
+		return $this->sqlDeleteOne($sqlTable, $sqlUID, $withDebug);
+	}
+	
+	
+	
+	/**
+	 * Delete one from a Table where "individual" = ?
+	 * 
+	 * @param String $sqlTable
+	 * @param String $sqlIndividual
+	 * @param String $sqlValue
+	 * @param String $withDebug = false
+	 * @return Integer
+	 */
+	function DeleteIndividual($sqlTable, $sqlIndividual, $sqlValue, $withDebug = false) {
+		return $this->sqlDeleteIdv($sqlTable, $sqlIndividual, $sqlValue, $withDebug);
+	}
+	
+	
+	
+	/**
+	 * Delete all from a Table
+	 * 
+	 * @param String $sqlTable
+	 * @param String $withDebug = false
+	 * @return Integer
+	 */
+	function DeleteAll($sqlTable, $withDebug = false) {
+		return $this->sqlDeleteAll($sqlTable, $withDebug);
+	}
+	
+	
+	
+	/**
+	 * Delete Table
+	 * 
+	 * @param String $tableName
+	 * @param Boolean $withDebug = false
+	 * @return Boolean
+	 */
+	function DeleteTable($tableName, $withDebug = false) {
+		return $this->sqlDeleteTable($tableName, $withDebug);
+	}
+	
+	
+	
+	/**
+	 * Return the number of affected rows of a query
+	 * 
+	 * @param String $sqlQueryResult
+	 * @return Integer
+	 */
+	function GetNumber($sqlQueryResult) {
+		return $this->sqlGetNumber($sqlQueryResult);
+	}
+	
+	
+	
+	/**
+	 * Search
+	 * 
+	 * @param String $sqlTable
+	 * @param String $sqlSearchColumn
+	 * @param String $sqlSearchWord
+	 * @param String $withDebug = false
+	 * @return Integer
+	 */
+	function Search($sqlTable, $sqlSearchColumn, $sqlSearchWord, $withDebug = false) {
+		return $this->sqlSearch($sqlTable, $sqlSearchColumn, $sqlSearchWord, $withDebug);
+	}
+	
+	
+	
+	/**
+	 * Create a backup file of the selected table
+	 * 
+	 * @param Boolean $with_output
+	 * @param Boolean $structure_only
+	 */
+	function CreateBackup($with_output, $structure_only) {
+		return $this->sqlCreateBackup($with_output, $structure_only);
+	}
+	
+	
+	
+	/**
+	 * Create a uid for a $sqlTable with length $sqlNumber
+	 * 
+	 * @param String $sqlTable
+	 * @param String $sqlNumber
+	 * @return String
+	 */
+	function CreateUID($sqlTable, $sqlNumber) {
+		return $this->sqlCreateUID($sqlTable, $sqlNumber);
+	}
+	
+	
+	
+	/**
+	 * Get sql server state
+	 * 
+	 * @return String
+	 */
+	function GetStats() {
+		return $this->sqlGetStats();
+	}
 	
 	
 	
@@ -902,7 +1253,7 @@ class sqlAbstractionLayer{
 		switch($this->_sqlInterface){
 			case 'mysql':
 				if($withDebug) {
-					$fp = fopen('log.txt', 'w');
+					$fp = fopen('log_sqlDeleteOne_'.microtime().'.txt', 'w');
 					fwrite($fp, 'DELETE FROM '.$sqlTable.' WHERE uid = "'.$sqlUID.'"');
 					fclose($fp);
 				}
@@ -913,6 +1264,12 @@ class sqlAbstractionLayer{
 				break;
 			
 			case 'pgsql':
+				if($withDebug) {
+					$fp = fopen('log_sqlDeleteOne_'.microtime().'.txt', 'w');
+					fwrite($fp, "DELETE FROM ".$sqlTable." WHERE uid = '".$sqlUID."'");
+					fclose($fp);
+				}
+				
 				tcms_time::tcms_query_counter();
 				$sqlResult = pg_query("DELETE FROM ".$sqlTable." WHERE uid = '".$sqlUID."'");
 				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . pg_result_error(); }
@@ -943,17 +1300,30 @@ class sqlAbstractionLayer{
 	 * @param String $sqlTable
 	 * @param String $sqlIndividual
 	 * @param String $sqlValue
+	 * @param String $withDebug = false
 	 * @return Integer
 	 */
-	function sqlDeleteIdv($sqlTable, $sqlIndividual, $sqlValue){
+	function sqlDeleteIdv($sqlTable, $sqlIndividual, $sqlValue, $withDebug = false){
 		switch($this->_sqlInterface){
 			case 'mysql':
+				if($withDebug) {
+					$fp = fopen('log_sqlDeleteIdv_'.microtime().'.txt', 'w');
+					fwrite($fp, 'DELETE FROM '.$sqlTable.' WHERE '.$sqlIndividual.' = "'.$sqlValue.'"');
+					fclose($fp);
+				}
+				
 				tcms_time::tcms_query_counter();
 				$sqlResult = mysql_query('DELETE FROM '.$sqlTable.' WHERE '.$sqlIndividual.' = "'.$sqlValue.'"');
 				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . mysql_error(); }
 				break;
 			
 			case 'pgsql':
+				if($withDebug) {
+					$fp = fopen('log_sqlDeleteIdv_'.microtime().'.txt', 'w');
+					fwrite($fp, "DELETE FROM ".$sqlTable." WHERE ".$sqlIndividual." = '".$sqlValue."'");
+					fclose($fp);
+				}
+				
 				tcms_time::tcms_query_counter();
 				$sqlResult = pg_query("DELETE FROM ".$sqlTable." WHERE ".$sqlIndividual." = '".$sqlValue."'");
 				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . pg_result_error(); }
@@ -969,6 +1339,58 @@ class sqlAbstractionLayer{
 			case 'mssql':
 				tcms_time::tcms_query_counter();
 				$sqlResult = mssql_query("DELETE FROM ".$sqlTable." WHERE ".$sqlIndividual." = '".$sqlValue."'");
+				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . $sqlQueryString; }
+				break;
+		}
+		
+		return $sqlResult;
+	}
+	
+	
+	
+	/**
+	 * Delete all from a Table
+	 * 
+	 * @param String $sqlTable
+	 * @param String $withDebug = false
+	 * @return Integer
+	 */
+	function sqlDeleteAll($sqlTable, $withDebug = false){
+		switch($this->_sqlInterface){
+			case 'mysql':
+				if($withDebug) {
+					$fp = fopen('log_sqlDeleteAll_'.microtime().'.txt', 'w');
+					fwrite($fp, 'DELETE FROM '.$sqlTable);
+					fclose($fp);
+				}
+				
+				tcms_time::tcms_query_counter();
+				$sqlResult = mysql_query('DELETE FROM '.$sqlTable);
+				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . mysql_error(); }
+				break;
+			
+			case 'pgsql':
+				if($withDebug) {
+					$fp = fopen('log_sqlDeleteAll_'.microtime().'.txt', 'w');
+					fwrite($fp, "DELETE FROM ".$sqlTable);
+					fclose($fp);
+				}
+				
+				tcms_time::tcms_query_counter();
+				$sqlResult = pg_query("DELETE FROM ".$sqlTable);
+				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . pg_result_error(); }
+				break;
+			
+			case 'sqlite':
+				tcms_time::tcms_query_counter();
+				$sqlResult = sqlite_query('DELETE FROM '.$sqlTable);
+				$sqlError  = sqlite_last_error($this->_sqlDB);
+				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . sqlite_error_string($sqlError); }
+				break;
+			
+			case 'mssql':
+				tcms_time::tcms_query_counter();
+				$sqlResult = mssql_query("DELETE FROM ".$sqlTable);
 				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . $sqlQueryString; }
 				break;
 		}
