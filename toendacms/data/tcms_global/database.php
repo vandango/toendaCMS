@@ -15,12 +15,12 @@
 +
 */
 
-$tcms_db_engine   = 'xml';
-$tcms_db_user     = 'root';
+$tcms_db_engine   = 'pgsql';
+$tcms_db_user     = 'postgres';
 $tcms_db_password = 'banane';
 $tcms_db_host     = 'localhost';
 $tcms_db_database = 'tcms_blog';
 $tcms_db_port     = '';
-$tcms_db_prefix   = 'blog_';
+$tcms_db_prefix   = 'tcms_';
 
 ?>
