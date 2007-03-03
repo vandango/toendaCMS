@@ -89,7 +89,7 @@ define('_TCMS_DB_UPDATE_TITLE', 'Update Database');
 define('_TCMS_DB_UPDATE_DB1', 'toendaCMS Update with a');
 define('_TCMS_DB_UPDATE_DB2', 'database');
 define('_TCMS_DB_UPDATE_TEXT', 'This dialog will update your toendaCMS installation and your database.');
-define('_TCMS_DB_UPDATE_VERSION_104', 'Update Version 1.0.4');
+define('_TCMS_DB_UPDATE_VERSION_107', 'Update Version 1.0.7');
 define('_TCMS_DB_UPDATE_VERSION_103', 'Update Version 1.0.3');
 define('_TCMS_DB_UPDATE_VERSION_102', 'Update Version 1.0.2');
 define('_TCMS_DB_UPDATE_VERSION_100', 'Update Version 1.0.0 (and 1.0.1)');

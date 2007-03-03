@@ -277,7 +277,7 @@ define('_TABLE_USE', 'Benutzen');
 define('_TABLE_DELETE', 'L&ouml;schen');
 define('_TABLE_DESCRIPTION', 'Beschreibung');
 define('_TABLE_NEW', 'Neuer Datensatz');
-define('_TABLE_EDIT', 'Bearbeite Datensatz');
+define('_TABLE_EDIT', 'Bearbeiten');
 define('_TABLE_DETAILS', 'Details des Datensatzes');
 define('_TABLE_GENERAL', 'Allgemeine Informationen');
 define('_TABLE_FURTHER', 'Weitere Angaben');

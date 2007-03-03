@@ -91,8 +91,8 @@ echo '<script language="JavaScript" src="../js/jscalendar/calendar.js"></script>
 <script language="Javascript" src="../js/jscalendar/calendar-setup.js"></script>
 <link rel="stylesheet" type="text/css" media="all" href="../js/jscalendar/calendar-toendaCMS.css" title="toendaCMS" />
 <script type="text/javascript" src="../js/tabs/tabpane.js"></script>
-<link type="text/css" rel="StyleSheet" href="../js/tabs/css/luna/tab.css" />
-<!--<link type="text/css" rel="StyleSheet" href="../js/tabs/tabpane.css" />-->';
+<!--<link type="text/css" rel="StyleSheet" href="../js/tabs/css/luna/tab.css" />-->
+<link type="text/css" rel="StyleSheet" href="../js/tabs/tabpane.css" />';
 
 if($show_wysiwyg == 'tinymce'){
 	include('../tcms_kernel/tcms_tinyMCE.lib.php');

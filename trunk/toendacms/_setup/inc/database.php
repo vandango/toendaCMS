@@ -9,13 +9,23 @@
 | 
 | Install database
 |
-| File:		database.php
-| Version:	0.5.8
+| File:	database.php
 |
 +
 */
 
 
+/**
+ * Install database
+ *
+ * This file is used for the database actions.
+ *
+ * @version 0.6.0
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Installer
+ *
+ */
 
 
 /*
@@ -201,11 +211,11 @@ if($todo == 'update'){
 	
 	if($db == 'mysql'){
 		echo '<div style="display: block; float: left; width: 220px; font-weight: bold;">'
-		._TCMS_DB_UPDATE_VERSION_104
+		._TCMS_DB_UPDATE_VERSION_107
 		.'</div>';
 		
 		echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-		.'<input checked="checked" name="new_update" type="radio" value="104" />'
+		.'<input checked="checked" name="new_update" type="radio" value="107" />'
 		.'</div>';
 		
 		echo '<div style="display: block; margin: 0 0 0 560px;">&nbsp;</div>';
@@ -539,17 +549,17 @@ if($todo == 'global'){
 */
 
 if($todo == 'save_update'){
-	if($new_update != '100RC1_103' && $new_update != '100_103' && $new_update != '102_103'){
+	if($new_update == '070'){
 		include_once('../'.$tcms_administer_site.'/tcms_global/database.php');
 		
-		$new_user     = securePassword($tcms_db_user, true);
-		$new_password = securePassword($tcms_db_password, true);
-		$new_host     = securePassword($tcms_db_host, true);
-		$new_database = securePassword($tcms_db_database, true);
-		$new_port     = securePassword($tcms_db_port, true);
+		$new_user     = $tcms_db_user;
+		$new_password = $tcms_db_password;
+		$new_host     = $tcms_db_host;
+		$new_database = $tcms_db_database;
+		$new_port     = $tcms_db_port;
 		
 		$set_engine   = $new_engine;
-		$set_prefix   = securePassword($new_prefix, false);
+		$set_prefix   = $new_prefix;
 		$set_user     = $new_user;
 		$set_password = $new_password;
 		$set_host     = $new_host;
@@ -592,8 +602,16 @@ $tcms_db_port     = \''.$set_port.'\';
 		fwrite($fp, $fp_header);
 		fclose($fp);
 	}
-	
-	//***************************************
+	else {
+		include_once('../'.$tcms_administer_site.'/tcms_global/database.php');
+		
+		$new_user     = $tcms_db_user;
+		$new_password = $tcms_db_password;
+		$new_host     = $tcms_db_host;
+		$new_database = $tcms_db_database;
+		$new_port     = $tcms_db_port;
+		$new_prefix   = $tcms_db_prefix;
+	}
 	
 	if($new_engine == 'xml'){
 		// XML data settings
@@ -614,7 +632,7 @@ $tcms_db_port     = \''.$set_port.'\';
 		unlink($gzFilePath.$gzFileName);
 	}
 	else{
-		if(file_exists('db/toendaCMS_'.$new_engine.'_Update_'.$new_update.'.sql', 'r')){
+		if(file_exists('db/toendaCMS_'.$new_engine.'_Update_'.$new_update.'.sql')){
 			$fp = fopen('db/toendaCMS_'.$new_engine.'_Update_'.$new_update.'.sql', 'r');
 			$tcms_sql_command = fread($fp, filesize('db/toendaCMS_'.$new_engine.'_Update_'.$new_update.'.sql'));
 			fclose($fp);
@@ -631,12 +649,14 @@ $tcms_db_port     = \''.$set_port.'\';
 				$pieces[$i] = trim($pieces[$i]);
 				if(!empty($pieces[$i]) && $pieces[$i] != '#'){
 					$pieces[$i] = str_replace( "#####", $new_prefix, $pieces[$i]);
+					echo $pieces[$i].'<br />';
 					$sqlQR = $sqlAL->sqlQuery($pieces[$i]);
 				}
 			}
 			
 			
 			// update to new multi-language
+			echo '../'.$tcms_administer_site.'/tcms_global/var.xml';
 			$layout_xml = new xmlparser('../'.$tcms_administer_site.'/tcms_global/var.xml','r');
 			$plang = $layout_xml->read_value('front_lang');
 			
@@ -655,6 +675,7 @@ $tcms_db_port     = \''.$set_port.'\';
 				if(!empty($pieces[$i]) && $pieces[$i] != '#'){
 					$pieces[$i] = str_replace( "#####", $new_prefix, $pieces[$i]);
 					$pieces[$i] = str_replace( "+++++", $plang, $pieces[$i]);
+					echo $pieces[$i].'<br />';
 					$sqlQR = $sqlAL->sqlQuery($pieces[$i]);
 				}
 			}
@@ -679,7 +700,7 @@ $tcms_db_port     = \''.$set_port.'\';
 	// update the var.xml file
 	$layout_xml = new xmlparser('../'.$tcms_administer_site.'/tcms_global/var.xml','r');
 	$ucs = $layout_xml->read_value('use_cs');
-	xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_global/var.xml', 'use_cs', $ucs, '1');
+	xmlparser::edit_value('../'.$tcms_administer_site.'/tcms_global/var.xml', 'use_cs', $ucs, '1');
 	
 	
 	// update the layout.xml file

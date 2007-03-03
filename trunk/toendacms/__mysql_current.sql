@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 13. Februar 2007 um 00:24
+-- Erstellungszeit: 25. Februar 2007 um 21:46
 -- Server Version: 5.0.21
--- PHP-Version: 5.2.0
+-- PHP-Version: 5.2.1
 -- 
 -- Datenbank: `tcms_blog`
 -- 
@@ -808,9 +808,7 @@ CREATE TABLE `blog_session` (
 -- 
 
 INSERT INTO `blog_session` (`uid`, `date`, `user`, `user_id`) VALUES ('a579eefac60b0139da98e972c19432dc', '1153685958', 'root', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff'),
-('9876c197bf6cd260a9f4e4b0c8217517', '1171300003', 'root', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff'),
-('82eda984ec6806459c35467d56d5dc5e', '1171306246', 'root', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff'),
-('ac11c3846642ab47e9d77e0ba2131d5f', '1171306966', 'root', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff');
+('49014eab24285407cb208b1cf0427fa4', '1172276892', 'root', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff');
 
 -- --------------------------------------------------------
 
@@ -910,7 +908,7 @@ INSERT INTO `blog_sidemenu` (`uid`, `language`, `name`, `id`, `subid`, `root`, `
 ('dfsd7', 'english_EN', 'subsub1', 2, '0', '-', '-', '-', '11d22', '-', 'link', 'search', 0, 'Public', NULL),
 ('c39d0', 'germany_DE', 'Navigation', 0, '-', '-', '-', '-', '-', '-', 'title', 'frontpage', 0, 'Public', ''),
 ('638ac', 'germany_DE', 'Lizenz', 2, '-', '-', '-', '-', '-', '-', 'link', '18e2a', 1, 'Public', ''),
-('1fffa', 'germany_DE', 'Startseite', 1, '-', '-', '-', '-', '-', '-', 'link', '-', 1, 'Public', '');
+('1fffa', 'germany_DE', 'Startseite', 1, '-', '-', '-', '-', '-', '-', 'link', 'frontpage', 1, 'Public', '');
 
 -- --------------------------------------------------------
 
@@ -1034,7 +1032,7 @@ CREATE TABLE `blog_user` (
 -- Daten für Tabelle `blog_user`
 -- 
 
-INSERT INTO `blog_user` (`uid`, `name`, `username`, `password`, `email`, `group`, `join_date`, `last_login`, `birthday`, `gender`, `occupation`, `homepage`, `icq`, `aim`, `yim`, `msn`, `skype`, `enabled`, `tcms_enabled`, `static_value`, `signature`, `location`, `hobby`) VALUES ('ccdc5cfffaf3cd9342e40dd9dcb3a3ff', 'Dolly', 'root', '5473e3f141e0328ce87dac9366e0aace', 'info@toenda.com', 'Administrator', '2006.01.22-22:26:44', '2007.02.12-20:02:46', '26.11.1982', '-', '', 'http://www.vandango.org', '', '', '', '', '', 1, 1, 1, '', '', ''),
+INSERT INTO `blog_user` (`uid`, `name`, `username`, `password`, `email`, `group`, `join_date`, `last_login`, `birthday`, `gender`, `occupation`, `homepage`, `icq`, `aim`, `yim`, `msn`, `skype`, `enabled`, `tcms_enabled`, `static_value`, `signature`, `location`, `hobby`) VALUES ('ccdc5cfffaf3cd9342e40dd9dcb3a3ff', 'Dolly', 'root', '5473e3f141e0328ce87dac9366e0aace', 'info@toenda.com', 'Administrator', '2006.01.22-22:26:44', '2007.02.24-01:28:12', '26.11.1982', '-', '', 'http://www.vandango.org', '', '', '', '', '', 1, 1, 1, '', '', ''),
 ('9e07ddbe2eb87663511e4716cb94eef2', 'writer', 'writer', 'a82feee3cc1af8bcabda979e8775ef0f', 'info@toenda.com', 'Writer', '2006.08.21-23:09:14', '2006.10.06-20:43:46', '01.1.', '-', '', '', '', '', '', '', '', 1, 1, 0, '', '', '');
 
 -- --------------------------------------------------------
