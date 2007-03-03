@@ -9,8 +9,7 @@
 |
 | toendaCMS File Handling
 |
-| File:		tcms_file.lib.php
-| Version:	0.1.2
+| File:	tcms_file.lib.php
 |
 +
 */
@@ -25,6 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide a small file
  * handler.
  *
+ * @version 0.1.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -172,8 +172,16 @@ class tcms_file{
 	 * Backup the active file
 	 */
 	function Backup(){
-		copy($this->m_file, $this->m_file.'.bak');
+		/*copy(
+			$this->m_file, 
+			$this->m_file.'.bak'
+		);*/
 		
+		$tmp = $this->Read();
+		
+		$fp = fopen($this->m_file.'.bak', 'w+');
+		fwrite($fp, $tmp);
+		fclose($fp);
 	}
 	
 	

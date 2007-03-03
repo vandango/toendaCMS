@@ -4,7 +4,7 @@
 	<meta></meta>
 	<charset>ISO-8859-1</charset>
 	<wysiwyg>tinymce</wysiwyg>
-	<lang>germany_DE</lang>
+	<lang>english_EN</lang>
 	<front_lang>english_EN</front_lang>
 	<description></description>
 	<currency>EUR</currency>
@@ -38,4 +38,4 @@
 	<use_content_language>1</use_content_language>
 	<valid_links>1</valid_links>
 
-</global>
+<last_changes>2007-03-03 21:41:57</last_changes></global>

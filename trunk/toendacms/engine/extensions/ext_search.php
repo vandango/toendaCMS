@@ -9,7 +9,7 @@
 | 
 | Search
 |
-| File:		ext_search.php
+| File:	ext_search.php
 |
 +
 */
@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the search form.
  *
- * @version 0.1.9
+ * @version 0.2.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -73,7 +73,8 @@ if($use_search == 1){
 	.'<form action="'.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?" method="post" style="margin: 0px !important; padding: 0px !important;">'
 	.'<input class="inputtext searchform" type="text" name="searchword" value="'.$sb_searchword.'"'
 	.' onBlur="if(this.value==\'\') this.value=\''.$sb_searchword.'\';"'
-	.' onFocus="if(this.value==\''.$sb_searchword.'\') this.value=\'\';" />';
+	.' onFocus="if(this.value==\''.$sb_searchword.'\') this.value=\'\';"'
+	.' alt="'.$sb_searchword.'" />';
 	
 	// style="width: 100px;"
 	

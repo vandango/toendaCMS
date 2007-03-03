@@ -10,7 +10,7 @@
 | Check system settings
 |
 | File:		check.php
-| Version:	0.1.5
+| Version:	0.1.6
 |
 +
 */
@@ -230,6 +230,86 @@ echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;
 
 echo '<div style="display: block; margin: 0 0 0 560px;">'
 .( is_writeable('../data')
+	? '<img src="images/yes.png" border="0" />'
+	: '<img src="images/no.png" border="0" />' )
+.'</div>';
+
+
+echo '<br />';
+
+
+echo '<div style="display: block; float: left; width: '.$width.'px;">'
+.'/data/images/albums'
+.'</div>';
+
+echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
+.( is_writeable('../data/images/albums')
+	? '<span style="font-weight: bold; color: green;">'._TCMS_WRITEABLE.'</span>'
+	: '<span style="font-weight: bold; color: red; text-decoration: underline;">'._TCMS_NOT_WRITEABLE.'</span>')
+.'</div>';
+
+echo '<div style="display: block; margin: 0 0 0 560px;">'
+.( is_writeable('../data/images/albums')
+	? '<img src="images/yes.png" border="0" />'
+	: '<img src="images/no.png" border="0" />' )
+.'</div>';
+
+
+echo '<br />';
+
+
+echo '<div style="display: block; float: left; width: '.$width.'px;">'
+.'/data/images/albums'
+.'</div>';
+
+echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
+.( is_writeable('../data/images/knowledgebase')
+	? '<span style="font-weight: bold; color: green;">'._TCMS_WRITEABLE.'</span>'
+	: '<span style="font-weight: bold; color: red; text-decoration: underline;">'._TCMS_NOT_WRITEABLE.'</span>')
+.'</div>';
+
+echo '<div style="display: block; margin: 0 0 0 560px;">'
+.( is_writeable('../data/images/knowledgebase')
+	? '<img src="images/yes.png" border="0" />'
+	: '<img src="images/no.png" border="0" />' )
+.'</div>';
+
+
+echo '<br />';
+
+
+echo '<div style="display: block; float: left; width: '.$width.'px;">'
+.'/data/images/upload_thumb'
+.'</div>';
+
+echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
+.( is_writeable('../data/images/upload_thumb')
+	? '<span style="font-weight: bold; color: green;">'._TCMS_WRITEABLE.'</span>'
+	: '<span style="font-weight: bold; color: red; text-decoration: underline;">'._TCMS_NOT_WRITEABLE.'</span>')
+.'</div>';
+
+echo '<div style="display: block; margin: 0 0 0 560px;">'
+.( is_writeable('../data/images/upload_thumb')
+	? '<img src="images/yes.png" border="0" />'
+	: '<img src="images/no.png" border="0" />' )
+.'</div>';
+
+
+echo '<br />';
+
+
+echo '<div style="display: block; float: left; width: '.$width.'px;">'
+.'/data/images/Image'
+.'</div>';
+
+echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
+.( is_writeable('../data/images/Image')
+	? '<span style="font-weight: bold; color: green;">'._TCMS_WRITEABLE.'</span>'
+	: '<span style="font-weight: bold; color: red; text-decoration: underline;">'._TCMS_NOT_WRITEABLE.'</span>')
+.'</div>';
+
+echo '<div style="display: block; margin: 0 0 0 560px;">'
+.( is_writeable('../data/images/Image')
 	? '<img src="images/yes.png" border="0" />'
 	: '<img src="images/no.png" border="0" />' )
 .'</div>';

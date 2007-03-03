@@ -33,7 +33,7 @@ if(isset($_POST['send_form'])){ $send_form = $_POST['send_form']; }
  * This module provides a contactform with a internal
  * adressbook with vcard export.
  *
- * @version 0.7.4
+ * @version 0.7.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -195,6 +195,14 @@ if($cform_enabled == 1){
 				$csb_state   = $tcms_main->decodeText($csb_state, '2', $c_charset);
 				$csb_country = $tcms_main->decodeText($csb_country, '2', $c_charset);
 				
+				if(strtolower($csb_country) == 'deutschland' 
+				|| strtolower($csb_country) == 'germany'
+				|| strtolower($csb_country) == '') {
+					if(strlen($csb_postal) == 4) {
+						$csb_postal = '0'.$csb_postal;
+					}
+				}
+				
 				
 				echo '<div style="display: block; width: 400px;">';
 				
@@ -305,6 +313,14 @@ if($cform_enabled == 1){
 			$postal   = $dcCon->getZipcode();
 			$telefon  = $dcCon->getPhone();
 			$fax      = $dcCon->getFax();
+			
+			if(strtolower($country) == 'deutschland' 
+			|| strtolower($country) == 'germany'
+			|| strtolower($country) == '') {
+				if(strlen($postal) == 4) {
+					$postal = '0'.$postal;
+				}
+			}
 			
 			
 			if($dcCon->getPublished() == '1') {

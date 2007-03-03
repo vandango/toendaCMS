@@ -9,8 +9,7 @@
 | 
 | Template Upload Manager
 |
-| File:		mod_upload_layout.php
-| Version:	0.3.3
+| File:	mod_upload_layout.php
 |
 +
 */
@@ -19,8 +18,17 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-
-
+/**
+ * Template Upload Manager
+ *
+ * This module is used as a upload and edit page for the
+ * templates.
+ *
+ * @version 0.3.5
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 if(isset($_GET['load_template_file'])){ $load_template_file = $_GET['load_template_file']; }
