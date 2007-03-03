@@ -9,8 +9,7 @@
 | 
 | toendaCMS Installation Tool
 |
-| File:		index.php
-| Version:	0.3.6
+| File:	index.php
 |
 +
 */
@@ -18,9 +17,17 @@
 define('_TCMS_VALID', 1);
 
 
-
-
-
+/**
+ * toendaCMS Installation Tool
+ *
+ * This file is used as the installer central.
+ *
+ * @version 0.4.0
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Installer
+ *
+ */
 
 
 /*
@@ -71,6 +78,7 @@ if(isset($_POST['new_port'])){ $new_port = $_POST['new_port']; }
 if(isset($_POST['new_create'])){ $new_create = $_POST['new_create']; }
 if(isset($_POST['new_drop'])){ $new_drop = $_POST['new_drop']; }
 if(isset($_POST['new_sample'])){ $new_sample = $_POST['new_sample']; }
+if(isset($_POST['new_update'])){ $new_update = $_POST['new_update']; }
 
 
 

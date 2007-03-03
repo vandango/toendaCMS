@@ -7,7 +7,8 @@
 	height: 16px;
 	background: url(tab_r.png) top right no-repeat;
 	position: relative;
-	top: 0;
+	top: 0px;
+	left: -1px;
 	display: inline;
 	float: left;
 	overflow: hidden;
@@ -21,11 +22,12 @@
 	text-align: center;
 }
 
-.dynamic-tab-pane-control .tab-row .tab span {
+.dynamic-tab-pane-control .tab-row .tab a {
 	display: inline;
 	float: left;
 	height: 16px;
-	padding: 2px 10px;
+	padding: 4px 10px;
+	margin: -3px 0 0 -5px;
 	background: url(tab_l.png) top left no-repeat;
 }
 
@@ -41,8 +43,10 @@
 	font: 11px Tahoma, Helvetica, sans-serif;
 }
 
-.dynamic-tab-pane-control .tab-row .tab.selected span {
+.dynamic-tab-pane-control .tab-row .tab.selected a {
 	background: url(tab_active_l.png) top left no-repeat !important;
+	padding: 4px 10px;
+	margin: -3px 0 0 -5px;
 }
 
 .dynamic-tab-pane-control .tab-row .tab a {
@@ -57,8 +61,10 @@
 	background: url(tab_hover_r.png) top right no-repeat;
 }
 
-.dynamic-tab-pane-control .tab-row .tab.hover span {
+.dynamic-tab-pane-control .tab-row .tab.hover a {
 	background: url(tab_hover_l.png) top left no-repeat;
+	padding: 4px 10px;
+	margin: -3px 0 0 -5px;
 }
 
 .dynamic-tab-pane-control .tab-page {

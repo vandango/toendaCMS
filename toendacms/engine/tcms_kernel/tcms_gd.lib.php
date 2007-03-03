@@ -9,8 +9,7 @@
 | 
 | toendaCMS GD Class
 |
-| File:		tcms_gd.lib.php
-| Version:	0.2.6
+| File:	tcms_gd.lib.php
 |
 +
 */
@@ -24,6 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for all graphic actions.
  *
+ * @version 0.2.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -216,10 +216,21 @@ class tcms_gd {
 				}
 			}
 		
-			@imagecopyresampled($img_file, $img_src, 0, 0, 0, 0, $img_width, $img_height, $img_o_width, $img_o_height);
+			@imagecopyresampled(
+				$img_file, 
+				$img_src, 
+				0, 
+				0, 
+				0, 
+				0, 
+				$img_width, 
+				$img_height, 
+				$img_o_width, 
+				$img_o_height
+			);
 			//imagecolortransparent($img_file);
 			//@imagepng($img_file, $img_path);
-		
+			
 			switch($tcms_main->getMimeType($image)){
 				case 'jpg':
 				case 'jpeg':
@@ -227,7 +238,7 @@ class tcms_gd {
 				case 'JPG':
 				case 'JPEG':
 				case 'JPE':
-					@imagejpeg($img_file, $img_path);
+					@imagejpeg($img_file, $img_path, 75);
 					break;
 				
 				case 'png':

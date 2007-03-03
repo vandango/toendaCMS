@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide some often used html
  * codes.
  *
- * @version 0.4.2
+ * @version 0.4.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -369,6 +369,9 @@ class tcms_html {
 		.'<br /><br /><br /><br />'
 		.'<img src="engine/images/tcms_top.jpg" border="0" />'
 		.'<h1 style="font-family: Georgia, \'Lucida Grande\', \'Lucida Sans\'; padding: 50px 0 0 0;">Please remove the <em>setup/</em> folder!</h1>'
+		.'<strong style="font-family: Georgia, \'Lucida Grande\', \'Lucida Sans\';">If you want to update a installed version, '
+		.'<a style="font-family: Georgia, \'Lucida Grande\', \'Lucida Sans\'; color: #676767;" href="setup/index.php">start the installer</a>.'
+		.'</strong>'
 		.'</div>';
 		
 		return $returnStr;
