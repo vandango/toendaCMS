@@ -94,6 +94,7 @@ define('_TCMS_DB_UPDATE_VERSION_107', 'Version 1.0.7 aktualisieren');
 define('_TCMS_DB_UPDATE_VERSION_103', 'Version 1.0.3 aktualisieren');
 define('_TCMS_DB_UPDATE_VERSION_102', 'Version 1.0.2 aktualisieren');
 define('_TCMS_DB_UPDATE_VERSION_100', 'Version 1.0.0 (und 1.0.1) aktualisieren');
+define('_TCMS_DB_UPDATE_VERSION_100_XML', 'Version 1.0.0 und h&ouml;her aktualisieren');
 define('_TCMS_DB_UPDATE_VERSION_100RC1', 'Version 1.0.0 RC1 aktualisieren');
 define('_TCMS_DB_UPDATE_VERSION_070', 'Version 0.7.0 aktualisieren');
 define('_TCMS_DB_NEWINSTALL_TITLE', 'Datenbank Konfiguration einstellen');

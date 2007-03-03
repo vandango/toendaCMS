@@ -85,6 +85,34 @@ if(!defined('_TCMS_TODAY'))                    define('_TCMS_TODAY', 'Hoy');
 if(!defined('_TCMS_BACKGROUND'))               define('_TCMS_BACKGROUND', 'Fondo');
 if(!defined('_TCMS_BORDER'))                   define('_TCMS_BORDER', 'Borde');
 if(!defined('_TCMS_WEEKDAY'))                  define('_TCMS_WEEKDAY', 'Día semana');
+if(!defined('_TCMS_ADMIN_APPLY'))              define('_TCMS_ADMIN_APPLY', 'Aplicar');
+if(!defined('_TCMS_ADMIN_DELETE_ALL'))         define('_TCMS_ADMIN_DELETE_ALL', 'Eliminar Todo');
+if(!defined('_TCMS_THIS_PAGE_IN'))             define('_TCMS_THIS_PAGE_IN', 'Esta página en');
+if(!defined('_TCMS_ADMIN_EDIT_LANG'))          define('_TCMS_ADMIN_EDIT_LANG', 'Editar este idioma');
+if(!defined('_TCMS_LANGUAGES'))                define('_TCMS_LANGUAGES', 'Idioma');
+if(!defined('_TCMS_LANGUAGE'))                 define('_TCMS_LANGUAGE', 'Idioma');
+if(!defined('_TCMS_TEST_ENVIRONMENT'))         define('_TCMS_TEST_ENVIRONMENT', 'ESTA ES UNA PRUEBA DE DESARROLLO!');
+if(!defined('_TCMS_OPEN_ALL'))                 define('_TCMS_OPEN_ALL', 'Abrir Todo');
+if(!defined('_TCMS_CLOSE_ALL'))                define('_TCMS_CLOSE_ALL', 'Cerrar Todo');
+if(!defined('_TCMS_HELP'))                     define('_TCMS_HELP', 'Ayuda');
+if(!defined('_TCMS_DOCU'))                     define('_TCMS_DOCU', 'Wiki');
+if(!defined('_TCMS_TSCRIPT_SYNTAX_REF'))       define('_TCMS_TSCRIPT_SYNTAX_REF', 'Síntaxis referencia - toendaScript');
+
+// LANGUAGE LIST
+if(!defined('_LANG_GERMAN'))                   define('_LANG_GERMAN', 'Germano');
+if(!defined('_LANG_ENGLISH'))                  define('_LANG_ENGLISH', 'Inglés');
+if(!defined('_LANG_BULGARIAN'))                define('_LANG_BULGARIAN', 'Bulgaro');
+if(!defined('_LANG_DUTCH'))                    define('_LANG_DUTCH', 'Alemán');
+if(!defined('_LANG_FINNISH'))                  define('_LANG_FINNISH', 'Finés');
+if(!defined('_LANG_ITALY'))                    define('_LANG_ITALY', 'Italiano');
+if(!defined('_LANG_KOREAN'))                   define('_LANG_KOREAN', 'Coreano');
+if(!defined('_LANG_NORWEGIAN'))                define('_LANG_NORWEGIAN', 'Noruego');
+if(!defined('_LANG_PORTUGUES'))                define('_LANG_PORTUGUES', 'Portugues');
+if(!defined('_LANG_ROMANIAN'))                 define('_LANG_ROMANIAN', 'Rumano');
+if(!defined('_LANG_SLOVAK'))                   define('_LANG_SLOVAK', 'Eslovaco');
+if(!defined('_LANG_SPANISH'))                  define('_LANG_SPANISH', 'Espanol');
+if(!defined('_LANG_SWEDISH'))                  define('_LANG_SWEDISH', 'Sueco');
+
 
 
 // BACKEND TOPMENU
@@ -149,6 +177,8 @@ if(!defined('_TCMS_MENU_ABOUT_MODULE'))        define('_TCMS_MENU_ABOUT_MODULE',
 if(!defined('_TCMS_MENU_ABOUT'))               define('_TCMS_MENU_ABOUT', 'Acerca de toendaCMS');
 if(!defined('_TCMS_MENU_SEARCH'))              define('_TCMS_MENU_SEARCH', 'Buscar');
 if(!defined('_TCMS_MENU_IMPORT'))              define('_TCMS_MENU_IMPORT', 'Importar');
+if(!defined('_TCMS_MENU_CFORM'))               define('_TCMS_MENU_CFORM', 'Formulario Contacto');
+if(!defined('_TCMS_MENU_BOOK'))                define('_TCMS_MENU_BOOK', 'Libro de visitas');
 
 
 // MODULES
@@ -196,6 +226,8 @@ define('_MOD_DOCU', 'Documentación');
 define('_MOD_CREDITS', 'Información y créditos');
 define('_MOD_ABOUT_MODULE', 'Descripción de los módulos de toendaCMS');
 define('_MOD_ABOUT', 'Acerca de toendaCMS');
+if(!defined('_MOD_CFORM'))                     define('_MOD_CFORM', 'Configuración Formulario Contacto');
+if(!defined('_MOD_BOOK'))                      define('_MOD_BOOK', 'Configuración Libro de Visitas');
 
 
 // TABLES
@@ -326,6 +358,7 @@ define('_TABLE_SORT', 'Ordenar');
 define('_TABLE_SORT_DESC', 'Ordenar Descendente');
 define('_TABLE_SORT_ASC', 'Ordenar Ascendente');
 define('_TABLE_VIEW', 'Vista');
+if(!defined('_TABLE_FRONTPAGE'))               define('_TABLE_FRONTPAGE', 'Página de Inicio');
 
 
 // MESSAGES
@@ -502,6 +535,9 @@ define('_CONTENT_LAST_PAGE', 'Ultima Página');
 define('_CONTENT_BACK_PAGE', 'Una Página atrás');
 define('_CONTENT_FIRST_PAGE', 'Primera Página');
 define('_CONTENT_LAST_UPDATE', 'Ultima Actualizada');
+if(!defined('_CONTENT_NEW_LANG_DOCUMENT'))     define('_CONTENT_NEW_LANG_DOCUMENT', 'Nuevo documento en otro idioma');
+if(!defined('_CONTENT_ORG_DOCUMENT'))          define('_CONTENT_ORG_DOCUMENT', 'Documento Original');
+
 
 
 // IMPRESSUM
@@ -735,6 +771,7 @@ define('_SIDEEXT_NEWS_CATEGORIES_SHOW', 'Mostrar categoría de noticias');
 define('_SIDEEXT_NEWS_ARCHIVES_SHOW', 'Mostrar Archivos de Noticias');
 define('_SIDEEXT_NEWS_CATEGORIES_AMOUNT_SHOW', 'Mostrar cantidad de noticias en categorías');
 define('_SIDEEXT_MODUL', 'Módulos');
+if(!defined('_SIDEEXT_LANGUAGE_SELECTOR'))     define('_SIDEEXT_LANGUAGE_SELECTOR', 'Selector de Idioma');
 
 
 // NEWSLETTER
@@ -775,6 +812,10 @@ if(!defined('_CONTACT_ADRESS_BOOK'))           define('_CONTACT_ADRESS_BOOK', 'L
 if(!defined('_CONTACT_ADRESS_EMAIL'))          define('_CONTACT_ADRESS_EMAIL', 'Email de Contacto');
 if(!defined('_CONTACT_SEND_A_EMAIL'))          define('_CONTACT_SEND_A_EMAIL', 'Enviar un eMail');
 if(!defined('_CONTACT_DETAIL'))                define('_CONTACT_DETAIL', 'Detalles Contacto');
+if(!defined('_CONTACT_VCARD'))                 define('_CONTACT_VCARD', 'vCard');
+if(!defined('_CONTACT_VCARD_IMPORT_TEXT'))     define('_CONTACT_VCARD_IMPORT_TEXT', 'Si tienes un archivo .vcf, súbelo y toendaCMS importará el contacto automáticamente.');
+if(!defined('_CONTACT_VCARD_VCF'))             define('_CONTACT_VCARD_VCF', 'Archivo vCard .vcf');
+if(!defined('_CONTACT_VCARD_DOWNLOAD'))        define('_CONTACT_VCARD_DOWNLOAD', 'Descargar vCard');
 
 
 // GLOBALS
@@ -835,7 +876,15 @@ if(!defined('_GLOBAL_MAIL_WITH_SMTP'))         define('_GLOBAL_MAIL_WITH_SMTP', 
 if(!defined('_GLOBAL_MAIL_AS_HTML'))           define('_GLOBAL_MAIL_AS_HTML', 'Enviar emails como HTML');
 if(!defined('_GLOBAL_REVISIT_AFTER'))          define('_GLOBAL_REVISIT_AFTER', 'Días para reindexación por un motor de búsqueda');
 if(!defined('_GLOBAL_ROBOTSFILE'))             define('_GLOBAL_ROBOTSFILE', 'URL para el archivo "robots.txt"');
-
+if(!defined('_GLOBAL'))                        define('_GLOBAL', 'Sitio');
+if(!defined('_GLOBAL_PDFLINK_IN_FOOTER'))      define('_GLOBAL_PDFLINK_IN_FOOTER', 'Mostrar enlace PDF en pie de página');
+if(!defined('_GLOBAL_CACHE_CONTROL'))          define('_GLOBAL_CACHE_CONTROL', 'Opciones máquina busqueda-Chache');
+if(!defined('_GLOBAL_PRAGMA'))                 define('_GLOBAL_PRAGMA', 'Searchmachine Pragma');
+if(!defined('_GLOBAL_EXPIRES'))                define('_GLOBAL_EXPIRES', 'El sitio puede caducar');
+if(!defined('_GLOBAL_ROBOTSSETTINGS'))         define('_GLOBAL_ROBOTSSETTINGS', 'Opciones para los robots del sitio (Webcrawler)');
+if(!defined('_GLOBAL_LAST_CHANGES'))           define('_GLOBAL_LAST_CHANGES', 'ültimos cambios');
+if(!defined('_GLOBAL_USE_CONTENT_LANG'))       define('_GLOBAL_USE_CONTENT_LANG', 'Usa este idioma en el contenido');
+if(!defined('_GLOBAL_VALIDLINKS'))             define('_GLOBAL_VALIDLINKS', 'Mostrar enlaces web Estandar');
 
 // POLL
 if(!defined('_POLL_MAINTITLE'))                define('_POLL_MAINTITLE', 'Módulo de encuestas');
@@ -905,7 +954,7 @@ define('_LU_DES_VERSION', 'Versión de tu plantilla');
 
 
 // CREDITS
-define('_CREDITS_SYSTEM', 'Información del sistema');
+define('_CREDITS_SYSTEM', 'Sistema');
 define('_CREDITS_RELEVANT', 'Relevante para el Sistema de Gestión de Contenidos');
 define('_CREDITS_VERSION', 'versión toendaCMS');
 define('_CREDITS_PLATFORM', 'Plataforma');
@@ -936,6 +985,7 @@ define('_ABOUT_URL_DOWNLOAD', 'Descargas y Parches');
 define('_ABOUT_FREE_SOFTWARE', 'es Software Libre desarrollado bajo la Licencia GNU/GPL.');
 define('_ABOUT_CODE_IS_POESIE', '<strong>Recuerda siempre:</strong> Código es poesía.');
 define('_ABOUT_POWERED_BY', 'Este sitio está desarrollado por');
+if(!defined('_ABOUT_SVN_REPO'))                define('_ABOUT_SVN_REPO', 'Repositorio SVN');
 
 
 // CONTACTFORM
@@ -957,6 +1007,7 @@ define('_FORM_CFORM', 'Formulario de contacto');
 define('_FORM_SYSTEM', 'este es un mensaje automático, por favor, no respondas.');
 define('_FORM_GREETS', 'Atentamente');
 define('_FORM_FROM', 'Este boletín de noticias es de ');
+if(!defined('_FORM_GO'))                       define('_FORM_GO', 'Ir');
 
 
 // GUESTBOOK
@@ -1075,7 +1126,10 @@ define('_FRONTPAGE_NEWS_DISPLAY', '¿Como mostrar las noticias en la barra latera
 define('_FRONTPAGE_TDT', 'Título, Fecha y Hora, Texto');
 define('_FRONTPAGE_TD', 'Título, Fecha y Hora');
 define('_FRONTPAGE_T', 'Título');
+if(!defined('_FRONTPAGE_DT'))                  define('_FRONTPAGE_DT', 'Fecha y Hora, Título');
 define('_FRONT_CAPTCHA', 'Introducir el siguiente código');
+if(!defined('_NEWS_SHOW_ON_FRONTPAGE'))        define('_NEWS_SHOW_ON_FRONTPAGE', 'Mostrar Noticias en página de Inicio');
+
 
 
 // DOCUMENTATION
@@ -1188,6 +1242,14 @@ if(!defined('_IMPORT_OOO2_DOCBOOK_XML_DESC'))  define('_IMPORT_OOO2_DOCBOOK_XML_
 if(!defined('_CS_UPLOAD_TEXT'))                define('_CS_UPLOAD_TEXT', 'Si tienes un archivo .zip, usa la opción Subir Archivo Comprimido. De lo contrario, copia el componente completo (la carpeta con todos los archivos necesarios) al directorio Componentes. Si quieres, usa la opción Subir Archivo.');
 if(!defined('_CS_UPLOAD_ZTITLE'))              define('_CS_UPLOAD_ZTITLE', 'Subir e instalar archivo Comprimido');
 if(!defined('_CS_UPLOAD_ZFILE'))               define('_CS_UPLOAD_ZFILE', 'Archivo Comprimido (.zip)');
+
+// FOOTER
+if(!defined('_FOOTER_VALID_TITLE'))            define('_FOOTER_VALID_TITLE', 'Este sitio cumple los siguientes standards');
+if(!defined('_FOOTER_VALID_US_805'))           define('_FOOTER_VALID_US_805', 'Este sitio toendaCMS cumple con las pautas de accesibilidad del Gobierno de US Sección 508.');
+if(!defined('_FOOTER_VALID_W3C_WAI'))          define('_FOOTER_VALID_W3C_WAI', 'Este sitio toendaCMS cumple con las pautas de accesibilidad del W3C-WAI.');
+if(!defined('_FOOTER_VALID_XHTML'))            define('_FOOTER_VALID_XHTML', 'Este sitio toendaCMS es XHTML válidado.');
+if(!defined('_FOOTER_VALID_CSS'))              define('_FOOTER_VALID_CSS', 'Este sitio toendaCMS fué creado con un CSS válidado.');
+if(!defined('_FOOTER_VALID_ANY_BROWSER'))      define('_FOOTER_VALID_ANY_BROWSER', 'Este sitio toendaCMS se ve perfectamente en cualquier navegador web.');
 
 
 // COUNTRY LIST

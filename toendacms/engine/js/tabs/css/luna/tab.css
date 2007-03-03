@@ -26,7 +26,7 @@
 	display: inline;
 	float: left;
 	height: 16px;
-	padding: 4px 10px;
+	padding: 3px 10px;
 	margin: -3px 0 0 -5px;
 	background: url(tab_l.png) top left no-repeat;
 }
@@ -45,7 +45,7 @@
 
 .dynamic-tab-pane-control .tab-row .tab.selected a {
 	background: url(tab_active_l.png) top left no-repeat !important;
-	padding: 4px 10px;
+	padding: 3px 10px;
 	margin: -3px 0 0 -5px;
 }
 
@@ -63,7 +63,7 @@
 
 .dynamic-tab-pane-control .tab-row .tab.hover a {
 	background: url(tab_hover_l.png) top left no-repeat;
-	padding: 4px 10px;
+	padding: 3px 10px;
 	margin: -3px 0 0 -5px;
 }
 

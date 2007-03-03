@@ -93,6 +93,7 @@ define('_TCMS_DB_UPDATE_VERSION_107', 'Update Version 1.0.7');
 define('_TCMS_DB_UPDATE_VERSION_103', 'Update Version 1.0.3');
 define('_TCMS_DB_UPDATE_VERSION_102', 'Update Version 1.0.2');
 define('_TCMS_DB_UPDATE_VERSION_100', 'Update Version 1.0.0 (and 1.0.1)');
+define('_TCMS_DB_UPDATE_VERSION_100_XML', 'Update Version 1.0.0 and newer');
 define('_TCMS_DB_UPDATE_VERSION_100RC1', 'Update Version 1.0.0 RC1');
 define('_TCMS_DB_UPDATE_VERSION_070', 'Update Version 0.7.0');
 define('_TCMS_DB_NEWINSTALL_TITLE', 'Creating database configuration');

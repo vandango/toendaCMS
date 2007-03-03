@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used as a law-concurring
  * publishing form.
  *
- * @version 0.3.1
+ * @version 0.3.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -43,7 +43,7 @@ if(trim($imp_stamp) != ''){ echo tcms_html::contentstamp($imp_stamp).'<br /><br 
 
 echo '<span class="contentmain">';
 
-if($imp_contact != '_no_contact_'){
+if($imp_contact != 'no_contact'){
 	if($choosenDB == 'xml'){
 		$impressum_xml = new xmlparser($tcms_administer_site.'/tcms_contacts/'.$imp_contact.'.xml','r');
 		$con_published = $impressum_xml->read_value('published');
@@ -117,6 +117,14 @@ if($imp_contact != '_no_contact_'){
 	$contact['postal']   = $tcms_main->decodeText($contact['postal'], '2', $c_charset);
 	$contact['phone']    = $tcms_main->decodeText($contact['phone'], '2', $c_charset);
 	$contact['fax']      = $tcms_main->decodeText($contact['fax'], '2', $c_charset);
+	
+	if(strtolower($contact['country']) == 'deutschland' 
+	|| strtolower($contact['country']) == 'germany'
+	|| strtolower($contact['country']) == '') {
+		if(strlen($contact['postal']) == 4) {
+			$contact['postal'] = '0'.$contact['postal'];
+		}
+	}
 	
 	echo '<strong class="imptitle">'.$websiteowner.'</strong><br /><br />';
 	

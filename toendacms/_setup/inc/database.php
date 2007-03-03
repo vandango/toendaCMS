@@ -20,7 +20,7 @@
  *
  * This file is used for the database actions.
  *
- * @version 0.6.0
+ * @version 0.6.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -195,18 +195,20 @@ if($todo == 'update'){
 	.'<input name="new_engine" type="hidden" value="'.$db.'" />';
 	
 	
-	echo '<div style="display: block; float: left; width: 220px; font-weight: bold;">'
-	._TCMS_DB_TABLEPREFIX
-	.'</div>';
-	
-	echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-	.'<input class="tcms_input" name="new_prefix" type="text" value="tcms_" />'
-	.'</div>';
-	
-	echo '<div style="display: block; margin: 0 0 0 560px;">&nbsp;</div>';
-	
-	
-	echo '<br />';
+	if($db != 'xml'){
+		echo '<div style="display: block; float: left; width: 220px; font-weight: bold;">'
+		._TCMS_DB_TABLEPREFIX
+		.'</div>';
+		
+		echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
+		.'<input class="tcms_input" name="new_prefix" type="text" value="tcms_" />'
+		.'</div>';
+		
+		echo '<div style="display: block; margin: 0 0 0 560px;">&nbsp;</div>';
+		
+		
+		echo '<br />';
+	}
 	
 	
 	if($db == 'mysql'){
@@ -259,7 +261,7 @@ if($todo == 'update'){
 	
 	
 	echo '<div style="display: block; float: left; width: 220px; font-weight: bold;">'
-	._TCMS_DB_UPDATE_VERSION_100
+	.( $db == 'xml' ? _TCMS_DB_UPDATE_VERSION_100_XML : _TCMS_DB_UPDATE_VERSION_100 )
 	.'</div>';
 	
 	echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
@@ -630,6 +632,158 @@ $tcms_db_port     = \''.$set_port.'\';
 		
 		// remove zip file
 		unlink($gzFilePath.$gzFileName);
+		
+		
+		// update to new multi-language
+		$layout_xml = new xmlparser('../'.$tcms_administer_site.'/tcms_global/var.xml','r');
+		$plang = $layout_xml->read_value('front_lang');
+		
+		// update setting files
+		rename(
+			'../'.$tcms_administer_site.'/tcms_global/frontpage.xml', 
+			'../'.$tcms_administer_site.'/tcms_global/frontpage.'.$plang.'.xml'
+		);
+		
+		rename(
+			'../'.$tcms_administer_site.'/tcms_global/newsmanager.xml', 
+			'../'.$tcms_administer_site.'/tcms_global/newsmanager.'.$plang.'.xml'
+		);
+		
+		rename(
+			'../'.$tcms_administer_site.'/tcms_global/contactform.xml', 
+			'../'.$tcms_administer_site.'/tcms_global/contactform.'.$plang.'.xml'
+		);
+		
+		rename(
+			'../'.$tcms_administer_site.'/tcms_global/impressum.xml', 
+			'../'.$tcms_administer_site.'/tcms_global/impressum.'.$plang.'.xml'
+		);
+		
+		// update news
+		unset($arr_news);
+		$arr_news = $tcms_main->getPathContent('../'.$tcms_administer_site.'/tcms_news/');
+		
+		foreach($arr_news as $key => $val) {
+			$xml = new xmlparser('../'.$tcms_administer_site.'/tcms_news/'.$val, 'r');
+			
+			// save news with language
+			$xmluser = new xmlparser('../'.$tcms_administer_site.'/tcms_news/tmp_'.$val, 'w');
+			$xmluser->xml_declaration();
+			$xmluser->xml_section('news');
+			
+			$xmluser->write_value('title', $xml->read_section('news', 'title'));
+			$xmluser->write_value('autor', $xml->read_section('news', 'autor'));
+			$xmluser->write_value('date', $xml->read_section('news', 'date'));
+			$xmluser->write_value('time', $xml->read_section('news', 'time'));
+			$xmluser->write_value('newstext', $xml->read_section('news', 'newstext'));
+			$xmluser->write_value('order', $xml->read_section('news', 'order'));
+			$xmluser->write_value('stamp', $xml->read_section('news', 'stamp'));
+			$xmluser->write_value('published', $xml->read_section('news', 'published'));
+			$xmluser->write_value('publish_date', $xml->read_section('news', 'publish_date'));
+			$xmluser->write_value('comments_enabled', $xml->read_section('news', 'comments_enabled'));
+			$xmluser->write_value('image', $xml->read_section('news', 'image'));
+			$xmluser->write_value('category', $xml->read_section('news', 'category'));
+			$xmluser->write_value('access', $xml->read_section('news', 'access'));
+			$xmluser->write_value('show_on_frontpage', 1);
+			$xmluser->write_value('language', $plang);
+			
+			$xmluser->xml_section_buffer();
+			$xmluser->xml_section_end('news');
+			$xmluser->_xmlparser();
+			unset($xmluser);
+			
+			$xml->flush();
+			$xml->_xmlparser();
+			unset($xml);
+			
+			// delete sourcefile and rename temp file
+			unlink('../'.$tcms_administer_site.'/tcms_news/'.$val);
+			
+			rename(
+				'../'.$tcms_administer_site.'/tcms_news/tmp_'.$val, 
+				'../'.$tcms_administer_site.'/tcms_news/'.$val
+			);
+		}
+		
+		// update sidemenu items
+		unset($arr_news);
+		$arr_news = $tcms_main->getPathContent('../'.$tcms_administer_site.'/tcms_menu/');
+		
+		foreach($arr_news as $key => $val) {
+			$xml = new xmlparser('../'.$tcms_administer_site.'/tcms_menu/'.$val, 'r');
+			
+			// save sidemenu item with language
+			$xmluser = new xmlparser('../'.$tcms_administer_site.'/tcms_menu/'.$val, 'w');
+			$xmluser->xml_declaration();
+			$xmluser->xml_section('menu');
+			
+			$xmluser->write_value('name', $xml->read_section('menu', 'name'));
+			$xmluser->write_value('id', $xml->read_section('menu', 'id'));
+			$xmluser->write_value('subid', $xml->read_section('menu', 'subid'));
+			$xmluser->write_value('type', $xml->read_section('menu', 'type'));
+			$xmluser->write_value('parent', $xml->read_section('menu', 'parent'));
+			$xmluser->write_value('link', $xml->read_section('menu', 'link'));
+			$xmluser->write_value('published', $xml->read_section('menu', 'published'));
+			$xmluser->write_value('access', $xml->read_section('menu', 'access'));
+			$xmluser->write_value('target', '');
+			$xmluser->write_value('language', $plang);
+			
+			$xmluser->xml_section_buffer();
+			$xmluser->xml_section_end('menu');
+			$xmluser->_xmlparser();
+			unset($xmluser);
+			
+			$xml->flush();
+			$xml->_xmlparser();
+			unset($xml);
+			
+			// delete sourcefile and rename temp file
+			unlink('../'.$tcms_administer_site.'/tcms_menu/'.$val);
+			
+			rename(
+				'../'.$tcms_administer_site.'/tcms_menu/tmp_'.$val, 
+				'../'.$tcms_administer_site.'/tcms_menu/'.$val
+			);
+		}
+		
+		// update topmenu items
+		unset($arr_news);
+		$arr_news = $tcms_main->getPathContent('../'.$tcms_administer_site.'/tcms_topmenu/');
+		
+		foreach($arr_news as $key => $val) {
+			$xml = new xmlparser('../'.$tcms_administer_site.'/tcms_topmenu/'.$val, 'r');
+			
+			// save sidemenu item with language
+			$xmluser = new xmlparser('../'.$tcms_administer_site.'/tcms_topmenu/'.$val, 'w');
+			$xmluser->xml_declaration();
+			$xmluser->xml_section('menu');
+			
+			$xmluser->write_value('name', $xml->read_section('top', 'name'));
+			$xmluser->write_value('id', $xml->read_section('top', 'id'));
+			$xmluser->write_value('type', $xml->read_section('top', 'type'));
+			$xmluser->write_value('link', $xml->read_section('top', 'link'));
+			$xmluser->write_value('published', $xml->read_section('top', 'published'));
+			$xmluser->write_value('access', $xml->read_section('top', 'access'));
+			$xmluser->write_value('target', '');
+			$xmluser->write_value('language', $plang);
+			
+			$xmluser->xml_section_buffer();
+			$xmluser->xml_section_end('menu');
+			$xmluser->_xmlparser();
+			unset($xmluser);
+			
+			$xml->flush();
+			$xml->_xmlparser();
+			unset($xml);
+			
+			// delete sourcefile and rename temp file
+			unlink('../'.$tcms_administer_site.'/tcms_topmenu/'.$val);
+			
+			rename(
+				'../'.$tcms_administer_site.'/tcms_topmenu/tmp_'.$val, 
+				'../'.$tcms_administer_site.'/tcms_topmenu/'.$val
+			);
+		}
 	}
 	else{
 		if(file_exists('db/toendaCMS_'.$new_engine.'_Update_'.$new_update.'.sql')){
@@ -649,14 +803,13 @@ $tcms_db_port     = \''.$set_port.'\';
 				$pieces[$i] = trim($pieces[$i]);
 				if(!empty($pieces[$i]) && $pieces[$i] != '#'){
 					$pieces[$i] = str_replace( "#####", $new_prefix, $pieces[$i]);
-					echo $pieces[$i].'<br />';
+					//echo $pieces[$i].'<br />';
 					$sqlQR = $sqlAL->sqlQuery($pieces[$i]);
 				}
 			}
 			
 			
 			// update to new multi-language
-			echo '../'.$tcms_administer_site.'/tcms_global/var.xml';
 			$layout_xml = new xmlparser('../'.$tcms_administer_site.'/tcms_global/var.xml','r');
 			$plang = $layout_xml->read_value('front_lang');
 			
@@ -675,7 +828,7 @@ $tcms_db_port     = \''.$set_port.'\';
 				if(!empty($pieces[$i]) && $pieces[$i] != '#'){
 					$pieces[$i] = str_replace( "#####", $new_prefix, $pieces[$i]);
 					$pieces[$i] = str_replace( "+++++", $plang, $pieces[$i]);
-					echo $pieces[$i].'<br />';
+					//echo $pieces[$i].'<br />';
 					$sqlQR = $sqlAL->sqlQuery($pieces[$i]);
 				}
 			}

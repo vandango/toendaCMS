@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide methods to get and
  * save user accounts and also contacts.
  * 
- * @version 0.2.0
+ * @version 0.2.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -592,6 +592,14 @@ class tcms_account_provider extends tcms_main {
 		$tc_postal   = $this->decodeText($tc_postal, '2', $this->m_charset);
 		$tc_phone    = $this->decodeText($tc_phone, '2', $this->m_charset);
 		$tc_fax      = $this->decodeText($tc_fax, '2', $this->m_charset);
+		
+		if(strtolower($tc_country) == 'deutschland' 
+		|| strtolower($tc_country) == 'germany'
+		|| strtolower($tc_country) == '') {
+			if(strlen($tc_postal) == 4) {
+				$tc_postal = '0'.$tc_postal;
+			}
+		}
 		
 		//$arr_names = explode(' ', $tc_name);
 		

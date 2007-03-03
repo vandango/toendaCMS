@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the publishing form.
  *
- * @version 0.6.0
+ * @version 0.6.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -292,7 +292,7 @@ if($id_group == 'Developer'
 		.'</td><td valign="top">'
 		.'<select class="tcms_select" onchange="document.location=\'admin.php?id_user='.$id_user.'&site=mod_impressum&vall=\'+this.value;">'
 		.'<option value=""> &bull; '._IMPRESSUM_SELECT.' &bull; </option>'
-		.'<option value="_no_contact_"'.( $vall == '_no_contact_' ? ' selected="selected"' : '' ).'> &bull; '._IMPRESSUM_NO_CONTACT.' &bull; </option>';
+		.'<option value="no_contact"'.( $vall == 'no_contact' || $test_imp_contact == 'no_contact' ? ' selected="selected"' : '' ).'> &bull; '._IMPRESSUM_NO_CONTACT.' &bull; </option>';
 		
 		arsort($arr_contacts['arr']);
 		foreach($arr_contacts['arr'] as $c_key => $c_value){
@@ -304,15 +304,15 @@ if($id_group == 'Developer'
 		
 		
 		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">&nbsp;</td>'
-		.'<td valign="top">'
-		.'<textarea name="text" id="text" class="tcms_textarea_big">';
-		
 		if(isset($vall)){
 			$test_imp_contact = $vall;
 		}
 		
-		if(isset($test_imp_contact) && $test_imp_contact != '_no_contact_'){
+		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">&nbsp;</td>'
+		.'<td valign="top">'
+		.'<textarea name="text" id="text" class="tcms_textarea_big">';
+		
+		if($tcms_main->isReal($test_imp_contact) && $test_imp_contact != 'no_contact'){
 			if($choosenDB == 'xml'){
 				if(file_exists('../../'.$tcms_administer_site.'/tcms_contacts/'.$test_imp_contact.'.xml')){
 					$con_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_contacts/'.$test_imp_contact.'.xml','r');
@@ -382,6 +382,14 @@ if($id_group == 'Developer'
 			$contact['phone']    = $tcms_main->decodeText($contact['phone'], '2', $c_charset);
 			$contact['fax']      = $tcms_main->decodeText($contact['fax'], '2', $c_charset);
 			
+			if(strtolower($contact['country']) == 'deutschland' 
+			|| strtolower($contact['country']) == 'germany'
+			|| strtolower($contact['country']) == '') {
+				if(strlen($contact['postal']) == 4) {
+					$contact['postal'] = '0'.$contact['postal'];
+				}
+			}
+			
 			echo $contact['name'].' - '.
 			$contact['position'].' - '.
 			$contact['email'].' - '.
@@ -394,7 +402,8 @@ if($id_group == 'Developer'
 			$contact['fax'];
 		}
 		
-		echo '</textarea><input name="imp_contact" id="imp_contact" type="hidden" value="'.$test_imp_contact.'" />'
+		echo '</textarea>'
+		.'<input name="imp_contact" id="imp_contact" type="hidden" value="'.$test_imp_contact.'" />'
 		.'</td></tr>';
 		
 		
@@ -512,6 +521,11 @@ if($id_group == 'Developer'
 		}
 		
 		
+		if($imp_contact == 'no_contact') {
+			$imp_contact = 'no_contact';
+		}
+		
+		
 		if($choosenDB == 'xml'){
 			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/impressum.'.$setLang.'.xml', 'w');
 			$xmluser->xml_declaration();
@@ -600,7 +614,7 @@ if($id_group == 'Developer'
 			$setLang = $tcms_config->getLanguageCodeByTCMSCode($setLang);
 			
 			echo '<script>'
-			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_impressum'
+			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_impressum&$imp_contact='.$imp_contact
 			.'&lang='.$setLang.'\''
 			.'</script>';
 		}
