@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * This module is for the global configuration settings.
  * 
- * @version 1.2.0
+ * @version 1.2.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Admin Backend
@@ -1237,6 +1237,7 @@ if($id_group == 'Developer'
 			if(empty($new_pdflink))          { $new_pdflink           = 0; }
 			if(empty($new_expires))          { $new_expires           = 0; }
 			if(empty($new_use_content_l))    { $new_use_content_l     = 0; }
+			if(empty($new_last_changes))     { $new_last_changes      = date('Y-m-d H:i:s'); }
 			
 			//
 			//***********

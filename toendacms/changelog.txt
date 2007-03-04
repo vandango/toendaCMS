@@ -35,7 +35,7 @@ Developer Version
 	- 1.0.7 Development
 	- 1.5.0 Development
 
-Building Steps: 2633
+Building Steps: 2700
 
 
 
@@ -78,6 +78,7 @@ Building Steps: 2633
  - changed: new tabpane for the help (including now the wiki iframe)
  - changed: new tabpane for the credits (including now the license)
  - changed: jpeg qualicmsty is now reduced to 75%
+ - changed: updated swedish language
 
  - added: captcha comment check for the image comments
  - added: possibillity to make a own target to the side and topmenu links

@@ -180,7 +180,11 @@ input[type=password], textarea {
 	color: #777;
 }
 
-input[type=text]:focus, input[type=password]:focus, textarea:focus { background: #fff; color: #333; border-color: #666; }
+input[type=text]:focus, input[type=password]:focus, textarea:focus {
+	background: #fff;
+	color: #333;
+	border-color: #666;
+}
 
 
 /* Various Tags */ 
@@ -460,14 +464,30 @@ a.products_top:hover { color: #000000; }
 
 
 /* login */
-.loginform{ width: 90px; }
-.logintext{ font-size: 11px; }
+.loginform {
+	width: 90px !important;
+	height: 15px !important;
+	margin: 2px 0px 0px 0px !important;
+	padding: 2px 0px 0px 2px !important;
+}
 
-.searchform{ width: 160px !important; height: 15px !important; }
+.logintext {
+	font-size: 11px !important;
+}
 
-.bookfield{ width: 252px !important; height: 15px !important; }
+.searchform {
+	width: 160px !important;
+	height: 15px !important;
+}
 
-.signatureform{ width: 400px !important; }
+.bookfield {
+	width: 252px !important;
+	height: 15px !important;
+}
+
+.signatureform {
+	width: 400px !important;
+}
 
 
 
@@ -481,6 +501,7 @@ a.products_top:hover { color: #000000; }
 .inputbutton {
 	font-size: 11px;
 	height: 23px;
+	margin: 2px 0px 2px 0px !important;
 }
 
 .inputtextarea {

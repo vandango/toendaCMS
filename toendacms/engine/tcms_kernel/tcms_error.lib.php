@@ -9,8 +9,7 @@
 |
 | toendaCMS Error Handler
 |
-| File:		tcms_error.lib.php
-| Version:	0.0.7
+| File:	tcms_error.lib.php
 |
 +
 */
@@ -25,13 +24,14 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide a small error handler
  * for the CMS framework engine.
  *
+ * @version 0.1.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
- */
-
-
-/**
+ *
+ * 
+ * <code>
+ * 
  * Methods
  *
  * __construct                 -> PHP5 Constructor
@@ -41,7 +41,9 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * showMessage()               -> Show the error message. If param is true display it as a javascript messagebox.
  * errorCodeTable()            -> A table with all error codes for toendaCMS
- *
+ * 
+ * </code>
+ * 
  */
 
 
@@ -107,9 +109,10 @@ class tcms_error {
 	 * Show the error message. If param is true
 	 * display it as a javascript messagebox.
 	 * 
+	 * @param String $toendaCMSimage
 	 * @param Boolean $bShowMessageBox = true
 	 */
-	function showMessage($bShowMessageBox = true){
+	function showMessage($toendaCMSimage, $bShowMessageBox = true){
 		if($bShowMessageBox){
 			$this->errorCodeTable();
 			
@@ -124,7 +127,7 @@ class tcms_error {
 			$this->errorCodeTable();
 			
 			echo '<div align="center" style=" padding: 100px 10px 100px 10px; border: 1px solid #333; background-color: #f8f8f8; font-family: Georgia, \'Lucida Grande\', \'Lucida Sans\', Serif;">'
-			.'<img src="'.$this->_imagePath.'engine/images/tcms_top.jpg" border="0" />'
+			.'<img src="'.$toendaCMSimage.'engine/images/tcms_top.gif" border="0" />'
 			.'<h1>toendaCMS '._MSG_ERROR.' '.$this->_errorCode.': '.$this->_errorDesc.'</h1>'
 			.'<h2>'.$this->_errorMsg.'</h2>'
 			.'</div>';

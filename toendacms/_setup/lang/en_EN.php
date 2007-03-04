@@ -10,7 +10,7 @@
 | English language
 |
 | File:		en_EN.php
-| Version:	0.0.8
+| Version:	0.1.3
 |
 +
 */
@@ -84,6 +84,7 @@ define('_TCMS_DB_UPDATE', 'Update toendaCMS');
 define('_TCMS_DB_MYSQL_UPDATE', 'Update MySQL Installation');
 define('_TCMS_DB_PGSQL_UPDATE', 'Update PostgreSQL Installation');
 define('_TCMS_DB_XML_UPDATE', 'Update XML Installation');
+define('_TCMS_DB_MSSQL_UPDATE', 'Update MSSQL Installation');
 define('_TCMS_DB_UPDATE_TEXT', 'Please choose your prefered database and click on the logo.<br />To update your toendaCMS installation choose the type of your installation and click on the link.');
 define('_TCMS_DB_UPDATE_TITLE', 'Update Database');
 define('_TCMS_DB_UPDATE_DB1', 'toendaCMS Update with a');

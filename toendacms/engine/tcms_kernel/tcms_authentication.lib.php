@@ -9,8 +9,7 @@
 | 
 | toendaCMS Authentication
 |
-| File:		tcms_authentication.lib.php
-| Version:	0.1.7
+| File:	tcms_authentication.lib.php
 |
 +
 */
@@ -24,6 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to authenticate a login user.
  *
+ * @version 0.1.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel

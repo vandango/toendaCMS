@@ -9,14 +9,23 @@
 | 
 | Check system settings
 |
-| File:		check.php
-| Version:	0.1.6
+| File:	check.php
 |
 +
 */
 
 
-
+/**
+ * Check system settings
+ *
+ * This file is used for the check actions.
+ *
+ * @version 0.1.7
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Installer
+ *
+ */
 
 
 /*
@@ -259,7 +268,7 @@ echo '<br />';
 
 
 echo '<div style="display: block; float: left; width: '.$width.'px;">'
-.'/data/images/albums'
+.'/data/images/knowledgebase'
 .'</div>';
 
 echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
@@ -310,26 +319,6 @@ echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;
 
 echo '<div style="display: block; margin: 0 0 0 560px;">'
 .( is_writeable('../data/images/Image')
-	? '<img src="images/yes.png" border="0" />'
-	: '<img src="images/no.png" border="0" />' )
-.'</div>';
-
-
-echo '<br />';
-
-
-echo '<div style="display: block; float: left; width: '.$width.'px;">'
-.'/tmp'
-.'</div>';
-
-echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-.( is_writeable('../tmp')
-	? '<span style="font-weight: bold; color: green;">'._TCMS_WRITEABLE.'</span>'
-	: '<span style="font-weight: bold; color: red; text-decoration: underline;">'._TCMS_NOT_WRITEABLE.'</span>')
-.'</div>';
-
-echo '<div style="display: block; margin: 0 0 0 560px;">'
-.( is_writeable('../tmp')
 	? '<img src="images/yes.png" border="0" />'
 	: '<img src="images/no.png" border="0" />' )
 .'</div>';
@@ -436,6 +425,10 @@ echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;
 if(extension_loaded('zlib') 
 && extension_loaded('gd') 
 && is_writeable('../data') 
+&& is_writeable('../data/images/albums') 
+&& is_writeable('../data/images/knowledgebase') 
+&& is_writeable('../data/images/upload_thumb') 
+&& is_writeable('../data/images/Image') 
 && is_writeable('../cache') 
 && is_writeable('../cache/captcha') 
 && is_writeable('../data/tcms_global')){
