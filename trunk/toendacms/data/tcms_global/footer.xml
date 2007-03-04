@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?><footer>
 	<websiteowner>Toenda Software Development</websiteowner>
 	<owner_url>http://www.toenda.com</owner_url>
-	<copyright>2003 - 2007</copyright>
+	<copyright>2007</copyright>
 	<email>info@toenda.com</email>
-	<show_tcmslogo>1</show_tcmslogo>
+	<show_tcmslogo>0</show_tcmslogo>
 	<show_defaultfooter>0</show_defaultfooter>
 	<show_page_loading_time>1</show_page_loading_time>
 	<legal_link_in_footer>1</legal_link_in_footer>

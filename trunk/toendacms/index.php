@@ -16,19 +16,6 @@
 */
 
 
-/*
-
-
-UPDATE blog_news
-SET language = 'english_EN'
-WHERE language IS NULL 
-OR language = ''
-
-
-
-*/
-
-
 //echo md5('banane').'<br />';
 //for($i = 0; $i<5; $i++) echo md5(microtime()).'<br />';
 
@@ -63,7 +50,7 @@ if(isset($_POST['contact_email'])){ $contact_email = $_POST['contact_email']; }
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.5.3
+ * @version 2.5.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -82,16 +69,18 @@ include_once('site.php');
 $tcms_administer_site = $tcms_site[0]['path'];
 
 // database
-require($tcms_administer_site.'/tcms_global/database.php');
-//import($tcms_administer_site.'.database.settings');
-
-$choosenDB = $tcms_db_engine;
-$sqlUser   = $tcms_db_user;
-$sqlPass   = $tcms_db_password;
-$sqlHost   = $tcms_db_host;
-$sqlDB     = $tcms_db_database;
-$sqlPort   = $tcms_db_port;
-$sqlPrefix = $tcms_db_prefix;
+if(file_exists($tcms_administer_site.'/tcms_global/database.php')) {
+	require($tcms_administer_site.'/tcms_global/database.php');
+	//import($tcms_administer_site.'.database.settings');
+	
+	$choosenDB = $tcms_db_engine;
+	$sqlUser   = $tcms_db_user;
+	$sqlPass   = $tcms_db_password;
+	$sqlHost   = $tcms_db_host;
+	$sqlDB     = $tcms_db_database;
+	$sqlPort   = $tcms_db_port;
+	$sqlPrefix = $tcms_db_prefix;
+}
 
 // page
 if(!isset($ws_error))
@@ -461,10 +450,10 @@ if($wsShowSite){
 					Set Cookie
 				*/
 				if($code == 'setc') {
-					setcookie('session', $session);
+					//setcookie('session', $session);
 				}
 				elseif($code == 'delc') {
-					setcookie('session', '', time() - 81400);
+					//setcookie('session', '', time() - 81400);
 				}
 				
 				
@@ -667,7 +656,7 @@ if($wsShowSite){
 						$start_tcms_loading = false;
 						
 						$tcms_error = new tcms_error('index.php', 500, $sqlCN['msg'], $imagePath);
-						$tcms_error->showMessage(false);
+						$tcms_error->showMessage($toendaCMSimage, false);
 						
 						unset($tcms_error);
 					}

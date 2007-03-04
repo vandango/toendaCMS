@@ -10,7 +10,7 @@
 | German language
 |
 | File:		de_DE.php
-| Version:	0.0.9
+| Version:	0.1.3
 |
 +
 */
@@ -85,6 +85,7 @@ define('_TCMS_DB_UPDATE', 'toendaCMS Aktualisieren');
 define('_TCMS_DB_MYSQL_UPDATE', 'MySQL Installation updaten');
 define('_TCMS_DB_PGSQL_UPDATE', 'PostgreSQL Installation updaten');
 define('_TCMS_DB_XML_UPDATE', 'XML Installation updaten');
+define('_TCMS_DB_MSSQL_UPDATE', 'MSSQL Installation uüdaten');
 define('_TCMS_DB_UPDATE_TEXT', 'W&auml;hlen sie die gew&uuml;nschte Datenbank aus und klicken sie auf das jeweilige Logo.<br />Um eine bestehende Installation zu Aktualisieren w&auml;hlen sie den Typ ihrer Installation und klicken sie auf den daf&uuml;r vorgesehenen Link.');
 define('_TCMS_DB_UPDATE_TITLE', 'Datenbank aktualisieren');
 define('_TCMS_DB_UPDATE_DB1', 'toendaCMS Aktualisierung mit einer');

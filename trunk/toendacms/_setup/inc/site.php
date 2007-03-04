@@ -7,17 +7,25 @@
 | Author: Jonathan Naumann                                               |
 +------------------------------------------------------------------------+
 |
-| site settings
+| Site settings
 |
-| File:		site.php
-| Version:	0.1.9
+| File:	site.php
 |
 +
 */
 
 
-
-
+/**
+ * Site settings
+ *
+ * This file is used for the dite settings.
+ *
+ * @version 0.2.3
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Installer
+ *
+ */
 
 
 /*
@@ -25,12 +33,6 @@
 */
 
 if(!isset($todo)){ $todo = 'global'; }
-
-
-
-
-
-
 
 
 
@@ -55,13 +57,6 @@ $arr_char[13] = 'EUC-JP';
 
 
 
-
-
-
-
-
-
-
 /*
 	languages
 */
@@ -73,13 +68,6 @@ while(!empty($arr_language[$ll])){
 	if($arr_language[$ll] != 'lang_admin.php'){ $arr_lang[$ll] = $arr_language[$ll]; }
 	$ll++;
 }
-
-
-
-
-
-
-
 
 
 
@@ -371,13 +359,6 @@ if($todo == 'global'){
 
 
 
-
-
-
-
-
-
-
 /*
 	save settings
 */
@@ -419,7 +400,7 @@ if($todo == 'save'){
 	if($m_name    == ''){ $m_name    = '-'; }
 	if($new_key   == ''){ $new_key   = '-'; }
 	
-	$xmluser = new xmlparser('../data/tcms_global/namen.xml', 'w');
+	$xmluser = new xmlparser('../'.$tcms_administer_site.'/tcms_global/namen.xml', 'w');
 	$xmluser->xml_declaration();
 	$xmluser->xml_section($var_conf);
 	
@@ -440,7 +421,7 @@ if($todo == 'save'){
 	if($new_owner_url    == ''){ $new_owner_url    = '-'; }
 	if($new_copyright    == ''){ $new_copyright    = '-'; }
 	
-	$xmluser = new xmlparser('../data/tcms_global/footer.xml', 'w');
+	$xmluser = new xmlparser('../'.$tcms_administer_site.'/tcms_global/footer.xml', 'w');
 	$xmluser->xml_declaration();
 	$xmluser->xml_section($var_conf);
 	
@@ -466,7 +447,7 @@ if($todo == 'save'){
 	if(empty($keywords))   { $keywords    = '-'; }
 	if(empty($description)){ $description = '-'; }
 	
-	$xmluser = new xmlparser("../data/tcms_global/var.xml","w");
+	$xmluser = new xmlparser('../'.$tcms_administer_site.'/tcms_global/var.xml', 'w');
 	$xmluser->xml_declaration();
 	$xmluser->xml_section($var_conf);
 	
@@ -495,6 +476,18 @@ if($todo == 'save'){
 	$xmluser->write_value('captcha_clean_size', '1024');
 	$xmluser->write_value('show_doc_autor', '0');
 	$xmluser->write_value('admin_topmenu', '0');
+	$xmluser->write_value('pathway_char', '/');
+	$xmluser->write_value('anti_frame', '1');
+	$xmluser->write_value('revisit_after', '2');
+	$xmluser->write_value('robotsfile', '');
+	$xmluser->write_value('pdflink', '1');
+	$xmluser->write_value('cachecontrol', '');
+	$xmluser->write_value('pragma', '');
+	$xmluser->write_value('expires', '');
+	$xmluser->write_value('robots', '');
+	$xmluser->write_value('last_changes', date('Y-m-d H:i:s'));
+	$xmluser->write_value('use_content_language', '1');
+	$xmluser->write_value('valid_links', '1');
 	
 	$xmluser->xml_section_buffer();
 	$xmluser->xml_section_end($var_conf);
@@ -523,6 +516,11 @@ if($todo == 'save'){
 	$xmluser->_xmlparser();
 	
 	//***************************************
+	
+	// update now the settings
+	if($db == 'xml') {
+		updateLanguageForXML($tcms_administer_site);
+	}
 	
 	if(file_exists('../data/tcms_global/namen.xml') && file_exists('../data/tcms_global/footer.xml') && file_exists('../data/tcms_global/var.xml')){
 		echo '<script>document.location.href=\'index.php?site=user&lang='.$lang.'&db='.$db.'\';</script>';
