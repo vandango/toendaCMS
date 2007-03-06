@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 25. Februar 2007 um 21:46
+-- Erstellungszeit: 06. März 2007 um 13:08
 -- Server Version: 5.0.21
 -- PHP-Version: 5.2.1
 -- 
@@ -114,7 +114,7 @@ CREATE TABLE `blog_contacts` (
 -- Daten für Tabelle `blog_contacts`
 -- 
 
-INSERT INTO `blog_contacts` (`uid`, `default_con`, `published`, `name`, `position`, `email`, `street`, `country`, `state`, `town`, `postal`, `phone`, `fax`) VALUES ('10a1b5f6ab', 1, 1, 'Max Musterman', 'CEO', 'max@musterman.com', 'Musterstrasse 123', 'Deutschland', '', 'Musterstadt', 28203, '', '');
+INSERT INTO `blog_contacts` (`uid`, `default_con`, `published`, `name`, `position`, `email`, `street`, `country`, `state`, `town`, `postal`, `phone`, `fax`) VALUES ('10a1b5f6ab', 1, 1, 'Max Musterman', 'CEO', 'max@musterman.com', 'Musterstrasse 123', 'Deutschland', '', 'Musterstadt', 8203, '', '');
 
 -- --------------------------------------------------------
 
@@ -374,7 +374,7 @@ CREATE TABLE `blog_impressum` (
 -- Daten für Tabelle `blog_impressum`
 -- 
 
-INSERT INTO `blog_impressum` (`uid`, `language`, `imp_id`, `imp_title`, `imp_stamp`, `imp_contact`, `taxno`, `ustid`, `legal`) VALUES ('impressum', 'english_EN', 'impressum', 'Disclaimer', 'Information about this website', '10a1b5f6ab', '123456789', '123123d', 'No portion of this web site may be reproduced without express written consent from its owner.'),
+INSERT INTO `blog_impressum` (`uid`, `language`, `imp_id`, `imp_title`, `imp_stamp`, `imp_contact`, `taxno`, `ustid`, `legal`) VALUES ('impressum', 'english_EN', 'impressum', 'Disclaimer', 'Information about this website', '10a1b5f6ab', '123456789', '123123d', 'No portion of this web site may be reproduced without express written consent from its owner.\r\n'),
 ('hgztkj87r', 'germany_DE', 'impressum', 'Impressum', 'Informationen &uuml;ber diese Webseite', '10a1b5f6ab', '123456789', '123123d', '&lt;span class__________&quot;contentmain&quot;&gt;&lt;span class__________&quot;contentmain&quot;&gt;&lt;strong&gt;Haftungsausschluss / Datenschutz&lt;/strong&gt;&lt;br /&gt;\r\n&lt;br /&gt;\r\n1. Wichtiger rechtlicher Hinweis und Haftungsausschlu&szlig;:&lt;br /&gt;\r\nDas Landgericht Hamburg hat am 12. Mai 1998 im Urteil 312 O 85/98\r\n&quot;Haftung f&uuml;r Links&quot; entschieden, da&szlig; durch die Ver&ouml;ffentlichung eines\r\nLinks auf einer Homepage die Inhalte der gelinkten Seiten mit zu\r\nverantworten sind. Das l&auml;&szlig;t sich nur verhindern, wenn man sich\r\nausdr&uuml;cklich von den Inhalten der gelinkten Seiten distanziert. Wir\r\ndistanzieren uns daher von allen Inhalten, die sich hinter den\r\nangegebenen Links, den dahinter stehenden Servern, weiterf&uuml;hrenden\r\nLinks, G&auml;steb&uuml;chern und s&auml;mtlichen anderen sichtbaren und nicht\r\nsichtbaren Inhalten verbergen. Sollte eine der Seiten auf den\r\nentsprechenden Servern gegen geltendes Recht versto&szlig;en, so ist uns\r\ndieses nicht bekannt. Auf entsprechende Benachrichtigung hin werden wir\r\nselbstverst&auml;ndlich den Link zu dem entsprechenden Server entfernen\r\n(nachzulesen unter www.online-recht.de). Sollte Ihre Homepage, gegen\r\nIhren Wunsch, in unserer Referenzliste verzeichnet sein, dann wenden\r\nSie sich bitte an uns. Wir werden den Link dann umgehend l&ouml;schen.\r\nVielen Dank &lt;br /&gt;\r\n2. Datenschutz:&lt;br /&gt;\r\nEs ist Absicht der Firma Toenda Software Development, die Gesetze zum\r\nSchutz der Privatsph&auml;re und die Datenschutzgesetze genauestens\r\neinzuhalten und zu respektieren. Wir m&ouml;chten dazu beitragen, das\r\nInternet zu einer sicheren und verbindlichen Informationsquelle f&uuml;r\r\nunsere Homepage-Besucher zu machen. Wir sch&uuml;tzen die pers&ouml;nlichen\r\nInformationen unserer G&auml;ste gegen m&ouml;glichen Datenmi&szlig;brauch. Wir geben\r\nau&szlig;erdem Zugriff auf eigene pers&ouml;nliche Informationen, so da&szlig;\r\nInformationen, die wir &uuml;ber Sie haben, ge&auml;ndert oder gel&ouml;scht werden\r\nkann. &lt;br /&gt;\r\n&lt;br /&gt;\r\n2.1 Pers&ouml;nlich identifizierbare Informationen&lt;br /&gt;\r\nWir sammeln pers&ouml;nlich identifizierbare Informationen nur wenn Sie sich\r\neintragen , um an unseren online- Wettbewerben (Preisausschreiben)\r\nteilzunehmen oder Sie um pers&ouml;nliche &Uuml;bersendung von Informationen\r\nbitten.&lt;br /&gt;\r\nDiese Daten werden von der Firma &lt;/span&gt;&lt;span class__________&quot;contentmain&quot;&gt;Toenda Software Development&lt;/span&gt;&lt;span class__________&quot;contentmain&quot;&gt;\r\ngenutzt und nicht an Drittfirmen weitergegeben. Wenn Sie unter 18\r\nJahren sind k&ouml;nnen Sie nur an Wettbewerben teilnehmen oder um\r\npers&ouml;nliche Infromations&uuml;bersendung bitten, wenn die Erlaubnis der\r\nEltern vorliegt. &lt;br /&gt;\r\n&lt;br /&gt;\r\n2. 2 Nicht pers&ouml;nlich identifizierbare Informationen&lt;br /&gt;\r\nWir bem&uuml;hen uns unser Web-Angebot laufend zu verbessern. Daf&uuml;r ist es\r\nn&uuml;tzlich, zu wissen, welche Informationen am beliebtesten ist. Zu\r\ndiesem Zwecke speichern wir Datum, Uhrzeit, Suchbegriff und die von\r\nIhnen angeforderte Information mit der jeweiligen IP-Adresse.&lt;br /&gt;\r\nEine IP-Adresse ist eine Nummer, die automatisch Ihrem Computer\r\nzugeteilt wird, wann immer Sie im Web surfen. Web-Server, d.h. die\r\nGro&szlig;computer, die die Webseiten &amp;bdquo;bereitstellen&amp;ldquo;, identifizieren Ihren\r\nComputer automatisch anhand seiner IP-Adresse. Die Firma &lt;/span&gt;&lt;span class__________&quot;contentmain&quot;&gt;Toenda Software Development&lt;/span&gt;&lt;span class__________&quot;contentmain&quot;&gt;\r\nsammelt IP-Adressen zus&auml;tzlich f&uuml;r Zwecke der Systemverwaltung, um\r\nBerichte zu erstellen und die Benutzung unserer Websites zu verfolgen.\r\nWenn Sie spezifische Seiten von den Websites der Firma anfordern,\r\nerkennen unsere Server oder Computer die IP-Adressen der G&auml;ste. Wir\r\nverbinden IP-Adressen aber nicht mit pers&ouml;nlich identifizierbaren\r\nInformationen, was bedeutet, da&szlig; der Benutzer f&uuml;r uns anonym bleibt.&lt;/span&gt;\r\n&lt;/span&gt;\r\n');
 
 -- --------------------------------------------------------
@@ -808,7 +808,9 @@ CREATE TABLE `blog_session` (
 -- 
 
 INSERT INTO `blog_session` (`uid`, `date`, `user`, `user_id`) VALUES ('a579eefac60b0139da98e972c19432dc', '1153685958', 'root', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff'),
-('49014eab24285407cb208b1cf0427fa4', '1172276892', 'root', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff');
+('c0a507fe0209bf4e2bb3e13c5eb08830', '1173012375', 'root', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff'),
+('c26414caf9041e41ddd88b766aab5da4', '1173012509', 'root', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff'),
+('d36ad2cc59d478e6ad6cddcaa0609804', '1173017930', 'root', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff');
 
 -- --------------------------------------------------------
 
@@ -908,7 +910,7 @@ INSERT INTO `blog_sidemenu` (`uid`, `language`, `name`, `id`, `subid`, `root`, `
 ('dfsd7', 'english_EN', 'subsub1', 2, '0', '-', '-', '-', '11d22', '-', 'link', 'search', 0, 'Public', NULL),
 ('c39d0', 'germany_DE', 'Navigation', 0, '-', '-', '-', '-', '-', '-', 'title', 'frontpage', 0, 'Public', ''),
 ('638ac', 'germany_DE', 'Lizenz', 2, '-', '-', '-', '-', '-', '-', 'link', '18e2a', 1, 'Public', ''),
-('1fffa', 'germany_DE', 'Startseite', 1, '-', '-', '-', '-', '-', '-', 'link', 'frontpage', 1, 'Public', '');
+('1fffa', 'germany_DE', 'Startseite &amp; Eins', 1, '-', '-', '-', '-', '-', '-', 'link', 'frontpage', 1, 'Public', '');
 
 -- --------------------------------------------------------
 
@@ -1032,7 +1034,7 @@ CREATE TABLE `blog_user` (
 -- Daten für Tabelle `blog_user`
 -- 
 
-INSERT INTO `blog_user` (`uid`, `name`, `username`, `password`, `email`, `group`, `join_date`, `last_login`, `birthday`, `gender`, `occupation`, `homepage`, `icq`, `aim`, `yim`, `msn`, `skype`, `enabled`, `tcms_enabled`, `static_value`, `signature`, `location`, `hobby`) VALUES ('ccdc5cfffaf3cd9342e40dd9dcb3a3ff', 'Dolly', 'root', '5473e3f141e0328ce87dac9366e0aace', 'info@toenda.com', 'Administrator', '2006.01.22-22:26:44', '2007.02.24-01:28:12', '26.11.1982', '-', '', 'http://www.vandango.org', '', '', '', '', '', 1, 1, 1, '', '', ''),
+INSERT INTO `blog_user` (`uid`, `name`, `username`, `password`, `email`, `group`, `join_date`, `last_login`, `birthday`, `gender`, `occupation`, `homepage`, `icq`, `aim`, `yim`, `msn`, `skype`, `enabled`, `tcms_enabled`, `static_value`, `signature`, `location`, `hobby`) VALUES ('ccdc5cfffaf3cd9342e40dd9dcb3a3ff', 'Dolly', 'root', '5473e3f141e0328ce87dac9366e0aace', 'info@toenda.com', 'Administrator', '2006.01.22-22:26:44', '2007.03.04-15:18:50', '26.11.1982', '-', '', 'http://www.vandango.org', '', '', '', '', '', 1, 1, 1, '', '', ''),
 ('9e07ddbe2eb87663511e4716cb94eef2', 'writer', 'writer', 'a82feee3cc1af8bcabda979e8775ef0f', 'info@toenda.com', 'Writer', '2006.08.21-23:09:14', '2006.10.06-20:43:46', '01.1.', '-', '', '', '', '', '', '', '', 1, 1, 0, '', '', '');
 
 -- --------------------------------------------------------

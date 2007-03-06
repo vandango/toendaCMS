@@ -20,7 +20,7 @@
  *
  * This file is used for the database actions.
  *
- * @version 0.6.5
+ * @version 0.6.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -728,10 +728,12 @@ $tcms_db_port     = \''.$set_port.'\';
 	}
 	
 	
-	// update the var.xml file
-	$layout_xml = new xmlparser('../'.$tcms_administer_site.'/tcms_global/var.xml','r');
-	$ucs = $layout_xml->read_value('use_cs');
-	xmlparser::edit_value('../'.$tcms_administer_site.'/tcms_global/var.xml', 'use_cs', $ucs, '1');
+	if($new_update == '070'){
+		// update the var.xml file
+		$layout_xml = new xmlparser('../'.$tcms_administer_site.'/tcms_global/var.xml','r');
+		$ucs = $layout_xml->read_value('use_cs');
+		xmlparser::edit_value('../'.$tcms_administer_site.'/tcms_global/var.xml', 'use_cs', $ucs, '1');
+	}
 	
 	
 	// update the layout.xml file

@@ -22,6 +22,37 @@
 
 
 
+Version 1.6
+	- Version 1.6.0
+
+Developer Version
+	- 1.6.0 Development
+
+Building Steps: 2701
+
+
+
+ Version 1.6.0 Development
+-----------------------------------------------------------------
+
+ - bug #0000122: 
+
+ - security fixed: 
+
+ - bug fixed: 
+
+ - changed: 
+
+ - added: 
+
+
+
+############################################################################################
+
+
+
+
+
 Version 1.5
 	- Version 1.5.0
 
@@ -33,13 +64,30 @@ Developer Version
 	- 1.0.5 Development
 	- 1.0.6 Development
 	- 1.0.7 Development
-	- 1.5.0 Development
+	- 1.5.0 Stable
+	- 1.5.1 Stable
 
-Building Steps: 2700
+Building Steps: 2702
 
 
 
- Version 1.5.0 Development
+ Version 1.5.1 Stable
+-----------------------------------------------------------------
+
+ - bug #0000122: 
+
+ - security fixed: 
+
+ - bug fixed: update bug fixed
+
+ - changed: 
+
+ - added: 
+
+
+
+
+ Version 1.5.0 Stable
 -----------------------------------------------------------------
 
  - bug #0000122: login on frontpage

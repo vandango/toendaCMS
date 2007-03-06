@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <version>
-	<release>1.5.0</release>
+	<release>1.5.1</release>
 	<codename>Yokohama</codename>
+	<codename>Osaka</codename>
 	
-	<status>Development</status>
 	<status>Stable</status>
+	<status>Development</status>
 	<status>RC1</status>
 	<status>Beta</status>
 	
-	<build>Build 2700</build>
+	<build>Build 2702</build>
 	<name>toendaCMS</name>
 	<tagline>Your ideas ahead</tagline>
-	<release_date>04.03.2007 - 15:00</release_date>
+	<release_date>06.03.2007 - 12:28</release_date>
 	<toenda_copyright>2003 - 2007</toenda_copyright>
 </version>
