@@ -1,15 +1,15 @@
 <?php /* _\|/_
-         (o o)
+(o o)
 +-----oOO-{_}-OOo--------------------------------------------------------+
 | toendaCMS - Content Management and Weblogging System with XML and SQL  |
 +------------------------------------------------------------------------+
 | Copyright (c) Toenda Software Development                              |
 | Author: Jonathan Naumann                                               |
 +------------------------------------------------------------------------+
-| 
-| Toolbar for Knowledgebase
 |
-| File:		tb_knowledgebase.php
+| Toolbar for news manager
+|
+| File:	tb_news.php
 |
 +
 */
@@ -19,38 +19,54 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 /**
- * Toolbar for Knowledgebase
+ * Toolbar for news manager
  *
- * This is used as toolbar for the Knowledgebase.
+ * This is used as toolbar for the content manager.
  *
- * @version 0.1.2
+ * @version 0.0.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
  */
 
 
-if(isset($_GET['type'])){ $type = $_GET['type']; }
-
-
 switch($todo){
 	case 'edit':
 		echo '<img src="../images/admin_menu/line.gif" border="0" />';
-		//echo '<a style="padding: 3px 3px 0 3px;" href="admin.php?id_user='.$id_user.'&amp;site='.$site.'"><img title="'._TCMS_ADMIN_BACK.'" alt="'._TCMS_ADMIN_BACK.'" src="../images/admin_menu/back.png" border="0" /></a>';
 		
-		echo '<a style="padding: 3px 3px 0 3px;" href="javascript:history.back();">'
+		echo '<a style="padding: 3px 3px 0 3px;" href="admin.php?id_user='.$id_user.'&amp;site=mod_news">'
 		.'<img title="'._TCMS_ADMIN_BACK.'" alt="'._TCMS_ADMIN_BACK.'" src="../images/admin_menu/back.png" border="0" />'
 		.'</a>';
 		
 		echo '<img src="../images/admin_menu/line.gif" border="0" />';
 		
-		echo '<a style="padding: 3px 3px 0 3px;" href="admin.php?id_user='.$id_user.'&amp;site='.$site.'&amp;todo=edit'.( isset($category) ? '&amp;category='.$category : '' ).'">'
-		.'<img title="'._TCMS_ADMIN_NEW.'" alt="'._TCMS_ADMIN_NEW.'" src="../images/admin_menu/new_file.png" border="0" />'
-		.'</a>';
+		if($show_wysiwyg == 'tinymce' && $todo != 'config'){
+			echo '<a style="padding: 3px 3px 0 3px;" href="javascript:tinyMCE.triggerSave();tinyMCE.updateContent(\'content\');save();">'
+			.'<img title="'._TCMS_ADMIN_SAVE.'" alt="'._TCMS_ADMIN_SAVE.'" src="../images/admin_menu/save.png" border="0" />'
+			.'</a>';
+		}
+		else {
+			echo '<a style="padding: 3px 3px 0 3px;" href="javascript:save();">'
+			.'<img title="'._TCMS_ADMIN_SAVE.'" alt="'._TCMS_ADMIN_SAVE.'" src="../images/admin_menu/save.png" border="0" />'
+			.'</a>';
+		}
 		
-		if($show_wysiwyg == 'tinymce' 
-		&& $todo != 'config'
-		&& $type != 'c'){
+		if($show_wysiwyg == 'tinymce' && $todo != 'config'){
+			echo '<a style="padding: 3px 3px 0 3px;" href="javascript:gebi(\'draft\').value=\'0\';tinyMCE.triggerSave();tinyMCE.updateContent(\'content\');save();">'
+			.'<img title="'._TCMS_ADMIN_APPLY.'" alt="'._TCMS_ADMIN_APPLY.'" src="../images/admin_menu/apply.png" border="0" />'
+			.'</a>';
+		}
+		else {
+			echo '<a style="padding: 3px 3px 0 3px;" href="javascript:apply();">'
+			.'<img title="'._TCMS_ADMIN_APPLY.'" alt="'._TCMS_ADMIN_APPLY.'" src="../images/admin_menu/apply.png" border="0" />'
+			.'</a>';
+		}
+		break;
+	
+	case 'config':
+		echo '<img src="../images/admin_menu/line.gif" border="0" />';
+		
+		if($show_wysiwyg == 'tinymce' && $todo != 'config'){
 			echo '<a style="padding: 3px 3px 0 3px;" href="javascript:tinyMCE.triggerSave();tinyMCE.updateContent(\'content\');save();">'
 			.'<img title="'._TCMS_ADMIN_SAVE.'" alt="'._TCMS_ADMIN_SAVE.'" src="../images/admin_menu/save.png" border="0" />'
 			.'</a>';
@@ -62,20 +78,6 @@ switch($todo){
 		}
 		break;
 	
-	case 'config':
-		echo '<img src="../images/admin_menu/line.gif" border="0" />';
-		
-		echo '<a style="padding: 3px 3px 0 3px;" href="admin.php?id_user='.$id_user.'&amp;site='.$site.'">'
-		.'<img title="'._TCMS_ADMIN_BACK.'" alt="'._TCMS_ADMIN_BACK.'" src="../images/admin_menu/back.png" border="0" />'
-		.'</a>';
-		
-		echo '<img src="../images/admin_menu/line.gif" border="0" />';
-		
-		echo '<a style="padding: 3px 3px 0 3px;" href="javascript:save();">'
-		.'<img title="'._TCMS_ADMIN_SAVE.'" alt="'._TCMS_ADMIN_SAVE.'" src="../images/admin_menu/save.png" border="0" />'
-		.'</a>';
-		break;
-	
 	default:
 		echo '<img src="../images/admin_menu/line.gif" border="0" />';
 		
@@ -84,17 +86,13 @@ switch($todo){
 		.'</a>';
 		
 		echo '<img src="../images/admin_menu/line.gif" border="0" />';
-		
-		echo '<a style="padding: 3px 3px 0 3px;" href="admin.php?id_user='.$id_user.'&amp;site='.$site.'&amp;todo=edit&amp;type=c">'
-		.'<img title="'._TCMS_ADMIN_NEW_CATEGORY.'" alt="'._TCMS_ADMIN_NEW_CATEGORY.'" src="../images/admin_menu/create_cat.png" border="0" />'
-		.'</a>';
-		
-		echo '<a style="padding: 3px 3px 0 3px;" href="admin.php?id_user='.$id_user.'&amp;site='.$site.'&amp;todo=edit&amp;type=a">'
-		.'<img title="'._TCMS_ADMIN_NEW.'" alt="'._TCMS_ADMIN_NEW.'" src="../images/admin_menu/new_file.png" border="0" />'
+
+		echo '<a style="padding: 3px 3px 0 3px;" '
+		.'href="admin.php?id_user='.$id_user.'&amp;site=mod_news&amp;todo=edit">'
+		.'<img title="'._TCMS_ADMIN_NEW.'" alt="'._TCMS_ADMIN_NEW.'" '
+		.'src="../images/admin_menu/new_file.png" border="0" />'
 		.'</a>';
 		break;
 }
-
-
 
 ?>
