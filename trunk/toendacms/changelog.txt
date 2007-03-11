@@ -67,7 +67,23 @@ Developer Version
 	- 1.5.0 Stable
 	- 1.5.1 Stable
 
-Building Steps: 2702
+Building Steps: 2705
+
+
+
+ Version 1.5.2 Stable
+-----------------------------------------------------------------
+
+ - bug #0000122: 
+
+ - security fixed: 
+
+ - bug fixed: newsmanager now with save button
+
+ - changed: 
+
+ - added: 
+
 
 
 
