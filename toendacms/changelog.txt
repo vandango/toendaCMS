@@ -28,7 +28,7 @@ Version 1.6
 Developer Version
 	- 1.6.0 Development
 
-Building Steps: 2701
+Building Steps: 2706
 
 
 
@@ -66,8 +66,26 @@ Developer Version
 	- 1.0.7 Development
 	- 1.5.0 Stable
 	- 1.5.1 Stable
+	- 1.5.2 Stable
+	- 1.5.3 Stable
 
-Building Steps: 2705
+Building Steps: 2706
+
+
+
+ Version 1.5.3 Stable
+-----------------------------------------------------------------
+
+ - bug #0000122: 
+
+ - security fixed: 
+
+ - bug fixed: seo with : now with the lang var
+
+ - changed: 
+
+ - added: 
+
 
 
 
