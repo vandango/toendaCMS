@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used for the search engine
  * optimization.
  *
- * @version 0.3.1
+ * @version 0.3.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -194,8 +194,8 @@ class tcms_seo {
 				$arrSEO['c'] = substr($urlValue, 2, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 2 ));
 			}
 			
-			if(substr($urlValue, 0, 4) == 'lang:' && $urlKey > 4){
-				$arrSEO['c'] = substr($urlValue, 4, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 4 ));
+			if(substr($urlValue, 0, 5) == 'lang:' && $urlKey > 2){
+				$arrSEO['lang'] = substr($urlValue, 5, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 5 ));
 			}
 		}
 		
