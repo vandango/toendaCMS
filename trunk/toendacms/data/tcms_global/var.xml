@@ -2,10 +2,10 @@
 	<menu>1</menu>
 	<second_menu>1</second_menu>
 	<meta></meta>
-	<charset>ISO-8859-1</charset>
+	<charset>ISO-8859-15</charset>
 	<wysiwyg>tinymce</wysiwyg>
 	<lang>english_EN</lang>
-	<front_lang>english_EN</front_lang>
+	<front_lang>germany_DE</front_lang>
 	<description></description>
 	<currency>EUR</currency>
 	<toendacms_in_sitetitle>0</toendacms_in_sitetitle>
@@ -25,7 +25,7 @@
 	<captcha_clean_size>1024</captcha_clean_size>
 	<show_doc_autor>0</show_doc_autor>
 	<admin_topmenu>0</admin_topmenu>
-	<pathway_char>»</pathway_char>
+	<pathway_char>></pathway_char>
 	<anti_frame>1</anti_frame>
 	<revisit_after>2</revisit_after>
 	<robotsfile>http://www.toenda.com/robots.txt</robotsfile>

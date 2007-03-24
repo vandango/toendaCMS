@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a search module.
  *
- * @version 0.5.2
+ * @version 0.5.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -81,7 +81,17 @@ echo '<div style="display:block; width:120px; float:left;">'
 .'</label>'
 .'</div>';
 
-if(in_array('newsmanager', $arr_side_navi['url']) || in_array('newsmanager', $arr_top_navi['id'])){
+if($choosenDB == 'xml') {
+	if(in_array('newsmanager', $arr_side_navi['url']) || in_array('newsmanager', $arr_top_navi['id'])){
+		echo '<div style="display:block; width:120px; float:left;">'
+		.'<label for="news">'
+		.'<input type="radio" style="border: 0px !important;" id="news" name="option" value="news"'.( $option == 'news' ? ' checked="checked"' : '' ).' />'
+		.'&nbsp;'._TCMS_MENU_NEWS
+		.'</label>'
+		.'</div>';
+	}
+}
+else {
 	echo '<div style="display:block; width:120px; float:left;">'
 	.'<label for="news">'
 	.'<input type="radio" style="border: 0px !important;" id="news" name="option" value="news"'.( $option == 'news' ? ' checked="checked"' : '' ).' />'
@@ -90,7 +100,17 @@ if(in_array('newsmanager', $arr_side_navi['url']) || in_array('newsmanager', $ar
 	.'</div>';
 }
 
-if(in_array('products', $arr_side_navi['url']) || in_array('products', $arr_top_navi['id'])){
+if($choosenDB == 'xml') {
+	if(in_array('products', $arr_side_navi['url']) || in_array('products', $arr_top_navi['id'])){
+		echo '<div style="display:block;">'
+		.'<label for="pro">'
+		.'<input type="radio" style="border: 0px !important;" name="option" id="pro" value="pro"'.( $option == 'pro' ? ' checked="checked"' : '' ).' />'
+		.'&nbsp;'._TCMS_MENU_PRODUCTS
+		.'</label>'
+		.'</div>';
+	}
+}
+else {
 	echo '<div style="display:block;">'
 	.'<label for="pro">'
 	.'<input type="radio" style="border: 0px !important;" name="option" id="pro" value="pro"'.( $option == 'pro' ? ' checked="checked"' : '' ).' />'
@@ -99,7 +119,17 @@ if(in_array('products', $arr_side_navi['url']) || in_array('products', $arr_top_
 	.'</div>';
 }
 
-if(in_array('download', $arr_side_navi['url']) || in_array('download', $arr_top_navi['id'])){
+if($choosenDB == 'xml') {
+	if(in_array('download', $arr_side_navi['url']) || in_array('download', $arr_top_navi['id'])){
+		echo '<div style="display:block; width:120px; float:left;">'
+		.'<label for="down">'
+		.'<input type="radio" style="border: 0px !important;" id="down" name="option" value="down"'.( $option == 'down' ? ' checked="checked"' : '' ).' />'
+		.'&nbsp;'._TCMS_MENU_DOWN
+		.'</label>'
+		.'</div>';
+	}
+}
+else {
 	echo '<div style="display:block; width:120px; float:left;">'
 	.'<label for="down">'
 	.'<input type="radio" style="border: 0px !important;" id="down" name="option" value="down"'.( $option == 'down' ? ' checked="checked"' : '' ).' />'
@@ -108,7 +138,17 @@ if(in_array('download', $arr_side_navi['url']) || in_array('download', $arr_top_
 	.'</div>';
 }
 
-if(in_array('imagegallery', $arr_side_navi['url']) || in_array('imagegallery', $arr_top_navi['id'])){
+if($choosenDB == 'xml') {
+	if(in_array('imagegallery', $arr_side_navi['url']) || in_array('imagegallery', $arr_top_navi['id'])){
+		echo '<div style="display:block; width:120px; float:left;">'
+		.'<label for="img">'
+		.'<input type="radio" style="border: 0px !important;" id="img" name="option" value="img"'.( $option == 'img' ? ' checked="checked"' : '' ).' />'
+		.'&nbsp;'._TABLE_IMAGE
+		.'</label>'
+		.'</div>';
+	}
+}
+else {
 	echo '<div style="display:block; width:120px; float:left;">'
 	.'<label for="img">'
 	.'<input type="radio" style="border: 0px !important;" id="img" name="option" value="img"'.( $option == 'img' ? ' checked="checked"' : '' ).' />'
@@ -117,7 +157,16 @@ if(in_array('imagegallery', $arr_side_navi['url']) || in_array('imagegallery', $
 	.'</div>';
 }
 
-if(in_array('knowledgebase', $arr_side_navi['url']) || in_array('knowledgebase', $arr_top_navi['id'])){
+if($choosenDB == 'xml') {
+	if(in_array('knowledgebase', $arr_side_navi['url']) || in_array('knowledgebase', $arr_top_navi['id'])){
+		echo '<div style="display:block; width:120px; float:left;">'
+		.'<label for="faq"><input type="radio" style="border: 0px !important;" id="faq" name="option" value="faq"'.( $option == 'faq' ? ' checked="checked"' : '' ).' />'
+		.'&nbsp;'._TCMS_MENU_FAQ
+		.'</label>'
+		.'</div>';
+	}
+}
+else {
 	echo '<div style="display:block; width:120px; float:left;">'
 	.'<label for="faq"><input type="radio" style="border: 0px !important;" id="faq" name="option" value="faq"'.( $option == 'faq' ? ' checked="checked"' : '' ).' />'
 	.'&nbsp;'._TCMS_MENU_FAQ

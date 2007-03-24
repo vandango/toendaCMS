@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.0.0
+ * @version 2.0.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -1232,7 +1232,26 @@ class tcms_main {
 				
 				$text = str_replace('__________', '=', $text);
 				
-				$text = strtr($text, $trans);
+				//$text = strtr($text, $trans);
+				//$text = html_entity_decode($text, null, $charset);
+				//$text = htmlentities($text, null, $charset);
+				
+				$xml = new xmlparser($this->administer.'/tcms_global/var.xml', 'r');
+				$lang = $xml->read_section('global', 'front_lang');
+				
+				//echo ( phpversion() >= '5.1.6' ? phpversion().' >= 5.1.6' : '< 5.1.6' ).' - '.$lang;
+				
+				if(phpversion() >= '5.1.6' && $lang == 'germany_DE') {
+					//echo phpversion().' >= 5.1.6';
+					$text = htmlspecialchars_decode($text);
+					//$text = strtr($text, $trans);
+				}
+				else {
+					//echo '< 5.1.6';
+					$text = strtr($text, $trans);
+				}
+				
+				//echo '</br>';
 				
 				$text = stripslashes($text);
 				break;

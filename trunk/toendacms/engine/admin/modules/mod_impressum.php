@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the publishing form.
  *
- * @version 0.6.2
+ * @version 0.6.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -290,7 +290,7 @@ if($id_group == 'Developer'
 		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
 		.'<strong class="tcms_bold">'._IMPRESSUM_CONTACT.'</strong>'
 		.'</td><td valign="top">'
-		.'<select class="tcms_select" onchange="document.location=\'admin.php?id_user='.$id_user.'&site=mod_impressum&vall=\'+this.value;">'
+		.'<select class="tcms_select" onchange="document.location=\'admin.php?id_user='.$id_user.'&site=mod_impressum&lang='.$tcms_config->getLanguageCodeByTCMSCode($old_imp_lang).'&vall=\'+this.value;">'
 		.'<option value=""> &bull; '._IMPRESSUM_SELECT.' &bull; </option>'
 		.'<option value="no_contact"'.( $vall == 'no_contact' || $test_imp_contact == 'no_contact' ? ' selected="selected"' : '' ).'> &bull; '._IMPRESSUM_NO_CONTACT.' &bull; </option>';
 		
