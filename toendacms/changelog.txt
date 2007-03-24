@@ -69,7 +69,7 @@ Developer Version
 	- 1.5.2 Stable
 	- 1.5.3 Stable
 
-Building Steps: 2706
+Building Steps: 2712
 
 
 
@@ -81,6 +81,10 @@ Building Steps: 2706
  - security fixed: 
 
  - bug fixed: seo with : now with the lang var
+ - bug fixed: language setting for the frontpage is wrong
+ - bug fixed: html entitie encode is wrong (now with another
+              decrypotion if php is 5.2.0 or newer)
+ - bug fixed: bug on chaniging contact person with another language as the default
 
  - changed: 
 
