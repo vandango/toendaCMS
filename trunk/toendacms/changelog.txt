@@ -68,8 +68,25 @@ Developer Version
 	- 1.5.1 Stable
 	- 1.5.2 Stable
 	- 1.5.3 Stable
+	- 1.5.4 Stable
 
-Building Steps: 2713
+Building Steps: 2714
+
+
+
+ Version 1.5.4 Stable
+-----------------------------------------------------------------
+
+ - bug #0000122: 
+
+ - security fixed: 
+
+ - bug fixed: tree view for the webpage tree (backend)
+
+ - changed: 
+
+ - added: 
+
 
 
 
