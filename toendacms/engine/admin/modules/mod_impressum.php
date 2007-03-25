@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the publishing form.
  *
- * @version 0.6.3
+ * @version 0.6.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -531,7 +531,7 @@ if($id_group == 'Developer'
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('imp');
 			
-			$xmluser->write_value('imp_id', $imp_id);
+			$xmluser->write_value('imp_id', 'impressum');
 			$xmluser->write_value('imp_title', $imp_title);
 			$xmluser->write_value('imp_stamp', $imp_stamp);
 			$xmluser->write_value('imp_contact', $imp_contact);
@@ -549,7 +549,7 @@ if($id_group == 'Developer'
 			
 			if($lang_exist > 0) {
 				$newSQLData = ''
-				.$tcms_db_prefix.'impressum.imp_id="'.$imp_id.'", '
+				.$tcms_db_prefix.'impressum.imp_id="impressum", '
 				.$tcms_db_prefix.'impressum.imp_title="'.$imp_title.'", '
 				.$tcms_db_prefix.'impressum.imp_stamp="'.$imp_stamp.'", '
 				.$tcms_db_prefix.'impressum.imp_contact="'.$imp_contact.'", '
@@ -595,7 +595,7 @@ if($id_group == 'Developer'
 						break;
 				}
 				
-				$newSQLData = "'".$imp_id."', '".$imp_title."', '".$imp_stamp."', '".$imp_contact."', "
+				$newSQLData = "'impressum', '".$imp_title."', '".$imp_stamp."', '".$imp_contact."', "
 				."'".$taxno."', '".$ustid."', '".$content."', '".$setLang."'";
 				
 				$maintag = $tcms_main->getNewUID(9, 'impressum');
@@ -614,7 +614,7 @@ if($id_group == 'Developer'
 			$setLang = $tcms_config->getLanguageCodeByTCMSCode($setLang);
 			
 			echo '<script>'
-			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_impressum&$imp_contact='.$imp_contact
+			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_impressum&imp_contact='.$imp_contact
 			.'&lang='.$setLang.'\''
 			.'</script>';
 		}
