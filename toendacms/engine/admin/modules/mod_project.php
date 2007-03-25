@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a filemanager for all Sites
  *
- * @version 0.4.3
+ * @version 0.4.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -564,15 +564,16 @@ if($sidemenu_active == 1){
 				
 				echo 'd2.add('.$iCounterPages.', 0, \''.$arr_exp['name'][$ekey].'\', \''.$prjLink.'\');'.chr(13);
 				
-				$iSub = 1;
+				$iSub = $iCounterPages;
 			}
 			else {
-				echo 'd2.add('.$iSub.', '.$iCounterPages.', \''.$arr_exp['name'][$ekey].'\', \''.$prjLink.'\');'.chr(13);
+				echo 'd2.add('.$iCounterPages.', '.$iSub.', \''.$arr_exp['name'][$ekey].'\', \''.$prjLink.'\');'.chr(13);
 				
-				$iSub++;
+				//$iSub++;
 			}
 			
 			
+			$iCounterPages++;
 			$tbMod = false;
 		}
 	}
