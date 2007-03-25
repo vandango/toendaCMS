@@ -69,7 +69,7 @@ Developer Version
 	- 1.5.2 Stable
 	- 1.5.3 Stable
 
-Building Steps: 2712
+Building Steps: 2713
 
 
 
@@ -86,7 +86,8 @@ Building Steps: 2712
               decrypotion if php is 5.2.0 or newer)
  - bug fixed: bug on chaniging contact person with another language as the default
 
- - changed: 
+ - changed: the language selector in the global settings are now without language code
+ - changed:
 
  - added: 
 

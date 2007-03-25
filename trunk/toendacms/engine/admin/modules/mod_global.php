@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * This module is for the global configuration settings.
  * 
- * @version 1.2.1
+ * @version 1.2.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Admin Backend
@@ -478,9 +478,13 @@ if($id_group == 'Developer'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_LANG.'</td>'
 		.'<td>'
 		.'<select name="tmp_lang" class="tcms_select">';
+		
 		foreach($arr_lang as $lg_key => $lg_value){
-			echo '<option value="'.$lg_value.'"'.( $old_lang == $lg_value ? ' selected="selected"' : '' ).'>'.$lg_value.'</option>';
+			echo '<option value="'.$lg_value.'"'
+			.( $old_lang == $lg_value ? ' selected="selected"' : '' )
+			.'>'.$tcms_main->getLanguageNameByTCMSLanguageCode($languages, $lg_value).'</option>';
 		}
+		
 		echo '</select></td></tr>';
 		
 		
@@ -488,9 +492,13 @@ if($id_group == 'Developer'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_FRONT_LANG.'</td>'
 		.'<td>'
 		.'<select name="tmp_front_lang" class="tcms_select">';
+		
 		foreach($arr_lang as $lg_key => $lg_value){
-			echo '<option value="'.$lg_value.'"'.( $old_front_lang == $lg_value ? ' selected="selected"' : '' ).'>'.$lg_value.'</option>';
+			echo '<option value="'.$lg_value.'"'
+			.( $old_front_lang == $lg_value ? ' selected="selected"' : '' )
+			.'>'.$tcms_main->getLanguageNameByTCMSLanguageCode($languages, $lg_value).'</option>';
 		}
+		
 		echo '</select></td></tr>';
 		
 		
