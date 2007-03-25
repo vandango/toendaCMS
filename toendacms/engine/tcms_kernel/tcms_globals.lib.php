@@ -90,7 +90,7 @@ $languages['code'][8] = 'portugues_BR';
 $languages['name'][8] = _LANG_PORTUGUES;
 $languages['fine'][8] = 'br';
 
-$languages['code'][9] = 'romanian_ro';
+$languages['code'][9] = 'romanian_RO';
 $languages['name'][9] = _LANG_ROMANIAN;
 $languages['fine'][9] = 'ro';
 
