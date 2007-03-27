@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><cs>
+	<title>Calendar</title>
+	<subtitle>... day to day.</subtitle>
+	<desc></desc>
+	<id>calendar</id>
+	<enabled>1</enabled>
+	<mainCS>1</mainCS>
+	<sideCS>0</sideCS>
+	<sideSort>0</sideSort>
+	<access>Public</access>
+	<folder>calendar</folder>
+	<backendfile>backend.php</backendfile>
+	<frontendfile>calendar.php</frontendfile>
+	<sidebarfile>calendar_sb.php</sidebarfile>
+	<settingsfile>calendar.xml</settingsfile>
+
+</cs>
