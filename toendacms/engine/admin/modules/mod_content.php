@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a documents manager.
  *
- * @version 1.1.1
+ * @version 1.1.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -357,6 +357,9 @@ if($id_group == 'Developer'
 					$arr_content['tag'][$key] = substr($arr_content['tag'][$key], 0, 5);
 					
 					$wsLang = '&amp;lang='.$tcms_config->getLanguageCodeByTCMSCode($wsLang);
+				}
+				else {
+					$wsLang = '';
 				}
 				
 				$strJS = ' onclick="document.location=\'admin.php?id_user='.$id_user.'&amp;site=mod_content'
