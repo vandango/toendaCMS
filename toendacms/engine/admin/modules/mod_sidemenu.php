@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the sidemenu items.
  *
- * @version 0.6.3
+ * @version 0.6.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -517,7 +517,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		
 		foreach($languages['code'] as $key => $value) {
 			if($value != $tcms_config->getLanguageCode(true)) {
-				if($tm_lang == $value)
+				if($sm_lang == $value)
 					$dl = ' selected="selected"';
 				else
 					$dl = '';

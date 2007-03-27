@@ -70,7 +70,7 @@ Developer Version
 	- 1.5.3 Stable
 	- 1.5.4 Stable
 
-Building Steps: 2714
+Building Steps: 2715
 
 
 
@@ -82,6 +82,7 @@ Building Steps: 2714
  - security fixed: 
 
  - bug fixed: tree view for the webpage tree (backend)
+ - bug fixed: the language selector selects not the lcorrect language in the sidemenu editor
 
  - changed: 
 
