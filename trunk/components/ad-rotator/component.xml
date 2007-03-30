@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><cs>
+	<title>AdRotator</title>
+	<subtitle>... you can see me</subtitle>
+	<desc></desc>
+	<id>ad-rotator</id>
+	<enabled>1</enabled>
+	<mainCS>1</mainCS>
+	<sideCS>0</sideCS>
+	<sideSort>1</sideSort>
+	<access>Public</access>
+	<folder>ad-rotator</folder>
+	<backendfile>backend.php</backendfile>
+	<frontendfile>ad-rotator.php</frontendfile>
+	<sidebarfile>ad-rotator_sb.php</sidebarfile>
+	<settingsfile>ad-rotator.xml</settingsfile>
+
+</cs>

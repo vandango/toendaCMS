@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><cs>
+	<title>Domain Checker</title>
+	<subtitle>... you can see me</subtitle>
+	<desc></desc>
+	<id>domainchecker</id>
+	<enabled>1</enabled>
+	<mainCS>1</mainCS>
+	<sideCS>0</sideCS>
+	<sideSort>1</sideSort>
+	<access>Public</access>
+	<folder>domainchecker</folder>
+	<backendfile>backend.php</backendfile>
+	<frontendfile>domainchecker.php</frontendfile>
+	<sidebarfile>domainchecker_sb.php</sidebarfile>
+	<settingsfile>domainchecker.xml</settingsfile>
+
+</cs>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><cs>
+	<title>contactpro</title>
+	<subtitle>... you can see me</subtitle>
+	<desc></desc>
+	<id>contactpro</id>
+	<enabled>1</enabled>
+	<mainCS>1</mainCS>
+	<sideCS>0</sideCS>
+	<sideSort>1</sideSort>
+	<access>Public</access>
+	<folder>contactpro</folder>
+	<backendfile>backend.php</backendfile>
+	<frontendfile>contactpro.php</frontendfile>
+	<sidebarfile></sidebarfile>
+	<settingsfile>contactpro.xml</settingsfile>
+
+</cs>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><cs>
+	<title>Diary</title>
+	<subtitle>Organize your time</subtitle>
+	<desc></desc>
+	<id>diary</id>
+	<enabled>1</enabled>
+	<mainCS>1</mainCS>
+	<sideCS>1</sideCS>
+	<sideSort>1</sideSort>
+	<access>Public</access>
+	<folder>diary</folder>
+	<backendfile>backend.php</backendfile>
+	<frontendfile>diary.php</frontendfile>
+	<sidebarfile>diary_sb.php</sidebarfile>
+	<settingsfile>diary.xml</settingsfile>
+
+</cs>
