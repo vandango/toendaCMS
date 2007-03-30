@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?><cam>
+	<sb_webcam_title encode="1">Webcam</sb_webcam_title>
+	<sb_webcam_subtitle encode="1">See me working ...</sb_webcam_subtitle>
+	<sb_show_webcam_title>1</sb_show_webcam_title>
+	<sb_font_style>font-family: arial, verdana; font-size: 11px;</sb_font_style>
+	<sb_image_width>150</sb_image_width>
+	<refresh>30</refresh>
+	<webcam_title encode="1">Webcam</webcam_title>
+	<webcam_subtitle encode="1">See me working ...</webcam_subtitle>
+	<show_webcam_title>1</show_webcam_title>
+	<font_style>font-family: arial, verdana; font-size: 11px;</font_style>
+	<image_width>450</image_width>
+</cam>

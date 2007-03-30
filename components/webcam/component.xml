@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><cs>
+	<title>Webcam</title>
+	<subtitle>... you can see me</subtitle>
+	<desc></desc>
+	<id>webcam</id>
+	<enabled>1</enabled>
+	<mainCS>1</mainCS>
+	<sideCS>0</sideCS>
+	<sideSort>1</sideSort>
+	<access>Public</access>
+	<folder>webcam</folder>
+	<backendfile>backend.php</backendfile>
+	<frontendfile>webcam.php</frontendfile>
+	<sidebarfile>webcam_sb.php</sidebarfile>
+	<settingsfile>webcam.xml</settingsfile>
+
+</cs>
