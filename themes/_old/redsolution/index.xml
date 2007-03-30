@@ -1,0 +1,7 @@
+<template>
+	<name>Red Solution</name>
+	<autor>Jonathan Naumann :: Toenda - The Software Company</autor>
+	<url>www.toenda.com</url>
+	<version>1.3</version>
+	<desc>The first default theme of ToendaCAS.</desc>
+</template>

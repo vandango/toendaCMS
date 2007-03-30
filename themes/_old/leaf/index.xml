@@ -1,0 +1,7 @@
+<template>
+	<name>leaf</name>
+	<autor>Jonathan Naumann - Toenda Software Development</autor>
+	<url>www.toenda.com</url>
+	<desc>A small, lightweight Theme for toendaCMS. Based on Leaf Skin for NucleusCMS.</desc>
+	<version>1.5</version>
+</template>

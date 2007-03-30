@@ -1,0 +1,7 @@
+<template>
+	<name>Rounders</name>
+	<autor>Douglas Bowman</autor>
+	<url>www.stopdesign.com</url>
+	<desc>A port of Rounders from Blogger.com. Ported by Jonathan Naumann.</desc>
+	<version>1.0</version>
+</template>

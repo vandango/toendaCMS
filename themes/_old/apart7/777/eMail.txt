@@ -1,0 +1,41 @@
+Subject:
+Re: Hi
+From:
+Ryan Sims <simmy@justwatchthesky.com>
+Date:
+Wed, 21 Sep 2005 10:10:07 -0400
+To:
+jonathan@toenda.com
+
+Jonathan, everything looks fine to me. Thanks for being honest.
+
+RDS
+
+
+On Sep 14, 2005, at 6:59 PM, jonathan@toenda.com wrote:
+
+> Hi
+>
+> im a guy from germany (city: bremen) and the maindeveloper of the  free OPEN-SOURCE
+> content management and weblogging system toendaCMS.
+>
+> i have found your css zengarden work and was very impressed.
+> its a very cool theme.
+>
+> so, i have now a question: i have designed a theme for my OPEN-SOURCE
+> content management and weblogging system toendaCMS and for my own
+> weblog (vandango.toenda.com) that is based on your css zengarden  files.
+>
+> but i have rewritten the most of the css files (mh, ca. 85%) and  changed somthing
+> of the html file and of the images, and changed the topbanner  complete.
+>
+> now my question:
+> -> is that ok for you? or should i change more of my template?
+>
+> thx for your time and thx for your answer
+> with freandly kind / regards
+>
+> jonathan naumann
+>
+
+

@@ -1,0 +1,461 @@
+/*****************************************************************
+* White Byte
+* Version 1.2
+* Copyright (C) 2003 - 2005 by Jonathan Naumann
+* Toenda - The Software Company - All rights reserved!
+*****************************************************************/
+
+
+/* ##################### GLOBALS ##################### */
+body {
+	margin           : 0px;
+	margin-top       : 10px;
+	padding          : 0px;
+	background       : url(../images/bg.gif) #F0F0F0;
+	font-family      : sans-serif;
+	font-size        : 12px;
+	color            : #000;
+}
+
+td, tr, p, div {
+	font-family      : sans-serif;
+	font-size        : 12px;
+	color            : #000;
+}
+
+hr {
+	color            : #E0E0E0;
+	height           : 1px;
+	width            : 100%;
+}
+
+.poll_sheet{
+	background-color : #eeeeee;
+	font-size        : 10px;
+	color            : #333333;
+}
+
+.text_small {
+	font-size        : 11px;
+}
+
+
+li{
+	display: block;
+	float: left;
+	clear: left;
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
+}
+
+ul{ list-style: none; padding: 0; margin: 0; }
+
+
+
+
+
+
+
+/* ##################### MUST BE ##################### */
+.contentheading {
+	font-family      : sans-serif;
+	font-size        : 14px;
+	font-weight      : bold;
+	color            : #333333;
+}
+.newsSubmit{
+	width: 400px;
+	height: 500px;
+	font-size: 11px;
+	font-family: "Trebuchet MS", Arial, Lucida Sans, Tahoma, Sans-Serif;
+	margin: 0 0 2px 0;
+	color: #494949;
+	border-top: 1px solid #868686;
+	border-left: 1px solid #868686;
+	border-bottom: 1px solid #D4D2CF;
+	border-right: 1px solid #D4D2CF;
+	background: white url(txbg.gif);
+}
+.contentstamp {
+	text-transform   : uppercase;
+	text-shadow      : black;
+	font-weight      : italic;
+	font-size        : 9px;
+	letter-spacing   : 5px;
+}
+.contentmain {
+	font-family: sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #111111;
+	text-align: left;
+}
+
+.sideheading {
+	font-family: sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	font-style: bold;
+	color: #333333;
+	text-align: left;
+}
+.sidemain {
+	font-family: sans-serif;
+	font-size: 9px;
+	padding: 3px;
+	color: #444444;
+}
+
+.imptitle {
+	font-family: sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	color : #333333;
+	padding-left: 10px;
+	text-align: left;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+}
+.impoffice {
+	padding-left: 46px;
+}
+
+.title {
+	font-family: sans-serif;
+	font-size: 20px;
+	font-weight: bold;
+	font-style: bold;
+	color : #000000;
+	margin-left: 10px;
+	text-transform   : normal;
+	text-shadow      : black;
+}
+a.index:hover {
+	text-decoration  : none;
+}
+.subtitle {
+	font-family      : sans-serif;
+	font-size        : 11px;
+	font-weight      : bold;
+	font-style       : bold;
+	color            : #666666;
+	margin-left      : 20px;
+	text-transform   : lowercase;
+	text-shadow      : black;
+	font-size        : 11px;
+	text-decoration  : none;
+	letter-spacing   : 5px;
+}
+
+.sub_title {
+	font-size        : 11px;
+	font-weight      : bold;
+	text-transform   : uppercase;
+	text-align       : center;
+	letter-spacing   : 1px;
+	color            : #444444;/*#044497;*/
+	height           : 20px;
+	vertical-align   : middle;
+}
+
+
+
+
+
+
+
+/*
+LOGIN
+*/
+.loginform{ width: 100px; }
+.logintext{ font-size: 12px; font-weight: bold; }
+
+.inputtext {
+	font-family: sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	color: #000000;
+	text-decoration: none;
+	background-color: #ffffff;
+	padding: 2px;
+	border: 1px solid #CCCCCC;
+}
+
+input:hover, .inputtext:hover {
+	border: solid 1px #d5d5d5;
+}
+
+.inputtextarea {
+	font-family: sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	color: #000000;
+	text-decoration: none;
+	background-color: #ffffff;
+	padding: 2px;
+	height: 150px;
+	width: 250px;
+	border: 1px solid #CCCCCC;
+}
+.inputbutton {
+	font-family: sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	color: #000000;
+	text-decoration: none;
+	background-color: #eeeeee;
+	border: solid 1px #d5d5d5;
+}
+.inputbutton:hover {
+	font-family: sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	color: #eeeeee;
+	text-decoration: none;
+	background-color: #333333;
+	border: solid 1px #d5d5d5;
+}
+
+
+
+
+
+
+
+
+
+.hr_line {
+	color            : #E0E0E0;
+	height           : 1px;
+	width            : 100%;
+}
+
+.titleBG {
+	background       : #e9e9e9;
+	padding-left     : 3px;
+	padding-right    : 3px;
+}
+.news_title_bg {
+	background       : #e9e9e9;
+	padding-left     : 3px;
+	padding-right    : 3px;
+}
+.news_content_bg {
+	background       : #fff;
+}
+
+
+
+
+
+
+
+
+
+/* PATHWAY */
+.pathway {
+	font-size        : 10px;
+	color            : #000;
+}
+a.pathway:link, a.pathway:visited {
+	font-size        : 10px;
+}
+a.pathway:hover {
+	font-size        : 10px;
+}
+
+/* LEGAL */
+a.legal:link, a.legal:visited {
+	font-size: 9px;
+	color: #808080;
+	text-decoration: none;
+	font-family: sans-serif;
+	font-weight: bold;
+}
+a.legal:hover {
+	color: #444444;
+	text-decoration: underline;
+}
+.legal {
+	font-size: 9px;
+	color: #444444;
+	font-family: sans-serif;
+	font-weight: normal;
+}
+
+/* MAINLEVEL */
+.mainlevel {
+	border           : 1px solid #e0e0e0;
+	height           : 20px;
+	display          : block;
+	float            : left;
+	width            : 182px;
+	color            : #444444;
+}
+a.mainlevel:link, a.mainlevel:visited {
+	background       : #fff;
+	text-decoration  : none;
+	padding-top      : 4px;
+	padding-left     : 10px;
+	color            : #444444;
+}
+a.mainlevel:hover {
+	border           : 1px solid #d0d0D0;
+	background       : #e9e9e9;
+	text-decoration  : none;
+	color            : #444444;
+}
+
+/* MAINLEVEL */
+.submenu, a.submenu:link, a.submenu:visited {
+	border: 1px solid #e0e0e0;
+	height: 15px;
+	width: 160px;
+	padding-left: 14px;
+	margin-left: 18px;
+	display: block;
+	float: left;
+	clear: left;
+	font-size        : 10px;
+	color            : #444444;
+	background       : #fff;
+	text-decoration: none;
+}
+a.submenu:hover {
+	border           : 1px solid #d0d0D0;
+	background       : #e9e9e9;
+	color            : #444444;
+}
+
+
+
+
+
+.menutitle {
+	color: #555555;
+	font-size: 14px;
+	font-weight: bold;
+	padding-left: 8px;
+	display: block;
+	float: left;
+	clear: left;
+	width: 180px;
+}
+
+
+
+
+
+
+/* TOPLEVEL */
+a.toplevel {
+	background       : #fff;
+	text-decoration  : none;
+	padding-top      : 4px;
+	padding-left     : 10px;
+	color            : #444444;
+}
+a.toplevel:hover {
+	border           : 1px solid #d0d0D0;
+	background       : #e9e9e9;
+	text-decoration  : none;
+	color            : #444444;
+}
+
+/* SUBLEVEL */
+.sublevel {
+	font-size        : 10px;
+	height           : 20px;
+	padding-top      : 5px;
+	background-color : #eeeeee;
+	border           : 1px solid #333333;
+	font-weight      : bold;
+	color            : #333333;
+	display          : block;
+	width            : 70px;
+}
+a.sublevel, a.sublevel:link, a.sublevel:active, a.sublevel:visited {
+	font-size        : 10px;
+	height           : 20px;
+	padding-top      : 5px;
+	color            : #333333;
+	background-color : #eeeeee;
+	border           : 1px solid #333333;
+	font-weight      : bold;
+	display          : block;
+	width            : 70px;
+}
+a.sublevel:hover {
+	color            : #f8f8f8;
+	background-color : #333333;
+}
+
+
+
+
+
+/* ##################### SITECSS ##################### */
+.mainbox {
+	border           : 1px solid #e0e0e0;
+	padding          : 9px;
+	width            : 780px;
+	background-color : #fff;
+}
+
+.headerbox {
+	height           : 70px;
+	border           : 1px solid #e0e0e0;
+	padding          : 1px;
+}
+
+.logobox {
+	width            : 100%;
+	float            : left;
+	height           : 66px;
+	background       : url('empty.jpeg') #e0e0e0 no-repeat right;
+}
+.imagebox {
+	border           : 1px solid #e0e0e0;
+	padding          : 1px;
+}
+
+.pathwaybox {
+	height           : 20px;
+	padding          : 5px;
+}
+
+.sidebox {
+	width            : 200px;
+	background-color : #F0F0F0;
+	border           : 1px solid #e0e0e0;
+}
+
+.modulebox {
+	width            : 100%;
+	padding          : 2px;
+}
+
+.bottombox {
+	border           : 1px solid #e0e0e0;
+	float            : right;
+	margin-top       : 10px;
+	margin-bottom    : 20px;
+	width            : 780px;
+	color            : #044497;
+	background       : #ffffff;
+}
+
+
+
+
+
+/* ########################### LINKS ########################## */
+a:link, a:visited {
+  color            : #555555;/*#044497;*/
+  text-decoration  : none;
+}
+
+a:hover {
+  color            : #F69804;
+  text-decoration  : underline;
+}
