@@ -70,7 +70,7 @@ Developer Version
 	- 1.5.3 Stable
 	- 1.5.4 Stable
 
-Building Steps: 2716
+Building Steps: 2720
 
 
 
@@ -85,7 +85,7 @@ Building Steps: 2716
  - bug fixed: the language selector selects not the lcorrect language in the sidemenu editor
  - bug fixed: all documents in the document list have the lang variable
 
- - changed: 
+ - changed: impressum (publishing form) and memberlist now with the html title formater
 
  - added: 
 

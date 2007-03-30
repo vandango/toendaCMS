@@ -605,3 +605,23 @@ a.products_top:hover { color: #000000; }
 }
 
 
+
+/*
+	language selector
+*/
+
+.langSelector {
+	position: absolute;
+	top: 3px;
+	left: 190px;
+}
+
+a.langSelectorLink,
+a.langSelectorLink:link,
+a.langSelectorLink:visited,
+a.langSelectorLink:active {
+}
+
+a.langSelectorLink:hover {
+}
+

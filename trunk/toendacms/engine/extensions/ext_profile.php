@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a base module fpr user operations.
  *
- * @version 0.9.8
+ * @version 0.9.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -1785,11 +1785,11 @@ if($todo != 'submitNews' && $todo != 'submitImages' && $todo != 'createAlbum' &&
 
 if($action == 'list'){
 	if($show_ml == 1){
-		echo tcms_html::contentheading(_LOGIN_LIST).'<br />';
-		echo tcms_html::contentmain(_LOGIN_LIST_TEXT);
-		echo '<br />';
-		echo '<br />';
-		echo '<br />';
+		echo $tcms_html->contentModuleHeader(
+			_LOGIN_LIST, 
+			_LOGIN_LIST_TEXT, 
+			''
+		);
 		
 		$count = 0;
 		
@@ -1891,10 +1891,10 @@ if($action == 'list'){
 		$width_6 = '10%';
 		//$width_7 = '15%';
 		
-		echo tcms_html::table_head_cl('0', '0', '0', '95%', 'text_normal');
+		echo tcms_html::table_head_cl('0', '0', '0', '100%', 'text_normal');
 		
 		echo '<tr height="21">'
-		.'<th valign="top" class="titleBG" width="'.$width_1.'">'._TABLE_NAME.'</th>'
+		.'<th valign="top" class="titleBG" width="'.$width_1.'" align="left">'._TABLE_NAME.'</th>'
 		.'<th valign="top" class="titleBG" width="'.$width_2.'" align="left">'._TABLE_USERNAME.'</th>'
 		.'<th valign="top" class="titleBG" width="'.$width_3.'" align="left">'._PERSON_JOINDATE.'</th>'
 		.'<th valign="top" class="titleBG" width="'.$width_4.'" align="left">'._PERSON_LASTLOGIN.'</th>'

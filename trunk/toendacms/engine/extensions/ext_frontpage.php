@@ -74,7 +74,11 @@ $hr_line_4 = '<div style="height: '.$news_spacing.'px;">&nbsp;</div>';
 if(!isset($show)){ $show = 'start'; }
 
 if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
-	echo $tcms_html->contentModuleHeader($front_title, $front_stamp, $front_text);
+	echo $tcms_html->contentModuleHeader(
+		$front_title, 
+		$front_stamp, 
+		$front_text
+	);
 	
 	
 	/*

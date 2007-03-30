@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a search module.
  *
- * @version 0.5.3
+ * @version 0.5.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -238,8 +238,19 @@ else{
 	if($sc == 0)
 		echo tcms_html::contentmain(_SEARCH_NOTFOUND_1.'&nbsp;'.$searchword.'&nbsp;'._SEARCH_NOTFOUND_2);
 	
-	echo '<br />'.tcms_html::search_box(_SEARCH_WITH_GOOGLE, 'http://www.google.com/search?q='.$searchword, $imagePath.'engine/images/logos/google.png');
-	echo '<br />'.tcms_html::search_box(_SEARCH_WITH_GOOGLE, 'http://search.yahoo.com/search?p='.$searchword, $imagePath.'engine/images/logos/yahoo.png');
+	echo '<br />'
+	.$tcms_html->searchPanel(
+		_SEARCH_WITH_GOOGLE, 
+		'http://www.google.com/search?q='.$searchword, 
+		$imagePath.'engine/images/logos/google.png'
+	);
+	
+	echo '<br />'
+	.$tcms_html->searchPanel(
+		_SEARCH_WITH_GOOGLE, 
+		'http://search.yahoo.com/search?p='.$searchword, 
+		$imagePath.'engine/images/logos/yahoo.png'
+	);
 }
 
 
