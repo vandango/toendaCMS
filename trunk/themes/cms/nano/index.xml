@@ -1,0 +1,7 @@
+<template>
+	<name>nano</name>
+	<autor>Jonathan Naumann</autor>
+	<url>www.toenda.com</url>
+	<desc>A small and lightweight but light-dark theme. Created for the new company identity for Toenda Software Development.</desc>
+	<version>1.0</version>
+</template>

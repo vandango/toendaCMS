@@ -1,0 +1,7 @@
+<template>
+	<name>Business</name>
+	<autor>Jonathan Naumann</autor>
+	<url>www.toenda.com</url>
+	<desc>Business Layout</desc>
+	<version>1.0</version>
+</template>

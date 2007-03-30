@@ -1,0 +1,7 @@
+<template>
+	<name>PushButton</name>
+	<autor>Jonathan Naumann :: Toenda Software Development</autor>
+	<url>www.toenda.com</url>
+	<desc>A blogger theme. Ported from Drupal CMS.</desc>
+	<version>1.0</version>
+</template>

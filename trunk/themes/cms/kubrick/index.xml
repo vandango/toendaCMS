@@ -1,0 +1,7 @@
+<template>
+	<name>kubrick</name>
+	<autor>Michael Heilemann</autor>
+	<url>binarybonsai.com/</url>
+	<desc>A port of the very pretty wordpress skin. Ported by Jonathan Naumann.</desc>
+	<version>1.0</version>
+</template>
