@@ -9,7 +9,7 @@
 | 
 | Language Selector
 |
-| File:		ext_language_selector.php
+| File:	ext_language_selector.php
 |
 +
 */
@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for a language selector.
  *
- * @version 0.0.4
+ * @version 0.0.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -47,7 +47,7 @@ if($tcms_config->useContentLanguage()){
 		foreach($languages['fine'] as $key => $val) {
 			if(in_array($val, $arr_lang)) {
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-				.'id='.$id.'&amp;s='.$s.'&amp;lang='.$val;
+				.'id='.( $id == 'components' ? $id.'&amp;item='.$item : $id ).'&amp;s='.$s.'&amp;lang='.$val;
 				$link = $tcms_main->urlAmpReplace($link);
 				
 				$title = ' title="'.$languages['name'][$key].'"';
