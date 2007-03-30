@@ -1,0 +1,529 @@
+/*
+		
+		toendaCMS - XML Content Management and Weblog System
+		2003 - 2005 (c) Toenda Software Development
+		
+	--------------------------------------------------------
+		
+		apart7 - toendaCMS Template
+	
+	--------------------------------------------------------
+		
+		Theme is inspired and something based on this very
+		cool layout:
+		-> http://www.csszengarden.com/?cssfile=085/085.css
+		
+		Original:
+		css Zen Garden submission 085 - 'Oceans Apart'
+		by Ryan Sims, http://www.justwatchthesky.com
+		
+		Licence:
+		Creative Commons License
+		http://creativecommons.org/licenses/by-nc-sa/1.0/
+		
+		But i have completly rewritten the css files
+		and create some new pictures, based on my photos
+		and som photos from this great site:
+		-> http://www.photocase.de
+		
+		If you have questions, write me a email.
+		
+	--------------------------------------------------------
+		
+		Design, Programming: Jonathan Naumann
+		
+*/
+
+
+
+/*--- BASICS ---*/
+html{
+	overflow-y: scroll;
+	height: 100%;
+	/*margin-bottom: 1px;*/
+}
+
+body { 
+	font: 11px trebuchet ms, arial, helvetica, sans-serif;
+	color: #9F927F;
+	background: #E8E0D5 url(backamp_blue.gif) repeat-y center;
+	/* 1. E8E0D5 */
+	/* 2. 1D0D00 */
+	/* 3. 384A5F */
+	
+	/* container border (backamp.gif): B9AA94 */
+	/* pathbox.gif innen: A39582 */
+	margin: 0px;
+	padding: 0px;
+}
+
+p {
+	font: 11px trebuchet ms, arial, helvetica, sans-serif;
+	margin-top: 0px;
+	text-align: left;
+}
+
+a:link { 
+	/*background: #EBEEF2;*/
+	padding: 0 2px 0 2px;
+	text-decoration: none; 
+	color: #4F6B8B;
+}
+
+a:visited { 
+	/*background: #EBEEF2;*/
+	padding: 0 2px 0 2px;
+	text-decoration: none; 
+	color: #4F6B8B;
+}
+
+a:hover, a:active { 
+	/*background: #F1EFE9;*/
+	padding: 0 2px 0 2px;
+	text-decoration: none; 
+	color: #384A5F;
+}
+/*
+span{border: 1px solid #000;}
+div{border: 1px solid #000;}
+strong{border: 1px solid #000;}
+li{border: 1px solid #000;}
+*/
+
+
+
+
+
+
+/*--- LAYOUT ---*/
+
+#container {
+	padding-top: 0px;
+	display: block;
+	border: 11px #B7B6B6 solid;
+	/* brown: B9AA94 */
+	/* grey: B7B6B6 */
+	margin: 0 auto 0 auto;
+	width: 705px;
+}
+
+#intro {
+	margin-top: 0px;
+	padding-top: 0px;
+	display: block;
+	float: left;
+	height: 340px;
+	width: 705px;
+	background: url(topbanner_2.png) no-repeat top left;
+	/*border: 1px solid #000;*/
+}
+
+#pageHeader {
+	display: block;
+	float: left;
+	width: 705px;
+	height: 67px;
+	background: url(pathbox_blue.png) no-repeat top left;
+}
+
+.pageHeaderPathText{
+	position: relative;
+	top: 25px;
+	left: 10px;
+}
+
+#complete{
+	display: block;
+	float: left;
+	width: 705px;
+}
+
+#linkList {
+	display: block;
+	float: left;
+	margin: 0;
+	padding: 0;
+	width: 188px;
+	font: 9px trebuchet ms, arial, helvetica, sans-serif; 
+	color: #9F927F;
+}
+
+#linlList2 {
+	width: 188px;
+}
+#linkList ul { margin: 0px; padding: 0px; }
+#linkList li { display: block; list-style-type: none; }
+#linkList li a { display: block; width: auto; }
+
+#mainText {
+	width: 464px;
+	margin: 0 0 10px 202px;
+	padding: 14px;
+	color: #333;
+}
+
+#footer {
+	text-align: left; 
+	padding-top: 7px;
+}
+
+#footer a:link, #footer a:visited { 
+	font-size: 9px;
+	margin-right: 7px;
+}
+
+#pageFooter {
+	display: block;
+	float: left;
+	width: 691px;
+	/*background-color: #B7B6B6;*/
+	border-top: 11px #B7B6B6 solid;
+	border-bottom: 11px #B7B6B6 solid;
+	background-color: #384A5F;
+	/* blue: 384A5F */
+	/* brown: A39582 */
+	text-align: left; 
+	padding: 7px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+	--- toendaCMS classes ---
+*/
+
+
+/* title */
+.title {
+	font-family: "Century Gothic", Tahoma, Arial, Helvetica, Sans;
+	font-weight: bold;
+	position: relative;
+	top: 86px;
+	left: 10px;
+	font-size: 24px;
+	color: #fff;
+}
+
+.title a.index {
+	font-family: "Century Gothic", Tahoma, Arial, Helvetica, Sans;
+	font-weight: bold;
+	position: relative;
+	top: 86px;
+	left: 10px;
+	font-size: 24px;
+	color: #fff;
+}
+
+a.index:hover {
+	text-decoration: none;
+	color: #fff;
+}
+
+.subtitle {
+	font-family: "Century Gothic", Tahoma, Arial, Helvetica, Sans;
+	font-weight: bold;
+	position: relative;
+	top: 174px;
+	left: 10px;
+	color: #fff;
+	font-size: 11px;
+}
+.sitelogo{ padding: 10px 0 0 10px; }
+
+
+
+
+/* pathway */
+.pathway { color: #EDEAE6; font-weight: bold; font-size: 11px; text-decoration: none; }
+a.pathway:link, a.pathway:visited { color: #EDEAE6; font-weight: bold; font-size: 11px; text-decoration: none; }
+a.pathway:hover { color: #ccc; font-weight: bold; font-size: 11px; text-decoration: underline; }
+
+
+
+
+/* legal */
+/* for blue bg: 9F927F */
+/* for blue bg hover: 999 */
+.legal{ font-size: 11px; color: #eee; }
+a.legal:link, a.legal:visited{ color: #eee; text-decoration: none; }
+.legal a:hover{ color: #ccc; text-decoration: underline; }
+
+
+
+
+/* navigation */
+.menutitle {
+	display:block;
+	padding: 6px 0 0 0;
+	width: 188px;
+	height: 24px;
+	background: transparent url(menutitle.gif) no-repeat;
+	font-size: 14px;
+	color: #4F6B8B;
+}
+
+
+
+
+/* mainlevel - mainmenu */
+a.mainlevel, a.mainlevel:link, a.mainlevel:visited, a.mainlevel:active {
+	background: transparent url(menubutton24.gif) repeat-x top left;
+	padding: 2px 0 0 7px;
+	font-size: 12px;
+	text-decoration: none;
+	color: #4F6B8B;
+	height: 24px;
+	display: block;
+}
+a.mainlevel:hover {
+	color: #746E50;
+	text-decoration: underline;
+}
+
+
+
+/* submenu - submenu */
+a.submenu, a.submenu:link, a.submenu:visited, a.submenu:active {
+	background: transparent url(menubutton24.gif) repeat-x top left;
+	padding: 2px 0 0 25px;
+	font-size: 12px;
+	text-decoration: none;
+	color: #4F6B8B;
+	height: 24px;
+	display: block;
+}
+a.submenu:hover {
+	color: #746E50;
+	text-decoration: underline;
+}
+
+
+
+
+/* news categories - sidebar links */
+.newsCategories{ font-size: 11px; line-height: 1.5em; color: #777; padding: 0 0 0 5px; }
+
+
+
+/* text sizes */
+.text_small{ font-size: 10px; padding: 0 0 0 5px; }
+.text_normal{ font-size: 12px; padding: 0 0 0 5px; }
+.text_big{ font-size: 14px;  }
+.text_huge{ font-size: 15px; }
+
+.book_content{ font-size: 11px; }
+
+
+
+
+/* content classes */
+.contentheading {
+	font-size: 15px;
+	font-weight: bold;
+	padding: 0 0 0 3px;
+}
+.contentstamp { font-size: 13px; }
+.contentmain { font-size: 12px; }
+
+
+
+
+/* sidebar content */
+.sideheading { font-size: 11px; font-weight: bold; padding: 2px 0 0 3px; color: #333333; text-align: left; }
+.sidemain { font-size: 9px; padding: 2px 0 0 3px; color: #444444; }
+
+
+
+
+/* news */
+.news_title_bg { text-align: justify; }
+.news_title_bg a {
+	font-size: 14px;
+	text-decoration: none;
+}
+.news_title_bg a:hover {
+	font-size: 14px;
+	text-decoration: underline;
+}
+/*#1A78E2;*/
+.news_content_bg{ margin: 0 0 0 0; font-size: 12px; }
+
+
+
+
+/* comments */
+.comment_title{
+	border-bottom: 1px solid #333;
+	padding-left: 3px;
+	padding-right: 3px;
+	font-size: 13px;
+	font-weight: bold;
+}
+.comment_text{
+	border-bottom: 1px solid #aaaaaa;
+	padding: 5px 5px 5px 5px;
+	font-size: 12px;
+}
+
+
+
+
+/* misc */
+.hr_line{ height: 1px; background-color: #cccccc; width: 100%; }
+
+
+
+
+
+/* login */
+.loginform{ width: 90px; }
+.logintext{ font-size: 11px; }
+
+
+/* input */
+.inputtext{ margin: 0 0 0 5px; font-size: 11px; }
+.inputbutton{ margin: 0 0 0 5px; font-size: 11px; }
+.inputtextarea{ width: 255px; height: 180px; font-size: 11px; }
+.newsSubmit{ width: 400px; height: 500px; font-size: 11px; margin: 0 0 2px 0; }
+
+
+
+
+
+/* toplevel - topmenu */
+a.toplevel, a.toplevel:link, a.toplevel:visited {
+	background: #333;
+	color: #ccc;
+	letter-spacing: 1px;
+	text-decoration: none;
+	padding: 0 5px 0 5px;
+	text-align: center;
+	display: block;
+	float: left;
+	font-weight: bold;
+	border-left: 1px solid #555555;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+a.toplevel:hover {
+	background: #444;
+	color: white !important;
+	text-decoration: none;
+	letter-spacing: 1px;
+}
+a.toplevelActive {
+	background: #444;
+	color: #f8f8f8;
+	letter-spacing: 1px;
+	text-decoration: none;
+	padding: 0 5px 0 5px;
+	text-align: center;
+	display: block;
+	float: left;
+	font-weight: bold;
+	border-left: 1px solid #555555;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+a.toplevelActive:hover {
+	background: #444;
+	color: white !important;
+	text-decoration: none;
+	letter-spacing: 1px;
+}
+
+
+/* mainlinks - default links */
+.main {
+	padding-left: 3px;
+	font-size: 11px;
+	font-weight: bold;
+	color: #28608E;
+	text-decoration: none;
+}
+a.main {
+	padding-left: 3px;
+	font-size: 11px;
+	font-weight: bold;
+	color: #28608E;
+	text-decoration: none;
+}
+a.main:hover {
+	color: #333;
+	text-decoration: underline;
+}
+
+
+/* forum */
+.user_profile_title{
+	font-size: 12px;
+	font-weight: bold;
+	color: #333333;
+	background: #f8f8f8;
+	padding: 2px;
+	border: 1px solid #cccccc;
+}
+
+
+/* ToendaSHOP */
+td.products_top{ border-bottom: 2px #9bb2b9 solid; font-size: 14px; padding-left: 4px; margin: 0px; text-align: left; }
+a.products_top, a.products_top:link, a.products_top:visited, a.products_top:active { color: #23598C; font-size: 14px; text-decoration: none; }
+a.products_top:hover { color: #000000; }
+.products_onetop{ padding-left: 4px; margin: 0px; text-align: left; }
+
+
+
+
+/* search */
+.search_result_bar{
+	font-size: 14px;
+	font-weight: bold;
+	color: #384A5F;
+	padding-left: 2px;
+	border-bottom: 1px solid #384A5F;
+}
+.search_result{
+	font-size: 11px;
+	color: #333333;
+	background: #fafafa;
+	padding: 2px;
+	border: 1px solid #bbb;
+}
+
+
+
+/* impressum */
+.imptitle { font-size: 13px; padding-left: 5px; }
+.impoffice { padding-left: 38px; }
+
+
+
+
+/* table title */
+.titleBG{ font-size: 14px; font-weight: bold; border-bottom: 2px #384A5F solid; padding-left: 4px; margin: 0px; }
+tr.titleBG{ font-size: 14px; font-weight: bold; border-bottom: 2px #384A5F solid; padding-left: 4px; margin: 0px; }
+td.titleBG{ font-size: 14px; font-weight: bold; border-bottom: 2px #384A5F solid; padding-left: 4px; margin: 0px; }
+th.titleBG{ font-size: 14px; font-weight: bold; border-bottom: 2px #384A5F solid; padding-left: 4px; margin: 0px; }
+.download_top{ font-size: 14px; font-weight: bold;	border-bottom: 2px #384A5F solid; padding: 0 0 1px 4px; text-align: left; }
+
+
+
+
+/* poll */
+.poll_sheet{
+	background-color: #f6f6f6;
+	/*border: 1px solid #384A5F;*/
+	border-bottom: 1px solid #f8f8f8;
+	font-size: 11px;
+	color: #111111;
+}
+
+
+

@@ -1,0 +1,689 @@
+/*****************************************************************
+* Leaf Skin
+* (ported from NucleusCMS)
+* Version 1.5
+* Copyright (C) 2003 - 2006 by Jonathan Naumann
+* Toenda Software Development - All rights reserved!
+*****************************************************************/
+
+
+/* ##################### GLOBALS ##################### */
+
+body {
+	color: #4C4C4C;
+	font-size: 11px;
+	font-family: 'Trebuchet MS', Arial, Lucida Sans, Tahoma, Sans-Serif;
+	/*background: #ffffff url(img_85.gif);*/
+	background: #ededed;
+	padding: 5px 0 5px 0;
+	text-align: center;
+}
+
+
+h2 {
+	color: #3E565F;
+	margin: 0 0 3px 0;
+	font-size: 16px;
+}
+
+h3 {
+	color: #3E565F;
+	margin: 0 0 8px 0;
+	font-size: 14px;
+}
+
+h4 {
+	font-size: 11px;
+}
+
+font {
+	font-size: 11px;
+}
+
+b {
+	font-size: 12px;
+}
+
+i {
+	color: #888888;
+}
+
+textarea {
+	overflow: hidden;
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+li {
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
+	/*background: url(arrow.gif) 0 6px no-repeat;*/
+}
+
+a:link, a:visited {
+	font-size: 11px;
+	color: #23598C;
+	text-decoration: none;
+}
+a:hover, a:active{
+	color: black;
+}
+
+img {
+	border: none;
+}
+
+
+
+
+
+/* ##################### SKIN SPEZIFIC ##################### */
+
+#header {
+	position: relative;
+	width: 750px;
+	height: 151px;
+	margin: auto;
+	background: url(_header.png) no-repeat;
+}
+
+#topposition{
+	position: absolute;
+	top: 55px;
+}
+
+
+
+/* TOP NAVIGATION */
+#navigation {
+	font-size: 11px;
+	width: 694px;
+	height: 18px;
+	position: absolute;
+	top: 129px;
+	left: 20px;
+}
+
+
+
+/* FONTCONTROL */
+#fontcontrol{
+	background: 1px solid #000;
+	width: 66px;
+	height: 18px;
+	position: absolute;
+	top: 18px;
+	left: 535px;
+}
+
+
+
+/* CONTENT */
+#wrapper {
+	width: 750px;
+	margin: auto;
+	background: url(_bodybg.png) repeat-y;
+	text-align: left;
+}
+
+.contentdiv{
+	width: 480px;
+	float: left;
+	padding: 25px 5px 5px 53px;
+	background: url(_quote.gif) 17px 3px no-repeat;
+	text-align: justify;
+}
+
+
+
+/* SIDEBAR */
+.sidebar {
+	width: 230px;
+	float: right;
+	padding: 0px 0;
+	text-align: left;
+	margin: 0 0px 0 15px;
+	/*height: 100%;*/
+}
+
+.sidebarbody {
+	margin: 0 0 20px 0;
+	padding: 0;
+	/*height: 100%;*/
+}
+
+.side h3 {
+	height: 23px;
+	text-indent: -9999px;
+	margin: 0 0 2px 0;
+	background: url(_sidebar.png) no-repeat;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.searchform{
+	width: 164px;
+	background: #E2EDF0 url(mountaintop_2.gif) top no-repeat;
+	padding: 10px;
+	margin: 0;
+	text-align: left;
+	height: 100%;
+}
+
+.menu h3{
+	height: 23px;
+	text-indent: -9999px;
+	margin: 0 0 2px 0;
+	background: url(menu.gif) no-repeat;
+}
+
+.categories h3{
+	height: 23px;
+	text-indent: -9999px;
+	margin: 0 0 2px 0;
+	background: url(categories.gif) no-repeat;
+}
+
+
+/*
+FOOTER
+*/
+#footer{
+	width: 750px;
+	margin: auto;
+	padding: 20px 0px 0px 0px;
+	background: url(footer.png) top no-repeat;
+}
+.legal{ font-size: 10px; color: #333; }
+a.legal:link, a.legal:visited{ color: #333; text-decoration: none; }
+.legal a:hover{ text-decoration: underline; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ##################### toendaCMS SPEZIFIC ##################### */
+
+/* TITLE */
+.title {
+	font-family: 'Trebuchet MS', Arial, Lucida Sans, Tahoma, Sans-Serif;
+	font-weight: bold;
+	font-size: 28px;
+	text-align: left;
+	color: #f8f8f8;
+	padding: 22px 0 0 30px;
+	margin: 0;
+	display: block;
+	float: left;
+}
+a.index, a.index:link, a.index:visited, a.index:active, a.index:hover {
+	font-family: 'Trebuchet MS', Arial, Lucida Sans, Tahoma, Sans-Serif;
+	font-weight: bold;
+	font-size: 28px;
+	color: #f8f8f8;
+}
+.subtitle {
+	font-family: 'Trebuchet MS', Arial, Lucida Sans, Tahoma, Sans-Serif;
+	font-weight: bold;
+	font-size: 18px;
+	letter-spacing: 2px;
+	text-align: left;
+	color: #e2e6f3;
+	padding: 16px 0 0 10px;
+	display: block;
+	float: left;
+}
+.sitelogo{
+	paddinf: 10px 0 0 10px;
+}
+
+
+
+/* LOGIN */
+.loginform {
+	width: 90px;
+}
+.logintext {
+	font-size: 11px;
+}
+.searchform {
+	/*width: 160px !important;
+	height: 15px !important;*/&
+}
+.bookfield {
+	width: 252px !important;
+	height: 15px !important;
+}
+.signatureform {
+	width: 400px !important;
+}
+
+
+
+/* TOPMENU */
+a.toplevel, a.toplevel:link, a.toplevel:visited, a.toplevel:active {
+	color: #4e4e4e;
+	line-height: 20px;
+	text-align: center;
+	text-decoration: none;
+	margin: 2px 0 0 0;
+	width: 83px;
+	height: 20px;
+	background: url(_linkbg_2.gif) top repeat-y;
+	display: block;
+	float: left;
+}
+a.toplevel:hover {
+	text-decoration: none;
+	background: url(_linkbg_3.gif) top repeat-y;
+}
+a.toplevelActive, a.toplevelActive:link, a.toplevelActive:visited, a.toplevelActive:active {
+	color: #000;
+	font-weight: bold;
+	line-height: 20px;
+	text-align: center;
+	text-decoration: none;
+	margin: 2px 0 0 0;
+	width: 83px;
+	height: 20px;
+	background: url(_linkbg_1.gif) top repeat-y;
+	display: block;
+	float: left;
+}
+a.toplevelActive:hover {
+	text-decoration: none;
+	background: url(_linkbg_3.gif) top repeat-y;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* INPUTS */
+.inputtext {
+	font-size: 11px;
+	font-family: "Trebuchet MS", Arial, Lucida Sans, Tahoma, Sans-Serif;
+	height: 14px;
+	color: #494949;
+	border-top: 1px solid #868686;
+	border-left: 1px solid #868686;
+	border-bottom: 1px solid #D4D2CF;
+	border-right: 1px solid #D4D2CF;
+	background: white url(txbg.gif);
+}
+.inputtext:focus{
+	border: 1px solid black;
+}
+.inputbutton{
+	font-size: 11px;
+	font-family: "Trebuchet MS", Arial, Lucida Sans, Tahoma, Sans-Serif;
+	height: 18px;
+	color: #494949;
+	background: white;
+	border-top: 1px solid #D4D2CF;
+	border-left: 1px solid #D4D2CF;
+	border-bottom: 1px solid #868686;
+	border-right: 1px solid #868686;
+}
+.inputbutton:focus{
+	border: 1px solid black;
+}
+.inputtextarea{
+	width: 255px;
+	height: 180px;
+	font-size: 11px;
+	font-family: "Trebuchet MS", Arial, Lucida Sans, Tahoma, Sans-Serif;
+	margin: 0 0 2px 0;
+	color: #494949;
+	border-top: 1px solid #868686;
+	border-left: 1px solid #868686;
+	border-bottom: 1px solid #D4D2CF;
+	border-right: 1px solid #D4D2CF;
+	background: white url(txbg.gif);
+}
+.inputtextarea:focus{
+	border: 1px solid black;
+}
+.newsSubmit{
+	width: 400px;
+	height: 500px;
+	font-size: 11px;
+	font-family: "Trebuchet MS", Arial, Lucida Sans, Tahoma, Sans-Serif;
+	margin: 0 0 2px 0;
+	color: #494949;
+	border-top: 1px solid #868686;
+	border-left: 1px solid #868686;
+	border-bottom: 1px solid #D4D2CF;
+	border-right: 1px solid #D4D2CF;
+	background: white url(txbg.gif);
+}
+
+
+/*
+CONTENT
+*/
+.contentheading { font-size: 15px; }
+.contentstamp { font-size: 13px; }
+.contentmain { font-size: 11px; }
+
+.text_small{ font-size: 9px; }
+.text_normal{ font-size: 11px; }
+.text_big{ font-size: 15px; }
+.text_huge{ font-size: 15px; }
+.titleBG{
+	font-size: 13px;
+	background: #E2EDF0;
+	border-bottom: 2px #9bb2b9 dotted;
+	padding-left: 4px;
+	margin: 0px;
+}
+.news_title_bg{
+	font-size: 15px;
+	background: #E2EDF0;
+	border-bottom: 2px #9bb2b9 dotted;
+	padding-left: 4px;
+	margin: 0px;
+	text-align: left;
+}
+.news_content_bg{
+	font-size: 11px;
+}
+.hr_line{
+	padding: 5px 0 0 0;
+	background: url(dot.gif) top repeat-x;
+}
+.book_content{
+	font-size: 11px;
+}
+.download_top{
+	font-size: 13px;
+	background: #E2EDF0;
+	border-bottom: 2px #9bb2b9 dotted;
+	padding-left: 4px;
+	margin: 0px;
+	text-align: left;
+}
+.poll_sheet{
+	background-color : #f6f6f6;
+	border           : 1px solid #eeeeee;
+	font-size        : 10px;
+	color            : #111111;
+}
+.sideheading {
+	font-size: 11px;
+	font-weight: bold;
+	font-style: bold;
+	color: #333333;
+	text-align: left;
+}
+.sidemain {
+	font-size: 9px;
+	padding: 3px;
+	color: #444444;
+}
+
+.imptitle {
+	font-size: 13px;
+	font-weight: bold;
+	color : #333333;
+	padding-left: 10px;
+	text-align: left;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+}
+.impoffice {
+	padding-left: 43px;
+	font-size: 11px;
+}
+
+.comment_title{
+	border-bottom    : 1px solid #c7cbce;
+	border-top       : 1px solid #c7cbce;
+	background       : #ececec;
+	padding-left     : 3px;
+	padding-right    : 3px;
+	font-size        : 10px;
+}
+.comment_text{
+	border-bottom    : 1px solid #aaaaaa;
+	padding          : 5px 5px 5px 5px;
+	font-size        : 10px;
+}
+
+.search_result_bar{
+	font-size        : 12px;
+	color            : #333333;
+	background       : #f8f8f8;
+	padding-left     : 2px;
+	border           : 1px solid #cccccc;
+	font-size        : 10px;
+}
+.search_result{
+	font-size        : 11px;
+	color            : #333333;
+	background       : #fafafa;
+	padding-left     : 2px;
+	border           : 1px solid #ececec;
+}
+.menutitle {
+	color: #555555;
+	font-size: 14px;
+	font-weight: bold;
+	padding-left: 8px;
+	display: block;
+	width: 150px;
+}
+
+
+/*
+LINKS
+*/
+.pathway {
+	font-size: 10px;
+	color: #333333;
+	text-decoration: none;
+}
+a.pathway:link, a.pathway:visited {
+	font-size: 10px;
+	color: #333333;
+	text-decoration: none;
+}
+a.pathway:hover {
+	font-size: 10px;
+	color: #3F729E;
+	text-decoration: none;
+}
+
+a.mainlevel, a.mainlevel:link, a.mainlevel:visited, a.mainlevel:active {
+	color: #23598C;
+	font-size: 12px;
+	letter-spacing: 3px;
+	font-weight: bold;
+	padding: 0px 0px 0px 10px;
+	text-decoration: none;
+	background: url(arrow_gray.gif) left no-repeat;
+}
+a.mainlevel:hover {
+	color: #000000;
+	background: url(arrow_black.gif) left no-repeat;
+}
+
+a.submenu, a.submenu:link, a.submenu:visited, a.submenu:active {
+	color: #23598C;
+	font-size: 10px;
+	letter-spacing: 1px;
+	font-weight: bold;
+	margin: 0px 0px 0px 14px;
+	padding: 0px 0px 0px 10px;
+	text-decoration: none;
+	background: url(arrow.gif) left no-repeat;
+}
+a.submenu:hover {
+	color: #000000;
+	background: url(arrow_black_2.gif) left no-repeat;
+}
+
+.main {
+	padding-left: 3px;
+	font-size: 12px;
+	font-weight: bold;
+	color: #000000;
+	text-decoration: none;
+}
+a.main {
+	padding-left: 3px;
+	font-size: 12px;
+	font-weight: bold;
+	color: #333333;
+	text-decoration: none;
+}
+a.main:hover {
+	color: #336699;
+}
+
+.sublevel {
+	font-size: 10px;
+	font-weight: bold;
+	color: #000000;
+	text-decoration: none;
+	background-color: #eeeeee;
+	border: solid 1px #d5d5d5;
+	display: block;
+	width: 70px;
+	text-align: center;
+}
+a.sublevel {
+	font-size: 10px;
+	font-weight: bold;
+	color: #333333;
+	text-decoration: none;
+	background-color: #eeeeee;
+	border: solid 1px #333333;
+	display: block;
+	width: 70px;
+	text-align: center;
+}
+a.sublevel:hover {
+	font-size: 10px;
+	font-weight: bold;
+	color: #333333;
+	text-decoration: none;
+	background-color: #D2E5F4;
+	border: solid 1px #333333;
+}
+
+
+/*
+Forum
+*/
+.user_profile_title{
+	font-size        : 12px;
+	font-weight      : bold;
+	color            : #333333;
+	background       : #f8f8f8;
+	padding          : 2px;
+	border           : 1px solid #cccccc;
+}
+
+
+/*
+ToendaSHOP
+*/
+.products_top{
+	font-size: 14px;
+	background: #E2EDF0;
+	border-bottom: 2px #9bb2b9 dotted;
+	padding-left: 4px;
+	margin: 0px;
+	text-align: left;
+}
+a.products_top, a.products_top:link, a.products_top:visited, a.products_top:active {
+	color: #23598C;
+	font-size: 14px;
+	font-weight: bold;
+	text-decoration: none;
+}
+a.products_top:hover {
+	color: #000000;
+}
+
+.products_onetop{
+	background: #E2EDF0;
+	border-bottom: 2px #9bb2b9 dotted;
+	padding-left: 4px;
+	margin: 0px;
+	text-align: left;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.clearing{
+	height: 0;
+	clear: both;
+}

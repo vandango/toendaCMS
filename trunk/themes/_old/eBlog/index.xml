@@ -1,0 +1,7 @@
+<template>
+	<name>eBlog</name>
+	<autor>Jonathan Naumann :: Toenda Software Development</autor>
+	<url>www.toenda.com</url>
+	<version>1.5</version>
+	<desc>A blogger Theme. Small, lightweight and fast.</desc>
+</template>

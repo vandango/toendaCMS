@@ -1,0 +1,408 @@
+/********************* STYLESHEET REDSOLUTION *********************/
+
+
+/* Global */
+body {
+	font-size: 10px;
+	font-family: sans-serif;
+}
+th {
+	font-size: 10px;
+	font-family: sans-serif;
+}
+td {
+	font-size: 10px;
+	font-family: sans-serif;
+}
+tr {
+	font-size: 10px;
+	font-family: sans-serif;
+}
+table {
+	font-size: 10px;
+	font-family: sans-serif;
+}
+
+.text_small {
+	font-size        : 11px;
+}
+
+.poll_sheet{
+	background-color : #eeeeee;
+	font-size        : 10px;
+	color            : #333333;
+}
+
+li{
+	display: block;
+	float: left;
+	clear: left;
+}
+.newsSubmit{
+	width: 400px;
+	height: 500px;
+	font-size: 11px;
+	font-family: "Trebuchet MS", Arial, Lucida Sans, Tahoma, Sans-Serif;
+	margin: 0 0 2px 0;
+	color: #494949;
+	border-top: 1px solid #868686;
+	border-left: 1px solid #868686;
+	border-bottom: 1px solid #D4D2CF;
+	border-right: 1px solid #D4D2CF;
+	background: white url(txbg.gif);
+}
+
+
+
+
+/********************* CMS-Default *********************/
+
+/* Default Links */
+a{
+	color: #7c8280;
+	font-family: sans-serif;
+	font-size: 11px;
+	text-decoration: none;
+}
+a:hover {
+	color: #cc6633;
+	text-decoration:none;
+}
+a:active {
+	color: #ffffff;
+	font-family: sans-serif;
+	font-size: 11px;
+	text-decoration: none;
+}
+
+
+
+
+/* Sitetitle, Sitesubtitle */
+.imptitle {
+	font-family: sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	color : #333333;
+	padding-left: 10px;
+	text-align: left;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+}
+.impoffice {
+	padding-left: 46px;
+}
+
+
+
+
+
+/* Sitetitle, Sitesubtitle */
+.title {
+	font-family: sans-serif;
+	font-size: 20px;
+	font-weight: bold;
+	font-style: bold;
+	color : #000000;
+	margin-left: 10px;
+}
+
+.subtitle {
+	font-family: sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	font-style: bold;
+	color : #666666;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	margin-left: 20px;
+}
+
+
+
+
+
+/* Mainlevel */
+.mainlevel {
+	color: #7c8280;
+	font-family: sans-serif;
+	font-size: 11px;
+	text-decoration: none;
+	padding-left: 12px;
+	display: block;
+	float: left;
+	background-image: url(_bg_menu_off.png);
+	background-repeat: no-repeat;
+}
+a.mainlevel:active {
+	color: #333333;
+}
+a.mainlevel:hover {
+	color: #494d51;
+	background-image: url(_bg_menu_on.png);
+}
+
+
+
+
+
+/* Mainlevel */
+.submenu {
+	color: #7c8280;
+	font-family: sans-serif;
+	font-size: 10px;
+	text-decoration: none;
+	padding-left: 20px;
+	display: block;
+	float: left;
+	background-image: url(_bg_menu_off.png);
+	background-repeat: no-repeat;
+}
+a.submenu:active {
+	color: #333333;
+	font-size: 10px;
+}
+a.submenu:hover {
+	color: #494d51;
+	background-image: url(_bg_menu_on.png);
+}
+
+
+
+
+
+/* Pathway */
+.pathway {
+	font-family: sans-serif;
+	font-size: 9px;
+	font-weight: normal;
+}
+a.pathway:link, a.pathway:visited {
+	color: #444444;
+	font-size: 9px;
+	font-weight: normal;
+	text-decoration: none;
+}
+a.pathway:hover {
+	color: #cc6633;
+	font-size: 9px;
+	font-weight: normal;
+	text-decoration: underline;
+}
+
+
+
+
+
+/* Sidebar */
+.sideheading {
+	font-family: sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	font-style: bold;
+	color: #333333;
+	text-align: left;
+}
+.sidemain {
+	font-family: sans-serif;
+	font-size: 9px;
+	padding: 3px;
+	color: #444444;
+}
+
+
+
+
+/* Content */
+.contentheading {
+	font-family: sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	font-style: bold;
+	color: #333333;
+	text-align: left;
+}
+.contentstamp {
+	font-family: sans-serif;
+	font-size: 9px;
+	font-weight: 100;
+	font-style: italic;
+	color: #333333;
+	padding-left: 10px;
+	text-align: left;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+}
+.contentmain {
+	font-family: sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #111111;
+	text-align: left;
+}
+
+
+
+
+/* Hrule */
+.hr_line {
+  background: #333333;
+  height: 1px;
+  width: 100%;
+}
+
+
+
+
+
+/* Legal Links und Legal Content */
+a.legal:link, a.legal:visited {
+	font-size: 9px;
+	color: #808080;
+	text-decoration: none;
+	font-family: sans-serif;
+	font-weight: bold;
+}
+a.legal:hover {
+	color: #cc6633;
+	text-decoration: underline;
+}
+.legal {
+	font-size: 9px;
+	color: #444444;
+	font-family: sans-serif;
+	font-weight: normal;
+}
+
+
+
+
+/* Top Menu */
+a.toplevel:link, a.toplevel:visited {
+	display: block;
+	color: #ffffff;
+	font-weight: bold;
+	background-color: #ff9900;
+	width: 95%;
+	text-indent: 15px;
+	text-decoration: none;
+	font-family: sans-serif;
+	line-height: 20px;
+	margin-bottom: 1px;
+}
+a.toplevel:active {
+	color: #333333;
+}
+a.toplevel:hover {
+	color: #333333;
+}
+
+
+
+
+/* Contact Form */
+a.sublevel:link, a.sublevel:visited {
+	display: block;
+	font-weight: bold;
+	width: 30px;
+	text-decoration: none;
+	font-family: sans-serif;
+	font-size: 10px;
+	color: #000000;
+	background-color: #eeeeee;
+	padding: 1px;
+	border: solid 1px #d5d5d5;
+}
+a.sublevel:hover {
+	color: #eeeeee;
+	text-decoration: none;
+	background-color: #333333;
+	padding: 1px;
+	border: solid 1px #d5d5d5;
+}
+
+
+
+
+/*
+LOGIN
+*/
+.loginform{ width: 80px; }
+.logintext{ font-size: 12px; }
+
+
+
+/* Inputs */
+.inputtext {
+	font-family: sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	color: #000000;
+	text-decoration: none;
+	background-color: #ffffff;
+	padding: 2px;
+	height: 20px;
+	border: 1px solid #CCCCCC;
+}
+.inputtextarea {
+	font-family: sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	color: #000000;
+	text-decoration: none;
+	background-color: #ffffff;
+	padding: 2px;
+	height: 150px;
+	width: 250px;
+	border: 1px solid #CCCCCC;
+}
+.inputbutton {
+	font-family: sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	color: #000000;
+	text-decoration: none;
+	background-color: #eeeeee;
+	padding: 1px;
+	border: solid 1px #d5d5d5;
+}
+.inputbutton:hover {
+	font-family: sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	color: #eeeeee;
+	text-decoration: none;
+	background-color: #333333;
+	padding: 1px;
+	border: solid 1px #d5d5d5;
+}
+
+
+
+
+/* News */
+.titleBG {
+	background-color: #e4e8e6;
+}
+.news_title_bg {
+	background-color: #e4e8e6;
+}
+.news_content_bg {
+}
+
+
+
+
+
+
+/********************* StyleSheet RedSolution *********************/
+._weiss {
+	font-family: sans-serif;
+	font-size: 11px; color: #ffffff;
+	text-decoration:none;
+}
+
+
+.tb_body {
+	border: 1px solid #93a19b;
+}

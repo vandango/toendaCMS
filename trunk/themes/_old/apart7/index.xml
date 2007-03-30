@@ -1,0 +1,7 @@
+<template>
+	<name>apart7</name>
+	<autor>Jonathan Naumann</autor>
+	<url>http://www.toenda.com</url>
+	<version>1.0</version>
+	<desc>Design to show the power of css.</desc>
+</template>
