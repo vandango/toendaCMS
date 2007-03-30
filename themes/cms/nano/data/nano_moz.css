@@ -1,0 +1,526 @@
+/*
+		
+		toendaCMS - XML Content Management and Weblog System
+		2003 - 2005 (c) Toenda Software Development
+		
+	--------------------------------------------------------
+		
+		nano - Toenda Software Development Weblayout
+		
+	--------------------------------------------------------
+		
+		Design, Programming: Jonathan Naumann
+		
+*/
+
+
+
+
+/*
+		Global settings
+*/
+
+html {
+	/* IE Horizontal scrollbar fix */
+	overflow-y: scroll;
+	/* force scrollbars in moz */
+	height: 100%;
+	margin-bottom: 1px;
+}
+
+body{
+	margin: 25px 0 25px 0;
+	padding: 0 0 25px 0;
+	font-size: 11px;
+	font-family: Verdana, Arial, Helvetica, Sans-Serif;
+	background: #829FB0 url(back.jpg) repeat-x;
+}
+
+input{
+	border: 1px solid #A39E90;
+}
+
+a {
+	color: #28608E;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #333 !important;
+	text-decoration: underline;
+}
+
+hr {
+	display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+		Page settings
+*/
+
+#top{
+	background: url(top.gif) no-repeat;
+	margin: 20px auto 0 auto;
+	width: 770px;
+	height: 6px;
+	color: white;
+}
+
+#bottom{
+	background: url(bottom.gif) no-repeat;
+	margin: 0 auto 20px auto;
+	width: 770px;
+	height: 6px !important;
+	color: white;
+	font-size: 4px;
+}
+
+#page{
+	background: white url(top.gif) no-repeat;
+	text-align: left;
+	margin: 0 auto;
+	padding: 0 0 20px;
+	width: 770px;
+}
+
+.header{
+	height: 40px;
+}
+
+.header_left{
+	padding: 10px 0 0 7px;
+	width: 350px;
+	display: block;
+	float: left;
+}
+
+.header_right{
+	padding: 15px 14px 0 0;
+	display: block;
+	float: right;
+}
+
+.topmenu{
+	margin: 30px 7px 10px 7px;
+	height: 14px;
+	padding: 2px;
+	color: #f8f8f8;
+	background: #333;
+	vertical-align: middle;
+	font-size: 0.8em;
+}
+
+.pagepathway{
+	margin: 0 7px 10px 7px;
+}
+
+.pageimagebig{
+	margin: 0 7px 18px 7px;
+	border: 1px solid #333;
+	height: 200px;
+}
+
+.pageimage{
+	margin: 0 7px 18px 7px;
+	border: 1px solid #333;
+	height: 100px;
+}
+
+.pagecontent{
+	margin: 0 0 18px 0;
+	float: left;
+	width: 770px;
+}
+
+.sidemenu{
+	margin: 0 7px 0 7px;
+	width: 150px;
+	display: block;
+	float: left;
+	/*border: 1px solid #000;*/
+}
+
+.mainpage{
+	width: 440px;
+	margin: 0 7px 0 7px;
+	display: block;
+	float: left;
+}
+
+.sidebar{
+	display: block;
+	width: 147px;
+	margin: 0 7px 0 615px;
+}
+
+.sidemenu ul, .sidemenu ul ol li { margin: 0; padding: 0; }
+.sidemenu ul li, li { list-style-type: none; list-style-image: none; }
+
+.sidebar ul, .sidebar ul ol li { margin: 0; padding: 0; }
+.sidebar ul li, li { list-style-type: none; list-style-image: none; }
+
+.pageend{
+	margin: 0 7px 0 7px;
+	width: 756px;
+	clear: both;
+	background: #333;
+	height: 14px;
+	padding: 2px;
+}
+
+.pagefooter{
+	margin: 18px 7px 0 7px;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+		toendaCMS classes
+*/
+
+/* legal */
+.legal{ font-size: 10px; color: #000; }
+a.legal:link, a.legal:visited{ color: #000; text-decoration: none; }
+.legal a:hover{ text-decoration: underline; }
+
+
+/* title */
+.title {
+	font-family: "Lucida Sans", Tahoma, Arial, Helvetica, Sans;
+	font-size: 22px;
+	font-weight: bold;
+}
+a.index {
+	font-family: "Lucida Sans", Tahoma, Arial, Helvetica, Sans;
+	font-size: 22px;
+	font-weight: bold;
+}
+a.index:hover { text-decoration  : none; }
+.subtitle {
+	font-family: "Lucida Sans", Tahoma, Arial, Helvetica, Sans;
+	font-size: 12px;
+}
+.sitelogo{ padding-top: 10px; padding-left: 10px; }
+
+
+/* content */
+.contentheading {
+	font-size: 15px;
+	font-weight: bold;
+	padding: 0 0 0 3px;
+	color: #fff;
+	font-size: 14px;
+	background-color: #333;
+	display: block;
+	width: 150;
+	height: inherit;
+	float: none;
+	border-style: none none solid;
+	border-width: medium medium 2px;
+	border-color: #fff;
+}
+.contentstamp { font-size: 13px; }
+.contentmain {
+	font-family: Verdana, Arial, Helvetica, Sans-Serif;
+	font-size: 11px;
+}
+
+.newsCategories{
+	font-family: Verdana, Arial, Helvetica, Sans-Serif;
+	font-size: 10px;
+	line-height: 1.5em;
+	color: #777;
+}
+
+.text_small{
+	font-family: Verdana, Arial, Helvetica, Sans-Serif;
+	font-size: 10px;
+	color: #777;
+}
+
+.text_normal{
+	font-family: Verdana, Arial, Helvetica, Sans-Serif;
+	font-size: 12px;
+}
+
+.text_big{
+	font-family: Verdana, Arial, Helvetica, Sans-Serif;
+	font-size: 14px;
+}
+
+.text_huge{
+	font-family: Verdana, Arial, Helvetica, Sans-Serif;
+	font-size: 15px;
+}
+
+.book_content{
+	font-family: Verdana, Arial, Helvetica, Sans-Serif;
+	font-size: 11px;
+}
+
+
+/* news */
+.news_title_bg { text-align: justify; }
+.news_title_bg a {
+	color: #333;
+	font-size: 14px;
+	text-decoration: none;
+}
+.news_title_bg a:hover {
+	color: #333;
+	font-size: 14px;
+	text-decoration: underline;
+}
+/*#1A78E2;*/
+.news_content_bg{
+	font-family: Verdana, Arial, Helvetica, Sans-Serif;
+	margin: 0;
+	font-size: 11px;
+}
+
+
+/* table title */
+.titleBG{ font-size: 14px; border-bottom: 2px #9bb2b9 solid; padding-left: 4px; margin: 0px; }
+tr.titleBG{ font-size: 14px; border-bottom: 2px #9bb2b9 solid; padding-left: 4px; margin: 0px; }
+td.titleBG{ font-size: 14px; border-bottom: 2px #9bb2b9 solid; padding-left: 4px; margin: 0px; }
+th.titleBG{ font-size: 14px; border-bottom: 2px #9bb2b9 solid; padding-left: 4px; margin: 0px; }
+.download_top{ font-size: 14px;	border-bottom: 2px #9bb2b9 solid; padding-left: 4px; margin: 0px; text-align: left; }
+
+
+/* misc */
+.hr_line{ padding: 1px 0 0 0; background-color: #cccccc; }
+
+
+/* poll */
+.poll_sheet{ background-color: #f6f6f6; border: 1px solid #eeeeee; font-size: 10px; color: #111111; }
+
+
+/* sidebar content */
+.sideheading { font-size: 11px; font-weight: bold; color: #333333; text-align: left; }
+.sidemain {
+	font-family: Verdana, Arial, Helvetica, Sans-Serif;
+	font-size: 9px;
+	padding: 3px;
+	color: #444444;
+}
+
+
+/* impressum */
+.imptitle { font-size: 13px; padding-left: 5px; }
+.impoffice { padding-left: 38px; }
+
+
+/* comments */
+.comment_title{
+	border-bottom: 1px solid #c7cbce;
+	border-top: 1px solid #c7cbce;
+	background: #ececec;
+	padding-left: 3px;
+	padding-right: 3px;
+	font-size: 10px;
+}
+.comment_text{
+	font-family: Verdana, Arial, Helvetica, Sans-Serif;
+	border-bottom: 1px solid #aaaaaa;
+	padding: 5px 5px 5px 5px;
+	font-size: 10px;
+}
+
+
+/* search */
+.search_result_bar{
+	font-size: 12px;
+	color: #333333;
+	background: #f8f8f8;
+	padding-left: 2px;
+	border: 1px solid #cccccc;
+}
+.search_result{
+	font-size: 11px;
+	color: #333333;
+	background: #fafafa;
+	padding-left: 2px;
+	border: 1px solid #ececec;
+}
+
+
+/* navigation */
+.menutitle {
+	color: #fff;
+	font-size: 15px;
+	font-weight: bold;
+	padding: 0 0 0 3px;
+	background-color: #333;
+	display: block;
+	width: 150;
+	height: inherit;
+	float: none;
+	border-style: none none solid;
+	border-width: medium medium 2px;
+	border-color: #fff;
+}
+
+
+/* pathway */
+.pathway { font-size: 10px; text-decoration: none; }
+a.pathway:link, a.pathway:visited { font-size: 10px; text-decoration: none; }
+a.pathway:hover { font-size: 10px; text-decoration: none; }
+
+
+/* mainlevel - mainmenu */
+a.mainlevel, a.mainlevel:link, a.mainlevel:visited, a.mainlevel:active { 
+	padding-left: 10px;
+	text-decoration: none;
+	color: #000;
+	display: block;
+	background: #ccc;
+	border-style: solid;
+	border-width: 1px 1px 1px 0;
+	border-color: #fff;
+}
+a.mainlevel:hover {
+	color: #f8f8f8;
+	background-color: #999;
+	background-position: 0 50%;
+	border-style: solid;
+	border-width: 1px 1px 1px 0;
+}
+
+
+/* submenu - submenu */
+a.submenu, a.submenu:link, a.submenu:visited, a.submenu:active { padding-left: 20px; text-decoration: none; }
+a.submenu:hover { text-decoration: underline; }
+
+
+/* toplevel - topmenu */
+a.toplevel, a.toplevel:link, a.toplevel:visited {
+	background: #333;
+	color: #ccc;
+	letter-spacing: 1px;
+	text-decoration: none;
+	padding: 0 5px 0 5px;
+	text-align: center;
+	display: block;
+	float: left;
+	font-weight: bold;
+	border-left: 1px solid #555555;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+a.toplevel:hover {
+	background: #444;
+	color: white !important;
+	text-decoration: none;
+	letter-spacing: 1px;
+}
+a.toplevelActive {
+	background: #444;
+	color: #f8f8f8;
+	letter-spacing: 1px;
+	text-decoration: none;
+	padding: 0 5px 0 5px;
+	text-align: center;
+	display: block;
+	float: left;
+	font-weight: bold;
+	border-left: 1px solid #555555;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+a.toplevelActive:hover {
+	background: #444;
+	color: white !important;
+	text-decoration: none;
+	letter-spacing: 1px;
+}
+
+
+/* mainlinks - default links */
+.main {
+	padding-left: 3px;
+	font-size: 11px;
+	font-weight: bold;
+	color: #28608E;
+	text-decoration: none;
+}
+a.main {
+	padding-left: 3px;
+	font-size: 11px;
+	font-weight: bold;
+	color: #28608E;
+	text-decoration: none;
+}
+a.main:hover {
+	color: #333;
+	text-decoration: underline;
+}
+
+
+/* forum */
+.user_profile_title{
+	font-size: 12px;
+	font-weight: bold;
+	color: #333333;
+	background: #f8f8f8;
+	padding: 2px;
+	border: 1px solid #cccccc;
+}
+
+
+/* ToendaSHOP */
+td.products_top{ border-bottom: 2px #9bb2b9 solid; font-size: 14px; padding-left: 4px; margin: 0px; text-align: left; }
+a.products_top, a.products_top:link, a.products_top:visited, a.products_top:active { color: #23598C; font-size: 14px; text-decoration: none; }
+a.products_top:hover { color: #000000; }
+.products_onetop{ padding-left: 4px; margin: 0px; text-align: left; }
+
+
+/* login */
+.loginform{ width: 90px; }
+.logintext{ font-size: 11px; }
+
+
+/* input */
+.inputtext{ font-size: 11px; }
+.inputbutton{ font-size: 11px; }
+.inputtextarea{ width: 255px; height: 180px; font-size: 11px; }
+.newsSubmit{ width: 400px; height: 500px; font-size: 11px; margin: 0 0 2px 0; }
+
+.contentFooter {
+  padding: 0 0 2px 8px;
+}
+
+
+/*
+	language selector
+*/
+
+.langSelector {
+	display: block;
+	margin: 0 0 0 0;
+}
+
+a.langSelectorLink,
+a.langSelectorLink:link,
+a.langSelectorLink:visited,
+a.langSelectorLink:active {
+}
+
+a.langSelectorLink:hover {
+}
+

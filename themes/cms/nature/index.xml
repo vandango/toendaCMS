@@ -1,0 +1,7 @@
+<template>
+	<name>Nature</name>
+	<autor>Jonathan Naumann :: Toenda Software Development</autor>
+	<url>www.toenda.com</url>
+	<version>1.0</version>
+	<desc>A nature therme specialy for the nature fans.</desc>
+</template>

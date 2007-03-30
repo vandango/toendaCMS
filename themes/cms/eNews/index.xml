@@ -1,0 +1,7 @@
+<template>
+	<name>eNews</name>
+	<autor>Jonathan Naumann</autor>
+	<url>www.toenda.com</url>
+	<desc>A theme for internet newspaper sites.</desc>
+	<version>1.0</version>
+</template>

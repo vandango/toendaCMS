@@ -1,0 +1,697 @@
+/*****************************************************************
+* PushButton Skin
+* (based on PushButton Skin for Drupal CMS)
+* Version 1.0
+* Copyright (C) 2003 - 2005 by Jonathan Naumann
+* Toenda - The Software Company - All rights reserved!
+*****************************************************************/
+
+
+/* ##################### GLOBALS ##################### */
+
+body{
+	color: #000;
+	background-color: #fff;
+	margin: 0;
+	padding: 0;
+}
+
+body, p, td, li, ul, ol{ font-family: "Trebuchet MS", Geneva, Arial, Helvetica, SunSans-Regular, Verdana, sans-serif; }
+h1, h2, h3, h4, h5, h6 { font-family: "Trebuchet MS", Geneva, Arial, Helvetica, SunSans-Regular, Verdana, sans-serif; margin: 0; }
+h1 { color: #369; font-size: 1.6em; }
+tr.dark td, tr.light td { padding: 0.3em; }
+p { margin: 0 0 1.3em 0; padding: 0; }
+
+a:link { text-decoration: none; font-weight: bold; color: #ff8c00; }
+a:visited { text-decoration: none; font-weight: bold; color: #c96; }
+a:hover, a:active { font-weight: bold; color: #ff4500; text-decoration: underline; }
+
+
+li {
+	display: block;
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+
+
+
+
+
+
+
+
+/* ##################### toendaCMS SPEZIFIC ##################### */
+
+/*
+TITLE
+*/
+.title {
+	font-family      : "Trebuchet MS", Arial, Lucida Sans, Tahoma, Sans-Serif;
+	font-weight      : bold;
+	font-style       : bold;
+	color            : #3F729E;
+	font-size        : 20px;
+}
+a.index {
+	font-family      : "Trebuchet MS", Arial, Lucida Sans, Tahoma, Sans-Serif;
+	color            : #3F729E;
+	font-size        : 20px;
+}
+a.index:hover {
+	font-family      : "Trebuchet MS", Arial, Lucida Sans, Tahoma, Sans-Serif;
+	text-decoration  : none;
+	color            : #3F729E;
+	font-size        : 20px;
+}
+.subtitle {
+	font-family      : "Trebuchet MS", Arial, Lucida Sans, Tahoma, Sans-Serif;
+	font-weight      : bold;
+	font-style       : bold;
+	color            : #666666;
+	letter-spacing   : 2px;
+	font-size        : 16px;
+}
+.sitelogo{ }
+
+
+/*
+LOGIN
+*/
+.loginform{ width: 80px; }
+.logintext{ font-size: 12px; font-weight: bold; color: #369; }
+.searchform{ width: 180px; }
+
+
+/*
+LINKS AND CATEGORIES
+*/
+.newsCategories{
+	font-size: 11px;
+}
+
+
+/*
+INPUTS
+*/
+.inputtext{
+	font-family: "Trebuchet MS", Arial, Lucida Sans, Tahoma, Sans-Serif;
+	font-size: 11px;
+	border: 1px solid #369;
+	padding: 0 0.5em 0 0.5em;
+	margin: 0 0 0.5em 0;
+	height: 1.5em;
+}
+.inputbutton{
+	font-family: "Trebuchet MS", Arial, Lucida Sans, Tahoma, Sans-Serif;
+	font-size: 11px;
+	padding: 0 0.5em 0 0.5em;
+	margin: 0 0 0.5em 0;
+}
+.inputtextarea{
+	width: 250px;
+	height: 180px;
+	font-family: "Trebuchet MS", Arial, Lucida Sans, Tahoma, Sans-Serif;
+	font-size: 11px;
+	border: 1px solid #369;
+	padding: 0 0.5em 0 0.5em;
+	margin: 0 0 0.5em 0;
+}
+.newsSubmit{
+	width: 500px;
+	height: 500px;
+	font-family: "Trebuchet MS", Arial, Lucida Sans, Tahoma, Sans-Serif;
+	font-size: 11px;
+	border: 1px solid #369;
+	padding: 0 0.5em 0 0.5em;
+	margin: 0 0 0.5em 0;
+}
+
+
+/*
+CONTENT
+*/
+.contentheading { font-size: 16px; }
+.contentstamp { font-size: 14px; }
+.contentmain { font-size: 12px; }
+
+.text_small{ font-size: 10px; }
+.text_normal{ font-size: 12px; }
+.text_big{ font-size: 16px; }
+.text_huge{ font-size: 18px; }
+
+.titleBG{
+	background: #FFFAF0;
+	font-size: 14px;
+	height: 30px;
+	border-bottom: 2px #6699cc solid;
+	padding-left: 2px;
+}
+
+.news_title_bg{
+	background: #FFFAF0 url(icon-block.png) no-repeat;
+	font-size: 16px;
+	height: 30px;
+	border-bottom: 2px #6699cc solid;
+	padding-left: 30px;
+}
+.news_content_bg{ font-size: 13px; }
+
+.hr_line{ padding: 2px 0 0 0; background: #cccccc; }
+
+.book_content{ font-size: 13px; }
+
+.download_top{ background: #FFFAF0; font-size: 18px; height: 30px; border-bottom: 2px #6699cc solid; padding-left: 30px; }
+
+.poll_sheet{ background-color: #f6f6f6; border: 1px solid #eeeeee; font-size: 13px; color: #111111; }
+
+.sideheading { font-size: 14px; font-weight: bold; font-style: bold; color: #333333; text-align: left; }
+.sidemain { font-size: 12px; padding: 3px; color: #444444; }
+
+.imptitle {
+	font-size: 14px;
+	font-weight: bold;
+	color : #333333;
+	padding-left: 10px;
+	text-align: left;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+}
+.impoffice { padding-left: 34px; font-size: 13px; }
+
+.comment_title{
+	border-bottom    : 1px solid #c7cbce;
+	border-top       : 1px solid #c7cbce;
+	background       : #ececec;
+	padding-left     : 3px;
+	padding-right    : 3px;
+	font-size        : 14px;
+}
+.comment_text{
+	background       : transparent url(icon-comment.png) left center no-repeat;
+	border-bottom    : 1px solid #aaaaaa;
+	padding-left     : 3px;
+	padding-right    : 3px;
+	font-size        : 13px;
+}
+
+.search_result_bar{
+	font-size        : 14px;
+	font-weight      : bold;
+	color            : #000;
+	background       : #FFFAF0;
+	padding          : 2px;
+	border-bottom: 2px #6699cc solid;
+}
+.search_result{
+	font-size        : 13px;
+	color            : #333333;
+	background       : #FFFAF0;
+	padding          : 2px;
+	border           : 1px solid #ececec;
+}
+.menutitle {
+	background: transparent url(icon-block-title.png) left center no-repeat;
+	color: #555555;
+	padding-left: 20px;
+	margin-top: 10px;
+	margin-bottom: 2px;
+	font: 14px;
+	font-weight: bold;
+	border-bottom: 2px solid #6699cc;
+	width: 150px;
+	display: block;
+}
+
+
+/*
+LINKS
+*/
+.pathway { font-size: 11px; color: #333333; text-decoration: none; }
+a.pathway:link, a.pathway:visited { font-size: 11px; color: #333333; text-decoration: none; }
+a.pathway:hover { font-size: 11px; color: #3F729E; text-decoration: underline; }
+
+a.mainlevel, a.mainlevel:link, a.mainlevel:visited, a.mainlevel:active {
+	color: #23598C;
+	font-size: 15px;
+	font-weight: bold;
+	padding: 0px 0px 0px 14px;
+	text-decoration: none;
+	background: url(menu-collapsed.png) left no-repeat;
+}
+a.mainlevel:hover { text-decoration: underline; }
+
+a.submenu, a.submenu:link, a.submenu:visited, a.submenu:active {
+	color: #23598C;
+	font-size: 15px;
+	font-weight: bold;
+	margin: 0px 0px 0px 14px;
+	padding: 0px 0px 0px 14px;
+	text-decoration: none;
+	background: url(menu-collapsed.png) left no-repeat;
+}
+a.submenu:hover { text-decoration: underline; }
+
+a.toplevel{ color: #e4e9eb; font-size: 16px; background-color: #369; padding: 0px 10px 0px 10px; }
+a.toplevel:hover { color: #fff; text-decoration: underline; }
+
+.main { padding-left: 3px; font-size: 13px; font-weight: bold; color: #000000; text-decoration: none; }
+a.main { padding-left: 3px; font-size: 13px; font-weight: bold; color: #333333; text-decoration: none; }
+a.main:hover { color: #336699; text-decoration: underline; }
+
+.sublevel {
+	font-size: 10px;
+	font-weight: bold;
+	color: #000000;
+	text-decoration: none;
+	background-color: #eeeeee;
+	border: solid 1px #d5d5d5;
+	display: block;
+	width: 70px;
+	text-align: center;
+}
+a.sublevel {
+	font-size: 10px;
+	font-weight: bold;
+	color: #333333;
+	text-decoration: none;
+	background-color: #eeeeee;
+	border: solid 1px #333333;
+	display: block;
+	width: 70px;
+	text-align: center;
+}
+a.sublevel:hover {
+	font-size: 10px;
+	font-weight: bold;
+	color: #333333;
+	text-decoration: none;
+	background-color: #D2E5F4;
+	border: solid 1px #333333;
+}
+
+
+/*
+Forum
+*/
+.user_profile_title{
+	font-size        : 13px;
+	font-weight      : bold;
+	color            : #000;
+	background       : #FFFAF0;
+	padding          : 2px;
+	border-bottom: 2px #6699cc solid;
+}
+
+
+/*
+ToendaSHOP
+*/
+.products_top{
+	font-size: 18px;
+	background: #FFFAF0;
+	border-bottom: 2px #6699cc solid;
+	padding-left: 4px;
+	margin: 0px;
+	text-align: left;
+}
+a.products_top, a.products_top:link, a.products_top:visited, a.products_top:active {
+	color: #23598C;
+	font-size: 14px;
+	font-weight: bold;
+	text-decoration: none;
+}
+a.products_top:hover { color: #000000; }
+
+.products_onetop{
+	background: #E2EDF0;
+	border-bottom: 2px #9bb2b9 dotted;
+	padding-left: 4px;
+	margin: 0px;
+	text-align: left;
+}
+
+
+/*
+	legal
+*/
+.legal{  }
+a.legal:link, a.legal:visited{ text-decoration: none; }
+.legal a:hover{ text-decoration: underline; }
+
+
+
+
+.captcha {
+	width: 80px !important;
+}
+
+
+
+.contentFooter {
+  padding: 0 0 0 -20px;
+}
+
+
+/*
+	language selector
+*/
+
+.langSelector {
+	position: absolute;
+	top: 5px;
+	right: 10px;
+}
+
+a.langSelectorLink,
+a.langSelectorLink:link,
+a.langSelectorLink:visited,
+a.langSelectorLink:active {
+}
+
+a.langSelectorLink:hover {
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ##################### Skin SPEZIFIC ##################### */
+
+td#home { background: transparent url(logo-background.jpg) left top repeat; }
+td#home a:link img, td#home a:visited img { background: transparent url(logo-active.jpg) repeat; width: 144px; height: 63px; }
+td#home a:hover img { background: transparent url(logo-hover.jpg) repeat; width: 144px; height: 63px; }
+
+#primary-menu { background-color: #e0edfb; }
+#primary-menu tr { background: transparent url(header-a.jpg) left bottom repeat; }
+#primary-menu .primary-links { background: transparent url(header-b.jpg) left top no-repeat; font-size: 0.79em; }
+#primary-menu .primary-links h1, #primary-menu .primary-links h2, #primary-menu .primary-links h3 { font-size: 2.3em; color: #369; }
+
+#site-info { background-color: #bdd3ea; background-image: url('header-c.png'); font-family: "Trebuchet MS", Geneva, Arial, Helvetica, SunSans-Regular, Verdana, sans-serif; }
+
+.primary-links, .primary-links a:link, .primary-links a:visited { color: #369; }
+.primary-links a:hover { color: #000; }
+
+#secondary-menu { background-color: #369; border-top: 3px solid #69c; border-bottom: 3px solid #69c; }
+#secondary-menu .secondary-links { font-size: 0.85em; }
+
+.secondary-links, .secondary-links a:link, .secondary-links a:visited  { color: #e4e9eb; }
+.secondary-links a:hover { color: #fff; text-decoration: underline; }
+
+#content .title, #content .title a { color: #369; }
+#content { background-color: #fff; }
+
+#sidebar-left, #sidebar-right { width: 175px; padding: 25px 10px 75px 10px; vertical-align: top; background: #FFFAF0; }
+#sidebar-left li, #sidebar-right li { font-size: 1em; }
+#sidebar-left { border-right: 3px solid #f5f5f5; }
+#sidebar-right { border-left: 3px solid #f5f5f5; }
+
+table#footer-menu { border-top: 3px solid #6699cc; border-bottom: 3px solid #6699cc; background-color: #369; color: #e4e9eb; }
+#footer-menu td { padding: 5px; font-size: 0.6em; }
+#footer-menu .primary-links, #footer-menu a:link, #footer-menu a:visited { color: #e4e9eb; }
+#footer-menu a:hover { color: #fff; text-decoration: underline; }
+#footer-menu .primary-links h1, #footer-menu .primary-links h2, #footer-menu .primary-links h3 { font-size: 1.3em; color: #e4e9eb; }
+
+#footer-message { padding: 15px 100px 30px 100px; font-size: 0.85em; text-align: center; color: #aaa; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#contentstart {
+  background-color: #fff;
+}
+#menu {
+  padding: 0.5em 0.5em 0 0.5em;
+  text-align: right;
+  vertical-align: middle;
+}
+#search .form-text, #search .form-submit {
+  border: 1px solid #369;
+  font-size: 0.85em;
+  width: 8em;
+  height: 1.4em;
+  padding: 0 0.5em 0 0.5em;
+  margin: 0 0 0.5em 0;
+  height: 1.5em;
+}
+#search .form-text {
+  width: 8em;
+  height: 1.4em;
+  padding: 0 0.5em 0 0.5em;
+  margin: 0 0 0.5em 0;
+  height: 1.5em;
+}
+#search .form-submit {
+  height: 1.5em;
+}
+#mission {
+  background-color: #fff;
+  color: #696969;
+  border-top: 2px solid #dcdcdc;
+  border-bottom: 2px solid #dcdcdc;
+  padding: 10px 10px 10px 10px;
+  margin: 20px 35px 0px 35px;
+  font-family: "Trebuchet MS", Geneva, Arial, Helvetica, SunSans-Regular, Verdana, sans-serif;
+  font-size: 1.1em;
+  font-weight: normal;
+}
+
+.site-name {
+  font-size: 1.2em;
+}
+.site-name a:link, .site-name a:visited {
+  color: #fff;
+}
+.site-name a:hover {
+  color: #ff8c00;
+  text-decoration: none;
+}
+.site-slogan {
+  font-size: 0.8em;
+  font-weight: bold;
+}
+#main {
+  /* padding in px not ex because IE messes up 100% width tables otherwise */
+  padding: 30px 35px 50px 35px;
+  background: transparent url(background.png) center center no-repeat;
+  /* fix background overlapping text in IE (aka Peekaboo Bug) */
+  position: relative;
+}
+#mission, .node .content, .comment .content {
+  line-height: 1.4;
+}
+#help {
+  font-size: 0.9em;
+  margin-bottom: 1em;
+}
+.breadcrumb {
+  margin-bottom: .5em;
+}
+.messages {
+  background-color: #eee;
+  border: 1px solid #ccc;
+  padding: 0.3em;
+  margin-bottom: 1em;
+}
+.error {
+  border-color: red;
+}
+.nav {
+  padding: 0px 0px 0px 0px;
+  margin: 0px 0px 0px 0px;
+}
+
+.node .content {
+  text-align: left;
+  font-size: 0.85em;
+  line-height: 1.3;
+}
+.comment .content {
+  text-align: left;
+  font-size: 0.85em;
+  line-height: 1.3;
+}
+
+
+/*
+** Common declarations for child classes of node, comment, block, box, etc.
+** If you want any of them styled differently for a specific parent, add
+** additional rules /with only the differing properties!/ to .parent .class.
+** See .comment .title for an example.
+*/
+
+.content h1 {
+  color: #369;
+  font-size: 1.9em;
+}
+.content h2 {
+  color: #58b;
+  font-size: 1.7em;
+}
+.content h3 {
+  color: #69c;
+  font-size: 1.5em;
+}
+.content h4 {
+  color: #8be;
+  font-size: 1.3em;
+}
+.content h5 {
+  color: #96c6f6;
+  font-size: 1.15em;
+}
+.submitted {
+  color: #999;
+  font-size: 0.79em;
+}
+.links {
+  color: #ff8c00;
+  font-size: 0.8em;
+  padding: 0px 0px 0px 0px;
+  margin: 0px 0px 0px 0px;
+}
+.links a {
+  font-weight: bold;
+}
+.box {
+  padding: 0 0 1.5em 0;
+}
+.box {
+  padding: 0px 0px 0px 0px;
+  margin: 0px 0px 0px 0px;
+}
+.box h2 {
+  font-size: 9px;
+}
+.block .title h3 {
+  border-bottom: 2px solid #6699cc;
+  color: #369;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px 5px 10px 30px;
+  margin-bottom: .25em;
+  background: transparent url(icon-block.png) left center no-repeat;
+}
+.block .content {
+  padding: 5px 5px 5px 5px;
+}
+.block {
+  margin-bottom: 1.5em;
+}
+.box .title {
+  font-size: 1.1em;
+}
+.node {
+  margin: .5em 0 2.5em 0;
+}
+.node .content, .comment .content {
+  margin: .5em 0 .5em 0;
+}
+.node .taxonomy {
+  color: #999;
+  font-size: 0.83em;
+  padding: 1.5em;
+}
+.node .picture {
+  border: 1px solid #fff;
+  float: right;
+  margin: 0.5em;
+}
+.comment {
+  border: 1px solid #abc;
+  padding: .5em;
+  margin-bottom: 1em;
+}
+.comment .title {
+  font-size: 1em;
+  padding: 10px 0px 12px 19px;
+  background: transparent url(icon-comment.png) left center no-repeat;
+}
+.comment .new {
+  font-weight: bold;
+  font-size: 1em;
+  margin-left: 2px;
+  color: red;
+}
+.comment .picture {
+  border: 1px solid #fff;
+  float: right;
+  margin: 10px;
+}
+.links {
+  font-size: 0.75em;
+}
+.links .prev, .links .next, .links .up {
+  font-size: 1.15em;
+}
+.titles .prev, .titles .next  {
+  font-size: 0.85em;
+  font-weight: bold;
+  color: #444;
+}
+.hide {
+  display: none
+}
+.nav .links .next a:link {
+  padding: 17px 17px 17px 0;
+  background: transparent url(arrow-next.png) right center no-repeat;
+}
+.nav .links .next a:visited {
+  padding: 17px 17px 17px 0;
+  background: transparent url(arrow-next-visited.png) right center no-repeat;
+}
+.nav .links .next a:hover {
+  padding: 17px 17px 17px 0;
+  background: transparent url(arrow-next-hover.png) right center no-repeat;
+}
+.nav .links .prev a:link {
+  padding: 17px 0 17px 17px;
+  background: transparent url(arrow-prev.png) left center no-repeat;
+}
+.nav .links .prev a:visited {
+  padding: 17px 0 17px 17px;
+  background: transparent url(arrow-prev-visited.png) left center no-repeat;
+}
+.nav .links .prev a:hover {
+  padding: 17px 0 17px 17px;
+  background: transparent url(arrow-prev-hover.png) left center no-repeat;
+}
+.nav .links .up a:link {
+  padding: 11px 0 17px 0;
+  background: transparent url(arrow-up.png) center top no-repeat;
+}
+.nav .links .up a:visited {
+  padding: 11px 0 17px 0;
+  background: transparent url(arrow-up-visited.png) center top no-repeat;
+}
+.nav .links .up a:hover {
+  padding: 11px 0 17px 0;
+  background: transparent url(arrow-up-hover.png) center top no-repeat;
+}
