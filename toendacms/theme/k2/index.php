@@ -75,19 +75,23 @@ switch($k2CSS){
  	<div class="sidebar">
  		<div class="livesearchform"><? include(_SEARCH); ?></div>
  		<br />
-		<? include(_SIDE_MENU); ?>
-		<? include(_FRONT_NEWS); ?>
+		<?
+		include(_SIDE_MENU);
+		include(_FRONT_NEWS);
+		?>
 		<div class="categorylist"><? include(_CATEGORIES); ?></div>
 		<div class="categorylist"><? include(_MONTHVIEW); ?></div>
-		<? include(_SIDE_LINKS); ?>
-		<? include(_LAST_IMAGES); ?>
-		<? include(_LOGIN); ?>
-		<? include(_POLL); ?>
-		<? include(_SHOW_LC); ?>
-		<? include(_NEWSLETTER); ?>
-		<? include(_SIDE); ?>
-		<? include(_CS); ?>
-		<? include(_SYNDICATION); ?>
+		<?
+		include(_SIDE_LINKS);
+		include(_LAST_IMAGES);
+		include(_LOGIN);
+		include(_POLL);
+		include(_SHOW_LC);
+		include(_NEWSLETTER);
+		include(_SIDE);
+		include(_CS);
+		include(_SYNDICATION);
+		?>
 	</div>
 	
 	<? if($k2CSS == 4){ ?>

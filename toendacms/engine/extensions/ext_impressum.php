@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used as a law-concurring
  * publishing form.
  *
- * @version 0.3.3
+ * @version 0.3.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -37,8 +37,11 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 //require_once('engine/tcms_kernel/tcms_countrylist.lib.php');
 
-if(trim($imp_title) != ''){ echo tcms_html::contentheading($imp_title); }
-if(trim($imp_stamp) != ''){ echo tcms_html::contentstamp($imp_stamp).'<br /><br />'; }
+echo $tcms_html->contentModuleHeader(
+	$imp_title, 
+	$imp_stamp, 
+	''
+);
 
 
 echo '<span class="contentmain">';
