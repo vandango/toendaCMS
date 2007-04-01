@@ -410,6 +410,7 @@ if(!defined('_MSG_BACKUP_SUCCESSFULL'))        define('_MSG_BACKUP_SUCCESSFULL',
 if(!defined('_MSG_BACKUP_FAILED'))             define('_MSG_BACKUP_FAILED', 'Database backup failed!');
 if(!defined('_MSG_CHANGES'))                   define('_MSG_CHANGES', 'You have made changes.');
 if(!defined('_MSG_SAVE_NOW'))                  define('_MSG_SAVE_NOW', 'Do you want to save those now?');
+if(!defined('_MSG_NO_ALBUM_WITH_THIS_ID'))     define('_MSG_NO_ALBUM_WITH_THIS_ID', 'The System dont have found a album with this ID!');
 
 
 
