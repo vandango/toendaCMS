@@ -70,7 +70,7 @@ Developer Version
 	- 1.5.3 Stable
 	- 1.5.4 Stable
 
-Building Steps: 2725
+Building Steps: 2726
 
 
 
@@ -88,6 +88,7 @@ Building Steps: 2725
 
  - changed: impressum (publishing form) and memberlist now with the html title formater
  - changed: language changer now with the component item in the link
+ - changed: error on looking on a album with a not existing ID
  - changed: 
 
  - added: 
