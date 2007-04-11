@@ -9,15 +9,10 @@
 | 
 | Generate PDF Document
 |
-| File:		pdf.php
-| Version:	0.2.3
+| File:	pdf.php
 |
 +
 */
-
-
-
-
 
 
 if(isset($_GET['id'])){ $id = $_GET['id']; }
@@ -29,10 +24,23 @@ if(isset($_GET['news'])){ $news = $_GET['news']; }
 if(isset($_GET['albums'])){ $albums = $_GET['albums']; }
 
 
+/**
+ * Generate PDF Document
+ * 
+ * This module is used to generate a pdf document
+ * 
+ * @version 0.2.3
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS
+ */
 
 
 define('_TCMS_VALID', 1);
 
+include_once('engine/tcms_kernel/tcms_loader.lib.php');
+
+/*
 include_once ('engine/tcms_kernel/tcms_xml.lib.php');
 include_once ('engine/tcms_kernel/tcms.lib.php');
 include_once ('engine/tcms_kernel/tcms_time.lib.php');
@@ -41,13 +49,20 @@ include_once ('engine/tcms_kernel/tcms_html.lib.php');
 include_once ('engine/tcms_kernel/tcms_sql.lib.php');
 include_once ('engine/tcms_kernel/tcms_modconfig.lib.php');
 include_once ('engine/tcms_kernel/tcms_gd.lib.php');
+include_once ('engine/tcms_kernel/tcms_version.lib.php');
+include_once ('engine/tcms_kernel/tcms_configuration.lib.php');
+*/
 
-
-
-
-
-
-
+using('toendacms.kernel.time');
+using('toendacms.kernel.xml');
+using('toendacms.kernel.configuration');
+using('toendacms.kernel.main');
+using('toendacms.kernel.sql');
+using('toendacms.kernel.script');
+using('toendacms.kernel.modconfig');
+using('toendacms.kernel.gd');
+using('toendacms.kernel.version');
+using('toendacms.kernel.html');
 
 
 //**********************
@@ -57,15 +72,19 @@ $arr_currency['html']['EUR'] = '&euro;';
 $arr_currency['html']['USD'] = '$';
 
 
+$tcms_administer_site = 'data';
+
+include_once($tcms_administer_site.'/tcms_global/database.php');
+
+$tcms_main      = new tcms_main($tcms_administer_site, $choosenDB);
+$tcms_modconfig = new tcms_modconfig($tcms_administer_site, '');
+$tcms_version   = new tcms_version();
+$tcms_config    = new tcms_configuration($tcms_administer_site);
+
 
 $language_stage = 'print';
 include_once ('engine/language/lang_admin.php');
 
-$tcms_administer_site = 'data';
-include_once($tcms_administer_site.'/tcms_global/database.php');
-
-$tcms_main = new tcms_main($tcms_administer_site, $choosenDB);
-$tcms_modconfig = new tcms_modconfig($tcms_administer_site, '');
 
 $choosenDB = $tcms_main->secure_password($tcms_db_engine, 'en');
 $sqlUser   = $tcms_main->secure_password($tcms_db_user, 'en');
@@ -79,24 +98,19 @@ $tcms_db_prefix = $sqlPrefix;
 $tcms_main->setDatabaseInfo($choosenDB);
 
 
-$char_xml   = new xmlparser($tcms_administer_site.'/tcms_global/var.xml','r');
-$charset    = $char_xml->read_section('global', 'charset');
-$currency   = $char_xml->read_section('global', 'currency');
+$charset  = $tcms_config->getCharset();
+$currency = $tcms_config->getCurrency();
 
 
 $layout_xml = new xmlparser($tcms_administer_site.'/tcms_global/layout.xml','r');
 $s = $layout_xml->read_section('layout', 'select');
 
 
-$version_xml      = new xmlparser('engine/tcms_kernel/tcms_version.xml','r');
-$cms_name         = $version_xml->read_section('version', 'name');
-$cms_tagline      = $version_xml->read_section('version', 'tagline');
-$toenda_copyright = $version_xml->read_section('version', 'toenda_copyright');
-$cms_release      = $version_xml->read_section('version', 'release');
-$cms_build        = $version_xml->read_section('version', 'build');
-$version_xml->flush();
-$version_xml->_xmlparser();
-unset($version_xml);
+$cms_name         = $tcms_version->getName();
+$cms_tagline      = $tcms_version->getTagline();
+$toenda_copyright = $tcms_version->getToendaCopyright();
+$cms_release      = $tcms_version->getVersion();
+$cms_build        = $tcms_version->getBuild();
 
 
 $footer_xml       = new xmlparser(''.$tcms_administer_site.'/tcms_global/footer.xml','r');
@@ -439,6 +453,10 @@ if($ws_auth == 1){
 	
 	$content00 = str_replace('{tcms_more}', '', $content00);
 	
+	///  BILDER RAUS LÖSCHEN
+	/// $content00
+	///
+	
 	include('engine/db_layout/'.$layout_id);
 	
 	$content_template = str_replace('{$title}', $title, $content_template);
@@ -458,11 +476,7 @@ if($ws_auth == 1){
 	.'<hr noshade="noshade" />'
 	.'<br />'.$content_template.'</body></html>';
 	
-	/*
-	$fp = fopen('cache/output4pdf.html', 'w');
-	fwrite($fp, $buffer);
-	fclose($fp);
-	*/
+	echo $buffer;
 	
 	include_once('engine/tcms_kernel/html2pdf/html2fpdf.php');
 	
@@ -473,8 +487,12 @@ if($ws_auth == 1){
 	$returnPDF->SetCreator('toendaCMS - '.$cms_release.' - '.$cms_build);
 	$returnPDF->Output();
 	
-	/*
+	
 	//--> XHTML2PDF
+	/*
+	$fp = fopen('cache/output4pdf.html', 'w');
+	fwrite($fp, $buffer);
+	fclose($fp);
 	
 	define('X_PATH', 'engine/tcms_kernel/xhtml2pdf/');
 	define('DOC_PATH', 'cache/');
@@ -488,8 +506,7 @@ if($ws_auth == 1){
 	$pdf['date']['created'] = date('d.m.Y-H:i');
 	$pdf['date']['modified'] = date('d.m.Y-H:i');
 	
-	//$xpdf = new xhtml2pdf(DOC_PATH.'output4pdf.html', 'theme/printer/data/css.css', $config);
-	$xpdf = new xhtml2pdf(DOC_PATH.'output4pdf.html', '', $config);
+	$xpdf = new xhtml2pdf(DOC_PATH.'output4pdf.html', 'theme/printer/data/css.css', $config);
 	
 	$xpdf->SetTitle($pdf['title']);
 	$xpdf->SetAuthor($pdf['author']);

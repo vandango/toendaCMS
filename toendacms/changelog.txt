@@ -70,7 +70,7 @@ Developer Version
 	- 1.5.3 Stable
 	- 1.5.4 Stable
 
-Building Steps: 2726
+Building Steps: 2730
 
 
 
@@ -84,6 +84,8 @@ Building Steps: 2726
  - bug fixed: tree view for the webpage tree (backend)
  - bug fixed: the language selector selects not the lcorrect language in the sidemenu editor
  - bug fixed: all documents in the document list have the lang variable
+ - bug fixed: internal downloads has the lang variable in the url
+ - bug fixed: workaround fix for the gd 256 color bug
  - bug fixed: 
 
  - changed: impressum (publishing form) and memberlist now with the html title formater
