@@ -9,7 +9,7 @@
 |
 | Download Manager
 |
-| File:		ext_download.php
+| File:	ext_download.php
 |
 +
 */
@@ -31,7 +31,7 @@ if(isset($_GET['category'])){ $category = $_GET['category']; }
  *
  * This module provides a download manager..
  *
- * @version 0.7.8
+ * @version 0.7.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -429,8 +429,8 @@ if($action == 'showall'){
 								$downFile = $arr_dw['file'][$key];
 								
 								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-								.'id=download&amp;s='.$s.'&amp;action=start&amp;category='.$arr_dw['uid'][$key].'&amp;file='.$downFile
-								.( isset($lang) ? '&amp;lang='.$lang : '' );
+								.'id=download&amp;s='.$s.'&amp;action=start&amp;category='.$arr_dw['uid'][$key].'&amp;file='.$downFile;
+								//.( isset($lang) ? '&amp;lang='.$lang : '' );
 								$link = $tcms_main->urlAmpReplace($link);
 							}
 							else{

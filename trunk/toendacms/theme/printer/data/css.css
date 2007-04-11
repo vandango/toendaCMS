@@ -8,7 +8,7 @@
 
 /* ##################### GLOBALS ##################### */
 
-body { color: black; font-size: 11px; font-family: "Trebuchet MS", Arial, "Lucida Sans", Tahoma, Sans-Serif; text-align: center; padding: 0 0 }
+body { color: black; font-size: 11px; font-family: helvetica; text-align: center; padding: 0 0 }
 
 h2 { color: black; font-size: 14px; margin: 0 0 3px }
 h3 { color: black; font-size: 12px; margin: 0 0 8px }
@@ -76,10 +76,10 @@ CONTENT
 /*
 TITLE
 */
-.title   { color: black; font-size: 24px; font-family: "Trebuchet MS", Arial, "Lucida Sans", Tahoma, Sans-Serif; font-style: bold; font-weight: bold; line-height: 20px; text-align: left; display: block; margin: 0; padding-top: 22px; padding-left: 30px; float: left; text-shadow: black  }
-a.index   { color: black; font-size: 24px; font-family: "Trebuchet MS", Arial, "Lucida Sans", Tahoma, Sans-Serif }
-a.index:hover  { color: black; font-family: "Trebuchet MS", Arial, "Lucida Sans", Tahoma, Sans-Serif; text-decoration: none }
-.subtitle   { color: black; font-size: 18px; font-family: "Trebuchet MS", Arial, "Lucida Sans", Tahoma, Sans-Serif; font-style: bold; font-weight: bold; text-align: left; letter-spacing: 2px; display: block; padding-top: 11px; padding-left: 10px; float: left }
+.title   { color: black; font-size: 24px; font-family: helvetica; font-style: bold; font-weight: bold; line-height: 20px; text-align: left; display: block; margin: 0; padding-top: 22px; padding-left: 30px; float: left; text-shadow: black  }
+a.index   { color: black; font-size: 24px; font-family: helvetica; }
+a.index:hover  { color: black; font-family: helvetica; text-decoration: none }
+.subtitle   { color: black; font-size: 18px; font-family: helvetica; font-style: bold; font-weight: bold; text-align: left; letter-spacing: 2px; display: block; padding-top: 11px; padding-left: 10px; float: left }
 .sitelogo{
 	padding-top      : 10px;
 	padding-left     : 10px;

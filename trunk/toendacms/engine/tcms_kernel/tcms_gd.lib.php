@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for all graphic actions.
  *
- * @version 0.2.7
+ * @version 0.2.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -203,7 +203,8 @@ class tcms_gd {
 				$img_file = @imagecreatetruecolor($img_width, $img_height);
 			}
 			else{
-				$img_file = @imagecreate($img_width, $img_height);
+				//$img_file = @imagecreate($img_width, $img_height);
+				$img_file = @imagecreatetruecolor($img_width, $img_height);
 				
 				$this->readImageInformation($path.$image);
 				
