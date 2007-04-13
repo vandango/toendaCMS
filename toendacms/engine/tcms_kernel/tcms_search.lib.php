@@ -9,7 +9,7 @@
 |
 | toendaCMS Search class
 |
-| File:		tcms_search.lib.php
+| File:	tcms_search.lib.php
 |
 +
 */
@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide a dynamic
  * search class.
  *
- * @version 0.0.9
+ * @version 0.1.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -238,7 +238,13 @@ class tcms_search extends tcms_main {
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->m_sqlUser, $this->m_sqlPass, $this->m_sqlHost, $this->m_sqlDB, $this->m_sqlPort);
+			$sqlCN = $sqlAL->Connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
 			
 			switch($this->m_admin){
 				case 'Developer':
@@ -263,9 +269,11 @@ class tcms_search extends tcms_main {
 					." FROM ".$this->m_sqlPrefix."content"
 					." WHERE ( `access` = 'Public' "
 					.$strAdd
+					." ( "
 					." AND ( `content00` REGEXP '".$searchword."' OR `content00` LIKE '%".$searchword."%' )"
 					." OR ( `key` REGEXP '".$searchword."' OR `key` LIKE '%".$searchword."%' )"
-					." OR ( `title` REGEXP '".$searchword."' OR `title` LIKE '%".$searchword."%' )";
+					." OR ( `title` REGEXP '".$searchword."' OR `title` LIKE '%".$searchword."%' )"
+					." )";
 					break;
 				
 				case 'pgsql':
@@ -273,17 +281,19 @@ class tcms_search extends tcms_main {
 					." FROM ".$this->m_sqlPrefix."content"
 					." WHERE ( access = 'Public' "
 					.$strAdd
+					." ( "
 					." AND ( content00 LIKE '%".$searchword."%' )"
 					." OR ( key LIKE '%".$searchword."%' )"
-					." OR ( title LIKE '%".$searchword."%' )";
+					." OR ( title LIKE '%".$searchword."%' )"
+					." )";
 					break;
 			}
 			
-			$sqlQR = $sqlAL->sqlQuery($strSQL);
-			$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+			$sqlQR = $sqlAL->Query($strSQL);
+			$sqlNR = $sqlAL->GetNumber($sqlQR);
 			
 			if($sqlNR != 0){
-				while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+				while($sqlARR = $sqlAL->FetchArray($sqlQR)){
 					$tit = $sqlARR['title'];
 					$key = $sqlARR['key'];
 					$uid = $sqlARR['uid'];
