@@ -70,14 +70,18 @@ Developer Version
 	- 1.5.3 Stable
 	- 1.5.4 Stable
 
-Building Steps: 2730
+Building Steps: 2733
 
 
 
  Version 1.5.4 Stable
 -----------------------------------------------------------------
 
- - bug #0000122: 
+ - bug #0000148: you cannot add more then one comment on a news:
+                 drop the primary key for the comments table
+ - bug #0000149: konqueror display error
+ - bug #0000151: incorrect sql string; search result has also protected
+                 and privat content files
 
  - security fixed: 
 

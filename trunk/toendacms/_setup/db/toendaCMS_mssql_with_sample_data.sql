@@ -36,11 +36,7 @@ CREATE TABLE [dbo].[#####knowledgebase_config](
 	[text] [text] NULL,
 	[enabled] [int] NOT NULL DEFAULT ('0'),
 	[autor_enabled] [int] NOT NULL DEFAULT ('0'),
-	[access] [varchar](10) NOT NULL DEFAULT (''),
- CONSTRAINT [PK_#####knowledgebase_config] PRIMARY KEY CLUSTERED 
-(
-	[uid] ASC
-)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+	[access] [varchar](10) NOT NULL DEFAULT ('')
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
