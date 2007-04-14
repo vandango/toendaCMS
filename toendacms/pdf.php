@@ -453,7 +453,7 @@ if($ws_auth == 1){
 	
 	$content00 = str_replace('{tcms_more}', '', $content00);
 	
-	///  BILDER RAUS LÖSCHEN
+	///  BILDER RAUS Lï¿½SCHEN
 	/// $content00
 	///
 	
@@ -476,7 +476,7 @@ if($ws_auth == 1){
 	.'<hr noshade="noshade" />'
 	.'<br />'.$content_template.'</body></html>';
 	
-	echo $buffer;
+	//echo $buffer;
 	
 	include_once('engine/tcms_kernel/html2pdf/html2fpdf.php');
 	
