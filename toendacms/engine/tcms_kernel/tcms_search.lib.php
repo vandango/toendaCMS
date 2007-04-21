@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide a dynamic
  * search class.
  *
- * @version 0.1.0
+ * @version 0.1.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -263,6 +263,8 @@ class tcms_search extends tcms_main {
 					break;
 			}
 			
+			$searchword2Percent = str_replace(' ', '%', $searchword);
+			
 			switch($this->m_choosenDB){
 				case 'mysql':
 					$strSQL = "SELECT *"
@@ -270,9 +272,9 @@ class tcms_search extends tcms_main {
 					." WHERE ( `access` = 'Public' "
 					.$strAdd
 					." ( "
-					." AND ( `content00` REGEXP '".$searchword."' OR `content00` LIKE '%".$searchword."%' )"
-					." OR ( `key` REGEXP '".$searchword."' OR `key` LIKE '%".$searchword."%' )"
-					." OR ( `title` REGEXP '".$searchword."' OR `title` LIKE '%".$searchword."%' )"
+					." AND ( `content00` REGEXP '".$searchword."' OR `content00` LIKE '%".$searchword2Percent."%' )"
+					." OR ( `key` REGEXP '".$searchword."' OR `key` LIKE '%".$searchword2Percent."%' )"
+					." OR ( `title` REGEXP '".$searchword."' OR `title` LIKE '%".$searchword2Percent."%' )"
 					." )";
 					break;
 				
@@ -282,9 +284,21 @@ class tcms_search extends tcms_main {
 					." WHERE ( access = 'Public' "
 					.$strAdd
 					." ( "
-					." AND ( content00 LIKE '%".$searchword."%' )"
-					." OR ( key LIKE '%".$searchword."%' )"
-					." OR ( title LIKE '%".$searchword."%' )"
+					." AND ( content00 LIKE '%".$searchword2Percent."%' )"
+					." OR ( key LIKE '%".$searchword2Percent."%' )"
+					." OR ( title LIKE '%".$searchword2Percent."%' )"
+					." )";
+					break;
+				
+				case 'mssql':
+					$strSQL = "SELECT *"
+					." FROM [".$this->m_sqlPrefix."content]"
+					." WHERE ( [access] = 'Public' "
+					.$strAdd
+					." ( "
+					." AND ( [content00] LIKE '%".$searchword2Percent."%' )"
+					." OR ( [key] LIKE '%".$searchword2Percent."%' )"
+					." OR ( [title] LIKE '%".$searchword2Percent."%' )"
 					." )";
 					break;
 			}
