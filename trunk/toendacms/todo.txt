@@ -1,6 +1,24 @@
 
   Engine
 ---------------------------------------------------------------------------------
+
+    * Imagegallery
+      - Good thumbnail quality. But I think you will already make this better in your next update.
+      - Open a photo in the same window of your template layout. So no new window will open. And of course a back button to the photo-list is needed then.
+      - Possibility to hide the tech. information that's standing beside a photo.
+      - More easy zip-upload. Uploading a zip and easily put them in some existing or new directory.
+      - (css)Fix for Mozilla browser. The description and arrows are now sometimes overflowing the thubnails in Firefox browsers. Mostly this happens when the pictureheight of the thumbnails change. Same problem with Apple's Safari browser.
+      - Possibility to view the latest pictures at the Front Page horizontal instead of vertical.
+    * Products
+      - Possibility for more pictures to add. Maximum of 10 or more would be nice.
+      - Automatically thumbnails will be made. So you don't see big screen high resolution photo's. When the thumbnail is clicked you'll see it big.
+    * Documents
+      - Possibility to order the documents in different directories. I've made a page with 30+ pages. I have to search before I can edit the specific document. Directories or some label-systeem (like Gmail) would make it much easier to find.
+    * Contact-form
+      - It would be nice if the contact-form has more function to edit. For example the choices of parts you would like have filled in. Or maybe I would like to create my own textfields or questions that people can fill in.
+    * Easy order-form
+      - It also would be nice if there is a order-form. So someone can order a product bij selecting it from the productslist or some dropdownlist.
+
  - Documentsmanager (CMS, Verzeichnisverwaltung für zentral liegende Dokumente und Dateien)
  - tCMS theming tutorial
  - Multiple Webseiten Administrierbar, Auswahl beim Login
