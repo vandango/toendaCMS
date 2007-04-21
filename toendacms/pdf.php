@@ -453,7 +453,7 @@ if($ws_auth == 1){
 	
 	$content00 = str_replace('{tcms_more}', '', $content00);
 	
-	///  BILDER RAUS L�SCHEN
+	///  BILDER RAUS LOESCHEN
 	/// $content00
 	///
 	

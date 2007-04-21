@@ -9,7 +9,7 @@
 | 
 | Website Content Footer
 |
-| File:		ext_content_footer.php
+| File:	ext_content_footer.php
 |
 +
 */
@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Content footer with links for the "top of page", "print" 
  * and "pdf" functions.
  *
- * @version 0.5.0
+ * @version 0.5.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -302,7 +302,8 @@ if($tcms_config->useContentLanguage()) {
 			
 			if($tcms_main->isReal($arr_langs)) {
 				//display: block; float: 
-				echo '<br /><div style="none; margin: 3px 0 3px 0;">';
+				echo '<br />'
+				.'<div style="none; margin: 3px 0 3px 0;">';
 				
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id='.$id

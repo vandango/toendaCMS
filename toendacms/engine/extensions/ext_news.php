@@ -53,7 +53,6 @@ if(isset($_POST['trackback_url'])){ $trackback_url = $_POST['trackback_url']; }
 
 
 
-
 /*
 	init
 */
@@ -87,7 +86,6 @@ if($news == 'start' || $news == 'archive'){
 
 
 
-
 /*
 	access authentication
 */
@@ -108,7 +106,6 @@ if($check_session) {
 else {
 	$auth_down = 'Public';
 }
-
 
 
 
@@ -1757,10 +1754,10 @@ if($news != 'start' && $cmd != 'comment_save'){
 				);
 			}
 			
-			echo '<table cellpadding="0" cellspacing="0" border="0" width="100%">';
-			echo '<tr>'
-				.'<th class="titleBG" valign="top" align="left" width="30%" colspan="2">&nbsp;'._DOWNLOADS_SUBMIT_ON.'</th>'
-				.'<th class="titleBG" valign="top" align="left" width="70%">&nbsp;'._TABLE_TITLE.'</th><tr>';
+			echo $tcms_html->tableHead(0, 0, 0, '100%')
+			.'<tr>'
+			.'<th class="titleBG" valign="top" align="left" width="30%" colspan="2">&nbsp;'._DOWNLOADS_SUBMIT_ON.'</th>'
+			.'<th class="titleBG" valign="top" align="left" width="70%">&nbsp;'._TABLE_TITLE.'</th><tr>';
 			
 			$sortPoint = false;
 			
@@ -1798,7 +1795,8 @@ if($news != 'start' && $cmd != 'comment_save'){
 			}
 		}
 		
-		echo '</table><br /><br />';
+		echo $tcms_html->tableEnd()
+		.'<br /><br />';
 		
 		
 		/*
