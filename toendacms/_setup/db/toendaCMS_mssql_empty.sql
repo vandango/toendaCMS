@@ -979,10 +979,10 @@ END
 
 
 INSERT INTO [dbo].[#####contactform] ([uid], [contact], [show_contacts_in_sidebar], [send_id], [contacttitle], [contactstamp], [access], [enabled], [use_adressbook], [use_contact], [show_contactemail], [contacttext])
-VALUES ('contactform', 'info@toenda.com', 1, 'contactform', 'Contact Us and ...', '... send us a message.', 'Public', 1, 0, 0, 0, '');
+VALUES ('contactform', '', 1, 'contactform', '', '', 'Public', 1, 0, 0, 0, '');
 
 INSERT INTO [dbo].[#####sidebar] ([uid], [title], [key], [content], [foot], [id]) 
-VALUES ('frontpage', 'Wenn ich gross bin', '', 'Ich bin nur ein kleiner Blind[text]\r\nWenn ich gross bin, will ich Ulysses von James Joyce werden. Aber jetzt lohnt es sich noch nicht, mich weiterzulesen. Denn vorerst bin ich nur ein kleiner Blind[text].', '', 'frontpage');
+VALUES ('frontpage', '', '', '', '', 'frontpage');
 
 
 INSERT INTO [dbo].[#####usergroup] ([uid], [name], [right])
@@ -1012,46 +1012,46 @@ INSERT INTO [dbo].[#####userpage] ([uid], [text_width], [input_width], [news_pub
 VALUES ('userpage', '150', '150', 1, 1, 1, 1, '1');
 
 INSERT INTO [dbo].[#####downloads_config] ([uid], [download_id], [download_title], [download_stamp], [download_text])
-VALUES ('download', 'download', 'Downloads and Software', 'Toenda Software Downloads', 'Our software downloads.');
+VALUES ('download', 'download', '', '', '');
 
 INSERT INTO [dbo].[#####guestbook] ([uid], [guest_id], [booktitle], [bookstamp], [access], [enabled], [clean_link], [clean_script], [convert_at], [show_email], [name_width], [text_width], [color_row_1], [color_row_2])
-VALUES ('guestbook', 'guestbook', 'My Guests', 'of this beautiful website', 'Public', 1, 1, 1, 1, 1, '140', '360', 'ffffff', 'f4f7fd'):
+VALUES ('guestbook', 'guestbook', '', '', 'Public', 1, 1, 1, 1, 1, '140', '360', 'ffffff', 'f4f7fd'):
 
 
 INSERT INTO [dbo].[#####imagegallery_config] ([uid], [image_id], [image_title], [image_stamp], [image_details], [use_comments], [access], [max_image], [needle_image], [show_lastimg_title], [align_image], [size_image], [image_sort], [list_option])
-VALUES ('imagegallery', 'imagegallery', 'Imagegallery', 'Picture i like', 0, 1, 'Public', 5, 'Last uploaded', 1, 'center', 100, 'desc', 0);
+VALUES ('imagegallery', 'imagegallery', 'Imagegallery', '', 0, 1, 'Public', 5, '', 1, 'center', 100, 'desc', 0);
 
 INSERT INTO [dbo].[#####knowledgebase_config] ([uid], [id], [title], [subtitle], [text], [enabled], [autor_enabled], [access])
-VALUES ('knowledgebase', 'knowledgebase', 'FAQs and Articles', 'A small knowledge database', 'Here you will find an example set of FAQs and Articles.', 1, 0, 'Public');
+VALUES ('knowledgebase', 'knowledgebase', '', '', '', 1, 0, 'Public');
 
 
 INSERT INTO [dbo].[#####links_config] ([uid], [link_use_side_desc], [link_use_side_title], [link_side_title], [link_use_main_desc], [link_main_title], [link_main_subtitle], [link_main_text], [link_main_access])
-VALUES ('links_config_main', NULL, NULL, NULL, 1, 'myLinks', 'A list of all websites i like', 'This is a example [text] for the [text]link page.', 'Public');
+VALUES ('links_config_main', NULL, NULL, NULL, 1, 'myLinks', '', '', 'Public');
 
 
 INSERT INTO [dbo].[#####links_config] ([uid], [link_use_side_desc], [link_use_side_title], [link_side_title], [link_use_main_desc], [link_main_title], [link_main_subtitle], [link_main_text], [link_main_access])
-VALUES ('links_config_side', 0, 1, 'Blogroll', NULL, NULL, NULL, NULL, NULL);
+VALUES ('links_config_side', 0, 1, '', NULL, NULL, NULL, NULL, NULL);
 
 INSERT INTO [dbo].[#####newsletter] ([uid], [nl_title], [nl_show_title], [nl_text], [nl_link])
-VALUES ('newsletter', 'Newsletter', 1, 'You want always know whats up, subscribe now!', 'Submit');
+VALUES ('newsletter', '', 1, '', '');
 
 INSERT INTO [dbo].[#####poll_config] ([uid], [poll_title], [allpoll_title], [show_poll_title], [poll_side_width], [poll_main_width], [poll_sm_title], [use_poll_sidemenu], [poll_sidemenu_id], [poll_tm_title], [use_poll_topmenu], [poll_topmenu_id])
 VALUES ('poll', 'Poll', 'All Polls', 1, 110, 700, 'Poll', 1, 2, 'Poll', 0, 4);
 
 INSERT INTO [dbo].[#####products_config] ([uid], [products_id], [products_title], [products_stamp], [products_text], [category_state], [category_title], [use_category_title])
-VALUES ('products', 'products', 'Products', 'Toenda Software Products', 'Our software products.', 'software', 'Product Categories', 1);
+VALUES ('products', 'products', '', '', '', 'software', '', 1);
 
 INSERT INTO [dbo].[#####sidebar_extensions] ([uid], [sidemenu_title], [sidemenu], [sidebar_title], [show_sidebar_title], [chooser_title], [show_chooser_title], [search_title], [show_search_title], [search_alignment], [search_withbr], [search_withbutton], [search_word], [login_title], [usermenu_title], [nologin], [reg_link], [reg_user], [reg_pass], [login_user], [usermenu], [show_login_title], [show_news_cat_amount], [show_memberlist])
 VALUES ('sidebar_extensions', 'Sidemenu', 0, 'Sidebar', 0, 'Showcase', 1, 'Search our website', 0, 'left', 0, 0, 'Search website', 'Login', 'Usermenu', 'No account yet?', 'Create one', 'Username', 'Password', 1, 1, 1, 1, 0);
 
 INSERT INTO [dbo].[#####frontpage] ([uid], [front_id], [front_title], [front_stamp], [front_text], [news_title], [news_cut], [module_use_0], [sb_news_title], [sb_news_amount], [sb_news_chars], [sb_news_enabled], [sb_news_display], [language]) 
-VALUES ('frontpage', 'frontpage', 'Welcome to the Home of toendaCMS', 'Content Management and Weblogging System', 'Welcome to the Samplesite of the free Open-Source content management and weblogging system toendaCMS.&lt;br /&gt;\r\nIt is for enterprise purposes and/or private uses on the web. It offers full flexibility and extendability while featuring an accomplished set of ready-made [int]erfaces, function''s and modules.', 'Journal', 0, 3, ' Latest News', 5, 100, 1, 3, 'english_EN');
+VALUES ('frontpage', 'frontpage', '', '', '', '', 0, 3, '', 5, 100, 1, 3, 'english_EN');
 
 INSERT INTO [dbo].[#####impressum] ([uid], [imp_id], [imp_title], [imp_stamp], [imp_contact], [taxno], [ustid], [legal], [language]) 
-VALUES ('impressum', 'impressum', 'Disclaimer', 'Information about this website', '10a1b5f6ab', '123456789', '123123d', 'No portion of this web site may be reproduced without express written consent from its owner.', 'english_EN');
+VALUES ('impressum', 'impressum', '', '', '', '', '', '', 'english_EN');
 
 INSERT INTO [dbo].[#####newsmanager] ([uid], [news_id], [news_title], [news_stamp], [news_image], [use_comments], [show_autor], [show_autor_as_link], [news_amount], [access], [news_cut], [use_gravatar], [use_emoticons], [use_rss091], [use_rss10], [use_rss20], [use_atom03], [use_opml], [syn_amount], [use_syn_title], [def_feed], [use_trackback], [use_timesince], [news_text], [readmore_link], [news_spacing], [language]) 
-VALUES ('newsmanager', 'newsmanager', 'News', 'Current', ' ', 1, 0, 0, 20, 'Public', 0, 0, 1, 1, 1, 1, 1, 1, 5, 1, 'RSS2.0', 0, 0, 'testext ', 0, 25, 'english_EN');
+VALUES ('newsmanager', 'newsmanager', '', '', ' ', 1, 0, 0, 20, 'Public', 0, 0, 1, 1, 1, 1, 1, 1, 5, 1, 'RSS2.0', 0, 0, 'testext ', 0, 25, 'english_EN');
  'Gallery', 3, 'link', 'imagegallery', 1, 'Public', NULL, 'english_EN');
 
 

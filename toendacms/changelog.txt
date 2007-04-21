@@ -69,12 +69,29 @@ Developer Version
 	- 1.5.2 Stable
 	- 1.5.3 Stable
 	- 1.5.4 Stable
+	- 1.5.5 Stable
 
-Building Steps: 2733
+Building Steps: 2740
 
 
 
- Version 1.5.4 Stable
+ Version 1.5.5 Stable
+-----------------------------------------------------------------
+
+ - bug #0000148: 
+
+ - security fixed: 
+
+ - bug fixed: 
+
+ - changed: 
+
+ - added: 
+
+
+
+
+Version 1.5.4 Stable
 -----------------------------------------------------------------
 
  - bug #0000148: you cannot add more then one comment on a news:
