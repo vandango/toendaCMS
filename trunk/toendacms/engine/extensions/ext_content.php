@@ -9,7 +9,7 @@
 |
 | Contentcentral
 |
-| File:		ext_content.php
+| File:	ext_content.php
 |
 +
 */
