@@ -108,6 +108,10 @@ i {
 
 /****************** TCMS ******************/
 
+.tcms_toolbar {
+	/*background: #f5f5f5 url(images/toolbar.png);*/
+}
+
 .tcms_pagebody {
 	/*display: block;*/
 	/*margin: 10px;*/
