@@ -396,7 +396,8 @@ $position_help = 509;
 	Toolbar Loader
 */
 echo '<table cellpadding="0" width="100%" cellspacing="0" class="tcms_top_menu_line" border="0">'
-.'<tr style="background-color: #f5f5f5;"><td align="left" width="300" valign="middle" style="height: 36px !important; background-color: #f5f5f5;">';
+.'<tr style="background-color: #f5f5f5;">'
+.'<td align="left" width="300" valign="middle" style="height: 36px !important; background-color: #f5f5f5;" class="tcms_toolbar">';
 
 
 // buttons
@@ -516,13 +517,13 @@ if($mod_title['show'][$site] == 2){
 
 // table middle
 echo '</td>'
-.'<td align="left" valign="middle" style="height: 36px !important; background-color: #f5f5f5;">'
+.'<td align="left" valign="middle" style="height: 36px !important; background-color: #f5f5f5;" class="tcms_toolbar">'
 .'<strong class="tcms_ft_white">'.$mod_title['name'][$site].'</strong>'
 .'</td>';
 
 
 // table left
-echo '<td align="right" valign="middle" style="height: 36px !important; background-color: #f5f5f5;">'
+echo '<td align="right" valign="middle" style="height: 36px !important; background-color: #f5f5f5;" class="tcms_toolbar">'
 .'<a style="padding: 3px 3px 0 3px; margin: 3px 3px 0 3px;" href="admin.php?todo=logout&id_user='.$id_user.'">'
 .'<img border="0" title="'. _TCMS_MENU_LOGOUT.'" alt="'._TCMS_MENU_LOGOUT.'" src="../images/admin_menu/logout.png" />'
 .'</a>'
