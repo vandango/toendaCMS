@@ -71,7 +71,7 @@ Developer Version
 	- 1.5.4 Stable
 	- 1.5.5 Stable
 
-Building Steps: 2741
+Building Steps: 2745
 
 
 
@@ -82,7 +82,8 @@ Building Steps: 2741
 
  - security fixed: 
 
- - bug fixed: searchclass cannot search on a MS SQL Server
+ - bug fixed: search class cannot search on a MS SQL Server
+ - bug fixed: the comments loaded without the email adress
 
  - changed: 
 
