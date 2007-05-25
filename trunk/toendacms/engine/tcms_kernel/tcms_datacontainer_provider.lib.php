@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 0.7.1
+ * @version 0.7.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -718,8 +718,9 @@ class tcms_datacontainer_provider extends tcms_main {
 	 */
 	function getCommentDCList($newsID, $module = 'news', $load = true){
 		if($this->m_choosenDB == 'xml'){
-			if($module == 'news')
+			if($module == 'news') {
 				$arr_comments = $this->readdir_ext($this->m_path.'/tcms_news/comments_'.$newsID.'/');
+			}
 			
 			$count = 0;
 			
@@ -843,7 +844,7 @@ class tcms_datacontainer_provider extends tcms_main {
 					$wsMsg = $this->decodeText($wsMsg, '2', $this->m_CHARSET);
 					
 					$commentDC->setName($wsName);
-					$commentDC->setEMail($wEMail);
+					$commentDC->setEMail($wsEMail);
 					$commentDC->setURL($wsWeb);
 					$commentDC->setModule($wsModule);
 					$commentDC->setText($wsMsg);

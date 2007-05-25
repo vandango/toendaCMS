@@ -581,8 +581,15 @@ if($news != 'start' && $cmd != 'comment_save' && $news != 'archive' && !isset($c
 							$commentDC = $arrCommentDC[$key];
 							
 							if($use_gravatar == 1){
-								$grav_url = 'http://www.gravatar.com/avatar.php?gravatar_id='.md5($commentDC->getEMail()).'&amp;default='.urlencode('http://www.somewhere.com/homestar.jpg').'&amp;size=32';
-								echo '<a href="http://www.gravatar.com" title="What is this?" target="_blank"><img align="right" border="0" src="'.$grav_url.'" alt="?" /></a><br />';
+								$grav_url = 'http://www.gravatar.com/'
+								.'avatar.php?'
+								.'gravatar_id='.md5($commentDC->getEMail())
+								.'&amp;default='.urlencode('http://www.somewhere.com/homestar.jpg')
+								.'&amp;size=32';
+								
+								echo '<a href="http://www.gravatar.com" title="What is this?" target="_blank">'
+								.'<img align="right" border="0" src="'.$grav_url.'" alt="?" />'
+								.'</a><br />';
 							}
 							
 							echo '<strong class="comment_title">'.$count.'. ';
