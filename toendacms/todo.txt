@@ -2,6 +2,11 @@
   Engine
 ---------------------------------------------------------------------------------
 
+Is it planned to built in something to manage guestbook entries.
+I want to be notified by mail and see what was entered and then release it.
+
+
+
     * Imagegallery
       - Good thumbnail quality. But I think you will already make this better in your next update.
       - Open a photo in the same window of your template layout. So no new window will open. And of course a back button to the photo-list is needed then.
