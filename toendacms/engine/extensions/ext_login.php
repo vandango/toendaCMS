@@ -82,7 +82,7 @@ if($use_login == 1){
 		.'<input type="hidden" name="id" value="'.$id.'" />'
 		.'<input type="hidden" name="s" value="'.$s.'" />'
 		.'<input type="hidden" name="reg_login" value="login" />'
-		.( $tcms_main->isReal($news) ? '<input type="hidden" name="news" value="'.$news.'" />' : '')
+		//.( $tcms_main->isReal($news) ? '<input type="hidden" name="news" value="'.$news.'" />' : '')
 		.( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' );
 		
 		echo '<div align="left" style="padding-top: 4px !important;" class="logintext">'

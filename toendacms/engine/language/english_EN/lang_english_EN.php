@@ -121,6 +121,7 @@ if(!defined('_TCMS_TOPMENU_EXTENSIONS'))       define('_TCMS_TOPMENU_EXTENSIONS'
 if(!defined('_TCMS_TOPMENU_COMPONENTS'))       define('_TCMS_TOPMENU_COMPONENTS', 'Components');
 if(!defined('_TCMS_TOPMENU_SITE'))             define('_TCMS_TOPMENU_SITE', 'Site');
 if(!defined('_TCMS_TOPMENU_HELP'))             define('_TCMS_TOPMENU_HELP', 'Help');
+if(!defined('_TCMS_TOPMENU_CONF_MODULE'))      define('_TCMS_TOPMENU_CONF_MODULE', 'Module Configuration');
 
 
 // TCMS
@@ -201,28 +202,28 @@ if(!defined('_MOD_POLL'))                      define('_MOD_POLL', 'Poll');
 if(!defined('_MOD_EXTENSIONS'))                define('_MOD_EXTENSIONS', 'Global Extension Configuration');
 if(!defined('_MOD_CFORM'))                     define('_MOD_CFORM', 'Contactform Configuration');
 if(!defined('_MOD_BOOK'))                      define('_MOD_BOOK', 'Guestbook Configuration');
-define('_MOD_FRONTPAGE', 'Frontpage Configuration');
-define('_MOD_IMPRESSUM', 'Impressum Designer Configuration');
-define('_MOD_GALLERY', 'Imagegallery Configuration');
-define('_MOD_LINK', 'Link Manager');
-define('_MOD_KNOWLEDGEBASE', 'Knowledge Database');
-define('_MOD_CONTACT', 'Contact Manager');
-define('_MOD_USER', 'User Manager');
-define('_MOD_USERPAGE', 'Editorpage Configuration');
-define('_MOD_COMPONENTS', 'Components System');
-define('_MOD_COMPONENTS_UPLOAD', 'Components Install and Edit Manager');
-define('_MOD_GLOBAL', 'Global Configuration');
-define('_MOD_IMPORT', 'Import');
-define('_MOD_DB', 'Database Configuration');
-define('_MOD_STATS', 'Website Statistics');
-define('_MOD_TEMPLATE', 'Template Manager');
-define('_MOD_TEMPLATE_UPLOAD', 'Template Install and Edit Manager');
-define('_MOD_LICENSE', 'toendaCMS License (GNU/GPL)');
-define('_MOD_HELP', 'Help for various modules and settings');
-define('_MOD_DOCU', 'Documentation');
-define('_MOD_CREDITS', 'Credits and System Information');
-define('_MOD_ABOUT_MODULE', 'toendaCMS Modules Description');
-define('_MOD_ABOUT', 'About toendaCMS');
+if(!defined('_MOD_FRONTPAGE'))                 define('_MOD_FRONTPAGE', 'Frontpage Configuration');
+if(!defined('_MOD_IMPRESSUM'))                 define('_MOD_IMPRESSUM', 'Impressum Designer Configuration');
+if(!defined('_MOD_GALLERY'))                   define('_MOD_GALLERY', 'Imagegallery Configuration');
+if(!defined('_MOD_LINK'))                      define('_MOD_LINK', 'Link Manager');
+if(!defined('_MOD_KNOWLEDGEBASE'))             define('_MOD_KNOWLEDGEBASE', 'Knowledge Database');
+if(!defined('_MOD_CONTACT'))                   define('_MOD_CONTACT', 'Contact Manager');
+if(!defined('_MOD_USER'))                      define('_MOD_USER', 'User Manager');
+if(!defined('_MOD_USERPAGE'))                  define('_MOD_USERPAGE', 'Editorpage Configuration');
+if(!defined('_MOD_COMPONENTS'))                define('_MOD_COMPONENTS', 'Components System');
+if(!defined('_MOD_COMPONENTS_UPLOAD'))         define('_MOD_COMPONENTS_UPLOAD', 'Components Install and Edit Manager');
+if(!defined('_MOD_GLOBAL'))                    define('_MOD_GLOBAL', 'Global Configuration');
+if(!defined('_MOD_IMPORT'))                    define('_MOD_IMPORT', 'Import');
+if(!defined('_MOD_DB'))                        define('_MOD_DB', 'Database Configuration');
+if(!defined('_MOD_STATS'))                     define('_MOD_STATS', 'Website Statistics');
+if(!defined('_MOD_TEMPLATE'))                  define('_MOD_TEMPLATE', 'Template Manager');
+if(!defined('_MOD_TEMPLATE_UPLOAD'))           define('_MOD_TEMPLATE_UPLOAD', 'Template Install and Edit Manager');
+if(!defined('_MOD_LICENSE'))                   define('_MOD_LICENSE', 'toendaCMS License (GNU/GPL)');
+if(!defined('_MOD_HELP'))                      define('_MOD_HELP', 'Help for various modules and settings');
+if(!defined('_MOD_DOCU'))                      define('_MOD_DOCU', 'Documentation');
+if(!defined('_MOD_CREDITS'))                   define('_MOD_CREDITS', 'Credits and System Information');
+if(!defined('_MOD_ABOUT_MODULE'))              define('_MOD_ABOUT_MODULE', 'toendaCMS Modules Description');
+if(!defined('_MOD_ABOUT'))                     define('_MOD_ABOUT', 'About toendaCMS');
 
 
 // TABLES
