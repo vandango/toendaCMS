@@ -9,7 +9,7 @@
 | 
 | Login Module
 |
-| File:		ext_login.php
+| File:	ext_login.php
 |
 +
 */
@@ -37,7 +37,7 @@ if(isset($_POST['reg_cookie'])){ $reg_cookie = $_POST['reg_cookie']; }
  * This module provides the login functionality
  * and a login formular.
  *
- * @version 0.4.6
+ * @version 0.4.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -82,7 +82,7 @@ if($use_login == 1){
 		.'<input type="hidden" name="id" value="'.$id.'" />'
 		.'<input type="hidden" name="s" value="'.$s.'" />'
 		.'<input type="hidden" name="reg_login" value="login" />'
-		//.( $tcms_main->isReal($news) ? '<input type="hidden" name="news" value="'.$news.'" />' : '')
+		.( $tcms_main->isReal($news) && strlen($news) == 5 ? '<input type="hidden" name="news" value="'.$news.'" />' : '')
 		.( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' );
 		
 		echo '<div align="left" style="padding-top: 4px !important;" class="logintext">'
