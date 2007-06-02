@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * This module is for the global configuration settings.
  * 
- * @version 1.2.2
+ * @version 1.2.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Admin Backend
@@ -1095,34 +1095,33 @@ if($id_group == 'Developer'
 			
 			
 			$fp_header = ''
-	.'<?php /* _\|/_
-	         (o o)                         
-	+-----oOO-{_}-OOo--------------------------------------------------------+
-	| toendaCMS - Content Management and Weblogging System with XML and SQL  |
-	+------------------------------------------------------------------------+
-	| Copyright (c) Toenda Software Development                              |
-	| Author: Jonathan Naumann                                               |
-	+------------------------------------------------------------------------+
-	| 
-	| Database Usersettings
-	|
-	| File:		mail.php
-	| Version:	0.0.1
-	|
-	+
-	*/
-	
-	$tcms_mail_with_smtp   = \''.$new_mail_with_smtp.'\';
-	$tcms_mail_as_html     = \''.$new_mail_as_html.'\';
-	$tcms_mail_server_pop3 = \''.$new_mail_server_pop3.'\';
-	$tcms_mail_server_smtp = \''.$new_mail_server_smtp.'\';
-	$tcms_mail_port        = \''.$new_mail_port.'\';
-	$tcms_mail_pop3        = \''.$new_mail_pop3.'\';
-	$tcms_mail_user        = \''.$new_mail_user.'\';
-	$tcms_mail_password    = \''.$new_mail_password.'\';
-	
-	?>
-	';
+.'<?php /* _\|/_
+         (o o)                         
++-----oOO-{_}-OOo--------------------------------------------------------+
+| toendaCMS - Content Management and Weblogging System with XML and SQL  |
++------------------------------------------------------------------------+
+| Copyright (c) Toenda Software Development                              |
+| Author: Jonathan Naumann                                               |
++------------------------------------------------------------------------+
+| 
+| Database Usersettings
+|
+| File:		mail.php
+| Version:	0.0.1
+|
++
+*/
+
+$tcms_mail_with_smtp   = \''.$new_mail_with_smtp.'\';
+$tcms_mail_as_html     = \''.$new_mail_as_html.'\';
+$tcms_mail_server_pop3 = \''.$new_mail_server_pop3.'\';
+$tcms_mail_server_smtp = \''.$new_mail_server_smtp.'\';
+$tcms_mail_port        = \''.$new_mail_port.'\';
+$tcms_mail_pop3        = \''.$new_mail_pop3.'\';
+$tcms_mail_user        = \''.$new_mail_user.'\';
+$tcms_mail_password    = \''.$new_mail_password.'\';
+
+?>';
 			
 			$fp = fopen('../../'.$tcms_administer_site.'/tcms_global/mail.php', 'w');
 			fwrite($fp, $fp_header);
@@ -1398,8 +1397,7 @@ $tcms_db_database = \''.$new_database.'\';
 $tcms_db_port     = \''.$new_port.'\';
 $tcms_db_prefix   = \''.$new_prefix.'\';
 
-?>
-';
+?>';
 				
 			$fp = fopen('../../'.$tcms_administer_site.'/tcms_global/database.php', 'w');
 			fwrite($fp, $fp_header);

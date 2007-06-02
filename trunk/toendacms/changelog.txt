@@ -71,19 +71,25 @@ Developer Version
 	- 1.5.4 Stable
 	- 1.5.5 Stable
 
-Building Steps: 2745
+Building Steps: 2752
 
 
 
  Version 1.5.5 Stable
 -----------------------------------------------------------------
 
- - bug #0000148: 
+ - bug #0000154: File mail.php generates errors on loading.
+ - bug #0000155: It can only one comment written to one news.
+ - bug #0000156: Missing language define in the english language file.
+ - bug #0000158: Converting @ symbols into __NO_SPAM__ in converted mailsadresses.
+ - bug #0000159: The template manager cannot execute the chmod function.
+ - bug #0000152: Displaying a part of the news in the login module, if the login
+                 module is on the right side of the page.
 
  - security fixed: 
 
- - bug fixed: search class cannot search on a MS SQL Server
- - bug fixed: the comments loaded without the email adress
+ - bug fixed: The search-class cannot search on a MS SQL Server.
+ - bug fixed: The comments loaded without the email adress.
 
  - changed: 
 

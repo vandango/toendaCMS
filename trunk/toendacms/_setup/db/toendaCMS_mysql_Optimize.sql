@@ -39,3 +39,6 @@ ALTER TABLE `#####userpage` ADD PRIMARY KEY ( `uid` ) ;
 ALTER TABLE `#####frontpage` ADD PRIMARY KEY ( `uid` ) ;
 ALTER TABLE `#####newsmanager` ADD PRIMARY KEY ( `uid` ) ;
 
+
+ALTER TABLE `#####comments` DROP PRIMARY KEY;
+ALTER TABLE `#####comments` DROP INDEX `uid`;
