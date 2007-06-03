@@ -71,7 +71,7 @@ Developer Version
 	- 1.5.4 Stable
 	- 1.5.5 Stable
 
-Building Steps: 2762
+Building Steps: 2763
 
 
 
@@ -95,6 +95,7 @@ Building Steps: 2762
  - bug fixed: Gallery administration overview generates an error.
  - bug fixed: The Gallery Frontend has some bugs.
  - bug fixed: Guestbook title are not using the html class method.
+ - bug fixed: A very small encoding bug in tcms.lib.php.
 
  - changed: 
 
