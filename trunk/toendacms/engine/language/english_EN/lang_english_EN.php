@@ -358,14 +358,14 @@ if(!defined('_TABLE_FRONTPAGE'))               define('_TABLE_FRONTPAGE', 'Front
 
 
 // MESSAGES
-define('_DIE_LOGIN', 'Please login!<br /><a href="index.php">Log in</a>');
-define('_MSG_NOINFO', '[NO INFORMATION AVAILABLE]');
+if(!defined('_DIE_LOGIN'))                     define('_DIE_LOGIN', 'Please login!<br /><a href="index.php">Log in</a>');
+if(!defined('_MSG_NOINFO'))                    define('_MSG_NOINFO', '[NO INFORMATION AVAILABLE]');
 if(!defined('_MSG_SAVED'))                     define('_MSG_SAVED', 'Successfully saved.');
 if(!defined('_MSG_SAVED_FAILED'))              define('_MSG_SAVED_FAILED', 'Not successfully saved.');
 if(!defined('_MSG_SEND'))                      define('_MSG_SEND', 'Successfully send.');
 if(!defined('_MSG_SEND_FAILED'))               define('_MSG_SEND_FAILED', 'Error on sending!');
-define('_MSG_NOTWRITABLE', 'IS NOT WRITABLE!');
-define('_MSG_NOINSTALL', 'Please Install first!');
+if(!defined('_MSG_NOTWRITABLE'))               define('_MSG_NOTWRITABLE', 'IS NOT WRITABLE!');
+if(!defined('_MSG_NOINSTALL'))                 define('_MSG_NOINSTALL', 'Please Install first!');
 define('_MSG_GOTOINSTALL', 'GO TO INSTALLATION');
 define('_MSG_RM_INSTALLDIR', 'Please remove installation dir!');
 define('_MSG_PAGE_LOAD_1', 'Page generated in');
@@ -412,6 +412,7 @@ if(!defined('_MSG_BACKUP_FAILED'))             define('_MSG_BACKUP_FAILED', 'Dat
 if(!defined('_MSG_CHANGES'))                   define('_MSG_CHANGES', 'You have made changes.');
 if(!defined('_MSG_SAVE_NOW'))                  define('_MSG_SAVE_NOW', 'Do you want to save those now?');
 if(!defined('_MSG_NO_ALBUM_WITH_THIS_ID'))     define('_MSG_NO_ALBUM_WITH_THIS_ID', 'The System dont have found a album with this ID!');
+if(!defined('_MSG_CREATE_ALBUM_FIRST'))        define('_MSG_CREATE_ALBUM_FIRST', '* Create a album first *');
 
 
 

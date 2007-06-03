@@ -413,6 +413,7 @@ define('_MSG_BACKUP_FAILED', 'Das Datenbank Backup ist fehlgeschlagen!');
 define('_MSG_CHANGES', 'Sie haben einige AEnderungen noch nicht gespeichert.');
 define('_MSG_SAVE_NOW', 'Moechten sie jetzt speichern?');
 define('_MSG_NO_ALBUM_WITH_THIS_ID', 'Es konnte kein Album zu dieser ID gefunden werden!');
+define('_MSG_CREATE_ALBUM_FIRST', '* Erst ein Album erstellen *');
 
 
 // LOGIN

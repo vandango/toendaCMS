@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a imagegallery.
  *
- * @version 0.6.3
+ * @version 0.6.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -115,6 +115,7 @@ else{
 
 
 
+
 /*
 	Start page
 */
@@ -122,8 +123,11 @@ else{
 if(!isset($albums)){ $albums = 'start'; }
 
 if($albums == 'start'){
-	if(trim($image_title) != ''){ echo tcms_html::contentheading($image_title); }
-	if(trim($image_stamp) != ''){ echo tcms_html::contentmain($image_stamp).'<br /><br />'; }
+	echo $tcms_html->contentModuleHeader(
+		$image_title, 
+		$image_stamp, 
+		''
+	);
 	
 	
 	// table rows
@@ -194,6 +198,11 @@ if($albums == 'start'){
 
 
 
+
+/*
+	Pictures
+*/
+
 if($albums != 'start'){
 	if($tcms_main->isReal($arr_albums['path'])) {
 		foreach($arr_albums['path'] as $a_key => $a_value){
@@ -237,10 +246,12 @@ if($albums != 'start'){
 				echo '<div class="contentheading">'._GALLERY_THISIS.' '.$album_title.' '._GALLERY_THISIS2.'</div>'
 				.'(&nbsp;<a href="'.$link.'">'.$image_title.'</a>&nbsp;)'
 				.'<br /><br />';
-				echo '<span class="contentmain">'.$album_desc.'</span><br /><br />';
+				
+				echo '<span class="contentmain">'.$album_desc.'</span>'
+				.'<br /><br />';
 				
 				
-				echo '<table cellpadding="0" cellspacing="2" border="0" class="noborder" width="100%" class="news_content_bg">';
+				echo $tcms_html->tableHeadClass('0', '2', '0', '100%', 'noborder news_content_bg');
 				
 				
 				$arr_dir = $tcms_main->getPathContent($tcms_administer_site.'/images/albums/'.$a_value.'/');
@@ -318,7 +329,6 @@ if($albums != 'start'){
 								$img_o_width  = $img_size[0];
 								$img_o_height = $img_size[1];
 								
-								//*********************************************************************************
 								
 								$des_file = $dvalue;
 								if($choosenDB == 'xml'){
@@ -343,7 +353,6 @@ if($albums != 'start'){
 								// CHARSETS
 								$old_des = $tcms_main->decodeText($old_des, '2', $c_charset);
 								
-								//*********************************************************************************
 								
 								if(!isset($list_option)) $list_option = 0;
 								
@@ -439,9 +448,9 @@ if($albums != 'start'){
 							echo '</tr>';
 						}
 					}
-					
-					echo '</table>';
 				}
+				
+				echo $tcms_html->tableEnd();
 			}
 		}
 	}

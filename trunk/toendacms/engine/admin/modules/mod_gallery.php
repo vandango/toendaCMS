@@ -9,8 +9,7 @@
 | 
 | Imagegallery Manager
 |
-| File:		mod_gallery.php
-| Version:	0.7.5
+| File:	mod_gallery.php
 |
 +
 */
@@ -19,8 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-
-
+/**
+ * Imagegallery Manager
+ *
+ * This module is used to manage the galleries.
+ *
+ * @version 0.7.7
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 if(isset($_GET['gg_albums'])){ $gg_albums = $_GET['gg_albums']; }
@@ -58,9 +65,6 @@ if(isset($_POST['new_list_option'])){ $new_list_option = $_POST['new_list_option
 
 
 
-
-
-
 $arr_farbe[0] = $arr_color[0];
 $arr_farbe[1] = $arr_color[1];
 $bgkey     = 0;
@@ -70,9 +74,8 @@ if(!isset($gg_albums)){ $gg_albums = 'show'; }
 
 
 
-
-
 $param_save_mode = 'off';
+
 if($param_save_mode == 'off'){
 	/*
 		Load Albums
@@ -137,17 +140,9 @@ if($param_save_mode == 'off'){
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
 	if($todo == 'config'){
-		if($id_group == 'Developer' || $id_group == 'Administrator'){
-			//*********************************************************************************
-			// IMAGEGALLERY CONFIG
+		if($id_group == 'Developer' 
+		|| $id_group == 'Administrator'){
 			if($choosenDB == 'xml'){
 				$image_xml            = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/imagegallery.xml','r');
 				$old_image_id         = $image_xml->read_section('config', 'image_id');
@@ -347,19 +342,9 @@ if($param_save_mode == 'off'){
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	if($gg_albums == 'show' && $todo != 'config' && todo != 'save'){
+	if($gg_albums == 'show' 
+	&& $todo != 'config' 
+	&& todo != 'save'){
 		if($todo == 'createAlbum'){
 			/*
 				BEGIN FORM
@@ -407,7 +392,7 @@ if($param_save_mode == 'off'){
 			
 			echo '</form>';
 		}
-		else{
+		else {
 			/*
 				BEGIN FORM
 			*/
@@ -445,8 +430,13 @@ if($param_save_mode == 'off'){
 			echo '<tr><td width="200">'
 			.'<select class="tcms_select" onchange="document.getElementById(\'dir\').value=this.value;">';
 			
-			foreach($arr_albums['count'] as $skey => $svalue){
-				echo '<option value="'.$arr_albums['path'][$skey].'">'.$arr_albums['title'][$skey].'</option>';
+			if($tcms_main->isReal($arr_albums['count'])) {
+				foreach($arr_albums['count'] as $skey => $svalue){
+					echo '<option value="'.$arr_albums['path'][$skey].'">'.$arr_albums['title'][$skey].'</option>';
+				}
+			}
+			else {
+				echo '<option value="">'._MSG_CREATE_ALBUM_FIRST.'</option>';
 			}
 			
 			echo '</select>'
@@ -458,21 +448,6 @@ if($param_save_mode == 'off'){
 			echo '</table>'
 			.'</form>'
 			.'<br /><br />';
-			
-			
-			//=========================================================================
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 			
 			
 			
@@ -629,12 +604,14 @@ if($param_save_mode == 'off'){
 		.'<input name="todo" type="hidden" value="upload" />';
 		
 		
-		foreach($arr_albums['count'] as $skey => $svalue){
-			if($value == $arr_albums['path'][$skey]){
-				echo '<strong>'._GALLERY_THISIS.' '.$arr_albums['title'][$skey].' '._GALLERY_THISIS2.'</strong><br />
-				'._GALLERY_THISIS3.'<br /><br />';
-				$cig_path = $value;
-				$this_album = $arr_albums['title'][$skey];
+		if($tcms_main->isReal($arr_albums['count'])) {
+			foreach($arr_albums['count'] as $skey => $svalue){
+				if($value == $arr_albums['path'][$skey]){
+					echo '<strong>'._GALLERY_THISIS.' '.$arr_albums['title'][$skey].' '._GALLERY_THISIS2.'</strong><br />
+					'._GALLERY_THISIS3.'<br /><br />';
+					$cig_path = $value;
+					$this_album = $arr_albums['title'][$skey];
+				}
 			}
 		}
 		
@@ -1373,59 +1350,70 @@ if($param_save_mode == 'off'){
 			copy($_FILES['event']['tmp_name'], $imgDir.$fileName);
 			
 			$msg = _MSG_UPLOAD.' '.$imgDir.$_FILES['event']['name'];
+			
+			$doUpload = true;
 		}
 		else{
 			$msg = _MSG_NOUPLOAD;
+			
+			$doUpload = false;
 		}
 		
-		$timecode = date('YmdHis');
-		
-		$fileName = $tcms_main->decodeText($fileName, '2', $c_charset, true);
-		
-		
-		// write data
-		if($choosenDB == 'xml'){
-			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_imagegallery/'.$dir.'/'.$fileName.'.xml', 'w');
-			$xmluser->xml_declaration();
-			$xmluser->xml_section('image');
+		if($doUpload) {
+			$timecode = date('YmdHis');
 			
-			$xmluser->write_value('text', $fileName);
-			$xmluser->write_value('timecode', $timecode);
+			$fileName = $tcms_main->decodeText($fileName, '2', $c_charset, true);
 			
-			$xmluser->xml_section_buffer();
-			$xmluser->xml_section_end('image');
-			$xmluser->_xmlparser();
-		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			switch($choosenDB){
-				case 'mysql':
-					$newSQLColumns = '`album`, `image`, `text`, `date`';
-					break;
+			// write data
+			if($choosenDB == 'xml'){
+				$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_imagegallery/'.$dir.'/'.$fileName.'.xml', 'w');
+				$xmluser->xml_declaration();
+				$xmluser->xml_section('image');
 				
-				case 'pgsql':
-					$newSQLColumns = 'album, image, text, date';
-					break;
+				$xmluser->write_value('text', $fileName);
+				$xmluser->write_value('timecode', $timecode);
 				
-				case 'pgsql':
-					$newSQLColumns = '[album], [image], [text], [date]';
-					break;
+				$xmluser->xml_section_buffer();
+				$xmluser->xml_section_end('image');
+				$xmluser->_xmlparser();
+			}
+			else{
+				$sqlAL = new sqlAbstractionLayer($choosenDB);
+				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				
+				switch($choosenDB){
+					case 'mysql':
+						$newSQLColumns = '`album`, `image`, `text`, `date`';
+						break;
+					
+					case 'pgsql':
+						$newSQLColumns = 'album, image, text, date';
+						break;
+					
+					case 'pgsql':
+						$newSQLColumns = '[album], [image], [text], [date]';
+						break;
+				}
+				
+				$newSQLData = "'".$dir."', '".$fileName."', '".$fileName."', '".$timecode."'";
+				
+				$maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'imagegallery', 10);
+				
+				$sqlQR = $sqlAL->sqlCreateOne($tcms_db_prefix.'imagegallery', $newSQLColumns, $newSQLData, $maintag);
 			}
 			
-			$newSQLData = "'".$dir."', '".$fileName."', '".$fileName."', '".$timecode."'";
-			
-			$maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'imagegallery', 10);
-			
-			$sqlQR = $sqlAL->sqlCreateOne($tcms_db_prefix.'imagegallery', $newSQLColumns, $newSQLData, $maintag);
+			echo '<script>'
+			.'alert(\''.$msg.'.\');'
+			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_gallery&gg_albums=edit&value='.$dir.'\';'
+			.'</script>';
 		}
-		
-		//***********************************
-		
-		echo '<script>alert(\''.$msg.'.\');document.location=\'admin.php?id_user='.$id_user.'&site=mod_gallery&gg_albums=edit&value='.$dir.'\';</script>';
-		
-		//***********************************
+		else {
+			echo '<script>'
+			.'alert(\''.$msg.'.\');'
+			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_gallery\';'
+			.'</script>';
+		}
 	}
 }
 else{
