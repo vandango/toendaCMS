@@ -9,7 +9,7 @@
 | 
 | toendaCMS Kernel - System framework
 |
-| File:		tcms.lib.php
+| File:	tcms.lib.php
 |
 +
 */
@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.0.1
+ * @version 2.0.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -69,34 +69,34 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getMimeType                       -> Get the mimetype of a filename
  * getPHPSetting                     -> Get a PHP setting
  * getLanguageNameByTCMSLanguageCode -> Get the name of a language by it's TCMS language code
- * setPHPSetting               -> Set a PHP setting
- * isArray                     -> Check if a array is realy a array
- * isImage                     -> Check if a file type is a image file
- * isAudio                     -> Check if a file type is a audio file
- * isVideo                     -> Check if a file type is a video file
- * isMultimedia                -> Check if a file type is a multimedia file
- * isReal                      -> Check if a variable is not empty and is set
- * isCHMODable                 -> Checks if a file is CHMODable
- * deleteDir                   -> Remove dir with all files and directorys inside
- * deleteDirContent            -> Remove all files and directorys inside a directory
- * encodeBase64                -> Encode (decipher) a crypt a string from a base64 crypt string
- * decodeBase64                -> Decode (cipher) a string into a base64 crypt string
- * encodeText                  -> Encode (cipher) a text
- * decodeText                  -> Decode (decipher) a text
- * securePassword              -> Secure or unsecure a password string
- * checkWebLink                -> Check if a link is a weblink
- * checkAccess                 -> Check if a usergroup can read a access level
- * cleanUrlString              -> Clean a text from javascript code
- * cleanGBLink                 -> Clean a text from links code
- * cleanGBScript               -> Clean a text from javascript and php code
- * cleanFilename               -> Clean a filename
- * cleanImageFromString        -> Clean images from a string
- * cleanAllImagesFromString    -> Clean all images from a string
- * urlAmpReplace               -> Convert a url link into a SEO friendly link
- * urlAddSlash                 -> Convert a equal-char (=) into a slash-char (/)
- * urlAddColon                 -> Convert a equal-char (=) into a double-dot-char (:)
- * reCHMOD                     -> Chmods files and directories recursivel to given permissions
- * replaceSmilyTags            -> Replace all smiley tags with the icons
+ * setPHPSetting                     -> Set a PHP setting
+ * isArray                           -> Check if a array is realy a array
+ * isImage                           -> Check if a file type is a image file
+ * isAudio                           -> Check if a file type is a audio file
+ * isVideo                           -> Check if a file type is a video file
+ * isMultimedia                      -> Check if a file type is a multimedia file
+ * isReal                            -> Check if a variable is not empty and is set
+ * isCHMODable                       -> Checks if a file is CHMODable
+ * deleteDir                         -> Remove dir with all files and directorys inside
+ * deleteDirContent                  -> Remove all files and directorys inside a directory
+ * encodeBase64                      -> Encode (decipher) a crypt a string from a base64 crypt string
+ * decodeBase64                      -> Decode (cipher) a string into a base64 crypt string
+ * encodeText                        -> Encode (cipher) a text
+ * decodeText                        -> Decode (decipher) a text
+ * securePassword                    -> Secure or unsecure a password string
+ * checkWebLink                      -> Check if a link is a weblink
+ * checkAccess                       -> Check if a usergroup can read a access level
+ * cleanUrlString                    -> Clean a text from javascript code
+ * cleanGBLink                       -> Clean a text from links code
+ * cleanGBScript                     -> Clean a text from javascript and php code
+ * cleanFilename                     -> Clean a filename
+ * cleanImageFromString              -> Clean images from a string
+ * cleanAllImagesFromString          -> Clean all images from a string
+ * urlAmpReplace                     -> Convert a url link into a SEO friendly link
+ * urlAddSlash                       -> Convert a equal-char (=) into a slash-char (/)
+ * urlAddColon                       -> Convert a equal-char (=) into a double-dot-char (:)
+ * reCHMOD                           -> Chmods files and directories recursivel to given permissions
+ * replaceSmilyTags                  -> Replace all smiley tags with the icons
  *
  * xml_readdir_content         -> return id saved in xml file
  * xml_readdir_content_without -> return id saved in xml file
@@ -1244,7 +1244,7 @@ class tcms_main {
 				if(phpversion() >= '5.1.6' && $lang == 'germany_DE') {
 					//echo phpversion().' >= 5.1.6';
 					$text = htmlspecialchars_decode($text);
-					//$text = strtr($text, $trans);
+					$text = strtr($text, $trans);
 				}
 				else {
 					//echo '< 5.1.6';
