@@ -10,9 +10,10 @@ $skinPath = $templatePath.'images/';
 // 1 = K2
 // 2 = K2 BIG
 // 3 = K2 Vader
+// 4 = KS Garcia Solar Landscape
 //
 
-$k2CSS = 1;
+$k2CSS = 4;
 
 ?>
 <head>
@@ -34,16 +35,34 @@ else css = 'moz';
 <?
 
 switch($k2CSS){
-	case 1: echo '<script type="text/javascript" language="JavaScript">document.write (\'<link href="'.$skinPath.'k2_\' + css + \'.css" rel="stylesheet" type="text/css" />\');</script>'; break;
-	case 2: echo '<link href="'.$skinPath.'k2_big.css" rel="stylesheet" type="text/css" />'; break;
-	case 3: echo '<link href="'.$skinPath.'vader.css" rel="stylesheet" type="text/css" />'; break;
-	default: echo '<link href="'.$skinPath.'k2.css" rel="stylesheet" type="text/css" />'; break;
+	case 1:
+		echo '<script type="text/javascript" language="JavaScript">'
+		.'document.write (\'<link href="'.$skinPath.'k2_\' + css + \'.css" rel="stylesheet" type="text/css" />\');'
+		.'</script>';
+		break;
+	
+	case 2:
+		echo '<link href="'.$skinPath.'k2_big.css" rel="stylesheet" type="text/css" />';
+		break;
+	
+	case 3:
+		echo '<link href="'.$skinPath.'vader.css" rel="stylesheet" type="text/css" />';
+		break;
+	
+	case 4:
+		echo '<script type="text/javascript" language="JavaScript">'
+		.'document.write (\'<link href="'.$skinPath.'k2_\' + css + \'.css" rel="stylesheet" type="text/css" />\');'
+		.'</script>';
+		echo '<link href="'.$skinPath.'k2_garciasolar.css" rel="stylesheet" type="text/css" />';
+		break;
+	
+	default:
+		echo '<link href="'.$skinPath.'k2_moz.css" rel="stylesheet" type="text/css" />';
+		break;
 }
 
 ?>
 </head>
-
-
 
 
 <body class="twocolumns">
@@ -68,7 +87,7 @@ switch($k2CSS){
 	include(_PATHWAY);
 	echo '</div>';?>
 	
-	<? if($k2CSS != 4){ ?>
+	<? if($k2CSS != 5){ ?>
 		<div class="mainText"><div class="item"><br /><? include(_CONTENT); ?></div></div>
 	<? } ?>
  	
@@ -94,7 +113,7 @@ switch($k2CSS){
 		?>
 	</div>
 	
-	<? if($k2CSS == 4){ ?>
+	<? if($k2CSS == 5){ ?>
 		<div class="mainText"><div class="item"><br /><? include(_CONTENT); ?></div></div>
 	<? } ?>
 	
@@ -107,7 +126,11 @@ switch($k2CSS){
 
 <hr />
 
-<div id="footer"><? include(_FOOTER); ?></div>
+<div id="footer">
+	<?
+	include(_FOOTER);
+	?>
+</div>
 
 <br />
 

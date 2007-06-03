@@ -71,7 +71,7 @@ Developer Version
 	- 1.5.4 Stable
 	- 1.5.5 Stable
 
-Building Steps: 2753
+Building Steps: 2761
 
 
 
@@ -92,10 +92,12 @@ Building Steps: 2753
  - bug fixed: The comments loaded without the email adress.
  - bug fixed: If a person who writes a comment doenst have a gravatar
               icon, he gets now the default gravatar logo.
+ - bug fixed: Gallery administration overview generates an error.
+ - bug fixed: The Gallery Frontend has some bugs.
 
  - changed: 
 
- - added: 
+ - added: New color theme "Garcia Solar Landscape" to the K2 theme.
 
 
 
