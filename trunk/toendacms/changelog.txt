@@ -71,7 +71,7 @@ Developer Version
 	- 1.5.4 Stable
 	- 1.5.5 Stable
 
-Building Steps: 2752
+Building Steps: 2753
 
 
 
@@ -90,6 +90,8 @@ Building Steps: 2752
 
  - bug fixed: The search-class cannot search on a MS SQL Server.
  - bug fixed: The comments loaded without the email adress.
+ - bug fixed: If a person who writes a comment doenst have a gravatar
+              icon, he gets now the default gravatar logo.
 
  - changed: 
 
