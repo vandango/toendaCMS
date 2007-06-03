@@ -9,7 +9,7 @@
 |
 | Guestbook
 |
-| File:		ext_guestbook.php
+| File:	ext_guestbook.php
 |
 +
 */
@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a guestbook.
  *
- * @version 0.4.3
+ * @version 0.4.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -133,10 +133,11 @@ if($book_enabled == 1){
 	$arr_color[1] = '#'.$arr_color[1];
 	
 	
-	
-	if(trim($book_title) != '') echo tcms_html::contentheading($book_title);
-	if(trim($book_stamp) != '') echo tcms_html::contentstamp($book_stamp).'<br /><br /><br />';
-	
+	echo $tcms_html->contentModuleHeader(
+		$book_title, 
+		$book_stamp, 
+		''
+	);
 	
 	
 	if($action != 'submit'){
