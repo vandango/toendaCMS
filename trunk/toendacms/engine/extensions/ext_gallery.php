@@ -9,7 +9,7 @@
 | 
 | Imagegallery
 |
-| File:		ext_gallery.php
+| File:	ext_gallery.php
 |
 +
 */
@@ -33,12 +33,8 @@ defined('_TCMS_VALID') or die('Restricted access');
 if(isset($_GET['albums'])){ $albums = $_GET['albums']; }
 
 
-
-
 $hr_line_1 = '<tr class="hr_line"><td colspan="2"></td></tr>';
 $hr_line_2 = '<tr style="height: 5px;"><td colspan="2"><hr class="hrule" noshade="noshade" /></td></tr>';
-
-
 
 
 /*

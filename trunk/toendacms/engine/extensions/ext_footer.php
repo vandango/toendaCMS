@@ -9,7 +9,7 @@
 | 
 | Website Footer
 |
-| File:		ext_footer.php
+| File:	ext_footer.php
 |
 +
 */
