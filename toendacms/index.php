@@ -50,7 +50,7 @@ if(isset($_POST['contact_email'])){ $contact_email = $_POST['contact_email']; }
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.5.5
+ * @version 2.5.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -593,6 +593,9 @@ if($wsShowSite){
 				// blogfeatures
 				$tcms_blogfeatures = new tcms_blogfeatures();
 				
+				// graphic engine
+				$tcms_gd = new tcms_gd();
+				
 				
 				
 				/*
@@ -1102,6 +1105,7 @@ if($wsShowSite){
 						
 						unset($tcms_param);
 						unset($sqlAL);
+						unset($tcms_gd);
 						unset($tcms_main);
 						unset($tcms_auth);
 						unset($tcms_dcp);

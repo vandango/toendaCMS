@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a news manager with a news,
  * a news view and a archive with different formats.
  *
- * @version 1.3.0
+ * @version 1.3.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -584,7 +584,6 @@ if($news != 'start' && $cmd != 'comment_save' && $news != 'archive' && !isset($c
 								$grav_url = 'http://www.gravatar.com/'
 								.'avatar.php?'
 								.'gravatar_id='.md5($commentDC->getEMail())
-								.'&amp;default='.urlencode('http://www.somewhere.com/homestar.jpg')
 								.'&amp;size=32';
 								
 								echo '<a href="http://www.gravatar.com" title="What is this?" target="_blank">'
@@ -707,15 +706,11 @@ if($news != 'start' && $cmd != 'comment_save' && $news != 'archive' && !isset($c
 
 
 
-
-
-
-
+/*
+	save commenst
+*/
 
 if($use_news_comments == 1){
-	//******************************************
-	// SAVE COMMENT
-	//
 	if($cmd == 'comment_save'){
 		// Timestamp
 		$cur_c_date = date('YmdHis');
@@ -847,18 +842,11 @@ if($use_news_comments == 1){
 
 
 
-
-
-
-
-
-/*******************************************
-*
-* Categories
-* and
-* MonthView
-*
+/*
+	categories
+	and mothview
 */
+
 if($cmd == '' && $news == ''){
 	if(isset($date)){
 		if(strlen($date) == 6){
