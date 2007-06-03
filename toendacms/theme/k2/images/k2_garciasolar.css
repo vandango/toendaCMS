@@ -1,0 +1,66 @@
+/*  
+	Garcia Solar Landscape Colors
+	http://www.toenda.com | http://www.vandango.com
+	
+	595441 - brown
+	B9B09D - beage
+	FFFFFF - white
+	69BFDE - light blue
+	4A8797 - dark blue
+*/
+
+
+
+body {
+	background-color: #595441;
+}
+
+
+
+#header {
+	background: #4A8797;
+}
+
+
+
+h2 a:hover, 
+h2 span a:hover {
+	color: #4A8797 !important;
+}
+
+a {
+	color: #4A8797;
+}
+
+
+
+a.toplevel, 
+a.toplevel:link, 
+a.toplevel:visited, 
+a.toplevel:active {
+	background: #B9B09D;
+	color: #fff;
+}
+a.toplevel:hover {
+	background: #333;
+	color: #eee !important;
+}
+
+
+
+.legal {
+	font-size: 9px;
+	color: #fff;
+}
+
+a.legal,
+a.legal:link,
+a.legal:visited {
+	color: #fff;
+	text-decoration: none;
+}
+
+.legal a:hover {
+	text-decoration: underline;
+	color: #fff;
+}
