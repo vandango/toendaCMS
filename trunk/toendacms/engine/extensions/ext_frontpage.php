@@ -9,7 +9,7 @@
 | 
 | Frontpage
 |
-| File:		ext_frontpage.php
+| File:	ext_frontpage.php
 |
 +
 */
