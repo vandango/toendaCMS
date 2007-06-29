@@ -392,8 +392,17 @@ $strMetaData = '<meta http-equiv="Content-Type" content="text/html; charset='.$c
 -->
 
 <link rel="stylesheet" href="'.$imagePath.'engine/styles/tcms_common.css" />
-<link rel="stylesheet" href="'.$imagePath.'engine/styles/tcms_editor.css" />'
-.( trim($antiFrame) == 1 ? chr(13).'<script type="text/javascript" language="JavaScript" src="'.$imagePath.'engine/js/antiframe.js"></script>' : '' )
+<link rel="stylesheet" href="'.$imagePath.'engine/styles/tcms_editor.css" />
+';
+
+if($use_syndication == 1){
+	$strMetaData .= '<link rel="alternate" type="application/rss+xml" '
+	.'title="'._SITE_TITLE.' RSS Feed" '
+	.'href="'.$websiteowner_url.$imagePath.'cache/'.$def_feed.'.xml" />';
+}
+
+$strMetaData .= '
+'.( trim($antiFrame) == 1 ? chr(13).'<script type="text/javascript" language="JavaScript" src="'.$imagePath.'engine/js/antiframe.js"></script>' : '' )
 .( trim($detect_browser) == 1 ? chr(13).'<script type="text/javascript" language="JavaScript" src="'.$imagePath.'engine/js/browsercheck.js"></script>' : '' )
 .chr(13)
 .'<script type="text/javascript" language="JavaScript" src="'.$imagePath.'engine/js/jscrypt.js"></script>

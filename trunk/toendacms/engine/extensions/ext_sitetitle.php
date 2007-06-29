@@ -9,8 +9,7 @@
 | 
 | Sitetitle
 |
-| File:		ext_sitetitle.php
-| Version:	0.3.5
+| File:	ext_sitetitle.php
 |
 +
 */
@@ -18,6 +17,17 @@
 
 defined('_TCMS_VALID') or die('Restricted access');
 
+
+/**
+ * toendaCMS Sitetitle
+ *
+ * This module is used fore the site title.
+ *
+ * @version 0.3.6
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Content Modules
+ */
 
 
 if(isset($_GET['albums'])){ $albums = $_GET['albums']; }

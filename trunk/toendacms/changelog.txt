@@ -70,8 +70,25 @@ Developer Version
 	- 1.5.3 Stable
 	- 1.5.4 Stable
 	- 1.5.5 Stable
+	- 1.5.6 Stable
 
-Building Steps: 2763
+Building Steps: 2770
+
+
+
+ Version 1.5.6 Stable
+-----------------------------------------------------------------
+
+ - bug #0000154: 
+
+ - security fixed: 
+
+ - bug fixed: 
+
+ - changed: 
+
+ - added: Firefox support for the RSS subscription.
+
 
 
 
