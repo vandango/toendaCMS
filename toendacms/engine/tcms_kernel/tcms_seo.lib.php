@@ -9,7 +9,7 @@
 |
 | toendaCMS Search Engine Optimization
 |
-| File:		tcms_seo.lib.php
+| File:	tcms_seo.lib.php
 |
 +
 */
@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used for the search engine
  * optimization.
  *
- * @version 0.3.2
+ * @version 0.3.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -327,6 +327,50 @@ class tcms_seo {
 				
 				case 'lang':
 					$arrSEO['lang'] = $this->m_urlArray[$urlKey + 1];
+					break;
+			}
+		}
+		
+		return ( $arrSEO == '' ? null : $arrSEO );
+	}
+	
+	
+	
+	/**
+	 * Explode the url in slash format
+	 */
+	function explodeHTMLFormat(){
+		foreach($this->m_urlArray as $urlKey => $urlValue){
+			if(strlen($urlValue) > 0) {
+				if(strpos($urlValue, '.', 1) > 0) {
+					$val = substr($urlValue, 0, strpos($urlValue, '.', 1));
+				}
+				else {
+					$val = $urlValue;
+				}
+			}
+			else {
+				$val = $urlValue;
+			}
+			
+			
+			//echo '$val:'.$val.'<br>';
+			
+			switch($val) {
+				case 'de':
+					$arrSEO['lang'] = 'de';
+					break;
+				
+				case 'en':
+					$arrSEO['lang'] = 'en';
+					break;
+				
+				case 'frontpage':
+					$arrSEO['id'] = 'frontpage';
+					break;
+				
+				case 'news':
+					$arrSEO['id'] = 'newsmanager';
 					break;
 			}
 		}

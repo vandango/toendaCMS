@@ -1480,45 +1480,93 @@ class tcms_main {
 		$text = str_replace('*-*', '&#', $text);
 		
 		if($this->globalSEO == 1){
-			// id -> section
-			$text = str_replace('id=', 'section=', $text);
-			
-			// s -> template
-			$text = str_replace('?s=', '?template=', $text);
-			$text = str_replace('&amp;s=', '&amp;template=', $text);
-			$text = str_replace('&s=', '&template=', $text);
-			
-			// cmd -> command
-			$text = str_replace('&amp;cmd=', '&amp;command=', $text);
-			$text = str_replace('&cmd=', '&command=', $text);
-			
-			// u -> user
-			$text = str_replace('&amp;u=', '&amp;user=', $text);
-			$text = str_replace('&u=', '&user=', $text);
-			
-			// current_pollall -> poll
-			$text = str_replace('&amp;current_pollall=', '&amp;poll=', $text);
-			$text = str_replace('&current_pollall=', '&poll=', $text);
-			
-			// cat -> category
-			//$text = str_replace('&amp;cat=', '&amp;category=', $text);
-			//$text = str_replace('&cat=', '&category=', $text);
-			
-			
-			// main replace
-			$text = str_replace('?', $this->globalFolder.'/index.php/', $text);
-			$text = str_replace('&amp;', '/', $text);
-			$text = str_replace('&', '/', $text);
-			
-			if($this->urlSEO == 'colon'){
-				$text = $this->urlAddColon($text);
+			if($this->urlSEO == 'colon' || $this->urlSEO == 'slash'){
+				// id -> section
+				$text = str_replace('id=', 'section=', $text);
+				
+				// s -> template
+				$text = str_replace('?s=', '?template=', $text);
+				$text = str_replace('&amp;s=', '&amp;template=', $text);
+				$text = str_replace('&s=', '&template=', $text);
+				
+				// cmd -> command
+				$text = str_replace('&amp;cmd=', '&amp;command=', $text);
+				$text = str_replace('&cmd=', '&command=', $text);
+				
+				// u -> user
+				$text = str_replace('&amp;u=', '&amp;user=', $text);
+				$text = str_replace('&u=', '&user=', $text);
+				
+				// current_pollall -> poll
+				$text = str_replace('&amp;current_pollall=', '&amp;poll=', $text);
+				$text = str_replace('&current_pollall=', '&poll=', $text);
+				
+				// cat -> category
+				//$text = str_replace('&amp;cat=', '&amp;category=', $text);
+				//$text = str_replace('&cat=', '&category=', $text);
+				
+				
+				// main replace
+				$text = str_replace('?', $this->globalFolder.'/index.php/', $text);
+				$text = str_replace('&amp;', '/', $text);
+				$text = str_replace('&', '/', $text);
+				
+				if($this->urlSEO == 'colon'){
+					$text = $this->urlAddColon($text);
+				}
+				else if($this->urlSEO == 'slash'){
+					$text = $this->urlAddSlash($text);
+				}
 			}
-			else{
-				$text = $this->urlAddSlash($text);
+			else {
+				//echo '<span style="color:#fff;">url-vorher:'.$text.'</span><br>';
+				
+				$text = $this->urlConvertToHTMLFormat($text);
+				
+				//echo '<span style="color:#fff;">url-nachher:'.$text.'</span><br><br>';
+				
+				$text = str_replace('?', $this->globalFolder.'/index.php?', $text);
 			}
 		}
 		 
 		return $text;
+	}
+	
+	
+	
+	/**
+	 * Converts a normal link into a html based link
+	 */
+	function urlConvertToHTMLFormat($text) {
+		$arr_url = explode('&amp;', $text);
+		
+		$ret = '';
+		$lang = '';
+		$encodeMore = false;
+		
+		foreach($arr_url as $key => $val){
+			//echo $val.'<br>';
+			
+			if($val == '?id=frontpage') {
+				$ret = $this->globalFolder.'/index.php/';
+				$text = 'frontpage.html';
+				
+				$encodeMore = true;
+			}
+			else if($val == '?id=newsmanager') {
+				$ret = $this->globalFolder.'/index.php/';
+				$text = 'news.html';
+				
+				$encodeMore = true;
+			}
+			else if(substr($val, 0, 5)) {
+				if($encodeMore) {
+					$lang = substr($val, strpos($val, 'lang=') + 5).'/';
+				}
+			}
+		}
+		
+		return $ret.$lang.$text;
 	}
 	
 	

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for a language selector.
  *
- * @version 0.0.5
+ * @version 0.0.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -42,7 +42,6 @@ if($tcms_config->useContentLanguage()){
 	
 	echo '<div class="langSelector">';
 	
-	
 	if($tcms_main->isReal($arr_lang)) {
 		foreach($languages['fine'] as $key => $val) {
 			if(in_array($val, $arr_lang)) {
@@ -53,13 +52,12 @@ if($tcms_config->useContentLanguage()){
 				$title = ' title="'.$languages['name'][$key].'"';
 				$alt = ' alt="'.$languages['name'][$key].'"';
 				
-				echo '<a'.$title.$alt.' class="langSelectorLink" href="'.$link.'">
-				<img'.$title.$alt.' src="'.$imagePath.'engine/images/flags/'.$val.'.png" border="0" />'
+				echo '&nbsp;<a'.$title.$alt.' class="langSelectorLink" href="'.$link.'">'
+				.'<img'.$title.$alt.' src="'.$imagePath.'engine/images/flags/'.$val.'.png" border="0" />'
 				.'</a>';
 			}
 		}
 	}
-	
 	
 	echo '</div>';
 }

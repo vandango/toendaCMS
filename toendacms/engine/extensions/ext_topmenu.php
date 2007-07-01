@@ -9,7 +9,7 @@
 | 
 | Topmenu
 |
-| File:		ext_topmenu.php
+| File:	ext_topmenu.php
 |
 +
 */
@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a topmenu.
  *
- * @version 0.2.6
+ * @version 0.2.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -63,16 +63,12 @@ if($second_navigation == 1){
 			/********************
 			* AUTH
 			*/
-			if($arr_top_navi['access'][$key] == 'Public'){ $authorizeNav = 1; }
-			if($arr_top_navi['access'][$key] == 'Protected'){
-				if($is_admin == 'User' || $is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor' || $is_admin == 'Presenter'){ $authorizeNav = 1; }
-				else{ $authorizeNav = 0; }
+			if($tcms_main->checkAccess($arr_top_navi['access'][$key], $is_admin)) {
+				$authorizeNav = 1;
 			}
-			if($arr_top_navi['access'][$key] == 'Private'){
-				if($is_admin == 'Administrator' || $is_admin == 'Developer'){ $authorizeNav = 1; }
-				else{ $authorizeNav = 0; }
+			else {
+				$authorizeNav = 0;
 			}
-			
 			
 			
 			
