@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used for the search engine
  * optimization.
  *
- * @version 0.3.3
+ * @version 0.3.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -341,9 +341,16 @@ class tcms_seo {
 	 */
 	function explodeHTMLFormat(){
 		foreach($this->m_urlArray as $urlKey => $urlValue){
+			//echo '$urlValue:'.$urlValue.'<br>';
+			
+			$val = '';
+			$end = '';
+			
 			if(strlen($urlValue) > 0) {
 				if(strpos($urlValue, '.', 1) > 0) {
+					// found point
 					$val = substr($urlValue, 0, strpos($urlValue, '.', 1));
+					$end = substr($urlValue, strpos($urlValue, '.', 1) + 5);
 				}
 				else {
 					$val = $urlValue;
@@ -353,8 +360,10 @@ class tcms_seo {
 				$val = $urlValue;
 			}
 			
-			
-			//echo '$val:'.$val.'<br>';
+			//echo '<span style="color:#fff;">$val:'.$val.'</span><br>';
+			//echo '<span style="color:#fff;">$end:'.$end.'</span><br>';
+			//echo '<span style="color:#fff;">arr id: '.$end.' -> '.substr($end, 1, strpos($end, '=') - 1).'</span><br>';
+			//echo '<span style="color:#fff;">$arr val: '.$end.' -> '.substr($end, strpos($end, '=') + 1).'</span><br>';
 			
 			switch($val) {
 				/*
@@ -380,7 +389,60 @@ class tcms_seo {
 				case 'frontpage': $arrSEO['id'] = 'frontpage'; break;
 				case 'news':      $arrSEO['id'] = 'newsmanager'; break;
 				case 'download':  $arrSEO['id'] = 'download'; break;
+				case 'contact':   $arrSEO['id'] = 'contactform'; break;
+				case 'register':  $arrSEO['id'] = 'register'; break;
+				case 'profile':   $arrSEO['id'] = 'profile'; break;
+				case 'polls':     $arrSEO['id'] = 'polls'; break;
+				case 'legal':     $arrSEO['id'] = 'impressum'; break;
+				case 'gallery':   $arrSEO['id'] = 'imagegallery'; break;
+				case 'guestbook': $arrSEO['id'] = 'guestbook'; break;
+				case 'articles':  $arrSEO['id'] = 'knowledgebase'; break;
+				case 'products':  $arrSEO['id'] = 'products'; break;
+				case 'search':    $arrSEO['id'] = 'search'; break;
+				case 'links':     $arrSEO['id'] = 'links'; break;
+				case 'cs':        $arrSEO['id'] = 'components'; break;
+				
+				/*
+					only content id's
+				*/
+				default:
+					if(strlen($val) == 5 
+					&& trim($val) != 'index') {
+						if(trim($arrSEO['id']) == '') {
+							$arrSEO['id'] = $val;
+						}
+					}
+					break;
 			}
+			
+			if(trim($end) != '') {
+				//echo '$arrSEO['.substr($end, 1, strpos($end, '=') - 1).'='.substr($end, strpos($end, '=') + 1).'<br>';
+				
+				$arrParams = explode('&', $end);
+				
+				foreach($arrParams as $key => $val){
+					$val = str_replace('?', '', $val);
+					
+					//echo 'key='.$key.'<br>';
+					//echo 'val='.$val.'<br><br>';
+					
+					//echo '$arrSEO['.substr($val, 0, strpos($val, '=')).']='.substr($val, strpos($val, '=') + 1).'<br>';
+					
+					$keyV = substr($val, 0, strpos($val, '='));
+					
+					if($keyV == 'id') {
+						//if(trim($arrSEO['id']) == '') {
+						//	$arrSEO[$keyV] = substr($val, strpos($val, '=') + 1);
+						//}
+					}
+					else {
+						$arrSEO[$keyV] = substr($val, strpos($val, '=') + 1);
+					}
+				}
+			}
+			
+			//echo 'arrSEO[id]='.$arrSEO['id'].'<br>';
+			//echo 'arrSEO[lang]='.$arrSEO['lang'].'<br><br>';
 		}
 		
 		return ( $arrSEO == '' ? null : $arrSEO );
