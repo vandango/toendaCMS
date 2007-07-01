@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.0.2
+ * @version 2.0.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -1610,13 +1610,13 @@ class tcms_main {
 	 */
 	function replaceSmilyTags($msg, $imagePath){
 		$msg = str_replace(';-)', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_wink.gif" border="0" title="" alt="" />', $msg);
-		$msg = str_replace(';)', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_wink.gif" border="0" title="" alt="" />', $msg);
+		$msg = str_replace(' ;) ', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_wink.gif" border="0" title="" alt="" />', $msg);
 		
 		$msg = str_replace(':-)', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_smile.gif" border="0" title="" alt="" />', $msg);
-		$msg = str_replace(':)', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_smile.gif" border="0" title="" alt="" />', $msg);
+		$msg = str_replace(' :) ', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_smile.gif" border="0" title="" alt="" />', $msg);
 		
 		$msg = str_replace(':-D', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_laughing.gif" border="0" title="" alt="" />', $msg);
-		$msg = str_replace(':D', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_laughing.gif" border="0" title="" alt="" />', $msg);
+		$msg = str_replace(' :D ', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_laughing.gif" border="0" title="" alt="" />', $msg);
 		
 		$msg = str_replace(':-O', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_yell.gif" border="0" title="" alt="" />', $msg);
 		$msg = str_replace(':O', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_yell.gif" border="0" title="" alt="" />', $msg);
@@ -1625,35 +1625,35 @@ class tcms_main {
 		$msg = str_replace(':o', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_surprised.gif" border="0" title="" alt="" />', $msg);
 		
 		$msg = str_replace(':-(', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_sad.gif" border="0" title="" alt="" />', $msg);
-		$msg = str_replace(':(', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_sad.gif" border="0" title="" alt="" />', $msg);
+		$msg = str_replace(' :( ', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_sad.gif" border="0" title="" alt="" />', $msg);
 		
 		$msg = str_replace(':-P', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_tongue_out.gif" border="0" title="" alt="" />', $msg);
-		$msg = str_replace(':P', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_tongue_out.gif" border="0" title="" alt="" />', $msg);
+		$msg = str_replace(' :P ', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_tongue_out.gif" border="0" title="" alt="" />', $msg);
 		$msg = str_replace(':-p', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_tongue_out.gif" border="0" title="" alt="" />', $msg);
-		$msg = str_replace(':p', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_tongue_out.gif" border="0" title="" alt="" />', $msg);
+		$msg = str_replace(' :p ', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_tongue_out.gif" border="0" title="" alt="" />', $msg);
 		
 		$msg = str_replace(':-S', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_undecided.gif" border="0" title="" alt="" />', $msg);
-		$msg = str_replace(':S', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_undecided.gif" border="0" title="" alt="" />', $msg);
+		$msg = str_replace(' :S ', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_undecided.gif" border="0" title="" alt="" />', $msg);
 		
 		$msg = str_replace('B-)', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_cool.gif" border="0" title="" alt="" />', $msg);
-		$msg = str_replace('B)', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_cool.gif" border="0" title="" alt="" />', $msg);
+		$msg = str_replace(' B) ', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_cool.gif" border="0" title="" alt="" />', $msg);
 		
 		$msg = str_replace(':-|', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_neutral.gif" border="0" title="" alt="" />', $msg);
 		$msg = str_replace(':|', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_neutral.gif" border="0" title="" alt="" />', $msg);
 		
 		$msg = str_replace(':-e', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_cry.gif" border="0" title="" alt="" />', $msg);
-		$msg = str_replace(':e', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_cry.gif" border="0" title="" alt="" />', $msg);
+		$msg = str_replace(' :e ', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_cry.gif" border="0" title="" alt="" />', $msg);
 		
 		$msg = str_replace('%(|)', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_lol.gif" border="0" title="" alt="" />', $msg);
 		
 		$msg = str_replace(':-/', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_sceptic.gif" border="0" title="" alt="" />', $msg);
-		$msg = str_replace(':/', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_sceptic.gif" border="0" title="" alt="" />', $msg);
+		$msg = str_replace(' :/ ', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_sceptic.gif" border="0" title="" alt="" />', $msg);
 		
 		$msg = str_replace('%-)', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_confused.gif" border="0" title="" alt="" />', $msg);
 		
-		$msg = str_replace('>:)', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_evil.gif" border="0" title="" alt="" />', $msg);
-		$msg = str_replace('>)', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_evil.gif" border="0" title="" alt="" />', $msg);
-		$msg = str_replace('>: )', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_evil.gif" border="0" title="" alt="" />', $msg);
+		$msg = str_replace(' >:) ', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_evil.gif" border="0" title="" alt="" />', $msg);
+		$msg = str_replace(' >) ', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_evil.gif" border="0" title="" alt="" />', $msg);
+		$msg = str_replace(' >: ) ', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_evil.gif" border="0" title="" alt="" />', $msg);
 		
 		return $msg;
 	}

@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a provider for sidemenu datacontainer
  * objects.
  *
- * @version 0.1.3
+ * @version 0.1.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -155,7 +155,13 @@ class tcms_menu_provider extends tcms_main {
 		else{
 			//
 			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->m_sqlUser, $this->m_sqlPass, $this->m_sqlHost, $this->m_sqlDB, $this->m_sqlPort);
+			$sqlCN = $sqlAL->sqlConnect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
 			
 			$parentID = '';
 			
@@ -404,6 +410,7 @@ class tcms_menu_provider extends tcms_main {
 				$menuItem->SetAccess($sqlObj->access);
 				$menuItem->SetParent($sqlObj->parent);
 				$menuItem->SetPublished($sqlObj->published);
+				$menuItem->SetTarget($sqlObj->target);
 				
 				$arrReturn[$count] = $menuItem;
 				
@@ -530,6 +537,7 @@ class tcms_menu_provider extends tcms_main {
 					$menuItem->SetAccess($sqlObj->access);
 					$menuItem->SetParent($sqlObj->parent);
 					$menuItem->SetPublished($sqlObj->published);
+					$menuItem->SetTarget($sqlObj->target);
 					
 					$arrReturn[$count] = $menuItem;
 					
@@ -758,7 +766,8 @@ class tcms_menu_provider extends tcms_main {
 					$menuItem->SetType($sqlARR['type']);
 					$menuItem->SetAccess($sqlARR['access']);
 					$menuItem->SetParent($sqlARR['parent']);
-					$menuItem->GetPublished($sqlARR['published']);
+					$menuItem->SetPublished($sqlARR['published']);
+					$menuItem->SetTarget($sqlARR['target']);
 					
 					$arrReturn[$count] = $menuItem;
 					

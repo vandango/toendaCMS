@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a side menu.
  *
- * @version 0.4.5
+ * @version 0.4.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -75,11 +75,13 @@ if($navigation == 1){
 				$menuItem = new tcms_dc_sidemenuitem();
 				$menuItem = $arrMenuItem[$n_key];
 				
+				$target = ( $menuItem->GetTarget() == '' ? '' : ' target="'.$menuItem->GetTarget().'"' );
+				
 				echo '<li>';
 				
 				switch($menuItem->GetType()){
 					case 'web':
-						echo '<a class="mainlevel" href="'.$menuItem->GetLink().'" target="_blank">'.$menuItem->GetTitle().'</a>';
+						echo '<a class="mainlevel" href="'.$menuItem->GetLink().'"'.$target.'>'.$menuItem->GetTitle().'</a>';
 						break;
 					
 					case 'title':
@@ -92,7 +94,7 @@ if($navigation == 1){
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
 						$link = $tcms_main->urlAmpReplace($link);
 						
-						echo '<a class="mainlevel" href="'.$link.'">'.$menuItem->GetTitle().'</a>';
+						echo '<a class="mainlevel" href="'.$link.'"'.$target.'>'.$menuItem->GetTitle().'</a>';
 						break;
 				}
 				
@@ -110,11 +112,13 @@ if($navigation == 1){
 						$subMenuItem = new tcms_dc_sidemenuitem();
 						$subMenuItem = $arrSubMenuItem[$sm_key];
 						
+						$target = ( $subMenuItem->GetTarget() == '' ? '' : ' target="'.$subMenuItem->GetTarget().'"' );
+						
 						echo '<li>';
 						
 						switch($subMenuItem->GetType()){
 							case 'web':
-								echo '<a class="submenu" href="'.$subMenuItem->GetLink().'" target="_blank">'.$subMenuItem->GetTitle().'</a>';
+								echo '<a class="submenu" href="'.$subMenuItem->GetLink().'"'.$target.'>'.$subMenuItem->GetTitle().'</a>';
 								break;
 							
 							case 'title':
@@ -127,7 +131,7 @@ if($navigation == 1){
 								.( isset($lang) ? '&amp;lang='.$lang : '' );
 								$link = $tcms_main->urlAmpReplace($link);
 								
-								echo '<a class="submenu" href="'.$link.'">'.$subMenuItem->GetTitle().'</a>';
+								echo '<a class="submenu" href="'.$link.'"'.$target.'>'.$subMenuItem->GetTitle().'</a>';
 								break;
 						}
 						
@@ -145,11 +149,13 @@ if($navigation == 1){
 								$subMenu2Item = new tcms_dc_sidemenuitem();
 								$subMenu2Item = $arrSubMenu2Item[$sm_key];
 								
+								$target = ( $subMenu2Item->GetTarget() == '' ? '' : ' target="'.$subMenu2Item->GetTarget().'"' );
+								
 								echo '<li>';
 								
 								switch($subMenu2Item->GetType()){
 									case 'web':
-										echo '<a class="submenu sublevel2" href="'.$subMenu2Item->GetLink().'" target="_blank">'.$subMenu2Item->GetTitle().'</a>';
+										echo '<a class="submenu sublevel2" href="'.$subMenu2Item->GetLink().'"'.$target.'>'.$subMenu2Item->GetTitle().'</a>';
 										break;
 									
 									case 'title':
@@ -162,7 +168,7 @@ if($navigation == 1){
 										.( isset($lang) ? '&amp;lang='.$lang : '' );
 										$link = $tcms_main->urlAmpReplace($link);
 										
-										echo '<a class="submenu sublevel2" href="'.$link.'">'.$subMenu2Item->GetTitle().'</a>';
+										echo '<a class="submenu sublevel2" href="'.$link.'"'.$target.'>'.$subMenu2Item->GetTitle().'</a>';
 										break;
 								}
 								
