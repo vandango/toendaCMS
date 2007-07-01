@@ -50,7 +50,7 @@ if(isset($_POST['contact_email'])){ $contact_email = $_POST['contact_email']; }
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.5.6
+ * @version 2.5.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -139,15 +139,21 @@ if(file_exists($tcms_administer_site.'/tcms_global/var.xml')){
 		
 		$tcms_seo = new tcms_seo();
 		
-		if($seoFormat == 0)
+		if($seoFormat == 0) {
 			$arrSEO = $tcms_seo->explodeUrlColonFormat();
-		else
+		}
+		else if($seoFormat == 1) {
 			$arrSEO = $tcms_seo->explodeUrlSlashFormat();
+		}
+		else {
+			$arrSEO = $tcms_seo->explodeHTMLFormat();
+		}
 		
 		$tcms_seo->_tcms_seo();
 		
-		if(isset($id))
+		if(isset($id)) {
 			$noSEOFolder = true;
+		}
 		
 		if(!isset($id))             { $id              = trim($arrSEO['id']);            if($id              == ''){ unset($id); } }
 		if(!isset($s))              { $s               = trim($arrSEO['s']);             if($s               == ''){ unset($s); } }
@@ -178,10 +184,12 @@ if(file_exists($tcms_administer_site.'/tcms_global/var.xml')){
 		if(!isset($c))              { $c               = trim($arrSEO['c']);             if($c               == ''){ unset($c); } }
 		if(!isset($lang))           { $lang            = trim($arrSEO['lang']);          if($lang            == ''){ unset($lang); } }
 		
-		if($seoFolder != '')
+		if($seoFolder != '') {
 			$seoFolder = '/'.$seoFolder;
-		else
+		}
+		else {
 			$seoFolder = '';
+		}
 	}
 	else{
 		$seoFolder = '';
@@ -389,10 +397,15 @@ if($wsShowSite){
 				$tcms_main->setGlobalFolder($seoFolder, $seoEnabled);
 				$tcms_main->setDatabaseInfo($choosenDB);
 				
-				if($seoFormat == 0)
+				if($seoFormat == 0) {
 					$tcms_main->setURLSEO('colon');
-				else
+				}
+				else if($seoFormat == 1) {
 					$tcms_main->setURLSEO('slash');
+				}
+				else if($seoFormat == 2) {
+					$tcms_main->setURLSEO('');
+				}
 				
 				
 				// clean url strings (against cross-site scripting)
@@ -1078,8 +1091,9 @@ if($wsShowSite){
 						/*
 							Load Components System
 						*/
-						if($use_components == 1)
+						if($use_components == 1) {
 							$arrSideCS = $tcms_cs->getAllSideCS();
+						}
 						
 						
 						/*
@@ -1092,8 +1106,9 @@ if($wsShowSite){
 						/*
 							Inluce the layout
 						*/
-						if(_LAYOUT != '')
+						if(_LAYOUT != '') {
 							include_once(_LAYOUT);
+						}
 						
 						
 						/*

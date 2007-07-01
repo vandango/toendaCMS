@@ -827,13 +827,23 @@ if($id_group == 'Developer'
 		.'</td></tr>';
 		
 		
-		echo '<tr>'
-		.'<td width="300" height="25" style="width: 300px !important;" class="tcms_padding_mini">'._GLOBAL_SEO_FORMAT.'</td>'
-		.'<td>'
-		.'<input type="radio" name="new_seo_format" id="config_offline0" value="0"'.($old_seo_format == 0 ? ' checked="checked"' : '' ).' />'
-		.'<label for="config_offline0">index.php/section:frontpage/</label><br />'
-		.'<input type="radio" name="new_seo_format" id="config_offline1" value="1"'.($old_seo_format == 1 ? ' checked="checked"' : '' ).' />'
-		.'<label for="config_offline1">index.php/section/frontpage/</label>'
+		echo '<tr><td width="300" height="25" style="width: 300px !important;" class="tcms_padding_mini" valign="top">'
+		._GLOBAL_SEO_FORMAT
+		.'</td><td>'
+		.'<label for="urlformat_0">'
+		.'<input type="radio" name="new_seo_format" id="urlformat_0" value="0"'.($old_seo_format == 0 ? ' checked="checked"' : '' ).' />'
+		.'index.php/section:frontpage/'
+		.'</label>'
+		.'<br />'
+		.'<label for="urlformat_1">'
+		.'<input type="radio" name="new_seo_format" id="urlformat_1" value="1"'.($old_seo_format == 1 ? ' checked="checked"' : '' ).' />'
+		.'index.php/section/frontpage/'
+		.'</label>'
+		/*.'<br />'
+		.'<label for="urlformat_2">'
+		.'<input type="radio" name="new_seo_format" id="urlformat_2" value="2"'.($old_seo_format == 2 ? ' checked="checked"' : '' ).' />'
+		.'index.php/frontpage.html'
+		.'</label>'*/
 		.'</td></tr>';
 		
 		
