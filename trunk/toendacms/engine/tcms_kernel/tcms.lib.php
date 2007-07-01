@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.0.3
+ * @version 2.0.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -93,6 +93,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * cleanImageFromString              -> Clean images from a string
  * cleanAllImagesFromString          -> Clean all images from a string
  * urlAmpReplace                     -> Convert a url link into a SEO friendly link
+ * urlConvertToHTMLFormat            -> Converts a normal link into a html based link
  * urlAddSlash                       -> Convert a equal-char (=) into a slash-char (/)
  * urlAddColon                       -> Convert a equal-char (=) into a double-dot-char (:)
  * reCHMOD                           -> Chmods files and directories recursivel to given permissions
@@ -1524,8 +1525,6 @@ class tcms_main {
 				$text = $this->urlConvertToHTMLFormat($text);
 				
 				//echo '<span style="color:#fff;">url-nachher:'.$text.'</span><br><br>';
-				
-				$text = str_replace('?', $this->globalFolder.'/index.php?', $text);
 			}
 		}
 		 
@@ -1538,41 +1537,169 @@ class tcms_main {
 	 * Converts a normal link into a html based link
 	 */
 	function urlConvertToHTMLFormat($text) {
+		//echo $text.'<br>';
+		
 		$arr_url = explode('&amp;', $text);
 		
+		$text_copy = $text;
+		$text = '';
 		$ret = '';
 		$lang = '';
+		$add = '';
 		$encodeMore = false;
 		
 		foreach($arr_url as $key => $val){
-			//echo $val.'<br>';
+			//echo '<span style="color:#fff;">'.$val.'</span><br>';
+			$val = str_replace($this->globalFolder.'/index.php?id=', '', $val);
 			
-			if($val == '?id=frontpage') {
+			//echo '<span style="color:#fff;">'.$val.'</span><br>';
+			
+			if($val == 'id=frontpage' || substr($val, 1) == 'id=frontpage') {
 				$ret = $this->globalFolder.'/index.php/';
 				$text = 'frontpage.html';
 				
 				$encodeMore = true;
 			}
-			else if($val == '?id=newsmanager') {
+			else if($val == 'id=newsmanager' || substr($val, 1) == 'id=newsmanager') {
 				$ret = $this->globalFolder.'/index.php/';
 				$text = 'news.html';
 				
 				$encodeMore = true;
 			}
-			else if($val == '?id=download') {
+			else if($val == 'id=download' || substr($val, 1) == 'id=download') {
 				$ret = $this->globalFolder.'/index.php/';
 				$text = 'download.html';
 				
 				$encodeMore = true;
 			}
-			else if(substr($val, 0, 5)) {
+			else if($val == 'id=contactform' || substr($val, 1) == 'id=contactform') {
+				$ret = $this->globalFolder.'/index.php/';
+				$text = 'contact.html';
+				
+				$encodeMore = true;
+			}
+			else if($val == 'id=register' || substr($val, 1) == 'id=register') {
+				$ret = $this->globalFolder.'/index.php/';
+				$text = 'register.html';
+				
+				$encodeMore = true;
+			}
+			else if($val == 'id=profile' || substr($val, 1) == 'id=profile') {
+				$ret = $this->globalFolder.'/index.php/';
+				$text = 'profile.html';
+				
+				$encodeMore = true;
+			}
+			else if($val == 'id=polls' || substr($val, 1) == 'id=polls') {
+				$ret = $this->globalFolder.'/index.php/';
+				$text = 'polls.html';
+				
+				$encodeMore = true;
+			}
+			else if($val == 'id=impressum' || substr($val, 1) == 'id=impressum') {
+				$ret = $this->globalFolder.'/index.php/';
+				$text = 'legal.html';
+				
+				$encodeMore = true;
+			}
+			else if($val == 'id=imagegallery' || substr($val, 1) == 'id=imagegallery') {
+				$ret = $this->globalFolder.'/index.php/';
+				$text = 'gallery.html';
+				
+				$encodeMore = true;
+			}
+			else if($val == 'id=guestbook' || substr($val, 1) == 'id=guestbook') {
+				$ret = $this->globalFolder.'/index.php/';
+				$text = 'guestbook.html';
+				
+				$encodeMore = true;
+			}
+			else if($val == 'id=knowledgebase' || substr($val, 1) == 'id=knowledgebase') {
+				$ret = $this->globalFolder.'/index.php/';
+				$text = 'articles.html';
+				
+				$encodeMore = true;
+			}
+			else if($val == 'id=products' || substr($val, 1) == 'id=products') {
+				$ret = $this->globalFolder.'/index.php/';
+				$text = 'products.html';
+				
+				$encodeMore = true;
+			}
+			else if($val == 'id=search' || substr($val, 1) == 'id=search') {
+				$ret = $this->globalFolder.'/index.php/';
+				$text = 'search.html';
+				
+				$encodeMore = true;
+			}
+			else if($val == 'id=links' || substr($val, 1) == 'id=links') {
+				$ret = $this->globalFolder.'/index.php/';
+				$text = 'links.html';
+				
+				$encodeMore = true;
+			}
+			else if($val == 'id=components' || substr($val, 1) == 'id=components') {
+				$ret = $this->globalFolder.'/index.php/';
+				$text = 'cs.html';
+				
+				$encodeMore = true;
+			}
+			else if(substr($val, 0, 3) == 'id=' || substr($val, 1, 3) == 'id=') {
+				if(trim($text) == '') {
+					$ret = $this->globalFolder.'/index.php/';
+					$text = substr($val, strpos($val, 'id=') + 3).'.html';
+					
+					$encodeMore = true;
+				}
+			}
+			/*
+				language
+			*/
+			else if(substr($val, 0, 5) == 'lang=') {
 				if($encodeMore) {
 					$lang = substr($val, strpos($val, 'lang=') + 5).'/';
+				}
+				else {
+					$add .= '&amp;'.$val;
+				}
+			}
+			/*
+				session
+			*/
+			else if(substr($val, 0, 7) == 'session') {
+				$add .= '&amp;'.$val;
+			}
+			else if(substr($val, 0, 8) == '?session') {
+				$add .= $val;
+			}
+			/*
+				rest of the params
+			*/
+			else {
+				if(substr($val, 0, 2) != 's=') {
+					if(trim($add) == '') {
+						$add .= '?'.$val;
+					}
+					else {
+						$add .= '&amp;'.$val;
+					}
 				}
 			}
 		}
 		
-		return $ret.$lang.$text;
+		//echo '<span style="color:#fff;"><b>url:'.$text.'</b></span><br>';
+		
+		if(trim($text) != '') {
+			$ret = $ret.$lang.$text.$add;
+		}
+		else {
+			$ret = str_replace('?', $this->globalFolder.'/index.php?', $text_copy);
+		}
+		
+		//echo '<span style="color:#fff;"><b>url:'.$text.'</b></span><br>';
+		//echo '<span style="color:#fff;"><b>url:'.$ret.$lang.$text.$add.'</b></span><br><br>';
+		
+		return $ret;
 	}
 	
 	

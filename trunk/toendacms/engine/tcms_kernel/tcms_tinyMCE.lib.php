@@ -9,8 +9,7 @@
 | 
 | toendaCMS tinyMCE Implemetation class
 |
-| File:		tcms_tinyMCE.lib.php
-| Version:	0.1.2
+| File:	tcms_tinyMCE.lib.php
 |
 +
 */
@@ -24,6 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to implement the tinyMCE editor.
  *
+ * @version 0.1.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -431,7 +431,7 @@ class tcms_tinyMCE {
 				'.( $this->m_seoEnabled == 1 ? 'document_base_url : "'.( $this->m_seoPath == '' ? '/' : '/'.$this->m_seoPath.'/' ).'",' : '' ).'
 				extended_valid_elements: "font[size|color|face]",
 				
-				plugins : "table,searchreplace,paste,preview,advhr,advlink",,
+				plugins : "table,searchreplace,paste,preview,advhr,advlink",
 				plugin_insertdate_dateFormat : "%d.%m.%Y",
 				plugin_insertdate_timeFormat : "%H:%M:%S",
 				

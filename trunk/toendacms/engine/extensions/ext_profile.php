@@ -9,7 +9,7 @@
 | 
 | User Profile Module
 |
-| File:		ext_profile.php
+| File:	ext_profile.php
 |
 +
 */
@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a base module fpr user operations.
  *
- * @version 0.9.9
+ * @version 1.0.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -393,14 +393,21 @@ if($checkUserExists) {
 			
 			
 			// row
-			echo '<tr><td valign="top">'
-			.'<script>createToendaToolbar(\'news\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \''.$imagePath.'browse.php?session='.$session.'\', \'\');</script>';
+			echo '<tr><td valign="top">';
+			//.'<script>createToendaToolbar(\'news\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \''.$imagePath.'browse.php?session='.$session.'\', \'\');</script>';
 			
-			if($show_wysiwyg == 'tinymce'){ }
-			elseif($show_wysiwyg == 'fckeditor'){ echo ''._TCMSSCRIPT_MORE.': {tcms_more}'; }
+			if($show_wysiwyg == 'tinymce'){
+			}
+			elseif($show_wysiwyg == 'fckeditor'){
+				echo ''._TCMSSCRIPT_MORE.': {tcms_more}';
+			}
 			else{
-				if($show_wysiwyg == 'toendaScript'){ echo '<script>createToolbar(\'news\', \''.$tcms_lang.'\', \'toendaScript\');</script>'; }
-				else{ echo '<script>createToolbar(\'news\', \''.$tcms_lang.'\', \'HTML\');</script>'; }
+				if($show_wysiwyg == 'toendaScript'){
+					echo '<script>createToolbar(\'news\', \''.$tcms_lang.'\', \'toendaScript\');</script>';
+				}
+				else{
+					echo '<script>createToolbar(\'news\', \''.$tcms_lang.'\', \'HTML\');</script>';
+				}
 			}
 			
 			echo '<br /><br />';
@@ -819,10 +826,9 @@ if($checkUserExists) {
 
 
 
-
-// -----------------------------------
-// ONLY MODs
-// -----------------------------------
+/*
+	save values
+*/
 
 if($is_admin == 'Administrator' 
 || $is_admin == 'Developer' 
@@ -1237,13 +1243,16 @@ if($is_admin == 'Administrator'
 
 
 
+/*
+	show user
+*/
 
-
-
-
-
-
-if($todo != 'submitNews' && $todo != 'submitImages' && $todo != 'createAlbum' && $todo != 'createCat' && $todo != 'submitMedia' && $action != 'list'){
+if($todo != 'submitNews' 
+&& $todo != 'submitImages' 
+&& $todo != 'createAlbum' 
+&& $todo != 'createCat' 
+&& $todo != 'submitMedia' 
+&& $action != 'list'){
 	if($choosenDB == 'xml'){
 		if(file_exists($tcms_administer_site.'/tcms_user/'.$u.'.xml')){ $checkUserExists = true; }
 		else{ $checkUserExists = false; }
@@ -1778,10 +1787,9 @@ if($todo != 'submitNews' && $todo != 'submitImages' && $todo != 'createAlbum' &&
 
 
 
-
-
-
-
+/*
+	list users
+*/
 
 if($action == 'list'){
 	if($show_ml == 1){
@@ -1796,7 +1804,7 @@ if($action == 'list'){
 		if($choosenDB == 'xml'){
 			$arr_filename = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_user/');
 			
-			if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
+			if($tcms_main->isArray($arr_filename)){
 				foreach($arr_filename as $key => $value){
 					$menu_xml = new xmlparser($tcms_administer_site.'/tcms_user/'.$value,'r');
 					$user_enable = $menu_xml->read_section('user', 'enabled');
@@ -1848,7 +1856,9 @@ if($action == 'list'){
 			$sqlSTR = "SELECT * "
 			."FROM ".$tcms_db_prefix."user "
 			."WHERE ".$tcms_db_prefix."user.enabled = 1 "
-			."ORDER BY ".$tcms_db_prefix."user.name ASC, ".$tcms_db_prefix."user.username ASC, ".$tcms_db_prefix."user.group ASC";
+			."ORDER BY ".$tcms_db_prefix."user.name ASC, "
+			.$tcms_db_prefix."user.username ASC, "
+			.$tcms_db_prefix."user.group ASC";
 			
 			$sqlQR = $sqlAL->sqlQuery($sqlSTR);
 			
@@ -1908,8 +1918,8 @@ if($action == 'list'){
 				echo '<td valign="middle" align="left" width="'.$width_1.'"><strong>'.$value.'</strong></td>';
 				
 				
-				
-				$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;u='.$arr_user['tag'][$key]
+				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+				.'id=profile&amp;s='.$s.'&amp;u='.$arr_user['tag'][$key]
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlAmpReplace($link);
 				
