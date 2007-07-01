@@ -72,7 +72,7 @@ Developer Version
 	- 1.5.5 Stable
 	- 1.5.6 Stable
 
-Building Steps: 2778
+Building Steps: 2785
 
 
 
@@ -91,6 +91,11 @@ Building Steps: 2778
  - changed: 
 
  - added: Firefox support for the RSS subscription.
+ - added: New SEO format available: instead of using the old url format
+          [www.domain.com/index.php?id=frontpage&lang=en]
+          or [[www.domain.com/index.php/section/frontpage/lang/en]
+          you can use now the new format
+          [www.domain.com/index.php/en/frontpage.html].
 
 
 
