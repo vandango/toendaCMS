@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 0.7.2
+ * @version 0.7.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -736,7 +736,7 @@ class tcms_datacontainer_provider extends tcms_main {
 						$arr_news['time'][$count]   = $xml->read_section('comment', 'time');
 						$arr_news['ip'][$count]     = $xml->read_section('comment', 'ip');
 						$arr_news['domain'][$count] = $xml->read_section('comment', 'domain');
-						$arr_news['id'][$count]     = substr($arr_filename[$nvalue], 0, 14);
+						$arr_news['id'][$count]     = $newsID;
 						
 						$xml->flush();
 						$xml->_xmlparser();

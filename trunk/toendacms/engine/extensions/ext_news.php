@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a news manager with a news,
  * a news view and a archive with different formats.
  *
- * @version 1.3.2
+ * @version 1.3.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -236,15 +236,14 @@ if($news != 'start' && $cmd != 'comment_save' && $news != 'archive' && !isset($c
 		echo '<div class="contentmain">';
 		
 		echo '<div style="width: 100%;" class="news_title_bg text_huge">'
+		.'<strong class="text_huge">'
 		.$dcNews->getTitle()
+		.'</strong>'
 		.'</div>';
 			
 		
 		if($show_autor_as_link == 1){
-			if($choosenDB == 'xml')
-				$userID = $tcms_main->getUserID($dcNews->getAutor());
-			else
-				$userID = $tcms_main->getUserIDfromSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $dcNews->getAutor());
+			$userID = $tcms_main->getUserID($dcNews->GetAutor());
 		}
 		
 		
@@ -1836,25 +1835,32 @@ if($check_session){
 	|| $is_admin == 'Developer' 
 	|| $is_admin == 'Presenter'){
 		if($cmd == 'delete'){
-			if($choosenDB == 'xml'){ unlink($tcms_administer_site.'/tcms_news/comments_'.$XMLplace.'/'.$XMLfile); }
+			if($choosenDB == 'xml'){
+				unlink($tcms_administer_site.'/tcms_news/comments_'.$XMLplace.'/'.$XMLfile);
+			}
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB);
 				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
-				$strSQL = "DELETE FROM '.$tcms_db_prefix.'comments WHERE module='news' AND uid = '".$XMLplace."' AND timestamp = '".$XMLfile."'";
+				$strSQL = "DELETE FROM ".$tcms_db_prefix."comments"
+				." WHERE module='news'"
+				." AND uid = '".$XMLplace."'"
+				." AND timestamp = '".$XMLfile."'";
 				
 				$sqlAL->sqlQuery($strSQL);
 			}
+			
+			echo $tcms_administer_site.'/tcms_news/comments_'.$XMLplace.'/'.$XMLfile;
 			
 			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
 			.'id='.$id.'&s='.$s.'&news='.$XMLplace
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlAmpReplace($link);
 			
-			echo '<script>
+			/*echo '<script>
 			document.location=\''.$link.'\';
 			alert(\''._MSG_DELETE.'\');
-			</script>';
+			</script>';*/
 		}
 	}
 }

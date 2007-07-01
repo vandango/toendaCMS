@@ -6,7 +6,7 @@
 	<news_text>czowOiIiOw==</news_text>
 	<news_image></news_image>
 	<use_comments>1</use_comments>
-	<show_autor>0</show_autor>
+	<show_autor>1</show_autor>
 	<show_autor_as_link>1</show_autor_as_link>
 	<news_amount>20</news_amount>
 	<access>Public</access>
