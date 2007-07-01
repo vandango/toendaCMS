@@ -9,7 +9,7 @@
 |
 | Globals
 |
-| File:		tcms_globals.lib.php
+| File:	tcms_globals.lib.php
 |
 +
 */
