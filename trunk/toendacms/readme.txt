@@ -153,8 +153,6 @@ SQL Database:
 
           Known problems
 **********************************************************************************
-- The tinyMCE Editor cannot load text data to it's contentarea with the Internet
-  Explorer 6 and 7.
 - You have problems using toendaCMS with a XML database if safe_mode is 'on'
   on your server.
 
@@ -168,6 +166,16 @@ This files must exist in data/tcms_global folder before installation:
 - data/tcms_global/index.html
 - data/tcms_global/mail.php
 - data/tcms_global/layout.xml
+
+
+
+          Adding a new language
+**********************************************************************************
+Add the folder, link the english mainlanguage at the end of the new language file.
+Then add the language to the following files:
+- tcms_defines.lib.php (add the language to the language array)
+- tcms_globals.lib.php (add the language to the language array)
+- tcms_seo.lib.php (add the language to the method explodeHTMLFormat)
 
 
 

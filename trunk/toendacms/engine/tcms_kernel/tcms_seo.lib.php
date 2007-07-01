@@ -357,21 +357,29 @@ class tcms_seo {
 			//echo '$val:'.$val.'<br>';
 			
 			switch($val) {
-				case 'de':
-					$arrSEO['lang'] = 'de';
-					break;
+				/*
+					language's
+				*/
+				case 'de': $arrSEO['lang'] = 'de'; break;
+				case 'en': $arrSEO['lang'] = 'en'; break;
+				case 'bg': $arrSEO['lang'] = 'bg'; break;
+				case 'nl': $arrSEO['lang'] = 'nl'; break;
+				case 'fi': $arrSEO['lang'] = 'fi'; break;
+				case 'it': $arrSEO['lang'] = 'it'; break;
+				case 'kr': $arrSEO['lang'] = 'kr'; break;
+				case 'no': $arrSEO['lang'] = 'no'; break;
+				case 'br': $arrSEO['lang'] = 'br'; break;
+				case 'ro': $arrSEO['lang'] = 'ro'; break;
+				case 'sk': $arrSEO['lang'] = 'sk'; break;
+				case 'es': $arrSEO['lang'] = 'es'; break;
+				case 'se': $arrSEO['lang'] = 'se'; break;
 				
-				case 'en':
-					$arrSEO['lang'] = 'en';
-					break;
-				
-				case 'frontpage':
-					$arrSEO['id'] = 'frontpage';
-					break;
-				
-				case 'news':
-					$arrSEO['id'] = 'newsmanager';
-					break;
+				/*
+					id's
+				*/
+				case 'frontpage': $arrSEO['id'] = 'frontpage'; break;
+				case 'news':      $arrSEO['id'] = 'newsmanager'; break;
+				case 'download':  $arrSEO['id'] = 'download'; break;
 			}
 		}
 		

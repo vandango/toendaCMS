@@ -1559,6 +1559,12 @@ class tcms_main {
 				
 				$encodeMore = true;
 			}
+			else if($val == '?id=download') {
+				$ret = $this->globalFolder.'/index.php/';
+				$text = 'download.html';
+				
+				$encodeMore = true;
+			}
 			else if(substr($val, 0, 5)) {
 				if($encodeMore) {
 					$lang = substr($val, strpos($val, 'lang=') + 5).'/';
