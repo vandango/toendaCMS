@@ -38,7 +38,7 @@ if(isset($_POST['lang'])){ $lang = $_POST['lang']; }
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 1.1.0
+ * @version 1.1.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -217,7 +217,7 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-<title>'.$websiteowner.' | '._TCMS_ADMIN_TITLE.'</title>
+<title>'.( trim($websiteowner) == '' ? '' : $websiteowner.' | ' )._TCMS_ADMIN_TITLE.'</title>
 <meta http-equiv="Content-Type" content="text/html; charset='.$c_charset.'" />
 <!--
  This website is powered by '.$cms_name.' - '.$cms_tagline.'!
@@ -251,12 +251,8 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 <style type="text/css">@import "theme/'.$adminTheme.'/tcms_editor.css";</style>
 <style> html { margin: 0px !important; padding: 0px !important; } </style>
 '.( file_exists('theme/'.$adminTheme.'/tcms_main_ie.css') ?
-'<!--[if lte IE 6]>
-<style type="text/css">@import "theme/'.$adminTheme.'/tcms_main_ie.css";</style>
-<![endif]-->
-<!--[if IE 7]>
-<style type="text/css">@import "theme/'.$adminTheme.'/tcms_main_ie.css";</style>
-<![endif]-->'
+'<!--[if lte IE 6]><style type="text/css">@import "theme/'.$adminTheme.'/tcms_main_ie.css";</style><![endif]-->
+<!--[if IE 7]><style type="text/css">@import "theme/'.$adminTheme.'/tcms_main_ie.css";</style><![endif]-->'
 : '' ).'
 
 </head>
