@@ -72,14 +72,16 @@ Developer Version
 	- 1.5.5 Stable
 	- 1.5.6 Stable
 
-Building Steps: 2770
+Building Steps: 2775
 
 
 
  Version 1.5.6 Stable
 -----------------------------------------------------------------
 
- - bug #0000154: 
+ - bug #0000160: Setting the target of a sidemenu item has no effect.
+ - bug #0000161: A link in a comment is not a link and the :/ of the
+                 http:// is replaced by a smiley icon.
 
  - security fixed: 
 

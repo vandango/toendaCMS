@@ -282,7 +282,14 @@ a.index:hover { text-decoration: underline; }
 	font-weight: bold;
 	letter-spacing: -1px;
 }
-.text_huge { font-size: 15px !important; }
+
+.text_huge {
+	font-size: 15px !important;
+}
+
+.text_bold {
+	font-weight: bold;
+}
 
 .book_content{ font-size: 11px; }
 
