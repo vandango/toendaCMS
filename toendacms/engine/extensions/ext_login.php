@@ -37,7 +37,7 @@ if(isset($_POST['reg_cookie'])){ $reg_cookie = $_POST['reg_cookie']; }
  * This module provides the login functionality
  * and a login formular.
  *
- * @version 0.4.8
+ * @version 0.4.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -102,7 +102,7 @@ if($use_login == 1){
 		$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 		.'id=register&amp;s='.$s.'&amp;cmd=lostpassword'
 		.( isset($lang) ? '&amp;lang='.$lang : '' );
-		$link = $tcms_main->urlAmpReplace($link);
+		$link = $tcms_main->urlConvertToSEO($link);
 		
 		echo '<span class="text_small">'
 		.'<a href="'.$link.'">'._LOGIN_FORGOTPW.'</a>'
@@ -112,7 +112,7 @@ if($use_login == 1){
 			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 			.'id=register&amp;s='.$s
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<br />'
 			.'<span class="text_small">'
@@ -125,7 +125,7 @@ if($use_login == 1){
 			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 			.'id=profile&amp;s='.$s.'&amp;action=list'
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<br />'
 			.'<span class="text_small">'
@@ -160,12 +160,12 @@ if($reg_login == 'login'){
 		
 		$link = '?session='.$session.'&id='.$id.'&s='.$s.$linkAdd
 		.( isset($lang) ? '&amp;lang='.$lang : '' );
-		$link = $tcms_main->urlAmpReplace($link, false);
+		$link = $tcms_main->urlConvertToSEO($link, false);
 	}
 	else{
 		$link = '?id='.$id.'&amp;s='.$s
 		.( isset($lang) ? '&amp;lang='.$lang : '' );
-		$link = $tcms_main->urlAmpReplace($link);
+		$link = $tcms_main->urlConvertToSEO($link);
 	}
 	
 	echo '<script>'
@@ -186,7 +186,7 @@ if($reg_login == 'logout'){
 	$tcms_auth->doLogout($session);
 	
 	$link = '?s='.$s.( isset($lang) ? '&amp;lang='.$lang : '' );
-	$link = $tcms_main->urlAmpReplace($link);
+	$link = $tcms_main->urlConvertToSEO($link);
 	
 	echo '<script>document.location.href=\''.$link.'\';</script>';
 }

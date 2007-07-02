@@ -9,8 +9,7 @@
 |
 | toendaCMS Version
 |
-| File:		tcms_version.lib.php
-| Version:	0.0.4
+| File:	tcms_version.lib.php
 |
 +
 */
@@ -25,6 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide the cms
  * version information.
  *
+ * @version 0.0.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel

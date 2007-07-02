@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * user accounts items.
  *
- * @version 0.1.0
+ * @version 0.1.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -72,439 +72,439 @@ class tcms_dc_account {
 	}
 	
 	/**
-	 * Set the sidemenuitem uid
+	 * set the sidemenuitem uid
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetID($value){
+	function setID($value){
 		$this->m_uid = $value;
 	}
 	
 	/**
-	 * Get the sidemenuitem uid
+	 * get the sidemenuitem uid
 	 * 
 	 * @return String
 	 */
-	function GetID(){
+	function getID(){
 		return $this->m_uid;
 	}
 	
 	/**
-	 * Set the username
+	 * set the username
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetUsername($value){
+	function setUsername($value){
 		$this->m_username = $value;
 	}
 	
 	/**
-	 * Get the username
+	 * get the username
 	 * 
 	 * @return String
 	 */
-	function GetUsername(){
+	function getUsername(){
 		return $this->m_username;
 	}
 	
 	/**
-	 * Set the password
+	 * set the password
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetPassword($value){
+	function setPassword($value){
 		$this->m_password = $value;
 	}
 	
 	/**
-	 * Get the password
+	 * get the password
 	 * 
 	 * @return String
 	 */
-	function GetPassword(){
+	function getPassword(){
 		return $this->m_password;
 	}
 	
 	/**
-	 * Set the email
+	 * set the email
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetEmail($value){
+	function setEmail($value){
 		$this->m_email = $value;
 	}
 	
 	/**
-	 * Get the email
+	 * get the email
 	 * 
 	 * @return String
 	 */
-	function GetEmail(){
+	function getEmail(){
 		return $this->m_email;
 	}
 	
 	/**
-	 * Set the name
+	 * set the name
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetName($value){
+	function setName($value){
 		$this->m_name = $value;
 	}
 	
 	/**
-	 * Get the name
+	 * get the name
 	 * 
 	 * @return String
 	 */
-	function GetName(){
+	function getName(){
 		return $this->m_name;
 	}
 	
 	/**
-	 * Set the group
+	 * set the group
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetGroup($value){
+	function setGroup($value){
 		$this->m_group = $value;
 	}
 	
 	/**
-	 * Get the group
+	 * get the group
 	 * 
 	 * @return String
 	 */
-	function GetGroup(){
+	function getGroup(){
 		return $this->m_group;
 	}
 	
 	/**
-	 * Set the join date
+	 * set the join date
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetJoinDate($value){
+	function setJoinDate($value){
 		$this->m_joindate = $value;
 	}
 	
 	/**
-	 * Get the join date
+	 * get the join date
 	 * 
 	 * @return String
 	 */
-	function GetJoinDate(){
+	function getJoinDate(){
 		return $this->m_joindate;
 	}
 	
 	/**
-	 * Set the last login
+	 * set the last login
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetLastLogin($value){
+	function setLastLogin($value){
 		$this->m_lastlogin = $value;
 	}
 	
 	/**
-	 * Get the last login
+	 * get the last login
 	 * 
 	 * @return String
 	 */
-	function GetLastLogin(){
+	function getLastLogin(){
 		return $this->m_lastlogin;
 	}
 	
 	/**
-	 * Set the birthday
+	 * set the birthday
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetBirthday($value){
+	function setBirthday($value){
 		$this->m_birthday = $value;
 	}
 	
 	/**
-	 * Get the birthday
+	 * get the birthday
 	 * 
 	 * @return String
 	 */
-	function GetBirthday(){
+	function getBirthday(){
 		return $this->m_birthday;
 	}
 	
 	/**
-	 * Set the gender
+	 * set the gender
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetGender($value){
+	function setGender($value){
 		$this->m_gender = $value;
 	}
 	
 	/**
-	 * Get the gender
+	 * get the gender
 	 * 
 	 * @return String
 	 */
-	function GetGender(){
+	function getGender(){
 		return $this->m_gender;
 	}
 	
 	/**
-	 * Set the occupation
+	 * set the occupation
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetOccupation($value){
+	function setOccupation($value){
 		$this->m_occupation = $value;
 	}
 	
 	/**
-	 * Get the occupation
+	 * get the occupation
 	 * 
 	 * @return String
 	 */
-	function GetOccupation(){
+	function getOccupation(){
 		return $this->m_occupation;
 	}
 	
 	/**
-	 * Set the homepage
+	 * set the homepage
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetHomepage($value){
+	function setHomepage($value){
 		$this->m_homepage = $value;
 	}
 	
 	/**
-	 * Get the homepage
+	 * get the homepage
 	 * 
 	 * @return String
 	 */
-	function GetHomepage(){
+	function getHomepage(){
 		return $this->m_homepage;
 	}
 	
 	/**
-	 * Set the icq
+	 * set the icq
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetICQ($value){
+	function setICQ($value){
 		$this->m_icq = $value;
 	}
 	
 	/**
-	 * Get the icq
+	 * get the icq
 	 * 
 	 * @return String
 	 */
-	function GetICQ(){
+	function getICQ(){
 		return $this->m_icq;
 	}
 	
 	/**
-	 * Set the aim
+	 * set the aim
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetAIM($value){
+	function setAIM($value){
 		$this->m_aim = $value;
 	}
 	
 	/**
-	 * Get the aim
+	 * get the aim
 	 * 
 	 * @return String
 	 */
-	function GetAIM(){
+	function getAIM(){
 		return $this->m_aim;
 	}
 	
 	/**
-	 * Set the yim
+	 * set the yim
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetYIM($value){
+	function setYIM($value){
 		$this->m_yim = $value;
 	}
 	
 	/**
-	 * Get the yim
+	 * get the yim
 	 * 
 	 * @return String
 	 */
-	function GetYIM(){
+	function getYIM(){
 		return $this->m_yim;
 	}
 	
 	/**
-	 * Set the msn
+	 * set the msn
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetMSN($value){
+	function setMSN($value){
 		$this->m_msn = $value;
 	}
 	
 	/**
-	 * Get the msn
+	 * get the msn
 	 * 
 	 * @return String
 	 */
-	function GetMSN(){
+	function getMSN(){
 		return $this->m_msn;
 	}
 	
 	/**
-	 * Set the skype
+	 * set the skype
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetSkype($value){
+	function setSkype($value){
 		$this->m_skype = $value;
 	}
 	
 	/**
-	 * Get the skype
+	 * get the skype
 	 * 
 	 * @return String
 	 */
-	function GetSkype(){
+	function getSkype(){
 		return $this->m_skype;
 	}
 	
 	/**
-	 * Set the enabled
+	 * set the enabled
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetEnabled($value){
+	function setEnabled($value){
 		$this->m_enabled = $value;
 	}
 	
 	/**
-	 * Get the enabled
+	 * get the enabled
 	 * 
 	 * @return String
 	 */
-	function GetEnabled(){
+	function getEnabled(){
 		return $this->m_enabled;
 	}
 	
 	/**
-	 * Set the tcms_enabled
+	 * set the tcms_enabled
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetTCMSScriptEnabled($value){
+	function setTCMSScriptEnabled($value){
 		$this->m_tcms_enabled = $value;
 	}
 	
 	/**
-	 * Get the tcms_enabled
+	 * get the tcms_enabled
 	 * 
 	 * @return String
 	 */
-	function GetTCMSScriptEnabled(){
+	function getTCMSScriptEnabled(){
 		return $this->m_tcms_enabled;
 	}
 	
 	/**
-	 * Set the static_value
+	 * set the static_value
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetStaticValue($value){
+	function setStaticValue($value){
 		$this->m_static_value = $value;
 	}
 	
 	/**
-	 * Get the static_value
+	 * get the static_value
 	 * 
 	 * @return String
 	 */
-	function GetStaticValue(){
+	function getStaticValue(){
 		return $this->m_static_value;
 	}
 	
 	/**
-	 * Set the signature
+	 * set the signature
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetSignature($value){
+	function setSignature($value){
 		$this->m_signature = $value;
 	}
 	
 	/**
-	 * Get the signature
+	 * get the signature
 	 * 
 	 * @return String
 	 */
-	function GetSignature(){
+	function getSignature(){
 		return $this->m_signature;
 	}
 	
 	/**
-	 * Set the location
+	 * set the location
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetLocation($value){
+	function setLocation($value){
 		$this->m_location = $value;
 	}
 	
 	/**
-	 * Get the location
+	 * get the location
 	 * 
 	 * @return String
 	 */
-	function GetLocation(){
+	function getLocation(){
 		return $this->m_location;
 	}
 	
 	/**
-	 * Set the hobby
+	 * set the hobby
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetHobby($value){
+	function setHobby($value){
 		$this->m_hobby = $value;
 	}
 	
 	/**
-	 * Get the hobby
+	 * get the hobby
 	 * 
 	 * @return String
 	 */
-	function GetHobby(){
+	function getHobby(){
 		return $this->m_hobby;
 	}
 }

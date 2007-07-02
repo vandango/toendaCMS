@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.0.4
+ * @version 2.0.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -62,6 +62,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getAllDocuments                   -> Get all documents
  * getPathContentAmount              -> Get the amount of related files in a path (without directorys)
  * getPathContent                    -> Return a array of all files or folders inside a path
+ * getPathContentCSSFilesRecursivly  -> Return a array with the files in "path"
  * getXMLFiles                       -> Return a array of all xml files inside a path
  * getDirectorySize                  -> Get the complete filesize of a directory
  * getDirectorySizeString            -> Get the complete filesize of a directory as a string
@@ -92,12 +93,18 @@ defined('_TCMS_VALID') or die('Restricted access');
  * cleanFilename                     -> Clean a filename
  * cleanImageFromString              -> Clean images from a string
  * cleanAllImagesFromString          -> Clean all images from a string
- * urlAmpReplace                     -> Convert a url link into a SEO friendly link
+ * cleanHTMLforPDF                   -> Return a cleaned string for PDF output
+ * urlConvertToSEO                   -> Convert a url link into a SEO friendly link
  * urlConvertToHTMLFormat            -> Converts a normal link into a html based link
  * urlAddSlash                       -> Convert a equal-char (=) into a slash-char (/)
  * urlAddColon                       -> Convert a equal-char (=) into a double-dot-char (:)
  * reCHMOD                           -> Chmods files and directories recursivel to given permissions
  * replaceSmilyTags                  -> Replace all smiley tags with the icons
+ * replaceAmp                        -> Replace different chars with unicode chars
+ * paf                               -> Prints a array
+ * lastIndexOf                       -> The same as strrpos, except $searchThis can be a string
+ * indexOf                           -> The same as strpos
+ * convertNewlineToHTML              -> Replaces all newlines in a stzring with <br /> tags
  *
  * xml_readdir_content         -> return id saved in xml file
  * xml_readdir_content_without -> return id saved in xml file
@@ -105,8 +112,6 @@ defined('_TCMS_VALID') or die('Restricted access');
  * readdir_comment             -> return all comment folders from the news folder
  * readdir_image_comment       -> return all comment folders from the image folder
  * readdir_count               -> return the amount of datasets
- * ampReplace                  -> clean a string
- * load_css_files              -> loads all css files from an dir ( files or numbers files )
  * count_subid                 -> count all xml files in an dir ( files or numbers files )
  * count_answers               -> count answers in poll
  * count_answers_sql           -> count answers in poll from sql
@@ -125,11 +130,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * get_default_contact         -> return the default contact for the contactform
  * get_default_sql_contact     -> return the default contact for the contactform from sql db
  * split_sql                   -> return splittet sql string
- * cleanHTMLforPDF             -> return a string, cleaned for PDF
- * nl2br                       -> return a string where all nl replaced with a <br> tag
  * getNewsCatAmount            -> return the amount of news in cat with the given cat uid
- * paf                         -> prints a array formated
- * tcms_strrpos                -> return the last index of a expression
  * chkDefaultContact           -> return a boolean if a default contact exists
  * returnInsertCommand         -> return a command for inserting
  *
@@ -157,9 +158,14 @@ defined('_TCMS_VALID') or die('Restricted access');
  * DEPRECATED encode_text_without_db      -> decodeText (with true, true)
  * DEPRECATED create_session              -> see tcms_authentication
  * DEPRECATED create_sql_session          -> see tcms_authentication
- * DEPRECATED load_xml_files              -> loads all xml files from an dir ( files or numbers files )
+ * DEPRECATED load_xml_files              -> getPathContent
  * DEPRECATED canCHMOD                    -> isCHMODable
- * DEPRECATED mainmenuSQL                 -> return links for the sidemenu (read from database)
+ * DEPRECATED mainmenuSQL                 -> see tcms_menu_provider
+ * DEPRECATED load_css_files              -> getPathContentCSSFilesRecursivly
+ * DEPRECATED tcms_strrpos                -> lastIndexOf
+ * DEPRECATED nl2br                       -> convertNewlineToHTML
+ * DEPRECATED ampReplace                  -> replaceAmp
+ * DEPRECATED urlAmpReplace               -> urlConvertToSEO
  * 
  * </code>
  *
@@ -633,6 +639,76 @@ class tcms_main {
 		}
 		
 		return ( $this->isReal($arr_dirContent) ? $arr_dirContent : NULL );
+	}
+	
+	
+	
+	/**
+	 * Return a array with the files in "path"
+	 * 
+	 * @param String $path
+	 * @param Unknown $returnOnlyAmount = false
+	 * @return READ A DIR AND RETURN THE CSS FILES
+	 */
+	function getPathContentCSSFilesRecursivly($path, $returnOnlyAmount = false){
+		$handle = opendir($path);
+		$i = 0;
+		$c = 0;
+		
+		while($directories = readdir($handle)){
+			if($directories != '.' 
+			&& $directories != '..' 
+			&& $directories != 'CVS' 
+			&& $directories != '.svn'
+			&& $directories != '_svn'
+			&& $directories != '.SVN'
+			&& $directories != '_SVN'
+			&& $directories != 'index.html'){
+				if(strpos($directories, '.css')){
+					$arr_css['files'][$i] = $directories;
+					$i++;
+				}
+				else{
+					if(!is_file($directories) && !strpos($directories, '.')){
+						$arr_css['dir'][$i] = $directories;
+						$i++;
+					}
+				}
+			}
+		}
+		
+		if(is_array($arr_css['dir'])){
+			foreach($arr_css['dir'] as $key => $value){
+				$handle = opendir($path.'/'.$value);
+				while($directories = readdir($handle)){
+					if($directories != '.' 
+					&& $directories != '..' 
+					&& $directories != 'CVS' 
+					&& $directories != '.svn'
+					&& $directories != '_svn'
+					&& $directories != '.SVN'
+					&& $directories != '_SVN'
+					&& $directories != 'index.html'){
+						if(strpos($directories, '.css')){
+							$arr_css['files'][$i] = $directories;
+							$i++;
+						}
+					}
+				}
+			}
+		}
+		
+		if($i == 0){
+			return NULL;
+		}
+		else{
+			if($returnOnlyAmount) {
+				return $i;
+			}
+			else {
+				return $arr_css;
+			}
+		}
 	}
 	
 	
@@ -1465,15 +1541,46 @@ class tcms_main {
 	
 	
 	/**
+	 * Return a cleaned string for PDF output
+	 * 
+	 * @param String $string
+	 * @return String
+	 */
+	function cleanHTMLforPDF($string){
+		$string = str_replace('<p>', "\n\n" , $string);
+		$string = str_replace('<P>', "\n\n" , $string);
+		$string = str_replace('<br />', "\n" , $string);
+		$string = str_replace('<br>', "\n" , $string);
+		$string = str_replace('<BR />', "\n" , $string);
+		$string = str_replace('<BR>', "\n" , $string);
+		$string = str_replace('<li>', "\n - " , $string);
+		$string = str_replace('<LI>', "\n - " , $string);
+		$string = str_replace('&bull;', "??" , $string);
+		$string = str_replace('& #039;', "'" , $string);
+		$string = str_replace('& ldquo;', "\"" , $string);
+		$string = str_replace('& euro;', "??" , $string);
+		$string = str_replace('& rdquo;', "\"" , $string);
+		$string = str_replace('& quot;', "\"" , $string);
+		$string = str_replace('& rsquo;', "'" , $string);
+		
+		$string = strip_tags($string);
+		$string = trim($string);
+		
+		return $string;
+	}
+	
+	
+	
+	/**
 	 * Convert a url link into a SEO friendly link
 	 * 
 	 * @param String $text
-	 * @param Boolean $withApmersant = true
+	 * @param Boolean $withAmpersant = true
 	 */
-	function urlAmpReplace($text, $withApmersant = true){
+	function urlConvertToSEO($text, $withAmpersant = true){
 		$text = str_replace('&#', '*-*', $text);
 		
-		if($withApmersant) {
+		if($withAmpersant) {
 			$text = preg_replace('|&(?![\w]+;)|', '&amp;', $text);
 			$text = str_replace('&amp;amp;', '&amp;', $text);
 		}
@@ -1535,6 +1642,9 @@ class tcms_main {
 	
 	/**
 	 * Converts a normal link into a html based link
+	 * 
+	 * @param String $text
+	 * @return String
 	 */
 	function urlConvertToHTMLFormat($text) {
 		//echo $text.'<br>';
@@ -1841,6 +1951,89 @@ class tcms_main {
 	
 	
 	
+	/**
+	 * Replace different chars with unicode chars
+	 * 
+	 * @param String $text
+	 * @return String
+	 */
+	function replaceAmp($text){
+		$text = stripslashes($text);
+		
+		//$text = preg_replace('~&#x([0-9a-f]+);~ei', 'chr(hexdec("\\1"))', $text);
+		//$text = preg_replace('~&#([0-9]+);~e', 'chr(\\1)', $text);
+		
+		//$text = str_replace( '&#', '*-*', $text );
+		//$text = preg_replace( '|&(?![\w]+;)|', '&amp;', $text );
+		//$text = str_replace("'", '&#8216;', $text );
+		//$text = str_replace('"', '&#34;', $text );
+		$text = str_replace('&amp;amp;', '&amp;', $text );
+		$text = str_replace(chr(92), '&#92;', $text );
+		$text = str_replace("'", "\'", $text );
+		//$text = str_replace( '*-*', '&#', $text );
+		
+		return $text;
+	}
+	
+	
+	
+	/**
+	 * Prints a array
+	 */
+	function paf($array){
+		echo '<span style="font-size: 12px;"><pre>';
+		print_r($array);
+		echo '</pre></span>';
+	}
+	
+	
+	
+	/**
+	 * The same as strrpos, except $searchThis can be a string
+	 * 
+	 * @param String $findHere
+	 * @param  String $searchThis
+	 * @package Integer $offset
+	 * @return Integer (The index of the last position of a expression)
+	 */
+	function lastIndexOf($findHere, $searchThis, $offset = 0){
+		$strrpos = false;
+		
+		if(is_string($findHere) && is_string($searchThis) && is_numeric($offset)){
+			$strlen = strlen($findHere);
+			$strpos = strpos(strrev(substr($findHere, $offset)), strrev($searchThis));
+			
+			if(is_numeric($strpos)){
+				$strrpos = $strlen - $strpos - strlen($searchThis);
+			}
+		}
+		
+		return $strrpos;
+	}
+	
+	
+	
+	/**
+	 * The same as strpos
+	 */
+	function indexOf($findHere, $searchThis, $offset = 0) {
+		return strpos($findHere, $searchThis, $offset);
+	}
+	
+	
+	
+	/**
+	 * Replaces all newlines in a stzring with <br /> tags
+	 * 
+	 * @param String $text
+	 * @return String
+	 */
+	function convertNewlineToHTML($text){
+		return nl2br($text);
+	}
+	
+	
+	
 	/*
 		toendaCMS system class
 		
@@ -2013,93 +2206,6 @@ class tcms_main {
 		}
 		else{
 			return ( isset($arr_dirAlbum) && $arr_dirAlbum != '' && !empty($arr_dirAlbum) ? $arr_dirAlbum : NULL );
-		}
-	}
-	
-	
-	
-	/***
-	* @return string
-	* @desc check unicode problems
-	*/
-	function ampReplace($text){
-		$text = stripslashes($text);
-		
-		//$text = preg_replace('~&#x([0-9a-f]+);~ei', 'chr(hexdec("\\1"))', $text);
-		//$text = preg_replace('~&#([0-9]+);~e', 'chr(\\1)', $text);
-		
-		//$text = str_replace( '&#', '*-*', $text );
-		//$text = preg_replace( '|&(?![\w]+;)|', '&amp;', $text );
-		//$text = str_replace("'", '&#8216;', $text );
-		//$text = str_replace('"', '&#34;', $text );
-		$text = str_replace('&amp;amp;', '&amp;', $text );
-		$text = str_replace(chr(92), '&#92;', $text );
-		$text = str_replace("'", "\'", $text );
-		//$text = str_replace( '*-*', '&#', $text );
-		
-		return $text;
-	}
-	
-	
-	
-	/***
-	* @return READ A DIR AND RETURN THE CSS FILES
-	* @desc Return a array with the files in "path" (only .xml)
-	*/
-	function load_css_files($path, $file_or_number){
-		$handle = opendir($path);
-		$i = 0;
-		$c = 0;
-		
-		while($directories = readdir($handle)){
-			if($directories != '.' 
-			&& $directories != '..' 
-			&& $directories != 'CVS' 
-			&& $directories != '.svn'
-			&& $directories != '_svn'
-			&& $directories != '.SVN'
-			&& $directories != '_SVN'
-			&& $directories != 'index.html'){
-				if(strpos($directories, '.css')){
-					$arr_css['files'][$i] = $directories;
-					$i++;
-				}
-				else{
-					if(!is_file($directories) && !strpos($directories, '.')){
-						$arr_css['dir'][$i] = $directories;
-						$i++;
-					}
-				}
-			}
-		}
-		
-		if(is_array($arr_css['dir'])){
-			foreach($arr_css['dir'] as $key => $value){
-				$handle = opendir($path.'/'.$value);
-				while($directories = readdir($handle)){
-					if($directories != '.' 
-					&& $directories != '..' 
-					&& $directories != 'CVS' 
-					&& $directories != '.svn'
-					&& $directories != '_svn'
-					&& $directories != '.SVN'
-					&& $directories != '_SVN'
-					&& $directories != 'index.html'){
-						if(strpos($directories, '.css')){
-							$arr_css['files'][$i] = $directories;
-							$i++;
-						}
-					}
-				}
-			}
-		}
-		
-		if($i == 0){
-			return NULL;
-		}
-		else{
-			if($file_or_number == 'files'){ return $arr_css; }
-			if($file_or_number == 'number'){ return $i; }
 		}
 	}
 	
@@ -3170,47 +3276,6 @@ class tcms_main {
 	
 	
 	/***
-	* @return Return a cleaned string for PDF output
-	* @desc 
-	*/
-	function cleanHTMLforPDF($string){
-		$string = str_replace('<p>', "\n\n" , $string);
-		$string = str_replace('<P>', "\n\n" , $string);
-		$string = str_replace('<br />', "\n" , $string);
-		$string = str_replace('<br>', "\n" , $string);
-		$string = str_replace('<BR />', "\n" , $string);
-		$string = str_replace('<BR>', "\n" , $string);
-		$string = str_replace('<li>', "\n - " , $string);
-		$string = str_replace('<LI>', "\n - " , $string);
-		$string = str_replace('&bull;', "??" , $string);
-		$string = str_replace('& #039;', "'" , $string);
-		$string = str_replace('& ldquo;', "\"" , $string);
-		$string = str_replace('& euro;', "??" , $string);
-		$string = str_replace('& rdquo;', "\"" , $string);
-		$string = str_replace('& quot;', "\"" , $string);
-		$string = str_replace('& rsquo;', "'" , $string);
-		
-		$string = strip_tags($string);
-		$string = trim($string);
-		
-		return $string;
-	}
-	
-	
-	
-	/***
-	* @return A string where all nl replaced with a <br> tag
-	* @desc
-	*/
-	function nl2br($msg){
-		$output = nl2br($msg);
-		
-		return $output;
-	}
-	
-	
-	
-	/***
 	* @return The amount of news in categories with the given cat uid
 	* @desc 
 	*/
@@ -3263,39 +3328,6 @@ class tcms_main {
 		}
 		
 		return $i;
-	}
-	
-	
-	
-	/***
-	* @return
-	* @desc Prints a array formated
-	*/
-	function paf($array){
-		echo '<span style="font-size: 12px;"><pre>';
-		print_r($array);
-		echo '</pre></span>';
-	}
-	
-	
-	
-	/***
-	* @return The index of the last position of a expression
-	* @desc The same as strrpos, except $searchThis can be a string
-	*/
-	function tcms_strrpos($findHere, $searchThis, $offset = 0){
-		$strrpos = false;
-		
-		if(is_string($findHere) && is_string($searchThis) && is_numeric($offset)){
-			$strlen = strlen($findHere);
-			$strpos = strpos(strrev(substr($findHere, $offset)), strrev($searchThis));
-			
-			if(is_numeric($strpos)){
-				$strrpos = $strlen - $strpos - strlen($searchThis);
-			}
-		}
-		
-		return $strrpos;
 	}
 	
 	
@@ -3829,6 +3861,65 @@ class tcms_main {
 			return $arr_mainmenu;
 		}
 		else{ return ''; }
+	}
+	
+	
+	
+	/**
+	 * @deprecated 
+	 */
+	function load_css_files($path, $file_or_number) {
+		if($file_or_number == 'files'){
+			return $this->getPathCSSFilesRecursivly($path);
+		}
+		else if($file_or_number == 'number'){
+			return $this->getPathCSSFilesRecursivly($path, true);
+		}
+	}
+	
+	
+	
+	/**
+	 * @deprecated 
+	 * @return return the last index of a expression
+	 */
+	function tcms_strrpos($findHere, $searchThis, $offset = 0) {
+		return $this->lastIndexOf($findHere, $searchThis, $offset);
+	}
+	
+	
+	
+	/**
+	 * @deprecated 
+	 * @return A string where all nl replaced with a <br> tag
+	 * @desc
+	 */
+	function nl2br($msg){
+		return $this->convertNewlineToHTML($msg);
+	}
+	
+	
+	
+	/**
+	 * @deprecated 
+	 * @return string
+	 * @desc check unicode problems
+	 */
+	function ampReplace($text){
+		return $this->replaceAmp($text);
+	}
+	
+	
+	
+	/**
+	 * Convert a url link into a SEO friendly link
+	 * 
+	 * @deprecated 
+	 * @param String $text
+	 * @param Boolean $withApmersant = true
+	 */
+	function urlAmpReplace($text, $withApmersant = true){
+		return $this->urlConvertToSEO($text, $withApmersant);
 	}
 }
 
