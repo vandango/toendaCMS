@@ -97,6 +97,11 @@ using('toendacms.kernel.configuration');
 using('toendacms.kernel.version');
 using('toendacms.kernel.html');
 
+//$tcms_time = new tcms_time();
+//$tcms_time->startTimer();
+//if(isset($choosenDB) && $choosenDB != 'xml')
+//	$tcms_time->startQueryCounter();
+
 tcms_time::tcms_load_start();
 if(isset($choosenDB) && $choosenDB != 'xml')
 	tcms_time::tcms_query_count_start();

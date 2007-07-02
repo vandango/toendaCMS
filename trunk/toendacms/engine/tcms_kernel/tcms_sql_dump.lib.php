@@ -9,8 +9,7 @@
 |
 | toendaCMS SQL Database Dump
 |
-| File:		tcms_sql_dump.lib.php
-| Version:	0.0.3
+| File:	tcms_sql_dump.lib.php
 +
 */
 
@@ -22,10 +21,12 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a complete database backup dump.
  *
+ * @version 0.0.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
  */
+
 
 /**
  * Methods
