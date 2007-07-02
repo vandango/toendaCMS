@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * comment items.
  *
- * @version 0.0.1
+ * @version 0.0.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -43,82 +43,210 @@ class tcms_dc_comment {
 	var $m_domain;
 	var $m_module;
 	
-	/***
-	* @return
-	* @desc Constructor: initialize the data container
-	*/
-	function tcms_dc_comment(){
+	/**
+	 * PHP5 Constructor
+	 *
+	 */
+	function __construct() {
 	}
 	
-	/***
-	* @return string
-	* @desc Get or set the name
-	*/
-	function SetName($value){ $this->m_name = $value; }
-	function GetName(){ return $this->m_name; }
+	/**
+	 * PHP4 Constructor
+	 *
+	 */
+	function tcms_dc_comment(){
+		$this->__construct();
+	}
 	
-	/***
-	* @return string
-	* @desc Get or set the email
-	*/
-	function SetEMail($value){ $this->m_email = $value; }
-	function GetEMail(){ return $this->m_email; }
+	/**
+	 * Set the news id
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	function setID($value){
+		$this->m_id = $value;
+	}
 	
-	/***
-	* @return string
-	* @desc Get or set the url
-	*/
-	function SetURL($value){ $this->m_url = $value; }
-	function GetURL(){ return $this->m_url; }
+	/**
+	 * Get the news id
+	 * 
+	 * @return String
+	 */
+	function getID(){
+		return $this->m_id;
+	}
 	
-	/***
-	* @return string
-	* @desc Get or set the news time
-	*/
-	function SetTime($value){ $this->m_time = $value; }
-	function GetTime(){ return $this->m_time; }
+	/**
+	 * Set the name
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	function setName($value){
+		$this->m_name = $value;
+	}
 	
-	/***
-	* @return string
-	* @desc Get or set the news timestamp
-	*/
-	function SetTimestamp($value){ $this->m_timestamp = $value; }
-	function GetTimestamp(){ return $this->m_timestamp; }
+	/**
+	 * Get the name
+	 * 
+	 * @return String
+	 */
+	function getName(){
+		return $this->m_name;
+	}
 	
-	/***
-	* @return string
-	* @desc Get or set the text
-	*/
-	function SetText($value){ $this->m_text = $value; }
-	function GetText(){ return $this->m_text; }
+	/**
+	 * set the email
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	function setEmail($value){
+		$this->m_email = $value;
+	}
 	
-	/***
-	* @return string
-	* @desc Get or set the id
-	*/
-	function SetID($value){ $this->m_id = $value; }
-	function GetID(){ return $this->m_id; }
+	/**
+	 * get the email
+	 * 
+	 * @return String
+	 */
+	function getEmail(){
+		return $this->m_email;
+	}
 	
-	/***
-	* @return string
-	* @desc Get or set the ip
-	*/
-	function SetIP($value){ $this->m_ip = $value; }
-	function GetIP(){ return $this->m_ip; }
+	/**
+	 * Set the timestamp
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	function setTimestamp($value){
+		$this->m_timestamp = $value;
+	}
 	
-	/***
-	* @return string
-	* @desc Get or set the domain
-	*/
-	function SetDomain($value){ $this->m_domain = $value; }
-	function GetDomain(){ return $this->m_domain; }
+	/**
+	 * Get the timestamp
+	 * 
+	 * @return String
+	 */
+	function getTimestamp(){
+		return $this->m_timestamp;
+	}
 	
-	/***
-	* @return string
-	* @desc Get or set the module
-	*/
-	function SetModule($value){ $this->m_module = $value; }
-	function GetModule(){ return $this->m_module; }
+	/**
+	 * Set the news text
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	function setText($value){
+		$this->m_text = $value;
+	}
+	
+	/**
+	 * Get the text
+	 * 
+	 * @return String
+	 */
+	function getText(){
+		return $this->m_text;
+	}
+	
+	/**
+	 * Set the url
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	function setURL($value){
+		$this->m_url = $value;
+	}
+	
+	/**
+	 * Get the url
+	 * 
+	 * @return String
+	 */
+	function getURL(){
+		return $this->m_url;
+	}
+	
+	/**
+	 * Set the time
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	function setTime($value){
+		$this->m_time = $value;
+	}
+	
+	/**
+	 * Get the time
+	 * 
+	 * @return String
+	 */
+	function getTime(){
+		return $this->m_time;
+	}
+	
+	/**
+	 * Set the ip
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	function setIP($value){
+		$this->m_ip = $value;
+	}
+	
+	/**
+	 * Get the ip
+	 * 
+	 * @return String
+	 */
+	function getIP(){
+		return $this->m_ip;
+	}
+	
+	/**
+	 * Set the domain
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	function setDomain($value){
+		$this->m_domain = $value;
+	}
+	
+	/**
+	 * Get the domain
+	 * 
+	 * @return String
+	 */
+	function getDomain(){
+		return $this->m_domain;
+	}
+	
+	/**
+	 * Set the module
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	function setModule($value){
+		$this->m_module = $value;
+	}
+	
+	/**
+	 * Get the module
+	 * 
+	 * @return String
+	 */
+	function getModule(){
+		return $this->m_module;
+	}
 }
 
 ?>

@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * sidemenu items.
  *
- * @version 0.0.3
+ * @version 0.0.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -60,211 +60,211 @@ class tcms_dc_sidebarmodule {
 	}
 	
 	/**
-	 * Set the side gallery
+	 * set the side gallery
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetSideGallery($value){
+	function setSideGallery($value){
 		$this->m_side_gallery = $value;
 	}
 	
 	/**
-	 * Get the side gallery
+	 * get the side gallery
 	 * 
 	 * @return String
 	 */
-	function GetSideGallery(){
+	function getSideGallery(){
 		return $this->m_side_gallery;
 	}
 	
 	/**
-	 * Set the side category
+	 * set the side category
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetSideCategory($value){
+	function setSideCategory($value){
 		$this->m_side_category = $value;
 	}
 	
 	/**
-	 * Get the side category
+	 * get the side category
 	 * 
 	 * @return String
 	 */
-	function GetSideCategory(){
+	function getSideCategory(){
 		return $this->m_side_category;
 	}
 	
 	/**
-	 * Set the side side archive
+	 * set the side side archive
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetSideArchive($value){
+	function setSideArchive($value){
 		$this->m_side_archives = $value;
 	}
 	
 	/**
-	 * Get the side side archive
+	 * get the side side archive
 	 * 
 	 * @return String
 	 */
-	function GetSideArchive(){
+	function getSideArchive(){
 		return $this->m_side_archives;
 	}
 	
 	/**
-	 * Set the side side links
+	 * set the side side links
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetSideLinks($value){
+	function setSideLinks($value){
 		$this->m_side_links = $value;
 	}
 	
 	/**
-	 * Get the side side links
+	 * get the side side links
 	 * 
 	 * @return String
 	 */
-	function GetSideLinks(){
+	function getSideLinks(){
 		return $this->m_side_links;
 	}
 	
 	/**
-	 * Set the side layout chooser
+	 * set the side layout chooser
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetLayoutChooser($value){
+	function setLayoutChooser($value){
 		$this->m_layout_chooser = $value;
 	}
 	
 	/**
-	 * Get the side layout chooser
+	 * get the side layout chooser
 	 * 
 	 * @return String
 	 */
-	function GetLayoutChooser(){
+	function getLayoutChooser(){
 		return $this->m_layout_chooser;
 	}
 	
 	/**
-	 * Set the side login
+	 * set the side login
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetLogin($value){
+	function setLogin($value){
 		$this->m_login = $value;
 	}
 	
 	/**
-	 * Get the side login
+	 * get the side login
 	 * 
 	 * @return String
 	 */
-	function GetLogin(){
+	function getLogin(){
 		return $this->m_login;
 	}
 	
 	/**
-	 * Set the side syndication
+	 * set the side syndication
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetSyndication($value){
+	function setSyndication($value){
 		$this->m_syndication = $value;
 	}
 	
 	/**
-	 * Get the side syndication
+	 * get the side syndication
 	 * 
 	 * @return String
 	 */
-	function GetSyndication(){
+	function getSyndication(){
 		return $this->m_syndication;
 	}
 	
 	/**
-	 * Set the side newsletter
+	 * set the side newsletter
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetNewsletter($value){
+	function setNewsletter($value){
 		$this->m_newsletter = $value;
 	}
 	
 	/**
-	 * Get the side newsletter
+	 * get the side newsletter
 	 * 
 	 * @return String
 	 */
-	function GetNewsletter(){
+	function getNewsletter(){
 		return $this->m_newsletter;
 	}
 	
 	/**
-	 * Set the side search
+	 * set the side search
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetSearch($value){
+	function setSearch($value){
 		$this->m_search = $value;
 	}
 	
 	/**
-	 * Get the side search
+	 * get the side search
 	 * 
 	 * @return String
 	 */
-	function GetSearch(){
+	function getSearch(){
 		return $this->m_search;
 	}
 	
 	/**
-	 * Set the side sidebar
+	 * set the side sidebar
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetSidebar($value){
+	function setSidebar($value){
 		$this->m_sidebar = $value;
 	}
 	
 	/**
-	 * Get the side sidebar
+	 * get the side sidebar
 	 * 
 	 * @return String
 	 */
-	function GetSidebar(){
+	function getSidebar(){
 		return $this->m_sidebar;
 	}
 	
 	/**
-	 * Set the side poll
+	 * set the side poll
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetPoll($value){
+	function setPoll($value){
 		$this->m_poll = $value;
 	}
 	
 	/**
-	 * Get the side poll
+	 * get the side poll
 	 * 
 	 * @return String
 	 */
-	function GetPoll(){
+	function getPoll(){
 		return $this->m_poll;
 	}
 }

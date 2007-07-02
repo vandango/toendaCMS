@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used as a datacontainer for the news.
  *
- * @version 0.1.4
+ * @version 0.1.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -70,12 +70,12 @@ class tcms_dc_news {
 	// Properties
 	// ---------------------------------------
 	
-	/***
+	/**
 	 * Set the news id
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setID($value){
 		$this->m_order = $value;
 	}
@@ -89,12 +89,12 @@ class tcms_dc_news {
 		return $this->m_order;
 	}
 	
-	/***
+	/**
 	 * Set the title
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setTitle($value){
 		$this->m_title = $value;
 	}
@@ -108,12 +108,12 @@ class tcms_dc_news {
 		return $this->m_title;
 	}
 	
-	/***
+	/**
 	 * Set the autor
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setAutor($value){
 		$this->m_autor = $value;
 	}
@@ -127,12 +127,12 @@ class tcms_dc_news {
 		return $this->m_autor;
 	}
 	
-	/***
+	/**
 	 * Set the date
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setDate($value){
 		$this->m_date = $value;
 	}
@@ -146,12 +146,12 @@ class tcms_dc_news {
 		return $this->m_date;
 	}
 	
-	/***
+	/**
 	 * Set the news time
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setTime($value){
 		$this->m_time = $value;
 	}
@@ -165,12 +165,12 @@ class tcms_dc_news {
 		return $this->m_time;
 	}
 	
-	/***
+	/**
 	 * Set the news newstext
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setText($value){
 		$this->m_newstext = $value;
 	}
@@ -184,12 +184,12 @@ class tcms_dc_news {
 		return $this->m_newstext;
 	}
 	
-	/***
+	/**
 	 * Set the news timestamp
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setTimestamp($value){
 		$this->m_stamp = $value;
 	}
@@ -203,12 +203,12 @@ class tcms_dc_news {
 		return $this->m_stamp;
 	}
 	
-	/***
+	/**
 	 * Set the news publishing state
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setPublished($value){
 		$this->m_pub = $value;
 	}
@@ -222,12 +222,12 @@ class tcms_dc_news {
 		return $this->m_pub;
 	}
 	
-	/***
+	/**
 	 * Set the news publish date
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setPublishDate($value){
 		$this->m_pub_date = $value;
 	}
@@ -241,12 +241,12 @@ class tcms_dc_news {
 		return $this->m_pub_date;
 	}
 	
-	/***
+	/**
 	 * Set the news comments enabled state
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setCommentsEnabled($value){
 		$this->m_cmt = $value;
 	}
@@ -260,12 +260,12 @@ class tcms_dc_news {
 		return $this->m_cmt;
 	}
 	
-	/***
+	/**
 	 * Set the news image
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setImage($value){
 		$this->m_img = $value;
 	}
@@ -279,12 +279,12 @@ class tcms_dc_news {
 		return $this->m_img;
 	}
 	
-	/***
+	/**
 	 * Set the news categories
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setCategories($value){
 		$this->m_cat = $value;
 	}
@@ -298,12 +298,12 @@ class tcms_dc_news {
 		return $this->m_cat;
 	}
 	
-	/***
+	/**
 	 * Set the news access
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setAccess($value){
 		$this->m_acs = $value;
 	}
@@ -317,12 +317,12 @@ class tcms_dc_news {
 		return $this->m_acs;
 	}
 	
-	/***
+	/**
 	 * Set the show on frontpage setting
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setShowOnFrontpage($value){
 		$this->m_frontpage = $value;
 	}

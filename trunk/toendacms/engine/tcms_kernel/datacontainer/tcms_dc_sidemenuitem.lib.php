@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * sidemenu items.
  *
- * @version 0.0.6
+ * @version 0.0.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -68,211 +68,211 @@ class tcms_dc_sidemenuitem {
 	// ---------------------------------------
 	
 	/**
-	 * Set the sidemenuitem uid
+	 * set the sidemenuitem uid
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetID($value){
+	function setID($value){
 		$this->m_uid = $value;
 	}
 	
 	/**
-	 * Get the sidemenuitem uid
+	 * get the sidemenuitem uid
 	 * 
 	 * @return String
 	 */
-	function GetID(){
+	function getID(){
 		return $this->m_uid;
 	}
 	
 	/**
-	 * Set the sidemenuitem root
+	 * set the sidemenuitem root
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetRoot($value){
+	function setRoot($value){
 		$this->m_root = $value;
 	}
 	
 	/**
-	 * Get the sidemenuitem root
+	 * get the sidemenuitem root
 	 * 
 	 * @return String
 	 */
-	function GetRoot(){
+	function getRoot(){
 		return $this->m_root;
 	}
 	
 	/**
-	 * Set the sidemenuitem title
+	 * set the sidemenuitem title
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetTitle($value){
+	function setTitle($value){
 		$this->m_title = $value;
 	}
 	
 	/**
-	 * Get the sidemenuitem title
+	 * get the sidemenuitem title
 	 * 
 	 * @return String
 	 */
-	function GetTitle(){
+	function getTitle(){
 		return $this->m_title;
 	}
 	
 	/**
-	 * Set the sidemenuitem position
+	 * set the sidemenuitem position
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetPosition($value){
+	function setPosition($value){
 		$this->m_order = $value;
 	}
 	
 	/**
-	 * Get the sidemenuitem position
+	 * get the sidemenuitem position
 	 * 
 	 * @return String
 	 */
-	function GetPosition(){
+	function getPosition(){
 		return $this->m_order;
 	}
 	
 	/**
-	 * Set the sidemenuitem sub position
+	 * set the sidemenuitem sub position
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetSubmenuPosition($value){
+	function setSubmenuPosition($value){
 		$this->m_suborder = $value;
 	}
 	
 	/**
-	 * Get the sidemenuitem sub position
+	 * get the sidemenuitem sub position
 	 * 
 	 * @return String
 	 */
-	function GetSubmenuPosition(){
+	function getSubmenuPosition(){
 		return $this->m_suborder;
 	}
 	
 	/**
-	 * Set the sidemenuitem type
+	 * set the sidemenuitem type
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetType($value){
+	function setType($value){
 		$this->m_type = $value;
 	}
 	
 	/**
-	 * Get the sidemenuitem type
+	 * get the sidemenuitem type
 	 * 
 	 * @return String
 	 */
-	function GetType(){
+	function getType(){
 		return $this->m_type;
 	}
 	
 	/**
-	 * Set the sidemenuitem psrent
+	 * set the sidemenuitem psrent
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetParent($value){
+	function setParent($value){
 		$this->m_parent = $value;
 	}
 	
 	/**
-	 * Get the sidemenuitem parent
+	 * get the sidemenuitem parent
 	 * 
 	 * @return String
 	 */
-	function GetParent(){
+	function getParent(){
 		return $this->m_parent;
 	}
 	
 	/**
-	 * Set the sidemenuitem link
+	 * set the sidemenuitem link
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetLink($value){
+	function setLink($value){
 		$this->m_link = $value;
 	}
 	
 	/**
-	 * Get the sidemenuitem link
+	 * get the sidemenuitem link
 	 * 
 	 * @return String
 	 */
-	function GetLink(){
+	function getLink(){
 		return $this->m_link;
 	}
 	
 	/**
-	 * Set the sidemenuitem publishing state
+	 * set the sidemenuitem publishing state
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetPublished($value){
+	function setPublished($value){
 		$this->m_pub = $value;
 	}
 	
 	/**
-	 * Get the sidemenuitem publishing state
+	 * get the sidemenuitem publishing state
 	 * 
 	 * @return String
 	 */
-	function GetPublished(){
+	function getPublished(){
 		return $this->m_pub;
 	}
 	
 	/**
-	 * Set the sidemenuitem access
+	 * set the sidemenuitem access
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetAccess($value){
+	function setAccess($value){
 		$this->m_acs = $value;
 	}
 	
 	/**
-	 * Get the sidemenuitem access
+	 * get the sidemenuitem access
 	 * 
 	 * @return String
 	 */
-	function GetAccess(){
+	function getAccess(){
 		return $this->m_acs;
 	}
 	
 	/**
-	 * Set the sidemenuitem target
+	 * set the sidemenuitem target
 	 * 
 	 * @param String $value
 	 * @return String
 	 */
-	function SetTarget($value){
+	function setTarget($value){
 		$this->m_target = $value;
 	}
 	
 	/**
-	 * Get the sidemenuitem target
+	 * get the sidemenuitem target
 	 * 
 	 * @return String
 	 */
-	function GetTarget(){
+	function getTarget(){
 		return $this->m_target;
 	}
 }
