@@ -9,14 +9,24 @@
 |
 | toendaCMS Statistics
 |
-| File:		tcms_statistics.lib.php
-| Version:	0.2.6
+| File:	tcms_statistics.lib.php
 +
 */
 
 
 defined('_TCMS_VALID') or die('Restricted access');
 
+
+/**
+ * toendaCMS Statistics
+ *
+ * This class is used to write all the website statistics.
+ *
+ * @version 0.2.7
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage tcms_kernel
+ */
 
 
 /**
@@ -33,8 +43,6 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getOS($osString)           -> Returns the Operating System
  *
  */
-
-
 
 
 class tcms_statistics {

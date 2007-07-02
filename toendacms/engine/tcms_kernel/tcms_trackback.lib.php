@@ -11,8 +11,7 @@
 |
 | Original (GNU GPL): Ran Aroussi (http://www.blogish.org)
 |
-| File:		tcms_trackback.lib.php
-| Version:	0.0.6
+| File:	tcms_trackback.lib.php
 |
 +
 */
@@ -28,6 +27,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Originaly coded by Ran Aroussi (http://www.blogish.org)
  * License GNU GPL
  *
+ * @version 0.0.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
