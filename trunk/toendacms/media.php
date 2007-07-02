@@ -9,7 +9,7 @@
 | 
 | JavaScript Window for ImageGallery
 |
-| File:		media.php
+| File:	media.php
 |
 +
 */
@@ -20,7 +20,7 @@
  *
  * This module is used as a image viewer.
  *
- * @version 0.4.8
+ * @version 0.5.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -165,7 +165,7 @@ $sitekey    = $tcms_main->decodeText($sitekey, '2', $c_charset);
 // HTML HEADER
 //=====================================================
 
-$arrCSS = $tcms_main->load_css_files('theme/'.$s, 'files');
+$arrCSS = $tcms_main->getPathContentCSSFilesRecursivly('theme/'.$s);
 
 echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -173,14 +173,29 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www
 <head>
 <title>'.( $tcmsinst == 1 ? 'toendaCMS ' : '' ).'Imagebrowser | '.$sitetitle.'</title>
 <meta http-equiv="Content-Type" content="text/html; charset='.$c_charset.'" />
-<meta name="generator" content="toendaCMS - Copyright '.$toenda_copy.' Toenda Software Development.  All rights reserved." />';
+<meta name="generator" content="'.$tcms_version->getName().' - '.$tcms_version->getTagline().'! - Version '.$tcms_version->getVersion().' '.$tcms_version->getBuild().' | Copyright '.$tcms_version->getToendaCopyright().' Toenda Software Development. '._TCMS_ADMIN_RIGHT.'" />
 
+<!-- CSS files from current theme -->';
 
-foreach($arrCSS['files'] as $cssKey => $cssVal){
-	echo '<link href="theme/'.$s.'/'.$arrCSS['dir'][0].'/'.$arrCSS['files'][$cssKey].'" rel="stylesheet" type="text/css" />';
+if($tcms_main->isArray($arrCSS)) {
+	foreach($arrCSS['files'] as $cssKey => $cssVal){
+		echo '
+<link href="theme/'.$s.'/'.$arrCSS['dir'][0].'/'.$arrCSS['files'][$cssKey].'" rel="stylesheet" type="text/css" />
+		';
+	}
 }
 
-echo '<style>
+echo '
+<!--
+ This website is powered by '.$tcms_version->getName().' - '.$tcms_version->getTagline().'!
+ Version '.$tcms_version->getVersion().' - '.$tcms_version->getBuild().'
+ '.$tcms_version->getName().' is a free open source Content Management Framework created by Jonathan Naumann and licensed under the GNU/GPL license.
+ '.$tcms_version->getName().' is copyright (c) '.$tcms_version->getToendaCopyright().' of Toenda Software Development.
+ Components are copyright (c) of their respective owners.
+ Information and contribution at http://www.toendacms.com
+-->
+
+<style>
 
 body{
 	margin: 0;
@@ -225,8 +240,11 @@ a.media:hover { text-decoration: underline; }
 
 </style>
 </head>
+
 <body>
-<div id="media">';
+
+<div id="media">
+';
 
 
 
@@ -890,11 +908,11 @@ if($show_tcms == 1){
 	*/
 	if($show_default == 1){
 		echo '<span class="legal">'
-		.'<a title="'._ABOUT_POWERED_BY.' toendaCMS" class="legal" href="http://www.toenda.com" target="_blank">toendaCMS</a>'
-		.'&nbsp;&copy; '.$toenda_copyright.'&nbsp;'
-		.'<a title="'._ABOUT_POWERED_BY.' toendaCMS" class="legal" href="http://www.toenda.com" target="_blank">Toenda Software Development</a>. '
+		.'<a title="'._ABOUT_POWERED_BY.' '.$tcms_version->getName().'" class="legal" href="http://www.toenda.com" target="_blank">'.$tcms_version->getName().'</a>'
+		.'&nbsp;&copy; '.$tcms_version->getToendaCopyright().'&nbsp;'
+		.'<a title="'._ABOUT_POWERED_BY.' '.$tcms_version->getName().'" class="legal" href="http://www.toenda.com" target="_blank">Toenda Software Development</a>. '
 		._TCMS_ADMIN_RIGHT.'<br />toendaCMS '._ABOUT_FREE_SOFTWARE.'</span><br />';
-		echo '<br /><a title="'._ABOUT_POWERED_BY.' toendaCMS" class="legal" href="http://www.toenda.com" target="_blank"><img align="center" alt="'._ABOUT_POWERED_BY.' toendaCMS" title="'._ABOUT_POWERED_BY.' toendaCMS" src="engine/images/logos/toendaCMS_button_02.png" border="0" /></a><br />';
+		echo '<br /><a title="'._ABOUT_POWERED_BY.' '.$tcms_version->getName().'" class="legal" href="http://www.toenda.com" target="_blank"><img align="center" alt="'._ABOUT_POWERED_BY.' '.$tcms_version->getName().'" title="'._ABOUT_POWERED_BY.' '.$tcms_version->getName().'" src="engine/images/logos/toendaCMS_button_02.png" border="0" /></a><br />';
 	}
 	
 	echo '<span class="legal">'.$footer_text.'</span>';
@@ -905,8 +923,8 @@ else{
 	*/
 	if($show_default == 1){
 		echo '<span class="legal">'._ABOUT_POWERED_BY.'&nbsp;'
-		.'<a title="'._ABOUT_POWERED_BY.' toendaCMS" class="legal" href="http://www.toenda.com" target="_blank">toendaCMS</a>&nbsp;&copy;&nbsp;'.$toenda_copyright.'&nbsp;'
-		.'<a title="'._ABOUT_POWERED_BY.' toendaCMS" class="legal" href="http://www.toenda.com" target="_blank">Toenda Software Development</a>.&nbsp;'
+		.'<a title="'._ABOUT_POWERED_BY.' '.$tcms_version->getName().'" class="legal" href="http://www.toenda.com" target="_blank">'.$tcms_version->getName().'</a>&nbsp;&copy;&nbsp;'.$tcms_version->getToendaCopyright().'&nbsp;'
+		.'<a title="'._ABOUT_POWERED_BY.' '.$tcms_version->getName().'" class="legal" href="http://www.toenda.com" target="_blank">Toenda Software Development</a>.&nbsp;'
 		._TCMS_ADMIN_RIGHT.'<br />toendaCMS '._ABOUT_FREE_SOFTWARE.'</span><br />';
 	}
 	
@@ -922,7 +940,9 @@ if($show_plt == 1){
 }
 
 
-echo '</div>';
+echo '
+</div>
+';
 
 
 
@@ -967,6 +987,12 @@ if($check_session){
 // END OF FILE
 //=====================================================
 
-echo '</div></body></html>';
+echo '
+</div>
+
+</body>
+
+</html>
+';
 
 ?>

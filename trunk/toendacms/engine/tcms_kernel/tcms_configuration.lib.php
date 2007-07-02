@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide the global
  * configuration data.
  *
- * @version 0.3.3
+ * @version 0.3.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -142,44 +142,44 @@ class tcms_configuration {
 	function __construct($administer){
 		$this->o_xml = new xmlparser($administer.'/tcms_global/var.xml', 'r');
 		
-		$this->m_charset          = $this->o_xml->read_section('global', 'charset');
-		$this->m_frontlang        = $this->o_xml->read_section('global', 'front_lang');
-		$this->m_lang             = $this->o_xml->read_section('global', 'lang');
-		$this->m_SEOpath          = $this->o_xml->read_section('global', 'server_folder');
-		$this->m_SEOenabled       = $this->o_xml->read_section('global', 'seo_enabled');
-		$this->m_SEOformat        = $this->o_xml->read_section('global', 'seo_format');
-		$this->m_cipherEmail      = $this->o_xml->read_section('global', 'cipher_email');
-		$this->m_detectBrowser    = $this->o_xml->read_section('global', 'js_browser_detect');
-		$this->m_statistics       = $this->o_xml->read_section('global', 'statistics');
-		$this->m_use_components   = $this->o_xml->read_section('global', 'use_cs');
-		$this->m_use_captcha      = $this->o_xml->read_section('global', 'captcha');
-		$this->m_captcha_clean    = $this->o_xml->read_section('global', 'captcha_clean_size');
-		$this->m_antiFrame        = $this->o_xml->read_section('global', 'anti_frame');
-		$this->m_showTopPages     = $this->o_xml->read_section('global', 'show_top_pages');
-		$this->m_siteOffline      = $this->o_xml->read_section('global', 'site_offline');
-		$this->m_siteOfflineText  = $this->o_xml->read_section('global', 'site_offline_text');
-		$this->m_currency         = $this->o_xml->read_section('global', 'currency');
-		$this->m_wysiwygEditor    = $this->o_xml->read_section('global', 'wysiwyg');
-		$this->m_pathwayChar      = $this->o_xml->read_section('global', 'pathway_char');
-		$this->m_showDocAutor     = $this->o_xml->read_section('global', 'show_doc_autor');
-		$this->m_defaultCat       = $this->o_xml->read_section('global', 'default_category');
-		$this->m_tcmsinst         = $this->o_xml->read_section('global', 'toendacms_in_sitetitle');
-		$this->m_keywords         = $this->o_xml->read_section('global', 'meta');
-		$this->m_description      = $this->o_xml->read_section('global', 'description');
-		$this->m_activeTopmenu    = $this->o_xml->read_section('global', 'topmenu_active');
-		$this->m_sidemenu         = $this->o_xml->read_section('global', 'menu');
-		$this->m_topmenu          = $this->o_xml->read_section('global', 'second_menu');
-		$this->m_adminTopmenu     = $this->o_xml->read_section('global', 'admin_topmenu');
-		$this->m_revisit_after    = $this->o_xml->read_section('global', 'revisit_after');
-		$this->m_robotsfile       = $this->o_xml->read_section('global', 'robotsfile');
-		$this->m_pdflink          = $this->o_xml->read_section('global', 'pdflink');
-		$this->m_cachecontrol     = $this->o_xml->read_section('global', 'cachecontrol');
-		$this->m_pragma           = $this->o_xml->read_section('global', 'pragma');
-		$this->m_expires          = $this->o_xml->read_section('global', 'expires');
-		$this->m_robots           = $this->o_xml->read_section('global', 'robots');
-		$this->m_last_changes     = $this->o_xml->read_section('global', 'last_changes');
-		$this->m_useContentLang   = $this->o_xml->read_section('global', 'use_content_language');
-		$this->m_validLinks       = $this->o_xml->read_section('global', 'valid_links');
+		$this->m_charset          = $this->o_xml->readSection('global', 'charset');
+		$this->m_frontlang        = $this->o_xml->readSection('global', 'front_lang');
+		$this->m_lang             = $this->o_xml->readSection('global', 'lang');
+		$this->m_SEOpath          = $this->o_xml->readSection('global', 'server_folder');
+		$this->m_SEOenabled       = $this->o_xml->readSection('global', 'seo_enabled');
+		$this->m_SEOformat        = $this->o_xml->readSection('global', 'seo_format');
+		$this->m_cipherEmail      = $this->o_xml->readSection('global', 'cipher_email');
+		$this->m_detectBrowser    = $this->o_xml->readSection('global', 'js_browser_detect');
+		$this->m_statistics       = $this->o_xml->readSection('global', 'statistics');
+		$this->m_use_components   = $this->o_xml->readSection('global', 'use_cs');
+		$this->m_use_captcha      = $this->o_xml->readSection('global', 'captcha');
+		$this->m_captcha_clean    = $this->o_xml->readSection('global', 'captcha_clean_size');
+		$this->m_antiFrame        = $this->o_xml->readSection('global', 'anti_frame');
+		$this->m_showTopPages     = $this->o_xml->readSection('global', 'show_top_pages');
+		$this->m_siteOffline      = $this->o_xml->readSection('global', 'site_offline');
+		$this->m_siteOfflineText  = $this->o_xml->readSection('global', 'site_offline_text');
+		$this->m_currency         = $this->o_xml->readSection('global', 'currency');
+		$this->m_wysiwygEditor    = $this->o_xml->readSection('global', 'wysiwyg');
+		$this->m_pathwayChar      = $this->o_xml->readSection('global', 'pathway_char');
+		$this->m_showDocAutor     = $this->o_xml->readSection('global', 'show_doc_autor');
+		$this->m_defaultCat       = $this->o_xml->readSection('global', 'default_category');
+		$this->m_tcmsinst         = $this->o_xml->readSection('global', 'toendacms_in_sitetitle');
+		$this->m_keywords         = $this->o_xml->readSection('global', 'meta');
+		$this->m_description      = $this->o_xml->readSection('global', 'description');
+		$this->m_activeTopmenu    = $this->o_xml->readSection('global', 'topmenu_active');
+		$this->m_sidemenu         = $this->o_xml->readSection('global', 'menu');
+		$this->m_topmenu          = $this->o_xml->readSection('global', 'second_menu');
+		$this->m_adminTopmenu     = $this->o_xml->readSection('global', 'admin_topmenu');
+		$this->m_revisit_after    = $this->o_xml->readSection('global', 'revisit_after');
+		$this->m_robotsfile       = $this->o_xml->readSection('global', 'robotsfile');
+		$this->m_pdflink          = $this->o_xml->readSection('global', 'pdflink');
+		$this->m_cachecontrol     = $this->o_xml->readSection('global', 'cachecontrol');
+		$this->m_pragma           = $this->o_xml->readSection('global', 'pragma');
+		$this->m_expires          = $this->o_xml->readSection('global', 'expires');
+		$this->m_robots           = $this->o_xml->readSection('global', 'robots');
+		$this->m_last_changes     = $this->o_xml->readSection('global', 'last_changes');
+		$this->m_useContentLang   = $this->o_xml->readSection('global', 'use_content_language');
+		$this->m_validLinks       = $this->o_xml->readSection('global', 'valid_links');
 		
 		$this->o_xml->flush();
 		$this->o_xml->_xmlparser();

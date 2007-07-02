@@ -28,7 +28,7 @@ Version 1.6
 Developer Version
 	- 1.6.0 Development
 
-Building Steps: 2706
+Building Steps: 2835
 
 
 
@@ -43,7 +43,11 @@ Building Steps: 2706
 
  - changed: 
 
- - added: 
+ - added: New SEO format available: instead of using the old url format
+          [www.domain.com/index.php?id=frontpage&lang=en]
+          or [[www.domain.com/index.php/section/frontpage/lang/en]
+          you can use now the new format
+          [www.domain.com/index.php/en/frontpage.html].
 
 
 
@@ -72,7 +76,7 @@ Developer Version
 	- 1.5.5 Stable
 	- 1.5.6 Stable
 
-Building Steps: 2800
+Building Steps: 2835
 
 
 
@@ -91,11 +95,6 @@ Building Steps: 2800
  - changed: 
 
  - added: Firefox support for the RSS subscription.
- - added: New SEO format available: instead of using the old url format
-          [www.domain.com/index.php?id=frontpage&lang=en]
-          or [[www.domain.com/index.php/section/frontpage/lang/en]
-          you can use now the new format
-          [www.domain.com/index.php/en/frontpage.html].
 
 
 

@@ -9,7 +9,7 @@
 | 
 | "Layout Changer" Extension
 |
-| File:		ext_layoutchanger.php
+| File:	ext_layoutchanger.php
 |
 +
 */
@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the layout changer functionality.
  *
- * @version 0.2.3
+ * @version 0.2.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -57,32 +57,33 @@ if($use_layout_chooser == 1){
 	
 	if($show_ct == 1){ echo tcms_html::subtitle($chooser_title); }
 	
-	echo '<div align="center">';
-	echo '<img id="show_thumbnail" src="'.$imagePath.'theme/'.$s.'/thumbnail.jpg" border="0" style="border: 1px solid #777777;" alt="Thumbnail" />';
+	echo '<div align="center">'
+	.'<img id="show_thumbnail" src="'.$imagePath.'theme/'.$s.'/thumbnail.jpg" border="0" style="border: 1px solid #777777;" alt="Thumbnail" />';
 	
 	$link = '?'.( isset($session) ? 'session='.$session : '' ).( isset($u) ? '&amp;u='.$u : '' );
 	
 	echo '<form name="selectform" action="'.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).''.$link.'" method="post">'
 	.'<input type="hidden" name="id" value="'.$id.'" />'
-	.( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' );
-	
-	echo '<select name="s" onchange="document.getElementById(\'show_thumbnail\').src=\''.$imagePath.'theme/\'+this.value+\'/thumbnail.jpg\';">';
+	.( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' )
+	.'<select name="s" onchange="document.getElementById(\'show_thumbnail\').src=\''.$imagePath.'theme/\'+this.value+\'/thumbnail.jpg\';">';
 	
 	foreach ($arr_webtheme as $lc_key => $lc_value){
 		if($lc_value != 'printer' && ( substr($lc_value, 0, 1) != '.' )){
 			$lc_template_xml = new xmlparser('theme/'.$lc_value.'/index.xml','r');
 			$layout_name=$lc_template_xml->read_section('template', 'name');
 			
-			echo '<option'.( $lc_value == $s ? ' selected' : '' ).' value="'.$lc_value.'">'.$layout_name.'</option>';
+			echo '<option'.( $lc_value == $s ? ' selected' : '' ).' value="'.$lc_value.'">'
+			.$layout_name
+			.'</option>';
 		}
 	}
 	
-	echo '</select>
-	<input type="submit" value="GO" class="inputbutton" />
-	</form>';
-	echo '</div>';
-	
-	echo '<br /><br />';
+	echo '</select>'
+	.'<input type="submit" value="GO" class="inputbutton" />'
+	.'</form>'
+	.'</div>'
+	.'<br />'
+	.'<br />';
 }
 
 ?>

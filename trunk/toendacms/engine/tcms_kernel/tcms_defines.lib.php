@@ -9,7 +9,7 @@
 |
 | Global constants and defines
 |
-| File:		tcms_defines.lib.php
+| File:	tcms_defines.lib.php
 |
 +
 */
@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for global values
  *
- * @version 0.5.3
+ * @version 0.5.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -364,7 +364,7 @@ $xml->_xmlparser();
 unset($xml);
 
 $strMetaData = '<meta http-equiv="Content-Type" content="text/html; charset='.$c_charset.'" />
-<meta name="generator" content="'.$cms_name.' - '.$cms_tagline.' - Version '.$cms_version.' '.$cms_build.' | Copyright '.$toenda_copyright.' Toenda Software Development. '._TCMS_ADMIN_RIGHT.'" />
+<meta name="generator" content="'.$tcms_version->getName().' - '.$tcms_version->getTagline().'! - Version '.$tcms_version->getVersion().' '.$tcms_version->getBuild().' | Copyright '.$tcms_version->getToendaCopyright().' Toenda Software Development. '._TCMS_ADMIN_RIGHT.'" />
 <meta name="description" content="'._SITE_METATAG_DESCRIPTION.'" />
 <meta name="keywords" content="'._SITE_METATAG_KEYWORDS.'" />
 <meta name="Page-topic" content="'._SITE_METATAG_KEYWORDS.'" />
@@ -383,10 +383,10 @@ $strMetaData = '<meta http-equiv="Content-Type" content="text/html; charset='.$c
 <meta name="language" content="'.$tcms_config->getLanguageCode().'" />
 
 <!--
- This website is powered by '.$cms_name.' - '.$cms_tagline.'!
- Version '.$cms_version.' - '.$cms_build.'
- '.$cms_name.' is a free open source Content Management Framework created by Jonathan Naumann and licensed under the GNU/GPL license.
- '.$cms_name.' is copyright (c) '.$toenda_copyright.' of Toenda Software Development.
+ This website is powered by '.$tcms_version->getName().' - '.$tcms_version->getTagline().'!
+ Version '.$tcms_version->getVersion().' - '.$tcms_version->getBuild().'
+ '.$tcms_version->getName().' is a free open source Content Management Framework created by Jonathan Naumann and licensed under the GNU/GPL license.
+ '.$tcms_version->getName().' is copyright (c) '.$tcms_version->getToendaCopyright().' of Toenda Software Development.
  Components are copyright (c) of their respective owners.
  Information and contribution at http://www.toendacms.com
 -->

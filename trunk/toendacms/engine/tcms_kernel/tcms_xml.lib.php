@@ -9,8 +9,7 @@
 | 
 | XML Parser
 |
-| File:		tcms_xml.lib.php
-| Version:	0.3.0
+| File:	tcms_xml.lib.php
 |
 +
 */
@@ -24,6 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is the toendaCMS internal xml parser.
  *
+ * @version 0.3.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -48,6 +48,11 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * xmlToArray                 -> Get the XML file structure as a array
  * openTag                    -> Open a tag
+ * readData                   -> Read the data (needs to open and close the tags)
+ * closeTag                   -> Close the tag
+ * checkTagsExist             -> Check if a tag exist
+ * flush                      -> Disposes all values
+ * readValue                  -> Read a value from a tag
  * 
  * --------------------------------------------------------
  * DEPRECATED METHODS
@@ -55,6 +60,12 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * xml_to_array               -> read a xml document and fill an array
  * open_tag                   -> open a tag
+ * flush                      -> clear buffer
+ * read_value                 -> read an value
+ * read_section               -> read an value from section
+ * xml_test_tags              -> test for right xml tags (intern)
+ * read_data                  -> read the data
+ * close_tag                  -> close a tag
  * 
  */
 
@@ -62,8 +73,6 @@ defined('_TCMS_VALID') or die('Restricted access');
 /***********************************
 * XML Parser class
 *
-* read_data             -> read the data
-* close_tag             -> close a tag
 *
 * xml_declaration       -> writes xml declaration (utf-8)
 * xml_c_declaration     -> writes xml declaration with custom charset
@@ -76,14 +85,10 @@ defined('_TCMS_VALID') or die('Restricted access');
 * write_value_with_attribute -> writes value in section between tags with an attribute
 * edit_value            -> edit values in xml files
 *
-* read_section          -> read an value from section
-* read_value            -> read an value
 *
 * search_value_front    -> search for a word
 *
 * choose_section        -> choose section (for read_section, intern)
-* xml_test_tags         -> test for right xml tags (intern)
-* flush                 -> clear buffer
 *
 **/
 
@@ -139,7 +144,7 @@ class xmlparser {
 			case 'w':
 				// If file exists, open and load in buffer, then we make it writable
 				//
-				if (file_exists($xml_file)){
+				if(file_exists($xml_file)){
 					$this->file_handle = fopen($xml_file, "r");
 					$this->content = fread($this->file_handle, filesize($xml_file));
 					@fclose($this->file_handle);
@@ -205,8 +210,7 @@ class xmlparser {
 	
 	
 	/*
-		New DOM XML and XMLReader
-		XML parser functions
+		Methods
 	*/
 	
 	
@@ -241,6 +245,10 @@ class xmlparser {
 	
 	/**
 	 * Open a tag
+	 * 
+	 * @param Unknown $parser
+	 * @param String $name
+	 * @param Unknown $attrs
 	 */
 	function openTag($parser, $name, $attrs){
 		$tag = array('name' => $name, 'attribute' => $attrs);
@@ -249,20 +257,14 @@ class xmlparser {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/*
-		read data from tags
-	*/
-	function read_data($parser, $tagData){
+	/**
+	 * Read the data (needs to open and close the tags)
+	 * 
+	 * @param Unknown $parser
+	 * @param Unknown $tagData
+	 * @return Unknown
+	 */
+	function readData($parser, $tagData){
 		if(trim($tagData)){
 			if(isset($this->arrOutput[count($this->arrOutput) - 1]['data'])){
 				$this->arrOutput[count($this->arrOutput) - 1]['data'] .= $tagData;
@@ -274,13 +276,135 @@ class xmlparser {
 	}
 	
 	
-	/*
-		close a tag
-	*/
-	function close_tag($parser, $name){
+	
+	/**
+	 * Close a tag
+	 * 
+	 * @param Unknown $parser
+	 * @param String $name
+	 */
+	function closeTag($parser, $name){
 		$this->arrOutput[count($this->arrOutput) - 2]['children'][] = $this->arrOutput[count($this->arrOutput) - 1];
 		array_pop($this->arrOutput);
 	}
+	
+	
+	
+	/**
+	 * Check if a tag exist
+	 * 
+	 * @param String $starttag
+	 * @param String $endtag
+	 * @param String $string
+	 * @return Boolean
+	 */
+	function checkTagsExist($starttag, $endtag, $string){
+		$tagsOk = true;
+		
+		if(!ereg($starttag, $string)) {
+			//echo 'Error in starttag '.$starttag.' in file '.$this->filename;
+			$tagsOk = false;
+		}
+		
+		if(!ereg($endtag, $string)) {
+			//echo 'Error in endtag '.$starttag.' in file '.$this->filename;
+			$tagsOk = false;
+		}
+		
+		return $tagsOk;
+	}
+	
+	
+	
+	/**
+	 * Disposes all values
+	 *
+	 */
+	function flush(){
+		$this->sections = '';
+		$this->content = '';
+	}
+	
+	
+	
+	/**
+	 * Read a value from a tag
+	 * 
+	 * @param String $tag
+	 * @return String
+	 */
+	function readValue($tag) {
+		if(ereg($tag, $this->content)){
+			$starttag = "<$tag>";
+			$endtag = "</$tag>";
+			
+			if($this->checkTagsExist($starttag, $endtag, $this->content)) {
+				$startpos = strpos($this->content, $starttag) + strlen($starttag);
+				$endpos = strpos($this->content, $endtag) - $startpos;
+				
+				$value = substr($this->content, $startpos, $endpos);
+				
+				return $value;
+			}
+			else {
+				return '';
+			}
+		}
+		
+		return '';
+	}
+	
+	
+	
+	/**
+	 * Read a value from a tag inside a section
+	 * 
+	 * @param String $section
+	 * @param String $tag
+	 * @return String
+	 */
+	function readSection($section, $tag){
+		$this->choose_section($section);
+		
+		if(ereg($tag, $this->sections)){
+			$starttag = "<$tag>";
+			$endtag = "</$tag>";
+			
+			if($this->checkTagsExist($starttag, $endtag, $this->sections)) {
+				$startpos = strpos($this->sections, $starttag) + strlen($starttag);
+				$endpos = strpos($this->sections, $endtag) - $startpos;
+				
+				$value = substr($this->sections, $startpos, $endpos);
+				
+				return $value;
+			}
+			else {
+				return '';
+			}
+		}
+		
+		return '';
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -428,69 +552,6 @@ class xmlparser {
 	/*
 	*
 	* toenda XML Parser:
-	* read data from xml files functions
-	*
-	*/
-	
-	/*
-		read value from buffer
-	*/
-	function read_section($section, $tag){
-		$this->choose_section($section);
-		
-		if(ereg($tag, $this->sections)){
-			$starttag = "<$tag>";
-			$endtag = "</$tag>";
-			
-			$this->xml_test_tags($starttag, $endtag, $this->sections);
-			
-			$startpos = strpos($this->sections, $starttag) + strlen($starttag);
-			$endpos = strpos($this->sections, $endtag) - $startpos;
-			
-			$value = substr($this->sections, $startpos, $endpos);
-			
-			return $value;
-		}
-		
-		return false;
-	}
-	
-	function xml_test_tags($starttag, $endtag, $string){
-		if(!ereg($starttag, $string))
-			echo 'Error in starttag '.$starttag.' in file '.$this->filename;
-		
-		if(!ereg($endtag, $string))
-			echo 'Error in endtag '.$starttag.' in file '.$this->filename;
-	}
-	
-	/*
-		read value from tag
-	*/
-	function read_value($tag){
-		if(ereg($tag, $this->content)){
-			$starttag = "<$tag>";
-			$endtag = "</$tag>";
-			
-			$this->xml_test_tags($starttag, $endtag, $this->content);
-			
-			$startpos = strpos($this->content, $starttag) + strlen($starttag);
-			$endpos = strpos($this->content, $endtag) - $startpos;
-			
-			$value = substr($this->content, $startpos, $endpos);
-			
-			return $value;
-		}
-		
-		return false;
-	}
-	
-	
-	
-	
-	
-	/*
-	*
-	* toenda XML Parser:
 	* search functions
 	*
 	*/
@@ -540,21 +601,6 @@ class xmlparser {
 	
 	
 	
-	
-	
-	/*
-	*
-	* toenda XML Parser:
-	* clear xml file buffer
-	*
-	*/
-	function flush(){
-		$this->sections = '';
-		$this->content = '';
-	}
-	
-	
-	
 	/*
 		DEPRECATED
 	*/
@@ -562,6 +608,7 @@ class xmlparser {
 	
 	
 	/**
+	 * @deprecated 
 	 * Get the XML file structure as a array
 	 * 
 	 * @return Array
@@ -592,11 +639,81 @@ class xmlparser {
 	
 	
 	/**
+	 * @deprecated 
 	 * Open a tag
 	 */
 	function open_tag($parser, $name, $attrs){
 		$tag = array('name' => $name, 'attribute' => $attrs);
 		array_push($this->arrOutput, $tag);
+	}
+	
+	/**
+	 * @deprecated 
+	 * Open a tag
+	 */
+	function read_data($parser, $tagData){
+		if(trim($tagData)){
+			if(isset($this->arrOutput[count($this->arrOutput) - 1]['data'])){
+				$this->arrOutput[count($this->arrOutput) - 1]['data'] .= $tagData;
+			}
+			else{
+				$this->arrOutput[count($this->arrOutput) - 1]['data'] = $tagData;
+			}
+		}
+	}
+	
+	
+	/**
+	 * @deprecated 
+	 * Open a tag
+	 */
+	function close_tag($parser, $name){
+		$this->arrOutput[count($this->arrOutput) - 2]['children'][] = $this->arrOutput[count($this->arrOutput) - 1];
+		array_pop($this->arrOutput);
+	}
+	
+	
+	
+	/**
+	 * @deprecated 
+	 * read value from tag
+	 */
+	function read_value($tag){
+		return $this->readValue($tag);
+	}
+	
+	
+	
+	/**
+	 * @deprecated 
+	 * Read a value from a tag inside a section
+	 * 
+	 * @param String $section
+	 * @param String $tag
+	 * @return String
+	 */
+	function read_section($section, $tag){
+		return $this->readSection($section, $tag);
+	}
+	
+	
+	
+	/**
+	 * @deprecated 
+	 * Check if a tag exist
+	 * 
+	 * @param String
+	 * @param String
+	 * @param String
+	 */
+	function xml_test_tags($starttag, $endtag, $string){
+		if(!ereg($starttag, $string)) {
+			echo 'Error in starttag '.$starttag.' in file '.$this->filename;
+		}
+		
+		if(!ereg($endtag, $string)) {
+			echo 'Error in endtag '.$starttag.' in file '.$this->filename;
+		}
 	}
 }
 

@@ -9,7 +9,7 @@
 | 
 | News Monthview for Sidebar
 |
-| File:		ext_sidebar_monthview.php
+| File:	ext_sidebar_monthview.php
 |
 +
 */
@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides news nonthview for
  * the sidebar.
  *
- * @version 0.2.4
+ * @version 0.2.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -51,16 +51,21 @@ if($use_side_archives == 1){
 		}
 		
 		
-		$arrCatFile = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_news/');
+		$arrCatFile = $tcms_main->getPathContent(
+			$tcms_administer_site.'/tcms_news/'
+		);
 		
-		if($arrCatFile){
+		if($tcms_main->isArray($arrCatFile)){
 			foreach($arrCatFile as $cKey => $cVal){
 				$xmlP = new xmlparser($tcms_administer_site.'/tcms_news/'.$cVal, 'r');
-				$sideDates['stamp'][$cKey] = $xmlP->read_value('stamp');
-				$sideDates['date'][$cKey]  = $xmlP->read_value('date');
+				$sideDates['stamp'][$cKey] = $xmlP->readValue('stamp');
+				$sideDates['date'][$cKey]  = $xmlP->readValue('date');
+				$xmlP->flush();
+				$xmlP->_xmlparser();
+				unset($xmlP);
 			}
 			
-			if(is_array($sideDates)){
+			if($tcms_main->isArray($sideDates)){
 				array_multisort(
 					$sideDates['stamp'], SORT_DESC, SORT_NUMERIC, 
 					$sideDates['date'], SORT_DESC, SORT_NUMERIC
@@ -79,7 +84,7 @@ if($use_side_archives == 1){
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id=newsmanager&amp;s='.$s.'&amp;date='.$sideYear.$sideMonth
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
-						$link = $tcms_main->urlAmpReplace($link);
+						$link = $tcms_main->urlConvertToSEO($link);
 						
 						echo '<span class="newsCategories" style="padding-left: 6px;">&raquo;&nbsp;';
 						echo '<a href="'.$link.'">'
@@ -95,7 +100,13 @@ if($use_side_archives == 1){
 	}
 	else{
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlCN = $sqlAL->connect(
+			$sqlUser, 
+			$sqlPass, 
+			$sqlHost, 
+			$sqlDB, 
+			$sqlPort
+		);
 		
 		if($check_session){
 			if($is_admin == 'User' || $is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor' || $is_admin == 'Presenter'){
@@ -114,8 +125,8 @@ if($use_side_archives == 1){
 		
 		$sqlQR = $sqlAL->sqlQuery($strSQL);
 		
-		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
-			$cMonth = substr($sqlARR['date'], 3, 2);
+		while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+			$cMonth = substr($sqlObj->date, 3, 2);
 			
 			//echo $cMonth.'<br>';
 			
@@ -123,14 +134,14 @@ if($use_side_archives == 1){
 				if(substr($cMonth, 0, 1) == '0'){ $ccMonth = substr($cMonth, 1, 1); }
 				else{ $ccMonth = $cMonth; }
 				
-				$cYear  = substr($sqlARR['date'], 6, 4);
+				$cYear  = substr($sqlObj->date, 6, 4);
 				
 				$sideDate = $monthName[$ccMonth].'&nbsp;'.$cYear;
 				
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id=newsmanager&amp;s='.$s.'&amp;date='.$cYear.$cMonth
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
 				echo '<span class="newsCategories" style="padding-left: 6px;">&raquo; ';
 				echo '<a href="'.$link.'">'

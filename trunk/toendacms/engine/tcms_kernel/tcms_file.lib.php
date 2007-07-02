@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide a small file
  * handler.
  *
- * @version 0.1.3
+ * @version 0.1.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -39,15 +39,15 @@ defined('_TCMS_VALID') or die('Restricted access');
  * __destruct                 -> PHP5 Destructor
  * _tcms_file                 -> PHP4 Destructor
  * 
- * IsEOF                      -> Checks if the end of the file is reched
- * Read                       -> Read
- * ReadLine                   -> Read a line from the active file
- * Write                      -> Write
- * Close                      -> Close
- * Backup                     -> Backup
- * ChangeFile                 -> Change the active file
- * Delete                     -> Close and delete the active file
- * DeleteCustom               -> Delete a custom file
+ * isEOF                      -> Checks if the end of the file is reched
+ * read                       -> Read
+ * readLine                   -> Read a line from the active file
+ * write                      -> Write
+ * close                      -> Close
+ * backup                     -> Backup
+ * changeFile                 -> Change the active file
+ * delete                     -> Close and delete the active file
+ * deleteCustom               -> Delete a custom file
  *
  */
 
@@ -118,9 +118,9 @@ class tcms_file{
 	/**
 	 * Checks if the end of the file is reched
 	 * 
-	 * @return String
+	 * @return Boolean
 	 */
-	function IsEOF(){
+	function isEOF(){
 		return feof($this->m_fp);
 	}
 	
@@ -131,7 +131,7 @@ class tcms_file{
 	 * 
 	 * @return String
 	 */
-	function Read(){
+	function read(){
 		return fread($this->m_fp, filesize($this->m_file));
 	}
 	
@@ -142,7 +142,7 @@ class tcms_file{
 	 * 
 	 * @return String
 	 */
-	function ReadLine(){
+	function readLine(){
 		return fgets($this->m_fp);
 	}
 	
@@ -153,7 +153,7 @@ class tcms_file{
 	 * 
 	 * @param String $content
 	 */
-	function Write($content){
+	function write($content){
 		fwrite($this->m_fp, $content);
 	}
 	
@@ -162,7 +162,7 @@ class tcms_file{
 	/**
 	 * Close the active file
 	 */
-	function Close(){
+	function close(){
 		fclose($this->m_fp);
 	}
 	
@@ -171,7 +171,7 @@ class tcms_file{
 	/**
 	 * Backup the active file
 	 */
-	function Backup(){
+	function backup(){
 		/*copy(
 			$this->m_file, 
 			$this->m_file.'.bak'
@@ -186,8 +186,8 @@ class tcms_file{
 	
 	
 	
-	/***
-	* Close the active file and change it
+	/**
+	 * Close the active file and change it
 	 * r  - open file for reading
 	 * r+ - open file for reading and writing
 	 * w  - open file for reading, reduce content to 0, if it not exist, create it
@@ -198,7 +198,7 @@ class tcms_file{
 	 * @param String $openFile
 	 * @param String $openMode
 	*/
-	function ChangeFile($openFile, $openMode){
+	function changeFile($openFile, $openMode){
 		fclose($this->m_fp);
 		
 		$this->m_file = $openFile;
@@ -212,7 +212,7 @@ class tcms_file{
 	/**
 	 * Close and delete the active file
 	 */
-	function Delete(){
+	function delete(){
 		$this->fileClose();
 		unlink($this->m_fp);
 	}
@@ -221,8 +221,10 @@ class tcms_file{
 	
 	/**
 	 * Delete a custom file
+	 * 
+	 * @param String $file
 	 */
-	function DeleteCustom($file){
+	function deleteCustom($file){
 		unlink($file);
 	}
 }
