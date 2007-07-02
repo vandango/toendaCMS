@@ -528,13 +528,13 @@ if($wsShowSite){
 					if($_GET['setXMLSession'] == 1){
 						if(file_exists('engine/admin/session/'.$session)){
 							$tcms_file = new tcms_file('engine/admin/session/'.$session, 'r');
-							$ws_id = $tcms_file->Read();
+							$ws_id = $tcms_file->read();
 							
-							$tcms_file->ChangeFile($tcms_administer_site.'/tcms_session/'.$session, 'w');
-							$tcms_file->Write($ws_id);
-							$tcms_file->Close();
+							$tcms_file->changeFile($tcms_administer_site.'/tcms_session/'.$session, 'w');
+							$tcms_file->write($ws_id);
+							$tcms_file->close();
 							
-							$tcms_file->DeleteCustom('engine/admin/session/'.$session);
+							$tcms_file->deleteCustom('engine/admin/session/'.$session);
 							
 							unset($tcms_file);
 						}
@@ -620,10 +620,10 @@ if($wsShowSite){
 				}
 				
 				$namen_xml = new xmlparser($tcms_administer_site.'/tcms_global/namen.xml','r');
-				$sitetitle = $namen_xml->read_section('namen', 'title');
-				$sitename  = $namen_xml->read_section('namen', 'name');
-				$sitekey   = $namen_xml->read_section('namen', 'key');
-				$logo      = $namen_xml->read_section('namen', 'logo');
+				$sitetitle = $namen_xml->readSection('namen', 'title');
+				$sitename  = $namen_xml->readSection('namen', 'name');
+				$sitekey   = $namen_xml->readSection('namen', 'key');
+				$logo      = $namen_xml->readSection('namen', 'logo');
 				$namen_xml->flush();
 				$namen_xml->_xmlparser();
 				unset($namen_xml);
@@ -666,7 +666,7 @@ if($wsShowSite){
 				if($choosenDB != 'xml'){
 					$sqlAL = new sqlAbstractionLayer($choosenDB);
 					
-					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					
 					if(isset($sqlCN['num']) && $sqlCN['num'] == 0){
 						$start_tcms_loading = false;
