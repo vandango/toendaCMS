@@ -9,8 +9,7 @@
 | 
 | Module Array's
 |
-| File:		tcms_array.lib.php
-| Version:	0.2.8
+| File:	tcms_array.lib.php
 |
 +
 */
@@ -19,6 +18,17 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * toendaCMS Array's
+ * 
+ * This file is used for different variables.
+ * 
+ * @version 0.2.9
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage tcms_kernel
+ *
+ */
 
 
 //
@@ -243,7 +253,7 @@ $arrDB['name'][3] = _DB_MSSQL;
 // LANGUAGES
 //
 
-$arr_language = $tcms_main->readdir_ext('../language/');
+$arr_language = $tcms_main->getPathContent('../language/');
 
 foreach($arr_language as $key => $value){
 	if($value != 'index.html' && $value != 'lang_admin.php' && ( substr($value, 0, 1) != '.' )){

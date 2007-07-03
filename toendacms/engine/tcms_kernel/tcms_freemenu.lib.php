@@ -22,7 +22,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for globar backend values.
  *
- * @version 0.4.3
+ * @version 0.5.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -276,18 +276,19 @@ if($site == 'mod_newpage' || $site == 'mod_sidemenu'){
 	
 	unset($arrDocuments);
 	
-	$arrDocuments = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/components/');
-	if(is_array($arrDocuments)){
+	$arrDocuments = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/components/');
+	
+	if($tcms_main->isArray($arrDocuments)){
 		foreach($arrDocuments as $key => $val){
 			if($val != 'index.html'){
 				$csXML = new xmlparser('../../'.$tcms_administer_site.'/components/'.$val.'/component.xml', 'r');
-				$chkXML = $csXML->read_value('mainCS');
+				$chkXML = $csXML->readValue('mainCS');
 				
 				if($chkXML == 1){
-					$xmlID = $csXML->read_value('id');
+					$xmlID = $csXML->readValue('id');
 					
 				//	if(!in_array('components&amp;item='.$xmlID, $arrXMLID) || !in_array('components&item='.$xmlID, $arrXMLID)){
-					$xmlTitle = $csXML->read_value('title');
+					$xmlTitle = $csXML->readValue('title');
 					$arr_linkcom['name'][$i] = _TCMS_MENU_CS.': '.$xmlTitle;
 					$arr_linkcom['link'][$i] = 'components&amp;item='.$xmlID;
 					
@@ -303,15 +304,16 @@ if($site == 'mod_newpage' || $site == 'mod_sidemenu'){
 	
 	
 	if($choosenDB == 'xml'){
-		$arrDocuments = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_content/');
-		if(is_array($arrDocuments)){
+		$arrDocuments = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/tcms_content/');
+		
+		if($tcms_main->isArray($arrDocuments)){
 			foreach($arrDocuments as $key => $val){
 				if($val != 'index.html'){
 					$xmlFileList    = new xmlparser('../../'.$tcms_administer_site.'/tcms_content/'.$val,'r');
-					$xmlID    = $xmlFileList->read_section('main', 'id');
+					$xmlID    = $xmlFileList->readSection('main', 'id');
 					
 					//if(!in_array($xmlID, $arrXMLID)){
-					$xmlTitle = $xmlFileList->read_section('main', 'title');
+					$xmlTitle = $xmlFileList->readSection('main', 'title');
 					$arr_linkcom['name'][$i] = $xmlTitle;
 					$arr_linkcom['link'][$i] = $xmlID;
 					
@@ -324,19 +326,19 @@ if($site == 'mod_newpage' || $site == 'mod_sidemenu'){
 		}
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix.'content');
+		$sqlQR = $sqlAL->getAll($tcms_db_prefix.'content');
 		
 		$count = 0;
 		
-		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
-			$xmlID = $sqlARR['uid'];
+		while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+			$xmlID = $sqlObj->uid;
 			if($xmlID == NULL){ $xmlID = ''; }
 			
 			//if(!in_array($xmlID, $arrXMLID)){
-			$xmlTitle = $sqlARR['title'];
+			$xmlTitle = $sqlObj->title;
 			$arr_linkcom['name'][$i] = $xmlTitle;
 			$arr_linkcom['link'][$i] = $xmlID;
 			
@@ -345,7 +347,9 @@ if($site == 'mod_newpage' || $site == 'mod_sidemenu'){
 			//}
 		}
 		
-		$sqlAL->sqlFreeResult($sqlQR);
+		$sqlAL->freeResult($sqlQR);
+		$sqlAL->_sqlAbstractionLayer();
+		unset($sqlAL);
 	}
 }
 
@@ -457,18 +461,20 @@ if($site == 'mod_topmenu'){
 	
 	
 	unset($arrDocuments);
-	$arrDocuments = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/components/');
-	if(is_array($arrDocuments)){
+	
+	$arrDocuments = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/components/');
+	
+	if($tcms_main->isArray($arrDocuments)){
 		foreach($arrDocuments as $key => $val){
 			if($val != 'index.html'){
 				$csXML = new xmlparser('../../'.$tcms_administer_site.'/components/'.$val.'/component.xml', 'r');
-				$chkXML = $csXML->read_value('mainCS');
+				$chkXML = $csXML->readValue('mainCS');
 				
 				if($chkXML == 1){
-					$xmlID = $csXML->read_value('id');
+					$xmlID = $csXML->readValue('id');
 					
 					//if(!in_array('components&amp;item='.$xmlID, $arrXMLID) || !in_array('components&item='.$xmlID, $arrXMLID)){
-						$xmlTitle = $csXML->read_value('title');
+						$xmlTitle = $csXML->readValue('title');
 						//echo $xmlID.' -> '.$xmlTitle.'<br>';
 						$arr_linkcom['name'][$i] = _TCMS_MENU_CS.': '.$xmlTitle;
 						$arr_linkcom['link'][$i] = 'components&amp;item='.$xmlID;
@@ -485,36 +491,39 @@ if($site == 'mod_topmenu'){
 	
 	
 	if($choosenDB == 'xml'){
-		$arrDocuments = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_content/');
-		foreach($arrDocuments as $key => $val){
-			if($val != 'index.html'){
-				$xmlFileList    = new xmlparser('../../'.$tcms_administer_site.'/tcms_content/'.$val,'r');
-				$xmlID    = $xmlFileList->read_section('main', 'id');
-				
-				//if(!in_array($xmlID, $arrXMLID)){
-					$xmlTitle = $xmlFileList->read_section('main', 'title');
-					$arr_linkcom['name'][$i] = '* '.$tcms_main->decodeText($xmlTitle, '2', $c_charset);
-					$arr_linkcom['link'][$i] = $xmlID;
+		$arrDocuments = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/tcms_content/');
+		
+		if($tcms_main->isArray($arrDocuments)){
+			foreach($arrDocuments as $key => $val){
+				if($val != 'index.html'){
+					$xmlFileList    = new xmlparser('../../'.$tcms_administer_site.'/tcms_content/'.$val,'r');
+					$xmlID    = $xmlFileList->readSection('main', 'id');
 					
-					$i++;
-				//}
+					//if(!in_array($xmlID, $arrXMLID)){
+						$xmlTitle = $xmlFileList->readSection('main', 'title');
+						$arr_linkcom['name'][$i] = '* '.$tcms_main->decodeText($xmlTitle, '2', $c_charset);
+						$arr_linkcom['link'][$i] = $xmlID;
+						
+						$i++;
+					//}
+				}
 			}
 		}
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix.'content');
+		$sqlQR = $sqlAL->getAll($tcms_db_prefix.'content');
 		
 		$count = 0;
 		
-		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
-			$xmlID = $sqlARR['uid'];
+		while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+			$xmlID = $sqlObj->uid;
 			if($xmlID == NULL){ $xmlID = ''; }
 			
 			//if(!in_array($xmlID, $arrXMLID)){
-				$xmlTitle = $sqlARR['title'];
+				$xmlTitle = $sqlObj->title;
 				$arr_linkcom['name'][$i] = '* '.$tcms_main->decodeText($xmlTitle, '2', $c_charset);
 				$arr_linkcom['link'][$i] = $xmlID;
 				
@@ -524,7 +533,9 @@ if($site == 'mod_topmenu'){
 			$i++;
 		}
 		
-		$sqlAL->sqlFreeResult($sqlQR);
+		$sqlAL->freeResult($sqlQR);
+		$sqlAL->_sqlAbstractionLayer();
+		unset($sqlAL);
 	}
 }
 
@@ -541,14 +552,15 @@ if($site == 'mod_topmenu'){
 // NEWS CATEGORIES
 //
 if($choosenDB == 'xml'){
-	$arrCatFiles = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_news_categories/');
-	if(isset($arrCatFiles) && !empty($arrCatFiles) && $arrCatFiles != ''){
+	$arrCatFiles = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/tcms_news_categories/');
+	
+	if($tcms_main->isArray($arrCatFiles)){
 		foreach($arrCatFiles as $key => $value){
 			if($value != 'index.html'){
 				$menu_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_news_categories/'.$value,'r');
 				$arrNewsCat['tag'][$key]  = substr($value, 0, 5);
-				$arrNewsCat['name'][$key] = $menu_xml->read_section('cat', 'name');
-				$arrNewsCat['desc'][$key] = $menu_xml->read_section('cat', 'desc');
+				$arrNewsCat['name'][$key] = $menu_xml->readSection('cat', 'name');
+				$arrNewsCat['desc'][$key] = $menu_xml->readSection('cat', 'desc');
 				
 				if(!$arrNewsCat['name'][$key]){ $arrNewsCat['name'][$key]  = ''; }
 				if(!$arrNewsCat['desc'][$key]){ $arrNewsCat['desc'][$key]  = ''; }
@@ -561,16 +573,16 @@ if($choosenDB == 'xml'){
 	}
 }
 else{
-	$sqlAL = new sqlAbstractionLayer($choosenDB);
-	$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+	$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+	$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 	
-	$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix.'news_categories');
+	$sqlQR = $sqlAL->getAll($tcms_db_prefix.'news_categories');
 	$count = 0;
 	
-	while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
-		$arrNewsCat['tag'][$count]  = $sqlARR['uid'];
-		$arrNewsCat['name'][$count] = $sqlARR['name'];
-		$arrNewsCat['desc'][$count]   = $sqlARR['desc'];
+	while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+		$arrNewsCat['tag'][$count]  = $sqlObj->uid;
+		$arrNewsCat['name'][$count] = $sqlObj->name;
+		$arrNewsCat['desc'][$count]   = $sqlObj->desc;
 		
 		if($arrNewsCat['name'][$count] == NULL){ $arrNewsCat['name'][$count]  = ''; }
 		if($arrNewsCat['desc'][$count] == NULL){ $arrNewsCat['desc'][$count]  = ''; }
@@ -596,18 +608,18 @@ else{
 // USER
 //
 if($choosenDB == 'xml'){
-	$arr_userfiles = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_user/');
+	$arr_userfiles = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/tcms_user/');
 	
 	$count = 0;
 	
-	if(isset($arr_userfiles) && !empty($arr_userfiles) && $arr_userfiles != ''){
+	if($tcms_main->isArray($arr_userfiles)){
 		foreach($arr_userfiles as $key => $value){
 			$menu_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_user/'.$value,'r');
-			$isEnabled = $menu_xml->read_section('user', 'enabled');
+			$isEnabled = $menu_xml->readSection('user', 'enabled');
 			
 			if($isEnabled == 1){
 				$arrActiveUser['tag'][$count]  = substr($value, 0, 32);
-				$arrActiveUser['user'][$count] = $menu_xml->read_section('user', 'username');
+				$arrActiveUser['user'][$count] = $menu_xml->readSection('user', 'username');
 				
 				if($arrActiveUser['user'][$count] == false){ $arrActiveUser['user'][$count] = ''; }
 				
@@ -620,20 +632,20 @@ if($choosenDB == 'xml'){
 	}
 }
 else{
-	$sqlAL = new sqlAbstractionLayer($choosenDB);
-	$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+	$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+	$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 	
 	$strSQL = "SELECT * "
 	."FROM ".$tcms_db_prefix."user "
 	."WHERE enabled = 1";
 	
-	$sqlQR = $sqlAL->sqlQuery($strSQL);
+	$sqlQR = $sqlAL->query($strSQL);
 	
 	$count = 0;
 	
-	while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
-		$arrActiveUser['tag'][$count]  = $sqlARR['uid'];
-		$arrActiveUser['user'][$count] = $sqlARR['username'];
+	while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+		$arrActiveUser['tag'][$count]  = $sqlObj->uid;
+		$arrActiveUser['user'][$count] = $sqlObj->username;
 		
 		if($arrActiveUser['user'][$count] == NULL){ $arrActiveUser['user'][$count] = ''; }
 		
@@ -643,7 +655,9 @@ else{
 		$count++;
 	}
 	
-	$sqlAL->sqlFreeResult($sqlQR);
+	$sqlAL->freeResult($sqlQR);
+	$sqlAL->_sqlAbstractionLayer();
+	unset($sqlAL);
 }
 
 
@@ -662,17 +676,17 @@ if($site == 'mod_knowledgebase'){
 	if($choosenDB == 'xml'){
 		$count = 0;
 		
-		$arr_files = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_knowledgebase/');
+		$arr_files = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/tcms_knowledgebase/');
 		
-		if(is_array($arr_files)){
+		if($tcms_main->isArray($arr_files)){
 			foreach($arr_files as $key => $value){
 				if($value != 'index.html'){
 					$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$value,'r');
 					
-					$checkType = $xml->read_section('faq', 'type');
+					$checkType = $xml->readSection('faq', 'type');
 					
 					if($checkType == 'c'){
-						$arrFAQCategories['title'][$count]  = $xml->read_section('faq', 'title');
+						$arrFAQCategories['title'][$count]  = $xml->readSection('faq', 'title');
 						$arrFAQCategories['tag'][$count]    = substr($value, 0, 10);
 						
 						// CHARSETS
@@ -687,8 +701,8 @@ if($site == 'mod_knowledgebase'){
 		unset($arr_files);
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		unset($sqlQR);
 		
@@ -716,14 +730,14 @@ if($site == 'mod_knowledgebase'){
 		.$strAdd
 		."ORDER BY sort ASC, date ASC, title ASC";
 		
-		$sqlQR = $sqlAL->sqlQuery($sqlSTR);
+		$sqlQR = $sqlAL->query($sqlSTR);
 		
 		$count = 0;
 		unset($sqlARR);
 		
-		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
-			$arrFAQCategories['tag'][$count]   = $sqlARR['uid'];
-			$arrFAQCategories['title'][$count] = $sqlARR['title'];
+		while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+			$arrFAQCategories['tag'][$count]   = $sqlObj->uid;
+			$arrFAQCategories['title'][$count] = $sqlObj->title;
 			
 			if($arrFAQCategories['title'][$count] == NULL){ $arrFAQCategories['title'][$count] = ''; }
 			
@@ -733,7 +747,9 @@ if($site == 'mod_knowledgebase'){
 			$count++;
 		}
 		
-		$sqlAL->sqlFreeResult($sqlQR);
+		$sqlAL->freeResult($sqlQR);
+		$sqlAL->_sqlAbstractionLayer();
+		unset($sqlAL);
 	}
 }
 
@@ -753,17 +769,17 @@ if($site == 'mod_download'){
 	if($choosenDB == 'xml'){
 		$count = 0;
 		
-		$arr_files = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/files/');
+		$arr_files = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/files/');
 		
-		if(is_array($arr_files)){
+		if($tcms_main->isArray($arr_files)){
 			foreach($arr_files as $key => $value){
 				if($value != 'index.html'){
 					$xml = new xmlparser('../../'.$tcms_administer_site.'/files/'.$value.'/info.xml', 'r');
 					
-					$checkType = $xml->read_section('info', 'sql_type');
+					$checkType = $xml->readSection('info', 'sql_type');
 					
 					if($checkType == 'd'){
-						$checkAcc = $xml->read_section('info', 'access');
+						$checkAcc = $xml->readSection('info', 'access');
 						
 						
 						/*
@@ -798,7 +814,7 @@ if($site == 'mod_download'){
 						
 						// show access
 						if($showThis){
-							$arrDownCategories['title'][$count]  = $xml->read_section('info', 'name');
+							$arrDownCategories['title'][$count]  = $xml->readSection('info', 'name');
 							$arrDownCategories['tag'][$count]    = substr($value, 0, 10);
 							
 							// CHARSETS
@@ -817,8 +833,8 @@ if($site == 'mod_download'){
 		unset($arr_files);
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		unset($sqlQR);
 		
@@ -846,14 +862,14 @@ if($site == 'mod_download'){
 		.$strAdd
 		."ORDER BY sort ASC, date ASC, name ASC";
 		
-		$sqlQR = $sqlAL->sqlQuery($sqlSTR);
+		$sqlQR = $sqlAL->query($sqlSTR);
 		
 		$count = 0;
 		unset($sqlARR);
 		
-		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
-			$arrDownCategories['tag'][$count]   = $sqlARR['uid'];
-			$arrDownCategories['title'][$count] = $sqlARR['name'];
+		while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+			$arrDownCategories['tag'][$count]   = $sqlObj->uid;
+			$arrDownCategories['title'][$count] = $sqlObj->name;
 			
 			if($arrDownCategories['title'][$count] == NULL){ $arrDownCategories['title'][$count] = ''; }
 			
@@ -863,7 +879,9 @@ if($site == 'mod_download'){
 			$count++;
 		}
 		
-		$sqlAL->sqlFreeResult($sqlQR);
+		$sqlAL->freeResult($sqlQR);
+		$sqlAL->_sqlAbstractionLayer();
+		unset($sqlAL);
 	}
 }
 

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a base module fpr user operations.
  *
- * @version 1.0.1
+ * @version 1.0.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -91,7 +91,7 @@ if(isset($_POST['submitMedia'])){ $submitMedia = $_POST['submitMedia']; }
 
 if(!isset($todo)){ $todo = 'show'; }
 
-include_once('engine/tcms_kernel/datacontainer/tcms_dc_account.lib.php');
+using('toendacms.datacontainer.account');
 
 
 
@@ -105,11 +105,11 @@ if($choosenDB == 'xml') {
 	else{ $checkUserExists = false; }
 }
 else{
-	$sqlAL = new sqlAbstractionLayer($choosenDB);
-	$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+	$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+	$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 	
-	$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'user', $ws_id);
-	$user_exists = $sqlAL->sqlGetNumber($sqlQR);
+	$sqlQR = $sqlAL->getOne($tcms_db_prefix.'user', $ws_id);
+	$user_exists = $sqlAL->getNumber($sqlQR);
 	
 	if($user_exists != 0){ $checkUserExists = true; }
 	else{ $checkUserExists = false; }
@@ -118,27 +118,27 @@ else{
 if($checkUserExists) {
 	if($choosenDB == 'xml'){
 		$mtu_xml = new xmlparser($tcms_administer_site.'/tcms_global/sidebar.xml','r');
-		$menu_title_user = $mtu_xml->read_section('side', 'usermenu_title');
+		$menu_title_user = $mtu_xml->readSection('side', 'usermenu_title');
 		
 		$xmlSet = new xmlparser($tcms_administer_site.'/tcms_global/userpage.xml','r');
-		$npo = $xmlSet->read_section('userpage', 'news_publish');
-		$ipo = $xmlSet->read_section('userpage', 'image_publish');
-		$apo = $xmlSet->read_section('userpage', 'album_publish');
-		$cpo = $xmlSet->read_section('userpage', 'cat_publish');
-		$ppo = $xmlSet->read_section('userpage', 'pic_publish');
+		$npo = $xmlSet->readSection('userpage', 'news_publish');
+		$ipo = $xmlSet->readSection('userpage', 'image_publish');
+		$apo = $xmlSet->readSection('userpage', 'album_publish');
+		$cpo = $xmlSet->readSection('userpage', 'cat_publish');
+		$ppo = $xmlSet->readSection('userpage', 'pic_publish');
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'userpage', 'userpage');
-		$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+		$sqlQR = $sqlAL->getOne($tcms_db_prefix.'userpage', 'userpage');
+		$sqlObj = $sqlAL->fetchObject($sqlQR);
 		
-		$npo = $sqlARR['news_publish'];
-		$ipo = $sqlARR['image_publish'];
-		$apo = $sqlARR['album_publish'];
-		$cpo = $sqlARR['cat_publish'];
-		$ppo = $sqlARR['pic_publish'];
+		$npo = $sqlObj->news_publish;
+		$ipo = $sqlObj->image_publish;
+		$apo = $sqlObj->album_publish;
+		$cpo = $sqlObj->cat_publish;
+		$ppo = $sqlObj->pic_publish;
 	}
 	
 	
@@ -176,44 +176,44 @@ if($checkUserExists) {
 			}
 			
 			
-			echo tcms_html::contentheading(_LOGIN_SUBMIT_NEWS);
+			echo $tcms_html->contentTitle(_LOGIN_SUBMIT_NEWS);
 			echo '<br />';
 			
 			
 			if($choosenDB == 'xml'){
 				$userp_xml = new xmlparser($tcms_administer_site.'/tcms_global/userpage.xml','r');
-				$width  = $userp_xml->read_section('userpage', 'text_width');
-				$width2 = $userp_xml->read_section('userpage', 'input_width');
+				$width  = $userp_xml->readSection('userpage', 'text_width');
+				$width2 = $userp_xml->readSection('userpage', 'input_width');
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
-				$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'userpage', 'userpage');
-				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+				$sqlQR = $sqlAL->getOne($tcms_db_prefix.'userpage', 'userpage');
+				$sqlObj = $sqlAL->fetchObject($sqlQR);
 				
-				$width  = $sqlARR['text_width'];
-				$width2 = $sqlARR['input_width'];
+				$width  = $sqlObj->text_width;
+				$width2 = $sqlObj->input_width;
 			}
 			
 			
 			if($choosenDB == 'xml'){
 				$con_xml = new xmlparser($tcms_administer_site.'/tcms_user/'.$ws_id.'.xml','r');
-				$tu_name     = $con_xml->read_section('user', 'name');
-				$tu_username = $con_xml->read_section('user', 'username');
+				$tu_name     = $con_xml->readSection('user', 'name');
+				$tu_username = $con_xml->readSection('user', 'username');
 				
 				$tu_name     = $tcms_main->decodeText($tu_name, '2', $c_charset);
 				$tu_username = $tcms_main->decodeText($tu_username, '2', $c_charset);
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
-				$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'user', $ws_id);
-				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+				$sqlQR = $sqlAL->getOne($tcms_db_prefix.'user', $ws_id);
+				$sqlObj = $sqlAL->fetchObject($sqlQR);
 				
-				$tu_name      = $sqlARR['name'];
-				$tu_username  = $sqlARR['username'];
+				$tu_name      = $sqlObj->name;
+				$tu_username  = $sqlObj->username;
 				
 				$tu_name     = $tcms_main->decodeText($tu_name, '2', $c_charset);
 				$tu_username = $tcms_main->decodeText($tu_username, '2', $c_charset);
@@ -231,13 +231,14 @@ if($checkUserExists) {
 			*/
 			
 			if($choosenDB == 'xml'){
-				$arrCatFiles = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_news_categories/');
-				if(isset($arrCatFiles) && !empty($arrCatFiles) && $arrCatFiles != ''){
+				$arrCatFiles = $tcms_main->getPathContent($tcms_administer_site.'/tcms_news_categories/');
+				
+				if($tcms_main->isArray($arrCatFiles)){
 					foreach($arrCatFiles as $key => $value){
 						$menu_xml = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$value,'r');
 						$arrNewsCat['tag'][$key]  = substr($value, 0, 5);
-						$arrNewsCat['name'][$key] = $menu_xml->read_section('cat', 'name');
-						$arrNewsCat['desc'][$key] = $menu_xml->read_section('cat', 'desc');
+						$arrNewsCat['name'][$key] = $menu_xml->readSection('cat', 'name');
+						$arrNewsCat['desc'][$key] = $menu_xml->readSection('cat', 'desc');
 						
 						if(!$arrNewsCat['name'][$key]){ $arrNewsCat['name'][$key] = ''; }
 						if(!$arrNewsCat['desc'][$key]){ $arrNewsCat['desc'][$key] = ''; }
@@ -249,17 +250,17 @@ if($checkUserExists) {
 				}
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
-				$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix.'news_categories');
+				$sqlQR = $sqlAL->getAll($tcms_db_prefix.'news_categories');
 				
 				$key = 0;
 				
-				while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
-					$arrNewsCat['tag'][$key]  = $sqlARR['uid'];
-					$arrNewsCat['name'][$key] = $sqlARR['name'];
-					$arrNewsCat['desc'][$key] = $sqlARR['desc'];
+				while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+					$arrNewsCat['tag'][$key]  = $sqlObj->uid;
+					$arrNewsCat['name'][$key] = $sqlObj->name;
+					$arrNewsCat['desc'][$key] = $sqlObj->desc;
 					
 					if($arrNewsCat['name'][$key] == NULL){ $arrNewsCat['name'][$key] = ''; }
 					if($arrNewsCat['desc'][$key] == NULL){ $arrNewsCat['desc'][$key] = ''; }
@@ -276,7 +277,7 @@ if($checkUserExists) {
 			
 			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			
 			// form
@@ -472,26 +473,26 @@ if($checkUserExists) {
 				
 				if($choosenDB == 'xml'){
 					$userp_xml = new xmlparser($tcms_administer_site.'/tcms_global/userpage.xml','r');
-					$width  = $userp_xml->read_section('userpage', 'text_width');
-					$width2 = $userp_xml->read_section('userpage', 'input_width');
+					$width  = $userp_xml->readSection('userpage', 'text_width');
+					$width2 = $userp_xml->readSection('userpage', 'input_width');
 				}
 				else{
-					$sqlAL = new sqlAbstractionLayer($choosenDB);
-					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					
-					$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'userpage', 'userpage');
-					$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+					$sqlQR = $sqlAL->getOne($tcms_db_prefix.'userpage', 'userpage');
+					$sqlObj = $sqlAL->fetchObject($sqlQR);
 					
-					$width  = $sqlARR['text_width'];
-					$width2 = $sqlARR['input_width'];
+					$width  = $sqlObj->text_width;
+					$width2 = $sqlObj->input_width;
 				}
 				
-				echo tcms_html::contentheading(_LOGIN_SUBMIT_IMAGES);
+				echo $tcms_html->contentTitle(_LOGIN_SUBMIT_IMAGES);
 				echo '<br />';
 				
 				$link = '?session='.$session.'&amp;id=profile&amp;s='.$s
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
 				echo '<form action="'.$link.'" method="post" enctype="multipart/form-data">'
 				.'<input name="todo" type="hidden" value="saveImage" />'
@@ -508,13 +509,13 @@ if($checkUserExists) {
 					echo '<select name="pubAlbum">';
 					
 					if($choosenDB == 'xml'){
-						$arrAlbums = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_albums/');
+						$arrAlbums = $tcms_main->getPathContent($tcms_administer_site.'/tcms_albums/');
 						
 						if($arrAlbums){
 							foreach($arrAlbums as $key => $val){
 								$xmlAlbums = new xmlparser($tcms_administer_site.'/tcms_albums/'.$val, 'r');
-								$arrAlbum['title'][$key] = $xmlAlbums->read_section('album', 'title');
-								$arrAlbum['path'][$key]  = $xmlAlbums->read_section('album', 'path');
+								$arrAlbum['title'][$key] = $xmlAlbums->readSection('album', 'title');
+								$arrAlbum['path'][$key]  = $xmlAlbums->readSection('album', 'path');
 								
 								$arrAlbum['title'][$key] = $tcms_main->decodeText($arrAlbum['title'][$key], '2', $c_charset);
 								
@@ -523,17 +524,17 @@ if($checkUserExists) {
 						}
 					}
 					else{
-						$sqlAL = new sqlAbstractionLayer($choosenDB);
-						$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+						$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+						$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 						
-						$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix.'albums WHERE published=1');
+						$sqlQR = $sqlAL->getAll($tcms_db_prefix.'albums WHERE published=1');
 						
 						$count = 0;
 						
-						while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
-							$arrAlbum['count'][$count] = $sqlARR['uid'];
-							$arrAlbum['title'][$count] = $sqlARR['title'];
-							$arrAlbum['path'][$count]  = $sqlARR['album_id'];
+						while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+							$arrAlbum['count'][$count] = $sqlObj->uid;
+							$arrAlbum['title'][$count] = $sqlObj->title;
+							$arrAlbum['path'][$count]  = $sqlObj->album_id;
 							
 							if($arrAlbum['title'][$count] == NULL){ $arrAlbum['title'][$count] = ''; }
 							if($arrAlbum['path'][$count]  == NULL){ $arrAlbum['path'][$count]  = ''; }
@@ -547,7 +548,7 @@ if($checkUserExists) {
 							$checkCatAmount = $count;
 						}
 						
-						$sqlAL->sqlFreeResult($sqlQR);
+						$sqlAL->freeResult($sqlQR);
 					}
 					
 					echo '</select>';
@@ -603,31 +604,31 @@ if($checkUserExists) {
 			
 			if($choosenDB == 'xml'){
 				$userp_xml = new xmlparser($tcms_administer_site.'/tcms_global/userpage.xml','r');
-				$width  = $userp_xml->read_section('userpage', 'text_width');
-				$width2 = $userp_xml->read_section('userpage', 'input_width');
+				$width  = $userp_xml->readSection('userpage', 'text_width');
+				$width2 = $userp_xml->readSection('userpage', 'input_width');
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
-				$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'userpage', 'userpage');
-				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+				$sqlQR = $sqlAL->getOne($tcms_db_prefix.'userpage', 'userpage');
+				$sqlObj = $sqlAL->fetchObject($sqlQR);
 				
-				$width  = $sqlARR['text_width'];
-				$width2 = $sqlARR['input_width'];
+				$width  = $sqlObj->text_width;
+				$width2 = $sqlObj->input_width;
 			}
 			
 			
-			
-			echo tcms_html::contentheading(_LOGIN_CREATE_ALBUM);
+			echo $tcms_html->contentTitle(_LOGIN_CREATE_ALBUM);
 			echo '<br />';
 			
 			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<form action="'.$link.'" method="post">'
-			.'<input name="todo" type="hidden" value="saveAlbum" />';
+			.'<input name="todo" type="hidden" value="saveAlbum" />'
+			.'<input name="maintag" type="hidden" value="'.$tcms_main->getNewUID(6, 'albums').'" />';
 			
 			
 			// table head
@@ -636,44 +637,38 @@ if($checkUserExists) {
 			
 			// row
 			echo '<tr style="height: 28px;">'
-			.'<td valign="top" width="'.$width.'"><span class="text_normal">'._GALLERY_NEW.'</span></td>'
-			.'<td valign="top"><input name="pubAlbum" class="inputtext" type="text" />'
+			.'<td valign="top" width="'.$width.'">'
+			.'<span class="text_normal">'._GALLERY_NEW.'</span>'
+			.'<br />'
+			.'<input name="pubAlbum" class="inputtext" type="text" />'
 			.'</td></tr>';
 			
 			
 			// row
 			echo '<tr style="height: 28px;">'
-			.'<td valign="top" width="'.$width.'"><span class="text_normal">'._TABLE_PUBLISHED.'</span></td>'
-			.'<td valign="top"><input name="pubLished" value="1" type="checkbox" />'
+			.'<td valign="top" width="'.$width.'">'
+			.'<br />'
+			.'<input name="pubLished" value="1" type="checkbox" />&nbsp;'
+			.'<span class="text_normal">'._TABLE_PUBLISHED.'</span>'
 			.'</td></tr>';
 			
 			
 			// row
 			echo '<tr style="height: 28px;">'
-			.'<td valign="top" colspan="2">'
+			.'<td valign="top">'
+			.'<br />'
 			.'<span class="text_normal">'._GALLERY_DESCRIPTION.'</span>'
 			.'<br />'
 			.'<textarea class="inputtextarea" name="pubDesc"></textarea>'
 			.'</td></tr>';
 			
 			
-			if($choosenDB == 'xml'){
-				while(($maintag=substr(md5(time()),0,6)) && file_exists($tcms_administer_site.'/tcms_albums/album_'.$maintag.'.xml')){}
-			}
-			else{
-				$maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'albums', 12);
-			}
-			
-			echo '<tr><td colspan="2">';
-			
-			echo '<input name="maintag" type="hidden" value="'.$maintag.'" />';
-			
-			
 			
 			echo '</table>';
 			
 			
-			echo '<br /><br /><input type="submit" class="inputbutton" value="'._TCMS_ADMIN_SAVE.'" />';
+			echo '<br /><br />'
+			.'<input type="submit" class="inputbutton" value="'._TCMS_ADMIN_SAVE.'" />';
 			
 			
 			echo '</form>';
@@ -697,31 +692,34 @@ if($checkUserExists) {
 		|| $is_admin == 'Editor') {
 			if($choosenDB == 'xml'){
 				$userp_xml = new xmlparser($tcms_administer_site.'/tcms_global/userpage.xml','r');
-				$width  = $userp_xml->read_section('userpage', 'text_width');
-				$width2 = $userp_xml->read_section('userpage', 'input_width');
+				$width  = $userp_xml->readSection('userpage', 'text_width');
+				$width2 = $userp_xml->readSection('userpage', 'input_width');
 				
-				while(($maintag=substr(md5(time()),0,5)) && file_exists($tcms_administer_site.'/tcms_news_categories/'.$maintag.'.xml')){}
+				//while(($maintag=substr(md5(time()),0,5)) && file_exists($tcms_administer_site.'/tcms_news_categories/'.$maintag.'.xml')){}
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
-				$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'userpage', 'userpage');
+				$sqlQR = $sqlAL->getOne($tcms_db_prefix.'userpage', 'userpage');
 				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
 				
 				$width  = $sqlARR['text_width'];
 				$width2 = $sqlARR['input_width'];
 				
-				$n2c_maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'news_categories', 5);
+				//$n2c_maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'news_categories', 5);
 			}
 			
 			
-			echo tcms_html::contentheading(_LOGIN_CREATE_CATEGORY);
+			$maintag = $tcms_main->getNewUID(5, 'news_categories');
+			
+			
+			echo $tcms_html->contentTitle(_LOGIN_CREATE_CATEGORY);
 			echo '<br />';
 			
 			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			
 			// form
@@ -736,14 +734,17 @@ if($checkUserExists) {
 			
 			// row
 			echo '<tr style="height: 28px;">'
-			.'<td valign="top" width="'.$width.'"><span class="text_normal">'._TABLE_NAME.'</span></td>'
-			.'<td valign="top"><input name="new_cat" class="inputtext" type="text" />'
+			.'<td valign="top" width="'.$width.'">'
+			.'<span class="text_normal">'._TABLE_NAME.'</span>'
+			.'<br />'
+			.'<input name="new_cat" class="inputtext" type="text" />'
 			.'</td></tr>';
 			
 			
 			//row
 			echo '<tr style="height: 28px;">'
-			.'<td valign="top"colspan="2"><span class="text_normal">'._TABLE_DESCRIPTION.'</span>'
+			.'<td valign="top">'
+			.'<span class="text_normal">'._TABLE_DESCRIPTION.'</span>'
 			.'<br />'
 			.'<textarea class="inputtextarea" name="pubDesc"></textarea>'
 			.'</td></tr>';
@@ -778,14 +779,14 @@ if($checkUserExists) {
 		|| $is_admin == 'Editor') {
 			if($choosenDB == 'xml'){
 				$userp_xml = new xmlparser($tcms_administer_site.'/tcms_global/userpage.xml','r');
-				$width  = $userp_xml->read_section('userpage', 'text_width');
-				$width2 = $userp_xml->read_section('userpage', 'input_width');
+				$width  = $userp_xml->readSection('userpage', 'text_width');
+				$width2 = $userp_xml->readSection('userpage', 'input_width');
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
-				$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'userpage', 'userpage');
+				$sqlQR = $sqlAL->getOne($tcms_db_prefix.'userpage', 'userpage');
 				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
 				
 				$width  = $sqlARR['text_width'];
@@ -794,19 +795,19 @@ if($checkUserExists) {
 			
 			
 			
-			echo tcms_html::contentheading(_LOGIN_SUBMIT_MEDIA);
+			echo $tcms_html->contentTitle(_LOGIN_SUBMIT_MEDIA);
 			echo '<br />';
 			
 			
 			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<form name="upload" id="upload" action="'.$link.'" method="post" enctype="multipart/form-data">'
 			.'<input name="todo" type="hidden" value="saveMedia" />';
 			
 			
-			echo tcms_html::table_head_nb('0', '0', '0', '100%');
+			echo $tcms_html->tableHeadNoBorder('0', '0', '0', '100%');
 			
 			
 			echo '<tr style="height: 28px;"><td valign="top" width="'.$width.'"><span class="text_normal">'._TABLE_IMAGE.'</span></td>'
@@ -854,8 +855,8 @@ if($is_admin == 'Administrator'
 			$new_cat = $myCat;
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			
 			switch($choosenDB){
@@ -880,7 +881,7 @@ if($is_admin == 'Administrator'
 					
 					$newSQLData = "'".$maintag."', '".$_POST['new_cat_'.$i]."'";
 					
-					$sqlQR = $sqlAL->sqlCreateOne($tcms_db_prefix.'news_to_categories', $newSQLColumns, $newSQLData, $n2c_maintag);
+					$sqlQR = $sqlAL->createOne($tcms_db_prefix.'news_to_categories', $newSQLColumns, $newSQLData, $n2c_maintag);
 				}
 			}
 		}
@@ -891,7 +892,7 @@ if($is_admin == 'Administrator'
 		}
 		
 		if($show_wysiwyg != 'tinymce' && $show_wysiwyg != 'fckeditor'){
-			$content = $tcms_main->nl2br($content);
+			$content = $tcms_main->convertNewlineToHTML($content);
 		}
 		
 		
@@ -948,8 +949,8 @@ if($is_admin == 'Administrator'
 			umask($old_umask);
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			switch($choosenDB){
 				case 'mysql':
@@ -970,12 +971,12 @@ if($is_admin == 'Administrator'
 			
 			$newSQLData = "'".$new_news_title."', '".$new_news_autor."', '".$new_news_date."', '".$new_news_time."', '".$content."', ".$stamp.", ".$new_news_published.", '".$new_news_publish_date."', ".$new_comments_enabled.", '".$news_news_access."'";
 			
-			$sqlQR = $sqlAL->sqlCreateOne($tcms_db_prefix.'news', $newSQLColumns, $newSQLData, $maintag);
+			$sqlQR = $sqlAL->createOne($tcms_db_prefix.'news', $newSQLColumns, $newSQLData, $maintag);
 		}
 		
 		$link = '?session='.$session.'&s='.$s
 		.( isset($lang) ? '&amp;lang='.$lang : '' );
-		$link = $tcms_main->urlAmpReplace($link);
+		$link = $tcms_main->urlConvertToSEO($link);
 		
 		echo '<script>'
 		.'document.location=\''.$link.'\''
@@ -1003,7 +1004,7 @@ if($is_admin == 'Administrator'
 			
 			
 			// CHARSETS
-			$pubDesc = $tcms_main->decode_text($pubDesc, '2', $c_charset);
+			$pubDesc = $tcms_main->decodeText($pubDesc, '2', $c_charset);
 			
 			if($choosenDB == 'xml'){
 				$xmluser = new xmlparser($tcms_administer_site.'/tcms_imagegallery/'.$pubAlbum.'/'.$fileName.'.xml', 'w');
@@ -1018,10 +1019,11 @@ if($is_admin == 'Administrator'
 				$xmluser->_xmlparser();
 			}
 			else{
-				$new_image_id = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, 'tcms_imagegallery', 10);
+				//$new_image_id = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, 'tcms_imagegallery', 10);
+				$new_image_id = $tcms_main->getNewUID(10, 'imagegallery');
 				
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				switch($choosenDB){
 					case 'mysql':
@@ -1039,19 +1041,19 @@ if($is_admin == 'Administrator'
 				
 				$newSQLData = "'".$pubAlbum."', '".$fileName."', '".$pubDesc."', '".$pubTimecode."'";
 				
-				$sqlQR = $sqlAL->sqlCreateOne($tcms_db_prefix.'imagegallery', $newSQLColumns, $newSQLData, $new_image_id);
+				$sqlQR = $sqlAL->createOne($tcms_db_prefix.'imagegallery', $newSQLColumns, $newSQLData, $new_image_id);
 			}
 			
 			$link = '?session='.$session.'&id=imagegallery&s='.$s
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<script>document.location=\''.$link.'\'</script>';
 		}
 		else{
 			$link = '?session='.$session.'&id=profile&s='.$s.'&todo=submitImages'
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<script>'
 			.'alert(\''._MSG_NOUPLOAD.'.\');'
@@ -1074,8 +1076,8 @@ if($is_admin == 'Administrator'
 		if(!isset($pubLished) || $pubLished == ''){ $pubLished = 0; }
 		
 		// CHARSETS
-		$pubAlbum = $tcms_main->decode_text($pubAlbum, '2', $c_charset);
-		$pubDesc  = $tcms_main->decode_text($pubDesc, '2', $c_charset);
+		$pubAlbum = $tcms_main->decodeText($pubAlbum, '2', $c_charset);
+		$pubDesc  = $tcms_main->decodeText($pubDesc, '2', $c_charset);
 		
 		if($choosenDB == 'xml'){
 			$xmluser = new xmlparser($tcms_administer_site.'/tcms_albums/album_'.$maintag.'.xml', 'w');
@@ -1096,8 +1098,8 @@ if($is_admin == 'Administrator'
 			mkdir($tcms_administer_site.'/thumbnails/'.$maintag, 0777);
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$album_path = substr($maintag, 0, 6);
 			
@@ -1117,7 +1119,7 @@ if($is_admin == 'Administrator'
 			
 			$newSQLData = "'".$pubAlbum."', '".$album_path."', ".$pubLished.", '".$pubDesc."'";
 			
-			$sqlQR = $sqlAL->sqlcreateOne($tcms_db_prefix.'albums', $newSQLColumns, $newSQLData, $maintag);
+			$sqlQR = $sqlAL->createOne($tcms_db_prefix.'albums', $newSQLColumns, $newSQLData, $maintag);
 			
 			mkdir($tcms_administer_site.'/images/albums/'.$album_path, 0777);
 			mkdir($tcms_administer_site.'/thumbnails/'.$album_path, 0777);
@@ -1125,7 +1127,7 @@ if($is_admin == 'Administrator'
 		
 		$link = '?session='.$session.'&id=imagegallery&s='.$s
 		.( isset($lang) ? '&amp;lang='.$lang : '' );
-		$link = $tcms_main->urlAmpReplace($link);
+		$link = $tcms_main->urlConvertToSEO($link);
 		
 		echo '<script>'
 		.'document.location=\''.$link.'\''
@@ -1161,8 +1163,8 @@ if($is_admin == 'Administrator'
 			$xmluser->_xmlparser();
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			switch($choosenDB){
 				case 'mysql':
@@ -1180,12 +1182,12 @@ if($is_admin == 'Administrator'
 			
 			$newSQLData = "'".$new_cat."', '".$pubDesc."'";
 			
-			$sqlQR = $sqlAL->sqlCreateOne($tcms_db_prefix.'news_categories', $newSQLColumns, $newSQLData, $maintag);
+			$sqlQR = $sqlAL->createOne($tcms_db_prefix.'news_categories', $newSQLColumns, $newSQLData, $maintag);
 		}
 		
 		$link = '?session='.$session.'&id=frontpage&s='.$s
 		.( isset($lang) ? '&amp;lang='.$lang : '' );
-		$link = $tcms_main->urlAmpReplace($link);
+		$link = $tcms_main->urlConvertToSEO($link);
 		
 		echo '<script>'
 		.'document.location=\''.$link.'\''
@@ -1223,14 +1225,14 @@ if($is_admin == 'Administrator'
 		if($relocate == 1){
 			$link = '?session='.$session.'&id=frontpage&s='.$s
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<script>document.location=\''.$link.'\';</script>';
 		}
 		else{
 			$link = '?session='.$session.'&id=profile&s='.$s.'&todo=submitMedia'
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<script>'
 			.'alert(\''.$msg.'.\');'
@@ -1258,11 +1260,11 @@ if($todo != 'submitNews'
 		else{ $checkUserExists = false; }
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'user', $u);
-		$user_exists = $sqlAL->sqlGetNumber($sqlQR);
+		$sqlQR = $sqlAL->getOne($tcms_db_prefix.'user', $u);
+		$user_exists = $sqlAL->getNumber($sqlQR);
 		
 		if($user_exists != 0){ $checkUserExists = true; }
 		else{ $checkUserExists = false; }
@@ -1277,39 +1279,41 @@ if($todo != 'submitNews'
 			$dcUser = new tcms_dc_account();
 			$dcUser = $tcms_ap->getAccount($u);
 			
-			$tu_name      = $dcUser->GetName();
-			$tu_username  = $dcUser->GetUsername();
-			$tu_password  = $dcUser->GetPassword();
-			$tu_email     = $dcUser->GetEmail();
-			$tu_group     = $dcUser->GetGroup();
-			$tu_join      = $dcUser->GetJoinDate();
-			$tu_www       = $dcUser->GetHomepage();
-			$tu_icq       = $dcUser->GetICQ();
-			$tu_aim       = $dcUser->GetAIM();
-			$tu_yim       = $dcUser->GetYIM();
-			$tu_msn       = $dcUser->GetMSN();
-			$tu_skype     = $dcUser->GetSkype();
-			$tu_birthday  = $dcUser->GetBirthday();
-			$tu_sex       = $dcUser->GetGender();
-			$tu_occ       = $dcUser->GetOccupation();
-			$tu_enabled   = $dcUser->GetEnabled();
-			$tu_tcms      = $dcUser->GetTCMSScriptEnabled();
-			$tu_signature = $dcUser->GetSignature();
-			$tu_location  = $dcUser->GetLocation();
-			$tu_hobby     = $dcUser->GetHobby();
+			$tu_name      = $dcUser->getName();
+			$tu_username  = $dcUser->getUsername();
+			$tu_password  = $dcUser->getPassword();
+			$tu_email     = $dcUser->getEmail();
+			$tu_group     = $dcUser->getGroup();
+			$tu_join      = $dcUser->getJoinDate();
+			$tu_www       = $dcUser->getHomepage();
+			$tu_icq       = $dcUser->getICQ();
+			$tu_aim       = $dcUser->getAIM();
+			$tu_yim       = $dcUser->getYIM();
+			$tu_msn       = $dcUser->getMSN();
+			$tu_skype     = $dcUser->getSkype();
+			$tu_birthday  = $dcUser->getBirthday();
+			$tu_sex       = $dcUser->getGender();
+			$tu_occ       = $dcUser->getOccupation();
+			$tu_enabled   = $dcUser->getEnabled();
+			$tu_tcms      = $dcUser->getTCMSScriptEnabled();
+			$tu_signature = $dcUser->getSignature();
+			$tu_location  = $dcUser->getLocation();
+			$tu_hobby     = $dcUser->getHobby();
 			
 			
-			echo tcms_html::contentheading(_PROFILE_TITLE.' :: '.$tu_username);
+			echo $tcms_html->contentTitle(_PROFILE_TITLE.' :: '.$tu_username);
 			echo '<br />';
 			
 			$left_width  = '35%';
 			$right_width = '65%';
-			echo tcms_html::user_gerneral(_TABLE_GENERAL);
+			
+			echo $tcms_html->userProfileTitle(_TABLE_GENERAL);
 			echo '<br />';
 			
 			$tu_join = lang_date(substr($tu_join, 8, 2), substr($tu_join, 5, 2), substr($tu_join, 0, 4), substr($tu_join, 11, 2), substr($tu_join, 14, 2), substr($tu_join, 17, 2));
 			
-			echo tcms_html::table_head_cl('0', '0', '0', '95%', 'text_normal');
+			//echo tcms_html::table_head_cl('0', '0', '0', '95%', 'text_normal');
+			echo $tcms_html->tableHeadClass('0', '0', '0', '95%', 'text_normal');
 			
 			if(isset($tu_name) && trim($tu_name) != ''){
 				echo '<tr height="21"><td valign="top" align="right" width="'.$left_width.'">'._PERSON_NAME.':&nbsp;</td>'
@@ -1345,15 +1349,15 @@ if($todo != 'submitNews'
 				.'<td valign="top" width="'.$right_width.'"><strong>'.$tu_hobby.'</strong></td></tr>';
 			}
 			
-			echo tcms_html::table_end();
+			echo $tcms_html->tableEnd();
 			echo '<br /><br />';
 			
 			
 			
-			echo tcms_html::user_gerneral(_TABLE_CONTACT);
+			echo $tcms_html->userProfileTitle(_TABLE_CONTACT);
 			echo '<br />';
 			
-			echo tcms_html::table_head_cl('0', '0', '0', '95%', 'text_normal');
+			echo $tcms_html->tableHeadClass('0', '0', '0', '95%', 'text_normal');
 			
 			if($cipher_email == 1)
 				$mmm = '<script>JSCrypt.displayCryptMailTo(\''.$tcms_main->encodeBase64($tu_email).'\');</script>';
@@ -1393,18 +1397,20 @@ if($todo != 'submitNews'
 				.'<strong>'.$tu_skype.'</strong></a></td></tr>';
 			}
 			
-			echo tcms_html::table_end();
+			echo $tcms_html->tableEnd();
 			echo '<br /><br />';
 			
 			
 			if(!(strlen($tu_birthday) < 9)
 			|| ($tcms_main->isReal($tu_sex) && $tu_sex != '-')
 			|| $tu_signature != ''){
-				echo tcms_html::user_gerneral(_TABLE_PERSON);
+				//echo tcms_html::user_gerneral(_TABLE_PERSON);
+				echo $tcms_html->userProfileTitle(_TABLE_PERSON);
 				echo '<br />';
 			}
 			
-			echo tcms_html::table_head_cl('0', '0', '0', '95%', 'text_normal');
+			//echo tcms_html::table_head_cl('0', '0', '0', '95%', 'text_normal');
+			echo $tcms_html->tableHeadClass('0', '0', '0', '95%', 'text_normal');
 			
 			if(!(strlen($tu_birthday) < 9)){
 				echo '<tr height="21"><td valign="top" align="right" width="'.$left_width.'">'._PERSON_BIRTHDAY.':&nbsp;</td>'
@@ -1427,7 +1433,7 @@ if($todo != 'submitNews'
 				.'<td valign="top" width="'.$right_width.'"><strong>'.$tu_signature.'</strong></td></tr>';
 			}
 			
-			echo tcms_html::table_end();
+			echo $tcms_html->tableEnd();
 			echo '<br /><br />';
 			
 			if($check_session){
@@ -1435,7 +1441,7 @@ if($todo != 'submitNews'
 					$link = '?'.( isset($session) ? 'session='.$session.'' : '' )
 					.'&amp;id=profile&amp;s='.$s.'&amp;todo=edit&amp;u='.$u
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $tcms_main->urlAmpReplace($link);
+					$link = $tcms_main->urlConvertToSEO($link);
 					
 					echo '<form action="'.$link.'" method="post">';
 					echo '<input type="submit" class="inputbutton" value="'._TABLE_EDITBUTTON.'" />';
@@ -1454,28 +1460,28 @@ if($todo != 'submitNews'
 					$dcUser = new tcms_dc_account();
 					$dcUser = $tcms_ap->getAccount($u);
 					
-					$tu_name      = $dcUser->GetName();
-					$tu_username  = $dcUser->GetUsername();
-					$tu_password  = $dcUser->GetPassword();
-					$tu_email     = $dcUser->GetEmail();
-					$tu_group     = $dcUser->GetGroup();
-					$tu_lastlogin = $dcUser->GetLastLogin();
-					$tu_join      = $dcUser->GetJoinDate();
-					$tu_www       = $dcUser->GetHomepage();
-					$tu_icq       = $dcUser->GetICQ();
-					$tu_aim       = $dcUser->GetAIM();
-					$tu_yim       = $dcUser->GetYIM();
-					$tu_msn       = $dcUser->GetMSN();
-					$tu_skype     = $dcUser->GetSkype();
-					$tu_birthday  = $dcUser->GetBirthday();
-					$tu_sex       = $dcUser->GetGender();
-					$tu_occ       = $dcUser->GetOccupation();
-					$tu_enabled   = $dcUser->GetEnabled();
-					$tu_tcms      = $dcUser->GetTCMSScriptEnabled();
-					$tu_static    = $dcUser->GetStaticValue();
-					$tu_signature = $dcUser->GetSignature();
-					$tu_location  = $dcUser->GetLocation();
-					$tu_hobby     = $dcUser->GetHobby();
+					$tu_name      = $dcUser->getName();
+					$tu_username  = $dcUser->getUsername();
+					$tu_password  = $dcUser->getPassword();
+					$tu_email     = $dcUser->getEmail();
+					$tu_group     = $dcUser->getGroup();
+					$tu_lastlogin = $dcUser->getLastLogin();
+					$tu_join      = $dcUser->getJoinDate();
+					$tu_www       = $dcUser->getHomepage();
+					$tu_icq       = $dcUser->getICQ();
+					$tu_aim       = $dcUser->getAIM();
+					$tu_yim       = $dcUser->getYIM();
+					$tu_msn       = $dcUser->getMSN();
+					$tu_skype     = $dcUser->getSkype();
+					$tu_birthday  = $dcUser->getBirthday();
+					$tu_sex       = $dcUser->getGender();
+					$tu_occ       = $dcUser->getOccupation();
+					$tu_enabled   = $dcUser->getEnabled();
+					$tu_tcms      = $dcUser->getTCMSScriptEnabled();
+					$tu_static    = $dcUser->getStaticValue();
+					$tu_signature = $dcUser->getSignature();
+					$tu_location  = $dcUser->getLocation();
+					$tu_hobby     = $dcUser->getHobby();
 					
 					//***********************
 					// DATES
@@ -1499,15 +1505,15 @@ if($todo != 'submitNews'
 					
 					if($choosenDB == 'xml'){
 						$userp_xml = new xmlparser($tcms_administer_site.'/tcms_global/userpage.xml','r');
-						$width  = $userp_xml->read_section('userpage', 'text_width');
-						$width2 = $userp_xml->read_section('userpage', 'input_width');
+						$width  = $userp_xml->readSection('userpage', 'text_width');
+						$width2 = $userp_xml->readSection('userpage', 'input_width');
 					}
 					else{
-						$sqlAL = new sqlAbstractionLayer($choosenDB);
-						$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+						$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+						$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 						
-						$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'userpage', 'userpage');
-						$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+						$sqlQR = $sqlAL->getOne($tcms_db_prefix.'userpage', 'userpage');
+						$sqlARR = $sqlAL->fetchArray($sqlQR);
 						
 						$width  = $sqlARR['text_width'];
 						$width2 = $sqlARR['input_width'];
@@ -1518,7 +1524,7 @@ if($todo != 'submitNews'
 					// FORM
 					//****************************
 					
-					echo tcms_html::contentheading(_PROFILE_EDIT);
+					echo $tcms_html->contentTitle(_PROFILE_EDIT);
 					echo '<br />';
 					
 					$link = '?session='.$session.'&amp;id=profile&amp;s='.$s;
@@ -1736,33 +1742,33 @@ if($todo != 'submitNews'
 					
 					if(empty($new_tcms) || !isset($new_tcms)){ $new_tcms = 0; }
 					
-					$new_signature = $tcms_main->nl2br($new_signature);
+					$new_signature = $tcms_main->convertNewlineToHTML($new_signature);
 					
 					$dcUser = new tcms_dc_account();
 					
-					$dcUser->SetID($u);
-					$dcUser->SetName($new_name);
-					$dcUser->SetUsername($new_username);
-					$dcUser->SetPassword($new_tupwd);
-					$dcUser->SetEmail($new_email);
-					$dcUser->SetGroup($your_group);
-					$dcUser->SetLocation($new_lastlogin);
-					$dcUser->SetJoinDate($your_joindate);
-					$dcUser->SetHomepage($new_www);
-					$dcUser->SetICQ($new_icq);
-					$dcUser->SetAIM($new_aim);
-					$dcUser->SetYIM($new_yim);
-					$dcUser->SetMSN($new_msn);
-					$dcUser->SetSkype($new_skype);
-					$dcUser->SetBirthday($new_day.'.'.$new_month.'.'.$new_year);
-					$dcUser->SetGender($new_sex);
-					$dcUser->SetOccupation($new_occ);
-					$dcUser->SetEnabled($your_enabled);
-					$dcUser->SetTCMSScriptEnabled($new_tcms);
-					$dcUser->SetStaticValue($new_static);
-					$dcUser->SetSignature($new_signature);
-					$dcUser->SetLocation($new_location);
-					$dcUser->SetHobby($new_hobby);
+					$dcUser->setID($u);
+					$dcUser->setName($new_name);
+					$dcUser->setUsername($new_username);
+					$dcUser->setPassword($new_tupwd);
+					$dcUser->setEmail($new_email);
+					$dcUser->setGroup($your_group);
+					$dcUser->setLocation($new_lastlogin);
+					$dcUser->setJoinDate($your_joindate);
+					$dcUser->setHomepage($new_www);
+					$dcUser->setICQ($new_icq);
+					$dcUser->setAIM($new_aim);
+					$dcUser->setYIM($new_yim);
+					$dcUser->setMSN($new_msn);
+					$dcUser->setSkype($new_skype);
+					$dcUser->setBirthday($new_day.'.'.$new_month.'.'.$new_year);
+					$dcUser->setGender($new_sex);
+					$dcUser->setOccupation($new_occ);
+					$dcUser->setEnabled($your_enabled);
+					$dcUser->setTCMSScriptEnabled($new_tcms);
+					$dcUser->setStaticValue($new_static);
+					$dcUser->setSignature($new_signature);
+					$dcUser->setLocation($new_location);
+					$dcUser->setHobby($new_hobby);
 					
 					$tcms_ap->saveAccount($dcUser);
 					
@@ -1770,7 +1776,7 @@ if($todo != 'submitNews'
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					
 					if($seoEnabled == 1)
-						$link = $tcms_main->urlAmpReplace($link);
+						$link = $tcms_main->urlConvertToSEO($link);
 					
 					echo '<script>document.location=\''.$link.'\';</script>';
 				}
@@ -1779,7 +1785,7 @@ if($todo != 'submitNews'
 	}
 	else{
 		if($todo != 'submitNews'){
-			echo tcms_html::bold(_MSG_USERNOTEXISTS);
+			echo $tcms_html->bold(_MSG_USERNOTEXISTS);
 		}
 	}
 }
@@ -1802,22 +1808,22 @@ if($action == 'list'){
 		$count = 0;
 		
 		if($choosenDB == 'xml'){
-			$arr_filename = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_user/');
+			$arr_filename = $tcms_main->getPathContent($tcms_administer_site.'/tcms_user/');
 			
 			if($tcms_main->isArray($arr_filename)){
 				foreach($arr_filename as $key => $value){
 					$menu_xml = new xmlparser($tcms_administer_site.'/tcms_user/'.$value,'r');
-					$user_enable = $menu_xml->read_section('user', 'enabled');
+					$user_enable = $menu_xml->readSection('user', 'enabled');
 					
 					if($user_enable == 1){
 						$arr_user['tag'][$count]   = substr($value, 0, 32);
-						$arr_user['name'][$count]  = $menu_xml->read_section('user', 'name');
-						$arr_user['user'][$count]  = $menu_xml->read_section('user', 'username');
-						$arr_user['group'][$count] = $menu_xml->read_section('user', 'group');
-						$arr_user['email'][$count] = $menu_xml->read_section('user', 'email');
-						$arr_user['www'][$count]   = $menu_xml->read_section('user', 'homepage');
-						$arr_user['jdate'][$count] = $menu_xml->read_section('user', 'join_date');
-						$arr_user['ll'][$count]    = $menu_xml->read_section('user', 'last_login');
+						$arr_user['name'][$count]  = $menu_xml->readSection('user', 'name');
+						$arr_user['user'][$count]  = $menu_xml->readSection('user', 'username');
+						$arr_user['group'][$count] = $menu_xml->readSection('user', 'group');
+						$arr_user['email'][$count] = $menu_xml->readSection('user', 'email');
+						$arr_user['www'][$count]   = $menu_xml->readSection('user', 'homepage');
+						$arr_user['jdate'][$count] = $menu_xml->readSection('user', 'join_date');
+						$arr_user['ll'][$count]    = $menu_xml->readSection('user', 'last_login');
 						
 						if($arr_user['name'][$count]  == false){ $arr_user['name'][$count]   = ''; }
 						if($arr_user['user'][$count]  == false){ $arr_user['user'][$count]   = ''; }
@@ -1850,8 +1856,8 @@ if($action == 'list'){
 			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$sqlSTR = "SELECT * "
 			."FROM ".$tcms_db_prefix."user "
@@ -1860,9 +1866,9 @@ if($action == 'list'){
 			.$tcms_db_prefix."user.username ASC, "
 			.$tcms_db_prefix."user.group ASC";
 			
-			$sqlQR = $sqlAL->sqlQuery($sqlSTR);
+			$sqlQR = $sqlAL->query($sqlSTR);
 			
-			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+			while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 				$arr_user['tag'][$count]   = $sqlARR['uid'];
 				$arr_user['name'][$count]  = $sqlARR['name'];
 				$arr_user['user'][$count]  = $sqlARR['username'];
@@ -1888,7 +1894,7 @@ if($action == 'list'){
 				$checkUserAmount = $count;
 			}
 			
-			$sqlAL->sqlFreeResult($sqlQR);
+			$sqlAL->freeResult($sqlQR);
 		}
 		
 		
@@ -1901,7 +1907,8 @@ if($action == 'list'){
 		$width_6 = '10%';
 		//$width_7 = '15%';
 		
-		echo tcms_html::table_head_cl('0', '0', '0', '100%', 'text_normal');
+		//echo tcms_html::table_head_cl('0', '0', '0', '100%', 'text_normal');
+		echo $tcms_html->tableHeadClass('0', '0', '0', '95%', 'text_normal');
 		
 		echo '<tr height="21">'
 		.'<th valign="top" class="titleBG" width="'.$width_1.'" align="left">'._TABLE_NAME.'</th>'
@@ -1921,7 +1928,7 @@ if($action == 'list'){
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id=profile&amp;s='.$s.'&amp;u='.$arr_user['tag'][$key]
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
 				echo '<td valign="middle" width="'.$width_2.'">'
 				.'<a class="mainlevel" href="'.$link.'">'
@@ -1976,7 +1983,7 @@ if($action == 'list'){
 			}
 		}
 		
-		echo tcms_html::table_end();
+		echo $tcms_html->tableEnd();
 	}
 	else{
 		echo '<strong>'._MSG_DISABLED_MODUL.'</strong>';

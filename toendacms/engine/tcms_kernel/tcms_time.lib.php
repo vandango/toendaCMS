@@ -22,7 +22,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to have some often used time tools.
  *
- * @version 0.0.9
+ * @version 0.1.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -49,36 +49,35 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getCurrentTime                      -> Get the current time
  * getCurrentDate                      -> Get the current date
  * startTimer                          -> Start the timer
+ * stopTimer                           -> Stop the timer
+ * getTimerValue                       -> Return a string with the timer value
+ * startSqlQueryCounter                -> Starts the sql query counter
+ * incrmentSqlQueryCounter             -> Increment the sql query counter
+ * getSqlQueryCountValue               -> Return the sql query count sum
  *
  *--------------------------------------------------------
  * DEPRECATED
  *--------------------------------------------------------
  * getmicrotime               -> return microtime
  * tcms_load_start            -> set starttime to start loading of page
+ * tcms_load_end              -> set endtime to end loading of page and echo
  * current_date               -> return current date
  * current_time               -> return current time
+ * loadtime_output            -> Return a string with the timer value
+ * tcms_query_count_start     -> Starts the sql query counter
+ * tcms_query_counter         -> Count the sql query counter
+ * tcms_query_count_end_out   -> Return the sql query count sum
  * 
  */
-
-
-/**************************************
-*
-* TIME FUNCTIONS
-*
-* tcms_load_end              -> set endtime to end loading of page and echo
-* loadtime_output            -> return output data for loading time
-* tcms_query_count_start     -> Starts the sql query counter
-* tcms_query_counter         -> Count the sql query counter
-* tcms_query_count_end_out   -> Return the sql query count sum
-*
-*/
 
 
 class tcms_time{
 	var $starttime;
 	var $endtime;
 	var $sqlQuery;
-	
+	var $_starttime;
+	var $_endtime;
+	var $_sqlQuerys;
 	
 	
 	/**
@@ -86,7 +85,6 @@ class tcms_time{
 	 */
 	function __construct(){
 	}
-	
 	
 	
 	/**
@@ -97,13 +95,11 @@ class tcms_time{
 	}
 	
 	
-	
 	/**
 	 * PHP5 Default destructor
 	 */
 	function __destruct(){
 	}
-	
 	
 	
 	/**
@@ -112,7 +108,6 @@ class tcms_time{
 	function _tcms_time(){
 		$this->__destruct();
 	}
-	
 	
 	
 	/*
@@ -129,111 +124,70 @@ class tcms_time{
 	}
 	
 	
-	
-	
 	/**
 	 * Get the current time
 	 */
 	function getCurrentTime(){
-		$time = date('H:i');
-		return $time;
+		return date('H:i');
 	}
-	
-	
 	
 	
 	/**
 	 *  Get the current date
 	 */
 	function getCurrentDate(){
-		$date = date('d.m.Y');
-		return $date;
+		return date('d.m.Y');
 	}
-	
 	
 	
 	/**
 	 * Start the timer
 	 */
 	function startTimer(){
-		global $starttime;
-		$starttime = tcms_time::getMicrotime();
+		$this->_starttime = $this->getMicrotime();
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/***
-	* @return Stop the loadtime counter
-	* @desc 
-	*/
-	function tcms_load_end(){
-		global $endtime;
-		$endtime = tcms_time::get_microtime();
-		return tcms_time::loadtime_output();
+	/**
+	 * Stop the timer
+	 */
+	function stopTimer(){
+		$this->_endtime = $this->getMicrotime();
+		//return $this->displayTimerValue();
 	}
 	
 	
-	
-	
-	/***
-	* @return Return a string with the loadtime
-	* @desc 
-	*/
-	function loadtime_output(){
-		global $starttime;
-		global $endtime;
-		
-		$time = $endtime - $starttime;
+	/**
+	 * Return a string with the timer value
+	 */
+	function getTimerValue(){
+		$time = $this->_endtime - $this->_starttime;
 		
 		return _MSG_PAGE_LOAD_1.'&nbsp;'.round($time, 4).'&nbsp;'._MSG_PAGE_LOAD_2;
 	}
 	
 	
-	
-	
-	/***
-	* @return Starts the sql query counter
-	* @desc 
-	*/
-	function tcms_query_count_start(){
-		global $sqlQuery;
-		$sqlQuery = 0;
+	/**
+	 * Starts the sql query counter
+	 */
+	function startSqlQueryCounter(){
+		$this->_sqlQuerys = 0;
 	}
 	
 	
-	
-	
-	/***
-	* @return Count the sql query counter
-	* @desc 
-	*/
-	function tcms_query_counter(){
-		global $sqlQuery;
-		$sqlQuery++;
-		//echo '<h2>'.$sqlQuery.'</h2><br>';
+	/**
+	 * Increment the sql query counter
+	 */
+	function incrmentSqlQueryCounter(){
+		$this->_sqlQuerys++;
 	}
 	
 	
-	
-	
-	/***
-	* @return Return the sql query count sum
-	* @desc 
-	*/
-	function tcms_query_count_end_out(){
-		global $sqlQuery;
-		return ( $sqlQuery == 1 ? $sqlQuery.' Database Query' : $sqlQuery.' Database Querys.' );
+	/**
+	 * Return the sql query count sum
+	 */
+	function getSqlQueryCountValue(){
+		return ( $this->_sqlQuerys == 1 ? $this->_sqlQuerys.' Database Query' : $this->_sqlQuerys.' Database Querys.' );
 	}
 	
 	
@@ -266,8 +220,6 @@ class tcms_time{
 	}
 	
 	
-	
-	
 	/**
 	 * @deprecated 
 	 * @return the current time
@@ -279,8 +231,6 @@ class tcms_time{
 	}
 	
 	
-	
-	
 	/**
 	 * @deprecated 
 	 * @return the current date
@@ -289,6 +239,67 @@ class tcms_time{
 	function current_date(){
 		$date = date('d.m.Y');
 		return $date;
+	}
+	
+	
+	/**
+	 * @deprecated 
+	 * @return Stop the loadtime counter
+	 * @desc 
+	 */
+	function tcms_load_end(){
+		global $endtime;
+		$endtime = tcms_time::get_microtime();
+		return tcms_time::loadtime_output();
+	}
+	
+	
+	/**
+	 * @deprecated 
+	 * @return Return a string with the loadtime
+	 * @desc 
+	 */
+	function loadtime_output(){
+		global $starttime;
+		global $endtime;
+		
+		$time = $endtime - $starttime;
+		
+		return _MSG_PAGE_LOAD_1.'&nbsp;'.round($time, 4).'&nbsp;'._MSG_PAGE_LOAD_2;
+	}
+	
+	
+	/**
+	 * @deprecated 
+	 * @return Starts the sql query counter
+	 * @desc 
+	 */
+	function tcms_query_count_start(){
+		global $sqlQuery;
+		$sqlQuery = 0;
+	}
+	
+	
+	/**
+	 * @deprecated 
+	 * @return Count the sql query counter
+	 * @desc 
+	 */
+	function tcms_query_counter(){
+		global $sqlQuery;
+		$sqlQuery++;
+		//echo '<h2>'.$sqlQuery.'</h2><br>';
+	}
+	
+	
+	/**
+	 * @deprecated 
+	 * @return Return the sql query count sum
+	 * @desc 
+	 */
+	function tcms_query_count_end_out(){
+		global $sqlQuery;
+		return ( $sqlQuery == 1 ? $sqlQuery.' Database Query' : $sqlQuery.' Database Querys.' );
 	}
 }
 

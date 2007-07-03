@@ -9,7 +9,7 @@
 | 
 | toendaCMS Blogfeatures
 |
-| File:		tcms_blogfeatures.lib.php
+| File:	tcms_blogfeatures.lib.php
 |
 +
 */

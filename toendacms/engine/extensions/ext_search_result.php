@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a search module.
  *
- * @version 0.5.4
+ * @version 0.5.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -37,18 +37,26 @@ if(isset($_POST['searchword'])){ $searchword = $_POST['searchword']; }
 
 if($choosenDB == 'xml'){
 	$search_xml   = new xmlparser($tcms_administer_site.'/tcms_global/sidebar.xml','r');
-	$search_title = $search_xml->read_section('side', 'search_title');
+	$search_title = $search_xml->readSection('side', 'search_title');
 	
 	$search_title = $tcms_main->decodeText($search_title, '2', $c_charset);
+	
+	$search_xml->flush();
+	$search_xml->_xmlparser();
+	unset($search_xml);
 }
 else{
 	$sqlAL = new sqlAbstractionLayer($choosenDB);
 	$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 	
 	$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'sidebar_extensions', 'sidebar_extensions');
-	$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+	$sqlObj = $sqlAL->fetchObject($sqlQR);
 	
-	$search_title = $sqlARR['search_title'];
+	$search_title = $sqlObj->search_title;
+	
+	$sqlAL->freeResult($sqlQR);
+	$sqlAL->_sqlAbstractionLayer();
+	unset($sqlAL);
 	
 	$search_title = $tcms_main->decodeText($search_title, '2', $c_charset);
 }
@@ -57,9 +65,7 @@ else{
 
 
 
-echo tcms_html::contentheading(_SEARCH_TITLE)
-.tcms_html::contentstamp($search_title)
-.'<br /><br /><br />';
+echo $tcms_html->contentModuleHeader(_SEARCH_TITLE, $search_title, '');
 
 echo '<form action="'.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?" method="post">'
 .'<input type="hidden" name="id" value="search" />'
@@ -186,7 +192,7 @@ echo '</div>'
 
 echo '<br />';
 
-echo tcms_html::search_result_bar(_SEARCH_TEXT_FOUND)
+echo $tcms_html->searchResultTitle(_SEARCH_TEXT_FOUND)
 .'<br />';
 
 if(!isset($option)) $option = 'con';
@@ -194,13 +200,20 @@ $nothing_search = _SEARCH_BOX;
 $sc = 0;
 
 if($searchword == '')
-	echo tcms_html::contentmain(_SEARCH_START);
+	echo $tcms_html->contentText(_SEARCH_START);
 elseif($searchword == $nothing_search)
-	echo tcms_html::contentmain(_SEARCH_EMPTY);
+	echo $tcms_html->contentText(_SEARCH_EMPTY);
 else{
 	include_once('engine/tcms_kernel/tcms_search.lib.php');
 	
-	$tcms_search = new tcms_search($c_charset, $s, $tcms_administer_site, $is_admin);
+	$tcms_search = new tcms_search(
+		$c_charset, 
+		$s, 
+		$tcms_administer_site, 
+		$is_admin, 
+		$tcms_time, 
+		$tcms_html
+	);
 	
 	switch($option){
 		case 'con': $sc = $tcms_search->searchDocuments($searchword); break;
@@ -236,7 +249,7 @@ else{
 	}
 	
 	if($sc == 0)
-		echo tcms_html::contentmain(_SEARCH_NOTFOUND_1.'&nbsp;'.$searchword.'&nbsp;'._SEARCH_NOTFOUND_2);
+		echo $tcms_html->contentText(_SEARCH_NOTFOUND_1.'&nbsp;'.$searchword.'&nbsp;'._SEARCH_NOTFOUND_2);
 	
 	echo '<br />'
 	.$tcms_html->searchPanel(

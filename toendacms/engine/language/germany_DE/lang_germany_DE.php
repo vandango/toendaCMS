@@ -976,7 +976,7 @@ define('_ABOUTMOD_DESCRIPTION', 'Beschreibung');
 
 
 // ABOUT
-define('_ABOUT_TITLE', 'toendaCMS - Open Source Content Management Framework');
+define('_ABOUT_TITLE', 'toendaCMS - Your ideas ahead! - Open Source Content Management Framework');
 define('_ABOUT_TEXT', 'toendaCMS ist ein freies Open Source Content Management Framework basierend auf PHP4, PHP5, XML und verschiedenen Datenbank Servern.');
 define('_ABOUT_TEXT2', 'Lesen Sie sich f&uuml;r n&auml;here Informationen <a class="tcms_about" href="http://www.toenda.com/">http://www.toenda.com/</a> an. toendaCMS wird mit ABSOLUT KEINER GARANTIE ver&ouml;ffentlicht. Dies ist freie Software und Sie haben die Freiheit es unter bestimmten Bedingungen zu verteilen. Diese Nachricht darf nicht entfernt werden, dies ist per Gesetz verboten.');
 define('_ABOUT_EMAIL_INFO', 'Information und Technischer Support');

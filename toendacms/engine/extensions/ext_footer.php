@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a footer.
  *
- * @version 0.3.5
+ * @version 0.3.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -56,9 +56,14 @@ if(!isset($show_default) || $show_default == ''){
 
 
 
-$page_load_time = tcms_time::tcms_load_end();
+$tcms_time->stopTimer();
+$page_load_time = $tcms_time->getTimerValue();
 if($choosenDB != 'xml')
-	$page_query_count = tcms_time::tcms_query_count_end_out();
+	$page_query_count = $tcms_time->getSqlQueryCountValue();
+
+//$page_load_time = tcms_time::tcms_load_end();
+//if($choosenDB != 'xml')
+//	$page_query_count = tcms_time::tcms_query_count_end_out();
 
 
 
@@ -87,9 +92,9 @@ echo '<br />';
 */
 if($show_default == 1){
 	echo '<span class="legal">'._ABOUT_POWERED_BY.'&nbsp;'
-	.'<a title="'._ABOUT_POWERED_BY.' toendaCMS - Your ideas ahead!" class="legal" href="http://www.toendacms.com" target="_blank">toendaCMS</a>&nbsp;&copy;&nbsp;'.$toenda_copyright.'&nbsp;'
-	.'<a title="'._ABOUT_POWERED_BY.' toendaCMS - Your ideas ahead!" class="legal" href="http://www.toenda.com" target="_blank">Toenda Software Development</a>.&nbsp;'
-	._TCMS_ADMIN_RIGHT.'<br />toendaCMS - Your ideas ahead! '._ABOUT_FREE_SOFTWARE.'</span><br />';
+	.'<a title="'._ABOUT_POWERED_BY.' '.$tcms_version->getName().' - '.$tcms_version->getTagline().'!" class="legal" href="http://www.toendacms.com" target="_blank">'.$tcms_version->getName().'</a>&nbsp;&copy;&nbsp;'.$toenda_copyright.'&nbsp;'
+	.'<a title="'._ABOUT_POWERED_BY.' '.$tcms_version->getName().' - '.$tcms_version->getTagline().'!" class="legal" href="http://www.toenda.com" target="_blank">Toenda Software Development</a>.&nbsp;'
+	._TCMS_ADMIN_RIGHT.'<br />'.$tcms_version->getName().' - '.$tcms_version->getTagline().'! '._ABOUT_FREE_SOFTWARE.'</span><br />';
 }
 
 
@@ -116,10 +121,10 @@ if($show_tcms == 1){
 	
 	echo '<div>'
 	.'<br />'
-	.'<a title="'._ABOUT_POWERED_BY.' toendaCMS - Your ideas ahead!" class="legal" href="http://www.toendacms.com" target="_blank">'
+	.'<a title="'._ABOUT_POWERED_BY.' '.$tcms_version->getName().' - '.$tcms_version->getTagline().'!" class="legal" href="http://www.toendacms.com" target="_blank">'
 	.'<img align="center" '
-	.'alt="'._ABOUT_POWERED_BY.' toendaCMS - Your ideas ahead!" '
-	.'title="'._ABOUT_POWERED_BY.' toendaCMS - Your ideas ahead!" '
+	.'alt="'._ABOUT_POWERED_BY.' '.$tcms_version->getName().' - '.$tcms_version->getTagline().'!" '
+	.'title="'._ABOUT_POWERED_BY.' '.$tcms_version->getName().' - '.$tcms_version->getTagline().'!" '
 	.'src="'.$imagePath.'engine/images/logos/toendaCMS_button_02.png" border="0" />'
 	.'</a>'
 	.'</div>';

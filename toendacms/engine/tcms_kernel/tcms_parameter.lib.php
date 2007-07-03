@@ -9,8 +9,7 @@
 |
 | toendaCMS Parameter Functions
 |
-| File:		tcms_parameter.lib.php
-| Version:	0.0.7
+| File:	tcms_parameter.lib.php
 |
 +
 */
@@ -24,6 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for base checkings.
  *
+ * @version 0.0.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel

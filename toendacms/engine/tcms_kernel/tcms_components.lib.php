@@ -9,8 +9,7 @@
 | 
 | toendaCMS CS - Components System Classes
 | 
-| File:		tcms_components.lib.php
-| Version:	0.2.5
+| File:	tcms_components.lib.php
 |
 +
 */
@@ -27,6 +26,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * a complete API with toendaCMS constants and can load the
  * component itself.
  *
+ * @version 0.2.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_cs
@@ -39,6 +39,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * tcms_seo()                -> PHP4 Constructor
  * __destruct()              -> PHP5 Destructor
  * _tcms_seo                 -> PHP4 Destructor
+ * 
  * getSettings               -> Loads the current settings from component
  * getSpecialSettings        -> Loads the special settingsfile
  * getAllSideCS              -> Loads all sidebar CS
@@ -124,20 +125,20 @@ class tcms_cs {
 		if(file_exists($this->tcms_main_path.'/components/'.$item.'/component.xml')){
 			$csXML = new xmlparser($this->tcms_main_path.'/components/'.$item.'/component.xml','r');
 			
-			$arrCS['title']    = $csXML->read_value('title');
-			$arrCS['subtitle'] = $csXML->read_value('subtitle');
-			$arrCS['desc']     = $csXML->read_value('desc');
-			$arrCS['id']       = $csXML->read_value('id');
-			$arrCS['enabled']  = $csXML->read_value('enabled');
-			$arrCS['mainCS']   = $csXML->read_value('mainCS');
-			$arrCS['sideCS']   = $csXML->read_value('sideCS');
-			$arrCS['sideSort'] = $csXML->read_value('sideSort');
-			$arrCS['access']   = $csXML->read_value('access');
-			$arrCS['folder']   = $csXML->read_value('folder');
-			$arrCS['backend']  = $csXML->read_value('backendfile');
-			$arrCS['frontend'] = $csXML->read_value('frontendfile');
-			$arrCS['sidebar']  = $csXML->read_value('sidebarfile');
-			$arrCS['settings'] = $csXML->read_value('settingsfile');
+			$arrCS['title']    = $csXML->readValue('title');
+			$arrCS['subtitle'] = $csXML->readValue('subtitle');
+			$arrCS['desc']     = $csXML->readValue('desc');
+			$arrCS['id']       = $csXML->readValue('id');
+			$arrCS['enabled']  = $csXML->readValue('enabled');
+			$arrCS['mainCS']   = $csXML->readValue('mainCS');
+			$arrCS['sideCS']   = $csXML->readValue('sideCS');
+			$arrCS['sideSort'] = $csXML->readValue('sideSort');
+			$arrCS['access']   = $csXML->readValue('access');
+			$arrCS['folder']   = $csXML->readValue('folder');
+			$arrCS['backend']  = $csXML->readValue('backendfile');
+			$arrCS['frontend'] = $csXML->readValue('frontendfile');
+			$arrCS['sidebar']  = $csXML->readValue('sidebarfile');
+			$arrCS['settings'] = $csXML->readValue('settingsfile');
 			
 			if($arrCS['title']    == false){ $arrCS['title']    = ''; }
 			if($arrCS['subtitle'] == false){ $arrCS['subtitle'] = ''; }
@@ -155,9 +156,9 @@ class tcms_cs {
 			if($arrCS['settings'] == false){ $arrCS['settings'] = ''; }
 			
 			// CHARSETS
-			$arrCS['title']    = $tcms_main->decode_text($arrCS['title'], '2', $c_charset);
-			$arrCS['subtitle'] = $tcms_main->decode_text($arrCS['subtitle'], '2', $c_charset);
-			$arrCS['desc']     = $tcms_main->decode_text($arrCS['desc'], '2', $c_charset);
+			$arrCS['title']    = $tcms_main->decodeText($arrCS['title'], '2', $c_charset);
+			$arrCS['subtitle'] = $tcms_main->decodeText($arrCS['subtitle'], '2', $c_charset);
+			$arrCS['desc']     = $tcms_main->decodeText($arrCS['desc'], '2', $c_charset);
 		}
 		else{
 			$arrCS = false;
@@ -212,7 +213,7 @@ class tcms_cs {
 		global $is_admin;
 		
 		$i = 0;
-		$arrCSFiles = $tcms_main->readdir_ext($this->tcms_main_path.'/components/');
+		$arrCSFiles = $tcms_main->getPathContent($this->tcms_main_path.'/components/');
 		
 		if(is_array($arrCSFiles)){
 			foreach($arrCSFiles as $key => $val){
@@ -223,22 +224,22 @@ class tcms_cs {
 				&& $val != '.SVN'
 				&& $val != '_SVN') {
 					$csXML = new xmlparser($this->tcms_main_path.'/components/'.$val.'/component.xml','r');
-					$checkCS = $csXML->read_value('sideCS');
+					$checkCS = $csXML->readValue('sideCS');
 					
 					if($checkCS == 1){
-						$csEnabled = $csXML->read_value('enabled');
+						$csEnabled = $csXML->readValue('enabled');
 						
 						if($csEnabled == 1){
-							$csAccess = $csXML->read_value('access');
+							$csAccess = $csXML->readValue('access');
 							
 							$csAcs = $tcms_main->checkAccess($csAccess, $is_admin);
 							
 							if($csAcs){
-								$cs_sort     = $csXML->read_value('sideSort');
-								$cs_folder   = $csXML->read_value('folder');
-								$cs_id       = $csXML->read_value('id');
-								$cs_file     = $csXML->read_value('sidebarfile');
-								$cs_settings = $csXML->read_value('settingsfile');
+								$cs_sort     = $csXML->readValue('sideSort');
+								$cs_folder   = $csXML->readValue('folder');
+								$cs_id       = $csXML->readValue('id');
+								$cs_file     = $csXML->readValue('sidebarfile');
+								$cs_settings = $csXML->readValue('settingsfile');
 								
 								$arrSideCS['sort'][$i]     = $cs_sort;
 								$arrSideCS['folder'][$i]   = $cs_folder;
@@ -281,7 +282,7 @@ class tcms_cs {
 		global $tcms_main;
 		global $is_admin;
 		
-		$arrCSFiles = $tcms_main->readdir_ext($this->tcms_main_path.'/components/');
+		$arrCSFiles = $tcms_main->getPathContent($this->tcms_main_path.'/components/');
 		
 		if(is_array($arrCSFiles)){
 			foreach($arrCSFiles as $key => $val){
@@ -292,24 +293,24 @@ class tcms_cs {
 				&& $val != '.SVN'
 				&& $val != '_SVN') {
 					$csXML = new xmlparser($this->tcms_main_path.'/components/'.$val.'/component.xml','r');
-					$checkCS = $csXML->read_value('id');
+					$checkCS = $csXML->readValue('id');
 					
 					if($checkCS == $item){
-						$csMainCS = $csXML->read_value('mainCS');
+						$csMainCS = $csXML->readValue('mainCS');
 						
 						if(trim($csMainCS) == 1){
-							$csEnabled = $csXML->read_value('enabled');
+							$csEnabled = $csXML->readValue('enabled');
 							
 							if($csEnabled == 1){
-								$csAccess = $csXML->read_value('access');
+								$csAccess = $csXML->readValue('access');
 								
 								$csAcs = $tcms_main->checkAccess($csAccess, $is_admin);
 								
 								if($csAcs){
-									$cs_folder   = $csXML->read_value('folder');
-									$cs_id       = $csXML->read_value('id');
-									$cs_file     = $csXML->read_value('frontendfile');
-									$cs_settings = $csXML->read_value('settingsfile');
+									$cs_folder   = $csXML->readValue('folder');
+									$cs_id       = $csXML->readValue('id');
+									$cs_file     = $csXML->readValue('frontendfile');
+									$cs_settings = $csXML->readValue('settingsfile');
 									
 									$arrMainCS['folder']   = $cs_folder;
 									$arrMainCS['id']       = $cs_id;

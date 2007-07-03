@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide a dynamic
  * search class.
  *
- * @version 0.1.1
+ * @version 0.1.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -37,6 +37,9 @@ defined('_TCMS_VALID') or die('Restricted access');
  * tcms_search                 -> PHP4 Constructor
  * __destruct                  -> PHP5 Destructor
  * _tcms_search                -> PHP4 Destructor
+ * 
+ * setTcmsTimeObj              -> Set the tcms_time object
+ * setTcmsHtmlObj              -> Set the tcms_html object
  * 
  * searchDocuments()           -> search in documents
  * 
@@ -51,6 +54,8 @@ class tcms_search extends tcms_main {
 	var $m_path;
 	var $m_skin;
 	var $m_admin;
+	var $_tcmsTime;
+	var $_tcmsHtml;
 	
 	// database information
 	var $m_choosenDB;
@@ -71,12 +76,14 @@ class tcms_search extends tcms_main {
 	 * @param String $tcms_administer_path = 'data'
 	 * @param String $usergroup
 	 */
-	function __construct($charset, $skin, $tcms_administer_path = 'data', $usergroup){
+	function __construct($charset, $skin, $tcms_administer_path = 'data', $usergroup, $tcmsTimeObj = null, $tcmsHtmlObj = null){
 		$this->m_CHARSET = $charset;
 		$this->m_path = $tcms_administer_path;
 		$this->m_skin = $skin;
 		$this->administer = $tcms_administer_path;
 		$this->m_admin = $usergroup;
+		$this->_tcmsTime = $tcmsTimeObj;
+		$this->_tcmsHtml = $tcmsHtmlObj;
 		
 		if(file_exists($this->m_path.'/tcms_global/database.php')){
 			require($this->m_path.'/tcms_global/database.php');
@@ -104,8 +111,8 @@ class tcms_search extends tcms_main {
 	 * @param String $tcms_administer_path = 'data'
 	 * @param String $usergroup
 	 */
-	function tcms_search($charset, $skin, $tcms_administer_path = 'data', $usergroup){
-		$this->__construct($charset, $skin, $tcms_administer_path = 'data', $usergroup);
+	function tcms_search($charset, $skin, $tcms_administer_path = 'data', $usergroup, $tcmsTimeObj = null, $tcmsHtmlObj = null){
+		$this->__construct($charset, $skin, $tcms_administer_path = 'data', $usergroup, $tcmsTimeObj, $tcmsHtmlObj);
 	}
 	
 	
@@ -123,6 +130,28 @@ class tcms_search extends tcms_main {
 	 */
 	function _tcms_search(){
 		$this->__destruct();
+	}
+	
+	
+	
+	/**
+	 * Set the tcms_time object
+	 *
+	 * @param Object $value
+	 */
+	function setTcmsTimeObj($value) {
+		$this->_tcmsTime = $value;
+	}
+	
+	
+	
+	/**
+	 * Set the tcms_html object
+	 *
+	 * @param Object $value
+	 */
+	function setTcmsHtmlObj($value) {
+		$this->_tcmsHtml = $value;
 	}
 	
 	
@@ -148,8 +177,8 @@ class tcms_search extends tcms_main {
 					$out = $xml->search_value_front('main', 'content00', $searchword);
 					
 					if($out != false){
-						$tit = $xml->read_section('main', 'title');
-						$key = $xml->read_section('main', 'key');
+						$tit = $xml->readSection('main', 'title');
+						$key = $xml->readSection('main', 'key');
 						
 						$toendaScript = new toendaScript($key);
 						$key = $toendaScript->toendaScript_trigger();
@@ -161,10 +190,10 @@ class tcms_search extends tcms_main {
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id='.substr($sval, 0, 5).'&amp;s='.$this->m_skin
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
-						$link = $this->urlAmpReplace($link);
+						$link = $this->urlConvertToSEO($link);
 						
 						echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
-						echo tcms_html::search_result($key);
+						echo $this->_tcmsHtml->searchResultPanel($key);
 						echo '<br />';
 						
 						$sc++;
@@ -177,8 +206,8 @@ class tcms_search extends tcms_main {
 						$out = $xml->search_value_front('main', 'key', $searchword);
 						
 						if($out != false){
-							$tit = $xml->read_section('main', 'title');
-							$key = $xml->read_section('main', 'key');
+							$tit = $xml->readSection('main', 'title');
+							$key = $xml->readSection('main', 'key');
 							
 							$toendaScript = new toendaScript($key);
 							$key = $toendaScript->toendaScript_trigger();
@@ -190,10 +219,10 @@ class tcms_search extends tcms_main {
 							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 							.'id='.substr($sval, 0, 5).'&amp;s='.$this->m_skin
 							.( isset($lang) ? '&amp;lang='.$lang : '' );
-							$link = $this->urlAmpReplace($link);
+							$link = $this->urlConvertToSEO($link);
 							
 							echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
-							echo tcms_html::search_result($key);
+							echo $this->_tcmsHtml->searchResultPanel($key);
 							echo '<br />';
 							
 							$sc++;
@@ -206,8 +235,8 @@ class tcms_search extends tcms_main {
 							$out = $xml->search_value_front('main', 'title', $searchword);
 							
 							if($out != false){
-								$tit = $xml->read_section('main', 'title');
-								$key = $xml->read_section('main', 'key');
+								$tit = $xml->readSection('main', 'title');
+								$key = $xml->readSection('main', 'key');
 								
 								$toendaScript = new toendaScript($key);
 								$key = $toendaScript->toendaScript_trigger();
@@ -219,10 +248,10 @@ class tcms_search extends tcms_main {
 								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 								.'id='.substr($sval, 0, 5).'&amp;s='.$this->m_skin
 								.( isset($lang) ? '&amp;lang='.$lang : '' );
-								$link = $this->urlAmpReplace($link);
+								$link = $this->urlConvertToSEO($link);
 								
 								echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
-								echo tcms_html::search_result($key);
+								echo $this->_tcmsHtml->searchResultPanel($key);
 								echo '<br />';
 								
 								$sc++;
@@ -303,14 +332,14 @@ class tcms_search extends tcms_main {
 					break;
 			}
 			
-			$sqlQR = $sqlAL->Query($strSQL);
-			$sqlNR = $sqlAL->GetNumber($sqlQR);
+			$sqlQR = $sqlAL->query($strSQL);
+			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
 			if($sqlNR != 0){
-				while($sqlARR = $sqlAL->FetchArray($sqlQR)){
-					$tit = $sqlARR['title'];
-					$key = $sqlARR['key'];
-					$uid = $sqlARR['uid'];
+				while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+					$tit = $sqlObj->title;
+					$key = $sqlObj->key;
+					$uid = $sqlObj->uid;
 					
 					if($tit == NULL){ $tit = ''; }
 					if($key == NULL){ $key = ''; }
@@ -326,10 +355,10 @@ class tcms_search extends tcms_main {
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id='.$uid.'&amp;s='.$this->m_skin
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $this->urlAmpReplace($link);
+					$link = $this->urlConvertToSEO($link);
 					
 					echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
-					echo tcms_html::search_result($key);
+					echo $this->_tcmsHtml->searchResultPanel($key);
 					echo '<br />';
 					
 					$sc++;

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the register functions.
  *
- * @version 0.5.3
+ * @version 0.5.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -66,10 +66,7 @@ if(!isset($cmd)){ $cmd = 'register'; }
 	retrieve a new password
 */
 if($cmd == 'lostpassword'){
-	echo tcms_html::contentheading(_REG_LPW)
-	.'<br />'
-	.tcms_html::contentmain(_REG_LPWTEXT)
-	.'<br />';
+	echo $tcms_html->contentModuleHeader(_REG_LPW, '', _REG_LPWTEXT);
 	
 	echo '<form action="'.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$id.'&amp;s='.$s.( isset($lang) ? '&amp;lang='.$lang : '' ).'" method="post">'
 	.'<input name="cmd" type="hidden" value="retrieve" />';
@@ -83,15 +80,15 @@ if($cmd == 'lostpassword'){
 	
 	
 	// row
-	echo '<tr height: 28px;"><td width="'.$width.'"><span class="text_normal">'._PERSON_USERNAME.'</span></td>'
-	.'<td>&nbsp;<img src="'.$imagePath.'engine/images/dot_2.gif" border="0" />&nbsp;'
+	echo '<tr height: 28px;"><td width="'.$width.'"><span class="text_normal">'._PERSON_USERNAME.'</span>'
+	.'</td><td>'
 	.'<input class="inputtext" style="width: '.$width2.'px;" name="fulluser2" type="text" value="" />'
 	.'</td></tr>';
 	
 	
 	// row
-	echo '<tr height: 28px;"><td width="'.$width.'"><span class="text_normal">'._PERSON_EMAIL.'</span></td>'
-	.'<td>&nbsp;<img src="'.$imagePath.'engine/images/dot_2.gif" border="0" />&nbsp;'
+	echo '<tr height: 28px;"><td width="'.$width.'"><span class="text_normal">'._PERSON_EMAIL.'</span>'
+	.'</td><td>'
 	.'<input class="inputtext" style="width: '.$width2.'px;" name="fullemail2" type="text" value="" />'
 	.'</td></tr>';
 	
@@ -122,7 +119,7 @@ if($cmd == 'retrieve'){
 	if($fulluser2 == '' || $fullemail2 == ''){
 		$link = '?id=register&s='.$s.'&cmd=lostpassword'
 		.( isset($lang) ? '&amp;lang='.$lang : '' );
-		$link = $tcms_main->urlAmpReplace($link);
+		$link = $tcms_main->urlConvertToSEO($link);
 		
 		echo '<script>'
 		.'document.location.href=\''.$link.'\';'
@@ -131,21 +128,21 @@ if($cmd == 'retrieve'){
 	}
 	else{
 		if($choosenDB == 'xml'){
-			$arr_filename = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_user/');
+			$arr_filename = $tcms_main->getPathContent($tcms_administer_site.'/tcms_user/');
 			
 			foreach($arr_filename as $key => $value){
 				$user_login_xml = new xmlparser($tcms_administer_site.'/tcms_user/'.$value,'r');
 				
 				$arr_maintag[$key] = substr($value, 0, 32);
-				$ws_username       = $user_login_xml->read_section('user', 'username');
-				$ws_email          = $user_login_xml->read_section('user', 'email');
+				$ws_username       = $user_login_xml->readSection('user', 'username');
+				$ws_email          = $user_login_xml->readSection('user', 'email');
 				$ws_username       = $tcms_main->decodeText($ws_username, '2', $c_charset);
 				
 				if($fulluser2 == $ws_username && $ws_email == $fullemail2){
 					$arr_login['maintag'][$ws_username]  = $arr_maintag[$key];
-					$arr_login['username'][$ws_username] = $user_login_xml->read_section('user', 'username');
-					$arr_login['password'][$ws_username] = $user_login_xml->read_section('user', 'password');
-					$arr_login['email'][$ws_username]    = $user_login_xml->read_section('user', 'email');
+					$arr_login['username'][$ws_username] = $user_login_xml->readSection('user', 'username');
+					$arr_login['password'][$ws_username] = $user_login_xml->readSection('user', 'password');
+					$arr_login['email'][$ws_username]    = $user_login_xml->readSection('user', 'email');
 					
 					$arr_login['username'][$ws_username] = $tcms_main->decodeText($arr_login['username'][$ws_username], '2', $c_charset);
 					//$arr_login['email'][$ws_username]    = $tcms_main->decodeText($arr_login['email'][$ws_username], '2', $c_charset);
@@ -153,14 +150,14 @@ if($cmd == 'retrieve'){
 			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			$sqlQR = $sqlAL->sqlQuery("SELECT * FROM ".$tcms_db_prefix."user WHERE username='".$fulluser2."' AND email='".$fullemail2."'");
-			$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+			$sqlQR = $sqlAL->query("SELECT * FROM ".$tcms_db_prefix."user WHERE username='".$fulluser2."' AND email='".$fullemail2."'");
+			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
 			if($sqlNR != 0){
-				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+				$sqlARR = $sqlAL->fetchArray($sqlQR);
 				
 				$arr_login['maintag'][$fulluser2]  = $sqlARR['uid'];
 				$arr_login['username'][$fulluser2] = $sqlARR['username'];
@@ -206,18 +203,18 @@ if($cmd == 'retrieve'){
 					xmlparser::edit_value($tcms_administer_site.'/tcms_user/'.$user_file.'.xml', 'password', $old_value, $savepass2);
 				}
 				else{
-					$sqlAL = new sqlAbstractionLayer($choosenDB);
-					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					$newSQLData = $tcms_db_prefix.'user.password="'.$savepass2.'"';
-					$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'user', $newSQLData, $user_file);
+					$sqlQR = $sqlAL->updateOne($tcms_db_prefix.'user', $newSQLData, $user_file);
 				}
 				
 				
 				//*************************************
 				// Mail
 				$footer_xml  = new xmlparser($tcms_administer_site.'/tcms_global/footer.xml','r');
-				$owner_email = $footer_xml->read_section('footer', 'email');
-				$owner       = $footer_xml->read_section('footer', 'websiteowner');
+				$owner_email = $footer_xml->readSection('footer', 'email');
+				$owner       = $footer_xml->readSection('footer', 'websiteowner');
 				
 				$owner       = $tcms_main->decodeText($owner, '2', $c_charset);
 				$owner_email = $tcms_main->decodeText($owner_email, '2', $c_charset);
@@ -248,7 +245,7 @@ if($cmd == 'retrieve'){
 	//*************************************
 				
 				$link = '?'.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
 				echo '<script>document.location.href=\''.$link.'\';alert(\''._MSG_SEND.'\');</script>';
 			}
@@ -259,7 +256,7 @@ if($cmd == 'retrieve'){
 		if($ws_check_lpw == 'no'){
 			//Administrator
 			$link = '?';
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<script>'
 			.'document.location.href=\''.$link.'\';'
@@ -281,14 +278,14 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 	if($choosenDB == 'xml'){
 		$side_ext_xml = new xmlparser($tcms_administer_site.'/tcms_global/sidebar.xml','r');
 		$show_login = $use_login;
-		$login_user = $side_ext_xml->read_section('side', 'login_user');
+		$login_user = $side_ext_xml->readSection('side', 'login_user');
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'sidebar_extensions', 'sidebar_extensions');
-		$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+		$sqlQR = $sqlAL->getOne($tcms_db_prefix.'sidebar_extensions', 'sidebar_extensions');
+		$sqlARR = $sqlAL->fetchArray($sqlQR);
 		
 		$show_login = $use_login;
 		$login_user = $sqlARR['login_user'];
@@ -302,12 +299,13 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 					dialog
 				*/
 				
-				echo tcms_html::contentheading(_REG_TITLE);
-				echo '<br />';
-				echo tcms_html::contentmain(_REG_TEXT_1.' (<img style="padding: 6px 0 0 0;" src="'.$imagePath.'engine/images/dot_2.gif" border="0" />) '._REG_TEXT_2.' (<img style="padding: 6px 0 0 0;" src="'.$imagePath.'engine/images/dot_3.gif" border="0" />)');
+				echo $tcms_html->contentModuleHeader(
+					_REG_TITLE, 
+					'', 
+					_REG_TEXT_1.' (<img style="padding: 6px 0 0 0;" src="'.$imagePath.'engine/images/dot_2.gif" border="0" />) '._REG_TEXT_2.' (<img style="padding: 6px 0 0 0;" src="'.$imagePath.'engine/images/dot_3.gif" border="0" />)'
+				);
 				
-				echo '<br />'
-				.'<form action="'.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$id.'&amp;s='.$s.'&amp;cmd=save_registration" method="post">';
+				echo '<form action="'.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$id.'&amp;s='.$s.'&amp;cmd=save_registration" method="post">';
 				//.'<input name="cmd" type="hidden" value="save_registration" />';
 				
 				$width  = '150';
@@ -315,7 +313,7 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 				
 				
 				echo '<br />';
-				echo tcms_html::user_gerneral(_TABLE_GENERAL);
+				echo $tcms_html->userProfileTitle(_TABLE_GENERAL);
 				//echo '<br />';
 				
 				
@@ -509,21 +507,21 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 					$checkUsername = true;
 					
 					if($choosenDB == 'xml'){
-						$arr_filename = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_user/');
+						$arr_filename = $tcms_main->getPathContent($tcms_administer_site.'/tcms_user/');
 						foreach($arr_filename as $keyz => $value){
 							$login_xml = new xmlparser($tcms_administer_site.'/tcms_user/'.$value, 'r');
-							$ws_username = $login_xml->read_section('user', 'username');
+							$ws_username = $login_xml->readSection('user', 'username');
 							
 							if($ws_username == $fulluser){ $checkUsername = false; }
 							else{ $checkUsername = true; }
 						}
 					}
 					else{
-						$sqlAL = new sqlAbstractionLayer($choosenDB);
-						$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+						$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+						$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 						
-						$sqlQR = $sqlAL->sqlQuery("SELECT * FROM ".$tcms_db_prefix."user WHERE username='".$fulluser."'");
-						$user_exists = $sqlAL->sqlGetNumber($sqlQR);
+						$sqlQR = $sqlAL->query("SELECT * FROM ".$tcms_db_prefix."user WHERE username='".$fulluser."'");
+						$user_exists = $sqlAL->getNumber($sqlQR);
 						
 						if($user_exists == 0){ $checkUsername = true; }
 						else{ $checkUsername = false; }
@@ -576,8 +574,8 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 							$fullname = $tcms_main->decode_text($fullname, '2', $c_charset);
 							$fulluser2 = $tcms_main->decode_text($fulluser, '2', $c_charset);
 							
-							$sqlAL = new sqlAbstractionLayer($choosenDB);
-							$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+							$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+							$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 							
 							
 							switch($choosenDB){
@@ -613,9 +611,9 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 						*/
 						$footer_xml  = new xmlparser($tcms_administer_site.'/tcms_global/footer.xml','r');
 						
-						$owner_email = $footer_xml->read_section('footer', 'email');
-						$owner       = $footer_xml->read_section('footer', 'websiteowner');
-						$owner_url   = $footer_xml->read_section('footer', 'owner_url');
+						$owner_email = $footer_xml->readSection('footer', 'email');
+						$owner       = $footer_xml->readSection('footer', 'websiteowner');
+						$owner_url   = $footer_xml->readSection('footer', 'owner_url');
 						
 						$owner_email = $tcms_main->decodeText($owner_email, '2', $c_charset);
 						$owner       = $tcms_main->decodeText($owner, '2', $c_charset);
@@ -633,7 +631,7 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 						if(strpos($owner_url, $seoPath)) $owner_url = str_replace($seoPath, '', $owner_url);
 						
 						$seoURL = '?id=register&cmd=validate&code=';
-						$seoURL = $tcms_main->urlAmpReplace($seoURL);
+						$seoURL = $tcms_main->urlConvertToSEO($seoURL);
 						
 						if($seoEnabled == 0)
 							$seoURL = str_replace('&amp;', '&', $seoURL);
@@ -662,9 +660,9 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 						*/
 						$footer_xml  = new xmlparser($tcms_administer_site.'/tcms_global/footer.xml','r');
 						
-						$owner_email = $footer_xml->read_section('footer', 'email');
-						$owner       = $footer_xml->read_section('footer', 'websiteowner');
-						$owner_url   = $footer_xml->read_section('footer', 'owner_url');
+						$owner_email = $footer_xml->readSection('footer', 'email');
+						$owner       = $footer_xml->readSection('footer', 'websiteowner');
+						$owner_url   = $footer_xml->readSection('footer', 'owner_url');
 						
 						$owner_email = $tcms_main->decodeText($owner_email, '2', $c_charset);
 						$owner       = $tcms_main->decodeText($owner, '2', $c_charset);
@@ -703,11 +701,11 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 								$checkUserExists = false;
 						}
 						else{
-							$sqlAL = new sqlAbstractionLayer($choosenDB);
-							$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+							$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+							$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 							
-							$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'user', $validate_md5);
-							$user_exists = $sqlAL->sqlGetNumber($sqlQR);
+							$sqlQR = $sqlAL->getOne($tcms_db_prefix.'user', $validate_md5);
+							$user_exists = $sqlAL->getNumber($sqlQR);
 							
 							if($user_exists != 0){ $checkUserExists = true; }
 							else{ $checkUserExists = false; }
@@ -717,7 +715,7 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 							$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
 							.'id=frontpage&s='.$s
 							.( isset($lang) ? '&amp;lang='.$lang : '' );
-							$link = $tcms_main->urlAmpReplace($link);
+							$link = $tcms_main->urlConvertToSEO($link);
 							
 							echo '<script>'
 							.'alert(\''._REG_SUCCESS.'.\');'
@@ -728,7 +726,7 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 							$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
 							.'id=frontpage&s='.$s
 							.( isset($lang) ? '&amp;lang='.$lang : '' );
-							$link = $tcms_main->urlAmpReplace($link);
+							$link = $tcms_main->urlConvertToSEO($link);
 							
 							echo '<script>'
 							.'alert(\''._REG_NO_SUCCESS.'.\');'
@@ -759,7 +757,7 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 						
 						// username
 						$profile_xml = new xmlparser('cache/'.$code.'.xml','r');
-						$username    = $profile_xml->read_section('user', 'username');
+						$username    = $profile_xml->readSection('user', 'username');
 						$username    = $tcms_main->decodeText($username, '2', $c_charset);
 						
 						// COPY AND DELETE TMP
@@ -786,8 +784,8 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 					}
 				}
 				else{
-					$sqlAL = new sqlAbstractionLayer($choosenDB);
-					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					
 					$sqlSTR = "SELECT *"
 					." FROM ".$tcms_db_prefix."user"
@@ -795,18 +793,18 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 					." AND enabled = 0"
 					." AND signature = '_NEW_USER_'";
 					
-					$sqlQR = $sqlAL->sqlQuery($sqlSTR);
-					$user_exists = $sqlAL->sqlGetNumber($sqlQR);
+					$sqlQR = $sqlAL->query($sqlSTR);
+					$user_exists = $sqlAL->getNumber($sqlQR);
 					
 					if($user_exists != 0){
-						$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+						$sqlARR = $sqlAL->fetchArray($sqlQR);
 						$nname = $sqlARR['name'];
 						$nname = $tcms_main->decodeText($nname, '2', $c_charset);
 						
 						$newSQLData = $tcms_db_prefix."user.enabled=1, "
 						.$tcms_db_prefix."user.signature=''";
 						
-						$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'user', $newSQLData, $code);
+						$sqlQR = $sqlAL->updateOne($tcms_db_prefix.'user', $newSQLData, $code);
 						
 						$newSQLColumns = 'name, note';
 						$newSQLData = "'".$nname."', '[YOUR NEW NOTEBOOK]'";

@@ -9,7 +9,7 @@
 | 
 | Index Admin (Login interface)
 |
-| File:		index.php
+| File:	index.php
 |
 +
 */
@@ -33,7 +33,7 @@ if(isset($_GET['id_user'])){ $id_user = $_GET['id_user']; }
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 0.6.1
+ * @version 0.6.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -61,7 +61,7 @@ include_once('../tcms_kernel/phpmailer/class.phpmailer.php');
 
 
 $c_xml      = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/layout.xml','r');
-$adminTheme = $c_xml->read_section('layout', 'admin');
+$adminTheme = $c_xml->readSection('layout', 'admin');
 
 
 $tcms_config = new tcms_configuration('../../'.$tcms_administer_site);
@@ -73,20 +73,20 @@ $tcms_auth   = new tcms_authentication('../../'.$tcms_administer_site, $c_charse
 
 $tcms_main = new tcms_main('../../'.$tcms_administer_site);
 
-$choosenDB = $tcms_main->secure_password($tcms_db_engine, 'en');
-$sqlUser   = $tcms_main->secure_password($tcms_db_user, 'en');
-$sqlPass   = $tcms_main->secure_password($tcms_db_password, 'en');
-$sqlHost   = $tcms_main->secure_password($tcms_db_host, 'en');
-$sqlDB     = $tcms_main->secure_password($tcms_db_database, 'en');
-$sqlPort   = $tcms_main->secure_password($tcms_db_port, 'en');
-$sqlPrefix = $tcms_main->secure_password($tcms_db_prefix, 'en');
+$choosenDB = $tcms_db_engine;
+$sqlUser   = $tcms_db_user;
+$sqlPass   = $tcms_db_password;
+$sqlHost   = $tcms_db_host;
+$sqlDB     = $tcms_db_database;
+$sqlPort   = $tcms_db_port;
+$sqlPrefix = $tcms_db_prefix;
 $tcms_db_prefix = $sqlPrefix;
 
 $tcms_main->setDatabaseInfo($choosenDB);
 
 
 $footer_xml   = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/footer.xml','r');
-$websiteowner = $footer_xml->read_section('footer', 'websiteowner');
+$websiteowner = $footer_xml->readSection('footer', 'websiteowner');
 $websiteowner = $tcms_main->decodeText($websiteowner, '2', $c_charset);
 
 
@@ -110,14 +110,14 @@ if(!isset($cmd)) $cmd = '';
 	Version
 */
 $ver_xml = new xmlparser('../../engine/tcms_kernel/tcms_version.xml','r');
-$release      = $ver_xml->read_section('version', 'release');
-$codename     = $ver_xml->read_section('version', 'codename');
-$status       = $ver_xml->read_section('version', 'status');
-$build        = $ver_xml->read_section('version', 'build');
-$cms_name     = $ver_xml->read_section('version', 'name');
-$cms_tagline  = $ver_xml->read_section('version', 'tagline');
-$release_date = $ver_xml->read_section('version', 'release_date');
-$toenda_copy  = $ver_xml->read_section('version', 'toenda_copyright');
+$release      = $ver_xml->readSection('version', 'release');
+$codename     = $ver_xml->readSection('version', 'codename');
+$status       = $ver_xml->readSection('version', 'status');
+$build        = $ver_xml->readSection('version', 'build');
+$cms_name     = $ver_xml->readSection('version', 'name');
+$cms_tagline  = $ver_xml->readSection('version', 'tagline');
+$release_date = $ver_xml->readSection('version', 'release_date');
+$toenda_copy  = $ver_xml->readSection('version', 'toenda_copyright');
 $ver_xml->flush();
 $ver_xml->_xmlparser();
 

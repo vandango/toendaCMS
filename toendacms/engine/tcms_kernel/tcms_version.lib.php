@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide the cms
  * version information.
  *
- * @version 0.0.5
+ * @version 0.0.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -70,14 +70,14 @@ class tcms_version {
 	function __construct($relativePath = ''){
 		$this->o_xml = new xmlparser($relativePath.'engine/tcms_kernel/tcms_version.xml', 'r');
 		
-		$this->m_name         = $this->o_xml->read_section('version', 'name');
-		$this->m_tagline      = $this->o_xml->read_section('version', 'tagline');
-		$this->m_codename     = $this->o_xml->read_section('version', 'codename');
-		$this->m_version      = $this->o_xml->read_section('version', 'release');
-		$this->m_build        = $this->o_xml->read_section('version', 'build');
-		$this->m_status       = $this->o_xml->read_section('version', 'status');
-		$this->m_release_date = $this->o_xml->read_section('version', 'release_date');
-		$this->m_toenda_copy  = $this->o_xml->read_section('version', 'toenda_copyright');
+		$this->m_name         = $this->o_xml->readSection('version', 'name');
+		$this->m_tagline      = $this->o_xml->readSection('version', 'tagline');
+		$this->m_codename     = $this->o_xml->readSection('version', 'codename');
+		$this->m_version      = $this->o_xml->readSection('version', 'release');
+		$this->m_build        = $this->o_xml->readSection('version', 'build');
+		$this->m_status       = $this->o_xml->readSection('version', 'status');
+		$this->m_release_date = $this->o_xml->readSection('version', 'release_date');
+		$this->m_toenda_copy  = $this->o_xml->readSection('version', 'toenda_copyright');
 		
 		$this->o_xml->flush();
 		$this->o_xml->_xmlparser();

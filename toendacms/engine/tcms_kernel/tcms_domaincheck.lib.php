@@ -9,8 +9,7 @@
 | 
 | toendaCMS Domain check class
 |
-| File:		tcms_domaincheck.lib.php
-| Version:	0.0.1
+| File:	tcms_domaincheck.lib.php
 |
 +
 */
@@ -25,6 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to have a internal domain
  * checker class.
  *
+ * @version 0.0.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel

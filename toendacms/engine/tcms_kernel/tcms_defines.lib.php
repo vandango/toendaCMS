@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for global values
  *
- * @version 0.5.4
+ * @version 0.5.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -291,18 +291,21 @@ switch($id){
 	default:
 		if($choosenDB == 'xml'){
 			$xml = new xmlparser($tcms_administer_site.'/tcms_content/'.$id.'.xml','r');
-			$id_meta_ad = $xml->read_section('main', 'title');
+			$id_meta_ad = $xml->readSection('main', 'title');
 			$id_meta_ad = $tcms_main->decodeText($id_meta_ad, '2', $c_charset);
 			$xml->flush();
 			$xml->_xmlparser();
 			unset($xml);
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-			$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'content', $id);
-			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlQR = $sqlAL->getOne($tcms_db_prefix.'content', $id);
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
 			$id_meta_ad = $sqlObj->title;
+			$sqlAL->freeResult($sqlQR);
+			$sqlAL->_sqlAbstractionLayer();
+			unset($sqlAL);
 			$id_meta_ad = $tcms_main->decodeText($id_meta_ad, '2', $c_charset);
 		}
 		break;
@@ -327,14 +330,17 @@ if(!defined('_SITE_METATAG_DESCRIPTION')) define('_SITE_METATAG_DESCRIPTION', $d
 if(!in_array($id, $arrTCMSModules)){
 	if($choosenDB == 'xml'){
 		$content_xml = new xmlparser($tcms_administer_site.'/tcms_content/'.$id.'.xml','r');
-		$doc_Autor = $content_xml->read_section('main', 'autor');
+		$doc_Autor = $content_xml->readSection('main', 'autor');
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-		$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'content', $id);
-		$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlQR = $sqlAL->getOne($tcms_db_prefix.'content', $id);
+		$sqlObj = $sqlAL->fetchObject($sqlQR);
 		$doc_Autor = $sqlObj->autor;
+		$sqlAL->freeResult($sqlQR);
+		$sqlAL->_sqlAbstractionLayer();
+		unset($sqlAL);
 	}
 	$websiteownerMETA = $doc_Autor.': '.$websiteowner;
 }
@@ -348,7 +354,7 @@ if(!defined('_SITE_METATAG_AUTOR')) define('_SITE_METATAG_AUTOR', $websiteownerM
 if($sitelogo != ''){
 	$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'s='.$s
 	.( isset($lang) ? '&amp;lang='.$lang : '' );
-	$link = $tcms_main->urlAmpReplace($link);
+	$link = $tcms_main->urlConvertToSEO($link);
 	$sitelogo = '<a href="'.$link.'">'.$sitelogo.'</a>';
 }
 if(!defined('_SITE_LOGO')) define('_SITE_LOGO', $sitelogo);
@@ -357,7 +363,7 @@ if(!defined('_SITE_LOGO')) define('_SITE_LOGO', $sitelogo);
 /* METADATA */
 $xml = new xmlparser($tcms_administer_site.'/tcms_global/footer.xml','r');
 $owner_url = $xml->read_section('footer', 'owner_url');
-$owner_copyright = $xml->read_section('footer', 'copyright');
+$owner_copyright = $xml->readSection('footer', 'copyright');
 $owner_url = $tcms_main->decodeText($owner_url, '2', $c_charset);
 $xml->flush();
 $xml->_xmlparser();

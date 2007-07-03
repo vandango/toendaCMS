@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 0.7.4
+ * @version 0.8.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -36,6 +36,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * __construct($charset, $tcms_administer_path = 'data')         -> PHP5 Constructor
  * tcms_datacontainer_provider($charset, $tcms_administer_path)  -> PHP4 Constructor
+ * 
+ * setTcmsTimeObj                                                -> Set the tcms_time object
  *
  * getNewsDC($newsID)                                            -> Get a specific news data container
  * getNewsDCList($usergroup = '', $amount, $published = '1')     -> Get a list of news data container
@@ -64,6 +66,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	// global informaton
 	var $m_CHARSET;
 	var $m_path;
+	var $_tcmsTime;
 	
 	// database information
 	var $m_choosenDB;
@@ -81,11 +84,13 @@ class tcms_datacontainer_provider extends tcms_main {
 	 *
 	 * @param String $tcms_administer_path = 'data'
 	 * @param String $charset
+	 * @param Object $tcmsTimeObj = null
 	 */
-	function __construct($tcms_administer_path = 'data', $charset){
+	function __construct($tcms_administer_path = 'data', $charset, $tcmsTimeObj = null){
 		$this->m_CHARSET = $charset;
 		$this->m_path = $tcms_administer_path;
 		$this->administer = $tcms_administer_path;
+		$this->_tcmsTime = $tcmsTimeObj;
 		
 		if(file_exists($this->m_path.'/tcms_global/database.php')){
 			require($this->m_path.'/tcms_global/database.php');
@@ -110,9 +115,10 @@ class tcms_datacontainer_provider extends tcms_main {
 	 *
 	 * @param String $tcms_administer_path = 'data'
 	 * @param String $charset
+	 * @param Object $tcmsTimeObj = null
 	 */
-	function tcms_datacontainer_provider($tcms_administer_path = 'data', $charset){
-		$this->__construct($tcms_administer_path, $charset);
+	function tcms_datacontainer_provider($tcms_administer_path = 'data', $charset, $tcmsTimeObj = null){
+		$this->__construct($tcms_administer_path, $charset, $tcmsTimeObj);
 	}
 	
 	
@@ -137,6 +143,17 @@ class tcms_datacontainer_provider extends tcms_main {
 	
 	
 	/**
+	 * Set the tcms_time object
+	 *
+	 * @param Object $value
+	 */
+	function setTcmsTimeObj($value) {
+		$this->_tcmsTime = $value;
+	}
+	
+	
+	
+	/**
 	 * Get a news data container
 	 *
 	 * @param String $language
@@ -149,24 +166,24 @@ class tcms_datacontainer_provider extends tcms_main {
 		
 		if($this->m_choosenDB == 'xml'){
 			$xml = new xmlparser($this->m_path.'/tcms_news/'.$newsID.'.xml', 'r');
-			$wsAcs = $xml->read_section('news', 'access');
+			$wsAcs = $xml->readSection('news', 'access');
 			
 			$show_this_news = $this->checkAccess($wsAcs, $usergroup);
 			
 			if($show_this_news == true){
-				$wsTitle = $xml->read_section('news', 'title');
-				$wsAutor = $xml->read_section('news', 'autor');
-				$wsNews  = $xml->read_section('news', 'newstext');
-				$wsPub   = $xml->read_section('news', 'published');
-				$wsDate  = $xml->read_section('news', 'date');
-				$wsTime  = $xml->read_section('news', 'time');
-				$wsOrder = $xml->read_section('news', 'order');
-				$wsStamp = $xml->read_section('news', 'stamp');
-				$wsCat   = $xml->read_section('news', 'category');
-				$wsCmt   = $xml->read_section('news', 'comments_enabled');
-				$wsPubD  = $xml->read_section('news', 'publish_date');
-				$wsImage = $xml->read_section('news', 'image');
-				$wsSOF   = $xml->read_section('news', 'show_on_frontpage');
+				$wsTitle = $xml->readSection('news', 'title');
+				$wsAutor = $xml->readSection('news', 'autor');
+				$wsNews  = $xml->readSection('news', 'newstext');
+				$wsPub   = $xml->readSection('news', 'published');
+				$wsDate  = $xml->readSection('news', 'date');
+				$wsTime  = $xml->readSection('news', 'time');
+				$wsOrder = $xml->readSection('news', 'order');
+				$wsStamp = $xml->readSection('news', 'stamp');
+				$wsCat   = $xml->readSection('news', 'category');
+				$wsCmt   = $xml->readSection('news', 'comments_enabled');
+				$wsPubD  = $xml->readSection('news', 'publish_date');
+				$wsImage = $xml->readSection('news', 'image');
+				$wsSOF   = $xml->readSection('news', 'show_on_frontpage');
 				
 				$xml->flush();
 				$xml->_xmlparser();
@@ -189,8 +206,14 @@ class tcms_datacontainer_provider extends tcms_main {
 			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->m_sqlUser, $this->m_sqlPass, $this->m_sqlHost, $this->m_sqlDB, $this->m_sqlPort);
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
 			
 			switch($usergroup){
 				case 'Developer':
@@ -216,8 +239,8 @@ class tcms_datacontainer_provider extends tcms_main {
 			."AND ( access = 'Public' "
 			.$strAdd;
 			
-			$sqlQR = $sqlAL->sqlQuery($sqlStr);
-			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+			$sqlQR = $sqlAL->query($sqlStr);
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
 			
 			$wsTitle = $sqlObj->title;
 			$wsAutor = $sqlObj->autor;
@@ -234,7 +257,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsCat   = $sqlObj->category;
 			$wsSOF   = $sqlObj->show_on_frontpage;
 			
-			$sqlAL->sqlFreeResult($sqlQR);
+			$sqlAL->freeResult($sqlQR);
 			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 			
@@ -296,14 +319,14 @@ class tcms_datacontainer_provider extends tcms_main {
 			
 			$count = 0;
 			
-			if(!empty($arr_filename) && $arr_filename != '' && isset($arr_filename)){
+			if($this->isArray($arr_filename)) {
 				foreach($arr_filename as $nkey => $nvalue){
 					$xml = new xmlparser($this->m_path.'/tcms_news/'.$nvalue,'r');
 					
-					$is_pub  = $xml->read_section('news', 'published');
-					$is_date = $xml->read_section('news', 'publish_date');
-					$is_auth = $xml->read_section('news', 'access');
-					$is_lang = $xml->read_section('news', 'language');
+					$is_pub  = $xml->readSection('news', 'published');
+					$is_date = $xml->readSection('news', 'publish_date');
+					$is_auth = $xml->readSection('news', 'access');
+					$is_lang = $xml->readSection('news', 'language');
 					
 					if($is_lang == $language) {
 						$show_this_news = $this->checkAccess($is_auth, $usergroup);
@@ -329,18 +352,18 @@ class tcms_datacontainer_provider extends tcms_main {
 								
 								if($doFill) {
 									$n_maintag = substr($arr_filename[$nkey], 0, 10);
-									$arr_news['title'][$count] = $xml->read_section('news', 'title');
-									$arr_news['autor'][$count] = $xml->read_section('news', 'autor');
-									$arr_news['news'][$count]  = $xml->read_section('news', 'newstext');
+									$arr_news['title'][$count] = $xml->readSection('news', 'title');
+									$arr_news['autor'][$count] = $xml->readSection('news', 'autor');
+									$arr_news['news'][$count]  = $xml->readSection('news', 'newstext');
 									$arr_news['pub'][$count]   = $is_pub;
-									$arr_news['date'][$count]  = $xml->read_section('news', 'date');
-									$arr_news['time'][$count]  = $xml->read_section('news', 'time');
-									$arr_news['order'][$count] = $xml->read_section('news', 'order');
-									$arr_news['stamp'][$count] = $xml->read_section('news', 'stamp');
-									$arr_news['cat'][$count]   = $xml->read_section('news', 'category');
-									$arr_news['cmt'][$count]   = $xml->read_section('news', 'comments_enabled');
-									$arr_news['pubd'][$count]  = $xml->read_section('news', 'publish_date');
-									$arr_news['image'][$count] = $xml->read_section('news', 'image');
+									$arr_news['date'][$count]  = $xml->readSection('news', 'date');
+									$arr_news['time'][$count]  = $xml->readSection('news', 'time');
+									$arr_news['order'][$count] = $xml->readSection('news', 'order');
+									$arr_news['stamp'][$count] = $xml->readSection('news', 'stamp');
+									$arr_news['cat'][$count]   = $xml->readSection('news', 'category');
+									$arr_news['cmt'][$count]   = $xml->readSection('news', 'comments_enabled');
+									$arr_news['pubd'][$count]  = $xml->readSection('news', 'publish_date');
+									$arr_news['image'][$count] = $xml->readSection('news', 'image');
 									$arr_news['acs'][$count]   = $is_auth;
 									$arr_news['sof'][$count]   = $is_sof;
 									
@@ -448,8 +471,14 @@ class tcms_datacontainer_provider extends tcms_main {
 			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->m_sqlUser, $this->m_sqlPass, $this->m_sqlHost, $this->m_sqlDB, $this->m_sqlPort);
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
 			
 			switch($this->m_choosenDB){
 				case 'mysql': $dbLimit = ( $amount == 0 ? "" : "LIMIT 0, ".$amount ); break;
@@ -489,11 +518,11 @@ class tcms_datacontainer_provider extends tcms_main {
 			.$strAddSOF
 			."ORDER BY stamp DESC, date DESC, time DESC ".$dbLimit;
 			
-			$sqlQR = $sqlAL->sqlQuery($sqlStr);
+			$sqlQR = $sqlAL->query($sqlStr);
 			
 			$count = 0;
 			
-			while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)){
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)){
 				$wsPubD = $sqlARR['publish_date'];
 				
 				$wsPubD = mktime(substr($wsPubD, 11, 2), substr($wsPubD, 14, 2), 0, substr($wsPubD, 3, 2), substr($wsPubD, 0, 2), substr($wsPubD, 6, 4));
@@ -571,7 +600,7 @@ class tcms_datacontainer_provider extends tcms_main {
 				}
 			}
 			
-			$sqlAL->sqlFreeResult($sqlQR);
+			$sqlAL->freeResult($sqlQR);
 			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 		}
@@ -608,18 +637,18 @@ class tcms_datacontainer_provider extends tcms_main {
 		}
 		
 		$xml = new xmlparser($this->m_path.'/tcms_global/namen.xml','r');
-		$wstitle = $xml->read_section('namen', 'title');
-		$wsname  = $xml->read_section('namen', 'name');
-		$wskey   = $xml->read_section('namen', 'key');
-		$logo    = $xml->read_section('namen', 'logo');
+		$wstitle = $xml->readSection('namen', 'title');
+		$wsname  = $xml->readSection('namen', 'name');
+		$wskey   = $xml->readSection('namen', 'key');
+		$logo    = $xml->readSection('namen', 'logo');
 		$xml->flush();
 		$xml->_xmlparser();
 		unset($xml);
 		
 		$xml = new xmlparser($this->m_path.'/tcms_global/footer.xml','r');
-		$wsowner     = $xml->read_section('footer', 'websiteowner');
-		$wscopyright = $xml->read_section('footer', 'copyright');
-		$wsowner_url = $xml->read_section('footer', 'owner_url');
+		$wsowner     = $xml->readSection('footer', 'websiteowner');
+		$wscopyright = $xml->readSection('footer', 'copyright');
+		$wsowner_url = $xml->readSection('footer', 'owner_url');
 		$xml->flush();
 		$xml->_xmlparser();
 		unset($xml);
@@ -659,7 +688,7 @@ class tcms_datacontainer_provider extends tcms_main {
 		
 		$arrNewsDC = $this->getNewsDCList($language, 'Guest', $amount, '1', true);
 		
-		if($this->isReal($arrNewsDC)) {
+		if($this->isArray($arrNewsDC)) {
 			foreach($arrNewsDC as $n_key => $n_value){
 				$dcNews = new tcms_dc_news();
 				$dcNews = $arrNewsDC[$n_key];
@@ -719,23 +748,23 @@ class tcms_datacontainer_provider extends tcms_main {
 	function getCommentDCList($newsID, $module = 'news', $load = true){
 		if($this->m_choosenDB == 'xml'){
 			if($module == 'news') {
-				$arr_comments = $this->readdir_ext($this->m_path.'/tcms_news/comments_'.$newsID.'/');
+				$arr_comments = $this->getPathContent($this->m_path.'/tcms_news/comments_'.$newsID.'/');
 			}
 			
 			$count = 0;
 			
 			if($load){
-				if(!empty($arr_comments) && $arr_comments != '' && isset($arr_comments)){
+				if($this->isArray($arr_comments)){
 					foreach($arr_comments as $nkey => $nvalue){
 						$xml = new xmlparser($this->m_path.'/tcms_news/comments_'.$newsID.'/'.$nvalue, 'r');
 						
-						$arr_news['name'][$count]   = $xml->read_section('comment', 'name');
-						$arr_news['email'][$count]  = $xml->read_section('comment', 'email');
-						$arr_news['url'][$count]    = $xml->read_section('comment', 'web');
-						$arr_news['text'][$count]   = $xml->read_section('comment', 'msg');
-						$arr_news['time'][$count]   = $xml->read_section('comment', 'time');
-						$arr_news['ip'][$count]     = $xml->read_section('comment', 'ip');
-						$arr_news['domain'][$count] = $xml->read_section('comment', 'domain');
+						$arr_news['name'][$count]   = $xml->readSection('comment', 'name');
+						$arr_news['email'][$count]  = $xml->readSection('comment', 'email');
+						$arr_news['url'][$count]    = $xml->readSection('comment', 'web');
+						$arr_news['text'][$count]   = $xml->readSection('comment', 'msg');
+						$arr_news['time'][$count]   = $xml->readSection('comment', 'time');
+						$arr_news['ip'][$count]     = $xml->readSection('comment', 'ip');
+						$arr_news['domain'][$count] = $xml->readSection('comment', 'domain');
 						$arr_news['id'][$count]     = $newsID;
 						
 						$xml->flush();
@@ -802,8 +831,14 @@ class tcms_datacontainer_provider extends tcms_main {
 			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->m_sqlUser, $this->m_sqlPass, $this->m_sqlHost, $this->m_sqlDB, $this->m_sqlPort);
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
 			
 			$sqlStr = "SELECT * "
 			."FROM ".$this->m_sqlPrefix."comments "
@@ -811,24 +846,24 @@ class tcms_datacontainer_provider extends tcms_main {
 			."AND module = '".$module."' "
 			."ORDER BY timestamp ASC";
 			
-			$sqlQR = $sqlAL->sqlQuery($sqlStr);
+			$sqlQR = $sqlAL->query($sqlStr);
 			
 			if($load){
 				$count = 0;
 				
-				while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+				while($sqlObj = $sqlAL->fetchObject($sqlQR)){
 					$commentDC = new tcms_dc_comment();
 					
-					$wsWeb    = $sqlARR['web'];
-					$wsName   = $sqlARR['name'];
-					$wsTime   = $sqlARR['time'];
-					$wsMsg    = $sqlARR['msg'];
-					$wsStamp  = $sqlARR['timestamp'];
-					$wsEMail  = $sqlARR['email'];
-					$wsID     = $sqlARR['uid'];
-					$wsIP     = $sqlARR['ip'];
-					$wsDomain = $sqlARR['domain'];
-					$wsModule = $sqlARR['module'];
+					$wsWeb    = $sqlObj->web;
+					$wsName   = $sqlObj->name;
+					$wsTime   = $sqlObj->time;
+					$wsMsg    = $sqlObj->msg;
+					$wsStamp  = $sqlObj->timestamp;
+					$wsEMail  = $sqlObj->email;
+					$wsID     = $sqlObj->uid;
+					$wsIP     = $sqlObj->ip;
+					$wsDomain = $sqlObj->domain;
+					$wsModule = $sqlObj->module;
 					
 					if($wsStamp  == NULL) $wsStamp  = '';
 					if($wsEMail  == NULL) $wsEMail  = '';
@@ -860,10 +895,10 @@ class tcms_datacontainer_provider extends tcms_main {
 				}
 			}
 			else{
-				$arrReturn = $sqlAL->sqlGetNumber($sqlQR);
+				$arrReturn = $sqlAL->getNumber($sqlQR);
 			}
 			
-			$sqlAL->sqlFreeResult($sqlQR);
+			$sqlAL->freeResult($sqlQR);
 			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 		}
@@ -910,20 +945,20 @@ class tcms_datacontainer_provider extends tcms_main {
 				);
 			}
 			
-			$wsTitle      = $xml->read_section('main', 'title');
-			$wsKeynote    = $xml->read_section('main', 'key');
-			$wsText       = $xml->read_section('main', 'content00');
-			$wsSecondText = $xml->read_section('main', 'content01');
-			$wsFootText   = $xml->read_section('main', 'foot');
-			$wsID         = $xml->read_section('main', 'order');
-			$wsLayout     = $xml->read_section('main', 'db_layout');
-			$wsAutor      = $xml->read_section('main', 'autor');
-			$wsInWork     = $xml->read_section('main', 'in_work');
-			$wsAcs        = $xml->read_section('main', 'access');
-			$wsPub        = $xml->read_section('main', 'published');
+			$wsTitle      = $xml->readSection('main', 'title');
+			$wsKeynote    = $xml->readSection('main', 'key');
+			$wsText       = $xml->readSection('main', 'content00');
+			$wsSecondText = $xml->readSection('main', 'content01');
+			$wsFootText   = $xml->readSection('main', 'foot');
+			$wsID         = $xml->readSection('main', 'order');
+			$wsLayout     = $xml->readSection('main', 'db_layout');
+			$wsAutor      = $xml->readSection('main', 'autor');
+			$wsInWork     = $xml->readSection('main', 'in_work');
+			$wsAcs        = $xml->readSection('main', 'access');
+			$wsPub        = $xml->readSection('main', 'published');
 			
 			if($withLanguages && $no > 0) {
-				$wsLang = $xml->read_section('main', 'language');
+				$wsLang = $xml->readSection('main', 'language');
 				
 				if(!$wsLang == false) $wsLang = 'english_EN';
 			}
@@ -945,8 +980,14 @@ class tcms_datacontainer_provider extends tcms_main {
 			if($wsAcs        == false) $wsAcs        = '';
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->m_sqlUser, $this->m_sqlPass, $this->m_sqlHost, $this->m_sqlDB, $this->m_sqlPort);
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
 			
 			if($withLanguages) {
 				$sql = "SELECT * "
@@ -954,18 +995,18 @@ class tcms_datacontainer_provider extends tcms_main {
 				."WHERE content_uid = '".$contentID."' "
 				."AND language = '".$language."'";
 				
-				$sqlQR = $sqlAL->sqlQuery($sql);
-				$no = $sqlAL->sqlGetNumber($sqlQR);
+				$sqlQR = $sqlAL->query($sql);
+				$no = $sqlAL->getNumber($sqlQR);
 				
 				if($no == 0) {
-					$sqlQR = $sqlAL->sqlGetOne($this->m_sqlPrefix.'content', $contentID);
+					$sqlQR = $sqlAL->getOne($this->m_sqlPrefix.'content', $contentID);
 				}
 			}
 			else {
-				$sqlQR = $sqlAL->sqlGetOne($this->m_sqlPrefix.'content', $contentID);
+				$sqlQR = $sqlAL->getOne($this->m_sqlPrefix.'content', $contentID);
 			}
 			
-			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
 			
 			$wsID         = $sqlObj->uid;
 			$wsTitle      = $sqlObj->title;
@@ -985,7 +1026,7 @@ class tcms_datacontainer_provider extends tcms_main {
 				if($wsLang == NULL) $wsLang = 'english_EN';
 			}
 			
-			$sqlAL->sqlFreeResult($sqlQR);
+			$sqlAL->freeResult($sqlQR);
 			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 			
@@ -1047,22 +1088,28 @@ class tcms_datacontainer_provider extends tcms_main {
 			//
 		}
 		else {
-			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->m_sqlUser, $this->m_sqlPass, $this->m_sqlHost, $this->m_sqlDB, $this->m_sqlPort);
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
 			
 			$sql = "SELECT * "
 			."FROM blog_content_languages "
 			."WHERE content_uid = '".$id."'";
 			
-			$sqlQR = $sqlAL->sqlQuery($sql);
+			$sqlQR = $sqlAL->query($sql);
 			
-			while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)) {
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
 				$arrReturn[$count] = $sqlObj->language;
 				
 				$count++;
 			}
 			
-			$sqlAL->sqlFreeResult($sqlQR);
+			$sqlAL->freeResult($sqlQR);
 			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 		}
@@ -1087,14 +1134,14 @@ class tcms_datacontainer_provider extends tcms_main {
 			
 			$wsCUid = '';
 			
-			if($this->isReal($arr_docs)) {
+			if($this->isArray($arr_docs)) {
 				foreach($arr_docs as $key => $val) {
 					$xml = new xmlparser(
 						$this->m_path.'/tcms_content_languages/'.$val, 'r'
 					);
 					
-					$wsLang = $xml->read_value('language');
-					$wsUid  = $xml->read_value('content_uid');
+					$wsLang = $xml->readValue('language');
+					$wsUid  = $xml->readValue('content_uid');
 					
 					if($id == $wsUid && $language == $wsLang) {
 						$wsCUid = substr($val, 0, 5);
@@ -1132,7 +1179,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			}
 			else {
 				$xml = new xmlparser($this->m_path.'/tcms_global/var.xml','r');
-				$language = $xml->read_value('front_lang');
+				$language = $xml->readValue('front_lang');
 				$xml->flush();
 				$xml->_xmlparser();
 				unset($xml);
@@ -1143,13 +1190,13 @@ class tcms_datacontainer_provider extends tcms_main {
 				);
 			}
 			
-			$wsID      = $xml->read_section('imp', 'imp_id');
-			$wsTitle   = $xml->read_section('imp', 'imp_title');
-			$wsKeynote = $xml->read_section('imp', 'imp_stamp');
-			$wsContact = $xml->read_section('imp', 'imp_contact');
-			$wsTaxno   = $xml->read_section('imp', 'taxno');
-			$wsUstID   = $xml->read_section('imp', 'ustid');
-			$wsText    = $xml->read_section('imp', 'legal');
+			$wsID      = $xml->readSection('imp', 'imp_id');
+			$wsTitle   = $xml->readSection('imp', 'imp_title');
+			$wsKeynote = $xml->readSection('imp', 'imp_stamp');
+			$wsContact = $xml->readSection('imp', 'imp_contact');
+			$wsTaxno   = $xml->readSection('imp', 'taxno');
+			$wsUstID   = $xml->readSection('imp', 'ustid');
+			$wsText    = $xml->readSection('imp', 'legal');
 			
 			$xml->flush();
 			$xml->_xmlparser();
@@ -1164,15 +1211,21 @@ class tcms_datacontainer_provider extends tcms_main {
 			if($wsID      == false) $wsID      = '';
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->m_sqlUser, $this->m_sqlPass, $this->m_sqlHost, $this->m_sqlDB, $this->m_sqlPort);
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
 			
 			$strQuery = "SELECT imp_title, imp_stamp, imp_contact, taxno, ustid, legal "
 			."FROM ".$this->m_sqlPrefix."impressum "
 			."WHERE language = '".$language."'";
 			
-			$sqlQR = $sqlAL->sqlQuery($strQuery);
-			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+			$sqlQR = $sqlAL->query($strQuery);
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
 			
 			$wsID      = 'impressum';
 			$wsTitle   = $sqlObj->imp_title;
@@ -1182,7 +1235,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsTaxno   = $sqlObj->taxno;
 			$wsUstID   = $sqlObj->ustid;
 			
-			$sqlAL->sqlFreeResult($sqlQR);
+			$sqlAL->freeResult($sqlQR);
 			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 			
@@ -1232,7 +1285,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			}
 			else {
 				$xml = new xmlparser($this->m_path.'/tcms_global/var.xml','r');
-				$language = $xml->read_value('front_lang');
+				$language = $xml->readValue('front_lang');
 				$xml->flush();
 				$xml->_xmlparser();
 				unset($xml);
@@ -1243,19 +1296,19 @@ class tcms_datacontainer_provider extends tcms_main {
 				);
 			}
 			
-			$wsID            = $xml->read_section('front', 'front_id');
-			$wsLang          = $xml->read_section('front', 'language');
-			$wsTitle         = $xml->read_section('front', 'front_title');
-			$wsSubtitle      = $xml->read_section('front', 'front_stamp');
-			$wsText          = $xml->read_section('front', 'front_text');
-			$wsNewsTitle     = $xml->read_section('front', 'news_title');
-			$wsNewsCut       = $xml->read_section('front', 'news_cut');
-			$wsNewsAmount    = $xml->read_section('front', 'module_use_0');
-			$wsSBNewsTitle   = $xml->read_section('front', 'sb_news_title');
-			$wsSBNewsAmount  = $xml->read_section('front', 'sb_news_amount');
-			$wsSBNewsCut     = $xml->read_section('front', 'sb_news_chars');
-			$wsSBNewsEnabled = $xml->read_section('front', 'sb_news_enabled');
-			$wsSBNewsDisplay = $xml->read_section('front', 'sb_news_display');
+			$wsID            = $xml->readSection('front', 'front_id');
+			$wsLang          = $xml->readSection('front', 'language');
+			$wsTitle         = $xml->readSection('front', 'front_title');
+			$wsSubtitle      = $xml->readSection('front', 'front_stamp');
+			$wsText          = $xml->readSection('front', 'front_text');
+			$wsNewsTitle     = $xml->readSection('front', 'news_title');
+			$wsNewsCut       = $xml->readSection('front', 'news_cut');
+			$wsNewsAmount    = $xml->readSection('front', 'module_use_0');
+			$wsSBNewsTitle   = $xml->readSection('front', 'sb_news_title');
+			$wsSBNewsAmount  = $xml->readSection('front', 'sb_news_amount');
+			$wsSBNewsCut     = $xml->readSection('front', 'sb_news_chars');
+			$wsSBNewsEnabled = $xml->readSection('front', 'sb_news_enabled');
+			$wsSBNewsDisplay = $xml->readSection('front', 'sb_news_display');
 			
 			$xml->flush();
 			$xml->_xmlparser();
@@ -1264,8 +1317,14 @@ class tcms_datacontainer_provider extends tcms_main {
 			if($wsTitle   == false) $wsTitle   = '';
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->m_sqlUser, $this->m_sqlPass, $this->m_sqlHost, $this->m_sqlDB, $this->m_sqlPort);
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
 			
 			$strQuery = "SELECT language, front_title, front_stamp, front_text, news_title, news_cut, "
 			."module_use_0, sb_news_title, sb_news_amount, sb_news_chars, sb_news_enabled, "
@@ -1273,8 +1332,8 @@ class tcms_datacontainer_provider extends tcms_main {
 			."FROM ".$this->m_sqlPrefix."frontpage "
 			."WHERE language = '".$language."'";
 			
-			$sqlQR = $sqlAL->sqlQuery($strQuery);
-			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+			$sqlQR = $sqlAL->query($strQuery);
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
 			
 			$wsID            = 'frontpage';
 			$wsLang          = $sqlObj->language;
@@ -1290,7 +1349,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsSBNewsEnabled = $sqlObj->sb_news_enabled;
 			$wsSBNewsDisplay = $sqlObj->sb_news_display;
 			
-			$sqlAL->sqlFreeResult($sqlQR);
+			$sqlAL->freeResult($sqlQR);
 			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 			
@@ -1352,7 +1411,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			}
 			else {
 				$xml = new xmlparser($this->m_path.'/tcms_global/var.xml','r');
-				$language = $xml->read_value('front_lang');
+				$language = $xml->readValue('front_lang');
 				$xml->flush();
 				$xml->_xmlparser();
 				unset($xml);
@@ -1363,32 +1422,32 @@ class tcms_datacontainer_provider extends tcms_main {
 				);
 			}
 			
-			$wsID              = $xml->read_section('config', 'news_id');
-			$wsLang            = $xml->read_section('config', 'language');
-			$wsTitle           = $xml->read_section('config', 'news_title');
-			$wsSubtitle        = $xml->read_section('config', 'news_stamp');
-			$wsText            = $xml->read_section('config', 'news_text');
-			$wsImage           = $xml->read_section('config', 'news_image');
-			$wsUseComments     = $xml->read_section('config', 'use_comments');
-			$wsShowAutor       = $xml->read_section('config', 'show_autor');
-			$wsShowAutorAsLink = $xml->read_section('config', 'show_autor_as_link');
-			$wsNewsAmount      = $xml->read_section('config', 'news_amount');
-			$wsNewsChars       = $xml->read_section('config', 'news_cut');
-			$wsAccess          = $xml->read_section('config', 'access');
-			$wsUseGravatar     = $xml->read_section('config', 'use_gravatar');
-			$wsUseEmoticons    = $xml->read_section('config', 'use_emoticons');
-			$wsUseTrachback    = $xml->read_section('config', 'use_trackback');
-			$wsUseTimesince    = $xml->read_section('config', 'use_timesince');
-			$wsReadmoreLink    = $xml->read_section('config', 'readmore_link');
-			$wsNewsSpacing     = $xml->read_section('config', 'news_spacing');
-			$wsSynRSS091       = $xml->read_section('config', 'use_rss091');
-			$wsSynRSS10        = $xml->read_section('config', 'use_rss10');
-			$wsSynRSS20        = $xml->read_section('config', 'use_rss20');
-			$wsSynRSSAtom      = $xml->read_section('config', 'use_atom03');
-			$wsSynRSSOpml      = $xml->read_section('config', 'use_opml');
-			$wsSynAmount       = $xml->read_section('config', 'syn_amount');
-			$wsSynUseTitle     = $xml->read_section('config', 'use_syn_title');
-			$wsSynDefaultFeed  = $xml->read_section('config', 'def_feed');
+			$wsID              = $xml->readSection('config', 'news_id');
+			$wsLang            = $xml->readSection('config', 'language');
+			$wsTitle           = $xml->readSection('config', 'news_title');
+			$wsSubtitle        = $xml->readSection('config', 'news_stamp');
+			$wsText            = $xml->readSection('config', 'news_text');
+			$wsImage           = $xml->readSection('config', 'news_image');
+			$wsUseComments     = $xml->readSection('config', 'use_comments');
+			$wsShowAutor       = $xml->readSection('config', 'show_autor');
+			$wsShowAutorAsLink = $xml->readSection('config', 'show_autor_as_link');
+			$wsNewsAmount      = $xml->readSection('config', 'news_amount');
+			$wsNewsChars       = $xml->readSection('config', 'news_cut');
+			$wsAccess          = $xml->readSection('config', 'access');
+			$wsUseGravatar     = $xml->readSection('config', 'use_gravatar');
+			$wsUseEmoticons    = $xml->readSection('config', 'use_emoticons');
+			$wsUseTrachback    = $xml->readSection('config', 'use_trackback');
+			$wsUseTimesince    = $xml->readSection('config', 'use_timesince');
+			$wsReadmoreLink    = $xml->readSection('config', 'readmore_link');
+			$wsNewsSpacing     = $xml->readSection('config', 'news_spacing');
+			$wsSynRSS091       = $xml->readSection('config', 'use_rss091');
+			$wsSynRSS10        = $xml->readSection('config', 'use_rss10');
+			$wsSynRSS20        = $xml->readSection('config', 'use_rss20');
+			$wsSynRSSAtom      = $xml->readSection('config', 'use_atom03');
+			$wsSynRSSOpml      = $xml->readSection('config', 'use_opml');
+			$wsSynAmount       = $xml->readSection('config', 'syn_amount');
+			$wsSynUseTitle     = $xml->readSection('config', 'use_syn_title');
+			$wsSynDefaultFeed  = $xml->readSection('config', 'def_feed');
 			
 			$xml->flush();
 			$xml->_xmlparser();
@@ -1397,8 +1456,14 @@ class tcms_datacontainer_provider extends tcms_main {
 			if($wsTitle   == false) $wsTitle   = '';
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->m_sqlUser, $this->m_sqlPass, $this->m_sqlHost, $this->m_sqlDB, $this->m_sqlPort);
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
 			
 			$strQuery = "SELECT language, news_title, news_stamp, news_image, use_comments, show_autor, "
 			."show_autor_as_link, news_amount, news_cut, access, use_gravatar, use_emoticons, "
@@ -1407,8 +1472,8 @@ class tcms_datacontainer_provider extends tcms_main {
 			."FROM ".$this->m_sqlPrefix."newsmanager "
 			."WHERE language = '".$language."'";
 			
-			$sqlQR = $sqlAL->sqlQuery($strQuery);
-			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+			$sqlQR = $sqlAL->query($strQuery);
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
 			
 			$wsID              = 'newsmanager';
 			$wsLang            = $sqlObj->language;
@@ -1437,7 +1502,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsSynUseTitle     = $sqlObj->use_syn_title;
 			$wsSynDefaultFeed  = $sqlObj->def_feed;
 			
-			$sqlAL->sqlFreeResult($sqlQR);
+			$sqlAL->freeResult($sqlQR);
 			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 			
@@ -1501,7 +1566,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			}
 			else {
 				$xml = new xmlparser($this->m_path.'/tcms_global/var.xml','r');
-				$language = $xml->read_value('front_lang');
+				$language = $xml->readValue('front_lang');
 				$xml->flush();
 				$xml->_xmlparser();
 				unset($xml);
@@ -1513,16 +1578,16 @@ class tcms_datacontainer_provider extends tcms_main {
 			}
 			
 			$wsID      = 'contactform';
-			$wsTitle   = $xml->read_section('email', 'contacttitle');
-			$wsKeynote = $xml->read_section('email', 'contactstamp');
-			$wsText    = $xml->read_section('email', 'contacttext');
-			$wsContact = $xml->read_section('email', 'contact');
-			$wsSCIS    = $xml->read_section('email', 'show_contacts_in_sidebar');
-			$wsAccess  = $xml->read_section('email', 'access');
-			$wsEnabled = $xml->read_section('email', 'enabled');
-			$wsUA      = $xml->read_section('email', 'use_adressbook');
-			$wsUC      = $xml->read_section('email', 'use_contact');
-			$wsSC      = $xml->read_section('email', 'show_contactemail');
+			$wsTitle   = $xml->readSection('email', 'contacttitle');
+			$wsKeynote = $xml->readSection('email', 'contactstamp');
+			$wsText    = $xml->readSection('email', 'contacttext');
+			$wsContact = $xml->readSection('email', 'contact');
+			$wsSCIS    = $xml->readSection('email', 'show_contacts_in_sidebar');
+			$wsAccess  = $xml->readSection('email', 'access');
+			$wsEnabled = $xml->readSection('email', 'enabled');
+			$wsUA      = $xml->readSection('email', 'use_adressbook');
+			$wsUC      = $xml->readSection('email', 'use_contact');
+			$wsSC      = $xml->readSection('email', 'show_contactemail');
 			
 			$xml->flush();
 			$xml->_xmlparser();
@@ -1541,15 +1606,21 @@ class tcms_datacontainer_provider extends tcms_main {
 			//if($wsSC      == false) $wsSC      = '';
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->m_sqlUser, $this->m_sqlPass, $this->m_sqlHost, $this->m_sqlDB, $this->m_sqlPort);
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
 			
 			$strQuery = "SELECT * "
 			."FROM ".$this->m_sqlPrefix."contactform "
 			."WHERE language = '".$language."'";
 			
-			$sqlQR = $sqlAL->sqlQuery($strQuery);
-			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+			$sqlQR = $sqlAL->query($strQuery);
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
 			
 			$wsID      = 'contactform';
 			$wsTitle   = $sqlObj->contacttitle;
@@ -1563,7 +1634,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsUC      = $sqlObj->use_contact;
 			$wsSC      = $sqlObj->show_contactemail;
 			
-			$sqlAL->sqlFreeResult($sqlQR);
+			$sqlAL->freeResult($sqlQR);
 			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 			
@@ -1611,17 +1682,17 @@ class tcms_datacontainer_provider extends tcms_main {
 		
 		$xmlActive = new xmlparser(''.$this->m_path.'/tcms_global/modules.xml','r');
 		
-		$arrASM['use_side_gallery']   = $xmlActive->read_section('config', 'side_gallery');
-		$arrASM['use_layout_chooser'] = $xmlActive->read_section('config', 'layout_chooser');
-		$arrASM['use_side_links']     = $xmlActive->read_section('config', 'side_links');
-		$arrASM['use_login']          = $xmlActive->read_section('config', 'login');
-		$arrASM['use_side_category']  = $xmlActive->read_section('config', 'side_category');
-		$arrASM['use_side_archives']  = $xmlActive->read_section('config', 'side_archives');
-		$arrASM['use_syndication']    = $xmlActive->read_section('config', 'syndication');
-		$arrASM['use_newsletter']     = $xmlActive->read_section('config', 'newsletter');
-		$arrASM['use_search']         = $xmlActive->read_section('config', 'search');
-		$arrASM['use_sidebar']        = $xmlActive->read_section('config', 'sidebar');
-		$arrASM['use_poll']           = $xmlActive->read_section('config', 'poll');
+		$arrASM['use_side_gallery']   = $xmlActive->readSection('config', 'side_gallery');
+		$arrASM['use_layout_chooser'] = $xmlActive->readSection('config', 'layout_chooser');
+		$arrASM['use_side_links']     = $xmlActive->readSection('config', 'side_links');
+		$arrASM['use_login']          = $xmlActive->readSection('config', 'login');
+		$arrASM['use_side_category']  = $xmlActive->readSection('config', 'side_category');
+		$arrASM['use_side_archives']  = $xmlActive->readSection('config', 'side_archives');
+		$arrASM['use_syndication']    = $xmlActive->readSection('config', 'syndication');
+		$arrASM['use_newsletter']     = $xmlActive->readSection('config', 'newsletter');
+		$arrASM['use_search']         = $xmlActive->readSection('config', 'search');
+		$arrASM['use_sidebar']        = $xmlActive->readSection('config', 'sidebar');
+		$arrASM['use_poll']           = $xmlActive->readSection('config', 'poll');
 		
 		$xmlActive->flush();
 		$xmlActive->_xmlparser();
@@ -1667,8 +1738,8 @@ class tcms_datacontainer_provider extends tcms_main {
 		if($this->m_choosenDB == 'xml'){
 			$xml = new xmlparser(''.$this->m_path.'/tcms_global/sidebar.xml', 'r');
 			
-			$wsLang          = $xml->read_section('side', 'lang');
-			$wsSidemenuTitle = $xml->read_section('side', 'sidemenu_title');
+			$wsLang          = $xml->readSection('side', 'lang');
+			$wsSidemenuTitle = $xml->readSection('side', 'sidemenu_title');
 			
 			$xml->flush();
 			$xml->_xmlparser();
@@ -1678,16 +1749,22 @@ class tcms_datacontainer_provider extends tcms_main {
 			if($wsSidemenuTitle == false) $wsSidemenuTitle = '';
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->m_sqlUser, $this->m_sqlPass, $this->m_sqlHost, $this->m_sqlDB, $this->m_sqlPort);
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
 			
-			$sqlQR = $sqlAL->sqlGetOne($this->m_sqlPrefix.'sidebar_extensions', 'sidebar_extensions');
-			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+			$sqlQR = $sqlAL->getOne($this->m_sqlPrefix.'sidebar_extensions', 'sidebar_extensions');
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
 			
 			$wsLang          = $sqlObj->lang;
 			$wsSidemenuTitle = $sqlObj->sidemenu_title;
 			
-			$sqlAL->sqlFreeResult($sqlQR);
+			$sqlAL->freeResult($sqlQR);
 			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 			

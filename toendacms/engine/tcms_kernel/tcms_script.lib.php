@@ -9,7 +9,7 @@
 | 
 | toendaScript - Parser and Libary
 |
-| File:		tcms_script.lib.php
+| File:	tcms_script.lib.php
 |
 +
 */
