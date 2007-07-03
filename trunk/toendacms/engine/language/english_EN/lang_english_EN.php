@@ -975,7 +975,7 @@ if(!defined('_ABOUTMOD_DESCRIPTION'))          define('_ABOUTMOD_DESCRIPTION', '
 
 
 // ABOUT
-if(!defined('_ABOUT_TITLE'))                   define('_ABOUT_TITLE', 'toendaCMS Professional Web Content Management and Weblogging System');
+if(!defined('_ABOUT_TITLE'))                   define('_ABOUT_TITLE', 'toendaCMS - Your ideas ahead! - Open Source Content Management Framework');
 if(!defined('_ABOUT_TEXT'))                    define('_ABOUT_TEXT', 'toendaCMS is a free open source Content Management Framework based on PHP4, PHP5, XML and various database servers.');
 if(!defined('_ABOUT_TEXT2'))                   define('_ABOUT_TEXT2', 'Go to <a class="tcms_about" href="http://www.toenda.com/" target="_blank">http://www.toenda.com</a> for details. toendaCMS comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions. Obstructing the appearance of this notice is prohibited by law.');
 if(!defined('_ABOUT_EMAIL_INFO'))              define('_ABOUT_EMAIL_INFO', 'Information and Technical Support');

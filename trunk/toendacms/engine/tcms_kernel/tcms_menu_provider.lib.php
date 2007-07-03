@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a provider for sidemenu datacontainer
  * objects.
  *
- * @version 0.1.6
+ * @version 0.2.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -35,6 +35,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * __construct()                           -> PHP5 Constructor
  * tcms_menu_provider()                    -> PHP4 Constructor
+ * 
+ * setTcmsTimeObj                          -> Set the tcms_time object
  *
  * _checkIDByLink                          -> Check a menuitem by link
  * _getIDByLink                            -> Get a menuitem by link
@@ -54,6 +56,7 @@ class tcms_menu_provider extends tcms_main {
 	var $m_CHARSET;
 	var $m_path;
 	var $m_IsAdmin;
+	var $_tcmsTime;
 	
 	// database information
 	var $m_choosenDB;
@@ -72,12 +75,14 @@ class tcms_menu_provider extends tcms_main {
 	 * @param String $tcms_administer_path = 'data'
 	 * @param String $charset
 	 * @param String $isAdmin
+	 * @param Object $tcmsTimeObj = null
 	 */
-	function __construct($tcms_administer_path = 'data', $charset, $isAdmin){
+	function __construct($tcms_administer_path = 'data', $charset, $isAdmin, $tcmsTimeObj = null){
 		$this->m_CHARSET = $charset;
 		$this->m_path = $tcms_administer_path;
 		$this->administer = $tcms_administer_path;
 		$this->m_IsAdmin = $isAdmin;
+		$this->_tcmsTime = $tcmsTimeObj;
 		
 		//echo 'pfad: '.$this->m_path.' ---> '.$tcms_administer_path.' ---> '.$this->administer.'<br>';
 		
@@ -102,9 +107,25 @@ class tcms_menu_provider extends tcms_main {
 	/**
 	 * PHP4 Constructor
 	 *
+	 * @param String $tcms_administer_path = 'data'
+	 * @param String $charset
+	 * @param String $isAdmin
+	 * @param Object $tcmsTimeObj = null
+	 *
 	 */
-	function tcms_menu_provider($tcms_administer_path = 'data', $charset, $isAdmin){
-		$this->__construct($tcms_administer_path, $charset, $isAdmin);
+	function tcms_menu_provider($tcms_administer_path = 'data', $charset, $isAdmin, $tcmsTimeObj = null){
+		$this->__construct($tcms_administer_path, $charset, $isAdmin, $tcmsTimeObj);
+	}
+	
+	
+	
+	/**
+	 * Set the tcms_time object
+	 *
+	 * @param Object $value
+	 */
+	function setTcmsTimeObj($value) {
+		$this->_tcmsTime = $value;
 	}
 	
 	
@@ -154,8 +175,8 @@ class tcms_menu_provider extends tcms_main {
 		}
 		else{
 			//
-			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect(
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
 				$this->m_sqlUser, 
 				$this->m_sqlPass, 
 				$this->m_sqlHost, 
@@ -192,34 +213,34 @@ class tcms_menu_provider extends tcms_main {
 			
 			//echo $strSQL.'<br>';
 			
-			$sqlQR = $sqlAL->sqlQuery($strSQL);
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+			$sqlQR = $sqlAL->query($strSQL);
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
 			
 			//echo $sqlARR['root'].' - '.$sqlARR['uid'].' - '.$root.'<br />';
 			
 			if($level = 1) {
-				if($sqlARR['root'] == null || $sqlARR['root'] == '-') {
-					if($sqlARR['uid'] == $root) {
+				if($sqlObj->root == null || $sqlObj->root == '-') {
+					if($sqlObj->uid == $root) {
 						$exeCute = true;
 					}
-					elseif($sqlARR['parent'] == $item_id) {
+					elseif($sqlObj->parent == $item_id) {
 						$exeCute = true;
 					}
 				}
 				else {
-					if($sqlARR['root'] == $root) {
+					if($sqlObj->root == $root) {
 						$exeCute = true;
 					}
 				}
 			}
 			else {
-				if($sqlARR['root'] == null || $sqlARR['root'] == '-') {
-					if($sqlARR['parent_lvl2'] == $root) {
+				if($sqlObj->root == null || $sqlObj->root == '-') {
+					if($sqlObj->parent_lvl2 == $root) {
 						$exeCute = true;
 					}
 				}
 				else {
-					if($sqlARR['root'] == $root) {
+					if($sqlObj->root == $root) {
 						$exeCute = true;
 					}
 				}
@@ -272,8 +293,14 @@ class tcms_menu_provider extends tcms_main {
 		}
 		else{
 			//
-			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->m_sqlUser, $this->m_sqlPass, $this->m_sqlHost, $this->m_sqlDB, $this->m_sqlPort);
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
 			
 			$parentID = '';
 			
@@ -302,10 +329,14 @@ class tcms_menu_provider extends tcms_main {
 			." AND ( access = 'Public' ".$strAdd
 			." ORDER BY id ASC, subid ASC";
 			
-			$sqlQR = $sqlAL->sqlQuery($strSQL);
-			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+			$sqlQR = $sqlAL->query($strSQL);
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
 			
 			$result = $sqlObj->id;
+			
+			$sqlAL->freeResult($sqlQR);
+			$sqlAL->_sqlAbstractionLayer();
+			unset($sqlAL);
 		}
 		
 		return $result;
@@ -352,8 +383,14 @@ class tcms_menu_provider extends tcms_main {
 			);*/
 		}
 		else {
-			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->m_sqlUser, $this->m_sqlPass, $this->m_sqlHost, $this->m_sqlDB, $this->m_sqlPort);
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
 			
 			$executeQuery = false;
 			
@@ -391,11 +428,11 @@ class tcms_menu_provider extends tcms_main {
 			//if($level >= 2)
 			//	echo $strSQL.'<br />';
 			
-			$sqlQR = $sqlAL->sqlQuery($strSQL);
+			$sqlQR = $sqlAL->query($strSQL);
 			
 			$count = 0;
 			
-			while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)){
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)){
 				$menuItem = new tcms_dc_sidemenuitem();
 				
 				$sql_name = $this->decodeText($sqlObj->name, '2', $c_charset);
@@ -417,6 +454,7 @@ class tcms_menu_provider extends tcms_main {
 				$count++;
 			}
 			
+			$sqlAL->freeResult($sqlQR);
 			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 		}
@@ -438,11 +476,11 @@ class tcms_menu_provider extends tcms_main {
 	 */
 	function getSubmenu($lang, $level = 1, $subMenuOf, $currentPage, $currentPageItem) {
 		if($this->m_choosenDB == 'xml') {
-			
+			//
 		}
 		else {
-			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect(
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
 				$this->m_sqlUser, 
 				$this->m_sqlPass, 
 				$this->m_sqlHost, 
@@ -518,11 +556,11 @@ class tcms_menu_provider extends tcms_main {
 			//
 			//
 			if($executeQuery) {
-				$sqlQR = $sqlAL->sqlQuery($strSQL);
+				$sqlQR = $sqlAL->query($strSQL);
 				
 				$count = 0;
 				
-				while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)){
+				while($sqlObj = $sqlAL->fetchObject($sqlQR)){
 					$menuItem = new tcms_dc_sidemenuitem();
 					
 					$sql_name = $this->decodeText($sqlObj->name, '2', $c_charset);
@@ -544,6 +582,7 @@ class tcms_menu_provider extends tcms_main {
 					$count++;
 				}
 				
+				$sqlAL->freeResult($sqlQR);
 				$sqlAL->_sqlAbstractionLayer();
 				unset($sqlAL);
 			}
@@ -681,8 +720,14 @@ class tcms_menu_provider extends tcms_main {
 			//
 			//
 			//
-			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->m_sqlUser, $this->m_sqlPass, $this->m_sqlHost, $this->m_sqlDB, $this->m_sqlPort);
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
 			
 			$executeQuery = false;
 			
@@ -748,26 +793,26 @@ class tcms_menu_provider extends tcms_main {
 			//	echo $strSQL.'<br />';
 			
 			if($executeQuery){
-				$sqlQR = $sqlAL->sqlQuery($strSQL);
+				$sqlQR = $sqlAL->query($strSQL);
 				
 				$count = 0;
 				
-				while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+				while($sqlObj = $sqlAL->fetchObject($sqlQR)){
 					$menuItem = new tcms_dc_sidemenuitem();
 					
-					$sql_name = $this->decodeText($sqlARR['name'], '2', $c_charset);
+					$sql_name = $this->decodeText($sqlObj->name, '2', $c_charset);
 					
-					$menuItem->SetID($sqlARR['uid']);
-					$menuItem->SetRoot($sqlARR['root']);
+					$menuItem->SetID($sqlObj->uid);
+					$menuItem->SetRoot($sqlObj->root);
 					$menuItem->SetTitle($sql_name);
-					$menuItem->SetPosition($sqlARR['id']);
-					$menuItem->SetSubmenuPosition($sqlARR['subid']);
-					$menuItem->SetLink($sqlARR['link']);
-					$menuItem->SetType($sqlARR['type']);
-					$menuItem->SetAccess($sqlARR['access']);
-					$menuItem->SetParent($sqlARR['parent']);
-					$menuItem->SetPublished($sqlARR['published']);
-					$menuItem->SetTarget($sqlARR['target']);
+					$menuItem->SetPosition($sqlObj->id);
+					$menuItem->SetSubmenuPosition($sqlObj->subid);
+					$menuItem->SetLink($sqlObj->link);
+					$menuItem->SetType($sqlObj->type);
+					$menuItem->SetAccess($sqlObj->access);
+					$menuItem->SetParent($sqlObj->parent);
+					$menuItem->SetPublished($sqlObj->published);
+					$menuItem->SetTarget($sqlObj->target);
 					
 					$arrReturn[$count] = $menuItem;
 					
@@ -775,6 +820,7 @@ class tcms_menu_provider extends tcms_main {
 				}
 			}
 			
+			$sqlAL->freeResult($sqlQR);
 			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 		}
@@ -797,8 +843,8 @@ class tcms_menu_provider extends tcms_main {
 			
 		}
 		else {
-			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect(
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
 				$this->m_sqlUser, 
 				$this->m_sqlPass, 
 				$this->m_sqlHost, 
@@ -811,11 +857,11 @@ class tcms_menu_provider extends tcms_main {
 			."WHERE language = '".$tcms_config->getLanguageCodeForTCMS($language)."' "
 			."ORDER BY id ASC, name ASC, link ASC";
 			
-			$sqlQR = $sqlAL->sqlQuery($sqlStr);
+			$sqlQR = $sqlAL->query($sqlStr);
 			
 			$count = 0;
 			
-			while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)){
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)){
 				$arr_link['name'][$count] = $sqlObj->name;
 				$arr_link['id'][$count]   = $sqlObj->id;
 				$arr_link['link'][$count] = $sqlObj->link;
@@ -838,7 +884,7 @@ class tcms_menu_provider extends tcms_main {
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id='.$value.'&amp;s='.$s
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
-						$link = $this->urlAmpReplace($link);
+						$link = $this->urlConvertToSEO($link);
 						
 						$arr_path[$value] = '<a class="pathway" href="'.$link.'">'.$arr_link['name'][$key].'</a>';
 						$titleway[$value] = $arr_link['name'][$key];
@@ -852,11 +898,11 @@ class tcms_menu_provider extends tcms_main {
 			."WHERE language = '".$tcms_config->getLanguageCodeForTCMS($lang)."' "
 			."ORDER BY id ASC, name ASC, link ASC";
 			
-			$sqlQR = $sqlAL->sqlQuery($sqlStr);
+			$sqlQR = $sqlAL->query($sqlStr);
 			
 			$count = 0;
 			
-			while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)){
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)){
 				$arr_link['name'][$count] = $sqlObj->name;
 				$arr_link['id'][$count]   = $sqlObj->id;
 				$arr_link['link'][$count] = $sqlObj->link;

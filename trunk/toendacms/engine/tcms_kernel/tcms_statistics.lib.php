@@ -22,7 +22,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to write all the website statistics.
  *
- * @version 0.2.7
+ * @version 0.3.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -36,6 +36,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * tcms_error                 -> PHP4 Constructor
  * __destruct                 -> PHP5 Destructor
  * _tcms_error                -> PHP4 Destructor
+ * 
+ * setTcmsTimeObj              -> Set the tcms_time object
  *
  * countSiteURL($s)           -> Count a click and remove the template string from the url
  * countBrowserInfo           -> Saves the browser information data
@@ -50,6 +52,7 @@ class tcms_statistics {
 	var $_ipUID;
 	var $_tcmsPath;
 	var $_tcmsMain;
+	var $_tcmsTime;
 	
 	// database information
 	var $_choosenDB;
@@ -68,9 +71,10 @@ class tcms_statistics {
 	 * @param String $charset
 	 * @param String $tcms_administer_path = 'data'
 	 */
-	function __construct($charset, $tcms_administer_path = 'data'){
+	function __construct($charset, $tcms_administer_path = 'data', $tcmsTimeObj = null){
 		$this->m_CHARSET = $charset;
 		$this->_tcmsPath = $tcms_administer_path;
+		$this->_tcmsTime = $tcmsTimeObj;
 		//echo 'Constructor: '.$this->_tcmsPath.'<br>';
 		
 		$_tcmsMain = new tcms_main($this->_tcmsPath);
@@ -102,8 +106,8 @@ class tcms_statistics {
 	 * @param String $charset
 	 * @param String $tcms_administer_path = 'data'
 	 */
-	function tcms_statistics($charset, $tcms_administer_path = 'data'){
-		$this->__construct($charset, $tcms_administer_path);
+	function tcms_statistics($charset, $tcms_administer_path = 'data', $tcmsTimeObj = null){
+		$this->__construct($charset, $tcms_administer_path, $tcmsTimeObj);
 	}
 	
 	
@@ -121,6 +125,17 @@ class tcms_statistics {
 	 */
 	function _tcms_statistics(){
 		$this->__destruct();
+	}
+	
+	
+	
+	/**
+	 * Set the tcms_time object
+	 *
+	 * @param Object $value
+	 */
+	function setTcmsTimeObj($value) {
+		$this->_tcmsTime = $value;
 	}
 	
 	
@@ -154,8 +169,14 @@ class tcms_statistics {
 		
 		
 		if($this->_choosenDB != 'xml'){
-			$sqlAL = new sqlAbstractionLayer($this->_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->_sqlUser, $this->_sqlPass, $this->_sqlHost, $this->_sqlDB, $this->_sqlPort);
+			$sqlAL = new sqlAbstractionLayer($this->_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->_sqlUser, 
+				$this->_sqlPass, 
+				$this->_sqlHost, 
+				$this->_sqlDB, 
+				$this->_sqlPort
+			);
 		}
 		
 		$_tcmsMain = new tcms_main($this->_tcmsPath);
@@ -166,14 +187,14 @@ class tcms_statistics {
 			search for value
 		*/
 		if($this->_choosenDB == 'xml'){
-			$arr_statfiles = $_tcmsMain->readdir_ext($this->_tcmsPath.'/tcms_statistics/');
+			$arr_statfiles = $_tcmsMain->getPathContent($this->_tcmsPath.'/tcms_statistics/');
 			
 			if(!empty($arr_statfiles) && $arr_statfiles != '' && isset($arr_statfiles)){
 				foreach($arr_statfiles as $key => $value){
 					$statXML = new xmlparser(''.$this->_tcmsPath.'/tcms_statistics/'.$value, 'r');
 					
-					$stat_host = $statXML->read_value('host');
-					$stat_url = $statXML->read_value('site_url');
+					$stat_host = $statXML->readValue('host');
+					$stat_url = $statXML->readValue('site_url');
 					
 					if($stat_host == $stats_host && $stat_url == $stats_url){
 						$tempQR = $value;
@@ -195,8 +216,8 @@ class tcms_statistics {
 			."WHERE ".$this->_db_prefix."statistics.host = '".$stats_host."' "
 			."AND ".$this->_db_prefix."statistics.site_url = '".$stats_url."'";
 			
-			$tempQR = $sqlAL->sqlQuery($sqlSTR);
-			$oldValue = $sqlAL->sqlGetNumber($tempQR);
+			$tempQR = $sqlAL->query($sqlSTR);
+			$oldValue = $sqlAL->getNumber($tempQR);
 		}
 		
 		
@@ -305,11 +326,11 @@ class tcms_statistics {
 			
 			if($this->_choosenDB == 'xml'){
 				$statXML = new xmlparser(''.$this->_tcmsPath.'/tcms_statistics/'.$tempQR, 'r');
-				$oldStatValue = $statXML->read_value('value');
-				$oldIPValue = $statXML->read_value('ip_uid');
+				$oldStatValue = $statXML->readValue('value');
+				$oldIPValue = $statXML->readValue('ip_uid');
 			}
 			else{
-				$sqlARR = $sqlAL->sqlFetchArray($tempQR);
+				$sqlARR = $sqlAL->fetchArray($tempQR);
 				$oldStatValue = $sqlARR['value'];
 				$oldIPValue = $sqlARR['ip_uid'];
 			}
@@ -344,8 +365,8 @@ class tcms_statistics {
 				."FROM ".$this->_db_prefix."statistics_ip "
 				."WHERE ".$this->_db_prefix."statistics_ip.ip = '".$stats_ip."'";
 				
-				$tempIPQR = $sqlAL->sqlQuery($sqlSTR);
-				$oldValueIP = $sqlAL->sqlGetNumber($tempIPQR);
+				$tempIPQR = $sqlAL->query($sqlSTR);
+				$oldValueIP = $sqlAL->getNumber($tempIPQR);
 				
 				
 				if($oldValueIP == 0){
@@ -371,7 +392,7 @@ class tcms_statistics {
 					$tempQR = $sqlAL->sqlQuery($sqlSTR);
 				}
 				else{
-					$sqlARRIP = $sqlAL->sqlFetchArray($tempIPQR);
+					$sqlARRIP = $sqlAL->fetchArray($tempIPQR);
 					$oldStatValueVAL = $sqlARRIP['value'];
 					
 					switch($this->_choosenDB){
@@ -389,7 +410,7 @@ class tcms_statistics {
 					."WHERE uid = '".$oldIPValue."' "
 					."AND ip = '".$stats_ip."' ";
 					
-					$tempIPQR = $sqlAL->sqlQuery($sqlSTRIP);
+					$tempIPQR = $sqlAL->query($sqlSTRIP);
 				}
 			}
 			
@@ -443,7 +464,7 @@ class tcms_statistics {
 		}
 		
 		if($this->_choosenDB != 'xml'){
-			$tempQR = $sqlAL->sqlQuery($sqlSTR);
+			$tempQR = $sqlAL->query($sqlSTR);
 			unset($sqlAL);
 		}
 		
@@ -468,8 +489,14 @@ class tcms_statistics {
 		
 		
 		if($this->_choosenDB != 'xml'){
-			$sqlAL = new sqlAbstractionLayer($this->_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->_sqlUser, $this->_sqlPass, $this->_sqlHost, $this->_sqlDB, $this->_sqlPort);
+			$sqlAL = new sqlAbstractionLayer($this->_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->_sqlUser, 
+				$this->_sqlPass, 
+				$this->_sqlHost, 
+				$this->_sqlDB, 
+				$this->_sqlPort
+			);
 		}
 		
 		$_tcmsMain = new tcms_main($this->_tcmsPath);
@@ -482,14 +509,14 @@ class tcms_statistics {
 			software counter
 		*/
 		if($this->_choosenDB == 'xml'){
-			$arr_statfiles = $_tcmsMain->readdir_ext(''.$this->_tcmsPath.'/tcms_statistics_os/');
+			$arr_statfiles = $_tcmsMain->getPathContent(''.$this->_tcmsPath.'/tcms_statistics_os/');
 			
 			if(!empty($arr_statfiles) && $arr_statfiles != '' && isset($arr_statfiles)){
 				foreach($arr_statfiles as $key => $value){
 					$statXML = new xmlparser(''.$this->_tcmsPath.'/tcms_statistics_os/'.$value, 'r');
 					
 					$stat_browser = $statXML->read_value('browser');
-					$stat_os = $statXML->read_value('os');
+					$stat_os = $statXML->readValue('os');
 					
 					if($stat_browser == $stats_browser && $stat_os == $stats_os){
 						$tempQR = $value;
@@ -511,8 +538,8 @@ class tcms_statistics {
 			."WHERE browser = '".$stats_browser."' "
 			."AND os = '".$stats_os."' ";
 			
-			$tempQR = $sqlAL->sqlQuery($sqlSTR);
-			$oldValue = $sqlAL->sqlGetNumber($tempQR);
+			$tempQR = $sqlAL->query($sqlSTR);
+			$oldValue = $sqlAL->getNumber($tempQR);
 		}
 		
 		
@@ -574,7 +601,7 @@ class tcms_statistics {
 				xmlparser::edit_value(''.$this->_tcmsPath.'/tcms_statistics_os/'.$tempQR, 'value', $oldStatValue, ($oldStatValue + 1));
 			}
 			else{
-				$sqlARR = $sqlAL->sqlFetchArray($tempQR);
+				$sqlARR = $sqlAL->fetchArray($tempQR);
 				$oldStatValue = $sqlARR['value'];
 				
 				
@@ -597,7 +624,7 @@ class tcms_statistics {
 			update query
 		*/
 		if($this->_choosenDB != 'xml'){
-			$tempQR = $sqlAL->sqlQuery($sqlSTR);
+			$tempQR = $sqlAL->query($sqlSTR);
 			unset($sqlAL);
 		}
 		

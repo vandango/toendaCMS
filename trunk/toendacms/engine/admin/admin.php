@@ -38,7 +38,7 @@ if(isset($_POST['lang'])){ $lang = $_POST['lang']; }
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 1.1.1
+ * @version 1.1.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -99,6 +99,13 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 		include_once('../js/FCKeditor/fckeditor.php');
 	
 	
+	// timer
+	$tcms_time = new tcms_time();
+	
+	$tcms_time->startTimer();
+	$tcms_time->startSqlQueryCounter();
+	
+	
 	// version info object
 	$tcms_version = new tcms_version('../../');
 	
@@ -150,10 +157,11 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 	
 	// layout
 	$c_xml      = new xmlparser($tcms_administer_path.'/tcms_global/layout.xml', 'r');
-	$theme      = $c_xml->read_section('layout', 'select');
-	$adminTheme = $c_xml->read_section('layout', 'admin');
+	$theme      = $c_xml->readSection('layout', 'select');
+	$adminTheme = $c_xml->readSection('layout', 'admin');
 	$c_xml->flush();
 	$c_xml->_xmlparser();
+	unset($c_xml);
 	
 	
 	// mail
@@ -259,9 +267,6 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 ';
 	
 	include_once('theme/'.$adminTheme.'/tcms_color.php');
-	
-	tcms_time::tcms_load_start();
-	tcms_time::tcms_query_count_start();
 	
 	
 	echo '<body'.( $site == 'mod_upload_layout' ? ' onload="init();"' : '' ).'>'
@@ -410,12 +415,13 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 				.'<div class="tcms_footer_img">&nbsp;</div>'
 				.'<div class="legal tcms_footer_color">';
 				
-				$page_load_time = tcms_time::tcms_load_end();
+				$tcms_time->stopTimer();
+				$page_load_time = $tcms_time->getTimerValue();
 				
 				echo '<strong>'.$version.' &bull;</strong> '.$page_load_time;
 				
 				if($choosenDB != 'xml'){
-					$page_query_count = tcms_time::tcms_query_count_end_out();
+					$page_query_count = $tcms_time->getSqlQueryCountValue();
 					echo '.&nbsp;'.$page_query_count;
 				}
 				
@@ -455,6 +461,7 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 	unset($tcms_version);
 	unset($tcms_config);
 	unset($tcms_main);
+	unset($tcms_time);
 }
 else{
 	echo '<div align="center" style=" padding: 100px 10px 100px 10px; border: 1px solid #333; background-color: #f8f8f8; font-family: Georgia, \'Lucida Grande\', \'Lucida Sans\', Serif;">'

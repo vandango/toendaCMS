@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide methods to get and
  * save user accounts and also contacts.
  * 
- * @version 0.2.1
+ * @version 0.2.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -37,7 +37,12 @@ defined('_TCMS_VALID') or die('Restricted access');
  * tcms_account_provider       -> PHP4 Constructor
  * __destruct                  -> PHP5 Destructor
  * _tcms_account_provider      -> PHP4 Destructor
+ * 
+ * setTcmsTimeObj              -> Set the tcms_time object
  *
+ * getUser                     -> Return the username
+ * getUserID                   -> Return ID for username or realname
+ * getUserInfo                 -> Get some information about a user
  * getAccount                  -> Get a user account
  * getAccountByUsername        -> Get a user account by username
  * checkUserExists             -> Check if a user exist
@@ -53,6 +58,7 @@ defined('_TCMS_VALID') or die('Restricted access');
 class tcms_account_provider extends tcms_main {
 	var $m_administer;
 	var $m_charset;
+	var $_tcmsTime;
 	
 	// database information
 	var $db_choosenDB;
@@ -71,10 +77,11 @@ class tcms_account_provider extends tcms_main {
 	 * @param String $administer
 	 * @param String $charset
 	 */
-	function __construct($administer, $charset){
+	function __construct($administer, $charset, $tcmsTimeObj = null){
 		$this->m_administer = $administer;
 		$this->administer = $administer;
 		$this->m_charset = $charset;
+		$this->_tcmsTime = $tcmsTimeObj;
 		
 		require($this->m_administer.'/tcms_global/database.php');
 		
@@ -95,8 +102,8 @@ class tcms_account_provider extends tcms_main {
 	 * @param String $administer
 	 * @param String $charset
 	 */
-	function tcms_account_provider($administer, $charset){
-		$this->__construct($administer, $charset);
+	function tcms_account_provider($administer, $charset, $tcmsTimeObj = null){
+		$this->__construct($administer, $charset, $tcmsTimeObj);
 	}
 	
 	
@@ -119,6 +126,238 @@ class tcms_account_provider extends tcms_main {
 	
 	
 	/**
+	 * Set the tcms_time object
+	 *
+	 * @param Object $value
+	 */
+	function setTcmsTimeObj($value) {
+		$this->_tcmsTime = $value;
+	}
+	
+	
+	
+	/**
+	 * Get the username of a user id
+	 *
+	 * @param String $userID
+	 * @return String
+	 */
+	function getUsername($userID){
+		if($this->db_choosenDB == 'xml'){
+			$tcms_config = new tcms_configuration($this->administer);
+			$c_charset = $tcms_config->getCharset();
+			unset($tcms_config);
+			
+			if(file_exists($this->administer.'/tcms_user/'.$userID.'.xml')){
+				$xmlUser = new xmlparser($this->administer.'/tcms_user/'.$userID.'.xml', 'r');
+				
+				$tmpNickXML = $xmlUser->readSection('user', 'username');
+			}
+			else{
+				$tmpNickXML = '';
+			}
+			
+			if($tmpNickXML == ''){
+				$nickXML = false;
+			}
+			else{
+				$nickXML = $this->decodeText($tmpNickXML, '2', $c_charset);
+			}
+		}
+		else{
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
+			
+			$sqlQR = $sqlAL->query("SELECT * FROM ".$this->db_prefix."user WHERE uid = '".$userID."'");
+			$sqlNR = $sqlAL->getNumber($sqlQR);
+			
+			if($sqlNR > 0){
+				$sqlObj = $sqlAL->fetchObject($sqlQR);
+				$nickXML = $sqlObj->username;
+			}
+			else{
+				$nickXML = false;
+			}
+		}
+		
+		return $nickXML;
+	}
+	
+	
+	
+	/**
+	 * Get the id for a user
+	 *
+	 * @param String $realOrNick
+	 * @return String
+	 */
+	function getUserID($realOrNick){
+		if($this->db_choosenDB == 'xml'){
+			$tcms_config = new tcms_configuration($this->administer);
+			$c_charset = $tcms_config->getCharset();
+			unset($tcms_config);
+			
+			$arrUserXML = $this->getPathContent($this->administer.'/tcms_user');
+			
+			$userFound = false;
+			
+			foreach($arrUserXML as $key => $XMLUserFile){
+				if($XMLUserFile != 'index.html'){
+					$xmlUser = new xmlparser($this->administer.'/tcms_user/'.$XMLUserFile, 'r');
+					
+					$tmpNickXML = $xmlUser->readSection('user', 'name');
+					$nickXML = $this->decodeText($tmpNickXML, '2', $c_charset);
+					
+					if($realOrNick == $nickXML){
+						return substr($XMLUserFile, 0, 32);
+						$userFound = true;
+						break;
+					}
+					else{
+						$tmpRealXML = $xmlUser->readSection('user', 'username');
+						$arrRealXML = $this->decodeText($tmpRealXML, '2', $c_charset);
+						
+						if($realOrNick == $arrRealXML){
+							return substr($XMLUserFile, 0, 32);
+							$userFound = true;
+							break;
+						}
+						else{
+							$userFound = false;
+						}
+					}
+					
+					$nickXML = '';
+					$arrRealXML = '';
+				}
+			}
+		}
+		else{
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
+			
+			$sqlQR = $sqlAL->query("SELECT * FROM ".$this->db_prefix."user WHERE username = '".$realOrNick."'");
+			$sqlNR = $sqlAL->getNumber($sqlQR);
+			
+			if($sqlNR != 0){
+				$sqlObj = $sqlAL->fetchObject($sqlQR);
+				$userID = $sqlObj->uid;
+			}
+			else{
+				$sqlQR = $sqlAL->query("SELECT * FROM ".$this->db_prefix."user WHERE name = '".$realOrNick."'");
+				$sqlNR = $sqlAL->getNumber($sqlQR);
+				
+				if($sqlNR != 0){
+					$sqlARR = $sqlAL->fetchObject($sqlQR);
+					$userID = $sqlObj->uid;
+				}
+				else{
+					$userID = false;
+				}
+			}
+			
+			return $userID;
+		}
+		
+		if(!$userFound){ return false; }
+	}
+	
+	
+	
+	/**
+	 * Get some information about the current user
+	 *
+	 * @param String $session
+	 * @return Array
+	 */
+	function getUserInfo($session){
+		if($this->db_choosenDB == 'xml'){
+			$fileopen = fopen($this->administer.'/tcms_session/'.$session, 'r');
+			$arr_user = fread($fileopen, filesize($this->administer.'/tcms_session/'.$session));
+			
+			$arr_username = explode('##', $arr_user);
+			$ws_user = $arr_username[0];
+			$ws_id   = $arr_username[1];
+			
+			fclose($fileopen);
+			
+			$authXML = new xmlparser($this->administer.'/tcms_user/'.$ws_id.'.xml', 'r');
+			
+			$arr_ws['user']  = $ws_user;
+			$arr_ws['id']    = $ws_id;
+			$arr_ws['group'] = $authXML->readSection('user', 'group');
+			$arr_ws['name']  = $authXML->readSection('user', 'name');
+			
+			$authXML->flush();
+			$authXML->_xmlparser();
+			unset($authXML);
+		}
+		else{
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
+			
+			if($this->db_choosenDB == 'mssql'){
+				$strSQL = "SELECT "
+				.$this->db_prefix."session.[user_id], "
+				.$this->db_prefix."user.[name], "
+				.$this->db_prefix."user.username, "
+				.$this->db_prefix."user.[group]"
+				//.$this->db_prefix."usergroup.right"
+				." FROM ".$this->db_prefix."session"
+				." INNER JOIN ".$this->db_prefix."user ON (".$this->db_prefix."session.[user_id] = ".$this->db_prefix."user.uid)"
+				//." INNER JOIN ".$this->db_prefix."usergroup ON (".$this->db_prefix."user.group = ".$this->db_prefix."usergroup.uid)"
+				." WHERE (".$this->db_prefix."session.uid = '".$session."')";
+			}
+			else{
+				$strSQL = "SELECT "
+				.$this->db_prefix."session.user_id, "
+				.$this->db_prefix."user.name, "
+				.$this->db_prefix."user.username, "
+				.$this->db_prefix."user.group"
+				//.$this->db_prefix."usergroup.right"
+				." FROM ".$this->db_prefix."session"
+				." INNER JOIN ".$this->db_prefix."user ON (".$this->db_prefix."session.user_id = ".$this->db_prefix."user.uid)"
+				//." INNER JOIN ".$this->db_prefix."usergroup ON (".$this->db_prefix."user.group = ".$this->db_prefix."usergroup.uid)"
+				." WHERE (".$this->db_prefix."session.uid = '".$session."')";
+			}
+			
+			$sqlQR = $sqlAL->query($strSQL);
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
+			
+			$arr_ws['name']  = $sqlObj->name;
+			$arr_ws['user']  = $sqlObj->username;
+			$arr_ws['id']    = $sqlObj->user_id;
+			$arr_ws['group'] = $sqlObj->group;
+			//$arr_ws['right'] = $sqlObj->right;
+			
+			$sqlAL->_sqlAbstractionLayer();
+			unset($sqlAL);
+		}
+		
+		return $arr_ws;
+	}
+	
+	
+	
+	/**
 	 * Get a user account
 	 *
 	 * @param String $id
@@ -129,28 +368,28 @@ class tcms_account_provider extends tcms_main {
 			$xml = new xmlparser($this->m_administer.'/tcms_user/'.$id.'.xml', 'r');
 			
 			$wsID = $id;
-			$wsUsername   = $xml->read_section('user', 'username');
-			$wsPassword   = $xml->read_section('user', 'password');
-			$wsEmail      = $xml->read_section('user', 'email');
-			$wsName       = $xml->read_section('user', 'name');
-			$wsGroup      = $xml->read_section('user', 'group');
-			$wsJoinDate   = $xml->read_section('user', 'join_date');
-			$wsLastLogin  = $xml->read_section('user', 'last_login');
-			$wsBirthday   = $xml->read_section('user', 'birthday');
-			$wsGender     = $xml->read_section('user', 'gender');
-			$wsOccupation = $xml->read_section('user', 'occupation');
-			$wsHomepage   = $xml->read_section('user', 'homepage');
-			$wsICQ        = $xml->read_section('user', 'icq');
-			$wsAIM        = $xml->read_section('user', 'aim');
-			$wsYIM        = $xml->read_section('user', 'yim');
-			$wsMSN        = $xml->read_section('user', 'msn');
-			$wsSkype      = $xml->read_section('user', 'skype');
-			$wsEnabled    = $xml->read_section('user', 'enabled');
-			$wsScEnabled  = $xml->read_section('user', 'tcms_enabled');
-			$wsStaticVal  = $xml->read_section('user', 'static_value');
-			$wsSignature  = $xml->read_section('user', 'signature');
-			$wsLocation   = $xml->read_section('user', 'location');
-			$wsHobby      = $xml->read_section('user', 'hobby');
+			$wsUsername   = $xml->readSection('user', 'username');
+			$wsPassword   = $xml->readSection('user', 'password');
+			$wsEmail      = $xml->readSection('user', 'email');
+			$wsName       = $xml->readSection('user', 'name');
+			$wsGroup      = $xml->readSection('user', 'group');
+			$wsJoinDate   = $xml->readSection('user', 'join_date');
+			$wsLastLogin  = $xml->readSection('user', 'last_login');
+			$wsBirthday   = $xml->readSection('user', 'birthday');
+			$wsGender     = $xml->readSection('user', 'gender');
+			$wsOccupation = $xml->readSection('user', 'occupation');
+			$wsHomepage   = $xml->readSection('user', 'homepage');
+			$wsICQ        = $xml->readSection('user', 'icq');
+			$wsAIM        = $xml->readSection('user', 'aim');
+			$wsYIM        = $xml->readSection('user', 'yim');
+			$wsMSN        = $xml->readSection('user', 'msn');
+			$wsSkype      = $xml->readSection('user', 'skype');
+			$wsEnabled    = $xml->readSection('user', 'enabled');
+			$wsScEnabled  = $xml->readSection('user', 'tcms_enabled');
+			$wsStaticVal  = $xml->readSection('user', 'static_value');
+			$wsSignature  = $xml->readSection('user', 'signature');
+			$wsLocation   = $xml->readSection('user', 'location');
+			$wsHobby      = $xml->readSection('user', 'hobby');
 			
 			$xml->flush();
 			$xml->_xmlparser();
@@ -180,15 +419,21 @@ class tcms_account_provider extends tcms_main {
 			if($wsHobby      == false) $wsHobby      = '';
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->db_user, $this->db_pass, $this->db_host, $this->db_database, $this->db_port);
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
 			
 			$sqlStr = "SELECT * "
 			."FROM ".$this->db_prefix."user "
 			."WHERE uid = '".$id."'";
 			
-			$sqlQR = $sqlAL->sqlQuery($sqlStr);
-			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+			$sqlQR = $sqlAL->query($sqlStr);
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
 			
 			$wsID         = $sqlObj->uid;
 			$wsPassword   = $sqlObj->password;
@@ -214,7 +459,7 @@ class tcms_account_provider extends tcms_main {
 			$wsLocation   = $sqlObj->location;
 			$wsHobby      = $sqlObj->hobby;
 			
-			$sqlAL->sqlFreeResult($sqlQR);
+			$sqlAL->freeResult;($sqlQR);
 			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 			
@@ -251,29 +496,29 @@ class tcms_account_provider extends tcms_main {
 		
 		$accDC = new tcms_dc_account();
 		
-		$accDC->SetID($wsID);
-		$accDC->SetUsername($wsUsername);
-		$accDC->SetPassword($wsPassword);
-		$accDC->SetEmail($wsEmail);
-		$accDC->SetName($wsName);
-		$accDC->SetGroup($wsGroup);
-		$accDC->SetJoinDate($wsJoinDate);
-		$accDC->SetLastLogin($wsLastLogin);
-		$accDC->SetBirthday($wsBirthday);
-		$accDC->SetGender($wsGender);
-		$accDC->SetOccupation($wsOccupation);
-		$accDC->SetHomepage($wsHomepage);
-		$accDC->SetICQ($wsICQ);
-		$accDC->SetAIM($wsAIM);
-		$accDC->SetYIM($wsYIM);
-		$accDC->SetMSN($wsMSN);
-		$accDC->SetSkype($wsSkype);
-		$accDC->SetEnabled($wsEnabled);
-		$accDC->SetTCMSScriptEnabled($wsScEnabled);
-		$accDC->SetStaticValue($wsStaticVal);
-		$accDC->SetSignature($wsSignature);
-		$accDC->SetLocation($wsLocation);
-		$accDC->SetHobby($wsHobby);
+		$accDC->setID($wsID);
+		$accDC->setUsername($wsUsername);
+		$accDC->setPassword($wsPassword);
+		$accDC->setEmail($wsEmail);
+		$accDC->setName($wsName);
+		$accDC->setGroup($wsGroup);
+		$accDC->setJoinDate($wsJoinDate);
+		$accDC->setLastLogin($wsLastLogin);
+		$accDC->setBirthday($wsBirthday);
+		$accDC->setGender($wsGender);
+		$accDC->setOccupation($wsOccupation);
+		$accDC->setHomepage($wsHomepage);
+		$accDC->setICQ($wsICQ);
+		$accDC->setAIM($wsAIM);
+		$accDC->setYIM($wsYIM);
+		$accDC->setMSN($wsMSN);
+		$accDC->setSkype($wsSkype);
+		$accDC->setEnabled($wsEnabled);
+		$accDC->setTCMSScriptEnabled($wsScEnabled);
+		$accDC->setStaticValue($wsStaticVal);
+		$accDC->setSignature($wsSignature);
+		$accDC->setLocation($wsLocation);
+		$accDC->setHobby($wsHobby);
 		
 		return $accDC;
 	}
@@ -313,11 +558,17 @@ class tcms_account_provider extends tcms_main {
 			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->db_user, $this->db_pass, $this->db_host, $this->db_database, $this->db_port);
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
 			
-			$sqlQR = $sqlAL->sqlGetOne($this->db_prefix.'user', $id);
-			$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+			$sqlQR = $sqlAL->getOne($this->db_prefix.'user', $id);
+			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
 			if($sqlNR > 0) {
 				return true;
@@ -347,12 +598,12 @@ class tcms_account_provider extends tcms_main {
 	 * @param Boolean $saveAsUpdate = true
 	 */
 	function saveAccount($acc, $saveAsUpdate = true) {
-		$new_name      = $this->encodeText($acc->GetName(), '2', $this->m_charset);
-		$new_username  = $this->encodeText($acc->GetUsername(), '2', $this->m_charset);
-		$new_occ       = $this->encodeText($acc->GetOccupation(), '2', $this->m_charset);
-		$new_signature = $this->encodeText($acc->GetSignature(), '2', $this->m_charset);
-		$new_location  = $this->encodeText($acc->GetLocation(), '2', $this->m_charset);
-		$new_hobby     = $this->encodeText($acc->GetHobby(), '2', $this->m_charset);
+		$new_name      = $this->encodeText($acc->getName(), '2', $this->m_charset);
+		$new_username  = $this->encodeText($acc->getUsername(), '2', $this->m_charset);
+		$new_occ       = $this->encodeText($acc->getOccupation(), '2', $this->m_charset);
+		$new_signature = $this->encodeText($acc->getSignature(), '2', $this->m_charset);
+		$new_location  = $this->encodeText($acc->getLocation(), '2', $this->m_charset);
+		$new_hobby     = $this->encodeText($acc->getHobby(), '2', $this->m_charset);
 		
 		if($this->db_choosenDB == 'xml'){
 			$xmluser = new xmlparser($this->m_administer.'/tcms_user/'.$acc->GetID().'.xml', 'w');
@@ -361,23 +612,23 @@ class tcms_account_provider extends tcms_main {
 			
 			$xmluser->write_value('name', $new_name);
 			$xmluser->write_value('username', $new_username);
-			$xmluser->write_value('password', $acc->GetPassword());
-			$xmluser->write_value('email', $acc->GetEmail());
-			$xmluser->write_value('group', $acc->GetGroup());
-			$xmluser->write_value('last_login', $acc->GetLastLogin());
-			$xmluser->write_value('join_date', $acc->GetJoinDate());
-			$xmluser->write_value('homepage', $acc->GetHomepage());
-			$xmluser->write_value('icq', $acc->GetICQ());
-			$xmluser->write_value('aim', $acc->GetAIM());
-			$xmluser->write_value('yim', $acc->GetYIM());
-			$xmluser->write_value('msn', $acc->GetMSN());
-			$xmluser->write_value('skype', $acc->GetSkype());
-			$xmluser->write_value('birthday', $acc->GetBirthday());
-			$xmluser->write_value('gender', $acc->GetGender());
+			$xmluser->write_value('password', $acc->getPassword());
+			$xmluser->write_value('email', $acc->getEmail());
+			$xmluser->write_value('group', $acc->getGroup());
+			$xmluser->write_value('last_login', $acc->getLastLogin());
+			$xmluser->write_value('join_date', $acc->getJoinDate());
+			$xmluser->write_value('homepage', $acc->getHomepage());
+			$xmluser->write_value('icq', $acc->getICQ());
+			$xmluser->write_value('aim', $acc->getAIM());
+			$xmluser->write_value('yim', $acc->getYIM());
+			$xmluser->write_value('msn', $acc->getMSN());
+			$xmluser->write_value('skype', $acc->getSkype());
+			$xmluser->write_value('birthday', $acc->getBirthday());
+			$xmluser->write_value('gender', $acc->getGender());
 			$xmluser->write_value('occupation', $new_occ);
-			$xmluser->write_value('enabled', $acc->GetEnabled());
-			$xmluser->write_value('tcms_enabled', $acc->GetTCMSScriptEnabled());
-			$xmluser->write_value('static_value', $acc->GetStaticValue());
+			$xmluser->write_value('enabled', $acc->getEnabled());
+			$xmluser->write_value('tcms_enabled', $acc->getTCMSScriptEnabled());
+			$xmluser->write_value('static_value', $acc->getStaticValue());
 			$xmluser->write_value('signature', $new_signature);
 			$xmluser->write_value('location', $new_location);
 			$xmluser->write_value('hobby', $new_hobby);
@@ -403,35 +654,41 @@ class tcms_account_provider extends tcms_main {
 			unset($xmluser);
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->db_user, $this->db_pass, $this->db_host, $this->db_database, $this->db_port);
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
 			
 			if($saveAsUpdate) {
 				$newSQLData = ''
 				.$this->db_prefix.'user.name="'.$new_name.'", '
 				.$this->db_prefix.'user.username="'.$new_username.'", '
-				.$this->db_prefix.'user.password="'.$acc->GetPassword().'", '
-				.$this->db_prefix.'user.email="'.$acc->GetEmail().'", '
-				.$this->db_prefix.'user.group="'.$acc->GetGroup().'", '
-				.$this->db_prefix.'user.last_login="'.$acc->GetLastLogin().'", '
-				.$this->db_prefix.'user.join_date="'.$acc->GetJoinDate().'", '
-				.$this->db_prefix.'user.birthday="'.$acc->GetBirthday().'", '
-				.$this->db_prefix.'user.gender="'.$acc->GetGender().'", '
+				.$this->db_prefix.'user.password="'.$acc->getPassword().'", '
+				.$this->db_prefix.'user.email="'.$acc->getEmail().'", '
+				.$this->db_prefix.'user.group="'.$acc->getGroup().'", '
+				.$this->db_prefix.'user.last_login="'.$acc->getLastLogin().'", '
+				.$this->db_prefix.'user.join_date="'.$acc->getJoinDate().'", '
+				.$this->db_prefix.'user.birthday="'.$acc->getBirthday().'", '
+				.$this->db_prefix.'user.gender="'.$acc->getGender().'", '
 				.$this->db_prefix.'user.occupation="'.$new_occ.'", '
-				.$this->db_prefix.'user.homepage="'.$acc->GetHomepage().'", '
-				.$this->db_prefix.'user.icq="'.$acc->GetICQ().'", '
-				.$this->db_prefix.'user.aim="'.$acc->GetAIM().'", '
-				.$this->db_prefix.'user.yim="'.$acc->GetYIM().'", '
-				.$this->db_prefix.'user.msn="'.$acc->GetMSN().'", '
-				.$this->db_prefix.'user.skype="'.$acc->GetSkype().'", '
-				.$this->db_prefix.'user.enabled='.$acc->GetEnabled().', '
-				.$this->db_prefix.'user.tcms_enabled='.$acc->GetTCMSScriptEnabled().', '
-				.$this->db_prefix.'user.static_value='.$acc->GetStaticValue().', '
+				.$this->db_prefix.'user.homepage="'.$acc->getHomepage().'", '
+				.$this->db_prefix.'user.icq="'.$acc->getICQ().'", '
+				.$this->db_prefix.'user.aim="'.$acc->getAIM().'", '
+				.$this->db_prefix.'user.yim="'.$acc->getYIM().'", '
+				.$this->db_prefix.'user.msn="'.$acc->getMSN().'", '
+				.$this->db_prefix.'user.skype="'.$acc->getSkype().'", '
+				.$this->db_prefix.'user.enabled='.$acc->getEnabled().', '
+				.$this->db_prefix.'user.tcms_enabled='.$acc->getTCMSScriptEnabled().', '
+				.$this->db_prefix.'user.static_value='.$acc->getStaticValue().', '
 				.$this->db_prefix.'user.signature="'.$new_signature.'", '
 				.$this->db_prefix.'user.location="'.$new_location.'", '
 				.$this->db_prefix.'user.hobby="'.$new_hobby.'"';
 				
-				$sqlQR = $sqlAL->sqlUpdateOne($this->db_prefix.'user', $newSQLData, $acc->GetID());
+				$sqlQR = $sqlAL->updateOne($this->db_prefix.'user', $newSQLData, $acc->getID());
 			}
 			else {
 				switch($this->db_choosenDB){
@@ -458,28 +715,28 @@ class tcms_account_provider extends tcms_main {
 				
 				$newSQLData = "'".$new_name."', "
 				."'".$new_username."', "
-				."'".$acc->GetPassword()."', "
-				."'".$acc->GetEmail()."', "
-				."'".$acc->GetGroup()."', "
-				."'".$acc->GetLastLogin()."', "
-				."'".$acc->GetJoinDate()."', "
-				."'".$acc->GetBirthday()."', "
-				."'".$acc->GetGender()."', "
+				."'".$acc->getPassword()."', "
+				."'".$acc->getEmail()."', "
+				."'".$acc->getGroup()."', "
+				."'".$acc->getLastLogin()."', "
+				."'".$acc->getJoinDate()."', "
+				."'".$acc->getBirthday()."', "
+				."'".$acc->getGender()."', "
 				."'".$new_occ."', "
-				."'".$acc->GetHomepage()."', "
-				."'".$acc->GetICQ()."', "
-				."'".$acc->GetAIM()."', "
-				."'".$acc->GetYIM()."', "
-				."'".$acc->GetMSN()."', "
-				."'".$acc->GetSkype()."', "
-				."".$acc->GetEnabled().", "
-				."".$acc->GetTCMSScriptEnabled().", "
+				."'".$acc->getHomepage()."', "
+				."'".$acc->getICQ()."', "
+				."'".$acc->getAIM()."', "
+				."'".$acc->getYIM()."', "
+				."'".$acc->getMSN()."', "
+				."'".$acc->getSkype()."', "
+				."".$acc->getEnabled().", "
+				."".$acc->getTCMSScriptEnabled().", "
 				."0, "
 				."'".$new_signature."', "
 				."'".$new_location."', "
 				."'".$new_hobby."'";
 				
-				$sqlQR = $sqlAL->sqlCreateOne($this->db_prefix.'user', $newSQLColumns, $newSQLData, $acc->GetID());
+				$sqlQR = $sqlAL->createOne($this->db_prefix.'user', $newSQLColumns, $newSQLData, $acc->getID());
 				
 				// notebook
 				switch($this->db_choosenDB){
@@ -498,7 +755,7 @@ class tcms_account_provider extends tcms_main {
 				
 				$newSQLData = "'".$new_username."', ''";
 				
-				$sqlQR = $sqlAL->sqlCreateOne($this->db_prefix.'notepad', $newSQLColumns, $newSQLData, $acc->GetID());
+				$sqlQR = $sqlAL->createOne($this->db_prefix.'notepad', $newSQLColumns, $newSQLData, $acc->getID());
 			}
 		}
 	}
@@ -515,18 +772,18 @@ class tcms_account_provider extends tcms_main {
 	function getContact($id){
 		if($this->db_choosenDB == 'xml'){
 			$xml = new xmlparser($this->m_administer.'/tcms_contacts/'.$id.'.xml','r');
-			$tc_defcon   = $xml->read_section('contact', 'default_con');
-			$tc_pub      = $xml->read_section('contact', 'published');
-			$tc_name     = $xml->read_section('contact', 'name');
-			$tc_position = $xml->read_section('contact', 'position');
-			$tc_email    = $xml->read_section('contact', 'email');
-			$tc_street   = $xml->read_section('contact', 'street');
-			$tc_country  = $xml->read_section('contact', 'country');
-			$tc_state    = $xml->read_section('contact', 'state');
-			$tc_town     = $xml->read_section('contact', 'town');
-			$tc_postal   = $xml->read_section('contact', 'postal');
-			$tc_phone    = $xml->read_section('contact', 'phone');
-			$tc_fax      = $xml->read_section('contact', 'fax');
+			$tc_defcon   = $xml->readSection('contact', 'default_con');
+			$tc_pub      = $xml->readSection('contact', 'published');
+			$tc_name     = $xml->readSection('contact', 'name');
+			$tc_position = $xml->readSection('contact', 'position');
+			$tc_email    = $xml->readSection('contact', 'email');
+			$tc_street   = $xml->readSection('contact', 'street');
+			$tc_country  = $xml->readSection('contact', 'country');
+			$tc_state    = $xml->readSection('contact', 'state');
+			$tc_town     = $xml->readSection('contact', 'town');
+			$tc_postal   = $xml->readSection('contact', 'postal');
+			$tc_phone    = $xml->readSection('contact', 'phone');
+			$tc_fax      = $xml->readSection('contact', 'fax');
 			$xml->flush();
 			$xml->_xmlparser();
 			unset($xml);
@@ -545,11 +802,17 @@ class tcms_account_provider extends tcms_main {
 			if($tc_fax      == false){ $tc_fax      = ''; }
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->db_user, $this->db_pass, $this->db_host, $this->db_database, $this->db_port);
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
 			
-			$sqlQR = $sqlAL->sqlGetOne($this->db_prefix.'contacts', $id);
-			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+			$sqlQR = $sqlAL->getOne($this->db_prefix.'contacts', $id);
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
 			
 			$tc_defcon   = $sqlObj->default_con;
 			$tc_pub      = $sqlObj->published;
@@ -564,7 +827,7 @@ class tcms_account_provider extends tcms_main {
 			$tc_phone    = $sqlObj->phone;
 			$tc_fax      = $sqlObj->fax;
 			
-			$sqlAL->sqlFreeResult($sqlQR);
+			$sqlAL->freeResult($sqlQR);
 			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 			

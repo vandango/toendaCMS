@@ -50,7 +50,7 @@ if(isset($_POST['contact_email'])){ $contact_email = $_POST['contact_email']; }
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.5.7
+ * @version 2.5.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -97,14 +97,16 @@ using('toendacms.kernel.configuration');
 using('toendacms.kernel.version');
 using('toendacms.kernel.html');
 
-//$tcms_time = new tcms_time();
-//$tcms_time->startTimer();
-//if(isset($choosenDB) && $choosenDB != 'xml')
-//	$tcms_time->startQueryCounter();
+// time class
+$tcms_time = new tcms_time();
 
-tcms_time::tcms_load_start();
+$tcms_time->startTimer();
 if(isset($choosenDB) && $choosenDB != 'xml')
-	tcms_time::tcms_query_count_start();
+	$tcms_time->startSqlQueryCounter();
+
+//tcms_time::tcms_load_start();
+//if(isset($choosenDB) && $choosenDB != 'xml')
+//	tcms_time::tcms_query_count_start();
 
 // params
 $tcms_param = new tcms_parameter();
@@ -526,6 +528,14 @@ if($wsShowSite){
 				
 				
 				/*
+					some objects
+				*/
+				// account provider
+				$tcms_ap = new tcms_account_provider($tcms_administer_site, $c_charset);
+				
+				
+				
+				/*
 					Authentication settings
 				*/
 				
@@ -556,7 +566,8 @@ if($wsShowSite){
 					
 					
 					if($check_session){
-						$arr_ws = $tcms_main->getUserInfo($session);
+						//$arr_ws = $tcms_main->getUserInfo($session);
+						$arr_ws = $tcms_ap->getUserInfo($session);
 						
 						$ws_name  = $arr_ws['name'];
 						$ws_user  = $arr_ws['user'];

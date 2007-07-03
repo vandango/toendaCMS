@@ -9,7 +9,7 @@
 | 
 | RSS, Atom and OPML Syndication
 |
-| File:		ext_syndication.php
+| File:	ext_syndication.php
 |
 +
 */

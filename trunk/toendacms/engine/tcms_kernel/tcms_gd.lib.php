@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for all graphic actions.
  *
- * @version 0.2.8
+ * @version 0.3.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -312,21 +312,22 @@ class tcms_gd {
 	 */
 	function generateFTPImageData($path, $targetPath, $choosenDB = 'xml'){
 		global $tcms_main;
+		global $tcms_time;
 		
 		$dir = opendir($path);
 		
 		if($choosenDB != 'xml'){
 			include($tcms_main->getAdministerSite().'/tcms_global/database.php');
 			
-			$db_user     = $this->securePassword($tcms_db_user);
-			$db_pass     = $this->securePassword($tcms_db_password);
-			$db_host     = $this->securePassword($tcms_db_host);
-			$db_database = $this->securePassword($tcms_db_database);
-			$db_port     = $this->securePassword($tcms_db_port);
-			$db_prefix   = $this->securePassword($tcms_db_prefix);
+			$db_user     = $tcms_db_user;
+			$db_pass     = $tcms_db_password;
+			$db_host     = $tcms_db_host;
+			$db_database = $tcms_db_database;
+			$db_port     = $tcms_db_port;
+			$db_prefix   = $tcms_db_prefix;
 			
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($db_user, $db_pass, $db_host, $db_database, $db_port);
+			$sqlCN = $sqlAL->connect($db_user, $db_pass, $db_host, $db_database, $db_port, $tcms_time);
 		}
 		
 		while($entry = readdir($dir)){
@@ -367,7 +368,7 @@ class tcms_gd {
 					
 					$newSQLData = "'".$image_folder."', '".$entry."', '".date('YmdHis')."'";
 					
-					$sqlQR = $sqlAL->sqlCreateOne($db_prefix.'imagegallery', $newSQLColumns, $newSQLData, $new_image_id);
+					$sqlQR = $sqlAL->createOne($db_prefix.'imagegallery', $newSQLColumns, $newSQLData, $new_image_id);
 				}
 			}
 		}

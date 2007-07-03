@@ -28,7 +28,7 @@ Version 1.6
 Developer Version
 	- 1.6.0 Development
 
-Building Steps: 2835
+Building Steps: 2845
 
 
 
@@ -76,7 +76,7 @@ Developer Version
 	- 1.5.5 Stable
 	- 1.5.6 Stable
 
-Building Steps: 2835
+Building Steps: 2880
 
 
 

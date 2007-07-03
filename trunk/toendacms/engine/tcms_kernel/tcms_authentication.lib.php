@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to authenticate a login user.
  *
- * @version 0.1.8
+ * @version 0.2.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -37,6 +37,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * tcms_authentication         -> PHP4 Constructor
  * __destruct                  -> PHP5 Destructor
  * _tcms_authentication        -> PHP4 Destructor
+ * 
+ * setTcmsTimeObj              -> Set the tcms_time object
  *
  * createSession               -> Create a session
  * updateLoginTime             -> Update the last_login value to current datetime
@@ -52,6 +54,7 @@ class tcms_authentication extends tcms_main {
 	var $m_administer;
 	var $m_imagePath;
 	var $m_charset;
+	var $_tcmsTime;
 	
 	// database information
 	var $db_choosenDB;
@@ -71,11 +74,12 @@ class tcms_authentication extends tcms_main {
 	 * @param String $charset
 	 * @param String $imagePath
 	 */
-	function __construct($administer, $charset, $imagePath){
+	function __construct($administer, $charset, $imagePath, $tcmsTimeObj = null){
 		$this->m_administer = $administer;
 		$this->m_imagePath = $imagePath;
 		$this->administer = $administer;
 		$this->m_charset = $charset;
+		$this->_tcmsTime = $tcmsTimeObj;
 		
 		require($this->m_administer.'/tcms_global/database.php');
 		
@@ -97,8 +101,8 @@ class tcms_authentication extends tcms_main {
 	 * @param String $charset
 	 * @param String $imagePath
 	 */
-	function tcms_authentication($administer, $charset, $imagePath){
-		$this->__construct($administer, $charset, $imagePath);
+	function tcms_authentication($administer, $charset, $imagePath, $tcmsTimeObj = null){
+		$this->__construct($administer, $charset, $imagePath, $tcmsTimeObj);
 	}
 	
 	
@@ -116,6 +120,17 @@ class tcms_authentication extends tcms_main {
 	 */
 	function _tcms_authentication(){
 		$this->__destruct();
+	}
+	
+	
+	
+	/**
+	 * Set the tcms_time object
+	 *
+	 * @param Object $value
+	 */
+	function setTcmsTimeObj($value) {
+		$this->_tcmsTime = $value;
 	}
 	
 	
@@ -159,14 +174,20 @@ class tcms_authentication extends tcms_main {
 				$ws_return = false;
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->db_user, $this->db_pass, $this->db_host, $this->db_database, $this->db_port);
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
 			$session_exists = 1;
 			
 			do{
 				$session_id = md5(microtime());
-				$sqlQR = $sqlAL->sqlGetOne($this->db_prefix.'session', $session_id);
-				$session_exists = $sqlAL->sqlGetNumber($sqlQR);
+				$sqlQR = $sqlAL->getOne($this->db_prefix.'session', $session_id);
+				$session_exists = $sqlAL->getNumber($sqlQR);
 			}
 			while($session_exists > 0);
 			
@@ -177,7 +198,7 @@ class tcms_authentication extends tcms_main {
 			}
 			$newSQLData = "'".date('U')."', '".$username."', '".$id."'";
 			
-			$sqlQR = $sqlAL->sqlCreateOne($this->db_prefix.'session', $newSQLColumns, $newSQLData, $session_id);
+			$sqlQR = $sqlAL->createOne($this->db_prefix.'session', $newSQLColumns, $newSQLData, $session_id);
 			
 			$sqlAL->_sqlAbstractionLayer();
 			
@@ -203,7 +224,7 @@ class tcms_authentication extends tcms_main {
 					if($XMLUserFile != 'index.html'){
 						if($tcmsUserID == substr($XMLUserFile, 0, 32)){
 							$xmlUser = new xmlparser($this->m_administer.'/tcms_user/'.$XMLUserFile, 'r');
-							$tmpLLXML = $xmlUser->read_section('user', 'last_login');
+							$tmpLLXML = $xmlUser->readSection('user', 'last_login');
 							
 							if($tmpLLXML == false) $tmpLLXML = '';
 							
@@ -233,12 +254,18 @@ class tcms_authentication extends tcms_main {
 			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->db_user, $this->db_pass, $this->db_host, $this->db_database, $this->db_port);
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
 			
 			$newSQLData = $this->db_prefix.'user.last_login="'.date('Y.m.d-H:i:s').'"';
 			
-			$sqlQR = $sqlAL->sqlUpdateOne($this->db_prefix.'user', $newSQLData, $tcmsUserID);
+			$sqlQR = $sqlAL->updateOne($this->db_prefix.'user', $newSQLData, $tcmsUserID);
 			
 			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
@@ -246,7 +273,7 @@ class tcms_authentication extends tcms_main {
 		
 		// update last changes
 		$xml = new xmlparser($this->m_administer.'/tcms_global/var.xml', 'r');
-		$tmpLC = $xml->read_section('global', 'last_changes');
+		$tmpLC = $xml->readSection('global', 'last_changes');
 		
 		if($tmpLC == false) $tmpLC = '';
 		
@@ -290,21 +317,21 @@ class tcms_authentication extends tcms_main {
 				foreach($arr_files as $key => $value){
 					$xml = new xmlparser($this->m_administer.'/tcms_user/'.$value,'r');
 					
-					$ws_username = $xml->read_section('user', 'username');
+					$ws_username = $xml->readSection('user', 'username');
 					$ws_username = $this->decodeText($ws_username, '2', $this->m_charset);
 					
 					// username
 					if($ws_username == $username){
 						$password = md5($password);
-						$ws_password = $xml->read_section('user', 'password');
+						$ws_password = $xml->readSection('user', 'password');
 						
 						// password
 						if($ws_password == $password){
-							$ws_enabled = $xml->read_section('user', 'enabled');
+							$ws_enabled = $xml->readSection('user', 'enabled');
 							
 							// enabled
 							if($ws_enabled == 1){
-								$ws_group = $xml->read_section('user', 'group');
+								$ws_group = $xml->readSection('user', 'group');
 								
 								$xml->flush();
 								$xml->_xmlparser();
@@ -347,8 +374,14 @@ class tcms_authentication extends tcms_main {
 			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->db_user, $this->db_pass, $this->db_host, $this->db_database, $this->db_port);
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
 			
 			$username = $this->encodeText($username, '2', $this->m_charset);
 			
@@ -358,15 +391,15 @@ class tcms_authentication extends tcms_main {
 			." AND password='".md5($password)."'"
 			." AND enabled = 1";
 			
-			$sqlQR = $sqlAL->sqlQuery($strSQL);
-			$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+			$sqlQR = $sqlAL->query($strSQL);
+			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
 			if($sqlNR > 0){
-				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+				$sqlObj = $sqlAL->fetchObject($sqlQR);
 				
-				$ws_maintag  = $sqlARR['uid'];
-				$ws_username = $sqlARR['username'];
-				$ws_group = $sqlARR['group'];
+				$ws_maintag  = $sqlObj->uid;
+				$ws_username = $sqlObj->username;
+				$ws_group = $sqlObj->group;
 				
 				if($ws_group == 'Administrator' || 
 				$ws_group == 'User' || 
@@ -421,10 +454,16 @@ class tcms_authentication extends tcms_main {
 			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->db_user, $this->db_pass, $this->db_host, $this->db_database, $this->db_port);
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
 			
-			$sqlAL->sqlDeleteOne($this->db_prefix.'session', $session);
+			$sqlAL->deleteOne($this->db_prefix.'session', $session);
 			
 			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
@@ -451,17 +490,17 @@ class tcms_authentication extends tcms_main {
 				foreach($arr_files as $key => $value){
 					$xml = new xmlparser($this->m_administer.'/tcms_user/'.$value,'r');
 					
-					$ws_username = $xml->read_section('user', 'username');
+					$ws_username = $xml->readSection('user', 'username');
 					$ws_username = $this->decodeText($ws_username, '2', $this->m_charset);
 					
 					// username
 					if($ws_username == $username){
-						$ws_email = $xml->read_section('user', 'email');
+						$ws_email = $xml->readSection('user', 'email');
 						
 						// password
 						if($ws_email == $email){
-							$ws_enabled  = $xml->read_section('user', 'enabled');
-							$ws_password = $xml->read_section('user', 'password');
+							$ws_enabled  = $xml->readSection('user', 'enabled');
+							$ws_password = $xml->readSection('user', 'password');
 							
 							// enabled
 							if($ws_enabled == 1){
@@ -491,8 +530,14 @@ class tcms_authentication extends tcms_main {
 			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->db_user, $this->db_pass, $this->db_host, $this->db_database, $this->db_port);
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
 			
 			$username = $this->encodeText($username, '2', $this->m_charset);
 			
@@ -502,11 +547,11 @@ class tcms_authentication extends tcms_main {
 			." AND email='".$email."'"
 			." AND enabled = 1";
 			
-			$sqlQR = $sqlAL->sqlQuery($strSQL);
-			$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+			$sqlQR = $sqlAL->query($strSQL);
+			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
 			if($sqlNR > 0){
-				$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+				$sqlObj = $sqlAL->fetchObject($sqlQR);
 				
 				$ws_maintag  = $sqlObj->uid;
 				$ws_username = $sqlObj->username;
@@ -516,7 +561,7 @@ class tcms_authentication extends tcms_main {
 				$save_password = md5($new_password);
 				
 				$newSQLData = $this->db_prefix.'user.password="'.$save_password.'"';
-				$sqlQR = $sqlAL->sqlUpdateOne($this->db_prefix.'user', $newSQLData, $ws_maintag);
+				$sqlQR = $sqlAL->updateOne($this->db_prefix.'user', $newSQLData, $ws_maintag);
 				
 				$this->sendRetrievementMail($ws_username, $ws_email, $new_password);
 				

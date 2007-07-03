@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the search form.
  *
- * @version 0.2.0
+ * @version 0.2.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -46,17 +46,17 @@ if($use_search == 1){
 		}
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'sidebar_extensions', 'sidebar_extensions');
-		$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+		$sqlQR = $sqlAL->getOne($tcms_db_prefix.'sidebar_extensions', 'sidebar_extensions');
+		$sqlObj = $sqlAL->fetchObject($sqlQR);
 		
-		$show_st       = $sqlARR['show_search_title'];
-		$sb_align      = $sqlARR['search_alignment'];
-		$sb_withbr     = $sqlARR['search_withbr'];
-		$sb_withbutton = $sqlARR['search_withbutton'];
-		$sb_searchword = $sqlARR['search_word'];
+		$show_st       = $sqlObj->show_search_title;
+		$sb_align      = $sqlObj->search_alignment;
+		$sb_withbr     = $sqlObj->search_withbr;
+		$sb_withbutton = $sqlObj->search_withbutton;
+		$sb_searchword = $sqlObj->search_word;
 		
 		$sb_searchword = $tcms_main->decodeText($sb_searchword, '2', $c_charset);
 		
@@ -67,7 +67,7 @@ if($use_search == 1){
 	
 
 	if($show_st == 1)
-		echo tcms_html::subtitle(_SEARCH_TITLE).'<br />';
+		echo $tcms_html->subTitle(_SEARCH_TITLE).'<br />';
 	
 	echo '<div align="'.$sb_align.'">'
 	.'<form action="'.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?" method="post" style="margin: 0px !important; padding: 0px !important;">'

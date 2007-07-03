@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.0.8
+ * @version 2.1.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -45,6 +45,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * MAIN FUNCTIONS
  * --------------------------------------------------------
  *
+ * setTcmsTimeObj                    -> Set the tcms_time object
  * setDatabaseInfo                   -> Setter for the databse information
  * setURLSEO                         -> Setter for urlSEO
  * setGlobalFolder                   -> Set the global folder
@@ -54,11 +55,6 @@ defined('_TCMS_VALID') or die('Restricted access');
  * PUBLIC METHODS
  * --------------------------------------------------------
  *
- * // todo: take into account class
- * getUser                           -> Return the username
- * getUserID                         -> Return ID for username or realname
- * getUserInfo                       -> Get some information about a user
- * 
  * getAllDocuments                   -> Get all documents
  * getPathContentAmount              -> Get the amount of related files in a path (without directorys)
  * getPathContent                    -> Return a array of all files or folders inside a path
@@ -138,6 +134,9 @@ defined('_TCMS_VALID') or die('Restricted access');
  * DEPRECATED FUNCTIONS
  * --------------------------------------------------------
  *
+ * DEPRECATED getUser                     -> Return the username
+ * DEPRECATED getUserID                   -> Return ID for username or realname
+ * DEPRECATED getUserInfo                 -> Get some information about a user
  * DEPRECATED create_uid                  -> getNewUID
  * DEPRECATED getUserFromSQL              -> getUser
  * DEPRECATED readdir_ext                 -> getPathContent
@@ -177,6 +176,7 @@ class tcms_main {
 	var $globalFolder;
 	var $globalSEO;
 	var $urlSEO;
+	var $_tcmsTime;
 	
 	// database information
 	var $db_choosenDB;
@@ -201,9 +201,10 @@ class tcms_main {
 	 *
 	 * @param String $administer = 'data'
 	 */
-	function __construct($administer = 'data'){
+	function __construct($administer = 'data', $tcmsTimeObj = null){
 		$this->administer = $administer;
 		$this->urlSEO = 'colon';
+		$this->_tcmsTime = $tcmsTimeObj;
 	}
 	
 	
@@ -213,8 +214,8 @@ class tcms_main {
 	 *
 	 * @param String $administer = 'data'
 	 */
-	function tcms_main($administer = 'data'){
-		$this->__construct($administer);
+	function tcms_main($administer = 'data', $tcmsTimeObj = null){
+		$this->__construct($administer, $tcmsTimeObj);
 	}
 	
 	
@@ -236,9 +237,20 @@ class tcms_main {
 	
 	
 	
-	/*
-		Internal functions
-	*/
+	// -------------------------------------------------
+	// PROPERTIES
+	// -------------------------------------------------
+	
+	
+	
+	/**
+	 * Set the tcms_time object
+	 *
+	 * @param Object $value
+	 */
+	function setTcmsTimeObj($value) {
+		$this->_tcmsTime = $value;
+	}
 	
 	
 	
@@ -302,212 +314,9 @@ class tcms_main {
 	
 	
 	
-	/*
-		toendaCMS system framework
-	*/
-	
-	
-	
-	/**
-	 * Get the username of a user id
-	 *
-	 * @param String $userID
-	 * @return String
-	 */
-	function getUser($userID){
-		if($this->db_choosenDB == 'xml'){
-			$tcms_config = new tcms_configuration($this->administer);
-			$c_charset = $tcms_config->getCharset();
-			unset($tcms_config);
-			
-			if(file_exists($this->administer.'/tcms_user/'.$userID.'.xml')){
-				$xmlUser = new xmlparser($this->administer.'/tcms_user/'.$userID.'.xml', 'r');
-				
-				$tmpNickXML = $xmlUser->read_section('user', 'username');
-			}
-			else{
-				$tmpNickXML = '';
-			}
-			
-			if($tmpNickXML == ''){
-				$nickXML = false;
-			}
-			else{
-				$nickXML = $this->decodeText($tmpNickXML, '2', $c_charset);
-			}
-		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->db_user, $this->db_pass, $this->db_host, $this->db_database, $this->db_port);
-			
-			$sqlQR = $sqlAL->sqlQuery("SELECT * FROM ".$this->db_prefix."user WHERE uid = '".$userID."'");
-			$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
-			
-			if($sqlNR > 0){
-				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
-				$nickXML = $sqlARR['username'];
-			}
-			else{
-				$nickXML = false;
-			}
-		}
-		
-		return $nickXML;
-	}
-	
-	
-	
-	/**
-	 * Get the id for a user
-	 *
-	 * @param String $realOrNick
-	 * @return String
-	 */
-	function getUserID($realOrNick){
-		if($this->db_choosenDB == 'xml'){
-			$tcms_config = new tcms_configuration($this->administer);
-			$c_charset = $tcms_config->getCharset();
-			unset($tcms_config);
-			
-			$arrUserXML = $this->getPathContent($this->administer.'/tcms_user');
-			
-			$userFound = false;
-			
-			foreach($arrUserXML as $key => $XMLUserFile){
-				if($XMLUserFile != 'index.html'){
-					$xmlUser = new xmlparser($this->administer.'/tcms_user/'.$XMLUserFile, 'r');
-					
-					$tmpNickXML = $xmlUser->read_section('user', 'name');
-					$nickXML = $this->decodeText($tmpNickXML, '2', $c_charset);
-					
-					if($realOrNick == $nickXML){
-						return substr($XMLUserFile, 0, 32);
-						$userFound = true;
-						break;
-					}
-					else{
-						$tmpRealXML = $xmlUser->read_section('user', 'username');
-						$arrRealXML = $this->decodeText($tmpRealXML, '2', $c_charset);
-						
-						if($realOrNick == $arrRealXML){
-							return substr($XMLUserFile, 0, 32);
-							$userFound = true;
-							break;
-						}
-						else{
-							$userFound = false;
-						}
-					}
-					
-					$nickXML = '';
-					$arrRealXML = '';
-				}
-			}
-		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->db_user, $this->db_pass, $this->db_host, $this->db_database, $this->db_port);
-			
-			$sqlQR = $sqlAL->sqlQuery("SELECT * FROM ".$this->db_prefix."user WHERE username = '".$realOrNick."'");
-			$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
-			
-			if($sqlNR != 0){
-				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
-				$userID = $sqlARR['uid'];
-			}
-			else{
-				$sqlQR = $sqlAL->sqlQuery("SELECT * FROM ".$this->db_prefix."user WHERE name = '".$realOrNick."'");
-				$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
-				
-				if($sqlNR != 0){
-					$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
-					$userID = $sqlARR['uid'];
-				}
-				else{
-					$userID = false;
-				}
-			}
-			
-			return $userID;
-		}
-		
-		if(!$userFound){ return false; }
-	}
-	
-	
-	
-	/**
-	 * Get some information about the current user
-	 *
-	 * @param String $session
-	 * @return Array
-	 */
-	function getUserInfo($session){
-		if($this->db_choosenDB == 'xml'){
-			$fileopen = fopen($this->administer.'/tcms_session/'.$session, 'r');
-			$arr_user = fread($fileopen, filesize($this->administer.'/tcms_session/'.$session));
-			
-			$arr_username = explode('##', $arr_user);
-			$ws_user = $arr_username[0];
-			$ws_id   = $arr_username[1];
-			
-			fclose($fileopen);
-			
-			$authXML = new xmlparser($this->administer.'/tcms_user/'.$ws_id.'.xml', 'r');
-			
-			$arr_ws['user']  = $ws_user;
-			$arr_ws['id']    = $ws_id;
-			$arr_ws['group'] = $authXML->read_section('user', 'group');
-			$arr_ws['name']  = $authXML->read_section('user', 'name');
-			
-			$authXML->flush();
-			$authXML->_xmlparser();
-			unset($authXML);
-		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->db_user, $this->db_pass, $this->db_host, $this->db_database, $this->db_port);
-			
-			if($this->db_choosenDB == 'mssql'){
-				$strSQL = "SELECT "
-				.$this->db_prefix."session.[user_id], "
-				.$this->db_prefix."user.[name], "
-				.$this->db_prefix."user.username, "
-				.$this->db_prefix."user.[group]"
-				//.$this->db_prefix."usergroup.right"
-				." FROM ".$this->db_prefix."session"
-				." INNER JOIN ".$this->db_prefix."user ON (".$this->db_prefix."session.[user_id] = ".$this->db_prefix."user.uid)"
-				//." INNER JOIN ".$this->db_prefix."usergroup ON (".$this->db_prefix."user.group = ".$this->db_prefix."usergroup.uid)"
-				." WHERE (".$this->db_prefix."session.uid = '".$session."')";
-			}
-			else{
-				$strSQL = "SELECT "
-				.$this->db_prefix."session.user_id, "
-				.$this->db_prefix."user.name, "
-				.$this->db_prefix."user.username, "
-				.$this->db_prefix."user.group"
-				//.$this->db_prefix."usergroup.right"
-				." FROM ".$this->db_prefix."session"
-				." INNER JOIN ".$this->db_prefix."user ON (".$this->db_prefix."session.user_id = ".$this->db_prefix."user.uid)"
-				//." INNER JOIN ".$this->db_prefix."usergroup ON (".$this->db_prefix."user.group = ".$this->db_prefix."usergroup.uid)"
-				." WHERE (".$this->db_prefix."session.uid = '".$session."')";
-			}
-			
-			$sqlQR = $sqlAL->sqlQuery($strSQL);
-			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
-			
-			$arr_ws['name']  = $sqlObj->name;
-			$arr_ws['user']  = $sqlObj->username;
-			$arr_ws['id']    = $sqlObj->user_id;
-			$arr_ws['group'] = $sqlObj->group;
-			//$arr_ws['right'] = $sqlObj->right;
-			
-			$sqlAL->_sqlAbstractionLayer();
-			unset($sqlAL);
-		}
-		
-		return $arr_ws;
-	}
+	// -------------------------------------------------
+	// PUBLIC MEMBERS
+	// -------------------------------------------------
 	
 	
 	
@@ -532,9 +341,9 @@ class tcms_main {
 				foreach($arr_docs as $key => $val) {
 					$xml = new xmlparser($this->administer.'/tcms_content/'.$val,'r');
 					
-					$arrDocuments['id'][$count] = $xml->read_section('main', 'id');
+					$arrDocuments['id'][$count] = $xml->readSection('main', 'id');
 					$arrDocuments['name'][$count] = $this->decodeText(
-						$xml->read_section('main', 'title'), '2', $c_charset
+						$xml->readSection('main', 'title'), '2', $c_charset
 					);
 					
 					$xml->flush();
@@ -546,19 +355,25 @@ class tcms_main {
 			}
 		}
 		else {
-			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->db_user, $this->db_pass, $this->db_host, $this->db_database, $this->db_port);
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
 			
-			$sqlQR = $sqlAL->sqlGetAll($this->db_prefix.'content');
+			$sqlQR = $sqlAL->getAll($this->db_prefix.'content');
 			
-			while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)){
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)){
 				$arrDocuments['id'][$count] = $sqlObj->uid;
 				$arrDocuments['name'][$count] = $this->decodeText($sqlObj->title, '2', $c_charset);
 				
 				$count++;
 			}
 			
-			$sqlAL->sqlFreeResult($sqlQR);
+			$sqlAL->freeResult($sqlQR);
 		}
 		
 		return $arrDocuments;
@@ -798,14 +613,21 @@ class tcms_main {
 			while(($uid = substr(md5(microtime()), 0, $length)) && file_exists($this->administer.'/tcms_'.$table.'/'.$uid.'.xml')){}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->db_user, $this->db_pass, $this->db_host, $this->db_database, $this->db_port);
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
+			
 			$session_exists = 1;
 			
 			do{
 				$uid = substr(md5(microtime()), 0, $length);
-				$sqlQR = $sqlAL->sqlGetOne($this->db_prefix.$table, $uid);
-				$uid_exists = $sqlAL->sqlGetNumber($sqlQR);
+				$sqlQR = $sqlAL->getOne($this->db_prefix.$table, $uid);
+				$uid_exists = $sqlAL->getNumber($sqlQR);
 			}
 			while($uid_exists > 0);
 			
@@ -3413,11 +3235,231 @@ class tcms_main {
 	
 	
 	
-	/*
-		- COMPATIBILITY LAYER -
+	// -------------------------------------------------
+	// - COMPATIBILITY LAYER -
+	// Deprecated members
+	// -------------------------------------------------
+	
+	
+	
+	/**
+	 * Get the username of a user id
+	 *
+	 * @param String $userID
+	 * @return String
+	 */
+	function getUser($userID){
+		if($this->db_choosenDB == 'xml'){
+			$tcms_config = new tcms_configuration($this->administer);
+			$c_charset = $tcms_config->getCharset();
+			unset($tcms_config);
+			
+			if(file_exists($this->administer.'/tcms_user/'.$userID.'.xml')){
+				$xmlUser = new xmlparser($this->administer.'/tcms_user/'.$userID.'.xml', 'r');
+				
+				$tmpNickXML = $xmlUser->readSection('user', 'username');
+			}
+			else{
+				$tmpNickXML = '';
+			}
+			
+			if($tmpNickXML == ''){
+				$nickXML = false;
+			}
+			else{
+				$nickXML = $this->decodeText($tmpNickXML, '2', $c_charset);
+			}
+		}
+		else{
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
+			
+			$sqlQR = $sqlAL->query("SELECT * FROM ".$this->db_prefix."user WHERE uid = '".$userID."'");
+			$sqlNR = $sqlAL->getNumber($sqlQR);
+			
+			if($sqlNR > 0){
+				$sqlObj = $sqlAL->fetchObject($sqlQR);
+				$nickXML = $sqlObj->username;
+			}
+			else{
+				$nickXML = false;
+			}
+		}
 		
-		Deprecated functions
-	*/
+		return $nickXML;
+	}
+	
+	
+	
+	/**
+	 * Get the id for a user
+	 *
+	 * @param String $realOrNick
+	 * @return String
+	 */
+	function getUserID($realOrNick){
+		if($this->db_choosenDB == 'xml'){
+			$tcms_config = new tcms_configuration($this->administer);
+			$c_charset = $tcms_config->getCharset();
+			unset($tcms_config);
+			
+			$arrUserXML = $this->getPathContent($this->administer.'/tcms_user');
+			
+			$userFound = false;
+			
+			foreach($arrUserXML as $key => $XMLUserFile){
+				if($XMLUserFile != 'index.html'){
+					$xmlUser = new xmlparser($this->administer.'/tcms_user/'.$XMLUserFile, 'r');
+					
+					$tmpNickXML = $xmlUser->readSection('user', 'name');
+					$nickXML = $this->decodeText($tmpNickXML, '2', $c_charset);
+					
+					if($realOrNick == $nickXML){
+						return substr($XMLUserFile, 0, 32);
+						$userFound = true;
+						break;
+					}
+					else{
+						$tmpRealXML = $xmlUser->readSection('user', 'username');
+						$arrRealXML = $this->decodeText($tmpRealXML, '2', $c_charset);
+						
+						if($realOrNick == $arrRealXML){
+							return substr($XMLUserFile, 0, 32);
+							$userFound = true;
+							break;
+						}
+						else{
+							$userFound = false;
+						}
+					}
+					
+					$nickXML = '';
+					$arrRealXML = '';
+				}
+			}
+		}
+		else{
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
+			
+			$sqlQR = $sqlAL->query("SELECT * FROM ".$this->db_prefix."user WHERE username = '".$realOrNick."'");
+			$sqlNR = $sqlAL->getNumber($sqlQR);
+			
+			if($sqlNR != 0){
+				$sqlObj = $sqlAL->fetchObject($sqlQR);
+				$userID = $sqlObj->uid;
+			}
+			else{
+				$sqlQR = $sqlAL->query("SELECT * FROM ".$this->db_prefix."user WHERE name = '".$realOrNick."'");
+				$sqlNR = $sqlAL->getNumber($sqlQR);
+				
+				if($sqlNR != 0){
+					$sqlARR = $sqlAL->fetchObject($sqlQR);
+					$userID = $sqlObj->uid;
+				}
+				else{
+					$userID = false;
+				}
+			}
+			
+			return $userID;
+		}
+		
+		if(!$userFound){ return false; }
+	}
+	
+	
+	
+	/**
+	 * Get some information about the current user
+	 *
+	 * @param String $session
+	 * @return Array
+	 */
+	function getUserInfo($session){
+		if($this->db_choosenDB == 'xml'){
+			$fileopen = fopen($this->administer.'/tcms_session/'.$session, 'r');
+			$arr_user = fread($fileopen, filesize($this->administer.'/tcms_session/'.$session));
+			
+			$arr_username = explode('##', $arr_user);
+			$ws_user = $arr_username[0];
+			$ws_id   = $arr_username[1];
+			
+			fclose($fileopen);
+			
+			$authXML = new xmlparser($this->administer.'/tcms_user/'.$ws_id.'.xml', 'r');
+			
+			$arr_ws['user']  = $ws_user;
+			$arr_ws['id']    = $ws_id;
+			$arr_ws['group'] = $authXML->readSection('user', 'group');
+			$arr_ws['name']  = $authXML->readSection('user', 'name');
+			
+			$authXML->flush();
+			$authXML->_xmlparser();
+			unset($authXML);
+		}
+		else{
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
+			
+			if($this->db_choosenDB == 'mssql'){
+				$strSQL = "SELECT "
+				.$this->db_prefix."session.[user_id], "
+				.$this->db_prefix."user.[name], "
+				.$this->db_prefix."user.username, "
+				.$this->db_prefix."user.[group]"
+				//.$this->db_prefix."usergroup.right"
+				." FROM ".$this->db_prefix."session"
+				." INNER JOIN ".$this->db_prefix."user ON (".$this->db_prefix."session.[user_id] = ".$this->db_prefix."user.uid)"
+				//." INNER JOIN ".$this->db_prefix."usergroup ON (".$this->db_prefix."user.group = ".$this->db_prefix."usergroup.uid)"
+				." WHERE (".$this->db_prefix."session.uid = '".$session."')";
+			}
+			else{
+				$strSQL = "SELECT "
+				.$this->db_prefix."session.user_id, "
+				.$this->db_prefix."user.name, "
+				.$this->db_prefix."user.username, "
+				.$this->db_prefix."user.group"
+				//.$this->db_prefix."usergroup.right"
+				." FROM ".$this->db_prefix."session"
+				." INNER JOIN ".$this->db_prefix."user ON (".$this->db_prefix."session.user_id = ".$this->db_prefix."user.uid)"
+				//." INNER JOIN ".$this->db_prefix."usergroup ON (".$this->db_prefix."user.group = ".$this->db_prefix."usergroup.uid)"
+				." WHERE (".$this->db_prefix."session.uid = '".$session."')";
+			}
+			
+			$sqlQR = $sqlAL->query($strSQL);
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
+			
+			$arr_ws['name']  = $sqlObj->name;
+			$arr_ws['user']  = $sqlObj->username;
+			$arr_ws['id']    = $sqlObj->user_id;
+			$arr_ws['group'] = $sqlObj->group;
+			//$arr_ws['right'] = $sqlObj->right;
+			
+			$sqlAL->_sqlAbstractionLayer();
+			unset($sqlAL);
+		}
+		
+		return $arr_ws;
+	}
 	
 	
 	

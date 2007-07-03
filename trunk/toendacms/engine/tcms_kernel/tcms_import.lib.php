@@ -9,8 +9,7 @@
 |
 | toendaCMS Import class
 |
-| File:		tcms_import.lib.php
-| Version:	0.0.5
+| File:	tcms_import.lib.php
 |
 +
 */
@@ -24,21 +23,25 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to provide a import class.
  *
+ * @version 0.1.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
- */
-
-
-/**
+ *
+ * <code>
+ * 
  * Methods
+ * 
+ * __construct                 -> PHP5 Constructor
+ * tcms_import                 -> PHP4 Constructor
+ * __destruct                  -> PHP5 Destructor
+ * _tcms_import                -> PHP4 Destructor
+ * 
+ * setTcmsTimeObj              -> Set the tcms_time object
  *
- * __construct                -> PHP5 Constructor
- * tcms_import                -> PHP4 Constructor
- * __destruct                 -> PHP5 Destructor
- * _tcms_import               -> PHP4 Destructor
- *
- * importVCard                -> Import a vcard
+ * importVCard                 -> Import a vcard
+ * 
+ * </code>
  *
  */
 
@@ -46,6 +49,7 @@ defined('_TCMS_VALID') or die('Restricted access');
 class tcms_import extends tcms_main {
 	var $m_administer;
 	var $m_charset;
+	var $_tcmsTime;
 	
 	// database information
 	var $db_choosenDB;
@@ -63,11 +67,13 @@ class tcms_import extends tcms_main {
 	 *
 	 * @param String $administer
 	 * @param String $charset
+	 * @param Object $tcmsTimeObj = null
 	 */
-	function __construct($administer, $charset){
+	function __construct($administer, $charset, $tcmsTimeObj = null){
 		$this->m_administer = $administer;
 		$this->administer = $administer;
 		$this->m_charset = $charset;
+		$this->_tcmsTime = $tcmsTimeObj;
 		
 		require($this->m_administer.'/tcms_global/database.php');
 		
@@ -87,9 +93,10 @@ class tcms_import extends tcms_main {
 	 *
 	 * @param String $administer
 	 * @param String $charset
+	 * @param Object $tcmsTimeObj = null
 	 */
-	function tcms_import($administer, $charset){
-		$this->__construct($administer, $charset);
+	function tcms_import($administer, $charset, $tcmsTimeObj = null){
+		$this->__construct($administer, $charset, $tcmsTimeObj);
 	}
 	
 	
@@ -112,6 +119,17 @@ class tcms_import extends tcms_main {
 	
 	
 	/**
+	 * Set the tcms_time object
+	 *
+	 * @param Object $value
+	 */
+	function setTcmsTimeObj($value) {
+		$this->_tcmsTime = $value;
+	}
+	
+	
+	
+	/**
 	 * Import a vcard
 	 */
 	function importVCard() {
@@ -126,7 +144,7 @@ class tcms_import extends tcms_main {
 		
 		// parse vcard file
 		while(!$file->IsEOF()) {
-			$line = $file->ReadLine();
+			$line = $file->readLine();
 			//echo $line.'<br />';
 			
 			
@@ -196,7 +214,7 @@ class tcms_import extends tcms_main {
 			}
 		}
 		
-		$file->Close();
+		$file->close();
 		
 		if(empty($arr_con['name'])     || $arr_con['name']     == '') $arr_con['name']     = '';
 		if(empty($arr_con['position']) || $arr_con['position'] == '') $arr_con['position'] = '';
@@ -246,8 +264,14 @@ class tcms_import extends tcms_main {
 			unset($xmlcon);
 		}
 		else {
-			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($this->db_user, $this->db_pass, $this->db_host, $this->db_database, $this->db_port);
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
 			
 			switch($this->db_choosenDB){
 				case 'mysql':
@@ -271,7 +295,7 @@ class tcms_import extends tcms_main {
 			."'".$arr_con['state']."', '".$arr_con['city']."', '".$arr_con['zip']."', "
 			."'".$arr_con['fon']."', ''";
 			
-			$sqlQR = $sqlAL->sqlCreateOne($this->db_prefix.'contacts', $newSQLColumns, $newSQLData, $id);
+			$sqlQR = $sqlAL->createOne($this->db_prefix.'contacts', $newSQLColumns, $newSQLData, $id);
 		}
 	}
 }

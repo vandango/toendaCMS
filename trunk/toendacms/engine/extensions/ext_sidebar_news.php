@@ -9,7 +9,7 @@
 | 
 | Sidebar News
 |
-| File:		ext_sidebar_news.php
+| File:	ext_sidebar_news.php
 |
 +
 */
@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the sidebar news functionality.
  *
- * @version 0.2.1
+ * @version 0.2.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -35,7 +35,7 @@ $getLang = $tcms_config->getLanguageCodeForTCMS($lang);
 //$id == 'frontpage'
 if($blah = 1){
 	if($sb_news_enabled == 1){
-		echo tcms_html::subtitle($front_s_title);
+		echo $tcms_html->subTitle($front_s_title);
 		//echo '<br />';
 		
 		$arrNewsDC = new tcms_dc_news();
@@ -50,11 +50,11 @@ if($blah = 1){
 				
 				if($sb_news_display == 4){
 					echo lang_date(
-						substr($dcNews->GetDate(), 0, 2), 
-						substr($dcNews->GetDate(), 3, 2), 
-						substr($dcNews->GetDate(), 6, 4), 
-						substr($dcNews->GetTime(), 0, 2), 
-						substr($dcNews->GetTime(), 3, 2), 
+						substr($dcNews->getDate(), 0, 2), 
+						substr($dcNews->getDate(), 3, 2), 
+						substr($dcNews->getDate(), 6, 4), 
+						substr($dcNews->getTime(), 0, 2), 
+						substr($dcNews->getTime(), 3, 2), 
 						''
 					);
 				}
@@ -63,7 +63,7 @@ if($blah = 1){
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id=newsmanager&amp;s='.$s.'&amp;news='.$dcNews->GetID()
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
 				if($sb_news_display == 1 
 				|| $sb_news_display == 2 
@@ -72,7 +72,7 @@ if($blah = 1){
 					echo ( $sb_news_display == 3 ? '<span class="newsCategories" style="padding-left: 6px;">&raquo;</span>' : '' )
 					.'<strong class="newsCategories" style="padding-left: 6px;">'
 					.'<a href="'.$link.'">'
-					.$dcNews->GetTitle()
+					.$dcNews->getTitle()
 					.'</a>'
 					.'</strong>'
 					.'<br />';
@@ -82,11 +82,11 @@ if($blah = 1){
 				if($sb_news_display == 1 || $sb_news_display == 2){
 					echo '<div class="text_small" style="padding-left: 6px;">'
 					.lang_date(
-						substr($dcNews->GetDate(), 0, 2), 
-						substr($dcNews->GetDate(), 3, 2), 
-						substr($dcNews->GetDate(), 6, 4), 
-						substr($dcNews->GetTime(), 0, 2), 
-						substr($dcNews->GetTime(), 3, 2), 
+						substr($dcNews->getDate(), 0, 2), 
+						substr($dcNews->getDate(), 3, 2), 
+						substr($dcNews->getDate(), 6, 4), 
+						substr($dcNews->getTime(), 0, 2), 
+						substr($dcNews->getTime(), 3, 2), 
 						''
 					)
 					.'</div>';
@@ -104,7 +104,7 @@ if($blah = 1){
 				if($sb_news_display == 1){
 					echo '<div class="sidemain" style="padding-left: 6px;">';
 					
-					$sb_news_content = $tcms_main->cleanAllImagesFromString($dcNews->GetText());
+					$sb_news_content = $tcms_main->cleanAllImagesFromString($dcNews->getText());
 					
 					$toendaScript = new toendaScript($sb_news_content);
 					$sb_news_content = $toendaScript->toendaScript_trigger();

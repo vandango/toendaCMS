@@ -9,7 +9,7 @@
 | 
 | News Categories for Sidebar
 |
-| File:		ext_sidebar_category.php
+| File:	ext_sidebar_category.php
 |
 +
 */
@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides the news categories for
  * the sidebar.
  *
- * @version 0.3.5
+ * @version 0.3.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -49,16 +49,15 @@ if($use_side_category == 1){
 	}
 	
 	
-	
-
-	echo tcms_html::subtitle(_NEWS_CATEGORIES_TITLE);
-	
+	echo $tcms_html->subTitle(_NEWS_CATEGORIES_TITLE);
 	
 	
 	if($choosenDB == 'xml'){
-		$arrCatFile = $tcms_main->getPathContent($tcms_administer_site.'/tcms_news_categories/');
+		$arrCatFile = $tcms_main->getPathContent(
+			$tcms_administer_site.'/tcms_news_categories/'
+		);
 		
-		if($arrCatFile){
+		if($tcms_main->isArray($arrCatFile)){
 			sort($arrCatFile);
 			
 			foreach($arrCatFile as $cKey => $cVal){
@@ -77,7 +76,7 @@ if($use_side_category == 1){
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id=newsmanager&amp;s='.$s.'&amp;cat='.substr($cVal, 0, 5)
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
 				echo '<span class="newsCategories" style="padding-left: 6px;">&raquo;&nbsp;';
 				echo '<a href="'.$link.'">'
