@@ -1121,7 +1121,11 @@ class sqlAbstractionLayer{
 		switch($this->_sqlInterface){
 			case 'mysql':
 				if($withDebug) {
-					$fp = fopen('log_sqlUpdateOne_'.microtime().'.txt', 'w');
+					//echo 'UPDATE '.$sqlTable.' SET '.$newDataString.' WHERE uid = "'.$sqlUID.'"';
+					$fp = fopen(
+						'log_sqlUpdateOne_'.$tcms_time->getCurrentDate().$tcms_time->getCurrentTime().'.txt', 
+						'w'
+					);
 					fwrite($fp, 'UPDATE '.$sqlTable.' SET '.$newDataString.' WHERE uid = "'.$sqlUID.'"');
 					fclose($fp);
 				}
