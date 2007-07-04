@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.1.1
+ * @version 2.1.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -101,6 +101,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * lastIndexOf                       -> The same as strrpos, except $searchThis can be a string
  * indexOf                           -> The same as strpos
  * convertNewlineToHTML              -> Replaces all newlines in a stzring with <br /> tags
+ * cutStringToLength                 -> Cut a string and append a string
  *
  * xml_readdir_content         -> return id saved in xml file
  * xml_readdir_content_without -> return id saved in xml file
@@ -1837,6 +1838,11 @@ class tcms_main {
 	
 	/**
 	 * The same as strpos
+	 * 
+	 * @param String $findHere
+	 * @param String $searchThis
+	 * @param Integer $offset
+	 * @return Integer
 	 */
 	function indexOf($findHere, $searchThis, $offset = 0) {
 		return strpos($findHere, $searchThis, $offset);
@@ -1852,6 +1858,20 @@ class tcms_main {
 	 */
 	function convertNewlineToHTML($text){
 		return nl2br($text);
+	}
+	
+	
+	
+	/**
+	 * Cut a string and append a string
+	 * 
+	 * @param String $text
+	 * @param Integer $length = 15
+	 * @param String $appendString = ''
+	 * @return String
+	 */
+	function cutStringToLength($text, $length = 15, $appendString = ''){
+		return ( strlen($text) > 15 ? substr($text, 0, $length).$appendString : $text );
 	}
 	
 	

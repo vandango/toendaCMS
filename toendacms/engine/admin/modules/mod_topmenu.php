@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the topmenu items.
  *
- * @version 0.5.6
+ * @version 0.5.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -219,7 +219,9 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 					}
 				echo '</td>';
 				
-				echo '<td class="tcms_db_2" align="left"'.$strJS.'>'.$arr_top_menu['link'][$key].'</td>';
+				echo '<td class="tcms_db_2" align="left"'.$strJS.'>'
+				.$tcms_main->cutStringToLength($arr_top_menu['link'][$key], 15, '...')
+				.'</td>';
 				
 				echo '<td class="tcms_db_2" align="center">'
 				.'<a href="admin.php?id_user='.$id_user.'&site=mod_topmenu&todo=publishItem&action='.( $arr_top_menu['pub'][$key] == 1 ? 'off' : 'on' ).'&maintag='.$arr_top_menu['tag'][$key].'">'

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the sidemenu items.
  *
- * @version 0.6.4
+ * @version 0.6.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -280,7 +280,9 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 					}
 				echo '</td>';
 				
-				echo '<td class="tcms_db_2" align="left"'.$strJS.'>'.$arr_top_menu['link'][$key].'</td>';
+				echo '<td class="tcms_db_2" align="left"'.$strJS.'>'
+				.$tcms_main->cutStringToLength($arr_top_menu['link'][$key], 15, '...')
+				.'</td>';
 				
 				echo '<td class="tcms_db_2" align="center">'
 				.'<a href="admin.php?id_user='.$id_user.'&site=mod_sidemenu&todo=publishItem&action='.( $arr_top_menu['pub'][$key] == 1 ? 'off' : 'on' ).'&maintag='.$arr_top_menu['tag'][$key].'">'
@@ -587,10 +589,29 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		
 		
 		// row
+		switch ($sm_type) {
+			case 'link':
+				$loadType = 'ajaxChangeSidemenuType(\'link\');';
+				break;
+			
+			case 'title':
+				$loadType = 'ajaxChangeSidemenuType(\'title\');';
+				break;
+			
+			case 'web':
+				$loadType = 'ajaxChangeSidemenuType(\'web\');';
+				break;
+		}
+		
+		$jsStr = '<script>'
+		.$loadType
+		.'</script>';
+		
 		echo '<tr><td valign="top" width="'.$width.'">'
 		.'<strong id="sm_type_title" style="display:'.( $sm_type == 'link' || $sm_type == 'web' ? 'block' : 'none' ).';" class="tcms_bold">'._TABLE_LINKTO.'</strong></td>'
 		.'<td valign="top">'
-		.'<select name="new_sm_link" id="sm_type_intern" class="tcms_select" style="display:'.( $sm_type == 'link' ? 'block' : 'none' ).';">'
+		.'<select name="'.( $sm_type == 'link' || $sm_type == 'title' || $sm_type == '' ? 'new_sm_link' : 'nothing' ).'"'
+		.' id="sm_type_intern" class="tcms_select" style="display:'.( $sm_type == 'link' ? 'block' : 'none' ).';">'
 			.'<option selected value="new_page"> &bull; '._TABLE_NEW.' &bull; </option>';
 			if(isset($maintag) && !empty($maintag) && $maintag != ''){
 				echo '<option selected value="'.$sm_link.'">'.$sm_link.'</option>';
@@ -599,7 +620,9 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				echo '<option value="'.$value.'">'.$arr_linkcom['name'][$key].'</option>';
 			}
 		echo '</select>'
-		.'<input class="tcms_input_small" id="sm_type_extern" name="nothing" style="display:'.( $sm_type == 'web' ? 'block' : 'none' ).';" type="text" value="'.$sm_link.'" />'
+		.'<input class="tcms_input_small" id="sm_type_extern" '
+		.'name="'.( $sm_type == 'web' ? 'new_sm_link' : 'nothing' ).'" '
+		.'style="display:'.( $sm_type == 'web' ? 'block' : 'none' ).';" type="text" value="'.$sm_link.'" />'
 		.'</td></tr>';
 		
 		
@@ -639,13 +662,11 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 	//=====================================================
 	
 	if($todo == 'save'){
-		//***************************************
-		
 		if($new_sm_pub    == '' || !isset($new_sm_pub))   { $new_sm_pub = '0'; }
 		if($new_sm_subid  == '' || !isset($new_sm_subid)) { $new_sm_subid = '-'; }
 		if($new_sm_parent == '' || !isset($new_sm_parent)){ $new_sm_parent = '-'; }
 		
-		$new_sm_name = $tcms_main->decode_text($new_sm_name, '2', $c_charset);
+		$new_sm_name = $tcms_main->decodeText($new_sm_name, '2', $c_charset);
 		
 		
 		if(trim($new_sm_link) == 'new_page'){
@@ -735,11 +756,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			$sqlAL->sqlUpdateOne($tcms_db_prefix.'sidemenu', $newSQLData, $maintag);
 		}
 		
-		//***************************************
-		
 		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_sidemenu\'</script>';
-		
-		//***************************************
 	}
 	
 	
