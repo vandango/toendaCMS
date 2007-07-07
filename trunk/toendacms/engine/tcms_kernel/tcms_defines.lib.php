@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for global values
  *
- * @version 0.5.5
+ * @version 0.5.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -254,9 +254,10 @@ $dayName['short']['sun'] = _TCMS_DAY_SUNDAY_XS;
 	SITE NAMES
 */
 /*_SITE_NAME*/
-$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'s='.$s
+$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+.'id='.$id.'&amp;s='.$s
 .( isset($lang) ? '&amp;lang='.$lang : '' );
-$link = $tcms_main->urlAmpReplace($link);
+$link = $tcms_main->urlConvertToSEO($link);
 
 if(!defined('_SITE_NAME')) define('_SITE_NAME', '<a name="top"></a><span class="title"><a class="index" href="'.$link.'">'.$sitename.'</a></span>');
 
@@ -352,7 +353,8 @@ if(!defined('_SITE_METATAG_AUTOR')) define('_SITE_METATAG_AUTOR', $websiteownerM
 
 /* _SITE_LOGO */
 if($sitelogo != ''){
-	$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'s='.$s
+	$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+	.'id='.$id.'&amp;s='.$s
 	.( isset($lang) ? '&amp;lang='.$lang : '' );
 	$link = $tcms_main->urlConvertToSEO($link);
 	$sitelogo = '<a href="'.$link.'">'.$sitelogo.'</a>';

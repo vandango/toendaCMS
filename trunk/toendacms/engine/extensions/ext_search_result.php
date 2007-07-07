@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a search module.
  *
- * @version 0.5.5
+ * @version 0.5.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -46,10 +46,10 @@ if($choosenDB == 'xml'){
 	unset($search_xml);
 }
 else{
-	$sqlAL = new sqlAbstractionLayer($choosenDB);
-	$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+	$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+	$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 	
-	$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'sidebar_extensions', 'sidebar_extensions');
+	$sqlQR = $sqlAL->getOne($tcms_db_prefix.'sidebar_extensions', 'sidebar_extensions');
 	$sqlObj = $sqlAL->fetchObject($sqlQR);
 	
 	$search_title = $sqlObj->search_title;
@@ -199,11 +199,13 @@ if(!isset($option)) $option = 'con';
 $nothing_search = _SEARCH_BOX;
 $sc = 0;
 
-if($searchword == '')
+if($searchword == '') {
 	echo $tcms_html->contentText(_SEARCH_START);
-elseif($searchword == $nothing_search)
+}
+elseif($searchword == $nothing_search) {
 	echo $tcms_html->contentText(_SEARCH_EMPTY);
-else{
+}
+else {
 	include_once('engine/tcms_kernel/tcms_search.lib.php');
 	
 	$tcms_search = new tcms_search(
@@ -285,7 +287,7 @@ function search_news($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 			//echo $sval.'<br>';
 			$search_xml = new xmlparser($tcms_administer_site.'/tcms_news/'.$sval,'r');
 			
-			$acs = $search_xml->read_section('news', 'access');
+			$acs = $search_xml->readSection('news', 'access');
 			
 			$canRead = $tcms_main->checkAccess($acs, $is_admin);
 			
@@ -293,16 +295,16 @@ function search_news($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 				$out = $search_xml->search_value_front('news', 'newstext', $searchword);
 				
 				if($out != false){
-					$tit = $search_xml->read_section('news', 'title');
-					$date = $search_xml->read_section('news', 'date');
-					$time = $search_xml->read_section('news', 'time');
+					$tit = $search_xml->readSection('news', 'title');
+					$date = $search_xml->readSection('news', 'date');
+					$time = $search_xml->readSection('news', 'time');
 					
 					$tit = $tcms_main->decodeText($tit, '2', $c_charset);
 					
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=newsmanager&amp;news='.substr($sval, 0, 10).'&amp;s='.$s
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $tcms_main->urlAmpReplace($link);
+					$link = $tcms_main->urlConvertToSEO($link);
 					
 					echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
 					echo '<div class="search_result"><span class="text_small">'.$date.' - '.$time.'</span></div>';
@@ -313,16 +315,16 @@ function search_news($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 				else{
 					$out = $search_xml->search_value_front('news', 'title', $searchword);
 					if($out != false){
-						$tit = $search_xml->read_section('news', 'title');
-						$date = $search_xml->read_section('news', 'date');
-						$time = $search_xml->read_section('news', 'time');
+						$tit = $search_xml->readSection('news', 'title');
+						$date = $search_xml->readSection('news', 'date');
+						$time = $search_xml->readSection('news', 'time');
 						
 						$tit = $tcms_main->decodeText($tit, '2', $c_charset);
 						
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id=newsmanager&amp;news='.substr($sval, 0, 10).'&amp;s='.$s
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
-						$link = $tcms_main->urlAmpReplace($link);
+						$link = $tcms_main->urlConvertToSEO($link);
 						
 						echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
 						echo '<div class="search_result"><span class="text_small">'.$date.' - '.$time.'</span></div>';
@@ -335,8 +337,8 @@ function search_news($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 		}
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		switch($is_admin){
 			case 'Developer':
@@ -384,11 +386,11 @@ function search_news($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 				break;
 		}
 		
-		$sqlQR = $sqlAL->sqlQuery($strSQL);
-		$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+		$sqlQR = $sqlAL->query($strSQL);
+		$sqlNR = $sqlAL->getNumber($sqlQR);
 		
 		if($sqlNR != 0){
-			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+			while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 				$tit = $sqlARR['title'];
 				$date = $sqlARR['date'];
 				$time = $sqlARR['time'];
@@ -404,7 +406,7 @@ function search_news($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id=newsmanager&amp;news='.$uid.'&amp;s='.$s
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
 				echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
 				echo '<div class="search_result"><span class="text_small">'.$date.' - '.$time.'</span></div>';
@@ -443,7 +445,7 @@ function search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, 
 						if($sval2 != 'folderinfo.xml'){
 							$search_xml = new xmlparser($tcms_administer_site.'/tcms_products/'.$sval.'/'.$sval2,'r');
 							
-							$acs = $xml->read_section('main', 'access');
+							$acs = $xml->readSection('main', 'access');
 							
 							$canRead = $this->checkAccess($acs, $is_admin);
 							
@@ -451,9 +453,9 @@ function search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, 
 								$out = $search_xml->search_value_front('info', 'product', $searchword);
 								
 								if($out != false){
-									$tit = $search_xml->read_section('info', 'product');
-									$desc = $search_xml->read_section('info', 'desc');
-									$category = $search_xml->read_section('info', 'category');
+									$tit = $search_xml->readSection('info', 'product');
+									$desc = $search_xml->readSection('info', 'desc');
+									$category = $search_xml->readSection('info', 'category');
 									
 									$tit = $tcms_main->decodeText($tit, '2', $c_charset);
 									$desc = $tcms_main->decodeText($desc, '2', $c_charset);
@@ -465,7 +467,7 @@ function search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, 
 									$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 									.'id=products&amp;category='.$category.'&amp;article='.substr($sval, 0, 10).'&amp;s='.$s
 									.( isset($lang) ? '&amp;lang='.$lang : '' );
-									$link = $tcms_main->urlAmpReplace($link);
+									$link = $tcms_main->urlConvertToSEO($link);
 									
 									echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
 									echo '<div class="search_result"><span class="text_small">'.substr($desc, 0, 500).'</span></div>';
@@ -476,9 +478,9 @@ function search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, 
 								else{
 									$out = $search_xml->search_value_front('info', 'desc', $searchword);
 									if($out != false){
-										$tit = $search_xml->read_section('info', 'product');
-										$desc = $search_xml->read_section('info', 'desc');
-										$category = $search_xml->read_section('info', 'category');
+										$tit = $search_xml->readSection('info', 'product');
+										$desc = $search_xml->readSection('info', 'desc');
+										$category = $search_xml->readSection('info', 'category');
 										
 										$tit = $tcms_main->decodeText($tit, '2', $c_charset);
 										$desc = $tcms_main->decodeText($desc, '2', $c_charset);
@@ -490,7 +492,7 @@ function search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, 
 										$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 										.'id=products&amp;category='.$category.'&amp;article='.substr($sval, 0, 10).'&amp;s='.$s
 										.( isset($lang) ? '&amp;lang='.$lang : '' );
-										$link = $tcms_main->urlAmpReplace($link);
+										$link = $tcms_main->urlConvertToSEO($link);
 										
 										echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
 										echo '<div class="search_result"><span class="text_small">'.substr($desc, 0, 500).'</span></div>';
@@ -507,8 +509,8 @@ function search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, 
 		}
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		switch($is_admin){
 			case 'Developer':
@@ -556,11 +558,11 @@ function search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, 
 				break;
 		}
 		
-		$sqlQR = $sqlAL->sqlQuery($strSQL);
-		$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+		$sqlQR = $sqlAL->query($strSQL);
+		$sqlNR = $sqlAL->getNumber($sqlQR);
 		
 		if($sqlNR != 0){
-			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+			while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 				$tit = $sqlARR['name'];
 				$desc = $sqlARR['desc'];
 				$category = $sqlARR['category'];
@@ -580,7 +582,7 @@ function search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, 
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id=products&amp;category='.$category.'&amp;article='.$uid.'&amp;s='.$s
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
 				echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
 				echo '<div class="search_result"><span class="text_normal">'.substr($desc, 0, 500).'</span></div>';
@@ -613,9 +615,9 @@ function search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost,
 			foreach($arr_searchfiles as $skey => $sval){
 				if($sval != 'index.html'){
 					$xml = new xmlparser($tcms_administer_site.'/files/'.$sval.'/info.xml','r');
-					$type = $xml->read_section('info', 'sql_type');
+					$type = $xml->readSection('info', 'sql_type');
 					
-					$acs = $xml->read_section('info', 'access');
+					$acs = $xml->readSection('info', 'access');
 					
 					$canRead = $tcms_main->checkAccess($acs, $is_admin);
 					
@@ -626,19 +628,19 @@ function search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost,
 							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 							.'id=download&amp;category='.$uid.'&amp;s='.$s
 							.( isset($lang) ? '&amp;lang='.$lang : '' );
-							$link = $tcms_main->urlAmpReplace($link);
+							$link = $tcms_main->urlConvertToSEO($link);
 						}
 						else{
 							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 							.'id=download'.( $parent != null ? '&amp;category='.$parent : '' ).'&amp;s='.$s
 							.( isset($lang) ? '&amp;lang='.$lang : '' );
-							$link = $tcms_main->urlAmpReplace($link);
+							$link = $tcms_main->urlConvertToSEO($link);
 						}
 						
 						if($out != false){
-							$tit = $xml->read_section('info', 'name');
-							$desc = $xml->read_section('info', 'desc');
-							$category = $xml->read_section('info', 'category');
+							$tit = $xml->readSection('info', 'name');
+							$desc = $xml->readSection('info', 'desc');
+							$category = $xml->readSection('info', 'category');
 							
 							$tit = $tcms_main->decodeText($tit, '2', $c_charset);
 							$desc = $tcms_main->decodeText($desc, '2', $c_charset);
@@ -656,9 +658,9 @@ function search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost,
 						else{
 							$out = $xml->search_value_front('info', 'desc', $searchword);
 							if($out != false){
-								$tit = $xml->read_section('info', 'name');
-								$desc = $xml->read_section('info', 'desc');
-								$category = $xml->read_section('info', 'category');
+								$tit = $xml->readSection('info', 'name');
+								$desc = $xml->readSection('info', 'desc');
+								$category = $xml->readSection('info', 'category');
 								
 								$tit = $tcms_main->decodeText($tit, '2', $c_charset);
 								$desc = $tcms_main->decodeText($desc, '2', $c_charset);
@@ -684,8 +686,8 @@ function search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost,
 		}
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		switch($is_admin){
 			case 'Developer':
@@ -736,11 +738,11 @@ function search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost,
 				break;
 		}
 		
-		$sqlQR = $sqlAL->sqlQuery($strSQL);
-		$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+		$sqlQR = $sqlAL->query($strSQL);
+		$sqlNR = $sqlAL->getNumber($sqlQR);
 		
 		if($sqlNR != 0){
-			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+			while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 				$tit = $sqlARR['name'];
 				$desc = $sqlARR['desc'];
 				$category = $sqlARR['category'];
@@ -763,13 +765,13 @@ function search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost,
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=download&amp;category='.$uid.'&amp;s='.$s
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $tcms_main->urlAmpReplace($link);
+					$link = $tcms_main->urlConvertToSEO($link);
 				}
 				else{
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=download'.( $parent != null ? '&amp;category='.$parent : '' ).'&amp;s='.$s
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $tcms_main->urlAmpReplace($link);
+					$link = $tcms_main->urlConvertToSEO($link);
 				}
 				
 				echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
@@ -810,7 +812,7 @@ function search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $s
 						$tit = substr($sval2, 0, strpos($sval2, '.xml'));
 						
 						if($tit == $searchword){
-							$desc = $search_xml->read_section('image', 'text');
+							$desc = $search_xml->readSection('image', 'text');
 							$category = $sval;
 							
 							$desc = $tcms_main->decodeText($desc, '2', $c_charset);
@@ -821,7 +823,7 @@ function search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $s
 							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 							.'id=imagegallery&amp;albums='.$category.'&amp;s='.$s
 							.( isset($lang) ? '&amp;lang='.$lang : '' );
-							$link = $tcms_main->urlAmpReplace($link);
+							$link = $tcms_main->urlConvertToSEO($link);
 							
 							echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
 							echo '<div class="search_result"><span class="text_small">'.substr($desc, 0, 500).'</span></div>';
@@ -835,8 +837,8 @@ function search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $s
 		}
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		switch($choosenDB){
 			case 'mysql':
@@ -861,11 +863,11 @@ function search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $s
 				break;
 		}
 		
-		$sqlQR = $sqlAL->sqlQuery($strSQL);
-		$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+		$sqlQR = $sqlAL->query($strSQL);
+		$sqlNR = $sqlAL->getNumber($sqlQR);
 		
 		if($sqlNR != 0){
-			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+			while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 				$tit = $sqlARR['image'];
 				$desc = $sqlARR['text'];
 				$category = $sqlARR['album'];
@@ -885,7 +887,7 @@ function search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $s
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id=imagegallery&amp;albums='.$category.'&amp;s='.$s
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
 				echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
 				echo '<div class="search_result"><span class="text_normal">'.$desc.'</span></div>';
@@ -896,10 +898,10 @@ function search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $s
 		}
 		else{
 			$sqlQR = $sqlAL->sqlSearch($tcms_db_prefix.'imagegallery', 'text', $searchword);
-			$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
 			if($sqlNR != 0){
-				while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+				while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 					$tit = $sqlARR['image'];
 					$desc = $sqlARR['text'];
 					$category = $sqlARR['album'];
@@ -915,7 +917,7 @@ function search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $s
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=imagegallery&amp;albums='.$category.'&amp;s='.$s
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $tcms_main->urlAmpReplace($link);
+					$link = $tcms_main->urlConvertToSEO($link);
 					
 					echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
 					echo '<div class="search_result"><span class="text_normal">'.$desc.'</span></div>';
@@ -965,7 +967,7 @@ function search_faqs($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 				else $found = true;
 					
 				if($found){
-					$acs = $xml->read_section('faq', 'access');
+					$acs = $xml->readSection('faq', 'access');
 					
 					/*
 						check access
@@ -1002,9 +1004,9 @@ function search_faqs($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 					else{ $show_this_category = true; }
 					
 					if($show_this_category){
-						$tit = $xml->read_section('faq', 'title');
-						$subtit = $xml->read_section('faq', 'subtitle');
-						$category = $xml->read_section('faq', 'category');
+						$tit = $xml->readSection('faq', 'title');
+						$subtit = $xml->readSection('faq', 'subtitle');
+						$category = $xml->readSection('faq', 'category');
 						
 						$tit = $tcms_main->decodeText($tit, '2', $c_charset);
 						$subtit = $tcms_main->decodeText($subtit, '2', $c_charset);
@@ -1013,7 +1015,7 @@ function search_faqs($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 						.'id=knowledgebase&amp;action=detail'
 						.( $category != '' ? '&amp;category' : '' ).'&amp;article='.substr($sval, 0, 10).'&amp;s='.$s
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
-						$link = $tcms_main->urlAmpReplace($link);
+						$link = $tcms_main->urlConvertToSEO($link);
 						
 						echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
 						echo tcms_html::search_result($subtit);
@@ -1026,8 +1028,8 @@ function search_faqs($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 		}
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		switch($is_admin){
 			case 'Developer':
 			case 'Administrator':
@@ -1077,12 +1079,12 @@ function search_faqs($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 				break;
 		}
 		
-		$sqlQR = $sqlAL->sqlQuery($strSQL);
+		$sqlQR = $sqlAL->query($strSQL);
 		$sqlQR = $sqlAL->sqlSearch($tcms_db_prefix.'knowledgebase', 'content', $searchword);
-		$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+		$sqlNR = $sqlAL->getNumber($sqlQR);
 		
 		if($sqlNR != 0){
-			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+			while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 				$tit = $sqlARR['title'];
 				$subtit = $sqlARR['subtitle'];
 				$desc = $sqlARR['content'];
@@ -1112,14 +1114,14 @@ function search_faqs($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id=knowledgebase&amp;s='.$s.'&amp;cmd=list'.( $cat != '' ? '&amp;category='.$cat : '' )
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
-						$link = $tcms_main->urlAmpReplace($link);
+						$link = $tcms_main->urlConvertToSEO($link);
 						break;
 					
 					case 'a':
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id=knowledgebase&amp;s='.$s.'&amp;cmd=detail'.( $cat != '' ? '&amp;category='.$cat : '' ).'&amp;article='.$uid
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
-						$link = $tcms_main->urlAmpReplace($link);
+						$link = $tcms_main->urlConvertToSEO($link);
 						break;
 				}
 				

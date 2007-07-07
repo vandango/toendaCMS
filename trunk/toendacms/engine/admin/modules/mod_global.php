@@ -839,10 +839,10 @@ if($id_group == 'Developer'
 		.'<input type="radio" name="new_seo_format" id="urlformat_1" value="1"'.($old_seo_format == 1 ? ' checked="checked"' : '' ).' />'
 		.'index.php/section/frontpage/lang/en'
 		.'</label>'
-		/*.'<br />'
+		.'<br />'
 		.'<label for="urlformat_2">'
 		.'<input type="radio" name="new_seo_format" id="urlformat_2" value="2"'.($old_seo_format == 2 ? ' checked="checked"' : '' ).' />'
-		.'index.php/en/frontpage.html (<strong>!!! BETA !!!</strong>)'*/
+		.'index.php/en/frontpage.html (<strong>!!! BETA !!!</strong>)'
 		.'</label>'
 		.'</td></tr>';
 		

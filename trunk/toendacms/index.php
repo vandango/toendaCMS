@@ -651,7 +651,7 @@ if($wsShowSite){
 					$sitelogo = '<img class="sitelogo" align="left" src="'.$imagePath.''.$tcms_administer_site.'/images/Image/'.$logo.'" border="0" />';
 				else
 					$sitelogo = '';
-		
+				
 				// CHARSETS
 				$sitetitle  = $tcms_main->decodeText($sitetitle, '2', $c_charset);
 				$sitename   = $tcms_main->decodeText($sitename, '2', $c_charset);

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used fore the site title.
  *
- * @version 0.3.6
+ * @version 0.4.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -64,10 +64,10 @@ switch($id){
 				if($category != ''){
 					$xml = new xmlparser($tcms_administer_site.'/files/'.$category.'/info.xml', 'r');
 					
-					//$access_cat = $down_xml->read_section('faq', 'access');
+					//$access_cat = $down_xml->readSection('faq', 'access');
 					
-					$arrFAQparent['type'][$count] = $xml->read_section('info', 'sql_type');
-					$arrFAQparent['pub'][$count]  = $xml->read_section('info', 'pub');
+					$arrFAQparent['type'][$count] = $xml->readSection('info', 'sql_type');
+					$arrFAQparent['pub'][$count]  = $xml->readSection('info', 'pub');
 				}
 				else{
 					$arrFAQparent['type'][$count] = 'd';
@@ -76,14 +76,14 @@ switch($id){
 				
 				if($arrFAQparent['type'][$count] == 'd' && $arrFAQparent['pub'][$count] == '1'){
 					if($category != ''){
-						$arrFAQparent['title'][$count]  = $xml->read_section('info', 'name');
-						$arrFAQparent['parent'][$count] = $xml->read_section('info', 'parent');
+						$arrFAQparent['title'][$count]  = $xml->readSection('info', 'name');
+						$arrFAQparent['parent'][$count] = $xml->readSection('info', 'parent');
 						$arrFAQparent['uid'][$count]    = substr($category, 0, 10);
 						
 						// CHARSETS
 						$arrFAQparent['title'][$count] = $tcms_main->decodeText($arrFAQparent['title'][$count], '2', $c_charset);
 						
-						$checkCat = $xml->read_section('info', 'cat');
+						$checkCat = $xml->readSection('info', 'cat');
 						
 						$xml->flush();
 						$xml->_xmlparser();
@@ -101,13 +101,13 @@ switch($id){
 					while($checkCat != ''){
 						$xml = new xmlparser($tcms_administer_site.'/files/'.$arrFAQparent['parent'][$count - 1].'/info.xml', 'r');
 						
-						$checkCat = $xml->read_section('info', 'cat');
-						$arrFAQparent['type'][$count]   = $xml->read_section('info', 'sql_type');
-						$arrFAQparent['pub'][$count]    = $xml->read_section('info', 'pub');
+						$checkCat = $xml->readSection('info', 'cat');
+						$arrFAQparent['type'][$count]   = $xml->readSection('info', 'sql_type');
+						$arrFAQparent['pub'][$count]    = $xml->readSection('info', 'pub');
 						
 						if($arrFAQparent['type'][$count] == 'd' && $arrFAQparent['pub'][$count] == '1'){
-							$arrFAQparent['title'][$count]  = $xml->read_section('info', 'name');
-							$arrFAQparent['parent'][$count] = $xml->read_section('info', 'parent');
+							$arrFAQparent['title'][$count]  = $xml->readSection('info', 'name');
+							$arrFAQparent['parent'][$count] = $xml->readSection('info', 'parent');
 							$arrFAQparent['uid'][$count]    = substr($arrFAQparent['parent'][$count - 1], 0, 10);
 							
 							$xml->flush();
@@ -150,13 +150,13 @@ switch($id){
 				
 				$count = 0;
 				
-				$sqlQR = $sqlAL->sqlQuery($sqlSTRparent);
-				$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+				$sqlQR = $sqlAL->query($sqlSTRparent);
+				$sqlNR = $sqlAL->getNumber($sqlQR);
 				
 				//echo '<b>'.$sqlNR.'<br>'.$sqlSTRparent.'</b><br><br>';
 				
 				while($sqlNR > 0){
-					$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+					$sqlARR = $sqlAL->fetchArray($sqlQR);
 					
 					unset($sqlQR);
 					
@@ -177,9 +177,9 @@ switch($id){
 					."AND ( access = 'Public' "
 					.$strAdd;
 					
-					$sqlQR = $sqlAL->sqlQuery($sqlSTRparent);
+					$sqlQR = $sqlAL->query($sqlSTRparent);
 					
-					$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+					$sqlNR = $sqlAL->getNumber($sqlQR);
 					
 					//echo $sqlNR.'<br>'.$sqlSTRparent.'<br><br>';
 					
@@ -268,11 +268,11 @@ switch($id){
 				
 				$count = 0;
 				
-				$sqlQR = $sqlAL->sqlQuery($sqlSTRparent);
-				$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+				$sqlQR = $sqlAL->query($sqlSTRparent);
+				$sqlNR = $sqlAL->getNumber($sqlQR);
 				
 				while($sqlNR > 0){
-					$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+					$sqlARR = $sqlAL->fetchArray($sqlQR);
 					
 					unset($sqlQR);
 					
@@ -295,9 +295,9 @@ switch($id){
 					."AND ( access = 'Public' "
 					.$strAdd;
 					
-					$sqlQR = $sqlAL->sqlQuery($sqlSTRparent);
+					$sqlQR = $sqlAL->query($sqlSTRparent);
 					
-					$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+					$sqlNR = $sqlAL->getNumber($sqlQR);
 					
 					$count++;
 					$checkFAQTitle = $count;
@@ -362,9 +362,9 @@ switch($id){
 				
 				$count = 0;
 				
-				$sqlQR = $sqlAL->sqlQuery($sqlSTRparent);
+				$sqlQR = $sqlAL->query($sqlSTRparent);
 				
-				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+				$sqlARR = $sqlAL->fetchArray($sqlQR);
 				
 				$arrFAQparent['title']  = $sqlARR['title'];
 				$arrFAQparent['parent'] = $sqlARR['parent'];
@@ -407,17 +407,17 @@ switch($id){
 			if($news != 'archive'){
 				if($choosenDB == 'xml'){
 					$news_detail_xml = new xmlparser($tcms_administer_site.'/tcms_news/'.$news.'.xml','r');
-					$arr_news['title'] = $news_detail_xml->read_section('news', 'title');
-					$arr_news['order'] = $news_detail_xml->read_section('news', 'order');
+					$arr_news['title'] = $news_detail_xml->readSection('news', 'title');
+					$arr_news['order'] = $news_detail_xml->readSection('news', 'order');
 					
 					$arr_news['title'] = $tcms_main->decodeText($arr_news['title'], '2', $c_charset);
 				}
 				else{
-					$sqlAL = new sqlAbstractionLayer($choosenDB);
-					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					
-					$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'news', $news);
-					$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+					$sqlQR = $sqlAL->getOne($tcms_db_prefix.'news', $news);
+					$sqlARR = $sqlAL->fetchArray($sqlQR);
 					
 					$arr_news['title'] = $sqlARR['title'];
 					$arr_news['order'] = $sqlARR['uid'];
@@ -467,15 +467,15 @@ switch($id){
 			
 			if($choosenDB == 'xml'){
 				$xmlP = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$cat.'.xml', 'r');
-				$catName = $xmlP->read_section('cat', 'name');
+				$catName = $xmlP->readSection('cat', 'name');
 				$catName = $tcms_main->decodeText($catName, '2', $c_charset);
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
-				$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'news_categories', $cat);
-				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+				$sqlQR = $sqlAL->getOne($tcms_db_prefix.'news_categories', $cat);
+				$sqlARR = $sqlAL->fetchArray($sqlQR);
 				
 				$catName = $sqlARR['name'];
 				
@@ -500,16 +500,16 @@ switch($id){
 		if(isset($albums)){
 			if($choosenDB == 'xml'){
 				$album_xml   = new xmlparser($tcms_administer_site.'/tcms_albums/album_'.$albums.'.xml', 'r');
-				$album_title = $album_xml->read_section('album', 'title');
+				$album_title = $album_xml->readSection('album', 'title');
 				
 				$album_title = $tcms_main->decodeText($album_title, '2', $c_charset);
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
-				$sqlQR = $sqlAL->sqlQuery("SELECT * FROM ".$tcms_db_prefix."albums WHERE album_id='".$albums."'");
-				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+				$sqlQR = $sqlAL->query("SELECT * FROM ".$tcms_db_prefix."albums WHERE album_id='".$albums."'");
+				$sqlARR = $sqlAL->fetchArray($sqlQR);
 				
 				$album_title = $sqlARR['title'];
 				
@@ -539,16 +539,16 @@ switch($id){
 		if($action == 'showone'){
 			if($choosenDB == 'xml'){
 				$down_xml = new xmlparser($tcms_administer_site.'/tcms_products/'.$category.'/folderinfo.xml','r');
-				$down_cat = $down_xml->read_section('folderinfo', 'name');
+				$down_cat = $down_xml->readSection('folderinfo', 'name');
 				
 				$down_cat = $tcms_main->decodeText($down_cat, '2', $c_charset);
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
-				$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'products', $category);
-				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+				$sqlQR = $sqlAL->getOne($tcms_db_prefix.'products', $category);
+				$sqlARR = $sqlAL->fetchArray($sqlQR);
 				
 				$down_cat = $sqlARR['name'];
 				
@@ -638,7 +638,7 @@ switch($id){
 		
 		if(file_exists($tcms_administer_site.'/components/'.$item.'/component.xml')){
 			$csXML = new xmlparser($tcms_administer_site.'/components/'.$item.'/component.xml', 'r');
-			$pathName = $csXML->read_value('title');
+			$pathName = $csXML->readValue('title');
 		}
 		else{
 			$pathName = _MSG_ERROR;

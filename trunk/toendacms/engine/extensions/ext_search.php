@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the search form.
  *
- * @version 0.2.1
+ * @version 0.2.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -33,11 +33,11 @@ defined('_TCMS_VALID') or die('Restricted access');
 if($use_search == 1){
 	if($choosenDB == 'xml'){
 		$search_xml    = new xmlparser($tcms_administer_site.'/tcms_global/sidebar.xml','r');
-		$show_st       = $search_xml->read_section('side', 'show_search_title');
-		$sb_align      = $search_xml->read_section('side', 'search_alignment');
-		$sb_withbr     = $search_xml->read_section('side', 'search_withbr');
-		$sb_withbutton = $search_xml->read_section('side', 'search_withbutton');
-		$sb_searchword = $search_xml->read_section('side', 'search_word');
+		$show_st       = $search_xml->readSection('side', 'show_search_title');
+		$sb_align      = $search_xml->readSection('side', 'search_alignment');
+		$sb_withbr     = $search_xml->readSection('side', 'search_withbr');
+		$sb_withbutton = $search_xml->readSection('side', 'search_withbutton');
+		$sb_searchword = $search_xml->readSection('side', 'search_word');
 		
 		$sb_searchword = $tcms_main->decodeText($sb_searchword, '2', $c_charset);
 		

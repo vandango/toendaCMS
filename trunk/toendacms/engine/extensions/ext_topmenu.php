@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a topmenu.
  *
- * @version 0.2.8
+ * @version 0.3.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -33,18 +33,18 @@ defined('_TCMS_VALID') or die('Restricted access');
 if($second_navigation == 1){
 	if($choosenDB == 'xml'){
 		$poll_xml      = new xmlparser($tcms_administer_site.'/tcms_global/poll.xml','r');
-		$show_tm_poll  = $poll_xml->read_section('poll', 'use_poll_topmenu');
-		$tm_poll_id    = $poll_xml->read_section('poll', 'poll_topmenu_id');
-		$tm_poll_title = $poll_xml->read_section('poll', 'poll_tm_title');
+		$show_tm_poll  = $poll_xml->readSection('poll', 'use_poll_topmenu');
+		$tm_poll_id    = $poll_xml->readSection('poll', 'poll_topmenu_id');
+		$tm_poll_title = $poll_xml->readSection('poll', 'poll_tm_title');
 		
 		$tm_poll_title = $tcms_main->decodeText($tm_poll_title, '2', $c_charset);
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'poll_config', 'poll');
-		$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+		$sqlQR = $sqlAL->getOne($tcms_db_prefix.'poll_config', 'poll');
+		$sqlARR = $sqlAL->fetchArray($sqlQR);
 		
 		$show_tm_poll  = $sqlARR['use_poll_topmenu'];
 		$tm_poll_id    = $sqlARR['poll_topmenu_id'];
@@ -114,7 +114,7 @@ if($second_navigation == 1){
 			if($key == ($tm_poll_id - 2) && $show_tm_poll == 1){
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=polls&amp;s='.$s
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
 				if($active_topmenu == 1){
 					if($set_active_link == true){

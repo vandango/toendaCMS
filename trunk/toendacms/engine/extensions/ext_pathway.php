@@ -9,7 +9,7 @@
 | 
 | Pathway
 |
-| File:		ext_pathway.php
+| File:	ext_pathway.php
 |
 +
 */
@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a pathway.
  *
- * @version 0.5.0
+ * @version 0.5.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -47,11 +47,12 @@ if(!isset($task)){ $task = 'register'; }
 
 
 
-$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'s='.$s
+$_link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+.'id='.$id.'&amp;s='.$s
 .( isset($lang) ? '&amp;lang='.$lang : '' );
-$link = $tcms_main->urlAmpReplace($link);
+$_link = $tcms_main->urlConvertToSEO($_link);
 
-$_HOMEPATH = '&nbsp;<a class="pathway" href="'.$link.'">'._PATH_HOME.'</a>';
+$_HOMEPATH = '<a class="pathway" href="'.$_link.'">'._PATH_HOME.'</a>';
 
 
 switch($id){
@@ -73,10 +74,10 @@ switch($id){
 				if($category != ''){
 					$xml = new xmlparser($tcms_administer_site.'/files/'.$category.'/info.xml', 'r');
 					
-					//$access_cat = $down_xml->read_section('faq', 'access');
+					//$access_cat = $down_xml->readSection('faq', 'access');
 					
-					$arrFAQparent['type'][$count] = $xml->read_section('info', 'sql_type');
-					$arrFAQparent['pub'][$count]  = $xml->read_section('info', 'pub');
+					$arrFAQparent['type'][$count] = $xml->readSection('info', 'sql_type');
+					$arrFAQparent['pub'][$count]  = $xml->readSection('info', 'pub');
 				}
 				else{
 					$arrFAQparent['type'][$count] = 'd';
@@ -85,14 +86,14 @@ switch($id){
 				
 				if($arrFAQparent['type'][$count] == 'd' && $arrFAQparent['pub'][$count] == '1'){
 					if($category != ''){
-						$arrFAQparent['title'][$count]  = $xml->read_section('info', 'name');
-						$arrFAQparent['parent'][$count] = $xml->read_section('info', 'parent');
+						$arrFAQparent['title'][$count]  = $xml->readSection('info', 'name');
+						$arrFAQparent['parent'][$count] = $xml->readSection('info', 'parent');
 						$arrFAQparent['uid'][$count]    = substr($category, 0, 10);
 						
 						// CHARSETS
 						$arrFAQparent['title'][$count] = $tcms_main->decodeText($arrFAQparent['title'][$count], '2', $c_charset);
 						
-						$checkCat = $xml->read_section('info', 'cat');
+						$checkCat = $xml->readSection('info', 'cat');
 						
 						$xml->flush();
 						$xml->_xmlparser();
@@ -110,13 +111,13 @@ switch($id){
 					while($checkCat != ''){
 						$xml = new xmlparser($tcms_administer_site.'/files/'.$arrFAQparent['parent'][$count - 1].'/info.xml', 'r');
 						
-						$checkCat = $xml->read_section('info', 'cat');
-						$arrFAQparent['type'][$count]   = $xml->read_section('info', 'sql_type');
-						$arrFAQparent['pub'][$count]    = $xml->read_section('info', 'pub');
+						$checkCat = $xml->readSection('info', 'cat');
+						$arrFAQparent['type'][$count]   = $xml->readSection('info', 'sql_type');
+						$arrFAQparent['pub'][$count]    = $xml->readSection('info', 'pub');
 						
 						if($arrFAQparent['type'][$count] == 'd' && $arrFAQparent['pub'][$count] == '1'){
-							$arrFAQparent['title'][$count]  = $xml->read_section('info', 'name');
-							$arrFAQparent['parent'][$count] = $xml->read_section('info', 'parent');
+							$arrFAQparent['title'][$count]  = $xml->readSection('info', 'name');
+							$arrFAQparent['parent'][$count] = $xml->readSection('info', 'parent');
 							$arrFAQparent['uid'][$count]    = substr($arrFAQparent['parent'][$count - 1], 0, 10);
 							
 							$xml->flush();
@@ -160,13 +161,13 @@ switch($id){
 				
 				$count = 0;
 				
-				$sqlQR = $sqlAL->sqlQuery($sqlSTRparent);
-				$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+				$sqlQR = $sqlAL->query($sqlSTRparent);
+				$sqlNR = $sqlAL->getNumber($sqlQR);
 				
 				//echo '<b>'.$sqlNR.'<br>'.$sqlSTRparent.'</b><br><br>';
 				
 				while($sqlNR > 0){
-					$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+					$sqlARR = $sqlAL->fetchArray($sqlQR);
 					
 					unset($sqlQR);
 					
@@ -187,9 +188,9 @@ switch($id){
 					."AND ( access = 'Public' "
 					.$strAdd;
 					
-					$sqlQR = $sqlAL->sqlQuery($sqlSTRparent);
+					$sqlQR = $sqlAL->query($sqlSTRparent);
 					
-					$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+					$sqlNR = $sqlAL->getNumber($sqlQR);
 					
 					//echo $sqlNR.'<br>'.$sqlSTRparent.'<br><br>';
 					
@@ -207,7 +208,7 @@ switch($id){
 			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 			.'id=download&amp;s='.$s.'&amp;action=showall'
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<a class="pathway" href="'.$link.'">'.$download_title.'</a>';
 			
@@ -219,7 +220,7 @@ switch($id){
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=download&amp;s='.$s.'&amp;action=showall&amp;category='.$arrFAQparent['uid'][$i]
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $tcms_main->urlAmpReplace($link);
+					$link = $tcms_main->urlConvertToSEO($link);
 					
 					echo '<a class="pathway" href="'.$link.'">'.$arrFAQparent['title'][$i].'</a>';
 				}
@@ -228,7 +229,7 @@ switch($id){
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id=download&amp;s='.$s.'&amp;action=showall&amp;category='.$arrFAQparent['uid'][$i]
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
-						$link = $tcms_main->urlAmpReplace($link);
+						$link = $tcms_main->urlConvertToSEO($link);
 						
 						echo '<a class="pathway" href="'.$link.'">'.$arrFAQparent['title'][$i].'</a>';
 						
@@ -267,17 +268,17 @@ switch($id){
 			if($news != 'archive'){
 				if($choosenDB == 'xml'){
 					$news_detail_xml = new xmlparser($tcms_administer_site.'/tcms_news/'.$news.'.xml','r');
-					$arr_news['title'] = $news_detail_xml->read_section('news', 'title');
-					$arr_news['order'] = $news_detail_xml->read_section('news', 'order');
+					$arr_news['title'] = $news_detail_xml->readSection('news', 'title');
+					$arr_news['order'] = $news_detail_xml->readSection('news', 'order');
 					
 					$arr_news['title'] = $tcms_main->decodeText($arr_news['title'], '2', $c_charset);
 				}
 				else{
-					$sqlAL = new sqlAbstractionLayer($choosenDB);
-					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					
-					$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'news', $news);
-					$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+					$sqlQR = $sqlAL->getOne($tcms_db_prefix.'news', $news);
+					$sqlARR = $sqlAL->fetchArray($sqlQR);
 					
 					$arr_news['title'] = $sqlARR['title'];
 					$arr_news['order'] = $sqlARR['uid'];
@@ -319,16 +320,16 @@ switch($id){
 			
 			if($choosenDB == 'xml'){
 				$xmlP = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$cat.'.xml', 'r');
-				$catName = $xmlP->read_section('cat', 'name');
+				$catName = $xmlP->readSection('cat', 'name');
 				
 				$catName = $tcms_main->decodeText($catName, '2', $c_charset);
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
-				$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'news_categories', $cat);
-				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+				$sqlQR = $sqlAL->getOne($tcms_db_prefix.'news_categories', $cat);
+				$sqlARR = $sqlAL->fetchArray($sqlQR);
 				
 				$catName = $sqlARR['name'];
 				
@@ -350,16 +351,16 @@ switch($id){
 		if(isset($albums)){
 			if($choosenDB == 'xml'){
 				$album_xml   = new xmlparser($tcms_administer_site.'/tcms_albums/album_'.$albums.'.xml', 'r');
-				$album_title = $album_xml->read_section('album', 'title');
+				$album_title = $album_xml->readSection('album', 'title');
 				
 				$album_title = $tcms_main->decodeText($album_title, '2', $c_charset);
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
-				$sqlQR = $sqlAL->sqlQuery("SELECT * FROM ".$tcms_db_prefix."albums WHERE album_id='".$albums."'");
-				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+				$sqlQR = $sqlAL->query("SELECT * FROM ".$tcms_db_prefix."albums WHERE album_id='".$albums."'");
+				$sqlARR = $sqlAL->fetchArray($sqlQR);
 				
 				$album_title = $sqlARR['title'];
 				
@@ -381,16 +382,16 @@ switch($id){
 		if($action == 'showone'){
 			if($choosenDB == 'xml'){
 				$down_xml = new xmlparser($tcms_administer_site.'/tcms_products/'.$category.'/folderinfo.xml','r');
-				$down_cat = $down_xml->read_section('folderinfo', 'name');
+				$down_cat = $down_xml->readSection('folderinfo', 'name');
 				
 				$down_cat = $tcms_main->decodeText($down_cat, '2', $c_charset);
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
-				$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'products', $category);
-				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+				$sqlQR = $sqlAL->getOne($tcms_db_prefix.'products', $category);
+				$sqlARR = $sqlAL->fetchArray($sqlQR);
 				
 				$down_cat = $sqlARR['name'];
 				
@@ -418,10 +419,10 @@ switch($id){
 				if($category != ''){
 					$xml = new xmlparser($tcms_administer_site.'/tcms_knowledgebase/'.$category.'.xml','r');
 					
-					//$access_cat = $down_xml->read_section('faq', 'access');
+					//$access_cat = $down_xml->readSection('faq', 'access');
 					
-					$arrFAQparent['type'][$count] = $xml->read_section('faq', 'type');
-					$arrFAQparent['pub'][$count]  = $xml->read_section('faq', 'publish_state');
+					$arrFAQparent['type'][$count] = $xml->readSection('faq', 'type');
+					$arrFAQparent['pub'][$count]  = $xml->readSection('faq', 'publish_state');
 				}
 				else{
 					$arrFAQparent['type'][$count] = 'c';
@@ -430,14 +431,14 @@ switch($id){
 				
 				if($arrFAQparent['type'][$count] == 'c' && $arrFAQparent['pub'][$count] == '2'){
 					if($category != ''){
-						$arrFAQparent['title'][$count]  = $xml->read_section('faq', 'title');
-						$arrFAQparent['parent'][$count] = $xml->read_section('faq', 'parent');
+						$arrFAQparent['title'][$count]  = $xml->readSection('faq', 'title');
+						$arrFAQparent['parent'][$count] = $xml->readSection('faq', 'parent');
 						$arrFAQparent['uid'][$count]    = substr($category, 0, 10);
 						
 						// CHARSETS
 						$arrFAQparent['title'][$count] = $tcms_main->decodeText($arrFAQparent['title'][$count], '2', $c_charset);
 						
-						$checkCat = $xml->read_section('faq', 'category');
+						$checkCat = $xml->readSection('faq', 'category');
 						
 						$count++;
 					}
@@ -452,13 +453,13 @@ switch($id){
 					while($checkCat != ''){
 						$xml = new xmlparser($tcms_administer_site.'/tcms_knowledgebase/'.$arrFAQparent['parent'][$count - 1].'.xml','r');
 						
-						$checkCat = $xml->read_section('faq', 'category');
-						$arrFAQparent['type'][$count]   = $xml->read_section('faq', 'type');
-						$arrFAQparent['pub'][$count]    = $xml->read_section('faq', 'publish_state');
+						$checkCat = $xml->readSection('faq', 'category');
+						$arrFAQparent['type'][$count]   = $xml->readSection('faq', 'type');
+						$arrFAQparent['pub'][$count]    = $xml->readSection('faq', 'publish_state');
 						
 						if($arrFAQparent['type'][$count] == 'c' && $arrFAQparent['pub'][$count] == '2'){
-							$arrFAQparent['title'][$count]  = $xml->read_section('faq', 'title');
-							$arrFAQparent['parent'][$count] = $xml->read_section('faq', 'parent');
+							$arrFAQparent['title'][$count]  = $xml->readSection('faq', 'title');
+							$arrFAQparent['parent'][$count] = $xml->readSection('faq', 'parent');
 							$arrFAQparent['uid'][$count]    = substr($arrFAQparent['parent'][$count - 1], 0, 10);
 							
 							// CHARSETS
@@ -500,13 +501,13 @@ switch($id){
 				
 				$count = 0;
 				
-				$sqlQR = $sqlAL->sqlQuery($sqlSTRparent);
-				$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+				$sqlQR = $sqlAL->query($sqlSTRparent);
+				$sqlNR = $sqlAL->getNumber($sqlQR);
 				
 				//echo '<b>'.$sqlNR.'<br>'.$sqlSTRparent.'</b><br><br>';
 				
 				while($sqlNR > 0){
-					$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+					$sqlARR = $sqlAL->fetchArray($sqlQR);
 					
 					unset($sqlQR);
 					
@@ -529,9 +530,9 @@ switch($id){
 					."AND ( access = 'Public' "
 					.$strAdd;
 					
-					$sqlQR = $sqlAL->sqlQuery($sqlSTRparent);
+					$sqlQR = $sqlAL->query($sqlSTRparent);
 					
-					$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+					$sqlNR = $sqlAL->getNumber($sqlQR);
 					
 					//echo $sqlNR.'<br>'.$sqlSTRparent.'<br><br>';
 					
@@ -549,7 +550,7 @@ switch($id){
 			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 			.'id=knowledgebase&amp;s='.$s.'&amp;action=list'
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<a class="pathway" href="'.$link.'">'.$faq_title.'</a>';
 			
@@ -561,7 +562,7 @@ switch($id){
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=knowledgebase&amp;s='.$s.'&amp;action=list&amp;category='.$arrFAQparent['uid'][$i]
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $tcms_main->urlAmpReplace($link);
+					$link = $tcms_main->urlConvertToSEO($link);
 					
 					echo '<a class="pathway" href="'.$link.'">'.$arrFAQparent['title'][$i].'</a>';
 				}
@@ -570,7 +571,7 @@ switch($id){
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id=knowledgebase&amp;s='.$s.'&amp;action=list&amp;category='.$arrFAQparent['uid'][$i]
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
-						$link = $tcms_main->urlAmpReplace($link);
+						$link = $tcms_main->urlConvertToSEO($link);
 						
 						echo '<a class="pathway" href="'.$link.'">'.$arrFAQparent['title'][$i].'</a>';
 						
@@ -587,14 +588,14 @@ switch($id){
 			if($choosenDB == 'xml'){
 				$xml = new xmlparser($tcms_administer_site.'/tcms_knowledgebase/'.$article.'.xml','r');
 				
-				//$access_cat = $down_xml->read_section('faq', 'access');
+				//$access_cat = $down_xml->readSection('faq', 'access');
 				
-				$arrFAQparent['type'] = $xml->read_section('faq', 'type');
-				$arrFAQparent['pub']  = $xml->read_section('faq', 'publish_state');
+				$arrFAQparent['type'] = $xml->readSection('faq', 'type');
+				$arrFAQparent['pub']  = $xml->readSection('faq', 'publish_state');
 				
 				if($arrFAQparent['type'] == 'a' && $arrFAQparent['pub'] == '2'){
-					$arrFAQparent['title']  = $xml->read_section('faq', 'title');
-					$arrFAQparent['parent'] = $xml->read_section('faq', 'parent');
+					$arrFAQparent['title']  = $xml->readSection('faq', 'title');
+					$arrFAQparent['parent'] = $xml->readSection('faq', 'parent');
 					$arrFAQparent['uid']    = substr($category, 0, 10);
 					
 					$arrFAQparent['title'] = $tcms_main->decodeText($arrFAQparent['title'], '2', $c_charset);
@@ -634,9 +635,9 @@ switch($id){
 				
 				$count = 0;
 				
-				$sqlQR = $sqlAL->sqlQuery($sqlSTRparent);
+				$sqlQR = $sqlAL->query($sqlSTRparent);
 				
-				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+				$sqlARR = $sqlAL->fetchArray($sqlQR);
 				
 				$arrFAQparent['title']  = $sqlARR['title'];
 				$arrFAQparent['parent'] = $sqlARR['parent'];
