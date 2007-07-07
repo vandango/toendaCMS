@@ -9,7 +9,7 @@
 | 
 | Poll Module
 |
-| File:		ext_poll_sidebar.php
+| File:	ext_poll_sidebar.php
 |
 +
 */

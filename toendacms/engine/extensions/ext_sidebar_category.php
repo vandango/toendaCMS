@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides the news categories for
  * the sidebar.
  *
- * @version 0.3.6
+ * @version 0.4.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -34,14 +34,14 @@ defined('_TCMS_VALID') or die('Restricted access');
 if($use_side_category == 1){
 	if($choosenDB == 'xml'){
 		$side_ext_xml  = new xmlparser($tcms_administer_site.'/tcms_global/sidebar.xml','r');
-		$show_nacat = $side_ext_xml->read_section('side', 'show_news_cat_amount');
+		$show_nacat = $side_ext_xml->readSection('side', 'show_news_cat_amount');
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'sidebar_extensions', 'sidebar_extensions');
-		$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+		$sqlQR = $sqlAL->getOne($tcms_db_prefix.'sidebar_extensions', 'sidebar_extensions');
+		$sqlARR = $sqlAL->fetchArray($sqlQR);
 		
 		$show_nacat = $sqlARR['show_news_cat_amount'];
 		
@@ -63,7 +63,7 @@ if($use_side_category == 1){
 			foreach($arrCatFile as $cKey => $cVal){
 				$xmlP = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$cVal, 'r');
 				
-				$catSideName = $xmlP->read_section('cat', 'name');
+				$catSideName = $xmlP->readSection('cat', 'name');
 				
 				if($catSideName == false){ $catSideName = ''; }
 				
@@ -88,14 +88,14 @@ if($use_side_category == 1){
 		}
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		if($check_session){
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-			$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'user', $ws_id);
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlQR = $sqlAL->getOne($tcms_db_prefix.'user', $ws_id);
+			$sqlARR = $sqlAL->fetchArray($sqlQR);
 			$is_admin     = $sqlARR['group'];
 			if($is_admin == NULL){ $is_admin = ''; }
 			
@@ -132,9 +132,9 @@ if($use_side_category == 1){
 		}
 		
 		
-		$sqlQR = $sqlAL->sqlQuery($strSQL);
+		$sqlQR = $sqlAL->query($strSQL);
 		
-		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+		while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 			switch($choosenDB){
 				case 'mysql':
 					$catSideName = $tcms_main->decodeText($sqlARR['tncName'], '2', $c_charset);
@@ -158,7 +158,7 @@ if($use_side_category == 1){
 			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 			.'id=newsmanager&amp;s='.$s.'&amp;cat='.$catSideUID
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<span class="newsCategories" style="padding-left: 6px;">&raquo; ';
 			echo '<a href="'.$link.'">'

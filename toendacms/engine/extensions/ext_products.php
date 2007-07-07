@@ -9,7 +9,7 @@
 | 
 | Products Manager
 |
-| File:		ext_products.php
+| File:	ext_products.php
 |
 +
 */
@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a product manager.
  *
- * @version 0.2.9
+ * @version 0.3.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -54,31 +54,32 @@ if($action == 'showall'){
 		if($choosenDB == 'xml'){
 			if(file_exists($tcms_administer_site.'/tcms_products/'.$main_category.'/folderinfo.xml')){
 				$menu_xml = new xmlparser($tcms_administer_site.'/tcms_products/'.$main_category.'/folderinfo.xml','r');
-				$chkAcc   = $menu_xml->read_section('folderinfo', 'access');
+				$chkAcc   = $menu_xml->readSection('folderinfo', 'access');
 				
 				$showAll = $tcms_main->checkAccess($chkAcc, $is_admin);
 				
 				if($showAll == true){
-					$arr_name = $menu_xml->read_section('folderinfo', 'name');
-					$arr_date = $menu_xml->read_section('folderinfo', 'date');
-					$arr_desc = $menu_xml->read_section('folderinfo', 'desc');
-					$arr_sort = $menu_xml->read_section('folderinfo', 'sort');
-					$arr_dir  = $menu_xml->read_section('folderinfo', 'folder');
-					$arr_pub  = $menu_xml->read_section('folderinfo', 'pub');
-					$arr_ac   = $menu_xml->read_section('folderinfo', 'access');
+					$arr_name = $menu_xml->readSection('folderinfo', 'name');
+					$arr_date = $menu_xml->readSection('folderinfo', 'date');
+					$arr_desc = $menu_xml->readSection('folderinfo', 'desc');
+					$arr_sort = $menu_xml->readSection('folderinfo', 'sort');
+					$arr_dir  = $menu_xml->readSection('folderinfo', 'folder');
+					$arr_pub  = $menu_xml->readSection('folderinfo', 'pub');
+					$arr_ac   = $menu_xml->readSection('folderinfo', 'access');
 					
-					$arr_pfiles = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_products/'.$main_category.'/');
+					$arr_pfiles = $tcms_main->getPathContent($tcms_administer_site.'/tcms_products/'.$main_category.'/');
+					
 					foreach($arr_pfiles as $key => $value){
 						if($value != 'folderinfo.xml'){
 							$menu_xml = new xmlparser($tcms_administer_site.'/tcms_products/'.$main_category.'/'.$value,'r');
-							$arr_dw['product'][$key]     = $menu_xml->read_section('info', 'product');
-							$arr_dw['desc'][$key]        = $menu_xml->read_section('info', 'desc');
-							$arr_dw['image'][$key]       = $menu_xml->read_section('info', 'image');
-							$arr_dw['date'][$key]        = $menu_xml->read_section('info', 'date');
-							$arr_dw['status'][$key]      = $menu_xml->read_section('info', 'status');
-							$arr_dw['price'][$key]       = $menu_xml->read_section('info', 'price');
-							$arr_dw['price_tax'][$key]   = $menu_xml->read_section('info', 'price_tax');
-							$arr_dw['sort'][$key]        = $menu_xml->read_section('info', 'sort');
+							$arr_dw['product'][$key]     = $menu_xml->readSection('info', 'product');
+							$arr_dw['desc'][$key]        = $menu_xml->readSection('info', 'desc');
+							$arr_dw['image'][$key]       = $menu_xml->readSection('info', 'image');
+							$arr_dw['date'][$key]        = $menu_xml->readSection('info', 'date');
+							$arr_dw['status'][$key]      = $menu_xml->readSection('info', 'status');
+							$arr_dw['price'][$key]       = $menu_xml->readSection('info', 'price');
+							$arr_dw['price_tax'][$key]   = $menu_xml->readSection('info', 'price_tax');
+							$arr_dw['sort'][$key]        = $menu_xml->readSection('info', 'sort');
 							$arr_dw['tag'][$key]         = substr($value, 0, 10);
 							
 							if(!$arr_dw['product'][$key])   { $arr_dw['product'][$key]   = ''; }
@@ -115,8 +116,8 @@ if($action == 'showall'){
 			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			switch($is_admin){
 				case 'Developer':
@@ -143,11 +144,11 @@ if($action == 'showall'){
 			.$strAdd
 			."ORDER BY sort DESC, date DESC, name DESC";
 			
-			$sqlQR = $sqlAL->sqlQuery($sqlSTR);
-			$chkNr = $sqlAL->sqlGetNumber($sqlQR);
+			$sqlQR = $sqlAL->query($sqlSTR);
+			$chkNr = $sqlAL->getNumber($sqlQR);
 			
 			if($chkNr != 0){
-				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+				$sqlARR = $sqlAL->fetchArray($sqlQR);
 				
 				$arr_name = $sqlARR['name'];
 				$arr_date = $sqlARR['date'];
@@ -165,11 +166,11 @@ if($action == 'showall'){
 				if($arr_pub  == NULL){ $arr_pub  = ''; }
 				if($arr_ac   == NULL){ $arr_ac   = ''; }
 				
-				$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix."products WHERE category='".$main_category."' AND sql_type='f'");
+				$sqlQR = $sqlAL->getAll($tcms_db_prefix."products WHERE category='".$main_category."' AND sql_type='f'");
 				
 				$count = 0;
 				
-				while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+				while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 					$arr_dw['product'][$count]   = $sqlARR['name'];
 					$arr_dw['desc'][$count]      = $sqlARR['desc'];
 					$arr_dw['image'][$count]     = $sqlARR['image'];
@@ -216,12 +217,12 @@ if($action == 'showall'){
 	if(isset($arr_dw['sort']) && !empty($arr_dw['sort']) && $arr_dw['sort'] != ''){
 		foreach($arr_dw['sort'] as $key => $value){
 			if($arr_dw['status'][$key] == 1){
-				echo tcms_html::table_head('0', '0', '0', '100%');
+				echo $tcms_html->tableHead('0', '0', '0'. '100%');
 				
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id=products&amp;s='.$s.'&amp;action=showone&amp;category='.$main_category.'&amp;article='.$arr_dw['tag'][$key]
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
 				echo '<tr><td valign="middle" colspan="2" class="products_top">'
 				.'<a class="products_top" href="'.$link.'">'
@@ -231,7 +232,7 @@ if($action == 'showall'){
 				//-------------
 				echo '<tr>';
 				
-				echo '<td valign="top" rowspan="2">'.tcms_html::text($arr_dw['desc'][$key], 'left').'<br /></td>';
+				echo '<td valign="top" rowspan="2">'.$tcms_html->text($arr_dw['desc'][$key], 'left').'<br /></td>';
 				
 				echo '<td align="right" class="text_normal" width="110">';
 					if($arr_dw['price_tax'][$key] != '' || !empty($arr_dw['price_tax'][$key])){
@@ -273,7 +274,7 @@ if($action == 'showall'){
 				.'</td></tr>';
 				//-------------
 				
-				echo tcms_html::table_end();
+				echo $tcms_html->tableEnd();
 				
 				echo '<br />';
 			}
@@ -281,23 +282,17 @@ if($action == 'showall'){
 	}
 	
 	echo '</td></tr>';
-	echo tcms_html::table_end();
+	echo $tcms_html->tableEnd();
 	echo '<br />';
 }
-
-
-
-
-
-
 
 
 
 if($action == 'showone'){
 	if($choosenDB == 'xml'){
 		$down_xml = new xmlparser($tcms_administer_site.'/tcms_products/'.$category.'/folderinfo.xml','r');
-		$down_cat = $down_xml->read_section('folderinfo', 'name');
-		$down_acc = $down_xml->read_section('folderinfo', 'access');
+		$down_cat = $down_xml->readSection('folderinfo', 'name');
+		$down_acc = $down_xml->readSection('folderinfo', 'access');
 		
 		$down_cat = $tcms_main->decodeText($down_cat, '2', $c_charset);
 		
@@ -305,20 +300,20 @@ if($action == 'showone'){
 		
 		if($showAll == true){
 			$menu_xml = new xmlparser($tcms_administer_site.'/tcms_products/'.$category.'/'.$article.'.xml','r');
-			$arr_product     = $menu_xml->read_section('info', 'product');
-			$arr_product_no  = $menu_xml->read_section('info', 'product_number');
-			$arr_factory     = $menu_xml->read_section('info', 'factory');
-			$arr_factory_url = $menu_xml->read_section('info', 'factory_url');
-			$arr_desc        = $menu_xml->read_section('info', 'desc');
-			$arr_category    = $menu_xml->read_section('info', 'category');
-			$arr_image       = $menu_xml->read_section('info', 'image');
-			$arr_date        = $menu_xml->read_section('info', 'date');
-			$arr_price       = $menu_xml->read_section('info', 'price');
-			$arr_pricetax    = $menu_xml->read_section('info', 'price_tax');
-			$arr_status      = $menu_xml->read_section('info', 'status');
-			$arr_quantity    = $menu_xml->read_section('info', 'quantity');
-			$arr_weight      = $menu_xml->read_section('info', 'weight');
-			$arr_sort        = $menu_xml->read_section('info', 'sort');
+			$arr_product     = $menu_xml->readSection('info', 'product');
+			$arr_product_no  = $menu_xml->readSection('info', 'product_number');
+			$arr_factory     = $menu_xml->readSection('info', 'factory');
+			$arr_factory_url = $menu_xml->readSection('info', 'factory_url');
+			$arr_desc        = $menu_xml->readSection('info', 'desc');
+			$arr_category    = $menu_xml->readSection('info', 'category');
+			$arr_image       = $menu_xml->readSection('info', 'image');
+			$arr_date        = $menu_xml->readSection('info', 'date');
+			$arr_price       = $menu_xml->readSection('info', 'price');
+			$arr_pricetax    = $menu_xml->readSection('info', 'price_tax');
+			$arr_status      = $menu_xml->readSection('info', 'status');
+			$arr_quantity    = $menu_xml->readSection('info', 'quantity');
+			$arr_weight      = $menu_xml->readSection('info', 'weight');
+			$arr_sort        = $menu_xml->readSection('info', 'sort');
 			$arr_tag         = substr($value, 0, 10);
 			
 			if($arr_product == false)     { $arr_product     = ''; }
@@ -338,10 +333,10 @@ if($action == 'showone'){
 		}
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-		$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'products', $category);
-		$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlQR = $sqlAL->getOne($tcms_db_prefix.'products', $category);
+		$sqlARR = $sqlAL->fetchArray($sqlQR);
 		$down_cat = $sqlARR['name'];
 		$down_acc = $sqlARR['access'];
 		
@@ -350,8 +345,8 @@ if($action == 'showone'){
 		$showAll = $tcms_main->checkAccess($down_acc, $is_admin);
 		
 		if($showAll == true){
-			$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix."products WHERE uid='".$article."' AND sql_type='f' AND category='".$category."'");
-			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+			$sqlQR = $sqlAL->getAll($tcms_db_prefix."products WHERE uid='".$article."' AND sql_type='f' AND category='".$category."'");
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
 			
 			$arr_product     = $sqlObj->name;
 			$arr_product_no  = $sqlObj->product_number;
@@ -397,14 +392,14 @@ if($action == 'showone'){
 		echo tcms_html::table_head('0', '0', '0', '100%');
 		
 		echo '<tr><td valign="top" colspan="2" class="products_top">'
-		.tcms_html::contentheading($arr_product)
+		.$tcms_html->contentTitle($arr_product)
 		.'<span class="text_small">'.( $arr_product_no != '' ? '['.$arr_product_no.']' : '' ).'</span>'
 		.'</td></tr>';
 		
 		//-------------
 		echo '<tr>';
 		
-		echo '<td valign="top" rowspan="2">'.tcms_html::text($arr_desc, 'left').'<br /></td>';
+		echo '<td valign="top" rowspan="2">'.$tcms_html->text($arr_desc, 'left').'<br /></td>';
 		
 		echo '<td align="right" class="text_normal" width="110">';
 			if(($arr_pricetax != '' || !empty($arr_pricetax)) || ($arr_price != '' || !empty($arr_price))){
@@ -444,7 +439,7 @@ if($action == 'showone'){
 		
 		.'</td></tr>';
 		
-		echo tcms_html::table_end();
+		echo $tcms_html->tableEnd();
 		
 		echo '<br />';
 	}

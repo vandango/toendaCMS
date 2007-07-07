@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides news nonthview for
  * the sidebar.
  *
- * @version 0.2.7
+ * @version 0.3.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -32,7 +32,7 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 if($use_side_archives == 1){
-	echo tcms_html::subtitle(_NEWS_ARCHIVES_TITLE);
+	echo $tcms_html->subTitle(_NEWS_ARCHIVES_TITLE);
 	
 	
 	if($choosenDB == 'xml'){

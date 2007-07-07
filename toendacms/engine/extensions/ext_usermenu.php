@@ -9,7 +9,7 @@
 | 
 | User Menu
 |
-| File:		ext_usermenu.php
+| File:	ext_usermenu.php
 |
 +
 */
@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a user menu.
  *
- * @version 0.2.9
+ * @version 0.3.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -33,27 +33,27 @@ defined('_TCMS_VALID') or die('Restricted access');
 if($user_navigation == 1){
 	if($choosenDB == 'xml'){
 		$mtu_xml = new xmlparser($tcms_administer_site.'/tcms_global/sidebar.xml','r');
-		$menu_title_user = $mtu_xml->read_section('side', 'usermenu_title');
+		$menu_title_user = $mtu_xml->readSection('side', 'usermenu_title');
 		
 		$xmlSet = new xmlparser($tcms_administer_site.'/tcms_global/userpage.xml','r');
-		$npo = $xmlSet->read_section('userpage', 'news_publish');
-		$ipo = $xmlSet->read_section('userpage', 'image_publish');
-		$apo = $xmlSet->read_section('userpage', 'album_publish');
-		$cpo = $xmlSet->read_section('userpage', 'cat_publish');
-		$ppo = $xmlSet->read_section('userpage', 'pic_publish');
+		$npo = $xmlSet->readSection('userpage', 'news_publish');
+		$ipo = $xmlSet->readSection('userpage', 'image_publish');
+		$apo = $xmlSet->readSection('userpage', 'album_publish');
+		$cpo = $xmlSet->readSection('userpage', 'cat_publish');
+		$ppo = $xmlSet->readSection('userpage', 'pic_publish');
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'sidebar_extensions', 'sidebar_extensions');
-		$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+		$sqlQR = $sqlAL->getOne($tcms_db_prefix.'sidebar_extensions', 'sidebar_extensions');
+		$sqlARR = $sqlAL->fetchArray($sqlQR);
 		
 		$menu_title_user = $sqlARR['usermenu_title'];
 		
 		
-		$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'userpage', 'userpage');
-		$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+		$sqlQR = $sqlAL->getOne($tcms_db_prefix.'userpage', 'userpage');
+		$sqlARR = $sqlAL->fetchArray($sqlQR);
 		
 		$npo = $sqlARR['news_publish'];
 		$ipo = $sqlARR['image_publish'];
@@ -64,7 +64,7 @@ if($user_navigation == 1){
 	
 	$menu_title_user = $tcms_main->decodeText($menu_title_user, '2', $charset);
 	
-	echo tcms_html::subtitle($menu_title_user);
+	echo $tcms_html->subTitle($menu_title_user);
 	
 	//echo $is_admin.'<--';
 	
@@ -75,7 +75,7 @@ if($user_navigation == 1){
 		if($canEdit){
 			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;todo=submitNews'
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<li><a class="mainlevel" href="'.$link.'">'._LOGIN_SUBMIT_NEWS.'</a></li>';
 		}
@@ -88,7 +88,7 @@ if($user_navigation == 1){
 		if($canEdit){
 			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;todo=createCat'
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<li><a class="mainlevel" href="'.$link.'">'._LOGIN_CREATE_CATEGORY.'</a></li>';
 		}
@@ -101,7 +101,7 @@ if($user_navigation == 1){
 		if($canEdit){
 			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;todo=submitMedia'
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<li><a class="mainlevel" href="'.$link.'">'._LOGIN_SUBMIT_MEDIA.'</a></li>';
 		}
@@ -114,7 +114,7 @@ if($user_navigation == 1){
 		if($canEdit){
 			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;todo=createAlbum'
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<li><a class="mainlevel" href="'.$link.'">'._LOGIN_CREATE_ALBUM.'</a></li>';
 		}
@@ -127,7 +127,7 @@ if($user_navigation == 1){
 		if($canEdit){
 			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;todo=submitImages'
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<li><a class="mainlevel" href="'.$link.'">'._LOGIN_SUBMIT_IMAGES.'</a></li>';
 		}
@@ -138,7 +138,7 @@ if($user_navigation == 1){
 	// Your Profile
 	$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;u='.$ws_id
 	.( isset($lang) ? '&amp;lang='.$lang : '' );
-	$link = $tcms_main->urlAmpReplace($link);
+	$link = $tcms_main->urlConvertToSEO($link);
 	
 	echo '<li><a class="mainlevel" href="'.$link.'">'._LOGIN_PROFILE.'</a></li>';
 	
@@ -148,7 +148,7 @@ if($user_navigation == 1){
 		// Memberlist
 		$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;action=list'
 		.( isset($lang) ? '&amp;lang='.$lang : '' );
-		$link = $tcms_main->urlAmpReplace($link);
+		$link = $tcms_main->urlConvertToSEO($link);
 		
 		echo '<li><a class="mainlevel" href="'.$link.'">'._LOGIN_LIST.'</a></li>';
 	}
@@ -168,7 +168,7 @@ if($user_navigation == 1){
 	// Logout
 	$link = '?session='.$session.'&amp;id='.$id.'&amp;s='.$s.'&amp;reg_login=logout'
 	.( isset($lang) ? '&amp;lang='.$lang : '' );
-	$link = $tcms_main->urlAmpReplace($link);
+	$link = $tcms_main->urlConvertToSEO($link);
 	
 	echo '<li><a class="mainlevel" href="'.$link.'">'._LOGIN_LOGOUT.'</a></li>';
 	

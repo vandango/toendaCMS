@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the syndication.
  *
- * @version 0.0.9
+ * @version 0.1.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -39,7 +39,7 @@ if($use_syndication == 1){
 	
 	if($use_rss091 == 1){
 		$link = '?id=frontpage&amp;feed=RSS0.91&amp;save=true';
-		$link = $tcms_main->urlAmpReplace($link);
+		$link = $tcms_main->urlConvertToSEO($link);
 		
 		echo '<div align="center">'
 		.'<a href="'.$link.'">'
@@ -49,7 +49,7 @@ if($use_syndication == 1){
 	
 	if($use_rss10 == 1){
 		$link = '?id=frontpage&amp;feed=RSS1.0&amp;save=true';
-		$link = $tcms_main->urlAmpReplace($link);
+		$link = $tcms_main->urlConvertToSEO($link);
 		
 		echo '<div align="center">'
 		.'<a href="'.$link.'">'
@@ -59,7 +59,7 @@ if($use_syndication == 1){
 	
 	if($use_rss20 == 1){
 		$link = '?id=frontpage&amp;feed=RSS2.0&amp;save=true';
-		$link = $tcms_main->urlAmpReplace($link);
+		$link = $tcms_main->urlConvertToSEO($link);
 		
 		echo '<div align="center">'
 		.'<a href="'.$link.'">'
@@ -69,7 +69,7 @@ if($use_syndication == 1){
 	
 	if($use_atom03 == 1){
 		$link = '?id=frontpage&amp;feed=ATOM0.3&amp;save=true';
-		$link = $tcms_main->urlAmpReplace($link);
+		$link = $tcms_main->urlConvertToSEO($link);
 		
 		echo '<div align="center">'
 		.'<a href="'.$link.'">'
@@ -79,7 +79,7 @@ if($use_syndication == 1){
 	
 	if($use_opml == 1){
 		$link = '?id=frontpage&amp;feed=OPML&amp;save=true';
-		$link = $tcms_main->urlAmpReplace($link);
+		$link = $tcms_main->urlConvertToSEO($link);
 		
 		echo '<div align="center">'
 		.'<a href="'.$link.'">'

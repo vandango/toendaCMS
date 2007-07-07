@@ -9,7 +9,7 @@
 | 
 | Side Menu (with User Menu)
 |
-| File:		ext_sidemenu.php
+| File:	ext_sidemenu.php
 |
 +
 */
@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a side menu.
  *
- * @version 0.4.7
+ * @version 0.5.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -36,17 +36,17 @@ $getLang = $tcms_config->getLanguageCodeForTCMS($lang);
 if($navigation == 1){
 	if($choosenDB == 'xml'){
 		$layout_xml = new xmlparser($tcms_administer_site.'/tcms_global/sidebar.xml','r');
-		$menu_title = $layout_xml->read_section('side', 'sidemenu_title');
-		$show_title = $layout_xml->read_section('side', 'sidemenu');
+		$menu_title = $layout_xml->readSection('side', 'sidemenu_title');
+		$show_title = $layout_xml->readSection('side', 'sidemenu');
 		
 		$menu_title = $tcms_main->decodeText($menu_title, '2', $c_charset);
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'sidebar_extensions', 'sidebar_extensions');
-		$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+		$sqlQR = $sqlAL->getOne($tcms_db_prefix.'sidebar_extensions', 'sidebar_extensions');
+		$sqlARR = $sqlAL->fetchArray($sqlQR);
 		
 		$menu_title = $sqlARR['sidemenu_title'];
 		$show_title = $sqlARR['sidemenu'];
@@ -57,7 +57,7 @@ if($navigation == 1){
 	
 	
 	if($show_title == 1){
-		echo tcms_html::subtitle($menu_title);
+		echo $tcms_html->subTitle($menu_title);
 	}
 	
 	
@@ -92,7 +92,7 @@ if($navigation == 1){
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id='.$menuItem->GetLink().'&amp;s='.$s
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
-						$link = $tcms_main->urlAmpReplace($link);
+						$link = $tcms_main->urlConvertToSEO($link);
 						
 						echo '<a class="mainlevel" href="'.$link.'"'.$target.'>'.$menuItem->GetTitle().'</a>';
 						break;
@@ -129,7 +129,7 @@ if($navigation == 1){
 								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 								.'id='.$subMenuItem->GetLink().'&amp;s='.$s
 								.( isset($lang) ? '&amp;lang='.$lang : '' );
-								$link = $tcms_main->urlAmpReplace($link);
+								$link = $tcms_main->urlConvertToSEO($link);
 								
 								echo '<a class="submenu" href="'.$link.'"'.$target.'>'.$subMenuItem->GetTitle().'</a>';
 								break;
@@ -166,7 +166,7 @@ if($navigation == 1){
 										$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 										.'id='.$subMenu2Item->GetLink().'&amp;s='.$s
 										.( isset($lang) ? '&amp;lang='.$lang : '' );
-										$link = $tcms_main->urlAmpReplace($link);
+										$link = $tcms_main->urlConvertToSEO($link);
 										
 										echo '<a class="submenu sublevel2" href="'.$link.'"'.$target.'>'.$subMenu2Item->GetTitle().'</a>';
 										break;
@@ -208,18 +208,18 @@ if($navigation == 1){
 	else {
 		if($choosenDB == 'xml'){
 			$poll_xml      = new xmlparser($tcms_administer_site.'/tcms_global/poll.xml','r');
-			$show_sm_poll  = $poll_xml->read_section('poll', 'use_poll_sidemenu');
-			$sm_poll_id    = $poll_xml->read_section('poll', 'poll_sidemenu_id');
-			$sm_poll_title = $poll_xml->read_section('poll', 'poll_sm_title');
+			$show_sm_poll  = $poll_xml->readSection('poll', 'use_poll_sidemenu');
+			$sm_poll_id    = $poll_xml->readSection('poll', 'poll_sidemenu_id');
+			$sm_poll_title = $poll_xml->readSection('poll', 'poll_sm_title');
 			
 			$sm_poll_title = $tcms_main->decodeText($sm_poll_title, '2', $c_charset);
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'poll_config', 'poll');
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+			$sqlQR = $sqlAL->getOne($tcms_db_prefix.'poll_config', 'poll');
+			$sqlARR = $sqlAL->fetchArray($sqlQR);
 			
 			$show_sm_poll  = $sqlARR['use_poll_sidemenu'];
 			$sm_poll_id    = $sqlARR['poll_sidemenu_id'];
@@ -243,7 +243,7 @@ if($navigation == 1){
 				if(file_exists($tcms_administer_site.'/tcms_menu/'.$this_link.'.xml')){
 					if($this_link != 'index.html'){
 						$xml       = new xmlparser($tcms_administer_site.'/tcms_menu/'.$this_link.'.xml','r');
-						$subParent = $xml->read_section('menu', 'id');
+						$subParent = $xml->readSection('menu', 'id');
 					}
 				}
 				else{ $subParent =  ''; }
@@ -257,11 +257,11 @@ if($navigation == 1){
 				if($id == 'components'){ $tempID = ($id.'&item='.$item); }
 				else{ $tempID = $id; }
 				
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
-				$sqlQR = $sqlAL->sqlQuery("SELECT * FROM ".$tcms_db_prefix."sidemenu WHERE link='".$tempID."'");
-				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+				$sqlQR = $sqlAL->query("SELECT * FROM ".$tcms_db_prefix."sidemenu WHERE link='".$tempID."'");
+				$sqlARR = $sqlAL->fetchArray($sqlQR);
 				
 				$subParent = $sqlARR['id'];
 			}
@@ -299,7 +299,7 @@ if($navigation == 1){
 					//
 					if($arr_side_navi['pub'][$key] == 1){
 						if($arr_side_navi['type'][$key] == 'title'){
-							echo '<li>'.tcms_html::subtitle($arr_side_navi['name'][$key]).'</li>';
+							echo '<li>'.$tcms_html->subTitle($arr_side_navi['name'][$key]).'</li>';
 							$check_is_menu++;
 						}
 					}
@@ -317,7 +317,7 @@ if($navigation == 1){
 							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 							.'id=polls&amp;s='.$s
 							.( isset($lang) ? '&amp;lang='.$lang : '' );
-							$link = $tcms_main->urlAmpReplace($link);
+							$link = $tcms_main->urlConvertToSEO($link);
 							
 							echo '<li><a class="mainlevel" href="'.$link.'">'.$sm_poll_title.'</a></li>';
 							$check_is_menu++;

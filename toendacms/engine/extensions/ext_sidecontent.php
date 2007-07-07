@@ -9,7 +9,7 @@
 | 
 | Sidebar
 |
-| File:		ext_sidecontent.php
+| File:	ext_sidecontent.php
 |
 +
 */
@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the sidebar functionality.
  *
- * @version 0.4.8
+ * @version 0.5.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -33,15 +33,15 @@ defined('_TCMS_VALID') or die('Restricted access');
 if($use_sidebar == 1){
 	if($choosenDB == 'xml'){
 		$use_side_xml  = new xmlparser($tcms_administer_site.'/tcms_global/sidebar.xml','r');
-		$sidebar_title = $use_side_xml->read_section('side', 'sidebar_title');
-		$show_sbt      = $use_side_xml->read_section('side', 'show_sidebar_title');
+		$sidebar_title = $use_side_xml->readSection('side', 'sidebar_title');
+		$show_sbt      = $use_side_xml->readSection('side', 'show_sidebar_title');
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'sidebar_extensions', 'sidebar_extensions');
-		$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+		$sqlQR = $sqlAL->getOne($tcms_db_prefix.'sidebar_extensions', 'sidebar_extensions');
+		$sqlARR = $sqlAL->fetchArray($sqlQR);
 		
 		$sidebar_title = $sqlARR['sidebar_title'];
 		$show_sbt      = $sqlARR['show_sidebar_title'];
@@ -53,23 +53,22 @@ if($use_sidebar == 1){
 
 
 
-
-
 if($cform_enabled == 1){
 	if($show_cisb == 1 && $id == 'contactform'){
-		echo tcms_html::subtitle(_SIDE_CONTACTS).'<br />';
+		echo $tcms_html->subTitle(_SIDE_CONTACTS).'<br />';
 		
 		if($choosenDB == 'xml'){
-			$arr_sbc = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_contacts/');
+			$arr_sbc = $tcms_main->getPathContent($tcms_administer_site.'/tcms_contacts/');
+			
 			foreach ($arr_sbc as $key => $value){
 				$contacts_xml = new xmlparser($tcms_administer_site.'/tcms_contacts/'.$value,'r');
-				$tc_pub = $contacts_xml->read_section('contact', 'published');
+				$tc_pub = $contacts_xml->readSection('contact', 'published');
 				
 				if($tc_pub == 1){
-					$csb_name  = $contacts_xml->read_section('contact', 'name');
-					$csb_job   = $contacts_xml->read_section('contact', 'position');
-					$csb_email = $contacts_xml->read_section('contact', 'email');
-					$csb_phone = $contacts_xml->read_section('contact', 'phone');
+					$csb_name  = $contacts_xml->readSection('contact', 'name');
+					$csb_job   = $contacts_xml->readSection('contact', 'position');
+					$csb_email = $contacts_xml->readSection('contact', 'email');
+					$csb_phone = $contacts_xml->readSection('contact', 'phone');
 					
 					if($csb_name  == false){ $csb_name  = ''; }
 					if($csb_job   == false){ $csb_job   = ''; }
@@ -98,12 +97,12 @@ if($cform_enabled == 1){
 			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			$sqlQR = $sqlAL->sqlGetALL($tcms_db_prefix.'contacts WHERE published=1');
+			$sqlQR = $sqlAL->getAll($tcms_db_prefix.'contacts WHERE published=1');
 			
-			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+			while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 				$csb_name  = $sqlARR['name'];
 				$csb_job   = $sqlARR['position'];
 				$csb_email = $sqlARR['email'];
@@ -140,9 +139,6 @@ if($cform_enabled == 1){
 
 
 
-
-
-
 if($id != 'register' && $id != 'profile' && $id != 'polls'){
 	/**************************************
 	* load data from XML to sidebar
@@ -153,14 +149,14 @@ if($id != 'register' && $id != 'profile' && $id != 'polls'){
 		//===================================
 		
 		if($choosenDB == 'xml'){
-			$arr_products = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_products/');
+			$arr_products = $tcms_main->getPathContent($tcms_administer_site.'/tcms_products/');
 			
 			$count = 0;
 			
 			if(isset($arr_products) && !empty($arr_products) && $arr_products != ''){
 				foreach($arr_products as $key => $value){
 					$menu_xml = new xmlparser($tcms_administer_site.'/tcms_products/'.$value.'/folderinfo.xml','r');
-					$chkAcc   = $menu_xml->read_section('folderinfo', 'access');
+					$chkAcc   = $menu_xml->readSection('folderinfo', 'access');
 					
 					if($is_admin == 'Developer' || $is_admin == 'Administrator'){ $showAll = true; }
 					else{
@@ -169,13 +165,13 @@ if($id != 'register' && $id != 'profile' && $id != 'polls'){
 					}
 					
 					if($showAll == true){
-						$arr_art['name'][$count] = $menu_xml->read_section('folderinfo', 'name');
-						$arr_art['date'][$count] = $menu_xml->read_section('folderinfo', 'date');
-						$arr_art['desc'][$count] = $menu_xml->read_section('folderinfo', 'desc');
-						$arr_art['sort'][$count] = $menu_xml->read_section('folderinfo', 'sort');
-						$arr_art['dir'][$count]  = $menu_xml->read_section('folderinfo', 'folder');
-						$arr_art['pub'][$count]  = $menu_xml->read_section('folderinfo', 'pub');
-						$arr_art['ac'][$count]   = $menu_xml->read_section('folderinfo', 'access');
+						$arr_art['name'][$count] = $menu_xml->readSection('folderinfo', 'name');
+						$arr_art['date'][$count] = $menu_xml->readSection('folderinfo', 'date');
+						$arr_art['desc'][$count] = $menu_xml->readSection('folderinfo', 'desc');
+						$arr_art['sort'][$count] = $menu_xml->readSection('folderinfo', 'sort');
+						$arr_art['dir'][$count]  = $menu_xml->readSection('folderinfo', 'folder');
+						$arr_art['pub'][$count]  = $menu_xml->readSection('folderinfo', 'pub');
+						$arr_art['ac'][$count]   = $menu_xml->readSection('folderinfo', 'access');
 						
 						$arr_art['name'][$count] = $tcms_main->decodeText($arr_art['name'][$count], '2', $c_charset);
 						$arr_art['desc'][$count] = $tcms_main->decodeText($arr_art['desc'][$count], '2', $c_charset);
@@ -187,8 +183,8 @@ if($id != 'register' && $id != 'profile' && $id != 'polls'){
 			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			switch($is_admin){
 				case 'Developer':
@@ -214,11 +210,11 @@ if($id != 'register' && $id != 'profile' && $id != 'polls'){
 			.$strAdd
 			."ORDER BY sort DESC, date DESC, name DESC";
 			
-			$sqlQR = $sqlAL->sqlQuery($sqlSTR);
+			$sqlQR = $sqlAL->query($sqlSTR);
 			
 			$count = 0;
 			
-			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+			while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 				$arr_art['name'][$count]  = $sqlARR['name'];
 				$arr_art['date'][$count]  = $sqlARR['date'];
 				$arr_art['desc'][$count]  = $sqlARR['desc'];
@@ -257,7 +253,7 @@ if($id != 'register' && $id != 'profile' && $id != 'polls'){
 		
 		if($show_pro_ct == 1){
 			$category_title = $tcms_main->decodeText($category_title, '2', $c_charset);
-			echo tcms_html::subtitle($category_title);
+			echo $tcms_html->subTitle($category_title);
 		}
 		
 		echo '<div class="sidemain">';
@@ -268,7 +264,7 @@ if($id != 'register' && $id != 'profile' && $id != 'polls'){
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=products&amp;s='.$s.'&amp;category='.$arr_art['dir'][$key]
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $tcms_main->urlAmpReplace($link);
+					$link = $tcms_main->urlConvertToSEO($link);
 					
 					echo '<strong class="text_normal"><a href="'.$link.'">'.$arr_art['name'][$key].'</a></strong><br />';
 					echo ( trim($arr_art['desc'][$key]) == '' ? '' : '<span class="text_small">'.$arr_art['desc'][$key].'</span><br />' );
@@ -292,16 +288,16 @@ if($id != 'register' && $id != 'profile' && $id != 'polls'){
 					else{ $show_sbt_ever = false; }
 				}
 				else{
-					$sqlAL = new sqlAbstractionLayer($choosenDB);
-					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-					$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix."sidebar WHERE uid='".$id."'");
-					$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+					$sqlQR = $sqlAL->getAll($tcms_db_prefix."sidebar WHERE uid='".$id."'");
+					$sqlNR = $sqlAL->getNumber($sqlQR);
 					if($sqlNR != 0){ $show_sbt_ever = true; }
 					else{ $show_sbt_ever = false; }
 				}
 				
 				if($show_sbt_ever == true){
-					echo tcms_html::subtitle($sidebar_title);
+					echo $tcms_html->subTitle($sidebar_title);
 				}
 			}
 		}
@@ -314,10 +310,10 @@ if($id != 'register' && $id != 'profile' && $id != 'polls'){
 		if($choosenDB == 'xml'){
 			if(file_exists($tcms_administer_site.'/tcms_sidebar/'.$id.'.xml')){
 				$sidexml = new xmlparser($tcms_administer_site.'/tcms_sidebar/'.$id.'.xml','r');
-				$sb_title   = $sidexml->read_section('side', 'title');
-				$sb_key     = $sidexml->read_section('side', 'key');
-				$sb_content = $sidexml->read_section('side', 'content');
-				$sb_foot    = $sidexml->read_section('side', 'foot');
+				$sb_title   = $sidexml->readSection('side', 'title');
+				$sb_key     = $sidexml->readSection('side', 'key');
+				$sb_content = $sidexml->readSection('side', 'content');
+				$sb_foot    = $sidexml->readSection('side', 'foot');
 				
 				// CHARSETS
 				$sb_title   = $tcms_main->decodeText($sb_title, '2', $c_charset);
@@ -348,12 +344,12 @@ if($id != 'register' && $id != 'profile' && $id != 'polls'){
 			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'sidebar', $id);
-			$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+			$sqlQR = $sqlAL->getOne($tcms_db_prefix.'sidebar', $id);
+			$sqlNR = $sqlAL->getNumber($sqlQR);
+			$sqlARR = $sqlAL->fetchArray($sqlQR);
 			
 			$sb_title   = $sqlARR['title'];
 			$sb_key     = $sqlARR['key'];
