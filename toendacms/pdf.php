@@ -29,7 +29,7 @@ if(isset($_GET['albums'])){ $albums = $_GET['albums']; }
  * 
  * This module is used to generate a pdf document
  * 
- * @version 0.2.3
+ * @version 0.2.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -74,7 +74,7 @@ $arr_currency['html']['USD'] = '$';
 
 $tcms_administer_site = 'data';
 
-include_once($tcms_administer_site.'/tcms_global/database.php');
+require($tcms_administer_site.'/tcms_global/database.php');
 
 $tcms_main      = new tcms_main($tcms_administer_site, $choosenDB);
 $tcms_modconfig = new tcms_modconfig($tcms_administer_site, '');
@@ -85,15 +85,13 @@ $tcms_config    = new tcms_configuration($tcms_administer_site);
 $language_stage = 'print';
 include_once ('engine/language/lang_admin.php');
 
-
-$choosenDB = $tcms_main->secure_password($tcms_db_engine, 'en');
-$sqlUser   = $tcms_main->secure_password($tcms_db_user, 'en');
-$sqlPass   = $tcms_main->secure_password($tcms_db_password, 'en');
-$sqlHost   = $tcms_main->secure_password($tcms_db_host, 'en');
-$sqlDB     = $tcms_main->secure_password($tcms_db_database, 'en');
-$sqlPort   = $tcms_main->secure_password($tcms_db_port, 'en');
-$sqlPrefix = $tcms_main->secure_password($tcms_db_prefix, 'en');
-$tcms_db_prefix = $sqlPrefix;
+$choosenDB = $tcms_db_engine;
+$sqlUser   = $tcms_db_user;
+$sqlPass   = $tcms_db_password;
+$sqlHost   = $tcms_db_host;
+$sqlDB     = $tcms_db_database;
+$sqlPort   = $tcms_db_port;
+$sqlPrefix = $tcms_db_prefix;
 
 $tcms_main->setDatabaseInfo($choosenDB);
 
