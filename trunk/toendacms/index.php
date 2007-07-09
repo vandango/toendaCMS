@@ -50,7 +50,7 @@ if(isset($_POST['contact_email'])){ $contact_email = $_POST['contact_email']; }
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.5.8
+ * @version 2.5.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -103,10 +103,6 @@ $tcms_time = new tcms_time();
 $tcms_time->startTimer();
 if(isset($choosenDB) && $choosenDB != 'xml')
 	$tcms_time->startSqlQueryCounter();
-
-//tcms_time::tcms_load_start();
-//if(isset($choosenDB) && $choosenDB != 'xml')
-//	tcms_time::tcms_query_count_start();
 
 // params
 $tcms_param = new tcms_parameter();
@@ -222,10 +218,15 @@ if(file_exists($tcms_administer_site.'/tcms_global/var.xml')){
 		
 		$tcms_seo = new tcms_seo();
 		
-		if($seoFormat == 0)
+		if($seoFormat == 0) {
 			$arrSEO = $tcms_seo->explodeUrlColonFormat();
-		else
+		}
+		else if($seoFormat == 1) {
 			$arrSEO = $tcms_seo->explodeUrlSlashFormat();
+		}
+		else {
+			$arrSEO = $tcms_seo->explodeHTMLFormat();
+		}
 		
 		$tcms_seo->_tcms_seo();
 		

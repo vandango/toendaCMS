@@ -41,7 +41,7 @@ img {
 </style>
 </head>
 
-<body>
+<body onload="window.print();">
 
 <div class="printHead">
 <a href="javascript:window.print();">
