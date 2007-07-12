@@ -18,6 +18,17 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * Download Manager
+ *
+ * This module provides a download manager..
+ *
+ * @version 0.8.0
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Content Modules
+ */
+
 
 if(isset($_GET['page'])){ $page = $_GET['page']; }
 if(isset($_GET['c'])){ $c = $_GET['c']; }
@@ -26,20 +37,9 @@ if(isset($_GET['action'])){ $action = $_GET['action']; }
 if(isset($_GET['category'])){ $category = $_GET['category']; }
 
 
-/**
- * Download Manager
- *
- * This module provides a download manager..
- *
- * @version 0.7.9
- * @author	Jonathan Naumann <jonathan@toenda.com>
- * @package toendaCMS
- * @subpackage Content Modules
- */
-
-
 if(!isset($action))
 	$action = 'showall';
+
 if(!isset($page))
 	$page = 1;
 
@@ -49,7 +49,11 @@ if(!isset($page))
 	SHOW CATEGORIES
 */
 if($action == 'showall'){
-	echo $tcms_html->contentModuleHeader($download_title, $download_stamp, $download_text);
+	echo $tcms_html->contentModuleHeader(
+		$download_title, 
+		$download_stamp, 
+		$download_text
+	);
 	
 	
 	$displayDownload = true;
