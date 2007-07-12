@@ -44,7 +44,11 @@ if(!isset($action)){ $action = 'showall'; }
 	SHOW CATEGORIES
 */
 if($action == 'showall'){
-	echo $tcms_html->contentModuleHeader($products_title, $products_stamp, $products_text);
+	echo $tcms_html->contentModuleHeader(
+		$products_title, 
+		$products_stamp, 
+		$products_text
+	);
 	
 	
 	if(isset($category))

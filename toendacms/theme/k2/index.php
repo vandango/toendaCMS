@@ -13,7 +13,7 @@ $skinPath = $templatePath.'images/';
 // 4 = KS Garcia Solar Landscape
 //
 
-$k2CSS = 4;
+$k2CSS = 1;
 
 ?>
 <head>
