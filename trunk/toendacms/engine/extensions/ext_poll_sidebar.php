@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the poll functionality.
  *
- * @version 0.3.7
+ * @version 0.3.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -57,11 +57,11 @@ if($use_poll == 1){
 		$sw_poll         = $poll_xml->read_section('poll', 'poll_side_width');
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'poll_config', 'poll');
-		$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+		$sqlObj = $sqlAL->fetchObject($sqlQR);
 		
 		$show_pt         = $sqlObj->show_poll_title;
 		$stitle_ext_poll = $sqlObj->poll_title;
@@ -78,11 +78,11 @@ if($use_poll == 1){
 		$arr_polls = $tcms_main->getXMLFiles($tcms_administer_site.'/tcms_polls/');
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-		$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix.'polls');
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlQR = $sqlAL->getAll($tcms_db_prefix.'polls');
 		$count = 0;
-		while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)){
+		while($sqlObj = $sqlAL->fetchObject($sqlQR)){
 			$arr_polls[$count] = $sqlObj->uid;
 			
 			if($arr_polls[$count] == NULL)
@@ -113,11 +113,11 @@ if($use_poll == 1){
 			$arr_polls = $tcms_main->getXMLFiles($tcms_administer_site.'/tcms_polls/'.$current_poll_tag);
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-			$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix."poll_items WHERE poll_uid='".$current_poll_tag."'");
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlQR = $sqlAL->getAll($tcms_db_prefix."poll_items WHERE poll_uid='".$current_poll_tag."'");
 			$count = 0;
-			while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)){
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)){
 				$arr_vote[$count] = $sqlObj->ip;
 				
 				if($arr_vote[$count] == NULL)
@@ -178,8 +178,8 @@ if($use_poll == 1){
 					$poll_subtitle  = $vote_xml->read_section('poll', 'title');
 				}
 				else{
-					$sqlAL = new sqlAbstractionLayer($choosenDB);
-					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'polls', $current_poll);
 					$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
 					$poll_subtitle  = $sqlARR['title'];
@@ -276,8 +276,8 @@ if($use_poll == 1){
 				$qc                = $arrPollCalc['amount'];
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'polls', $current_poll_tag);
 				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
 				$poll_subtitle  = $sqlARR['title'];
@@ -376,8 +376,8 @@ if($use_poll == 1){
 				else{
 					$maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'poll_items', 8);
 					
-					$sqlAL = new sqlAbstractionLayer($choosenDB);
-					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					
 					switch($choosenDB){
 						case 'mysql':
