@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * This module is for the global configuration settings.
  * 
- * @version 1.2.6
+ * @version 1.2.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Admin Backend
@@ -839,11 +839,11 @@ if($id_group == 'Developer'
 		.'<input type="radio" name="new_seo_format" id="urlformat_1" value="1"'.($old_seo_format == 1 ? ' checked="checked"' : '' ).' />'
 		.'index.php/section/frontpage/lang/en'
 		.'</label>'
-		.'<br />'
+		/*.'<br />'
 		.'<label for="urlformat_2">'
 		.'<input type="radio" name="new_seo_format" id="urlformat_2" value="2"'.($old_seo_format == 2 ? ' checked="checked"' : '' ).' />'
 		.'index.php/en/frontpage.html (<strong>!!! BETA !!!</strong>)'
-		.'</label>'
+		.'</label>'*/
 		.'</td></tr>';
 		
 		
@@ -1017,6 +1017,15 @@ if($id_group == 'Developer'
 		
 		echo '<tr><td class="tcms_padding_mini" height="25" valign="top">'._DB_BACKUP.'</td>'
 		.'<td>'
+		.'</form>'
+		.''
+		.'' // close main form
+		.'' // open backup form
+		.''
+		.'<form action="admin.php?id_user='.$id_user.'&amp;site=mod_global" method="post" id="db_backup">'
+		.'<input name="todo" type="hidden" value="backup" />'
+		.'<input name="action" type="hidden" value="'.$action.'" />'
+		.''
 		.( $old_engine != 'xml' ?
 			'<div style="margin: 0; padding: 0 0 2px 0;">'
 			.'<label for="with_output">'
@@ -1032,6 +1041,7 @@ if($id_group == 'Developer'
 			.'</div>'
 		: '' )
 		.'<input type="button" name="this_backup" id="this_backup" value="'._DB_START_BACKUP.'" onclick="document.getElementById(\'db_backup\').submit();" />'
+		.'</form>'
 		.'</td></tr>';
 		
 		
@@ -1060,7 +1070,7 @@ if($id_group == 'Developer'
 		
 		
 		// Table end
-		echo '</form><br />';
+		echo '<br />';
 	}
 	
 	

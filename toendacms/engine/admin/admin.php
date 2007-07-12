@@ -38,7 +38,7 @@ if(isset($_POST['lang'])){ $lang = $_POST['lang']; }
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 1.1.2
+ * @version 1.1.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -253,6 +253,10 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 <!-- dTree -->
 <script type="text/javascript" src="../js/dtree/dtree.js"></script>
 <style type="text/css">@import "../js/dtree/dtree.css";</style>
+
+<!-- tabPane -->
+<script type="text/javascript" src="../js/tabs/tabpane.js"></script>
+<link type="text/css" rel="StyleSheet" href="../js/tabs/css/luna/tab.css" />
 
 <!-- toendaCMS Styles -->
 <style type="text/css">@import "theme/'.$adminTheme.'/tcms_main.css";</style>
