@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides a download manager..
  *
- * @version 0.8.0
+ * @version 0.8.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -60,7 +60,7 @@ if($action == 'showall'){
 	
 	
 	if($choosenDB == 'xml'){
-		$arr_downfiles = $tcms_main->readdir_ext($tcms_administer_site.'/files/');
+		$arr_downfiles = $tcms_main->getPathContent($tcms_administer_site.'/files/');
 		
 		$count = 0;
 		
@@ -69,8 +69,8 @@ if($action == 'showall'){
 		*/
 		if($tcms_main->isReal($category)){
 			$xml      = new xmlparser($tcms_administer_site.'/files/'.$category.'/info.xml','r');
-			$checkAcc = $xml->read_section('info', 'access');
-			$wsCatTit = $xml->read_section('info', 'name');
+			$checkAcc = $xml->readSection('info', 'access');
+			$wsCatTit = $xml->readSection('info', 'name');
 			
 			$wsCatTit = $tcms_main->decodeText($wsCatTit, '2', $c_charset);
 			
@@ -88,16 +88,16 @@ if($action == 'showall'){
 		
 		
 		if($displayDownload){
-			if(isset($arr_downfiles) && !empty($arr_downfiles) && $arr_downfiles != ''){
+			if($tcms_main->isArray($arr_downfiles)){
 				foreach($arr_downfiles as $key => $value){
 					if($value != 'index.html'){
 						$xml      = new xmlparser($tcms_administer_site.'/files/'.$value.'/info.xml', 'r');
-						$checkPub = $xml->read_section('info', 'pub');
+						$checkPub = $xml->readSection('info', 'pub');
 						
 						
 						// show pub
 						if($checkPub == 1){
-							$checkCat = $xml->read_section('info', 'cat');
+							$checkCat = $xml->readSection('info', 'cat');
 							
 							
 							/*
@@ -120,17 +120,17 @@ if($action == 'showall'){
 							// show cat
 							if($countThis){
 								$arr_dw['uid'][$count]  = substr($value, 0, 10);
-								$arr_dw['name'][$count] = $xml->read_section('info', 'name');
-								$arr_dw['date'][$count] = $xml->read_section('info', 'date');
-								$arr_dw['desc'][$count] = $xml->read_section('info', 'desc');
-								$arr_dw['type'][$count] = $xml->read_section('info', 'type');
-								$arr_dw['sort'][$count] = $xml->read_section('info', 'sort');
-								$arr_dw['file'][$count] = $xml->read_section('info', 'file');
+								$arr_dw['name'][$count] = $xml->readSection('info', 'name');
+								$arr_dw['date'][$count] = $xml->readSection('info', 'date');
+								$arr_dw['desc'][$count] = $xml->readSection('info', 'desc');
+								$arr_dw['type'][$count] = $xml->readSection('info', 'type');
+								$arr_dw['sort'][$count] = $xml->readSection('info', 'sort');
+								$arr_dw['file'][$count] = $xml->readSection('info', 'file');
 								//$arr_dw['pub'][$count]  = $checkPub;
-								$arr_dw['ac'][$count]   = $xml->read_section('info', 'access');
-								$arr_dw['st'][$count]   = $xml->read_section('info', 'sql_type');
-								$arr_dw['img'][$count]  = $xml->read_section('info', 'image');
-								$arr_dw['mir'][$count]  = $xml->read_section('info', 'mirror');
+								$arr_dw['ac'][$count]   = $xml->readSection('info', 'access');
+								$arr_dw['st'][$count]   = $xml->readSection('info', 'sql_type');
+								$arr_dw['img'][$count]  = $xml->readSection('info', 'image');
+								$arr_dw['mir'][$count]  = $xml->readSection('info', 'mirror');
 								
 								
 								// CHARSETS
@@ -171,8 +171,8 @@ if($action == 'showall'){
 		}
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		if(!isset($category) || trim($category) == ''){
 			$sqlSTR = "SELECT * "
@@ -212,11 +212,11 @@ if($action == 'showall'){
 			."AND pub = 1 "
 			."ORDER BY sort ASC, date ASC, name ASC";
 			
-			$sqlQR = $sqlAL->sqlQuery($sqlSTR);
-			$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+			$sqlQR = $sqlAL->query($sqlSTR);
+			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
 			if($sqlNR > 0){
-				$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+				$sqlObj = $sqlAL->fetchObject($sqlQR);
 				$wsCatTit = $sqlObj->name;
 				
 				$wsCatTit = $tcms_main->decodeText($wsCatTit, '2', $c_charset);
@@ -231,8 +231,8 @@ if($action == 'showall'){
 			//.$strAdd
 			."ORDER BY sort ASC, date ASC, name ASC";
 			
-			$sqlQR = $sqlAL->sqlQuery($sqlSTR);
-			$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+			$sqlQR = $sqlAL->query($sqlSTR);
+			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
 			if($sqlNR > 0){
 				$sqlSTR = "SELECT * "
@@ -252,12 +252,12 @@ if($action == 'showall'){
 		
 		
 		if($displayDownload){
-			$sqlQR = $sqlAL->sqlQuery($sqlSTR);
-			$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+			$sqlQR = $sqlAL->query($sqlSTR);
+			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
 			$count = 0;
 			
-			while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)){
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)){
 				$arr_dw['uid'][$count]   = $sqlObj->uid;
 				$arr_dw['name'][$count]  = $sqlObj->name;
 				$arr_dw['date'][$count]  = $sqlObj->date;
@@ -308,7 +308,7 @@ if($action == 'showall'){
 				if($category != ''){
 					$xml = new xmlparser($tcms_administer_site.'/files/'.$category.'/info.xml', 'r');
 					
-					$wsType = $xml->read_section('info', 'type');
+					$wsType = $xml->readSection('info', 'type');
 					
 					$xml->flush();
 					$xml->_xmlparser();
@@ -342,11 +342,11 @@ if($action == 'showall'){
 				."AND ( access = 'Public' "
 				.$strAdd;
 				
-				$sqlQR = $sqlAL->sqlQuery($sqlSTR);
-				$sqlNR2 = $sqlAL->sqlGetNumber($sqlQR);
+				$sqlQR = $sqlAL->query($sqlSTR);
+				$sqlNR2 = $sqlAL->getNumber($sqlQR);
 				
 				if($sqlNR2 > 0){
-					$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+					$sqlObj = $sqlAL->fetchObject($sqlQR);
 					
 					$wsType = $sqlObj->type;
 					
@@ -389,7 +389,7 @@ if($action == 'showall'){
 							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 							.'id=download&amp;s='.$s.'&amp;action=showall&amp;category='.$arr_dw['uid'][$key]
 							.( isset($lang) ? '&amp;lang='.$lang : '' );
-							$link = $tcms_main->urlAmpReplace($link);
+							$link = $tcms_main->urlConvertToSEO($link);
 							
 							echo '<a href="'.$link.'">';
 							
@@ -435,13 +435,13 @@ if($action == 'showall'){
 								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 								.'id=download&amp;s='.$s.'&amp;action=start&amp;category='.$arr_dw['uid'][$key].'&amp;file='.$downFile;
 								//.( isset($lang) ? '&amp;lang='.$lang : '' );
-								$link = $tcms_main->urlAmpReplace($link);
+								$link = $tcms_main->urlConvertToSEO($link);
 							}
 							else{
 								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 								.( isset($lang) ? 'lang='.$lang.'&amp;' : '' )
 								.'id=download&amp;s='.$s.'&amp;action=start&amp;category='.$arr_dw['uid'][$key].'&amp;c=_mirror_&amp;file=';
-								$link = $tcms_main->urlAmpReplace($link);
+								$link = $tcms_main->urlConvertToSEO($link);
 								$link = $link.$arr_dw['file'][$key];
 							}
 							
@@ -506,13 +506,13 @@ if($action == 'showall'){
 					if($arr_dw['st'][$key] == 'd'){
 						if($showThis){
 							echo '<a class="main text_big" href="'.$link.'">'
-							.tcms_html::bold($arr_dw['name'][$key])
+							.$tcms_html->bold($arr_dw['name'][$key])
 							.'</a>'
-							.tcms_html::text($arr_dw['desc'][$key], 'left');
+							.$tcms_html->text($arr_dw['desc'][$key], 'left');
 						}
 						else{
-							echo tcms_html::bold($arr_dw['name'][$key])
-							.tcms_html::text($arr_dw['desc'][$key], 'left');
+							echo $tcms_html->bold($arr_dw['name'][$key])
+							.$tcms_html->text($arr_dw['desc'][$key], 'left');
 						}
 					}
 					else{
@@ -524,24 +524,24 @@ if($action == 'showall'){
 						
 						if($showThis){
 							echo '<a class="main text_big" href="'.$link.'" target="_blank">'
-							.tcms_html::bold($arr_dw['name'][$key])
+							.$tcms_html->bold($arr_dw['name'][$key])
 							.'</a>'
-							.tcms_html::text($arr_dw['desc'][$key], 'left')
+							.$tcms_html->text($arr_dw['desc'][$key], 'left')
 							.'<br />';
 							
 							echo '<strong>'._DOWNLOADS_SUBMIT_ON.':</strong>'
-							.tcms_html::text('&nbsp;'.$arr_dw['date'][$key], 'left')
+							.$tcms_html->text('&nbsp;'.$arr_dw['date'][$key], 'left')
 							.'<br />';
 							
 							
 							if(isset($file_size) && !empty($file_size) && $file_size != ''){
 								echo '<strong>'._GALLERY_IMGSIZE.':</strong>'
-								.tcms_html::text('&nbsp;'.$file_size.' KB', 'left');
+								.$tcms_html->text('&nbsp;'.$file_size.' KB', 'left');
 							}
 						}
 						else{
-							/*echo tcms_html::bold($arr_dw['name'][$key])
-							.tcms_html::text($arr_dw['desc'][$key], 'left')
+							/*echo $tcms_html->bold($arr_dw['name'][$key])
+							.$tcms_html->text($arr_dw['desc'][$key], 'left')
 							.'<br />';*/
 						}
 					}
@@ -580,7 +580,7 @@ if($action == 'showall'){
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=download&amp;s='.$s.'&action=showall'.( trim($category) != '' ? '&category='.$category : '' ).'&amp;page=1'
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $tcms_main->urlAmpReplace($link);
+					$link = $tcms_main->urlConvertToSEO($link);
 					
 					echo '<a href="'.$link.'" style="font-size: 14px;"><u>&laquo;</u></a>'
 					.'&nbsp;&nbsp;';
@@ -589,7 +589,7 @@ if($action == 'showall'){
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=download&amp;s='.$s.'&action=showall'.( trim($category) != '' ? '&category='.$category : '' ).'&amp;page='.( $page - 1 )
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $tcms_main->urlAmpReplace($link);
+					$link = $tcms_main->urlConvertToSEO($link);
 					
 					echo '<a href="'.$link.'" style="font-size: 14px;"><u>&#8249;</u></a>'
 					.'&nbsp;&nbsp;';
@@ -625,7 +625,7 @@ if($action == 'showall'){
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=download&amp;s='.$s.'&action=showall'.( trim($category) != '' ? '&category='.$category : '' ).'&amp;page='.$thisPage
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $tcms_main->urlAmpReplace($link);
+					$link = $tcms_main->urlConvertToSEO($link);
 					
 					
 					if($thisPage != $page) {
@@ -646,7 +646,7 @@ if($action == 'showall'){
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=download&amp;s='.$s.'&action=showall'.( trim($category) != '' ? '&category='.$category : '' ).'&amp;page='.( $page + 1 )
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $tcms_main->urlAmpReplace($link);
+					$link = $tcms_main->urlConvertToSEO($link);
 					
 					echo '<a href="'.$link.'" style="font-size: 14px;"><u>&#8250;</u></a>';
 					
@@ -657,7 +657,7 @@ if($action == 'showall'){
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=download&amp;s='.$s.'&action=showall'.( trim($category) != '' ? '&category='.$category : '' ).'&amp;page='.$pageAmount
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $tcms_main->urlAmpReplace($link);
+					$link = $tcms_main->urlConvertToSEO($link);
 					
 					echo '<a href="'.$link.'" style="font-size: 14px;"><u>&raquo;</u></a>';
 				}
@@ -683,15 +683,15 @@ if($action == 'showall'){
 if($action == 'start'){
 	if($choosenDB == 'xml'){
 		$xml        = new xmlparser($tcms_administer_site.'/files/'.$category.'/info.xml', 'r');
-		$access_cat = $xml->read_section('info', 'access');
-		$down_main  = $xml->read_section('info', 'cat');
+		$access_cat = $xml->readSection('info', 'access');
+		$down_main  = $xml->readSection('info', 'cat');
 		$xml->flush();
 		$xml->_xmlparser();
 		
 		if($down_main != ''){
 			$xml        = new xmlparser($tcms_administer_site.'/files/'.$down_main.'/info.xml', 'r');
-			$down_cat   = $xml->read_section('info', 'name');
-			$down_main  = $xml->read_section('info', 'cat');
+			$down_cat   = $xml->readSection('info', 'name');
+			$down_main  = $xml->readSection('info', 'cat');
 			$xml->flush();
 			$xml->_xmlparser();
 		}
@@ -703,17 +703,17 @@ if($action == 'start'){
 		$down_cat = $tcms_main->decodeText($down_cat, '2', $c_charset);
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'downloads', $category);
-		$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+		$sqlQR = $sqlAL->getOne($tcms_db_prefix.'downloads', $category);
+		$sqlARR = $sqlAL->fetchArray($sqlQR);
 		
 		$access_cat = $sqlARR['access'];
 		
 		if($sqlARR['cat'] != NULL){
-			$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'downloads', $sqlARR['cat']);
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+			$sqlQR = $sqlAL->getOne($tcms_db_prefix.'downloads', $sqlARR['cat']);
+			$sqlARR = $sqlAL->fetchArray($sqlQR);
 			
 			$down_cat  = $sqlARR['name'];
 			$down_main = $sqlARR['cat'];
@@ -751,9 +751,11 @@ if($action == 'start'){
 		}
 		
 		
-		echo tcms_html::contentheading($download_title);
-		echo tcms_html::contentstamp(_TABLE_CATEGORY.': '.$down_cat).'<br /><br />';
-		echo tcms_html::contentmain($strDown1.$strDown2).'<br /><br />';
+		echo $tcms_html->contentModuleHeader(
+			$download_title, 
+			_TABLE_CATEGORY.': '.$down_cat, 
+			$strDown1.$strDown2
+		);
 		
 		
 		if(isset($c) && $c == '_mirror_') {
@@ -770,7 +772,7 @@ if($action == 'start'){
 		$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 		.'id=download&amp;s='.$s.'&amp;action=showall'.( $down_main != '' ? '&amp;category='.$down_main : '' )
 		.( isset($lang) ? '&amp;lang='.$lang : '' );
-		$link = $tcms_main->urlAmpReplace($link);
+		$link = $tcms_main->urlConvertToSEO($link);
 		
 		echo '<a class="main" href="'.$link.'">'._TCMS_ADMIN_BACK.'</a>';
 	}

@@ -76,6 +76,7 @@ i {
 /****************** COLORS ******************/
 .tcms_bg_grey_01 { background: #dcdcdc; }
 .tcms_bg_grey_02 { background: #eeeeee; }
+.tcms_bg_grey_03 { background: #efefef; }
 
 .tcms_bg_blue_01 {
 	background: #336699 url(images/head_table.png) repeat-x;

@@ -28,7 +28,7 @@ Version 1.6
 Developer Version
 	- 1.6.0 Development
 
-Building Steps: 2845
+Building Steps: 2920
 
 
 
@@ -48,6 +48,7 @@ Building Steps: 2845
           or [[www.domain.com/index.php/section/frontpage/lang/en]
           you can use now the new format
           [www.domain.com/index.php/en/frontpage.html].
+ - added: Products page configuration now with multi-lingual support.
 
 
 

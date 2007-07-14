@@ -26,7 +26,6 @@ defined('_TCMS_VALID') or die('Restricted access');
 * tcms_modconfig             -> toendaCMS webpage path
 * getDownloadConfig          -> Return a array with all download configuration data
 * getGuestbookConfig         -> Return a array with all guestbook configuration data
-* getProductsConfig          -> Return a array with all products configuration data
 * getImagegalleryConfig      -> Return a array with all imagegallery configuration data
 * getLinkConfig              -> Return a array with all link configuration data
 * getFAQConfig               -> Return a array with all FAQ configuration data
@@ -168,74 +167,6 @@ class tcms_modconfig {
 		$arrGB['bookstamp'] = $tcms_main->decodeText($arrGB['bookstamp'], '2', $c_charset);
 		
 		return $arrGB;
-	}
-	
-	
-	
-	
-	
-	/***
-	* @return Return a array with all download configuration data
-	* @desc ...
-	*/
-	function getProductsConfig($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort){
-		global $tcms_main;
-		
-		if($choosenDB == 'xml'){
-			$pro_xml = new xmlparser(''.$this->tcms_main_path.'/tcms_global/products.xml','r');
-			
-			$arrP['products_id']        = $pro_xml->read_section('config', 'products_id');
-			$arrP['products_title']     = $pro_xml->read_section('config', 'products_title');
-			$arrP['products_stamp']     = $pro_xml->read_section('config', 'products_stamp');
-			$arrP['products_text']      = $pro_xml->read_section('config', 'products_text');
-			$arrP['category_state']     = $pro_xml->read_section('config', 'category_state');
-			$arrP['category_title']     = $pro_xml->read_section('config', 'category_title');
-			$arrP['use_category_title'] = $pro_xml->read_section('config', 'use_category_title');
-			
-			if(!$arrP['products_id'])       { $arrP['products_id']        = ''; }
-			if(!$arrP['products_title'])    { $arrP['products_title']     = ''; }
-			if(!$arrP['products_stamp'])    { $arrP['products_stamp']     = ''; }
-			if(!$arrP['products_text'])     { $arrP['products_text']      = ''; }
-			if(!$arrP['category_state'])    { $arrP['category_state']     = ''; }
-			if(!$arrP['category_title'])    { $arrP['category_title']     = ''; }
-			if(!$arrP['use_category_title']){ $arrP['use_category_title'] = ''; }
-		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-			
-			$strQuery = "SELECT products_title, products_stamp, products_text, category_state, "
-			."category_title, use_category_title "
-			."FROM ".$this->tcms_db_prefix."products_config "
-			."WHERE uid = 'products'";
-			
-			$sqlQR = $sqlAL->sqlQuery($strQuery);
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
-			
-			$arrP['products_id']        = 'products';
-			$arrP['products_title']     = $sqlARR['products_title'];
-			$arrP['products_stamp']     = $sqlARR['products_stamp'];
-			$arrP['products_text']      = $sqlARR['products_text'];
-			$arrP['category_state']     = $sqlARR['category_state'];
-			$arrP['category_title']     = $sqlARR['category_title'];
-			$arrP['use_category_title'] = $sqlARR['use_category_title'];
-			
-			$sqlAL->_sqlAbstractionLayer();
-			
-			if($arrP['products_id']        == NULL){ $arrP['products_id']        = ''; }
-			if($arrP['products_title']     == NULL){ $arrP['products_title']     = ''; }
-			if($arrP['products_stamp']     == NULL){ $arrP['products_stamp']     = ''; }
-			if($arrP['products_text']      == NULL){ $arrP['products_text']      = ''; }
-			if($arrP['category_state']     == NULL){ $arrP['category_state']     = ''; }
-			if($arrP['category_title']     == NULL){ $arrP['category_title']     = ''; }
-			if($arrP['use_category_title'] == NULL){ $arrP['use_category_title'] = ''; }
-		}
-		
-		$arrP['products_title'] = $tcms_main->decodeText($arrP['products_title'], '2', $c_charset);
-		$arrP['products_stamp'] = $tcms_main->decodeText($arrP['products_stamp'], '2', $c_charset);
-		$arrP['products_text']  = $tcms_main->decodeText($arrP['products_text'], '2', $c_charset);
-		
-		return $arrP;
 	}
 	
 	

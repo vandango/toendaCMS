@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 0.8.0
+ * @version 0.8.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -53,6 +53,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getFrontpageDC                                                -> Get a frontpage data container
  * getNewsmanagerDC                                              -> Get a newsmanager data container
  * getContactformDC                                              -> Get a contactform data container
+ * getProductsDC                                                 -> Get a products data container
  *
  * getSidebarModuleDC()                                          -> Get a sidebarmodul data container
  * getSidebarExtensionSettings()                                 -> Get the sidebar extension settings
@@ -1668,6 +1669,111 @@ class tcms_datacontainer_provider extends tcms_main {
 		$cfDC->setShowContactemail($wsSC);
 		
 		return $cfDC;
+	}
+	
+	
+	
+	/**
+	 * Get a products data container
+	 * 
+	 * @return tcms_dc_products Object
+	 */
+	function getProductsDC($language){
+		$pDC = new tcms_dc_products();
+		
+		if($this->m_choosenDB == 'xml'){
+			if(file_exists($this->m_path.'/tcms_global/products.'.$language.'.xml')) {
+				$xml = new xmlparser(
+					$this->m_path.'/tcms_global/products.'.$language.'.xml',
+					'r'
+				);
+			}
+			else {
+				$xml = new xmlparser($this->m_path.'/tcms_global/var.xml','r');
+				$language = $xml->readValue('front_lang');
+				$xml->flush();
+				$xml->_xmlparser();
+				unset($xml);
+				
+				$xml = new xmlparser(
+					$this->m_path.'/tcms_global/products.'.$language.'.xml',
+					'r'
+				);
+			}
+			
+			$wsID       = 'products';
+			$wsTitle    = $xml->readSection('config', 'products_title');
+			$wsKeynote  = $xml->readSection('config', 'products_stamp');
+			$wsText     = $xml->readSection('config', 'products_text');
+			$wsMainCat  = $xml->readSection('config', 'category_state');
+			$wsCatTitle = $xml->readSection('config', 'category_title');
+			$wsUCT      = $xml->readSection('config', 'use_category_title');
+			
+			$xml->flush();
+			$xml->_xmlparser();
+			unset($xml);
+			
+			if($wsID       == false) $wsID       = '';
+			if($wsTitle    == false) $wsTitle    = '';
+			if($wsKeynote  == false) $wsKeynote  = '';
+			if($wsText     == false) $wsText     = '';
+			if($wsMainCat  == false) $wsMainCat  = '';
+			if($wsCatTitle == false) $wsCatTitle = '';
+			//if($wsUCT  == false)     $wsUCT     = 0;
+		}
+		else{
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
+			
+			$strQuery = "SELECT products_title, products_stamp, products_text, category_state, "
+			."category_title, use_category_title "
+			."FROM ".$this->m_sqlPrefix."products_config "
+			."WHERE language = '".$language."'";
+			
+			$sqlQR = $sqlAL->query($strQuery);
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
+			
+			$wsID       = 'products';
+			$wsTitle    = $sqlObj->products_title;
+			$wsKeynote  = $sqlObj->products_stamp;
+			$wsText     = $sqlObj->products_text;
+			$wsMainCat  = $sqlObj->category_state;
+			$wsCatTitle = $sqlObj->category_title;
+			$wsUCT      = $sqlObj->use_category_title;
+			
+			$sqlAL->freeResult($sqlQR);
+			$sqlAL->_sqlAbstractionLayer();
+			unset($sqlAL);
+			
+			if($wsID       == NULL) $wsID       = '';
+			if($wsTitle    == NULL) $wsTitle    = '';
+			if($wsKeynote  == NULL) $wsKeynote  = '';
+			if($wsText     == NULL) $wsText     = '';
+			if($wsMainCat  == NULL) $wsMainCat  = '';
+			if($wsCatTitle == NULL) $wsCatTitle = '';
+			if($wsUCT      == NULL) $wsUCT      = '';
+		}
+		
+		$wsTitle   = $this->decodeText($wsTitle, '2', $this->m_CHARSET);
+		$wsKeynote = $this->decodeText($wsKeynote, '2', $this->m_CHARSET);
+		$wsText    = $this->decodeText($wsText, '2', $this->m_CHARSET);
+		
+		$pDC->setLanguage($language);
+		$pDC->setID($wsID);
+		$pDC->setTitle($wsTitle);
+		$pDC->setSubtitle($wsKeynote);
+		$pDC->setText($wsText);
+		$pDC->setProductMainCategory($wsMainCat);
+		$pDC->setSidebarCategoryTitle($wsCatTitle);
+		$pDC->setUseSideCategory($wsUCT);
+		
+		return $pDC;
 	}
 	
 	

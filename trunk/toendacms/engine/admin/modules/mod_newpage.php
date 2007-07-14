@@ -9,8 +9,7 @@
 | 
 | NewPage Wizard
 |
-| File:		mod_newpage.php
-| Version:	0.2.5
+| File:	mod_newpage.php
 |
 +
 */
@@ -19,7 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-
+/**
+ * NewPage Wizard
+ *
+ * This module is used for a wizard to create a new page.
+ *
+ * @version 0.2.6
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 if(isset($_POST['np_title'])){ $np_title = $_POST['np_title']; }
@@ -70,14 +78,14 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		}
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix."sidemenu WHERE type='link'");
+		$sqlQR = $sqlAL->getAll($tcms_db_prefix."sidemenu WHERE type='link'");
 		
 		$count = 0;
 		
-		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+		while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 			$arr_parent['id'][$count]     = trim($sqlARR['id']);
 			$arr_parent['subid'][$count]  = trim($sqlARR['subid']);
 			$arr_parent['parent'][$count] = trim($sqlARR['parent']);
@@ -254,7 +262,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 			
 			case 'contactform':
 				$new_linkto = 'contactform';
-				$relocate = 'mod_extensions';
+				$relocate = 'mod_contactform';
 				break;
 			
 			case 'impressum':
@@ -264,12 +272,12 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 			
 			case 'guestbook':
 				$new_linkto = 'guestbook';
-				$relocate = 'mod_extensions';
+				$relocate = 'mod_guestbook';
 				break;
 			
 			case 'newsmanager':
 				$new_linkto = 'newsmanager';
-				$relocate = 'mod_extensions';
+				$relocate = 'mod_news';
 				break;
 			
 			case 'imagegallery':
@@ -284,9 +292,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		}
 		
 		
-		
-		if($choosenDB == 'xml'){ while(($maintag=substr(md5(time()),0,5)) && file_exists('../../'.$tcms_administer_site.'/tcms_menu/'.$maintag.'.xml')){} }
-		else{ $maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'sidemenu', 5); }
+		$maintag = $tcms_main->getNewUID(5, 'sidemenu');
 		
 		
 		$np_title = $tcms_main->decode_text($np_title, '2', $c_charset);
@@ -323,8 +329,8 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		else{
 			if($tcms_menu == $tcms_db_prefix.'menu'){ $tcms_menu = $tcms_db_prefix.'sidemenu'; }
 			
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			switch($choosenDB){
 				case 'mysql':
@@ -379,11 +385,11 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 			else{ $content_not_exists = false; }
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'content', $new_linkto);
-			$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+			$sqlQR = $sqlAL->getOne($tcms_db_prefix.'content', $new_linkto);
+			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
 			if($sqlNR == 0){ $content_not_exists = true; }
 			else{ $content_not_exists = false; }
@@ -412,8 +418,8 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 				$xmluser->_xmlparser();
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				switch($choosenDB){
 					case 'mysql':
