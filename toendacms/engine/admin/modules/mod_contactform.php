@@ -9,7 +9,7 @@
 | 
 | Contactform Configuration
 |
-| File:	mod_extensions.php
+| File:	mod_contactform.php
 |
 +
 */
@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the contactform configuration.
  *
- * @version 0.4.6
+ * @version 0.4.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -115,16 +115,16 @@ if($id_group == 'Developer'
 			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$strQuery = "SELECT * "
 			."FROM ".$tcms_db_prefix."contactform "
 			."WHERE language = '".$getLang."'";
 			
-			$sqlQR = $sqlAL->sqlQuery($strQuery);
-			$langExist = $sqlAL->sqlGetNumber($sqlQR);
-			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+			$sqlQR = $sqlAL->query($strQuery);
+			$langExist = $sqlAL->getNumber($sqlQR);
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
 			
 			$old_show_cisb      = $sqlObj->show_contacts_in_sidebar;
 			$old_email          = $sqlObj->contact;
@@ -194,7 +194,7 @@ if($id_group == 'Developer'
 		
 		
 		// BEGIN FORM
-		echo '<form action="admin.php?id_user='.$id_user.'&amp;site=mod_extensions" method="post">'
+		echo '<form action="admin.php?id_user='.$id_user.'&amp;site=mod_contactform" method="post">'
 		.'<input name="lang_exist" type="hidden" value="'.$langExist.'" />'
 		.'<input name="extra" type="hidden" value="1" />'
 		.'<input name="todo" type="hidden" value="save_cform" />';
@@ -209,7 +209,7 @@ if($id_group == 'Developer'
 		echo $tcms_html->tableHeadNoBorder('1', '0', '0', '100%');
 		
 		// row
-		$link = 'admin.php?id_user='.$id_user.'&site=mod_extensions'
+		$link = 'admin.php?id_user='.$id_user.'&site=mod_contactform'
 		.'&amp;lang=';
 		
 		$js = ' onchange="document.location=\''.$link.'\' + this.value;"';
@@ -445,8 +445,8 @@ if($id_group == 'Developer'
 			$xmluser->_xmlparser();
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			if($lang_exist > 0) {
 				$newSQLData = ''
@@ -464,16 +464,16 @@ if($id_group == 'Developer'
 				
 				switch($choosenDB) {
 					case 'mysql':
-						$sqlQR = $sqlAL->sqlUpdateField(
+						$sqlQR = $sqlAL->updateField(
 							$tcms_db_prefix.'contactform', 
 							$newSQLData, 
 							'send_id', 
-							'contactform" AND language = "'.$setLang, true
+							'contactform" AND language = "'.$setLang
 						);
 						break;
 					
 					default:
-						$sqlQR = $sqlAL->sqlUpdateField(
+						$sqlQR = $sqlAL->updateField(
 							$tcms_db_prefix.'contactform', 
 							$newSQLData, 
 							'send_id', 
@@ -515,7 +515,7 @@ if($id_group == 'Developer'
 				
 				$maintag = $tcms_main->getNewUID(11, 'contactform');
 				
-				$sqlQR = $sqlAL->sqlCreateOne(
+				$sqlQR = $sqlAL->createOne(
 					$tcms_db_prefix.'contactform', 
 					$newSQLColumns, 
 					$newSQLData, 
@@ -529,13 +529,13 @@ if($id_group == 'Developer'
 			$setLang = $tcms_config->getLanguageCodeByTCMSCode($setLang);
 			
 			echo '<script>'
-			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_extensions'
+			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_contactform'
 			.'&lang='.$setLang.'\''
 			.'</script>';
 		}
 		else {
 			echo '<script>'
-			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_extensions'
+			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_contactform'
 			.'</script>';
 		}
 	}
