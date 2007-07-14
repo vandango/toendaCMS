@@ -9,7 +9,7 @@
 | 
 | Toolbar for contactform configuration
 |
-| File:	tb_extensions.php
+| File:	tb_contactform.php
 |
 +
 */
