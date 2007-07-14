@@ -50,7 +50,7 @@ if(isset($_POST['contact_email'])){ $contact_email = $_POST['contact_email']; }
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.5.9
+ * @version 2.6.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -900,15 +900,18 @@ if($wsShowSite){
 							break;
 						
 						case 'products':
-							$arrP = $tcms_modconfig->getProductsConfig($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+							using('toendacms.datacontainer.products');
 							
-							$products_id    = $arrP['products_id'];
-							$products_title = $arrP['products_title'];
-							$products_stamp = $arrP['products_stamp'];
-							$products_text  = $arrP['products_text'];
-							$main_category  = $arrP['category_state'];
-							$category_title = $arrP['category_title'];
-							$show_pro_ct    = $arrP['use_category_title'];
+							$dcP = new tcms_dc_products();
+							$dcP = $tcms_dcp->getProductsDC($getLang);
+							
+							$products_id    = $dcP->getID();
+							$products_title = $dcP->getTitle();
+							$products_stamp = $dcP->getSubtitle();
+							$products_text  = $dcP->getText();
+							$main_category  = $dcP->getProductMainCategory();
+							$category_title = $dcP->getSidebarCategoryTitle();
+							$show_pro_ct    = $dcP->getUseSideCategory();
 							break;
 						
 						case 'imagegallery':

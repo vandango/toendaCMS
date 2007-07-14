@@ -8,3 +8,7 @@ UPDATE `#####impressum` SET `language` = '+++++';
 UPDATE `#####sidemenu` SET `language` = '+++++';
 UPDATE `#####topmenu` SET `language` = '+++++';
 
+
+
+UPDATE `#####products_config` SET `language` = '+++++';
+

@@ -9,8 +9,7 @@
 | 
 | Products Manager
 |
-| File:		mod_products.php
-| Version:	0.4.1
+| File:	mod_products.php
 |
 +
 */
@@ -19,9 +18,17 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-
-
-
+/**
+ * Products Manager
+ *
+ * This module is used for the products configuration
+ * and the administration of all the products.
+ *
+ * @version 0.4.4
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 if(isset($_GET['category'])){ $category = $_GET['category']; }
@@ -36,7 +43,7 @@ if(isset($_POST['delete'])){ $delete = $_POST['delete']; }
 if(isset($_POST['new_pid'])){ $new_pid = $_POST['new_pid']; }
 if(isset($_POST['new_ptitle'])){ $new_ptitle = $_POST['new_ptitle']; }
 if(isset($_POST['new_pstamp'])){ $new_pstamp = $_POST['new_pstamp']; }
-if(isset($_POST['new_ptext'])){ $new_ptext = $_POST['new_ptext']; }
+if(isset($_POST['content'])){ $content = $_POST['content']; }
 if(isset($_POST['new_cstate'])){ $new_cstate = $_POST['new_cstate']; }
 if(isset($_POST['new_cstate'])){ $new_cstate = $_POST['new_cstate']; }
 if(isset($_POST['new_ctitle'])){ $new_ctitle = $_POST['new_ctitle']; }
@@ -65,22 +72,15 @@ if(isset($_POST['new_weight'])){ $new_weight = $_POST['new_weight']; }
 if(isset($_POST['new_sort'])){ $new_sort = $_POST['new_sort']; }
 if(isset($_POST['tmp_image'])){ $tmp_image = $_POST['tmp_image']; }
 if(isset($_POST['old_image'])){ $old_image = $_POST['old_image']; }
+if(isset($_POST['lang_exist'])){ $lang_exist = $_POST['lang_exist']; }
 
 
 
 
 
-
-
-
-
-
-
-
-
-//=====================================================
+// -------------------------------------------------
 // INIT
-//=====================================================
+// -------------------------------------------------
 
 echo '<script language="JavaScript" src="../js/jscalendar/calendar.js"></script>';
 echo '<script language="Javascript" src="../js/jscalendar/lang/calendar-en.js"></script>';
@@ -95,16 +95,16 @@ $arr_farbe[1] = $arr_color[1];
 $bgkey     = 0;
 
 $c_xml     = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/var.xml','r');
-$c_charset = $c_xml->read_section('global', 'charset');
+$c_charset = $c_xml->readSection('global', 'charset');
 
 if($choosenDB == 'xml'){
-	$arr_products = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_products/');
+	$arr_products = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/tcms_products/');
 	
 	if(isset($arr_products) && !empty($arr_products) && $arr_products != ''){
 		foreach($arr_products as $key => $value){
 			$menu_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_products/'.$value.'/folderinfo.xml','r');
-			$arr_dwcc['name'][$key] = $menu_xml->read_section('folderinfo', 'name');
-			$arr_dwcc['dir'][$key]  = $menu_xml->read_section('folderinfo', 'folder');
+			$arr_dwcc['name'][$key] = $menu_xml->readSection('folderinfo', 'name');
+			$arr_dwcc['dir'][$key]  = $menu_xml->readSection('folderinfo', 'folder');
 			
 			// CHARSETS
 			$arr_dwcc['name'][$key] = $tcms_main->decodeText($arr_dwcc['name'][$key], '2', $c_charset);
@@ -112,14 +112,14 @@ if($choosenDB == 'xml'){
 	}
 }
 else{
-	$sqlAL = new sqlAbstractionLayer($choosenDB);
-	$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+	$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+	$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 	
 	$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix."products WHERE sql_type='d'");
 	
 	$count = 0;
 	
-	while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+	while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 		$arr_dwcc['name'][$count]  = $sqlARR['name'];
 		$arr_dwcc['dir'][$count]   = $sqlARR['category'];
 		
@@ -138,47 +138,62 @@ else{
 
 
 
-
-
-
-//=====================================================
-// CONFIG
-//=====================================================
+// -------------------------------------------------
+// CONFIGURATION
+// -------------------------------------------------
 
 if($todo == 'config'){
-	if($id_group == 'Developer' || $id_group == 'Administrator'){
+	if($id_group == 'Developer' 
+	|| $id_group == 'Administrator'){
+		if($show_wysiwyg == 'tinymce'){
+			include('../tcms_kernel/tcms_tinyMCE.lib.php');
+			
+			$tcms_tinyMCE = new tcms_tinyMCE($tcms_path, $seoEnabled);
+			$tcms_tinyMCE->initTinyMCE();
+			
+			unset($tcms_tinyMCE);
+		}
+		
 		if($choosenDB == 'xml'){
-			$pXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/products.xml','r');
-			
-			$old_pid    = $pXML->read_section('config', 'products_id');
-			$old_ptitle = $pXML->read_section('config', 'products_title');
-			$old_pstamp = $pXML->read_section('config', 'products_stamp');
-			$old_ptext  = $pXML->read_section('config', 'products_text');
-			$old_cstate = $pXML->read_section('config', 'category_state');
-			$old_ctitle = $pXML->read_section('config', 'category_title');
-			$old_usest  = $pXML->read_section('config', 'use_category_title');
-			
-			if(!$old_pid)   { $old_pid    = ''; }
-			if(!$old_ptitle){ $old_ptitle = ''; }
-			if(!$old_pstamp){ $old_pstamp = ''; }
-			if(!$old_cstate){ $old_cstate = ''; }
-			if(!$old_ctitle){ $old_ctitle = ''; }
-			if(!$old_usest) { $old_usest  = ''; }
+			if(file_exists('../../'.$tcms_administer_site.'/tcms_global/contactform.'.$getLang.'.xml')) {
+				$pXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/products.xml','r');
+				
+				$old_pid    = $pXML->readSection('config', 'products_id');
+				$old_ptitle = $pXML->readSection('config', 'products_title');
+				$old_pstamp = $pXML->readSection('config', 'products_stamp');
+				$old_ptext  = $pXML->readSection('config', 'products_text');
+				$old_cstate = $pXML->readSection('config', 'category_state');
+				$old_ctitle = $pXML->readSection('config', 'category_title');
+				$old_usest  = $pXML->readSection('config', 'use_category_title');
+				
+				if(!$old_pid)   { $old_pid    = ''; }
+				if(!$old_ptitle){ $old_ptitle = ''; }
+				if(!$old_pstamp){ $old_pstamp = ''; }
+				if(!$old_cstate){ $old_cstate = ''; }
+				if(!$old_ctitle){ $old_ctitle = ''; }
+				if(!$old_usest) { $old_usest  = ''; }
+				
+				$langExist = 1;
+			}
+			else {
+				$langExist = 0;
+			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'products_config', 'products');
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+			$sqlQR = $sqlAL->getOne($tcms_db_prefix.'products_config', 'products');
+			$langExist = $sqlAL->getNumber($sqlQR);
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
 			
-			$old_pid    = $sqlARR['products_id'];
-			$old_ptitle = $sqlARR['products_title'];
-			$old_pstamp = $sqlARR['products_stamp'];
-			$old_ptext  = $sqlARR['products_text'];
-			$old_cstate = $sqlARR['produccategory_statets_text'];
-			$old_ctitle = $sqlARR['category_title'];
-			$old_usest  = $sqlARR['use_category_title'];
+			$old_pid    = $sqlObj->products_id;
+			$old_ptitle = $sqlObj->products_title;
+			$old_pstamp = $sqlObj->products_stamp;
+			$old_ptext  = $sqlObj->products_text;
+			$old_cstate = $sqlObj->produccategory_statets_text;
+			$old_ctitle = $sqlObj->category_title;
+			$old_usest  = $sqlObj->use_category_title;
 			
 			if($old_pid    == NULL){ $old_pid    = ''; }
 			if($old_ptitle == NULL){ $old_ptitle = ''; }
@@ -210,82 +225,169 @@ if($todo == 'config'){
 		$old_ptext = ereg_replace('<br>', chr(13), $old_ptext);
 		
 		
-		//==================================================
-		// BEGIN FORM
-		//==================================================
-		echo '<!--BEGIN-FORM-->
-		<form action="admin.php?id_user='.$id_user.'&amp;site=mod_products" method="post">
-		<!--BEGIN-TABLE-->';
-		echo '<input name="todo" type="hidden" value="save_config" />';
+		if($tcms_main->isReal($lang))
+			$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
+		else
+			$getLang = $tcms_front_lang;
+		
+		
+		if($langExist == 0) {
+			$old_lang = $getLang;
+		}
 		
 		
 		
-		echo '<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
+		echo '<form action="admin.php?id_user='.$id_user.'&amp;site=mod_products" method="post">'
+		.'<input name="todo" type="hidden" value="save_config" />'
+		.'<input name="lang_exist" type="hidden" value="'.$langExist.'" />';
 		
-		//=========================================================================
-		echo '<tr class="tcms_bg_blue_01"><td colspan="3" class="tcms_db_title tcms_padding_mini">
-			<strong>'._PRODUCTS_TITLE.'</strong>
-		</td></tr>';
+		
+		
+		// frontpage news settings
+		echo '<table width="100%" cellpadding="0" cellspacing="0" class="tcms_noborder">'
+		.'<tr class="tcms_bg_blue_01">'
+		.'<th valign="middle" align="left" class="tcms_db_title tcms_padding_mini">'._TCMS_ADMIN_EDIT_LANG.'</th>'
+		.'</tr></table>';
+		
+		
+		// language
+		echo $tcms_html->tableHeadNoBorder('1', '0', '0', '100%');
+		
+		// row
+		$link = 'admin.php?id_user='.$id_user.'&site=mod_products&amp;todo=config'
+		.'&amp;lang=';
+		
+		$js = ' onchange="document.location=\''.$link.'\' + this.value;"';
+		
+		echo '<tr><td width="300" valign="top">'
+		.'<strong class="tcms_bold">'._TCMS_LANGUAGE.'</strong>'
+		.'</td><td>'
+		.'<select class="tcms_select" id="new_lang" name="new_lang"'.$js.'>';
+		
+		foreach($languages['fine'] as $key => $value) {
+			if($old_lang == $languages['code'][$key])
+				$dl = ' selected="selected"';
+			else
+				$dl = '';
+			
+			echo '<option value="'.$value.'"'.$dl.'>'
+			.$languages['name'][$key]
+			.'</option>';
+		}
+		
+		echo '</select>'
+		.'</td></tr>';
+		
+		
+		// table end
+		echo '<tr><td><br /></td></tr>'
+		.$tcms_html->tableEnd();
+		
+		
+		
+		// table
+		echo $tcms_html->tableHeadNoBorder('1', '0', '0', '100%');
+		
 		
 		// table rows
-		echo '<tr><td class="tcms_padding_mini" valign="top">
-			'._PRODUCTS_ID.'
-		</td><td valign="top" colspan="2">
-			<img src="../images/bullet_1.gif" border="0" vspace="4" />
-			<input name="new_pid" readonly class="tcms_input_small" value="'.$old_pid.'" />
-		</td></tr>';
+		echo '<tr class="tcms_bg_blue_01"><td colspan="3" class="tcms_db_title tcms_padding_mini">'
+		.'<strong>'._PRODUCTS_TITLE.'</strong>'
+		.'</td></tr>';
+		
 		
 		// table rows
-		echo '<tr><td class="tcms_padding_mini" valign="top">
-			'._PRODUCTS_SITETITLE.'
-		</td><td valign="top" colspan="2">
-			<img src="../images/bullet_1.gif" border="0" vspace="4" />
-			<input name="new_ptitle" class="tcms_input_normal" value="'.$old_ptitle.'" />
-		</td></tr>';
+		echo '<tr><td valign="top">'
+		._PRODUCTS_ID
+		.'</td><td valign="top" colspan="2">'
+		.'<input name="new_pid" readonly class="tcms_input_small tcms_bg_grey_03" value="'.$old_pid.'" />'
+		.'</td></tr>';
+		
 		
 		// table rows
-		echo '<tr><td class="tcms_padding_mini" valign="top">
-			'._PRODUCTS_SITESUBTITLE.'
-		</td><td valign="top" colspan="2">
-			<img src="../images/bullet_1.gif" border="0" vspace="4" />
-			<input name="new_pstamp" class="tcms_input_normal" value="'.$old_pstamp.'" />
-		</td></tr>';
+		echo '<tr><td valign="top">'
+		._PRODUCTS_SITETITLE
+		.'</td><td valign="top" colspan="2">'
+		.'<input name="new_ptitle" class="tcms_input_normal" value="'.$old_ptitle.'" />'
+		.'</td></tr>';
+		
 		
 		// table rows
-		echo '<tr><td class="tcms_padding_mini" valign="top">
-			'._PRODUCTS_SITETEXT.'
-		</td><td valign="top" colspan="2">
-			<img src="../images/bullet_1.gif" border="0" vspace="4" />
-			<textarea name="new_ptext" class="tcms_textarea_big">'.$old_ptext.'</textarea>
-		</td></tr>';
+		echo '<tr><td valign="top">'
+		._PRODUCTS_SITESUBTITLE
+		.'</td><td valign="top" colspan="2">'
+		.'<input name="new_pstamp" class="tcms_input_normal" value="'.$old_pstamp.'" />'
+		.'</td></tr>';
+		
 		
 		// table rows
-		echo '<tr><td class="tcms_padding_mini" valign="top">
-			'._PRODUCTS_MAINCATEGORY.'
-		</td><td valign="top" colspan="2">
-			<img src="../images/bullet_1.gif" border="0" vspace="4" />
-			<select name="new_cstate">';
-			foreach($arr_dwcc['name'] as $pkey => $pval){
-				echo '<option value="'.$arr_dwcc['dir'][$pkey].'"'.( $arr_dwcc['dir'][$pkey] == $old_cstate ? ' selected' : '' ).'>'.$pval.'</option>';
+		echo '<tr><td valign="top">'
+		._PRODUCTS_MAINCATEGORY
+		.'</td><td valign="top" colspan="2">'
+		.'<select name="new_cstate">';
+		
+		foreach($arr_dwcc['name'] as $pkey => $pval){
+			echo '<option value="'.$arr_dwcc['dir'][$pkey].'"'.( $arr_dwcc['dir'][$pkey] == $old_cstate ? ' selected' : '' ).'>'.$pval.'</option>';
+		}
+		
+		echo '</select>'
+		.'</td></tr>';
+		
+		
+		// table rows
+		echo '<tr><td valign="top">'
+		._PRODUCTS_CATEGORY_TITLE
+		.'</td><td valign="top" colspan="2">'
+		.'<input name="new_ctitle" class="tcms_input_normal" value="'.$old_ctitle.'" />'
+		.'</td></tr>';
+		
+		
+		// table rows
+		echo '<tr><td width="250">'
+		._PRODUCTS_USE_CATEGORY_TITLE
+		.'</td><td>'
+		.'<input type="checkbox" name="new_usest" '.( $old_usest == 1 ? 'checked' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		// table rows
+		echo '<tr><td valign="top" colspan="2">'
+		.'<br />'._TABLE_TEXT
+		.( $show_wysiwyg != 'fckeditor' ? '<br /><br />'
+		.'<script>'
+		.'createToendaToolbar(\'imp\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');'
+		.'</script>' : '' );
+		
+		if($show_wysiwyg != 'tinymce' && $show_wysiwyg != 'fckeditor') {
+			if($show_wysiwyg == 'toendaScript') {
+				echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'toendaScript\');</script>';
 			}
-			echo '</select>
-		</td></tr>';
+			else {
+				echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'HTML\');</script>';
+			}
+		}
 		
-		// table rows
-		echo '<tr><td class="tcms_padding_mini" valign="top">
-			'._PRODUCTS_CATEGORY_TITLE.'
-		</td><td valign="top" colspan="2">
-			<img src="../images/bullet_1.gif" border="0" vspace="4" />
-			<input name="new_ctitle" class="tcms_input_normal" value="'.$old_ctitle.'" />
-		</td></tr>';
+		echo '<br /><br />';
 		
-		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250">
-			'._PRODUCTS_USE_CATEGORY_TITLE.'
-		</td><td>
-			<img src="../images/bullet_1.gif" border="0" vspace="4" />
-			<input type="checkbox" name="new_usest" '.( $old_usest == 1 ? 'checked' : '' ).' value="1" />
-		</td></tr>';
+		if($show_wysiwyg == 'tinymce'){
+			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content" mce_editable="true">'
+			.$old_ptext
+			.'</textarea>';
+		}
+		elseif($show_wysiwyg == 'fckeditor'){
+			$sBasePath = '../js/FCKeditor/';
+			
+			$oFCKeditor = new FCKeditor('content') ;
+			$oFCKeditor->BasePath = $sBasePath;
+			$oFCKeditor->Value = $old_ptext;
+			$oFCKeditor->Create();
+		}
+		else{
+			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" id="content" name="content">'
+			.$old_ptext
+			.'</textarea>';
+		}
+		
+		echo '<br /></td></tr>';
 		
 		
 		// Table end
@@ -302,26 +404,22 @@ if($todo == 'config'){
 
 
 
-
-
-
-
-//=====================================================
-// VALUES
-//=====================================================
+// -------------------------------------------------
+// LIST ITEMS
+// -------------------------------------------------
 
 if($todo == 'show'){
-	echo tcms_html::bold(_PRODUCTS_TITLE);
-	echo tcms_html::text(_PRODUCTS_TEXT.'<br /><br />', 'left');
+	echo $tcms_html->bold(_PRODUCTS_TITLE);
+	echo $tcms_html->text(_PRODUCTS_TEXT.'<br /><br />', 'left');
 	
 	$count = 0;
 	$showAll = false;
 	
 	if($choosenDB == 'xml'){
-		if(isset($arr_products) && !empty($arr_products) && $arr_products != ''){
+		if($tcms_main->isArray($arr_products)){
 			foreach($arr_products as $key => $value){
 				$menu_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_products/'.$value.'/folderinfo.xml','r');
-				$chkAcc   = $menu_xml->read_section('folderinfo', 'access');
+				$chkAcc   = $menu_xml->readSection('folderinfo', 'access');
 				
 				if($id_group == 'Developer' || $id_group == 'Administrator'){ $showAll = true; }
 				else{
@@ -330,13 +428,13 @@ if($todo == 'show'){
 				}
 				
 				if($showAll == true){
-					$arr_dw['name'][$count] = $menu_xml->read_section('folderinfo', 'name');
-					$arr_dw['date'][$count] = $menu_xml->read_section('folderinfo', 'date');
-					$arr_dw['desc'][$count] = $menu_xml->read_section('folderinfo', 'desc');
-					$arr_dw['sort'][$count] = $menu_xml->read_section('folderinfo', 'sort');
-					$arr_dw['dir'][$count]  = $menu_xml->read_section('folderinfo', 'folder');
-					$arr_dw['pub'][$count]  = $menu_xml->read_section('folderinfo', 'pub');
-					$arr_dw['ac'][$count]   = $menu_xml->read_section('folderinfo', 'access');
+					$arr_dw['name'][$count] = $menu_xml->readSection('folderinfo', 'name');
+					$arr_dw['date'][$count] = $menu_xml->readSection('folderinfo', 'date');
+					$arr_dw['desc'][$count] = $menu_xml->readSection('folderinfo', 'desc');
+					$arr_dw['sort'][$count] = $menu_xml->readSection('folderinfo', 'sort');
+					$arr_dw['dir'][$count]  = $menu_xml->readSection('folderinfo', 'folder');
+					$arr_dw['pub'][$count]  = $menu_xml->readSection('folderinfo', 'pub');
+					$arr_dw['ac'][$count]   = $menu_xml->readSection('folderinfo', 'access');
 					
 					$arr_dw['name'][$count] = $tcms_main->decodeText($arr_dw['name'][$count], '2', $c_charset);
 					$arr_dw['desc'][$count] = $tcms_main->decodeText($arr_dw['desc'][$count], '2', $c_charset);
@@ -359,8 +457,8 @@ if($todo == 'show'){
 		}
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		if($id_group == 'Developer' || $id_group == 'Administrator'){
 			$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
@@ -376,11 +474,11 @@ if($todo == 'show'){
 		.$strAdd
 		."ORDER BY sort DESC, date DESC, name DESC";
 		
-		$sqlQR = $sqlAL->sqlQuery($sqlSTR);
+		$sqlQR = $sqlAL->query($sqlSTR);
 		
 		$count = 0;
 		
-		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+		while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 			$arr_dw['name'][$count]  = $sqlARR['name'];
 			$arr_dw['date'][$count]  = $sqlARR['date'];
 			$arr_dw['desc'][$count]  = $sqlARR['desc'];
@@ -485,9 +583,9 @@ if($todo == 'show'){
 
 
 
-//=====================================================
-// FORM
-//=====================================================
+// -------------------------------------------------
+// EDIT CATEGORY
+// -------------------------------------------------
 
 if($todo == 'create'){
 	echo tcms_html::bold(_TABLE_NEW);
@@ -569,23 +667,24 @@ if($todo == 'create'){
 
 
 
-//=====================================================
-// FORM
-//=====================================================
+
+// -------------------------------------------------
+// EDIT ITEM
+// -------------------------------------------------
 
 if($todo == 'edit'){
 	if(isset($category) && $category != ''){
 		if($choosenDB == 'xml'){
 			$down_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_products/'.$category.'/folderinfo.xml','r');
-			$down_cat = $down_xml->read_section('folderinfo', 'name');
-			$down_acc = $menu_xml->read_section('folderinfo', 'access');
+			$down_cat = $down_xml->readSection('folderinfo', 'name');
+			$down_acc = $menu_xml->readSection('folderinfo', 'access');
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'products', $category);
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+			$sqlQR = $sqlAL->getOne($tcms_db_prefix.'products', $category);
+			$sqlARR = $sqlAL->fetchArray($sqlQR);
 			
 			$down_cat = $sqlARR['name'];
 			$down_acc = $sqlARR['access'];
@@ -610,10 +709,10 @@ if($todo == 'edit'){
 					foreach($arr_pfiles as $key => $value){
 						if($value != 'folderinfo.xml'){
 							$menu_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_products/'.$category.'/'.$value,'r');
-							$arr_dw['product'][$key]     = $menu_xml->read_section('info', 'product');
-							$arr_dw['date'][$key]        = $menu_xml->read_section('info', 'date');
-							$arr_dw['status'][$key]      = $menu_xml->read_section('info', 'status');
-							$arr_dw['sort'][$key]        = $menu_xml->read_section('info', 'sort');
+							$arr_dw['product'][$key]     = $menu_xml->readSection('info', 'product');
+							$arr_dw['date'][$key]        = $menu_xml->readSection('info', 'date');
+							$arr_dw['status'][$key]      = $menu_xml->readSection('info', 'status');
+							$arr_dw['sort'][$key]        = $menu_xml->readSection('info', 'sort');
 							$arr_dw['tag'][$key]         = substr($value, 0, 10);
 							
 							if(!$arr_dw['product'][$key]){ $arr_dw['product'][$key] = ''; }
@@ -628,14 +727,14 @@ if($todo == 'edit'){
 				}
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix."products WHERE sql_type='f' AND category='".$category."'");
 				
 				$count = 0;
 				
-				while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+				while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 					$arr_dw['product'][$count] = $sqlARR['name'];
 					$arr_dw['date'][$count]    = $sqlARR['date'];
 					$arr_dw['status'][$count]  = $sqlARR['status'];
@@ -717,20 +816,20 @@ if($todo == 'edit'){
 			if(isset($article) && !empty($article) && $article != ''){
 				if($choosenDB == 'xml'){
 					$menu_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_products/'.$category.'/'.$article.'.xml','r');
-					$arr_product     = $menu_xml->read_section('info', 'product');
-					$arr_product_no  = $menu_xml->read_section('info', 'product_number');
-					$arr_factory     = $menu_xml->read_section('info', 'factory');
-					$arr_factory_url = $menu_xml->read_section('info', 'factory_url');
-					$arr_desc        = $menu_xml->read_section('info', 'desc');
-					$arr_category    = $menu_xml->read_section('info', 'category');
-					$arr_image       = $menu_xml->read_section('info', 'image');
-					$arr_date        = $menu_xml->read_section('info', 'date');
-					$arr_price       = $menu_xml->read_section('info', 'price');
-					$arr_pricetax    = $menu_xml->read_section('info', 'price_tax');
-					$arr_status      = $menu_xml->read_section('info', 'status');
-					$arr_quantity    = $menu_xml->read_section('info', 'quantity');
-					$arr_weight      = $menu_xml->read_section('info', 'weight');
-					$arr_sort        = $menu_xml->read_section('info', 'sort');
+					$arr_product     = $menu_xml->readSection('info', 'product');
+					$arr_product_no  = $menu_xml->readSection('info', 'product_number');
+					$arr_factory     = $menu_xml->readSection('info', 'factory');
+					$arr_factory_url = $menu_xml->readSection('info', 'factory_url');
+					$arr_desc        = $menu_xml->readSection('info', 'desc');
+					$arr_category    = $menu_xml->readSection('info', 'category');
+					$arr_image       = $menu_xml->readSection('info', 'image');
+					$arr_date        = $menu_xml->readSection('info', 'date');
+					$arr_price       = $menu_xml->readSection('info', 'price');
+					$arr_pricetax    = $menu_xml->readSection('info', 'price_tax');
+					$arr_status      = $menu_xml->readSection('info', 'status');
+					$arr_quantity    = $menu_xml->readSection('info', 'quantity');
+					$arr_weight      = $menu_xml->readSection('info', 'weight');
+					$arr_sort        = $menu_xml->readSection('info', 'sort');
 					$arr_tag         = substr($value, 0, 10);
 					
 					if(!$arr_product)    { $arr_product     = ''; }
@@ -749,12 +848,12 @@ if($todo == 'edit'){
 					if(!$arr_sort)       { $arr_sort        = ''; }
 				}
 				else{
-					$sqlAL = new sqlAbstractionLayer($choosenDB);
-					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					
-					$sqlQR = $sqlAL->sqlQuery("SELECT * FROM ".$tcms_db_prefix."products WHERE uid='".$article."' AND sql_type='f' AND category='".$category."'");
+					$sqlQR = $sqlAL->query("SELECT * FROM ".$tcms_db_prefix."products WHERE uid='".$article."' AND sql_type='f' AND category='".$category."'");
 					
-					$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+					$sqlARR = $sqlAL->fetchArray($sqlQR);
 					
 					$arr_product     = $sqlARR['name'];
 					$arr_product_no  = $sqlARR['product_number'];
@@ -847,7 +946,7 @@ if($todo == 'edit'){
 							foreach($arr_products as $key => $value){
 								if($value != 'index.html'){
 									$menu_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_products/'.$value.'/folderinfo.xml','r');
-									$down_cat = $menu_xml->read_section('folderinfo', 'name');
+									$down_cat = $menu_xml->readSection('folderinfo', 'name');
 									
 									$down_cat = $tcms_main->decodeText($down_cat, '2', $c_charset);
 									
@@ -857,17 +956,17 @@ if($todo == 'edit'){
 						}
 					}
 					else{
-						$sqlAL = new sqlAbstractionLayer($choosenDB);
-						$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+						$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+						$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 						
 						$sqlString = "SELECT * "
 						."FROM ".$tcms_db_prefix."products "
 						."WHERE sql_type = 'd'";
 						
-						$sqlQR = $sqlAL->sqlQuery($sqlString);
+						$sqlQR = $sqlAL->query($sqlString);
 						$count = 0;
 						
-						while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+						while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 							$p_name = $sqlARR['name'];
 							$p_cat  = $sqlARR['category'];
 							
@@ -1033,82 +1132,165 @@ if($todo == 'edit'){
 
 
 
+// -------------------------------------------------
+// CASE CONFIGURATION
+// -------------------------------------------------
 
-
-
-
-
-
-
-
-
-
-//=====================================================
-// SAVEING
-//=====================================================
-
-if($todo == 'save_config'){
+if($todo == 'save_config') {
 	if(empty($new_pid))   { $old_pid    = 'products'; }
-	if(empty($new_ptitle)){ $new_ptitle = $old_ptitle; }
-	if(empty($new_pstamp)){ $new_pstamp = $old_pstamp; }
-	if(empty($new_ptext)) { $new_ptext  = $old_ptext; }
+	if(empty($new_ptitle)){ $new_ptitle = ''; }
+	if(empty($new_pstamp)){ $new_pstamp = ''; }
+	if(empty($content))   { $content    = ''; }
 	if(empty($new_cstate)){ $new_cstate = $old_cstate; }
-	if(empty($new_ctitle)){ $new_ctitle = $old_ctitle; }
+	if(empty($new_ctitle)){ $new_ctitle = ''; }
 	if(empty($new_usest)) { $new_usest  = 0; }
 	
-	$new_ptext = $tcms_main->nl2br($new_ptext);
+	
+	$content = str_replace('src="../../../../http:', 'src="http:', $content);
+	
+	if($show_wysiwyg == 'tinymce'){
+		//$content = str_replace('../../', '', $content);
+		$content = stripslashes($content);
+	}
+	elseif($show_wysiwyg == 'fckeditor'){
+		$content = str_replace('../../../../../../../../../', '', $content);
+		$content = str_replace('../../../../', '', $content);
+	}
+	else{
+		$content = $tcms_main->nl2br($content);
+	}
+	
+	if($seoEnabled == 0 && $show_wysiwyg == 'tinymce'){
+		//$content = str_replace('src="../../', 'src="', $content);
+	}
+	
 	
 	$new_ptitle = $tcms_main->decode_text($new_ptitle, '2', $c_charset);
 	$new_pstamp = $tcms_main->decode_text($new_pstamp, '2', $c_charset);
-	$new_ptext  = $tcms_main->decode_text($new_ptext, '2', $c_charset);
+	$content    = $tcms_main->decode_text($content, '2', $c_charset);
 	$new_ctitle = $tcms_main->decode_text($new_ctitle, '2', $c_charset);
 	
+	
+	if($tcms_main->isReal($new_lang)) {
+		$setLang = $tcms_config->getLanguageCodeForTCMS($new_lang);
+	}
+	else {
+		$setLang = '';
+	}
+	
+	
 	if($choosenDB == 'xml'){
-		$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/products.xml', 'w');
+		$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/products.'.$setLang.'.xml', 'w');
 		$xmluser->xml_declaration();
 		$xmluser->xml_section('config');
 		
 		$xmluser->write_value('products_id', $new_pid);
 		$xmluser->write_value('products_title', $new_ptitle);
 		$xmluser->write_value('products_stamp', $new_pstamp);
-		$xmluser->write_value('products_text', $new_ptext);
+		$xmluser->write_value('products_text', $content);
 		$xmluser->write_value('category_state', $new_cstate);
 		$xmluser->write_value('category_title', $new_ctitle);
 		$xmluser->write_value('use_category_title', $new_usest);
+		$xmluser->write_value('language', $new_lang);
 		
 		$xmluser->xml_section_buffer();
 		$xmluser->xml_section_end('config');
 		$xmluser->_xmlparser();
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$newSQLData = ''
-		.$tcms_db_prefix.'products_config.products_id="'.$new_pid.'", '
-		.$tcms_db_prefix.'products_config.products_title="'.$new_ptitle.'", '
-		.$tcms_db_prefix.'products_config.products_stamp="'.$new_pstamp.'", '
-		.$tcms_db_prefix.'products_config.products_text="'.$new_ptext.'", '
-		.$tcms_db_prefix.'products_config.category_state="'.$new_cstate.'", '
-		.$tcms_db_prefix.'products_config.category_title="'.$new_ctitle.'", '
-		.$tcms_db_prefix.'products_config.use_category_title='.$new_usest.'';
-		
-		$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'products_config', $newSQLData, 'products');
+		if($lang_exist > 0) {
+			$newSQLData = ''
+			.$tcms_db_prefix.'products_config.products_id="'.$new_pid.'", '
+			.$tcms_db_prefix.'products_config.products_title="'.$new_ptitle.'", '
+			.$tcms_db_prefix.'products_config.products_stamp="'.$new_pstamp.'", '
+			.$tcms_db_prefix.'products_config.products_text="'.$content.'", '
+			.$tcms_db_prefix.'products_config.category_state="'.$new_cstate.'", '
+			.$tcms_db_prefix.'products_config.category_title="'.$new_ctitle.'", '
+			.$tcms_db_prefix.'products_config.use_category_title='.$new_usest;
+			
+			switch($choosenDB) {
+				case 'mysql':
+					$sqlQR = $sqlAL->updateField(
+						$tcms_db_prefix.'products_config', 
+						$newSQLData, 
+						'products_id', 
+						'products" AND language = "'.$setLang
+					);
+					break;
+				
+				default:
+					$sqlQR = $sqlAL->updateField(
+						$tcms_db_prefix.'products_config', 
+						$newSQLData, 
+						'products_id', 
+						"products' AND language = '".$setLang
+					);
+					break;
+			}
+		}
+		else {
+			switch($choosenDB){
+				case 'mysql':
+					$newSQLColumns = '`products_id`, `products_title`, '
+					.'`products_stamp`, `products_text`, `category_state`, '
+					.'`category_title`, `use_category_title`, `language`';
+					break;
+				
+				case 'pgsql':
+					$newSQLColumns = 'products_id, products_title, '
+					.'products_stamp, products_text, "category_state", '
+					.'category_title, use_category_title, "language"';
+					break;
+				
+				case 'mssql':
+					$newSQLColumns = '[products_id], [products_title], '
+					.'[products_stamp], [products_text], [category_state], '
+					.'[category_title], [use_category_title], [language]';
+					break;
+			}
+			
+			$newSQLData = "'".$new_pid."', '".$new_ptitle."', "
+			."'".$new_pstamp."', '".$content."', "
+			."'".$new_cstate."', '".$new_ctitle."', "
+			.$new_usest.", '".$setLang."'";
+			
+			$maintag = $tcms_main->getNewUID(8, 'products_config');
+			
+			$sqlQR = $sqlAL->createOne(
+				$tcms_db_prefix.'products_config', 
+				$newSQLColumns, 
+				$newSQLData, 
+				$maintag
+			);
+		}
 	}
-	//---------------------------------------------------------------------
 	
-	echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_products\'</script>';
+	
+	if($setLang != '') {
+		$setLang = $tcms_config->getLanguageCodeByTCMSCode($setLang);
+		
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_products&todo=config'
+		.'&lang='.$setLang.'\''
+		.'</script>';
+	}
+	else {
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_products&todo=config'
+		.'</script>';
+	}
 }
 
 
 
 
 
-
-
-
-
-
+// -------------------------------------------------
+// CREATE CATEGORY
+// -------------------------------------------------
 
 if($todo == 'category'){
 	//*****************************************
@@ -1165,8 +1347,8 @@ if($todo == 'category'){
 		$xmluser->_xmlparser();
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		if($create_folder == 1){
 			switch($choosenDB){
@@ -1220,6 +1402,9 @@ if($todo == 'category'){
 
 
 
+// -------------------------------------------------
+// SAVE ITEM
+// -------------------------------------------------
 
 
 if($todo == 'save'){
@@ -1299,8 +1484,8 @@ if($todo == 'save'){
 		$xmluser->_xmlparser();
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		if($create_folder == 1){
 			switch($choosenDB){
@@ -1373,7 +1558,9 @@ if($todo == 'save'){
 
 
 
-
+// -------------------------------------------------
+// DELETE
+// -------------------------------------------------
 //===================================================================================
 // DELETE
 //===================================================================================
@@ -1381,9 +1568,9 @@ if($todo == 'delete'){
 	if(isset($delete) && $delete == 1){
 		if($choosenDB == 'xml'){ $tcms_main->rmdirr('../../'.$tcms_administer_site.'/tcms_products/'.$new_folder.'/'); }
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-			$sqlRes = $sqlAL->sqlQuery("DELETE FROM ".$tcms_db_prefix."products WHERE category = '".$new_folder."'");
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlRes = $sqlAL->query("DELETE FROM ".$tcms_db_prefix."products WHERE category = '".$new_folder."'");
 		}
 		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_products\';</script>';
 	}
@@ -1401,8 +1588,8 @@ if($todo == 'delArticle'){
 	if($check == 'yes'){
 		if($choosenDB == 'xml'){ unlink('../../'.$tcms_administer_site.'/tcms_products/'.$category.'/'.$article.'.xml'); }
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			$sqlAL->sqlDeleteOne($tcms_db_prefix.'products', $article.'" AND category="'.$category);
 		}
 		

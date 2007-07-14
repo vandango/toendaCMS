@@ -145,6 +145,7 @@ function using($namespace, $require = false, $admin = false) {
 		}
 	}
 	else {
+		//echo $mainPath.$middlePath.$data[2].$endPath.'<br />';
 		if($require) {
 			require_once($mainPath.$middlePath.$data[2].$endPath);
 		}

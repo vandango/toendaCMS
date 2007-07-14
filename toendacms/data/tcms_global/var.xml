@@ -14,7 +14,7 @@
 	<statistics>1</statistics>
 	<seo_enabled>1</seo_enabled>
 	<server_folder>toendacms_svn/toendacms</server_folder>
-	<seo_format>0</seo_format>
+	<seo_format>2</seo_format>
 	<site_offline>0</site_offline>
 	<site_offline_text>This site is down for maintenance.<br /> Please check back again soon.</site_offline_text>
 	<show_top_pages>1</show_top_pages>
