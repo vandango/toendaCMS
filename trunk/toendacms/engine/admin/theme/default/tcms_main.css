@@ -295,10 +295,17 @@ td.tcms_top_menu_tape {
 
 /*____  INPUT ____*/
 /* Upload */
+.tcms_button {
+	/*border: #1d93bc 1px solid;
+	height: 16px;*/
+	height: 18px;
+}
+
+/* Upload */
 .tcms_upload {
 	border: #1d93bc 1px solid;
 	height: 18px;
-	width: 250px;
+	width: 220px;
 }
 
 /* Input Textarea normal */
@@ -783,7 +790,9 @@ a.tcms_navigation_button:hover {
 
 
 /*___ NAVIGATION BUTTONS ___*/
-a.tcms_edit:link, a.tcms_edit:active, a.tcms_edit:visited {
+a.tcms_edit:link, 
+a.tcms_edit:active, 
+a.tcms_edit:visited {
 	color: #1d93bc;
 	background: #f8f8f8;
 	padding-right: 3px;
@@ -795,6 +804,7 @@ a.tcms_edit:link, a.tcms_edit:active, a.tcms_edit:visited {
 	font-size: 10px;
 	text-decoration: none;
 }
+
 a.tcms_edit:hover {
 	color: #f8f8f8;
 	background: #90aecc;

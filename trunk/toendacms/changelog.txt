@@ -28,7 +28,7 @@ Version 1.6
 Developer Version
 	- 1.6.0 Development
 
-Building Steps: 2920
+Building Steps: 2935
 
 
 
@@ -49,6 +49,11 @@ Building Steps: 2920
           you can use now the new format
           [www.domain.com/index.php/en/frontpage.html].
  - added: Products page configuration now with multi-lingual support.
+ - added: Mediabrowser for the texteditor has now a button to add a
+          thumbnail of a image into the text. The images includes a link
+          with a javascript window.
+ - added: Lightbox (including script.aculo.us) for the images from the
+          mediabrowser.
 
 
 

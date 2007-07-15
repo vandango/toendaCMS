@@ -9,14 +9,10 @@
 | 
 | Mediabrowser for WYSIWYG Editor
 |
-| File:		media.php
-| Version:	0.4.8
+| File:	media.php
 |
 +
 */
-
-
-
 
 
 if(isset($_GET['v'])){ $v = $_GET['v']; }
@@ -35,7 +31,17 @@ if(isset($_POST['id_user'])){ $id_user = $_POST['id_user']; }
 if(isset($_POST['folder'])){ $folder = $_POST['folder']; }
 
 
-
+/**
+ * Mediabrowser for WYSIWYG Editor
+ *
+ * This is used as global startpage for the
+ * administraion backend.
+ *
+ * @version 0.5.0
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 //===================================================================================
@@ -57,6 +63,7 @@ include_once('../tcms_kernel/tcms_sql.lib.php');
 include('../../'.$tcms_administer_site.'/tcms_global/database.php');
 
 $tcms_main = new tcms_main('../../'.$tcms_administer_site, $choosenDB);
+$tcms_html = new tcms_html();
 
 // database
 $choosenDB = $tcms_main->securePassword($tcms_db_engine);
@@ -71,10 +78,12 @@ $tcms_db_prefix = $sqlPrefix;
 $tcms_main->setDatabaseInfo($choosenDB);
 
 if(isset($faq) && $faq != ''){
-	$arr_dir = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/images/knowledgebase/');
+	$arr_dir = $tcms_main->getPathContent(
+		'../../'.$tcms_administer_site.'/images/knowledgebase/'
+	);
 }
 else{
-	$arr_dir = $tcms_main->readdir_ext(
+	$arr_dir = $tcms_main->getPathContent(
 		'../../'.$tcms_administer_site.'/images/Image/'
 		.( isset($folder) ? $folder.'/' : '' )
 	);
@@ -156,12 +165,10 @@ if(isset($id_user)){
 		echo '<hr />';
 		
 		
-		echo '<div style="margin: 5px !important;">';
-		
-		//*********************************************************************************
+		echo '<div style="margin: 5px 0 5px 0 !important;">';
 		
 		
-		echo tcms_html::bold(_GALLERY_UPLOAD);
+		echo $tcms_html->bold(_GALLERY_UPLOAD);
 		
 		
 		echo '<form name="upload" id="upload" action="media.php" method="post" enctype="multipart/form-data">'
@@ -171,21 +178,21 @@ if(isset($id_user)){
 		.'<br />';
 		
 		
-		echo tcms_html::table_head_nb('0', '0', '0', '100%');
+		echo $tcms_html->tableHeadNoBorder('0', '0', '0', '100%');
 		
 		
-		echo '<tr style="height: 28px;"><td valign="top" width="'.$width.'"><span class="text_normal">'._TABLE_IMAGE.'</span></td>'
-		.'<td valign="top"><input name="mediaImage" type="file" accept="image/*" />'
-		.'<input type="submit" value="'._TCMS_ADMIN_SAVE.'" /></td></tr>';
+		echo '<tr style="height: 28px;"><td valign="top" width="'.$width.'">'
+		.'<span class="text_normal">'._TABLE_IMAGE.'</span>'
+		.'</td><td valign="top">'
+		.'<input name="mediaImage" type="file" accept="image/*" />'
+		.'<input type="submit" value="'._TCMS_ADMIN_SAVE.'" />'
+		.'</td></tr>';
 		
 		
 		// table end
-		echo '</table></form>'
+		echo $tcms_html->tableEnd()
+		.'</form>'
 		.'<hr />';
-		
-		
-		
-		//*********************************************************************************
 		
 		
 		
@@ -194,7 +201,6 @@ if(isset($id_user)){
 		*/
 		
 		if($todo == 'saveMedia'){
-			//*****************************************
 			if($_FILES['mediaImage']['size'] > 0 && (
 			$_FILES['mediaImage']['type'] == 'image/png' || 
 			$_FILES['mediaImage']['type'] == 'image/jpeg' || 
@@ -227,19 +233,34 @@ if(isset($id_user)){
 				$msg = _MSG_NOUPLOAD;
 				$relocate = 0;
 			}
-				
-			//*****************************************
+			
 			
 			if($relocate == 1){
-				if(isset($faq) && $faq != '') echo '<script>document.location=\'media.php?id_user='.$id_user.'&faq='.$faq.'\';</script>';
-				else echo '<script>document.location=\'media.php?id_user='.$id_user.'\';</script>';
+				if(isset($faq) && $faq != '') {
+					echo '<script>'
+					.'document.location=\'media.php?id_user='.$id_user.'&faq='.$faq.'\';'
+					.'</script>';
+				}
+				else {
+					echo '<script>'
+					.'document.location=\'media.php?id_user='.$id_user.'\';'
+					.'</script>';
+				}
 			}
 			else{
-				if(isset($faq) && $faq != '') echo '<script>alert(\''.$msg.'.\');document.location=\'media.php?id_user='.$id_user.'&faq='.$faq.'\';</script>';
-				else echo '<script>alert(\''.$msg.'.\');document.location=\'media.php?id_user='.$id_user.'\';</script>';
+				if(isset($faq) && $faq != '') {
+					echo '<script>'
+					.'alert(\''.$msg.'.\');'
+					.'document.location=\'media.php?id_user='.$id_user.'&faq='.$faq.'\';'
+					.'</script>';
+				}
+				else {
+					echo '<script>'
+					.'alert(\''.$msg.'.\');'
+					.'document.location=\'media.php?id_user='.$id_user.'\';'
+					.'</script>';
+				}
 			}
-			
-			//*****************************************
 		}
 		
 		
@@ -247,29 +268,9 @@ if(isset($id_user)){
 		/*
 			list images
 		*/
-		echo tcms_html::table_head_cl('3', '0', '0', '100%', 'tcms_border_gray01');
-		/*
-		if(!empty($arr_dir)){
-			foreach($arr_dir as $dkey => $dvalue){
-				if(is_dir(trim('../../'.$tcms_administer_site.'/images/Image/'.$dvalue))){
-					echo '<tr><td class="tcms_db_2" width="100" valign="top">';
-					echo '<img style="border: 1px solid #ccc; margin: 6px auto auto 6px;" src="../images/mimetypes/mp3.png" border="0" />';
-					echo '<td class="tcms_db_2" valign="top">'
-					._GALLERY_IMGTITLE.': '.$dvalue.'<br />'
-					._GALLERY_IMGSIZE.': <em>'.$img_size.' KB</em><br />';
-					if(!preg_match('/.mp3/i', strtolower($dvalue)))
-						echo _GALLERY_IMGRESOLUTION.': <em>'.$img_o_width.' x '.$img_o_height.'</em>';
-					echo '</td>';
-					echo '<td class="tcms_db_2" align="right" valign="top">'
-					.( $cmdImage != '' ? '<a class="tcms_edit" href="javascript:'.$cmdImage.';">'._TABLE_ACCEPTBUTTON.'</a>' : '' )
-					.'</td>';
-					
-					echo '</form></tr>';
-				}
-			}
-		}
-		*/
-		if(!empty($arr_dir)){
+		echo $tcms_html->tableHeadClass('3', '0', '0', '100%', 'tcms_border_gray01');
+		
+		if($tcms_main->isArray($arr_dir)){
 			foreach($arr_dir as $dkey => $dvalue){
 				$dvalue2 = ( isset($folder) ? $folder.'/' : '' ).$dvalue;
 				
@@ -320,19 +321,41 @@ if(isset($id_user)){
 						$tcms_gd = new tcms_gd();
 						
 						if(!file_exists('../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue)){
-							if(isset($faq) && $faq != '')
-								tcms_gd::gd_thumbnail('../../'.$tcms_administer_site.'/images/knowledgebase/', '../../'.$tcms_administer_site.'/images/upload_thumb/', $dvalue, '100', 'create');
-							else
-								tcms_gd::gd_thumbnail('../../'.$tcms_administer_site.'/images/Image/', '../../'.$tcms_administer_site.'/images/upload_thumb/', $dvalue, '100', 'create');
+							if(isset($faq) && $faq != '') {
+								//tcms_gd::gd_thumbnail('../../'.$tcms_administer_site.'/images/knowledgebase/', '../../'.$tcms_administer_site.'/images/upload_thumb/', $dvalue, '100', 'create');
+								
+								$tcms_gd->createThumbnail(
+									'../../'.$tcms_administer_site.'/images/knowledgebase/', 
+									'../../'.$tcms_administer_site.'/images/upload_thumb/', 
+									$dvalue, 
+									100
+								);
+							}
+							else {
+								//tcms_gd::gd_thumbnail('../../'.$tcms_administer_site.'/images/Image/', '../../'.$tcms_administer_site.'/images/upload_thumb/', $dvalue, '100', 'create');
+								
+								$tcms_gd->createThumbnail(
+									'../../'.$tcms_administer_site.'/images/Image/', 
+									'../../'.$tcms_administer_site.'/images/upload_thumb/', 
+									$dvalue, 
+									100
+								);
+							}
 						}
 						
 						//$img_size = getimagesize('../../'.$tcms_administer_site.'/images/knowledgebase/'.$dvalue);
 						//$img_size = getimagesize('../../'.$tcms_administer_site.'/images/Image/'.$dvalue);
 						
-						if(isset($faq) && $faq != '')
-							$tcms_gd->readImageInformation('../../'.$tcms_administer_site.'/images/knowledgebase/'.$dvalue2);
-						else
-							$tcms_gd->readImageInformation('../../'.$tcms_administer_site.'/images/Image/'.$dvalue2);
+						if(isset($faq) && $faq != '') {
+							$tcms_gd->readImageInformation(
+								'../../'.$tcms_administer_site.'/images/knowledgebase/'.$dvalue2
+							);
+						}
+						else {
+							$tcms_gd->readImageInformation(
+								'../../'.$tcms_administer_site.'/images/Image/'.$dvalue2
+							);
+						}
 						
 						$img_o_width  = $tcms_gd->getImageWidth();
 						$img_o_height = $tcms_gd->getImageHeight();
@@ -376,10 +399,12 @@ if(isset($id_user)){
 					}
 					
 					
-					if(isset($faq) && $faq != '')
+					if(isset($faq) && $faq != '') {
 						$size = filesize('../../'.$tcms_administer_site.'/images/knowledgebase/'.$dvalue2) / 1024;
-					else
+					}
+					else {
 						$size = filesize('../../'.$tcms_administer_site.'/images/Image/'.$dvalue2) / 1024;
+					}
 					
 					$kpos = strpos($size, '.');
 					$img_size = substr($size, 0, $kpos+3);
@@ -393,75 +418,135 @@ if(isset($id_user)){
 					echo '</td>';
 					
 					
+					// images
 					if(!preg_match('/.mp3/i', strtolower($dvalue))){
-						if(isset($v) && $v == 'news_config') $cmdImage = 'setNewsImage(\''.$dvalue.'\', \'news_mm_image\', \'news_tt_image\')';
-						elseif(isset($faq) && $faq == 'faq') $cmdImage = 'setFAQImage(\''.$dvalue.'\', \'faq_img\', \'new_faq_img\')';
-						elseif(isset($n) && $n == 'without'){
-							if(isset($url) && $url != ''){
+						// news configuration
+						if(isset($v) && $v == 'news_config') {
+							$cmdImage = 'setNewsImage(\''.$dvalue.'\', \'news_mm_image\', \'news_tt_image\')';
+						}
+						// klnowledgebase
+						elseif(isset($faq) && $faq == 'faq') {
+							$cmdImage = 'setFAQImage(\''.$dvalue.'\', \'faq_img\', \'new_faq_img\')';
+						}
+						// all other
+						elseif(isset($n) && $n == 'without') {
+							if(isset($url) && $url != '') {
 								$rTemp = $url;
 								
-								if($show_wysiwyg == 'toendaScript')
+								if($show_wysiwyg == 'toendaScript') {
 									$cmdImage = 'setImageNL(\''.$dvalue2.'\', \'content\', \'toendaScript\', \''.$rTemp.'\')';
-								else
+								}
+								else {
 									$cmdImage = 'setImageNL(\''.$dvalue2.'\', \'content\', \'HTML\', \''.$rTemp.'\')';
+								}
 							}
-							else{
-								if($show_wysiwyg == 'toendaScript')
+							else {
+								if($show_wysiwyg == 'toendaScript') {
 									$cmdImage = 'setImage(\''.$rTemp.$dvalue2.'\', \'content\', \'toendaScript\')';
-								else
+								}
+								else {
 									$cmdImage = 'setImage(\''.$rTemp.$dvalue2.'\', \'content\', \'HTML\')';
+								}
 							}
 						}
-						else{
-							if($show_wysiwyg == 'tinymce' && $v != 'links')
-								$cmdImage = 'opener.tinyMCE.execCommand(\'mceInsertContent\', false, \'&lt;img src=&quot;'.( $seoEnabled == 1 ? '' : '' ).$tcms_administer_site.'/images/Image/'.$dvalue2.'&quot; alt=&quot;'.$dvalue.'&quot; /&gt;\');self.close()';
-							else{
-								if($show_wysiwyg == 'toendaScript') $cmdImage = 'setImage(\''.$dvalue2.'\', \'content\', \'toendaScript\')';
-								else $cmdImage = 'setImage(\''.$dvalue2.'\', \'content\', \'HTML\')';
+						else {
+							if($show_wysiwyg == 'tinymce' && $v != 'links') {
+								$cmdImage = 'opener.tinyMCE.execCommand(\'mceInsertContent\', false, '
+								.'\'&lt;a href=&quot;'.( $seoEnabled == 1 ? '' : '' ).$tcms_administer_site.'/images/Image/'.$dvalue2.'&quot; '
+								.'rel=&quot;lightbox&quot;&gt;'
+								.'&lt;img '
+								.'src=&quot;'.( $seoEnabled == 1 ? '' : '' ).$tcms_administer_site.'/images/Image/'.$dvalue2.'&quot; '
+								.'alt=&quot;'.$dvalue.'&quot; /&gt;'
+								.'&lt;\/a&gt;\');'
+								.'self.close()';
+								
+								$cmdThumb = 'opener.tinyMCE.execCommand(\'mceInsertContent\', false, '
+								//.'\'&lt;a href=&quot;javascript:imageWindow(\&#39;'.$dvalue2.'\&#39;, \&#39;media\&#39;);&quot;&gt;'
+								.'\'&lt;a href=&quot;'.( $seoEnabled == 1 ? '' : '' ).$tcms_administer_site.'/images/Image/'.$dvalue2.'&quot; '
+								.'rel=&quot;lightbox&quot;&gt;'
+								.'&lt;img '
+								.'src=&quot;'.( $seoEnabled == 1 ? '' : '' ).$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue2.'&quot; '
+								.'alt=&quot;'.$dvalue.'&quot; /&gt;'
+								.'&lt;\/a&gt;\');'
+								.'self.close()';
+							}
+							else {
+								if($show_wysiwyg == 'toendaScript') {
+									$cmdImage = 'setImage(\''.$dvalue2.'\', \'content\', \'toendaScript\')';
+								}
+								else {
+									$cmdImage = 'setImage(\''.$dvalue2.'\', \'content\', \'HTML\')';
+								}
 							}
 						}
 					}
-					else{
-						if(isset($v) && $v == 'news_config') $cmdImage = '';
-						elseif(isset($faq) && $faq == 'faq') $cmdImage = '';
-						elseif(isset($n) && $n == 'without'){
-							if(isset($url) && $url != '')
-								$rTemp = $url;
-							
-							if($show_wysiwyg == 'toendaScript')
-								$cmdImage = 'setLink(\''.$rTemp.$dvalue2.'\', \''.$dvalue.'\', \'content\', \'toendaScript\')';
-							else
-								$cmdImage = 'setLink(\''.$rTemp.$dvalue2.'\', \''.$dvalue.'\', \'content\', \'HTML\')';
+					// audio and other
+					else {
+						// news configuration
+						if(isset($v) && $v == 'news_config') {
+							$cmdImage = '';
 						}
-						else{
-							if($show_wysiwyg == 'tinymce' && $v != 'links')
+						// knowledgebase
+						elseif(isset($faq) && $faq == 'faq') {
+							$cmdImage = '';
+						}
+						// all other
+						elseif(isset($n) && $n == 'without') {
+							if(isset($url) && $url != '') {
+								$rTemp = $url;
+							}
+							
+							if($show_wysiwyg == 'toendaScript') {
+								$cmdImage = 'setLink(\''.$rTemp.$dvalue2.'\', \''.$dvalue.'\', \'content\', \'toendaScript\')';
+							}
+							else {
+								$cmdImage = 'setLink(\''.$rTemp.$dvalue2.'\', \''.$dvalue.'\', \'content\', \'HTML\')';
+							}
+						}
+						else {
+							if($show_wysiwyg == 'tinymce' && $v != 'links') {
 								$cmdImage = 'opener.tinyMCE.execCommand(\'mceInsertContent\', false, \'&lt;a href=&quot;'.$tcms_administer_site.'/images/Image/'.$dvalue2.'&quot; target=&quot;_blank&quot;&gt;'.$dvalue.'&lt;/a&gt;\');self.close()';
-							else{
-								if($show_wysiwyg == 'toendaScript')
+							}
+							else {
+								if($show_wysiwyg == 'toendaScript') {
 									$cmdImage = 'setLink(\''.$dvalue2.'\', \''.$dvalue.'\', \'content\', \'toendaScript\')';
-								else
+								}
+								else {
 									$cmdImage = 'setLink(\''.$dvalue2.'\', \''.$dvalue.'\', \'content\', \'HTML\')';
+								}
 							}
 						}
 					}
 					
 					
 					echo '<td class="tcms_db_2" align="right" valign="top">'
-					.( $cmdImage != '' ? '<a class="tcms_edit" href="javascript:'.$cmdImage.';">'._TABLE_ACCEPTBUTTON.'</a>' : '' )
+					.( $cmdImage != '' 
+						? '<a class="tcms_edit" href="javascript:'.$cmdImage.';">'._TABLE_ACCEPTBUTTON.'</a>' 
+						: '' 
+					)
+					.( $cmdThumb != '' 
+						? '
+						
+						<a class="tcms_edit" href="javascript:'.$cmdThumb.';">
+						
+						'._TABLE_THUMBNAIL.'</a>' 
+						: '' 
+					)
 					.'</td>';
 					
-					echo '</form></tr>';
+					echo '</tr>'
+					.'</form>';
 				}
 			}
 		}
 		
-		echo tcms_html::table_end();
+		echo $tcms_html->tableEnd();
 		
 		
 		
 		echo '</div>';
 	}
-	else{
+	else {
 		echo '<div align="center" style=" padding: 100px 10px 100px 10px; border: 1px solid #333; background-color: #f8f8f8; font-family: Georgia, \'Lucida Grande\', \'Lucida Sans\', Serif;">'
 		.'<h1>'._MSG_SESSION_EXPIRED.'</h2>'
 		.'</div>';

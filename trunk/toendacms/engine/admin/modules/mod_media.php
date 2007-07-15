@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a media manager.
  *
- * @version 0.4.1
+ * @version 0.4.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -68,10 +68,12 @@ echo '<div class="tcms_tabPage"><br />';
 
 if(!isset($path)) $path = '';
 
-if($action == 'image')
+if($action == 'image') {
 	$arr_dir = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/images/Image/'.$path);
-else
+}
+else {
 	$arr_dir = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/images/knowledgebase/');
+}
 
 $maxVal = count($arr_dir);
 
@@ -89,7 +91,7 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 	/*
 		TABLE FOR OUTPUT AND INPUT
 	*/
-	echo tcms_html::table_head_nb('0', '0', '0', '100%');
+	echo $tcms_html->tableHeadNoBorder('0', '0', '0', '100%');
 	
 	
 	// table title
@@ -107,7 +109,7 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 	if(!$tcms_main->isReal($path)) {
 		echo '<tr><td class="tcms_padding_mini">'
 		.'<input name="directory" id="directory" type="text" class="tcms_input_small" />'
-		.'<input name="btn_action" type="button" value="'._TCMS_ADMIN_NEW_DIR_BUTTON.'"'
+		.'<input name="btn_action" class="tcms_button" type="button" value="'._TCMS_ADMIN_NEW_DIR_BUTTON.'"'
 		.' onclick="document.location=\'admin.php?site=mod_media&id_user='.$id_user.'&todo=createDir&directory=\' + document.getElementById(\'directory\').value;" />'
 		.'</td></tr>';
 	}
@@ -126,13 +128,16 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 	
 	echo '</select>'
 	.'<input name="event" type="file" class="tcms_upload" />'
+	.'<input name="event" type="button" onclick="accept(\'upload\');" class="tcms_button" value="'._TCMS_ADMIN_UPLOAD.'" />'
 	.'<input name="todo" type="hidden" value="upload" />'
 	.'<input name="action" type="hidden" value="'.$action.'" />'
 	.'</td></tr>';
 	
 	
 	// row
-	echo '</table></form><br /><br />';
+	echo '</table>'
+	.'</form>'
+	.'<br /><br />';
 	
 	
 	
@@ -141,10 +146,10 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 		PLACE FOR IMG
 	*/
 	
-	echo tcms_html::table_head('0', '0', '0', '100%');
+	echo $tcms_html->tableHead('0', '0', '0', '100%');
 	echo '<tr valign="top"><td valign="top">';
 	
-	if(!empty($arr_dir)){
+	if($tcms_main->isArray($arr_dir)){
 		// folder
 		foreach($arr_dir as $dkey => $dvalue){
 			if(is_dir(trim('../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue))){
@@ -190,8 +195,15 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 			}
 		}
 		
+		//$tcms_main->paf($arr_dir);
+		
 		// files
-		foreach($arr_dir as $dkey => $dvalue){
+		foreach($arr_dir as $fileKey => $fileVal){
+			$dkey = $fileKey;
+			$dvalue = $fileVal;
+			
+			//echo $fileKey.$fileVal.'<br />';
+			
 			if($tcms_main->isImage($dvalue, false)
 			|| $tcms_main->isAudio($dvalue, false)
 			|| $tcms_main->isVideo($dvalue, false)
@@ -425,6 +437,7 @@ if($todo == 'upload'){
 	}
 	
 	echo '<script>'
+	.'alert(\''.$msg.'\');'
 	.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_media&action='.$action
 	.( $directory == '__DEFAULT__' ? '' : '&path='.$directory ).'\';'
 	.'</script>';

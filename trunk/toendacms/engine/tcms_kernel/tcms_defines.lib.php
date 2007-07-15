@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for global values
  *
- * @version 0.5.6
+ * @version 0.5.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -416,6 +416,14 @@ $strMetaData .= '
 .'<script type="text/javascript" language="JavaScript" src="'.$imagePath.'engine/js/jscrypt.js"></script>
 <script type="text/javascript" language="JavaScript" src="'.$imagePath.'engine/js/dhtml.js"></script>
 <script type="text/javascript" language="JavaScript" src="'.$imagePath.'engine/js/edit.js"></script>
+
+<!--Lightbox-->
+<script type="text/javascript" src="'.$imagePath.'engine/js/lightbox2/prototype.js"></script>
+<script type="text/javascript" src="'.$imagePath.'engine/js/lightbox2/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="'.$imagePath.'engine/js/lightbox2/lightbox.js"></script>
+<!--?tcmsPath='.$seoOriginalFolder.'-->
+<link rel="stylesheet" href="'.$imagePath.'engine/js/lightbox2/css/lightbox.css" type="text/css" media="screen" />
+
 '.( $wysiwygEditor == 'fckeditor' ? '<link rel="stylesheet" href="'.$imagePath.'engine/styles/tcms_fckeditor.css" />' : '' ).'
 '.chr(13);
 if(!defined('_SITE_META_DATA')) define('_SITE_META_DATA', $strMetaData);
