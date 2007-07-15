@@ -254,7 +254,8 @@ define('_TABLE_PARENTN', 'No submenu');
 define('_TABLE_PARENTITEM', 'Parent Item');
 define('_TABLE_MENUINFO', 'You can only create submenus in the sidemenu.');
 define('_TABLE_AUTOR', 'Author');
-define('_TABLE_CATEGORY', 'Category');
+if(!defined('_TABLE_CATEGORY'))                define('_TABLE_CATEGORY', 'Category');
+if(!defined('_TABLE_PRODUCT'))                 define('_TABLE_PRODUCT', 'Product');
 define('_TABLE_FILE', 'File');
 define('_TABLE_FILE_EXISTS', 'If file exists, please enter the complete filename. Please think about that before uploading: Create a folder with the name of the file, but without extensions like .zip and spaces must be underlines (_). This folder will be used.');
 define('_TABLE_FILE_OTHERURL', 'If the file on a other server, enter here the complete adress and the name of the file (a folder will be create from this name).');
@@ -272,7 +273,8 @@ define('_TABLE_BACKENDFILE', 'Backend file');
 define('_TABLE_FRONTENDFILE', 'Frontend file');
 define('_TABLE_SIDEBARFILE', 'Sidebar file');
 define('_TABLE_SETTINGSFILE', 'Settings file');
-define('_TABLE_IMAGE', 'Image');
+if(!defined('_TABLE_IMAGE'))                   define('_TABLE_IMAGE', 'Image');
+if(!defined('_TABLE_IMAGES'))                  define('_TABLE_IMAGES', 'Images');
 define('_TABLE_USE', 'Use');
 define('_TABLE_DELETE', 'Delete');
 define('_TABLE_DESCRIPTION', 'Description');
@@ -288,7 +290,7 @@ define('_TABLE_FACTORY', 'Manufacturer');
 define('_TABLE_URL', 'Website');
 define('_TABLE_STOCK', 'In Stock');
 define('_TABLE_PRICE', 'Price');
-define('_TABLE_TAX', 'with Tax');
+if(!defined('_TABLE_TAX'))                     define('_TABLE_TAX', 'Tax rate / VAT rate');
 define('_TABLE_QUANTITY', 'Quantity');
 define('_TABLE_WEIGHT', 'Weight');
 define('_TABLE_SAVEBUTTON', 'Save');
@@ -356,6 +358,7 @@ define('_TABLE_SORT_DESC', 'Descending sortation');
 define('_TABLE_SORT_ASC', 'Ascending sortation');
 if(!defined('_TABLE_VIEW'))                    define('_TABLE_TABLE_VIEW_RSS', 'View');
 if(!defined('_TABLE_FRONTPAGE'))               define('_TABLE_FRONTPAGE', 'Frontpage');
+if(!defined('_TABLE_SHOWONMAINPAGE'))          define('_TABLE_SHOWONMAINPAGE', 'Show on mainpage');
 
 
 // MESSAGES

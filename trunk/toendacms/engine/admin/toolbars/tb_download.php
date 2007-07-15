@@ -9,8 +9,7 @@
 | 
 | Toolbar for download
 |
-| File:		tb_download.php
-| Version:	0.0.3
+| File:	tb_download.php
 |
 +
 */
@@ -19,7 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-
+/**
+ * Toolbar for download manager
+ *
+ * This is used as toolbar for the download manager
+ *
+ * @version 0.0.4
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 switch($todo){

@@ -22,7 +22,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for globar backend values.
  *
- * @version 0.5.1
+ * @version 0.5.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -875,6 +875,136 @@ if($site == 'mod_download'){
 			
 			// CHARSETS
 			$arrDownCategories['title'][$count] = $tcms_main->decodeText($arrDownCategories['title'][$count], '2', $c_charset);
+			
+			$count++;
+		}
+		
+		$sqlAL->freeResult($sqlQR);
+		$sqlAL->_sqlAbstractionLayer();
+		unset($sqlAL);
+	}
+}
+
+
+
+
+
+
+
+
+
+
+//***********************
+// PRODUCT CATEGORIES
+//
+if($site == 'mod_products'){
+	if($choosenDB == 'xml'){
+		/*$count = 0;
+		
+		$arr_files = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/files/');
+		
+		if($tcms_main->isArray($arr_files)){
+			foreach($arr_files as $key => $value){
+				if($value != 'index.html'){
+					$xml = new xmlparser('../../'.$tcms_administer_site.'/files/'.$value.'/info.xml', 'r');
+					
+					$checkType = $xml->readSection('info', 'sql_type');
+					
+					if($checkType == 'd'){
+						$checkAcc = $xml->readSection('info', 'access');
+						
+						
+						// access
+						switch($id_group){
+							case 'Developer':
+							case 'Administrator':
+								if($checkAcc == 'Public' || $checkAcc == 'Protected' || $checkAcc == 'Private')
+									$showThis = true;
+								else
+									$showThis = false;
+								break;
+							
+							case 'User':
+							case 'Editor':
+							case 'Presenter':
+								if($checkAcc == 'Public' || $checkAcc == 'Protected')
+									$showThis = true;
+								else
+									$showThis = false;
+								break;
+							
+							default:
+								if($checkAcc == 'Public')
+									$showThis = true;
+								else
+									$showThis = false;
+								break;
+						}
+						
+						
+						// show access
+						if($showThis){
+							$arrDownCategories['title'][$count]  = $xml->readSection('info', 'name');
+							$arrDownCategories['tag'][$count]    = substr($value, 0, 10);
+							
+							// CHARSETS
+							$arrDownCategories['title'][$count] = $tcms_main->decodeText($arrDownCategories['title'][$count], '2', $c_charset);
+							
+							$count++;
+						}
+					}
+					
+					$xml->flush();
+					$xml->_xmlparser();
+				}
+			}
+		}
+		
+		unset($arr_files);*/
+	}
+	else{
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		
+		unset($sqlQR);
+		
+		switch($id_group){
+			case 'Developer':
+			case 'Administrator':
+				$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
+				break;
+			
+			case 'User':
+			case 'Editor':
+			case 'Presenter':
+				$strAdd = " OR access = 'Protected' ) ";
+				break;
+			
+			default:
+				$strAdd = ' ) ';
+				break;
+		}
+		
+		$sqlSTR = "SELECT * "
+		."FROM ".$tcms_db_prefix."products "
+		."WHERE sql_type = 'c' "
+		."AND ( access = 'Public' "
+		.$strAdd
+		."ORDER BY sort ASC, date ASC, name ASC";
+		
+		$sqlQR = $sqlAL->query($sqlSTR);
+		
+		$count = 0;
+		unset($sqlARR);
+		
+		while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+			$arrProductCategories['tag'][$count]   = $sqlObj->uid;
+			$arrProductCategories['title'][$count] = $sqlObj->name;
+			
+			if($arrProductCategories['title'][$count] == NULL){ $arrProductCategories['title'][$count] = ''; }
+			
+			// CHARSETS
+			$arrProductCategories['title'][$count] = $tcms_main->decodeText($arrProductCategories['title'][$count], '2', $c_charset);
 			
 			$count++;
 		}

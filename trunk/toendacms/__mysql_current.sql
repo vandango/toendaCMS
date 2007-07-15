@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 06. März 2007 um 13:08
--- Server Version: 5.0.21
+-- Erstellungszeit: 15. Juli 2007 um 19:14
+-- Server Version: 5.0.33
 -- PHP-Version: 5.2.1
 -- 
 -- Datenbank: `tcms_blog`
@@ -47,15 +47,15 @@ CREATE TABLE `blog_comments` (
   `msg` text,
   `time` varchar(14) NOT NULL default '',
   `ip` varchar(15) default NULL,
-  `domain` varchar(255) default NULL,
-  PRIMARY KEY  (`uid`)
+  `domain` varchar(255) default NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- 
 -- Daten für Tabelle `blog_comments`
 -- 
 
-INSERT INTO `blog_comments` (`uid`, `module`, `timestamp`, `name`, `email`, `web`, `msg`, `time`, `ip`, `domain`) VALUES ('c4c846e167', 'news', '20051126005016', 'vandango', 'vandango@toenda.com', 'http://vandango.org', 'This is a test comment ...', '20051126005016', '127.0.0.1', 'localhost');
+INSERT INTO `blog_comments` (`uid`, `module`, `timestamp`, `name`, `email`, `web`, `msg`, `time`, `ip`, `domain`) VALUES ('c4c846e167', 'news', '20051126005016', 'vandango', 'vandango@toenda.com', 'http://vandango.org', 'This is a test comment ...', '20051126005016', '127.0.0.1', 'localhost'),
+('90ac2e39eb', 'news', '20070701170303', 'vandango', 'vandango@toenda.com', 'http://vandango.org', 'Ein Kommentar, hier sind &lt;strong&gt;fette&lt;/strong&gt; Texte, &lt;p&gt;neue Bl&ouml;cke&lt;/p&gt;&lt;br /&gt;\r\n&lt;br /&gt;Zeilenumbr&uuml;che&lt;br /&gt;&lt;br /&gt;\r\nund &lt;a href__________&quot;http://www.toendacms.com&quot; target__________&quot;_blank&quot;&gt;Links&lt;/a&gt; erlaubt.', '20070701170303', '127.0.0.1', 'vandango-PC');
 
 -- --------------------------------------------------------
 
@@ -165,7 +165,7 @@ CREATE TABLE `blog_content_languages` (
   `access` varchar(10) collate utf8_unicode_ci NOT NULL,
   `in_work` int(11) NOT NULL default '0',
   `published` int(11) NOT NULL default '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- 
 -- Daten für Tabelle `blog_content_languages`
@@ -515,8 +515,8 @@ CREATE TABLE `blog_news` (
 -- Daten für Tabelle `blog_news`
 -- 
 
-INSERT INTO `blog_news` (`uid`, `language`, `title`, `autor`, `date`, `time`, `newstext`, `stamp`, `published`, `publish_date`, `comments_enabled`, `image`, `access`, `show_on_frontpage`) VALUES ('c4c846e167', 'english_EN', 'Hello world!', 'Dolly', '21.10.2006', '00:00', 'Hello world. This is Dolly  and you reading my first post. If you want you can delete it, but you can edit it too. Or you write a new one and let this where it is. It&amp;#39;s your choice.\r\n&lt;br /&gt;\r\n&lt;br /&gt;\r\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer tellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam feugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio mauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris dolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\r\n', 200610210000, 1, '21.10.2006-00:00', 1, '', 'Public', 1),
-('90ac2e39eb', 'germany_DE', 'Hallo Welt!', 'Dolly', '04.02.2007', '17:25', 'Hallo Welt. Ich bin Dolly und du liest gerade den ersten Eintrag. Wenn du willst, kannst du mich l&ouml;schen, oder du bearbeitest mich einfach. Order du schreibst einen neuen und l&auml;sst mich hier zur&uuml;ck, ganz wie du willst.&lt;br /&gt;\r\n&lt;br /&gt;\r\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer\r\ntellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam\r\nfeugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio\r\nmauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris\r\ndolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque\r\nhabitant morbi tristique senectus et netus et malesuada fames ac turpis\r\negestas.\r\n', 200702041725, 1, '04.02.2007-17:25', 1, '', 'Public', 1);
+INSERT INTO `blog_news` (`uid`, `language`, `title`, `autor`, `date`, `time`, `newstext`, `stamp`, `published`, `publish_date`, `comments_enabled`, `image`, `access`, `show_on_frontpage`) VALUES ('c4c846e167', 'english_EN', 'Hello world!', 'Dolly', '29.03.2007', '00:00', 'Hello world. This is Dolly  and you reading my first post. If you want you can delete it, but you can edit it too. Or you write a new one and let this where it is. It&amp;#39;s your choice.\r\n&lt;br /&gt;\r\n&lt;br /&gt;\r\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer tellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam feugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio mauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris dolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\r\n', 200703290000, 1, '29.03.2007-00:00', 1, '', 'Public', 1),
+('90ac2e39eb', 'germany_DE', 'Hallo Welt!', 'Dolly', '30.03.2007', '17:25', 'Hallo Welt. Ich bin Dolly und du liest gerade den ersten Eintrag. Wenn du willst, kannst du mich l&ouml;schen, oder du bearbeitest mich einfach. Order du schreibst einen neuen und l&auml;sst mich hier zur&uuml;ck, ganz wie du willst.&lt;br /&gt;\r\n&lt;br /&gt;\r\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer\r\ntellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam\r\nfeugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio\r\nmauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris\r\ndolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque\r\nhabitant morbi tristique senectus et netus et malesuada fames ac turpis\r\negestas.\r\n', 200703301725, 1, '30.03.2007-17:25', 1, '', 'Public', 1);
 
 -- --------------------------------------------------------
 
@@ -553,9 +553,9 @@ CREATE TABLE `blog_news_to_categories` (
 -- 
 
 INSERT INTO `blog_news_to_categories` (`uid`, `news_uid`, `cat_uid`) VALUES ('faf794901b615e2c26ef4a78f7219853', '79b944ed5f', 'erdf4'),
-('6a3636d84f84b27a967cb93207b26713', 'c4c846e167', 'erdf4'),
+('859866ce50e41a92164453c5d6ed46d2', 'c4c846e167', 'erdf4'),
 ('145a5946991378852797f16685d75fb0', 'a4439ff6b4', 'erdf4'),
-('ebb5930080c754cd74c764653be5fc84', '90ac2e39eb', 'erdf4');
+('e7aa1f544e60270ac539cd14990004cc', '90ac2e39eb', 'erdf4');
 
 -- --------------------------------------------------------
 
@@ -638,7 +638,7 @@ CREATE TABLE `blog_newsmanager` (
 -- 
 
 INSERT INTO `blog_newsmanager` (`uid`, `news_id`, `news_title`, `news_stamp`, `news_text`, `news_image`, `use_comments`, `show_autor`, `show_autor_as_link`, `news_amount`, `access`, `news_cut`, `use_gravatar`, `use_emoticons`, `use_rss091`, `use_rss10`, `use_rss20`, `use_atom03`, `use_opml`, `syn_amount`, `use_syn_title`, `def_feed`, `use_trackback`, `use_timesince`, `readmore_link`, `news_spacing`, `language`) VALUES ('newsmanager', 'newsmanager', 'News', 'Current', 'My newstext&lt;br /&gt;\r\n', '', 1, 1, 1, 20, 'Public', 0, 0, 1, 1, 1, 1, 1, 1, 5, 0, 'RSS2.0', 0, 2, 0, 0, 'english_EN'),
-('45789hgtzu', 'newsmanager', 'Neuigkeiten', 'Aktuell', 'Mein Neuigkeitentext und noch viel mehr<br />\r\nUnd ein wenig Text ...<br />\r\n', '', 1, 1, 1, 20, 'Public', 0, 0, 1, 1, 1, 1, 1, 1, 5, 0, 'RSS2.0', 0, 2, 0, 0, 'germany_DE');
+('45789hgtzu', 'newsmanager', 'Neuigkeiten', 'Aktuell', 'Mein Neuigkeitentext und noch viel mehr&lt;br /&gt;\r\nUnd ein wenig Text ...&lt;br /&gt;\r\n', '', 1, 1, 1, 20, 'Public', 0, 1, 1, 1, 1, 1, 1, 1, 5, 0, 'RSS2.0', 0, 2, 0, 0, 'germany_DE');
 
 -- --------------------------------------------------------
 
@@ -657,7 +657,7 @@ CREATE TABLE `blog_notepad` (
 -- Daten für Tabelle `blog_notepad`
 -- 
 
-INSERT INTO `blog_notepad` (`uid`, `name`, `note`) VALUES ('ccdc5cfffaf3cd9342e40dd9dcb3a3ff', 'root', 'test'),
+INSERT INTO `blog_notepad` (`uid`, `name`, `note`) VALUES ('ccdc5cfffaf3cd9342e40dd9dcb3a3ff', 'root', '595441,B9B09D,FFFFFF,69BFDE,4A8797'),
 ('9e07ddbe2eb87663511e4716cb94eef2', 'writer', 'Ihr Notizblock braucht Sie');
 
 -- --------------------------------------------------------
@@ -749,8 +749,8 @@ CREATE TABLE `blog_products` (
   `factory` varchar(255) default NULL,
   `factory_url` varchar(255) default NULL,
   `desc` text,
-  `category` varchar(255) NOT NULL default '',
-  `image` varchar(255) default NULL,
+  `category` varchar(32) default NULL,
+  `image1` varchar(255) default NULL,
   `date` varchar(16) NOT NULL default '',
   `price` varchar(50) default NULL,
   `price_tax` varchar(50) default NULL,
@@ -759,13 +759,23 @@ CREATE TABLE `blog_products` (
   `weight` varchar(50) default NULL,
   `sort` int(5) NOT NULL default '0',
   `access` varchar(10) default NULL,
-  `sql_type` char(1) NOT NULL default ''
+  `sql_type` char(1) NOT NULL default '',
+  `image2` varchar(255) default NULL,
+  `image3` varchar(255) default NULL,
+  `image4` varchar(255) default NULL,
+  `show_on_startpage` tinyint(4) NOT NULL default '0',
+  `pub` tinyint(4) NOT NULL default '0',
+  `parent` varchar(32) default NULL,
+  PRIMARY KEY  (`uid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- 
 -- Daten für Tabelle `blog_products`
 -- 
 
+INSERT INTO `blog_products` (`uid`, `name`, `product_number`, `factory`, `factory_url`, `desc`, `category`, `image1`, `date`, `price`, `price_tax`, `status`, `quantity`, `weight`, `sort`, `access`, `sql_type`, `image2`, `image3`, `image4`, `show_on_startpage`, `pub`, `parent`) VALUES ('13482fa849ab1b901ababf3e3fc0bbab', 'JobLight Jobportal Software', NULL, 'Toenda Software Development', 'http://www.toenda.com', NULL, '764f068e33673ecda7978c1a63b48294', NULL, '15.07.2007-16:42', NULL, NULL, 0, NULL, NULL, 2, 'Public', 'a', NULL, NULL, NULL, 1, 1, NULL),
+('764f068e33673ecda7978c1a63b48294', 'test', NULL, NULL, NULL, '', '', NULL, '11.07.2007-21:49', NULL, NULL, 1, NULL, NULL, 1, 'Public', 'c', NULL, NULL, NULL, 0, 1, NULL),
+('32acfdf114279d275709c2e277341b5c', 'toendaCMS', NULL, 'Toenda Software Development', 'http://www.toenda.com', NULL, '', NULL, '15.07.2007-16:42', NULL, NULL, 0, NULL, NULL, 1, 'Public', 'a', NULL, NULL, NULL, 1, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -775,6 +785,7 @@ CREATE TABLE `blog_products` (
 
 CREATE TABLE `blog_products_config` (
   `uid` varchar(8) NOT NULL default '',
+  `language` varchar(25) NOT NULL,
   `products_id` varchar(8) NOT NULL default '',
   `products_title` varchar(255) NOT NULL default '',
   `products_stamp` varchar(255) NOT NULL default '',
@@ -788,7 +799,8 @@ CREATE TABLE `blog_products_config` (
 -- Daten für Tabelle `blog_products_config`
 -- 
 
-INSERT INTO `blog_products_config` (`uid`, `products_id`, `products_title`, `products_stamp`, `products_text`, `category_state`, `category_title`, `use_category_title`) VALUES ('products', 'products', 'Products', 'Toenda Software Products', 'Our software products.', 'fghfh', 'Product Categories', 1);
+INSERT INTO `blog_products_config` (`uid`, `language`, `products_id`, `products_title`, `products_stamp`, `products_text`, `category_state`, `category_title`, `use_category_title`) VALUES ('products', 'germany_DE', 'products', 'Products', 'Toenda Software Products', '&lt;img alt__________&quot;sourceforge.gif&quot; src__________&quot;http://localhost/toendacms_svn/toendacms/data/images/Image/sourceforge.gif&quot; /&gt;\r\n&lt;br /&gt;\r\n&lt;br /&gt;\r\nsdfsdfsdfsdfsdfsdf\r\n&lt;br /&gt;\r\n&lt;br /&gt;\r\n&lt;img alt__________&quot;bun.jpg&quot; src__________&quot;http://localhost/toendacms_svn/toendacms/data/images/Image/bun.jpg&quot; /&gt;\r\n', 'test', 'Product Categories', 1),
+('f225076a', 'english_EN', 'products', 'sdfsdfsdf', 'sdfsdf', 'sdfsdfsdfsdf\r\n', 'test', 'sdfsdf', 1);
 
 -- --------------------------------------------------------
 
@@ -808,9 +820,7 @@ CREATE TABLE `blog_session` (
 -- 
 
 INSERT INTO `blog_session` (`uid`, `date`, `user`, `user_id`) VALUES ('a579eefac60b0139da98e972c19432dc', '1153685958', 'root', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff'),
-('c0a507fe0209bf4e2bb3e13c5eb08830', '1173012375', 'root', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff'),
-('c26414caf9041e41ddd88b766aab5da4', '1173012509', 'root', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff'),
-('d36ad2cc59d478e6ad6cddcaa0609804', '1173017930', 'root', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff');
+('b5ac75b3f6ec7136dc6c04b98813242e', '1184503073', 'root', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff');
 
 -- --------------------------------------------------------
 
@@ -908,9 +918,12 @@ INSERT INTO `blog_sidemenu` (`uid`, `language`, `name`, `id`, `subid`, `root`, `
 ('52d28', 'english_EN', 'Guestbook', 3, '-', '-', '-', '-', '-', '-', 'link', 'guestbook', 1, 'Public', ''),
 ('11d22', 'english_EN', 'sub1', 2, '0', '-', '2', '-', '-', '-', 'link', 'polls', 1, 'Public', ''),
 ('dfsd7', 'english_EN', 'subsub1', 2, '0', '-', '-', '-', '11d22', '-', 'link', 'search', 0, 'Public', NULL),
-('c39d0', 'germany_DE', 'Navigation', 0, '-', '-', '-', '-', '-', '-', 'title', 'frontpage', 0, 'Public', ''),
-('638ac', 'germany_DE', 'Lizenz', 2, '-', '-', '-', '-', '-', '-', 'link', '18e2a', 1, 'Public', ''),
-('1fffa', 'germany_DE', 'Startseite &amp; Eins', 1, '-', '-', '-', '-', '-', '-', 'link', 'frontpage', 1, 'Public', '');
+('c39d0', 'germany_DE', 'Navigation', 7, '-', '-', '-', '-', '-', '-', 'title', 'frontpage', 1, 'Public', ''),
+('638ac', 'germany_DE', 'Lizenz', 9, '-', '-', '-', '-', '-', '-', 'link', '18e2a', 1, 'Public', ''),
+('1fffa', 'germany_DE', 'Startseite', 8, '-', '-', '-', '-', '-', '-', 'link', 'frontpage', 1, 'Public', ''),
+('a27fc', 'germany_DE', 'G&auml;stebuch', 11, '-', '-', '-', '-', '-', '-', 'link', 'guestbook', 1, 'Public', ''),
+('e19ce', 'germany_DE', 'Kontaktformular', 12, '-', '-', '-', '-', '-', '-', 'link', 'contactform', 1, 'Public', ''),
+('b0abf', 'germany_DE', 'Menu2', 10, '-', '-', '-', '-', '-', '-', 'title', '-', 1, 'Public', '');
 
 -- --------------------------------------------------------
 
@@ -931,6 +944,19 @@ CREATE TABLE `blog_statistics` (
 -- Daten für Tabelle `blog_statistics`
 -- 
 
+INSERT INTO `blog_statistics` (`host`, `site_url`, `value`, `ip_uid`, `referrer`, `timestamp`) VALUES ('localhost', '/toendacms_svn/toendacms/', 6, 'a84573f07ee669969e4cc7b88b0f6c4b', 'http://localhost/toendacms_svn/', '2007-07-15 14:35:43'),
+('localhost', '/toendacms_svn/toendacms/index.php/section:products/template:k2/lang:de', 2, 'a0cdf664ad4b7de524521df9a378629e', 'http://localhost/toendacms_svn/toendacms/', '2007-07-14 14:50:42'),
+('localhost', '/toendacms_svn/toendacms/index.php/de/products.html', 8, '4d22a521425317f0226508b3f9812534', 'http://localhost/toendacms_svn/toendacms/index.php/de/frontpage.html', '2007-07-15 19:12:30'),
+('localhost', '/toendacms_svn/toendacms/index.php/de/contact.html', 4, 'c0e26a49eae98b0cff8342aa5902ea5b', 'http://localhost/toendacms_svn/toendacms/', '2007-07-14 14:53:25'),
+('localhost', '/toendacms_svn/toendacms/index.php/en/products.html', 1, 'a5b068f6649021a1a859e1656e9b645b', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html', '2007-07-14 21:03:37'),
+('localhost', '/toendacms_svn/toendacms/index.php/nl/products.html', 1, '8621a52928b1fb24fc5e63e6b6e90f55', 'http://localhost/toendacms_svn/toendacms/index.php/en/products.html', '2007-07-14 21:03:39'),
+('localhost', '/toendacms_svn/toendacms/index.php/de/frontpage.html', 4, '4a47ecce2e92bd4ba9cce60f11874b3b', 'http://localhost/toendacms_svn/toendacms/', '2007-07-15 19:12:27'),
+('localhost', '/toendacms_svn/toendacms/index.php/de/news.html?news=90ac2e39eb', 57, 'b9a80edb7130d2ab89a53e1b01faebcb', '', '2007-07-15 03:08:19'),
+('localhost', '/toendacms_svn/toendacms/index.php/de/engine/js/lightbox/images/closelabel.gif', 1, '2dfe93296e35b9201a4b2f9758667180', 'http://localhost/toendacms_svn/toendacms/index.php/de/news.html?news=90ac2e39eb', '2007-07-15 02:40:34'),
+('localhost', '/toendacms_svn/toendacms/index.php/de/images/closelabel.gif', 11, 'cf3ca668c92f1f76dd18feab3b22e728', 'http://localhost/toendacms_svn/toendacms/index.php/de/news.html?news=90ac2e39eb', '2007-07-15 02:40:55'),
+('localhost', '/toendacms_svn/toendacms/index.php/de/images/loading.gif', 8, 'c7cecdcd46d877fcf1f906ab4814e0b5', 'http://localhost/toendacms_svn/toendacms/index.php/de/news.html?news=90ac2e39eb', '2007-07-15 02:23:53'),
+('localhost', '/toendacms_svn/toendacms/index.php/de/engine/js/lightbox/images/loading.gif', 1, '17f658782466bbd78e35b4ce6f6547ad', 'http://localhost/toendacms_svn/toendacms/index.php/de/news.html?news=90ac2e39eb', '2007-07-15 02:25:37'),
+('localhost', '/toendacms_svn/toendacms/index.php/de/closelabel.gif', 3, '2b132273c7964b41a5601049a941cba4', 'http://localhost/toendacms_svn/toendacms/index.php/de/news.html?news=90ac2e39eb', '2007-07-15 02:43:24');
 
 -- --------------------------------------------------------
 
@@ -948,6 +974,19 @@ CREATE TABLE `blog_statistics_ip` (
 -- Daten für Tabelle `blog_statistics_ip`
 -- 
 
+INSERT INTO `blog_statistics_ip` (`uid`, `ip`, `value`) VALUES ('a84573f07ee669969e4cc7b88b0f6c4b', '127.0.0.1', 6),
+('a0cdf664ad4b7de524521df9a378629e', '127.0.0.1', 3),
+('4d22a521425317f0226508b3f9812534', '127.0.0.1', 7),
+('c0e26a49eae98b0cff8342aa5902ea5b', '127.0.0.1', 5),
+('a5b068f6649021a1a859e1656e9b645b', '127.0.0.1', 1),
+('8621a52928b1fb24fc5e63e6b6e90f55', '127.0.0.1', 1),
+('4a47ecce2e92bd4ba9cce60f11874b3b', '127.0.0.1', 7),
+('b9a80edb7130d2ab89a53e1b01faebcb', '127.0.0.1', 6),
+('cf3ca668c92f1f76dd18feab3b22e728', '127.0.0.1', 6),
+('c7cecdcd46d877fcf1f906ab4814e0b5', '127.0.0.1', 6),
+('17f658782466bbd78e35b4ce6f6547ad', '127.0.0.1', 1),
+('2dfe93296e35b9201a4b2f9758667180', '127.0.0.1', 1),
+('2b132273c7964b41a5601049a941cba4', '127.0.0.1', 6);
 
 -- --------------------------------------------------------
 
@@ -966,6 +1005,7 @@ CREATE TABLE `blog_statistics_os` (
 -- Daten für Tabelle `blog_statistics_os`
 -- 
 
+INSERT INTO `blog_statistics_os` (`uid`, `browser`, `os`, `value`) VALUES ('552d3d91be3151ca77252cebdde54c42', 'Mozilla Firefox 2.0.0.4', 'Microsoft Windows Vista', 107);
 
 -- --------------------------------------------------------
 
@@ -992,11 +1032,12 @@ CREATE TABLE `blog_topmenu` (
 INSERT INTO `blog_topmenu` (`uid`, `language`, `name`, `id`, `type`, `link`, `published`, `access`, `target`) VALUES ('1fbae', 'english_EN', 'Home', 0, 'link', 'frontpage', 1, 'Public', ''),
 ('3c6d9', 'english_EN', 'News', 1, 'link', 'newsmanager', 1, 'Public', ''),
 ('d2112', 'english_EN', 'Downloads', 2, 'link', 'download', 1, 'Public', ''),
-('706b2', 'english_EN', 'Shop', 3, 'link', 'components&item=tcmsshop', 1, 'Public', ''),
-('7e31e', 'germany_DE', 'Home', 0, 'link', 'frontpage', 1, 'Public', ''),
-('61c34', 'germany_DE', 'Neuigkeiten', 1, 'link', 'newsmanager', 1, 'Public', ''),
-('f39c7', 'germany_DE', 'Downloads', 2, 'link', 'download', 1, 'Public', ''),
-('ac64b', 'germany_DE', 'Shop', 3, 'link', 'components&item=tcmsshop', 1, 'Public', '');
+('706b2', 'english_EN', 'Gallery', 3, 'link', 'imagegallery', 1, 'Public', ''),
+('7e31e', 'germany_DE', 'Startseite', 7, 'link', 'frontpage', 1, 'Public', ''),
+('61c34', 'germany_DE', 'Neuigkeiten', 8, 'link', 'newsmanager', 1, 'Public', ''),
+('f39c7', 'germany_DE', 'Downloads', 9, 'link', 'download', 1, 'Public', ''),
+('ac64b', 'germany_DE', 'Gallery', 10, 'link', 'imagegallery', 1, 'Public', ''),
+('87f51', 'germany_DE', 'Produkte', 11, 'link', 'products', 1, 'Public', '');
 
 -- --------------------------------------------------------
 
@@ -1034,7 +1075,7 @@ CREATE TABLE `blog_user` (
 -- Daten für Tabelle `blog_user`
 -- 
 
-INSERT INTO `blog_user` (`uid`, `name`, `username`, `password`, `email`, `group`, `join_date`, `last_login`, `birthday`, `gender`, `occupation`, `homepage`, `icq`, `aim`, `yim`, `msn`, `skype`, `enabled`, `tcms_enabled`, `static_value`, `signature`, `location`, `hobby`) VALUES ('ccdc5cfffaf3cd9342e40dd9dcb3a3ff', 'Dolly', 'root', '5473e3f141e0328ce87dac9366e0aace', 'info@toenda.com', 'Administrator', '2006.01.22-22:26:44', '2007.03.04-15:18:50', '26.11.1982', '-', '', 'http://www.vandango.org', '', '', '', '', '', 1, 1, 1, '', '', ''),
+INSERT INTO `blog_user` (`uid`, `name`, `username`, `password`, `email`, `group`, `join_date`, `last_login`, `birthday`, `gender`, `occupation`, `homepage`, `icq`, `aim`, `yim`, `msn`, `skype`, `enabled`, `tcms_enabled`, `static_value`, `signature`, `location`, `hobby`) VALUES ('ccdc5cfffaf3cd9342e40dd9dcb3a3ff', 'Dolly', 'root', '5473e3f141e0328ce87dac9366e0aace', 'info@toenda.com', 'Administrator', '2006.01.22-22:26:44', '2007.07.15-14:37:53', '26.11.1982', '-', '', 'http://www.vandango.org', '', '', '', '', '', 1, 1, 1, '', '', ''),
 ('9e07ddbe2eb87663511e4716cb94eef2', 'writer', 'writer', 'a82feee3cc1af8bcabda979e8775ef0f', 'info@toenda.com', 'Writer', '2006.08.21-23:09:14', '2006.10.06-20:43:46', '01.1.', '-', '', '', '', '', '', '', '', 1, 1, 0, '', '', '');
 
 -- --------------------------------------------------------
@@ -1081,4 +1122,4 @@ CREATE TABLE `blog_userpage` (
 -- Daten für Tabelle `blog_userpage`
 -- 
 
-INSERT INTO `blog_userpage` (`uid`, `text_width`, `input_width`, `news_publish`, `image_publish`, `album_publish`, `cat_publish`, `pic_publish`) VALUES ('userpage', '150', '150', 0, 0, 0, 0, '0');
+INSERT INTO `blog_userpage` (`uid`, `text_width`, `input_width`, `news_publish`, `image_publish`, `album_publish`, `cat_publish`, `pic_publish`) VALUES ('userpage', '150', '150', 1, 1, 1, 1, '1');

@@ -9,13 +9,24 @@
 | 
 | Color chooser
 |
-| File:		color_chooser.php
-| Version:	0.0.4
+| File:	color_chooser.php
 |
 +
 */
 
 define('_TCMS_VALID', 1);
+
+
+/**
+ * Color chooser
+ *
+ * This is used as a color chooser window.
+ *
+ * @version 0.0.5
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 if(isset($_GET['id'])){ $id = $_GET['id']; }
@@ -28,9 +39,6 @@ include_once('../language/lang_admin.php');
 
 include_once ('../tcms_kernel/tcms.lib.php');
 include_once ('../tcms_kernel/tcms_html.lib.php');
-
-
-
 
 
 $arrColor[0][0] = 'ff8080';
@@ -115,7 +123,7 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www
 <head>
 <title>toendaCMS Imagebrowser | '.$sitetitle.'</title>
 <meta http-equiv="Content-Type" content="text/html; charset='.$c_charset.'" />
-<meta name="generator" content="toendaCMS - Copyright 2003 - 2006 Toenda Software Development.  All rights reserved." />
+<meta name="generator" content="toendaCMS - Copyright 2003 - 2007 Toenda Software Development.  All rights reserved." />
 <script language="JavaScript" type="text/javascript" src="../js/dhtml.js"></script>
 <link href="theme/tcms_main.css" rel="stylesheet" type="text/css" />
 </style>
@@ -127,7 +135,7 @@ echo '<div align="center" style="margin: 0 5px 0 5px;">';
 
 echo '<strong style="font-size: 15px;">'._TCMS_COLOR_CHOOSER.'</strong><br />';
 
-echo tcms_html::table_head_style('0', '2', '0', '99%', 'border: 1px solid #000;');
+echo $tcms_html->tableHeadStyle('0', '2', '0', '99%', 'border: 1px solid #000;');
 
 
 for($i = 0; $i <= 7; $i++){
@@ -145,7 +153,7 @@ for($i = 0; $i <= 7; $i++){
 }
 
 
-echo tcms_html::table_end();
+echo $tcms_html->tableEnd();
 
 echo '</div>';
 

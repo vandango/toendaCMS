@@ -20,6 +20,19 @@
 //for($i = 0; $i<5; $i++) echo md5(microtime()).'<br />';
 
 
+/**
+ * Startpage and Main file for toendaCMS
+ * 
+ * This is the global startfile and the page loading
+ * control.
+ * 
+ * @version 2.6.2
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS
+ */
+
+
 /*
 	MAIN VARIABLES
 */
@@ -42,19 +55,6 @@ if(isset($_POST['feed'])){ $feed = $_POST['feed']; }
 if(isset($_POST['page'])){ $page = $_POST['page']; }
 if(isset($_POST['lang'])){ $lang = $_POST['lang']; }
 if(isset($_POST['contact_email'])){ $contact_email = $_POST['contact_email']; }
-
-
-/**
- * Startpage and Main file for toendaCMS
- * 
- * This is the global startfile and the page loading
- * control.
- * 
- * @version 2.6.1
- * @author	Jonathan Naumann <jonathan@toenda.com>
- * @package toendaCMS
- * @subpackage toendaCMS
- */
 
 
 /*
