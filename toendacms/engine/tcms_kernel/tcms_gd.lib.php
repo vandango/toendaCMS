@@ -172,7 +172,12 @@ class tcms_gd {
 			case 'jpg':
 			case 'jpeg':
 			case 'jpe':
+				//try {
 				$img_src = @imagecreatefromjpeg($path.$image);
+				/*}
+				catch(Exception $e) {
+					echo $e->getMessage();
+				}*/
 				break;
 			
 			case 'png':

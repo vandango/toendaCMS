@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used for the products configuration
  * and the administration of all the products.
  *
- * @version 0.4.4
+ * @version 0.4.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -37,17 +37,24 @@ if(isset($_GET['check'])){ $check = $_GET['check']; }
 if(isset($_GET['article'])){ $article = $_GET['article']; }
 if(isset($_GET['rm'])){ $rm = $_GET['rm']; }
 
+// global
 if(isset($_POST['rm'])){ $rm = $_POST['rm']; }
 if(isset($_POST['create_folder'])){ $create_folder = $_POST['create_folder']; }
 if(isset($_POST['delete'])){ $delete = $_POST['delete']; }
+if(isset($_POST['lang_exist'])){ $lang_exist = $_POST['lang_exist']; }
+if(isset($_POST['content'])){ $content = $_POST['content']; }
+
+// cfg
 if(isset($_POST['new_pid'])){ $new_pid = $_POST['new_pid']; }
 if(isset($_POST['new_ptitle'])){ $new_ptitle = $_POST['new_ptitle']; }
 if(isset($_POST['new_pstamp'])){ $new_pstamp = $_POST['new_pstamp']; }
-if(isset($_POST['content'])){ $content = $_POST['content']; }
 if(isset($_POST['new_cstate'])){ $new_cstate = $_POST['new_cstate']; }
 if(isset($_POST['new_cstate'])){ $new_cstate = $_POST['new_cstate']; }
 if(isset($_POST['new_ctitle'])){ $new_ctitle = $_POST['new_ctitle']; }
 if(isset($_POST['new_usest'])){ $new_usest = $_POST['new_usest']; }
+if(isset($_POST['new_lang'])){ $new_lang = $_POST['new_lang']; }
+
+// items
 if(isset($_POST['new_date'])){ $new_date = $_POST['new_date']; }
 if(isset($_POST['new_folder'])){ $new_folder = $_POST['new_folder']; }
 if(isset($_POST['new_name'])){ $new_name = $_POST['new_name']; }
@@ -72,7 +79,6 @@ if(isset($_POST['new_weight'])){ $new_weight = $_POST['new_weight']; }
 if(isset($_POST['new_sort'])){ $new_sort = $_POST['new_sort']; }
 if(isset($_POST['tmp_image'])){ $tmp_image = $_POST['tmp_image']; }
 if(isset($_POST['old_image'])){ $old_image = $_POST['old_image']; }
-if(isset($_POST['lang_exist'])){ $lang_exist = $_POST['lang_exist']; }
 
 
 
@@ -154,10 +160,18 @@ if($todo == 'config'){
 			unset($tcms_tinyMCE);
 		}
 		
+		
+		if($tcms_main->isReal($lang))
+			$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
+		else
+			$getLang = $tcms_front_lang;
+		
+		
 		if($choosenDB == 'xml'){
 			if(file_exists('../../'.$tcms_administer_site.'/tcms_global/contactform.'.$getLang.'.xml')) {
 				$pXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/products.xml','r');
 				
+				$old_lang   = $pXML->readSection('config', 'language');
 				$old_pid    = $pXML->readSection('config', 'products_id');
 				$old_ptitle = $pXML->readSection('config', 'products_title');
 				$old_pstamp = $pXML->readSection('config', 'products_stamp');
@@ -183,24 +197,32 @@ if($todo == 'config'){
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			$sqlQR = $sqlAL->getOne($tcms_db_prefix.'products_config', 'products');
+			$strQuery = "SELECT * "
+			."FROM ".$tcms_db_prefix."products_config "
+			."WHERE language = '".$getLang."'";
+			
+			//echo $strQuery;
+			
+			$sqlQR = $sqlAL->query($strQuery);
 			$langExist = $sqlAL->getNumber($sqlQR);
 			$sqlObj = $sqlAL->fetchObject($sqlQR);
 			
+			$old_lang   = $sqlObj->language;
 			$old_pid    = $sqlObj->products_id;
 			$old_ptitle = $sqlObj->products_title;
 			$old_pstamp = $sqlObj->products_stamp;
 			$old_ptext  = $sqlObj->products_text;
-			$old_cstate = $sqlObj->produccategory_statets_text;
+			$old_cstate = $sqlObj->category_state;
 			$old_ctitle = $sqlObj->category_title;
 			$old_usest  = $sqlObj->use_category_title;
 			
 			if($old_pid    == NULL){ $old_pid    = ''; }
 			if($old_ptitle == NULL){ $old_ptitle = ''; }
 			if($old_pstamp == NULL){ $old_pstamp = ''; }
+			if($old_ptext  == NULL){ $old_ptext  = ''; }
 			if($old_cstate == NULL){ $old_cstate = ''; }
 			if($old_ctitle == NULL){ $old_ctitle = ''; }
-			if($old_usest  == NULL){ $old_usest  = ''; }
+			if($old_usest  == NULL){ $old_usest  = 0; }
 		}
 		
 		$old_ptitle = $tcms_main->decodeText($old_ptitle, '2', $c_charset);
@@ -212,23 +234,34 @@ if($todo == 'config'){
 		$old_pstamp = htmlspecialchars($old_pstamp);
 		$old_ctitle = htmlspecialchars($old_ctitle);
 		
-		$old_ptext = ereg_replace('<br />'.chr(10), chr(13), $old_ptext);
-		$old_ptext = ereg_replace('<br />'.chr(13), chr(13), $old_ptext);
-		$old_ptext = ereg_replace('<br />', chr(13), $old_ptext);
-		
-		$old_ptext = ereg_replace('<br/>'.chr(10), chr(13), $old_ptext);
-		$old_ptext = ereg_replace('<br/>'.chr(13), chr(13), $old_ptext);
-		$old_ptext = ereg_replace('<br/>', chr(13), $old_ptext);
-		
-		$old_ptext = ereg_replace('<br>'.chr(10), chr(13), $old_ptext);
-		$old_ptext = ereg_replace('<br>'.chr(13), chr(13), $old_ptext);
-		$old_ptext = ereg_replace('<br>', chr(13), $old_ptext);
-		
-		
-		if($tcms_main->isReal($lang))
-			$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
-		else
-			$getLang = $tcms_front_lang;
+		switch(trim($show_wysiwyg)){
+			case 'tinymce':
+				//$old_front_text = str_replace('src="', 'src="../../', $old_front_text);
+				$old_ptext = stripslashes($old_ptext);
+				break;
+			
+			case 'fckeditor':
+				$old_ptext = str_replace('src="', 'src="../../../../', $old_ptext);
+				$old_ptext = str_replace('src="../../../../http:', 'src="http:', $old_ptext);
+				$old_ptext = str_replace('src="../../../../https:', 'src="https:', $old_ptext);
+				$old_ptext = str_replace('src="../../../../ftp:', 'src="ftp:', $old_ptext);
+				$old_ptext = str_replace('src="../../../..//', 'src="/', $old_ptext);
+				break;
+			
+			default:
+				$old_ptext = ereg_replace('<br />'.chr(10), chr(13), $old_ptext);
+				$old_ptext = ereg_replace('<br />'.chr(13), chr(13), $old_ptext);
+				$old_ptext = ereg_replace('<br />', chr(13), $old_ptext);
+				
+				$old_ptext = ereg_replace('<br/>'.chr(10), chr(13), $old_ptext);
+				$old_ptext = ereg_replace('<br/>'.chr(13), chr(13), $old_ptext);
+				$old_ptext = ereg_replace('<br/>', chr(13), $old_ptext);
+				
+				$old_ptext = ereg_replace('<br>'.chr(10), chr(13), $old_ptext);
+				$old_ptext = ereg_replace('<br>'.chr(13), chr(13), $old_ptext);
+				$old_ptext = ereg_replace('<br>', chr(13), $old_ptext);
+				break;
+		}
 		
 		
 		if($langExist == 0) {
@@ -296,7 +329,7 @@ if($todo == 'config'){
 		
 		
 		// table rows
-		echo '<tr><td valign="top">'
+		echo '<tr><td valign="top" width="300" style="width: 300px !important;">'
 		._PRODUCTS_ID
 		.'</td><td valign="top" colspan="2">'
 		.'<input name="new_pid" readonly class="tcms_input_small tcms_bg_grey_03" value="'.$old_pid.'" />'
@@ -387,11 +420,12 @@ if($todo == 'config'){
 			.'</textarea>';
 		}
 		
-		echo '<br /></td></tr>';
+		echo '</td></tr>';
 		
 		
 		// Table end
-		echo '</table><br />';
+		echo $tcms_html->tableEnd()
+		.'<br />';
 		
 		echo '</form>';
 	}
@@ -1216,8 +1250,8 @@ if($todo == 'save_config') {
 					$sqlQR = $sqlAL->updateField(
 						$tcms_db_prefix.'products_config', 
 						$newSQLData, 
-						'products_id', 
-						'products" AND language = "'.$setLang
+						'language', 
+						$setLang
 					);
 					break;
 				
@@ -1225,8 +1259,8 @@ if($todo == 'save_config') {
 					$sqlQR = $sqlAL->updateField(
 						$tcms_db_prefix.'products_config', 
 						$newSQLData, 
-						'products_id', 
-						"products' AND language = '".$setLang
+						'language', 
+						$setLang
 					);
 					break;
 			}
@@ -1252,7 +1286,7 @@ if($todo == 'save_config') {
 					break;
 			}
 			
-			$newSQLData = "'".$new_pid."', '".$new_ptitle."', "
+			$newSQLData = "'products', '".$new_ptitle."', "
 			."'".$new_pstamp."', '".$content."', "
 			."'".$new_cstate."', '".$new_ctitle."', "
 			.$new_usest.", '".$setLang."'";

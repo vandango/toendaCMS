@@ -38,7 +38,7 @@ if(isset($_POST['lang'])){ $lang = $_POST['lang']; }
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 1.1.3
+ * @version 1.1.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend

@@ -187,6 +187,8 @@ if(file_exists($tcms_administer_site.'/tcms_global/var.xml')){
 		if(!isset($c))              { $c               = trim($arrSEO['c']);             if($c               == ''){ unset($c); } }
 		if(!isset($lang))           { $lang            = trim($arrSEO['lang']);          if($lang            == ''){ unset($lang); } }
 		
+		$seoOriginalFolder = $seoFolder;
+		
 		if($seoFolder != '') {
 			$seoFolder = '/'.$seoFolder;
 		}
@@ -196,6 +198,7 @@ if(file_exists($tcms_administer_site.'/tcms_global/var.xml')){
 	}
 	else{
 		$seoFolder = '';
+		$seoOriginalFolder = '';
 	}
 	
 	

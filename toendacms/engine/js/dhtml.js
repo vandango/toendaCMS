@@ -63,6 +63,28 @@
 
 
 // --------------------------------------
+// LIGTHBOX2 TOENDACMS PATH LOADER
+// --------------------------------------
+
+/*
+// toendaCMS path loader
+var _path;
+var _includes;
+$A(document.getElementsByTagName("script")).findAll( function(s) {
+	return (s.src && s.src.match(/scriptaculous\.js(\?.*)?$/))
+}).each( function(s) {
+  _path = s.src.replace(/scriptaculous\.js(\?.*)?$/,'');
+  _includes = s.src.match(/\?.*load=([a-z,]*)/);
+  //alert(_path + ' --- ' + _includes)
+});
+
+//alert(_path + "images/loading.gif");
+*/
+
+
+
+
+// --------------------------------------
 // SCRIPT
 // --------------------------------------
 
@@ -82,10 +104,12 @@ function addLoadEvent(func) {
 	}
 }
 
+
 function getKeyCode(event) {
    event = event || window.event;
    return event.keyCode;
 }
+
 
 function displayKeyCode(object) {
 	object.onkeydown = function(event) {
@@ -125,9 +149,12 @@ function show(id, top, left){
 	document.getElementById(id).style.top=top;
 	document.getElementById(id).style.left=left;
 }
+
+
 function show_easy(id){
 	document.getElementById(id).style.visibility='visible';
 }
+
 
 function hide(id){
 	document.getElementById(id).style.visibility='hidden';
@@ -169,25 +196,30 @@ function save(){
 	document.forms[0].submit();
 }
 
+
 function apply(){
 	gebi('draft').value = '0';
 	document.forms[0].submit();
 }
+
 
 function save_id(id){
 	//document.forms[id].submit();
 	document.getElementById(id).submit();
 }
 
+
 function accept(id){
 	document.getElementById(id).submit();
 }
+
 
 function checkinputs(){
 	sendOK = true;
 	
 	if (sendOK) { document.forms[0].submit(); }
 }
+
 
 function submitXML(id, action, newvalue){
 	document.getElementById(action).value = newvalue;
@@ -309,6 +341,7 @@ function helpWindow(path){
 	}
 }
 
+
 /*
 	open a window
 */
@@ -337,8 +370,12 @@ function openWindow(file, title, width, height, scroll, resize){
 // --------------------------------------
 
 function setImageNL(img, id, script, url){
-	if(script == 'toendaScript') var commandValue = '{img#' + url + 'data/images/Image/' + img + '#border=0#}';
-	else var commandValue = '<img title="' + img + '" alt="' + img + '" src="' + url + 'data/images/Image/' + img + '" border="0" />';
+	if(script == 'toendaScript') {
+		var commandValue = '{img#' + url + 'data/images/Image/' + img + '#border=0#}';
+	}
+	else {
+		var commandValue = '<img title="' + img + '" alt="' + img + '" src="' + url + 'data/images/Image/' + img + '" border="0" />';
+	}
 	
 	var input = window.opener.document.getElementById(id);
 	
@@ -402,9 +439,14 @@ function setImageNL(img, id, script, url){
 	self.close();
 }
 
+
 function setImage(img, id, script){
-	if(script == 'toendaScript') var commandValue = '{img#data/images/Image/' + img + '#border=0#}';
-	else var commandValue = '<img title="' + img + '" alt="' + img + '" src="data/images/Image/' + img + '" border="0" />';
+	if(script == 'toendaScript') {
+		var commandValue = '{img#data/images/Image/' + img + '#border=0#}';
+	}
+	else {
+		var commandValue = '<img title="' + img + '" alt="' + img + '" src="data/images/Image/' + img + '" border="0" />';
+	}
 	
 	var input = window.opener.document.getElementById(id);
 	
@@ -467,6 +509,7 @@ function setImage(img, id, script){
 	
 	self.close();
 }
+
 
 function setLink(link, title, id, script){
 	if(title == '') title = link;
@@ -542,12 +585,14 @@ function setLink(link, title, id, script){
 	self.close();
 }
 
+
 function setNewsImage(img, id, id2){
 	window.opener.document.getElementById(id).src = '../../data/images/Image/' + img;
 	window.opener.document.getElementById(id).style.visibility='visible';
 	window.opener.document.getElementById(id2).value = img;
 	self.close();
 }
+
 
 function setFAQImage(img, id, id2){
 	window.opener.document.getElementById(id).src = '../../data/images/knowledgebase/' + img;
@@ -556,10 +601,12 @@ function setFAQImage(img, id, id2){
 	self.close();
 }
 
+
 function setColor(id, color){
 	window.opener.document.getElementById(id).value = color;
 	self.close();
 }
+
 
 function deleteMediafile(session, action, image, message){
 	if(confirm(message))

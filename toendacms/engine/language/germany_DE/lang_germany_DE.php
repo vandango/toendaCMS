@@ -297,6 +297,7 @@ define('_TABLE_DELBUTTON', 'Entfernen');
 define('_TABLE_SETTINGSBUTTON', 'Einstellungen');
 define('_TABLE_ADMINBUTTON', 'Verwalten');
 define('_TABLE_ACCEPTBUTTON', '&Uuml;bernehmen');
+define('_TABLE_THUMBNAIL', 'Thumbnail');
 define('_TABLE_GOUPBUTTON', 'Aufw&auml;rts');
 define('_TABLE_ACCESS', 'Zugriffsberechtigung');
 define('_TABLE_MACCESS', 'Zugang');
