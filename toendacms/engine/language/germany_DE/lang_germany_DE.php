@@ -255,6 +255,7 @@ define('_TABLE_PARENTITEM', 'Eltern Element');
 define('_TABLE_MENUINFO', 'Sie k&ouml;nnen nur im Seitenmenu ein Submenu erstellen.');
 define('_TABLE_AUTOR', 'Autor');
 define('_TABLE_CATEGORY', 'Kategorie');
+define('_TABLE_PRODUCT', 'Produkt');
 define('_TABLE_FILE', 'Datei');
 define('_TABLE_FILE_EXISTS', 'Wenn Sie die Datei schon hochgeladen haben, geben Sie bitte den genauen Dateinamen an. Bedenken Sie vor dem hochladen, das Sie einen Ordner pro Datei erstellen mit dem Namen der Datei, ohne Erweiterungen wie z.B. zip oder exe. Ersetzten Sie dabei vorhandene Leerzeichen mit einem Unterstrich (_). Dieser Odner wird benutzt.');
 define('_TABLE_FILE_OTHERURL', 'Wenn die Datei auf einem anderem Server liegt, geben Sie bitte hier die genaue Adresse an und die Dateibezeichnung (daraus wird dann ein Ordner erstellt).');
@@ -273,6 +274,7 @@ define('_TABLE_FRONTENDFILE', 'Webseitendatei');
 define('_TABLE_SIDEBARFILE', 'Seitenleistendatei');
 define('_TABLE_SETTINGSFILE', 'Einstellungsdatei');
 define('_TABLE_IMAGE', 'Bild');
+define('_TABLE_IMAGES', 'Bilder');
 define('_TABLE_USE', 'Benutzen');
 define('_TABLE_DELETE', 'L&ouml;schen');
 define('_TABLE_DESCRIPTION', 'Beschreibung');
@@ -288,7 +290,7 @@ define('_TABLE_FACTORY', 'Hersteller');
 define('_TABLE_URL', 'Internetadresse');
 define('_TABLE_STOCK', 'Auf Lager');
 define('_TABLE_PRICE', 'Preis');
-define('_TABLE_TAX', 'mit Mwst.');
+define('_TABLE_TAX', 'Mehrwertsteuersatz');
 define('_TABLE_QUANTITY', 'Menge');
 define('_TABLE_WEIGHT', 'Gewicht');
 define('_TABLE_SAVEBUTTON', 'Speichern');
@@ -357,6 +359,7 @@ define('_TABLE_SORT_DESC', 'Absteigende Sortierung');
 define('_TABLE_SORT_ASC', 'Aufsteigende Sortierung');
 define('_TABLE_VIEW', 'Ansicht');
 define('_TABLE_FRONTPAGE', 'Startseite');
+define('_TABLE_SHOWONMAINPAGE', 'Auf Hauptseite anzeigen');
 
 
 // MESSAGES

@@ -9,8 +9,7 @@
 | 
 | Download Manager
 |
-| File:		mod_download.php
-| Version:	0.7.2
+| File:	mod_download.php
 |
 +
 */
@@ -19,6 +18,17 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * Download Manager
+ *
+ * This module is used for the download configuration
+ * and the administration of all the downloads.
+ *
+ * @version 0.7.3
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 if(isset($_GET['category'])){ $category = $_GET['category']; }
@@ -57,9 +67,9 @@ if(isset($_POST['fileplace'])){ $fileplace= $_POST['fileplace']; }
 
 
 
-//=====================================================
+// ----------------------------------------------------
 // INIT
-//=====================================================
+// ----------------------------------------------------
 
 echo '<script language="JavaScript" src="../js/jscalendar/calendar.js"></script>';
 echo '<script language="Javascript" src="../js/jscalendar/lang/calendar-en.js"></script>';
@@ -73,34 +83,35 @@ $arr_farbe[0] = $arr_color[0];
 $arr_farbe[1] = $arr_color[1];
 $bgkey     = 0;
 
-$arr_downfiles = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/files/');
+$arr_downfiles = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/files/');
 
 
 
 
 $param_save_mode = 'off';
 if($param_save_mode == 'off'){
-	if($id_group == 'Developer' || $id_group == 'Administrator'){
-		//=====================================================
+	if($id_group == 'Developer' 
+	|| $id_group == 'Administrator'){
+		// ----------------------------------------------------
 		// CONFIG
-		//=====================================================
+		// ----------------------------------------------------
 		
 		if($todo == 'config'){
 			if($choosenDB == 'xml'){
 				$down_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/download.xml','r');
-				$old_download_id    = $down_xml->read_section('config', 'download_id');
-				$old_download_title = $down_xml->read_section('config', 'download_title');
-				$old_download_stamp = $down_xml->read_section('config', 'download_stamp');
-				$old_download_text  = $down_xml->read_section('config', 'download_text');
+				$old_download_id    = $down_xml->readSection('config', 'download_id');
+				$old_download_title = $down_xml->readSection('config', 'download_title');
+				$old_download_stamp = $down_xml->readSection('config', 'download_stamp');
+				$old_download_text  = $down_xml->readSection('config', 'download_text');
 				$down_xml->flush();
 				$down_xml->_xmlparser();
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
-				$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'downloads_config', 'download');
-				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+				$sqlQR = $sqlAL->getOne($tcms_db_prefix.'downloads_config', 'download');
+				$sqlARR = $sqlAL->fetchArray($sqlQR);
 				
 				$old_download_id    = $sqlARR['download_id'];
 				$old_download_title = $sqlARR['download_title'];
@@ -194,10 +205,10 @@ if($param_save_mode == 'off'){
 					if($category != ''){
 						$xml = new xmlparser('../../'.$tcms_administer_site.'/files/'.$category.'/info.xml', 'r');
 						
-						//$access_cat = $down_xml->read_section('faq', 'access');
+						//$access_cat = $down_xml->readSection('faq', 'access');
 						
-						$arrDownParent['type'][$count] = $xml->read_section('info', 'sql_type');
-						$arrDownParent['pub'][$count]  = $xml->read_section('info', 'pub');
+						$arrDownParent['type'][$count] = $xml->readSection('info', 'sql_type');
+						$arrDownParent['pub'][$count]  = $xml->readSection('info', 'pub');
 					}
 					else{
 						$arrDownParent['type'][$count] = 'd';
@@ -206,14 +217,14 @@ if($param_save_mode == 'off'){
 					
 					if($arrDownParent['type'][$count] == 'd' && $arrDownParent['pub'][$count] == '1'){
 						if($category != ''){
-							$arrDownParent['title'][$count]  = $xml->read_section('info', 'name');
-							$arrDownParent['parent'][$count] = $xml->read_section('info', 'parent');
+							$arrDownParent['title'][$count]  = $xml->readSection('info', 'name');
+							$arrDownParent['parent'][$count] = $xml->readSection('info', 'parent');
 							$arrDownParent['uid'][$count]    = substr($category, 0, 10);
 							
 							// CHARSETS
 							$arrDownParent['title'][$count] = $tcms_main->decodeText($arrDownParent['title'][$count], '2', $c_charset);
 							
-							$checkCat = $xml->read_section('info', 'cat');
+							$checkCat = $xml->readSection('info', 'cat');
 							
 							$xml->flush();
 							$xml->_xmlparser();
@@ -231,13 +242,13 @@ if($param_save_mode == 'off'){
 						while($checkCat != ''){
 							$xml = new xmlparser('../../'.$tcms_administer_site.'/files/'.$arrDownParent['parent'][$count - 1].'/info.xml', 'r');
 							
-							$checkCat = $xml->read_section('info', 'cat');
-							$arrDownParent['type'][$count]   = $xml->read_section('info', 'sql_type');
-							$arrDownParent['pub'][$count]    = $xml->read_section('info', 'pub');
+							$checkCat = $xml->readSection('info', 'cat');
+							$arrDownParent['type'][$count]   = $xml->readSection('info', 'sql_type');
+							$arrDownParent['pub'][$count]    = $xml->readSection('info', 'pub');
 							
 							if($arrDownParent['type'][$count] == 'd' && $arrDownParent['pub'][$count] == '1'){
-								$arrDownParent['title'][$count]  = $xml->read_section('info', 'name');
-								$arrDownParent['parent'][$count] = $xml->read_section('info', 'parent');
+								$arrDownParent['title'][$count]  = $xml->readSection('info', 'name');
+								$arrDownParent['parent'][$count] = $xml->readSection('info', 'parent');
 								$arrDownParent['uid'][$count]    = substr($arrDownParent['parent'][$count - 1], 0, 10);
 								
 								$xml->flush();
@@ -284,7 +295,7 @@ if($param_save_mode == 'off'){
 					$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
 					
 					while($sqlNR > 0){
-						$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+						$sqlARR = $sqlAL->fetchArray($sqlQR);
 						
 						unset($sqlQR);
 						
@@ -348,12 +359,12 @@ if($param_save_mode == 'off'){
 					foreach($arr_downfiles as $key => $value){
 						if($value != 'index.html'){
 							$xml      = new xmlparser('../../'.$tcms_administer_site.'/files/'.$value.'/info.xml','r');
-							$checkPub = $xml->read_section('info', 'pub');
+							$checkPub = $xml->readSection('info', 'pub');
 							
 							
 							// show pub
 							if($checkPub == 1){
-								$checkCat = $xml->read_section('info', 'cat');
+								$checkCat = $xml->readSection('info', 'cat');
 								
 								
 								/*
@@ -375,7 +386,7 @@ if($param_save_mode == 'off'){
 								
 								// show cat
 								if($countThis){
-									$checkAcc = $xml->read_section('info', 'access');
+									$checkAcc = $xml->readSection('info', 'access');
 									
 									
 									/*
@@ -411,18 +422,18 @@ if($param_save_mode == 'off'){
 									// show access
 									if($showThis){
 										$arr_dw['uid'][$count]  = substr($value, 0, 10);
-										$arr_dw['name'][$count] = $xml->read_section('info', 'name');
-										$arr_dw['date'][$count] = $xml->read_section('info', 'date');
-										$arr_dw['desc'][$count] = $xml->read_section('info', 'desc');
-										$arr_dw['type'][$count] = $xml->read_section('info', 'type');
-										$arr_dw['sort'][$count] = $xml->read_section('info', 'sort');
-										$arr_dw['file'][$count] = $xml->read_section('info', 'file');
+										$arr_dw['name'][$count] = $xml->readSection('info', 'name');
+										$arr_dw['date'][$count] = $xml->readSection('info', 'date');
+										$arr_dw['desc'][$count] = $xml->readSection('info', 'desc');
+										$arr_dw['type'][$count] = $xml->readSection('info', 'type');
+										$arr_dw['sort'][$count] = $xml->readSection('info', 'sort');
+										$arr_dw['file'][$count] = $xml->readSection('info', 'file');
 										$arr_dw['pub'][$count]  = $checkPub;
 										$arr_dw['ac'][$count]   = $checkAcc;
-										$arr_dw['cat'][$count]  = $xml->read_section('info', 'cat');
-										$arr_dw['st'][$count]   = $xml->read_section('info', 'sql_type');
-										$arr_dw['img'][$count]  = $xml->read_section('info', 'image');
-										$arr_dw['mir'][$count]  = $xml->read_section('info', 'mirror');
+										$arr_dw['cat'][$count]  = $xml->readSection('info', 'cat');
+										$arr_dw['st'][$count]   = $xml->readSection('info', 'sql_type');
+										$arr_dw['img'][$count]  = $xml->readSection('info', 'image');
+										$arr_dw['mir'][$count]  = $xml->readSection('info', 'mirror');
 										
 										
 										// CHARSETS
@@ -461,8 +472,8 @@ if($param_save_mode == 'off'){
 				}
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				switch($id_group){
 					case 'Developer':
@@ -507,7 +518,7 @@ if($param_save_mode == 'off'){
 				
 				$count = 0;
 				
-				while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+				while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 					$arr_dw['uid'][$count]   = $sqlARR['uid'];
 					$arr_dw['name'][$count]  = $sqlARR['name'];
 					$arr_dw['date'][$count]  = $sqlARR['date'];
@@ -1071,8 +1082,8 @@ if($param_save_mode == 'off'){
 				$xmluser->_xmlparser();
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				$newSQLData = ''
 				.$tcms_db_prefix.'downloads_config.download_id="'.$new_download_id.'", '
@@ -1184,8 +1195,8 @@ if($param_save_mode == 'off'){
 				$xmluser->_xmlparser();
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				if($createMe){
 					switch($choosenDB){
@@ -1503,8 +1514,8 @@ if($param_save_mode == 'off'){
 					$xmluser->_xmlparser();
 				}
 				else{
-					$sqlAL = new sqlAbstractionLayer($choosenDB);
-					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					
 					if($createMe){
 						switch($choosenDB){
@@ -1573,8 +1584,8 @@ if($param_save_mode == 'off'){
 		if($todo == 'delete'){
 			if(isset($delete) && $delete == 1){
 				if($choosenDB != 'xml'){
-					$sqlAL = new sqlAbstractionLayer($choosenDB);
-					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					$sqlRes = $sqlAL->sqlDeleteOne($tcms_db_prefix.'downloads', $maintag);
 					
 					$sqlQR = $sqlAL->sqlQuery("SELECT * FROM ".$tcms_db_prefix."downloads WHERE cat='".$maintag."' AND sql_type='d'");
@@ -1583,7 +1594,7 @@ if($param_save_mode == 'off'){
 					$sqlQR2 = $sqlAL->sqlQuery("DELETE FROM ".$tcms_db_prefix."downloads WHERE cat='".$maintag."'");
 					
 					//while($sqlNR != 0){
-						while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+						while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 							$new_maintag = $sqlARR['uid'];
 							
 							if(is_dir('../../'.$tcms_administer_site.'/files/'.$maintag.'/'))
@@ -1594,7 +1605,7 @@ if($param_save_mode == 'off'){
 							//$sqlQR = $sqlAL->sqlQuery("SELECT * FROM ".$tcms_db_prefix."downloads WHERE cat='".$new_maintag."' AND sql_type='d'");
 							//$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
 							
-							//$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+							//$sqlARR = $sqlAL->fetchArray($sqlQR);
 							//$new_maintag = $sqlARR['uid'];
 						}
 					//}

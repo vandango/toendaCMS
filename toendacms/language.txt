@@ -37,6 +37,9 @@
 * ADD THIS
 *
 
+if(!defined('_TABLE_IMAGES'))                  define('_TABLE_IMAGES', 'Images');
+if(!defined('_TABLE_SHOWONMAINPAGE'))          define('_TABLE_SHOWONMAINPAGE', 'Show on mainpage');
+if(!defined('_TABLE_PRODUCT'))                 define('_TABLE_PRODUCT', 'Product');
 if(!defined('_TABLE_THUMBNAIL'))               define('_TABLE_THUMBNAIL', 'Thumbnail');
 
 *

@@ -15,6 +15,19 @@
 */
 
 
+/**
+ * Administration backend
+ *
+ * This is used as global startpage for the
+ * administraion backend.
+ *
+ * @version 1.1.4
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
+
+
 if(isset($_GET['id_user'])){ $id_user = $_GET['id_user']; }
 if(isset($_GET['site'])){ $site = $_GET['site']; }
 if(isset($_GET['todo'])){ $todo = $_GET['todo']; }
@@ -30,19 +43,6 @@ if(isset($_POST['id'])){ $id = $_POST['id']; }
 if(isset($_POST['maintag'])){ $maintag = $_POST['maintag']; }
 if(isset($_POST['action'])){ $action = $_POST['action']; }
 if(isset($_POST['lang'])){ $lang = $_POST['lang']; }
-
-
-/**
- * Administration backend
- *
- * This is used as global startpage for the
- * administraion backend.
- *
- * @version 1.1.4
- * @author	Jonathan Naumann <jonathan@toenda.com>
- * @package toendaCMS
- * @subpackage toendaCMS Backend
- */
 
 
 /*

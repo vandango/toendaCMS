@@ -28,7 +28,7 @@ Version 1.6
 Developer Version
 	- 1.6.0 Development
 
-Building Steps: 2935
+Building Steps: 2950
 
 
 
@@ -41,7 +41,8 @@ Building Steps: 2935
 
  - bug fixed: 
 
- - changed: 
+ - changed: Complete rewrite of the product manager as a base for the upcoming
+            toendaCMS shop system.
 
  - added: New SEO format available: instead of using the old url format
           [www.domain.com/index.php?id=frontpage&lang=en]
@@ -52,7 +53,7 @@ Building Steps: 2935
  - added: Mediabrowser for the texteditor has now a button to add a
           thumbnail of a image into the text. The images includes a link
           with a javascript window.
- - added: Lightbox (including script.aculo.us) for the images from the
+ - added: Lightbox (including script.aculo.us 1.5.1) for the images from the
           mediabrowser.
 
 

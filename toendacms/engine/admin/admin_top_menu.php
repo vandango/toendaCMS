@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used as top menu.
  *
- * @version 1.0.0
+ * @version 1.0.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -122,8 +122,8 @@ $position_help = 509;
 				<? } ?>
 					['<img src="../images/cart.png" />','<? echo _TCMS_MENU_PRODUCTS; ?>', null, '_self', null, 
 						['<img src="../images/cart.png" />','<? echo _TCMS_ADMIN_LIST; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_products','_self',null], 
-						['<img src="../images/db_cat_add.png" />','<? echo _TCMS_ADMIN_NEW_CATEGORY; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_products&todo=create','_self',null], 
-						['<img src="../images/cart_add.png" />','<? echo _TCMS_ADMIN_NEW_ITEM; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_products&todo=edit','_self',null], 
+						['<img src="../images/db_cat_add.png" />','<? echo _TCMS_ADMIN_NEW_CATEGORY; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_products&todo=edit&type=c','_self',null], 
+						['<img src="../images/cart_add.png" />','<? echo _TCMS_ADMIN_NEW_ITEM; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_products&todo=edit&type=a','_self',null], 
 						['<img src="../images/config.png" />','<? echo _TCMS_ADMIN_CONFIG; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_products&todo=config','_self',null]
 					], 
 					['<img src="../images/image.png" />','<? echo _TCMS_MENU_GALLERY; ?>', null, '_self', null,
@@ -320,8 +320,8 @@ $position_help = 509;
 				<? } ?>
 					['<img src="../images/cart.png" />','<? echo _TCMS_MENU_PRODUCTS; ?>', null, '_self', null, 
 						['<img src="../images/cart.png" />','<? echo _TCMS_ADMIN_LIST; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_products','_self',null], 
-						['<img src="../images/db_cat_add.png" />','<? echo _TCMS_ADMIN_NEW_CATEGORY; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_products&todo=create','_self',null], 
-						['<img src="../images/cart_add.png" />','<? echo _TCMS_ADMIN_NEW_ITEM; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_products&todo=edit','_self',null]
+						['<img src="../images/db_cat_add.png" />','<? echo _TCMS_ADMIN_NEW_CATEGORY; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_products&todo=edit&type=c', '_self', null], 
+						['<img src="../images/cart_add.png" />','<? echo _TCMS_ADMIN_NEW_ITEM; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_products&todo=edit&type=a', '_self', null]
 					], 
 					['<img src="../images/image.png" />','<? echo _TCMS_MENU_GALLERY; ?>', null, '_self', null,
 						['<img src="../images/image.png" />','<? echo _TCMS_ADMIN_LIST; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_gallery','_self',null], 

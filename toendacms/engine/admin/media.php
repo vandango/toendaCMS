@@ -15,6 +15,19 @@
 */
 
 
+/**
+ * Mediabrowser for WYSIWYG Editor
+ *
+ * This is used as global startpage for the
+ * administraion backend.
+ *
+ * @version 0.5.0
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
+
+
 if(isset($_GET['v'])){ $v = $_GET['v']; }
 if(isset($_GET['n'])){ $n = $_GET['n']; }
 if(isset($_GET['faq'])){ $faq = $_GET['faq']; }
@@ -31,22 +44,9 @@ if(isset($_POST['id_user'])){ $id_user = $_POST['id_user']; }
 if(isset($_POST['folder'])){ $folder = $_POST['folder']; }
 
 
-/**
- * Mediabrowser for WYSIWYG Editor
- *
- * This is used as global startpage for the
- * administraion backend.
- *
- * @version 0.5.0
- * @author	Jonathan Naumann <jonathan@toenda.com>
- * @package toendaCMS
- * @subpackage toendaCMS Backend
- */
-
-
-//===================================================================================
+// ---------------------------------------------
 // INIT
-//===================================================================================
+// ---------------------------------------------
 
 define('_TCMS_VALID', 1);
 

@@ -160,7 +160,7 @@ if($todo == 'config'){
 		//*********************************************************************************
 		// MEDIACENTER CONFIG
 		
-		$arr_media = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/images/Image');
+		$arr_media = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/images/Image');
 		
 		
 		
@@ -174,7 +174,9 @@ if($todo == 'config'){
 		
 		
 		// table row
-		echo '<tr class="tcms_bg_blue_01"><td colspan="2" class="tcms_db_title tcms_padding_mini"><strong>'._FAQ_CFG_TITLE.'</strong></td></tr>';
+		echo '<tr class="tcms_bg_blue_01"><td colspan="2" class="tcms_db_title tcms_padding_mini">'
+		.'<strong>'._FAQ_CFG_TITLE.'</strong>'
+		.'</td></tr>';
 		
 		
 		// table rows
@@ -407,7 +409,7 @@ if($todo == 'show'){
 	$arrFAQ = '';
 	
 	if($choosenDB == 'xml'){
-		$arr_filename = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_knowledgebase/');
+		$arr_filename = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/tcms_knowledgebase/');
 		
 		$count = 0;
 		
@@ -684,7 +686,7 @@ if($todo == 'show'){
 //=====================================================
 
 if($todo == 'edit'){
-	if(isset($maintag) && !empty($maintag) && $maintag != ''){
+	if($tcms_main->isReal($maintag)){
 		if($choosenDB == 'xml'){
 			$menu_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$maintag.'.xml','r');
 			$arrFAQ_title   = $menu_xml->read_section('faq', 'title');

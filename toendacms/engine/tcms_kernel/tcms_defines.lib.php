@@ -421,7 +421,6 @@ $strMetaData .= '
 <script type="text/javascript" src="'.$imagePath.'engine/js/lightbox2/prototype.js"></script>
 <script type="text/javascript" src="'.$imagePath.'engine/js/lightbox2/scriptaculous.js?load=effects"></script>
 <script type="text/javascript" src="'.$imagePath.'engine/js/lightbox2/lightbox.js"></script>
-<!--?tcmsPath='.$seoOriginalFolder.'-->
 <link rel="stylesheet" href="'.$imagePath.'engine/js/lightbox2/css/lightbox.css" type="text/css" media="screen" />
 
 '.( $wysiwygEditor == 'fckeditor' ? '<link rel="stylesheet" href="'.$imagePath.'engine/styles/tcms_fckeditor.css" />' : '' ).'

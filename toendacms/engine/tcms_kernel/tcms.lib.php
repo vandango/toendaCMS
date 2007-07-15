@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.1.2
+ * @version 2.1.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -63,6 +63,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getDirectorySize                  -> Get the complete filesize of a directory
  * getDirectorySizeString            -> Get the complete filesize of a directory as a string
  * getNewUID                         -> Get a new guid
+ * getAmountOfItems                  -> Get the amount of items from a table.
  * getMimeType                       -> Get the mimetype of a filename
  * getPHPSetting                     -> Get a PHP setting
  * getLanguageNameByTCMSLanguageCode -> Get the name of a language by it's TCMS language code
@@ -637,6 +638,46 @@ class tcms_main {
 		}
 		
 		return $uid;
+	}
+	
+	
+	
+	/**
+	 * Get the amount of items from a table.
+	 * [$table] can be a path.
+	 *
+	 * @param String $table
+	 * @param String $countField = 'uid'
+	 * @param String $categoryField = 'category'
+	 * @param String $category = ''
+	 * @return String
+	 */
+	function getAmountOfItems($table, $countField = 'uid', $categoryField = 'category', $category = ''){
+		if($this->db_choosenDB == 'xml') {
+			return $this->getPathContentAmount($table);
+		}
+		else {
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
+			
+			$sql = "SELECT COUNT(".$countField.") AS amount "
+			."FROM ".$this->db_prefix.$table." ";
+			
+			if(trim($category) != '') {
+				$sql .= "WHERE ".$field." = '".$category."'";
+			}
+			
+			$sqlQR = $sqlAL->query($sql);
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
+			
+			return $sqlObj->amount;
+		}
 	}
 	
 	
