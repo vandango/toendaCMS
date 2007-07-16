@@ -316,11 +316,23 @@ a.index:hover { text-decoration: underline; }
 
 
 /* table title */
-.titleBG{ font-size: 14px; border-bottom: 2px #9bb2b9 solid; padding-left: 4px; margin: 0px; }
-tr.titleBG{ font-size: 14px; border-bottom: 2px #9bb2b9 solid; padding-left: 4px; margin: 0px; }
-td.titleBG{ font-size: 14px; border-bottom: 2px #9bb2b9 solid; padding-left: 4px; margin: 0px; }
-th.titleBG{ font-size: 14px; border-bottom: 2px #9bb2b9 solid; padding-left: 4px; margin: 0px; }
-.download_top{ font-size: 14px;	border-bottom: 2px #9bb2b9 solid; padding-left: 4px; margin: 0px; text-align: left; }
+.titleBG, 
+tr.titleBG, 
+td.titleBG, 
+th.titleBG {
+	font-size: 14px;
+	border-bottom: 1px #9bb2b9 solid;
+	padding-left: 4px;
+	margin: 0px;
+}
+
+.download_top {
+	font-size: 14px;
+	border-bottom: 1px #9bb2b9 solid;
+	padding-left: 4px;
+	margin: 0px;
+	text-align: left;
+}
 
 
 /* misc */
@@ -485,10 +497,37 @@ a.tcms_more:hover {
 
 
 /* ToendaSHOP */
-td.products_top{ border-bottom: 2px #9bb2b9 solid; font-size: 14px; padding-left: 4px; margin: 0px; text-align: left; }
-a.products_top, a.products_top:link, a.products_top:visited, a.products_top:active { color: #23598C; font-size: 14px; text-decoration: none; }
-a.products_top:hover { color: #000000; }
-.products_onetop{ padding-left: 4px; margin: 0px; text-align: left; }
+.products_text {
+	text-align: left !important;
+}
+
+td.products_top {
+	border-bottom: 2px #9bb2b9 solid;
+	font-size: 14px;
+	padding-left: 4px;
+	margin: 0px;
+	text-align: left;
+}
+
+a.products_top, 
+a.products_top:link, 
+a.products_top:visited, 
+a.products_top:active {
+	color: #23598C; 
+	font-size: 14px; 
+	text-decoration: none;
+}
+
+a.products_top:hover {
+	color: #000000;
+	text-decoration: underline;
+}
+
+.products_onetop {
+	padding-left: 4px;
+	margin: 0px;
+	text-align: left;
+}
 
 
 /* login */

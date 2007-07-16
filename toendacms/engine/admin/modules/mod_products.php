@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used for the products configuration
  * and the administration of all the products.
  *
- * @version 0.6.0
+ * @version 0.6.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -50,6 +50,8 @@ if(isset($_POST['new_cstate'])){ $new_cstate = $_POST['new_cstate']; }
 if(isset($_POST['new_ctitle'])){ $new_ctitle = $_POST['new_ctitle']; }
 if(isset($_POST['new_usest'])){ $new_usest = $_POST['new_usest']; }
 if(isset($_POST['new_lang'])){ $new_lang = $_POST['new_lang']; }
+if(isset($_POST['new_spou'])){ $new_spou = $_POST['new_spou']; }
+if(isset($_POST['new_spt'])){ $new_spt = $_POST['new_spt']; }
 
 // items
 if(isset($_POST['new_name'])){ $new_name = $_POST['new_name']; }
@@ -130,16 +132,6 @@ $bgkey     = 0;
 if($todo == 'config'){
 	if($id_group == 'Developer' 
 	|| $id_group == 'Administrator'){
-		if($show_wysiwyg == 'tinymce'){
-			include('../tcms_kernel/tcms_tinyMCE.lib.php');
-			
-			$tcms_tinyMCE = new tcms_tinyMCE($tcms_path, $seoEnabled);
-			$tcms_tinyMCE->initTinyMCE();
-			
-			unset($tcms_tinyMCE);
-		}
-		
-		
 		if($tcms_main->isReal($lang))
 			$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
 		else
@@ -158,13 +150,17 @@ if($todo == 'config'){
 				$old_cstate = $pXML->readSection('config', 'category_state');
 				$old_ctitle = $pXML->readSection('config', 'category_title');
 				$old_usest  = $pXML->readSection('config', 'use_category_title');
+				$old_spou   = $pXML->readSection('config', 'show_price_only_users');
+				$old_spt    = $pXML->readSection('config', 'startpagetitle');
 				
 				if(!$old_pid)   { $old_pid    = ''; }
 				if(!$old_ptitle){ $old_ptitle = ''; }
 				if(!$old_pstamp){ $old_pstamp = ''; }
 				if(!$old_cstate){ $old_cstate = ''; }
 				if(!$old_ctitle){ $old_ctitle = ''; }
-				if(!$old_usest) { $old_usest  = ''; }
+				//if(!$old_usest) { $old_usest  = ''; }
+				//if(!$old_spou)  { $old_spou   = ''; }
+				if(!$old_spt)   { $old_spt    = ''; }
 				
 				$langExist = 1;
 			}
@@ -194,6 +190,8 @@ if($todo == 'config'){
 			$old_cstate = $sqlObj->category_state;
 			$old_ctitle = $sqlObj->category_title;
 			$old_usest  = $sqlObj->use_category_title;
+			$old_spou   = $sqlObj->show_price_only_users;
+			$old_spt    = $sqlObj->startpagetitle;
 			
 			if($old_pid    == NULL){ $old_pid    = ''; }
 			if($old_ptitle == NULL){ $old_ptitle = ''; }
@@ -202,16 +200,20 @@ if($todo == 'config'){
 			if($old_cstate == NULL){ $old_cstate = ''; }
 			if($old_ctitle == NULL){ $old_ctitle = ''; }
 			if($old_usest  == NULL){ $old_usest  = 0; }
+			if($old_spou   == NULL){ $old_spou   = 0; }
+			if($old_spt    == NULL){ $old_spt    = ''; }
 		}
 		
 		$old_ptitle = $tcms_main->decodeText($old_ptitle, '2', $c_charset);
 		$old_pstamp = $tcms_main->decodeText($old_pstamp, '2', $c_charset);
 		$old_ptext  = $tcms_main->decodeText($old_ptext, '2', $c_charset);
 		$old_ctitle = $tcms_main->decodeText($old_ctitle, '2', $c_charset);
+		$old_spt    = $tcms_main->decodeText($old_spt, '2', $c_charset);
 		
 		$old_ptitle = htmlspecialchars($old_ptitle);
 		$old_pstamp = htmlspecialchars($old_pstamp);
 		$old_ctitle = htmlspecialchars($old_ctitle);
+		$old_spt    = htmlspecialchars($old_spt);
 		
 		switch(trim($show_wysiwyg)){
 			case 'tinymce':
@@ -308,33 +310,41 @@ if($todo == 'config'){
 		
 		
 		// table rows
-		echo '<tr><td valign="top" width="300" style="width: 300px !important;">'
+		echo '<tr><td valign="middle" width="300" style="width: 300px !important;">'
 		._PRODUCTS_ID
-		.'</td><td valign="top" colspan="2">'
+		.'</td><td valign="middle" colspan="2">'
 		.'<input name="new_pid" readonly class="tcms_input_small tcms_bg_grey_03" value="'.$old_pid.'" />'
 		.'</td></tr>';
 		
 		
 		// table rows
-		echo '<tr><td valign="top">'
+		echo '<tr><td valign="middle">'
 		._PRODUCTS_SITETITLE
-		.'</td><td valign="top" colspan="2">'
+		.'</td><td valign="middle" colspan="2">'
 		.'<input name="new_ptitle" class="tcms_input_normal" value="'.$old_ptitle.'" />'
 		.'</td></tr>';
 		
 		
 		// table rows
-		echo '<tr><td valign="top">'
+		echo '<tr><td valign="middle">'
 		._PRODUCTS_SITESUBTITLE
-		.'</td><td valign="top" colspan="2">'
+		.'</td><td valign="middle" colspan="2">'
 		.'<input name="new_pstamp" class="tcms_input_normal" value="'.$old_pstamp.'" />'
 		.'</td></tr>';
 		
 		
 		// table rows
-		echo '<tr><td valign="top">'
+		echo '<tr><td valign="middle">'
+		._PRODUCTS_STARTPAGETITLE
+		.'</td><td valign="middle" colspan="2">'
+		.'<input name="new_spt" class="tcms_input_normal" value="'.$old_spt.'" />'
+		.'</td></tr>';
+		
+		
+		// table rows
+		echo '<tr><td valign="middle">'
 		._PRODUCTS_MAINCATEGORY
-		.'</td><td valign="top" colspan="2">'
+		.'</td><td valign="middle" colspan="2">'
 		.'<select name="new_cstate">';
 		
 		foreach($arr_dwcc['name'] as $pkey => $pval){
@@ -346,15 +356,15 @@ if($todo == 'config'){
 		
 		
 		// table rows
-		echo '<tr><td valign="top">'
+		echo '<tr><td valign="middle">'
 		._PRODUCTS_CATEGORY_TITLE
-		.'</td><td valign="top" colspan="2">'
+		.'</td><td valign="middle" colspan="2">'
 		.'<input name="new_ctitle" class="tcms_input_normal" value="'.$old_ctitle.'" />'
 		.'</td></tr>';
 		
 		
 		// table rows
-		echo '<tr><td width="250">'
+		echo '<tr><td valign="middle">'
 		._PRODUCTS_USE_CATEGORY_TITLE
 		.'</td><td>'
 		.'<input type="checkbox" name="new_usest" '.( $old_usest == 1 ? 'checked' : '' ).' value="1" />'
@@ -362,7 +372,15 @@ if($todo == 'config'){
 		
 		
 		// table rows
-		echo '<tr><td valign="top" colspan="2">'
+		echo '<tr><td valign="middle">'
+		._PRODUCTS_SHOW_PRICE_ONLY_USERS
+		.'</td><td>'
+		.'<input type="checkbox" name="new_spou" '.( $old_spou == 1 ? 'checked' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		// table rows
+		echo '<tr><td valign="middle" colspan="2">'
 		.'<br />'._TABLE_TEXT
 		.( $show_wysiwyg != 'fckeditor' ? '<br /><br />'
 		.'<script>'
@@ -569,7 +587,7 @@ if($todo == 'show'){
 		foreach($arr_pro['sort'] as $key => $value){
 			$bgkey++;
 			
-			if(is_integer($bgkey/2)) { $ws_color = $arr_color[0]; }
+			if(is_integer($bgkey / 2)) { $ws_color = $arr_color[0]; }
 			else { $ws_color = $arr_color[1]; }
 			
 			
@@ -1370,6 +1388,8 @@ if($todo == 'save_config') {
 	if(empty($new_cstate)){ $new_cstate = $old_cstate; }
 	if(empty($new_ctitle)){ $new_ctitle = ''; }
 	if(empty($new_usest)) { $new_usest  = 0; }
+	if(empty($new_spou))  { $new_spou   = 0; }
+	if(empty($new_spt))   { $new_spt    = ''; }
 	
 	
 	$content = str_replace('src="../../../../http:', 'src="http:', $content);
@@ -1418,6 +1438,8 @@ if($todo == 'save_config') {
 		$xmluser->write_value('category_title', $new_ctitle);
 		$xmluser->write_value('use_category_title', $new_usest);
 		$xmluser->write_value('language', $new_lang);
+		$xmluser->write_value('show_price_only_users', $new_spou);
+		$xmluser->write_value('startpagetitle', $new_spt);
 		
 		$xmluser->xml_section_buffer();
 		$xmluser->xml_section_end('config');
@@ -1435,7 +1457,9 @@ if($todo == 'save_config') {
 			.$tcms_db_prefix.'products_config.products_text="'.$content.'", '
 			.$tcms_db_prefix.'products_config.category_state="'.$new_cstate.'", '
 			.$tcms_db_prefix.'products_config.category_title="'.$new_ctitle.'", '
-			.$tcms_db_prefix.'products_config.use_category_title='.$new_usest;
+			.$tcms_db_prefix.'products_config.use_category_title='.$new_usest.', '
+			.$tcms_db_prefix.'products_config.show_price_only_users='.$new_spou.', '
+			.$tcms_db_prefix.'products_config.startpagetitle="'.$new_spt.'"';
 			
 			switch($choosenDB) {
 				case 'mysql':
@@ -1462,26 +1486,29 @@ if($todo == 'save_config') {
 				case 'mysql':
 					$newSQLColumns = '`products_id`, `products_title`, '
 					.'`products_stamp`, `products_text`, `category_state`, '
-					.'`category_title`, `use_category_title`, `language`';
+					.'`category_title`, `use_category_title`, `language`, '
+					.'`show_price_only_users`, `startpagetitle`';
 					break;
 				
 				case 'pgsql':
 					$newSQLColumns = 'products_id, products_title, '
 					.'products_stamp, products_text, "category_state", '
-					.'category_title, use_category_title, "language"';
+					.'category_title, use_category_title, "language", '
+					.'show_price_only_users, startpagetitle';
 					break;
 				
 				case 'mssql':
 					$newSQLColumns = '[products_id], [products_title], '
 					.'[products_stamp], [products_text], [category_state], '
-					.'[category_title], [use_category_title], [language]';
+					.'[category_title], [use_category_title], [language], '
+					.'[show_price_only_users], [startpagetitle]';
 					break;
 			}
 			
 			$newSQLData = "'products', '".$new_ptitle."', "
 			."'".$new_pstamp."', '".$content."', "
 			."'".$new_cstate."', '".$new_ctitle."', "
-			.$new_usest.", '".$setLang."'";
+			.$new_usest.", '".$setLang."', ".$new_spou.", '".$new_spt."'";
 			
 			$maintag = $tcms_main->getNewUID(8, 'products_config');
 			

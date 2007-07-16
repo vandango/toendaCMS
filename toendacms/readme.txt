@@ -302,6 +302,7 @@ Search
 
 Products
 ------------------------------------
+.products_text      - toendaShop text layout
 .products_top		- toendaSHOP layout classes
 a.products_top		- toendaSHOP layout classes for links
 

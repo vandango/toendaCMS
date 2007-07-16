@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 15. Juli 2007 um 19:14
+-- Erstellungszeit: 16. Juli 2007 um 02:04
 -- Server Version: 5.0.33
 -- PHP-Version: 5.2.1
 -- 
@@ -773,9 +773,10 @@ CREATE TABLE `blog_products` (
 -- Daten für Tabelle `blog_products`
 -- 
 
-INSERT INTO `blog_products` (`uid`, `name`, `product_number`, `factory`, `factory_url`, `desc`, `category`, `image1`, `date`, `price`, `price_tax`, `status`, `quantity`, `weight`, `sort`, `access`, `sql_type`, `image2`, `image3`, `image4`, `show_on_startpage`, `pub`, `parent`) VALUES ('13482fa849ab1b901ababf3e3fc0bbab', 'JobLight Jobportal Software', NULL, 'Toenda Software Development', 'http://www.toenda.com', NULL, '764f068e33673ecda7978c1a63b48294', NULL, '15.07.2007-16:42', NULL, NULL, 0, NULL, NULL, 2, 'Public', 'a', NULL, NULL, NULL, 1, 1, NULL),
-('764f068e33673ecda7978c1a63b48294', 'test', NULL, NULL, NULL, '', '', NULL, '11.07.2007-21:49', NULL, NULL, 1, NULL, NULL, 1, 'Public', 'c', NULL, NULL, NULL, 0, 1, NULL),
-('32acfdf114279d275709c2e277341b5c', 'toendaCMS', NULL, 'Toenda Software Development', 'http://www.toenda.com', NULL, '', NULL, '15.07.2007-16:42', NULL, NULL, 0, NULL, NULL, 1, 'Public', 'a', NULL, NULL, NULL, 1, 1, NULL);
+INSERT INTO `blog_products` (`uid`, `name`, `product_number`, `factory`, `factory_url`, `desc`, `category`, `image1`, `date`, `price`, `price_tax`, `status`, `quantity`, `weight`, `sort`, `access`, `sql_type`, `image2`, `image3`, `image4`, `show_on_startpage`, `pub`, `parent`) VALUES ('13482fa849ab1b901ababf3e3fc0bbab', 'JobLight Jobportal Software', NULL, 'Toenda Software Development', 'http://www.toenda.com', NULL, '764f068e33673ecda7978c1a63b48294', NULL, '15.07.2007-16:42', NULL, NULL, 1, NULL, NULL, 2, 'Public', 'a', NULL, NULL, NULL, 1, 1, NULL),
+('764f068e33673ecda7978c1a63b48294', 'test', NULL, NULL, NULL, '', '', NULL, '11.07.2007-21:49', NULL, NULL, 0, NULL, NULL, 1, 'Public', 'c', NULL, NULL, NULL, 0, 1, NULL),
+('32acfdf114279d275709c2e277341b5c', 'toendaCMS', NULL, 'Toenda Software Development', 'http://www.toenda.com', 'Open Source Content Management Framework', '', NULL, '15.07.2007-16:42', NULL, NULL, 1, NULL, NULL, 1, 'Public', 'a', NULL, NULL, NULL, 1, 1, NULL),
+('d71b909aa7d0f25fdb01a6afe6d5ac23', 'Zappr Photo Management', NULL, 'Toenda Software Development', 'http://www.toenda.com', NULL, NULL, NULL, '15.07.2007-16:42', NULL, NULL, 1, NULL, NULL, 3, 'Public', 'a', NULL, NULL, NULL, 1, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -792,15 +793,17 @@ CREATE TABLE `blog_products_config` (
   `products_text` text NOT NULL,
   `category_state` varchar(255) NOT NULL default '',
   `category_title` varchar(255) NOT NULL default '',
-  `use_category_title` int(1) NOT NULL default '0'
+  `use_category_title` int(1) NOT NULL default '0',
+  `show_price_only_users` tinyint(4) default NULL,
+  `startpagetitle` varchar(255) default NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- 
 -- Daten für Tabelle `blog_products_config`
 -- 
 
-INSERT INTO `blog_products_config` (`uid`, `language`, `products_id`, `products_title`, `products_stamp`, `products_text`, `category_state`, `category_title`, `use_category_title`) VALUES ('products', 'germany_DE', 'products', 'Products', 'Toenda Software Products', '&lt;img alt__________&quot;sourceforge.gif&quot; src__________&quot;http://localhost/toendacms_svn/toendacms/data/images/Image/sourceforge.gif&quot; /&gt;\r\n&lt;br /&gt;\r\n&lt;br /&gt;\r\nsdfsdfsdfsdfsdfsdf\r\n&lt;br /&gt;\r\n&lt;br /&gt;\r\n&lt;img alt__________&quot;bun.jpg&quot; src__________&quot;http://localhost/toendacms_svn/toendacms/data/images/Image/bun.jpg&quot; /&gt;\r\n', 'test', 'Product Categories', 1),
-('f225076a', 'english_EN', 'products', 'sdfsdfsdf', 'sdfsdf', 'sdfsdfsdfsdf\r\n', 'test', 'sdfsdf', 1);
+INSERT INTO `blog_products_config` (`uid`, `language`, `products_id`, `products_title`, `products_stamp`, `products_text`, `category_state`, `category_title`, `use_category_title`, `show_price_only_users`, `startpagetitle`) VALUES ('products', 'germany_DE', 'products', 'Products', 'Lorem ipsum dolor', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer tellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam feugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio mauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris dolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\r\n', '', 'Product Categories', 1, 0, 'Aktuelle Angebot'),
+('f225076a', 'english_EN', 'products', 'sdfsdfsdf', 'sdfsdf', 'sdfsdfsdfsdf\r\n', 'test', 'sdfsdf', 1, 0, '');
 
 -- --------------------------------------------------------
 
@@ -946,12 +949,13 @@ CREATE TABLE `blog_statistics` (
 
 INSERT INTO `blog_statistics` (`host`, `site_url`, `value`, `ip_uid`, `referrer`, `timestamp`) VALUES ('localhost', '/toendacms_svn/toendacms/', 6, 'a84573f07ee669969e4cc7b88b0f6c4b', 'http://localhost/toendacms_svn/', '2007-07-15 14:35:43'),
 ('localhost', '/toendacms_svn/toendacms/index.php/section:products/template:k2/lang:de', 2, 'a0cdf664ad4b7de524521df9a378629e', 'http://localhost/toendacms_svn/toendacms/', '2007-07-14 14:50:42'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html', 8, '4d22a521425317f0226508b3f9812534', 'http://localhost/toendacms_svn/toendacms/index.php/de/frontpage.html', '2007-07-15 19:12:30'),
+('localhost', '/toendacms_svn/toendacms/index.php/de/products.html', 41, '4d22a521425317f0226508b3f9812534', 'http://localhost/toendacms_svn/toendacms/index.php/de/frontpage.html', '2007-07-16 02:03:06'),
 ('localhost', '/toendacms_svn/toendacms/index.php/de/contact.html', 4, 'c0e26a49eae98b0cff8342aa5902ea5b', 'http://localhost/toendacms_svn/toendacms/', '2007-07-14 14:53:25'),
 ('localhost', '/toendacms_svn/toendacms/index.php/en/products.html', 1, 'a5b068f6649021a1a859e1656e9b645b', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html', '2007-07-14 21:03:37'),
 ('localhost', '/toendacms_svn/toendacms/index.php/nl/products.html', 1, '8621a52928b1fb24fc5e63e6b6e90f55', 'http://localhost/toendacms_svn/toendacms/index.php/en/products.html', '2007-07-14 21:03:39'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/frontpage.html', 4, '4a47ecce2e92bd4ba9cce60f11874b3b', 'http://localhost/toendacms_svn/toendacms/', '2007-07-15 19:12:27'),
+('localhost', '/toendacms_svn/toendacms/index.php/de/frontpage.html', 7, '4a47ecce2e92bd4ba9cce60f11874b3b', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html', '2007-07-16 01:58:50'),
 ('localhost', '/toendacms_svn/toendacms/index.php/de/news.html?news=90ac2e39eb', 57, 'b9a80edb7130d2ab89a53e1b01faebcb', '', '2007-07-15 03:08:19'),
+('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showone&article=13482fa849ab1b901ababf3e3fc0bbab', 1, '7f058f8273d5e768001db28dfc38bff8', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html', '2007-07-16 02:04:05'),
 ('localhost', '/toendacms_svn/toendacms/index.php/de/engine/js/lightbox/images/closelabel.gif', 1, '2dfe93296e35b9201a4b2f9758667180', 'http://localhost/toendacms_svn/toendacms/index.php/de/news.html?news=90ac2e39eb', '2007-07-15 02:40:34'),
 ('localhost', '/toendacms_svn/toendacms/index.php/de/images/closelabel.gif', 11, 'cf3ca668c92f1f76dd18feab3b22e728', 'http://localhost/toendacms_svn/toendacms/index.php/de/news.html?news=90ac2e39eb', '2007-07-15 02:40:55'),
 ('localhost', '/toendacms_svn/toendacms/index.php/de/images/loading.gif', 8, 'c7cecdcd46d877fcf1f906ab4814e0b5', 'http://localhost/toendacms_svn/toendacms/index.php/de/news.html?news=90ac2e39eb', '2007-07-15 02:23:53'),
@@ -986,7 +990,8 @@ INSERT INTO `blog_statistics_ip` (`uid`, `ip`, `value`) VALUES ('a84573f07ee6699
 ('c7cecdcd46d877fcf1f906ab4814e0b5', '127.0.0.1', 6),
 ('17f658782466bbd78e35b4ce6f6547ad', '127.0.0.1', 1),
 ('2dfe93296e35b9201a4b2f9758667180', '127.0.0.1', 1),
-('2b132273c7964b41a5601049a941cba4', '127.0.0.1', 6);
+('2b132273c7964b41a5601049a941cba4', '127.0.0.1', 6),
+('7f058f8273d5e768001db28dfc38bff8', '127.0.0.1', 1);
 
 -- --------------------------------------------------------
 
@@ -1005,7 +1010,7 @@ CREATE TABLE `blog_statistics_os` (
 -- Daten für Tabelle `blog_statistics_os`
 -- 
 
-INSERT INTO `blog_statistics_os` (`uid`, `browser`, `os`, `value`) VALUES ('552d3d91be3151ca77252cebdde54c42', 'Mozilla Firefox 2.0.0.4', 'Microsoft Windows Vista', 107);
+INSERT INTO `blog_statistics_os` (`uid`, `browser`, `os`, `value`) VALUES ('552d3d91be3151ca77252cebdde54c42', 'Mozilla Firefox 2.0.0.4', 'Microsoft Windows Vista', 144);
 
 -- --------------------------------------------------------
 

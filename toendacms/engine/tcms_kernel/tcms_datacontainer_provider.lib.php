@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 0.8.2
+ * @version 0.8.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -1708,6 +1708,8 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsMainCat  = $xml->readSection('config', 'category_state');
 			$wsCatTitle = $xml->readSection('config', 'category_title');
 			$wsUCT      = $xml->readSection('config', 'use_category_title');
+			$wsSPOU     = $xml->readSection('config', 'show_price_only_users');
+			$wsSPT      = $xml->readSection('config', 'startpagetitle');
 			
 			$xml->flush();
 			$xml->_xmlparser();
@@ -1720,6 +1722,8 @@ class tcms_datacontainer_provider extends tcms_main {
 			if($wsMainCat  == false) $wsMainCat  = '';
 			if($wsCatTitle == false) $wsCatTitle = '';
 			//if($wsUCT  == false)     $wsUCT     = 0;
+			//if($wsSPOU  == false)     $wsSPOU     = 0;
+			if($wsSPT      == false) $wsSPT      = '';
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
@@ -1732,7 +1736,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			);
 			
 			$strQuery = "SELECT products_title, products_stamp, products_text, category_state, "
-			."category_title, use_category_title "
+			."category_title, use_category_title, show_price_only_users, startpagetitle "
 			."FROM ".$this->m_sqlPrefix."products_config "
 			."WHERE language = '".$language."'";
 			
@@ -1746,6 +1750,8 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsMainCat  = $sqlObj->category_state;
 			$wsCatTitle = $sqlObj->category_title;
 			$wsUCT      = $sqlObj->use_category_title;
+			$wsSPOU     = $sqlObj->show_price_only_users;
+			$wsSPT      = $sqlObj->startpagetitle;
 			
 			$sqlAL->freeResult($sqlQR);
 			$sqlAL->_sqlAbstractionLayer();
@@ -1757,12 +1763,14 @@ class tcms_datacontainer_provider extends tcms_main {
 			if($wsText     == NULL) $wsText     = '';
 			if($wsMainCat  == NULL) $wsMainCat  = '';
 			if($wsCatTitle == NULL) $wsCatTitle = '';
-			if($wsUCT      == NULL) $wsUCT      = '';
+			if($wsUCT      == NULL) $wsUCT      = 0;
+			if($wsSPT      == NULL) $wsSPT      = '';
 		}
 		
 		$wsTitle   = $this->decodeText($wsTitle, '2', $this->m_CHARSET);
 		$wsKeynote = $this->decodeText($wsKeynote, '2', $this->m_CHARSET);
 		$wsText    = $this->decodeText($wsText, '2', $this->m_CHARSET);
+		$wsSPT     = $this->decodeText($wsSPT, '2', $this->m_CHARSET);
 		
 		$pDC->setLanguage($language);
 		$pDC->setID($wsID);
@@ -1772,6 +1780,8 @@ class tcms_datacontainer_provider extends tcms_main {
 		$pDC->setProductMainCategory($wsMainCat);
 		$pDC->setSidebarCategoryTitle($wsCatTitle);
 		$pDC->setUseSideCategory($wsUCT);
+		$pDC->setShowPriceOnlyUsers($wsSPOU);
+		$pDC->setStartpageTitle($wsSPT);
 		
 		return $pDC;
 	}
