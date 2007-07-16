@@ -42,6 +42,9 @@ if(!defined('_TABLE_SHOWONMAINPAGE'))          define('_TABLE_SHOWONMAINPAGE', '
 if(!defined('_TABLE_PRODUCT'))                 define('_TABLE_PRODUCT', 'Product');
 if(!defined('_TABLE_THUMBNAIL'))               define('_TABLE_THUMBNAIL', 'Thumbnail');
 
+if(!defined('_PRODUCTS_SHOW_PRICE_ONLY_USERS'))define('_PRODUCTS_SHOW_PRICE_ONLY_USERS', 'Show price only users');
+if(!defined('_PRODUCTS_STARTPAGETITLE'))       define('_PRODUCTS_STARTPAGETITLE', 'Startpagetitle');
+
 *
 *
 **************************

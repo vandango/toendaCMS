@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * products manager.
  *
- * @version 0.0.2
+ * @version 0.0.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -40,6 +40,8 @@ class tcms_dc_products {
 	var $m_product_main_category;
 	var $m_side_category_title;
 	var $m_use_side_category;
+	var $m_show_price_only_user;
+	var $m_startpagetitle;
 	
 	// ---------------------------------------
 	// Constructors / Destructors
@@ -213,6 +215,44 @@ class tcms_dc_products {
 	 */
 	function getUseSideCategory(){
 		return $this->m_use_side_category;
+	}
+	
+	/***
+	 * Set the ShowPriceOnlyUsers
+	 * 
+	 * @param String $value
+	 * @return String
+	*/
+	function setShowPriceOnlyUsers($value){
+		$this->m_show_price_only_user = $value;
+	}
+	
+	/**
+	 * Get the ShowPriceOnlyUsers
+	 * 
+	 * @return String
+	 */
+	function getShowPriceOnlyUsers(){
+		return $this->m_show_price_only_user;
+	}
+	
+	/***
+	 * Set the StartpageTitle
+	 * 
+	 * @param String $value
+	 * @return String
+	*/
+	function setStartpageTitle($value){
+		$this->m_startpagetitle = $value;
+	}
+	
+	/**
+	 * Get the StartpageTitle
+	 * 
+	 * @return String
+	 */
+	function getStartpageTitle(){
+		return $this->m_startpagetitle;
 	}
 }
 

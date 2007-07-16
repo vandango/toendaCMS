@@ -18,7 +18,7 @@
 /**
  * English Language
  * 
- * @version 0.4.0
+ * @version 0.5.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -1065,7 +1065,9 @@ define('_PRODUCTS_SUBMIT_ON', 'Submitted On');
 define('_PRODUCTS_INC_TAX', 'inc. Tax');
 define('_PRODUCTS_EX_TAX', 'ex. Tax');
 define('_PRODUCTS_CATEGORY_TITLE', 'Category title in sidebar');
-define('_PRODUCTS_USE_CATEGORY_TITLE', 'Show category title in sidebar');
+if(!defined('_PRODUCTS_USE_CATEGORY_TITLE'))   define('_PRODUCTS_USE_CATEGORY_TITLE', 'Show category title in sidebar');
+if(!defined('_PRODUCTS_SHOW_PRICE_ONLY_USERS'))define('_PRODUCTS_SHOW_PRICE_ONLY_USERS', 'Show price only users');
+if(!defined('_PRODUCTS_STARTPAGETITLE'))       define('_PRODUCTS_STARTPAGETITLE', 'Startpagetitle');
 
 
 // NEWS

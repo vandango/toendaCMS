@@ -18,7 +18,7 @@
 /**
  * German Language
  * 
- * @version 0.4.0
+ * @version 0.5.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -1067,6 +1067,8 @@ define('_PRODUCTS_INC_TAX', 'inkl. Mwst.');
 define('_PRODUCTS_EX_TAX', 'exkl. Mwst.');
 define('_PRODUCTS_CATEGORY_TITLE', 'Kategorien Titel in der Seitenleiste');
 define('_PRODUCTS_USE_CATEGORY_TITLE', 'Kategorien Titel in der Seitenleiste anzeigen');
+define('_PRODUCTS_SHOW_PRICE_ONLY_USERS', 'Zeige Preise nur angemeldeten Benutzern');
+define('_PRODUCTS_STARTPAGETITLE', 'Startseiten Titel');
 
 
 // NEWS

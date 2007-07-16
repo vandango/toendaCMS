@@ -1,5 +1,7 @@
 
 ALTER TABLE `#####products_config` ADD `language` VARCHAR( 25 );
+ALTER TABLE `#####products_config` ADD `show_price_only_users` TINYINT NULL;
+ALTER TABLE `#####products_config` ADD `startpagetitle` VARCHAR( 255 ) NULL ;
 
 ALTER TABLE `#####products` CHANGE `image` `image1` VARCHAR( 255 );
 ALTER TABLE `#####products` ADD `image2` VARCHAR( 255 ) NULL ,
