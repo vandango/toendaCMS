@@ -303,6 +303,8 @@ Search
 Products
 ------------------------------------
 .products_text      - toendaShop text layout
+.products_active_tab- Active tab on the products page
+.products_tab       - Tab on the products page
 .products_top		- toendaSHOP layout classes
 a.products_top		- toendaSHOP layout classes for links
 

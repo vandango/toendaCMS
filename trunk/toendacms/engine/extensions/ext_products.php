@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a product manager.
  *
- * @version 0.4.0
+ * @version 0.4.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -33,10 +33,12 @@ defined('_TCMS_VALID') or die('Restricted access');
 if(isset($_GET['action'])){ $action = $_GET['action']; }
 if(isset($_GET['category'])){ $category = $_GET['category']; }
 if(isset($_GET['article'])){ $article = $_GET['article']; }
+if(isset($_GET['cmd'])){ $cmd = $_GET['cmd']; }
 
 
 
-if(!isset($action)){ $action = 'showall'; }
+if(!isset($action)) { $action = 'showall'; }
+if(!isset($cmd)) { $cmd = 'offers'; }
 
 
 
@@ -47,7 +49,7 @@ if($action == 'showall'){
 	echo $tcms_html->contentModuleHeader(
 		$products_title, 
 		$products_stamp, 
-		$products_text
+		( $cmd == 'browse' ? '' : $products_text )
 	);
 	
 	
@@ -55,156 +57,188 @@ if($action == 'showall'){
 	$checkCatAmount = 0;
 	
 	
-	if($choosenDB == 'xml') {
-		
-	}
-	else {
-		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-		
-		switch($is_admin){
-			case 'Developer':
-			case 'Administrator':
-				$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
-				break;
-			
-			case 'User':
-			case 'Editor':
-			case 'Presenter':
-				$strAdd = " OR access = 'Protected' ) ";
-				break;
-			
-			default:
-				$strAdd = ' ) ';
-				break;
-		}
-		
-		$sqlSTR = "SELECT * "
-		."FROM ".$tcms_db_prefix."products "
-		."WHERE show_on_startpage = 1 "
-		."AND sql_type = 'a' "
-		."AND status = 1 "
-		."AND pub = 1 "
-		."AND NOT (name = '') "
-		."AND ( access = 'Public' "
-		.$strAdd
-		."ORDER BY sort ASC, date ASC, name ASC";
-		
-		$sqlQR = $sqlAL->query($sqlSTR);
-		$chkNr = $sqlAL->getNumber($sqlQR);
-		
-		if($chkNr != 0) {
-			while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
-				$arr_pro['uid'][$count]    = $sqlObj->uid;
-				$arr_pro['name'][$count]   = $sqlObj->name;
-				$arr_pro['desc'][$count]   = $sqlObj->desc;
-				$arr_pro['date'][$count]   = $sqlObj->date;
-				$arr_pro['image1'][$count] = $sqlObj->image1;
-				$arr_pro['sort'][$count]   = $sqlObj->sort;
-				
-				
-				if($show_price_only_users == 1) {
-					$arr_pro['price'][$count]  = $sqlObj->price;
-					$arr_pro['taxkey'][$count] = $sqlObj->price_tax;
-					
-					if($arr_pro['price'][$count]  == NULL){ $arr_pro['price'][$count]  = ''; }
-					if($arr_pro['taxkey'][$count] == NULL){ $arr_pro['taxkey'][$count] = ''; }
-				}
-				
-				
-				if($arr_pro['uid'][$count]    == NULL){ $arr_pro['uid'][$count]    = ''; }
-				if($arr_pro['name'][$count]   == NULL){ $arr_pro['name'][$count]   = ''; }
-				if($arr_pro['desc'][$count]   == NULL){ $arr_pro['desc'][$count]   = ''; }
-				if($arr_pro['date'][$count]   == NULL){ $arr_pro['date'][$count]   = ''; }
-				if($arr_pro['image1'][$count] == NULL){ $arr_pro['image1'][$count] = ''; }
-				if($arr_pro['sort'][$count]   == NULL){ $arr_pro['sort'][$count]   = ''; }
-				
-				
-				// CHARSETS
-				$arr_pro['name'][$count] = $tcms_main->decodeText($arr_pro['name'][$count], '2', $c_charset);
-				$arr_pro['desc'][$count] = $tcms_main->decodeText($arr_pro['desc'][$count], '2', $c_charset);
-				
-				$count++;
-				$checkCatAmount = $count;
-			}
-			
-			$checkCatAmount--;
-		}
-	}
-	
-	
 	/*
 		list all startpage products
 	*/
 	
+	echo $tcms_html->tableHeadClass('0', '0', '0', '100%', 'noborder')
+	.'<tr><td valign="top" class="titleBG" style="padding-left: 2px;" align="left">';
+	
 	if(trim($startpage_title) != '') {
-		echo $tcms_html->tableHeadClass('0', '0', '0', '100%', 'noborder')
-		.'<tr><td valign="top" class="titleBG" style="padding-left: 2px;" align="left">'
+		// offer tab
+		$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+		.'id=products&amp;s='.$s.'&amp;action=showall&amp;cmd=offers'
+		.( isset($lang) ? '&amp;lang='.$lang : '' );
+		$link = $tcms_main->urlConvertToSEO($link);
+		
+		echo '<a class="'.( $cmd == 'offers' ? 'products_active_tab' : 'products_tab' ).'" href="'.$link.'">'
 		.$startpage_title
-		.'</td><tr>'
-		.'<tr style="height: 2px;"><td></td></tr>'
-		.'<tr><td><br /></td></tr>'
-		.$tcms_html->tableEnd();
+		.'</a>';
 	}
 	
-	$intOdd = 0;
+	// browse tab
+	$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+	.'id=products&amp;s='.$s.'&amp;action=showall&amp;cmd=browse'
+	.( isset($lang) ? '&amp;lang='.$lang : '' );
+	$link = $tcms_main->urlConvertToSEO($link);
 	
-	echo $tcms_html->tableHeadClass('2', '0', '1', '100%', 'noborder products_text');
+	echo '<a class="'.( $cmd == 'browse' ? 'products_active_tab' : 'products_tab' ).'" href="'.$link.'">'
+	.'Browse'
+	.'</a>';
 	
-	if($tcms_main->isArray($arr_pro['sort'])){
-		foreach($arr_pro['sort'] as $key => $value){
-			if($intOdd == 0) {
-				echo '<tr>';
-			}
+	echo '</td><tr>'
+	.'<tr style="height: 2px;"><td></td></tr>'
+	.'<tr><td><br /></td></tr>'
+	.$tcms_html->tableEnd();
+	
+	
+	/*
+		load data
+	*/
+	
+	// browse categories and products
+	if($cmd == 'browse') {
+		
+	}
+	// load current offers
+	else if($cmd == 'offers') {
+		if($choosenDB == 'xml') {
+			//
+		}
+		else {
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			echo '<td width="50%" valign="top">';
-			
-			
-			// link
-			if(trim($arr_pro['name'][$key]) != '') {
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-				.'id=products&amp;s='.$s.'&amp;action=showone'
-				.'&amp;article='.$arr_pro['uid'][$key]
-				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlConvertToSEO($link);
+			switch($is_admin){
+				case 'Developer':
+				case 'Administrator':
+					$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
+					break;
 				
-				echo '<a class="products_top" href="'.$link.'">'
-				.$arr_pro['name'][$key]
-				.'</a>';
-			}
-			
-			
-			// desc
-			if(trim($arr_pro['desc'][$key]) != '') {
-				echo '<br />'
-				.$arr_pro['desc'][$key];
-			}
-			
-			
-			// price
-			if($show_price_only_users == 1) {
+				case 'User':
+				case 'Editor':
+				case 'Presenter':
+					$strAdd = " OR access = 'Protected' ) ";
+					break;
 				
+				default:
+					$strAdd = ' ) ';
+					break;
 			}
 			
-			echo '</td>';
+			$sqlSTR = "SELECT * "
+			."FROM ".$tcms_db_prefix."products "
+			."WHERE show_on_startpage = 1 "
+			."AND language = '".$tcms_config->getLanguageFrontend()."' "
+			."AND sql_type = 'a' "
+			."AND status = 1 "
+			."AND pub = 1 "
+			."AND NOT (name = '') "
+			."AND ( access = 'Public' "
+			.$strAdd
+			."ORDER BY sort ASC, date ASC, name ASC";
 			
-			// fill if amount is odd
-			if($key == $checkCatAmount && is_integer($checkCatAmount / 2)) {
-				echo '<td width="50%">&nbsp;</td>';
-			}
+			$sqlQR = $sqlAL->query($sqlSTR);
+			$chkNr = $sqlAL->getNumber($sqlQR);
 			
-			if($intOdd == 1) {
-				echo '</tr>';
+			if($chkNr != 0) {
+				while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
+					$arr_pro['uid'][$count]    = $sqlObj->uid;
+					$arr_pro['name'][$count]   = $sqlObj->name;
+					$arr_pro['desc'][$count]   = $sqlObj->desc;
+					$arr_pro['date'][$count]   = $sqlObj->date;
+					$arr_pro['image1'][$count] = $sqlObj->image1;
+					$arr_pro['sort'][$count]   = $sqlObj->sort;
+					
+					
+					if($show_price_only_users == 1) {
+						$arr_pro['price'][$count]  = $sqlObj->price;
+						$arr_pro['taxkey'][$count] = $sqlObj->price_tax;
+						
+						if($arr_pro['price'][$count]  == NULL){ $arr_pro['price'][$count]  = ''; }
+						if($arr_pro['taxkey'][$count] == NULL){ $arr_pro['taxkey'][$count] = ''; }
+					}
+					
+					
+					if($arr_pro['uid'][$count]    == NULL){ $arr_pro['uid'][$count]    = ''; }
+					if($arr_pro['name'][$count]   == NULL){ $arr_pro['name'][$count]   = ''; }
+					if($arr_pro['desc'][$count]   == NULL){ $arr_pro['desc'][$count]   = ''; }
+					if($arr_pro['date'][$count]   == NULL){ $arr_pro['date'][$count]   = ''; }
+					if($arr_pro['image1'][$count] == NULL){ $arr_pro['image1'][$count] = ''; }
+					if($arr_pro['sort'][$count]   == NULL){ $arr_pro['sort'][$count]   = ''; }
+					
+					
+					// CHARSETS
+					$arr_pro['name'][$count] = $tcms_main->decodeText($arr_pro['name'][$count], '2', $c_charset);
+					$arr_pro['desc'][$count] = $tcms_main->decodeText($arr_pro['desc'][$count], '2', $c_charset);
+					
+					$count++;
+					$checkCatAmount = $count;
+				}
 				
-				$intOdd = 0;
-			}
-			else {
-				$intOdd = 1;
+				$checkCatAmount--;
 			}
 		}
+		
+		$intOdd = 0;
+		
+		echo $tcms_html->tableHeadClass('2', '0', '1', '100%', 'noborder products_text');
+		
+		if($tcms_main->isArray($arr_pro['sort'])){
+			foreach($arr_pro['sort'] as $key => $value){
+				if($intOdd == 0) {
+					echo '<tr>';
+				}
+				
+				echo '<td width="50%" valign="top">';
+				
+				
+				// link
+				if(trim($arr_pro['name'][$key]) != '') {
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id=products&amp;s='.$s.'&amp;action=showone'
+					.'&amp;article='.$arr_pro['uid'][$key]
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
+					$link = $tcms_main->urlConvertToSEO($link);
+					
+					echo '<a class="products_top" href="'.$link.'">'
+					.$arr_pro['name'][$key]
+					.'</a>';
+				}
+				
+				
+				// desc
+				if(trim($arr_pro['desc'][$key]) != '') {
+					echo '<br />'
+					.$arr_pro['desc'][$key];
+				}
+				
+				
+				// price
+				if($show_price_only_users == 1) {
+					
+				}
+				
+				echo '</td>';
+				
+				// fill if amount is odd
+				if($key == $checkCatAmount && is_integer($checkCatAmount / 2)) {
+					echo '<td width="50%">&nbsp;</td>';
+				}
+				
+				if($intOdd == 1) {
+					echo '</tr>';
+					
+					$intOdd = 0;
+				}
+				else {
+					$intOdd = 1;
+				}
+			}
+		}
+		
+		echo $tcms_html->tableEnd();
 	}
-	
-	echo $tcms_html->tableEnd();
 	
 	
 	
