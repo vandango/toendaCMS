@@ -1812,9 +1812,9 @@ if($todo == 'save'){
 	
 	
 	// CHARSETS
-	$titel   = $tcms_main->decode_text($titel, '2', $c_charset);
-	$autor   = $tcms_main->decode_text($autor, '2', $c_charset);
-	$content = $tcms_main->decode_text($content, '2', $c_charset);
+	$titel   = $tcms_main->decodeText($titel, '2', $c_charset);
+	$autor   = $tcms_main->decodeText($autor, '2', $c_charset);
+	$content = $tcms_main->decodeText($content, '2', $c_charset);
 	
 	
 	$stamp = substr($new_publish_date, 6, 4).substr($new_publish_date, 3, 2).substr($new_publish_date, 0, 2).substr($new_publish_date, 11, 2).substr($new_publish_date, 14, 2);

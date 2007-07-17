@@ -322,14 +322,14 @@ td.titleBG,
 th.titleBG {
 	font-size: 14px;
 	border-bottom: 1px #9bb2b9 solid;
-	padding-left: 4px;
+	/*padding-left: 4px;*/
 	margin: 0px;
 }
 
 .download_top {
 	font-size: 14px;
 	border-bottom: 1px #9bb2b9 solid;
-	padding-left: 4px;
+	/*padding-left: 4px;*/
 	margin: 0px;
 	text-align: left;
 }
@@ -496,6 +496,8 @@ a.tcms_more:hover {
 }
 
 
+
+
 /* ToendaSHOP */
 .products_text {
 	text-align: left !important;
@@ -513,7 +515,7 @@ a.products_top,
 a.products_top:link, 
 a.products_top:visited, 
 a.products_top:active {
-	color: #23598C; 
+	color: #23598C;
 	font-size: 14px; 
 	text-decoration: none;
 }
@@ -528,6 +530,61 @@ a.products_top:hover {
 	margin: 0px;
 	text-align: left;
 }
+
+a.products_active_tab,
+a.products_active_tab:link,
+a.products_active_tab:visited,
+a.products_active_tab:active {
+	border-bottom: 1px #fff solid;
+	border-top: 1px #6a6f71 solid;
+	border-right: 1px #6a6f71 solid;
+	border-left: 1px #6a6f71 solid;
+	
+	color: #23598C;
+	font-size: 13px; 
+	text-decoration: none;
+	
+	margin: 0 3px -2px 3px;
+	padding: 1px 3px 1px 3px;
+}
+
+a.products_active_tab:hover {
+	border-bottom: 1px #fff solid;
+	border-top: 1px #6a6f71 solid;
+	border-right: 1px #6a6f71 solid;
+	border-left: 1px #6a6f71 solid;
+	
+	color: #6a6f71;
+	font-size: 13px; 
+	text-decoration: none;
+}
+
+a.products_tab,
+a.products_tab:link,
+a.products_tab:visited,
+a.products_tab:active {
+	border-bottom: 1px #9bb2b9 solid;
+	border-top: 1px #9bb2b9 solid;
+	border-right: 1px #9bb2b9 solid;
+	border-left: 1px #9bb2b9 solid;
+	
+	color: #23598C;
+	font-size: 13px; 
+	text-decoration: none;
+	
+	margin: 0 3px -2px 3px;
+	padding: 1px 3px 1px 3px;
+}
+
+a.products_tab:hover {
+	border-bottom: 1px #fff solid;
+	
+	color: #23598C;
+	font-size: 13px; 
+	text-decoration: none;
+}
+
+
 
 
 /* login */
@@ -591,7 +648,7 @@ a.products_top:hover {
 
 
 .contentFooter {
-	padding: 0 0 0 20px;
+	padding: 0 0 5px 33px;
 }
 
 

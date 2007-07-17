@@ -12,4 +12,4 @@ ADD `pub` TINYINT NOT NULL DEFAULT '0',
 ADD `parent` VARCHAR( 32 ) NULL ;
 ALTER TABLE `#####products` CHANGE `category` `category` VARCHAR( 32 );
 ALTER TABLE `#####products` CHANGE `category` `category` VARCHAR( 32 ) NULL;
-
+ALTER TABLE `#####products` ADD `language` VARCHAR( 25 ) NOT NULL DEFAULT 'english_EN';

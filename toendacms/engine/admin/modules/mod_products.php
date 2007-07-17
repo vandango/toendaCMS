@@ -40,16 +40,15 @@ if(isset($_POST['type'])){ $type = $_POST['type']; }
 if(isset($_POST['delete'])){ $delete = $_POST['delete']; }
 if(isset($_POST['lang_exist'])){ $lang_exist = $_POST['lang_exist']; }
 if(isset($_POST['content'])){ $content = $_POST['content']; }
+if(isset($_POST['new_lang'])){ $new_lang = $_POST['new_lang']; }
 
 // cfg
 if(isset($_POST['new_pid'])){ $new_pid = $_POST['new_pid']; }
 if(isset($_POST['new_ptitle'])){ $new_ptitle = $_POST['new_ptitle']; }
 if(isset($_POST['new_pstamp'])){ $new_pstamp = $_POST['new_pstamp']; }
 if(isset($_POST['new_cstate'])){ $new_cstate = $_POST['new_cstate']; }
-if(isset($_POST['new_cstate'])){ $new_cstate = $_POST['new_cstate']; }
 if(isset($_POST['new_ctitle'])){ $new_ctitle = $_POST['new_ctitle']; }
 if(isset($_POST['new_usest'])){ $new_usest = $_POST['new_usest']; }
-if(isset($_POST['new_lang'])){ $new_lang = $_POST['new_lang']; }
 if(isset($_POST['new_spou'])){ $new_spou = $_POST['new_spou']; }
 if(isset($_POST['new_spt'])){ $new_spt = $_POST['new_spt']; }
 
@@ -467,6 +466,7 @@ if($todo == 'show'){
 					$arr_pro['type'][$key] = 'c';
 					$arr_pro['sos'][$key]  = 0;
 					$arr_pro['pub'][$key]  = $menu_xml->readSection('folderinfo', 'pub');
+					$arr_pro['lang'][$key] = $menu_xml->readSection('folderinfo', 'language');
 					
 					// CHARSETS
 					$arr_pro['name'][$key] = $tcms_main->decodeText($arr_pro['name'][$key], '2', $c_charset);
@@ -486,7 +486,8 @@ if($todo == 'show'){
 					$arr_pro['acs'], SORT_ASC, 
 					$arr_pro['type'], SORT_ASC, 
 					$arr_pro['sos'], SORT_ASC, 
-					$arr_pro['uid'], SORT_ASC
+					$arr_pro['uid'], SORT_ASC, 
+					$arr_pro['lang'], SORT_ASC
 				);
 			}
 		}
@@ -544,6 +545,7 @@ if($todo == 'show'){
 			$arr_pro['type'][$count]  = $sqlObj->sql_type;
 			$arr_pro['sos'][$count]   = $sqlObj->show_on_startpage;
 			$arr_pro['pub'][$count]   = $sqlObj->pub;
+			$arr_pro['lang'][$count]  = $sqlObj->language;
 			
 			if($arr_pro['uid'][$count]  == NULL){ $arr_pro['uid'][$count]  = ''; }
 			if($arr_pro['name'][$count] == NULL){ $arr_pro['name'][$count] = ''; }
@@ -554,6 +556,7 @@ if($todo == 'show'){
 			if($arr_pro['type'][$count] == NULL){ $arr_pro['type'][$count] = 'c'; }
 			if($arr_pro['sos'][$count]  == NULL){ $arr_pro['sos'][$count]  = 0; }
 			if($arr_pro['pub'][$count]  == NULL){ $arr_pro['pub'][$count]  = 0; }
+			if($arr_pro['lang'][$count] == NULL){ $arr_pro['lang'][$count] = $tcms_config->getLanguageFrontend(); }
 			
 			// CHARSETS
 			$arr_pro['name'][$count] = $tcms_main->decodeText($arr_pro['name'][$count], '2', $c_charset);
@@ -574,13 +577,14 @@ if($todo == 'show'){
 	echo $tcms_html->tableHeadNoBorder('3', '0', '0', '100%');
 	echo '<tr class="tcms_bg_blue_01">'
 		.'<th valign="middle" class="tcms_db_title" width="10%" align="left" colspan="2">'._TABLE_POS.'</th>'
-		.'<th valign="middle" class="tcms_db_title" width="15%" align="left">'._TABLE_TITLE.'</th>'
-		.'<th valign="middle" class="tcms_db_title" width="20%" align="left">'._TABLE_TYPE.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="30%" align="left">'._TABLE_TITLE.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="10%" align="left">'._TCMS_LANGUAGE.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="10%" align="left">'._TABLE_TYPE.'</th>'
 		.'<th valign="middle" class="tcms_db_title" width="10%" align="left">'._TABLE_DATE.'</th>'
 		.'<th valign="middle" class="tcms_db_title" width="5%">'._TABLE_PUBLISHED.'</th>'
 		.'<th valign="middle" class="tcms_db_title" width="5%">'._TABLE_FRONTPAGE.'</th>'
 		.'<th valign="middle" class="tcms_db_title" width="5%">'._TABLE_ACCESS.'</th>'
-		.'<th valign="middle" class="tcms_db_title" width="10%" align="right">'._TABLE_FUNCTIONS.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="15%" align="right">'._TABLE_FUNCTIONS.'</th>'
 		.'</tr>';
 	
 	if($tcms_main->isArray($arr_pro['sort'])){	
@@ -652,18 +656,24 @@ if($todo == 'show'){
 			.'</td>';
 			
 			
+			// language
+			echo '<td valign="middle" align="left" class="tcms_db_2"'.$strJS.'>'
+			.$tcms_main->getLanguageNameByTCMSLanguageCode($languages, $arr_pro['lang'][$key])
+			.'</td>';
+			
+			
 			// type
 			switch(trim($arr_pro['type'][$key])){
 				case 'c':
-					echo '<td valign="middle" valign="top" align="left" class="tcms_db_2">'._TABLE_CATEGORY.'</td>';
+					echo '<td valign="middle" align="left" class="tcms_db_2">'._TABLE_CATEGORY.'</td>';
 					break;
 				
 				case 'a':
-					echo '<td valign="middle" valign="top" align="left" class="tcms_db_2">'._TABLE_PRODUCT.'</td>';
+					echo '<td valign="middle" align="left" class="tcms_db_2">'._TABLE_PRODUCT.'</td>';
 					break;
 				
 				default:
-					echo '<td valign="middle" valign="top" align="left" class="tcms_db_2">'._TABLE_CATEGORY.'</td>';
+					echo '<td valign="middle" align="left" class="tcms_db_2">'._TABLE_CATEGORY.'</td>';
 					break;
 			}
 			
@@ -714,10 +724,11 @@ if($todo == 'show'){
 				echo '</a>';
 			}
 			else {
-				switch($arr_pro['sos'][$key]){
+				/*switch($arr_pro['sos'][$key]){
 					case 0: echo '<img src="../images/no.png" border="0" />'; break;
 					case 1: echo '<img src="../images/yes.png" border="0" />'; break;
-				}
+				}*/
+				echo '<img src="../images/wait.png" border="0" />';
 			}
 			
 			echo '</td>';
@@ -834,6 +845,7 @@ if($todo == 'edit') {
 			// load data
 			$wsUID        = $sqlObj->uid;
 			$wsName       = $sqlObj->name;
+			$wsLang       = $sqlObj->language;
 			$wsCat        = $sqlObj->category;
 			$wsDate       = $sqlObj->date;
 			$wsText       = $sqlObj->desc;
@@ -890,6 +902,8 @@ if($todo == 'edit') {
 		
 		// CHARSETS
 		$arr_pro['name'][$count] = $tcms_main->decodeText($arr_pro['name'][$count], '2', $c_charset);
+		
+		$arr_pro['name'][$count] = htmlspecialchars($arr_pro['name'][$count]);
 	}
 	else {
 		$maintag = $tcms_main->getNewUID(32, 'products');
@@ -902,6 +916,7 @@ if($todo == 'edit') {
 		$wsDate  = $tcms_time->getCurrentDate().'-'.$tcms_time->getCurrentTime();
 		$wsTax   = 19;
 		$wsSort  = $tcms_main->getAmountOfItems('products');
+		$wsLang  = $tcms_config->getLanguageFrontend();
 	}
 	
 	echo $tcms_html->bold(_TABLE_NEW);
@@ -917,7 +932,8 @@ if($todo == 'edit') {
 	
 	
 	// begin form
-	echo '<form id="productEditor" action="admin.php?id_user='.$id_user.'&amp;site=mod_products" method="post">'
+	echo '<form id="productEditor" action="admin.php?id_user='.$id_user.'&amp;site=mod_products"'
+	.' method="post" enctype="multipart/form-data">'
 	.'<input type="hidden" name="todo" value="save" />'
 	.'<input type="hidden" name="type" value="'.$wsType.'" />'
 	.'<input type="hidden" name="maintag" value="'.$wsUID.'" />'
@@ -957,13 +973,34 @@ if($todo == 'edit') {
 		.'<strong class="tcms_bold">'._TABLE_CATEGORY.'</strong>'
 		.'</td><td valign="top">'
 		.'<select class="tcms_select" name="new_category">'
-		.'<option value="_DB_NULL_"'.( $wsCat == '' ? ' selected="selected"' : '' ).'>'
+		.'<option value=""'.( $wsCat == '' ? ' selected="selected"' : '' ).'>'
 		._FAQ_BASE_CATEGORY
 		.'</option>';
 		
 		foreach($arrProductCategories['tag'] as $key => $value){
 			echo '<option value="'.$value.'"'.( $wsCat == $value ? ' selected="selected"' : '' ).'>'
 			.$arrProductCategories['title'][$key]
+			.'</option>';
+		}
+		
+		echo '</select>'
+		.'</td></tr>';
+		
+		
+		// table row
+		echo '<tr><td width="300" valign="top">'
+		.'<strong class="tcms_bold">'._TCMS_LANGUAGE.'</strong>'
+		.'</td><td>'
+		.'<select class="tcms_select" id="new_lang" name="new_lang">';
+		
+		foreach($languages['code'] as $key => $value) {
+			if($wsLang == $languages['code'][$key])
+				$dl = ' selected="selected"';
+			else
+				$dl = '';
+			
+			echo '<option value="'.$value.'"'.$dl.'>'
+			.$languages['name'][$key]
 			.'</option>';
 		}
 		
@@ -1042,13 +1079,34 @@ if($todo == 'edit') {
 		.'<strong class="tcms_bold">'._TABLE_CATEGORY.'</strong>'
 		.'</td><td valign="top">'
 		.'<select class="tcms_select" name="new_category">'
-		.'<option value="_DB_NULL_"'.( $wsCat == '' ? ' selected="selected"' : '' ).'>'
+		.'<option value=""'.( $wsCat == '' ? ' selected="selected"' : '' ).'>'
 		._FAQ_BASE_CATEGORY
 		.'</option>';
 		
 		foreach($arrProductCategories['tag'] as $key => $value){
 			echo '<option value="'.$value.'"'.( $wsCat == $value ? ' selected="selected"' : '' ).'>'
 			.$arrProductCategories['title'][$key]
+			.'</option>';
+		}
+		
+		echo '</select>'
+		.'</td></tr>';
+		
+		
+		// table row
+		echo '<tr><td width="300" valign="top">'
+		.'<strong class="tcms_bold">'._TCMS_LANGUAGE.'</strong>'
+		.'</td><td>'
+		.'<select class="tcms_select" id="new_lang" name="new_lang">';
+		
+		foreach($languages['code'] as $key => $value) {
+			if($wsLang == $languages['code'][$key])
+				$dl = ' selected="selected"';
+			else
+				$dl = '';
+			
+			echo '<option value="'.$value.'"'.$dl.'>'
+			.$languages['name'][$key]
 			.'</option>';
 		}
 		
@@ -1377,7 +1435,7 @@ if($todo == 'edit') {
 
 
 // -------------------------------------------------
-// CASE CONFIGURATION
+// SASE CONFIGURATION
 // -------------------------------------------------
 
 if($todo == 'save_config') {
@@ -1535,6 +1593,350 @@ if($todo == 'save_config') {
 		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_products&todo=config'
 		.'</script>';
 	}
+}
+
+
+
+
+
+// -------------------------------------------------
+// SASE ITEM (CATEGORY AND PRODUCT)
+// -------------------------------------------------
+
+if($todo == 'save') {
+	/*
+	if($_FILES['new_image1']['size'] > 0 && (
+	$_FILES['new_image1']['type'] == 'image/gif' || 
+	$_FILES['new_image1']['type'] == 'image/png' || 
+	$_FILES['new_image1']['type'] == 'image/jpg' || 
+	$_FILES['new_image1']['type'] == 'image/jpeg' || 
+	$_FILES['new_image1']['type'] == 'image/bmp')){
+	*/
+	
+	/*
+		upload images
+	*/
+	
+	// upload image1
+	if($_FILES['new_image1']['size'] > 0 
+	&& $tcms_main->isImage($_FILES['new_image1']['type'], true)){
+		$fileName = $_FILES['new_image1']['name'];
+		$imgDir = '../../'.$tcms_administer_site.'/images/products/';
+		
+		copy($_FILES['new_image1']['tmp_name'], $imgDir.$fileName);
+		
+		$msg = _MSG_UPLOAD.' '.$imgDir.$_FILES['new_image1']['name'];
+		$new_image1 = $_FILES['new_image1']['name'];
+	}
+	else{
+		$msg = _MSG_NOIMAGE;
+		$new_image1 = '';
+	}
+	
+	if($tcms_main->isReal($tmp_image1)){
+		if($tcms_main->isReal($new_image1) && $new_image1 != ''){
+			if(file_exists('../../'.$tcms_administer_site.'/images/products/'.$tmp_image1)) {
+				unlink('../../'.$tcms_administer_site.'/images/products/'.$tmp_image1);
+			}
+			
+			$new_image1 = $new_image1;
+		}
+		elseif(trim($tmp_image1) == ''){
+			if(file_exists('../../'.$tcms_administer_site.'/images/products/'.$old_image1)) {
+				unlink('../../'.$tcms_administer_site.'/images/products/'.$old_image1);
+			}
+		}
+		else{
+			$new_image1 = $tmp_image1;
+		}
+	}
+	
+	// upload image2
+	if($_FILES['new_image2']['size'] > 0 
+	&& $tcms_main->isImage($_FILES['new_image2']['type'], true)){
+		$fileName = $_FILES['new_image2']['name'];
+		$imgDir = '../../'.$tcms_administer_site.'/images/products/';
+		
+		copy($_FILES['new_image2']['tmp_name'], $imgDir.$fileName);
+		
+		$msg = _MSG_UPLOAD.' '.$imgDir.$_FILES['new_image2']['name'];
+		$new_image2 = $_FILES['new_image2']['name'];
+	}
+	else{
+		$msg = _MSG_NOIMAGE;
+		$new_image2 = '';
+	}
+	
+	if($tcms_main->isReal($tmp_image2)){
+		if($tcms_main->isReal($new_image2) && $new_image2 != ''){
+			if(file_exists('../../'.$tcms_administer_site.'/images/products/'.$tmp_image2)) {
+				unlink('../../'.$tcms_administer_site.'/images/products/'.$tmp_image2);
+			}
+			
+			$new_image2 = $new_image2;
+		}
+		elseif(trim($tmp_image2) == ''){
+			if(file_exists('../../'.$tcms_administer_site.'/images/products/'.$old_image2)) {
+				unlink('../../'.$tcms_administer_site.'/images/products/'.$old_image2);
+			}
+		}
+		else{
+			$new_image2 = $tmp_image2;
+		}
+	}
+	
+	// upload image3
+	if($_FILES['new_image3']['size'] > 0 
+	&& $tcms_main->isImage($_FILES['new_image3']['type'], true)){
+		$fileName = $_FILES['new_image3']['name'];
+		$imgDir = '../../'.$tcms_administer_site.'/images/products/';
+		
+		copy($_FILES['new_image3']['tmp_name'], $imgDir.$fileName);
+		
+		$msg = _MSG_UPLOAD.' '.$imgDir.$_FILES['new_image3']['name'];
+		$new_image3 = $_FILES['new_image3']['name'];
+	}
+	else{
+		$msg = _MSG_NOIMAGE;
+		$new_image3 = '';
+	}
+	
+	if($tcms_main->isReal($tmp_image3)){
+		if($tcms_main->isReal($new_image3) && $new_image3 != ''){
+			if(file_exists('../../'.$tcms_administer_site.'/images/products/'.$tmp_image3)) {
+				unlink('../../'.$tcms_administer_site.'/images/products/'.$tmp_image3);
+			}
+			
+			$new_image3 = $new_image3;
+		}
+		elseif(trim($tmp_image3) == ''){
+			if(file_exists('../../'.$tcms_administer_site.'/images/products/'.$old_image3)) {
+				unlink('../../'.$tcms_administer_site.'/images/products/'.$old_image3);
+			}
+		}
+		else{
+			$new_image3 = $tmp_image3;
+		}
+	}
+	
+	// upload image4
+	if($_FILES['new_image4']['size'] > 0 
+	&& $tcms_main->isImage($_FILES['new_image4']['type'], true)){
+		$fileName = $_FILES['new_image4']['name'];
+		$imgDir = '../../'.$tcms_administer_site.'/images/products/';
+		
+		copy($_FILES['new_image4']['tmp_name'], $imgDir.$fileName);
+		
+		$msg = _MSG_UPLOAD.' '.$imgDir.$_FILES['new_image4']['name'];
+		$new_image4 = $_FILES['new_image4']['name'];
+	}
+	else{
+		$msg = _MSG_NOIMAGE;
+		$new_image4 = '';
+	}
+	
+	if($tcms_main->isReal($tmp_image4)){
+		if($tcms_main->isReal($new_image4) && $new_image4 != ''){
+			if(file_exists('../../'.$tcms_administer_site.'/images/products/'.$tmp_image4)) {
+				unlink('../../'.$tcms_administer_site.'/images/products/'.$tmp_image4);
+			}
+			
+			$new_image4 = $new_image4;
+		}
+		elseif(trim($tmp_image4) == ''){
+			if(file_exists('../../'.$tcms_administer_site.'/images/products/'.$old_image4)) {
+				unlink('../../'.$tcms_administer_site.'/images/products/'.$old_image4);
+			}
+		}
+		else{
+			$new_image4 = $tmp_image4;
+		}
+	}
+	
+	
+	// check
+	if(!$tcms_main->isReal($maintag)){
+		$createItem = true;
+		$maintag = $tcms_main->getNewUID(32, 'products');
+	}
+	else {
+		$createItem = false;
+	}
+	
+	if(empty($new_sos)){ $new_sos = 0; }
+	if(empty($new_status)){ $new_status = 0; }
+	if(empty($new_quantity)){ $new_quantity = -1; }
+	if(empty($new_price)){ $new_price = -1; }
+	if(!$tcms_main->isReal($new_pub)){ $new_pub = 0; }  // testweise mal mit !isReal ... schauen obs klappt
+	
+	if(empty($new_factory)){ $new_factory = ''; }
+	if(empty($new_factory_url)){ $new_factory_url = ''; }
+	if(empty($new_product_no)){ $new_product_no = ''; }
+	if(empty($new_parent)){ $new_parent = ''; }
+	if(empty($new_category)){ $new_category = ''; }
+	if(empty($new_product_no)){ $new_product_no = ''; }
+	if(empty($content)){ $new_product_no = ''; }
+	if(empty($new_name)){ $new_name = ''; }
+	
+	if(empty($new_pricetax)){ $new_pricetax = '0'; }
+	if(empty($type)){ $type = 'c'; }
+	if(empty($new_access)){ $new_access = 'Public'; }
+	if(empty($new_sort)){ $new_sort = $tcms_main->getAmountOfItems('products'); }
+	if(empty($new_date)){ $new_date = $tcms_time->getCurrentDate().'-'.$tcms_time->getCurrentTime(); }
+	
+	// CHARSETS
+	if($show_wysiwyg == 'tinymce'){
+		$content = stripslashes($content);
+	}
+	elseif($show_wysiwyg == 'fckeditor'){
+		$content = str_replace('../../../../../../../../../', '', $content);
+		$content = str_replace('../../../../', '', $content);
+	}
+	else{
+		$content = $tcms_main->nl2br($content);
+	}
+	
+	$new_name = $tcms_main->decodeText($new_name, '2', $c_charset);
+	$content = $tcms_main->decodeText($content, '2', $c_charset);
+	$new_factory = $tcms_main->decodeText($new_factory, '2', $c_charset);
+	$new_factory_url = $tcms_main->decodeText($new_factory_url, '2', $c_charset);
+	
+	
+	// save
+	if($choosenDB == 'xml') {
+		/*$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_products/'.$category.'/'.$article.'.xml', 'w');
+		$xmluser->xml_declaration();
+		$xmluser->xml_section('info');
+		
+		$xmluser->write_value('product', $new_product);
+		$xmluser->write_value('product_number', $new_product_no);
+		$xmluser->write_value('factory', $new_factory);
+		$xmluser->write_value('factory_url', $new_factory_url);
+		$xmluser->write_value('desc', $new_desc);
+		$xmluser->write_value('category', $new_category);
+		$xmluser->write_value('image', $new_image);
+		$xmluser->write_value('date', $new_date);
+		$xmluser->write_value('price', $new_price);
+		$xmluser->write_value('price_tax', $new_pricetax);
+		$xmluser->write_value('status', $new_status);
+		$xmluser->write_value('quantity', $new_quantity);
+		$xmluser->write_value('weight', $new_weight);
+		$xmluser->write_value('sort', $new_sort);
+		
+		$xmluser->xml_section_buffer();
+		$xmluser->xml_section_end('info');
+		$xmluser->_xmlparser();*/
+	}
+	else{
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		
+		if($createItem) {
+			switch($choosenDB) {
+				case 'mysql':
+					$newSQLColumns = '`name`, `product_number`, `factory`, `factory_url`, `desc`, '
+					.'`category`, `date`, `price`, `price_tax`, `status`, `quantity`, '
+					.'`weight`, `sort`, `sql_type`, `language`, `image1`, `image2`, '
+					.'`image3`, `image4`, `show_on_startpage`, `access`, '
+					.'`pub`, `parent`';
+					break;
+				
+				case 'pgsql':
+					$newSQLColumns = 'name, product_number, factory, factory_url, "desc", '
+					.'category, date, price, price_tax, status, quantity, '
+					.'weight, sort, sql_type, "language", image1, image2, '
+					.'image3, image4, show_on_startpage, "access", '
+					.'pub, "parent"';
+					break;
+				
+				case 'mssql':
+					$newSQLColumns = '[name], [product_number], [factory], [factory_url], [desc], '
+					.'[category], [date], [price], [price_tax], [status], [quantity], '
+					.'[weight], [sort], [sql_type], [language], [image1], [image2], '
+					.'[image3], [image4], [show_on_startpage], [access], '
+					.'[pub], [parent]';
+					break;
+			}
+			
+			$newSQLData = ""
+			."'".$new_name."', '".$new_product_no."', '".$new_factory."', '".$new_factory_url."', '".$content."', "
+			."'".$new_category."', '".$new_date."', '".$new_price."', '".$new_pricetax."', ".$new_status.", ".$new_quantity.", "
+			."'".$new_weight."', ".$new_sort.", '".$type."', '".$new_lang."', '".$new_image1."', '".$new_image2."', "
+			."'".$new_image3."', '".$new_image4."', ".$new_sos.", '".$new_access."', "
+			.$new_pub.", '".$new_parent."'";
+			
+			$sqlQR = $sqlAL->createOne(
+				$tcms_db_prefix.'products', 
+				$newSQLColumns, 
+				$newSQLData, 
+				$maintag, true
+			);
+		}
+		else {
+			
+			/*
+			---$wsUID        = $sqlObj->uid;
+			---$wsName       = $sqlObj->name;
+			---$wsLang       = $sqlObj->language
+			---$wsCat        = $sqlObj->category;
+			---$wsDate       = $sqlObj->date;
+			---$wsText       = $sqlObj->desc;
+			---$wsPub        = $sqlObj->pub;
+			---$wsSort       = $sqlObj->sort;
+			---$wsAccess     = $sqlObj->access;
+			---$wsSos        = $sqlObj->show_on_startpage;
+			---$wsFactory    = $sqlObj->factory;
+			---$wsFactoryUrl = $sqlObj->factory_url;
+			---$wsState      = $sqlObj->status;
+			---$wsProductNr  = $sqlObj->product_number;
+			---$wsPrice      = $sqlObj->price;
+			---$wsTax        = $sqlObj->price_tax;
+			---$wsQuantity   = $sqlObj->quantity;
+			---$wsWeight     = $sqlObj->weight;
+			---$wsParent     = $sqlObj->parent;
+			---$wsImage1     = $sqlObj->image1;
+			---$wsImage2     = $sqlObj->image2;
+			---$wsImage3     = $sqlObj->image3;
+			---$wsImage4     = $sqlObj->image4;
+			
+			$new_type
+			*/
+			$newSQLData = ''
+			.$tcms_db_prefix.'products.name="'.$new_product.'", '
+			.$tcms_db_prefix.'products.product_number="'.$new_product_no.'", '
+			.$tcms_db_prefix.'products.factory="'.$new_factory.'", '
+			.$tcms_db_prefix.'products.factory_url="'.$new_factory_url.'", '
+			.$tcms_db_prefix.'products.desc="'.$new_desc.'", '
+			.$tcms_db_prefix.'products.category="'.$new_category.'", '
+			.$tcms_db_prefix.'products.image="'.$new_image.'", '
+			.$tcms_db_prefix.'products.date="'.$new_date.'", '
+			.$tcms_db_prefix.'products.price="'.$new_price.'", '
+			.$tcms_db_prefix.'products.price_tax="'.$new_pricetax.'", '
+			.$tcms_db_prefix.'products.status='.$new_status.', '
+			.$tcms_db_prefix.'products.quantity='.$new_quantity.', '
+			.$tcms_db_prefix.'products.weight="'.$new_weight.'", '
+			.$tcms_db_prefix.'products.sort='.$new_sort.', '
+			.$tcms_db_prefix.'products.sql_type="f"';
+			
+			$sqlQR = $sqlAL->updateOne(
+				$tcms_db_prefix.'products', 
+				$newSQLData, 
+				$maintag
+			);
+			
+			/*$sqlQR = $sqlAL->updateField(
+				$tcms_db_prefix.'products', 
+				$newSQLData, 
+				'language', 
+				$new_lang
+			);*/
+		}
+	}
+	
+	echo '<script>'
+	.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_products'
+	.( $category != '' ? '&category='.$category : '' ).'\';'
+	.'</script>';
 }
 
 
@@ -2223,7 +2625,7 @@ if($todo == 'category'){
 // -------------------------------------------------
 
 
-if($todo == 'save'){
+if($todo == 'save____'){
 	//*****************************************
 	
 	if(empty($new_status)){ $new_status = 0; }

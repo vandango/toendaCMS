@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a news manager with a news,
  * a news view and a archive with different formats.
  *
- * @version 1.3.4
+ * @version 1.3.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -875,6 +875,7 @@ if($cmd == '' && $news == ''){
 				."FROM ".$tcms_db_prefix."news "
 				."WHERE date LIKE '%.".substr($date, 4, 2).'.'.substr($date, 0, 4)."' "
 				."AND access = 'Public' ".$authSQL
+				."AND ".$tcms_db_prefix."news.language = '".$getLang."' "
 				."AND ".$tcms_db_prefix."news.published = 1 "
 				."ORDER BY stamp DESC";
 			}
@@ -909,6 +910,7 @@ if($cmd == '' && $news == ''){
 				."FROM ".$tcms_db_prefix."news "
 				."WHERE date = '".substr($date, 6, 2).".".substr($date, 4, 2).".".substr($date, 0, 4)."' "
 				."AND access = 'Public' ".$authSQL
+				."AND ".$tcms_db_prefix."news.language = '".$getLang."' "
 				."AND ".$tcms_db_prefix."news.published = 1 "
 				."ORDER BY stamp DESC";
 			}
@@ -959,6 +961,7 @@ if($cmd == '' && $news == ''){
 			."INNER JOIN ".$tcms_db_prefix."news ON (".$tcms_db_prefix."news_to_categories.news_uid = ".$tcms_db_prefix."news.uid) "
 			."WHERE ".$tcms_db_prefix."news_to_categories.cat_uid = '".$cat."' "
 			."AND ".$tcms_db_prefix."news.published = 1 "
+			."AND ".$tcms_db_prefix."news.language = '".$getLang."' "
 			."AND ".$tcms_db_prefix."news.access = 'Public' ".$authSQL
 			."ORDER BY ".$tcms_db_prefix."news.stamp DESC, ".$tcms_db_prefix."news.date DESC, ".$tcms_db_prefix."news.time DESC";
 		}
@@ -1576,7 +1579,11 @@ if($news != 'start' && $cmd != 'comment_save'){
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 					
-					echo '<td valign="top">'.( $dcNews->getTitle() == '' ? '' : '<a href="'.$link.'">'.$dcNews->getTitle().'</a>' ).'</td>';
+					echo '<td valign="top">&nbsp;'
+					.( $dcNews->getTitle() == '' 
+						? '' 
+						: '<a href="'.$link.'">'.$dcNews->getTitle().'</a>'
+					).'</td>';
 					
 					echo '</tr>';
 				}
@@ -1683,6 +1690,7 @@ if($news != 'start' && $cmd != 'comment_save'){
 						."INNER JOIN ".$tcms_db_prefix."news ON (".$tcms_db_prefix."news_to_categories.news_uid = ".$tcms_db_prefix."news.uid) "
 						."WHERE ".$tcms_db_prefix."news_to_categories.cat_uid = '".$sqlARRnc['uid']."' "
 						."AND ".$tcms_db_prefix."news.published = 1 "
+						."AND ".$tcms_db_prefix."news.language = '".$getLang."' "
 						."AND ".$tcms_db_prefix."news.access = 'Public' ".$authSQL
 						."ORDER BY ".$tcms_db_prefix."news.stamp DESC, ".$tcms_db_prefix."news.date DESC, ".$tcms_db_prefix."news.time DESC";
 						
@@ -1782,7 +1790,11 @@ if($news != 'start' && $cmd != 'comment_save'){
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 					
-					echo '<td valign="top">'.( empty($arr_newsItems['title'][$key]) ? '' : '<a href="'.$link.'">'.$arr_newsItems['title'][$key].'</a>' ).'</td>';
+					echo '<td valign="top">&nbsp;'
+					.( empty($arr_newsItems['title'][$key]) 
+						? '' 
+						: '<a href="'.$link.'">'.$arr_newsItems['title'][$key].'</a>'
+					).'</td>';
 					
 					echo '</tr>';
 				}
