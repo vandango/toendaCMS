@@ -1165,7 +1165,10 @@ if($todo == 'edit'){
 		
 		
 		if($showAll == true){
-			if(!isset($nws_image) || $nws_image == '' || empty($nws_image) || !strpos($nws_image, '.')){ $nws_image = 'system/toendacms.png'; }
+			if(!isset($nws_image) || $nws_image == '' || empty($nws_image) || !strpos($nws_image, '.')){
+				$nws_image = 'system/toendacms.png';
+			}
+			
 			$width = '150';
 			
 			
@@ -1812,9 +1815,9 @@ if($todo == 'save'){
 	
 	
 	// CHARSETS
-	$titel   = $tcms_main->decodeText($titel, '2', $c_charset);
-	$autor   = $tcms_main->decodeText($autor, '2', $c_charset);
-	$content = $tcms_main->decodeText($content, '2', $c_charset);
+	$titel   = $tcms_main->encodeText($titel, '2', $c_charset);
+	$autor   = $tcms_main->encodeText($autor, '2', $c_charset);
+	$content = $tcms_main->encodeText($content, '2', $c_charset);
 	
 	
 	$stamp = substr($new_publish_date, 6, 4).substr($new_publish_date, 3, 2).substr($new_publish_date, 0, 2).substr($new_publish_date, 11, 2).substr($new_publish_date, 14, 2);
@@ -1869,7 +1872,11 @@ if($todo == 'save'){
 		.$tcms_db_prefix.'news.language="'.$language.'", '
 		.$tcms_db_prefix.'news.show_on_frontpage='.$new_sof;
 		
-		$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'news', $newSQLData, $maintag);
+		$sqlQR = $sqlAL->updateOne(
+			$tcms_db_prefix.'news', 
+			$newSQLData, 
+			$maintag
+		);
 	}
 	
 	// regenerate feeds
