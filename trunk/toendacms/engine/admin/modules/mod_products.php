@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used for the products configuration
  * and the administration of all the products.
  *
- * @version 0.6.2
+ * @version 0.6.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -901,9 +901,10 @@ if($todo == 'edit') {
 		}
 		
 		// CHARSETS
-		$arr_pro['name'][$count] = $tcms_main->decodeText($arr_pro['name'][$count], '2', $c_charset);
+		$wsName = $tcms_main->decodeText($wsName, '2', $c_charset);
+		$wsText = $tcms_main->decodeText($wsText, '2', $c_charset);
 		
-		$arr_pro['name'][$count] = htmlspecialchars($arr_pro['name'][$count]);
+		$wsName = htmlspecialchars($wsName);
 	}
 	else {
 		$maintag = $tcms_main->getNewUID(32, 'products');
@@ -1469,10 +1470,10 @@ if($todo == 'save_config') {
 	}
 	
 	
-	$new_ptitle = $tcms_main->decode_text($new_ptitle, '2', $c_charset);
-	$new_pstamp = $tcms_main->decode_text($new_pstamp, '2', $c_charset);
-	$content    = $tcms_main->decode_text($content, '2', $c_charset);
-	$new_ctitle = $tcms_main->decode_text($new_ctitle, '2', $c_charset);
+	$new_ptitle = $tcms_main->encodeText($new_ptitle, '2', $c_charset);
+	$new_pstamp = $tcms_main->encodeText($new_pstamp, '2', $c_charset);
+	$content    = $tcms_main->encodeText($content, '2', $c_charset);
+	$new_ctitle = $tcms_main->encodeText($new_ctitle, '2', $c_charset);
 	
 	
 	if($tcms_main->isReal($new_lang)) {
@@ -1796,10 +1797,10 @@ if($todo == 'save') {
 		$content = $tcms_main->nl2br($content);
 	}
 	
-	$new_name = $tcms_main->decodeText($new_name, '2', $c_charset);
-	$content = $tcms_main->decodeText($content, '2', $c_charset);
-	$new_factory = $tcms_main->decodeText($new_factory, '2', $c_charset);
-	$new_factory_url = $tcms_main->decodeText($new_factory_url, '2', $c_charset);
+	$new_name = $tcms_main->encodeText($new_name, '2', $c_charset);
+	$content = $tcms_main->encodeText($content, '2', $c_charset);
+	$new_factory = $tcms_main->encodeText($new_factory, '2', $c_charset);
+	$new_factory_url = $tcms_main->encodeText($new_factory_url, '2', $c_charset);
 	
 	
 	// save

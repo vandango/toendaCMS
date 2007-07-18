@@ -1197,9 +1197,9 @@ if($todo == 'save'){
 	
 	
 	// CHARSETS
-	$new_faq_title = $tcms_main->decode_text($new_faq_title, '2', $c_charset);
-	$new_faq_subt  = $tcms_main->decode_text($new_faq_subt, '2', $c_charset);
-	$content       = $tcms_main->decode_text($content, '2', $c_charset);
+	$new_faq_title = $tcms_main->encodeText($new_faq_title, '2', $c_charset);
+	$new_faq_subt  = $tcms_main->encodeText($new_faq_subt, '2', $c_charset);
+	$content       = $tcms_main->encodeText($content, '2', $c_charset);
 	
 	
 	if($choosenDB == 'xml'){

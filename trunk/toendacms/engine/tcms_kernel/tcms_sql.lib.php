@@ -40,7 +40,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Untested Database Server:
  * - SQLite        -> sqlite
  *
- * @version 0.6.7
+ * @version 0.6.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -1122,8 +1122,11 @@ class sqlAbstractionLayer{
 			case 'mysql':
 				if($withDebug) {
 					//echo 'UPDATE '.$sqlTable.' SET '.$newDataString.' WHERE uid = "'.$sqlUID.'"';
+					$dt = str_replace('.', '', $tcms_time->getCurrentDate().$tcms_time->getCurrentTime());
+					$dt = str_replace(':', '', $dt);
+					
 					$fp = fopen(
-						'log_sqlUpdateOne_'.$tcms_time->getCurrentDate().$tcms_time->getCurrentTime().'.txt', 
+						'log_sqlUpdateOne_'.$dt.'.txt', 
 						'w'
 					);
 					fwrite($fp, 'UPDATE '.$sqlTable.' SET '.$newDataString.' WHERE uid = "'.$sqlUID.'"');
