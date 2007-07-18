@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used for the download configuration
  * and the administration of all the downloads.
  *
- * @version 0.7.3
+ * @version 0.7.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -194,8 +194,8 @@ if($param_save_mode == 'off'){
 		//=====================================================
 		
 		if($todo == 'show'){
-			echo tcms_html::bold(_DOWNLOADS_TITLE);
-			echo tcms_html::text(_DOWNLOADS_TEXT.'<br /><br />', 'left');
+			echo $tcms_html->bold(_DOWNLOADS_TITLE);
+			echo $tcms_html->text(_DOWNLOADS_TEXT.'<br /><br />', 'left');
 			
 			
 			if(isset($category)){
@@ -810,8 +810,8 @@ if($param_save_mode == 'off'){
 			$width = '150';
 			
 			
-			echo tcms_html::bold(_TABLE_NEW);
-			echo tcms_html::text(_DOWNLOADS_NEW_CAT.'<br /><br />', 'left');
+			echo $tcms_html->bold(_TABLE_NEW);
+			echo $tcms_html->text(_DOWNLOADS_NEW_CAT.'<br /><br />', 'left');
 			
 			
 			// form
@@ -907,8 +907,8 @@ if($param_save_mode == 'off'){
 			
 			
 			// title
-			echo tcms_html::bold(_TABLE_NEW);
-			echo tcms_html::text(_DOWNLOADS_NEW.' '._DOWNLOADS_HELP.'<br /><br />', 'left');
+			echo $tcms_html->bold(_TABLE_NEW);
+			echo $tcms_html->text(_DOWNLOADS_NEW.' '._DOWNLOADS_HELP.'<br /><br />', 'left');
 			
 			
 			// begin form

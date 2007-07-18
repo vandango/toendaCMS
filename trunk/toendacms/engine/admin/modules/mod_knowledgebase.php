@@ -9,7 +9,7 @@
 | 
 | Knowledgebase
 |
-| File:		mod_knowledgebase.php
+| File:	mod_knowledgebase.php
 |
 +
 */
@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used as a Knowledgebase.
  *
- * @version 0.5.1
+ * @version 0.5.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -56,9 +56,9 @@ if(isset($_POST['new_faq_autor_enabled'])){ $new_faq_autor_enabled = $_POST['new
 
 
 
-//=====================================================
+// -------------------------------------------------
 // INIT
-//=====================================================
+// -------------------------------------------------
 
 if(!isset($todo)){ $todo = 'show'; }
 
@@ -78,28 +78,28 @@ if($show_wysiwyg == 'tinymce'){
 
 
 
-//=====================================================
+// -------------------------------------------------
 // CONFIG
-//=====================================================
+// -------------------------------------------------
 
 if($todo == 'config'){
 	if($id_group == 'Developer' || $id_group == 'Administrator'){
 		if($choosenDB == 'xml'){
 			$knowledgebase_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/knowledgebase.xml','r');
 			
-			$faq_title         = $knowledgebase_xml->read_section('config', 'title');
-			$faq_subtitle      = $knowledgebase_xml->read_section('config', 'subtitle');
-			$faq_text          = $knowledgebase_xml->read_section('config', 'text');
-			$faq_enabled       = $knowledgebase_xml->read_section('config', 'enabled');
-			$faq_autor_enabled = $knowledgebase_xml->read_section('config', 'autor_enabled');
-			$faq_access        = $knowledgebase_xml->read_section('config', 'access');
+			$faq_title         = $knowledgebase_xml->readSection('config', 'title');
+			$faq_subtitle      = $knowledgebase_xml->readSection('config', 'subtitle');
+			$faq_text          = $knowledgebase_xml->readSection('config', 'text');
+			$faq_enabled       = $knowledgebase_xml->readSection('config', 'enabled');
+			$faq_autor_enabled = $knowledgebase_xml->readSection('config', 'autor_enabled');
+			$faq_access        = $knowledgebase_xml->readSection('config', 'access');
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'knowledgebase_config', 'knowledgebase');
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+			$sqlQR = $sqlAL->getOne($tcms_db_prefix.'knowledgebase_config', 'knowledgebase');
+			$sqlARR = $sqlAL->fetchArray($sqlQR);
 			
 			$faq_id             = $sqlARR['id'];
 			$faq_title          = $sqlARR['title'];
@@ -259,13 +259,13 @@ if($todo == 'config'){
 
 
 
-//=====================================================
-// SHOW OLD VALUES
-//=====================================================
+// -------------------------------------------------
+// LIST
+// -------------------------------------------------
 
 if($todo == 'show'){
-	echo tcms_html::bold(_FAQ_TITLE);
-	echo tcms_html::text(_FAQ_TEXT.'<br /><br />', 'left');
+	echo $tcms_html->bold(_FAQ_TITLE);
+	echo $tcms_html->text(_FAQ_TEXT.'<br /><br />', 'left');
 	
 	
 	
@@ -275,33 +275,33 @@ if($todo == 'show'){
 			
 			$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$category.'.xml','r');
 			
-			//$access_cat = $down_xml->read_section('faq', 'access');
+			//$access_cat = $down_xml->readSection('faq', 'access');
 			
-			$arrFAQparent['type'][$count] = $xml->read_section('faq', 'type');
-			$arrFAQparent['pub'][$count]  = $xml->read_section('faq', 'publish_state');
+			$arrFAQparent['type'][$count] = $xml->readSection('faq', 'type');
+			$arrFAQparent['pub'][$count]  = $xml->readSection('faq', 'publish_state');
 			
 			if($arrFAQparent['type'][$count] == 'c' && $arrFAQparent['pub'][$count] == '2'){
-				$arrFAQparent['title'][$count]  = $xml->read_section('faq', 'title');
-				$arrFAQparent['parent'][$count] = $xml->read_section('faq', 'parent');
+				$arrFAQparent['title'][$count]  = $xml->readSection('faq', 'title');
+				$arrFAQparent['parent'][$count] = $xml->readSection('faq', 'parent');
 				$arrFAQparent['uid'][$count]    = substr($category, 0, 10);
 				
 				// CHARSETS
 				$arrFAQparent['title'][$count] = $tcms_main->decodeText($arrFAQparent['title'][$count], '2', $c_charset);
 				
-				$checkCat = $xml->read_section('faq', 'category');
+				$checkCat = $xml->readSection('faq', 'category');
 				
 				$count++;
 				
 				while($checkCat != ""){
 					$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$arrFAQparent['parent'][$count - 1].'.xml','r');
 					
-					$checkCat = $xml->read_section('faq', 'category');
-					$arrFAQparent['type'][$count]   = $xml->read_section('faq', 'type');
-					$arrFAQparent['pub'][$count]    = $xml->read_section('faq', 'publish_state');
+					$checkCat = $xml->readSection('faq', 'category');
+					$arrFAQparent['type'][$count]   = $xml->readSection('faq', 'type');
+					$arrFAQparent['pub'][$count]    = $xml->readSection('faq', 'publish_state');
 					
 					if($arrFAQparent['type'][$count] == 'c' && $arrFAQparent['pub'][$count] == '2'){
-						$arrFAQparent['title'][$count]  = $xml->read_section('faq', 'title');
-						$arrFAQparent['parent'][$count] = $xml->read_section('faq', 'parent');
+						$arrFAQparent['title'][$count]  = $xml->readSection('faq', 'title');
+						$arrFAQparent['parent'][$count] = $xml->readSection('faq', 'parent');
 						$arrFAQparent['uid'][$count]    = substr($arrFAQparent['parent'][$count - 1], 0, 10);
 						
 						// CHARSETS
@@ -343,11 +343,11 @@ if($todo == 'show'){
 			
 			$count = 0;
 			
-			$sqlQR = $sqlAL->sqlQuery($sqlSTRparent);
-			$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+			$sqlQR = $sqlAL->query($sqlSTRparent);
+			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
 			while($sqlNR > 0){
-				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+				$sqlARR = $sqlAL->fetchArray($sqlQR);
 				
 				unset($sqlQR);
 				
@@ -370,9 +370,9 @@ if($todo == 'show'){
 				."AND ( access = 'Public' "
 				.$strAdd;
 				
-				$sqlQR = $sqlAL->sqlQuery($sqlSTRparent);
+				$sqlQR = $sqlAL->query($sqlSTRparent);
 				
-				$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+				$sqlNR = $sqlAL->getNumber($sqlQR);
 				
 				$count++;
 				$checkFAQTitle = $count;
@@ -416,7 +416,7 @@ if($todo == 'show'){
 		if(is_array($arr_filename)){
 			foreach($arr_filename as $key => $value){
 				$menu_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$value,'r');
-				$checkCat = $menu_xml->read_section('faq', 'category');
+				$checkCat = $menu_xml->readSection('faq', 'category');
 				
 				
 				/*
@@ -435,16 +435,16 @@ if($todo == 'show'){
 				if($countThis){
 					$arrFAQ['uid'][$count]     = substr($value, 0, 10);
 					$arrFAQ['cat'][$count]     = $checkCat;
-					$arrFAQ['title'][$count]   = $menu_xml->read_section('faq', 'title');
-					$arrFAQ['subt'][$count]    = $menu_xml->read_section('faq', 'subtitle');
-					$arrFAQ['content'][$count] = $menu_xml->read_section('faq', 'content');
-					$arrFAQ['date'][$count]    = $menu_xml->read_section('faq', 'date');
-					$arrFAQ['type'][$count]    = $menu_xml->read_section('faq', 'type');
-					$arrFAQ['sort'][$count]    = $menu_xml->read_section('faq', 'sort');
-					$arrFAQ['img'][$count]     = $menu_xml->read_section('faq', 'image');
-					$arrFAQ['pub'][$count]     = $menu_xml->read_section('faq', 'publish_state');
-					$arrFAQ['access'][$count]  = $menu_xml->read_section('faq', 'access');
-					$arrFAQ['autor'][$count]   = $menu_xml->read_section('faq', 'autor');
+					$arrFAQ['title'][$count]   = $menu_xml->readSection('faq', 'title');
+					$arrFAQ['subt'][$count]    = $menu_xml->readSection('faq', 'subtitle');
+					$arrFAQ['content'][$count] = $menu_xml->readSection('faq', 'content');
+					$arrFAQ['date'][$count]    = $menu_xml->readSection('faq', 'date');
+					$arrFAQ['type'][$count]    = $menu_xml->readSection('faq', 'type');
+					$arrFAQ['sort'][$count]    = $menu_xml->readSection('faq', 'sort');
+					$arrFAQ['img'][$count]     = $menu_xml->readSection('faq', 'image');
+					$arrFAQ['pub'][$count]     = $menu_xml->readSection('faq', 'publish_state');
+					$arrFAQ['access'][$count]  = $menu_xml->readSection('faq', 'access');
+					$arrFAQ['autor'][$count]   = $menu_xml->readSection('faq', 'autor');
 					
 					// CHARSETS
 					$arrFAQ['title'][$count]   = $tcms_main->decodeText($arrFAQ['title'][$count], '2', $c_charset);
@@ -478,8 +478,8 @@ if($todo == 'show'){
 		}
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		switch($id_group){
 			case 'Developer':
@@ -517,11 +517,11 @@ if($todo == 'show'){
 			."ORDER BY sort ASC, date ASC, title ASC";
 		}
 		
-		$sqlQR = $sqlAL->sqlQuery($sqlSTR);
+		$sqlQR = $sqlAL->query($sqlSTR);
 		
 		$count = 0;
 		
-		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+		while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 			$arrFAQ['uid'][$count]     = $sqlARR['uid'];
 			$arrFAQ['title'][$count]   = $sqlARR['title'];
 			$arrFAQ['subt'][$count]    = $sqlARR['subtitle'];
@@ -608,7 +608,7 @@ if($todo == 'show'){
 			}
 			
 			
-			echo '<td class="tcms_db_2" '.$strLocation.'>'.$arrFAQ['title'][$key].'&nbsp;</td>';
+			echo '<td class="tcms_db_2" align="left" '.$strLocation.'>'.$arrFAQ['title'][$key].'&nbsp;</td>';
 			echo '<td class="tcms_db_2" '.$strLocation.'>'.$arrFAQ['subt'][$key].'&nbsp;</td>';
 			echo '<td class="tcms_db_2" '.$strLocation.'>'.$arrFAQ['date'][$key].'&nbsp;</td>';
 			
@@ -681,25 +681,25 @@ if($todo == 'show'){
 
 
 
-//=====================================================
-// FORM
-//=====================================================
+// -------------------------------------------------
+// EDIT
+// -------------------------------------------------
 
-if($todo == 'edit'){
-	if($tcms_main->isReal($maintag)){
-		if($choosenDB == 'xml'){
+if($todo == 'edit') {
+	if($tcms_main->isReal($maintag)) {
+		if($choosenDB == 'xml') {
 			$menu_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$maintag.'.xml','r');
-			$arrFAQ_title   = $menu_xml->read_section('faq', 'title');
-			$arrFAQ_subt    = $menu_xml->read_section('faq', 'subtitle');
-			$arrFAQ_content = $menu_xml->read_section('faq', 'content');
-			$arrFAQ_date    = $menu_xml->read_section('faq', 'date');
-			$arrFAQ_type    = $menu_xml->read_section('faq', 'type');
-			$arrFAQ_sort    = $menu_xml->read_section('faq', 'sort');
-			$arrFAQ_img     = $menu_xml->read_section('faq', 'image');
-			$arrFAQ_pub     = $menu_xml->read_section('faq', 'publish_state');
-			$arrFAQ_access  = $menu_xml->read_section('faq', 'access');
-			$arrFAQ_cat     = $menu_xml->read_section('faq', 'category');
-			$arrFAQ_autor   = $menu_xml->read_section('faq', 'autor');
+			$arrFAQ_title   = $menu_xml->readSection('faq', 'title');
+			$arrFAQ_subt    = $menu_xml->readSection('faq', 'subtitle');
+			$arrFAQ_content = $menu_xml->readSection('faq', 'content');
+			$arrFAQ_date    = $menu_xml->readSection('faq', 'date');
+			$arrFAQ_type    = $menu_xml->readSection('faq', 'type');
+			$arrFAQ_sort    = $menu_xml->readSection('faq', 'sort');
+			$arrFAQ_img     = $menu_xml->readSection('faq', 'image');
+			$arrFAQ_pub     = $menu_xml->readSection('faq', 'publish_state');
+			$arrFAQ_access  = $menu_xml->readSection('faq', 'access');
+			$arrFAQ_cat     = $menu_xml->readSection('faq', 'category');
+			$arrFAQ_autor   = $menu_xml->readSection('faq', 'autor');
 			
 			if($arrFAQ_title   == false){ $arrFAQ_title   = ''; }
 			if($arrFAQ_subt    == false){ $arrFAQ_subt    = ''; }
@@ -714,11 +714,11 @@ if($todo == 'edit'){
 			if($arrFAQ_cat     == false){ $arrFAQ_cat     = ''; }
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'knowledgebase', $maintag);
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+			$sqlQR = $sqlAL->getOne($tcms_db_prefix.'knowledgebase', $maintag);
+			$sqlARR = $sqlAL->fetchArray($sqlQR);
 			
 			
 			$arrFAQ_uid     = $sqlARR['uid'];
@@ -751,7 +751,7 @@ if($todo == 'edit'){
 		$arrFAQ_subt    = $tcms_main->decodeText($arrFAQ_subt, '2', $c_charset);
 		$arrFAQ_content = $tcms_main->decodeText($arrFAQ_content, '2', $c_charset);
 		
-		echo tcms_html::bold(_TABLE_EDIT);
+		echo $tcms_html->bold(_TABLE_EDIT);
 		$odot = 'save';
 	}
 	else{
@@ -775,7 +775,7 @@ if($todo == 'edit'){
 		$maintag = $tcms_main->getNewUID(10, 'knowledgebase');
 		
 		
-		echo tcms_html::bold(_TABLE_NEW);
+		echo $tcms_html->bold(_TABLE_NEW);
 		$odot = 'next';
 	}
 	
@@ -815,7 +815,7 @@ if($todo == 'edit'){
 	
 	$width = '200';
 	
-	echo tcms_html::text(_FAQ_TEXT.'<br /><br />', 'left');
+	echo $tcms_html->text(_FAQ_TEXT.'<br /><br />', 'left');
 	
 	
 	// begin form
@@ -933,10 +933,18 @@ if($todo == 'edit'){
 	echo '<strong class="tcms_bold">'._TABLE_CATEGORY.'</strong>'
 	.'<select class="tcms_select" name="new_faq_cat">';
 	
-	echo '<option value=""'.( $arrFAQ_cat == null ? ' selected="selected"' : '' ).'>'._FAQ_BASE_CATEGORY.'</option>';
+	echo '<option value=""'.( $arrFAQ_cat == '' && $category == '' ? ' selected="selected"' : '' ).'>'
+	._FAQ_BASE_CATEGORY
+	.'</option>';
 	
 	foreach($arrFAQCategories['tag'] as $key => $value){
-		echo '<option value="'.$value.'"'.( $value == $arrFAQ_cat ? ' selected="selected"' : '' ).'>'.$arrFAQCategories['title'][$key].'</option>';
+		echo '<option value="'.$value.'"'
+		.( $value == $arrFAQ_cat || $value == $category
+			? ' selected="selected"' 
+			: '' 
+		).'>'
+		.$arrFAQCategories['title'][$key]
+		.'</option>';
 	}
 	
 	echo '</select>';
@@ -1026,63 +1034,102 @@ if($todo == 'edit'){
 
 
 
-//===================================================================================
+// -------------------------------------------------
 // CHANGE PUBLISHING
-//===================================================================================
+// -------------------------------------------------
 
 if($todo == 'changePublish'){
 	switch($action){
 		// Take it off
 		case 'off':
-			if($choosenDB == 'xml'){ xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$maintag.'.xml', 'publish_state', '2', '0'); }
+			if($choosenDB == 'xml') {
+				xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$maintag.'.xml', 'publish_state', '2', '0');
+			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				$newSQLData = $tcms_db_prefix.'knowledgebase.publish_state=0';
-				$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'knowledgebase', $newSQLData, $maintag);
+				$sqlQR = $sqlAL->updateOne($tcms_db_prefix.'knowledgebase', $newSQLData, $maintag);
 			}
 			
 			if($sender == 'desktop'){
-				echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\';</script>';
+				echo '<script type="text/javascript">'
+				.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\';'
+				.'</script>';
 			}
 			else{
-				echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_knowledgebase\';</script>';
+				if($tcms_main->isReal($new_faq_cat)) {
+					$strAdd = '&category='.$new_faq_cat;
+				}
+				else {
+					$strAdd = '';
+				}
+				
+				echo '<script type="text/javascript">'
+				.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_knowledgebase'.$strAdd.'\';'
+				.'</script>';
 			}
 			break;
 		
 		// Take it on
 		case 'on':
-			if($choosenDB == 'xml'){ xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$maintag.'.xml', 'publish_state', '1', '2'); }
+			if($choosenDB == 'xml'){
+				xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$maintag.'.xml', 'publish_state', '1', '2');
+			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				$newSQLData = $tcms_db_prefix.'knowledgebase.publish_state=2';
-				$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'knowledgebase', $newSQLData, $maintag);
+				$sqlQR = $sqlAL->updateOne($tcms_db_prefix.'knowledgebase', $newSQLData, $maintag);
 			}
 			
 			if($sender == 'desktop'){
-				echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\';</script>';
+				echo '<script type="text/javascript">'
+				.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\';'
+				.'</script>';
 			}
 			else{
-				echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_knowledgebase\';</script>';
+				if($tcms_main->isReal($new_faq_cat)) {
+					$strAdd = '&category='.$new_faq_cat;
+				}
+				else {
+					$strAdd = '';
+				}
+				
+				echo '<script type="text/javascript">'
+				.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_knowledgebase'.$strAdd.'\';'
+				.'</script>';
 			}
 			break;
 		
 		// Take it on
 		case 'st':
-			if($choosenDB == 'xml'){ xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$maintag.'.xml', 'publish_state', '0', '1'); }
+			if($choosenDB == 'xml'){
+				xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$maintag.'.xml', 'publish_state', '0', '1');
+			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				$newSQLData = $tcms_db_prefix.'knowledgebase.publish_state=1';
-				$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'knowledgebase', $newSQLData, $maintag);
+				$sqlQR = $sqlAL->updateOne($tcms_db_prefix.'knowledgebase', $newSQLData, $maintag);
 			}
 			
 			if($sender == 'desktop'){
-				echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\';</script>';
+				echo '<script type="text/javascript">'
+				.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\';'
+				.'</script>';
 			}
 			else{
-				echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_knowledgebase\';</script>';
+				if($tcms_main->isReal($new_faq_cat)) {
+					$strAdd = '&category='.$new_faq_cat;
+				}
+				else {
+					$strAdd = '';
+				}
+				
+				echo '<script type="text/javascript">'
+				.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_knowledgebase'.$strAdd.'\';'
+				.'</script>';
 			}
 			break;
 	}
@@ -1092,9 +1139,9 @@ if($todo == 'changePublish'){
 
 
 
-//=====================================================
-// SAVEING
-//=====================================================
+// -------------------------------------------------
+// SASE CONFIGURATION
+// -------------------------------------------------
 
 if($todo == 'save_config'){
 	if(empty($new_faq_enabled))      { $new_faq_enabled       = 0; }
@@ -1145,8 +1192,8 @@ if($todo == 'save_config'){
 		$xmluser->_xmlparser();
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		$newSQLData = ''
 		.$tcms_db_prefix.'knowledgebase_config.title="'.$new_faq_title.'", '
@@ -1156,25 +1203,23 @@ if($todo == 'save_config'){
 		.$tcms_db_prefix.'knowledgebase_config.enabled='.$new_faq_enabled.', '
 		.$tcms_db_prefix.'knowledgebase_config.autor_enabled='.$new_faq_autor_enabled;
 		
-		$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'knowledgebase_config', $newSQLData, 'knowledgebase');
+		$sqlQR = $sqlAL->updateOne($tcms_db_prefix.'knowledgebase_config', $newSQLData, 'knowledgebase');
 	}
 	
-	//---------------------------------------------------------------------
-	
-	echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_knowledgebase&todo=config\'</script>';
+	echo '<script>'
+	.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_knowledgebase&todo=config\';'
+	.'</script>';
 }
 
 
 
 
 
-//=====================================================
-// SAVING
-//=====================================================
+// -------------------------------------------------
+// SASE
+// -------------------------------------------------
 
 if($todo == 'save'){
-	//****************************************
-	
 	if($new_faq_cat  == '' || !isset($new_faq_cat)) { $new_faq_cat  = null; }
 	if($new_faq_sort == '' || !isset($new_faq_sort)){ $new_faq_sort = 0; }
 	
@@ -1203,7 +1248,10 @@ if($todo == 'save'){
 	
 	
 	if($choosenDB == 'xml'){
-		if(!isset($_POST['CatCount']) || $_POST['CatCount'] == '' || empty($_POST['CatCount'])){ $_POST['CatCount'] = 0; }
+		if(!isset($_POST['CatCount']) || $_POST['CatCount'] == '' || empty($_POST['CatCount'])) {
+			$_POST['CatCount'] = 0;
+		}
+		
 		$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$maintag.'.xml', 'w');
 		$xmluser->xml_declaration();
 		$xmluser->xml_section('faq');
@@ -1227,8 +1275,8 @@ if($todo == 'save'){
 		$xmluser->_xmlparser();
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		$newSQLData = ''
 		.$tcms_db_prefix.'knowledgebase.category="'.$new_faq_cat.'", '
@@ -1245,25 +1293,30 @@ if($todo == 'save'){
 		.$tcms_db_prefix.'knowledgebase.sort='.$new_faq_sort.', '
 		.$tcms_db_prefix.'knowledgebase.publish_state='.$new_faq_pub.'';
 		
-		$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'knowledgebase', $newSQLData, $maintag);
+		$sqlQR = $sqlAL->updateOne($tcms_db_prefix.'knowledgebase', $newSQLData, $maintag);
 	}
 	
-	echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_knowledgebase\'</script>';
+	if($tcms_main->isReal($new_faq_cat)) {
+		$strAdd = '&category='.$new_faq_cat;
+	}
+	else {
+		$strAdd = '';
+	}
 	
-	//****************************************
+	echo '<script>'
+	.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_knowledgebase'.$strAdd.'\';'
+	.'</script>';
 }
 
 
 
 
 
-//=====================================================
-// SAVING
-//=====================================================
+// -------------------------------------------------
+// CREATE ITEM
+// -------------------------------------------------
 
 if($todo == 'next'){
-	//****************************************
-	
 	if($new_faq_cat  == '' || !isset($new_faq_cat)) { $new_faq_cat  = null; }
 	if($new_faq_sort == '' || !isset($new_faq_sort)){ $new_faq_sort = 0; }
 	
@@ -1317,8 +1370,8 @@ if($todo == 'next'){
 		$xmluser->_xmlparser();
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		switch($choosenDB){
 			case 'mysql':
@@ -1344,55 +1397,67 @@ if($todo == 'next'){
 		$sqlQR = $sqlAL->sqlCreateOne($tcms_db_prefix.'knowledgebase', $newSQLColumns, $newSQLData, $maintag);
 	}
 	
-	echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_knowledgebase\'</script>';
+	if($tcms_main->isReal($new_faq_cat)) {
+		$strAdd = '&category='.$new_faq_cat;
+	}
+	else {
+		$strAdd = '';
+	}
 	
-	//****************************************
+	echo '<script>'
+	.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_knowledgebase'.$strAdd.'\';'
+	.'</script>';
 }
 
 
 
 
 
-//===================================================================================
+// -------------------------------------------------
 // DELETE
-//===================================================================================
+// -------------------------------------------------
 
 if($todo == 'delete'){
-	//****************************************
-	
 	if($choosenDB == 'xml'){
 		unlink('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$maintag.'.xml');
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-		$sqlAL->sqlDeleteOne($tcms_db_prefix.'knowledgebase', $maintag);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$sqlQR = $sqlAL->sqlQuery("SELECT * FROM ".$tcms_db_prefix."knowledgebase WHERE category='".$maintag."' AND type='c'");
-		$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
-		
-		$sqlQR2 = $sqlAL->sqlQuery("DELETE FROM ".$tcms_db_prefix."knowledgebase WHERE category='".$maintag."'");
+		$sqlQR = $sqlAL->query(
+			"SELECT * FROM ".$tcms_db_prefix."knowledgebase WHERE category='".$maintag."' AND type='c'"
+		);
+		$sqlNR = $sqlAL->getNumber($sqlQR);
 		
 		//while($sqlNR != 0){
-			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
-				$new_maintag = $sqlARR['uid'];
-				
-				$sqlQR = $sqlAL->sqlQuery("DELETE FROM ".$tcms_db_prefix."knowledgebase WHERE category='".$new_maintag."'");
-				
-				//$sqlQR = $sqlAL->sqlQuery("SELECT * FROM ".$tcms_db_prefix."downloads WHERE cat='".$new_maintag."' AND sql_type='d'");
-				//$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
-				
-				//$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
-				//$new_maintag = $sqlARR['uid'];
-			}
+		while($sqlARR = $sqlAL->fetchArray($sqlQR)){
+			$new_maintag = $sqlARR['uid'];
+			
+			$sqlQR = $sqlAL->query(
+				"DELETE FROM ".$tcms_db_prefix."knowledgebase WHERE category='".$new_maintag."'"
+			);
+			
+			//$sqlQR = $sqlAL->query("SELECT * FROM ".$tcms_db_prefix."downloads WHERE cat='".$new_maintag."' AND sql_type='d'");
+			//$sqlNR = $sqlAL->getNumber($sqlQR);
+			
+			//$sqlARR = $sqlAL->fetchArray($sqlQR);
+			//$new_maintag = $sqlARR['uid'];
+		}
 		//}
+		
+		$sqlQR2 = $sqlAL->query(
+			"DELETE FROM ".$tcms_db_prefix."knowledgebase WHERE category='".$maintag."'"
+		);
+		
+		$sqlAL->deleteOne($tcms_db_prefix.'knowledgebase', $maintag);
 		
 		$sqlAL->_sqlAbstractionLayer();
 	}
 	
-	echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_knowledgebase\'</script>';
-	
-	//****************************************
+	echo '<script>'
+	.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_knowledgebase\';'
+	.'</script>';
 }
 
 ?>

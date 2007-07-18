@@ -10,7 +10,7 @@
 | Edit JavaScript Functions
 |
 | File:		edit.js
-| Version:	0.4.4
+| Version:	0.5.0
 |
 +
 */
@@ -173,7 +173,9 @@ function createToolbar(form, lang, script){
 	
 	if(script == 'HTML')
 		document.write('<a href="#" class="tcms_editor tcms_clearfont" alt="' + tSB_ClearC + '" title="' + tSB_ClearC + '" onclick="clearCommandHTML(\'' + form + '\', \'content\');">&nbsp;</a>');
-	else
+	else if(script == 'Wiki')
+		document.write('<a href="#" class="tcms_editor tcms_clearfont" alt="' + tSB_ClearC + '" title="' + tSB_ClearC + '" onclick="clearCommandWiki(\'' + form + '\', \'content\');">&nbsp;</a>');
+	else if(script == 'toendaScript')
 		document.write('<a href="#" class="tcms_editor tcms_clearfont" alt="' + tSB_ClearC + '" title="' + tSB_ClearC + '" onclick="clearCommandtoendaScript(\'' + form + '\', \'content\');">&nbsp;</a>');
 }
 
@@ -251,6 +253,72 @@ function clearCommandHTML(form, id){
 	
 	content = content.replace(/<u>/gi, '');
 	content = content.replace(/<\/u>/gi, '');
+	
+	content = content.replace(/<blockquote>/gi, '');
+	content = content.replace(/<\/blockquote>/gi, '');
+	
+	content = content.replace(/<tt>/gi, '');
+	content = content.replace(/<\/tt>/gi, '');
+	
+	content = content.replace(/<ul>/gi, '');
+	content = content.replace(/<\/ul>/gi, '');
+	
+	content = content.replace(/<ol>/gi, '');
+	content = content.replace(/<\/ol>/gi, '');
+	
+	content = content.replace(/<li>/gi, '');
+	content = content.replace(/<\/li>/gi, '');
+	
+	content = content.replace(/align="center"/gi, '');
+	
+	content = content.replace(/align="left"/gi, '');
+	
+	content = content.replace(/align="right"/gi, '');
+	
+	input.value = content;
+}
+
+
+
+function clearCommandWiki(form, id){
+	var content;
+	
+	/*
+	'''Fetter Text'''
+	''Kursiver Text''
+	[http://www.beispiel.de Link-Text]
+	[http://www.beispiel.de Link-Text]
+	
+	== H1 ==
+	=== H2 ===
+	==== H3 ====
+	===== H4 =====
+	[[Bild:Beispiel.jpg]]
+	[[Media:Beispiel.ogg]]
+	<math>Formel hier einfügen</math>
+	<nowiki>Unformatierten Text hier einfügen</nowiki>
+	--~~~~
+	
+	----
+	*/
+	
+	input = document.forms[form].elements[id];
+	content = input.value;
+	
+	//content = content.replace(/<br \/>/gi, '');
+	
+	content = content.replace(/----/gi, '');
+	
+	content = content.replace(/\'\'\'/gi, '');
+	
+	content = content.replace(/=====/gi, '');
+	content = content.replace(/====/gi, '');
+	content = content.replace(/===/gi, '');
+	content = content.replace(/==/gi, '');
+	
+	content = content.replace(/\'\'/gi, '');
+	
+	content = content.replace(/\* /gi, '');
 	
 	content = content.replace(/<blockquote>/gi, '');
 	content = content.replace(/<\/blockquote>/gi, '');

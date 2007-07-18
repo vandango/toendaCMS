@@ -9,7 +9,7 @@
 |
 | Knowledgebase / FAQ and Article database
 |
-| File:		ext_knowledgebase.php
+| File:	ext_knowledgebase.php
 |
 +
 */
@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a Knowledgebase / FAQ and Article database.
  *
- * @version 0.4.2
+ * @version 0.4.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -37,33 +37,29 @@ if(isset($_GET['article'])){ $article = $_GET['article']; }
 
 
 
-// ---------------------------------
+// -------------------------------------------------
 // CONTENT
-// ---------------------------------
+// -------------------------------------------------
 
-if(trim($faq_enabled) == 1){
+if(trim($faq_enabled) == 1) {
 	if(!isset($cmd) || $cmd == 'showall') $cmd = 'list';
 	
 	
-	if($cmd == 'list'){
-		if(trim($faq_title) != '')
-			echo tcms_html::contentheading($faq_title);
-		
-		if(trim($faq_subtitle) != '')
-			echo tcms_html::contentstamp($faq_subtitle).'<br />';
-		
-		if(trim($faq_text) != '')
-			echo tcms_html::contentmain($faq_text).'<br />';
-		
-		if(trim($faq_subtitle == '' && trim($faq_text) == ''))
-			echo '<br />';
+	if($cmd == 'list') {
+		echo $tcms_html->contentModuleHeader(
+			$faq_title, 
+			$faq_subtitle, 
+			( trim($category) == '' || !isset($category) ? '' : $faq_text )
+		);
 		
 		
 		$displayDownload = true;
 		
 		
 		if($choosenDB == 'xml'){
-			$arr_files = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_knowledgebase/');
+			$arr_files = $tcms_main->getPathContent(
+				$tcms_administer_site.'/tcms_knowledgebase/'
+			);
 			
 			$count = 0;
 			
@@ -73,7 +69,7 @@ if(trim($faq_enabled) == 1){
 			*/
 			if($tcms_main->isReal($category)){
 				$xml      = new xmlparser($tcms_administer_site.'/tcms_knowledgebase/'.$category.'.xml','r');
-				$checkAcc = $xml->read_section('faq', 'access');
+				$checkAcc = $xml->readSection('faq', 'access');
 				
 				/*
 					access
@@ -91,7 +87,7 @@ if(trim($faq_enabled) == 1){
 					foreach($arr_files as $key => $value){
 						if($value != 'index.html'){
 							$menu_xml = new xmlparser($tcms_administer_site.'/tcms_knowledgebase/'.$value,'r');
-							$checkCat = $menu_xml->read_section('faq', 'category');
+							$checkCat = $menu_xml->readSection('faq', 'category');
 							
 							
 							/*
@@ -108,12 +104,12 @@ if(trim($faq_enabled) == 1){
 							
 							
 							if($countThis){
-								$checkPub = $menu_xml->read_section('faq', 'publish_state');
+								$checkPub = $menu_xml->readSection('faq', 'publish_state');
 								
 								
 								// show pub
 								if($checkPub == 2){
-									$checkAcc = $menu_xml->read_section('faq', 'access');
+									$checkAcc = $menu_xml->readSection('faq', 'access');
 									
 									
 									/*
@@ -124,17 +120,17 @@ if(trim($faq_enabled) == 1){
 									
 									// show access
 									if($showThis){
-										$arrFAQ['title'][$count]   = $menu_xml->read_section('faq', 'title');
-										$arrFAQ['subt'][$count]    = $menu_xml->read_section('faq', 'subtitle');
-										$arrFAQ['content'][$count] = $menu_xml->read_section('faq', 'content');
-										$arrFAQ['date'][$count]    = $menu_xml->read_section('faq', 'date');
-										$arrFAQ['type'][$count]    = $menu_xml->read_section('faq', 'type');
-										$arrFAQ['sort'][$count]    = $menu_xml->read_section('faq', 'sort');
-										$arrFAQ['img'][$count]     = $menu_xml->read_section('faq', 'image');
-										$arrFAQ['pub'][$count]     = $menu_xml->read_section('faq', 'publish_state');
-										$arrFAQ['access'][$count]  = $menu_xml->read_section('faq', 'access');
-										$arrFAQ['autor'][$count]   = $menu_xml->read_section('faq', 'autor');
-										$arrFAQ['cat'][$count]     = $menu_xml->read_section('faq', 'category');
+										$arrFAQ['title'][$count]   = $menu_xml->readSection('faq', 'title');
+										$arrFAQ['subt'][$count]    = $menu_xml->readSection('faq', 'subtitle');
+										$arrFAQ['content'][$count] = $menu_xml->readSection('faq', 'content');
+										$arrFAQ['date'][$count]    = $menu_xml->readSection('faq', 'date');
+										$arrFAQ['type'][$count]    = $menu_xml->readSection('faq', 'type');
+										$arrFAQ['sort'][$count]    = $menu_xml->readSection('faq', 'sort');
+										$arrFAQ['img'][$count]     = $menu_xml->readSection('faq', 'image');
+										$arrFAQ['pub'][$count]     = $menu_xml->readSection('faq', 'publish_state');
+										$arrFAQ['access'][$count]  = $menu_xml->readSection('faq', 'access');
+										$arrFAQ['autor'][$count]   = $menu_xml->readSection('faq', 'autor');
+										$arrFAQ['cat'][$count]     = $menu_xml->readSection('faq', 'category');
 										$arrFAQ['uid'][$count]     = substr($value, 0, 10);
 										
 										// CHARSETS
@@ -233,8 +229,8 @@ if(trim($faq_enabled) == 1){
 				.$strAdd
 				."ORDER BY sort ASC, date ASC, title ASC";
 				
-				$sqlQR = $sqlAL->sqlQuery($sqlSTR);
-				$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+				$sqlQR = $sqlAL->query($sqlSTR);
+				$sqlNR = $sqlAL->getNumber($sqlQR);
 				
 				if($sqlNR > 0){
 					$sqlSTR = "SELECT * "
@@ -253,7 +249,7 @@ if(trim($faq_enabled) == 1){
 			if($displayDownload){
 				$count = 0;
 				
-				$sqlQR = $sqlAL->sqlQuery($sqlSTR);
+				$sqlQR = $sqlAL->query($sqlSTR);
 				
 				while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
 					$arrFAQ['uid'][$count]     = $sqlARR['uid'];
@@ -446,8 +442,8 @@ if(trim($faq_enabled) == 1){
 		if($category != ''){
 			if($choosenDB == 'xml'){
 				$down_xml = new xmlparser($tcms_administer_site.'/tcms_knowledgebase/'.$category.'.xml','r');
-				$faq_cat    = $down_xml->read_section('faq', 'title');
-				$access_cat = $down_xml->read_section('faq', 'access');
+				$faq_cat    = $down_xml->readSection('faq', 'title');
+				$access_cat = $down_xml->readSection('faq', 'access');
 				$faq_cat    = $tcms_main->decodeText($faq_cat, '2', $c_charset);
 			}
 			else{
@@ -482,18 +478,18 @@ if(trim($faq_enabled) == 1){
 				if(file_exists($tcms_administer_site.'/tcms_knowledgebase/'.$article.'.xml')){
 					$menu_xml = new xmlparser($tcms_administer_site.'/tcms_knowledgebase/'.$article.'.xml','r');
 					
-					$arrFAQ['title']   = $menu_xml->read_section('faq', 'title');
-					$arrFAQ['subt']    = $menu_xml->read_section('faq', 'subtitle');
-					$arrFAQ['content'] = $menu_xml->read_section('faq', 'content');
-					$arrFAQ['date']    = $menu_xml->read_section('faq', 'date');
-					$arrFAQ['type']    = $menu_xml->read_section('faq', 'type');
-					$arrFAQ['sort']    = $menu_xml->read_section('faq', 'sort');
-					$arrFAQ['img']     = $menu_xml->read_section('faq', 'image');
-					$arrFAQ['pub']     = $menu_xml->read_section('faq', 'publish_state');
-					$arrFAQ['access']  = $menu_xml->read_section('faq', 'access');
-					$arrFAQ['cat']     = $menu_xml->read_section('faq', 'category');
-					$arrFAQ['autor']   = $menu_xml->read_section('faq', 'autor');
-					$arrFAQ['lup']     = $menu_xml->read_section('faq', 'last_update');
+					$arrFAQ['title']   = $menu_xml->readSection('faq', 'title');
+					$arrFAQ['subt']    = $menu_xml->readSection('faq', 'subtitle');
+					$arrFAQ['content'] = $menu_xml->readSection('faq', 'content');
+					$arrFAQ['date']    = $menu_xml->readSection('faq', 'date');
+					$arrFAQ['type']    = $menu_xml->readSection('faq', 'type');
+					$arrFAQ['sort']    = $menu_xml->readSection('faq', 'sort');
+					$arrFAQ['img']     = $menu_xml->readSection('faq', 'image');
+					$arrFAQ['pub']     = $menu_xml->readSection('faq', 'publish_state');
+					$arrFAQ['access']  = $menu_xml->readSection('faq', 'access');
+					$arrFAQ['cat']     = $menu_xml->readSection('faq', 'category');
+					$arrFAQ['autor']   = $menu_xml->readSection('faq', 'autor');
+					$arrFAQ['lup']     = $menu_xml->readSection('faq', 'last_update');
 					
 					if($arrFAQ['title']   == false){ $arrFAQ['title']   = ''; }
 					if($arrFAQ['subt']    == false){ $arrFAQ['subt']    = ''; }
@@ -549,9 +545,9 @@ if(trim($faq_enabled) == 1){
 				.$tcms_db_prefix."knowledgebase.date ASC, "
 				.$tcms_db_prefix."knowledgebase.title ASC";
 				
-				$sqlQR = $sqlAL->sqlQuery($sqlSTR);
+				$sqlQR = $sqlAL->query($sqlSTR);
 				
-				//echo $sqlSTR.'<br />'.$sqlAL->sqlGetNumber($sqlQR);
+				//echo $sqlSTR.'<br />'.$sqlAL->getNumber($sqlQR);
 				
 				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
 				

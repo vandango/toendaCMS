@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the news.
  *
- * @version 1.6.3
+ * @version 1.6.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -147,33 +147,33 @@ if($todo == 'config'){
 			if(file_exists('../../'.$tcms_administer_site.'/tcms_global/newsmanager.'.$getLang.'.xml')) {
 				$news_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/newsmanager.'.$getLang.'.xml','r');
 				
-				$old_news_mm_id       = $news_xml->read_section('config', 'news_id');
-				$old_news_mm_title    = $news_xml->read_section('config', 'news_title');
-				$old_news_mm_stamp    = $news_xml->read_section('config', 'news_stamp');
-				$old_news_mm_text     = $news_xml->read_section('config', 'news_text');
-				$old_news_mm_image    = $news_xml->read_section('config', 'news_image');
-				$old_news_mm_usec     = $news_xml->read_section('config', 'use_comments');
-				$old_news_mm_usea     = $news_xml->read_section('config', 'show_autor');
-				$old_news_mm_useal    = $news_xml->read_section('config', 'show_autor_as_link');
-				$old_news_mm_amount   = $news_xml->read_section('config', 'news_amount');
-				$old_news_mm_access   = $news_xml->read_section('config', 'access');
-				$old_news_cut         = $news_xml->read_section('config', 'news_cut');
-				$old_use_gravatar     = $news_xml->read_section('config', 'use_gravatar');
-				$old_use_emoticons    = $news_xml->read_section('config', 'use_emoticons');
-				$old_use_rss091       = $news_xml->read_section('config', 'use_rss091');
-				$old_use_rss10        = $news_xml->read_section('config', 'use_rss10');
-				$old_use_rss20        = $news_xml->read_section('config', 'use_rss20');
-				$old_use_atom03       = $news_xml->read_section('config', 'use_atom03');
-				$old_use_opml         = $news_xml->read_section('config', 'use_opml');
-				$old_syn_amount       = $news_xml->read_section('config', 'syn_amount');
-				$old_use_syn_title    = $news_xml->read_section('config', 'use_syn_title');
-				$old_def_feed         = $news_xml->read_section('config', 'def_feed');
-				$old_use_trackback    = $news_xml->read_section('config', 'use_trackback');
-				$old_use_timesince    = $news_xml->read_section('config', 'use_timesince');
-				$old_readmore_link    = $news_xml->read_section('config', 'readmore_link');
-				$old_news_spacing     = $news_xml->read_section('config', 'news_spacing');
+				$old_news_mm_id       = $news_xml->readSection('config', 'news_id');
+				$old_news_mm_title    = $news_xml->readSection('config', 'news_title');
+				$old_news_mm_stamp    = $news_xml->readSection('config', 'news_stamp');
+				$old_news_mm_text     = $news_xml->readSection('config', 'news_text');
+				$old_news_mm_image    = $news_xml->readSection('config', 'news_image');
+				$old_news_mm_usec     = $news_xml->readSection('config', 'use_comments');
+				$old_news_mm_usea     = $news_xml->readSection('config', 'show_autor');
+				$old_news_mm_useal    = $news_xml->readSection('config', 'show_autor_as_link');
+				$old_news_mm_amount   = $news_xml->readSection('config', 'news_amount');
+				$old_news_mm_access   = $news_xml->readSection('config', 'access');
+				$old_news_cut         = $news_xml->readSection('config', 'news_cut');
+				$old_use_gravatar     = $news_xml->readSection('config', 'use_gravatar');
+				$old_use_emoticons    = $news_xml->readSection('config', 'use_emoticons');
+				$old_use_rss091       = $news_xml->readSection('config', 'use_rss091');
+				$old_use_rss10        = $news_xml->readSection('config', 'use_rss10');
+				$old_use_rss20        = $news_xml->readSection('config', 'use_rss20');
+				$old_use_atom03       = $news_xml->readSection('config', 'use_atom03');
+				$old_use_opml         = $news_xml->readSection('config', 'use_opml');
+				$old_syn_amount       = $news_xml->readSection('config', 'syn_amount');
+				$old_use_syn_title    = $news_xml->readSection('config', 'use_syn_title');
+				$old_def_feed         = $news_xml->readSection('config', 'def_feed');
+				$old_use_trackback    = $news_xml->readSection('config', 'use_trackback');
+				$old_use_timesince    = $news_xml->readSection('config', 'use_timesince');
+				$old_readmore_link    = $news_xml->readSection('config', 'readmore_link');
+				$old_news_spacing     = $news_xml->readSection('config', 'news_spacing');
 				$old_news_lang        = $getLang;
-				//$news_xml->read_section('config', 'language');
+				//$news_xml->readSection('config', 'language');
 				
 				$langExist = 1;
 			}
@@ -182,8 +182,8 @@ if($todo == 'config'){
 			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$strQuery = "SELECT * "
 			."FROM ".$tcms_db_prefix."newsmanager "
@@ -704,8 +704,8 @@ if($todo == 'show'){
 		}
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Writer'){
 			$strAdd = "";
@@ -1002,15 +1002,15 @@ if($todo == 'edit'){
 				}
 				else{
 					$globals_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/var.xml','r');
-					$old_default_cat = $globals_xml->read_section('global', 'default_category');
+					$old_default_cat = $globals_xml->readSection('global', 'default_category');
 					
 					$arr_cat[0] = $old_default_cat;
 				}
 			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			if($id_group == 'Developer' || $id_group == 'Administrator')
 				$strAdd = "";
@@ -1078,7 +1078,7 @@ if($todo == 'edit'){
 			
 			$count = 0;
 			
-			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+			while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 				$arr_cat[$count] = $sqlARR['cat_uid'];
 				
 				if($arr_cat[$count] == NULL){ $arr_cat[$count] = ''; }
@@ -1276,7 +1276,7 @@ if($todo == 'edit'){
 			.'<br />';
 			
 			$globals_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/var.xml','r');
-			$old_default_cat = $globals_xml->read_section('global', 'default_category');
+			$old_default_cat = $globals_xml->readSection('global', 'default_category');
 			
 			foreach($arrNewsCat['tag'] as $key => $value){
 				$checkME = false;
@@ -1585,8 +1585,8 @@ if($todo == 'save_config'){
 		$xmluser->_xmlparser();
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		if($lang_exist > 0) {
 			$newSQLData = ''
@@ -1753,8 +1753,8 @@ if($todo == 'save'){
 		$new_cat = $myCat;
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		
 		$sqlAL->sqlQuery("DELETE FROM ".$tcms_db_prefix."news_to_categories WHERE news_uid = '".$maintag."'");
@@ -1787,7 +1787,7 @@ if($todo == 'save'){
 		
 		if($i == 0){
 			$globals_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/var.xml','r');
-			$old_default_cat = $globals_xml->read_section('global', 'default_category');
+			$old_default_cat = $globals_xml->readSection('global', 'default_category');
 			
 			$n2c_maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'news_to_categories', 32);
 			
@@ -1854,8 +1854,8 @@ if($todo == 'save'){
 		$xmluser->_xmlparser();
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		$newSQLData = ''
 		.$tcms_db_prefix.'news.title="'.$titel.'", '
@@ -1882,16 +1882,16 @@ if($todo == 'save'){
 	// regenerate feeds
 	if($choosenDB == 'xml'){
 		$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/newsmanager.'.$language.'.xml','r');
-		$defaultFeed = $xml->read_section('config', 'def_feed');
-		$synAmount   = $xml->read_section('config', 'syn_amount');
-		$showAutor   = $xml->read_section('config', 'show_autor');
+		$defaultFeed = $xml->readSection('config', 'def_feed');
+		$synAmount   = $xml->readSection('config', 'syn_amount');
+		$showAutor   = $xml->readSection('config', 'show_autor');
 		$xml->flush();
 		$xml->_xmlparser();
 		unset($xml);
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		$strQuery = "SELECT * "
 		."FROM ".$tcms_db_prefix."newsmanager "
@@ -1962,8 +1962,8 @@ if($todo == 'next'){
 		$new_cat = $myCat;
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		
 		switch($choosenDB){
@@ -2049,8 +2049,8 @@ if($todo == 'next'){
 		umask($old_umask);
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		switch($choosenDB){
 			case 'mysql':
@@ -2079,16 +2079,16 @@ if($todo == 'next'){
 	// regenerate feeds
 	if($choosenDB == 'xml'){
 		$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/newsmanager.'.$language.'.xml','r');
-		$defaultFeed = $xml->read_section('config', 'def_feed');
-		$synAmount   = $xml->read_section('config', 'syn_amount');
-		$showAutor   = $xml->read_section('config', 'show_autor');
+		$defaultFeed = $xml->readSection('config', 'def_feed');
+		$synAmount   = $xml->readSection('config', 'syn_amount');
+		$showAutor   = $xml->readSection('config', 'show_autor');
 		$xml->flush();
 		$xml->_xmlparser();
 		unset($xml);
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		$strQuery = "SELECT * "
 		."FROM ".$tcms_db_prefix."newsmanager "
@@ -2143,8 +2143,8 @@ if($todo == 'enableComments'){
 				);
 			}
 			else {
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				$newSQLData = $tcms_db_prefix.'news.comments_enabled=0';
 				$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'news', $newSQLData, $maintag);
 			}
@@ -2161,8 +2161,8 @@ if($todo == 'enableComments'){
 		case 'on':
 			if($choosenDB == 'xml'){ xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_news/'.$maintag.'.xml', 'comments_enabled', '0', '1'); }
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				$newSQLData = $tcms_db_prefix.'news.comments_enabled=1';
 				$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'news', $newSQLData, $maintag);
 			}
@@ -2191,8 +2191,8 @@ if($todo == 'publishItem'){
 		case 'off':
 			if($choosenDB == 'xml'){ xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_news/'.$maintag.'.xml', 'published', '1', '0'); }
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				$newSQLData = $tcms_db_prefix.'news.published=0';
 				$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'news', $newSQLData, $maintag);
 			}
@@ -2209,8 +2209,8 @@ if($todo == 'publishItem'){
 		case 'on':
 			if($choosenDB == 'xml'){ xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_news/'.$maintag.'.xml', 'published', '0', '1'); }
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				$newSQLData = $tcms_db_prefix.'news.published=1';
 				$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'news', $newSQLData, $maintag);
 			}
@@ -2241,8 +2241,8 @@ if($todo == 'enableFrontpage'){
 				xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_news/'.$maintag.'.xml', 'show_on_frontpage', '1', '0');
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				$newSQLData = $tcms_db_prefix.'news.show_on_frontpage=0';
 				$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'news', $newSQLData, $maintag);
 			}
@@ -2261,8 +2261,8 @@ if($todo == 'enableFrontpage'){
 				xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_news/'.$maintag.'.xml', 'show_on_frontpage', '0', '1');
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				$newSQLData = $tcms_db_prefix.'news.show_on_frontpage=1';
 				$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'news', $newSQLData, $maintag);
 			}
@@ -2299,8 +2299,8 @@ if($todo == 'delete'){
 		$tcms_main->rmdirr('../../'.$tcms_administer_site.'/tcms_news/comments_'.$maintag.'/');
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		$sqlAL->sqlDeleteOne($tcms_db_prefix.'news', $maintag);
 		$sqlAL->sqlDeleteOne($tcms_db_prefix.'comments', $maintag);
 		$sqlAL->sqlQuery("DELETE FROM ".$tcms_db_prefix."news_to_categories WHERE news_uid = '".$maintag."'");
@@ -2312,16 +2312,16 @@ if($todo == 'delete'){
 			'../../'.$tcms_administer_site.'/tcms_global/newsmanager.'.$tcms_config->getLanguageFrontend().'.xml',
 			'r'
 		);
-		$defaultFeed = $xml->read_section('config', 'def_feed');
-		$synAmount   = $xml->read_section('config', 'syn_amount');
-		$showAutor   = $xml->read_section('config', 'show_autor');
+		$defaultFeed = $xml->readSection('config', 'def_feed');
+		$synAmount   = $xml->readSection('config', 'syn_amount');
+		$showAutor   = $xml->readSection('config', 'show_autor');
 		$xml->flush();
 		$xml->_xmlparser();
 		unset($xml);
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		$strQuery = "SELECT * "
 		."FROM ".$tcms_db_prefix."newsmanager "
