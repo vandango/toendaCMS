@@ -234,7 +234,7 @@ class toendaScript{
 					$text
 				);
 			}
-			else{
+			else {
 				//$text = preg_replace('/<a href="\/'.$seoPath.'\/\index.php\//i', '<a href="/'.$seoPath.'/index.php/session/'.$session.'/', $text);
 				$text = str_replace(
 					'<a href="'.$seoPath.'/index.php/', 

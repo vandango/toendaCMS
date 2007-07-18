@@ -39,7 +39,13 @@ Building Steps: 3015
 
  - security fixed: 
 
- - bug fixed: 
+ - bug fixed: Knowledgebase category deleting bug
+ - bug fixed: Knowledgebase Drop-Down selection bug (if you are in a
+              category and you want to create a new item, the category is not
+              selected)
+ - bug fixed: Knowledge relocate after saveing brings you now back to the
+              selected category
+              
 
  - changed: Complete rewrite of the product manager as a base for the upcoming
             toendaCMS shop system.
