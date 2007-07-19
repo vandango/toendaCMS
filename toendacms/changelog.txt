@@ -28,7 +28,7 @@ Version 1.6
 Developer Version
 	- 1.6.0 Development
 
-Building Steps: 3015
+Building Steps: 3033
 
 
 
@@ -45,10 +45,13 @@ Building Steps: 3015
               selected)
  - bug fixed: Knowledge relocate after saveing brings you now back to the
               selected category
+ - bug fixed: Notebook display on desktop now with overflow
               
 
  - changed: Complete rewrite of the product manager as a base for the upcoming
             toendaCMS shop system.
+ - changed: __NO_SPAM__ changed into [at]
+ - changed: Default content text in imagegallery removed
 
  - added: New SEO format available: instead of using the old url format
           [www.domain.com/index.php?id=frontpage&lang=en]

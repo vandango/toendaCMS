@@ -241,6 +241,8 @@ Inputs
 .searchform			- Searchfield
 .loginform			- Inputfields
 .logintext			- Text at loginfields
+.sendmail           - Sendmail button in contactform
+.adressbook         - Adressbook button in contactform
 
 
 

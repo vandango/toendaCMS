@@ -504,7 +504,7 @@ a.tcms_more:hover {
 }
 
 td.products_top {
-	border-bottom: 2px #9bb2b9 solid;
+	border-bottom: 1px #9bb2b9 solid;
 	font-size: 14px;
 	padding-left: 4px;
 	margin: 0px;
@@ -611,6 +611,12 @@ a.products_tab:hover {
 
 .signatureform {
 	width: 400px !important;
+}
+
+.sendmail {
+}
+
+.adressbook {
 }
 
 

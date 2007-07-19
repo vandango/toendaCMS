@@ -18,6 +18,19 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * Contact Formular
+ *
+ * This module provides a contactform with a internal
+ * adressbook with vcard export.
+ *
+ * @version 0.7.7
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Content Modules
+ */
+
+
 if(isset($_POST['mail_name'])){ $mail_name = $_POST['mail_name']; }
 if(isset($_POST['mail_email'])){ $mail_email = $_POST['mail_email']; }
 if(isset($_POST['mail_website'])){ $mail_website = $_POST['mail_website']; }
@@ -25,19 +38,6 @@ if(isset($_POST['mail_subject'])){ $mail_subject = $_POST['mail_subject']; }
 if(isset($_POST['mail_message'])){ $mail_message = $_POST['mail_message']; }
 if(isset($_POST['kopie'])){ $kopie = $_POST['kopie']; }
 if(isset($_POST['send_form'])){ $send_form = $_POST['send_form']; }
-
-
-/**
- * Contact Formular
- *
- * This module provides a contactform with a internal
- * adressbook with vcard export.
- *
- * @version 0.7.5
- * @author	Jonathan Naumann <jonathan@toenda.com>
- * @package toendaCMS
- * @subpackage Content Modules
- */
 
 
 if($cform_enabled == 1){
@@ -411,8 +411,8 @@ if($cform_enabled == 1){
 				.( isset($session) ? '<input type="hidden" name="session" value="'.$session.'" />' : '' )
 				.( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' );
 				
-				echo '<input style="float: left;" type="button" class="inputbutton" onclick="javascript:document.forms[\'adress\'].submit();" value="'._CONTACT_ADRESS_BOOK.'" />'
-				.'<noscript><input type="submit" class="inputbutton" value="'._CONTACT_ADRESS_BOOK.'" /></noscript>';
+				echo '<input style="float: left;" type="button" class="inputbutton adressbook" onclick="javascript:document.forms[\'adress\'].submit();" value="'._CONTACT_ADRESS_BOOK.'" />'
+				.'<noscript><input type="submit" class="inputbutton adressbook" value="'._CONTACT_ADRESS_BOOK.'" /></noscript>';
 				
 				echo '</form>';
 			}
@@ -426,8 +426,8 @@ if($cform_enabled == 1){
 			.( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' );
 			
 			if($use_adressbook == 1){
-				echo '<input type="button" class="inputbutton" onclick="javascript:checkinputs(\'cform\');" value="'._FORM_SEND.'" />'
-				.'<noscript><input type="submit" class="inputbutton" value="'._FORM_SEND.'" /></noscript>';
+				echo '<input type="button" class="inputbutton sendmail" onclick="javascript:checkinputs(\'cform\');" value="'._FORM_SEND.'" />'
+				.'<noscript><input type="submit" class="inputbutton sendmail" value="'._FORM_SEND.'" /></noscript>';
 				
 				echo '<br /><br />';
 			}
@@ -438,7 +438,7 @@ if($cform_enabled == 1){
 				echo '<div style="float: left; width: 140px;">'
 				.'<strong><span class="text_normal">'._CONTACT_ADRESS_EMAIL.':</strong></span></div>';
 				
-				$contact_email = str_replace('@', '__NO_SPAM__', $contact_email);
+				$contact_email = str_replace('@', '[at]', $contact_email);
 				
 				echo '<div style="margin: 0 0 3px 1px;">'
 				.$contact_email.'</div>';
@@ -498,8 +498,8 @@ if($cform_enabled == 1){
 			if($use_adressbook == 0){
 				echo '<br />';
 				
-				echo '<input type="button" style="float: left;" class="inputbutton" onclick="javascript:checkinputs(\'cform\');" value="'._FORM_SEND.'" />'
-				.'<noscript><input type="submit" class="inputbutton" value="'._FORM_SEND.'" /></noscript>';
+				echo '<input type="button" style="float: left;" class="inputbutton sendmail" onclick="javascript:checkinputs(\'cform\');" value="'._FORM_SEND.'" />'
+				.'<noscript><input type="submit" class="inputbutton sendmail" value="'._FORM_SEND.'" /></noscript>';
 			}
 			
 			

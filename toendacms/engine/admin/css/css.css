@@ -348,7 +348,14 @@ td.cs_menu:hover { background: url(../../images/admin_menu/cs_over.jpg) no-repea
 .tcms_id_box { border: #1d93bc 1px solid; height: 18px; width: 50px; font-size: 11px; font-family: Verdana, arial, sans-serif; }
 
 /* Notebook */
-.tcms_notebook { border: #1d93bc 1px solid; height: 400px; width: 450px; font-size: 11px; font-family: Verdana, arial, sans-serif; }
+.tcms_notebook {
+	border: #1d93bc 1px solid;
+	height: 400px;
+	width: 450px;
+	font-size: 11px;
+	font-family: Verdana, arial, sans-serif;
+	overflow: auto;
+}
 
 
 

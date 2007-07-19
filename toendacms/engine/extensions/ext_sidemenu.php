@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a side menu.
  *
- * @version 0.5.0
+ * @version 0.5.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -77,28 +77,30 @@ if($navigation == 1){
 				
 				$target = ( $menuItem->GetTarget() == '' ? '' : ' target="'.$menuItem->GetTarget().'"' );
 				
-				echo '<li>';
-				
-				switch($menuItem->GetType()){
-					case 'web':
-						echo '<a class="mainlevel" href="'.$menuItem->GetLink().'"'.$target.'>'.$menuItem->GetTitle().'</a>';
-						break;
+				if($menuItem->getPublished() == 1) {
+					echo '<li>';
 					
-					case 'title':
-						echo $tcms_html->subTitle($menuItem->GetTitle());
-						break;
-					
-					case 'link':
-						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-						.'id='.$menuItem->GetLink().'&amp;s='.$s
-						.( isset($lang) ? '&amp;lang='.$lang : '' );
-						$link = $tcms_main->urlConvertToSEO($link);
+					switch($menuItem->GetType()){
+						case 'web':
+							echo '<a class="mainlevel" href="'.$menuItem->GetLink().'"'.$target.'>'.$menuItem->GetTitle().'</a>';
+							break;
 						
-						echo '<a class="mainlevel" href="'.$link.'"'.$target.'>'.$menuItem->GetTitle().'</a>';
-						break;
+						case 'title':
+							echo $tcms_html->subTitle($menuItem->GetTitle());
+							break;
+						
+						case 'link':
+							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+							.'id='.$menuItem->GetLink().'&amp;s='.$s
+							.( isset($lang) ? '&amp;lang='.$lang : '' );
+							$link = $tcms_main->urlConvertToSEO($link);
+							
+							echo '<a class="mainlevel" href="'.$link.'"'.$target.'>'.$menuItem->GetTitle().'</a>';
+							break;
+					}
+					
+					echo '</li>';
 				}
-				
-				echo '</li>';
 				
 				//
 				// submenu
@@ -114,28 +116,30 @@ if($navigation == 1){
 						
 						$target = ( $subMenuItem->GetTarget() == '' ? '' : ' target="'.$subMenuItem->GetTarget().'"' );
 						
-						echo '<li>';
-						
-						switch($subMenuItem->GetType()){
-							case 'web':
-								echo '<a class="submenu" href="'.$subMenuItem->GetLink().'"'.$target.'>'.$subMenuItem->GetTitle().'</a>';
-								break;
+						if($menuItem->getPublished() == 1) {
+							echo '<li>';
 							
-							case 'title':
-								echo $tcms_html->subTitle($subMenuItem->GetTitle());
-								break;
-							
-							case 'link':
-								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-								.'id='.$subMenuItem->GetLink().'&amp;s='.$s
-								.( isset($lang) ? '&amp;lang='.$lang : '' );
-								$link = $tcms_main->urlConvertToSEO($link);
+							switch($subMenuItem->GetType()){
+								case 'web':
+									echo '<a class="submenu" href="'.$subMenuItem->GetLink().'"'.$target.'>'.$subMenuItem->GetTitle().'</a>';
+									break;
 								
-								echo '<a class="submenu" href="'.$link.'"'.$target.'>'.$subMenuItem->GetTitle().'</a>';
-								break;
+								case 'title':
+									echo $tcms_html->subTitle($subMenuItem->GetTitle());
+									break;
+								
+								case 'link':
+									$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+									.'id='.$subMenuItem->GetLink().'&amp;s='.$s
+									.( isset($lang) ? '&amp;lang='.$lang : '' );
+									$link = $tcms_main->urlConvertToSEO($link);
+									
+									echo '<a class="submenu" href="'.$link.'"'.$target.'>'.$subMenuItem->GetTitle().'</a>';
+									break;
+							}
+							
+							echo '</li>';
 						}
-						
-						echo '</li>';
 						
 						//
 						// submenu, level 2
@@ -151,28 +155,30 @@ if($navigation == 1){
 								
 								$target = ( $subMenu2Item->GetTarget() == '' ? '' : ' target="'.$subMenu2Item->GetTarget().'"' );
 								
-								echo '<li>';
-								
-								switch($subMenu2Item->GetType()){
-									case 'web':
-										echo '<a class="submenu sublevel2" href="'.$subMenu2Item->GetLink().'"'.$target.'>'.$subMenu2Item->GetTitle().'</a>';
-										break;
+								if($menuItem->getPublished() == 1) {
+									echo '<li>';
 									
-									case 'title':
-										echo $tcms_html->subTitle($subMenu2Item->GetTitle());
-										break;
-									
-									case 'link':
-										$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-										.'id='.$subMenu2Item->GetLink().'&amp;s='.$s
-										.( isset($lang) ? '&amp;lang='.$lang : '' );
-										$link = $tcms_main->urlConvertToSEO($link);
+									switch($subMenu2Item->GetType()){
+										case 'web':
+											echo '<a class="submenu sublevel2" href="'.$subMenu2Item->GetLink().'"'.$target.'>'.$subMenu2Item->GetTitle().'</a>';
+											break;
 										
-										echo '<a class="submenu sublevel2" href="'.$link.'"'.$target.'>'.$subMenu2Item->GetTitle().'</a>';
-										break;
+										case 'title':
+											echo $tcms_html->subTitle($subMenu2Item->GetTitle());
+											break;
+										
+										case 'link':
+											$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+											.'id='.$subMenu2Item->GetLink().'&amp;s='.$s
+											.( isset($lang) ? '&amp;lang='.$lang : '' );
+											$link = $tcms_main->urlConvertToSEO($link);
+											
+											echo '<a class="submenu sublevel2" href="'.$link.'"'.$target.'>'.$subMenu2Item->GetTitle().'</a>';
+											break;
+									}
+									
+									echo '</li>';
 								}
-								
-								echo '</li>';
 								
 								unset($subMenu2Item);
 							}

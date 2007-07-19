@@ -373,6 +373,21 @@ a.index:hover { text-decoration: none; color: #676767 !important; }
 	font-size: 10px !important;
 }
 
+.bookfield {
+	width: 252px !important;
+	height: 15px !important;
+}
+
+.signatureform {
+	width: 400px !important;
+}
+
+.sendmail {
+}
+
+.adressbook {
+}
+
 .tcms_more {
 	font-size: 11px;
 }
@@ -391,6 +406,10 @@ a.index:hover { text-decoration: none; color: #676767 !important; }
 	width: 690px;
 	height: 500px;
 	font-size: 11px;
+}
+
+.captcha {
+	width: 80px !important;
 }
 
 
@@ -432,6 +451,85 @@ tr.titleBG{ font-size: 14px; border-bottom: 2px #9bb2b9 solid; padding-left: 4px
 td.titleBG{ font-size: 14px; border-bottom: 2px #9bb2b9 solid; padding-left: 4px; margin: 0px; }
 th.titleBG{ font-size: 14px; border-bottom: 2px #9bb2b9 solid; padding-left: 4px; margin: 0px; }
 .download_top{ font-size: 14px;	border-bottom: 2px #9bb2b9 solid; padding-left: 4px; margin: 0px; text-align: left; }
+
+.products_text {
+	text-align: left !important;
+}
+
+td.products_top {
+	border-bottom: 2px #9bb2b9 solid;
+	font-size: 14px;
+	padding-left: 4px;
+	margin: 0px;
+	text-align: left;
+}
+
+a.products_top, 
+a.products_top:link, 
+a.products_top:visited, 
+a.products_top:active {
+	color: #23598C;
+	font-size: 14px; 
+	text-decoration: none;
+}
+
+a.products_top:hover {
+	color: #000000;
+	text-decoration: underline;
+}
+
+a.products_active_tab,
+a.products_active_tab:link,
+a.products_active_tab:visited,
+a.products_active_tab:active {
+	border-bottom: 1px #fff solid;
+	border-top: 1px #6a6f71 solid;
+	border-right: 1px #6a6f71 solid;
+	border-left: 1px #6a6f71 solid;
+	
+	color: #23598C;
+	font-size: 13px; 
+	text-decoration: none;
+	
+	margin: 0 3px -2px 3px;
+	padding: 1px 3px 1px 3px;
+}
+
+a.products_active_tab:hover {
+	border-bottom: 1px #fff solid;
+	border-top: 1px #6a6f71 solid;
+	border-right: 1px #6a6f71 solid;
+	border-left: 1px #6a6f71 solid;
+	
+	color: #6a6f71;
+	font-size: 13px; 
+	text-decoration: none;
+}
+
+a.products_tab,
+a.products_tab:link,
+a.products_tab:visited,
+a.products_tab:active {
+	border-bottom: 1px #9bb2b9 solid;
+	border-top: 1px #9bb2b9 solid;
+	border-right: 1px #9bb2b9 solid;
+	border-left: 1px #9bb2b9 solid;
+	
+	color: #23598C;
+	font-size: 13px; 
+	text-decoration: none;
+	
+	margin: 0 3px -2px 3px;
+	padding: 1px 3px 1px 3px;
+}
+
+a.products_tab:hover {
+	border-bottom: 1px #fff solid;
+	
+	color: #23598C;
+	font-size: 13px; 
+	text-decoration: none;
+}
 
 
 /* misc */
@@ -592,12 +690,6 @@ a.main:hover { color: #336699; }
 	border: 1px solid #cccccc;
 }
 
-
-/* ToendaSHOP */
-td.products_top{ border-bottom: 2px #9bb2b9 solid; font-size: 14px; padding-left: 4px; margin: 0px; text-align: left; }
-a.products_top, a.products_top:link, a.products_top:visited, a.products_top:active { color: #23598C; font-size: 14px; text-decoration: none; }
-a.products_top:hover { color: #000000; }
-.products_onetop{ padding-left: 4px; margin: 0px; text-align: left; }
 
 
 .contentFooter {

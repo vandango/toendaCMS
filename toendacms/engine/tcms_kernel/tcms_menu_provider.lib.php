@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a provider for sidemenu datacontainer
  * objects.
  *
- * @version 0.2.2
+ * @version 0.2.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -206,8 +206,8 @@ class tcms_menu_provider extends tcms_main {
 			$strSQL = "SELECT *"
 			." FROM ".$this->m_sqlPrefix."sidemenu"
 			." WHERE link = '".$id."'"
-			." AND LANGUAGE = '".$lang."'"
-			." AND published = 1"
+			." AND language = '".$lang."'"
+			//." AND published = 1"
 			." AND ( access = 'Public' ".$strAdd
 			." ORDER BY id ASC, subid ASC";
 			
@@ -324,8 +324,8 @@ class tcms_menu_provider extends tcms_main {
 			$strSQL = "SELECT *"
 			." FROM ".$this->m_sqlPrefix."sidemenu"
 			." WHERE uid = '".$root."'"
-			." AND LANGUAGE = '".$lang."'"
-			." AND published = 1"
+			." AND language = '".$lang."'"
+			//." AND published = 1"
 			." AND ( access = 'Public' ".$strAdd
 			." ORDER BY id ASC, subid ASC";
 			
@@ -420,8 +420,8 @@ class tcms_menu_provider extends tcms_main {
 			$strSQL = "SELECT *"
 			." FROM ".$this->m_sqlPrefix."sidemenu"
 			." WHERE ".$sql_parent
-			." AND LANGUAGE = '".$lang."'"
-			." AND published = 1"
+			." AND language = '".$lang."'"
+			//." AND published = 1"
 			." AND ( access = 'Public' ".$strAdd
 			." ORDER BY id ASC, subid ASC";
 			
@@ -543,8 +543,8 @@ class tcms_menu_provider extends tcms_main {
 			$strSQL = "SELECT *"
 			." FROM ".$this->m_sqlPrefix."sidemenu"
 			." WHERE ".$sql_parent
-			." AND LANGUAGE = '".$lang."'"
-			." AND published = 1"
+			." AND language = '".$lang."'"
+			//." AND published = 1"
 			." AND ( access = 'Public' ".$strAdd
 			." ORDER BY id ASC, subid ASC";
 			

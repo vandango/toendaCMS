@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used as a Knowledgebase.
  *
- * @version 0.5.4
+ * @version 0.5.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -268,9 +268,12 @@ if($todo == 'show'){
 	echo $tcms_html->text(_FAQ_TEXT.'<br /><br />', 'left');
 	
 	
+	/*
+		display category path
+	*/
 	
-	if(isset($category)){
-		if($choosenDB == 'xml'){
+	if(isset($category)) {
+		if($choosenDB == 'xml') {
 			$count = 0;
 			
 			$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$category.'.xml','r');
@@ -347,13 +350,13 @@ if($todo == 'show'){
 			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
 			while($sqlNR > 0){
-				$sqlARR = $sqlAL->fetchArray($sqlQR);
+				$sqlObj = $sqlAL->fetchObject($sqlQR);
 				
 				unset($sqlQR);
 				
-				$arrFAQparent['title'][$count]  = $sqlARR['title'];
-				$arrFAQparent['uid'][$count]    = $sqlARR['uid'];
-				$arrFAQparent['parent'][$count] = $sqlARR['parent'];
+				$arrFAQparent['title'][$count]  = $sqlObj->title;
+				$arrFAQparent['uid'][$count]    = $sqlObj->uid;
+				$arrFAQparent['parent'][$count] = $sqlObj->parent;
 				
 				if($arrFAQparent['title'][$count]  == NULL){ $arrFAQparent['title'][$count]  = ''; }
 				if($arrFAQparent['uid'][$count]    == NULL){ $arrFAQparent['uid'][$count]    = ''; }
@@ -405,7 +408,11 @@ if($todo == 'show'){
 		echo '<br /><br />';
 	}
 	
-
+	
+	/*
+		load items
+	*/
+	
 	$arrFAQ = '';
 	
 	if($choosenDB == 'xml'){

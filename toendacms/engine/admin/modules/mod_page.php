@@ -9,8 +9,7 @@
 | 
 | Desktop
 |
-| File:		mod_page.php
-| Version:	0.2.3
+| File:	mod_page.php
 |
 +
 */
@@ -19,12 +18,22 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * Desktop
+ *
+ * This module is used as the base for the workflow
+ * engine.
+ *
+ * @version 0.2.5
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
-
-//=====================================================
+// -----------------------------------------------------
 // INIT
-//=====================================================
+// -----------------------------------------------------
 
 $arr_farbe[0] = $arr_color[0];
 $arr_farbe[1] = $arr_color[1];
@@ -35,22 +44,20 @@ $showAll   = false;
 
 
 
-//=====================================================
+// -----------------------------------------------------
 // TITLE
-//=====================================================
+// -----------------------------------------------------
 
-echo _DESKTOP_TOP_TEXT;
-echo '<br />';
-echo '<br />';
-echo '<br />';
+echo _DESKTOP_TOP_TEXT
+.'<br /><br /><br />';
 
 
 
 
 
-//=====================================================
+// -----------------------------------------------------
 // LIST ALL
-//=====================================================
+// -----------------------------------------------------
 
 // row one - cell one: content -> list all not published news
 if($choosenDB == 'xml'){
@@ -118,8 +125,8 @@ if($choosenDB == 'xml'){
 	}
 }
 else{
-	$sqlAL = new sqlAbstractionLayer($choosenDB);
-	$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+	$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+	$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 	
 	if($id_group == 'Developer' || $id_group == 'Administrator'){
 		$strAdd = "OR access = 'Protected' OR access = 'Private' ) ";
@@ -339,8 +346,8 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		}
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		$strAdd = '';
 		
 		if($id_group == 'Developer' || $id_group == 'Administrator'){
@@ -361,7 +368,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		
 		$count = 0;
 		
-		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+		while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 			$arr_desk_content['id'][$count]     = $sqlARR['uid'];
 			$arr_desk_content['title'][$count]  = $sqlARR['title'];
 			$arr_desk_content['access'][$count] = $sqlARR['access'];
@@ -524,8 +531,8 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		}
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		$strAdd = '';
 		
 		if($id_group == 'Developer' || $id_group == 'Administrator'){
@@ -546,7 +553,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		
 		$count = 0;
 		
-		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+		while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 			$arr_desk_unfinished['id'][$count]     = $sqlARR['uid'];
 			$arr_desk_unfinished['title'][$count]  = $sqlARR['title'];
 			$arr_desk_unfinished['access'][$count] = $sqlARR['access'];
@@ -631,34 +638,30 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 
 
 
-/*
-	NOTEBOOK
-*/
-echo '<br />';
-echo '<br />';
-echo '<br />';
+// -----------------------------------------------------
+// NOTEBOOK
+// -----------------------------------------------------
+
+echo '<br /><br /><br />';
 
 
-
-
-
-
-if($id_group == 'Developer' || $id_group == 'Administrator'){
+if($id_group == 'Developer' 
+|| $id_group == 'Administrator') {
 	// row one - cell two: content -> note
-	if($choosenDB == 'xml'){
+	if($choosenDB == 'xml') {
 		$note_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_notepad/'.$m_tag.'.xml','r');
-		$nname = $note_xml->read_section('note', 'name');
-		$nnote = $note_xml->read_section('note', 'text');
+		$nname = $note_xml->readSection('note', 'name');
+		$nnote = $note_xml->readSection('note', 'text');
 		
 		if(!$nname){ $nname = ''; }
 		if(!$nnote){ $nnote = ''; }
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'notepad', $m_tag);
-		$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+		$sqlQR = $sqlAL->getOne($tcms_db_prefix.'notepad', $m_tag);
+		$sqlARR = $sqlAL->fetchArray($sqlQR);
 		
 		$nname = $sqlARR['name'];
 		$nnote = $sqlARR['note'];
@@ -670,12 +673,18 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	$nname = $tcms_main->decodeText($nname, '2', $c_charset);
 	$nnote = $tcms_main->decodeText($nnote, '2', $c_charset);
 	
-	echo '<div style="margin: 0 0 3px 0;"><strong class="tcms_ft_white">'._TCMS_MENU_NOTE.'</strong></div>';
+	echo '<div style="margin: 0 0 3px 0;">'
+	.'<strong class="tcms_ft_white">'._TCMS_MENU_NOTE.'</strong>'
+	.'</div>';
 
 	echo '<table width="450" cellpadding="0" cellspacing="0" class="noborder"><tr class="tcms_bg_blue_01">'
-	.'<th valign="middle" align="left" class="tcms_db_title tcms_padding_mini">'._NOTEBOOK_DETAIL.'</th>'
-	.'</tr><tr><td>'
-	.'<div style="height: 180px !important;" class="tcms_notebook">'.$nnote.'</div>'
+	.'<th valign="middle" align="left" class="tcms_db_title tcms_padding_mini">'
+	._NOTEBOOK_DETAIL
+	.'</th></tr>'
+	.'<tr><td>'
+	.'<div style="height: 180px !important; overflow: auto !important;" class="tcms_notebook">'
+	.$nnote
+	.'</div>'
 	.'</td></tr></table>';
 	
 	echo '<div style="display: block; width: 448px; height: 18px; text-align: left; padding: 2px; background-color: #f5f5f5;">'
