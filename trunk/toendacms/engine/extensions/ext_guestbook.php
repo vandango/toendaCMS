@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a guestbook.
  *
- * @version 0.4.4
+ * @version 0.4.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -273,7 +273,7 @@ if($book_enabled == 1){
 					
 					
 					if($gb_convert_at == 1){
-						$arr_guests['mail'][$key] = str_replace('@', '__NO_SPAM__', $arr_guests['mail'][$key]);
+						$arr_guests['mail'][$key] = str_replace('@', '[at]', $arr_guests['mail'][$key]);
 					}
 					
 					

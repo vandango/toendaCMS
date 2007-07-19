@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used to manage the galleries.
  *
- * @version 0.7.7
+ * @version 0.7.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -1108,8 +1108,8 @@ if($param_save_mode == 'off'){
 	if($todo == 'create'){
 		$album_path = substr($album_id, 6, 6);
 		
-		if($new_album   == ''){ $new_album   = '[TYPE DESCRIPTION]'; }else{ $new_album   = $new_album; }
-		if($description == ''){ $description = '[TYPE DESCRIPTION]'; }else{ $description = $description; }
+		//if($new_album   == ''){ $new_album   = '[TYPE DESCRIPTION]'; }else{ $new_album   = $new_album; }
+		//if($description == ''){ $description = '[TYPE DESCRIPTION]'; }else{ $description = $description; }
 			
 		// CHARSETS
 		$new_album   = $tcms_main->decode_text($new_album, '2', $c_charset);
@@ -1211,7 +1211,7 @@ if($param_save_mode == 'off'){
 			/*
 				EDIT
 			*/
-			if($description == ''){ $description = '[TYPE DESCRIPTION]'; }else{ $description = $description; }
+			//if($description == ''){ $description = '[TYPE DESCRIPTION]'; }else{ $description = $description; }
 			if(empty($use))       { $use         = 0; }
 			
 			// CHARSETS

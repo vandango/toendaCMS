@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used for the products configuration
  * and the administration of all the products.
  *
- * @version 0.6.7
+ * @version 0.7.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -430,6 +430,155 @@ if($todo == 'config'){
 // -------------------------------------------------
 
 if($todo == 'show'){
+	echo $tcms_html->bold(_PRODUCTS_TITLE);
+	echo $tcms_html->text(_PRODUCTS_TEXT.'<br /><br />', 'left');
+	
+	
+	/*
+		display category path
+	*/
+	
+	if(isset($category)) {
+		if($choosenDB == 'xml') {
+			/*$count = 0;
+			
+			$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$category.'.xml','r');
+			
+			//$access_cat = $down_xml->readSection('faq', 'access');
+			
+			$arrFAQparent['type'][$count] = $xml->readSection('faq', 'type');
+			$arrFAQparent['pub'][$count]  = $xml->readSection('faq', 'publish_state');
+			
+			if($arrFAQparent['type'][$count] == 'c' && $arrFAQparent['pub'][$count] == '2'){
+				$arrFAQparent['title'][$count]  = $xml->readSection('faq', 'title');
+				$arrFAQparent['parent'][$count] = $xml->readSection('faq', 'parent');
+				$arrFAQparent['uid'][$count]    = substr($category, 0, 10);
+				
+				// CHARSETS
+				$arrFAQparent['title'][$count] = $tcms_main->decodeText($arrFAQparent['title'][$count], '2', $c_charset);
+				
+				$checkCat = $xml->readSection('faq', 'category');
+				
+				$count++;
+				
+				while($checkCat != ""){
+					$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$arrFAQparent['parent'][$count - 1].'.xml','r');
+					
+					$checkCat = $xml->readSection('faq', 'category');
+					$arrFAQparent['type'][$count]   = $xml->readSection('faq', 'type');
+					$arrFAQparent['pub'][$count]    = $xml->readSection('faq', 'publish_state');
+					
+					if($arrFAQparent['type'][$count] == 'c' && $arrFAQparent['pub'][$count] == '2'){
+						$arrFAQparent['title'][$count]  = $xml->readSection('faq', 'title');
+						$arrFAQparent['parent'][$count] = $xml->readSection('faq', 'parent');
+						$arrFAQparent['uid'][$count]    = substr($arrFAQparent['parent'][$count - 1], 0, 10);
+						
+						// CHARSETS
+						$arrFAQparent['title'][$count] = $tcms_main->decodeText($arrFAQparent['title'][$count], '2', $c_charset);
+						
+						//echo $count.' -> '.$arrFAQparent['parent'][$count].' -> '.$arrFAQparent['title'][$count].'<br>';
+						
+						$count++;
+						$checkFAQTitle = $count;
+					}
+				}
+			}*/
+		}
+		else {
+			switch($id_group) {
+				case 'Developer':
+				case 'Administrator':
+					$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
+					break;
+				
+				case 'User':
+				case 'Editor':
+				case 'Presenter':
+					$strAdd = " OR access = 'Protected' ) ";
+					break;
+				
+				default:
+					$strAdd = ' ) ';
+					break;
+			}
+			
+			$sqlSTRparent = "SELECT * "
+			."FROM ".$tcms_db_prefix."products "
+			."WHERE uid = '".$category."' "
+			//."AND publish_state = 2 "
+			."AND sql_type = 'c' "
+			."AND ( access = 'Public' "
+			.$strAdd;
+			
+			$count = 0;
+			
+			$sqlQR = $sqlAL->query($sqlSTRparent);
+			$sqlNR = $sqlAL->getNumber($sqlQR);
+			
+			while($sqlNR > 0) {
+				$sqlObj = $sqlAL->fetchObject($sqlQR);
+				
+				unset($sqlQR);
+				
+				$arr_parent['name'][$count] = $sqlObj->name;
+				$arr_parent['uid'][$count]  = $sqlObj->uid;
+				$arr_parent['cat'][$count]  = $sqlObj->category;
+				
+				if($arr_parent['name'][$count] == NULL){ $arr_parent['name'][$count] = ''; }
+				if($arr_parent['uid'][$count]  == NULL){ $arr_parent['uid'][$count]  = ''; }
+				if($arr_parent['cat'][$count]  == NULL){ $arr_parent['cat'][$count]  = ''; }
+				
+				// CHARSETS
+				$arr_parent['name'][$count] = $tcms_main->decodeText($arr_parent['name'][$count], '2', $c_charset);
+				
+				$sqlSTRparent = "SELECT * "
+				."FROM ".$tcms_db_prefix."products "
+				."WHERE uid = '".$arr_parent['cat'][$count]."' "
+				//."AND publish_state = 2 "
+				."AND sql_type = 'c' "
+				."AND ( access = 'Public' "
+				.$strAdd;
+				
+				$sqlQR = $sqlAL->query($sqlSTRparent);
+				
+				$sqlNR = $sqlAL->getNumber($sqlQR);
+				
+				$count++;
+				$checkTitle = $count;
+			}
+		}
+		
+		if(!isset($checkTitle)){ $checkTitle = 1; }
+		
+		
+		echo '<a href="admin.php?id_user='.$id_user.'&amp;site=mod_products">'
+		.'<strong>'
+		._TCMS_MENU_PRODUCTS
+		.'</strong>'
+		.'</a>';
+		
+		
+		for($i = ($checkTitle - 1); $i >= 0; $i--) {
+			echo '&nbsp;/&nbsp;';
+			
+			if($i == 0) {
+				echo $arr_parent['name'][$i];
+			}
+			else {
+				echo '<a href="admin.php?id_user='.$id_user.'&amp;site=mod_products&amp;category='.$arr_parent['uid'][$i].'">'
+				.$arr_parent['name'][$i]
+				.'</a>';
+			}
+		}
+		
+		echo '<br /><br />';
+	}
+	
+	
+	/*
+		load items
+	*/
+	
 	$count = 0;
 	$checkCatAmount = 0;
 	
@@ -556,10 +705,6 @@ if($todo == 'show'){
 			$checkCatAmount = $count;
 		}
 	}
-	
-	
-	echo $tcms_html->bold(_PRODUCTS_TITLE);
-	echo $tcms_html->text(_PRODUCTS_TEXT.'<br /><br />', 'left');
 	
 	$count = 0;
 	$showAll = false;
@@ -1330,8 +1475,8 @@ if($todo == 'edit') {
 		.'<strong class="tcms_bold">'._TABLE_IMAGE.' 1</strong>'
 		.'</td><td valign="top">'
 		.'<input class="tcms_upload" name="new_image1" type="file" accept="image/*" /><br />'
-		.'<input name="tmp_image" id="tmp_image1" type="hidden" value="'.$wsImage1.'" />'
-		.'<input name="old_image" id="old_image1" type="hidden" value="'.$wsImage1.'" />'
+		.'<input name="tmp_image1" id="tmp_image1" type="hidden" value="'.$wsImage1.'" />'
+		.'<input name="old_image1" id="old_image1" type="hidden" value="'.$wsImage1.'" />'
 		.'</td></tr>';
 		
 		echo '<tr><td>&nbsp;</td><td valign="middle" align="left">'
@@ -1353,8 +1498,8 @@ if($todo == 'edit') {
 		.'<strong class="tcms_bold">'._TABLE_IMAGE.' 2</strong>'
 		.'</td><td valign="top">'
 		.'<input class="tcms_upload" name="new_image2" type="file" accept="image/*" /><br />'
-		.'<input name="tmp_image" id="tmp_image2" type="hidden" value="'.$wsImage2.'" />'
-		.'<input name="old_image" id="old_image2" type="hidden" value="'.$wsImage2.'" />'
+		.'<input name="tmp_image2" id="tmp_image2" type="hidden" value="'.$wsImage2.'" />'
+		.'<input name="old_image2" id="old_image2" type="hidden" value="'.$wsImage2.'" />'
 		.'</td></tr>';
 		
 		echo '<tr><td>&nbsp;</td><td valign="middle" align="left">'
@@ -1376,8 +1521,8 @@ if($todo == 'edit') {
 		.'<strong class="tcms_bold">'._TABLE_IMAGE.' 3</strong>'
 		.'</td><td valign="top">'
 		.'<input class="tcms_upload" name="new_image3" type="file" accept="image/*" /><br />'
-		.'<input name="tmp_image" id="tmp_image3" type="hidden" value="'.$wsImage3.'" />'
-		.'<input name="old_image" id="old_image3" type="hidden" value="'.$wsImage3.'" />'
+		.'<input name="tmp_image3" id="tmp_image3" type="hidden" value="'.$wsImage3.'" />'
+		.'<input name="old_image3" id="old_image3" type="hidden" value="'.$wsImage3.'" />'
 		.'</td></tr>';
 		
 		echo '<tr><td>&nbsp;</td><td valign="middle" align="left">'
@@ -1399,8 +1544,8 @@ if($todo == 'edit') {
 		.'<strong class="tcms_bold">'._TABLE_IMAGE.' 4</strong>'
 		.'</td><td valign="top">'
 		.'<input class="tcms_upload" name="new_image4" type="file" accept="image/*" /><br />'
-		.'<input name="tmp_image" id="tmp_image4" type="hidden" value="'.$wsImage4.'" />'
-		.'<input name="old_image" id="old_image4" type="hidden" value="'.$wsImage4.'" />'
+		.'<input name="tmp_image4" id="tmp_image4" type="hidden" value="'.$wsImage4.'" />'
+		.'<input name="old_image4" id="old_image4" type="hidden" value="'.$wsImage4.'" />'
 		.'</td></tr>';
 		
 		echo '<tr><td>&nbsp;</td><td valign="middle" align="left">'
@@ -1705,7 +1850,7 @@ if($todo == 'save') {
 		$new_image1 = '';
 	}
 	
-	if($tcms_main->isReal($tmp_image1)){
+	if($tcms_main->isReal($tmp_image1)) {
 		if($tcms_main->isReal($new_image1) && $new_image1 != ''){
 			if(file_exists('../../'.$tcms_administer_site.'/images/products/'.$tmp_image1)) {
 				unlink('../../'.$tcms_administer_site.'/images/products/'.$tmp_image1);

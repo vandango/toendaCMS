@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.1.3
+ * @version 2.1.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -67,6 +67,9 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getMimeType                       -> Get the mimetype of a filename
  * getPHPSetting                     -> Get a PHP setting
  * getLanguageNameByTCMSLanguageCode -> Get the name of a language by it's TCMS language code
+ * getTaxPrice                       -> Get the tax (mwst) price
+ * getClearPrice                     -> Get the clear (netto) price
+ * getTaxPriceFromClearPrice         -> Get the tax price from a clear price
  * setPHPSetting                     -> Set a PHP setting
  * isArray                           -> Check if a array is realy a array
  * isImage                           -> Check if a file type is a image file
@@ -756,6 +759,49 @@ class tcms_main {
 		else {
 			return '&nbsp;';
 		}
+	}
+	
+	
+	
+	/**
+	 * Get the tax (mwst) price
+	 * 
+	 * @param Double $price
+	 * @param Integer $taxkey
+	 * @return Double
+	 */
+	function getTaxPrice($price, $taxkey){
+		$tmp = ($price * ($taxkey / (100 + $taxkey)));// / 100;
+		//$tmp = $price * ('0.'.$taxkey);
+		return round($tmp, 2);
+	}
+	
+	
+	
+	/**
+	 * Get the clear (netto) price
+	 * 
+	 * @param Double $price
+	 * @param Integer $taxkey
+	 * @return Double
+	 */
+	function getClearPrice($price, $taxkey){
+		$tmp = ($price * 100 / (100 + $taxkey));// / 100;
+		return round($tmp, 2);
+	}
+	
+	
+	
+	/**
+	 * Get the tax price from a clear price
+	 * 
+	 * @param Double $price
+	 * @param Integer $taxkey
+	 * @return Double
+	 */
+	function getTaxPriceFromClearPrice($price, $taxkey){
+		$tmp = $price * ('0.'.$taxkey);
+		return round($tmp, 2);
 	}
 	
 	
