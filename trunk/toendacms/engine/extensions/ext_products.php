@@ -36,8 +36,13 @@ if(isset($_GET['article'])){ $article = $_GET['article']; }
 if(isset($_GET['cmd'])){ $cmd = $_GET['cmd']; }
 
 if(!isset($action)) { $action = 'showall'; }
-if(!isset($cmd)) { $cmd = 'offers'; }
 
+if(trim($startpage_title) != '') {
+	if(!isset($cmd)) { $cmd = 'offers'; }
+}
+else {
+	if(!isset($cmd)) { $cmd = 'browse'; }
+}
 
 
 
@@ -50,12 +55,14 @@ if($action == 'showall'){
 	echo $tcms_html->contentModuleHeader(
 		$products_title, 
 		$products_stamp, 
-		( $cmd == 'browse' ? '' : $products_text )
+		( $cmd == 'browse' && trim($startpage_title) != '' ? '' : $products_text )
+		//( $cmd == 'browse' ? '' : $products_text )
 	);
 	
 	
 	$count = 0;
 	$checkCatAmount = 0;
+	$checkArtAmount = 0;
 	$displayItem = true;
 	
 	
@@ -70,7 +77,7 @@ if($action == 'showall'){
 		.( isset($lang) ? '&amp;lang='.$lang : '' );
 		$link = $tcms_main->urlConvertToSEO($link);
 		
-		echo '<a class="'.( $cmd == 'offers' ? 'products_active_tab' : 'products_tab' ).'" href="'.$link.'">'
+		echo '<a style="margin-left: 8px !important;" class="'.( $cmd == 'offers' ? 'products_active_tab' : 'products_tab' ).'" href="'.$link.'">'
 		.$startpage_title
 		.'</a>';
 	}
@@ -81,12 +88,12 @@ if($action == 'showall'){
 	.( isset($lang) ? '&amp;lang='.$lang : '' );
 	$link = $tcms_main->urlConvertToSEO($link);
 	
-	echo '<a class="'.( $cmd == 'browse' ? 'products_active_tab' : 'products_tab' ).'" href="'.$link.'">'
+	echo '<a style="margin-left: 8px !important;" class="'.( $cmd == 'browse' ? 'products_active_tab' : 'products_tab' ).'" href="'.$link.'">'
 	.'Browse'
 	.'</a>';
 	
 	echo '<br />'
-	.'<hr noshade="noshade" class="titleBG" />'
+	.'<hr noshade="noshade" class="products_tab_line" />'
 	.'<br />';
 	
 	
@@ -133,7 +140,8 @@ if($action == 'showall'){
 				."AND NOT (name = '') "
 				."AND ( access = 'Public' "
 				.$strAdd
-				."ORDER BY sql_type ASC, sort ASC, name ASC";
+				."ORDER BY sql_type DESC, name ASC";
+				//."ORDER BY sql_type DESC, sort DESC, name DESC";
 			}
 			else {
 				$sqlSTR = "SELECT * "
@@ -144,7 +152,8 @@ if($action == 'showall'){
 				."AND NOT (name = '') "
 				."AND ( access = 'Public' "
 				.$strAdd
-				."ORDER BY sql_type ASC, sort ASC, name ASC";
+				."ORDER BY sql_type DESC, name ASC";
+				//."ORDER BY sql_type DESC, sort DESC, name DESC";
 				
 				//$sqlQR = $sqlAL->query($sqlSTR);
 				//$sqlNR = $sqlAL->getNumber($sqlQR);
@@ -165,6 +174,8 @@ if($action == 'showall'){
 			
 			if($displayItem) {
 				$count = 0;
+				$checkCatAmount = 0;
+				$checkArtAmount = 0;
 				
 				//echo $sqlSTR.'<br />';
 				
@@ -172,15 +183,15 @@ if($action == 'showall'){
 				
 				while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
 					$arr_pro['uid'][$count]    = $sqlObj->uid;
-					$arr_pro['name'][$count]   = $sqlObj->name;
-					$arr_pro['desc'][$count]   = $sqlObj->desc;
+					$arr_pro['name'][$count]   = trim($sqlObj->name);
+					$arr_pro['desc'][$count]   = trim($sqlObj->desc);
 					$arr_pro['date'][$count]   = $sqlObj->date;
 					$arr_pro['image1'][$count] = $sqlObj->image1;
 					$arr_pro['sort'][$count]   = $sqlObj->sort;
 					$arr_pro['type'][$count]   = $sqlObj->sql_type;
 					$arr_pro['price'][$count]  = $sqlObj->price;
 					$arr_pro['taxkey'][$count] = $sqlObj->price_tax;
-					
+					$arr_pro['pronr'][$count]  = $sqlObj->product_number;
 					
 					if($arr_pro['price'][$count]  == NULL){ $arr_pro['price'][$count]  = ''; }
 					if($arr_pro['taxkey'][$count] == NULL){ $arr_pro['taxkey'][$count] = ''; }
@@ -190,79 +201,213 @@ if($action == 'showall'){
 					if($arr_pro['date'][$count]   == NULL){ $arr_pro['date'][$count]   = ''; }
 					if($arr_pro['image1'][$count] == NULL){ $arr_pro['image1'][$count] = ''; }
 					if($arr_pro['sort'][$count]   == NULL){ $arr_pro['sort'][$count]   = ''; }
-					if($arr_pro['type'][$count]   == NULL){ $arr_pro['type'][$count]   = ''; }
+					//if($arr_pro['type'][$count]   == NULL){ $arr_pro['type'][$count]   = ''; }
+					if($arr_pro['pronr'][$count]  == NULL){ $arr_pro['pronr'][$count]  = ''; }
 					
 					
 					// CHARSETS
 					$arr_pro['name'][$count] = $tcms_main->decodeText($arr_pro['name'][$count], '2', $c_charset);
 					$arr_pro['desc'][$count] = $tcms_main->decodeText($arr_pro['desc'][$count], '2', $c_charset);
 					
+					if($arr_pro['type'][$count] == 'a') {
+						$checkArtAmount++;
+					}
+					else {
+						$checkCatAmount++;
+					}
+					
 					$count++;
-					$checkCatAmount = $count;
 				}
 				
-				$checkCatAmount--;
+				//$checkCatAmount--;
 			}
 			
 			$intOdd = 0;
+			$firstAlpha = '';
+			$firstAlphaChk = '';
+			$isFirstArticle = false;
+			$isFirstCategory = false;
 			
-			echo $tcms_html->tableHeadClass('2', '0', '1', '100%', 'noborder products_text');
+			echo $tcms_html->tableHeadClass('2', '0', '1', '100%', 'products_text');
 			
 			if($tcms_main->isArray($arr_pro['sort'])) {
 				foreach($arr_pro['sort'] as $key => $value) {
-					if($intOdd == 0) {
-						echo '<tr>';
-					}
-					
-					echo '<td width="50%" valign="top">';
-					
-					
-					// link
-					if(trim($arr_pro['name'][$key]) != '') {
-						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-						.( trim($arr_pro['type'][$key]) == 'a' 
-							? 'id=products&amp;s='.$s.'&amp;action=showone'
-							.'&amp;article='.$arr_pro['uid'][$key]
+					/*
+						list categories
+					*/
+					if(trim($arr_pro['type'][$key]) == 'c') {
+						if(!$isFirstCategory) {
+							$isFirstCategory = true;
 							
-							: 'id=products&amp;s='.$s.'&amp;action=showall'
+							echo '<tr><td colspan="3" class="titleBG">'
+							._PRODUCTS_CATEGORIES
+							.'</td></tr>';
+						}
+						
+						// alpha title
+						if(trim($arr_pro['name'][$key]) != '') {
+							$firstAlpha = substr($arr_pro['name'][$key], 0, 1);
+							
+							if($firstAlpha != $firstAlphaChk) {
+								echo '<tr><td colspan="3" class="products_category">'
+								.$firstAlpha
+								.'</td></tr>';
+								
+								$firstAlphaChk = $firstAlpha;
+							}
+						}
+						
+						echo '<tr>';
+						
+						echo '<td colspan="3" valign="top">';
+						
+						// link
+						if(trim($arr_pro['name'][$key]) != '') {
+							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+							.'id=products&amp;s='.$s.'&amp;action=showall'
 							.'&amp;cmd=browse'
 							.'&amp;category='.$arr_pro['uid'][$key]
-						)
-						.( isset($lang) ? '&amp;lang='.$lang : '' );
-						$link = $tcms_main->urlConvertToSEO($link);
+							.( isset($lang) ? '&amp;lang='.$lang : '' );
+							$link = $tcms_main->urlConvertToSEO($link);
+							
+							echo '<a class="products_top" href="'.$link.'">'
+							.$arr_pro['name'][$key]
+							.'</a>';
+						}
 						
-						echo '<a class="products_top" href="'.$link.'">'
-						.$arr_pro['name'][$key]
-						.'</a>';
-					}
-					
-					
-					// desc
-					if(trim($arr_pro['desc'][$key]) != '') {
-						echo '<br />'
-						.$arr_pro['desc'][$key];
-					}
-					
-					
-					// price
-					if($show_price_only_users == 1) {
+						echo '</td>';
 						
-					}
-					
-					echo '</td>';
-					
-					// fill if amount is odd
-					if($key == $checkCatAmount && is_integer($checkCatAmount / 2)) {
-						echo '<td width="50%">&nbsp;</td>';
-					}
-					
-					if($intOdd == 1) {
 						echo '</tr>';
-						
-						$intOdd = 0;
 					}
+					/*
+						list products
+					*/
 					else {
-						$intOdd = 1;
+						if(!$isFirstArticle) {
+							$isFirstArticle = true;
+							
+							echo '<tr><td colspan="3"><br /></td></tr>'
+							.'<tr><td colspan="3" class="titleBG">'
+							._PRODUCTS_ARTICLE
+							.'</td></tr>';
+						}
+						
+						if($intOdd == 0) {
+							echo '<tr>';
+						}
+						
+						echo '<td width="33%" valign="top">';
+						
+						
+						// image
+						if($arr_pro['image1'][$key] != '' && file_exists('data/images/products/'.$arr_pro['image1'][$key])) {
+							$img_size_1 = getimagesize('data/images/products/'.$arr_pro['image1'][$key]);
+							$img_o_width_1  = $img_size_1[0];
+							$img_o_height_1 = $img_size_1[1];
+							
+							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+							.'id=products&amp;s='.$s.'&amp;action=showone'
+							.'&amp;article='.$arr_pro['uid'][$key]
+							.( isset($lang) ? '&amp;lang='.$lang : '' );
+							$link = $tcms_main->urlConvertToSEO($link);
+							
+							echo '<a href="'.$link.'">';
+							
+							if($detect_browser == 1){
+								echo '<script>if(browser == \'ie\'){'
+								.'document.write(\'<img'
+								.( $img_o_width_1 > 157
+									? ' width="157"'
+									: ''
+								).' src="'.$imagePath.'data/images/products/'.$arr_pro['image1'][$key].'" border="0" />\');'
+								.'}else{'
+								.'document.write(\'<img'
+								.( $img_o_width_1 > 157
+									? ' width="98%"'
+									: ''
+								).' src="'.$imagePath.'data/images/products/'.$arr_pro['image1'][$key].'" border="0" />\');'
+								.'}</script>';
+								
+								echo '<noscript>'
+								.'<img'
+								.( $img_o_width_1 > 157
+									? ' width="98%"'
+									: ''
+								).' src="'.$imagePath.'data/images/products/'.$arr_pro['image1'][$key].'" border="0" />'
+								.'</noscript>';
+							}
+							else{
+								echo '<img'
+								.( $img_o_width_1 > 157
+									? ' width="98%"'
+									: ''
+								).' src="'.$imagePath.'data/images/products/'.$arr_pro['image1'][$key].'" border="0" />';
+							}
+							
+							echo '</a>'
+							.'<br />';
+						}
+						
+						
+						// link
+						if(trim($arr_pro['name'][$key]) != '') {
+							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+							.'id=products&amp;s='.$s.'&amp;action=showone'
+							.'&amp;article='.$arr_pro['uid'][$key]
+							.( isset($lang) ? '&amp;lang='.$lang : '' );
+							$link = $tcms_main->urlConvertToSEO($link);
+							
+							echo '<a class="products_top" href="'.$link.'">'
+							.$arr_pro['name'][$key]
+							.'</a>';
+						}
+						
+						
+						// desc
+						if(trim($arr_pro['desc'][$key]) != '') {
+							//echo '<br />'
+							//.$arr_pro['desc'][$key];
+						}
+						
+						
+						// price
+						if($show_price_only_users == 1) {
+							if($check_session) {
+								if($arr_pro['price'][$key] != -1
+								&& trim($arr_pro['price'][$key]) != '') {
+									echo '<br />'
+									.$arr_pro['price'][$key];
+								}
+							}
+						}
+						else {
+							if($arr_pro['price'][$key] != -1
+							&& trim($arr_pro['price'][$key]) != '') {
+								echo '<br />'
+								.$arr_pro['price'][$key];
+							}
+						}
+						
+						echo '</td>';
+						
+						// fill if amount is odd
+						if(($key - $checkCatAmount) == ($checkArtAmount - 1)
+						&& is_integer(($key - $checkCatAmount) / 3)) {
+							echo '<td colspan="2">&nbsp;</td>';
+						}
+						else if(($key - $checkCatAmount) == ($checkArtAmount - 1)
+						&& is_integer((($key - $checkCatAmount) - 1) / 3)) {
+							echo '<td>&nbsp;</td>';
+						}
+						
+						if($intOdd == 2) {
+							echo '</tr>';
+							
+							$intOdd = 0;
+						}
+						else {
+							$intOdd++;
+						}
 					}
 				}
 			}
@@ -309,7 +454,7 @@ if($action == 'showall'){
 			."AND NOT (name = '') "
 			."AND ( access = 'Public' "
 			.$strAdd
-			."ORDER BY sort ASC, date ASC, name ASC";
+			."ORDER BY sort DESC, date DESC, name DESC";
 			
 			$sqlQR = $sqlAL->query($sqlSTR);
 			$chkNr = $sqlAL->getNumber($sqlQR);
@@ -323,17 +468,12 @@ if($action == 'showall'){
 					$arr_pro['image1'][$count] = $sqlObj->image1;
 					$arr_pro['sort'][$count]   = $sqlObj->sort;
 					$arr_pro['cat'][$count]    = $sqlObj->category;
-					
-					
-					if($show_price_only_users == 1) {
-						$arr_pro['price'][$count]  = $sqlObj->price;
-						$arr_pro['taxkey'][$count] = $sqlObj->price_tax;
+					$arr_pro['price'][$count]  = $sqlObj->price;
+					$arr_pro['taxkey'][$count] = $sqlObj->price_tax;
+					$arr_pro['pronr'][$count]  = $sqlObj->product_number;
 						
-						if($arr_pro['price'][$count]  == NULL){ $arr_pro['price'][$count]  = ''; }
-						if($arr_pro['taxkey'][$count] == NULL){ $arr_pro['taxkey'][$count] = ''; }
-					}
-					
-					
+					if($arr_pro['price'][$count]  == NULL){ $arr_pro['price'][$count]  = ''; }
+					if($arr_pro['taxkey'][$count] == NULL){ $arr_pro['taxkey'][$count] = ''; }
 					if($arr_pro['uid'][$count]    == NULL){ $arr_pro['uid'][$count]    = ''; }
 					if($arr_pro['name'][$count]   == NULL){ $arr_pro['name'][$count]   = ''; }
 					if($arr_pro['desc'][$count]   == NULL){ $arr_pro['desc'][$count]   = ''; }
@@ -341,6 +481,7 @@ if($action == 'showall'){
 					if($arr_pro['image1'][$count] == NULL){ $arr_pro['image1'][$count] = ''; }
 					if($arr_pro['sort'][$count]   == NULL){ $arr_pro['sort'][$count]   = ''; }
 					if($arr_pro['cat'][$count]    == NULL){ $arr_pro['cat'][$count]    = ''; }
+					if($arr_pro['pronr'][$count]  == NULL){ $arr_pro['pronr'][$count]  = ''; }
 					
 					
 					// CHARSETS
@@ -365,7 +506,7 @@ if($action == 'showall'){
 					echo '<tr>';
 				}
 				
-				echo '<td width="50%" valign="top">';
+				echo '<td width="33%" valign="top">';
 				
 				
 				// link
@@ -385,30 +526,40 @@ if($action == 'showall'){
 				
 				// desc
 				if(trim($arr_pro['desc'][$key]) != '') {
-					echo '<br />'
-					.$arr_pro['desc'][$key];
+					//echo '<br />'
+					//.$arr_pro['desc'][$key];
 				}
 				
 				
 				// price
 				if($show_price_only_users == 1) {
-					
+					if($check_session) {
+						echo '<br />'
+						.$arr_pro['price'][$key];
+					}
+				}
+				else {
+					echo '<br />'
+					.$arr_pro['price'][$key];
 				}
 				
 				echo '</td>';
 				
 				// fill if amount is odd
-				if($key == $checkCatAmount && is_integer($checkCatAmount / 2)) {
-					echo '<td width="50%">&nbsp;</td>';
+				if($key == $checkCatAmount && is_integer($key / 3)) {
+					echo '<td colspan="2">&nbsp;</td>';
+				}
+				else if($key == $checkCatAmount && is_integer(($key - 1) / 3)) {
+					echo '<td>&nbsp;</td>';
 				}
 				
-				if($intOdd == 1) {
+				if($intOdd == 2) {
 					echo '</tr>';
 					
 					$intOdd = 0;
 				}
 				else {
-					$intOdd = 1;
+					$intOdd ++;
 				}
 			}
 		}

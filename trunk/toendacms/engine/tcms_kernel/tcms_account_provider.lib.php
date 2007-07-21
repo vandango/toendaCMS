@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide methods to get and
  * save user accounts and also contacts.
  * 
- * @version 0.2.6
+ * @version 0.2.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -40,7 +40,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * setTcmsTimeObj              -> Set the tcms_time object
  *
- * getUser                     -> Return the username
+ * getUsername                 -> Get the username of a user id
  * getUserID                   -> Return ID for username or realname
  * getUserInfo                 -> Get some information about a user
  * getAccount                  -> Get a user account

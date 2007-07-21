@@ -37,7 +37,7 @@ if(isset($_POST['reg_cookie'])){ $reg_cookie = $_POST['reg_cookie']; }
  * This module provides the login functionality
  * and a login formular.
  *
- * @version 0.4.9
+ * @version 0.5.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -48,30 +48,15 @@ if(!isset($reg_login)){ $reg_login = NULL; }
 
 
 
-if($use_login == 1){
-	if($check_session){
+if($use_login == 1) {
+	if($check_session) {
 		/*
 			READ USERNAME
 		*/
 		
-		if($choosenDB == 'xml'){
-			$authXML  = new xmlparser($tcms_administer_site.'/tcms_user/'.$ws_id.'.xml', 'r');
-			$login_name = $authXML->read_section('user', 'name');
-			$login_name = $tcms_main->decodeText($login_name, '2', $c_charset);
-		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-			$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'user', $ws_id);
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
-			$login_name = $sqlARR['name'];
-			if($login_name == NULL){ $login_name = ''; }
-			$login_name = $tcms_main->decodeText($login_name, '2', $c_charset);
-		}
-		
-		echo tcms_html::subtitle($login_title)
+		echo $tcms_html->subTitle($login_title)
 		.'<div align="left"><span class="text_small">'
-		._LOGIN_WELCOME.',<br />'.$login_name.'.'
+		._LOGIN_WELCOME.',<br />'.$tcms_ap->getUsername($ws_id).'.'
 		.'</span></div>';
 	}
 	else{
