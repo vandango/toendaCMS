@@ -345,7 +345,9 @@ a.legal:hover { color: #333 !important; text-decoration: underline; }
 a.index { color: #676767 !important; }
 a.index:hover { text-decoration: none; color: #676767 !important; }
 .subtitle {}
-.sitelogo{ padding-top: 10px; padding-left: 10px; }
+.sitelogo {
+	margin: -40px 0 0 -40px;
+}
 
 
 /*

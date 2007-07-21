@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.6.3
+ * @version 2.6.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -920,16 +920,24 @@ if($wsShowSite){
 							break;
 						
 						case 'imagegallery':
-							$arrP = $tcms_modconfig->getImagegalleryConfig($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+							using('toendacms.datacontainer.imagegallery');
 							
-							$image_id           = $arrP['image_id'];
-							$image_title        = $arrP['image_title'];
-							$image_stamp        = $arrP['image_stamp'];
-							$image_details      = $arrP['image_details'];
-							$gallery_image_sort = $arrP['image_sort'];
-							$use_image_comments = $arrP['use_comments'];
-							$authorized         = $arrP['access'];
-							$list_option        = $arrP['list_option'];
+							$dcIG = new tcms_dc_imagegallery();
+							$dcIG = $tcms_dcp->getImagegalleryDC();
+							
+							$image_id           = $dcIG->getID();
+							$image_title        = $dcIG->getTitle();
+							$image_stamp        = $dcIG->getSubtitle();
+							$image_details      = $dcIG->getUseImageDetails();
+							$gallery_image_sort = $dcIG->getImageSort();
+							$use_image_comments = $dcIG->getUseComments();
+							$authorized         = $dcIG->getAccess();
+							$list_option        = $dcIG->getListOption();
+							$maxImg             = $dcIG->getMaxImages();
+							$needleImg          = $dcIG->getNeedleImage();
+							$showTitleImg       = $dcIG->getShowLastImageTitle();
+							$alignImg           = $dcIG->getImageAlignment();
+							$sizeImg            = $dcIG->getImageSize();
 							
 							$link_image  = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 							.'id='.$image_id.'&amp;s='.$s.'&amp;lang='.$lang;

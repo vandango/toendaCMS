@@ -26,7 +26,6 @@ defined('_TCMS_VALID') or die('Restricted access');
 * tcms_modconfig             -> toendaCMS webpage path
 * getDownloadConfig          -> Return a array with all download configuration data
 * getGuestbookConfig         -> Return a array with all guestbook configuration data
-* getImagegalleryConfig      -> Return a array with all imagegallery configuration data
 * getLinkConfig              -> Return a array with all link configuration data
 * getFAQConfig               -> Return a array with all FAQ configuration data
 *
@@ -167,77 +166,6 @@ class tcms_modconfig {
 		$arrGB['bookstamp'] = $tcms_main->decodeText($arrGB['bookstamp'], '2', $c_charset);
 		
 		return $arrGB;
-	}
-	
-	
-	
-	
-	
-	/***
-	* @return Return a array with all imagegallery configuration data
-	* @desc ...
-	*/
-	function getImagegalleryConfig($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort){
-		global $tcms_main;
-		
-		if($choosenDB == 'xml'){
-			$pro_xml = new xmlparser(''.$this->tcms_main_path.'/tcms_global/imagegallery.xml','r');
-			
-			$arrP['image_id']      = $pro_xml->read_section('config', 'image_id');
-			$arrP['image_title']   = $pro_xml->read_section('config', 'image_title');
-			$arrP['image_stamp']   = $pro_xml->read_section('config', 'image_stamp');
-			$arrP['image_details'] = $pro_xml->read_section('config', 'image_details');
-			$arrP['use_comments']  = $pro_xml->read_section('config', 'image_comments');
-			$arrP['image_sort']    = $pro_xml->read_section('config', 'image_sort');
-			$arrP['access']        = $pro_xml->read_section('config', 'access');
-			$arrP['list_option']   = $pro_xml->read_section('config', 'list_option');
-			
-			if($arrP['image_id']      == false){ $arrP['image_id']      = ''; }
-			if($arrP['image_title']   == false){ $arrP['image_title']   = ''; }
-			if($arrP['image_stamp']   == false){ $arrP['image_stamp']   = ''; }
-			if($arrP['image_details'] == false){ $arrP['image_details'] = ''; }
-			if($arrP['image_sort']    == false){ $arrP['image_sort']    = ''; }
-			if($arrP['use_comments']  == false){ $arrP['use_comments']  = ''; }
-			if($arrP['access']        == false){ $arrP['access']        = ''; }
-			if($arrP['list_option']   == false){ $arrP['list_option']   = ''; }
-		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-			
-			$strQuery = "SELECT image_title, image_stamp, image_details, image_sort, "
-			."use_comments, access, list_option "
-			."FROM ".$this->tcms_db_prefix."imagegallery_config "
-			."WHERE uid = 'imagegallery'";
-			
-			$sqlQR = $sqlAL->sqlQuery($strQuery);
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
-			
-			$arrP['image_id']      = 'imagegallery';
-			$arrP['image_title']   = $sqlARR['image_title'];
-			$arrP['image_stamp']   = $sqlARR['image_stamp'];
-			$arrP['image_details'] = $sqlARR['image_details'];
-			$arrP['image_sort']    = $sqlARR['image_sort'];
-			$arrP['use_comments']  = $sqlARR['use_comments'];
-			$arrP['access']        = $sqlARR['access'];
-			$arrP['list_option']   = $sqlARR['list_option'];
-			
-			$sqlAL->_sqlAbstractionLayer();
-			
-			if($arrP['image_id']      == NULL){ $arrP['image_id']      = ''; }
-			if($arrP['image_title']   == NULL){ $arrP['image_title']   = ''; }
-			if($arrP['image_stamp']   == NULL){ $arrP['image_stamp']   = ''; }
-			if($arrP['image_details'] == NULL){ $arrP['image_details'] = ''; }
-			if($arrP['image_sort']    == NULL){ $arrP['image_sort']    = ''; }
-			if($arrP['use_comments']  == NULL){ $arrP['use_comments']  = ''; }
-			if($arrP['access']        == NULL){ $arrP['access']        = ''; }
-			if($arrP['list_option']   == NULL){ $arrP['list_option']   = ''; }
-		}
-		
-		$arrP['image_title'] = $tcms_main->decodeText($arrP['image_title'], '2', $c_charset);
-		$arrP['image_stamp'] = $tcms_main->decodeText($arrP['image_stamp'], '2', $c_charset);
-		
-		return $arrP;
 	}
 	
 	

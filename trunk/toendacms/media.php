@@ -20,7 +20,7 @@
  *
  * This module is used as a image viewer.
  *
- * @version 0.5.0
+ * @version 0.6.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -79,6 +79,7 @@ include_once('engine/tcms_kernel/tcms_html.lib.php');
 include_once('engine/tcms_kernel/tcms_sql.lib.php');
 include_once('engine/tcms_kernel/tcms_configuration.lib.php');
 include_once('engine/tcms_kernel/tcms_version.lib.php');
+include_once('engine/tcms_kernel/tcms_datacontainer_provider.lib.php');
 
 
 tcms_time::tcms_load_start();
@@ -156,6 +157,16 @@ $sitekey   = $namen_xml->read_section('namen', 'key');
 $sitetitle  = $tcms_main->decodeText($sitetitle, '2', $c_charset);
 $sitename   = $tcms_main->decodeText($sitename, '2', $c_charset);
 $sitekey    = $tcms_main->decodeText($sitekey, '2', $c_charset);
+
+// cfg
+$tcms_dcp = new tcms_datacontainer_provider($tcms_administer_site, $c_charset);
+
+include_once('engine/tcms_kernel/datacontainer/tcms_dc_imagegallery.lib.php');
+
+$dcIG = new tcms_dc_imagegallery();
+$dcIG = $tcms_dcp->getImagegalleryDC();
+
+$image_details      = $dcIG->getUseImageDetails();
 
 
 
@@ -406,14 +417,17 @@ if(is_array($arr_tc['time']) && !empty($arr_tc['time'])){
 			else{ echo '<img style="width: 16px; height: 16px;" alt="" src="engine/images/px.png" border="0" />'; }
 			
 			
-			echo '<div align="left" style="margin: 10px 0 0 10px;"><span class="text"><strong>'._TABLE_ALBUM.':</strong> '.$album_title.'<br />';
-			echo '<strong>'._GALLERY_IMGTITLE.':</strong> '.$arr_tc['file'][$iKey].'<br />'
-			.'<strong>'._GALLERY_AMOUNT.':</strong> '.( $iKey + 1 ).'/'.$timecc.'<br />'
+			echo '<div align="left" style="margin: 10px 0 0 10px;">'
+			.'<span class="text">'
+			.( $image_details == 1 ? '<strong>'._TABLE_ALBUM.':</strong> '.$album_title.'<br />' : '' )
+			.( $image_details == 1 ? '<strong>'._GALLERY_IMGTITLE.':</strong> '.$arr_tc['file'][$iKey].'<br />' : '' )
+			.( $image_details == 1 ? '<strong>'._GALLERY_AMOUNT.':</strong> '.( $iKey + 1 ).'/'.$timecc.'<br />' : '' )
 			.'<strong>'._GALLERY_IMGRESOLUTION.':</strong> <a class="media" href="?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'album='.$album.'&amp;key='.$arr_tc['file'][$iKey].'&amp;defaultSizeX='.$img_o_width.'">'.$img_o_width.'x'.$img_o_height.'</a><br />'
-			.'<strong>'._GALLERY_POSTED.':</strong> '.lang_date(substr($iVal, 6, 2), substr($iVal, 4, 2), substr($iVal, 0, 4), substr($iVal, 8, 2), substr($iVal, 10, 2), substr($iVal, 12, 2)).'<br /><br />';
-			echo '<strong>'._GALLERY_DESCRIPTION.'</strong><br />';
-			echo $arr_tc['desc'][$iKey];
-			echo '</span></div>';
+			.( $image_details == 1 ? '<strong>'._GALLERY_POSTED.':</strong> '.lang_date(substr($iVal, 6, 2), substr($iVal, 4, 2), substr($iVal, 0, 4), substr($iVal, 8, 2), substr($iVal, 10, 2), substr($iVal, 12, 2)) : '' )
+			.( $image_details == 1 ? '<br /><br />' : '' )
+			.'<strong>'._GALLERY_DESCRIPTION.'</strong><br />'
+			.$arr_tc['desc'][$iKey]
+			.'</span></div>';
 			
 			echo '</td>';
 			

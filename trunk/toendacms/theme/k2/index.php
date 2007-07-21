@@ -21,43 +21,48 @@ $k2CSS = 1;
 	echo _SITE_TITLE.' | ';
 	include(_SITETITLE);
 ?></title>
-<? echo _SITE_META_DATA; ?>
-<script type="text/javascript" language="JavaScript">
-var name = navigator.userAgent.toLowerCase()
-var css = 'moz';
+<?php
 
-var ie = (name.indexOf("msie")>-1 && name.indexOf("opera") == -1)
-var netscape = (name.indexOf("mozilla") >=-1 && name.indexOf("msie")==-1)
-
-if(ie) css = 'ie';
-else css = 'moz';
-</script>
-<?
+echo _SITE_META_DATA;
 
 switch($k2CSS){
 	case 1:
-		echo '<script type="text/javascript" language="JavaScript">'
-		.'document.write (\'<link href="'.$skinPath.'k2_\' + css + \'.css" rel="stylesheet" type="text/css" />\');'
-		.'</script>';
+		echo '
+		<style type="text/css">@import "'.$skinPath.'k2_moz.css";</style>
+		<!--[if lt IE 5.5000]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
+		<!--[if IE 5.5000]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
+		<!--[if IE 6]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
+		<!--[if IE 7]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
+		';
 		break;
 	
 	case 2:
-		echo '<link href="'.$skinPath.'k2_big.css" rel="stylesheet" type="text/css" />';
+		echo '<style type="text/css">@import "'.$skinPath.'k2_big.css";</style>';
 		break;
 	
 	case 3:
-		echo '<link href="'.$skinPath.'vader.css" rel="stylesheet" type="text/css" />';
+		echo '<style type="text/css">@import "'.$skinPath.'vader.css";</style>';
 		break;
 	
 	case 4:
-		echo '<script type="text/javascript" language="JavaScript">'
-		.'document.write (\'<link href="'.$skinPath.'k2_\' + css + \'.css" rel="stylesheet" type="text/css" />\');'
-		.'</script>';
-		echo '<link href="'.$skinPath.'k2_garciasolar.css" rel="stylesheet" type="text/css" />';
+		echo '
+		<style type="text/css">@import "'.$skinPath.'k2_moz.css";</style>
+		<!--[if lt IE 5.5000]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
+		<!--[if IE 5.5000]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
+		<!--[if IE 6]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
+		<!--[if IE 7]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->'
+		.'<style type="text/css">@import "'.$skinPath.'k2_garciasolar.css";</style>
+		';
 		break;
 	
 	default:
-		echo '<link href="'.$skinPath.'k2_moz.css" rel="stylesheet" type="text/css" />';
+		echo '
+		<style type="text/css">@import "'.$skinPath.'k2_moz.css";</style>
+		<!--[if lt IE 5.5000]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
+		<!--[if IE 5.5000]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
+		<!--[if IE 6]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
+		<!--[if IE 7]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
+		';
 		break;
 }
 

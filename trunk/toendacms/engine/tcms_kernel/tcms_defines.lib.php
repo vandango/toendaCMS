@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for global values
  *
- * @version 0.5.7
+ * @version 0.5.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -255,7 +255,7 @@ $dayName['short']['sun'] = _TCMS_DAY_SUNDAY_XS;
 */
 /*_SITE_NAME*/
 $link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-.'id='.$id.'&amp;s='.$s
+.'id=frontpage&amp;s='.$s
 .( isset($lang) ? '&amp;lang='.$lang : '' );
 $link = $tcms_main->urlConvertToSEO($link);
 

@@ -829,7 +829,7 @@ define('_GLOBAL_CONFIG', 'Seiten Konfiguration');
 define('_GLOBAL_TITLE', 'Webseiten Titel');
 define('_GLOBAL_NAME', 'Webseiten Name');
 define('_GLOBAL_SUBTITLE', 'Webseiten Untertitel');
-define('_GLOBAL_LOGO', 'Webseiten Logo');
+define('_GLOBAL_LOGO', 'Webseiten Logo (aus dem Mediamanager)');
 define('_GLOBAL_OWNER', 'Webseiten Inhaber');
 define('_GLOBAL_URL', 'Internetadresse');
 define('_GLOBAL_TCMSLOGO', 'toendaCMS Logo im Footer anzeigen');

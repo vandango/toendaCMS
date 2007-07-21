@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a product manager.
  *
- * @version 0.5.1
+ * @version 0.5.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -63,9 +63,6 @@ if($action == 'showall'){
 		list all startpage products
 	*/
 	
-	echo $tcms_html->tableHeadClass('0', '0', '0', '100%', 'noborder')
-	.'<tr><td valign="top" class="titleBG" style="padding-left: 2px;" align="left">';
-	
 	if(trim($startpage_title) != '') {
 		// offer tab
 		$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
@@ -88,10 +85,10 @@ if($action == 'showall'){
 	.'Browse'
 	.'</a>';
 	
-	echo '</td><tr>'
-	.'<tr style="height: 2px;"><td></td></tr>'
-	.'<tr><td><br /></td></tr>'
-	.$tcms_html->tableEnd();
+	echo '<br />'
+	.'<hr noshade="noshade" class="titleBG" />'
+	.'<br />';
+	
 	
 	
 	// -----------------------------------
@@ -136,7 +133,7 @@ if($action == 'showall'){
 				."AND NOT (name = '') "
 				."AND ( access = 'Public' "
 				.$strAdd
-				."ORDER BY sort ASC, date ASC, name ASC";
+				."ORDER BY sql_type ASC, sort ASC, name ASC";
 			}
 			else {
 				$sqlSTR = "SELECT * "
@@ -147,7 +144,7 @@ if($action == 'showall'){
 				."AND NOT (name = '') "
 				."AND ( access = 'Public' "
 				.$strAdd
-				."ORDER BY sort ASC, date ASC, name ASC";
+				."ORDER BY sql_type ASC, sort ASC, name ASC";
 				
 				//$sqlQR = $sqlAL->query($sqlSTR);
 				//$sqlNR = $sqlAL->getNumber($sqlQR);
@@ -562,7 +559,7 @@ if($action == 'showone') {
 	
 	// display item
 	if($sqlNR > 0) {
-		echo $tcms_html->tableHead('0', '0', '0', '100%')
+		echo $tcms_html->tableHead('0', '0', '1', '100%')
 		.'<tr><td valign="top" colspan="2" class="products_top">'
 		.$tcms_html->contentTitle($arr_name)
 		.'<span class="text_small">';
@@ -635,33 +632,119 @@ if($action == 'showone') {
 		echo '</td>'
 		.'</tr>';
 		
-		echo '<tr><td valign="top" colspan="2">'
-		.( $arr_image1 == '' 
-			? '' 
-			: '<a href="'.$imagePath.'data/images/products/'.$arr_image1.'" rel="lightbox">'
-			.'<img align="left" width="47%" src="'.$imagePath.'data/images/products/'.$arr_image1.'" border="0" />'
-			.'</a>' 
-		)
-		.( $arr_image2 == '' 
-			? '' 
-			: '<a href="'.$imagePath.'data/images/products/'.$arr_image2.'" rel="lightbox">'
-			.'<img align="right" width="47%" src="'.$imagePath.'data/images/products/'.$arr_image2.'" border="0" />'
-			.'</a>'
-		)
-		.'<br />'
-		.( $arr_image3 == '' 
-			? '' 
-			: '<a href="'.$imagePath.'data/images/products/'.$arr_image3.'" rel="lightbox">'
-			.'<img align="left" width="47%" src="'.$imagePath.'data/images/products/'.$arr_image3.'" border="0" />'
-			.'</a>'
-		)
-		.( $arr_image4 == '' 
-			? '' 
-			: '<a href="'.$imagePath.'data/images/products/'.$arr_image4.'" rel="lightbox">'
-			.'<img align="right" width="47%" src="'.$imagePath.'data/images/products/'.$arr_image4.'" border="0" />'
-			.'</a>'
-		)
-		.'</td>'
+		echo '<tr><td valign="top" colspan="2">';
+		
+		if($arr_image1 != '' && file_exists('data/images/products/'.$arr_image1)) {
+			$img_size_1 = getimagesize('data/images/products/'.$arr_image1);
+			$img_o_width_1  = $img_size_1[0];
+			$img_o_height_1 = $img_size_1[1];
+			
+			echo '<a href="'.$imagePath.'data/images/products/'.$arr_image1.'" rel="lightbox">';
+			
+			if($detect_browser == 1){
+				echo '<script>if(browser == \'ie\'){'
+				.'document.write(\'<img align="left"'
+				.( $img_o_width_1 > 235
+					? ' width="235"'
+					: ''
+				).' src="'.$imagePath.'data/images/products/'.$arr_image1.'" border="0" />\');'
+				.'}else{'
+				.'document.write(\'<img align="left"'
+				.( $img_o_width_1 > 235
+					? ' width="47%"'
+					: ''
+				).' src="'.$imagePath.'data/images/products/'.$arr_image1.'" border="0" />\');'
+				.'}</script>';
+				
+				echo '<noscript>'
+				.'<img align="left"'
+				.( $img_o_width_1 > 235
+					? ' width="47%"'
+					: ''
+				).' src="'.$imagePath.'data/images/products/'.$arr_image1.'" border="0" />'
+				.'</noscript>';
+			}
+			else{
+				echo '<img align="left"'
+				.( $img_o_width_1 > 235
+					? ' width="47%"'
+					: ''
+				).' src="'.$imagePath.'data/images/products/'.$arr_image1.'" border="0" />';
+			}
+			
+			echo '</a>';
+		}
+		
+		if($arr_image2 != '' && file_exists('data/images/products/'.$arr_image2)) {
+			$img_size_2 = getimagesize('data/images/products/'.$arr_image2);
+			$img_o_width_2  = $img_size_2[0];
+			$img_o_height_2 = $img_size_2[1];
+			
+			echo '<a href="'.$imagePath.'data/images/products/'.$arr_image2.'" rel="lightbox">';
+			
+			if($detect_browser == 1){
+				echo '<script>if(browser == \'ie\'){'
+				.'document.write(\'<img align="left"'
+				.( $img_o_width_2 > 235
+					? ' width="235"'
+					: ''
+				).' src="'.$imagePath.'data/images/products/'.$arr_image2.'" border="0" />\');'
+				.'}else{'
+				.'document.write(\'<img align="left"'
+				.( $img_o_width_2 > 235
+					? ' width="47%"'
+					: ''
+				).' src="'.$imagePath.'data/images/products/'.$arr_image2.'" border="0" />\');'
+				.'}</script>';
+				
+				echo '<noscript>'
+				.'<img align="left"'
+				.( $img_o_width_2 > 235
+					? ' width="47%"'
+					: ''
+				).' src="'.$imagePath.'data/images/products/'.$arr_image2.'" border="0" />'
+				.'</noscript>';
+			}
+			else{
+				echo '<img align="left"'
+				.( $img_o_width_2 > 235
+					? ' width="47%"'
+					: ''
+				).' src="'.$imagePath.'data/images/products/'.$arr_image2.'" border="0" />';
+			}
+			
+			echo '</a>';
+		}
+		
+		if($arr_image3 != '' && file_exists('data/images/products/'.$arr_image3)) {
+			$img_size_3 = getimagesize('data/images/products/'.$arr_image3);
+			$img_o_width_3  = $img_size_3[0];
+			$img_o_height_3 = $img_size_3[1];
+			
+			echo '<a href="'.$imagePath.'data/images/products/'.$arr_image3.'" rel="lightbox">'
+			.'<img align="left"'
+			.( $img_o_width_3 > 235
+				? ' width="47%"'
+				: ''
+			).' src="'.$imagePath.'data/images/products/'.$arr_image3.'" border="0" />'
+			.'</a>';
+		}
+		
+		if($arr_image4 != '' && file_exists('data/images/products/'.$arr_image4)) {
+			$img_size_4 = getimagesize('data/images/products/'.$arr_image4);
+			$img_o_width_4  = $img_size_4[0];
+			$img_o_height_4 = $img_size_4[1];
+			
+			echo '<a href="'.$imagePath.'data/images/products/'.$arr_image4.'" rel="lightbox">'
+			.'<img align="left"'
+			.( $img_o_width_4 > 235
+				? ' width="47%"'
+				: ''
+			).' src="'.$imagePath.'data/images/products/'.$arr_image4.'" border="0" />'
+			.'</a>';
+		}
+		
+		echo '</td>'
 		.'</tr>';
 		
 		echo '<tr>'

@@ -22,7 +22,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for globar backend values.
  *
- * @version 0.5.2
+ * @version 0.5.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -108,7 +108,7 @@ $mod_title['show']['mod_poll']=2;
 
 // Extension
 $mod_title['name']['mod_contactform'] = _MOD_CFORM;
-$mod_title['show']['mod_contactform'] = 'tb_extensions.php';
+$mod_title['show']['mod_contactform'] = 'tb_contactform.php';
 
 $mod_title['name']['mod_guestbook_config'] = _MOD_BOOK;
 $mod_title['show']['mod_guestbook_config'] = 'tb_guestbook_config.php';
