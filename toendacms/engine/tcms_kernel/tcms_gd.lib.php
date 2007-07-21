@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for all graphic actions.
  *
- * @version 0.3.0
+ * @version 0.3.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -188,6 +188,14 @@ class tcms_gd {
 				$img_src = @imagecreatefromgif($path.$image);
 				break;
 			
+			case 'gif':
+				$img_src = @imagecreatefromgif($path.$image);
+				break;
+			
+			case 'bmp':
+				$img_src = @imagecreatefromwbmp($path.$image);
+				break;
+			
 			default:
 				$isImage = false;
 				break;
@@ -199,66 +207,71 @@ class tcms_gd {
 			
 			$X_factor100  = $img_o_width / $size;
 			
-			$img_width    = $img_o_width / $X_factor100;
-			$img_height   = $img_o_height / $X_factor100;
-			
-			$img_path     = $targetPath.'thumb_'.$image;
-			
-			if($withTransparency){
-				$img_file = @imagecreatetruecolor($img_width, $img_height);
-			}
-			else{
-				//$img_file = @imagecreate($img_width, $img_height);
-				$img_file = @imagecreatetruecolor($img_width, $img_height);
+			if($img_o_width > 0 && $img_o_height > 0) {
+				$img_width    = $img_o_width / $X_factor100;
+				$img_height   = $img_o_height / $X_factor100;
 				
-				$this->readImageInformation($path.$image);
+				$img_path     = $targetPath.'thumb_'.$image;
 				
-				if($this->m_version == '89a' && $this->m_colorFlag == 1){
-					$transparent = @imagecolorallocate($img_file, 
-						$this->m_transparentRed, 
-						$this->m_transparentGreen, 
-						$this->m_transparentBlue);
-					@imagecolortransparent ($img_file, $transparent);
+				if($withTransparency){
+					$img_file = @imagecreatetruecolor($img_width, $img_height);
 				}
-			}
-		
-			@imagecopyresampled(
-				$img_file, 
-				$img_src, 
-				0, 
-				0, 
-				0, 
-				0, 
-				$img_width, 
-				$img_height, 
-				$img_o_width, 
-				$img_o_height
-			);
-			//imagecolortransparent($img_file);
-			//@imagepng($img_file, $img_path);
-			
-			switch($tcms_main->getMimeType($image)){
-				case 'jpg':
-				case 'jpeg':
-				case 'jpe':
-				case 'JPG':
-				case 'JPEG':
-				case 'JPE':
-					@imagejpeg($img_file, $img_path, 75);
-					break;
+				else{
+					//$img_file = @imagecreate($img_width, $img_height);
+					$img_file = @imagecreatetruecolor($img_width, $img_height);
+					
+					$this->readImageInformation($path.$image);
+					
+					if($this->m_version == '89a' && $this->m_colorFlag == 1){
+						$transparent = @imagecolorallocate($img_file, 
+							$this->m_transparentRed, 
+							$this->m_transparentGreen, 
+							$this->m_transparentBlue);
+						@imagecolortransparent ($img_file, $transparent);
+					}
+				}
 				
-				case 'png':
-				case 'PNG':
-					@imagepng($img_file, $img_path);
-					break;
+				@imagecopyresampled(
+					$img_file, 
+					$img_src, 
+					0, 
+					0, 
+					0, 
+					0, 
+					$img_width, 
+					$img_height, 
+					$img_o_width, 
+					$img_o_height
+				);
+				//imagecolortransparent($img_file);
+				//@imagepng($img_file, $img_path);
 				
-				case 'gif':
-				case 'GIF':
-					@imagegif($img_file, $img_path);
-					break;
+				switch($tcms_main->getMimeType($image)){
+					case 'jpg':
+					case 'jpeg':
+					case 'jpe':
+					case 'JPG':
+					case 'JPEG':
+					case 'JPE':
+						@imagejpeg($img_file, $img_path, 75);
+						break;
+					
+					case 'png':
+					case 'PNG':
+						@imagepng($img_file, $img_path);
+						break;
+					
+					case 'gif':
+					case 'GIF':
+						@imagegif($img_file, $img_path);
+						break;
+				}
+				
+				return true;
 			}
-			
-			return true;
+			else {
+				return false;
+			}
 		}
 		else {
 			return false;

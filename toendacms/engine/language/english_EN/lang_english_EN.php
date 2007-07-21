@@ -825,9 +825,9 @@ if(!defined('_CONTACT_VCARD_DOWNLOAD'))        define('_CONTACT_VCARD_DOWNLOAD',
 if(!defined('_GLOBAL'))                        define('_GLOBAL', 'Site');
 if(!defined('_GLOBAL_CONFIG'))                 define('_GLOBAL_CONFIG', 'Site Configuration');
 if(!defined('_GLOBAL_TITLE'))                  define('_GLOBAL_TITLE', 'Website title');
-define('_GLOBAL_NAME', 'Website name');
-define('_GLOBAL_SUBTITLE', 'Website subtitle');
-define('_GLOBAL_LOGO', 'Website logo');
+if(!defined('_GLOBAL_NAME'))                   define('_GLOBAL_NAME', 'Website name');
+if(!defined('_GLOBAL_SUBTITLE'))               define('_GLOBAL_SUBTITLE', 'Website subtitle');
+if(!defined('_GLOBAL_LOGO'))                   define('_GLOBAL_LOGO', 'Website logo (from the media manager)');
 define('_GLOBAL_OWNER', 'Website owner');
 define('_GLOBAL_URL', 'Website URL');
 define('_GLOBAL_TCMSLOGO', 'Show toendaCMS Logo in footer');

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a imagegallery.
  *
- * @version 0.6.5
+ * @version 0.7.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -42,19 +42,19 @@ $hr_line_2 = '<tr style="height: 5px;"><td colspan="2"><hr class="hrule" noshade
 */
 
 if($choosenDB == 'xml'){
-	$arr_albums['count'] = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_albums/');
+	$arr_albums['count'] = $tcms_main->getPathContent($tcms_administer_site.'/tcms_albums/');
 	
 	$ca = 0;
 	if($tcms_main->isReal($arr_albums['count'])){
 		foreach($arr_albums['count'] as $key => $value){
 			$albums_xml = new xmlparser($tcms_administer_site.'/tcms_albums/'.$arr_albums['count'][$ca], 'r');
-			$use = $albums_xml->read_section('album', 'use');
+			$use = $albums_xml->readSection('album', 'use');
 			
 			if($use == 1){
-				$arr_albums['title'][$ca]       = $albums_xml->read_section('album', 'title');
-				$arr_albums['path'][$ca]        = $albums_xml->read_section('album', 'path');
-				$arr_albums['description'][$ca] = $albums_xml->read_section('album', 'description');
-				$arr_albums['image'][$ca]       = $albums_xml->read_section('album', 'image');
+				$arr_albums['title'][$ca]       = $albums_xml->readSection('album', 'title');
+				$arr_albums['path'][$ca]        = $albums_xml->readSection('album', 'path');
+				$arr_albums['description'][$ca] = $albums_xml->readSection('album', 'description');
+				$arr_albums['image'][$ca]       = $albums_xml->readSection('album', 'image');
 				
 				// CHARSETS
 				$arr_albums['title'][$ca]       = $tcms_main->decodeText($arr_albums['title'][$ca], '2', $c_charset);
@@ -77,24 +77,24 @@ if($choosenDB == 'xml'){
 	}
 }
 else{
-	$sqlAL = new sqlAbstractionLayer($choosenDB);
-	$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+	$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+	$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 	
 	$sqlSTR = "SELECT * "
 	."FROM ".$tcms_db_prefix."albums "
 	."WHERE published = 1 "
 	."ORDER BY title ASC";
 	
-	$sqlQR = $sqlAL->sqlQuery($sqlSTR);
+	$sqlQR = $sqlAL->query($sqlSTR);
 	
 	$count = 0;
 	
-	while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
-		$arr_albums['count'][$count]       = $sqlARR['uid'];
-		$arr_albums['title'][$count]       = $sqlARR['title'];
-		$arr_albums['path'][$count]        = $sqlARR['album_id'];
-		$arr_albums['description'][$count] = $sqlARR['desc'];
-		$arr_albums['image'][$count]       = $sqlARR['image'];
+	while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+		$arr_albums['count'][$count]       = $sqlObj->uid;
+		$arr_albums['title'][$count]       = $sqlObj->title;
+		$arr_albums['path'][$count]        = $sqlObj->album_id;
+		$arr_albums['description'][$count] = $sqlObj->desc;
+		$arr_albums['image'][$count]       = $sqlObj->image;
 		
 		if($arr_albums['title'][$count]       == NULL){ $arr_albums['title'][$count]       = ''; }
 		if($arr_albums['path'][$count]        == NULL){ $arr_albums['path'][$count]        = ''; }
@@ -144,7 +144,7 @@ if($albums == 'start'){
 			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 			.'id='.$id.'&amp;s='.$s.'&amp;albums='.$arr_albums['path'][$key]
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<tr><td valign="top" colspan="2" class="text_big">'
 			.'<a style="padding-left: 3px;" href="'.$link.'">'
@@ -209,22 +209,22 @@ if($albums != 'start'){
 			if($albums == $a_value){
 				if($choosenDB == 'xml'){
 					$album_xml   = new xmlparser($tcms_administer_site.'/tcms_albums/album_'.$a_value.'.xml', 'r');
-					$album_title = $album_xml->read_section('album', 'title');
-					$album_path  = $album_xml->read_section('album', 'path');
-					$album_use   = $album_xml->read_section('album', 'use');
-					$album_desc  = $album_xml->read_section('album', 'description');
+					$album_title = $album_xml->readSection('album', 'title');
+					$album_path  = $album_xml->readSection('album', 'path');
+					$album_use   = $album_xml->readSection('album', 'use');
+					$album_desc  = $album_xml->readSection('album', 'description');
 				}
 				else{
-					$sqlAL = new sqlAbstractionLayer($choosenDB);
-					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					
-					$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix."albums WHERE album_id='".$a_value."'");
-					$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+					$sqlQR = $sqlAL->getAll($tcms_db_prefix."albums WHERE album_id='".$a_value."'");
+					$sqlObj = $sqlAL->fetchObject($sqlQR);
 					
-					$album_title = $sqlARR['title'];
-					$album_path  = $sqlARR['album_id'];
-					$album_use   = $sqlARR['published'];
-					$album_desc  = $sqlARR['desc'];
+					$album_title = $sqlObj->title;
+					$album_path  = $sqlObj->album_id;
+					$album_use   = $sqlObj->published;
+					$album_desc  = $sqlObj->desc;
 					
 					if($album_title == NULL){ $album_title = ''; }
 					if($album_path  == NULL){ $album_path  = ''; }
@@ -241,7 +241,7 @@ if($albums != 'start'){
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id=imagegallery&amp;s='.$s
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
 				echo '<div class="contentheading">'._GALLERY_THISIS.' '.$album_title.' '._GALLERY_THISIS2.'</div>'
 				.'(&nbsp;<a href="'.$link.'">'.$image_title.'</a>&nbsp;)'
@@ -262,22 +262,22 @@ if($albums != 'start'){
 						$timecc = 0;
 						foreach($arr_dir as $ikey => $val){
 							$des_xml = new xmlparser($tcms_administer_site.'/tcms_imagegallery/'.$a_value.'/'.$val.'.xml','r');
-							$arr_tc['tc'][$timecc] = $des_xml->read_section('image', 'timecode');
+							$arr_tc['tc'][$timecc] = $des_xml->readSection('image', 'timecode');
 							$arr_tc['fn'][$timecc] = $val;
 							$timecc++;
 						}
 					}
 					else{
-						$sqlAL = new sqlAbstractionLayer($choosenDB);
-						$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+						$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+						$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 						
-						$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix."imagegallery WHERE album='".$a_value."'");
+						$sqlQR = $sqlAL->getAll($tcms_db_prefix."imagegallery WHERE album='".$a_value."'");
 						
 						$timecc = 0;
 						
-						while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
-							$arr_tc['tc'][$timecc]  = $sqlARR['date'];
-							$arr_tc['fn'][$timecc]  = $sqlARR['image'];
+						while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+							$arr_tc['tc'][$timecc]  = $sqlObj->date;
+							$arr_tc['fn'][$timecc]  = $sqlObj->image;
 							
 							if($arr_tc['tc'][$timecc] == NULL){ $arr_tc['tc'][$timecc] = ''; }
 							if($arr_tc['fn'][$timecc] == NULL){ $arr_tc['fn'][$timecc] = ''; }
@@ -322,7 +322,12 @@ if($albums != 'start'){
 								}
 								
 								if(!file_exists($tcms_administer_site.'/thumbnails/'.$a_value.'/thumb_'.$dvalue)){
-									tcms_gd::gd_thumbnail($tcms_administer_site.'/images/albums/'.$a_value.'/', $tcms_administer_site.'/thumbnails/'.$a_value.'/', $dvalue, '100', 'create');
+									tcms_gd::gd_thumbnail(
+										$tcms_administer_site.'/images/albums/'.$a_value.'/',
+										$tcms_administer_site.'/thumbnails/'.$a_value.'/', $dvalue, 
+										'100', 
+										'create'
+									);
 								}
 								
 								$img_size = getimagesize($tcms_administer_site.'/images/albums/'.$a_value.'/'.$dvalue);
@@ -333,17 +338,17 @@ if($albums != 'start'){
 								$des_file = $dvalue;
 								if($choosenDB == 'xml'){
 									$des_xml = new xmlparser($tcms_administer_site.'/tcms_imagegallery/'.$a_value.'/'.$des_file.'.xml','r');
-									$old_des = $des_xml->read_section('image', 'text');
+									$old_des = $des_xml->readSection('image', 'text');
 								}
 								else{
-									$sqlAL = new sqlAbstractionLayer($choosenDB);
-									$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+									$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+									$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 									
-									$sqlQR = $sqlAL->sqlQuery("SELECT * FROM ".$tcms_db_prefix."imagegallery WHERE album='".$a_value."' AND image='".$des_file."'");
-									$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+									$sqlQR = $sqlAL->query("SELECT * FROM ".$tcms_db_prefix."imagegallery WHERE album='".$a_value."' AND image='".$des_file."'");
+									$sqlObj = $sqlAL->fetchObject($sqlQR);
 									
-									$old_des = $sqlARR['text'];
-									$old_uid = $sqlARR['uid'];
+									$old_des = $sqlObj->text;
+									$old_uid = $sqlObj->uid;
 									
 									if($old_des == NULL){ $old_des = ''; }
 								}
@@ -381,12 +386,12 @@ if($albums != 'start'){
 												$ic_amount = $tcms_main->readdir_count($tcms_administer_site.'/tcms_imagegallery/'.$a_value.'/comments_'.$dvalue.'/');
 											}
 											else{
-												$sqlAL = new sqlAbstractionLayer($choosenDB);
-												$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+												$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+												$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 												
-												$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'comments', $old_uid);
+												$sqlQR = $sqlAL->getOne($tcms_db_prefix.'comments', $old_uid);
 												
-												$ic_amount = $sqlAL->sqlGetNumber($sqlQR);
+												$ic_amount = $sqlAL->getNumber($sqlQR);
 											}
 											
 											echo '<a class="text_normal" target="_blank" href="'.$imagePath.'media.php?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'album='.$a_value.'&amp;key='.$dvalue.'#comments">'.$ic_amount.' '.( $ic_amount == 1 ? _FRONT_COMMENT : _FRONT_COMMENTS ).'</a><br />';

@@ -509,15 +509,79 @@ a.products_top:hover { color: #000000; }
 	margin: -16px 5px 0 0;
 }
 
-a.langSelectorLink,
-a.langSelectorLink:link,
-a.langSelectorLink:visited,
-a.langSelectorLink:active {
+
+
+/*
+	tcms shop
+*/
+
+hr.titleBG {
+	border: 0px;
+	height: 1x;
+	background-color: #fff !important;
+	border-bottom: 1px #9bb2b9 solid;
+	display: block;
+	z-index: 100;
+	margin: -6px 0 0 0 !important;
 }
 
-a.langSelectorLink:hover {
+a.products_tab,
+a.products_tab:link,
+a.products_tab:visited,
+a.products_tab:active {
+	border-bottom: 1px #9bb2b9 solid;
+	border-top: 1px #9bb2b9 solid;
+	border-right: 1px #9bb2b9 solid;
+	border-left: 1px #9bb2b9 solid;
+	
+	color: #23598C;
+	font-size: 13px; 
+	text-decoration: none;
+	
+	margin: 0 3px -5px 3px !important;
+	padding: 1px 3px 1px 3px !important;
+	
+	z-index: 1000;
 }
 
+a.products_tab:hover {
+	border-bottom: 2px #fff solid;
+	
+	color: #23598C;
+	font-size: 13px;
+	text-decoration: none;
+	
+	z-index: 1000;
+}
 
+a.products_active_tab,
+a.products_active_tab:link,
+a.products_active_tab:visited,
+a.products_active_tab:active {
+	border-bottom: 1px #fff solid;
+	border-top: 1px #6a6f71 solid;
+	border-right: 1px #6a6f71 solid;
+	border-left: 1px #6a6f71 solid;
+	
+	color: #000;
+	font-size: 13px; 
+	text-decoration: none;
+	
+	margin: 1px 3px -5px 3px !important;
+	padding: 1px 3px 1px 3px !important;
+	
+	z-index: 1000;
+}
 
-/* http://en.wikipedia.org/wiki/K2 */
+a.products_active_tab:hover {
+	border-bottom: 2px #fff solid;
+	border-top: 1px #6a6f71 solid;
+	border-right: 1px #6a6f71 solid;
+	border-left: 1px #6a6f71 solid;
+	
+	color: #6a6f71;
+	font-size: 13px; 
+	text-decoration: none;
+	
+	z-index: 1000;
+}

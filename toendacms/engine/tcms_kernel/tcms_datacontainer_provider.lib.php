@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 0.8.4
+ * @version 0.8.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -54,6 +54,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getNewsmanagerDC                                              -> Get a newsmanager data container
  * getContactformDC                                              -> Get a contactform data container
  * getProductsDC                                                 -> Get a products data container
+ * getImagegalleryDC                                             -> Get a imagegallery data container
  *
  * getSidebarModuleDC()                                          -> Get a sidebarmodul data container
  * getSidebarExtensionSettings()                                 -> Get the sidebar extension settings
@@ -336,7 +337,7 @@ class tcms_datacontainer_provider extends tcms_main {
 							$is_date = mktime(substr($is_date, 11, 2), substr($is_date, 14, 2), 0, substr($is_date, 3, 2), substr($is_date, 0, 2), substr($is_date, 6, 4));
 							
 							if($is_pub == 1 && $is_date < time()){
-								$is_sof = $xml->read_section('news', 'show_on_frontpage');
+								$is_sof = $xml->readSection('news', 'show_on_frontpage');
 								//if($is_sof == false) $is_sof  = 1;
 								
 								if($withShowOnFrontpage) {
@@ -1784,6 +1785,116 @@ class tcms_datacontainer_provider extends tcms_main {
 		$pDC->setStartpageTitle($wsSPT);
 		
 		return $pDC;
+	}
+	
+	
+	
+	/**
+	 * Get a imagegallery data container
+	 * 
+	 * @return tcms_dc_imagegallery Object
+	 */
+	function getImagegalleryDC() {
+		$iDC = new tcms_dc_imagegallery();
+		
+		if($this->m_choosenDB == 'xml') {
+			$xml = new xmlparser(
+				$this->m_path.'/tcms_global/imagegallery.xml',
+				'r'
+			);
+			
+			$wsID       = 'imagegallery';
+			$wsTitle    = $xml->readSection('config', 'image_title');
+			$wsKeynote  = $xml->readSection('config', 'image_stamp');
+			$wsDetails  = $xml->readSection('config', 'image_details');
+			$wsSort     = $xml->readSection('config', 'image_sort');
+			$wsComments = $xml->readSection('config', 'use_comments');
+			$wsAccess   = $xml->readSection('config', 'access');
+			$wsOption   = $xml->readSection('config', 'list_option');
+			$maxImg     = $xml->readSection('config', 'max_image');
+			$needleImg  = $xml->readSection('config', 'needle_image');
+			$showTImg   = $xml->readSection('config', 'show_lastimg_title');
+			$alignImg   = $xml->readSection('config', 'align_image');
+			$sizeImg    = $xml->readSection('config', 'size_image');
+			
+			$xml->flush();
+			$xml->_xmlparser();
+			unset($xml);
+			
+			if($wsID       == false) $wsID       = '';
+			if($wsTitle    == false) $wsTitle    = '';
+			if($wsKeynote  == false) $wsKeynote  = '';
+			if($wsSort     == false) $wsSort     = '';
+			//if($wsComments == false) $wsComments = '';
+			if($wsAccess   == false) $wsAccess   = '';
+			//if($wsUCT  == false)     $wsUCT     = 0;
+			//if($wsSPOU  == false)     $wsSPOU     = 0;
+			if($wsOption   == false) $wsOption   = '';
+		}
+		else{
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
+			
+			$strQuery = "SELECT * "
+			."FROM ".$this->m_sqlPrefix."imagegallery_config ";
+			//."WHERE language = '".$language."'";
+			
+			$sqlQR = $sqlAL->query($strQuery);
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
+			
+			$wsID       = 'imagegallery';
+			$wsTitle    = $sqlObj->image_title;
+			$wsKeynote  = $sqlObj->image_stamp;
+			$wsDetails  = $sqlObj->image_details;
+			$wsSort     = $sqlObj->image_sort;
+			$wsComments = $sqlObj->use_comments;
+			$wsAccess   = $sqlObj->access;
+			$wsOption   = $sqlObj->list_option;
+			$maxImg     = $sqlObj->max_image;
+			$needleImg  = $sqlObj->needle_image;
+			$showTImg   = $sqlObj->show_lastimg_title;
+			$alignImg   = $sqlObj->align_image;
+			$sizeImg    = $sqlObj->size_image;
+			
+			$sqlAL->freeResult($sqlQR);
+			$sqlAL->_sqlAbstractionLayer();
+			unset($sqlAL);
+			
+			if($wsID       == NULL) $wsID       = '';
+			if($wsTitle    == NULL) $wsTitle    = '';
+			if($wsKeynote  == NULL) $wsKeynote  = '';
+			if($wsSort     == NULL) $wsSort     = '';
+			//if($wsComments == NULL) $wsComments = '';
+			if($wsAccess   == NULL) $wsAccess   = '';
+			if($wsOption   == NULL) $wsOption   = '';
+		}
+		
+		$wsTitle   = $this->decodeText($wsTitle, '2', $this->m_CHARSET);
+		$wsKeynote = $this->decodeText($wsKeynote, '2', $this->m_CHARSET);
+		$wsText    = $this->decodeText($wsText, '2', $this->m_CHARSET);
+		$wsSPT     = $this->decodeText($wsSPT, '2', $this->m_CHARSET);
+		
+		$iDC->setID($wsID);
+		$iDC->setTitle($wsTitle);
+		$iDC->setSubtitle($wsKeynote);
+		$iDC->setUseImageDetails($wsDetails);
+		$iDC->setImageSort($wsSort);
+		$iDC->setUseComments($wsComments);
+		$iDC->setAccess($wsAccess);
+		$iDC->setListOption($wsOption);
+		$iDC->setMaxImages($maxImg);
+		$iDC->setNeedleImage($needleImg);
+		$iDC->setShowLastImageTitle($showTImg);
+		$iDC->setImageAlignment($alignImg);
+		$iDC->setImageSize($sizeImg);
+		
+		return $iDC;
 	}
 	
 	

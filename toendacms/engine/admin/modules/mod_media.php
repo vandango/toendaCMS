@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a media manager.
  *
- * @version 0.4.2
+ * @version 0.4.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -243,13 +243,19 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 				$boxImgH = 0;
 				
 				if($tcms_main->isImage($dvalue, false)) {
-					$tcms_gd->readImageInformation(
-						'../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue
-					);
-					
-					if($tcms_gd->getImageHeight() > 85) {
-						$boxH = $tcms_gd->getImageHeight() + 70;
-						$boxImgH = $tcms_gd->getImageHeight() + 15;
+					if(file_exists('../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue)) {
+						$tcms_gd->readImageInformation(
+							'../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue
+						);
+						
+						if($tcms_gd->getImageHeight() > 85) {
+							$boxH = $tcms_gd->getImageHeight() + 70;
+							$boxImgH = $tcms_gd->getImageHeight() + 15;
+						}
+						else {
+							$boxH = 155;
+							$boxImgH = 100;
+						}
 					}
 					else {
 						$boxH = 155;
@@ -261,7 +267,8 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 					$boxImgH = 100;
 				}
 				
-				echo '<div style="width: 100px; height: '.$boxH.'px; float: left; '
+				echo '<a href="javascript:imageWindow(\''.$path.'/'.$dvalue.'\', \'media\');">'
+				.'<div style="width: 100px; height: '.$boxH.'px; float: left; '
 				.'margin: 0 10px 10px 0 !important; padding: 0px !important; '
 				.'border: 1px solid #ececec; text-align: left;">';
 				
@@ -269,22 +276,32 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 				// get image info
 				if(!preg_match('/.mp3/i', strtolower($dvalue))){
 					if($action == 'image'){
-						$tcms_gd->readImageInformation(
-							'../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue
-						);
+						if(file_exists('../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue)) {
+							$tcms_gd->readImageInformation(
+								'../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue
+							);
+						}
 					}
 					else {
-						$tcms_gd->readImageInformation(
-							'../../'.$tcms_administer_site.'/images/knowledgebase/'.$dvalue
-						);
+						if(file_exists('../../'.$tcms_administer_site.'/images/knowledgebase/'.$dvalue)) {
+							$tcms_gd->readImageInformation(
+								'../../'.$tcms_administer_site.'/images/knowledgebase/'.$dvalue
+							);
+						}
 					}
 				}
 				
 				
-				if($action == 'image')
-					$size = filesize('../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue) / 1024;
-				else
-					$size = filesize('../../'.$tcms_administer_site.'/images/knowledgebase/'.$dvalue) / 1024;
+				if($action == 'image') {
+					if(file_exists('../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue)) {
+						$size = filesize('../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue) / 1024;
+					}
+				}
+				else {
+					if(file_exists('../../'.$tcms_administer_site.'/images/knowledgebase/'.$dvalue)) {
+						$size = filesize('../../'.$tcms_administer_site.'/images/knowledgebase/'.$dvalue) / 1024;
+					}
+				}
 				
 				$kpos = strpos($size, '.');
 				$img_size = substr($size, 0, $kpos+3);
@@ -321,8 +338,6 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 				.'\', BELOW, RIGHT, WIDTH, 150);" onmouseout="return nd();">';
 				
 				$checkType = true;
-				
-				echo '<a href="javascript:imageWindow(\''.$path.'/'.$dvalue.'\', \'media\');">';
 				
 				if(preg_match('/.mp3/i', strtolower($dvalue)) && $checkType){
 					echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/mp3.png" border="0" />';
@@ -367,16 +382,24 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 					$checkType = false;
 				}
 				elseif($checkType){
-					echo '<img'.(
-						$img_o_height > $img_o_width
-						? ( $img_o_height > 100 ? ' height="100"' : '' )
-						: ( $img_o_width > 100 ? ' width="100"' : '' )
-					).' style="border: 1px solid #ccc;"'
-					.' src="../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue.'"'
-					.' border="0" />';
+					if(file_exists('../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue)) {
+						echo '<img'.(
+							$img_o_height > $img_o_width
+							? ( $img_o_height > 100 ? ' height="100"' : '' )
+							: ( $img_o_width > 100 ? ' width="100"' : '' )
+						).' style="border: 1px solid #ccc;"'
+						.' src="../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue.'"'
+						.' border="0" />';
+					}
+					else {
+						echo '<img'
+						.' height="100"'
+						.' width="100"'
+						.' style="border: 1px solid #ccc;"'
+						.' src="../images/blank.gif"'
+						.' border="0" />';
+					}
 				}
-				
-				echo '</a>';
 				
 				echo '</div>';
 				
@@ -388,7 +411,8 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 				.'</div>';
 				
 				
-				echo '</div>';
+				echo '</div>'
+				.'</a>';
 				
 				echo '</form>';
 			}
