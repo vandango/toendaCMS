@@ -1061,13 +1061,15 @@ define('_PRODUCTS_NEW', 'Create a new product entry for the category');
 define('_PRODUCTS_EDIT', 'Edit all your product entry\'s in the category');
 define('_PRODUCTS_HELP', 'If you leave the image upload place blank, a empty image would create for this file.');
 define('_PRODUCTS_NEW_CAT', 'Create a new product category, to sort your products by your own wish.');
-define('_PRODUCTS_SUBMIT_ON', 'Submitted On');
-define('_PRODUCTS_INC_TAX', 'inc. Tax');
-define('_PRODUCTS_EX_TAX', 'ex. Tax');
-define('_PRODUCTS_CATEGORY_TITLE', 'Category title in sidebar');
+if(!defined('_PRODUCTS_SUBMIT_ON'))            define('_PRODUCTS_SUBMIT_ON', 'Submitted On');
+if(!defined('_PRODUCTS_INC_TAX'))              define('_PRODUCTS_INC_TAX', 'inc. Tax');
+if(!defined('_PRODUCTS_EX_TAX'))               define('_PRODUCTS_EX_TAX', 'ex. Tax');
+if(!defined('_PRODUCTS_CATEGORY_TITLE'))       define('_PRODUCTS_CATEGORY_TITLE', 'Category title in sidebar');
 if(!defined('_PRODUCTS_USE_CATEGORY_TITLE'))   define('_PRODUCTS_USE_CATEGORY_TITLE', 'Show category title in sidebar');
 if(!defined('_PRODUCTS_SHOW_PRICE_ONLY_USERS'))define('_PRODUCTS_SHOW_PRICE_ONLY_USERS', 'Show price only users');
 if(!defined('_PRODUCTS_STARTPAGETITLE'))       define('_PRODUCTS_STARTPAGETITLE', 'Startpagetitle');
+if(!defined('_PRODUCTS_ARTICLE'))              define('_PRODUCTS_ARTICLE', 'Article');
+if(!defined('_PRODUCTS_CATEGORIES'))           define('_PRODUCTS_CATEGORIES', 'Categories');
 
 
 // NEWS

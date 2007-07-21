@@ -79,8 +79,7 @@ body {
 }
 
 .mainText img {
-	margin-left: 5px;
-	padding: 4px;
+	padding: 1px;
 }
 
 .mainTexth1, h1 { text-decoration: none; color: #444 !important; }
@@ -317,35 +316,6 @@ a.index:hover { text-decoration: underline; }
 .gallery_text{ display: block; }
 
 
-/* table title */
-.titleBG, 
-tr.titleBG, 
-td.titleBG, 
-th.titleBG {
-	font-size: 14px;
-	border-bottom: 1px #9bb2b9 solid;
-	/*padding-left: 4px;*/
-	margin: 0px;
-}
-
-.download_top {
-	font-size: 14px;
-	border-bottom: 1px #9bb2b9 solid;
-	/*padding-left: 4px;*/
-	margin: 0px;
-	text-align: left;
-}
-
-hr.titleBG {
-	border: 0px;
-	height: 1x;
-	background-color: #fff !important;
-	border-bottom: 1px #9bb2b9 solid;
-	display: block;
-	padding: 1px 0 0 0;
-}
-
-
 /* misc */
 .hr_line {
 	height: 1px;
@@ -500,6 +470,14 @@ a.tcms_more:hover {
 	text-decoration: none;
 }
 
+.download_top {
+	font-size: 14px;
+	border-bottom: 1px #9bb2b9 solid;
+	/*padding-left: 4px;*/
+	margin: 0px;
+	text-align: left;
+}
+
 
 /* forum */
 .user_profile_title{
@@ -515,6 +493,32 @@ a.tcms_more:hover {
 
 
 /* ToendaSHOP */
+/* table title */
+.titleBG, 
+tr.titleBG, 
+td.titleBG, 
+th.titleBG {
+	font-size: 14px;
+	border-bottom: 1px #9bb2b9 solid;
+	/*padding-left: 4px;*/
+	margin: 0px;
+}
+
+hr.products_tab_line {
+	border: 0px;
+	height: 1x;
+	background-color: #fff !important;
+	border-bottom: 1px #9bb2b9 solid;
+	display: block;
+	padding: 1px 0 0 0;
+	margin: 0 0 0 0;
+}
+
+.products_category {
+	color: #fff;
+	background-color: #777;
+}
+
 .products_text {
 	text-align: left !important;
 }
@@ -547,6 +551,7 @@ a.products_top:hover {
 	text-align: left;
 }
 
+.products_tab,
 a.products_tab,
 a.products_tab:link,
 a.products_tab:visited,
@@ -572,6 +577,7 @@ a.products_tab:hover {
 	text-decoration: none;
 }
 
+products_active_tab,
 a.products_active_tab,
 a.products_active_tab:link,
 a.products_active_tab:visited,

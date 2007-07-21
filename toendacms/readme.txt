@@ -309,6 +309,8 @@ Products
 .products_tab       - Tab on the products page
 .products_top		- toendaSHOP layout classes
 a.products_top		- toendaSHOP layout classes for links
+.products_category  - Category line in the category table
+.products_tab_line  - Line under the products tabs
 
 
 

@@ -515,7 +515,7 @@ a.products_top:hover { color: #000000; }
 	tcms shop
 */
 
-hr.titleBG {
+hr.products_tab_line {
 	border: 0px;
 	height: 1x;
 	background-color: #fff !important;
