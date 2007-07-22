@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 0.8.7
+ * @version 0.8.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -1711,6 +1711,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsUCT      = $xml->readSection('config', 'use_category_title');
 			$wsSPOU     = $xml->readSection('config', 'show_price_only_users');
 			$wsSPT      = $xml->readSection('config', 'startpagetitle');
+			$wsUSC      = $xml->readSection('config', 'use_sidebar_categories');
 			
 			$xml->flush();
 			$xml->_xmlparser();
@@ -1725,6 +1726,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			//if($wsUCT  == false)     $wsUCT     = 0;
 			//if($wsSPOU  == false)     $wsSPOU     = 0;
 			if($wsSPT      == false) $wsSPT      = '';
+			//if($wsUSC  == false)     $wsUSC     = 0;
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
@@ -1737,7 +1739,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			);
 			
 			$strQuery = "SELECT products_title, products_stamp, products_text, category_state, "
-			."category_title, use_category_title, show_price_only_users, startpagetitle "
+			."category_title, use_category_title, show_price_only_users, startpagetitle, use_sidebar_categories "
 			."FROM ".$this->m_sqlPrefix."products_config "
 			."WHERE language = '".$language."'";
 			
@@ -1753,6 +1755,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsUCT      = $sqlObj->use_category_title;
 			$wsSPOU     = $sqlObj->show_price_only_users;
 			$wsSPT      = $sqlObj->startpagetitle;
+			$wsUSC      = $sqlObj->use_sidebar_categories;
 			
 			$sqlAL->freeResult($sqlQR);
 			$sqlAL->_sqlAbstractionLayer();
@@ -1766,6 +1769,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			if($wsCatTitle == NULL) $wsCatTitle = '';
 			if($wsUCT      == NULL) $wsUCT      = 0;
 			if($wsSPT      == NULL) $wsSPT      = '';
+			if($wsUSC      == NULL) $wsUSC      = 0;
 		}
 		
 		$wsTitle   = $this->decodeText($wsTitle, '2', $this->m_CHARSET);
@@ -1783,6 +1787,7 @@ class tcms_datacontainer_provider extends tcms_main {
 		$pDC->setUseSideCategory($wsUCT);
 		$pDC->setShowPriceOnlyUsers($wsSPOU);
 		$pDC->setStartpageTitle($wsSPT);
+		$pDC->setUseSideCategory($wsUSC);
 		
 		return $pDC;
 	}

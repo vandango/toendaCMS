@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is the toendaCMS internal xml parser.
  *
- * @version 0.3.3
+ * @version 0.3.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -53,6 +53,14 @@ defined('_TCMS_VALID') or die('Restricted access');
  * checkTagsExist             -> Check if a tag exist
  * flush                      -> Disposes all values
  * readValue                  -> Read a value from a tag
+ * readSection                -> Read a value from a tag inside a section
+ * writeValue                 -> Write a tag
+ * writeValueWithAttribute    -> Write a tag with an attribute
+ * xmlDeclaration             -> Write the XML declaration
+ * xmlDeclarationWithCharset  -> Write the XML declaration with the charset
+ * xmlSectionBuffer           -> Write the section buffer
+ * xmlSection                 -> Write the section
+ * xmlSectionEnd              -> Write the section end
  * 
  * --------------------------------------------------------
  * DEPRECATED METHODS
@@ -66,6 +74,13 @@ defined('_TCMS_VALID') or die('Restricted access');
  * xml_test_tags              -> test for right xml tags (intern)
  * read_data                  -> read the data
  * close_tag                  -> close a tag
+ * write_value                -> writes value in section between tags
+ * write_value_with_attribute -> writes value in section between tags with an attribute
+ * xml_declaration            -> writes xml declaration (utf-8)
+ * xml_c_declaration          -> writes xml declaration with custom charset
+ * xml_section_buffer         -> writes section buffer (intern)
+ * xml_section                -> writes start section tag
+ * xml_section_end            -> writes end section tag
  * 
  */
 
@@ -74,15 +89,7 @@ defined('_TCMS_VALID') or die('Restricted access');
 * XML Parser class
 *
 *
-* xml_declaration       -> writes xml declaration (utf-8)
-* xml_c_declaration     -> writes xml declaration with custom charset
-* xml_section_buffer    -> writes section buffer (intern)
 *
-* xml_section           -> writes start section tag
-* xml_section_end       -> writes end section tag
-*
-* write_value           -> writes value in section between tags
-* write_value_with_attribute -> writes value in section between tags with an attribute
 * edit_value            -> edit values in xml files
 *
 *
@@ -388,6 +395,84 @@ class xmlparser {
 	
 	
 	
+	/**
+	 * Write a tag
+	 *
+	 * @param String $tag
+	 * @param String $value
+	 */
+	function writeValue($tag, $value){
+		$this->sections .= "\t<".$tag.">".$value."</".$tag.">\n";
+	}
+	
+	
+	
+	/**
+	 * Write a tag with an attribute
+	 *
+	 * @param String $tag
+	 * @param String $value
+	 * @param String $attribute
+	 * @param String $attribute_value
+	 */
+	function writeValueWithAttribute($tag, $value, $attribute, $attribute_value) {
+		$this->sections .= "\t<".$tag." ".$attribute."=\"".$attribute_value."\">".$value."</".$tag.">\n";
+	}
+	
+	
+	
+	/**
+	 * Write the XML declaration
+	 */
+	function xmlDeclaration(){
+		fwrite ($this->file_handle, '<?xml version="1.0" encoding="utf-8"?>');
+	}
+	
+	
+	
+	/**
+	 * Write the XML declaration with the charset
+	 *
+	 * @param String $charset
+	 */
+	function xmlDeclarationWithCharset($charset){
+		if(!isset($charset)){ $charset = 'ISO-8859-1'; }
+		fwrite ($this->file_handle, '<?xml version="1.0" encoding="'.$charset.'"?>');
+	}
+	
+	
+	
+	/**
+	 * Write the section buffer
+	 */
+	function xmlSectionBuffer(){
+		fwrite($this->file_handle, $this->sections);
+	}
+	
+	
+	
+	/**
+	 * Write the section
+	 *
+	 * @param String $section
+	 */
+	function xmlSection($section){
+		fwrite($this->file_handle, "<".$section.">\n");
+	}
+	
+	
+	
+	/**
+	 * Write the section end
+	 *
+	 * @param String $section
+	 */
+	function xmlSectionEnd($section){
+		fwrite($this->file_handle, "\n</".$section.">\n");
+	}
+	
+	
+	
 	
 	
 	
@@ -416,38 +501,6 @@ class xmlparser {
 	* write to xml file functions
 	*
 	*/
-	
-	/*
-		Writs section and sectionend in buffer
-	*/
-	function write_value($tag, $value){
-		$this->sections .= "\t<".$tag.">".$value."</".$tag.">\n";
-	}
-	
-	function write_value_with_attribute($tag, $value, $attribute, $attribute_value){
-		$this->sections .= "\t<".$tag." ".$attribute."=\"".$attribute_value."\">".$value."</".$tag.">\n";
-	}
-	
-	function xml_section_buffer(){
-		fwrite ($this->file_handle, $this->sections);
-	}
-	
-	function xml_declaration(){
-		fwrite ($this->file_handle, '<?xml version="1.0" encoding="utf-8"?>');
-	}
-	
-	function xml_c_declaration($charset){
-		if(!isset($charset)){ $charset = 'ISO-8859-1'; }
-		fwrite ($this->file_handle, '<?xml version="1.0" encoding="'.$charset.'"?>');
-	}
-	
-	function xml_section($section){
-		fwrite ($this->file_handle, "<".$section.">\n");
-	}
-	
-	function xml_section_end($section){
-		fwrite ($this->file_handle, "\n</".$section.">\n");
-	}
 	
 	/*
 		write section content in buffer
@@ -714,6 +767,92 @@ class xmlparser {
 		if(!ereg($endtag, $string)) {
 			echo 'Error in endtag '.$starttag.' in file '.$this->filename;
 		}
+	}
+	
+	
+	
+	/**
+	 * @deprecated 
+	 * write
+	 *
+	 * @param unknown_type $tag
+	 * @param unknown_type $value
+	 */
+	function write_value($tag, $value){
+		$this->sections .= "\t<".$tag.">".$value."</".$tag.">\n";
+	}
+	
+	
+	
+	/**
+	 * @deprecated 
+	 * write
+	 *
+	 * @param unknown_type $tag
+	 * @param unknown_type $value
+	 */
+	function write_value_with_attribute($tag, $value, $attribute, $attribute_value){
+		$this->sections .= "\t<".$tag." ".$attribute."=\"".$attribute_value."\">".$value."</".$tag.">\n";
+	}
+	
+	
+	
+	/**
+	 * @deprecated 
+	 * xml declaration
+	 *
+	 */
+	function xml_declaration(){
+		fwrite ($this->file_handle, '<?xml version="1.0" encoding="utf-8"?>');
+	}
+	
+	
+	
+	/**
+	 * @deprecated 
+	 * xml declaration
+	 *
+	 * @param unknown_type $charset
+	 */
+	function xml_c_declaration($charset){
+		if(!isset($charset)){ $charset = 'ISO-8859-1'; }
+		fwrite ($this->file_handle, '<?xml version="1.0" encoding="'.$charset.'"?>');
+	}
+	
+	
+	
+	/**
+	 * @deprecated 
+	 * xml declaration
+	 *
+	 * @param unknown_type $charset
+	 */
+	function xml_section_buffer(){
+		fwrite ($this->file_handle, $this->sections);
+	}
+	
+	
+	
+	/**
+	 * @deprecated 
+	 * xml declaration
+	 *
+	 * @param unknown_type $charset
+	 */
+	function xml_section($section){
+		fwrite ($this->file_handle, "<".$section.">\n");
+	}
+	
+	
+	
+	/**
+	 * @deprecated 
+	 * xml declaration
+	 *
+	 * @param unknown_type $charset
+	 */
+	function xml_section_end($section){
+		fwrite ($this->file_handle, "\n</".$section.">\n");
 	}
 }
 

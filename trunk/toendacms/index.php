@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.6.5
+ * @version 2.6.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -908,15 +908,16 @@ if($wsShowSite){
 							$dcP = new tcms_dc_products();
 							$dcP = $tcms_dcp->getProductsDC($getLang);
 							
-							$products_id           = $dcP->getID();
-							$products_title        = $dcP->getTitle();
-							$products_stamp        = $dcP->getSubtitle();
-							$products_text         = $dcP->getText();
-							$main_category         = $dcP->getProductMainCategory();
-							$category_title        = $dcP->getSidebarCategoryTitle();
-							$show_pro_ct           = $dcP->getUseSideCategory();
-							$show_price_only_users = $dcP->getShowPriceOnlyUsers();
-							$startpage_title       = $dcP->getStartpageTitle();
+							$products_id            = $dcP->getID();
+							$products_title         = $dcP->getTitle();
+							$products_stamp         = $dcP->getSubtitle();
+							$products_text          = $dcP->getText();
+							$main_category          = $dcP->getProductMainCategory();
+							$category_title         = $dcP->getSidebarCategoryTitle();
+							$show_pro_ct            = $dcP->getUseSideCategory();
+							$show_price_only_users  = $dcP->getShowPriceOnlyUsers();
+							$startpage_title        = $dcP->getStartpageTitle();
+							$use_sidebar_categories = $dcP->getUseSideCategory();
 							break;
 						
 						case 'imagegallery':
