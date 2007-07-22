@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.1.8
+ * @version 2.1.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -70,6 +70,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getTaxPrice                       -> Get the tax (mwst) price
  * getClearPrice                     -> Get the clear (netto) price
  * getTaxPriceFromClearPrice         -> Get the tax price from a clear price
+ * getArrayElement                   -> Get a element from a array by a field
  * setPHPSetting                     -> Set a PHP setting
  * isArray                           -> Check if a array is realy a array
  * isImage                           -> Check if a file type is a image file
@@ -802,6 +803,25 @@ class tcms_main {
 	function getTaxPriceFromClearPrice($price, $taxkey){
 		$tmp = $price * ('0.'.$taxkey);
 		return round($tmp, 2);
+	}
+	
+	
+	
+	/**
+	 * Get a element from a array by a field
+	 * 
+	 * @param Array $array
+	 * @param String $field
+	 * @param String $element
+	 * @param String $returnField
+	 * @return Unknown
+	 */
+	function getArrayElement($array, $field, $element, $returnField) {
+		foreach($array as $key => $value) {
+			if($array[$field][$key] == $element) {
+				return $array[$returnField][$key];
+			}
+		}
 	}
 	
 	

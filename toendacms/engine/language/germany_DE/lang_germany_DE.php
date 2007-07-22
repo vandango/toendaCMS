@@ -289,7 +289,8 @@ define('_TABLE_PRODUCTNO', 'Artikelnummer');
 define('_TABLE_FACTORY', 'Hersteller');
 define('_TABLE_URL', 'Internetadresse');
 define('_TABLE_STOCK', 'Auf Lager');
-define('_TABLE_PRICE', 'Preis (Brutto, für Netto MwSt. leer lassen)');
+define('_TABLE_PRICE', 'Preis');
+define('_TABLE_PRICE_ADD', '(Brutto, für Netto MwSt. leer lassen)');
 define('_TABLE_TAX', 'Mehrwertsteuersatz');
 define('_TABLE_QUANTITY', 'Menge');
 define('_TABLE_WEIGHT', 'Gewicht');
@@ -360,6 +361,7 @@ define('_TABLE_SORT_ASC', 'Aufsteigende Sortierung');
 define('_TABLE_VIEW', 'Ansicht');
 define('_TABLE_FRONTPAGE', 'Startseite');
 define('_TABLE_SHOWONMAINPAGE', 'Auf Hauptseite anzeigen');
+define('_TABLE_BROWSE', 'St&ouml;bern');
 
 
 // MESSAGES
@@ -1071,6 +1073,7 @@ define('_PRODUCTS_SHOW_PRICE_ONLY_USERS', 'Zeige Preise nur angemeldeten Benutze
 define('_PRODUCTS_STARTPAGETITLE', 'Startseiten Titel');
 define('_PRODUCTS_ARTICLE', 'Artikel');
 define('_PRODUCTS_CATEGORIES', 'Kategorien');
+define('_PRODUCTS_CATALOGUE', 'Katalog');
 
 
 // NEWS

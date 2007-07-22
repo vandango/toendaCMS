@@ -37,7 +37,7 @@ if(isset($_POST['reg_cookie'])){ $reg_cookie = $_POST['reg_cookie']; }
  * This module provides the login functionality
  * and a login formular.
  *
- * @version 0.5.0
+ * @version 0.5.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -57,11 +57,13 @@ if($use_login == 1) {
 		echo $tcms_html->subTitle($login_title)
 		.'<div align="left"><span class="text_small">'
 		._LOGIN_WELCOME.',<br />'.$tcms_ap->getUsername($ws_id).'.'
-		.'</span></div>';
+		.'</span></div>'
+		.'<br />';
 	}
 	else{
-		if($show_lt == 1)
-			echo tcms_html::subtitle($login_title);
+		if($show_lt == 1) {
+			echo $tcms_html->subTitle($login_title);
+		}
 		
 		echo '<form name="selectform" action="'.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?'.( isset($session) ? '?session='.$session.'' : '' ).'" method="post">'
 		.'<input type="hidden" name="id" value="'.$id.'" />'
@@ -121,8 +123,8 @@ if($use_login == 1) {
 		echo '</div>';
 	}
 	
-	echo '<br />'
-	.'<br />';
+	echo '<br />';
+	//.'<br />';
 }
 
 

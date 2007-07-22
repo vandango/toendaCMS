@@ -270,9 +270,19 @@ a.index:hover { text-decoration: underline; }
 
 
 /* content */
-.contentheading { font-family: 'Century Gothic', Verdana, Sans-Serif; font-size: 17px; font-weight: bold; }
-.contentstamp { font-size: 13px; }
-.contentmain { font-size: 11px; }
+.contentheading {
+	font-family: 'Century Gothic', Verdana, Sans-Serif;
+	font-size: 17px;
+	font-weight: bold;
+}
+
+.contentstamp {
+	font-size: 13px;
+}
+
+.contentmain {
+	font-size: 11px;
+}
 
 .newsCategories { font-family: Arial, Helvetica, Sans-Serif; font-size: 10px; line-height: 1.5em; color: #777; }
 
@@ -511,16 +521,21 @@ hr.products_tab_line {
 	border-bottom: 1px #9bb2b9 solid;
 	display: block;
 	padding: 1px 0 0 0;
-	margin: 0 0 0 0;
+	margin: -2px 0 0 0;
 }
 
 .products_category {
 	color: #fff;
-	background-color: #777;
+	background-color: #bbb;
 }
 
 .products_text {
 	text-align: left !important;
+	font-size: 11px !important;
+}
+
+.single_product {
+	border: 2px #f5f5f5 solid;
 }
 
 td.products_top {
@@ -536,7 +551,7 @@ a.products_top:link,
 a.products_top:visited, 
 a.products_top:active {
 	color: #23598C;
-	font-size: 14px; 
+	font-size: 11px; 
 	text-decoration: none;
 }
 
@@ -562,10 +577,10 @@ a.products_tab:active {
 	border-left: 1px #9bb2b9 solid;
 	
 	color: #23598C;
-	font-size: 13px; 
+	font-size: 11px; 
 	text-decoration: none;
 	
-	margin: 0 3px -2px 3px;
+	margin: 0 3px 0px 3px;
 	padding: 1px 3px 1px 3px;
 }
 
@@ -573,7 +588,7 @@ a.products_tab:hover {
 	border-bottom: 1px #fff solid;
 	
 	color: #23598C;
-	font-size: 13px; 
+	font-size: 11px; 
 	text-decoration: none;
 }
 
@@ -588,10 +603,10 @@ a.products_active_tab:active {
 	border-left: 1px #6a6f71 solid;
 	
 	color: #000;
-	font-size: 13px; 
+	font-size: 11px;
 	text-decoration: none;
 	
-	margin: 0 3px -2px 3px;
+	margin: 0 3px 0px 3px;
 	padding: 1px 3px 1px 3px;
 }
 
@@ -602,7 +617,7 @@ a.products_active_tab:hover {
 	border-left: 1px #6a6f71 solid;
 	
 	color: #6a6f71;
-	font-size: 13px; 
+	font-size: 11px; 
 	text-decoration: none;
 }
 
@@ -646,7 +661,7 @@ a.products_active_tab:hover {
 /* input */
 .inputtext {
 	font-size: 11px;
-	height: 18px;
+	height: 15px !important;
 	width: 480px;
 }
 

@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide some often used html
  * codes.
  *
- * @version 0.4.3
+ * @version 0.4.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -553,7 +553,7 @@ class tcms_html {
 	 * @return String
 	 */
 	function userProfileTitle($title){
-		return '<div style="display: block; width: 90%;" class="user_profile_title">'.$title.'</div>';
+		return '<div style="display: block; width: 100%;" class="user_profile_title">'.$title.'</div>';
 	}
 	
 	

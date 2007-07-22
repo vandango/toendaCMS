@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used as toolbar for the products manager
  *
- * @version 0.0.5
+ * @version 0.0.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -76,11 +76,11 @@ switch($todo){
 		
 		echo '<img src="../images/admin_menu/line.gif" border="0" />';
 		
-		echo '<a style="padding: 3px 3px 0 3px;" href="admin.php?id_user='.$id_user.'&amp;site='.$site.'&amp;todo=edit&amp;type=c">'
+		echo '<a style="padding: 3px 3px 0 3px;" href="admin.php?id_user='.$id_user.'&amp;site='.$site.'&amp;todo=edit&amp;type=c'.( isset($category) ? '&amp;category='.$category : '' ).'">'
 		.'<img title="'._TCMS_ADMIN_NEW_CATEGORY.'" alt="'._TCMS_ADMIN_NEW_CATEGORY.'" src="../images/admin_menu/create_cat.png" border="0" />'
 		.'</a>';
 		
-		echo '<a style="padding: 3px 3px 0 3px;" href="admin.php?id_user='.$id_user.'&amp;site='.$site.'&amp;todo=edit&amp;type=a">'
+		echo '<a style="padding: 3px 3px 0 3px;" href="admin.php?id_user='.$id_user.'&amp;site='.$site.'&amp;todo=edit&amp;type=a'.( isset($category) ? '&amp;category='.$category : '' ).'">'
 		.'<img title="'._TCMS_ADMIN_NEW_ITEM.'" alt="'._TCMS_ADMIN_NEW_ITEM.'" src="../images/admin_menu/new_file.png" border="0" />'
 		.'</a>';
 		break;

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a product manager.
  *
- * @version 0.5.5
+ * @version 0.6.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -44,6 +44,8 @@ else {
 	if(!isset($cmd)) { $cmd = 'browse'; }
 }
 
+$hrLineOneUp = false;
+
 
 
 
@@ -58,6 +60,10 @@ if($action == 'showall'){
 		( $cmd == 'browse' && trim($startpage_title) != '' ? '' : $products_text )
 		//( $cmd == 'browse' ? '' : $products_text )
 	);
+	
+	if($cmd != 'browse' || trim($startpage_title) == '') {
+		$hrLineOneUp = true;
+	}
 	
 	
 	$count = 0;
@@ -89,11 +95,11 @@ if($action == 'showall'){
 	$link = $tcms_main->urlConvertToSEO($link);
 	
 	echo '<a style="margin-left: 8px !important;" class="'.( $cmd == 'browse' ? 'products_active_tab' : 'products_tab' ).'" href="'.$link.'">'
-	.'Browse'
+	._TABLE_BROWSE
 	.'</a>';
 	
 	echo '<br />'
-	.'<hr noshade="noshade" class="products_tab_line" />'
+	.'<hr noshade="noshade" class="products_tab_line"'.( $hrLineOneUp ? ' style="margin-top: -1px;"' : '' ).' />'
 	.'<br />';
 	
 	
@@ -228,7 +234,7 @@ if($action == 'showall'){
 			$isFirstArticle = false;
 			$isFirstCategory = false;
 			
-			echo $tcms_html->tableHeadClass('2', '0', '1', '100%', 'products_text');
+			echo $tcms_html->tableHeadClass('1', '4', '0', '100%', 'products_text');
 			
 			if($tcms_main->isArray($arr_pro['sort'])) {
 				foreach($arr_pro['sort'] as $key => $value) {
@@ -250,7 +256,7 @@ if($action == 'showall'){
 							
 							if($firstAlpha != $firstAlphaChk) {
 								echo '<tr><td colspan="3" class="products_category">'
-								.$firstAlpha
+								.'&nbsp;'.strtoupper($firstAlpha)
 								.'</td></tr>';
 								
 								$firstAlphaChk = $firstAlpha;
@@ -286,7 +292,7 @@ if($action == 'showall'){
 						if(!$isFirstArticle) {
 							$isFirstArticle = true;
 							
-							echo '<tr><td colspan="3"><br /></td></tr>'
+							echo ( $checkCatAmount > 0 ? '<tr><td colspan="3"><br /></td></tr>' : '' )
 							.'<tr><td colspan="3" class="titleBG">'
 							._PRODUCTS_ARTICLE
 							.'</td></tr>';
@@ -296,7 +302,7 @@ if($action == 'showall'){
 							echo '<tr>';
 						}
 						
-						echo '<td width="33%" valign="top">';
+						echo '<td width="33%" valign="top" class="single_product">';
 						
 						
 						// image
@@ -375,18 +381,39 @@ if($action == 'showall'){
 							if($check_session) {
 								if($arr_pro['price'][$key] != -1
 								&& trim($arr_pro['price'][$key]) != '') {
-									echo '<br />'
-									.$arr_pro['price'][$key];
+									if($currency == 'EUR') {
+										echo '<br />'
+										.'<strong>'._TABLE_PRICE.':</strong> '
+										.$arr_pro['price'][$key]
+										.'&nbsp;'.$arr_currency['html'][$currency];
+									}
+									else {
+										echo '<br />'
+										.'<strong>'._TABLE_PRICE.':</strong> '
+										.$arr_currency['html'][$currency]
+										.'&nbsp;'.$arr_pro['price'][$key];
+									}
 								}
 							}
 						}
 						else {
 							if($arr_pro['price'][$key] != -1
 							&& trim($arr_pro['price'][$key]) != '') {
-								echo '<br />'
-								.$arr_pro['price'][$key];
+								if($currency == 'EUR') {
+									echo '<br />'
+									.'<strong>'._TABLE_PRICE.':</strong> '
+									.$arr_pro['price'][$key]
+									.'&nbsp;'.$arr_currency['html'][$currency];
+								}
+								else {
+									echo '<br />'
+									.'<strong>'._TABLE_PRICE.':</strong> '
+									.$arr_currency['html'][$currency]
+									.'&nbsp;'.$arr_pro['price'][$key];
+								}
 							}
 						}
+						
 						
 						echo '</td>';
 						
@@ -498,15 +525,70 @@ if($action == 'showall'){
 		
 		$intOdd = 0;
 		
-		echo $tcms_html->tableHeadClass('2', '0', '1', '100%', 'noborder products_text');
+		echo $tcms_html->tableHeadClass('1', '4', '0', '100%', 'products_text');
 		
 		if($tcms_main->isArray($arr_pro['sort'])){
 			foreach($arr_pro['sort'] as $key => $value){
 				if($intOdd == 0) {
+					if(is_integer($key / 2)) { $wsColor = '#ffffff'; }
+					else { $wsColor = '#f4f4f4'; }
+					
+					//echo '<tr bgcolor="'.$wsColor.'">';
+					
 					echo '<tr>';
 				}
 				
-				echo '<td width="33%" valign="top">';
+				echo '<td width="33%" valign="top" class="single_product">';
+				
+				
+				// image
+				if($arr_pro['image1'][$key] != '' && file_exists('data/images/products/'.$arr_pro['image1'][$key])) {
+					$img_size_1 = getimagesize('data/images/products/'.$arr_pro['image1'][$key]);
+					$img_o_width_1  = $img_size_1[0];
+					$img_o_height_1 = $img_size_1[1];
+					
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id=products&amp;s='.$s.'&amp;action=showone'
+					.'&amp;article='.$arr_pro['uid'][$key]
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
+					$link = $tcms_main->urlConvertToSEO($link);
+					
+					echo '<a href="'.$link.'">';
+					
+					if($detect_browser == 1){
+						echo '<script>if(browser == \'ie\'){'
+						.'document.write(\'<img'
+						.( $img_o_width_1 > 157
+							? ' width="157"'
+							: ''
+						).' src="'.$imagePath.'data/images/products/'.$arr_pro['image1'][$key].'" border="0" />\');'
+						.'}else{'
+						.'document.write(\'<img'
+						.( $img_o_width_1 > 157
+							? ' width="98%"'
+							: ''
+						).' src="'.$imagePath.'data/images/products/'.$arr_pro['image1'][$key].'" border="0" />\');'
+						.'}</script>';
+						
+						echo '<noscript>'
+						.'<img'
+						.( $img_o_width_1 > 157
+							? ' width="98%"'
+							: ''
+						).' src="'.$imagePath.'data/images/products/'.$arr_pro['image1'][$key].'" border="0" />'
+						.'</noscript>';
+					}
+					else{
+						echo '<img'
+						.( $img_o_width_1 > 157
+							? ' width="98%"'
+							: ''
+						).' src="'.$imagePath.'data/images/products/'.$arr_pro['image1'][$key].'" border="0" />';
+					}
+					
+					echo '</a>'
+					.'<br />';
+				}
 				
 				
 				// link
@@ -534,14 +616,41 @@ if($action == 'showall'){
 				// price
 				if($show_price_only_users == 1) {
 					if($check_session) {
-						echo '<br />'
-						.$arr_pro['price'][$key];
+						if($arr_pro['price'][$key] != -1
+						&& trim($arr_pro['price'][$key]) != '') {
+							if($currency == 'EUR') {
+								echo '<br />'
+								.'<strong>'._TABLE_PRICE.':</strong> '
+								.$arr_pro['price'][$key]
+								.'&nbsp;'.$arr_currency['html'][$currency];
+							}
+							else {
+								echo '<br />'
+								.'<strong>'._TABLE_PRICE.':</strong> '
+								.$arr_currency['html'][$currency]
+								.'&nbsp;'.$arr_pro['price'][$key];
+							}
+						}
 					}
 				}
 				else {
-					echo '<br />'
-					.$arr_pro['price'][$key];
+					if($arr_pro['price'][$key] != -1
+					&& trim($arr_pro['price'][$key]) != '') {
+						if($currency == 'EUR') {
+							echo '<br />'
+							.'<strong>'._TABLE_PRICE.':</strong> '
+							.$arr_pro['price'][$key]
+							.'&nbsp;'.$arr_currency['html'][$currency];
+						}
+						else {
+							echo '<br />'
+							.'<strong>'._TABLE_PRICE.':</strong> '
+							.$arr_currency['html'][$currency]
+							.'&nbsp;'.$arr_pro['price'][$key];
+						}
+					}
 				}
+				
 				
 				echo '</td>';
 				
@@ -710,7 +819,7 @@ if($action == 'showone') {
 	
 	// display item
 	if($sqlNR > 0) {
-		echo $tcms_html->tableHead('0', '0', '1', '100%')
+		echo $tcms_html->tableHead('0', '0', '0', '100%')
 		.'<tr><td valign="top" colspan="2" class="products_top">'
 		.$tcms_html->contentTitle($arr_name)
 		.'<span class="text_small">';
@@ -725,6 +834,17 @@ if($action == 'showone') {
 			
 			echo '<a class="products_top" href="'.$link.'">'
 			.$wsName
+			.'</a>&nbsp;~&nbsp;';
+		}
+		else {
+			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+			.'id=products&amp;s='.$s.'&amp;action=showall'
+			.'&amp;cmd=browse'
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
+			$link = $tcms_main->urlConvertToSEO($link);
+			
+			echo '<a class="products_top" href="'.$link.'">'
+			._PRODUCTS_CATALOGUE
 			.'</a>&nbsp;~&nbsp;';
 		}
 		

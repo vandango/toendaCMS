@@ -9,8 +9,7 @@
 | 
 | Sidebar Content Manager
 |
-| File:		mod_side.php
-| Version:	0.4.7
+| File:	mod_side.php
 |
 +
 */
@@ -18,6 +17,17 @@
 
 defined('_TCMS_VALID') or die('Restricted access');
 
+
+/**
+ * Sidebar Content Manager
+ *
+ * This module is used for the sidebar content.
+ *
+ * @version 0.5.0
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 if(isset($_GET['check'])){ $check = $_GET['check']; }
@@ -31,7 +41,9 @@ if(isset($_POST['content'])){ $content = $_POST['content']; }
 
 
 
-if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Writer'){
+if($id_group == 'Developer' 
+|| $id_group == 'Administrator' 
+|| $id_group == 'Writer'){
 	/*
 		init
 	*/
@@ -62,10 +74,13 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		$arr_modules['name'][5] = _TCMS_MENU_QBOOK;
 		$arr_modules['xml'][6]  = 'contactform.xml';
 		$arr_modules['name'][6] = _TCMS_MENU_CFORM;
+		$arr_modules['xml'][7]  = 'products.xml';
+		$arr_modules['name'][7] = _TCMS_MENU_PRODUCTS;
 		
 		$care = $mod = 0;
-		if(isset($arr_activepages) && !empty($arr_activepages) && $arr_activepages != '' && $arr_activepages != NULL){
-			while(key_exists($mod, $arr_modules['xml'])){
+		
+		if($tcms_main->isArray($arr_activepages)) {
+			while(key_exists($mod, $arr_modules['xml'])) {
 				if($arr_activepages){
 					if(( is_array($arr_filename) ? !in_array($arr_modules['xml'][$mod], $arr_filename) : $arr_modules['xml'][$mod])){
 						$arr_activefiles['xml'][$care]  = substr($arr_modules['xml'][$mod], 0, strpos($arr_modules['xml'][$mod], '.xml'));
@@ -76,7 +91,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				}
 			}
 			
-			foreach($arr_activepages as $apKey => $apVal){
+			foreach($arr_activepages as $apKey => $apVal) {
 				if($arr_activepages){
 					if(( is_array($arr_filename) ? !in_array($apVal, $arr_filename) : $apVal)){
 						$arr_activefiles['xml'][$care]  = substr($apVal, 0, 5);
@@ -102,15 +117,17 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		$arr_activefiles['name'][5] = _TCMS_MENU_QBOOK;
 		$arr_activefiles['xml'][6]  = 'contactform';
 		$arr_activefiles['name'][6] = _TCMS_MENU_CFORM;
+		$arr_activefiles['xml'][7]  = 'products';
+		$arr_activefiles['name'][7] = _TCMS_MENU_PRODUCTS;
 		
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix.'content');
+		$sqlQR = $sqlAL->getAll($tcms_db_prefix.'content');
 		
-		$i = 7;
+		$i = 8;
 		
-		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+		while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 			$arr_activefiles['xml'][$i] = $sqlARR['uid'];
 			$arr_activefiles['name'][$i] = $sqlARR['title'];
 			
@@ -130,18 +147,18 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 	*/
 	
 	if($todo == 'show'){
-		echo tcms_html::bold(_CONTENT_TITLE);
-		echo tcms_html::text(_SIDE_TEXT.'<br /><br />', 'left');
+		echo $tcms_html->bold(_CONTENT_TITLE);
+		echo $tcms_html->text(_SIDE_TEXT.'<br /><br />', 'left');
 		
 		if($choosenDB == 'xml'){
-			$arr_filename = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_sidebar/');
+			$arr_filename = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/tcms_sidebar/');
 			
-			if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != '' && $arr_filename != NULL){
+			if($tcms_main->isArray($arr_filename)){
 				foreach($arr_filename as $key => $value){
 					$main_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_sidebar/'.$value,'r');
 					$arr_side['tag'][$key]   = substr($value, 0, strpos($value, '.xml'));
-					$arr_side['title'][$key] = $main_xml->read_section('side', 'title');
-					$arr_side['id'][$key]    = $main_xml->read_section('side', 'id');
+					$arr_side['title'][$key] = $main_xml->readSection('side', 'title');
+					$arr_side['id'][$key]    = $main_xml->readSection('side', 'id');
 					
 					if(!$arr_side['title'][$key]){ $arr_side['title'][$key] = ''; }
 					if(!$arr_side['id'][$key])   { $arr_side['id'][$key]    = ''; }
@@ -151,14 +168,14 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix.'sidebar');
+			$sqlQR = $sqlAL->getAll($tcms_db_prefix.'sidebar');
 			
 			$count = 0;
 			
-			while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)){
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)){
 				$arr_side['title'][$count] = $sqlObj->title;
 				$arr_side['id'][$count]    = $sqlObj->id;
 				$arr_side['tag'][$count]   = $sqlObj->uid;
@@ -228,11 +245,11 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		if(isset($maintag)){
 			if($choosenDB == 'xml'){
 				$main_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_sidebar/'.$maintag.'.xml','r');
-				$sb_title = $main_xml->read_section('side', 'title');
-				$sb_key   = $main_xml->read_section('side', 'key');
-				$sb_text  = $main_xml->read_section('side', 'content');
-				$sb_foot  = $main_xml->read_section('side', 'foot');
-				$sb_id    = $main_xml->read_section('side', 'id');
+				$sb_title = $main_xml->readSection('side', 'title');
+				$sb_key   = $main_xml->readSection('side', 'key');
+				$sb_text  = $main_xml->readSection('side', 'content');
+				$sb_foot  = $main_xml->readSection('side', 'foot');
+				$sb_id    = $main_xml->readSection('side', 'id');
 				
 				if(!sb_title){ $sb_title = ''; }
 				if(!$sb_key) { $sb_key   = ''; }
@@ -241,11 +258,11 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				if(!$sb_id)  { $sb_id    = ''; }
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
-				$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'sidebar', $maintag);
-				$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+				$sqlQR = $sqlAL->getOne($tcms_db_prefix.'sidebar', $maintag);
+				$sqlObj = $sqlAL->fetchObject($sqlQR);
 				
 				$sb_title = $sqlObj->title;
 				$sb_key   = $sqlObj->key;
@@ -299,7 +316,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		
 		$width = '150';
 		
-		echo tcms_html::text(_SIDE_TEXT.'<br /><br />', 'left');
+		echo $tcms_html->text(_SIDE_TEXT.'<br /><br />', 'left');
 		
 		
 		// form head
@@ -326,10 +343,16 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._TABLE_LINKTO.'</strong></td>'
 		.'<td valign="top"><select name="new_sb_id" class="tcms_select">';
 		
-		if(isset($sb_id) && $sb_id != ''){ echo '<option selected value="'.$sb_id.'"> &bull; '.$sb_id.' &bull; </option>'; }
-		foreach($arr_activefiles['xml'] as $key => $value){
-			echo '<option value="'.$value.'"'.( $sb_id == $value ? ' selected' : '' ).'>'.$arr_activefiles['name'][$key].'</option>';
+		if(isset($sb_id) && $sb_id != '') {
+			echo '<option selected value="'.$sb_id.'"> &bull; '.$sb_id.' &bull; </option>';
 		}
+		
+		foreach($arr_activefiles['xml'] as $key => $value){
+			echo '<option value="'.$value.'"'.( $sb_id == $value ? ' selected' : '' ).'>'
+			.$arr_activefiles['name'][$key]
+			.'</option>';
+		}
+		
 		echo '</select></td></tr>';
 		
 		
@@ -404,8 +427,8 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			$xmluser->_xmlparser();
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$newSQLData = ''
 			.$tcms_db_prefix.'sidebar.title="'.$new_sb_title.'", '
@@ -451,8 +474,8 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			$xmluser->_xmlparser();
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			switch($choosenDB){
 				case 'mysql':
@@ -486,8 +509,8 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		if($check == 'yes'){
 			if($choosenDB == 'xml'){ unlink('../../'.$tcms_administer_site.'/tcms_sidebar/'.$maintag.'.xml'); }
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				$sqlAL->sqlDeleteOne($tcms_db_prefix.'sidebar', $maintag);
 			}
 			

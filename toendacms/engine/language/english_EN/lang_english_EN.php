@@ -289,7 +289,8 @@ define('_TABLE_PRODUCTNO', 'Article Number');
 define('_TABLE_FACTORY', 'Manufacturer');
 define('_TABLE_URL', 'Website');
 define('_TABLE_STOCK', 'In Stock');
-if(!defined('_TABLE_PRICE'))                   define('_TABLE_PRICE', 'Price (gross, for clear let Tax rate empty)');
+if(!defined('_TABLE_PRICE'))                   define('_TABLE_PRICE', 'Price');
+if(!defined('_TABLE_PRICE_ADD'))               define('_TABLE_PRICE_ADD', '(gross, for clear let Tax rate empty)');
 if(!defined('_TABLE_TAX'))                     define('_TABLE_TAX', 'Tax rate / VAT rate');
 define('_TABLE_QUANTITY', 'Quantity');
 define('_TABLE_WEIGHT', 'Weight');
@@ -359,6 +360,7 @@ define('_TABLE_SORT_ASC', 'Ascending sortation');
 if(!defined('_TABLE_VIEW'))                    define('_TABLE_TABLE_VIEW_RSS', 'View');
 if(!defined('_TABLE_FRONTPAGE'))               define('_TABLE_FRONTPAGE', 'Frontpage');
 if(!defined('_TABLE_SHOWONMAINPAGE'))          define('_TABLE_SHOWONMAINPAGE', 'Show on mainpage');
+if(!defined('_TABLE_BROWSE'))                  define('_TABLE_BROWSE', 'Browse');
 
 
 // MESSAGES
@@ -1070,6 +1072,7 @@ if(!defined('_PRODUCTS_SHOW_PRICE_ONLY_USERS'))define('_PRODUCTS_SHOW_PRICE_ONLY
 if(!defined('_PRODUCTS_STARTPAGETITLE'))       define('_PRODUCTS_STARTPAGETITLE', 'Startpagetitle');
 if(!defined('_PRODUCTS_ARTICLE'))              define('_PRODUCTS_ARTICLE', 'Article');
 if(!defined('_PRODUCTS_CATEGORIES'))           define('_PRODUCTS_CATEGORIES', 'Categories');
+if(!defined('_PRODUCTS_CATALOGUE'))            define('_PRODUCTS_CATALOGUE', 'Catalogue');
 
 
 // NEWS
