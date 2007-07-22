@@ -1072,6 +1072,7 @@ define('_PRODUCTS_USE_CATEGORY_TITLE', 'Kategorien Titel in der Seitenleiste anz
 define('_PRODUCTS_SHOW_PRICE_ONLY_USERS', 'Zeige Preise nur angemeldeten Benutzern');
 define('_PRODUCTS_STARTPAGETITLE', 'Startseiten Titel');
 define('_PRODUCTS_ARTICLE', 'Artikel');
+define('_PRODUCTS_CATEGORY', 'Kategorie');
 define('_PRODUCTS_CATEGORIES', 'Kategorien');
 define('_PRODUCTS_CATALOGUE', 'Katalog');
 

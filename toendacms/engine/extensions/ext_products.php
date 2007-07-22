@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a product manager.
  *
- * @version 0.6.0
+ * @version 0.6.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -856,7 +856,7 @@ if($action == 'showone') {
 		echo '<tr>'
 		.'<td valign="top">'
 		.$tcms_html->text($arr_desc, 'left')
-		.'<br />'
+		.'<br /><br />'
 		.'</td>'
 		.'<td valign="top" align="right" class="text_normal" width="110">';
 		
@@ -915,30 +915,30 @@ if($action == 'showone') {
 			if($detect_browser == 1){
 				echo '<script>if(browser == \'ie\'){'
 				.'document.write(\'<img align="left"'
-				.( $img_o_width_1 > 235
-					? ' width="235"'
+				.( $img_o_width_1 > 238
+					? ' width="238"'
 					: ''
 				).' src="'.$imagePath.'data/images/products/'.$arr_image1.'" border="0" />\');'
 				.'}else{'
 				.'document.write(\'<img align="left"'
-				.( $img_o_width_1 > 235
-					? ' width="47%"'
+				.( $img_o_width_1 > 238
+					? ' width="48%"'
 					: ''
 				).' src="'.$imagePath.'data/images/products/'.$arr_image1.'" border="0" />\');'
 				.'}</script>';
 				
 				echo '<noscript>'
 				.'<img align="left"'
-				.( $img_o_width_1 > 235
-					? ' width="47%"'
+				.( $img_o_width_1 > 238
+					? ' width="48%"'
 					: ''
 				).' src="'.$imagePath.'data/images/products/'.$arr_image1.'" border="0" />'
 				.'</noscript>';
 			}
 			else{
 				echo '<img align="left"'
-				.( $img_o_width_1 > 235
-					? ' width="47%"'
+				.( $img_o_width_1 > 238
+					? ' width="48%"'
 					: ''
 				).' src="'.$imagePath.'data/images/products/'.$arr_image1.'" border="0" />';
 			}
@@ -956,30 +956,30 @@ if($action == 'showone') {
 			if($detect_browser == 1){
 				echo '<script>if(browser == \'ie\'){'
 				.'document.write(\'<img align="left"'
-				.( $img_o_width_2 > 235
-					? ' width="235"'
+				.( $img_o_width_2 > 238
+					? ' width="238"'
 					: ''
 				).' src="'.$imagePath.'data/images/products/'.$arr_image2.'" border="0" />\');'
 				.'}else{'
 				.'document.write(\'<img align="left"'
-				.( $img_o_width_2 > 235
-					? ' width="47%"'
+				.( $img_o_width_2 > 238
+					? ' width="48%"'
 					: ''
 				).' src="'.$imagePath.'data/images/products/'.$arr_image2.'" border="0" />\');'
 				.'}</script>';
 				
 				echo '<noscript>'
 				.'<img align="left"'
-				.( $img_o_width_2 > 235
-					? ' width="47%"'
+				.( $img_o_width_2 > 238
+					? ' width="48%"'
 					: ''
 				).' src="'.$imagePath.'data/images/products/'.$arr_image2.'" border="0" />'
 				.'</noscript>';
 			}
 			else{
 				echo '<img align="left"'
-				.( $img_o_width_2 > 235
-					? ' width="47%"'
+				.( $img_o_width_2 > 238
+					? ' width="48%"'
 					: ''
 				).' src="'.$imagePath.'data/images/products/'.$arr_image2.'" border="0" />';
 			}
@@ -994,8 +994,8 @@ if($action == 'showone') {
 			
 			echo '<a href="'.$imagePath.'data/images/products/'.$arr_image3.'" rel="lightbox">'
 			.'<img align="left"'
-			.( $img_o_width_3 > 235
-				? ' width="47%"'
+			.( $img_o_width_3 > 238
+				? ' width="48%"'
 				: ''
 			).' src="'.$imagePath.'data/images/products/'.$arr_image3.'" border="0" />'
 			.'</a>';
@@ -1008,8 +1008,8 @@ if($action == 'showone') {
 			
 			echo '<a href="'.$imagePath.'data/images/products/'.$arr_image4.'" rel="lightbox">'
 			.'<img align="left"'
-			.( $img_o_width_4 > 235
-				? ' width="47%"'
+			.( $img_o_width_4 > 238
+				? ' width="48%"'
 				: ''
 			).' src="'.$imagePath.'data/images/products/'.$arr_image4.'" border="0" />'
 			.'</a>';
