@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a product manager.
  *
- * @version 0.6.1
+ * @version 0.6.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -252,7 +252,7 @@ if($action == 'showall'){
 						
 						// alpha title
 						if(trim($arr_pro['name'][$key]) != '') {
-							$firstAlpha = substr($arr_pro['name'][$key], 0, 1);
+							$firstAlpha = strtolower(substr($arr_pro['name'][$key], 0, 1));
 							
 							if($firstAlpha != $firstAlphaChk) {
 								echo '<tr><td colspan="3" class="products_category">'

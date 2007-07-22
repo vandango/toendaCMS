@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used for the products configuration
  * and the administration of all the products.
  *
- * @version 0.7.2
+ * @version 0.7.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -51,6 +51,7 @@ if(isset($_POST['new_ctitle'])){ $new_ctitle = $_POST['new_ctitle']; }
 if(isset($_POST['new_usest'])){ $new_usest = $_POST['new_usest']; }
 if(isset($_POST['new_spou'])){ $new_spou = $_POST['new_spou']; }
 if(isset($_POST['new_spt'])){ $new_spt = $_POST['new_spt']; }
+if(isset($_POST['new_usc'])){ $new_usc = $_POST['new_usc']; }
 
 // items
 if(isset($_POST['new_name'])){ $new_name = $_POST['new_name']; }
@@ -142,6 +143,7 @@ if($todo == 'config'){
 				$old_usest  = $pXML->readSection('config', 'use_category_title');
 				$old_spou   = $pXML->readSection('config', 'show_price_only_users');
 				$old_spt    = $pXML->readSection('config', 'startpagetitle');
+				$old_usc    = $pXML->readSection('config', 'use_sidebar_categories');
 				
 				if(!$old_pid)   { $old_pid    = ''; }
 				if(!$old_ptitle){ $old_ptitle = ''; }
@@ -151,6 +153,7 @@ if($todo == 'config'){
 				//if(!$old_usest) { $old_usest  = ''; }
 				//if(!$old_spou)  { $old_spou   = ''; }
 				if(!$old_spt)   { $old_spt    = ''; }
+				if(!$old_usc)   { $old_usc    = ''; }
 				
 				$langExist = 1;
 			}
@@ -182,6 +185,7 @@ if($todo == 'config'){
 			$old_usest  = $sqlObj->use_category_title;
 			$old_spou   = $sqlObj->show_price_only_users;
 			$old_spt    = $sqlObj->startpagetitle;
+			$old_usc    = $sqlObj->use_sidebar_categories;
 			
 			if($old_pid    == NULL){ $old_pid    = ''; }
 			if($old_ptitle == NULL){ $old_ptitle = ''; }
@@ -192,6 +196,7 @@ if($todo == 'config'){
 			if($old_usest  == NULL){ $old_usest  = 0; }
 			if($old_spou   == NULL){ $old_spou   = 0; }
 			if($old_spt    == NULL){ $old_spt    = ''; }
+			if($old_usc    == NULL){ $old_usc    = 0; }
 		}
 		
 		$old_ptitle = $tcms_main->decodeText($old_ptitle, '2', $c_charset);
@@ -366,6 +371,14 @@ if($todo == 'config'){
 		._PRODUCTS_SHOW_PRICE_ONLY_USERS
 		.'</td><td>'
 		.'<input type="checkbox" name="new_spou" '.( $old_spou == 1 ? 'checked' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		// table rows
+		echo '<tr><td valign="middle">'
+		._PRODUCTS_USESIDEBARCATEGORIES
+		.'</td><td>'
+		.'<input type="checkbox" name="new_usc" '.( $old_usc == 1 ? 'checked' : '' ).' value="1" />'
 		.'</td></tr>';
 		
 		
@@ -1601,6 +1614,7 @@ if($todo == 'save_config') {
 	if(empty($new_usest)) { $new_usest  = 0; }
 	if(empty($new_spou))  { $new_spou   = 0; }
 	if(empty($new_spt))   { $new_spt    = ''; }
+	if(empty($new_usc))   { $new_usc    = 0; }
 	
 	
 	$content = str_replace('src="../../../../http:', 'src="http:', $content);
@@ -1638,22 +1652,23 @@ if($todo == 'save_config') {
 	
 	if($choosenDB == 'xml'){
 		$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/products.'.$setLang.'.xml', 'w');
-		$xmluser->xml_declaration();
-		$xmluser->xml_section('config');
+		$xmluser->xmlDeclaration($c_charset);
+		$xmluser->xmlSection('config');
 		
-		$xmluser->write_value('products_id', $new_pid);
-		$xmluser->write_value('products_title', $new_ptitle);
-		$xmluser->write_value('products_stamp', $new_pstamp);
-		$xmluser->write_value('products_text', $content);
-		$xmluser->write_value('category_state', $new_cstate);
-		$xmluser->write_value('category_title', $new_ctitle);
-		$xmluser->write_value('use_category_title', $new_usest);
-		$xmluser->write_value('language', $new_lang);
-		$xmluser->write_value('show_price_only_users', $new_spou);
-		$xmluser->write_value('startpagetitle', $new_spt);
+		$xmluser->writeValue('products_id', $new_pid);
+		$xmluser->writeValue('products_title', $new_ptitle);
+		$xmluser->writeValue('products_stamp', $new_pstamp);
+		$xmluser->writeValue('products_text', $content);
+		$xmluser->writeValue('category_state', $new_cstate);
+		$xmluser->writeValue('category_title', $new_ctitle);
+		$xmluser->writeValue('use_category_title', $new_usest);
+		$xmluser->writeValue('language', $new_lang);
+		$xmluser->writeValue('show_price_only_users', $new_spou);
+		$xmluser->writeValue('startpagetitle', $new_spt);
+		$xmluser->writeValue('use_sidebar_categories', $new_usc);
 		
-		$xmluser->xml_section_buffer();
-		$xmluser->xml_section_end('config');
+		$xmluser->xmlSectionBuffer();
+		$xmluser->xmlSectionEnd('config');
 		$xmluser->_xmlparser();
 	}
 	else{
@@ -1670,6 +1685,7 @@ if($todo == 'save_config') {
 			.$tcms_db_prefix.'products_config.category_title="'.$new_ctitle.'", '
 			.$tcms_db_prefix.'products_config.use_category_title='.$new_usest.', '
 			.$tcms_db_prefix.'products_config.show_price_only_users='.$new_spou.', '
+			.$tcms_db_prefix.'products_config.use_sidebar_categories='.$new_usc.', '
 			.$tcms_db_prefix.'products_config.startpagetitle="'.$new_spt.'"';
 			
 			switch($choosenDB) {
@@ -1698,28 +1714,28 @@ if($todo == 'save_config') {
 					$newSQLColumns = '`products_id`, `products_title`, '
 					.'`products_stamp`, `products_text`, `category_state`, '
 					.'`category_title`, `use_category_title`, `language`, '
-					.'`show_price_only_users`, `startpagetitle`';
+					.'`show_price_only_users`, `startpagetitle`, `use_sidebar_categories`';
 					break;
 				
 				case 'pgsql':
 					$newSQLColumns = 'products_id, products_title, '
 					.'products_stamp, products_text, "category_state", '
 					.'category_title, use_category_title, "language", '
-					.'show_price_only_users, startpagetitle';
+					.'show_price_only_users, startpagetitle, use_sidebar_categories';
 					break;
 				
 				case 'mssql':
 					$newSQLColumns = '[products_id], [products_title], '
 					.'[products_stamp], [products_text], [category_state], '
 					.'[category_title], [use_category_title], [language], '
-					.'[show_price_only_users], [startpagetitle]';
+					.'[show_price_only_users], [startpagetitle], [use_sidebar_categories]';
 					break;
 			}
 			
 			$newSQLData = "'products', '".$new_ptitle."', "
 			."'".$new_pstamp."', '".$content."', "
 			."'".$new_cstate."', '".$new_ctitle."', "
-			.$new_usest.", '".$setLang."', ".$new_spou.", '".$new_spt."'";
+			.$new_usest.", '".$setLang."', ".$new_spou.", '".$new_spt."', ".$new_usc;
 			
 			$maintag = $tcms_main->getNewUID(8, 'products_config');
 			
@@ -1768,26 +1784,26 @@ if($todo == 'save_item') {
 	// save
 	if($choosenDB == 'xml') {
 		/*$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_products/'.$category.'/'.$article.'.xml', 'w');
-		$xmluser->xml_declaration();
-		$xmluser->xml_section('info');
+		$xmluser->xmlDeclaration();
+		$xmluser->xmlSection('info');
 		
-		$xmluser->write_value('product', $new_product);
-		$xmluser->write_value('product_number', $new_product_no);
-		$xmluser->write_value('factory', $new_factory);
-		$xmluser->write_value('factory_url', $new_factory_url);
-		$xmluser->write_value('desc', $new_desc);
-		$xmluser->write_value('category', $new_category);
-		$xmluser->write_value('image', $new_image);
-		$xmluser->write_value('date', $new_date);
-		$xmluser->write_value('price', $new_price);
-		$xmluser->write_value('price_tax', $new_pricetax);
-		$xmluser->write_value('status', $new_status);
-		$xmluser->write_value('quantity', $new_quantity);
-		$xmluser->write_value('weight', $new_weight);
-		$xmluser->write_value('sort', $new_sort);
+		$xmluser->writeValue('product', $new_product);
+		$xmluser->writeValue('product_number', $new_product_no);
+		$xmluser->writeValue('factory', $new_factory);
+		$xmluser->writeValue('factory_url', $new_factory_url);
+		$xmluser->writeValue('desc', $new_desc);
+		$xmluser->writeValue('category', $new_category);
+		$xmluser->writeValue('image', $new_image);
+		$xmluser->writeValue('date', $new_date);
+		$xmluser->writeValue('price', $new_price);
+		$xmluser->writeValue('price_tax', $new_pricetax);
+		$xmluser->writeValue('status', $new_status);
+		$xmluser->writeValue('quantity', $new_quantity);
+		$xmluser->writeValue('weight', $new_weight);
+		$xmluser->writeValue('sort', $new_sort);
 		
-		$xmluser->xml_section_buffer();
-		$xmluser->xml_section_end('info');
+		$xmluser->xmlSectionBuffer();
+		$xmluser->xmlSectionEnd('info');
 		$xmluser->_xmlparser();*/
 	}
 	else{
@@ -2023,26 +2039,26 @@ if($todo == 'save') {
 	// save
 	if($choosenDB == 'xml') {
 		/*$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_products/'.$category.'/'.$article.'.xml', 'w');
-		$xmluser->xml_declaration();
-		$xmluser->xml_section('info');
+		$xmluser->xmlDeclaration();
+		$xmluser->xmlSection('info');
 		
-		$xmluser->write_value('product', $new_product);
-		$xmluser->write_value('product_number', $new_product_no);
-		$xmluser->write_value('factory', $new_factory);
-		$xmluser->write_value('factory_url', $new_factory_url);
-		$xmluser->write_value('desc', $new_desc);
-		$xmluser->write_value('category', $new_category);
-		$xmluser->write_value('image', $new_image);
-		$xmluser->write_value('date', $new_date);
-		$xmluser->write_value('price', $new_price);
-		$xmluser->write_value('price_tax', $new_pricetax);
-		$xmluser->write_value('status', $new_status);
-		$xmluser->write_value('quantity', $new_quantity);
-		$xmluser->write_value('weight', $new_weight);
-		$xmluser->write_value('sort', $new_sort);
+		$xmluser->writeValue('product', $new_product);
+		$xmluser->writeValue('product_number', $new_product_no);
+		$xmluser->writeValue('factory', $new_factory);
+		$xmluser->writeValue('factory_url', $new_factory_url);
+		$xmluser->writeValue('desc', $new_desc);
+		$xmluser->writeValue('category', $new_category);
+		$xmluser->writeValue('image', $new_image);
+		$xmluser->writeValue('date', $new_date);
+		$xmluser->writeValue('price', $new_price);
+		$xmluser->writeValue('price_tax', $new_pricetax);
+		$xmluser->writeValue('status', $new_status);
+		$xmluser->writeValue('quantity', $new_quantity);
+		$xmluser->writeValue('weight', $new_weight);
+		$xmluser->writeValue('sort', $new_sort);
 		
-		$xmluser->xml_section_buffer();
-		$xmluser->xml_section_end('info');
+		$xmluser->xmlSectionBuffer();
+		$xmluser->xmlSectionEnd('info');
 		$xmluser->_xmlparser();*/
 	}
 	else{

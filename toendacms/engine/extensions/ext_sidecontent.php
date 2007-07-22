@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the sidebar functionality.
  *
- * @version 0.5.2
+ * @version 0.5.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -164,143 +164,146 @@ if($id != 'register'
 	/*
 		PRODUCTS
 	*/
-	if($id == $products_id){
-		if($choosenDB == 'xml'){
-			$arr_products = $tcms_main->getPathContent($tcms_administer_site.'/tcms_products/');
-			
-			$count = 0;
-			
-			/*if($tcms_main->isArray($arr_products)){
-				foreach($arr_products as $key => $value){
-					$menu_xml = new xmlparser($tcms_administer_site.'/tcms_products/'.$value.'/folderinfo.xml','r');
-					$chkAcc   = $menu_xml->readSection('folderinfo', 'access');
-					
-					if($is_admin == 'Developer' || $is_admin == 'Administrator'){ $showAll = true; }
-					else{
-						if($chkAcc == 'Public' || $chkAcc == 'Protected'){ $showAll = true; }
-						else{ $showAll = false; }
+	if($id == $products_id) {
+		if($use_sidebar_categories == 1) {
+			if($choosenDB == 'xml') {
+				$arr_products = $tcms_main->getPathContent($tcms_administer_site.'/tcms_products/');
+				
+				$count = 0;
+				
+				/*if($tcms_main->isArray($arr_products)){
+					foreach($arr_products as $key => $value){
+						$menu_xml = new xmlparser($tcms_administer_site.'/tcms_products/'.$value.'/folderinfo.xml','r');
+						$chkAcc   = $menu_xml->readSection('folderinfo', 'access');
+						
+						if($is_admin == 'Developer' || $is_admin == 'Administrator'){ $showAll = true; }
+						else{
+							if($chkAcc == 'Public' || $chkAcc == 'Protected'){ $showAll = true; }
+							else{ $showAll = false; }
+						}
+						
+						if($showAll == true){
+							$arr_art['name'][$count] = $menu_xml->readSection('folderinfo', 'name');
+							$arr_art['date'][$count] = $menu_xml->readSection('folderinfo', 'date');
+							$arr_art['desc'][$count] = $menu_xml->readSection('folderinfo', 'desc');
+							$arr_art['sort'][$count] = $menu_xml->readSection('folderinfo', 'sort');
+							$arr_art['dir'][$count]  = $menu_xml->readSection('folderinfo', 'folder');
+							$arr_art['pub'][$count]  = $menu_xml->readSection('folderinfo', 'pub');
+							$arr_art['ac'][$count]   = $menu_xml->readSection('folderinfo', 'access');
+							
+							$arr_art['name'][$count] = $tcms_main->decodeText($arr_art['name'][$count], '2', $c_charset);
+							$arr_art['desc'][$count] = $tcms_main->decodeText($arr_art['desc'][$count], '2', $c_charset);
+							
+							$check_products_amount = $count;
+							$count++;
+						}
 					}
 					
-					if($showAll == true){
-						$arr_art['name'][$count] = $menu_xml->readSection('folderinfo', 'name');
-						$arr_art['date'][$count] = $menu_xml->readSection('folderinfo', 'date');
-						$arr_art['desc'][$count] = $menu_xml->readSection('folderinfo', 'desc');
-						$arr_art['sort'][$count] = $menu_xml->readSection('folderinfo', 'sort');
-						$arr_art['dir'][$count]  = $menu_xml->readSection('folderinfo', 'folder');
-						$arr_art['pub'][$count]  = $menu_xml->readSection('folderinfo', 'pub');
-						$arr_art['ac'][$count]   = $menu_xml->readSection('folderinfo', 'access');
-						
-						$arr_art['name'][$count] = $tcms_main->decodeText($arr_art['name'][$count], '2', $c_charset);
-						$arr_art['desc'][$count] = $tcms_main->decodeText($arr_art['desc'][$count], '2', $c_charset);
-						
-						$check_products_amount = $count;
-						$count++;
+					if(is_array($arr_art)){
+						array_multisort(
+							$arr_art['sort'], SORT_ASC, 
+							$arr_art['name'], SORT_ASC, 
+							$arr_art['date'], SORT_ASC, 
+							$arr_art['desc'], SORT_ASC, 
+							$arr_art['dir'], SORT_ASC, 
+							$arr_art['pub'], SORT_ASC, 
+							$arr_art['ac'], SORT_ASC
+						);
 					}
+				}*/
+			}
+			else{
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				
+				switch($is_admin){
+					case 'Developer':
+					case 'Administrator':
+						$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
+						break;
+					
+					case 'User':
+					case 'Editor':
+					case 'Presenter':
+						$strAdd = " OR access = 'Protected' ) ";
+						break;
+					
+					default:
+						$strAdd = ' ) ';
+						break;
 				}
 				
-				if(is_array($arr_art)){
-					array_multisort(
-						$arr_art['sort'], SORT_ASC, 
-						$arr_art['name'], SORT_ASC, 
-						$arr_art['date'], SORT_ASC, 
-						$arr_art['desc'], SORT_ASC, 
-						$arr_art['dir'], SORT_ASC, 
-						$arr_art['pub'], SORT_ASC, 
-						$arr_art['ac'], SORT_ASC
-					);
+				$sqlSTR = "SELECT uid, name, category "
+				."FROM ".$tcms_db_prefix."products "
+				."WHERE sql_type='c' "
+				."AND ( access = 'Public' "
+				.$strAdd
+				."ORDER BY name ASC, sort ASC";
+				
+				$sqlQR = $sqlAL->query($sqlSTR);
+				
+				$count = 0;
+				
+				while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+					$arr_art['uid'][$count]  = $sqlObj->uid;
+					$arr_art['name'][$count] = $sqlObj->name;
+					$arr_art['cat'][$count]  = $sqlObj->category;
+					
+					if($arr_art['uid'][$count]  == NULL){ $arr_art['uid'][$count]  = ''; }
+					if($arr_art['name'][$count] == NULL){ $arr_art['name'][$count] = ''; }
+					if($arr_art['cat'][$count]  == NULL){ $arr_art['cat'][$count]  = ''; }
+					
+					$arr_art['name'][$count] = $tcms_main->decodeText($arr_art['name'][$count], '2', $c_charset);
+					
+					$count++;
+					$check_products_amount = $count;
 				}
-			}*/
-		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-			
-			switch($is_admin){
-				case 'Developer':
-				case 'Administrator':
-					$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
-					break;
-				
-				case 'User':
-				case 'Editor':
-				case 'Presenter':
-					$strAdd = " OR access = 'Protected' ) ";
-					break;
-				
-				default:
-					$strAdd = ' ) ';
-					break;
 			}
 			
-			$sqlSTR = "SELECT uid, name, category "
-			."FROM ".$tcms_db_prefix."products "
-			."WHERE sql_type='c' "
-			."AND ( access = 'Public' "
-			.$strAdd
-			."ORDER BY name ASC, sort ASC";
-			
-			$sqlQR = $sqlAL->query($sqlSTR);
-			
-			$count = 0;
-			
-			while($sqlObj = $sqlAL->fetchObject($sqlQR)){
-				$arr_art['uid'][$count]  = $sqlObj->uid;
-				$arr_art['name'][$count] = $sqlObj->name;
-				$arr_art['cat'][$count]  = $sqlObj->category;
-				
-				if($arr_art['uid'][$count]  == NULL){ $arr_art['uid'][$count]  = ''; }
-				if($arr_art['name'][$count] == NULL){ $arr_art['name'][$count] = ''; }
-				if($arr_art['cat'][$count]  == NULL){ $arr_art['cat'][$count]  = ''; }
-				
-				$arr_art['name'][$count] = $tcms_main->decodeText($arr_art['name'][$count], '2', $c_charset);
-				
-				$count++;
-				$check_products_amount = $count;
+			if($show_pro_ct == 1){
+				$category_title = $tcms_main->decodeText($category_title, '2', $c_charset);
+				echo $tcms_html->subTitle($category_title);
 			}
-		}
-		
-		if($show_pro_ct == 1){
-			$category_title = $tcms_main->decodeText($category_title, '2', $c_charset);
-			echo $tcms_html->subTitle($category_title);
-		}
-		
-		echo '<div class="sidemain">';
-		
-		if($check_products_amount > 0) {
-			foreach($arr_art['uid'] as $key => $value) {
-				//if($arr_art['cat'][$key] == '') {
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-					.'id=products&amp;s='.$s
-					.'&ampaction=showall&amp;cmd=browse'
-					.'&amp;category='.$arr_art['uid'][$key]
-					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $tcms_main->urlConvertToSEO($link);
-					
-					echo '<strong class="text_normal">'
-					.'<a href="'.$link.'">'.$arr_art['name'][$key].'</a>'
-					.'</strong>'
-					.'<br />';
-					
-					/*$subElement = $tcms_main->getArrayElement(
-						$arr_art, 
-						'category', 
-						$arr_art['uid'][$key], 
-						'name'
-					);
-					
-					if($subElement != '') {
-						echo '<span class="text_normal">'
-						.'&nbsp;&nbsp;<a href="'.$link.'">'.$subElement.'</a>'
-						.'</span>'
+			
+			echo '<div class="sidemain">';
+			
+			if($check_products_amount > 0) {
+				foreach($arr_art['uid'] as $key => $value) {
+					//if($arr_art['cat'][$key] == '') {
+						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+						.'id=products&amp;s='.$s
+						.'&ampaction=showall&amp;cmd=browse'
+						.'&amp;category='.$arr_art['uid'][$key]
+						.( isset($lang) ? '&amp;lang='.$lang : '' );
+						$link = $tcms_main->urlConvertToSEO($link);
+						
+						echo '<strong class="text_normal">'
+						.'<a href="'.$link.'">'.$arr_art['name'][$key].'</a>'
+						.'</strong>'
 						.'<br />';
-					}*/
-				//}
+						
+						/*$subElement = $tcms_main->getArrayElement(
+							$arr_art, 
+							'category', 
+							$arr_art['uid'][$key], 
+							'name'
+						);
+						
+						if($subElement != '') {
+							echo '<span class="text_normal">'
+							.'&nbsp;&nbsp;<a href="'.$link.'">'.$subElement.'</a>'
+							.'</span>'
+							.'<br />';
+						}*/
+					//}
+				}
 			}
+			
+			echo '</div>';
+			
+			echo '<br />';
+			//.'<br />';
 		}
-		
-		echo '</div>';
-		
-		echo '<br /><br />';
 	}
 	
 	

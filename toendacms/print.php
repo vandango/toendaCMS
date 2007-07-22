@@ -15,6 +15,18 @@
 */
 
 
+/**
+ * Generate Print Document
+ * 
+ * This module is used to generate a pdf document
+ * 
+ * @version 0.2.2
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS
+ */
+
+
 if(isset($_GET['seoEnabled'])){ $seoEnabled = $_GET['seoEnabled']; }
 if(isset($_GET['id'])){ $id = $_GET['id']; }
 if(isset($_GET['s'])){ $s = $_GET['s']; }
@@ -23,18 +35,6 @@ if(isset($_GET['category'])){ $category = $_GET['category']; }
 if(isset($_GET['article'])){ $article = $_GET['article']; }
 if(isset($_GET['news'])){ $news = $_GET['news']; }
 if(isset($_GET['albums'])){ $albums = $_GET['albums']; }
-
-
-/**
- * Generate Print Document
- * 
- * This module is used to generate a pdf document
- * 
- * @version 0.2.1
- * @author	Jonathan Naumann <jonathan@toenda.com>
- * @package toendaCMS
- * @subpackage toendaCMS
- */
 
 
 define('_TCMS_VALID', 1);

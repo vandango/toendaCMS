@@ -1075,6 +1075,7 @@ define('_PRODUCTS_ARTICLE', 'Artikel');
 define('_PRODUCTS_CATEGORY', 'Kategorie');
 define('_PRODUCTS_CATEGORIES', 'Kategorien');
 define('_PRODUCTS_CATALOGUE', 'Katalog');
+define('_PRODUCTS_USESIDEBARCATEGORIES', 'Kategorien in der Seitenleiste anzeigen');
 
 
 // NEWS

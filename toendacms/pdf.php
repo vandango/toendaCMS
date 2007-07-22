@@ -29,7 +29,7 @@ if(isset($_GET['albums'])){ $albums = $_GET['albums']; }
  * 
  * This module is used to generate a pdf document
  * 
- * @version 0.2.4
+ * @version 0.2.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -101,7 +101,7 @@ $currency = $tcms_config->getCurrency();
 
 
 $layout_xml = new xmlparser($tcms_administer_site.'/tcms_global/layout.xml','r');
-$s = $layout_xml->read_section('layout', 'select');
+$s = $layout_xml->readSection('layout', 'select');
 
 
 $cms_name         = $tcms_version->getName();
@@ -112,9 +112,9 @@ $cms_build        = $tcms_version->getBuild();
 
 
 $footer_xml       = new xmlparser(''.$tcms_administer_site.'/tcms_global/footer.xml','r');
-$websiteowner     = $footer_xml->read_section('footer', 'websiteowner');
-$websitecopyright = $footer_xml->read_section('footer', 'copyright');
-$websiteowner_url = $footer_xml->read_section('footer', 'owner_url');
+$websiteowner     = $footer_xml->readSection('footer', 'websiteowner');
+$websitecopyright = $footer_xml->readSection('footer', 'copyright');
+$websiteowner_url = $footer_xml->readSection('footer', 'owner_url');
 $footer_xml->flush();
 $footer_xml->_xmlparser();
 
@@ -132,13 +132,13 @@ switch($id){
 	default:
 		if($choosenDB == 'xml'){
 			$cl_xml = new xmlparser($tcms_administer_site.'/tcms_content/'.$id.'.xml','r');
-			$authorized = $cl_xml->read_section('main', 'access');
+			$authorized = $cl_xml->readSection('main', 'access');
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'content', $id);
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+			$sqlARR = $sqlAL->fetchArray($sqlQR);
 			$authorized = $sqlARR['access'];
 		}
 		break;
@@ -166,7 +166,7 @@ if($check_session){
 		$ws_id   = $arr_ws['id'];
 		
 		$authXML  = new xmlparser($tcms_administer_site.'/tcms_user/'.$ws_id.'.xml', 'r');
-		$is_admin = $authXML->read_section('user', 'group');
+		$is_admin = $authXML->readSection('user', 'group');
 	}
 	else{
 		$arr_ws = $tcms_main->create_sql_username($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session);
@@ -174,10 +174,10 @@ if($check_session){
 		$ws_user = $arr_ws['user'];
 		$ws_id   = $arr_ws['id'];
 		
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'user', $ws_id);
-		$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+		$sqlARR = $sqlAL->fetchArray($sqlQR);
 		$is_admin = $sqlARR['group'];
 		if($is_admin == NULL){ $is_admin = ''; }
 	}
@@ -210,14 +210,14 @@ if($ws_auth == 1){
 		case 'newsmanager':
 			if($choosenDB == 'xml'){
 				$main_xml = new xmlparser($tcms_administer_site.'/tcms_news/'.$news.'.xml','r');
-				$arr_news['title'] = $main_xml->read_section('news', 'title');
-				$arr_news['autor'] = $main_xml->read_section('news', 'autor');
-				$arr_news['date']  = $main_xml->read_section('news', 'date');
-				$arr_news['time']  = $main_xml->read_section('news', 'time');
-				$arr_news['news']  = $main_xml->read_section('news', 'newstext');
-				$arr_news['order'] = $main_xml->read_section('news', 'order');
-				$arr_news['stamp'] = $main_xml->read_section('news', 'stamp');
-				$arr_news['image'] = $main_xml->read_section('news', 'image');
+				$arr_news['title'] = $main_xml->readSection('news', 'title');
+				$arr_news['autor'] = $main_xml->readSection('news', 'autor');
+				$arr_news['date']  = $main_xml->readSection('news', 'date');
+				$arr_news['time']  = $main_xml->readSection('news', 'time');
+				$arr_news['news']  = $main_xml->readSection('news', 'newstext');
+				$arr_news['order'] = $main_xml->readSection('news', 'order');
+				$arr_news['stamp'] = $main_xml->readSection('news', 'stamp');
+				$arr_news['image'] = $main_xml->readSection('news', 'image');
 				
 				if(!$arr_news['title']){ $arr_news['title'] = ''; }
 				if(!$arr_news['autor']){ $arr_news['autor'] = ''; }
@@ -229,11 +229,11 @@ if($ws_auth == 1){
 				if(!$arr_news['image']){ $arr_news['image'] = ''; }
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'news', $news);
-				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+				$sqlARR = $sqlAL->fetchArray($sqlQR);
 				
 				$arr_news['title'] = $sqlARR['title'];
 				$arr_news['autor'] = $sqlARR['autor'];
@@ -278,20 +278,20 @@ if($ws_auth == 1){
 		case 'products':
 			if($choosenDB == 'xml'){
 				$menu_xml = new xmlparser($tcms_administer_site.'/tcms_products/'.$category.'/'.$article.'.xml','r');
-				$arr_product     = $menu_xml->read_section('info', 'product');
-				$arr_product_no  = $menu_xml->read_section('info', 'product_number');
-				$arr_factory     = $menu_xml->read_section('info', 'factory');
-				$arr_factory_url = $menu_xml->read_section('info', 'factory_url');
-				$arr_desc        = $menu_xml->read_section('info', 'desc');
-				$arr_category    = $menu_xml->read_section('info', 'category');
-				$arr_image       = $menu_xml->read_section('info', 'image');
-				$arr_date        = $menu_xml->read_section('info', 'date');
-				$arr_price       = $menu_xml->read_section('info', 'price');
-				$arr_pricetax    = $menu_xml->read_section('info', 'price_tax');
-				$arr_status      = $menu_xml->read_section('info', 'status');
-				$arr_quantity    = $menu_xml->read_section('info', 'quantity');
-				$arr_weight      = $menu_xml->read_section('info', 'weight');
-				$arr_sort        = $menu_xml->read_section('info', 'sort');
+				$arr_product     = $menu_xml->readSection('info', 'product');
+				$arr_product_no  = $menu_xml->readSection('info', 'product_number');
+				$arr_factory     = $menu_xml->readSection('info', 'factory');
+				$arr_factory_url = $menu_xml->readSection('info', 'factory_url');
+				$arr_desc        = $menu_xml->readSection('info', 'desc');
+				$arr_category    = $menu_xml->readSection('info', 'category');
+				$arr_image       = $menu_xml->readSection('info', 'image');
+				$arr_date        = $menu_xml->readSection('info', 'date');
+				$arr_price       = $menu_xml->readSection('info', 'price');
+				$arr_pricetax    = $menu_xml->readSection('info', 'price_tax');
+				$arr_status      = $menu_xml->readSection('info', 'status');
+				$arr_quantity    = $menu_xml->readSection('info', 'quantity');
+				$arr_weight      = $menu_xml->readSection('info', 'weight');
+				$arr_sort        = $menu_xml->readSection('info', 'sort');
 				$arr_tag         = substr($value, 0, 10);
 				
 				if($arr_product == false)     { $arr_product     = ''; }
@@ -310,11 +310,17 @@ if($ws_auth == 1){
 				if($arr_sort == false)        { $arr_sort        = ''; }
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
-				$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix."products WHERE uid='".$article."' AND sql_type='f' AND category='".$category."'");
-				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+				$sqlQR = $sqlAL->getAll(
+					$tcms_db_prefix."products "
+					."WHERE uid='".$article."' "
+					."AND sql_type='a' "
+					."AND pub=1 "
+				);
+				
+				$sqlARR = $sqlAL->fetchArray($sqlQR);
 				
 				$arr_product     = $sqlARR['name'];
 				$arr_product_no  = $sqlARR['product_number'];
@@ -322,7 +328,7 @@ if($ws_auth == 1){
 				$arr_factory_url = $sqlARR['factory_url'];
 				$arr_desc        = $sqlARR['desc'];
 				$arr_category    = $sqlARR['category'];
-				$arr_image       = $sqlARR['image'];
+				$arr_image       = $sqlARR['image1'];
 				$arr_date        = $sqlARR['date'];
 				$arr_price       = $sqlARR['price'];
 				$arr_pricetax    = $sqlARR['price_tax'];
@@ -353,15 +359,50 @@ if($ws_auth == 1){
 			$arr_factory = $tcms_main->decodeText($arr_factory, '2', $c_charset);
 			
 			
-			if($currency == 'EUR'){
-				$setTemp = ( !empty($arr_pricetax) ? $arr_pricetax : $arr_price ).'&nbsp;'.$arr_currency['html'][$currency].'&nbsp;';
-			}
-			else{
-				$setTemp = $arr_currency['html'][$currency].'&nbsp;'.( !empty($arr_pricetax) ? $arr_pricetax : $arr_price ).'&nbsp;';
+			
+			if($arr_price != -1) {
+				if($tcms_main->isReal($arr_pricetax)) {
+					$setTemp .= '<strong>';
+					
+					$taxPrice = $tcms_main->getTaxPrice($arr_price, $arr_pricetax);
+					
+					if($currency == 'EUR') {
+						$setTemp .= $arr_price
+						.'&nbsp;'.$arr_currency['html'][$currency]
+						.'</strong>&nbsp;'
+						.'('.$taxPrice.')'
+						.'&nbsp;'.$arr_currency['html'][$currency];
+					}
+					else {
+						$setTemp .= $arr_currency['html'][$currency]
+						.'&nbsp;'.$arr_price
+						.'</strong>&nbsp;'
+						.$arr_currency['html'][$currency]
+						.'&nbsp;('.$taxPrice.')';
+					}
+					
+					$setTemp .= '&nbsp;'
+					.( !empty($arr_pricetax) ? _PRODUCTS_INC_TAX : _PRODUCTS_EX_TAX );
+				}
+				else {
+					$setTemp .= '<strong>';
+					
+					if($currency == 'EUR') {
+						$setTemp .= $arr_price
+						.'&nbsp;'.$arr_currency['html'][$currency];
+					}
+					else {
+						$setTemp .= $arr_currency['html'][$currency]
+						.'&nbsp;'.$arr_price;
+					}
+					
+					$setTemp .= '</strong>';
+				}
 			}
 			
+			
 			$articleKey = ( trim($arr_product_no) == '' ? '' : '['.$arr_product_no.'], ' )
-			.$setTemp.( !empty($arr_pricetax) ? _PRODUCTS_INC_TAX : _PRODUCTS_EX_TAX );
+			.$setTemp;
 			
 			
 			
@@ -377,7 +418,7 @@ if($ws_auth == 1){
 			}
 			
 			$articleFoot = $arr_factory_url._TABLE_WEIGHT.': '.$arr_weight.'<br>'
-			._TABLE_STOCK.': '.$arr_quantity;
+			.( $arr_quantity != -1 ? _TABLE_STOCK.': '.$arr_quantity : '' );
 			
 			
 			
@@ -398,19 +439,19 @@ if($ws_auth == 1){
 			//===================================
 			if($choosenDB == 'xml'){
 				$content_xml = new xmlparser($tcms_administer_site.'/tcms_content/'.$id.'.xml','r');
-				$title     = $content_xml->read_section('main', 'title');
-				$key       = $content_xml->read_section('main', 'key');
-				$content00 = $content_xml->read_section('main', 'content00');
-				$content01 = $content_xml->read_section('main', 'content01');
-				$foot      = $content_xml->read_section('main', 'foot');
-				$layout_id = $content_xml->read_section('main', 'db_layout');
+				$title     = $content_xml->readSection('main', 'title');
+				$key       = $content_xml->readSection('main', 'key');
+				$content00 = $content_xml->readSection('main', 'content00');
+				$content01 = $content_xml->readSection('main', 'content01');
+				$foot      = $content_xml->readSection('main', 'foot');
+				$layout_id = $content_xml->readSection('main', 'db_layout');
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'content', $id);
-				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+				$sqlARR = $sqlAL->fetchArray($sqlQR);
 				
 				$title     = $sqlARR['title'];
 				$key       = $sqlARR['key'];
