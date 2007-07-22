@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a search module.
  *
- * @version 0.5.7
+ * @version 0.6.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -562,11 +562,12 @@ function search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, 
 		$sqlNR = $sqlAL->getNumber($sqlQR);
 		
 		if($sqlNR != 0){
-			while($sqlARR = $sqlAL->fetchArray($sqlQR)){
-				$tit = $sqlARR['name'];
-				$desc = $sqlARR['desc'];
-				$category = $sqlARR['category'];
-				$uid = $sqlARR['uid'];
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+				$tit = $sqlObj->name;
+				$desc = $sqlObj->desc;
+				$category = $sqlObj->category;
+				$uid = $sqlObj->uid;
+				$sql_type = $sqlObj->sql_type;
 				
 				if($tit  == NULL){ $tit  = ''; }
 				if($desc == NULL){ $desc = ''; }
@@ -579,14 +580,38 @@ function search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, 
 				$desc = $toendaScript->toendaScript_trigger();
 				$desc = $toendaScript->checkSEO($desc, $imagePath);
 				
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-				.'id=products&amp;category='.$category.'&amp;article='.$uid.'&amp;s='.$s
-				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlConvertToSEO($link);
-				
-				echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
-				echo '<div class="search_result"><span class="text_normal">'.substr($desc, 0, 500).'</span></div>';
-				echo '<br />';
+				if($sql_type == 'c') {
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id=products&amp;action=showall'
+					.'&amp;cmd=browse'
+					.'&amp;category='.$uid
+					.'&amp;s='.$s
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
+					$link = $tcms_main->urlConvertToSEO($link);
+					
+					echo '<a class="main" href="'.$link.'">'.$tit.'</a>'
+					.'<div class="search_result">'
+					.'<span class="text_normal"><em>'._PRODUCTS_CATEGORY.'</em></span>'
+					.'</div>'
+					.'<br />';
+				}
+				else {
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id=products&amp;action=showone'
+					.'&amp;article='.$uid
+					.'&amp;s='.$s
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
+					$link = $tcms_main->urlConvertToSEO($link);
+					
+					echo '<a class="main" href="'.$link.'">'.$tit.'</a>'
+					.'<div class="search_result">'
+					.'<span class="text_normal">'
+					.'<em>'._PRODUCTS_ARTICLE.'</em><br />'
+					.( strlen($desc) > 500 ? substr($desc, 0, 500).'...' : $desc )
+					.'</span>'
+					.'</div>'
+					.'<br />';
+				}
 				
 				$sc++;
 			}
