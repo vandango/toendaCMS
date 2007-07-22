@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the sidebar functionality.
  *
- * @version 0.5.1
+ * @version 0.5.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -271,8 +271,8 @@ if($id != 'register'
 				//if($arr_art['cat'][$key] == '') {
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=products&amp;s='.$s
-					.'&ampaction=showall&amp:cmd=browse'
-					.'&amp;category='.$arr_art['dir'][$key]
+					.'&ampaction=showall&amp;cmd=browse'
+					.'&amp;category='.$arr_art['uid'][$key]
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlConvertToSEO($link);
 					
