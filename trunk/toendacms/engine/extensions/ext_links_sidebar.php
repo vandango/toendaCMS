@@ -9,8 +9,7 @@
 | 
 | Links for the Sidebar
 |
-| File:		ext_links_sidebar.php
-| Version:	0.1.4
+| File:	ext_links_sidebar.php
 |
 +
 */
@@ -19,26 +18,34 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * Links for the Sidebar
+ *
+ * This module provides a linklist for the sidebar.
+ *
+ * @version 0.1.7
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Sidebar Modules
+ */
 
 
-
-
-if($use_side_links == 1){
-	if($choosenDB == 'xml'){
+if($use_side_links == 1) {
+	if($choosenDB == 'xml') {
 		$news_xml = new xmlparser($tcms_administer_site.'/tcms_global/linkmanager.xml','r');
 		
-		$show_linkdesc       = $news_xml->read_section('config', 'link_use_side_desc');
-		$show_sidelinkstitle = $news_xml->read_section('config', 'link_use_side_title');
-		$sidelinks_title     = $news_xml->read_section('config', 'link_side_title');
+		$show_linkdesc       = $news_xml->readSection('config', 'link_use_side_desc');
+		$show_sidelinkstitle = $news_xml->readSection('config', 'link_use_side_title');
+		$sidelinks_title     = $news_xml->readSection('config', 'link_side_title');
 		
 		$sidelinks_title = $tcms_main->decodeText($sidelinks_title, '2', $c_charset);
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'links_config', 'links_config_side');
-		$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+		$sqlQR = $sqlAL->getOne($tcms_db_prefix.'links_config', 'links_config_side');
+		$sqlARR = $sqlAL->fetchArray($sqlQR);
 		
 		$show_linkdesc       = $sqlARR['link_use_side_desc'];
 		$show_sidelinkstitle = $sqlARR['link_use_side_title'];
@@ -49,29 +56,23 @@ if($use_side_links == 1){
 	
 	
 	
-	
-	
 	if($show_sidelinkstitle == 1){
-		echo tcms_html::subtitle($sidelinks_title);
-		echo '<div style="height: 5px;"></div>';
+		echo $tcms_html->subTitle($sidelinks_title)
+		.'<div style="height: 5px;"></div>';
 	}
 	
 	
 	
-	
-	
-	
-	
 	if($choosenDB == 'xml'){
-		$arr_filename = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_links/');
+		$arr_filename = $tcms_main->getPathContent($tcms_administer_site.'/tcms_links/');
 		$count = 0;
 		
-		if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
+		if($tcms_main->isArray($arr_filename)){
 			foreach($arr_filename as $key => $value){
 				$menu_xml = new xmlparser($tcms_administer_site.'/tcms_links/'.$value,'r');
-				$is_published = $menu_xml->read_section('link', 'published');
-				$is_category  = $menu_xml->read_section('link', 'type');
-				$is_sidebar   = $menu_xml->read_section('link', 'module');
+				$is_published = $menu_xml->readSection('link', 'published');
+				$is_category  = $menu_xml->readSection('link', 'type');
+				$is_sidebar   = $menu_xml->readSection('link', 'module');
 				
 				if($is_sidebar == false || !isset($is_sidebar) || $is_sidebar == '' || empty($is_sidebar)){
 					$is_sidebar = 3;
@@ -79,8 +80,8 @@ if($use_side_links == 1){
 				
 				if($is_published == 1 && $is_category == 'c' && ($is_sidebar == 1 || $is_sidebar == 3)){
 					$arrLink['tag'][$count]  = substr($value, 0, 32);
-					$arrLink['name'][$count] = $menu_xml->read_section('link', 'name');
-					$arrLink['sort'][$count] = $menu_xml->read_section('link', 'sort');
+					$arrLink['name'][$count] = $menu_xml->readSection('link', 'name');
+					$arrLink['sort'][$count] = $menu_xml->readSection('link', 'sort');
 					
 					if(!$arrLink['name'][$count]){ $arrLink['name'][$count] = ''; }
 					
@@ -106,27 +107,27 @@ if($use_side_links == 1){
 					unset($arrLinkItem);
 					unset($arr_filename);
 					
-					$arr_filename = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_links/');
+					$arr_filename = $tcms_main->getPathContent($tcms_administer_site.'/tcms_links/');
 					$count = 0;
 					
-					if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
+					if($tcms_main->isArray($arr_filename)){
 						foreach($arr_filename as $key => $value){
 							$menu_xml = new xmlparser($tcms_administer_site.'/tcms_links/'.$value,'r');
-							$is_published = $menu_xml->read_section('link', 'published');
-							$is_type      = $menu_xml->read_section('link', 'type');
-							$is_category  = $menu_xml->read_section('link', 'category');
-							$is_sidebar   = $menu_xml->read_section('link', 'module');
+							$is_published = $menu_xml->readSection('link', 'published');
+							$is_type      = $menu_xml->readSection('link', 'type');
+							$is_category  = $menu_xml->readSection('link', 'category');
+							$is_sidebar   = $menu_xml->readSection('link', 'module');
 							
 							if($is_sidebar == false || !isset($is_sidebar) || $is_sidebar == '' || empty($is_sidebar)){
 								$is_sidebar = 3;
 							}
 							
 							if($is_published == 1 && $is_type == 'l' && $is_category == $arrLink['tag'][$lKey] && ($is_sidebar == 1 || $is_sidebar == 3)){
-								$arrLinkItem['name'][$count] = $menu_xml->read_section('link', 'name');
-								$arrLinkItem['sort'][$count] = $menu_xml->read_section('link', 'sort');
-								$arrLinkItem['desc'][$count] = $menu_xml->read_section('link', 'desc');
-								$arrLinkItem['link'][$count] = $menu_xml->read_section('link', 'link_to');
-								$arrLinkItem['trgt'][$count] = $menu_xml->read_section('link', 'target');
+								$arrLinkItem['name'][$count] = $menu_xml->readSection('link', 'name');
+								$arrLinkItem['sort'][$count] = $menu_xml->readSection('link', 'sort');
+								$arrLinkItem['desc'][$count] = $menu_xml->readSection('link', 'desc');
+								$arrLinkItem['link'][$count] = $menu_xml->readSection('link', 'link_to');
+								$arrLinkItem['trgt'][$count] = $menu_xml->readSection('link', 'target');
 								
 								if(!$arrLinkItem['name'][$count]){ $arrLinkItem['name'][$count] = ''; }
 								if(!$arrLinkItem['desc'][$count]){ $arrLinkItem['desc'][$count] = ''; }
@@ -176,16 +177,22 @@ if($use_side_links == 1){
 		}
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix."links WHERE type='c' AND published=1 AND (module=3 OR module=1 OR module IS NULL) ORDER BY sort");
+		$sqlQR = $sqlAL->getAll(
+			$tcms_db_prefix."links "
+			."WHERE type='c' "
+			."AND published=1 "
+			."AND (module=3 OR module=1 OR module IS NULL) "
+			."ORDER BY sort"
+		);
 		
 		$count = 0;
 		
-		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
-			$arrLink['name'] = $sqlARR['name'];
-			$arrLink['tag']  = $sqlARR['uid'];
+		while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+			$arrLink['name'] = $sqlObj->name;
+			$arrLink['tag']  = $sqlObj->uid;
 			
 			if($arrLink['name'] == NULL){ $arrLink['name'] = ''; }
 			if($arrLink['tag']  == NULL){ $arrLink['tag']  = ''; }
@@ -195,13 +202,20 @@ if($use_side_links == 1){
 			
 			echo '<span class="text_normal" style="padding-left: 3px;"><strong>'.$arrLink['name'].'</strong></span><br />';
 			
-			$sqlQR2 = $sqlAL->sqlGetAll($tcms_db_prefix."links WHERE category='".$arrLink['tag']."' AND type='l' AND published=1 AND (module=3 OR module=1 OR module IS NULL) ORDER BY sort");
+			$sqlQR2 = $sqlAL->getAll(
+				$tcms_db_prefix."links "
+				."WHERE category='".$arrLink['tag']."' "
+				."AND type='l' "
+				."AND published=1 "
+				."AND (module=3 OR module=1 OR module IS NULL) "
+				."ORDER BY sort"
+			);
 			
-			while($sqlARR2 = $sqlAL->sqlFetchArray($sqlQR2)){
-				$arrLinkItem['name'] = $sqlARR2['name'];
-				$arrLinkItem['desc'] = $sqlARR2['desc'];
-				$arrLinkItem['link'] = $sqlARR2['link'];
-				$arrLinkItem['targ'] = $sqlARR2['target'];
+			while($sqlObj2 = $sqlAL->fetchObject($sqlQR2)){
+				$arrLinkItem['name'] = $sqlObj2->name;
+				$arrLinkItem['desc'] = $sqlObj2->desc;
+				$arrLinkItem['link'] = $sqlObj2->link;
+				$arrLinkItem['targ'] = $sqlObj2->target;
 				
 				if($arrLinkItem['name'] == NULL){ $arrLinkItem['name'] = ''; }
 				if($arrLinkItem['desc'] == NULL){ $arrLinkItem['desc'] = ''; }
@@ -231,10 +245,10 @@ if($use_side_links == 1){
 			
 			echo '<br />';
 			
-			$sqlAL->sqlFreeResult($sqlQR2);
+			$sqlAL->freeResult($sqlQR2);
 		}
 		
-		$sqlAL->sqlFreeResult($sqlQR);
+		$sqlAL->freeResult($sqlQR);
 	}
 	
 	

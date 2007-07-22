@@ -102,10 +102,19 @@ switch($k2CSS){
 		<?
 		include(_SIDE_MENU);
 		include(_FRONT_NEWS);
-		?>
-		<div class="categorylist"><? include(_CATEGORIES); ?></div>
-		<div class="categorylist"><? include(_MONTHVIEW); ?></div>
-		<?
+		
+		if($use_side_category == 1) {
+			echo '<div class="categorylist">';
+			include(_CATEGORIES);
+			echo '</div>';
+		}
+		
+		if($use_side_archives == 1) {
+			echo '<div class="categorylist">';
+			include(_MONTHVIEW);
+			echo '</div>';
+		}
+		
 		include(_SIDE_LINKS);
 		include(_LAST_IMAGES);
 		include(_LOGIN);

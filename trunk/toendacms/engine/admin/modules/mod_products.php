@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used for the products configuration
  * and the administration of all the products.
  *
- * @version 0.7.1
+ * @version 0.7.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -745,6 +745,7 @@ if($todo == 'show'){
 			.' action="admin.php?id_user='.$id_user.'&amp;site=mod_products" method="post">'
 			.'<input type="hidden" name="type" value="'.$arr_pro['type'][$key].'" />'
 			.'<input type="hidden" name="maintag" value="'.$arr_pro['uid'][$key].'" />'
+			.'<input type="hidden" name="new_category" value="'.$arr_pro['cat'][$key].'" />'
 			.'<input type="hidden" name="todo" value="save_item" />';
 			
 			if($choosenDB == 'xml') {
@@ -1424,7 +1425,7 @@ if($todo == 'edit') {
 		
 		// row
 		echo '<tr><td valign="top" width="'.$width.'">'
-		.'<strong class="tcms_bold">'._TABLE_PRICE.'</strong>'
+		.'<strong class="tcms_bold">'._TABLE_PRICE.' '._TABLE_PRICE_ADD.'</strong>'
 		.'</td><td valign="top">'
 		.'<input class="tcms_input_small" name="new_price" type="text" value="'.$wsPrice.'" />'
 		.'</td></tr>';
@@ -1802,13 +1803,13 @@ if($todo == 'save_item') {
 		$sqlQR = $sqlAL->updateOne(
 			$tcms_db_prefix.'products', 
 			$newSQLData, 
-			$maintag, true
+			$maintag
 		);
 	}
 	
 	echo '<script>'
 	.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_products'
-	.( $category != '' ? '&category='.$category : '' ).'\';'
+	.( $new_category != '' ? '&category='.$new_category : '' ).'\';'
 	.'</script>';
 }
 
@@ -2086,7 +2087,7 @@ if($todo == 'save') {
 				$tcms_db_prefix.'products', 
 				$newSQLColumns, 
 				$newSQLData, 
-				$maintag, true
+				$maintag
 			);
 		}
 		else {
@@ -2125,7 +2126,7 @@ if($todo == 'save') {
 	
 	echo '<script>'
 	.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_products'
-	.( $category != '' ? '&category='.$category : '' ).'\';'
+	.( $new_category != '' ? '&category='.$new_category : '' ).'\';'
 	.'</script>';
 }
 

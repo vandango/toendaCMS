@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a pathway.
  *
- * @version 0.5.2
+ * @version 0.5.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -36,8 +36,10 @@ if(isset($_GET['category'])){ $category = $_GET['category']; }
 if(isset($_GET['article'])){ $article = $_GET['article']; }
 if(isset($_GET['news'])){ $news = $_GET['news']; }
 if(isset($_GET['cat'])){ $cat = $_GET['cat']; }
+if(isset($_GET['cmd'])){ $cmd = $_GET['cmd']; }
 
 if(isset($_POST['news'])){ $news = $_POST['news']; }
+if(isset($_POST['cmd'])){ $cmd = $_POST['cmd']; }
 
 
 
@@ -376,29 +378,319 @@ switch($id){
 			PRODUCTS
 		*/
 		
-		if($action == 'showall' || !isset($action))
-			echo $_HOMEPATH.'&nbsp;'.$pathwayChar.'&nbsp;<span class="pathway">'.$pathway[$id].'</span>';
+		echo $_HOMEPATH;
 		
-		if($action == 'showone'){
-			if($choosenDB == 'xml'){
-				$down_xml = new xmlparser($tcms_administer_site.'/tcms_products/'.$category.'/folderinfo.xml','r');
-				$down_cat = $down_xml->readSection('folderinfo', 'name');
-				
-				$down_cat = $tcms_main->decodeText($down_cat, '2', $c_charset);
-			}
-			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-				
-				$sqlQR = $sqlAL->getOne($tcms_db_prefix.'products', $category);
-				$sqlARR = $sqlAL->fetchArray($sqlQR);
-				
-				$down_cat = $sqlARR['name'];
-				
-				$down_cat = $tcms_main->decodeText($down_cat, '2', $c_charset);
+		if(!isset($category) && !isset($article)) {
+			echo '&nbsp;'.$pathwayChar.'&nbsp;'
+			.'<span class="pathway">'.$products_title.'</span>';
+		}
+		
+		if(isset($category) || isset($article)) {
+			if(isset($article)) {
+				if($choosenDB == 'xml') {
+					/*$xml = new xmlparser($tcms_administer_site.'/tcms_knowledgebase/'.$article.'.xml','r');
+					
+					//$access_cat = $down_xml->readSection('faq', 'access');
+					
+					$arrFAQparent['type'] = $xml->readSection('faq', 'type');
+					$arrFAQparent['pub']  = $xml->readSection('faq', 'publish_state');
+					
+					if($arrFAQparent['type'] == 'a' && $arrFAQparent['pub'] == '2'){
+						$arrFAQparent['title']  = $xml->readSection('faq', 'title');
+						$arrFAQparent['parent'] = $xml->readSection('faq', 'parent');
+						$arrFAQparent['uid']    = substr($category, 0, 10);
+						
+						$arrFAQparent['title'] = $tcms_main->decodeText($arrFAQparent['title'], '2', $c_charset);
+						
+						if($arrFAQparent['parent'] != false && $arrFAQparent['parent'] != ''){
+							echo '&nbsp;'.$pathwayChar.'&nbsp;';
+						}
+						
+						echo $arrFAQparent['title'];
+					}*/
+				}
+				else {
+					switch($is_admin){
+						case 'Developer':
+						case 'Administrator':
+							$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
+							break;
+						
+						case 'User':
+						case 'Editor':
+						case 'Presenter':
+							$strAdd = " OR access = 'Protected' ) ";
+							break;
+						
+						default:
+							$strAdd = ' ) ';
+							break;
+					}
+					
+					$sqlSTRparent = "SELECT * "
+					."FROM ".$tcms_db_prefix."products "
+					."WHERE uid = '".$article."' "
+					."AND pub = 1 "
+					."AND sql_type = 'a' "
+					."AND ( access = 'Public' "
+					.$strAdd;
+					
+					$count = 0;
+					
+					$sqlQR = $sqlAL->query($sqlSTRparent);
+					
+					$sqlObj = $sqlAL->fetchObject($sqlQR);
+					
+					$category = $sqlObj->category;
+				}
 			}
 			
-			echo $_HOMEPATH.'&nbsp;'.$pathwayChar.'&nbsp;'.$arr_path[$id].'&nbsp;'.$pathwayChar.'&nbsp;<span class="pathway">'.$down_cat.'</span>';
+			if($choosenDB == 'xml') {
+				/*$count = 0;
+				
+				if($category != ''){
+					$xml = new xmlparser($tcms_administer_site.'/tcms_knowledgebase/'.$category.'.xml','r');
+					
+					//$access_cat = $down_xml->readSection('faq', 'access');
+					
+					$arrFAQparent['type'][$count] = $xml->readSection('faq', 'type');
+					$arrFAQparent['pub'][$count]  = $xml->readSection('faq', 'publish_state');
+				}
+				else{
+					$arrFAQparent['type'][$count] = 'c';
+					$arrFAQparent['pub'][$count]  = '2';
+				}
+				
+				if($arrFAQparent['type'][$count] == 'c' && $arrFAQparent['pub'][$count] == '2'){
+					if($category != ''){
+						$arrFAQparent['title'][$count]  = $xml->readSection('faq', 'title');
+						$arrFAQparent['parent'][$count] = $xml->readSection('faq', 'parent');
+						$arrFAQparent['uid'][$count]    = substr($category, 0, 10);
+						
+						// CHARSETS
+						$arrFAQparent['title'][$count] = $tcms_main->decodeText($arrFAQparent['title'][$count], '2', $c_charset);
+						
+						$checkCat = $xml->readSection('faq', 'category');
+						
+						$count++;
+					}
+					else{
+						$arrFAQparent['title'][$count]  = '';
+						$arrFAQparent['parent'][$count] = '';
+						$arrFAQparent['uid'][$count]    = '';
+						
+						$checkCat = '';
+					}
+					
+					while($checkCat != ''){
+						$xml = new xmlparser($tcms_administer_site.'/tcms_knowledgebase/'.$arrFAQparent['parent'][$count - 1].'.xml','r');
+						
+						$checkCat = $xml->readSection('faq', 'category');
+						$arrFAQparent['type'][$count]   = $xml->readSection('faq', 'type');
+						$arrFAQparent['pub'][$count]    = $xml->readSection('faq', 'publish_state');
+						
+						if($arrFAQparent['type'][$count] == 'c' && $arrFAQparent['pub'][$count] == '2'){
+							$arrFAQparent['title'][$count]  = $xml->readSection('faq', 'title');
+							$arrFAQparent['parent'][$count] = $xml->readSection('faq', 'parent');
+							$arrFAQparent['uid'][$count]    = substr($arrFAQparent['parent'][$count - 1], 0, 10);
+							
+							// CHARSETS
+							$arrFAQparent['title'][$count] = $tcms_main->decodeText($arrFAQparent['title'][$count], '2', $c_charset);
+							
+							//echo $count.' -> '.$arrFAQparent['parent'][$count].' -> '.$arrFAQparent['title'][$count].'<br>';
+							
+							$count++;
+							$checkFAQTitle = $count;
+						}
+					}
+				}*/
+			}
+			else {
+				switch($is_admin){
+					case 'Developer':
+					case 'Administrator':
+						$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
+						break;
+					
+					case 'User':
+					case 'Editor':
+					case 'Presenter':
+						$strAdd = " OR access = 'Protected' ) ";
+						break;
+					
+					default:
+						$strAdd = ' ) ';
+						break;
+				}
+				
+				$sqlSTRparent = "SELECT * "
+				."FROM ".$tcms_db_prefix."products "
+				."WHERE uid = '".$category."' "
+				."AND pub = 1 "
+				."AND sql_type = 'c' "
+				."AND ( access = 'Public' "
+				.$strAdd;
+				
+				$count = 0;
+				
+				$sqlQR = $sqlAL->query($sqlSTRparent);
+				$sqlNR = $sqlAL->getNumber($sqlQR);
+				
+				//echo '<b>'.$sqlNR.'<br>'.$sqlSTRparent.'</b><br><br>';
+				
+				while($sqlNR > 0) {
+					$sqlObj = $sqlAL->fetchObject($sqlQR);
+					
+					unset($sqlQR);
+					
+					$arrFAQparent['title'][$count]  = $sqlObj->name;
+					$arrFAQparent['uid'][$count]    = $sqlObj->uid;
+					$arrFAQparent['parent'][$count] = $sqlObj->category;
+					
+					if($arrFAQparent['title'][$count]  == NULL){ $arrFAQparent['title'][$count]  = ''; }
+					if($arrFAQparent['uid'][$count]    == NULL){ $arrFAQparent['uid'][$count]    = ''; }
+					if($arrFAQparent['parent'][$count] == NULL){ $arrFAQparent['parent'][$count] = ''; }
+					
+					// CHARSETS
+					$arrFAQparent['title'][$count] = $tcms_main->decodeText($arrFAQparent['title'][$count], '2', $c_charset);
+					
+					$sqlSTRparent = "SELECT * "
+					."FROM ".$tcms_db_prefix."products "
+					."WHERE uid = '".$arrFAQparent['parent'][$count]."' "
+					."AND pub = 1 "
+					."AND sql_type = 'c' "
+					."AND ( access = 'Public' "
+					.$strAdd;
+					
+					$sqlQR = $sqlAL->query($sqlSTRparent);
+					
+					$sqlNR = $sqlAL->getNumber($sqlQR);
+					
+					//echo $sqlNR.'<br>'.$sqlSTRparent.'<br><br>';
+					
+					$count++;
+					$checkFAQTitle = $count;
+				}
+			}
+			
+			if(!isset($checkFAQTitle)){ $checkFAQTitle = 1; }
+			
+			
+			echo '&nbsp;'.$pathwayChar.'&nbsp;';
+			
+			
+			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+			.'id=products&amp;s='.$s.'&amp;action=showall'
+			.( isset($cmd) ? '&amp;cmd='.$cmd : '' )
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
+			$link = $tcms_main->urlConvertToSEO($link);
+			
+			echo '<a class="pathway" href="'.$link.'">'.$products_title.'</a>';
+			
+			
+			for($i = ($checkFAQTitle - 1); $i >= 0; $i--) {
+				echo '&nbsp;'.$pathwayChar.'&nbsp;';
+				
+				if($i != 0) {
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id=products&amp;s='.$s.'&amp;action=showall'
+					.( isset($cmd) ? '&amp;cmd='.$cmd : '' )
+					.'&amp;category='.$arrFAQparent['uid'][$i]
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
+					$link = $tcms_main->urlConvertToSEO($link);
+					
+					echo '<a class="pathway" href="'.$link.'">'.$arrFAQparent['title'][$i].'</a>';
+				}
+				else{
+					if(isset($article)) {
+						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+						.'id=products&amp;s='.$s.'&amp;action=showall'
+						.( isset($cmd) ? '&amp;cmd='.$cmd : '' )
+						.'&amp;category='.$arrFAQparent['uid'][$i]
+						.( isset($lang) ? '&amp;lang='.$lang : '' );
+						$link = $tcms_main->urlConvertToSEO($link);
+						
+						echo '<a class="pathway" href="'.$link.'">'.$arrFAQparent['title'][$i].'</a>';
+						
+						//echo '&nbsp;/&nbsp;';
+					}
+					else{
+						echo $arrFAQparent['title'][$i];
+					}
+				}
+			}
+		}
+		
+		if(isset($article)) {
+			if($choosenDB == 'xml') {
+				/*$xml = new xmlparser($tcms_administer_site.'/tcms_knowledgebase/'.$article.'.xml','r');
+				
+				//$access_cat = $down_xml->readSection('faq', 'access');
+				
+				$arrFAQparent['type'] = $xml->readSection('faq', 'type');
+				$arrFAQparent['pub']  = $xml->readSection('faq', 'publish_state');
+				
+				if($arrFAQparent['type'] == 'a' && $arrFAQparent['pub'] == '2'){
+					$arrFAQparent['title']  = $xml->readSection('faq', 'title');
+					$arrFAQparent['parent'] = $xml->readSection('faq', 'parent');
+					$arrFAQparent['uid']    = substr($category, 0, 10);
+					
+					$arrFAQparent['title'] = $tcms_main->decodeText($arrFAQparent['title'], '2', $c_charset);
+					
+					if($arrFAQparent['parent'] != false && $arrFAQparent['parent'] != ''){
+						echo '&nbsp;'.$pathwayChar.'&nbsp;';
+					}
+					
+					echo $arrFAQparent['title'];
+				}*/
+			}
+			else {
+				switch($is_admin){
+					case 'Developer':
+					case 'Administrator':
+						$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
+						break;
+					
+					case 'User':
+					case 'Editor':
+					case 'Presenter':
+						$strAdd = " OR access = 'Protected' ) ";
+						break;
+					
+					default:
+						$strAdd = ' ) ';
+						break;
+				}
+				
+				$sqlSTRparent = "SELECT * "
+				."FROM ".$tcms_db_prefix."products "
+				."WHERE uid = '".$article."' "
+				."AND pub = 1 "
+				."AND sql_type = 'a' "
+				."AND ( access = 'Public' "
+				.$strAdd;
+				
+				$count = 0;
+				
+				$sqlQR = $sqlAL->query($sqlSTRparent);
+				
+				$sqlObj = $sqlAL->fetchObject($sqlQR);
+				
+				$arrFAQparent['title']  = $sqlObj->name;
+				$arrFAQparent['parent'] = $sqlObj->category;
+				
+				if($arrFAQparent['title']  == NULL){ $arrFAQparent['title']  = ''; }
+				if($arrFAQparent['parent'] == NULL){ $arrFAQparent['parent'] = ''; }
+				
+				// CHARSETS
+				$arrFAQparent['title'] = $tcms_main->decodeText($arrFAQparent['title'], '2', $c_charset);
+				
+				if($arrFAQparent['parent'] != null && $arrFAQparent['parent'] != '') {
+					echo '&nbsp;'.$pathwayChar.'&nbsp;';
+				}
+				
+				echo $arrFAQparent['title'];
+			}
 		}
 		break;
 	

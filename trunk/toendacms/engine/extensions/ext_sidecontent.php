@@ -23,12 +23,19 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the sidebar functionality.
  *
- * @version 0.5.0
+ * @version 0.5.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
  */
 
+
+
+
+
+// ----------------------------------------
+// INIT
+// ----------------------------------------
 
 if($use_sidebar == 1){
 	if($choosenDB == 'xml'){
@@ -41,10 +48,10 @@ if($use_sidebar == 1){
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		$sqlQR = $sqlAL->getOne($tcms_db_prefix.'sidebar_extensions', 'sidebar_extensions');
-		$sqlARR = $sqlAL->fetchArray($sqlQR);
+		$sqlObj = $sqlAL->fetchObject($sqlQR);
 		
-		$sidebar_title = $sqlARR['sidebar_title'];
-		$show_sbt      = $sqlARR['show_sidebar_title'];
+		$sidebar_title = $sqlObj->sidebar_title;
+		$show_sbt      = $sqlObj->show_sidebar_title;
 	}
 	
 	
@@ -53,8 +60,14 @@ if($use_sidebar == 1){
 
 
 
-if($cform_enabled == 1){
-	if($show_cisb == 1 && $id == 'contactform'){
+
+
+// ----------------------------------------
+// SIDEBAR CONTACTS
+// ----------------------------------------
+
+if($cform_enabled == 1) {
+	if($show_cisb == 1 && $id == 'contactform') {
 		echo $tcms_html->subTitle(_SIDE_CONTACTS).'<br />';
 		
 		if($choosenDB == 'xml'){
@@ -139,21 +152,25 @@ if($cform_enabled == 1){
 
 
 
-if($id != 'register' && $id != 'profile' && $id != 'polls'){
-	/**************************************
-	* load data from XML to sidebar
+
+
+// ----------------------------------------
+// SIDEBAR CONTENT
+// ----------------------------------------
+
+if($id != 'register' 
+&& $id != 'profile' 
+&& $id != 'polls'){
+	/*
+		PRODUCTS
 	*/
 	if($id == $products_id){
-		//===================================
-		// PRODUCTS
-		//===================================
-		
 		if($choosenDB == 'xml'){
 			$arr_products = $tcms_main->getPathContent($tcms_administer_site.'/tcms_products/');
 			
 			$count = 0;
 			
-			if(isset($arr_products) && !empty($arr_products) && $arr_products != ''){
+			/*if($tcms_main->isArray($arr_products)){
 				foreach($arr_products as $key => $value){
 					$menu_xml = new xmlparser($tcms_administer_site.'/tcms_products/'.$value.'/folderinfo.xml','r');
 					$chkAcc   = $menu_xml->readSection('folderinfo', 'access');
@@ -180,7 +197,19 @@ if($id != 'register' && $id != 'profile' && $id != 'polls'){
 						$count++;
 					}
 				}
-			}
+				
+				if(is_array($arr_art)){
+					array_multisort(
+						$arr_art['sort'], SORT_ASC, 
+						$arr_art['name'], SORT_ASC, 
+						$arr_art['date'], SORT_ASC, 
+						$arr_art['desc'], SORT_ASC, 
+						$arr_art['dir'], SORT_ASC, 
+						$arr_art['pub'], SORT_ASC, 
+						$arr_art['ac'], SORT_ASC
+					);
+				}
+			}*/
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -203,52 +232,31 @@ if($id != 'register' && $id != 'profile' && $id != 'polls'){
 					break;
 			}
 			
-			$sqlSTR = "SELECT * "
+			$sqlSTR = "SELECT uid, name, category "
 			."FROM ".$tcms_db_prefix."products "
-			."WHERE sql_type='d' "
+			."WHERE sql_type='c' "
 			."AND ( access = 'Public' "
 			.$strAdd
-			."ORDER BY sort DESC, date DESC, name DESC";
+			."ORDER BY name ASC, sort ASC";
 			
 			$sqlQR = $sqlAL->query($sqlSTR);
 			
 			$count = 0;
 			
-			while($sqlARR = $sqlAL->fetchArray($sqlQR)){
-				$arr_art['name'][$count]  = $sqlARR['name'];
-				$arr_art['date'][$count]  = $sqlARR['date'];
-				$arr_art['desc'][$count]  = $sqlARR['desc'];
-				$arr_art['sort'][$count]  = $sqlARR['sort'];
-				$arr_art['dir'][$count]   = $sqlARR['category'];
-				$arr_art['pub'][$count]   = $sqlARR['status'];
-				$arr_art['ac'][$count]    = $sqlARR['access'];
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+				$arr_art['uid'][$count]  = $sqlObj->uid;
+				$arr_art['name'][$count] = $sqlObj->name;
+				$arr_art['cat'][$count]  = $sqlObj->category;
 				
+				if($arr_art['uid'][$count]  == NULL){ $arr_art['uid'][$count]  = ''; }
 				if($arr_art['name'][$count] == NULL){ $arr_art['name'][$count] = ''; }
-				if($arr_art['date'][$count] == NULL){ $arr_art['date'][$count] = ''; }
-				if($arr_art['desc'][$count] == NULL){ $arr_art['desc'][$count] = ''; }
-				if($arr_art['sort'][$count] == NULL){ $arr_art['sort'][$count] = ''; }
-				if($arr_art['dir'][$count]  == NULL){ $arr_art['dir'][$count]  = ''; }
-				if($arr_art['pub'][$count]  == NULL){ $arr_art['pub'][$count]  = ''; }
-				if($arr_art['ac'][$count]   == NULL){ $arr_art['ac'][$count]   = ''; }
+				if($arr_art['cat'][$count]  == NULL){ $arr_art['cat'][$count]  = ''; }
 				
 				$arr_art['name'][$count] = $tcms_main->decodeText($arr_art['name'][$count], '2', $c_charset);
-				$arr_art['desc'][$count] = $tcms_main->decodeText($arr_art['desc'][$count], '2', $c_charset);
 				
 				$count++;
 				$check_products_amount = $count;
 			}
-		}
-		
-		if(is_array($arr_art)){
-			array_multisort(
-				$arr_art['sort'], SORT_ASC, 
-				$arr_art['name'], SORT_ASC, 
-				$arr_art['date'], SORT_ASC, 
-				$arr_art['desc'], SORT_ASC, 
-				$arr_art['dir'], SORT_ASC, 
-				$arr_art['pub'], SORT_ASC, 
-				$arr_art['ac'], SORT_ASC
-			);
 		}
 		
 		if($show_pro_ct == 1){
@@ -258,17 +266,35 @@ if($id != 'register' && $id != 'profile' && $id != 'polls'){
 		
 		echo '<div class="sidemain">';
 		
-		if($check_products_amount > 0){
-			foreach($arr_art['sort'] as $key => $value){
-				if($arr_art['pub'][$key] == 1){
+		if($check_products_amount > 0) {
+			foreach($arr_art['uid'] as $key => $value) {
+				//if($arr_art['cat'][$key] == '') {
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-					.'id=products&amp;s='.$s.'&amp;category='.$arr_art['dir'][$key]
+					.'id=products&amp;s='.$s
+					.'&ampaction=showall&amp:cmd=browse'
+					.'&amp;category='.$arr_art['dir'][$key]
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlConvertToSEO($link);
 					
-					echo '<strong class="text_normal"><a href="'.$link.'">'.$arr_art['name'][$key].'</a></strong><br />';
-					echo ( trim($arr_art['desc'][$key]) == '' ? '' : '<span class="text_small">'.$arr_art['desc'][$key].'</span><br />' );
-				}
+					echo '<strong class="text_normal">'
+					.'<a href="'.$link.'">'.$arr_art['name'][$key].'</a>'
+					.'</strong>'
+					.'<br />';
+					
+					/*$subElement = $tcms_main->getArrayElement(
+						$arr_art, 
+						'category', 
+						$arr_art['uid'][$key], 
+						'name'
+					);
+					
+					if($subElement != '') {
+						echo '<span class="text_normal">'
+						.'&nbsp;&nbsp;<a href="'.$link.'">'.$subElement.'</a>'
+						.'</span>'
+						.'<br />';
+					}*/
+				//}
 			}
 		}
 		
@@ -279,35 +305,42 @@ if($id != 'register' && $id != 'profile' && $id != 'polls'){
 	
 	
 	
-	
-	if($use_sidebar == 1){
-		if($show_sbt == 1){
-			if($id != 'contactform' && $id != 'products'){
-				if($choosenDB == 'xml'){
-					if(file_exists($tcms_administer_site.'/tcms_sidebar/'.$id.'.xml')){ $show_sbt_ever = true; }
-					else{ $show_sbt_ever = false; }
+	/*
+		STATIC CONTENT
+	*/
+	if($use_sidebar == 1) {
+		if($show_sbt == 1) {
+			if($id != 'contactform') {// && $id != 'products'){
+				if($choosenDB == 'xml') {
+					if(file_exists($tcms_administer_site.'/tcms_sidebar/'.$id.'.xml')) {
+						$show_sbt_ever = true;
+					}
+					else {
+						$show_sbt_ever = false;
+					}
 				}
 				else{
 					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					$sqlQR = $sqlAL->getAll($tcms_db_prefix."sidebar WHERE uid='".$id."'");
 					$sqlNR = $sqlAL->getNumber($sqlQR);
-					if($sqlNR != 0){ $show_sbt_ever = true; }
-					else{ $show_sbt_ever = false; }
+					
+					if($sqlNR != 0) {
+						$show_sbt_ever = true;
+					}
+					else {
+						$show_sbt_ever = false;
+					}
 				}
 				
-				if($show_sbt_ever == true){
+				if($show_sbt_ever == true) {
 					echo $tcms_html->subTitle($sidebar_title);
 				}
 			}
 		}
 		
 		
-		//===================================
-		// CONTENTS
-		//===================================
-		
-		if($choosenDB == 'xml'){
+		if($choosenDB == 'xml') {
 			if(file_exists($tcms_administer_site.'/tcms_sidebar/'.$id.'.xml')){
 				$sidexml = new xmlparser($tcms_administer_site.'/tcms_sidebar/'.$id.'.xml','r');
 				$sb_title   = $sidexml->readSection('side', 'title');
@@ -343,25 +376,25 @@ if($id != 'register' && $id != 'profile' && $id != 'polls'){
 				echo '<br /><br />';
 			}
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$sqlQR = $sqlAL->getOne($tcms_db_prefix.'sidebar', $id);
 			$sqlNR = $sqlAL->getNumber($sqlQR);
-			$sqlARR = $sqlAL->fetchArray($sqlQR);
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
 			
-			$sb_title   = $sqlARR['title'];
-			$sb_key     = $sqlARR['key'];
-			$sb_content = $sqlARR['content'];
-			$sb_foot    = $sqlARR['foot'];
+			$sb_title   = $sqlObj->title;
+			$sb_key     = $sqlObj->key;
+			$sb_content = $sqlObj->content;
+			$sb_foot    = $sqlObj->foot;
 			
 			if($sb_title   == NULL){ $sb_title   = ''; }
 			if($sb_key     == NULL){ $sb_key     = ''; }
 			if($sb_content == NULL){ $sb_content = ''; }
 			if($sb_foot    == NULL){ $sb_foot    = ''; }
 			
-			if($sqlNR > 0){
+			if($sqlNR > 0) {
 				// CHARSETS
 				$sb_title   = $tcms_main->decodeText($sb_title, '2', $c_charset);
 				$sb_key     = $tcms_main->decodeText($sb_key, '2', $c_charset);
@@ -386,7 +419,7 @@ if($id != 'register' && $id != 'profile' && $id != 'polls'){
 				echo ( $sb_foot != '' ? $sb_foot : '' );
 				echo '</div>';
 				
-				echo '<br /><br />';
+				echo '<br />';
 			}
 		}
 	}

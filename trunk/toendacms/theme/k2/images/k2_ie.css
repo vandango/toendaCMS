@@ -79,8 +79,7 @@ body {
 }
 
 .mainText img {
-	margin-left: 5px;
-	padding: 4px;
+	padding: 1px;
 }
 
 .mainTexth1, h1 { text-decoration: none; color: #444 !important; }
@@ -427,10 +426,104 @@ a.tcms_more:hover {
 
 
 /* ToendaSHOP */
-td.products_top{ border-bottom: 2px #9bb2b9 solid; font-size: 14px; padding-left: 4px; margin: 0px; text-align: left; }
-a.products_top, a.products_top:link, a.products_top:visited, a.products_top:active { color: #23598C; font-size: 14px; text-decoration: none; }
-a.products_top:hover { color: #000000; }
-.products_onetop{ padding-left: 4px; margin: 0px; text-align: left; }
+td.products_top {
+	border-bottom: 1px #9bb2b9 solid;
+	font-size: 14px;
+	padding-left: 4px;
+	margin: 0px;
+	text-align: left;
+}
+
+a.products_top, 
+a.products_top:link, 
+a.products_top:visited, 
+a.products_top:active {
+	color: #23598C;
+	font-size: 11px; 
+	text-decoration: none;
+}
+
+a.products_top:hover {
+	color: #000000;
+	text-decoration: underline;
+}
+
+.products_onetop {
+	padding-left: 4px;
+	margin: 0px;
+	text-align: left;
+}
+
+hr.products_tab_line {
+	border: 0px;
+	height: 1x;
+	background-color: #fff !important;
+	border-bottom: 1px #9bb2b9 solid;
+	display: block;
+	z-index: 100;
+	margin: -8px 0 0 0 !important;
+}
+
+a.products_tab,
+a.products_tab:link,
+a.products_tab:visited,
+a.products_tab:active {
+	border-bottom: 1px #9bb2b9 solid;
+	border-top: 1px #9bb2b9 solid;
+	border-right: 1px #9bb2b9 solid;
+	border-left: 1px #9bb2b9 solid;
+	
+	color: #23598C;
+	font-size: 11px;
+	text-decoration: none;
+	
+	margin: 0 3px 0px 3px !important;
+	padding: 1px 3px 1px 3px !important;
+	
+	z-index: 1000;
+}
+
+a.products_tab:hover {
+	border-bottom: 2px #fff solid;
+	
+	color: #23598C;
+	font-size: 11px;
+	text-decoration: none;
+	
+	z-index: 1000;
+}
+
+a.products_active_tab,
+a.products_active_tab:link,
+a.products_active_tab:visited,
+a.products_active_tab:active {
+	border-bottom: 1px #fff solid;
+	border-top: 1px #6a6f71 solid;
+	border-right: 1px #6a6f71 solid;
+	border-left: 1px #6a6f71 solid;
+	
+	color: #000;
+	font-size: 11px;
+	text-decoration: none;
+	
+	margin: 1px 3px 0px 3px !important;
+	padding: 1px 3px 1px 3px !important;
+	
+	z-index: 1000;
+}
+
+a.products_active_tab:hover {
+	border-bottom: 2px #fff solid;
+	border-top: 1px #6a6f71 solid;
+	border-right: 1px #6a6f71 solid;
+	border-left: 1px #6a6f71 solid;
+	
+	color: #6a6f71;
+	font-size: 11px;
+	text-decoration: none;
+	
+	z-index: 1000;
+}
 
 
 
@@ -507,81 +600,4 @@ a.products_top:hover { color: #000000; }
 	display: block;
 	float: right;
 	margin: -16px 5px 0 0;
-}
-
-
-
-/*
-	tcms shop
-*/
-
-hr.products_tab_line {
-	border: 0px;
-	height: 1x;
-	background-color: #fff !important;
-	border-bottom: 1px #9bb2b9 solid;
-	display: block;
-	z-index: 100;
-	margin: -6px 0 0 0 !important;
-}
-
-a.products_tab,
-a.products_tab:link,
-a.products_tab:visited,
-a.products_tab:active {
-	border-bottom: 1px #9bb2b9 solid;
-	border-top: 1px #9bb2b9 solid;
-	border-right: 1px #9bb2b9 solid;
-	border-left: 1px #9bb2b9 solid;
-	
-	color: #23598C;
-	font-size: 13px; 
-	text-decoration: none;
-	
-	margin: 0 3px -5px 3px !important;
-	padding: 1px 3px 1px 3px !important;
-	
-	z-index: 1000;
-}
-
-a.products_tab:hover {
-	border-bottom: 2px #fff solid;
-	
-	color: #23598C;
-	font-size: 13px;
-	text-decoration: none;
-	
-	z-index: 1000;
-}
-
-a.products_active_tab,
-a.products_active_tab:link,
-a.products_active_tab:visited,
-a.products_active_tab:active {
-	border-bottom: 1px #fff solid;
-	border-top: 1px #6a6f71 solid;
-	border-right: 1px #6a6f71 solid;
-	border-left: 1px #6a6f71 solid;
-	
-	color: #000;
-	font-size: 13px; 
-	text-decoration: none;
-	
-	margin: 1px 3px -5px 3px !important;
-	padding: 1px 3px 1px 3px !important;
-	
-	z-index: 1000;
-}
-
-a.products_active_tab:hover {
-	border-bottom: 2px #fff solid;
-	border-top: 1px #6a6f71 solid;
-	border-right: 1px #6a6f71 solid;
-	border-left: 1px #6a6f71 solid;
-	
-	color: #6a6f71;
-	font-size: 13px; 
-	text-decoration: none;
-	
-	z-index: 1000;
 }

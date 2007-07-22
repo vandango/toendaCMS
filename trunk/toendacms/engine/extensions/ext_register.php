@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the register functions.
  *
- * @version 0.5.5
+ * @version 0.5.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -66,7 +66,11 @@ if(!isset($cmd)){ $cmd = 'register'; }
 	retrieve a new password
 */
 if($cmd == 'lostpassword'){
-	echo $tcms_html->contentModuleHeader(_REG_LPW, '', _REG_LPWTEXT);
+	echo $tcms_html->contentModuleHeader(
+		_REG_LPW, 
+		'', 
+		_REG_LPWTEXT
+	);
 	
 	echo '<form action="'.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$id.'&amp;s='.$s.( isset($lang) ? '&amp;lang='.$lang : '' ).'" method="post">'
 	.'<input name="cmd" type="hidden" value="retrieve" />';
@@ -76,25 +80,27 @@ if($cmd == 'lostpassword'){
 	
 	
 	// row
-	echo '<table width="100%" cellpadding="0" cellspacing="0">';
+	echo $tcms_html->tableHead('1', '0', '0', '100%');
 	
 	
 	// row
-	echo '<tr height: 28px;"><td width="'.$width.'"><span class="text_normal">'._PERSON_USERNAME.'</span>'
+	echo '<tr height: 28px;"><td width="'.$width.'">'
+	.'<span class="text_normal">'._PERSON_USERNAME.'</span>'
 	.'</td><td>'
 	.'<input class="inputtext" style="width: '.$width2.'px;" name="fulluser2" type="text" value="" />'
 	.'</td></tr>';
 	
 	
 	// row
-	echo '<tr height: 28px;"><td width="'.$width.'"><span class="text_normal">'._PERSON_EMAIL.'</span>'
+	echo '<tr height: 28px;"><td width="'.$width.'">'
+	.'<span class="text_normal">'._PERSON_EMAIL.'</span>'
 	.'</td><td>'
 	.'<input class="inputtext" style="width: '.$width2.'px;" name="fullemail2" type="text" value="" />'
 	.'</td></tr>';
 	
 	
 	// table end
-	echo '</table>';
+	echo $tcms_html->tableEnd();
 	
 	
 	// end
@@ -312,123 +318,167 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 				$width2 = '150';
 				
 				
-				echo '<br />';
-				echo $tcms_html->userProfileTitle(_TABLE_GENERAL);
+				echo '<br />'
+				.$tcms_html->userProfileTitle(_TABLE_GENERAL);
 				//echo '<br />';
 				
 				
 				// table head
-				echo '<table width="100%" cellpadding="0" cellspacing="0">';
+				echo $tcms_html->tableHead('1', '0', '0', '100%');
 				
 				
 				// row
-				echo '<tr height: 28px;"><td width="'.$width.'">&nbsp;<span class="text_normal">'._PERSON_NAME.'</span></td>'
-				.'<td>&nbsp;<img src="'.$imagePath.'engine/images/dot_2.gif" border="0" />&nbsp;'
-				.'<input class="inputtext" style="width: '.$width2.'px;" name="fullname" type="text" value="" /></td></tr>';
+				echo '<tr height: 28px;"><td width="'.$width.'">'
+				.'&nbsp;<span class="text_normal">'._PERSON_NAME.'</span>'
+				.'</td><td>'
+				.'&nbsp;<img src="'.$imagePath.'engine/images/dot_2.gif" border="0" />&nbsp;'
+				.'<input class="inputtext" style="width: '.$width2.'px;" name="fullname" type="text" />'
+				//.'&nbsp;*&nbsp;'
+				.'</td></tr>';
 				
 				
 				// row
-				echo '<tr height: 28px;"><td width="'.$width.'">&nbsp;<span class="text_normal">'._PERSON_USERNAME.'</span></td>'
-				.'<td>&nbsp;<img src="'.$imagePath.'engine/images/dot_2.gif" border="0" />&nbsp;'
-				.'<input class="inputtext" style="width: '.$width2.'px;" name="fulluser" type="text" value="" /></td></tr>';
+				echo '<tr height: 28px;"><td width="'.$width.'">'
+				.'&nbsp;<span class="text_normal">'._PERSON_USERNAME.'</span>'
+				.'</td><td>'
+				.'&nbsp;<img src="'.$imagePath.'engine/images/dot_2.gif" border="0" />&nbsp;'
+				.'<input class="inputtext" style="width: '.$width2.'px;" name="fulluser" type="text" />'
+				.'</td></tr>';
 				
 				
 				// row
-				echo '<tr height: 28px;"><td width="'.$width.'">&nbsp;<span class="text_normal">'._PERSON_PASSWORD.'</span></td>'
-				.'<td>&nbsp;<img src="'.$imagePath.'engine/images/dot_2.gif" border="0" />&nbsp;'
-				.'<input class="inputtext" style="width: '.$width2.'px;" name="pass_md5" type="text" value="" /></td></tr>';
+				echo '<tr height: 28px;"><td width="'.$width.'">'
+				.'&nbsp;<span class="text_normal">'._PERSON_PASSWORD.'</span>'
+				.'</td><td>'
+				.'&nbsp;<img src="'.$imagePath.'engine/images/dot_2.gif" border="0" />&nbsp;'
+				.'<input class="inputtext" style="width: '.$width2.'px;" name="pass_md5" type="text" />'
+				.'</td></tr>';
 				
 				
 				// row
-				echo '<tr height: 28px;"><td width="'.$width.'">&nbsp;<span class="text_normal">'._PERSON_VPASSWORD.'</span></td>'
-				.'<td>&nbsp;<img src="'.$imagePath.'engine/images/dot_2.gif" border="0" />&nbsp;'
-				.'<input class="inputtext" style="width: '.$width2.'px;" name="v_pass_md5" type="text" value="" /></td></tr>';
+				echo '<tr height: 28px;"><td width="'.$width.'">'
+				.'&nbsp;<span class="text_normal">'._PERSON_VPASSWORD.'</span>'
+				.'</td><td>'
+				.'&nbsp;<img src="'.$imagePath.'engine/images/dot_2.gif" border="0" />&nbsp;'
+				.'<input class="inputtext" style="width: '.$width2.'px;" name="v_pass_md5" type="text" />'
+				.'</td></tr>';
 				
 				
 				$pass_md5 = substr(md5(microtime()),0,8);
-				//================================================
-				echo '<tr height: 28px;"><td colspan="2"><input  name="pass" type="hidden" value="'.$pass_md5.'" /></td></tr>';
-				echo '</table>';
-				
-				
-				echo '<br />';
-				echo tcms_html::user_gerneral(_TABLE_CONTACT);
-				echo '<br />';
-				
-				
-				// table head
-				echo '<table width="100%" cellpadding="0" cellspacing="0">';
-				
-				
-				// row
-				echo '<tr height: 28px;"><td width="'.$width.'">&nbsp;<span class="text_normal">'._PERSON_EMAIL.'</span></td>'
-				.'<td>&nbsp;<img src="'.$imagePath.'engine/images/dot_2.gif" border="0" />&nbsp;'
-				.'<input class="inputtext" style="width: '.$width2.'px;" name="fullemail" type="text" value="" /></td></tr>';
-				
-				
-				// row
-				echo '<tr height: 28px;"><td width="'.$width.'">&nbsp;<span class="text_normal">'._PERSON_WWW.'</span></td>'
-				.'<td>&nbsp;<img src="'.$imagePath.'engine/images/dot_3.gif" border="0" />&nbsp;'
-				.'<input class="inputtext" style="width: '.$width2.'px;" name="new_www" type="text" value="" /></td></tr>';
-				
-				
-				// row
-				echo '<tr height: 28px;"><td width="'.$width.'">&nbsp;<span class="text_normal">'._PERSON_ICQ.'</span></td>'
-				.'<td>&nbsp;<img src="'.$imagePath.'engine/images/dot_3.gif" border="0" />&nbsp;'
-				.'<input class="inputtext" style="width: '.$width2.'px;" name="new_icq" type="text" value="" /></td></tr>';
-				
-				
-				// row
-				echo '<tr height: 28px;"><td width="'.$width.'">&nbsp;<span class="text_normal">'._PERSON_AIM.'</span></td>'
-				.'<td>&nbsp;<img src="'.$imagePath.'engine/images/dot_3.gif" border="0" />&nbsp;'
-				.'<input class="inputtext" style="width: '.$width2.'px;" name="new_aim" type="text" value="" /></td></tr>';
-				
-				
-				// row
-				echo '<tr height: 28px;"><td width="'.$width.'">&nbsp;<span class="text_normal">'._PERSON_MSN.'</span></td>'
-				.'<td>&nbsp;<img src="'.$imagePath.'engine/images/dot_3.gif" border="0" />&nbsp;'
-				.'<input class="inputtext" style="width: '.$width2.'px;" name="new_msn" type="text" value="" /></td></tr>';
-				
-				
-				// row
-				echo '<tr height: 28px;"><td width="'.$width.'">&nbsp;<span class="text_normal">'._PERSON_YIM.'</span></td>'
-				.'<td>&nbsp;<img src="'.$imagePath.'engine/images/dot_3.gif" border="0" />&nbsp;'
-				.'<input class="inputtext" style="width: '.$width2.'px;" name="new_yim" type="text" value="" /></td></tr>';
+				echo '<tr height: 28px;"><td colspan="2">'
+				.'<input  name="pass" type="hidden" value="'.$pass_md5.'" />'
+				.'</td></tr>';
 				
 				
 				// table end
-				echo '</table>';
+				echo $tcms_html->tableEnd();
 				
 				
-				echo '<br />';
-				echo tcms_html::user_gerneral(_TABLE_PERSON);
-				echo '<br />';
+				echo '<br />'
+				.$tcms_html->userProfileTitle(_TABLE_CONTACT);
+				//echo '<br />';
 				
 				
 				// table head
-				echo '<table width="100%" cellpadding="0" cellspacing="0">';
+				echo $tcms_html->tableHead('1', '0', '0', '100%');
 				
 				
 				// row
-				echo '<tr height: 28px;"><td width="'.$width.'">&nbsp;<span class="text_normal">'._PERSON_LOCATION.'</span></td>'
-				.'<td>&nbsp;<img src="'.$imagePath.'engine/images/dot_3.gif" border="0" />&nbsp;'
-				.'<input class="inputtext" style="width: '.$width2.'px;" name="new_location" type="text" value="" /></td></tr>';
+				echo '<tr height: 28px;"><td width="'.$width.'">'
+				.'&nbsp;<span class="text_normal">'._PERSON_EMAIL.'</span>'
+				.'</td><td>'
+				.'&nbsp;<img src="'.$imagePath.'engine/images/dot_2.gif" border="0" />&nbsp;'
+				.'<input class="inputtext" style="width: '.$width2.'px;" name="fullemail" type="text" />'
+				.'</td></tr>';
 				
 				
 				// row
-				echo '<tr height: 28px;"><td width="'.$width.'">&nbsp;<span class="text_normal">'._PERSON_OCCUPATION.'</span></td>'
-				.'<td>&nbsp;<img src="'.$imagePath.'engine/images/dot_3.gif" border="0" />&nbsp;'
-				.'<input class="inputtext" style="width: '.$width2.'px;" name="new_occ" type="text" value="" /></td></tr>';
+				echo '<tr height: 28px;"><td width="'.$width.'">'
+				.'&nbsp;<span class="text_normal">'._PERSON_WWW.'</span>'
+				.'</td><td>'
+				.'&nbsp;<img src="'.$imagePath.'engine/images/dot_3.gif" border="0" />&nbsp;'
+				.'<input class="inputtext" style="width: '.$width2.'px;" name="new_www" type="text" />'
+				.'</td></tr>';
 				
 				
 				// row
-				echo '<tr height: 28px;"><td width="'.$width.'">&nbsp;<span class="text_normal">'._PERSON_HOBBY.'</span></td>'
-				.'<td>&nbsp;<img src="'.$imagePath.'engine/images/dot_3.gif" border="0" />&nbsp;'
-				.'<input class="inputtext" style="width: '.$width2.'px;" name="new_hobby" type="text" value="" /></td></tr>';
+				echo '<tr height: 28px;"><td width="'.$width.'">'
+				.'&nbsp;<span class="text_normal">'._PERSON_ICQ.'</span>'
+				.'</td><td>'
+				.'&nbsp;<img src="'.$imagePath.'engine/images/dot_3.gif" border="0" />&nbsp;'
+				.'<input class="inputtext" style="width: '.$width2.'px;" name="new_icq" type="text" />'
+				.'</td></tr>';
+				
+				
+				// row
+				echo '<tr height: 28px;"><td width="'.$width.'">'
+				.'&nbsp;<span class="text_normal">'._PERSON_AIM.'</span>'
+				.'</td><td>'
+				.'&nbsp;<img src="'.$imagePath.'engine/images/dot_3.gif" border="0" />&nbsp;'
+				.'<input class="inputtext" style="width: '.$width2.'px;" name="new_aim" type="text" />'
+				.'</td></tr>';
+				
+				
+				// row
+				echo '<tr height: 28px;"><td width="'.$width.'">'
+				.'&nbsp;<span class="text_normal">'._PERSON_MSN.'</span>'
+				.'</td><td>'
+				.'&nbsp;<img src="'.$imagePath.'engine/images/dot_3.gif" border="0" />&nbsp;'
+				.'<input class="inputtext" style="width: '.$width2.'px;" name="new_msn" type="text" />'
+				.'</td></tr>';
+				
+				
+				// row
+				echo '<tr height: 28px;"><td width="'.$width.'">'
+				.'&nbsp;<span class="text_normal">'._PERSON_YIM.'</span>'
+				.'</td><td>'
+				.'&nbsp;<img src="'.$imagePath.'engine/images/dot_3.gif" border="0" />&nbsp;'
+				.'<input class="inputtext" style="width: '.$width2.'px;" name="new_yim" type="text" />'
+				.'</td></tr>';
 				
 				
 				// table end
-				echo '</table>';
+				echo $tcms_html->tableEnd();
+				
+				
+				echo '<br />'
+				.$tcms_html->userProfileTitle(_TABLE_PERSON);
+				//echo '<br />';
+				
+				
+				// table head
+				echo $tcms_html->tableHead('1', '0', '0', '100%');
+				
+				
+				// row
+				echo '<tr height: 28px;"><td width="'.$width.'">'
+				.'&nbsp;<span class="text_normal">'._PERSON_LOCATION.'</span>'
+				.'</td><td>'
+				.'&nbsp;<img src="'.$imagePath.'engine/images/dot_3.gif" border="0" />&nbsp;'
+				.'<input class="inputtext" style="width: '.$width2.'px;" name="new_location" type="text" />'
+				.'</td></tr>';
+				
+				
+				// row
+				echo '<tr height: 28px;"><td width="'.$width.'">'
+				.'&nbsp;<span class="text_normal">'._PERSON_OCCUPATION.'</span>'
+				.'</td><td>'
+				.'&nbsp;<img src="'.$imagePath.'engine/images/dot_3.gif" border="0" />&nbsp;'
+				.'<input class="inputtext" style="width: '.$width2.'px;" name="new_occ" type="text" />'
+				.'</td></tr>';
+				
+				
+				// row
+				echo '<tr height: 28px;"><td width="'.$width.'">'
+				.'&nbsp;<span class="text_normal">'._PERSON_HOBBY.'</span>'
+				.'</td><td>'
+				.'&nbsp;<img src="'.$imagePath.'engine/images/dot_3.gif" border="0" />&nbsp;'
+				.'<input class="inputtext" style="width: '.$width2.'px;" name="new_hobby" type="text" />'
+				.'</td></tr>';
+				
+				
+				// table end
+				echo $tcms_html->tableEnd();
 				
 				
 				// end

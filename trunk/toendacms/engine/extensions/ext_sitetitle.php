@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used fore the site title.
  *
- * @version 0.4.0
+ * @version 0.4.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -530,37 +530,225 @@ switch($id){
 			PRODUCTS
 		*/
 		
-		if($action == 'showall' || !isset($action)){
-			echo _PATH_HOME;
-			echo '&nbsp;/&nbsp;';
-			echo $titleway[$id];
+		echo _PATH_HOME;
+		
+		if(!isset($category) && !isset($article)){
+			echo '&nbsp;/&nbsp;'.$products_title;
 		}
 		
-		if($action == 'showone'){
-			if($choosenDB == 'xml'){
-				$down_xml = new xmlparser($tcms_administer_site.'/tcms_products/'.$category.'/folderinfo.xml','r');
-				$down_cat = $down_xml->readSection('folderinfo', 'name');
-				
-				$down_cat = $tcms_main->decodeText($down_cat, '2', $c_charset);
-			}
-			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-				
-				$sqlQR = $sqlAL->getOne($tcms_db_prefix.'products', $category);
-				$sqlARR = $sqlAL->fetchArray($sqlQR);
-				
-				$down_cat = $sqlARR['name'];
-				
-				$down_cat = $tcms_main->decodeText($down_cat, '2', $c_charset);
+		if(isset($category) || isset($article)) {
+			if(isset($article)) {
+				if($choosenDB == 'xml') {
+					/*$xml = new xmlparser($tcms_administer_site.'/tcms_knowledgebase/'.$article.'.xml','r');
+					
+					//$access_cat = $down_xml->readSection('faq', 'access');
+					
+					$arrFAQparent['type'] = $xml->readSection('faq', 'type');
+					$arrFAQparent['pub']  = $xml->readSection('faq', 'publish_state');
+					
+					if($arrFAQparent['type'] == 'a' && $arrFAQparent['pub'] == '2'){
+						$arrFAQparent['title']  = $xml->readSection('faq', 'title');
+						$arrFAQparent['parent'] = $xml->readSection('faq', 'parent');
+						$arrFAQparent['uid']    = substr($category, 0, 10);
+						
+						$arrFAQparent['title'] = $tcms_main->decodeText($arrFAQparent['title'], '2', $c_charset);
+						
+						if($arrFAQparent['parent'] != false && $arrFAQparent['parent'] != ''){
+							echo '&nbsp;'.$pathwayChar.'&nbsp;';
+						}
+						
+						echo $arrFAQparent['title'];
+					}*/
+				}
+				else {
+					switch($is_admin){
+						case 'Developer':
+						case 'Administrator':
+							$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
+							break;
+						
+						case 'User':
+						case 'Editor':
+						case 'Presenter':
+							$strAdd = " OR access = 'Protected' ) ";
+							break;
+						
+						default:
+							$strAdd = ' ) ';
+							break;
+					}
+					
+					$sqlSTRparent = "SELECT * "
+					."FROM ".$tcms_db_prefix."products "
+					."WHERE uid = '".$article."' "
+					."AND pub = 1 "
+					."AND sql_type = 'a' "
+					."AND ( access = 'Public' "
+					.$strAdd;
+					
+					$count = 0;
+					
+					$sqlQR = $sqlAL->query($sqlSTRparent);
+					
+					$sqlObj = $sqlAL->fetchObject($sqlQR);
+					
+					$category = $sqlObj->category;
+				}
 			}
 			
-			echo _PATH_HOME;
-			echo '&nbsp;/&nbsp;';
-			echo $titleway[$id];
+			if($choosenDB == 'xml') {
+			}
+			else {
+				switch($is_admin) {
+					case 'Developer':
+					case 'Administrator':
+						$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
+						break;
+					
+					case 'User':
+					case 'Editor':
+					case 'Presenter':
+						$strAdd = " OR access = 'Protected' ) ";
+						break;
+					
+					default:
+						$strAdd = ' ) ';
+						break;
+				}
+				
+				$sqlSTRparent = "SELECT * "
+				."FROM ".$tcms_db_prefix."products "
+				."WHERE uid = '".$category."' "
+				."AND pub = 1 "
+				."AND sql_type = 'c' "
+				."AND ( access = 'Public' "
+				.$strAdd;
+				
+				$count = 0;
+				
+				$sqlQR = $sqlAL->query($sqlSTRparent);
+				$sqlNR = $sqlAL->getNumber($sqlQR);
+				
+				while($sqlNR > 0){
+					$sqlObj = $sqlAL->fetchObject($sqlQR);
+					
+					unset($sqlQR);
+					
+					$arrFAQparent['title'][$count]  = $sqlObj->name;
+					$arrFAQparent['uid'][$count]    = $sqlObj->uid;
+					$arrFAQparent['parent'][$count] = $sqlObj->category;
+					
+					if($arrFAQparent['title'][$count]  == NULL){ $arrFAQparent['title'][$count]  = ''; }
+					if($arrFAQparent['uid'][$count]    == NULL){ $arrFAQparent['uid'][$count]    = ''; }
+					if($arrFAQparent['parent'][$count] == NULL){ $arrFAQparent['parent'][$count] = ''; }
+					
+					// CHARSETS
+					$arrFAQparent['title'][$count] = $tcms_main->decodeText($arrFAQparent['title'][$count], '2', $c_charset);
+					
+					$sqlSTRparent = "SELECT * "
+					."FROM ".$tcms_db_prefix."products "
+					."WHERE uid = '".$arrFAQparent['parent'][$count]."' "
+					."AND pub = 1 "
+					."AND type = 'c' "
+					."AND ( access = 'Public' "
+					.$strAdd;
+					
+					$sqlQR = $sqlAL->query($sqlSTRparent);
+					
+					$sqlNR = $sqlAL->getNumber($sqlQR);
+					
+					$count++;
+					$checkFAQTitle = $count;
+				}
+			}
 			
-			echo '&nbsp;/&nbsp;';
-			echo $down_cat;
+			if(!isset($checkFAQTitle)){ $checkFAQTitle = 1; }
+			
+			
+			echo '&nbsp;/&nbsp;'
+			.$products_title;
+			
+			
+			if($choosenDB == 'xml') {
+			}
+			else {
+				for($i = ($checkFAQTitle - 1); $i >= 0; $i--){
+					echo '&nbsp;/&nbsp;';
+					
+					if($i != 0){
+						echo $arrFAQparent['title'][$i];
+					}
+					else{
+						if(isset($article)){
+							echo $arrFAQparent['title'][$i];
+							//.'&nbsp;/&nbsp;';
+						}
+						else{
+							echo $arrFAQparent['title'][$i];
+						}
+					}
+				}
+				
+				unset($arrFAQparent);
+			}
+		}
+		
+		if(isset($article)){
+			if($choosenDB == 'xml') {
+			}
+			else {
+				switch($is_admin){
+					case 'Developer':
+					case 'Administrator':
+						$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
+						break;
+					
+					case 'User':
+					case 'Editor':
+					case 'Presenter':
+						$strAdd = " OR access = 'Protected' ) ";
+						break;
+					
+					default:
+						$strAdd = ' ) ';
+						break;
+				}
+				
+				$sqlSTRparent = "SELECT * "
+				."FROM ".$tcms_db_prefix."products "
+				."WHERE uid = '".$article."' "
+				."AND pub = 1 "
+				."AND sql_type = 'a' "
+				."AND ( access = 'Public' "
+				.$strAdd;
+				
+				$count = 0;
+				
+				$sqlQR = $sqlAL->query($sqlSTRparent);
+				
+				$sqlObj = $sqlAL->fetchObject($sqlQR);
+				
+				$arrFAQparent['title']  = $sqlObj->name;
+				$arrFAQparent['parent'] = $sqlObj->category;
+				
+				if($arrFAQparent['title']  == NULL){ $arrFAQparent['title']  = ''; }
+				if($arrFAQparent['parent'] == NULL){ $arrFAQparent['parent'] = ''; }
+			}
+			
+			if($choosenDB == 'xml') {
+			}
+			else {
+				// CHARSETS
+				$arrFAQparent['title'][$count] = $tcms_main->decodeText($arrFAQparent['title'][$count], '2', $c_charset);
+				
+				if($arrFAQparent['parent'] != null && $arrFAQparent['parent'] != ''){
+					echo '&nbsp;/&nbsp;';
+				}
+				
+				echo $arrFAQparent['title'];
+				
+				unset($arrFAQparent);
+			}
 		}
 		break;
 	
