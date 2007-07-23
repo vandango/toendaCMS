@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 22. Juli 2007 um 16:26
+-- Erstellungszeit: 24. Juli 2007 um 00:49
 -- Server Version: 5.0.33
 -- PHP-Version: 5.2.1
 -- 
@@ -85,7 +85,7 @@ CREATE TABLE `blog_contactform` (
 -- 
 
 INSERT INTO `blog_contactform` (`uid`, `language`, `contact`, `show_contacts_in_sidebar`, `send_id`, `contacttitle`, `contactstamp`, `contacttext`, `access`, `enabled`, `use_adressbook`, `use_contact`, `show_contactemail`) VALUES ('contactform', 'english_EN', 'info@toenda.com', 0, 'contactform', 'Contact Us and ...', '... send us a message.', 'my contacttext&lt;br /&gt;\r\n', 'Public', 1, 1, 1, 1),
-('196716e11c5', 'germany_DE', 'info@toenda.com', 0, 'contactform', 'Kontaktformular', '', 'Und ein wenig Text ...\r\n', 'Public', 1, 0, 0, 0);
+('196716e11c5', 'germany_DE', 'info@toenda.com', 1, 'contactform', 'Kontaktformular', '', 'Und ein wenig Text ...\r\n', 'Public', 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -774,19 +774,19 @@ CREATE TABLE `blog_products` (
 -- Daten für Tabelle `blog_products`
 -- 
 
-INSERT INTO `blog_products` (`uid`, `name`, `product_number`, `factory`, `factory_url`, `desc`, `category`, `image1`, `date`, `price`, `price_tax`, `status`, `quantity`, `weight`, `sort`, `access`, `sql_type`, `image2`, `image3`, `image4`, `show_on_startpage`, `pub`, `parent`, `language`) VALUES ('13482fa849ab1b901ababf3e3fc0bbab', 'JobLight Jobportal Software', NULL, 'Toenda Software Development', 'http://www.toenda.com', NULL, '764f068e33673ecda7978c1a63b48294', NULL, '15.07.2007-16:42', NULL, NULL, 1, NULL, NULL, 2, 'Public', 'a', NULL, NULL, NULL, 1, 1, NULL, 'germany_DE'),
+INSERT INTO `blog_products` (`uid`, `name`, `product_number`, `factory`, `factory_url`, `desc`, `category`, `image1`, `date`, `price`, `price_tax`, `status`, `quantity`, `weight`, `sort`, `access`, `sql_type`, `image2`, `image3`, `image4`, `show_on_startpage`, `pub`, `parent`, `language`) VALUES ('13482fa849ab1b901ababf3e3fc0bbab', 'JobLight Jobportal Software', '', 'http://www.toenda.com', 'http://www.toenda.com', '', '2f10f7cf479f1c5c227452d45d8ad9d9', '', '15.07.2007-16:42', '-1', '0', 1, -1, '', 2, 'Public', 'a', '', '', '', 1, 1, '', 'germany_DE'),
 ('764f068e33673ecda7978c1a63b48294', 'test', NULL, NULL, NULL, '', '', NULL, '11.07.2007-21:49', NULL, NULL, 0, NULL, NULL, 1, 'Public', 'c', NULL, NULL, NULL, 0, 1, NULL, 'germany_DE'),
-('32acfdf114279d275709c2e277341b5c', 'toendaCMS', 't-8237-42', 'http://www.toenda.com', 'http://www.toenda.com', 'Open Source Content Management Framework\r\n', '', 'toendaCMS_box_104.jpg', '15.07.2007-16:42', '1199', '19', 1, -1, '', 4, 'Public', 'a', '', '', '', 1, 1, '', 'germany_DE'),
-('d71b909aa7d0f25fdb01a6afe6d5ac23', 'Zappr Photo Management', NULL, 'Toenda Software Development', 'http://www.toenda.com', NULL, NULL, NULL, '15.07.2007-16:42', NULL, NULL, 1, NULL, NULL, 3, 'Public', 'a', NULL, NULL, NULL, 1, 1, NULL, 'germany_DE'),
-('9593610a4bd7f9e0fa31753648a9d08b', 'test45 category78', '', '', '', 'blubberlutsch', '', '', '18.07.2007-00:28', '-1', '19', 0, -1, '', 2, 'Public', 'c', '', '', '', 0, 1, '', 'germany_DE'),
-('6031401fddf765e03ca0ec6261623cf6', 'Blubberlutsch', '777-123', 'www.hgmc.com', 'www.hgmc.com', '&lt;p&gt;\r\nManu Chao verbrachte seine Kindheit und Jugendzeit in &lt;a href__________&quot;http://de.wikipedia.org/wiki/Paris&quot; title__________&quot;Paris&quot;&gt;Paris&lt;/a&gt; als Sohn des &lt;a href__________&quot;http://de.wikipedia.org/wiki/Galicien&quot; title__________&quot;Galicien&quot;&gt;galizischen&lt;/a&gt; &lt;a href__________&quot;http://de.wikipedia.org/wiki/Journalist&quot; title__________&quot;Journalist&quot;&gt;Journalisten&lt;/a&gt; und &lt;a href__________&quot;http://de.wikipedia.org/wiki/Musiker&quot; title__________&quot;Musiker&quot;&gt;Musikers&lt;/a&gt; &lt;a class__________&quot;new&quot; href__________&quot;http://de.wikipedia.org/w/index.php?title__________Ram%C3%B3n_Chao&amp;action__________edit&quot; title__________&quot;Ram&oacute;n Chao&quot;&gt;Ram&oacute;n Chao&lt;/a&gt;, der von &lt;a class__________&quot;new&quot; href__________&quot;http://de.wikipedia.org/w/index.php?title__________Alessandro_Robecchi&amp;action__________edit&quot; title__________&quot;Alessandro Robecchi&quot;&gt;Alessandro Robecchi&lt;/a&gt;\r\nals &amp;bdquo;hochgebildeter Intellektueller und feinsinniger Berichterstatter\r\nder lateinamerikanischen Welt&amp;ldquo; bezeichnet wurde, auf. Seine &lt;a href__________&quot;http://de.wikipedia.org/wiki/Baskenland&quot; title__________&quot;Baskenland&quot;&gt;baskische&lt;/a&gt; Mutter &lt;a class__________&quot;new&quot; href__________&quot;http://de.wikipedia.org/w/index.php?title__________Felisa_Chao&amp;action__________edit&quot; title__________&quot;Felisa Chao&quot;&gt;Felisa Chao&lt;/a&gt; ist im k&uuml;nstlerischen Bereich t&auml;tig. Beide gingen ins &lt;a href__________&quot;http://de.wikipedia.org/wiki/Exil&quot; title__________&quot;Exil&quot;&gt;Exil&lt;/a&gt; nach Paris, um dem &lt;a href__________&quot;http://de.wikipedia.org/wiki/Faschismus&quot; title__________&quot;Faschismus&quot;&gt;faschistischen&lt;/a&gt; &lt;a href__________&quot;http://de.wikipedia.org/wiki/Regime&quot; title__________&quot;Regime&quot;&gt;Regime&lt;/a&gt; von &lt;a href__________&quot;http://de.wikipedia.org/wiki/Francisco_Franco&quot; title__________&quot;Francisco Franco&quot;&gt;General Franco&lt;/a&gt; zu entkommen. Sein j&uuml;ngerer Bruder &lt;a class__________&quot;new&quot; href__________&quot;http://de.wikipedia.org/w/index.php?title__________Antoine_Chao&amp;action__________edit&quot; title__________&quot;Antoine Chao&quot;&gt;Antoine Chao&lt;/a&gt; gr&uuml;ndete sp&auml;ter mit ihm zusammen die Band &lt;a href__________&quot;http://de.wikipedia.org/wiki/Mano_Negra&quot; title__________&quot;Mano Negra&quot;&gt;Mano Negra&lt;/a&gt;.\r\n&lt;/p&gt;\r\n&lt;p&gt;\r\nIn den Banlieues, den Pariser Vororten, spielte sich das Leben des\r\n1961 geborenen Manu Chao zweigleisig ab: Zum einen in der Familie, wo\r\nstets &lt;a href__________&quot;http://de.wikipedia.org/wiki/Spanische_Sprache&quot; title__________&quot;Spanische Sprache&quot;&gt;spanisch&lt;/a&gt;\r\ngesprochen wurde und die regelm&auml;&szlig;ig von lateinamerikanischen\r\nIntellektuellen, Schriftstellern und Musikern besucht wurde. Und zum\r\nanderen auf den Stra&szlig;en, in denen &lt;a href__________&quot;http://de.wikipedia.org/wiki/Franz%C3%B6sische_Sprache&quot; title__________&quot;Franz&ouml;sische Sprache&quot;&gt;franz&ouml;sisch&lt;/a&gt;\r\ngesprochen wurde und in denen die Br&uuml;der Chao einige ihrer sp&auml;teren\r\nBandmitglieder kennenlernten. Deren Eltern waren zu gro&szlig;en Teilen\r\nebenfalls vor dem Franco-Regime gefl&uuml;chtet oder aus finanziellen\r\nGr&uuml;nden von &lt;a href__________&quot;http://de.wikipedia.org/wiki/Lateinamerika&quot; title__________&quot;Lateinamerika&quot;&gt;Lateinamerika&lt;/a&gt;, &lt;a href__________&quot;http://de.wikipedia.org/wiki/Afrika&quot; title__________&quot;Afrika&quot;&gt;Afrika&lt;/a&gt; oder aus dem arabischsprachigen Raum nach S&egrave;vres immigriert.\r\n&lt;/p&gt;\r\n', '', '', '18.07.2007-00:32', '0,39', '19', 1, -1, '330g', 5, 'Public', 'a', '', '', '', 1, 1, '', 'germany_DE'),
-('b0b14e7381294e263b72a0c9d65b9f31', 'Coka Cola Zero', 'c-8521-45', 'www.coke.de', 'www.coke.de', '&lt;p&gt;\r\nCoca-Cola Zero erg&auml;nzt seit Juli 2006 das kalorienreduzierte bzw.\r\nzuckerfreie Produktsortiment von Coca-Cola in Deutschland. Coca-Cola\r\nZero ist ein Erfrischungsgetr&auml;nk, das echten Geschmack ohne Zucker\r\nbietet. Dank besonderer Geschmacks- kombinationen ist der Geschmack von\r\nCoca-Cola Zero sehr nahe an der klassischen Coke. \r\n&lt;/p&gt;\r\n&lt;p&gt;\r\nCoca-Cola Zero: Echter Geschmack und zero Zucker. \r\n&lt;/p&gt;\r\n', '', 'ccz.jpg', '18.07.2007-00:46', '38,50', '19', 1, -1, '330g', 6, 'Public', 'a', 'cczero.jpg', '', '', 1, 1, '', 'germany_DE'),
+('32acfdf114279d275709c2e277341b5c', 'toendaCMS', 't-8237-42', 'http://www.toenda.com', 'http://www.toenda.com', 'Open Source Content Management Framework\r\n', '2f10f7cf479f1c5c227452d45d8ad9d9', 'toendaCMS_box_104.jpg', '15.07.2007-16:42', '1199', '19', 1, -1, '', 4, 'Public', 'a', '', '', '', 1, 1, '', 'germany_DE'),
+('d71b909aa7d0f25fdb01a6afe6d5ac23', 'Zappr Photo Management', '', 'http://www.toenda.com', 'http://www.toenda.com', '', '2f10f7cf479f1c5c227452d45d8ad9d9', '', '15.07.2007-16:42', '-1', '0', 1, -1, '', 3, 'Public', 'a', '', '', '', 1, 1, '', 'germany_DE'),
+('9593610a4bd7f9e0fa31753648a9d08b', 'Coca Cola GmbH', '', '', '', 'blubberlutsch', '', '', '18.07.2007-00:28', '-1', '19', 0, -1, '', 2, 'Public', 'c', '', '', '', 0, 1, '', 'germany_DE'),
+('6031401fddf765e03ca0ec6261623cf6', 'Blubberlutsch', '777-123', 'www.hgmc.com', 'www.hgmc.com', '&lt;p&gt;\r\nManu Chao verbrachte seine Kindheit und Jugendzeit in &lt;a href__________&quot;http://de.wikipedia.org/wiki/Paris&quot; title__________&quot;Paris&quot;&gt;Paris&lt;/a&gt; als Sohn des &lt;a href__________&quot;http://de.wikipedia.org/wiki/Galicien&quot; title__________&quot;Galicien&quot;&gt;galizischen&lt;/a&gt; &lt;a href__________&quot;http://de.wikipedia.org/wiki/Journalist&quot; title__________&quot;Journalist&quot;&gt;Journalisten&lt;/a&gt; und &lt;a href__________&quot;http://de.wikipedia.org/wiki/Musiker&quot; title__________&quot;Musiker&quot;&gt;Musikers&lt;/a&gt; &lt;a class__________&quot;new&quot; href__________&quot;http://de.wikipedia.org/w/index.php?title__________Ram%C3%B3n_Chao&amp;action__________edit&quot; title__________&quot;Ram&oacute;n Chao&quot;&gt;Ram&oacute;n Chao&lt;/a&gt;, der von &lt;a class__________&quot;new&quot; href__________&quot;http://de.wikipedia.org/w/index.php?title__________Alessandro_Robecchi&amp;action__________edit&quot; title__________&quot;Alessandro Robecchi&quot;&gt;Alessandro Robecchi&lt;/a&gt;\r\nals &amp;bdquo;hochgebildeter Intellektueller und feinsinniger Berichterstatter\r\nder lateinamerikanischen Welt&amp;ldquo; bezeichnet wurde, auf. Seine &lt;a href__________&quot;http://de.wikipedia.org/wiki/Baskenland&quot; title__________&quot;Baskenland&quot;&gt;baskische&lt;/a&gt; Mutter &lt;a class__________&quot;new&quot; href__________&quot;http://de.wikipedia.org/w/index.php?title__________Felisa_Chao&amp;action__________edit&quot; title__________&quot;Felisa Chao&quot;&gt;Felisa Chao&lt;/a&gt; ist im k&uuml;nstlerischen Bereich t&auml;tig. Beide gingen ins &lt;a href__________&quot;http://de.wikipedia.org/wiki/Exil&quot; title__________&quot;Exil&quot;&gt;Exil&lt;/a&gt; nach Paris, um dem &lt;a href__________&quot;http://de.wikipedia.org/wiki/Faschismus&quot; title__________&quot;Faschismus&quot;&gt;faschistischen&lt;/a&gt; &lt;a href__________&quot;http://de.wikipedia.org/wiki/Regime&quot; title__________&quot;Regime&quot;&gt;Regime&lt;/a&gt; von &lt;a href__________&quot;http://de.wikipedia.org/wiki/Francisco_Franco&quot; title__________&quot;Francisco Franco&quot;&gt;General Franco&lt;/a&gt; zu entkommen. Sein j&uuml;ngerer Bruder &lt;a class__________&quot;new&quot; href__________&quot;http://de.wikipedia.org/w/index.php?title__________Antoine_Chao&amp;action__________edit&quot; title__________&quot;Antoine Chao&quot;&gt;Antoine Chao&lt;/a&gt; gr&uuml;ndete sp&auml;ter mit ihm zusammen die Band &lt;a href__________&quot;http://de.wikipedia.org/wiki/Mano_Negra&quot; title__________&quot;Mano Negra&quot;&gt;Mano Negra&lt;/a&gt;.\r\n&lt;/p&gt;\r\n&lt;p&gt;\r\nIn den Banlieues, den Pariser Vororten, spielte sich das Leben des\r\n1961 geborenen Manu Chao zweigleisig ab: Zum einen in der Familie, wo\r\nstets &lt;a href__________&quot;http://de.wikipedia.org/wiki/Spanische_Sprache&quot; title__________&quot;Spanische Sprache&quot;&gt;spanisch&lt;/a&gt;\r\ngesprochen wurde und die regelm&auml;&szlig;ig von lateinamerikanischen\r\nIntellektuellen, Schriftstellern und Musikern besucht wurde. Und zum\r\nanderen auf den Stra&szlig;en, in denen &lt;a href__________&quot;http://de.wikipedia.org/wiki/Franz%C3%B6sische_Sprache&quot; title__________&quot;Franz&ouml;sische Sprache&quot;&gt;franz&ouml;sisch&lt;/a&gt;\r\ngesprochen wurde und in denen die Br&uuml;der Chao einige ihrer sp&auml;teren\r\nBandmitglieder kennenlernten. Deren Eltern waren zu gro&szlig;en Teilen\r\nebenfalls vor dem Franco-Regime gefl&uuml;chtet oder aus finanziellen\r\nGr&uuml;nden von &lt;a href__________&quot;http://de.wikipedia.org/wiki/Lateinamerika&quot; title__________&quot;Lateinamerika&quot;&gt;Lateinamerika&lt;/a&gt;, &lt;a href__________&quot;http://de.wikipedia.org/wiki/Afrika&quot; title__________&quot;Afrika&quot;&gt;Afrika&lt;/a&gt; oder aus dem arabischsprachigen Raum nach S&egrave;vres immigriert.\r\n&lt;/p&gt;\r\n', '9593610a4bd7f9e0fa31753648a9d08b', '', '18.07.2007-00:32', '0,39', '19', 1, -1, '330g', 5, 'Public', 'a', '', '', '', 1, 1, '', 'germany_DE'),
+('b0b14e7381294e263b72a0c9d65b9f31', 'Coka Cola Zero', 'c-8521-45', 'www.coke.de', 'www.coke.de', 'Coca-Cola Zero erg&auml;nzt seit Juli 2006 das kalorienreduzierte bzw.\r\nzuckerfreie Produktsortiment von Coca-Cola in Deutschland. Coca-Cola\r\nZero ist ein Erfrischungsgetr&auml;nk, das echten Geschmack ohne Zucker\r\nbietet. Dank besonderer Geschmacks- kombinationen ist der Geschmack von\r\nCoca-Cola Zero sehr nahe an der klassischen Coke. \r\n&lt;br /&gt;\r\n&lt;br /&gt;\r\nCoca-Cola Zero: Echter Geschmack und zero Zucker. \r\n', '9593610a4bd7f9e0fa31753648a9d08b', 'ccz.jpg', '18.07.2007-00:46', '38,50', '19', 1, -1, '330g', 6, 'Public', 'a', 'cczero.jpg', 'mob52_1162570717.jpg', 'img_range_coke.jpg', 1, 1, '', 'germany_DE'),
 ('9ce205bb06430aa26747544161f08655', 'autos', '', '', '', '', '', '', '21.07.2007-23:47', '-1', '19', 0, -1, '', 7, 'Public', 'c', '', '', '', 0, 1, '', 'germany_DE'),
 ('6dc37aed94ab7733c5255686233b0574', 'doors', '', '', '', '', '', '', '21.07.2007-23:48', '-1', '19', 0, -1, '', 8, 'Public', 'c', '', '', '', 0, 1, '', 'germany_DE'),
 ('da0cbbdb230f2ed27e8ed92b38e92917', 'zipfelm&uuml;tzen', '', '', '', '', '', '', '21.07.2007-23:49', '-1', '19', 0, -1, '', 9, 'Public', 'c', '', '', '', 0, 1, '', 'germany_DE'),
-('93dfd10e552c3ed45a2c588e7ad0272e', 'sadasdas', '', '', '', 'sdasd\r\n', '', '', '22.07.2007-00:11', '-1', '19', 0, -1, '', 10, 'Public', 'a', '', '', '', 1, 1, '', 'germany_DE'),
-('45de263d00b4bb677f325848a132a9c2', 'dd', '', '', '', 'asdasdasd\r\n', '', '', '22.07.2007-00:12', '-1', '19', 1, -1, '', 11, 'Public', 'a', '', '', '', 1, 1, '', 'germany_DE'),
-('2f10f7cf479f1c5c227452d45d8ad9d9', 'dasd', '', '', '', 'asdsadsad', '764f068e33673ecda7978c1a63b48294', '', '22.07.2007-15:45', '-1', '19', 0, -1, '', 1, 'Public', 'c', '', '', '', 0, 1, '', 'germany_DE');
+('93dfd10e552c3ed45a2c588e7ad0272e', 'sadasdas', '', '', '', 'sdasd\r\n', 'da0cbbdb230f2ed27e8ed92b38e92917', '', '22.07.2007-00:11', '-1', '19', 0, -1, '', 10, 'Public', 'a', '', '', '', 1, 1, '', 'germany_DE'),
+('45de263d00b4bb677f325848a132a9c2', 'dd', '', '', '', 'asdasdasd\r\n', 'da0cbbdb230f2ed27e8ed92b38e92917', '', '22.07.2007-00:12', '-1', '19', 1, -1, '', 11, 'Public', 'a', '', '', '', 1, 1, '', 'germany_DE'),
+('2f10f7cf479f1c5c227452d45d8ad9d9', 'Toenda', '', '', '', 'asdsadsad', '', '', '22.07.2007-15:45', '-1', '19', 0, -1, '', 1, 'Public', 'c', '', '', '', 0, 1, '', 'germany_DE');
 
 -- --------------------------------------------------------
 
@@ -805,15 +805,17 @@ CREATE TABLE `blog_products_config` (
   `category_title` varchar(255) NOT NULL default '',
   `use_category_title` int(1) NOT NULL default '0',
   `show_price_only_users` tinyint(4) default NULL,
-  `startpagetitle` varchar(255) default NULL
+  `startpagetitle` varchar(255) default NULL,
+  `use_sidebar_categories` tinyint(4) NOT NULL default '1',
+  `max_latest_products` int(11) NOT NULL default '15'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- 
 -- Daten für Tabelle `blog_products_config`
 -- 
 
-INSERT INTO `blog_products_config` (`uid`, `language`, `products_id`, `products_title`, `products_stamp`, `products_text`, `category_state`, `category_title`, `use_category_title`, `show_price_only_users`, `startpagetitle`) VALUES ('products', 'germany_DE', 'products', 'Products', 'Lorem ipsum dolor', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer tellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam feugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio mauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris dolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\r\n', '', 'Product Categories', 1, 0, 'Aktuelle Angebot'),
-('f225076a', 'english_EN', 'products', 'sdfsdfsdf', 'sdfsdf', 'sdfsdfsdfsdf\r\n', 'test', 'sdfsdf', 1, 0, '');
+INSERT INTO `blog_products_config` (`uid`, `language`, `products_id`, `products_title`, `products_stamp`, `products_text`, `category_state`, `category_title`, `use_category_title`, `show_price_only_users`, `startpagetitle`, `use_sidebar_categories`, `max_latest_products`) VALUES ('products', 'germany_DE', 'products', 'Products', 'Lorem ipsum dolor', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer tellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam feugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio mauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris dolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\r\n', '', 'Product Categories', 1, 0, 'Aktuelle Angebot', 1, 15),
+('f225076a', 'english_EN', 'products', 'sdfsdfsdf', 'sdfsdf', 'sdfsdfsdfsdf\r\n', 'test', 'sdfsdf', 1, 0, '', 1, 15);
 
 -- --------------------------------------------------------
 
@@ -833,7 +835,7 @@ CREATE TABLE `blog_session` (
 -- 
 
 INSERT INTO `blog_session` (`uid`, `date`, `user`, `user_id`) VALUES ('a579eefac60b0139da98e972c19432dc', '1153685958', 'root', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff'),
-('a5b72afc9f9fbb13021ffe11e2d496d3', '1185104260', 'root', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff');
+('c12b607397c25b0d9d5a79d864374254', '1185210684', 'root', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff');
 
 -- --------------------------------------------------------
 
@@ -957,14 +959,14 @@ CREATE TABLE `blog_statistics` (
 -- Daten für Tabelle `blog_statistics`
 -- 
 
-INSERT INTO `blog_statistics` (`host`, `site_url`, `value`, `ip_uid`, `referrer`, `timestamp`) VALUES ('localhost', '/toendacms_svn/toendacms/', 12, 'a84573f07ee669969e4cc7b88b0f6c4b', 'http://localhost/toendacms_svn/', '2007-07-22 13:37:29'),
+INSERT INTO `blog_statistics` (`host`, `site_url`, `value`, `ip_uid`, `referrer`, `timestamp`) VALUES ('localhost', '/toendacms_svn/toendacms/', 13, 'a84573f07ee669969e4cc7b88b0f6c4b', 'http://localhost/toendacms_svn/', '2007-07-23 19:11:12'),
 ('localhost', '/toendacms_svn/toendacms/index.php/section:products/template:k2/lang:de', 2, 'a0cdf664ad4b7de524521df9a378629e', 'http://localhost/toendacms_svn/toendacms/', '2007-07-14 14:50:42'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html', 176, '4d22a521425317f0226508b3f9812534', 'http://localhost/toendacms_svn/toendacms/index.php/de/frontpage.html', '2007-07-22 15:08:35'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/contact.html', 6, 'c0e26a49eae98b0cff8342aa5902ea5b', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html', '2007-07-21 14:15:01'),
+('localhost', '/toendacms_svn/toendacms/index.php/de/products.html', 194, '4d22a521425317f0226508b3f9812534', 'http://localhost/toendacms_svn/toendacms/index.php/de/contact.html', '2007-07-24 00:46:47'),
+('localhost', '/toendacms_svn/toendacms/index.php/de/contact.html', 9, 'c0e26a49eae98b0cff8342aa5902ea5b', 'http://localhost/toendacms_svn/toendacms/index.php/de/frontpage.html', '2007-07-24 00:44:05'),
 ('localhost', '/toendacms_svn/toendacms/index.php/en/products.html', 1, 'a5b068f6649021a1a859e1656e9b645b', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html', '2007-07-14 21:03:37'),
 ('localhost', '/toendacms_svn/toendacms/index.php/nl/products.html', 1, '8621a52928b1fb24fc5e63e6b6e90f55', 'http://localhost/toendacms_svn/toendacms/index.php/en/products.html', '2007-07-14 21:03:39'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse', 188, '426a7666ff4aab21513aa810e8ab2cdd', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse&category=2f10f7cf479f1c5c227452d45d8ad9d9', '2007-07-22 16:25:09'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/frontpage.html', 46, '4a47ecce2e92bd4ba9cce60f11874b3b', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showone&article=b0b14e7381294e263b72a0c9d65b9f31', '2007-07-22 16:25:16'),
+('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse', 200, '426a7666ff4aab21513aa810e8ab2cdd', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html', '2007-07-24 00:46:54'),
+('localhost', '/toendacms_svn/toendacms/index.php/de/frontpage.html', 49, '4a47ecce2e92bd4ba9cce60f11874b3b', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showone&article=b0b14e7381294e263b72a0c9d65b9f31', '2007-07-24 00:48:03'),
 ('localhost', '/toendacms_svn/toendacms/index.php/de/news.html?news=90ac2e39eb', 59, 'b9a80edb7130d2ab89a53e1b01faebcb', 'http://localhost/toendacms_svn/toendacms/index.php/de/frontpage.html', '2007-07-22 14:48:30'),
 ('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showone&article=13482fa849ab1b901ababf3e3fc0bbab', 17, '7f058f8273d5e768001db28dfc38bff8', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse&category=764f068e33673ecda7978c1a63b48294', '2007-07-22 15:35:22'),
 ('localhost', '/toendacms_svn/toendacms/index.php/de/engine/js/lightbox/images/closelabel.gif', 1, '2dfe93296e35b9201a4b2f9758667180', 'http://localhost/toendacms_svn/toendacms/index.php/de/news.html?news=90ac2e39eb', '2007-07-15 02:40:34'),
@@ -972,30 +974,41 @@ INSERT INTO `blog_statistics` (`host`, `site_url`, `value`, `ip_uid`, `referrer`
 ('localhost', '/toendacms_svn/toendacms/index.php/de/images/loading.gif', 8, 'c7cecdcd46d877fcf1f906ab4814e0b5', 'http://localhost/toendacms_svn/toendacms/index.php/de/news.html?news=90ac2e39eb', '2007-07-15 02:23:53'),
 ('localhost', '/toendacms_svn/toendacms/index.php/de/engine/js/lightbox/images/loading.gif', 1, '17f658782466bbd78e35b4ce6f6547ad', 'http://localhost/toendacms_svn/toendacms/index.php/de/news.html?news=90ac2e39eb', '2007-07-15 02:25:37'),
 ('localhost', '/toendacms_svn/toendacms/index.php/de/closelabel.gif', 3, '2b132273c7964b41a5601049a941cba4', 'http://localhost/toendacms_svn/toendacms/index.php/de/news.html?news=90ac2e39eb', '2007-07-15 02:43:24'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=offers', 93, '63a1b92ef572ffbf523db284e4405863', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse', '2007-07-22 16:11:08'),
+('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=offers', 99, '63a1b92ef572ffbf523db284e4405863', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse', '2007-07-24 00:47:40'),
 ('localhost', '/toendacms_svn/toendacms/index.php/de/news.html', 14, 'a5227af2c49fb901f9b239c3150a487e', 'http://localhost/toendacms_svn/toendacms/index.php/de/frontpage.html', '2007-07-21 14:14:46'),
 ('localhost', '/toendacms_svn/toendacms/index.php/de/news.html?news=archive', 8, 'bb015c782df94918ea06163483b682ac', 'http://localhost/toendacms_svn/toendacms/index.php/de/news.html?news=archive&cmd=category', '2007-07-18 01:27:04'),
 ('localhost', '/toendacms_svn/toendacms/index.php/de/news.html?news=archive&cmd=category', 15, 'a499da6798767e9ef98af0d350eee3ab', 'http://localhost/toendacms_svn/toendacms/index.php/de/news.html?news=archive', '2007-07-18 01:27:08'),
 ('localhost', '/toendacms_svn/toendacms/index.php/en/news.html', 1, '4d49ab4e698facfaa7fa4f15f94bd252', 'http://localhost/toendacms_svn/toendacms/index.php/de/news.html?news=archive&cmd=category', '2007-07-18 01:24:34'),
 ('localhost', '/toendacms_svn/toendacms/index.php/de/guestbook.html', 1, '1e36e7539f47da63985a033b26f620a2', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse', '2007-07-19 23:20:10'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showone&article=b0b14e7381294e263b72a0c9d65b9f31', 44, 'ba53a180993a4fc7fb084b46bec7b7ef', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse', '2007-07-22 16:25:12'),
+('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showone&article=b0b14e7381294e263b72a0c9d65b9f31', 77, 'ba53a180993a4fc7fb084b46bec7b7ef', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=offers', '2007-07-24 00:47:47'),
 ('localhost', '/toendacms_svn/toendacms/index.php/en/news.html?news=archive&cmd=category', 1, 'c9c5c03f05c47a7c94abc394166b65a7', 'http://localhost/toendacms_svn/toendacms/index.php/en/news.html', '2007-07-18 01:24:39'),
 ('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showone&article=6031401fddf765e03ca0ec6261623cf6', 11, 'ee35f40171c79c69a15ed5640897ba1d', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=offers', '2007-07-20 00:11:50'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showone&article=32acfdf114279d275709c2e277341b5c', 6, 'b8a74731df6ff25d7df998acd6f49b96', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=offers', '2007-07-22 15:22:43'),
+('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showone&article=32acfdf114279d275709c2e277341b5c', 7, 'b8a74731df6ff25d7df998acd6f49b96', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=offers', '2007-07-24 00:13:34'),
 ('localhost', '/toendacms_svn/toendacms/index.php/de/gallery.html?albums=3fe4cb', 1, '6c133e844d47d3a6b8a4610979515e49', 'http://localhost/toendacms_svn/toendacms/index.php/de/gallery.html', '2007-07-21 15:12:00'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showall&category=9593610a4bd7f9e0fa31753648a9d08b', 1, 'c6d433ad1c4abae569742d044e8711c7', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse', '2007-07-20 01:02:08'),
+('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showall&category=9593610a4bd7f9e0fa31753648a9d08b', 4, 'c6d433ad1c4abae569742d044e8711c7', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showone&article=b0b14e7381294e263b72a0c9d65b9f31', '2007-07-24 00:03:23'),
 ('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showone&article=45de263d00b4bb677f325848a132a9c2', 1, '32f62133019e9e59e218310ca11fcccc', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html', '2007-07-22 14:31:09'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse&category=9593610a4bd7f9e0fa31753648a9d08b', 3, '222b9ad1d9f120df613f27499ca25b3d', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse', '2007-07-21 23:59:20'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse&category=764f068e33673ecda7978c1a63b48294', 19, 'efaf1a0d9285d82864e66b0034922307', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse', '2007-07-22 16:25:01'),
+('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse&category=9593610a4bd7f9e0fa31753648a9d08b', 6, '222b9ad1d9f120df613f27499ca25b3d', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showone&article=b0b14e7381294e263b72a0c9d65b9f31', '2007-07-24 00:13:56'),
+('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse&category=764f068e33673ecda7978c1a63b48294', 20, 'efaf1a0d9285d82864e66b0034922307', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse', '2007-07-22 17:48:24'),
 ('localhost', '/toendacms_svn/toendacms/index.php/de/download.html', 4, '11d211092a423cea1d7acd6240018183', 'http://localhost/toendacms_svn/toendacms/index.php/de/gallery.html', '2007-07-21 14:14:52'),
 ('localhost', '/toendacms_svn/toendacms/index.php/de/gallery.html', 7, '5389a6b1b1f7d737da925e1b0f772c07', 'http://localhost/toendacms_svn/toendacms/index.php/de/gallery.html?albums=3fe4cb', '2007-07-21 15:12:22'),
 ('localhost', '/toendacms_svn/toendacms/index.php/de/register.html', 21, 'a96b61be92c40858c8af2bb7ef9f7ab1', 'http://localhost/toendacms_svn/toendacms/index.php/de/news.html?news=90ac2e39eb', '2007-07-22 15:01:51'),
 ('localhost', '/toendacms_svn/toendacms/index.php/de/register.html?cmd=lostpassword', 3, 'd2c1a2f84929d5404ccdca6e361044d0', 'http://localhost/toendacms_svn/toendacms/index.php/de/register.html', '2007-07-22 15:03:18'),
 ('localhost', '/toendacms_svn/toendacms/index.php/de/profile.html?action=list', 2, '34e2b40582847652f2f9fa2e5fb07e00', 'http://localhost/toendacms_svn/toendacms/index.php/de/register.html', '2007-07-22 15:02:08'),
 ('localhost', '/toendacms_svn/toendacms/index.php/de/18e2a.html', 32, 'de672bfa0a98de09d2a0029cfe57713c', 'http://localhost/toendacms_svn/toendacms/index.php/de/register.html?cmd=lostpassword', '2007-07-22 15:03:57'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse&category=2f10f7cf479f1c5c227452d45d8ad9d9', 1, '9df7802eed7db848790aebccb805f456', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse&category=764f068e33673ecda7978c1a63b48294', '2007-07-22 16:25:04'),
+('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse&category=2f10f7cf479f1c5c227452d45d8ad9d9', 2, '9df7802eed7db848790aebccb805f456', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse', '2007-07-22 17:52:19'),
 ('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showall&category=764f068e33673ecda7978c1a63b48294', 1, 'b1b3348fe38940419e3eba30483693b6', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showone&article=13482fa849ab1b901ababf3e3fc0bbab', '2007-07-22 15:27:59'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showall', 3, '4156ef51a5c530bbaf1e321520958b28', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showone&article=b0b14e7381294e263b72a0c9d65b9f31', '2007-07-22 15:35:40');
+('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showall', 4, '4156ef51a5c530bbaf1e321520958b28', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showone&article=b0b14e7381294e263b72a0c9d65b9f31', '2007-07-22 17:53:24'),
+('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?ampaction=showall&amp:cmd=browse&category=', 2, '0c8a2eab0cc19542d55941943af924c7', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse', '2007-07-22 16:44:24'),
+('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?ampaction=showall&cmd=browse&category=764f068e33673ecda7978c1a63b48294', 1, '720c3152fa00e3898771b52a65499c19', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?ampaction=showall&amp:cmd=browse&category=', '2007-07-22 16:44:28'),
+('localhost', '/toendacms_svn/toendacms/?', 14, 'b62d8e8d2d282b232167dd98b335512c', 'http://localhost/toendacms_svn/toendacms/?', '2007-07-22 16:55:17'),
+('localhost', '/toendacms_svn/toendacms/index.php/products.html?action=showall&category=9593610a4bd7f9e0fa31753648a9d08b', 1, '72c1d65d9bfc1004a912cc41e78ac2bc', 'http://localhost/toendacms_svn/toendacms/?', '2007-07-22 16:54:29'),
+('localhost', '/toendacms_svn/toendacms/index.php/products.html?action=showone&article=b0b14e7381294e263b72a0c9d65b9f31', 1, '02368e01ea9cac14bd8789229015c704', 'http://localhost/toendacms_svn/toendacms/?', '2007-07-22 16:55:00'),
+('localhost', '/toendacms_svn/toendacms/index.php/products.html?action=showall&cmd=browse&category=9593610a4bd7f9e0fa31753648a9d08b', 1, '80968a84a7377771e6c46c90f84f2705', 'http://localhost/toendacms_svn/toendacms/?', '2007-07-22 16:55:07'),
+('localhost', '/toendacms_svn/toendacms/index.php/products.html?action=showall&cmd=browse&category=764f068e33673ecda7978c1a63b48294', 1, 'b1a3b87155b509c46a30f1069ea702f4', 'http://localhost/toendacms_svn/toendacms/?', '2007-07-22 16:55:21'),
+('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showone&article=b0b14e7381294e263b72a0c9d65b9f31/template/printer', 2, 'a2593285b1ee64aeff22e5eed876f41b', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showone&article=b0b14e7381294e263b72a0c9d65b9f31', '2007-07-22 17:23:59'),
+('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=latest', 11, 'b1a2df096ca8e1cbb4ffea732e873543', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse&category=9593610a4bd7f9e0fa31753648a9d08b', '2007-07-24 00:14:02'),
+('localhost', '/toendacms_svn/toendacms/?id=contactform&item=adressbook&lang=de', 1, 'cea2fb3618fe135814a39c6a6fa590a1', 'http://localhost/toendacms_svn/toendacms/index.php/de/contact.html', '2007-07-24 00:43:49'),
+('localhost', '/toendacms_svn/toendacms/index.php/de/contact.html?contact_email=max@musterman.com', 1, 'c167b97146bc22a4cb4d4c268a5ce2df', 'http://localhost/toendacms_svn/toendacms/?id=contactform&s=biz&item=adressbook&lang=de', '2007-07-24 00:43:52');
 
 -- --------------------------------------------------------
 
@@ -1013,13 +1026,13 @@ CREATE TABLE `blog_statistics_ip` (
 -- Daten für Tabelle `blog_statistics_ip`
 -- 
 
-INSERT INTO `blog_statistics_ip` (`uid`, `ip`, `value`) VALUES ('a84573f07ee669969e4cc7b88b0f6c4b', '127.0.0.1', 12),
+INSERT INTO `blog_statistics_ip` (`uid`, `ip`, `value`) VALUES ('a84573f07ee669969e4cc7b88b0f6c4b', '127.0.0.1', 13),
 ('a0cdf664ad4b7de524521df9a378629e', '127.0.0.1', 3),
-('4d22a521425317f0226508b3f9812534', '127.0.0.1', 13),
-('c0e26a49eae98b0cff8342aa5902ea5b', '127.0.0.1', 11),
+('4d22a521425317f0226508b3f9812534', '127.0.0.1', 14),
+('c0e26a49eae98b0cff8342aa5902ea5b', '127.0.0.1', 14),
 ('a5b068f6649021a1a859e1656e9b645b', '127.0.0.1', 1),
 ('8621a52928b1fb24fc5e63e6b6e90f55', '127.0.0.1', 1),
-('4a47ecce2e92bd4ba9cce60f11874b3b', '127.0.0.1', 13),
+('4a47ecce2e92bd4ba9cce60f11874b3b', '127.0.0.1', 14),
 ('b9a80edb7130d2ab89a53e1b01faebcb', '127.0.0.1', 13),
 ('cf3ca668c92f1f76dd18feab3b22e728', '127.0.0.1', 6),
 ('c7cecdcd46d877fcf1f906ab4814e0b5', '127.0.0.1', 6),
@@ -1027,8 +1040,8 @@ INSERT INTO `blog_statistics_ip` (`uid`, `ip`, `value`) VALUES ('a84573f07ee6699
 ('2dfe93296e35b9201a4b2f9758667180', '127.0.0.1', 1),
 ('2b132273c7964b41a5601049a941cba4', '127.0.0.1', 6),
 ('7f058f8273d5e768001db28dfc38bff8', '127.0.0.1', 13),
-('426a7666ff4aab21513aa810e8ab2cdd', '127.0.0.1', 13),
-('63a1b92ef572ffbf523db284e4405863', '127.0.0.1', 13),
+('426a7666ff4aab21513aa810e8ab2cdd', '127.0.0.1', 14),
+('63a1b92ef572ffbf523db284e4405863', '127.0.0.1', 14),
 ('a5227af2c49fb901f9b239c3150a487e', '127.0.0.1', 11),
 ('bb015c782df94918ea06163483b682ac', '127.0.0.1', 8),
 ('a499da6798767e9ef98af0d350eee3ab', '127.0.0.1', 8),
@@ -1036,9 +1049,9 @@ INSERT INTO `blog_statistics_ip` (`uid`, `ip`, `value`) VALUES ('a84573f07ee6699
 ('c9c5c03f05c47a7c94abc394166b65a7', '127.0.0.1', 1),
 ('1e36e7539f47da63985a033b26f620a2', '127.0.0.1', 1),
 ('ee35f40171c79c69a15ed5640897ba1d', '127.0.0.1', 10),
-('ba53a180993a4fc7fb084b46bec7b7ef', '127.0.0.1', 13),
-('c6d433ad1c4abae569742d044e8711c7', '127.0.0.1', 1),
-('222b9ad1d9f120df613f27499ca25b3d', '127.0.0.1', 12),
+('ba53a180993a4fc7fb084b46bec7b7ef', '127.0.0.1', 14),
+('c6d433ad1c4abae569742d044e8711c7', '127.0.0.1', 14),
+('222b9ad1d9f120df613f27499ca25b3d', '127.0.0.1', 14),
 ('efaf1a0d9285d82864e66b0034922307', '127.0.0.1', 13),
 ('11d211092a423cea1d7acd6240018183', '127.0.0.1', 11),
 ('5389a6b1b1f7d737da925e1b0f772c07', '127.0.0.1', 11),
@@ -1048,10 +1061,21 @@ INSERT INTO `blog_statistics_ip` (`uid`, `ip`, `value`) VALUES ('a84573f07ee6699
 ('de672bfa0a98de09d2a0029cfe57713c', '127.0.0.1', 13),
 ('6c133e844d47d3a6b8a4610979515e49', '127.0.0.1', 1),
 ('32f62133019e9e59e218310ca11fcccc', '127.0.0.1', 1),
-('b8a74731df6ff25d7df998acd6f49b96', '127.0.0.1', 13),
+('b8a74731df6ff25d7df998acd6f49b96', '127.0.0.1', 14),
 ('b1b3348fe38940419e3eba30483693b6', '127.0.0.1', 1),
 ('4156ef51a5c530bbaf1e321520958b28', '127.0.0.1', 13),
-('9df7802eed7db848790aebccb805f456', '127.0.0.1', 1);
+('9df7802eed7db848790aebccb805f456', '127.0.0.1', 13),
+('0c8a2eab0cc19542d55941943af924c7', '127.0.0.1', 13),
+('720c3152fa00e3898771b52a65499c19', '127.0.0.1', 1),
+('b62d8e8d2d282b232167dd98b335512c', '127.0.0.1', 13),
+('72c1d65d9bfc1004a912cc41e78ac2bc', '127.0.0.1', 1),
+('02368e01ea9cac14bd8789229015c704', '127.0.0.1', 1),
+('80968a84a7377771e6c46c90f84f2705', '127.0.0.1', 1),
+('b1a3b87155b509c46a30f1069ea702f4', '127.0.0.1', 1),
+('a2593285b1ee64aeff22e5eed876f41b', '127.0.0.1', 13),
+('b1a2df096ca8e1cbb4ffea732e873543', '127.0.0.1', 14),
+('cea2fb3618fe135814a39c6a6fa590a1', '127.0.0.1', 1),
+('c167b97146bc22a4cb4d4c268a5ce2df', '127.0.0.1', 1);
 
 -- --------------------------------------------------------
 
@@ -1071,8 +1095,8 @@ CREATE TABLE `blog_statistics_os` (
 -- 
 
 INSERT INTO `blog_statistics_os` (`uid`, `browser`, `os`, `value`) VALUES ('552d3d91be3151ca77252cebdde54c42', 'Mozilla Firefox 2.0.0.4', 'Microsoft Windows Vista', 239),
-('7b19a04af96b56d341cb89953696b04f', 'Mozilla Firefox 2.0.0.5', 'Microsoft Windows Vista', 508),
-('65f1e8e545be6d47cb70ebe4770988fe', 'Microsoft Internet Explorer 7.0', 'Microsoft Windows Vista', 78);
+('7b19a04af96b56d341cb89953696b04f', 'Mozilla Firefox 2.0.0.5', 'Microsoft Windows Vista', 626),
+('65f1e8e545be6d47cb70ebe4770988fe', 'Microsoft Internet Explorer 7.0', 'Microsoft Windows Vista', 82);
 
 -- --------------------------------------------------------
 
@@ -1142,7 +1166,7 @@ CREATE TABLE `blog_user` (
 -- Daten für Tabelle `blog_user`
 -- 
 
-INSERT INTO `blog_user` (`uid`, `name`, `username`, `password`, `email`, `group`, `join_date`, `last_login`, `birthday`, `gender`, `occupation`, `homepage`, `icq`, `aim`, `yim`, `msn`, `skype`, `enabled`, `tcms_enabled`, `static_value`, `signature`, `location`, `hobby`) VALUES ('ccdc5cfffaf3cd9342e40dd9dcb3a3ff', 'Dolly', 'root', '5473e3f141e0328ce87dac9366e0aace', 'info@toenda.com', 'Administrator', '2006.01.22-22:26:44', '2007.07.22-13:37:40', '26.11.1982', '-', '', 'http://www.vandango.org', '', '', '', '', '', 1, 1, 1, '', '', ''),
+INSERT INTO `blog_user` (`uid`, `name`, `username`, `password`, `email`, `group`, `join_date`, `last_login`, `birthday`, `gender`, `occupation`, `homepage`, `icq`, `aim`, `yim`, `msn`, `skype`, `enabled`, `tcms_enabled`, `static_value`, `signature`, `location`, `hobby`) VALUES ('ccdc5cfffaf3cd9342e40dd9dcb3a3ff', 'Dolly', 'root', '5473e3f141e0328ce87dac9366e0aace', 'info@toenda.com', 'Administrator', '2006.01.22-22:26:44', '2007.07.23-19:11:24', '26.11.1982', '-', '', 'http://www.vandango.org', '', '', '', '', '', 1, 1, 1, '', '', ''),
 ('9e07ddbe2eb87663511e4716cb94eef2', 'writer', 'writer', 'a82feee3cc1af8bcabda979e8775ef0f', 'info@toenda.com', 'Writer', '2006.08.21-23:09:14', '2006.10.06-20:43:46', '01.1.', '-', '', '', '', '', '', '', '', 1, 1, 0, '', '', '');
 
 -- --------------------------------------------------------
