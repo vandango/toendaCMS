@@ -19,6 +19,28 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * toendaCMS Contactform PRO
+ *
+ * This module is used as a more professional contactformular.
+ * Configure it like this way:
+ * Go to 1. Contactperson list (ca. line 300) and add a line
+ * of code like this:
+ * [.'<option value="XX">John Doe (Office)</option>']
+ * where you must replace the value (XX) with a identifier and the name
+ * between the option tags.
+ * Then go to 2. Contactemaillist (ca. line 580)
+ * and add a line like this:
+ * [case 'XX': $m_contactproEmail = 'john.doe@domain.com'; break;]
+ * where you must change the XX with your identifier of your person and the
+ * emailadress with the correct adress.
+ *
+ * @version 0.0.7
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Components
+ */
+
 
 if(isset($_POST['cpro_company'])){ $cpro_company = $_POST['cpro_company']; }
 if(isset($_POST['cpro_title'])){ $cpro_title = $_POST['cpro_title']; }
@@ -56,8 +78,7 @@ $contactproEmail   = $_TCMS_CS_ARRAY['contactpro']['content']['cformpro_email'];
 
 $cformproFolder = $_TCMS_CS_ID['contactpro']['folder'];
 
-//$contactproEmail = str_replace('@', '__NO_SPAM__', $contactproEmail);
-//$contactproEmail = 'mail@octacom-antriebstechnik.de';
+//$contactproEmail = str_replace('@', '[at]', $contactproEmail);
 
 
 if($_TCMS_CS_ARRAY['contactpro']['attribute']['cformpro_title']['ENCODE'] == 1){
@@ -83,9 +104,11 @@ echo '<style type="text/css">
 */
 
 if($showCformproTitle == 1){
-	echo tcms_html::contentheading($cformproTitle);
-	echo tcms_html::contentmain($cformproSubTitle);
-	echo '<br />';
+	echo $tcms_html->contentModuleHeader(
+		$cformproTitle, 
+		$cformproSubTitle, 
+    ''
+	);
 }
 else{
 	echo '<br />';
@@ -296,16 +319,14 @@ if(!isset($send_form) && $send_form != 1){
 	echo '<div style="display: block; float: left; width: 150px;">'
 	.'<span class="text_normal">'._CPRO_TO.'</span></div>';
 	
+  /*
+    1.
+    Contactperson list
+  */
 	echo '<div style="display: block; margin: 0 0 3px 1px; width: 400px;">'
 	.'<select name="cpro_receiver" class="inputtext">'
 	.'<option value="mail">Allgemein</option>'
-	.'<option value="mf">Marion Frick (Office)</option>'
-	.'<option value="rt">Rainer Turba (Einkauf/Verkauf)</option>'
-	.'<option value="tl">Thomas Lenz (Service/Logistig)</option>'
-	.'<option value="bn">Beate Nürnberger (Controller)</option>'
-	.'<option value="hu">Heiko Umlauf (Reparatur/Versand)</option>'
-	.'<option value="jl">Jürgen Leibrich (Vertrieb)</option>'
-	.'<option value="ok">Oliver Kendi (IT)</option>'
+	.'<option value="XX">John Doe (Office)</option>'
 	.'</select>'
 	.'</div>';
 	
@@ -506,42 +527,14 @@ if($tcms_main->isReal($send_form) && $send_form == 1){
 	
 	$msg_form_content = _FORM_MSG_CONTENT;
 	
+  /*
+    2.
+    Contact Emaillist
+  */
 	switch($cpro_receiver){
-		case 'mail':
-			$m_contactproEmail = 'mail@octacom-antriebstechnik.de';
-			break;
-		
-		case 'mf':
-			$m_contactproEmail = 'frick@octacom-antriebstechnik.de';
-			break;
-		
-		case 'rt':
-			$m_contactproEmail = 'turba@octacom-antriebstechnik.de';
-			break;
-		
-		case 'tl':
-			$m_contactproEmail = 'lenz@octacom-antriebstechnik.de';
-			break;
-		
-		case 'bn':
-			$m_contactproEmail = 'nuernberger@octacom-antriebstechnik.de';
-			break;
-		
-		case 'hu':
-			$m_contactproEmail = 'umlauf@octacom-antriebstechnik.de';
-			break;
-		
-		case 'jl':
-			$m_contactproEmail = 'leibrich@octacom-antriebstechnik.de';
-			break;
-		
-		case 'ok':
-			$m_contactproEmail = 'O.Kendi@octacom-antriebstechnik.de';
-			break;
-		
-		default:
-			$m_contactproEmail = 'mail@octacom-antriebstechnik.de';
-			break;
+		case 'mail': $m_contactproEmail = 'mail@domain.com'; break;
+    case 'XX': $m_contactproEmail = 'john.doe@domain.com'; break;
+		default: $m_contactproEmail = 'mail@domain.com'; break;
 	}
 	
 	$header = "From: $mail_name <$mail_email>\n";

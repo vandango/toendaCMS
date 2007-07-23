@@ -10,7 +10,7 @@
 | Calendar component Backend
 |
 | File:		backend.php
-| Version:	0.1.1
+| Version:	0.1.2
 |
 +
 */
@@ -39,6 +39,7 @@ if(isset($_POST['new_cs_day_with_event'])){ $new_cs_day_with_event = $_POST['new
 if(isset($_POST['new_cs_decode_title'])){ $new_cs_decode_title = $_POST['new_cs_decode_title']; }
 if(isset($_POST['new_cs_day_as_link'])){ $new_cs_day_as_link = $_POST['new_cs_day_as_link']; }
 if(isset($_POST['new_cs_linked_module'])){ $new_cs_linked_module = $_POST['new_cs_linked_module']; }
+if(isset($_POST['new_show_current_day'])){ $new_show_current_day = $_POST['new_show_current_day']; }
 
 
 
@@ -59,6 +60,7 @@ if($action != 'save'){
 	$cs_day_with_event       = $_TCMS_CS_ARRAY['calendar']['content']['day_with_event'];
 	$cs_day_as_link          = $_TCMS_CS_ARRAY['calendar']['content']['day_as_link'];
 	$cs_linked_module        = $_TCMS_CS_ARRAY['calendar']['content']['linked_module'];
+  $cs_show_current_day     = $_TCMS_CS_ARRAY['calendar']['content']['show_current_day'];
 	$cs_decode_title         = $_TCMS_CS_ARRAY['calendar']['attribute']['calendar_title']['ENCODE'];
 	
 	if($cs_decode_title == 1){
@@ -112,6 +114,12 @@ if($action != 'save'){
 	// table rows
 	echo '<tr><td class="tcms_padding_mini" valign="top">"Day as link" '._TABLE_ENABLED.'</td>'
 	.'<td valign="top"><input name="new_cs_day_as_link"'.( $cs_day_as_link == 1 ? ' checked="checked"' : '' ).' type="checkbox" value="1" />'
+	.'</td></tr>';
+	
+	
+	// table rows
+	echo '<tr><td class="tcms_padding_mini" valign="top">"Show current day" '._TABLE_ENABLED.'</td>'
+	.'<td valign="top"><input name="new_show_current_day"'.( $cs_show_current_day == 1 ? ' checked="checked"' : '' ).' type="checkbox" value="1" />'
 	.'</td></tr>';
 	
 	
@@ -189,6 +197,7 @@ if($action == 'save'){
 	if($new_cs_currentday_backcolor == '') { $new_cs_currentday_backcolor = 'ffffff'; }
 	if($new_cs_weekday_border       == '') { $new_cs_weekday_border       = 'ffffff'; }
 	if($new_cs_day_with_event       == '') { $new_cs_day_with_event       = 'f5f5f5'; }
+  if(empty($new_show_current_day))       { $new_show_current_day        = 0; }
 	
 	
 	// CHARSETS
@@ -210,13 +219,16 @@ if($action == 'save'){
 	$xmluser->write_value('day_with_event', $new_cs_day_with_event);
 	$xmluser->write_value('day_as_link', $new_cs_day_as_link);
 	$xmluser->write_value('linked_module', $new_cs_linked_module);
+	$xmluser->write_value('show_current_day', $new_show_current_day);
 	
 	$xmluser->xml_section_buffer();
 	$xmluser->xml_section_end('cs');
 	$xmluser->_xmlparser();
 	
 	
-	echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_components&todo=admin&component='.$component.'&backend='.$backend.'\'</script>';
+	echo '<script>'
+  .'document.location=\'admin.php?id_user='.$id_user.'&site=mod_components&todo=admin&component='.$component.'&backend='.$backend.'\';'
+  .'</script>';
 }
 
 

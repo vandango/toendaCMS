@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This components generates a calendar.
  *
- * @version 0.2.3
+ * @version 0.2.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Components
@@ -40,6 +40,7 @@ $cs_weekday_border       = $_TCMS_CS_ARRAY['calendar']['content']['weekday_borde
 $cs_day_with_event       = $_TCMS_CS_ARRAY['calendar']['content']['day_with_event'];
 $cs_day_as_link          = $_TCMS_CS_ARRAY['calendar']['content']['day_as_link'];
 $cs_linked_module        = $_TCMS_CS_ARRAY['calendar']['content']['linked_module'];
+$cs_show_current_day     = $_TCMS_CS_ARRAY['calendar']['content']['show_current_day'];
 
 
 if($_TCMS_CS_ARRAY['calendar']['attribute']['calendar_title']['ENCODE'] == 1){
@@ -49,10 +50,12 @@ if($_TCMS_CS_ARRAY['calendar']['attribute']['calendar_title']['ENCODE'] == 1){
 
 
 
-if($cs_show_calendar_title == 1)
-	echo tcms_html::subtitle($cs_calendar_title);
-else
+if($cs_show_calendar_title == 1) {
+	echo $tcms_html->subTitle($cs_calendar_title);
+}
+else {
 	echo '<br />';
+}
 
 
 $cal_month    = date('n');
@@ -75,7 +78,7 @@ $outDate = lang_date($cal_today, $monthName[$tempMonth], $cal_year, '', '', '');
 echo tcms_html::table_head_style('2', '0', '0', '100%', '');
 
 echo '<th colspan="7" align="right">'
-.'<span class="text_normal">'.$outDate.'</span>'
+.( $show_current_day == 1 ? '<span class="text_normal">'.$outDate.'</span>' : '' )
 .'</th>';
 
 echo '<tr>'
