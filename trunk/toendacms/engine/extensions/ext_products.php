@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a product manager.
  *
- * @version 0.6.2
+ * @version 0.6.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -41,7 +41,7 @@ if(trim($startpage_title) != '') {
 	if(!isset($cmd)) { $cmd = 'offers'; }
 }
 else {
-	if(!isset($cmd)) { $cmd = 'browse'; }
+	if(!isset($cmd)) { $cmd = 'latest'; }
 }
 
 $hrLineOneUp = false;
@@ -57,7 +57,7 @@ if($action == 'showall'){
 	echo $tcms_html->contentModuleHeader(
 		$products_title, 
 		$products_stamp, 
-		( $cmd == 'browse' && trim($startpage_title) != '' ? '' : $products_text )
+		( $cmd == 'offers' || $cmd == 'latest' ? $products_text : '' )
 		//( $cmd == 'browse' ? '' : $products_text )
 	);
 	
@@ -88,6 +88,16 @@ if($action == 'showall'){
 		.'</a>';
 	}
 	
+	// latest products tab
+	$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+	.'id=products&amp;s='.$s.'&amp;action=showall&amp;cmd=latest'
+	.( isset($lang) ? '&amp;lang='.$lang : '' );
+	$link = $tcms_main->urlConvertToSEO($link);
+	
+	echo '<a style="margin-left: 8px !important;" class="'.( $cmd == 'latest' ? 'products_active_tab' : 'products_tab' ).'" href="'.$link.'">'
+	._PRODUCTS_LATEST
+	.'</a>';
+	
 	// browse tab
 	$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 	.'id=products&amp;s='.$s.'&amp;action=showall&amp;cmd=browse'
@@ -99,7 +109,7 @@ if($action == 'showall'){
 	.'</a>';
 	
 	echo '<br />'
-	.'<hr noshade="noshade" class="products_tab_line"'.( $hrLineOneUp ? ' style="margin-top: -1px;"' : '' ).' />'
+	.'<hr noshade="noshade" class="products_tab_line'.( $hrLineOneUp ? ' products_tab_line_add' : '' ).'" />'
 	.'<br />';
 	
 	
@@ -307,9 +317,9 @@ if($action == 'showall'){
 						
 						// image
 						if($arr_pro['image1'][$key] != '' && file_exists('data/images/products/'.$arr_pro['image1'][$key])) {
-							$img_size_1 = getimagesize('data/images/products/'.$arr_pro['image1'][$key]);
-							$img_o_width_1  = $img_size_1[0];
-							$img_o_height_1 = $img_size_1[1];
+							if(!is_dir($tcms_administer_site.'/images/products_thumb/')) {
+								mkdir($tcms_administer_site.'/images/products_thumb/', 0777);
+							}
 							
 							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 							.'id=products&amp;s='.$s.'&amp;action=showone'
@@ -317,41 +327,35 @@ if($action == 'showall'){
 							.( isset($lang) ? '&amp;lang='.$lang : '' );
 							$link = $tcms_main->urlConvertToSEO($link);
 							
-							echo '<a href="'.$link.'">';
+							$img_size = getimagesize('data/images/products/'.$arr_pro['image1'][$key]);
+							$img_o_width  = $img_size[0];
+							$img_o_height = $img_size[1];
 							
-							if($detect_browser == 1){
-								echo '<script>if(browser == \'ie\'){'
-								.'document.write(\'<img'
-								.( $img_o_width_1 > 157
-									? ' width="157"'
-									: ''
-								).' src="'.$imagePath.'data/images/products/'.$arr_pro['image1'][$key].'" border="0" />\');'
-								.'}else{'
-								.'document.write(\'<img'
-								.( $img_o_width_1 > 157
-									? ' width="98%"'
-									: ''
-								).' src="'.$imagePath.'data/images/products/'.$arr_pro['image1'][$key].'" border="0" />\');'
-								.'}</script>';
+							if($img_o_width > 235) {
+								if(!file_exists($tcms_administer_site.'/images/products_thumb/'.$arr_pro['image1'][$key])) {
+									$tcms_gd->createThumbnail(
+										$tcms_administer_site.'/images/products/', 
+										$tcms_administer_site.'/images/products_thumb/', 
+										$arr_pro['image1'][$key], 
+										'150', 
+										false, 
+										true
+									);
+								}
 								
-								echo '<noscript>'
-								.'<img'
-								.( $img_o_width_1 > 157
-									? ' width="98%"'
-									: ''
-								).' src="'.$imagePath.'data/images/products/'.$arr_pro['image1'][$key].'" border="0" />'
-								.'</noscript>';
+								echo '<a href="'.$link.'">'
+								.'<img src="'.$imagePath.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$arr_pro['image1'][$key].'"'
+								.' border="0" />'
+								.'</a>'
+								.'<br />';
 							}
-							else{
-								echo '<img'
-								.( $img_o_width_1 > 157
-									? ' width="98%"'
-									: ''
-								).' src="'.$imagePath.'data/images/products/'.$arr_pro['image1'][$key].'" border="0" />';
+							else {
+								echo '<a href="'.$link.'">'
+								.'<img src="'.$imagePath.$tcms_administer_site.'/images/products/'.$arr_pro['image1'][$key].'"'
+								.' border="0" />'
+								.'</a>'
+								.'<br />';
 							}
-							
-							echo '</a>'
-							.'<br />';
 						}
 						
 						
@@ -442,84 +446,171 @@ if($action == 'showall'){
 			echo $tcms_html->tableEnd();
 		}
 	}
-	/*
-		load current offers
-	*/
-	else if($cmd == 'offers') {
-		if($choosenDB == 'xml') {
-			//
-		}
-		else {
-			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-			
-			switch($is_admin){
-				case 'Developer':
-				case 'Administrator':
-					$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
-					break;
-				
-				case 'User':
-				case 'Editor':
-				case 'Presenter':
-					$strAdd = " OR access = 'Protected' ) ";
-					break;
-				
-				default:
-					$strAdd = ' ) ';
-					break;
+	else {
+		/*
+			load latest products
+		*/
+		if($cmd == 'latest') {
+			if($choosenDB == 'xml') {
+				//
 			}
-			
-			$sqlSTR = "SELECT * "
-			//."uid, name, desc, date, image1, sort, category, price, price_tax "
-			."FROM ".$tcms_db_prefix."products "
-			."WHERE show_on_startpage = 1 "
-			."AND language = '".$tcms_config->getLanguageFrontend()."' "
-			."AND sql_type = 'a' "
-			//."AND status = 1 " // --> nur in artikelansicht anzeigen (ob auf lager oder grade leer)
-			."AND pub = 1 "
-			."AND NOT (name = '') "
-			."AND ( access = 'Public' "
-			.$strAdd
-			."ORDER BY sort DESC, date DESC, name DESC";
-			
-			$sqlQR = $sqlAL->query($sqlSTR);
-			$chkNr = $sqlAL->getNumber($sqlQR);
-			
-			if($chkNr != 0) {
-				while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
-					$arr_pro['uid'][$count]    = $sqlObj->uid;
-					$arr_pro['name'][$count]   = $sqlObj->name;
-					$arr_pro['desc'][$count]   = $sqlObj->desc;
-					$arr_pro['date'][$count]   = $sqlObj->date;
-					$arr_pro['image1'][$count] = $sqlObj->image1;
-					$arr_pro['sort'][$count]   = $sqlObj->sort;
-					$arr_pro['cat'][$count]    = $sqlObj->category;
-					$arr_pro['price'][$count]  = $sqlObj->price;
-					$arr_pro['taxkey'][$count] = $sqlObj->price_tax;
-					$arr_pro['pronr'][$count]  = $sqlObj->product_number;
-						
-					if($arr_pro['price'][$count]  == NULL){ $arr_pro['price'][$count]  = ''; }
-					if($arr_pro['taxkey'][$count] == NULL){ $arr_pro['taxkey'][$count] = ''; }
-					if($arr_pro['uid'][$count]    == NULL){ $arr_pro['uid'][$count]    = ''; }
-					if($arr_pro['name'][$count]   == NULL){ $arr_pro['name'][$count]   = ''; }
-					if($arr_pro['desc'][$count]   == NULL){ $arr_pro['desc'][$count]   = ''; }
-					if($arr_pro['date'][$count]   == NULL){ $arr_pro['date'][$count]   = ''; }
-					if($arr_pro['image1'][$count] == NULL){ $arr_pro['image1'][$count] = ''; }
-					if($arr_pro['sort'][$count]   == NULL){ $arr_pro['sort'][$count]   = ''; }
-					if($arr_pro['cat'][$count]    == NULL){ $arr_pro['cat'][$count]    = ''; }
-					if($arr_pro['pronr'][$count]  == NULL){ $arr_pro['pronr'][$count]  = ''; }
+			else {
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				
+				switch($is_admin) {
+					case 'Developer':
+					case 'Administrator':
+						$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
+						break;
 					
+					case 'User':
+					case 'Editor':
+					case 'Presenter':
+						$strAdd = " OR access = 'Protected' ) ";
+						break;
 					
-					// CHARSETS
-					$arr_pro['name'][$count] = $tcms_main->decodeText($arr_pro['name'][$count], '2', $c_charset);
-					$arr_pro['desc'][$count] = $tcms_main->decodeText($arr_pro['desc'][$count], '2', $c_charset);
-					
-					$count++;
-					$checkCatAmount = $count;
+					default:
+						$strAdd = ' ) ';
+						break;
 				}
 				
-				$checkCatAmount--;
+				switch($choosenDB){
+					case 'mysql': $dbLimit = "LIMIT 0, ".$max_latest_products; break;
+					case 'pgsql': $dbLimit = "LIMIT ".$max_latest_products; break;
+					case 'mssql': $dbLimitMS = "TOP ".$max_latest_products; break;
+				}
+				
+				$sqlSTR = "SELECT ".$dbLimitMS." * "
+				."FROM ".$tcms_db_prefix."products "
+				."WHERE language = '".$tcms_config->getLanguageFrontend()."' "
+				."AND sql_type = 'a' "
+				//."AND status = 1 " // --> nur in artikelansicht anzeigen (ob auf lager oder grade leer)
+				."AND pub = 1 "
+				."AND NOT (name = '') "
+				."AND ( access = 'Public' "
+				.$strAdd
+				."ORDER BY date DESC ".$dbLimit;
+				
+				$sqlQR = $sqlAL->query($sqlSTR);
+				$chkNr = $sqlAL->getNumber($sqlQR);
+				
+				if($chkNr != 0) {
+					while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
+						$arr_pro['uid'][$count]    = $sqlObj->uid;
+						$arr_pro['name'][$count]   = $sqlObj->name;
+						$arr_pro['desc'][$count]   = $sqlObj->desc;
+						$arr_pro['date'][$count]   = $sqlObj->date;
+						$arr_pro['image1'][$count] = $sqlObj->image1;
+						$arr_pro['sort'][$count]   = $sqlObj->sort;
+						$arr_pro['cat'][$count]    = $sqlObj->category;
+						$arr_pro['price'][$count]  = $sqlObj->price;
+						$arr_pro['taxkey'][$count] = $sqlObj->price_tax;
+						$arr_pro['pronr'][$count]  = $sqlObj->product_number;
+							
+						if($arr_pro['price'][$count]  == NULL){ $arr_pro['price'][$count]  = ''; }
+						if($arr_pro['taxkey'][$count] == NULL){ $arr_pro['taxkey'][$count] = ''; }
+						if($arr_pro['uid'][$count]    == NULL){ $arr_pro['uid'][$count]    = ''; }
+						if($arr_pro['name'][$count]   == NULL){ $arr_pro['name'][$count]   = ''; }
+						if($arr_pro['desc'][$count]   == NULL){ $arr_pro['desc'][$count]   = ''; }
+						if($arr_pro['date'][$count]   == NULL){ $arr_pro['date'][$count]   = ''; }
+						if($arr_pro['image1'][$count] == NULL){ $arr_pro['image1'][$count] = ''; }
+						if($arr_pro['sort'][$count]   == NULL){ $arr_pro['sort'][$count]   = ''; }
+						if($arr_pro['cat'][$count]    == NULL){ $arr_pro['cat'][$count]    = ''; }
+						if($arr_pro['pronr'][$count]  == NULL){ $arr_pro['pronr'][$count]  = ''; }
+						
+						
+						// CHARSETS
+						$arr_pro['name'][$count] = $tcms_main->decodeText($arr_pro['name'][$count], '2', $c_charset);
+						$arr_pro['desc'][$count] = $tcms_main->decodeText($arr_pro['desc'][$count], '2', $c_charset);
+						
+						$count++;
+						$checkCatAmount = $count;
+					}
+					
+					$checkCatAmount--;
+				}
+			}
+		}
+		/*
+			load current offers
+		*/
+		else if($cmd == 'offers') {
+			if($choosenDB == 'xml') {
+				//
+			}
+			else {
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				
+				switch($is_admin) {
+					case 'Developer':
+					case 'Administrator':
+						$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
+						break;
+					
+					case 'User':
+					case 'Editor':
+					case 'Presenter':
+						$strAdd = " OR access = 'Protected' ) ";
+						break;
+					
+					default:
+						$strAdd = ' ) ';
+						break;
+				}
+				
+				$sqlSTR = "SELECT * "
+				//."uid, name, desc, date, image1, sort, category, price, price_tax "
+				."FROM ".$tcms_db_prefix."products "
+				."WHERE show_on_startpage = 1 "
+				."AND language = '".$tcms_config->getLanguageFrontend()."' "
+				."AND sql_type = 'a' "
+				//."AND status = 1 " // --> nur in artikelansicht anzeigen (ob auf lager oder grade leer)
+				."AND pub = 1 "
+				."AND NOT (name = '') "
+				."AND ( access = 'Public' "
+				.$strAdd
+				."ORDER BY sort DESC, date DESC, name DESC";
+				
+				$sqlQR = $sqlAL->query($sqlSTR);
+				$chkNr = $sqlAL->getNumber($sqlQR);
+				
+				if($chkNr != 0) {
+					while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
+						$arr_pro['uid'][$count]    = $sqlObj->uid;
+						$arr_pro['name'][$count]   = $sqlObj->name;
+						$arr_pro['desc'][$count]   = $sqlObj->desc;
+						$arr_pro['date'][$count]   = $sqlObj->date;
+						$arr_pro['image1'][$count] = $sqlObj->image1;
+						$arr_pro['sort'][$count]   = $sqlObj->sort;
+						$arr_pro['cat'][$count]    = $sqlObj->category;
+						$arr_pro['price'][$count]  = $sqlObj->price;
+						$arr_pro['taxkey'][$count] = $sqlObj->price_tax;
+						$arr_pro['pronr'][$count]  = $sqlObj->product_number;
+							
+						if($arr_pro['price'][$count]  == NULL){ $arr_pro['price'][$count]  = ''; }
+						if($arr_pro['taxkey'][$count] == NULL){ $arr_pro['taxkey'][$count] = ''; }
+						if($arr_pro['uid'][$count]    == NULL){ $arr_pro['uid'][$count]    = ''; }
+						if($arr_pro['name'][$count]   == NULL){ $arr_pro['name'][$count]   = ''; }
+						if($arr_pro['desc'][$count]   == NULL){ $arr_pro['desc'][$count]   = ''; }
+						if($arr_pro['date'][$count]   == NULL){ $arr_pro['date'][$count]   = ''; }
+						if($arr_pro['image1'][$count] == NULL){ $arr_pro['image1'][$count] = ''; }
+						if($arr_pro['sort'][$count]   == NULL){ $arr_pro['sort'][$count]   = ''; }
+						if($arr_pro['cat'][$count]    == NULL){ $arr_pro['cat'][$count]    = ''; }
+						if($arr_pro['pronr'][$count]  == NULL){ $arr_pro['pronr'][$count]  = ''; }
+						
+						
+						// CHARSETS
+						$arr_pro['name'][$count] = $tcms_main->decodeText($arr_pro['name'][$count], '2', $c_charset);
+						$arr_pro['desc'][$count] = $tcms_main->decodeText($arr_pro['desc'][$count], '2', $c_charset);
+						
+						$count++;
+						$checkCatAmount = $count;
+					}
+					
+					$checkCatAmount--;
+				}
 			}
 		}
 		
@@ -542,10 +633,11 @@ if($action == 'showall'){
 				
 				
 				// image
-				if($arr_pro['image1'][$key] != '' && file_exists('data/images/products/'.$arr_pro['image1'][$key])) {
-					$img_size_1 = getimagesize('data/images/products/'.$arr_pro['image1'][$key]);
-					$img_o_width_1  = $img_size_1[0];
-					$img_o_height_1 = $img_size_1[1];
+				if($arr_pro['image1'][$key] != '' 
+				&& file_exists('data/images/products/'.$arr_pro['image1'][$key])) {
+					if(!is_dir($tcms_administer_site.'/images/products_thumb/')) {
+						mkdir($tcms_administer_site.'/images/products_thumb/', 0777);
+					}
 					
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=products&amp;s='.$s.'&amp;action=showone'
@@ -553,41 +645,35 @@ if($action == 'showall'){
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlConvertToSEO($link);
 					
-					echo '<a href="'.$link.'">';
+					$img_size = getimagesize('data/images/products/'.$arr_pro['image1'][$key]);
+					$img_o_width  = $img_size[0];
+					$img_o_height = $img_size[1];
 					
-					if($detect_browser == 1){
-						echo '<script>if(browser == \'ie\'){'
-						.'document.write(\'<img'
-						.( $img_o_width_1 > 157
-							? ' width="157"'
-							: ''
-						).' src="'.$imagePath.'data/images/products/'.$arr_pro['image1'][$key].'" border="0" />\');'
-						.'}else{'
-						.'document.write(\'<img'
-						.( $img_o_width_1 > 157
-							? ' width="98%"'
-							: ''
-						).' src="'.$imagePath.'data/images/products/'.$arr_pro['image1'][$key].'" border="0" />\');'
-						.'}</script>';
+					if($img_o_width > 235) {
+						if(!file_exists($tcms_administer_site.'/images/products_thumb/'.$arr_pro['image1'][$key])) {
+							$tcms_gd->createThumbnail(
+								$tcms_administer_site.'/images/products/', 
+								$tcms_administer_site.'/images/products_thumb/', 
+								$arr_pro['image1'][$key], 
+								'150', 
+								false, 
+								true
+							);
+						}
 						
-						echo '<noscript>'
-						.'<img'
-						.( $img_o_width_1 > 157
-							? ' width="98%"'
-							: ''
-						).' src="'.$imagePath.'data/images/products/'.$arr_pro['image1'][$key].'" border="0" />'
-						.'</noscript>';
+						echo '<a href="'.$link.'">'
+						.'<img src="'.$imagePath.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$arr_pro['image1'][$key].'"'
+						.' border="0" />'
+						.'</a>'
+						.'<br />';
 					}
-					else{
-						echo '<img'
-						.( $img_o_width_1 > 157
-							? ' width="98%"'
-							: ''
-						).' src="'.$imagePath.'data/images/products/'.$arr_pro['image1'][$key].'" border="0" />';
+					else {
+						echo '<a href="'.$link.'">'
+						.'<img src="'.$imagePath.$tcms_administer_site.'/images/products/'.$arr_pro['image1'][$key].'"'
+						.' border="0" />'
+						.'</a>'
+						.'<br />';
 					}
-					
-					echo '</a>'
-					.'<br />';
 				}
 				
 				
@@ -905,114 +991,169 @@ if($action == 'showone') {
 		
 		echo '<tr><td valign="top" colspan="2">';
 		
-		if($arr_image1 != '' && file_exists('data/images/products/'.$arr_image1)) {
+		// clean product name for lightbox
+		$lb_name = $tcms_main->cleanStringForUrlName($arr_name);
+		
+		// image 1
+		if($arr_image1 != '' 
+		&& file_exists('data/images/products/'.$arr_image1)) {
+			if(!is_dir($tcms_administer_site.'/images/products_thumb/')) {
+				mkdir($tcms_administer_site.'/images/products_thumb/', 0777);
+			}
+			
 			$img_size_1 = getimagesize('data/images/products/'.$arr_image1);
 			$img_o_width_1  = $img_size_1[0];
 			$img_o_height_1 = $img_size_1[1];
 			
-			echo '<a href="'.$imagePath.'data/images/products/'.$arr_image1.'" rel="lightbox">';
+			echo '<div class="product_view_image">';
 			
-			if($detect_browser == 1){
-				echo '<script>if(browser == \'ie\'){'
-				.'document.write(\'<img align="left"'
-				.( $img_o_width_1 > 238
-					? ' width="238"'
-					: ''
-				).' src="'.$imagePath.'data/images/products/'.$arr_image1.'" border="0" />\');'
-				.'}else{'
-				.'document.write(\'<img align="left"'
-				.( $img_o_width_1 > 238
-					? ' width="48%"'
-					: ''
-				).' src="'.$imagePath.'data/images/products/'.$arr_image1.'" border="0" />\');'
-				.'}</script>';
+			if($img_o_width_1 > 235) {
+				if(!file_exists($tcms_administer_site.'/images/products_thumb/'.$arr_image1)) {
+					$tcms_gd->createThumbnail(
+						$tcms_administer_site.'/images/products/', 
+						$tcms_administer_site.'/images/products_thumb/', 
+						$arr_image1, 
+						'235', 
+						false, 
+						true
+					);
+				}
 				
-				echo '<noscript>'
-				.'<img align="left"'
-				.( $img_o_width_1 > 238
-					? ' width="48%"'
-					: ''
-				).' src="'.$imagePath.'data/images/products/'.$arr_image1.'" border="0" />'
-				.'</noscript>';
+				echo '<a href="'.$imagePath.'data/images/products/'.$arr_image1.'" rel="lightbox['.$lb_name.']">'
+				.'<img src="'.$imagePath.$tcms_administer_site.'/images/products_thumb/thumb_235_'.$arr_image1.'"'
+				.' border="0" />'
+				.'</a>';
 			}
-			else{
-				echo '<img align="left"'
-				.( $img_o_width_1 > 238
-					? ' width="48%"'
-					: ''
-				).' src="'.$imagePath.'data/images/products/'.$arr_image1.'" border="0" />';
+			else {
+				echo '<a href="'.$imagePath.'data/images/products/'.$arr_image1.'" rel="lightbox['.$lb_name.']">'
+				.'<img src="'.$imagePath.$tcms_administer_site.'/images/products/'.$arr_image1.'"'
+				.' border="0" />'
+				.'</a>';
 			}
 			
-			echo '</a>';
+			echo '</div>';
 		}
 		
-		if($arr_image2 != '' && file_exists('data/images/products/'.$arr_image2)) {
+		// image 2
+		if($arr_image2 != '' 
+		&& file_exists('data/images/products/'.$arr_image2)) {
+			if(!is_dir($tcms_administer_site.'/images/products_thumb/')) {
+				mkdir($tcms_administer_site.'/images/products_thumb/', 0777);
+			}
+			
 			$img_size_2 = getimagesize('data/images/products/'.$arr_image2);
 			$img_o_width_2  = $img_size_2[0];
 			$img_o_height_2 = $img_size_2[1];
 			
-			echo '<a href="'.$imagePath.'data/images/products/'.$arr_image2.'" rel="lightbox">';
+			echo '<div class="product_view_image">';
 			
-			if($detect_browser == 1){
-				echo '<script>if(browser == \'ie\'){'
-				.'document.write(\'<img align="left"'
-				.( $img_o_width_2 > 238
-					? ' width="238"'
-					: ''
-				).' src="'.$imagePath.'data/images/products/'.$arr_image2.'" border="0" />\');'
-				.'}else{'
-				.'document.write(\'<img align="left"'
-				.( $img_o_width_2 > 238
-					? ' width="48%"'
-					: ''
-				).' src="'.$imagePath.'data/images/products/'.$arr_image2.'" border="0" />\');'
-				.'}</script>';
+			if($img_o_width_2 > 235) {
+				if(!file_exists($tcms_administer_site.'/images/products_thumb/'.$arr_image2)) {
+					$tcms_gd->createThumbnail(
+						$tcms_administer_site.'/images/products/', 
+						$tcms_administer_site.'/images/products_thumb/', 
+						$arr_image2, 
+						'235', 
+						false, 
+						true
+					);
+				}
 				
-				echo '<noscript>'
-				.'<img align="left"'
-				.( $img_o_width_2 > 238
-					? ' width="48%"'
-					: ''
-				).' src="'.$imagePath.'data/images/products/'.$arr_image2.'" border="0" />'
-				.'</noscript>';
+				echo '<a href="'.$imagePath.'data/images/products/'.$arr_image2.'" rel="lightbox['.$lb_name.']">'
+				.'<img src="'.$imagePath.$tcms_administer_site.'/images/products_thumb/thumb_235_'.$arr_image2.'"'
+				.' border="0" />'
+				.'</a>';
 			}
-			else{
-				echo '<img align="left"'
-				.( $img_o_width_2 > 238
-					? ' width="48%"'
-					: ''
-				).' src="'.$imagePath.'data/images/products/'.$arr_image2.'" border="0" />';
+			else {
+				echo '<a href="'.$imagePath.'data/images/products/'.$arr_image2.'" rel="lightbox['.$lb_name.']">'
+				.'<img src="'.$imagePath.$tcms_administer_site.'/images/products/'.$arr_image2.'"'
+				.' border="0" />'
+				.'</a>';
 			}
 			
-			echo '</a>';
+			echo '</div>';
 		}
 		
-		if($arr_image3 != '' && file_exists('data/images/products/'.$arr_image3)) {
+		echo '<div style="display: block; float: left; width: 100%; height: 1px;"></div>';
+		
+		// image 3
+		if($arr_image3 != '' 
+		&& file_exists('data/images/products/'.$arr_image3)) {
+			if(!is_dir($tcms_administer_site.'/images/products_thumb/')) {
+				mkdir($tcms_administer_site.'/images/products_thumb/', 0777);
+			}
+			
 			$img_size_3 = getimagesize('data/images/products/'.$arr_image3);
 			$img_o_width_3  = $img_size_3[0];
 			$img_o_height_3 = $img_size_3[1];
 			
-			echo '<a href="'.$imagePath.'data/images/products/'.$arr_image3.'" rel="lightbox">'
-			.'<img align="left"'
-			.( $img_o_width_3 > 238
-				? ' width="48%"'
-				: ''
-			).' src="'.$imagePath.'data/images/products/'.$arr_image3.'" border="0" />'
-			.'</a>';
+			echo '<div class="product_view_image">';
+			
+			if($img_o_width_3 > 235) {
+				if(!file_exists($tcms_administer_site.'/images/products_thumb/'.$arr_image3)) {
+					$tcms_gd->createThumbnail(
+						$tcms_administer_site.'/images/products/', 
+						$tcms_administer_site.'/images/products_thumb/', 
+						$arr_image3, 
+						'235', 
+						false, 
+						true
+					);
+				}
+				
+				echo '<a href="'.$imagePath.'data/images/products/'.$arr_image3.'" rel="lightbox['.$lb_name.']">'
+				.'<img src="'.$imagePath.$tcms_administer_site.'/images/products_thumb/thumb_235_'.$arr_image3.'"'
+				.' border="0" />'
+				.'</a>';
+			}
+			else {
+				echo '<a href="'.$imagePath.'data/images/products/'.$arr_image3.'" rel="lightbox['.$lb_name.']">'
+				.'<img src="'.$imagePath.$tcms_administer_site.'/images/products/'.$arr_image3.'"'
+				.' border="0" />'
+				.'</a>';
+			}
+			
+			echo '</div>';
 		}
 		
-		if($arr_image4 != '' && file_exists('data/images/products/'.$arr_image4)) {
+		// image 4
+		if($arr_image4 != '' 
+		&& file_exists('data/images/products/'.$arr_image4)) {
+			if(!is_dir($tcms_administer_site.'/images/products_thumb/')) {
+				mkdir($tcms_administer_site.'/images/products_thumb/', 0777);
+			}
+			
 			$img_size_4 = getimagesize('data/images/products/'.$arr_image4);
 			$img_o_width_4  = $img_size_4[0];
 			$img_o_height_4 = $img_size_4[1];
 			
-			echo '<a href="'.$imagePath.'data/images/products/'.$arr_image4.'" rel="lightbox">'
-			.'<img align="left"'
-			.( $img_o_width_4 > 238
-				? ' width="48%"'
-				: ''
-			).' src="'.$imagePath.'data/images/products/'.$arr_image4.'" border="0" />'
-			.'</a>';
+			echo '<div class="product_view_image">';
+			
+			if($img_o_width_4 > 235) {
+				if(!file_exists($tcms_administer_site.'/images/products_thumb/'.$arr_image4)) {
+					$tcms_gd->createThumbnail(
+						$tcms_administer_site.'/images/products/', 
+						$tcms_administer_site.'/images/products_thumb/', 
+						$arr_image4, 
+						'235', 
+						false, 
+						true
+					);
+				}
+				
+				echo '<a href="'.$imagePath.'data/images/products/'.$arr_image4.'" rel="lightbox['.$lb_name.']">'
+				.'<img src="'.$imagePath.$tcms_administer_site.'/images/products_thumb/thumb_235_'.$arr_image4.'"'
+				.' border="0" />'
+				.'</a>';
+			}
+			else {
+				echo '<a href="'.$imagePath.'data/images/products/'.$arr_image4.'" rel="lightbox['.$lb_name.']">'
+				.'<img src="'.$imagePath.$tcms_administer_site.'/images/products/'.$arr_image4.'"'
+				.' border="0" />'
+				.'</a>';
+			}
+			
+			echo '</div>';
 		}
 		
 		echo '</td>'

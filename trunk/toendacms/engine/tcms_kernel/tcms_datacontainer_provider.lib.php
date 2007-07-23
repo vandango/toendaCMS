@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 0.8.8
+ * @version 0.8.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -1712,6 +1712,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsSPOU     = $xml->readSection('config', 'show_price_only_users');
 			$wsSPT      = $xml->readSection('config', 'startpagetitle');
 			$wsUSC      = $xml->readSection('config', 'use_sidebar_categories');
+			$wsMLP      = $xml->readSection('config', 'max_latest_products');
 			
 			$xml->flush();
 			$xml->_xmlparser();
@@ -1727,6 +1728,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			//if($wsSPOU  == false)     $wsSPOU     = 0;
 			if($wsSPT      == false) $wsSPT      = '';
 			//if($wsUSC  == false)     $wsUSC     = 0;
+			//if($wsMLP  == false)     $wsMLP     = 0;
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
@@ -1739,7 +1741,8 @@ class tcms_datacontainer_provider extends tcms_main {
 			);
 			
 			$strQuery = "SELECT products_title, products_stamp, products_text, category_state, "
-			."category_title, use_category_title, show_price_only_users, startpagetitle, use_sidebar_categories "
+			."category_title, use_category_title, show_price_only_users, startpagetitle, "
+			."use_sidebar_categories, max_latest_products "
 			."FROM ".$this->m_sqlPrefix."products_config "
 			."WHERE language = '".$language."'";
 			
@@ -1756,6 +1759,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsSPOU     = $sqlObj->show_price_only_users;
 			$wsSPT      = $sqlObj->startpagetitle;
 			$wsUSC      = $sqlObj->use_sidebar_categories;
+			$wsMLP      = $sqlObj->max_latest_products;
 			
 			$sqlAL->freeResult($sqlQR);
 			$sqlAL->_sqlAbstractionLayer();
@@ -1770,6 +1774,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			if($wsUCT      == NULL) $wsUCT      = 0;
 			if($wsSPT      == NULL) $wsSPT      = '';
 			if($wsUSC      == NULL) $wsUSC      = 0;
+			if($wsMLP      == NULL) $wsMLP      = 15;
 		}
 		
 		$wsTitle   = $this->decodeText($wsTitle, '2', $this->m_CHARSET);
@@ -1788,6 +1793,7 @@ class tcms_datacontainer_provider extends tcms_main {
 		$pDC->setShowPriceOnlyUsers($wsSPOU);
 		$pDC->setStartpageTitle($wsSPT);
 		$pDC->setUseSideCategory($wsUSC);
+		$pDC->setMaxLatestProducts($wsMLP);
 		
 		return $pDC;
 	}

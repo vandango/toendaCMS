@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.6.6
+ * @version 2.6.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -488,7 +488,7 @@ if($wsShowSite){
 				
 				if(!isset($s) || $s == ''){
 					$layout_xml = new xmlparser(''.$tcms_administer_site.'/tcms_global/layout.xml','r');
-					$s = $layout_xml->read_section('layout', 'select');
+					$s = $layout_xml->readSection('layout', 'select');
 				}
 				
 				if($seoEnabled == 1){
@@ -918,6 +918,7 @@ if($wsShowSite){
 							$show_price_only_users  = $dcP->getShowPriceOnlyUsers();
 							$startpage_title        = $dcP->getStartpageTitle();
 							$use_sidebar_categories = $dcP->getUseSideCategory();
+							$max_latest_products    = $dcP->getMaxLatestProducts();
 							break;
 						
 						case 'imagegallery':
@@ -977,9 +978,9 @@ if($wsShowSite){
 					$active_topmenu = $tcms_config->getTopmenuActive();
 					
 					$footer_xml       = new xmlparser($tcms_administer_site.'/tcms_global/footer.xml','r');
-					$websiteowner     = $footer_xml->read_section('footer', 'websiteowner');
-					$websitecopyright = $footer_xml->read_section('footer', 'copyright');
-					$websiteowner_url = $footer_xml->read_section('footer', 'owner_url');
+					$websiteowner     = $footer_xml->readSection('footer', 'websiteowner');
+					$websitecopyright = $footer_xml->readSection('footer', 'copyright');
+					$websiteowner_url = $footer_xml->readSection('footer', 'owner_url');
 					$footer_xml->flush();
 					$footer_xml->_xmlparser();
 					
@@ -1000,17 +1001,17 @@ if($wsShowSite){
 					
 					if($choosenDB == 'xml'){
 						$xml    = new xmlparser(''.$tcms_administer_site.'/tcms_global/sidebar.xml','r');
-						$user_navigation = $xml->read_section('side', 'usermenu');
+						$user_navigation = $xml->readSection('side', 'usermenu');
 						
 						if($use_login == 1){
-							$login_title  = $xml->read_section('side', 'login_title');
-							$no_login     = $xml->read_section('side', 'nologin');
-							$reg_link     = $xml->read_section('side', 'reg_link');
-							$reg_username = $xml->read_section('side', 'reg_user');
-							$reg_password = $xml->read_section('side', 'reg_pass');
-							$login_user   = $xml->read_section('side', 'login_user');
-							$show_lt      = $xml->read_section('side', 'show_login_title');
-							$show_ml      = $xml->read_section('side', 'show_memberlist');
+							$login_title  = $xml->readSection('side', 'login_title');
+							$no_login     = $xml->readSection('side', 'nologin');
+							$reg_link     = $xml->readSection('side', 'reg_link');
+							$reg_username = $xml->readSection('side', 'reg_user');
+							$reg_password = $xml->readSection('side', 'reg_pass');
+							$login_user   = $xml->readSection('side', 'login_user');
+							$show_lt      = $xml->readSection('side', 'show_login_title');
+							$show_ml      = $xml->readSection('side', 'show_memberlist');
 							
 							$login_title  = $tcms_main->decodeText($login_title, '2', $c_charset);
 							$no_login     = $tcms_main->decodeText($no_login, '2', $c_charset);

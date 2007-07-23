@@ -173,13 +173,13 @@ if($albums == 'start'){
 				}
 				
 				echo '<img style="border: 1px solid #333333;" '
-					.'src="'.$imagePath.$tcms_administer_site.'/thumbnails/'.$value.'/thumb_'.$arr_albums['image'][$key].'" '
-					.'border="0" align="left" />';
+				.'src="'.$imagePath.$tcms_administer_site.'/thumbnails/'.$value.'/thumb_'.$arr_albums['image'][$key].'" '
+				.'border="0" align="left" />';
 			}
 			else{
 				echo '<img style="border: 1px solid #333333;" '
-					.'src="'.$imagePath.'engine/images/no_picture.gif" '
-					.'border="0" align="left" />';
+				.'src="'.$imagePath.'engine/images/no_picture.gif" '
+				.'border="0" align="left" />';
 			}
 			
 			echo '</a></td>';
@@ -322,11 +322,11 @@ if($albums != 'start'){
 								}
 								
 								if(!file_exists($tcms_administer_site.'/thumbnails/'.$a_value.'/thumb_'.$dvalue)){
-									tcms_gd::gd_thumbnail(
+									$tcms_gd->createThumbnail(
 										$tcms_administer_site.'/images/albums/'.$a_value.'/',
 										$tcms_administer_site.'/thumbnails/'.$a_value.'/', $dvalue, 
-										'100', 
-										'create'
+										$arr_albums['image'][$key], 
+										'100'
 									);
 								}
 								

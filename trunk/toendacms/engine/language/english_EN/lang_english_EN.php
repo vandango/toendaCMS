@@ -1052,17 +1052,17 @@ define('_DOWNLOADS_SAVE_AS_MIMITYPE', 'Save the mimetype as image');
 
 
 // PRODUCTS
-define('_PRODUCTS_TITLE', 'Products');
-define('_PRODUCTS_ID', 'Product ID');
-define('_PRODUCTS_SITETITLE', 'Product site title');
-define('_PRODUCTS_SITESUBTITLE', 'Product site subtitle');
-define('_PRODUCTS_SITETEXT', 'Product site text');
-define('_PRODUCTS_MAINCATEGORY', 'Product main category');
-define('_PRODUCTS_TEXT', 'Controlling all your products.');
-define('_PRODUCTS_NEW', 'Create a new product entry for the category');
-define('_PRODUCTS_EDIT', 'Edit all your product entry\'s in the category');
-define('_PRODUCTS_HELP', 'If you leave the image upload place blank, a empty image would create for this file.');
-define('_PRODUCTS_NEW_CAT', 'Create a new product category, to sort your products by your own wish.');
+if(!defined('_PRODUCTS_TITLE'))                define('_PRODUCTS_TITLE', 'Products');
+if(!defined('_PRODUCTS_ID'))                   define('_PRODUCTS_ID', 'Product ID');
+if(!defined('_PRODUCTS_SITETITLE'))            define('_PRODUCTS_SITETITLE', 'Product site title');
+if(!defined('_PRODUCTS_SITESUBTITLE'))         define('_PRODUCTS_SITESUBTITLE', 'Product site subtitle');
+if(!defined('_PRODUCTS_SITETEXT'))             define('_PRODUCTS_SITETEXT', 'Product site text');
+if(!defined('_PRODUCTS_MAINCATEGORY'))         define('_PRODUCTS_MAINCATEGORY', 'Product main category');
+if(!defined('_PRODUCTS_TEXT'))                 define('_PRODUCTS_TEXT', 'Controlling all your products.');
+if(!defined('_PRODUCTS_NEW'))                  define('_PRODUCTS_NEW', 'Create a new product entry for the category');
+if(!defined('_PRODUCTS_EDIT'))                 define('_PRODUCTS_EDIT', 'Edit all your product entry\'s in the category');
+if(!defined('_PRODUCTS_HELP'))                 define('_PRODUCTS_HELP', 'If you leave the image upload place blank, a empty image would create for this file.');
+if(!defined('_PRODUCTS_NEW_CAT'))              define('_PRODUCTS_NEW_CAT', 'Create a new product category, to sort your products by your own wish.');
 if(!defined('_PRODUCTS_SUBMIT_ON'))            define('_PRODUCTS_SUBMIT_ON', 'Submitted On');
 if(!defined('_PRODUCTS_INC_TAX'))              define('_PRODUCTS_INC_TAX', 'inc. Tax');
 if(!defined('_PRODUCTS_EX_TAX'))               define('_PRODUCTS_EX_TAX', 'ex. Tax');
@@ -1075,6 +1075,8 @@ if(!defined('_PRODUCTS_CATEGORY'))             define('_PRODUCTS_CATEGORY', 'Cat
 if(!defined('_PRODUCTS_CATEGORIES'))           define('_PRODUCTS_CATEGORIES', 'Categories');
 if(!defined('_PRODUCTS_CATALOGUE'))            define('_PRODUCTS_CATALOGUE', 'Catalogue');
 if(!defined('_PRODUCTS_USESIDEBARCATEGORIES')) define('_PRODUCTS_USESIDEBARCATEGORIES', 'Use sidebar categories');
+if(!defined('_PRODUCTS_LATEST'))               define('_PRODUCTS_LATEST', 'Latest articles');
+if(!defined('_PRODUCTS_AMOUNT_OF_LATEST'))     define('_PRODUCTS_AMOUNT_OF_LATEST', 'Amount of latest articles in frontend');
 
 
 // NEWS

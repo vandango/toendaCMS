@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for all graphic actions.
  *
- * @version 0.3.1
+ * @version 0.3.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -161,9 +161,10 @@ class tcms_gd {
 	 * @param String $image
 	 * @param Integer $size
 	 * @param Boolean $withTransparency = false
+	 * @param Boolean $sizeInName = false
 	 * @return Boolean
 	 */
-	function createThumbnail($path, $targetPath, $image, $size, $withTransparency = false){
+	function createThumbnail($path, $targetPath, $image, $size, $withTransparency = false, $sizeInName = false){
 		global $tcms_main;
 		
 		$isImage = true;
@@ -173,7 +174,7 @@ class tcms_gd {
 			case 'jpeg':
 			case 'jpe':
 				//try {
-				$img_src = @imagecreatefromjpeg($path.$image);
+				$img_src = imagecreatefromjpeg($path.$image);
 				/*}
 				catch(Exception $e) {
 					echo $e->getMessage();
@@ -208,10 +209,15 @@ class tcms_gd {
 			$X_factor100  = $img_o_width / $size;
 			
 			if($img_o_width > 0 && $img_o_height > 0) {
-				$img_width    = $img_o_width / $X_factor100;
-				$img_height   = $img_o_height / $X_factor100;
+				$img_width = $img_o_width / $X_factor100;
+				$img_height = $img_o_height / $X_factor100;
 				
-				$img_path     = $targetPath.'thumb_'.$image;
+				if($sizeInName) {
+					$img_path = $targetPath.'thumb_'.$size.'_'.$image;
+				}
+				else {
+					$img_path = $targetPath.'thumb_'.$image;
+				}
 				
 				if($withTransparency){
 					$img_file = @imagecreatetruecolor($img_width, $img_height);
