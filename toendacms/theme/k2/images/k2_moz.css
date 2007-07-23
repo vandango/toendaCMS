@@ -524,6 +524,10 @@ hr.products_tab_line {
 	margin: -2px 0 0 0;
 }
 
+hr.products_tab_line_add {
+	margin-top: -1px;
+}
+
 .products_category {
 	color: #fff;
 	background-color: #bbb;
