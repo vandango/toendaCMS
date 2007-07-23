@@ -51,7 +51,11 @@ $arrHeaderImages['defaultimage'] = 'startpage02.jpg'; // <-- This image is displ
 	include(_SITETITLE);
 ?></title>
 <?php echo _SITE_META_DATA; ?>
-<link href="<?php echo $skinPath; ?>css.css" rel="stylesheet" type="text/css" />
+<style type="text/css">@import "<?php echo $skinPath; ?>css.css";</style>
+<!--[if lt IE 5.5000]><style type="text/css">@import "<?php echo $skinPath; ?>css_ie.css";</style><![endif]-->
+<!--[if IE 5.5000]><style type="text/css">@import "<?php echo $skinPath; ?>css_ie.css";</style><![endif]-->
+<!--[if IE 6]><style type="text/css">@import "<?php echo $skinPath; ?>css_ie.css";</style><![endif]-->
+<!--[if IE 7]><style type="text/css">@import "<?php echo $skinPath; ?>css_ie.css";</style><![endif]-->
 </head>
 
 

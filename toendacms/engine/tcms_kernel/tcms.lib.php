@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.1.9
+ * @version 2.2.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -81,6 +81,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * isCHMODable                       -> Checks if a file is CHMODable
  * deleteDir                         -> Remove dir with all files and directorys inside
  * deleteDirContent                  -> Remove all files and directorys inside a directory
+ * deleteFile                        -> Delete a file (if it exist)
  * encodeBase64                      -> Encode (decipher) a crypt a string from a base64 crypt string
  * decodeBase64                      -> Decode (cipher) a string into a base64 crypt string
  * encodeText                        -> Encode (cipher) a text
@@ -95,6 +96,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * cleanImageFromString              -> Clean images from a string
  * cleanAllImagesFromString          -> Clean all images from a string
  * cleanHTMLforPDF                   -> Return a cleaned string for PDF output
+ * cleanStringForUrlName             -> Clean a string for a url (or a lightbox) name
  * urlConvertToSEO                   -> Convert a url link into a SEO friendly link
  * urlConvertToHTMLFormat            -> Converts a normal link into a html based link
  * urlAddSlash                       -> Convert a equal-char (=) into a slash-char (/)
@@ -935,6 +937,7 @@ class tcms_main {
 			|| $type == 'video/quicktime'
 			|| $type == 'video/x-msvideo'
 			|| $type == 'video/avi'
+			|| $type == 'application/x-shockwave-flash'
 			|| $type == 'video/wmv')
 				return true;
 			else
@@ -945,6 +948,8 @@ class tcms_main {
 			|| preg_match('/.mpeg/i', strtolower($type))
 			|| preg_match('/.mpg/i', strtolower($type))
 			|| preg_match('/.wmv/i', strtolower($type))
+			|| preg_match('/.swf/i', strtolower($type))
+			|| preg_match('/.cab/i', strtolower($type))
 			|| preg_match('/.qt/i', strtolower($type))
 			|| preg_match('/.mov/i', strtolower($type)))
 				return true;
@@ -1100,6 +1105,24 @@ class tcms_main {
 		}
 		
 		return false;
+	}
+	
+	
+	
+	/**
+	 * Delete a file (if it exist)
+	 * 
+	 * @param String $file
+	 * @return Boolean
+	 */
+	function deleteFile($file) {
+		if(file_exists($file)) {
+			unlink($file);
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	
@@ -1497,6 +1520,33 @@ class tcms_main {
 		$string = trim($string);
 		
 		return $string;
+	}
+	
+	
+	
+	/**
+	 * Clean a string for a url (or a lightbox) name
+	 *
+	 * @param String $text
+	 * @param Boolean $withHtmlEntities = false
+	 * @return String
+	 */
+	function cleanStringForUrlName($text){
+		$text = $this->cleanGBScript($text);
+		
+		$text = preg_replace("'/<script[^>]*>/i.*?/</script>/gi'", '', $text);
+		$text = preg_replace('/{.+?}/', '', $text);
+		$text = preg_replace("'<script[^>]*>.*?</script>'", '', $text);
+		$text = preg_replace("'<?php*.*?\?>'", '', $text);
+		$text = str_replace('<?', '', $text);
+		$text = str_replace('?>', '', $text);
+		$text = str_replace(' ', '_', $text);
+		$text = str_replace('&nbsp;', '_', $text);
+		$text = preg_replace('/{.+?}/', '', $text);
+		
+		$text = htmlentities($text);
+		
+		return $text;
 	}
 	
 	

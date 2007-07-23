@@ -311,6 +311,8 @@ Products
 a.products_top		- toendaSHOP layout classes for links
 .products_category  - Category line in the category table
 .products_tab_line  - Line under the products tabs
+products_tab_line_add - Line under the products tabs (only set if text is displayed)
+.product_view_image - On image on the article view
 
 
 

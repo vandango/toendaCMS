@@ -51,6 +51,8 @@ if(!defined('_PRODUCTS_CATEGORY'))             define('_PRODUCTS_CATEGORY', 'Cat
 if(!defined('_PRODUCTS_CATEGORIES'))           define('_PRODUCTS_CATEGORIES', 'Categories');
 if(!defined('_PRODUCTS_CATALOGUE'))            define('_PRODUCTS_CATALOGUE', 'Catalogue');
 if(!defined('_PRODUCTS_USESIDEBARCATEGORIES')) define('_PRODUCTS_USESIDEBARCATEGORIES', 'Use sidebar categories');
+if(!defined('_PRODUCTS_LATEST'))               define('_PRODUCTS_LATEST', 'Latest articles');
+if(!defined('_PRODUCTS_AMOUNT_OF_LATEST'))     define('_PRODUCTS_AMOUNT_OF_LATEST', 'Amount of latest articles in frontend');
 
 *
 *

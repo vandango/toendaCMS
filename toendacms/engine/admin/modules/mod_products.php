@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used for the products configuration
  * and the administration of all the products.
  *
- * @version 0.7.4
+ * @version 0.7.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -52,6 +52,7 @@ if(isset($_POST['new_usest'])){ $new_usest = $_POST['new_usest']; }
 if(isset($_POST['new_spou'])){ $new_spou = $_POST['new_spou']; }
 if(isset($_POST['new_spt'])){ $new_spt = $_POST['new_spt']; }
 if(isset($_POST['new_usc'])){ $new_usc = $_POST['new_usc']; }
+if(isset($_POST['new_mlp'])){ $new_mlp = $_POST['new_mlp']; }
 
 // items
 if(isset($_POST['new_name'])){ $new_name = $_POST['new_name']; }
@@ -144,6 +145,7 @@ if($todo == 'config'){
 				$old_spou   = $pXML->readSection('config', 'show_price_only_users');
 				$old_spt    = $pXML->readSection('config', 'startpagetitle');
 				$old_usc    = $pXML->readSection('config', 'use_sidebar_categories');
+				$old_mlp    = $pXML->readSection('config', 'max_latest_products');
 				
 				if(!$old_pid)   { $old_pid    = ''; }
 				if(!$old_ptitle){ $old_ptitle = ''; }
@@ -154,6 +156,7 @@ if($todo == 'config'){
 				//if(!$old_spou)  { $old_spou   = ''; }
 				if(!$old_spt)   { $old_spt    = ''; }
 				if(!$old_usc)   { $old_usc    = ''; }
+				//if(!$old_mlp)   { $old_mlp    = ''; }
 				
 				$langExist = 1;
 			}
@@ -186,6 +189,7 @@ if($todo == 'config'){
 			$old_spou   = $sqlObj->show_price_only_users;
 			$old_spt    = $sqlObj->startpagetitle;
 			$old_usc    = $sqlObj->use_sidebar_categories;
+			$old_mlp    = $sqlObj->max_latest_products;
 			
 			if($old_pid    == NULL){ $old_pid    = ''; }
 			if($old_ptitle == NULL){ $old_ptitle = ''; }
@@ -197,6 +201,7 @@ if($todo == 'config'){
 			if($old_spou   == NULL){ $old_spou   = 0; }
 			if($old_spt    == NULL){ $old_spt    = ''; }
 			if($old_usc    == NULL){ $old_usc    = 0; }
+			if($old_mlp    == NULL){ $old_mlp    = 15; }
 		}
 		
 		$old_ptitle = $tcms_main->decodeText($old_ptitle, '2', $c_charset);
@@ -338,6 +343,15 @@ if($todo == 'config'){
 		
 		// table rows
 		echo '<tr><td valign="middle">'
+		._PRODUCTS_AMOUNT_OF_LATEST
+		.'</td><td valign="middle" colspan="2">'
+		.'<input name="new_mlp" class="tcms_id_box" value="'.$old_mlp.'" />'
+		.'</td></tr>';
+		
+		
+		/*
+		// table rows
+		echo '<tr><td valign="middle">'
 		._PRODUCTS_MAINCATEGORY
 		.'</td><td valign="middle" colspan="2">'
 		.'<select name="new_cstate">';
@@ -348,6 +362,7 @@ if($todo == 'config'){
 		
 		echo '</select>'
 		.'</td></tr>';
+		*/
 		
 		
 		// table rows
@@ -1615,6 +1630,7 @@ if($todo == 'save_config') {
 	if(empty($new_spou))  { $new_spou   = 0; }
 	if(empty($new_spt))   { $new_spt    = ''; }
 	if(empty($new_usc))   { $new_usc    = 0; }
+	if(empty($new_mlp))   { $new_mlp    = 0; }
 	
 	
 	$content = str_replace('src="../../../../http:', 'src="http:', $content);
@@ -1666,6 +1682,7 @@ if($todo == 'save_config') {
 		$xmluser->writeValue('show_price_only_users', $new_spou);
 		$xmluser->writeValue('startpagetitle', $new_spt);
 		$xmluser->writeValue('use_sidebar_categories', $new_usc);
+		$xmluser->writeValue('max_latest_products', $new_mlp);
 		
 		$xmluser->xmlSectionBuffer();
 		$xmluser->xmlSectionEnd('config');
@@ -1686,6 +1703,7 @@ if($todo == 'save_config') {
 			.$tcms_db_prefix.'products_config.use_category_title='.$new_usest.', '
 			.$tcms_db_prefix.'products_config.show_price_only_users='.$new_spou.', '
 			.$tcms_db_prefix.'products_config.use_sidebar_categories='.$new_usc.', '
+			.$tcms_db_prefix.'products_config.max_latest_products='.$new_mlp.', '
 			.$tcms_db_prefix.'products_config.startpagetitle="'.$new_spt.'"';
 			
 			switch($choosenDB) {
@@ -1714,28 +1732,32 @@ if($todo == 'save_config') {
 					$newSQLColumns = '`products_id`, `products_title`, '
 					.'`products_stamp`, `products_text`, `category_state`, '
 					.'`category_title`, `use_category_title`, `language`, '
-					.'`show_price_only_users`, `startpagetitle`, `use_sidebar_categories`';
+					.'`show_price_only_users`, `startpagetitle`, `use_sidebar_categories`, '
+					.'`max_latest_products`';
 					break;
 				
 				case 'pgsql':
 					$newSQLColumns = 'products_id, products_title, '
 					.'products_stamp, products_text, "category_state", '
 					.'category_title, use_category_title, "language", '
-					.'show_price_only_users, startpagetitle, use_sidebar_categories';
+					.'show_price_only_users, startpagetitle, use_sidebar_categories, '
+					.'max_latest_products';
 					break;
 				
 				case 'mssql':
 					$newSQLColumns = '[products_id], [products_title], '
 					.'[products_stamp], [products_text], [category_state], '
 					.'[category_title], [use_category_title], [language], '
-					.'[show_price_only_users], [startpagetitle], [use_sidebar_categories]';
+					.'[show_price_only_users], [startpagetitle], [use_sidebar_categories], '
+					.'[max_latest_products]';
 					break;
 			}
 			
 			$newSQLData = "'products', '".$new_ptitle."', "
 			."'".$new_pstamp."', '".$content."', "
 			."'".$new_cstate."', '".$new_ctitle."', "
-			.$new_usest.", '".$setLang."', ".$new_spou.", '".$new_spt."', ".$new_usc;
+			.$new_usest.", '".$setLang."', ".$new_spou.", '".$new_spt."', ".$new_usc.", "
+			.$new_mlp;
 			
 			$maintag = $tcms_main->getNewUID(8, 'products_config');
 			
@@ -1870,14 +1892,18 @@ if($todo == 'save') {
 	if($tcms_main->isReal($tmp_image1)) {
 		if($tcms_main->isReal($new_image1) && $new_image1 != ''){
 			if(file_exists('../../'.$tcms_administer_site.'/images/products/'.$tmp_image1)) {
-				unlink('../../'.$tcms_administer_site.'/images/products/'.$tmp_image1);
+				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$tmp_image1);
+				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$tmp_image1);
+				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$tmp_image1);
 			}
 			
 			$new_image1 = $new_image1;
 		}
 		elseif(trim($tmp_image1) == ''){
 			if(file_exists('../../'.$tcms_administer_site.'/images/products/'.$old_image1)) {
-				unlink('../../'.$tcms_administer_site.'/images/products/'.$old_image1);
+				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$old_image1);
+				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$old_image1);
+				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$old_image1);
 			}
 		}
 		else{
@@ -1904,14 +1930,18 @@ if($todo == 'save') {
 	if($tcms_main->isReal($tmp_image2)){
 		if($tcms_main->isReal($new_image2) && $new_image2 != ''){
 			if(file_exists('../../'.$tcms_administer_site.'/images/products/'.$tmp_image2)) {
-				unlink('../../'.$tcms_administer_site.'/images/products/'.$tmp_image2);
+				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$tmp_image2);
+				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$tmp_image2);
+				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$tmp_image2);
 			}
 			
 			$new_image2 = $new_image2;
 		}
 		elseif(trim($tmp_image2) == ''){
 			if(file_exists('../../'.$tcms_administer_site.'/images/products/'.$old_image2)) {
-				unlink('../../'.$tcms_administer_site.'/images/products/'.$old_image2);
+				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$old_image2);
+				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$old_image2);
+				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$old_image2);
 			}
 		}
 		else{
@@ -1938,14 +1968,18 @@ if($todo == 'save') {
 	if($tcms_main->isReal($tmp_image3)){
 		if($tcms_main->isReal($new_image3) && $new_image3 != ''){
 			if(file_exists('../../'.$tcms_administer_site.'/images/products/'.$tmp_image3)) {
-				unlink('../../'.$tcms_administer_site.'/images/products/'.$tmp_image3);
+				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$tmp_image3);
+				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$tmp_image3);
+				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$tmp_image3);
 			}
 			
 			$new_image3 = $new_image3;
 		}
 		elseif(trim($tmp_image3) == ''){
 			if(file_exists('../../'.$tcms_administer_site.'/images/products/'.$old_image3)) {
-				unlink('../../'.$tcms_administer_site.'/images/products/'.$old_image3);
+				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$old_image3);
+				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$old_image3);
+				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$old_image3);
 			}
 		}
 		else{
@@ -1972,14 +2006,18 @@ if($todo == 'save') {
 	if($tcms_main->isReal($tmp_image4)){
 		if($tcms_main->isReal($new_image4) && $new_image4 != ''){
 			if(file_exists('../../'.$tcms_administer_site.'/images/products/'.$tmp_image4)) {
-				unlink('../../'.$tcms_administer_site.'/images/products/'.$tmp_image4);
+				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$tmp_image4);
+				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$tmp_image4);
+				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$tmp_image4);
 			}
 			
 			$new_image4 = $new_image4;
 		}
 		elseif(trim($tmp_image4) == ''){
 			if(file_exists('../../'.$tcms_administer_site.'/images/products/'.$old_image4)) {
-				unlink('../../'.$tcms_administer_site.'/images/products/'.$old_image4);
+				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$old_image4);
+				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$old_image4);
+				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$old_image4);
 			}
 		}
 		else{
@@ -2328,13 +2366,34 @@ if($todo == 'delete'){
 			/*$tcms_main->deleteDir(
 				'../../'.$tcms_administer_site.'/tcms_products/'.$maintag.'/'
 			);*/
-			unlink('../../'.$tcms_administer_site.'/tcms_products/'.$maintag);
+			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/tcms_products/'.$maintag);
 		}
 		else {
 			/*$tcms_main->deleteDir(
 				'../../'.$tcms_administer_site.'/tcms_products/'.$maintag.'/'
 			);*/
-			unlink('../../'.$tcms_administer_site.'/tcms_products/'.$maintag);
+			/*
+			// delete image 1
+			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$sqlObj->image1);
+			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$sqlObj->image1);
+			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$sqlObj->image1);
+			
+			// delete image 2
+			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$sqlObj->image2);
+			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$sqlObj->image2);
+			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$sqlObj->image2);
+			
+			// delete image 3
+			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$sqlObj->image3);
+			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$sqlObj->image3);
+			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$sqlObj->image3);
+			
+			// delete image 4
+			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$sqlObj->image4);
+			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$sqlObj->image4);
+			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$sqlObj->image4);
+			*/
+			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/tcms_products/'.$maintag);
 		}
 	}
 	else {
@@ -2347,6 +2406,53 @@ if($todo == 'delete'){
 			);
 		}
 		else {
+			switch($id_group){
+				case 'Developer':
+				case 'Administrator':
+					$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
+					break;
+				
+				case 'User':
+				case 'Editor':
+				case 'Presenter':
+					$strAdd = " OR access = 'Protected' ) ";
+					break;
+				
+				default:
+					$strAdd = ' ) ';
+					break;
+			}
+			
+			$sqlSTR = "SELECT * "
+			."FROM ".$tcms_db_prefix."products "
+			."WHERE uid = '".$maintag."' "
+			."AND ( access = 'Public' "
+			.$strAdd
+			."ORDER BY sort ASC, date ASC";
+			
+			$sqlQR = $sqlAL->query($sqlSTR);
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
+			
+			// delete image 1
+			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$sqlObj->image1);
+			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$sqlObj->image1);
+			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$sqlObj->image1);
+			
+			// delete image 2
+			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$sqlObj->image2);
+			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$sqlObj->image2);
+			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$sqlObj->image2);
+			
+			// delete image 3
+			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$sqlObj->image3);
+			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$sqlObj->image3);
+			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$sqlObj->image3);
+			
+			// delete image 4
+			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$sqlObj->image4);
+			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$sqlObj->image4);
+			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$sqlObj->image4);
+			
 			$sqlRes = $sqlAL->query(
 				"DELETE FROM ".$tcms_db_prefix."products WHERE uid = '".$maintag."'"
 			);

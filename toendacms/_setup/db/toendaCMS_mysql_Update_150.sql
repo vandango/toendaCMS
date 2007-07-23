@@ -14,3 +14,4 @@ ALTER TABLE `#####products` CHANGE `category` `category` VARCHAR( 32 );
 ALTER TABLE `#####products` CHANGE `category` `category` VARCHAR( 32 ) NULL;
 ALTER TABLE `#####products` ADD `language` VARCHAR( 25 ) NOT NULL DEFAULT 'english_EN';
 ALTER TABLE `#####products_config` ADD `use_sidebar_categories` TINYINT NOT NULL DEFAULT '1';
+ALTER TABLE `#####products_config` ADD `max_latest_products` INT NOT NULL DEFAULT '15';
