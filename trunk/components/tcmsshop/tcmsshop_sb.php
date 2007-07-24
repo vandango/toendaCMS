@@ -49,8 +49,9 @@ if($_TCMS_CS_ARRAY['tcmsshop']['attribute']['sb_tcmsshop_title']['ENCODE'] == 1)
 
 
 if($show_tcmsshop_title == 1){
-	echo $tcms_html->sidebarTitle($tcmsshopTitle);
-	echo $tcms_html->sidebarText($tcmsshopSubTitle);
+	echo $tcms_html->sidebarTitle($tcmsshopTitle)
+	.'<br />'
+	.$tcms_html->sidebarText($tcmsshopSubTitle);
 	//echo '<br />';
 }
 else{
