@@ -7,10 +7,9 @@
 | Author: Jonathan Naumann                                               |
 +------------------------------------------------------------------------+
 | 
-| Contentcentral
+| Components System
 |
-| File:		mod_components.php
-| Version:	0.2.7
+| File:	mod_components.php
 |
 +
 */
@@ -19,7 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-
+/**
+ * Components System
+ *
+ * This module is used to manage the components.
+ *
+ * @version 0.3.1
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 if(isset($_GET['check'])){ $check = $_GET['check']; }
@@ -47,11 +55,12 @@ if(isset($_POST['new_csSideSort'])){ $new_csSideSort = $_POST['new_csSideSort'];
 
 
 
-//=====================================================
+// -----------------------------------------------------
 // DATA
-//=====================================================
+// -----------------------------------------------------
 
-if($id_group == 'Developer' || $id_group == 'Administrator'){
+if($id_group == 'Developer' 
+|| $id_group == 'Administrator'){
 	/*
 		INIT
 	*/
@@ -60,33 +69,31 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	
 	$bgkey = 0;
 	
-	$arr_filename = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/components/');
+	$arr_filename = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/components/');
 	
 	
 	
-	
-	
-	//=====================================================
+	// -----------------------------------------------------
 	// VALUE LIST
-	//=====================================================
+	// -----------------------------------------------------
 	
-	if($todo == 'show'){
-		echo tcms_html::bold(_CS_TITLE);
-		echo tcms_html::text(_CS_TEXT.'<br /><br />', 'left');
+	if($todo == 'show') {
+		echo $tcms_html->bold(_CS_TITLE);
+		echo $tcms_html->text(_CS_TEXT.'<br /><br />', 'left');
 		
-		if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
+		if($tcms_main->isArray($arr_filename)){
 			foreach($arr_filename as $key => $value){
 				$csXML = new xmlparser('../../'.$tcms_administer_site.'/components/'.$value.'/component.xml', 'r');
-				$arrCS['title'][$key]   = $csXML->read_value('title');
-				$arrCS['subtit'][$key]  = $csXML->read_value('subtitle');
-				$arrCS['id'][$key]      = $csXML->read_value('id');
-				$arrCS['enabled'][$key] = $csXML->read_value('enabled');
-				$arrCS['folder'][$key]  = $csXML->read_value('folder');
-				$arrCS['access'][$key]  = $csXML->read_value('access');
-				$arrCS['mcmod'][$key]   = $csXML->read_value('mainCS');
-				$arrCS['sbmod'][$key]   = $csXML->read_value('sideCS');
-				$arrCS['sbsort'][$key]  = $csXML->read_value('sideSort');
-				$arrCS['back'][$key]    = $csXML->read_value('backendfile');
+				$arrCS['title'][$key]   = $csXML->readValue('title');
+				$arrCS['subtit'][$key]  = $csXML->readValue('subtitle');
+				$arrCS['id'][$key]      = $csXML->readValue('id');
+				$arrCS['enabled'][$key] = $csXML->readValue('enabled');
+				$arrCS['folder'][$key]  = $csXML->readValue('folder');
+				$arrCS['access'][$key]  = $csXML->readValue('access');
+				$arrCS['mcmod'][$key]   = $csXML->readValue('mainCS');
+				$arrCS['sbmod'][$key]   = $csXML->readValue('sideCS');
+				$arrCS['sbsort'][$key]  = $csXML->readValue('sideSort');
+				$arrCS['back'][$key]    = $csXML->readValue('backendfile');
 				$arrCS['tag'][$key]     = $value;
 				
 				if(!$arrCS['title'][$key]) { $arrCS['title'][$key]  = ''; }
@@ -123,15 +130,16 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		
 		echo '<table cellpadding="3" cellspacing="0" border="0" class="noborder" width="100%">';
 		echo '<tr class="tcms_bg_blue_01">'
-			.'<th valign="middle" class="tcms_db_title" width="20%" align="left">'._TABLE_TITLE.'</th>'
-			.'<th valign="middle" class="tcms_db_title" width="25%" align="left">'._TABLE_SUBTITLE.'</th>'
-			.'<th valign="middle" class="tcms_db_title" width="5%">'._TABLE_ENABLED.'</th>'
-			.'<th valign="middle" class="tcms_db_title" width="5%">'._TABLE_SIDEBAR.'</th>'
-			.'<th valign="middle" class="tcms_db_title" width="5%">'._TABLE_MAINCONTENT.'</th>'
-			.'<th valign="middle" class="tcms_db_title" width="10%">'._TABLE_SORT_SIDE.'</th>'
-			.'<th valign="middle" class="tcms_db_title" width="5%">'._TABLE_LINK.'</th>'
-			.'<th valign="middle" class="tcms_db_title" width="10%">'._TABLE_ACCESS.'</th>'
-			.'<th valign="middle" class="tcms_db_title" width="20%" align="right">'._TABLE_FUNCTIONS.'</th><tr>';
+		.'<th valign="middle" class="tcms_db_title" width="20%" align="left">'._TABLE_TITLE.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="20%" align="left">'._TABLE_SUBTITLE.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="5%">'._TABLE_ENABLED.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="5%">'._TABLE_SIDEBAR.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="5%">'._TABLE_MAINCONTENT.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="10%">'._TABLE_SORT.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="5%">'._TABLE_LINK.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="10%">'._TABLE_ACCESS.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="20%" align="right">'._TABLE_FUNCTIONS.'</th>'
+		.'<tr>';
 		
 		if(isset($arrCS)){
 			foreach ($arrCS['sbsort'] as $key => $value){
@@ -183,6 +191,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 				
 				echo '<td class="tcms_db_2" align="right" valign="middle">'
 				.( trim($arrCS['back'][$key]) != ''
+				&& file_exists('../../'.$tcms_administer_site.'/components/'.$arrCS['tag'][$key].'/'.$arrCS['back'][$key])
 					? '<a title="'._TABLE_ADMINBUTTON.'" href="admin.php?id_user='.$id_user.'&amp;site=mod_components&amp;todo=admin&amp;component='.$arrCS['tag'][$key].'&amp;backend='.$arrCS['back'][$key].'">'
 					.'<img title="'._TABLE_ADMINBUTTON.'" alt="'._TABLE_ADMINBUTTON.'" style="padding-top: 3px;" border="0" src="../images/a_administer.gif" />'
 					.'</a>&nbsp;'
@@ -378,20 +387,20 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	if($todo == 'edit'){
 		$csXML = new xmlparser('../../'.$tcms_administer_site.'/components/'.$maintag.'/component.xml','r');
 		
-		$csTitle    = $csXML->read_value('title');
-		$csSubTitle = $csXML->read_value('subtitle');
-		$csDesc     = $csXML->read_value('desc');
-		$csID       = $csXML->read_value('id');
-		$csEnabled  = $csXML->read_value('enabled');
-		$csMain     = $csXML->read_value('mainCS');
-		$csSide     = $csXML->read_value('sideCS');
-		$csSideSort = $csXML->read_value('sideSort');
-		$csAccess   = $csXML->read_value('access');
-		$csFolder   = $csXML->read_value('folder');
-		$csBackend  = $csXML->read_value('backendfile');
-		$csFrontend = $csXML->read_value('frontendfile');
-		$csSidebar  = $csXML->read_value('sidebarfile');
-		$csSettings = $csXML->read_value('settingsfile');
+		$csTitle    = $csXML->readValue('title');
+		$csSubTitle = $csXML->readValue('subtitle');
+		$csDesc     = $csXML->readValue('desc');
+		$csID       = $csXML->readValue('id');
+		$csEnabled  = $csXML->readValue('enabled');
+		$csMain     = $csXML->readValue('mainCS');
+		$csSide     = $csXML->readValue('sideCS');
+		$csSideSort = $csXML->readValue('sideSort');
+		$csAccess   = $csXML->readValue('access');
+		$csFolder   = $csXML->readValue('folder');
+		$csBackend  = $csXML->readValue('backendfile');
+		$csFrontend = $csXML->readValue('frontendfile');
+		$csSidebar  = $csXML->readValue('sidebarfile');
+		$csSettings = $csXML->readValue('settingsfile');
 		
 		if($csTitle    == false){ $csTitle    = ''; }
 		if($csSubTitle == false){ $csSubTitle = ''; }

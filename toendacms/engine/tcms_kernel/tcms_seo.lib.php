@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used for the search engine
  * optimization.
  *
- * @version 0.3.5
+ * @version 0.4.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -340,6 +340,12 @@ class tcms_seo {
 	 * Explode the url in slash format
 	 */
 	function explodeHTMLFormat(){
+		global $tcms_main;
+		global $tcms_time;
+		global $tcms_config;
+		
+		$arrSEO = explode('/', $tcms_config->getSEOPath());
+		
 		foreach($this->m_urlArray as $urlKey => $urlValue){
 			//echo '$urlValue:'.$urlValue.'<br>';
 			
@@ -386,21 +392,77 @@ class tcms_seo {
 				/*
 					id's
 				*/
-				case 'frontpage': $arrSEO['id'] = 'frontpage'; break;
-				case 'news':      $arrSEO['id'] = 'newsmanager'; break;
-				case 'download':  $arrSEO['id'] = 'download'; break;
-				case 'contact':   $arrSEO['id'] = 'contactform'; break;
-				case 'register':  $arrSEO['id'] = 'register'; break;
-				case 'profile':   $arrSEO['id'] = 'profile'; break;
-				case 'polls':     $arrSEO['id'] = 'polls'; break;
-				case 'legal':     $arrSEO['id'] = 'impressum'; break;
-				case 'gallery':   $arrSEO['id'] = 'imagegallery'; break;
-				case 'guestbook': $arrSEO['id'] = 'guestbook'; break;
-				case 'articles':  $arrSEO['id'] = 'knowledgebase'; break;
-				case 'products':  $arrSEO['id'] = 'products'; break;
-				case 'search':    $arrSEO['id'] = 'search'; break;
-				case 'links':     $arrSEO['id'] = 'links'; break;
-				case 'cs':        $arrSEO['id'] = 'components'; break;
+				case 'frontpage':
+				case 'startseite':
+					$arrSEO['id'] = 'frontpage';
+					break;
+				
+				case 'news':
+				case 'neuigkeiten':
+					$arrSEO['id'] = 'newsmanager';
+					break;
+				
+				case 'download':
+					$arrSEO['id'] = 'download';
+					break;
+				
+				case 'contact':
+				case 'kontakt':
+					$arrSEO['id'] = 'contactform';
+					break;
+				
+				case 'register':
+				case 'anmeldung':
+					$arrSEO['id'] = 'register';
+					break;
+				
+				case 'profile':
+				case 'profil':
+					$arrSEO['id'] = 'profile';
+					break;
+				
+				case 'polls':
+				case 'umfragen':
+					$arrSEO['id'] = 'polls';
+					break;
+				
+				case 'legal':
+				case 'impressum':
+					$arrSEO['id'] = 'impressum';
+					break;
+				
+				case 'gallery':
+				case 'galerie':
+					$arrSEO['id'] = 'imagegallery';
+					break;
+				
+				case 'guestbook':
+				case 'gaestebuch':
+					$arrSEO['id'] = 'guestbook';
+					break;
+				
+				case 'articles':
+				case 'artikel':
+					$arrSEO['id'] = 'knowledgebase';
+					break;
+				
+				case 'products':
+				case 'produkte':
+					$arrSEO['id'] = 'products';
+					break;
+				
+				case 'search':
+				case 'suche':
+					$arrSEO['id'] = 'search';
+					break;
+				
+				case 'links':
+					$arrSEO['id'] = 'links';
+					break;
+				
+				case 'cs':
+					$arrSEO['id'] = 'components';
+					break;
 				
 				/*
 					only content id's
@@ -410,6 +472,37 @@ class tcms_seo {
 					&& trim($val) != 'index') {
 						if(trim($arrSEO['id']) == '') {
 							$arrSEO['id'] = $val;
+						}
+					}
+					else {
+						if(!$tcms_main->isElementInArray($val, $arrSEO)
+						&& trim($val) != ''
+						&& trim($val) != 'index') {
+							if($tcms_main->indexOf(trim($val), '?') == false) {
+								$dcp = new tcms_datacontainer_provider(
+									$tcms_main->getAdministerSite(), 
+									$tcms_config->getCharset(), 
+									$tcms_time
+								);
+								
+								$chk_val = $dcp->getContentIdByTitle(
+									$tcms_main->getNormalStringFromUrlString($val), 
+									$tcms_config->getLanguageCodeForTCMS($arrSEO['lang'])
+								);
+								
+								/*echo $val.' = ';
+								
+								if(trim($chk_val) != '') {
+									echo $chk_val.'<br>';
+								}
+								else {
+									echo 'null<br>';
+								}*/
+								
+								if(trim($chk_val) != '') {
+									$arrSEO['id'] = $chk_val;
+								}
+							}
 						}
 					}
 					break;

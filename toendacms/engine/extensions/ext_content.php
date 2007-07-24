@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a base content loader.
  *
- * @version 0.7.4
+ * @version 0.7.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -167,16 +167,17 @@ if($content_published == 1){
 				*/
 				$dcContent = new tcms_dc_content();
 				
-				$defLang = $tcms_config->getLanguageCode(true);
+				//$defLang = $tcms_config->getLanguageCode(true);
 				
-				if($defLang != $lang) {
-					$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
-					
-					$dcContent = $tcms_dcp->getContentDC($id, true, $getLang);
-				}
-				else {
-					$dcContent = $tcms_dcp->getContentDC($id);
-				}
+				//echo $defLang.' - '.$lang.'<br>';
+				
+				$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
+				
+				$dcContent = $tcms_dcp->getContentDC(
+					$id, 
+					true, 
+					$getLang
+				);
 				
 				$key       = $dcContent->getKeynote();
 				$content00 = $dcContent->getText();

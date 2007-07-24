@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 0.8.9
+ * @version 0.9.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -34,30 +34,32 @@ defined('_TCMS_VALID') or die('Restricted access');
  * TCMS Data Container methods
  * ---------------------------------------------
  * 
- * __construct($charset, $tcms_administer_path = 'data')         -> PHP5 Constructor
- * tcms_datacontainer_provider($charset, $tcms_administer_path)  -> PHP4 Constructor
+ * __construct                               -> PHP5 Constructor
+ * tcms_datacontainer_provider               -> PHP4 Constructor
  * 
- * setTcmsTimeObj                                                -> Set the tcms_time object
+ * setTcmsTimeObj                            -> Set the tcms_time object
  *
- * getNewsDC($newsID)                                            -> Get a specific news data container
- * getNewsDCList($usergroup = '', $amount, $published = '1')     -> Get a list of news data container
- * generateFeed                                                  -> ReGenerate the news syndication feeds
+ * getNewsDC                                 -> Get a specific news data container
+ * getNewsDCList                             -> Get a list of news data container
+ * generateFeed                              -> ReGenerate the news syndication feeds
  *
- * getCommentDCList($news, $module = 'news', $load = true)       -> Get a list of news data container
+ * getCommentDCList                          -> Get a list of news data container
  *
- * getContentDC($contentID)                                      -> Get a specific content data container
- * getContentLanguages                                           -> Get a list of content languages
- * getXmlIdFromContentLanguage                                   -> Get the id of a language content file
+ * getContentDC($contentID)                  -> Get a specific content data container
+ * getContentLanguages                       -> Get a list of content languages
+ * getXmlIdFromContentLanguage               -> Get the id of a language content file
+ * getContentTitle                           -> Get the title of a content element
+ * getContentIdByTitle                       -> Get the id of a content element by its title
  *
- * getImpressumDC                                                -> Get a impressum data container
- * getFrontpageDC                                                -> Get a frontpage data container
- * getNewsmanagerDC                                              -> Get a newsmanager data container
- * getContactformDC                                              -> Get a contactform data container
- * getProductsDC                                                 -> Get a products data container
- * getImagegalleryDC                                             -> Get a imagegallery data container
+ * getImpressumDC                            -> Get a impressum data container
+ * getFrontpageDC                            -> Get a frontpage data container
+ * getNewsmanagerDC                          -> Get a newsmanager data container
+ * getContactformDC                          -> Get a contactform data container
+ * getProductsDC                             -> Get a products data container
+ * getImagegalleryDC                         -> Get a imagegallery data container
  *
- * getSidebarModuleDC()                                          -> Get a sidebarmodul data container
- * getSidebarExtensionSettings()                                 -> Get the sidebar extension settings
+ * getSidebarModuleDC()                      -> Get a sidebarmodul data container
+ * getSidebarExtensionSettings()             -> Get the sidebar extension settings
  * 
  * </code>
  *
@@ -1001,12 +1003,26 @@ class tcms_datacontainer_provider extends tcms_main {
 				$no = $sqlAL->getNumber($sqlQR);
 				
 				if($no == 0) {
-					$sqlQR = $sqlAL->getOne($this->m_sqlPrefix.'content', $contentID);
+					$sqlAL->freeResult($sqlQR);
+					
+					$sql = "SELECT * "
+					."FROM ".$this->m_sqlPrefix."content "
+					."WHERE uid = '".$contentID."'";
+					
+					$sqlQR = $sqlAL->query($sql);
 				}
 			}
 			else {
-				$sqlQR = $sqlAL->getOne($this->m_sqlPrefix.'content', $contentID);
+				$sql = "SELECT * "
+				."FROM ".$this->m_sqlPrefix."content "
+				."WHERE uid = '".$contentID."'";
+				
+				$sqlQR = $sqlAL->query($sql);
+				
+				//$sqlQR = $sqlAL->getOne($this->m_sqlPrefix.'content', $contentID);
 			}
+			
+			//echo $sql.'<br>';
 			
 			$sqlObj = $sqlAL->fetchObject($sqlQR);
 			
@@ -1026,6 +1042,9 @@ class tcms_datacontainer_provider extends tcms_main {
 				$wsLang = $sqlObj->language;
 				
 				if($wsLang == NULL) $wsLang = 'english_EN';
+			}
+			else {
+				$wsLang = $language;
 			}
 			
 			$sqlAL->freeResult($sqlQR);
@@ -1099,8 +1118,9 @@ class tcms_datacontainer_provider extends tcms_main {
 				$this->m_sqlPort
 			);
 			
+			// load content
 			$sql = "SELECT * "
-			."FROM blog_content_languages "
+			."FROM ".$this->m_sqlPrefix."content_languages "
 			."WHERE content_uid = '".$id."'";
 			
 			$sqlQR = $sqlAL->query($sql);
@@ -1111,6 +1131,22 @@ class tcms_datacontainer_provider extends tcms_main {
 				$count++;
 			}
 			
+			$sqlAL->freeResult($sqlQR);
+			
+			// load now the main content
+			$sql = "SELECT * "
+			."FROM ".$this->m_sqlPrefix."content "
+			."WHERE uid = '".$id."'";
+			
+			$sqlQR = $sqlAL->query($sql);
+			
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
+				$arrReturn[$count] = $sqlObj->language;
+				
+				$count++;
+			}
+			
+			// finish
 			$sqlAL->freeResult($sqlQR);
 			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
@@ -1160,6 +1196,169 @@ class tcms_datacontainer_provider extends tcms_main {
 		else {
 			return '';
 		}
+	}
+	
+	
+	
+	/**
+	 * Get the title of a content element
+	 * 
+	 * @param String $id
+	 * @param String $language
+	 * @return String
+	 */
+	function getContentTitle($id, $language) {
+		if($this->db_choosenDB == 'xml'){
+			$wsCUid = $this->getXmlIdFromContentLanguage(
+				$id, 
+				$language
+			);
+			
+			if($wsCUid != '') {
+				$xml = new xmlparser(
+					$this->m_path.'/tcms_content_languages/'.$wsCUid.'.xml', 'r'
+				);
+			}
+			else {
+				$xml = new xmlparser(
+					$this->m_path.'/tcms_content/'.$contentID.'.xml', 'r'
+				);
+			}
+			
+			$ret = $this->decodeText($xml->readSection('main', 'title'), '2', $c_charset);
+		}
+		else {
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
+			
+			$sql = "SELECT title "
+			."FROM ".$this->m_sqlPrefix."content_languages "
+			."WHERE content_uid = '".$id."' "
+			."AND language = '".$language."'";
+			
+			//echo $sql.'<br>';
+			
+			$sqlQR = $sqlAL->query($sql);
+			$no = $sqlAL->getNumber($sqlQR);
+			
+			if($no == 0) {
+				$sqlQR = $sqlAL->getOne($this->m_sqlPrefix.'content', $id);
+			}
+			
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
+			$ret = $this->decodeText($sqlObj->title, '2', $c_charset);
+			
+			$sqlAL->freeResult($sqlQR);
+		}
+		
+		return $ret;
+	}
+	
+	
+	
+	/**
+	 * Get the id of a content element by its title
+	 * 
+	 * @param String $title
+	 * @param String $language
+	 * @return String
+	 */
+	function getContentIdByTitle($title, $language) {
+		if($this->db_choosenDB == 'xml'){
+			$wsCUid = $this->getXmlIdFromContentLanguage(
+				$id, 
+				$language
+			);
+			
+			if($wsCUid != '') {
+				$xml = new xmlparser(
+					$this->m_path.'/tcms_content_languages/'.$wsCUid.'.xml', 'r'
+				);
+			}
+			else {
+				$xml = new xmlparser(
+					$this->m_path.'/tcms_content/'.$contentID.'.xml', 'r'
+				);
+			}
+			
+			$ret = $this->decodeText($xml->readSection('main', 'title'), '2', $c_charset);
+		}
+		else {
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
+			
+			$sql = "SELECT content_uid "
+			."FROM ".$this->m_sqlPrefix."content_languages "
+			."WHERE language = '".$language."' ";
+			
+			$arrTitle = explode(' ', $title);
+			
+			foreach($arrTitle as $key => $value) {
+				if($key == 0) {
+					$sql .= "AND (title LIKE '%".$value."%') ";
+				}
+				else {
+					$sql .= "AND (title LIKE '%".$value."%') ";
+				}
+			}
+			
+			//echo $sql.'<br>';
+			
+			$sqlQR = $sqlAL->query($sql);
+			$no = $sqlAL->getNumber($sqlQR);
+			
+			if($no > 0) {
+				// got a match
+				$sqlObj = $sqlAL->fetchObject($sqlQR);
+				$ret = $sqlObj->content_uid;
+			}
+			else {
+				// nothing found
+				$sql = "SELECT uid "
+				."FROM ".$this->m_sqlPrefix."content ";
+				
+				foreach($arrTitle as $key => $value) {
+					if($key == 0) {
+						$sql .= "WHERE (title LIKE '%".$value."%') ";
+					}
+					else {
+						$sql .= "AND (title LIKE '%".$value."%') ";
+					}
+				}
+				
+				//echo $sql.'<br>';
+				
+				$sqlQR = $sqlAL->query($sql);
+				
+				$no = $sqlAL->getNumber($sqlQR);
+				
+				if($no > 0) {
+					// got a match
+					$sqlObj = $sqlAL->fetchObject($sqlQR);
+					$ret = $sqlObj->uid;
+				}
+				else {
+					// nothing found
+					$ret = '';
+				}
+			}
+			
+			$sqlAL->freeResult($sqlQR);
+		}
+		
+		return $ret;
 	}
 	
 	

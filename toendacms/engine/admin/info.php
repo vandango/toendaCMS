@@ -47,6 +47,7 @@ include_once('../tcms_kernel/tcms.lib.php');
 include_once('../tcms_kernel/tcms_html.lib.php');
 include_once('../tcms_kernel/tcms_gd.lib.php');
 include_once('../tcms_kernel/tcms_sql.lib.php');
+include_once('../tcms_kernel/tcms_configuration.lib.php');
 include_once('../../'.$tcms_administer_site.'/tcms_global/database.php');
 
 

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a filemanager for all Sites
  *
- * @version 0.4.5
+ * @version 0.4.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -289,9 +289,9 @@ if($topmenu_active == 1){
 	
 	echo '<div class="dtree">
 	<script type="text/javascript">
-	<!--
+	//<!--
 	d = new dTree(\'d\');
-	-->
+	
 	d.add(0, -1, \''.$sitename.'\', \'admin.php?id_user='.$id_user.'&amp;site=mod_page\');
 	';
 	
@@ -442,7 +442,7 @@ if($sidemenu_active == 1){
 	
 	echo '<div class="dtree">
 	<script type="text/javascript">
-	<!--
+	//<!--
 	d2 = new dTree(\'d2\');
 	d2.add(0, -1, \''.$sitename.'\', \'admin.php?id_user='.$id_user.'&amp;site=mod_page\');
 	';

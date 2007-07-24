@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Content footer with links for the "top of page", "print" 
  * and "pdf" functions.
  *
- * @version 0.5.1
+ * @version 0.5.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -239,7 +239,7 @@ switch($id){
 				if($userID != false){
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=profile&amp;s='.$s.'&amp;u='.$userID
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $tcms_main->urlAmpReplace($link);
+					$link = $tcms_main->urlConvertToSEO($link);
 					
 					echo '<a style="text-decoration: none !important;" class="text_small" href="'.$link.'">';
 				}
@@ -300,6 +300,8 @@ if($tcms_config->useContentLanguage()) {
 		default:
 			$arr_langs = $tcms_dcp->getContentLanguages($id);
 			
+			$tcms_main->paf($arr_langs);
+			
 			if($tcms_main->isReal($arr_langs)) {
 				//display: block; float: 
 				echo '<br />'
@@ -309,9 +311,9 @@ if($tcms_config->useContentLanguage()) {
 				.'id='.$id
 				.'&amp;s='.$s
 				.'&amp;lang=';
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
-				$js = ' onchange="document.location=\''.$link.'\' + this.value;"';
+				$js = ' onchange="relocateTo(\''.$link.'\', this.value);"';
 				
 				echo _TCMS_THIS_PAGE_IN.': '
 				.'<select id="doc_language" name="doc_language"'.$js.'>';
@@ -338,10 +340,10 @@ if($tcms_config->useContentLanguage()) {
 					}
 				}
 				
-				$js = ' onclick="document.location=\''.$link.'\' + getSelectedValue(getElementById(\'doc_language\'));"';
+				$js = ' onclick="relocateTo(\''.$link.'\', getSelectedValue(getElementById(\'doc_language\')));"';
 				
 				echo '</select>'
-				.'<input type="submit" value="'._FORM_GO.'" class="inputbutton"'.$js.' />';
+				.'<input type="button" value="'._FORM_GO.'" class="inputbutton"'.$js.' />';
 				
 				echo '</div>';
 			}
