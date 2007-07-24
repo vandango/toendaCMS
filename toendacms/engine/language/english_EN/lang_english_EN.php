@@ -796,10 +796,10 @@ define('_NL_USEREMAIL', 'your@email.here');
 define('_NL_MAILMESSAGE', 'If you dont want the newsletter in the future, answer with');
 define('_NL_CHECKSTRING', 'PLEASE NO NEWSLETTER');
 define('_NL_CHECKFORUNSUBSCRIBE', 'Check eMails for unsubscribing users');
-define('_NL_CHECK', 'Check');
-define('_NL_MAILSCHECKED', 'eMail checked ...');
-define('_NL_CHECKTITLE', 'Check eMails for unsubscribing users');
-define('_NL_CHECKTEXT', 'We check now the eMails on your eMail account for mails with the unsubscribing string inside. If there any mail with this string, we check if that user exists and if it so we delete him.');
+if(!defined('_NL_CHECK'))                      define('_NL_CHECK', 'Check');
+if(!defined('_NL_MAILSCHECKED'))               define('_NL_MAILSCHECKED', 'eMail checked ...');
+if(!defined('_NL_CHECKTITLE'))                 define('_NL_CHECKTITLE', 'Check eMails for unsubscribing users');
+if(!defined('_NL_CHECKTEXT'))                  define('_NL_CHECKTEXT', 'We check now the eMails on your eMail account for mails with the unsubscribing string inside. If there any mail with this string, we check if that user exists and if it so we delete him.');
 if(!defined('_NL_NEWSLETTER'))                 define('_NL_NEWSLETTER', 'Newsletter');
 
 

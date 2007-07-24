@@ -24,14 +24,13 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to have a internal domain
  * checker class.
  *
- * @version 0.0.1
+ * @version 0.0.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
- */
-
-
-/**
+ * 
+ * <code>
+ * 
  * Methods
  *
  * __construct                 -> PHP5 Constructor
@@ -40,6 +39,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * _tcms_domaincheck           -> PHP4 Destructor
  * 
  * getWhoisServer              -> Get a list of whois server
+ * 
+ * </code>
  * 
  */
 
@@ -84,36 +85,34 @@ class tcms_domaincheck {
 	/**
 	 * Get a list of whois server
 	 *
-	 * @param unknown_type $domain
-	 * @return unknown
+	 * @param String $domain
+	 * @return Array
 	 */
 	function getWhoisServer($domain){
-		$whoisservers = array(
-			array("de","whois.denic.de"),
-			array("com","rs.internic.net"),
-			array("net","rs.internic.net"),
-			array("org","whois.networksolutions.com"),
-			array("info","whois.afilias.net"),
-			array("biz","whois.biz"),
-			array("at","whois.nic.at"),
-			array("ch","whois.nic.ch"),
-			array("li","whois.nic.ch"),
-			array("co.uk","whois.nic.uk"),
-			array("tv","whois.www.tv"),
-			array("cc","whois.enicregistrar.com"),
-			array("dk","whois.dk-hostmaster.dk"),
-			array("it","whois.nic.it"),
-			array("ws","whois.worldsite.ws")
-		);
+		$arrWhoisServers["de"]["whois.denic.de"];
+		$arrWhoisServers["com"]["rs.internic.net"];
+		$arrWhoisServers["net"]["rs.internic.net"];
+		$arrWhoisServers["org"]["whois.networksolutions.com"];
+		$arrWhoisServers["info"]["whois.afilias.net"];
+		$arrWhoisServers["biz"]["whois.biz"];
+		$arrWhoisServers["at"]["whois.nic.at"];
+		$arrWhoisServers["ch"]["whois.nic.ch"];
+		$arrWhoisServers["li"]["whois.nic.ch"];
+		$arrWhoisServers["co.uk"]["whois.nic.uk"];
+		$arrWhoisServers["tv"]["whois.www.tv"];
+		$arrWhoisServers["cc"]["whois.enicregistrar.com"];
+		$arrWhoisServers["dk"]["whois.dk-hostmaster.dk"];
+		$arrWhoisServers["it"]["whois.nic.it"];
+		$arrWhoisServers["ws"]["whois.worldsite.ws"];
 		
-		$whocnt = count($whoisservers);
+		$whocnt = count($arrWhoisServers);
 		
 		for($x = 0; $x < $whocnt; $x++){
-			$artld = $whoisservers[$x][0];
+			$artld = $arrWhoisServers[$x][0];
 			$tldlen = intval(0 - strlen($artld));
 			
 			if(substr($domain, $tldlen) == $artld){
-				$whosrv = $whoisservers[$x][1];
+				$whosrv = $arrWhoisServers[$x][1];
 			}
 		}
 		
@@ -125,30 +124,33 @@ class tcms_domaincheck {
 	/**
 	 * This is a domain checker formular
 	 *
+	 * @param String $link
+	 * @param String $domainname = ''
+	 * @param String $domain = ''
 	 * @return String
 	 */
-	function domainChecker($link){
+	function getDomainCheckForm($link, $domainname = '', $domain = ''){
 		$input = '<form name="toendaDC" method="post" action="'.$link.'">'
-		.'http://www. <input type="text" name="dc_name" />'
+		.'http://www. <input type="text" name="dc_name" value="'.$domainname.'" />'
 		.'<select name="dc_domain">'
-		.'<option value=".de">.de</option>'
-		.'<option value=".com">.com</option>'
-		.'<option value=".net">.net</option>'
-		.'<option value=".org">.org</option>'
-		.'<option value=".info">.info</option>'
-		.'<option value=".biz">.biz</option>'
-		.'<option value=".at">.at</option>'
-		.'<option value=".ch">.ch</option>'
-		.'<option value=".li">.li</option>'
-		.'<option value=".co.uk">.co.uk</option>'
-		.'<option value=".tv">.tv</option>'
-		.'<option value=".cc">.cc</option>'
-		.'<option value=".dk">.dk</option>'
-		.'<option value=".it">.it</option>'
-		.'<option value=".ws">.ws</option>'
+		.'<option value=".de"'.( $domain == '.de' ? ' selected="selected"' : '' ).'>.de</option>'
+		.'<option value=".com"'.( $domain == '.com' ? ' selected="selected"' : '' ).'>.com</option>'
+		.'<option value=".net"'.( $domain == '.net' ? ' selected="selected"' : '' ).'>.net</option>'
+		.'<option value=".org"'.( $domain == '.org' ? ' selected="selected"' : '' ).'>.org</option>'
+		.'<option value=".info"'.( $domain == '.info' ? ' selected="selected"' : '' ).'>.info</option>'
+		.'<option value=".biz"'.( $domain == '.biz' ? ' selected="selected"' : '' ).'>.biz</option>'
+		.'<option value=".at"'.( $domain == '.at' ? ' selected="selected"' : '' ).'>.at</option>'
+		.'<option value=".ch"'.( $domain == '.ch' ? ' selected="selected"' : '' ).'>.ch</option>'
+		.'<option value=".li"'.( $domain == '.li' ? ' selected="selected"' : '' ).'>.li</option>'
+		.'<option value=".co.uk"'.( $domain == '.co.uk' ? ' selected="selected"' : '' ).'>.co.uk</option>'
+		.'<option value=".tv"'.( $domain == '.tv' ? ' selected="selected"' : '' ).'>.tv</option>'
+		.'<option value=".cc"'.( $domain == '.cc' ? ' selected="selected"' : '' ).'>.cc</option>'
+		.'<option value=".dk"'.( $domain == '.dk' ? ' selected="selected"' : '' ).'>.dk</option>'
+		.'<option value=".it"'.( $domain == '.it' ? ' selected="selected"' : '' ).'>.it</option>'
+		.'<option value=".ws"'.( $domain == '.ws' ? ' selected="selected"' : '' ).'>.ws</option>'
 		.'</select>'
 		.'<input type="hidden" name="cmd" value="check" />'
-		.'<input type="submit" name="submit" value="Check" />'
+		.'<input type="submit" name="submit" value="'._NL_CHECK.'" />'
 		.'</form>';
 		
 		return $input;
