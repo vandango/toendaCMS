@@ -23,12 +23,19 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This components generates a domainchecker.
  *
- * @version 0.0.1
+ * @version 0.0.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Components
  * 
  */
+
+
+if(isset($_GET['dc_name'])){ $dc_name = $_GET['dc_name']; }
+if(isset($_GET['dc_domain'])){ $dc_domain = $_GET['dc_domain']; }
+
+if(isset($_POST['dc_name'])){ $dc_name = $_POST['dc_name']; }
+if(isset($_POST['dc_domain'])){ $dc_domain = $_POST['dc_domain']; }
 
 
 $path = $tcms_administer_site.'/components/domainchecker/images';
@@ -59,6 +66,21 @@ if($show_dc_title == 1){
 else{
 	echo '<br />';
 }
+
+
+
+using('toendacms.kernel.domaincheck');
+
+$tcms_dc = new tcms_domaincheck();
+
+
+$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+.'id=components&amp;item=domainchecker'
+.'&amp;s='.$s
+.( isset($lang) ? '&amp;lang='.$lang : '' );
+$link = $tcms_main->urlConvertToSEO($link);
+
+echo $tcms_dc->getDomainCheckForm($link, $dc_name, $dc_domain);
 
 
 
