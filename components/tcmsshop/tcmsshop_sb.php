@@ -19,14 +19,17 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-if(isset($_GET['dc_name'])){ $dc_name = $_GET['dc_name']; }
-if(isset($_GET['dc_domain'])){ $dc_domain = $_GET['dc_domain']; }
-
-if(isset($_POST['dc_name'])){ $dc_name = $_POST['dc_name']; }
-if(isset($_POST['dc_domain'])){ $dc_domain = $_POST['dc_domain']; }
-
-
-
+/**
+ * toendaCMS Shop sidebar component
+ *
+ * This components generates a shop.
+ *
+ * @version 0.0.1
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Components
+ * 
+ */
 
 
 $path = $tcms_administer_site.'/components/tcmsshop/images';
@@ -45,10 +48,9 @@ if($_TCMS_CS_ARRAY['tcmsshop']['attribute']['sb_tcmsshop_title']['ENCODE'] == 1)
 
 
 
-
 if($show_tcmsshop_title == 1){
-	echo tcms_html::subtitle($tcmsshopTitle);
-	echo tcms_html::sidemain($tcmsshopSubTitle);
+	echo $tcms_html->sidebarTitle($tcmsshopTitle);
+	echo $tcms_html->sidebarText($tcmsshopSubTitle);
 	//echo '<br />';
 }
 else{
