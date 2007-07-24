@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.6.7
+ * @version 2.6.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -96,6 +96,9 @@ using('toendacms.kernel.parameter');
 using('toendacms.kernel.configuration');
 using('toendacms.kernel.version');
 using('toendacms.kernel.html');
+using('toendacms.kernel.main');
+using('toendacms.kernel.sql');
+using('toendacms.kernel.datacontainer_provider');
 
 // time class
 $tcms_time = new tcms_time();
@@ -134,10 +137,16 @@ if(file_exists($tcms_administer_site.'/tcms_global/var.xml')){
 	$site_offline   = $tcms_config->getSiteOffline();
 	
 	
+	// create main object
+	$tcms_main = new tcms_main($tcms_administer_site);
+	$tcms_main->setGlobalFolder($seoFolder, $seoEnabled);
+	$tcms_main->setDatabaseInfo($choosenDB);
+	
+	
 	/*
 		SEO URL's
 	*/
-	if($seoEnabled == 1){
+	if($seoEnabled == 1) {
 		using('toendacms.kernel.seo');
 		
 		$tcms_seo = new tcms_seo();
@@ -216,8 +225,6 @@ if(file_exists($tcms_administer_site.'/tcms_global/var.xml')){
 	*/
 	if($site_offline == 1) {
 		using('toendacms.kernel.seo');
-		using('toendacms.kernel.main');
-		using('toendacms.kernel.sql');
 		
 		$tcms_seo = new tcms_seo();
 		
@@ -240,10 +247,6 @@ if(file_exists($tcms_administer_site.'/tcms_global/var.xml')){
 				unset($session);
 			}
 		}
-		
-		$tcms_main = new tcms_main($tcms_administer_site);
-		$tcms_main->setGlobalFolder($seoFolder, $seoEnabled);
-		$tcms_main->setDatabaseInfo($choosenDB);
 		
 		if(isset($session))
 			$session = $tcms_main->cleanUrlString($session, true);
@@ -349,7 +352,6 @@ if($wsShowSite){
 		using('toendacms.kernel.file');
 		using('toendacms.kernel.statistics');
 		using('toendacms.kernel.blogfeatures');
-		using('toendacms.kernel.datacontainer_provider');
 		using('toendacms.kernel.menu_provider');
 		using('toendacms.kernel.account_provider');
 		using('toendacms.kernel.authentication');
@@ -713,6 +715,7 @@ if($wsShowSite){
 				*/
 				if($start_tcms_loading){
 					$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
+					$tcms_main->setCurrentLang($getLang);
 					
 					// Sidebar modules
 					using('toendacms.datacontainer.sidebarmodule');

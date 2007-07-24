@@ -7,57 +7,68 @@
 | Author: Jonathan Naumann                                               |
 +------------------------------------------------------------------------+
 | 
-| DHTML and JavaScript Functions
+| JavaScript Functions
 |
-| File:		dhtml.js
-| Version:	0.4.2
+| File:	dhtml.js
 |
 +
 */
 
 
-/*
-*
-* JAVASCRIPT FUNCTIONS
-*
-* - addLoadEvent(func)
-* - getKeyCode(event)
-* - displayKeyCode(object)
-*
-* - gebi(id)
-*
-* - getSelectedValue(select)
-*
-* - show(id, top, left)               -> show box on place top and left
-* - show_easy(id)                     -> show box without setting place
-* - hide(id)                          -> hide menu (little box)
-* - wxlBgCol(id, farbe)               -> change bgcolor of id if mouse over
-*
-* - save()                            -> send first form on page
-* - apply()                           -> apply
-* - save_id(id)                       -> send form by id
-* - accept(id)                        -> accept an form by id
-* - checkinputs()                     -> check inputs of an form
-* - submitXML(id, action, newvalue)   -> change value of "action" to "newvalue", then submit "id"
-*
-* - imageWindow(img, param)           -> open a window with image
-* - popWindow(path, sizex, sizy)      -> open a window with size x and y
-* - printWindow(s, id, news, session) -> open a window for printjob
-* - pdfWindow(s, id, news, session)   -> open a window with pdf inside
-* - pageWindow(path)                  -> open a window with a php or html file
-* - helpWindow(path)                  -> same as above
-* - openWindow(file, title, width, height, scroll, resize)
-*                                     -> open a custom window
-*
-* - setImage(img, id, script)         -> accept image for openers ID field
-* - setLink(link, title, id, script)  -> accept link for openers ID field
-* - setNewsImage(img, id, id2)        -> accept image for openers ID field for newsmanager config
-* - setFAQImage(img, id, id2)         -> accept image for openers ID field for knowledgebase config
-* - setColor(id, color)               -> accept a color for openers ID field
-*
-* - showImage()                       -> random images   ---> TODO: take images as function parameter
-*
-*/
+/**
+ * toendaCMS JavaScript Functions
+ *
+ * This file provides some favaScript functions.
+ *
+ * @version 0.4.4
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage tcms_kernel
+ *
+ * <code>
+ * 
+ * JAVASCRIPT FUNCTIONS
+ *
+ * addLoadEvent(func)
+ * getKeyCode(event)
+ * displayKeyCode(object)
+ *
+ * gebi(id)
+ *
+ * getSelectedValue(select)
+ *
+ * show(id, top, left)               -> show box on place top and left
+ * show_easy(id)                     -> show box without setting place
+ * hide(id)                          -> hide menu (little box)
+ * wxlBgCol(id, farbe)               -> change bgcolor of id if mouse over
+ *
+ * save()                            -> send first form on page
+ * apply()                           -> apply
+ * save_id(id)                       -> send form by id
+ * accept(id)                        -> accept an form by id
+ * checkinputs()                     -> check inputs of an form
+ * submitXML(id, action, newvalue)   -> change value of "action" to "newvalue", then submit "id"
+ *
+ * imageWindow(img, param)           -> open a window with image
+ * popWindow(path, sizex, sizy)      -> open a window with size x and y
+ * printWindow(s, id, news, session) -> open a window for printjob
+ * pdfWindow(s, id, news, session)   -> open a window with pdf inside
+ * pageWindow(path)                  -> open a window with a php or html file
+ * helpWindow(path)                  -> same as above
+ * openWindow(file, title, width, height, scroll, resize)
+ *                                     -> open a custom window
+ *
+ * setImage(img, id, script)         -> accept image for openers ID field
+ * setLink(link, title, id, script)  -> accept link for openers ID field
+ * setNewsImage(img, id, id2)        -> accept image for openers ID field for newsmanager config
+ * setFAQImage(img, id, id2)         -> accept image for openers ID field for knowledgebase config
+ * setColor(id, color)               -> accept a color for openers ID field
+ *
+ * showImage()                       -> random images   ---> TODO: take images as function parameter
+ *
+ * </code>
+ *
+ */
 
 
 
@@ -136,6 +147,24 @@ function gebi(id) {
 
 function getSelectedValue(select) {
 	return select.options[select.options.selectedIndex].value;
+}
+
+
+
+// --------------------------------------
+// RELOCATOR
+// --------------------------------------
+
+function relocateTo(link, lang) {
+	var _link = link;
+	
+	if(lang != '') {
+		if(_link.indexOf("//")) {
+			_link = _link.replace(/\/\//g, '/' + lang + '/');
+		}
+	}
+	
+	document.location = _link;
 }
 
 

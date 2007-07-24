@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a documents manager.
  *
- * @version 1.1.2
+ * @version 1.1.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -628,7 +628,8 @@ if($id_group == 'Developer'
 		
 		
 		
-		if($db_layout == ''){
+		if($db_layout != 'db_content_default.php') {
+			/*
 			// table head
 			echo '<table width="100%" cellpadding="1" cellspacing="5" class="tcms_table">';
 			
@@ -660,9 +661,13 @@ if($id_group == 'Developer'
 			echo '</table>'
 			.'</td></tr>';
 			
-			
 			// table end
 			echo '</table>';
+			*/
+			
+			echo '<script>'
+			.'relocateTo(\'admin.php?id_user='.$id_user.'&site=mod_content&todo=edit&db_layout=db_content_default.php\', \'\');'
+			.'</script>';
 		}
 		
 		
@@ -899,13 +904,22 @@ if($id_group == 'Developer'
 			
 			
 			// table row
-			echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._CONTENT_TEMPLATE.'</strong></td><td>';
-				echo '<select name="db_layout" class="tcms_select" onchange="document.location=\'admin.php?id_user='.$id_user.'&site=mod_content&todo=edit&maintag='.$maintag.'&db_layout=\'+this.value;">';
-				foreach($arr_db['filename'] as $db_key => $db_value){
-					echo '<option'.( $db_layout == $db_value ? ' selected' : '' ).' value="'.$db_value.'">'.$arr_db['templatename'][$db_key].'</option>';
+			echo '<tr><td valign="top" width="'.$width.'">'
+			.'<strong class="tcms_bold">'._CONTENT_TEMPLATE.'</strong>'
+			.'</td><td>'
+			.'<select name="db_layout" class="tcms_select">';
+			// onchange="document.location=\'admin.php?id_user='.$id_user.'&site=mod_content&todo=edit&maintag='.$maintag.'&db_layout=\'+this.value;">';
+			
+			foreach($arr_db['filename'] as $db_key => $db_value) {
+				if($db_value == 'db_content_default.php') {
+					echo '<option'.( $db_layout == $db_value ? ' selected' : '' ).' value="'.$db_value.'">'
+					.$arr_db['templatename'][$db_key]
+					.'</option>';
 				}
-				echo '</select>';
-			echo '</td></tr>';
+			}
+			
+			echo '</select>'
+			.'</td></tr>';
 			
 			
 			// table row
@@ -1083,11 +1097,15 @@ if($id_group == 'Developer'
 				$newSQLData .= ', '.$tcms_db_prefix.$tmp.'.language="'.$language.'", ';
 				$newSQLData .= $tcms_db_prefix.$tmp.'.content_uid="'.$original.'"';
 			}
+			else {
+				$getLang = $tcms_config->getLanguageFrontend();
+				$newSQLData .= ', '.$tcms_db_prefix.$tmp.'.language="'.$getLang.'"';
+			}
 			
 			$sqlQR = $sqlAL->sqlUpdateOne(
 				$tcms_db_prefix.$tmp, 
 				$newSQLData, 
-				$maintag, true
+				$maintag
 			);
 		}
 		
@@ -1104,7 +1122,7 @@ if($id_group == 'Developer'
 	// CREATE NEW
 	//===================================================================================
 	
-	if($todo == 'next'){
+	if($todo == 'next') {
 		if($show_wysiwyg == 'tinymce'){
 			$content = stripslashes($content);
 		}
@@ -1194,6 +1212,9 @@ if($id_group == 'Developer'
 					if($tcms_main->isReal($lang)) {
 						$newSQLColumns .= ', `language`, `content_uid`';
 					}
+					else {
+						$newSQLColumns .= ', `language`';
+					}
 					break;
 				
 				case 'pgsql':
@@ -1202,6 +1223,9 @@ if($id_group == 'Developer'
 					
 					if($tcms_main->isReal($lang)) {
 						$newSQLColumns .= ', "language", content_uid';
+					}
+					else {
+						$newSQLColumns .= ', "language"';
 					}
 					break;
 				
@@ -1212,6 +1236,9 @@ if($id_group == 'Developer'
 					if($tcms_main->isReal($lang)) {
 						$newSQLColumns .= ', [language], [content_uid]';
 					}
+					else {
+						$newSQLColumns .= ', [language]';
+					}
 					break;
 			}
 			
@@ -1220,6 +1247,10 @@ if($id_group == 'Developer'
 			
 			if($tcms_main->isReal($lang)) {
 				$newSQLData .= ", '".$language."', '".$original."'";
+			}
+			else {
+				$getLang = $tcms_config->getLanguageFrontend();
+				$newSQLData .= ", '".$getLang."'";
 			}
 			
 			$sqlQR = $sqlAL->sqlCreateOne(

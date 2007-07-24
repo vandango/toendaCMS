@@ -20,7 +20,7 @@
  *
  * This is used as a linkbrowser
  *
- * @version 0.3.1
+ * @version 0.3.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -56,6 +56,7 @@ include_once('../tcms_kernel/tcms.lib.php');
 include_once('../tcms_kernel/tcms_html.lib.php');
 include_once('../tcms_kernel/tcms_gd.lib.php');
 include_once('../tcms_kernel/tcms_sql.lib.php');
+include_once('../tcms_kernel/tcms_configuration.lib.php');
 include('../../'.$tcms_administer_site.'/tcms_global/database.php');
 
 

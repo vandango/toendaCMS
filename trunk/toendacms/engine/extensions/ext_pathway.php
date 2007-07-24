@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a pathway.
  *
- * @version 0.5.4
+ * @version 0.5.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -50,7 +50,8 @@ if(!isset($task)){ $task = 'register'; }
 
 
 $_link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-.'id='.$id.'&amp;s='.$s
+//.'id='.$id
+.'id=frontpage&amp;s='.$s
 .( isset($lang) ? '&amp;lang='.$lang : '' );
 $_link = $tcms_main->urlConvertToSEO($_link);
 

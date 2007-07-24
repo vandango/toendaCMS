@@ -28,7 +28,7 @@ Version 1.6
 Developer Version
 	- 1.6.0 Development
 
-Building Steps: 3087
+Building Steps: 3105
 
 
 
@@ -58,6 +58,7 @@ Building Steps: 3087
           or [[www.domain.com/index.php/section/frontpage/lang/en]
           you can use now the new format
           [www.domain.com/index.php/en/frontpage.html].
+          And the document url's change into the content title.
  - added: Products page configuration now with multi-lingual support.
  - added: Mediabrowser for the texteditor has now a button to add a
           thumbnail of a image into the text. The images includes a link

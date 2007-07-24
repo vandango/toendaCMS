@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the sidebar content.
  *
- * @version 0.5.0
+ * @version 0.5.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -331,17 +331,22 @@ if($id_group == 'Developer'
 		
 		
 		// table head
-		echo '<table width="100%" cellpadding="1" cellspacing="5" class="tcms_table">';
+		echo $tcms_html->tableHeadClass('1', '5', '0', '100%', 'tcms_table');
 		
 		
 		// table row
-		echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._TABLE_TITLE.'</strong></td>'
-		.'<td><input class="tcms_input_normal" name="new_sb_title" type="text" value="'.$sb_title.'" /></td></tr>';
+		echo '<tr><td valign="top" width="'.$width.'">'
+		.'<strong class="tcms_bold">'._TABLE_TITLE.'</strong>'
+		.'</td><td>'
+		.'<input class="tcms_input_normal" name="new_sb_title" type="text" value="'.$sb_title.'" />'
+		.'</td></tr>';
 		
 		
 		// table row
-		echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._TABLE_LINKTO.'</strong></td>'
-		.'<td valign="top"><select name="new_sb_id" class="tcms_select">';
+		echo '<tr><td valign="top" width="'.$width.'">'
+		.'<strong class="tcms_bold">'._TABLE_LINKTO.'</strong>'
+		.'</td><td valign="top">'
+		.'<select name="new_sb_id" class="tcms_select">';
 		
 		if(isset($sb_id) && $sb_id != '') {
 			echo '<option selected value="'.$sb_id.'"> &bull; '.$sb_id.' &bull; </option>';
@@ -353,24 +358,29 @@ if($id_group == 'Developer'
 			.'</option>';
 		}
 		
-		echo '</select></td></tr>';
+		echo '</select>'
+		.'</td></tr>';
 		
 		
 		// table row
-		echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._TABLE_SUBTITLE.'</strong></td>'
-		.'<td><input class="tcms_input_normal" name="new_sb_key" type="text" value="'.$sb_key.'" /></td></tr>';
+		echo '<tr><td valign="top" width="'.$width.'">'
+		.'<strong class="tcms_bold">'._TABLE_SUBTITLE.'</strong>'
+		.'</td><td>'
+		.'<input class="tcms_input_normal" name="new_sb_key" type="text" value="'.$sb_key.'" />'
+		.'</td></tr>';
 		
 		
 		// table end
-		echo '</table>';
+		echo $tcms_html->tableEnd();
 		
 		
 		// table head
-		echo '<table width="100%" cellpadding="1" cellspacing="5" class="tcms_table">';
+		echo $tcms_html->tableHeadClass('1', '5', '0', '100%', 'tcms_table');
 		
 		
 		// table row
-		echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._TABLE_TEXT.'</strong>'
+		echo '<tr><td valign="top">'
+		.'<strong class="tcms_bold">'._TABLE_TEXT.'</strong>'
 		.'<br /><br />'
 		.'<script>createToendaToolbar(\'side\', \''.$tcms_lang.'\', \''.( $show_wysiwyg == 'toendaScript' ? $show_wysiwyg : 'HTML' ).'\', \'n=without\', \'\', \''.$id_user.'\');</script>';
 		
@@ -381,16 +391,22 @@ if($id_group == 'Developer'
 			echo '<script>createToolbar(\'side\', \''.$tcms_lang.'\', \'HTML\');</script>';
 		}
 		
-		echo '<textarea class="tcms_textarea_huge" id="content" name="content">'.$sb_text.'</textarea></td></tr>';
+		echo '<textarea class="tcms_textarea_huge" id="content" name="content">'.$sb_text.'</textarea>'
+		.'</td></tr>';
 		
 		
 		// table end
-		echo '</table>';
+		echo $tcms_html->tableEnd();
 		
 		
-		echo '<table width="100%" cellpadding="1" cellspacing="5" class="tcms_table">'
-		.'<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._CONTENT_FOOT.'</strong></td>'
-		.'<td><textarea class="tcms_textarea_big" name="new_sb_foot" type="text">'.$sb_foot.'</textarea></td></tr></table>';
+		// foot
+		echo $tcms_html->tableHeadClass('1', '5', '0', '100%', 'tcms_table')
+		.'<tr><td valign="top" width="'.$width.'">'
+		.'<strong class="tcms_bold">'._CONTENT_FOOT.'</strong>'
+		.'</td><td>'
+		.'<textarea class="tcms_textarea_big" name="new_sb_foot" type="text">'.$sb_foot.'</textarea>'
+		.'</td></tr>'
+		.$tcms_html->tableEnd();
 		
 		
 		echo '</form>';

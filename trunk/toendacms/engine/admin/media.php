@@ -21,7 +21,7 @@
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 0.5.0
+ * @version 0.5.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -56,6 +56,7 @@ include_once('../language/lang_admin.php');
 $tcms_administer_site = 'data';
 
 include_once('../tcms_kernel/tcms_time.lib.php');
+include_once('../tcms_kernel/tcms_configuration.lib.php');
 include_once('../tcms_kernel/tcms.lib.php');
 include_once('../tcms_kernel/tcms_html.lib.php');
 include_once('../tcms_kernel/tcms_gd.lib.php');
