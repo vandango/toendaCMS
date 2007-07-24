@@ -52,8 +52,9 @@ if($_TCMS_CS_ARRAY['domainchecker']['attribute']['sb_dc_subtitle']['ENCODE'] == 
 
 
 if($show_dc_title == 1){
-	echo $tcms_html->sidebarTitle($dcTitle);
-	echo $tcms_html->sidebarText($dcSubTitle);
+	echo $tcms_html->sidebarTitle($dcTitle)
+	.'<br />'
+	.$tcms_html->sidebarText($dcSubTitle);
 	//echo '<br />';
 }
 else{

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?><cam>
 	<sb_dc_title encode="1">Domainchecker</sb_dc_title>
 	<sb_dc_subtitle encode="1">Is this domain free?</sb_dc_subtitle>
-	<sb_show_sc_title>1</sb_show_sc_title>
+	<sb_show_dc_title>1</sb_show_dc_title>
 	<sb_font_style>font-family: arial, verdana; font-size: 11px;</sb_font_style>
 	
-	<dc_title encode="1">Webcam</dc_title>
-	<dc_subtitle encode="1">See me working ...</dc_subtitle>
+	<dc_title encode="1">Domainchecker</dc_title>
+	<dc_subtitle encode="1">Is this domain free?</dc_subtitle>
 	<show_dc_title>1</show_dc_title>
 	<font_style>font-family: arial, verdana; font-size: 11px;</font_style>
 </cam>
