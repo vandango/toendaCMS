@@ -5,7 +5,7 @@
 	<id>tcmsshop</id>
 	<enabled>1</enabled>
 	<mainCS>1</mainCS>
-	<sideCS>0</sideCS>
+	<sideCS>1</sideCS>
 	<sideSort>1</sideSort>
 	<access>Public</access>
 	<folder>tcmsshop</folder>

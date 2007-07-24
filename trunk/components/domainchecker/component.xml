@@ -5,8 +5,8 @@
 	<id>domainchecker</id>
 	<enabled>1</enabled>
 	<mainCS>1</mainCS>
-	<sideCS>0</sideCS>
-	<sideSort>1</sideSort>
+	<sideCS>1</sideCS>
+	<sideSort>2</sideSort>
 	<access>Public</access>
 	<folder>domainchecker</folder>
 	<backendfile>backend.php</backendfile>
