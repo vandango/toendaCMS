@@ -9,8 +9,7 @@
 | 
 | Component System Loader - Maincontent
 |
-| File:		ext_components_mainpage.php
-| Version:	0.1.1
+| File:	ext_components_mainpage.php
 |
 +
 */
@@ -19,6 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * Component System Loader - Maincontent
+ *
+ * This module is used as a base components loader.
+ *
+ * @version 0.1.2
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Content Modules
+ */
 
 
 //if component system is enabled
