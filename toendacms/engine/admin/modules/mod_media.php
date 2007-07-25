@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a media manager.
  *
- * @version 0.4.3
+ * @version 0.4.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -128,7 +128,7 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 	
 	echo '</select>'
 	.'<input name="event" type="file" class="tcms_upload" />'
-	.'<input name="event" type="button" onclick="accept(\'upload\');" class="tcms_button" value="'._TCMS_ADMIN_UPLOAD.'" />'
+	.'<input name="btnUpload" type="button" onclick="submitForm(\'upload\');" class="tcms_button" value="'._TCMS_ADMIN_UPLOAD.'" />'
 	.'<input name="todo" type="hidden" value="upload" />'
 	.'<input name="action" type="hidden" value="'.$action.'" />'
 	.'</td></tr>';

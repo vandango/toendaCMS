@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 0.9.3
+ * @version 0.9.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -41,6 +41,9 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * getNewsDC                                 -> Get a specific news data container
  * getNewsDCList                             -> Get a list of news data container
+ * getNewsTitle                              -> Get the title of a news element
+ * getNewsIdByTitle                          -> Get the id of a news element by its title
+ * getXmlIdFromNewsLanguage                  -> Get the id of a language news file
  * generateFeed                              -> ReGenerate the news syndication feeds
  *
  * getCommentDCList                          -> Get a list of news data container
@@ -610,6 +613,277 @@ class tcms_datacontainer_provider extends tcms_main {
 		}
 		
 		return $arrReturn;
+	}
+	
+	
+	
+	/**
+	 * Get the title of a news element
+	 * 
+	 * @param String $id
+	 * @param String $language
+	 * @return String
+	 */
+	function getNewsTitle($id, $language) {
+		if($this->db_choosenDB == 'xml') {
+			$xml = new xmlparser(
+				$this->m_path.'/tcms_news/'.$id.'.xml', 'r'
+			);
+			
+			$ret = $this->decodeText($xml->readSection('news', 'title'), '2', $c_charset);
+			
+			$xml->flush();
+			$xml->_xmlparser();
+			unset($xml);
+		}
+		else {
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
+			
+			$sql = "SELECT title "
+			."FROM ".$this->m_sqlPrefix."news "
+			."WHERE uid = '".$id."' "
+			."AND language = '".$language."'";
+			
+			//echo $sql.'<br>';
+			
+			$sqlQR = $sqlAL->query($sql);
+			
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
+			$ret = $this->decodeText($sqlObj->title, '2', $c_charset);
+			
+			$sqlAL->freeResult($sqlQR);
+		}
+		
+		return $ret;
+	}
+	
+	
+	
+	/**
+	 * Get the id of a news element by its title
+	 * 
+	 * @param String $title
+	 * @param String $language
+	 * @return String
+	 */
+	function getNewsIdByTitle($title, $language) {
+		if($this->db_choosenDB == 'xml'){
+			/*$wsCUid = $this->getXmlIdFromContentLanguage(
+				$id, 
+				$language
+			);
+			
+			if($wsCUid != '') {
+				$xml = new xmlparser(
+					$this->m_path.'/tcms_content_languages/'.$wsCUid.'.xml', 'r'
+				);
+			}
+			else {
+				$xml = new xmlparser(
+					$this->m_path.'/tcms_content/'.$contentID.'.xml', 'r'
+				);
+			}
+			
+			$ret = $this->decodeText($xml->readSection('main', 'title'), '2', $c_charset);*/
+			
+			$arr_docs = $this->getPathContent(
+				$this->m_path.'/tcms_news/'
+			);
+			
+			$count = 0;
+			
+			if($this->isArray($arr_docs)) {
+				foreach($arr_docs as $key => $val) {
+					$xml = new xmlparser(
+						$this->m_path.'/tcms_news/'.$val, 'r'
+					);
+					
+					$wsTitle = $xml->readValue('title');
+					
+					if($this->indexOf($wsTitle, $title)) {
+						// got a match
+						
+						$count++;
+					}
+					else if($this->indexOf($wsTitle, $title) && $count > 0) {
+						// too much
+						
+						$count++;
+					}
+					else {
+						// nothing found
+					}
+					
+					$xml->flush();
+					$xml->_xmlparser();
+					unset($xml);
+				}
+			}
+		}
+		else {
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
+			
+			$sql = "SELECT uid "
+			."FROM ".$this->m_sqlPrefix."news "
+			."WHERE language = '".$language."' ";
+			
+			$arrTitle = explode(' ', $title);
+			
+			foreach($arrTitle as $key => $value) {
+				if($key == 0) {
+					$sql .= "AND (title LIKE '%".$value."%') ";
+				}
+				else {
+					$sql .= "AND (title LIKE '%".$value."%') ";
+				}
+			}
+			
+			//echo $sql.'<br>';
+			
+			$sqlQR = $sqlAL->query($sql);
+			$no = $sqlAL->getNumber($sqlQR);
+			
+			if($no == 1) {
+				// got a match
+				$sqlObj = $sqlAL->fetchObject($sqlQR);
+				$ret = $sqlObj->uid;
+			}
+			else if($no > 1) {
+				// too much
+				$sql = "SELECT uid "
+				."FROM ".$this->m_sqlPrefix."news "
+				."WHERE language = '".$language."' ";
+				
+				foreach($arrTitle as $key => $value) {
+					if($key == 0) {
+						$sql .= "AND ( (title = '".$value."') ";
+					}
+					else {
+						$sql .= "OR (title = '".$value."') ";
+					}
+				}
+				
+				//$sql .= " )";
+				
+				echo $sql.'<br>';
+				
+				$sqlQR = $sqlAL->query($sql);
+				$no = $sqlAL->getNumber($sqlQR);
+				
+				if($no == 1) {
+					// got a match
+					$sqlObj = $sqlAL->fetchObject($sqlQR);
+					$ret = $sqlObj->uid;
+				}
+				else if($no > 1) {
+					// too much
+					$ret = '';
+				}
+				else {
+					// nothing found
+					// last chance!
+					
+					// too much
+					$sql = "SELECT uid "
+					."FROM ".$this->m_sqlPrefix."news "
+					."WHERE language = '".$language."' "
+					."AND (title LIKE '%".$title."%') ";
+					
+					switch($this->m_choosenDB){
+						case 'mysql':
+							$sql .= " AND ( NOT LENGTH(title) > ".( strlen($title) + 2 )." )";
+							break;
+						
+						case 'pgsql':
+							$sql .= " AND ( NOT LEN(title) > ".( strlen($title) + 2 )." )";
+							break;
+						
+						case 'mssql':
+							$sql .= " AND ( NOT LEN(title) > ".( strlen($title) + 2 )." )";
+							break;
+					}
+					
+					//echo $sql.'<br>';
+					
+					$sqlQR = $sqlAL->query($sql);
+					$no = $sqlAL->getNumber($sqlQR);
+					
+					if($no == 1) {
+						// got a match
+						$sqlObj = $sqlAL->fetchObject($sqlQR);
+						$ret = $sqlObj->uid;
+					}
+					else {
+						// nothing found
+						$ret = '';
+					}
+				}
+			}
+			else {
+				// nothing found
+				$ret = '';
+			}
+			
+			$sqlAL->freeResult($sqlQR);
+		}
+		
+		return $ret;
+	}
+	
+	
+	
+	/**
+	 * Get the id of a language news file
+	 * 
+	 * @param String $id
+	 * @param String $lang
+	 * @return String
+	 */
+	function getXmlIdFromNewsLanguage($id, $language) {
+		if($this->m_choosenDB == 'xml'){
+			$arr_docs = $this->getPathContent(
+				$this->m_path.'/tcms_news/'
+			);
+			
+			$wsCUid = '';
+			
+			if($this->isArray($arr_docs)) {
+				foreach($arr_docs as $key => $val) {
+					$xml = new xmlparser(
+						$this->m_path.'/tcms_news/'.$val, 'r'
+					);
+					
+					$wsLang = $xml->readValue('language');
+					
+					if($language == $wsLang) {
+						$wsCUid = substr($val, 0, 5);
+					}
+					
+					$xml->flush();
+					$xml->_xmlparser();
+					unset($xml);
+				}
+			}
+			
+			return $wsCUid;
+		}
+		else {
+			return '';
+		}
 	}
 	
 	
