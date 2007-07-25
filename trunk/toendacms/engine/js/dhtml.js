@@ -256,6 +256,11 @@ function submitXML(id, action, newvalue){
 }
 
 
+function submitForm(id){
+	document.getElementById(id).submit();
+}
+
+
 
 
 

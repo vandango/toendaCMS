@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used for the search engine
  * optimization.
  *
- * @version 0.4.2
+ * @version 0.5.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -344,6 +344,12 @@ class tcms_seo {
 		global $tcms_time;
 		global $tcms_config;
 		
+		$dcp = new tcms_datacontainer_provider(
+			$tcms_main->getAdministerSite(), 
+			$tcms_config->getCharset(), 
+			$tcms_time
+		);
+		
 		$arrSEO = explode('/', $tcms_config->getSEOPath());
 		
 		foreach($this->m_urlArray as $urlKey => $urlValue){
@@ -366,6 +372,7 @@ class tcms_seo {
 				$val = $urlValue;
 			}
 			
+			//echo '$val:'.$val.'<br>';
 			//echo '<span style="color:#fff;">$val:'.$val.'</span><br>';
 			//echo '<span style="color:#fff;">$end:'.$end.'</span><br>';
 			//echo '<span style="color:#fff;">arr id: '.$end.' -> '.substr($end, 1, strpos($end, '=') - 1).'</span><br>';
@@ -465,42 +472,46 @@ class tcms_seo {
 					break;
 				
 				/*
-					only content id's
+					only content
+					or news
 				*/
 				default:
-					if(strlen($val) == 5 
-					&& trim($val) != 'index') {
-						if(trim($arrSEO['id']) == '') {
-							$arrSEO['id'] = $val;
+					/*
+						news
+					*/
+					if($tcms_main->isElementInArray('newsmanager', $arrSEO)) {
+						$chk_val = $dcp->getNewsIdByTitle(
+							$tcms_main->getNormalStringFromUrlString($val), 
+							$tcms_config->getLanguageCodeForTCMS($arrSEO['lang'])
+						);
+						
+						if(trim($chk_val) != '') {
+							$arrSEO['news'] = $chk_val;
 						}
 					}
+					/*
+						content
+					*/
 					else {
-						if(!$tcms_main->isElementInArray($val, $arrSEO)
-						&& trim($val) != ''
+						if(strlen($val) == 5 
 						&& trim($val) != 'index') {
-							if($tcms_main->indexOf(trim($val), '?') == false) {
-								$dcp = new tcms_datacontainer_provider(
-									$tcms_main->getAdministerSite(), 
-									$tcms_config->getCharset(), 
-									$tcms_time
-								);
-								
-								$chk_val = $dcp->getContentIdByTitle(
-									$tcms_main->getNormalStringFromUrlString($val), 
-									$tcms_config->getLanguageCodeForTCMS($arrSEO['lang'])
-								);
-								
-								/*echo $val.' = ';
-								
-								if(trim($chk_val) != '') {
-									echo $chk_val.'<br>';
-								}
-								else {
-									echo 'null<br>';
-								}*/
-								
-								if(trim($chk_val) != '') {
-									$arrSEO['id'] = $chk_val;
+							if(trim($arrSEO['id']) == '') {
+								$arrSEO['id'] = $val;
+							}
+						}
+						else {
+							if(!$tcms_main->isElementInArray($val, $arrSEO)
+							&& trim($val) != ''
+							&& trim($val) != 'index') {
+								if($tcms_main->indexOf(trim($val), '?') == false) {
+									$chk_val = $dcp->getContentIdByTitle(
+										$tcms_main->getNormalStringFromUrlString($val), 
+										$tcms_config->getLanguageCodeForTCMS($arrSEO['lang'])
+									);
+									
+									if(trim($chk_val) != '') {
+										$arrSEO['id'] = $chk_val;
+									}
 								}
 							}
 						}

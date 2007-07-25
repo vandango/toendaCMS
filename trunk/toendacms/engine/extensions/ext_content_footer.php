@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Content footer with links for the "top of page", "print" 
  * and "pdf" functions.
  *
- * @version 0.5.2
+ * @version 0.5.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -299,8 +299,6 @@ if($tcms_config->useContentLanguage()) {
 		
 		default:
 			$arr_langs = $tcms_dcp->getContentLanguages($id);
-			
-			$tcms_main->paf($arr_langs);
 			
 			if($tcms_main->isReal($arr_langs)) {
 				//display: block; float: 

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.3.1
+ * @version 2.3.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -848,6 +848,8 @@ class tcms_main {
 	function getNormalStringFromUrlString($text) {
 		$text = str_replace('-', ' ', $text);
 		
+		$text = $this->addAccents($text);
+		
 		return $text;
 	}
 	
@@ -1586,6 +1588,7 @@ class tcms_main {
 		
 		$text = $this->cleanGBScript($text);
 		
+		$text = strtolower($text);
 		
 		$text = str_replace('&&', '&#038;&', $text);
 		$text = str_replace('&&', '&#038;&', $text);
@@ -1595,6 +1598,37 @@ class tcms_main {
 		$text = str_replace('"', '', $text);
 		$text = str_replace("'", '', $text);
 		$text = str_replace('?', '', $text);
+		$text = str_replace('!', '', $text);
+		$text = str_replace('§', '', $text);
+		$text = str_replace('$', '', $text);
+		$text = str_replace('%', '', $text);
+		//$text = str_replace('/', '', $text);
+		//$text = str_replace('(', '', $text);
+		//$text = str_replace(')', '', $text);
+		//$text = str_replace('\\', '', $text);
+		//$text = str_replace('[', '', $text);
+		//$text = str_replace(']', '', $text);
+		//$text = str_replace('{', '', $text);
+		//$text = str_replace('}', '', $text);
+		//$text = str_replace('`', '', $text);
+		//$text = str_replace('´', '', $text);
+		//$text = str_replace('*', '', $text);
+		//$text = str_replace('+', '', $text);
+		$text = str_replace('-', '', $text);
+		//$text = str_replace('#', '', $text);
+		$text = str_replace('³', '', $text);
+		$text = str_replace('²', '', $text);
+		//$text = str_replace('^', '', $text);
+		//$text = str_replace('°', '', $text);
+		//$text = str_replace(':', '', $text);
+		//$text = str_replace(';', '', $text);
+		//$text = str_replace('.', '', $text);
+		//$text = str_replace(',', '', $text);
+		//$text = str_replace('_', '', $text);
+		$text = str_replace('µ', '', $text);
+		$text = str_replace('@', '', $text);
+		$text = str_replace('€', '', $text);
+		$text = str_replace('&euro;', '', $text);
 		
 		$text = $this->removeAccents($text);
 		
@@ -1743,6 +1777,20 @@ class tcms_main {
 			$string = strtr($string, $chars);
 		}
 		else {
+			$asci_chars['in'] = array(
+				chr(228), 
+				chr(246), 
+				chr(252)
+			);
+			
+			$asci_chars['out'] = array(
+				'ae', 
+				'oe', 
+				'ue'
+			);
+			
+			//$string = str_replace($asci_chars['in'], $asci_chars['out'], $string);
+			
 			// Assume ISO-8859-1 if not UTF-8
 			$chars['in'] = chr(128).chr(131).chr(138).chr(142).chr(154).chr(158)
 			.chr(159).chr(162).chr(165).chr(181).chr(192).chr(193).chr(194)
@@ -1757,7 +1805,7 @@ class tcms_main {
 			
 			//$chars['out'] = "EfSZszYcYuAAAAAACEEEEIIIINOOOOOOUUUUYaaaaaaceeeeiiiinoooooouuuuyy";
 			$chars['out'] = "                                                                 ";
-	
+			
 			$string = strtr($string, $chars['in'], $chars['out']);
 			
 			$double_chars['in'] = array(chr(140), chr(156), chr(198), chr(208), chr(222), chr(223), chr(230), chr(240), chr(254));
@@ -1780,7 +1828,7 @@ class tcms_main {
 	 */
 	function addAccents($string) {
 		// Assume ISO-8859-1 if not UTF-8
-		$chars['in'] = chr(128).chr(131).chr(138).chr(142).chr(154).chr(158)
+		/*$chars['in'] = chr(128).chr(131).chr(138).chr(142).chr(154).chr(158)
 		.chr(159).chr(162).chr(165).chr(181).chr(192).chr(193).chr(194)
 		.chr(195).chr(196).chr(197).chr(199).chr(200).chr(201).chr(202)
 		.chr(203).chr(204).chr(205).chr(206).chr(207).chr(209).chr(210)
@@ -1799,6 +1847,22 @@ class tcms_main {
 		$double_chars['out'] = array('OE', 'oe', 'AE', 'DH', 'TH', 'ss', 'ae', 'dh', 'th');
 		
 		$string = str_replace($double_chars['out'], $double_chars['in'], $string);
+		
+		return $string;*/
+		
+		$asci_chars['in'] = array(
+			'ae', 
+			'oe', 
+			'ue'
+		);
+		
+		$asci_chars['out'] = array(
+			'&auml;', 
+			'&ouml;', 
+			'&uuml;'
+		);
+		
+		//$string = str_replace($asci_chars['in'], $asci_chars['out'], $string);
 		
 		return $string;
 	}
@@ -1935,6 +1999,12 @@ class tcms_main {
 		$lang = '';
 		$add = '';
 		$encodeMore = false;
+		
+		$dcp = new tcms_datacontainer_provider(
+			$this->administer, 
+			$this->_tcmsConfig->getCharset(), 
+			$this->_tcmsTime
+		);
 		
 		foreach($arr_url as $key => $val){
 			//echo '<span style="color:#fff;">'.$val.'</span><br>';
@@ -2106,12 +2176,6 @@ class tcms_main {
 				if(trim($text) == '') {
 					$ret = $this->globalFolder.'/index.php/';
 					
-					$dcp = new tcms_datacontainer_provider(
-						$this->administer, 
-						$this->_tcmsConfig->getCharset(), 
-						$this->_tcmsTime
-					);
-					
 					$val = substr($val, strpos($val, 'id=') + 3);
 					
 					$val = $dcp->getContentTitle($val, $this->_getLang);
@@ -2147,11 +2211,43 @@ class tcms_main {
 			*/
 			else {
 				if(substr($val, 0, 2) != 's=') {
-					if(trim($add) == '') {
-						$add .= '?'.$val;
+					/*
+						news
+					*/
+					if(substr($val, 0, 4) == 'news') {
+						if(trim($add) == '') {
+							switch($this->_tcmsConfig->getLanguageFrontend()) {
+								case 'germany_DE':
+									$text = str_replace('neuigkeiten.html', 'neuigkeiten/', $text);
+									break;
+								
+								case 'english_EN':
+									$text = str_replace('news.html', 'news/', $text);
+									break;
+								
+								default:
+									$text = str_replace('news.html', 'news/', $text);
+									break;
+							}
+							
+							$val = substr($val, strpos($val, 'news=') + 5);
+							
+							$val = $dcp->getNewsTitle($val, $this->_getLang);
+							$val = $this->cleanStringForUrlName($val);
+							
+							$add .= $val.'.html';
+						}
+						else {
+							$add .= '&amp;'.$val;
+						}
 					}
 					else {
-						$add .= '&amp;'.$val;
+						if(trim($add) == '') {
+							$add .= '?'.$val;
+						}
+						else {
+							$add .= '&amp;'.$val;
+						}
 					}
 				}
 			}
