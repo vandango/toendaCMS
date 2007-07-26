@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 0.9.8
+ * @version 1.0.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -744,7 +744,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$arrTitle = explode(' ', $title);
 			
 			foreach($arrTitle as $key => $value) {
-				if($key == 0) {
+        if($key == 0) {
 					$sql .= "AND (title LIKE '%".$value."%') ";
 				}
 				else {

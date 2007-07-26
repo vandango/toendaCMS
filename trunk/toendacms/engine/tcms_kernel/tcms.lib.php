@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.3.8
+ * @version 2.4.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -1598,9 +1598,6 @@ class tcms_main {
 		$text = str_replace('<', '', $text);
 		$text = str_replace('>', '', $text);
 		$text = str_replace('"', '', $text);
-    
-		$text = str_replace("'", '*', $text);
-		
     $text = str_replace('?', '', $text);
 		$text = str_replace('!', '', $text);
 		$text = str_replace('§', '', $text);
@@ -1637,6 +1634,9 @@ class tcms_main {
     $text = str_replace('»', '', $text);
     $text = str_replace('&187;', '', $text);
     $text = str_replace('&171;', '', $text);
+    
+		$text = str_replace("'", '’', $text);
+    $text = str_replace('&#039;', '’', $text);
 		
 		$text = $this->removeAccents($text);
 		
@@ -1872,7 +1872,8 @@ class tcms_main {
 		
 		//$string = str_replace($asci_chars['in'], $asci_chars['out'], $string);
     
-    //$string = str_replace('*', '\'', $string);
+    $string = str_replace('%E2%80%99', '\\\'', $string);
+    $string = str_replace('’', '\\\'', $string);
 		
 		return $string;
 	}
