@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a news manager with a news,
  * a news view and a archive with different formats.
  *
- * @version 1.3.6
+ * @version 1.3.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -68,13 +68,15 @@ $hr_line_5 = '<hr class="hr_line" noshade="noshade" />';
 
 if($choosenDB == 'xml') $arr_news = $tcms_main->readdir_ext('data/tcms_news/');
 
-if(!isset($news)){ $news = 'start'; }
-if(!isset($cmd)){ $cmd = ''; }
-if(isset($cat)){ $news = ''; $cmd = ''; }
-if(isset($date)){ $news = ''; $cmd = ''; $cat = ''; }
-if(isset($day)){ $news = ''; $cmd = ''; $cat = ''; $date = ''; }
+if(!isset($news) && $action != 'archive'){ $action = 'start'; }
+if(!isset($action)){ $action = 'start'; }
 
-if($news == 'start' || $news == 'archive'){
+if(!isset($cmd)){ $cmd = ''; }
+if(isset($cat)){ $action = 'archive'; $news = ''; $cmd = ''; }
+if(isset($date)){ $action = 'archive'; $news = ''; $cmd = ''; $cat = ''; }
+if(isset($day)){ $action = 'archive'; $news = ''; $cmd = ''; $cat = ''; $date = ''; }
+
+if($action == 'start' || $action == 'archive'){
 	if($cat == '' || !isset($cat)){
 		echo $tcms_html->contentModuleHeader(
 			$news_title, 
@@ -113,7 +115,7 @@ else {
 	show a complete list of all news
 */
 
-if($news == 'start' && !isset($cat)){
+if($action == 'start' && !isset($cat)){
 	$arrNewsDC = $tcms_dcp->getNewsDCList($getLang, $is_admin, $news_amount);
 	
 	echo '<table cellpadding="0" cellspacing="0" border="0" width="100%">'
@@ -177,7 +179,7 @@ if($news == 'start' && !isset($cat)){
 	
 	echo '<div style="display: block; float: left; padding-right: 5px;">';
 	$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
-	.'id=newsmanager&s='.$s.'&news=archive'
+	.'id=newsmanager&s='.$s.'&action=archive'
 	.( isset($lang) ? '&amp;lang='.$lang : '' );
 	$link = $tcms_main->urlAmpReplace($link);
 	echo '<input class="inputbutton" type="button" onclick="document.location=\''.$link.'\';"'
@@ -186,7 +188,7 @@ if($news == 'start' && !isset($cat)){
 	
 	
 	$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
-	.'id=newsmanager&s='.$s.'&news=archive&cmd=category'
+	.'id=newsmanager&s='.$s.'&action=archive&cmd=category'
 	.( isset($lang) ? '&amp;lang='.$lang : '' );
 	$link = $tcms_main->urlAmpReplace($link);
 	echo '<input class="inputbutton" type="button" onclick="document.location=\''.$link.'\';"'
@@ -204,7 +206,8 @@ if($news == 'start' && !isset($cat)){
 /*
 	show one news
 */
-if($news != 'start' && $cmd != 'comment_save' && $news != 'archive' && !isset($cat)){
+
+if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment_save' && !isset($cat)){
 	$dcNews = new tcms_dc_news();
 	$dcNews = $tcms_dcp->getNewsDC($getLang, $news, $is_admin);
 	
@@ -846,7 +849,8 @@ if($use_news_comments == 1){
 	and mothview
 */
 
-if($cmd == '' && $news == ''){
+if($action == 'archive' && (isset($cat) || isset($date) || isset($day))){
+//if($cmd == '' && $action == '') {
 	if(isset($date)){
 		if(strlen($date) == 6){
 			/*
@@ -1520,318 +1524,316 @@ if($cmd == '' && $news == ''){
 // ARCHIVE
 // ------------------------------------------
 
-if($news != 'start' && $cmd != 'comment_save'){
-	if($news == 'archive'){
-		if($cmd != 'category'){
-			// -----------------------------------
-			// Archive
-			// -----------------------------------
-			
-			$arrNewsDC = $tcms_dcp->getNewsDCList($getLang, $is_admin, 0);
-			
-			echo '<table cellpadding="0" cellspacing="0" border="0" width="100%">';
-			echo '<tr>'
-				.'<th class="titleBG" valign="top" align="left" width="30%" colspan="2">&nbsp;'._DOWNLOADS_SUBMIT_ON.'</th>'
-				.'<th class="titleBG" valign="top" align="left" width="70%">&nbsp;'._TABLE_TITLE.'</th><tr>';
-			
-			$sortPoint = false;
-			
-			if(!empty($arrNewsDC) && $arrNewsDC != '' && isset($arrNewsDC)){
-				foreach($arrNewsDC as $n_key => $n_value){
-					$dcNews = new tcms_dc_news();
-					$dcNews = $arrNewsDC[$n_key];
-					
-					$sortDay   = substr($dcNews->getDate(), 0, 2);
-					$sortMonth = substr($dcNews->getDate(), 3, 2);
-					$sortYear  = substr($dcNews->getDate(), 6, 4);
-					
-					if(isset($sortLastYear)){
-						if($sortLastYear != $sortYear){ $sortPoint = false; }
-					}
-					
-					if(isset($sortLastMonth)){
-						if($sortLastMonth != $sortMonth){ $sortPoint = false; }
-					}
-					
-					if($sortPoint == false){
-						if(substr($sortMonth, 0, 1) == '0'){ $sortMonth = substr($sortMonth, 1, 1); }
-						
-						echo '<tr style="height: 18px;"><td colspan="3"></td></tr>';
-						echo '<tr><td colspan="3" style="padding-left: 3px;">'
-						.'<strong class="text_big">'.$monthName[$sortMonth].'&nbsp;'.$sortYear.'</strong>'
-						.'</td></tr>';
-						
-						$sortPoint = true;
-						$sortLastYear = $sortYear;
-						$sortLastMonth = $sortMonth;
-					}
-					
-					echo '<tr class="news_content_bg">';
-					
-					echo '<td valign="top" style="padding-left: 10px;">&nbsp;</td>';
-					
-					echo '<td valign="top">'
-					.lang_date(substr($dcNews->getDate(), 0, 2), substr($dcNews->getDate(), 3, 2), substr($dcNews->getDate(), 6, 4), substr($dcNews->getTime(), 0, 2), substr($dcNews->getTime(), 3, 2), '')
-					.'</td>';
-					
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-					.'id='.$id.'&amp;s='.$s.'&amp;news='.$dcNews->getID()
-					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $tcms_main->urlAmpReplace($link);
-					
-					echo '<td valign="top">&nbsp;'
-					.( $dcNews->getTitle() == '' 
-						? '' 
-						: '<a href="'.$link.'">'.$dcNews->getTitle().'</a>'
-					).'</td>';
-					
-					echo '</tr>';
-				}
-			}
-		}
-		elseif($cmd == 'category'){
-			// -----------------------------------
-			// Category Archive
-			// -----------------------------------
-			
-			if($choosenDB == 'xml'){
-				if(!empty($arr_news) && $arr_news != '' && isset($arr_news)){
-					$arr_cat_files = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_news_categories/');
-					
-					$count = 0;
-					
-					if(!empty($arr_cat_files) && $arr_cat_files != '' && isset($arr_cat_files)){
-						foreach($arr_cat_files as $Ckey => $Cvalue){
-							$cat_xml = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$Cvalue,'r');
-							
-							$this_cat_name = $cat_xml->read_section('cat', 'name');
-							$this_cat_uid = substr($Cvalue, 0, 5);
-							
-							$this_cat_name = $tcms_main->decodeText($this_cat_name, '2', $c_charset);
-							
-							
-							foreach($arr_news as $key => $value){
-								$main_xml = new xmlparser($tcms_administer_site.'/tcms_news/'.$value,'r');
-								$checkCat = $main_xml->read_section('news', 'category');
-								$arrCat = explode('{###}', $checkCat);
-								
-								if(in_array($this_cat_uid, $arrCat)){
-									$is_pub   = $main_xml->read_section('news', 'published');
-									$is_date  = $main_xml->read_section('news', 'publish_date');
-									$nws_acc  = $main_xml->read_section('news', 'access');
-									
-									if($nws_acc == 'Public'){ $show_this_news = true; }
-									elseif($nws_acc == 'Protected'){
-										if($is_admin == 'User' || $is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor' || $is_admin == 'Presenter'){ $show_this_news = true; }
-										else{ $show_this_news = false; }
-									}
-									elseif($nws_acc == 'Private'){
-										if($is_admin == 'Administrator' || $is_admin == 'Developer'){ $show_this_news = true; }
-										else{ $show_this_news = false; }
-									}
-									
-									if($show_this_news == true){
-										$is_date = mktime(substr($is_date, 11, 2), substr($is_date, 14, 2), 0, substr($is_date, 3, 2), substr($is_date, 0, 2), substr($is_date, 6, 4));
-										
-										if($is_pub == 1 && $is_date < time()){
-											$arr_newsItems['categ'][$count] = $this_cat_name;
-											$arr_newsItems['title'][$count] = $main_xml->read_section('news', 'title');
-											$arr_newsItems['date'][$count]  = $main_xml->read_section('news', 'date');
-											$arr_newsItems['time'][$count]  = $main_xml->read_section('news', 'time');
-											$arr_newsItems['order'][$count] = $main_xml->read_section('news', 'order');
-											$arr_newsItems['stamp'][$count] = $main_xml->read_section('news', 'stamp');
-											
-											if(!$arr_newsItems['title'][$count]){ $arr_newsItems['title'][$count] = ''; }
-											if(!$arr_newsItems['date'][$count]) { $arr_newsItems['date'][$count]  = ''; }
-											if(!$arr_newsItems['time'][$count]) { $arr_newsItems['time'][$count]  = ''; }
-											if(!$arr_newsItems['order'][$count]){ $arr_newsItems['order'][$count] = ''; }
-											if(!$arr_newsItems['stamp'][$count]){ $arr_newsItems['stamp'][$count] = ''; }
-											
-											$arr_newsItems['title'][$count] = $tcms_main->decodeText($arr_newsItems['title'][$count], '2', $c_charset);
-											
-											$count++;
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-				$authSQL = '';
-				
-				
-				if($check_session){
-					if($is_admin == 'User' || $is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor' || $is_admin == 'Presenter'){
-						$authSQL = "OR ".$tcms_db_prefix."news.access = 'Protected' ";
-					}
-					if($is_admin == 'Administrator' || $is_admin == 'Developer'){
-						$authSQL = "OR ".$tcms_db_prefix."news.access = 'Protected' OR ".$tcms_db_prefix."news.access = 'Private' ";
-					}
-				}
-				
-				
-				$strSQL = "SELECT * "
-				."FROM ".$tcms_db_prefix."news_categories "
-				."ORDER BY name";
-				
-				$sqlQR = $sqlAL->sqlQuery($strSQL);
-				$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
-				
-				$count = 0;
-				
-				if($sqlNR != 0){
-					while($sqlARRnc = $sqlAL->sqlFetchArray($sqlQR)){
-						$sqlStr = "SELECT * "
-						."FROM ".$tcms_db_prefix."news_to_categories "
-						."INNER JOIN ".$tcms_db_prefix."news ON (".$tcms_db_prefix."news_to_categories.news_uid = ".$tcms_db_prefix."news.uid) "
-						."WHERE ".$tcms_db_prefix."news_to_categories.cat_uid = '".$sqlARRnc['uid']."' "
-						."AND ".$tcms_db_prefix."news.published = 1 "
-						."AND ".$tcms_db_prefix."news.language = '".$getLang."' "
-						."AND ".$tcms_db_prefix."news.access = 'Public' ".$authSQL
-						."ORDER BY ".$tcms_db_prefix."news.stamp DESC, ".$tcms_db_prefix."news.date DESC, ".$tcms_db_prefix."news.time DESC";
-						
-						$sqlQR2 = $sqlAL->sqlQuery($sqlStr);
-						$sqlNR2 = $sqlAL->sqlGetNumber($sqlQR2);
-						
-						if($sqlNR2 != 0){
-							while($sqlARR = $sqlAL->sqlFetchArray($sqlQR2)){
-								$is_date = $sqlARR['publish_date'];
-								$nws_acc = $sqlARR['access'];
-								
-								if($nws_acc == 'Public'){ $show_this_news = true; }
-								elseif($nws_acc == 'Protected'){
-									if($is_admin == 'User' || $is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor' || $is_admin == 'Presenter'){ $show_this_news = true; }
-									else{ $show_this_news = false; }
-								}
-								elseif($nws_acc == 'Private'){
-									if($is_admin == 'Administrator' || $is_admin == 'Developer'){ $show_this_news = true; }
-									else{ $show_this_news = false; }
-								}
-								
-								if($show_this_news == true){
-									$is_date = mktime(substr($is_date, 11, 2), substr($is_date, 14, 2), 0, substr($is_date, 3, 2), substr($is_date, 0, 2), substr($is_date, 6, 4));
-									
-									if($is_date < time()){
-										$arr_newsItems['categ'][$count] = $sqlARRnc['name'];
-										$arr_newsItems['title'][$count] = $sqlARR['title'];
-										$arr_newsItems['date'][$count]  = $sqlARR['date'];
-										$arr_newsItems['time'][$count]  = $sqlARR['time'];
-										$arr_newsItems['order'][$count] = $sqlARR['uid'];
-										$arr_newsItems['stamp'][$count] = $sqlARR['stamp'];
-										
-										if($arr_newsItems['categ'][$count] == NULL){ $arr_newsItems['categ'][$count] = ''; }
-										if($arr_newsItems['title'][$count] == NULL){ $arr_newsItems['title'][$count] = ''; }
-										if($arr_newsItems['date'][$count]  == NULL){ $arr_newsItems['date'][$count]  = ''; }
-										if($arr_newsItems['time'][$count]  == NULL){ $arr_newsItems['time'][$count]  = ''; }
-										if($arr_newsItems['order'][$count] == NULL){ $arr_newsItems['order'][$count] = ''; }
-										if($arr_newsItems['stamp'][$count] == NULL){ $arr_newsItems['stamp'][$count] = ''; }
-										
-										$arr_newsItems['title'][$count] = $tcms_main->decodeText($arr_newsItems['title'][$count], '2', $c_charset);
-										
-										$count++;
-									}
-								}
-							}
-						}
-						
-						$sqlAL->sqlFreeResult($sqlQR2);
-					}
-					
-					$sqlAL->sqlFreeResult($sqlQR);
-				}
-			}
-			
-			if(is_array($arr_newsItems['stamp'])){
-				array_multisort(
-					$arr_newsItems['categ'], SORT_DESC, 
-					$arr_newsItems['stamp'], SORT_DESC, 
-					$arr_newsItems['date'], SORT_DESC, 
-					$arr_newsItems['time'], SORT_DESC, 
-					$arr_newsItems['title'], SORT_DESC, 
-					$arr_newsItems['order'], SORT_DESC
-				);
-			}
-			
-			echo $tcms_html->tableHead(0, 0, 0, '100%')
-			.'<tr>'
-			.'<th class="titleBG" valign="top" align="left" width="30%" colspan="2">&nbsp;'._DOWNLOADS_SUBMIT_ON.'</th>'
-			.'<th class="titleBG" valign="top" align="left" width="70%">&nbsp;'._TABLE_TITLE.'</th><tr>';
-			
-			$sortPoint = false;
-			
-			if($tcms_main->isReal($arr_newsItems['stamp'])){
-				foreach ($arr_newsItems['stamp'] as $key => $value){
-					if($arr_newsItems['categ'][$key] != $arr_newsItems['categ'][$key - 1]){
-						$sortPoint = false;
-					}
-					
-					if($sortPoint == false){
-						echo '<tr style="height: 18px;"><td colspan="3"></td></tr>';
-						echo '<tr><td colspan="3" style="padding-left: 3px;">'
-						.'<strong class="text_big">'.$arr_newsItems['categ'][$key].'</strong>'
-						.'</td></tr>';
-						$sortPoint = true;
-					}
-					
-					echo '<tr class="news_content_bg">';
-					
-					echo '<td valign="top" style="padding-left: 10px;">&nbsp;</td>';
-					
-					echo '<td valign="top">'
-					.lang_date(substr($arr_newsItems['date'][$key], 0, 2), substr($arr_newsItems['date'][$key], 3, 2), substr($arr_newsItems['date'][$key], 6, 4), substr($arr_newsItems['time'][$key], 0, 2), substr($arr_newsItems['time'][$key], 3, 2), '')
-					.'</td>';
-					
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-					.'id='.$id.'&amp;s='.$s.'&amp;news='.$arr_newsItems['order'][$key]
-					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $tcms_main->urlAmpReplace($link);
-					
-					echo '<td valign="top">&nbsp;'
-					.( empty($arr_newsItems['title'][$key]) 
-						? '' 
-						: '<a href="'.$link.'">'.$arr_newsItems['title'][$key].'</a>'
-					).'</td>';
-					
-					echo '</tr>';
-				}
-			}
-		}
-		
-		echo $tcms_html->tableEnd()
-		.'<br /><br />';
-		
-		
-		/*
-			TAB
-		*/
-		echo '<div style="display: block; float: left; padding-right: 5px;">';
-		$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
-		.'id=newsmanager&s='.$s
-		.( isset($lang) ? '&amp;lang='.$lang : '' );
-		$link = $tcms_main->urlAmpReplace($link);
-		echo '<input class="inputbutton" type="button" onclick="document.location=\''.$link.'\';" value="'._NEWS_ARCHIVE.' ('._NEWS_LAST.' '.$news_amount.')" />';
-		echo '</div>';
-		
-		
-		echo '<div style="display: block; float: left; padding-right: 5px;">';
-		$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
-		.'id=newsmanager&s='.$s.'&news=archive'
-		.( isset($lang) ? '&amp;lang='.$lang : '' );
-		$link = $tcms_main->urlAmpReplace($link);
-		echo '<input class="inputbutton" type="button" onclick="document.location=\''.$link.'\';" value="'._NEWS_ARCHIVE.' ('._NEWS_ORDER_BY_TIME.')" />';
-		echo '</div>';
-		
-		
-		$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
-		.'id=newsmanager&s='.$s.'&news=archive&cmd=category'
-		.( isset($lang) ? '&amp;lang='.$lang : '' );
-		$link = $tcms_main->urlAmpReplace($link);
-		echo '<input class="inputbutton" type="button" onclick="document.location=\''.$link.'\';" value="'._NEWS_ARCHIVE.' ('._NEWS_ORDER_BY_CAT.')" />';
-	}
+if($action == 'archive' && $cmd != 'comment_save' && !isset($cat) && !isset($date) && !isset($day)){
+  if($cmd != 'category'){
+    // -----------------------------------
+    // Archive
+    // -----------------------------------
+    
+    $arrNewsDC = $tcms_dcp->getNewsDCList($getLang, $is_admin, 0);
+    
+    echo '<table cellpadding="0" cellspacing="0" border="0" width="100%">';
+    echo '<tr>'
+      .'<th class="titleBG" valign="top" align="left" width="30%" colspan="2">&nbsp;'._DOWNLOADS_SUBMIT_ON.'</th>'
+      .'<th class="titleBG" valign="top" align="left" width="70%">&nbsp;'._TABLE_TITLE.'</th><tr>';
+    
+    $sortPoint = false;
+    
+    if(!empty($arrNewsDC) && $arrNewsDC != '' && isset($arrNewsDC)){
+      foreach($arrNewsDC as $n_key => $n_value){
+        $dcNews = new tcms_dc_news();
+        $dcNews = $arrNewsDC[$n_key];
+        
+        $sortDay   = substr($dcNews->getDate(), 0, 2);
+        $sortMonth = substr($dcNews->getDate(), 3, 2);
+        $sortYear  = substr($dcNews->getDate(), 6, 4);
+        
+        if(isset($sortLastYear)){
+          if($sortLastYear != $sortYear){ $sortPoint = false; }
+        }
+        
+        if(isset($sortLastMonth)){
+          if($sortLastMonth != $sortMonth){ $sortPoint = false; }
+        }
+        
+        if($sortPoint == false){
+          if(substr($sortMonth, 0, 1) == '0'){ $sortMonth = substr($sortMonth, 1, 1); }
+          
+          echo '<tr style="height: 18px;"><td colspan="3"></td></tr>';
+          echo '<tr><td colspan="3" style="padding-left: 3px;">'
+          .'<strong class="text_big">'.$monthName[$sortMonth].'&nbsp;'.$sortYear.'</strong>'
+          .'</td></tr>';
+          
+          $sortPoint = true;
+          $sortLastYear = $sortYear;
+          $sortLastMonth = $sortMonth;
+        }
+        
+        echo '<tr class="news_content_bg">';
+        
+        echo '<td valign="top" style="padding-left: 10px;">&nbsp;</td>';
+        
+        echo '<td valign="top">'
+        .lang_date(substr($dcNews->getDate(), 0, 2), substr($dcNews->getDate(), 3, 2), substr($dcNews->getDate(), 6, 4), substr($dcNews->getTime(), 0, 2), substr($dcNews->getTime(), 3, 2), '')
+        .'</td>';
+        
+        $link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+        .'id='.$id.'&amp;s='.$s.'&amp;news='.$dcNews->getID()
+        .( isset($lang) ? '&amp;lang='.$lang : '' );
+        $link = $tcms_main->urlAmpReplace($link);
+        
+        echo '<td valign="top">&nbsp;'
+        .( $dcNews->getTitle() == '' 
+          ? '' 
+          : '<a href="'.$link.'">'.$dcNews->getTitle().'</a>'
+        ).'</td>';
+        
+        echo '</tr>';
+      }
+    }
+  }
+  elseif($cmd == 'category'){
+    // -----------------------------------
+    // Category Archive
+    // -----------------------------------
+    
+    if($choosenDB == 'xml'){
+      if(!empty($arr_news) && $arr_news != '' && isset($arr_news)){
+        $arr_cat_files = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_news_categories/');
+        
+        $count = 0;
+        
+        if(!empty($arr_cat_files) && $arr_cat_files != '' && isset($arr_cat_files)){
+          foreach($arr_cat_files as $Ckey => $Cvalue){
+            $cat_xml = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$Cvalue,'r');
+            
+            $this_cat_name = $cat_xml->read_section('cat', 'name');
+            $this_cat_uid = substr($Cvalue, 0, 5);
+            
+            $this_cat_name = $tcms_main->decodeText($this_cat_name, '2', $c_charset);
+            
+            
+            foreach($arr_news as $key => $value){
+              $main_xml = new xmlparser($tcms_administer_site.'/tcms_news/'.$value,'r');
+              $checkCat = $main_xml->read_section('news', 'category');
+              $arrCat = explode('{###}', $checkCat);
+              
+              if(in_array($this_cat_uid, $arrCat)){
+                $is_pub   = $main_xml->read_section('news', 'published');
+                $is_date  = $main_xml->read_section('news', 'publish_date');
+                $nws_acc  = $main_xml->read_section('news', 'access');
+                
+                if($nws_acc == 'Public'){ $show_this_news = true; }
+                elseif($nws_acc == 'Protected'){
+                  if($is_admin == 'User' || $is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor' || $is_admin == 'Presenter'){ $show_this_news = true; }
+                  else{ $show_this_news = false; }
+                }
+                elseif($nws_acc == 'Private'){
+                  if($is_admin == 'Administrator' || $is_admin == 'Developer'){ $show_this_news = true; }
+                  else{ $show_this_news = false; }
+                }
+                
+                if($show_this_news == true){
+                  $is_date = mktime(substr($is_date, 11, 2), substr($is_date, 14, 2), 0, substr($is_date, 3, 2), substr($is_date, 0, 2), substr($is_date, 6, 4));
+                  
+                  if($is_pub == 1 && $is_date < time()){
+                    $arr_newsItems['categ'][$count] = $this_cat_name;
+                    $arr_newsItems['title'][$count] = $main_xml->read_section('news', 'title');
+                    $arr_newsItems['date'][$count]  = $main_xml->read_section('news', 'date');
+                    $arr_newsItems['time'][$count]  = $main_xml->read_section('news', 'time');
+                    $arr_newsItems['order'][$count] = $main_xml->read_section('news', 'order');
+                    $arr_newsItems['stamp'][$count] = $main_xml->read_section('news', 'stamp');
+                    
+                    if(!$arr_newsItems['title'][$count]){ $arr_newsItems['title'][$count] = ''; }
+                    if(!$arr_newsItems['date'][$count]) { $arr_newsItems['date'][$count]  = ''; }
+                    if(!$arr_newsItems['time'][$count]) { $arr_newsItems['time'][$count]  = ''; }
+                    if(!$arr_newsItems['order'][$count]){ $arr_newsItems['order'][$count] = ''; }
+                    if(!$arr_newsItems['stamp'][$count]){ $arr_newsItems['stamp'][$count] = ''; }
+                    
+                    $arr_newsItems['title'][$count] = $tcms_main->decodeText($arr_newsItems['title'][$count], '2', $c_charset);
+                    
+                    $count++;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    else{
+      $sqlAL = new sqlAbstractionLayer($choosenDB);
+      $sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+      $authSQL = '';
+      
+      
+      if($check_session){
+        if($is_admin == 'User' || $is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor' || $is_admin == 'Presenter'){
+          $authSQL = "OR ".$tcms_db_prefix."news.access = 'Protected' ";
+        }
+        if($is_admin == 'Administrator' || $is_admin == 'Developer'){
+          $authSQL = "OR ".$tcms_db_prefix."news.access = 'Protected' OR ".$tcms_db_prefix."news.access = 'Private' ";
+        }
+      }
+      
+      
+      $strSQL = "SELECT * "
+      ."FROM ".$tcms_db_prefix."news_categories "
+      ."ORDER BY name";
+      
+      $sqlQR = $sqlAL->sqlQuery($strSQL);
+      $sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+      
+      $count = 0;
+      
+      if($sqlNR != 0){
+        while($sqlARRnc = $sqlAL->sqlFetchArray($sqlQR)){
+          $sqlStr = "SELECT * "
+          ."FROM ".$tcms_db_prefix."news_to_categories "
+          ."INNER JOIN ".$tcms_db_prefix."news ON (".$tcms_db_prefix."news_to_categories.news_uid = ".$tcms_db_prefix."news.uid) "
+          ."WHERE ".$tcms_db_prefix."news_to_categories.cat_uid = '".$sqlARRnc['uid']."' "
+          ."AND ".$tcms_db_prefix."news.published = 1 "
+          ."AND ".$tcms_db_prefix."news.language = '".$getLang."' "
+          ."AND ".$tcms_db_prefix."news.access = 'Public' ".$authSQL
+          ."ORDER BY ".$tcms_db_prefix."news.stamp DESC, ".$tcms_db_prefix."news.date DESC, ".$tcms_db_prefix."news.time DESC";
+          
+          $sqlQR2 = $sqlAL->sqlQuery($sqlStr);
+          $sqlNR2 = $sqlAL->sqlGetNumber($sqlQR2);
+          
+          if($sqlNR2 != 0){
+            while($sqlARR = $sqlAL->sqlFetchArray($sqlQR2)){
+              $is_date = $sqlARR['publish_date'];
+              $nws_acc = $sqlARR['access'];
+              
+              if($nws_acc == 'Public'){ $show_this_news = true; }
+              elseif($nws_acc == 'Protected'){
+                if($is_admin == 'User' || $is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor' || $is_admin == 'Presenter'){ $show_this_news = true; }
+                else{ $show_this_news = false; }
+              }
+              elseif($nws_acc == 'Private'){
+                if($is_admin == 'Administrator' || $is_admin == 'Developer'){ $show_this_news = true; }
+                else{ $show_this_news = false; }
+              }
+              
+              if($show_this_news == true){
+                $is_date = mktime(substr($is_date, 11, 2), substr($is_date, 14, 2), 0, substr($is_date, 3, 2), substr($is_date, 0, 2), substr($is_date, 6, 4));
+                
+                if($is_date < time()){
+                  $arr_newsItems['categ'][$count] = $sqlARRnc['name'];
+                  $arr_newsItems['title'][$count] = $sqlARR['title'];
+                  $arr_newsItems['date'][$count]  = $sqlARR['date'];
+                  $arr_newsItems['time'][$count]  = $sqlARR['time'];
+                  $arr_newsItems['order'][$count] = $sqlARR['uid'];
+                  $arr_newsItems['stamp'][$count] = $sqlARR['stamp'];
+                  
+                  if($arr_newsItems['categ'][$count] == NULL){ $arr_newsItems['categ'][$count] = ''; }
+                  if($arr_newsItems['title'][$count] == NULL){ $arr_newsItems['title'][$count] = ''; }
+                  if($arr_newsItems['date'][$count]  == NULL){ $arr_newsItems['date'][$count]  = ''; }
+                  if($arr_newsItems['time'][$count]  == NULL){ $arr_newsItems['time'][$count]  = ''; }
+                  if($arr_newsItems['order'][$count] == NULL){ $arr_newsItems['order'][$count] = ''; }
+                  if($arr_newsItems['stamp'][$count] == NULL){ $arr_newsItems['stamp'][$count] = ''; }
+                  
+                  $arr_newsItems['title'][$count] = $tcms_main->decodeText($arr_newsItems['title'][$count], '2', $c_charset);
+                  
+                  $count++;
+                }
+              }
+            }
+          }
+          
+          $sqlAL->sqlFreeResult($sqlQR2);
+        }
+        
+        $sqlAL->sqlFreeResult($sqlQR);
+      }
+    }
+    
+    if(is_array($arr_newsItems['stamp'])){
+      array_multisort(
+        $arr_newsItems['categ'], SORT_DESC, 
+        $arr_newsItems['stamp'], SORT_DESC, 
+        $arr_newsItems['date'], SORT_DESC, 
+        $arr_newsItems['time'], SORT_DESC, 
+        $arr_newsItems['title'], SORT_DESC, 
+        $arr_newsItems['order'], SORT_DESC
+      );
+    }
+    
+    echo $tcms_html->tableHead(0, 0, 0, '100%')
+    .'<tr>'
+    .'<th class="titleBG" valign="top" align="left" width="30%" colspan="2">&nbsp;'._DOWNLOADS_SUBMIT_ON.'</th>'
+    .'<th class="titleBG" valign="top" align="left" width="70%">&nbsp;'._TABLE_TITLE.'</th><tr>';
+    
+    $sortPoint = false;
+    
+    if($tcms_main->isReal($arr_newsItems['stamp'])){
+      foreach ($arr_newsItems['stamp'] as $key => $value){
+        if($arr_newsItems['categ'][$key] != $arr_newsItems['categ'][$key - 1]){
+          $sortPoint = false;
+        }
+        
+        if($sortPoint == false){
+          echo '<tr style="height: 18px;"><td colspan="3"></td></tr>';
+          echo '<tr><td colspan="3" style="padding-left: 3px;">'
+          .'<strong class="text_big">'.$arr_newsItems['categ'][$key].'</strong>'
+          .'</td></tr>';
+          $sortPoint = true;
+        }
+        
+        echo '<tr class="news_content_bg">';
+        
+        echo '<td valign="top" style="padding-left: 10px;">&nbsp;</td>';
+        
+        echo '<td valign="top">'
+        .lang_date(substr($arr_newsItems['date'][$key], 0, 2), substr($arr_newsItems['date'][$key], 3, 2), substr($arr_newsItems['date'][$key], 6, 4), substr($arr_newsItems['time'][$key], 0, 2), substr($arr_newsItems['time'][$key], 3, 2), '')
+        .'</td>';
+        
+        $link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+        .'id='.$id.'&amp;s='.$s.'&amp;news='.$arr_newsItems['order'][$key]
+        .( isset($lang) ? '&amp;lang='.$lang : '' );
+        $link = $tcms_main->urlAmpReplace($link);
+        
+        echo '<td valign="top">&nbsp;'
+        .( empty($arr_newsItems['title'][$key]) 
+          ? '' 
+          : '<a href="'.$link.'">'.$arr_newsItems['title'][$key].'</a>'
+        ).'</td>';
+        
+        echo '</tr>';
+      }
+    }
+  }
+  
+  echo $tcms_html->tableEnd()
+  .'<br /><br />';
+  
+  
+  /*
+    TAB
+  */
+  echo '<div style="display: block; float: left; padding-right: 5px;">';
+  $link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
+  .'id=newsmanager&s='.$s
+  .( isset($lang) ? '&amp;lang='.$lang : '' );
+  $link = $tcms_main->urlAmpReplace($link);
+  echo '<input class="inputbutton" type="button" onclick="document.location=\''.$link.'\';" value="'._NEWS_ARCHIVE.' ('._NEWS_LAST.' '.$news_amount.')" />';
+  echo '</div>';
+  
+  
+  echo '<div style="display: block; float: left; padding-right: 5px;">';
+  $link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
+  .'id=newsmanager&s='.$s.'&action=archive'
+  .( isset($lang) ? '&amp;lang='.$lang : '' );
+  $link = $tcms_main->urlAmpReplace($link);
+  echo '<input class="inputbutton" type="button" onclick="document.location=\''.$link.'\';" value="'._NEWS_ARCHIVE.' ('._NEWS_ORDER_BY_TIME.')" />';
+  echo '</div>';
+  
+  
+  $link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
+  .'id=newsmanager&s='.$s.'&action=archive&cmd=category'
+  .( isset($lang) ? '&amp;lang='.$lang : '' );
+  $link = $tcms_main->urlAmpReplace($link);
+  echo '<input class="inputbutton" type="button" onclick="document.location=\''.$link.'\';" value="'._NEWS_ARCHIVE.' ('._NEWS_ORDER_BY_CAT.')" />';
 }
 
 
