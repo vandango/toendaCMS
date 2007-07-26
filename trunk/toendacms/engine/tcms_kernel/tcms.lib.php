@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.3.5
+ * @version 2.3.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -1615,7 +1615,7 @@ class tcms_main {
 		//$text = str_replace('*', '', $text);
 		//$text = str_replace('+', '', $text);
 		$text = str_replace('-', '', $text);
-		//$text = str_replace('#', '', $text);
+		$text = str_replace('#', '', $text);
 		$text = str_replace('³', '', $text);
 		$text = str_replace('²', '', $text);
 		//$text = str_replace('^', '', $text);
@@ -2214,7 +2214,7 @@ class tcms_main {
 					/*
 						news
 					*/
-					if(substr($val, 0, 4) == 'news') {
+					if(substr($val, 0, 4) == 'news' && $this->_tcmsConfig->getSEOOptionNewsTitle()) {
 						if(trim($add) == '') {
 							switch($this->_tcmsConfig->getLanguageFrontend()) {
 								case 'germany_DE':
