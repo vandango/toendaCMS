@@ -869,6 +869,7 @@ if(!defined('_GLOBAL_SEO_ENABLED'))            define('_GLOBAL_SEO_ENABLED', 'SE
 if(!defined('_GLOBAL_SEO_FOLDER'))             define('_GLOBAL_SEO_FOLDER', 'toendaCMS directory on server');
 if(!defined('_GLOBAL_SEO_FORMAT'))             define('_GLOBAL_SEO_FORMAT', 'SEO Format');
 if(!defined('_GLOBAL_SEO_NEWS_TITLE'))         define('_GLOBAL_SEO_NEWS_TITLE', 'Also convert news-url to title');
+if(!defined('_GLOBAL_SEO_CONTENT_TITLE'))      define('_GLOBAL_SEO_CONTENT_TITLE', 'Also convert content-url to title');
 define('_GLOBAL_SITE_OFFLINE', 'Site Offline');
 define('_GLOBAL_SITE_OFFLINE_TEXT', 'Offline Text');
 define('_GLOBAL_PASTE_FOOTER_TEXT', 'Paste Sampletext');

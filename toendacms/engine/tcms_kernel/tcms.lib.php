@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.4.2
+ * @version 2.4.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -2207,8 +2207,10 @@ class tcms_main {
 					
 					$val = substr($val, strpos($val, 'id=') + 3);
 					
-					$val = $dcp->getContentTitle($val, $this->_getLang);
-					$val = $this->cleanStringForUrlName($val);
+          if($this->_tcmsConfig->getSEOOptionContentTitle()) {
+            $val = $dcp->getContentTitle($val, $this->_getLang);
+            $val = $this->cleanStringForUrlName($val);
+          }
 					
 					$text = $val.'.html';
 					
@@ -2243,7 +2245,8 @@ class tcms_main {
 					/*
 						news
 					*/
-					if(substr($val, 0, 4) == 'news' && $this->_tcmsConfig->getSEOOptionNewsTitle()) {
+					if(substr($val, 0, 4) == 'news' 
+          && $this->_tcmsConfig->getSEOOptionNewsTitle()) {
 						if(trim($add) == '') {
 							switch($this->_tcmsConfig->getLanguageFrontend()) {
 								case 'germany_DE':

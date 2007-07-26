@@ -1645,7 +1645,7 @@ class tcms_datacontainer_provider extends tcms_main {
               $sql .= "WHERE ( (title LIKE '%".$value."%') OR (title LIKE '%".str_replace('\'', '&#039;', $value)."%') ) ";
             }
             else {
-              $sql .= "AND (title LIKE '%".$value."%') ";
+              $sql .= "WHERE (title LIKE '%".$value."%') ";
             }
 					}
 					else {
