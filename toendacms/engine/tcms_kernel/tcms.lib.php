@@ -1598,8 +1598,10 @@ class tcms_main {
 		$text = str_replace('<', '', $text);
 		$text = str_replace('>', '', $text);
 		$text = str_replace('"', '', $text);
-		$text = str_replace("'", '', $text);
-		$text = str_replace('?', '', $text);
+    
+		$text = str_replace("'", '*', $text);
+		
+    $text = str_replace('?', '', $text);
 		$text = str_replace('!', '', $text);
 		$text = str_replace('§', '', $text);
 		$text = str_replace('$', '', $text);
@@ -1616,7 +1618,7 @@ class tcms_main {
 		//$text = str_replace('´', '', $text);
 		//$text = str_replace('*', '', $text);
 		//$text = str_replace('+', '', $text);
-		//$text = str_replace('-', '', $text);
+		$text = str_replace('-', '', $text);
 		$text = str_replace('#', '', $text);
 		$text = str_replace('³', '', $text);
 		$text = str_replace('²', '', $text);
@@ -1625,12 +1627,16 @@ class tcms_main {
 		//$text = str_replace(':', '', $text);
 		//$text = str_replace(';', '', $text);
 		//$text = str_replace('.', '', $text);
-		//$text = str_replace(',', '', $text);
+		$text = str_replace(',', '', $text);
 		//$text = str_replace('_', '', $text);
 		$text = str_replace('µ', '', $text);
 		$text = str_replace('@', '', $text);
 		$text = str_replace('€', '', $text);
 		$text = str_replace('&euro;', '', $text);
+    $text = str_replace('«', '', $text);
+    $text = str_replace('»', '', $text);
+    $text = str_replace('&187;', '', $text);
+    $text = str_replace('&171;', '', $text);
 		
 		$text = $this->removeAccents($text);
 		
@@ -1865,6 +1871,8 @@ class tcms_main {
 		);
 		
 		//$string = str_replace($asci_chars['in'], $asci_chars['out'], $string);
+    
+    //$string = str_replace('*', '\'', $string);
 		
 		return $string;
 	}
