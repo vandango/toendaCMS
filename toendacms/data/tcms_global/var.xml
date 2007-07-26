@@ -4,7 +4,7 @@
 	<meta></meta>
 	<charset>ISO-8859-1</charset>
 	<wysiwyg>tinymce</wysiwyg>
-	<lang>germany_DE</lang>
+	<lang>english_EN</lang>
 	<front_lang>germany_DE</front_lang>
 	<description></description>
 	<currency>EUR</currency>
@@ -15,6 +15,8 @@
 	<seo_enabled>1</seo_enabled>
 	<server_folder>toendacms_svn/toendacms</server_folder>
 	<seo_format>2</seo_format>
+	<seo_news_title>1</seo_news_title>
+	<seo_content_title>1</seo_content_title>
 	<site_offline>0</site_offline>
 	<site_offline_text>This site is down for maintenance.<br /> Please check back again soon.</site_offline_text>
 	<show_top_pages>1</show_top_pages>

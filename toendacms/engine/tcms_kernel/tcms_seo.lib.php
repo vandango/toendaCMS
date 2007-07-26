@@ -480,9 +480,8 @@ class tcms_seo {
 						news
 					*/
 					if($tcms_main->isElementInArray('newsmanager', $arrSEO) 
-          && $tcms_config->getSEOOptionNewsTitle()) {
-            //if($val != 'archive'
-						$chk_val = $dcp->getNewsIdByTitle(
+					&& $tcms_config->getSEOOptionNewsTitle()) {
+            			$chk_val = $dcp->getNewsIdByTitle(
 							$tcms_main->getNormalStringFromUrlString($val), 
 							$tcms_config->getLanguageCodeForTCMS($arrSEO['lang'])
 						);
@@ -506,16 +505,16 @@ class tcms_seo {
 							&& trim($val) != ''
 							&& trim($val) != 'index') {
 								if($tcms_main->indexOf(trim($val), '?') == false) {
-                  $chk_val = '';
-                  
-                  if($tcms_config->getSEOOptionContentTitle()) {
-                    $chk_val = $dcp->getContentIdByTitle(
-                      $tcms_main->getNormalStringFromUrlString($val), 
-                      $tcms_config->getLanguageCodeForTCMS($arrSEO['lang'])
-                    );
-                  }
-                  
-                  //echo '->'.$val.'-'.$chk_val.'-'.$tcms_config->getSEOOptionContentTitle().'<br>';
+									$chk_val = '';
+									
+									if($tcms_config->getSEOOptionContentTitle()) {
+										$chk_val = $dcp->getContentIdByTitle(
+											$tcms_main->getNormalStringFromUrlString($val), 
+											$tcms_config->getLanguageCodeForTCMS($arrSEO['lang'])
+										);
+									}
+									
+									//echo '->'.$val.'-'.$chk_val.'-'.$tcms_config->getSEOOptionContentTitle().'<br>';
 									
 									if(trim($chk_val) != '') {
 										$arrSEO['id'] = $chk_val;

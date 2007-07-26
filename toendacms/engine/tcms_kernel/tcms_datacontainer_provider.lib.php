@@ -744,21 +744,21 @@ class tcms_datacontainer_provider extends tcms_main {
 			$arrTitle = explode(' ', $title);
 			
 			foreach($arrTitle as $key => $value) {
-        if($key == 0) {
-          if($this->indexOf($value, "'") || $this->indexOf($value, "\'")) {
-            $sql .= "AND ( (title LIKE '%".$value."%') OR (title LIKE '%".str_replace('\'', '&#039;', $value)."%') ) ";
-          }
-          else {
-            $sql .= "AND (title LIKE '%".$value."%') ";
-          }
+				if($key == 0) {
+					if($this->indexOf($value, "'") || $this->indexOf($value, "\'")) {
+						$sql .= "AND ( (title LIKE '%".$value."%') OR (title LIKE '%".str_replace('\'', '&#039;', $value)."%') ) ";
+					}
+					else {
+						$sql .= "AND (title LIKE '%".$value."%') ";
+					}
 				}
 				else {
-          if($this->indexOf($value, "'") || $this->indexOf($value, "\'")) {
-            $sql .= "AND ( (title LIKE '%".$value."%') OR (title LIKE '%".str_replace('\'', '&#039;', $value)."%') ) ";
-          }
-          else {
-            $sql .= "AND (title LIKE '%".$value."%') ";
-          }
+					if($this->indexOf($value, "'") || $this->indexOf($value, "\'")) {
+						$sql .= "AND ( (title LIKE '%".$value."%') OR (title LIKE '%".str_replace('\'', '&#039;', $value)."%') ) ";
+					}
+					else {
+						$sql .= "AND (title LIKE '%".$value."%') ";
+					}
 				}
 			}
 			
@@ -780,20 +780,20 @@ class tcms_datacontainer_provider extends tcms_main {
 				
 				foreach($arrTitle as $key => $value) {
 					if($key == 0) {
-            if($this->indexOf($value, "'") || $this->indexOf($value, "\'")) {
-              $sql .= "AND ( (title LIKE '%".$value."%') OR (title LIKE '%".str_replace('\'', '&#039;', $value)."%') ) ";
-            }
-            else {
-              $sql .= "AND (title LIKE '%".$value."%') ";
-            }
+						if($this->indexOf($value, "'") || $this->indexOf($value, "\'")) {
+							$sql .= "AND ( (title LIKE '%".$value."%') OR (title LIKE '%".str_replace('\'', '&#039;', $value)."%') ) ";
+						}
+						else {
+							$sql .= "AND (title LIKE '%".$value."%') ";
+						}
 					}
 					else {
-            if($this->indexOf($value, "'") || $this->indexOf($value, "\'")) {
-              $sql .= "OR ( (title LIKE '%".$value."%') OR (title LIKE '%".str_replace('\'', '&#039;', $value)."%') ) ";
-            }
-            else {
-              $sql .= "OR (title LIKE '%".$value."%') ";
-            }
+						if($this->indexOf($value, "'") || $this->indexOf($value, "\'")) {
+							$sql .= "OR ( (title LIKE '%".$value."%') OR (title LIKE '%".str_replace('\'', '&#039;', $value)."%') ) ";
+						}
+						else {
+							$sql .= "OR (title LIKE '%".$value."%') ";
+						}
 					}
 				}
 				
@@ -821,13 +821,13 @@ class tcms_datacontainer_provider extends tcms_main {
 					$sql = "SELECT uid "
 					."FROM ".$this->m_sqlPrefix."news "
 					."WHERE language = '".$language."' ";
-          
-          if($this->indexOf($title, "'") || $this->indexOf($title, "\'")) {
-            $sql .= "AND ( (title LIKE '%".$title."%') OR (title LIKE '%".str_replace('\'', '&#039;', $title)."%') ) ";
-          }
-          else {
-            $sql .= "AND (title LIKE '%".$title."%') ";
-          }
+          			
+					if($this->indexOf($title, "'") || $this->indexOf($title, "\'")) {
+						$sql .= "AND ( (title LIKE '%".$title."%') OR (title LIKE '%".str_replace('\'', '&#039;', $title)."%') ) ";
+					}
+					else {
+						$sql .= "AND (title LIKE '%".$title."%') ";
+					}
 					
 					switch($this->m_choosenDB){
 						case 'mysql':

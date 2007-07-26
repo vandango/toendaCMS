@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a parser and a base class
  * for the toendaScript.
  * 
- * @version 0.4.5
+ * @version 0.5.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -50,6 +50,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * ------- toendaScript Parser -------
  * 
  * doParse                       -> Start the toendaScript parser
+ * doParsePHP                    -> Parse the php tags
  * 
  * _parseImages                  -> [PRIVATE] Parse the image tags
  * _parseLinebreaks              -> [PRIVATE] Parse the linebreak tags
@@ -68,7 +69,6 @@ defined('_TCMS_VALID') or die('Restricted access');
  * _parseLi                      -> [PRIVATE] Parse the li tags
  * _parseFontColor               -> [PRIVATE] Parse the fontcolor tags
  * _parseUrl                     -> [PRIVATE] Parse the url tags
- * _parsePHP                     -> [PRIVATE] Parse the php tags
  * _parseExt                     -> [PRIVATE] Parse the ext tags
  * _parseIfThenElse              -> [PRIVATE] Parse the if-then-else tags
  * _parseFilter                  -> [PRIVATE] Parse the filter tags
@@ -108,7 +108,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  */
 
 
-class toendaScript{
+class toendaScript {
 	var $content;
 	
 	
@@ -272,11 +272,176 @@ class toendaScript{
 		$this->content = $this->_parseLi($this->content);
 		$this->content = $this->_parseFontColor($this->content);
 		$this->content = $this->_parseUrl($this->content);
-		$this->content = $this->_parsePHP($this->content);
+		//$this->content = $this->_parsePHP($this->content);
 		$this->content = $this->_parseExt($this->content);
 		$this->content = $this->_parseFilter($this->content);
 		
 		return $this->content;
+	}
+	
+	
+	
+	/**
+	 * Parse the php tags
+	 * 
+	 * @param String $newsContent
+	 * @param Boolean $onlyClear = false
+	 * @return String
+	 */
+	function doParsePHP($text, $onlyClear = false) {
+		$out1 = '';
+		$out = '';
+		
+		//if($onlyClear) {
+			//$text = str_replace('{php:}', '', $text);
+			//return str_replace('{:php}', '', $text);
+		//}
+		//else {
+		$wordCount = $this->_countWords($text, '{php:}');
+		
+		//echo '<br>'.$wordCount.'<br>';
+		
+		
+		/*
+			nothing found
+		*/
+		if($wordCount == 0) {
+			echo $text;
+		}
+		/*
+			one php-block found
+		*/
+		else if($wordCount == 1) {
+			$out1 = substr($text, 0, strpos($text, '{php:}'));
+			if(!$onlyClear) {
+				echo $out1;
+			}
+			else {
+				$out .= $out1;
+			}
+			
+			if(!$onlyClear) {
+				$phpCode = substr(
+					$text, 
+					strpos($text, '{php:}') + 6, 
+					strpos($text, '{:php}') - ((strpos($text, '{php:}') + 6))
+				);
+				eval($phpCode);
+			}
+			
+			$out2 = substr($text, strpos($text, '{:php}') + 6);
+			if(!$onlyClear) {
+				echo $out2;
+			}
+			else {
+				$out .= $out2;
+			}
+		}
+		/*
+			more php-block's found
+		*/
+		else if($wordCount > 1) {
+			$currentPos = 0;
+			$posStart = 0;
+			$posEnd = 0;
+			$go = true;
+			$count = 0;
+			
+			//echo '<br>len:'.strlen($text).'<br>';
+			
+			while($go) {
+				$posStart = strpos($text, '{php:}', $posStart);
+				$posEnd = strpos($text, '{:php}', $posEnd);
+				
+				if(strpos($text, '{php:}', $posStart) === false
+				&& $go === true) {
+					$go = false;
+				}
+				else {
+					#echo '<br>ps:'.$posStart.'<br>';
+					#echo 'pe:'.$posEnd.'<br>';
+					#echo 'cp:'.$currentPos.'<br>';
+					
+					
+					$posStart += 6;
+					
+					$out1 = substr($text, $currentPos, $posStart - $currentPos);
+					
+					//$out2 = substr($text, $posEnd + 6, );
+					
+					$out1 = str_replace('{php:}', '', $out1);
+					$out1 = str_replace('{:php}', '', $out1);
+					
+					//echo '<hr class="hr_line">1: '.$out1.'<br><hr class="hr_line">php: ';
+					//echo eval($phpCode).'<br>';
+					//echo ' :php<hr class="hr_line"><br>';
+					
+					//$out .= $out1.eval($phpCode);
+					if(!$onlyClear) {
+						echo $out1;
+					}
+					else {
+						$out .= $out1;
+					}
+					
+					if(!$onlyClear) {
+						$phpCode = substr(
+							$text, 
+							$posStart, 
+							$posEnd - ($posStart)
+						);
+						eval($phpCode);
+					}
+					
+					$posEnd += 6;
+					$posStart = $posEnd;
+					$currentPos = $posEnd;
+					
+					$count++;
+					
+					if($count == $wordCount) {
+						$go = false;
+					}
+				}
+			}
+			
+			if(!$onlyClear) {
+				echo substr($text, $currentPos, strlen($text) - $currentPos);
+			}
+			else {
+				$out .= substr($text, $currentPos, strlen($text) - $currentPos);
+				return $out;
+			}
+		}
+		//}
+	}
+	
+	
+	
+	/**
+	 * [PRIVATE] Count Words in a phrase
+	 *
+	 * @param String $text
+	 * @param String $wordToCount
+	 * @return String
+	 */
+	function _countWords($text, $wordToCount = '') {
+		if($wordToCount == '') {
+			return str_word_count($text);
+		}
+		else {
+			$text = strip_tags(trim($text));
+			$arr = explode(' ', $text);
+			$counter = 0;
+			
+			foreach($arr as $key => $val) {
+				if(strpos($val, $wordToCount)) {
+					$counter++;
+				}
+			}
+			
+			return $counter;
+		}
 	}
 	
 	
@@ -572,21 +737,6 @@ class toendaScript{
 		$output = str_replace('#:}', '">', $output);
 		$output = str_replace('#_blank:}', '" target="_blank">', $output);
 		$output = str_replace('{:url}', '</a>', $output);
-		
-		return $output;
-	}
-	
-	
-	
-	/**
-	 * [PRIVATE] Parse the php tags
-	 * 
-	 * @param String $newsContent
-	 * @return String
-	 */
-	function _parsePHP($newsContent){
-		$output = str_replace('{php:}', '<?php ', $newsContent);
-		$output = str_replace('{:php}', ' ?>', $output);
 		
 		return $output;
 	}
