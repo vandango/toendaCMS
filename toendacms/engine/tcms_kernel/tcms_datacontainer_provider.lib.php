@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 0.9.7
+ * @version 0.9.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -779,7 +779,7 @@ class tcms_datacontainer_provider extends tcms_main {
 				
 				//$sql .= " )";
 				
-				echo $sql.'<br>';
+				//echo $sql.'<br>';
 				
 				$sqlQR = $sqlAL->query($sql);
 				$no = $sqlAL->getNumber($sqlQR);
