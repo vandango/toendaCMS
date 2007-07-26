@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a news manager with a news,
  * a news view and a archive with different formats.
  *
- * @version 1.3.8
+ * @version 1.4.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -444,16 +444,18 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 		/*
 			content
 		*/
+		echo '<div class="news_content_bg"><br />';
+		
 		$news_content = $dcNews->getText();
 		
 		$toendaScript = new toendaScript($news_content);
-		$news_content = $toendaScript->toendaScript_trigger();
-		
-		$news_content = $toendaScript->toendaScript_more($news_content, 'text');
+		$news_content = $toendaScript->doParse();
+		$news_content = $toendaScript->cutAtTcmsMoreTag($news_content, 'text');
 		$news_content = $toendaScript->checkSEO($news_content, $imagePath);
 		
-		echo '<div class="news_content_bg"><br />'
-		.$news_content.'<br /><br /><br /></div>';
+		$toendaScript->doParsePHP($news_content);
+		
+		echo '<br /><br /><br /></div>';
 		
 		
 		/*
@@ -1439,29 +1441,36 @@ if($action == 'archive' && (isset($cat) || isset($date) || isset($day))){
 			$news_content = $arr_newsItems['news'][$key];
 			
 			$toendaScript = new toendaScript($news_content);
-			$news_content = $toendaScript->toendaScript_trigger();
+			$news_content = $toendaScript->doParse();
 			$news_content = $toendaScript->checkSEO($news_content, $imagePath);
+			$check_news_content = $toendaScript->hasTcmsMoreTag($news_content);
 			
-			$check_news_content = $toendaScript->toendaScript_more($news_content);
+			//$toendaScript->doParsePHP($news_content);
 			
-			if($check_news_content == true){
-				$news_pos = $toendaScript->toendaScript_more($news_content, 'pos');
-				$news_content = $toendaScript->toendaScript_more($news_content, 'text');
+			if($check_news_content == true) {
+				$news_content = $toendaScript->doParsePHP($news_content, true);
+				$news_pos = $toendaScript->getTcmsMoreTagPos($news_content);
+				$news_content = $toendaScript->removeTcmsMoreTag($news_content);
 				$news_text = substr($news_content, 0, $news_pos);
 				$news_text = trim($news_text);
 				echo $news_text;
 				$toendaScript_more_show = true;
 			}
 			else{
-				$news_content = $toendaScript->toendaScript_more($news_content, 'text');
+				$news_content = $toendaScript->removeTcmsMoreTag($news_content);
 				
 				if($cut_news == 0){
-					$news_content = trim($news_content);
-					echo $news_content;
+					//$news_content = trim($news_content);
+					//echo $news_content;
+					
+					$news_content = $toendaScript->doParsePHP($news_content);
+					
 					$toendaScript_more_show = false;
 				}
 				else{
 					if(strlen($news_content) > $cut_news){
+						$news_content = $toendaScript->doParsePHP($news_content, true);
+						
 						$str_off = strpos($news_content, ' ', $cut_news);
 						$news_text = substr($news_content, 0, $str_off);
 						$news_text = trim($news_text);
@@ -1469,8 +1478,11 @@ if($action == 'archive' && (isset($cat) || isset($date) || isset($day))){
 						$toendaScript_more_show = true;
 					}
 					elseif(strlen($news_content) < $cut_news){
-						$news_content = trim($news_content);
-						echo $news_content;
+						//$news_content = trim($news_content);
+						//echo $news_content;
+						
+						$news_content = $toendaScript->doParsePHP($news_content);
+						
 						$toendaScript_more_show = false;
 					}
 				}

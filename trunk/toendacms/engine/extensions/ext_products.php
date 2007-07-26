@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a product manager.
  *
- * @version 0.6.7
+ * @version 0.6.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -150,7 +150,7 @@ if($action == 'showall'){
 			if(!isset($category)) {
 				$sqlSTR = "SELECT * "
 				."FROM ".$tcms_db_prefix."products "
-				."WHERE language = '".$tcms_config->getLanguageFrontend()."' "
+				."WHERE language = '".$getLang."' "
 				."AND pub = 1 "
 				."AND ((parent IS NULL) OR (category IS NULL) OR (category = '')) "
 				."AND NOT (name = '') "
@@ -163,7 +163,7 @@ if($action == 'showall'){
 				$sqlSTR = "SELECT * "
 				."FROM ".$tcms_db_prefix."products "
 				."WHERE category = '".$category."' "
-				."AND language = '".$tcms_config->getLanguageFrontend()."' "
+				."AND language = '".$getLang."' "
 				."AND pub = 1 "
 				."AND NOT (name = '') "
 				."AND ( access = 'Public' "
@@ -483,7 +483,7 @@ if($action == 'showall'){
 				
 				$sqlSTR = "SELECT ".$dbLimitMS." * "
 				."FROM ".$tcms_db_prefix."products "
-				."WHERE language = '".$tcms_config->getLanguageFrontend()."' "
+				."WHERE language = '".$getLang."' "
 				."AND sql_type = 'a' "
 				//."AND status = 1 " // --> nur in artikelansicht anzeigen (ob auf lager oder grade leer)
 				."AND pub = 1 "
@@ -564,7 +564,7 @@ if($action == 'showall'){
 				//."uid, name, desc, date, image1, sort, category, price, price_tax "
 				."FROM ".$tcms_db_prefix."products "
 				."WHERE show_on_startpage = 1 "
-				."AND language = '".$tcms_config->getLanguageFrontend()."' "
+				."AND language = '".$getLang."' "
 				."AND sql_type = 'a' "
 				//."AND status = 1 " // --> nur in artikelansicht anzeigen (ob auf lager oder grade leer)
 				."AND pub = 1 "

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.4.3
+ * @version 2.4.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -89,6 +89,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * encodeText                        -> Encode (cipher) a text
  * decodeText                        -> Decode (decipher) a text
  * securePassword                    -> Secure or unsecure a password string
+ * countWords                        -> Count Words in a phrase
  * checkWebLink                      -> Check if a link is a weblink
  * checkAccess                       -> Check if a usergroup can read a access level
  * cleanUrlString                    -> Clean a text from javascript code
@@ -1369,6 +1370,34 @@ class tcms_main {
 	
 	
 	/**
+	 * Count Words in a phrase
+	 *
+	 * @param String $text
+	 * @param String $wordToCount
+	 * @return String
+	 */
+	function countWords($text, $wordToCount = '') {
+		if($wordToCount == '') {
+			return str_word_count($text);
+		}
+		else {
+			$text = strip_tags(trim($text));
+			$arr = explode(' ', $text);
+			$counter = 0;
+			
+			foreach($arr as $key => $val) {
+				if(strpos($val, $wordToCount)) {
+					$counter++;
+				}
+			}
+			
+			return $counter;
+		}
+	}
+	
+	
+	
+	/**
 	 * Check if a link is a weblink
 	 *
 	 * @param String $link
@@ -1469,7 +1498,7 @@ class tcms_main {
 		$text = preg_replace('/{.+?}/', '', $text);
 		$text = preg_replace('/{.+?}/', '', $text);
 		$text = preg_replace("'<script[^>]*>.*?</script>'", '', $text);
-    $text = strip_tags($text);
+    	$text = strip_tags($text);
 		
 		return $text;
 	}
@@ -1490,7 +1519,7 @@ class tcms_main {
 		$file = str_replace(' ', '_', $file);
 		$file = str_replace('&nbsp;', '_', $file);
 		$file = preg_replace('/{.+?}/', '', $file);
-    $file = strip_tags($file);
+    	$file = strip_tags($file);
 		
 		return $file;
 	}
@@ -1598,7 +1627,7 @@ class tcms_main {
 		$text = str_replace('<', '', $text);
 		$text = str_replace('>', '', $text);
 		$text = str_replace('"', '', $text);
-    $text = str_replace('?', '', $text);
+    	$text = str_replace('?', '', $text);
 		$text = str_replace('!', '', $text);
 		$text = str_replace('§', '', $text);
 		$text = str_replace('$', '', $text);
@@ -1615,7 +1644,7 @@ class tcms_main {
 		//$text = str_replace('´', '', $text);
 		//$text = str_replace('*', '', $text);
 		//$text = str_replace('+', '', $text);
-    //$text = str_replace('&nbsp;-&nbsp;', '', $text);
+    	//$text = str_replace('&nbsp;-&nbsp;', '', $text);
 		//$text = str_replace(' - ', '', $text);
 		$text = str_replace('#', '', $text);
 		$text = str_replace('³', '', $text);
@@ -1630,26 +1659,26 @@ class tcms_main {
 		$text = str_replace('@', '', $text);
 		$text = str_replace('€', '', $text);
 		$text = str_replace('&euro;', '', $text);
-    $text = str_replace('«', '', $text);
-    $text = str_replace('»', '', $text);
-    $text = str_replace('&187;', '', $text);
-    $text = str_replace('&171;', '', $text);
-    
-    $text = str_replace('...', '', $text);
-    $text = str_replace('..', '', $text);
-    $text = str_replace('... ', '', $text);
-    $text = str_replace('.. ', '', $text);
-    $text = str_replace('. ', '', $text);
-    $text = str_replace('...&nbsp;', '', $text);
-    $text = str_replace('..&nbsp;', '', $text);
-    $text = str_replace('.&nbsp;', '', $text);
-    //$text = str_replace('.', '', $text);
-    
+	    $text = str_replace('«', '', $text);
+	    $text = str_replace('»', '', $text);
+	    $text = str_replace('&187;', '', $text);
+	    $text = str_replace('&171;', '', $text);
+	    
+	    $text = str_replace('...', '', $text);
+	    $text = str_replace('..', '', $text);
+	    $text = str_replace('... ', '', $text);
+	    $text = str_replace('.. ', '', $text);
+	    $text = str_replace('. ', '', $text);
+	    $text = str_replace('...&nbsp;', '', $text);
+	    $text = str_replace('..&nbsp;', '', $text);
+	    $text = str_replace('.&nbsp;', '', $text);
+	    //$text = str_replace('.', '', $text);
+	    
 		$text = str_replace("'", '’', $text);
-    $text = str_replace('&#039;', '’', $text);
-    $text = str_replace('&039;', '’', $text);
-    
-    $text = trim($text);
+		$text = str_replace('&#039;', '’', $text);
+		$text = str_replace('&039;', '’', $text);
+		
+		$text = trim($text);
 		
 		$text = $this->removeAccents($text);
 		
@@ -1677,11 +1706,11 @@ class tcms_main {
 		
 		$text = str_replace('&nbsp;', '-', $text);
 		$text = str_replace(' ', '-', $text);
-    
-    $text = str_replace('-----', '-', $text);
-    $text = str_replace('----', '-', $text);
-    $text = str_replace('---', '-', $text);
-    $text = str_replace('--', '-', $text);
+    	
+	    $text = str_replace('-----', '-', $text);
+	    $text = str_replace('----', '-', $text);
+	    $text = str_replace('---', '-', $text);
+	    $text = str_replace('--', '-', $text);
 		
 		return $text;
 	}
@@ -1889,9 +1918,9 @@ class tcms_main {
 		);
 		
 		//$string = str_replace($asci_chars['in'], $asci_chars['out'], $string);
-    
-    $string = str_replace('%E2%80%99', '\\\'', $string);
-    $string = str_replace('’', '\\\'', $string);
+	    
+	    $string = str_replace('%E2%80%99', '\\\'', $string);
+	    $string = str_replace('’', '\\\'', $string);
 		
 		return $string;
 	}
@@ -2207,10 +2236,10 @@ class tcms_main {
 					
 					$val = substr($val, strpos($val, 'id=') + 3);
 					
-          if($this->_tcmsConfig->getSEOOptionContentTitle()) {
-            $val = $dcp->getContentTitle($val, $this->_getLang);
-            $val = $this->cleanStringForUrlName($val);
-          }
+					if($this->_tcmsConfig->getSEOOptionContentTitle()) {
+						$val = $dcp->getContentTitle($val, $this->_getLang);
+						$val = $this->cleanStringForUrlName($val);
+					}
 					
 					$text = $val.'.html';
 					
@@ -2246,7 +2275,7 @@ class tcms_main {
 						news
 					*/
 					if(substr($val, 0, 4) == 'news' 
-          && $this->_tcmsConfig->getSEOOptionNewsTitle()) {
+					&& $this->_tcmsConfig->getSEOOptionNewsTitle()) {
 						if(trim($add) == '') {
 							switch($this->_tcmsConfig->getLanguageFrontend()) {
 								case 'germany_DE':
