@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.6.8
+ * @version 2.6.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -517,172 +517,6 @@ if($wsShowSite){
 				
 				
 				/*
-					IF ACTIVE
-					START THE STATISTIC COUNTER
-				*/
-				if($statistics == 1){
-					$tcms_stats = new tcms_statistics($c_charset, $tcms_administer_site);
-					
-					$tcms_stats->countSiteURL($s);
-					$tcms_stats->countBrowserInfo();
-					
-					$tcms_stats->_tcms_statistics();
-					
-					unset($tcms_stats);
-				}
-				
-				
-				
-				/*
-					some objects
-				*/
-				// account provider
-				$tcms_ap = new tcms_account_provider($tcms_administer_site, $c_charset);
-				
-				
-				
-				/*
-					Authentication settings
-				*/
-				
-				if(isset($session)){
-					if($_GET['setXMLSession'] == 1){
-						if(file_exists('engine/admin/session/'.$session)){
-							$tcms_file = new tcms_file('engine/admin/session/'.$session, 'r');
-							$ws_id = $tcms_file->read();
-							
-							$tcms_file->changeFile($tcms_administer_site.'/tcms_session/'.$session, 'w');
-							$tcms_file->write($ws_id);
-							$tcms_file->close();
-							
-							$tcms_file->deleteCustom('engine/admin/session/'.$session);
-							
-							unset($tcms_file);
-						}
-					}
-					
-					
-					if($choosenDB == 'xml'){
-						if(isset($session) && $session != '' && file_exists(''.$tcms_administer_site.'/tcms_session/'.$session) && filesize(''.$tcms_administer_site.'/tcms_session/'.$session) != 0){ $check_session = true; }
-						else{ $check_session = false; }
-					}
-					else{
-						$check_session = $tcms_main->check_session_exists($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session);
-					}
-					
-					
-					if($check_session){
-						//$arr_ws = $tcms_main->getUserInfo($session);
-						$arr_ws = $tcms_ap->getUserInfo($session);
-						
-						$ws_name  = $arr_ws['name'];
-						$ws_user  = $arr_ws['user'];
-						$ws_id    = $arr_ws['id'];
-						$is_admin = $arr_ws['group'];
-						
-						if($is_admin == 'Administrator'
-						|| $is_admin == 'Developer'
-						|| $is_admin == 'Writer'
-						|| $is_admin == 'Editor'){
-							$canEdit = true;
-						}
-						else{
-							$canEdit = false;
-						}
-					}
-					
-					
-					if($choosenDB == 'xml'){ $tcms_main->check_session($session, 'user'); }
-					else{ $tcms_main->check_sql_session($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session); }
-				}
-				else{
-					$check_session = false;
-					$is_admin = 'Guest';
-				}
-				
-				
-				
-				/*
-					some objects
-				*/
-				// account provider
-				$tcms_ap = new tcms_account_provider($tcms_administer_site, $c_charset);
-				
-				// configuration
-				$tcms_modconfig = new tcms_modconfig($tcms_administer_site, $imagePath);
-				
-				// datacontainer
-				$tcms_dcp = new tcms_datacontainer_provider($tcms_administer_site, $c_charset);
-				
-				// menu object provider
-				$tcms_menu = new tcms_menu_provider($tcms_administer_site, $c_charset, $is_admin);
-				
-				// components system
-				if($use_components == 1) {
-					$tcms_cs = new tcms_cs($tcms_administer_site, $imagePath);
-				}
-				
-				// authentication
-				$tcms_auth = new tcms_authentication($tcms_administer_site, $c_charset, $imagePath);
-				
-				// blogfeatures
-				$tcms_blogfeatures = new tcms_blogfeatures();
-				
-				// graphic engine
-				$tcms_gd = new tcms_gd();
-				
-				
-				
-				/*
-					Web Site config from XML
-				*/
-				
-				if(!$tcms_main->isReal($lang)) {
-					$lang = strtolower($tcms_config->getLanguageCode());
-				}
-				
-				$namen_xml = new xmlparser($tcms_administer_site.'/tcms_global/namen.xml','r');
-				$sitetitle = $namen_xml->readSection('namen', 'title');
-				$sitename  = $namen_xml->readSection('namen', 'name');
-				$sitekey   = $namen_xml->readSection('namen', 'key');
-				$logo      = $namen_xml->readSection('namen', 'logo');
-				$namen_xml->flush();
-				$namen_xml->_xmlparser();
-				unset($namen_xml);
-				
-				$logo = $tcms_main->decodeText($logo, '2', $c_charset);
-				$logo = trim($logo);
-				
-				if($logo != '' || !empty($logo))
-					$sitelogo = '<img class="sitelogo" align="left" src="'.$imagePath.''.$tcms_administer_site.'/images/Image/'.$logo.'" border="0" />';
-				else
-					$sitelogo = '';
-				
-				// CHARSETS
-				$sitetitle  = $tcms_main->decodeText($sitetitle, '2', $c_charset);
-				$sitename   = $tcms_main->decodeText($sitename, '2', $c_charset);
-				$sitekey    = $tcms_main->decodeText($sitekey, '2', $c_charset);
-				
-				$cms_name         = $tcms_version->getName();
-				$cms_tagline      = $tcms_version->getTagline();
-				$cms_version      = $tcms_version->getVersion();
-				$cms_build        = $tcms_version->getBuild();
-				$toenda_copyright = $tcms_version->getToendaCopyright();
-				
-				$show_doc_autor = $tcms_config->getShowDocAutor();
-				$defaultCat     = $tcms_config->getDefaultCategory();
-				$tcmsinst       = $tcms_config->getToendaCMSInSitetitle();
-				
-				if($tcmsinst == 1)
-					$sitetitle  = $cms_name.' | '.$sitetitle;
-				
-				// Pathway Char
-				if(!$tcms_main->isReal($pathwayChar))
-					$pathwayChar = '/';
-				
-				
-				
-				/*
 					Check db connection
 				*/
 				if($choosenDB != 'xml'){
@@ -714,6 +548,172 @@ if($wsShowSite){
 					Start loading site
 				*/
 				if($start_tcms_loading){
+					/*
+						IF ACTIVE
+						START THE STATISTIC COUNTER
+					*/
+					if($statistics == 1){
+						$tcms_stats = new tcms_statistics($c_charset, $tcms_administer_site);
+						
+						$tcms_stats->countSiteURL($s);
+						$tcms_stats->countBrowserInfo();
+						
+						$tcms_stats->_tcms_statistics();
+						
+						unset($tcms_stats);
+					}
+					
+					
+					
+					/*
+						some objects
+					*/
+					// account provider
+					$tcms_ap = new tcms_account_provider($tcms_administer_site, $c_charset);
+					
+					
+					
+					/*
+						Authentication settings
+					*/
+					
+					if(isset($session)){
+						if($_GET['setXMLSession'] == 1){
+							if(file_exists('engine/admin/session/'.$session)){
+								$tcms_file = new tcms_file('engine/admin/session/'.$session, 'r');
+								$ws_id = $tcms_file->read();
+								
+								$tcms_file->changeFile($tcms_administer_site.'/tcms_session/'.$session, 'w');
+								$tcms_file->write($ws_id);
+								$tcms_file->close();
+								
+								$tcms_file->deleteCustom('engine/admin/session/'.$session);
+								
+								unset($tcms_file);
+							}
+						}
+						
+						
+						if($choosenDB == 'xml'){
+							if(isset($session) && $session != '' && file_exists(''.$tcms_administer_site.'/tcms_session/'.$session) && filesize(''.$tcms_administer_site.'/tcms_session/'.$session) != 0){ $check_session = true; }
+							else{ $check_session = false; }
+						}
+						else{
+							$check_session = $tcms_main->check_session_exists($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session);
+						}
+						
+						
+						if($check_session){
+							//$arr_ws = $tcms_main->getUserInfo($session);
+							$arr_ws = $tcms_ap->getUserInfo($session);
+							
+							$ws_name  = $arr_ws['name'];
+							$ws_user  = $arr_ws['user'];
+							$ws_id    = $arr_ws['id'];
+							$is_admin = $arr_ws['group'];
+							
+							if($is_admin == 'Administrator'
+							|| $is_admin == 'Developer'
+							|| $is_admin == 'Writer'
+							|| $is_admin == 'Editor'){
+								$canEdit = true;
+							}
+							else{
+								$canEdit = false;
+							}
+						}
+						
+						
+						if($choosenDB == 'xml'){ $tcms_main->check_session($session, 'user'); }
+						else{ $tcms_main->check_sql_session($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session); }
+					}
+					else{
+						$check_session = false;
+						$is_admin = 'Guest';
+					}
+					
+					
+					
+					/*
+						some objects
+					*/
+					// account provider
+					$tcms_ap = new tcms_account_provider($tcms_administer_site, $c_charset);
+					
+					// configuration
+					$tcms_modconfig = new tcms_modconfig($tcms_administer_site, $imagePath);
+					
+					// datacontainer
+					$tcms_dcp = new tcms_datacontainer_provider($tcms_administer_site, $c_charset);
+					
+					// menu object provider
+					$tcms_menu = new tcms_menu_provider($tcms_administer_site, $c_charset, $is_admin);
+					
+					// components system
+					if($use_components == 1) {
+						$tcms_cs = new tcms_cs($tcms_administer_site, $imagePath);
+					}
+					
+					// authentication
+					$tcms_auth = new tcms_authentication($tcms_administer_site, $c_charset, $imagePath);
+					
+					// blogfeatures
+					$tcms_blogfeatures = new tcms_blogfeatures();
+					
+					// graphic engine
+					$tcms_gd = new tcms_gd();
+					
+					
+					
+					/*
+						Web Site config from XML
+					*/
+					
+					if(!$tcms_main->isReal($lang)) {
+						$lang = strtolower($tcms_config->getLanguageCode());
+					}
+					
+					$namen_xml = new xmlparser($tcms_administer_site.'/tcms_global/namen.xml','r');
+					$sitetitle = $namen_xml->readSection('namen', 'title');
+					$sitename  = $namen_xml->readSection('namen', 'name');
+					$sitekey   = $namen_xml->readSection('namen', 'key');
+					$logo      = $namen_xml->readSection('namen', 'logo');
+					$namen_xml->flush();
+					$namen_xml->_xmlparser();
+					unset($namen_xml);
+					
+					$logo = $tcms_main->decodeText($logo, '2', $c_charset);
+					$logo = trim($logo);
+					
+					if($logo != '' || !empty($logo))
+						$sitelogo = '<img class="sitelogo" align="left" src="'.$imagePath.''.$tcms_administer_site.'/images/Image/'.$logo.'" border="0" />';
+					else
+						$sitelogo = '';
+					
+					// CHARSETS
+					$sitetitle  = $tcms_main->decodeText($sitetitle, '2', $c_charset);
+					$sitename   = $tcms_main->decodeText($sitename, '2', $c_charset);
+					$sitekey    = $tcms_main->decodeText($sitekey, '2', $c_charset);
+					
+					$cms_name         = $tcms_version->getName();
+					$cms_tagline      = $tcms_version->getTagline();
+					$cms_version      = $tcms_version->getVersion();
+					$cms_build        = $tcms_version->getBuild();
+					$toenda_copyright = $tcms_version->getToendaCopyright();
+					
+					$show_doc_autor = $tcms_config->getShowDocAutor();
+					$defaultCat     = $tcms_config->getDefaultCategory();
+					$tcmsinst       = $tcms_config->getToendaCMSInSitetitle();
+					
+					if($tcmsinst == 1)
+						$sitetitle  = $cms_name.' | '.$sitetitle;
+					
+					// Pathway Char
+					if(!$tcms_main->isReal($pathwayChar))
+						$pathwayChar = '/';
+					
+					
+					
 					$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
 					$tcms_main->setCurrentLang($getLang);
 					
