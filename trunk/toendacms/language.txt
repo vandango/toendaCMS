@@ -37,6 +37,9 @@
 * ADD THIS
 *
 
+if(!defined('_GLOBAL_SEO_NEWS_TITLE'))         define('_GLOBAL_SEO_NEWS_TITLE', 'Also convert news-url to title');
+if(!defined('_GLOBAL_SEO_CONTENT_TITLE'))      define('_GLOBAL_SEO_CONTENT_TITLE', 'Also convert content-url to title');
+
 if(!defined('_TABLE_IMAGES'))                  define('_TABLE_IMAGES', 'Images');
 if(!defined('_TABLE_SHOWONMAINPAGE'))          define('_TABLE_SHOWONMAINPAGE', 'Show on mainpage');
 if(!defined('_TABLE_PRODUCT'))                 define('_TABLE_PRODUCT', 'Product');

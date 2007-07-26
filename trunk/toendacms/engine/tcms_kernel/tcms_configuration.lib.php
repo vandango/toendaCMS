@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide the global
  * configuration data.
  *
- * @version 0.3.5
+ * @version 0.3.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -49,6 +49,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getSEOEnabled               -> Get the SEO enabled state
  * getSEOFormat                -> Get the SEO format option
  * getSEOOptionNewsTitle       -> Get the SEO format option: with news title
+ * getSEOOptionContentTitle    -> Get the SEO format option: with content title
  * getEmailCiphering           -> Get the setting if all emails must be ciphered
  * getBrowserDetection         -> Get the setting if the client browser should be detected by a javascript
  * getStatistics               -> Get the setting if the statistic is enabled
@@ -101,6 +102,7 @@ class tcms_configuration {
 	var $m_SEOenabled;
 	var $m_SEOformat;
   var $m_SEOOptionNewsTitle;
+  var $m_SEOOptionContentTitle;
 	var $m_cipherEmail;
 	var $m_detectBrowser;
 	var $m_statistics;
@@ -151,6 +153,7 @@ class tcms_configuration {
 		$this->m_SEOenabled         = $this->o_xml->readSection('global', 'seo_enabled');
 		$this->m_SEOformat          = $this->o_xml->readSection('global', 'seo_format');
     $this->m_SEOOptionNewsTitle = $this->o_xml->readSection('global', 'seo_news_title');
+    $this->m_SEOOptionContentTitle = $this->o_xml->readSection('global', 'seo_content_title');
 		$this->m_cipherEmail        = $this->o_xml->readSection('global', 'cipher_email');
 		$this->m_detectBrowser      = $this->o_xml->readSection('global', 'js_browser_detect');
 		$this->m_statistics         = $this->o_xml->readSection('global', 'statistics');
@@ -379,7 +382,18 @@ class tcms_configuration {
    * @return Boolean
    */
   function getSEOOptionNewsTitle() {
-    return ( $this->m_SEOOptionNewsTitle == 1 ? true : false );
+    return ( $this->m_SEOOptionNewsTitle == '1' ? true : false );
+  }
+  
+  
+  
+  /**
+   * Get the SEO format option: with content title
+   *
+   * @return Boolean
+   */
+  function getSEOOptionContentTitle() {
+    return ( $this->m_SEOOptionContentTitle == '1' ? true : false );
   }
 	
 	
