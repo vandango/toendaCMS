@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.4.0
+ * @version 2.4.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -1615,7 +1615,8 @@ class tcms_main {
 		//$text = str_replace('´', '', $text);
 		//$text = str_replace('*', '', $text);
 		//$text = str_replace('+', '', $text);
-		$text = str_replace('-', '', $text);
+    //$text = str_replace('&nbsp;-&nbsp;', '', $text);
+		//$text = str_replace(' - ', '', $text);
 		$text = str_replace('#', '', $text);
 		$text = str_replace('³', '', $text);
 		$text = str_replace('²', '', $text);
@@ -1623,7 +1624,7 @@ class tcms_main {
 		//$text = str_replace('°', '', $text);
 		//$text = str_replace(':', '', $text);
 		//$text = str_replace(';', '', $text);
-		//$text = str_replace('.', '', $text);
+		$text = str_replace('.', '', $text);
 		$text = str_replace(',', '', $text);
 		//$text = str_replace('_', '', $text);
 		$text = str_replace('µ', '', $text);
@@ -1637,6 +1638,9 @@ class tcms_main {
     
 		$text = str_replace("'", '’', $text);
     $text = str_replace('&#039;', '’', $text);
+    $text = str_replace('&039;', '’', $text);
+    
+    $text = trim($text);
 		
 		$text = $this->removeAccents($text);
 		
@@ -1664,6 +1668,11 @@ class tcms_main {
 		
 		$text = str_replace('&nbsp;', '-', $text);
 		$text = str_replace(' ', '-', $text);
+    
+    $text = str_replace('-----', '-', $text);
+    $text = str_replace('----', '-', $text);
+    $text = str_replace('---', '-', $text);
+    $text = str_replace('--', '-', $text);
 		
 		return $text;
 	}

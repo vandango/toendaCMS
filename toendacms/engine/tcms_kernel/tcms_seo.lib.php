@@ -479,7 +479,9 @@ class tcms_seo {
 					/*
 						news
 					*/
-					if($tcms_main->isElementInArray('newsmanager', $arrSEO) && $tcms_config->getSEOOptionNewsTitle()) {
+					if($tcms_main->isElementInArray('newsmanager', $arrSEO) 
+          && $tcms_config->getSEOOptionNewsTitle()) {
+            //if($val != 'archive'
 						$chk_val = $dcp->getNewsIdByTitle(
 							$tcms_main->getNormalStringFromUrlString($val), 
 							$tcms_config->getLanguageCodeForTCMS($arrSEO['lang'])
