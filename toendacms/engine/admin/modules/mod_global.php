@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * This module is for the global configuration settings.
  * 
- * @version 1.2.9
+ * @version 1.3.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Admin Backend
@@ -99,6 +99,7 @@ if(isset($_POST['new_date'])){ $new_date = $_POST['new_date']; }
 if(isset($_POST['new_robots'])){ $new_robots = $_POST['new_robots']; }
 if(isset($_POST['new_last_changes'])){ $new_last_changes = $_POST['new_last_changes']; }
 if(isset($_POST['new_use_content_l'])){ $new_use_content_l = $_POST['new_use_content_l']; }
+if(isset($_POST['new_seo_news_title'])){ $new_seo_news_title = $_POST['new_seo_news_title']; }
 
 if(isset($_POST['new_mail_with_smtp'])){ $new_mail_with_smtp = $_POST['new_mail_with_smtp']; }
 if(isset($_POST['new_mail_as_html'])){ $new_mail_as_html = $_POST['new_mail_as_html']; }
@@ -183,6 +184,7 @@ if($id_group == 'Developer'
 	$old_seo_enabled    = $globals_xml->read_section('global', 'seo_enabled');
 	$old_seo_folder     = $globals_xml->read_section('global', 'server_folder');
 	$old_seo_format     = $globals_xml->read_section('global', 'seo_format');
+  $old_seo_news_title = $globals_xml->read_section('global', 'seo_news_title');
 	$old_site_offline   = $globals_xml->read_section('global', 'site_offline');
 	$old_site_off_text  = $globals_xml->read_section('global', 'site_offline_text');
 	$old_show_top_pages = $globals_xml->read_section('global', 'show_top_pages');
@@ -827,8 +829,8 @@ if($id_group == 'Developer'
 		.'<input name="new_seo_folder" class="tcms_input_normal" value="'.$old_seo_folder.'" />'
 		.'</td></tr>';
 		
-		
-		echo '<tr><td width="300" height="25" style="width: 300px !important;" class="tcms_padding_mini" valign="top">'
+		echo '<tr style="background: '.$arr_color[0].';">'
+    .'<td width="300" height="25" style="width: 300px !important;" class="tcms_padding_mini" valign="top">'
 		._GLOBAL_SEO_FORMAT
 		.'</td><td>'
 		.'<label for="urlformat_0">'
@@ -846,6 +848,15 @@ if($id_group == 'Developer'
 		.'index.php/en/frontpage.html (<strong>!!! BETA !!!</strong>)'
 		.'</label>'
 		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini">'
+    ._GLOBAL_SEO_NEWS_TITLE
+    .'</td><td>'
+		.'<input type="checkbox" name="new_seo_news_title"'.($old_seo_news_title == 1 ? ' checked' : '' ).' value="1" />'
+		.'</td></tr>';
+		
 		
 		
 		echo '</table>'
@@ -1353,6 +1364,7 @@ $tcms_mail_password    = \''.$new_mail_password.'\';
 			$xmluser->write_value('seo_enabled', $new_seo_enabled);
 			$xmluser->write_value('server_folder', $new_seo_folder);
 			$xmluser->write_value('seo_format', $new_seo_format);
+      $xmluser->write_value('seo_news_title', $new_seo_news_title);
 			$xmluser->write_value('site_offline', $new_site_offline);
 			$xmluser->write_value('site_offline_text', $new_site_off_text);
 			$xmluser->write_value('show_top_pages', $new_show_top_pages);

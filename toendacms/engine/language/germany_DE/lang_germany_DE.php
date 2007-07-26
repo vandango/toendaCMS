@@ -870,6 +870,7 @@ define('_GLOBAL_SEO', 'SEO URL');
 define('_GLOBAL_SEO_ENABLED', 'SEO aktivieren');
 define('_GLOBAL_SEO_FOLDER', 'toendaCMS Verzeichnis auf dem Server');
 define('_GLOBAL_SEO_FORMAT', 'SEO Format');
+define('_GLOBAL_SEO_NEWS_TITLE', 'Auch Neuigeiten-URL zu Titel konvertieren');
 define('_GLOBAL_SITE_OFFLINE', 'Seite Offline schalten');
 define('_GLOBAL_SITE_OFFLINE_TEXT', 'Offline Text');
 define('_GLOBAL_PASTE_FOOTER_TEXT', 'Beispieltext einf&uuml;gen');
