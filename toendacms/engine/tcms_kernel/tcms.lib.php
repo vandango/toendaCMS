@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.3.7
+ * @version 2.3.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -1614,7 +1614,7 @@ class tcms_main {
 		//$text = str_replace('´', '', $text);
 		//$text = str_replace('*', '', $text);
 		//$text = str_replace('+', '', $text);
-		$text = str_replace('-', '', $text);
+		//$text = str_replace('-', '', $text);
 		$text = str_replace('#', '', $text);
 		$text = str_replace('³', '', $text);
 		$text = str_replace('²', '', $text);
