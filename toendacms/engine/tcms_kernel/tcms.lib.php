@@ -1469,6 +1469,7 @@ class tcms_main {
 		$text = preg_replace('/{.+?}/', '', $text);
 		$text = preg_replace('/{.+?}/', '', $text);
 		$text = preg_replace("'<script[^>]*>.*?</script>'", '', $text);
+    $text = strip_tags($text);
 		
 		return $text;
 	}
@@ -1489,6 +1490,7 @@ class tcms_main {
 		$file = str_replace(' ', '_', $file);
 		$file = str_replace('&nbsp;', '_', $file);
 		$file = preg_replace('/{.+?}/', '', $file);
+    $file = strip_tags($file);
 		
 		return $file;
 	}
