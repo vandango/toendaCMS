@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a documents manager.
  *
- * @version 1.1.3
+ * @version 1.1.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -193,13 +193,13 @@ if($id_group == 'Developer'
 			
 			if(is_array($arr_content)){
 				array_multisort(
-					$arr_content['title'], SORT_ASC, 
-					$arr_content['id'], SORT_ASC, 
-					$arr_content['tag'], SORT_ASC, 
-					$arr_content['pub'], SORT_ASC, 
-					$arr_content['autor'], SORT_ASC, 
-					$arr_content['inw'], SORT_ASC, 
-					$arr_content['access'], SORT_SC
+					$arr_content['title'], SORT_DESC, 
+					$arr_content['id'], SORT_DESC, 
+					$arr_content['tag'], SORT_DESC, 
+					$arr_content['pub'], SORT_DESC, 
+					$arr_content['autor'], SORT_DESC, 
+					$arr_content['inw'], SORT_DESC, 
+					$arr_content['access'], SORT_DESC
 				);
 			}
 		}
@@ -435,7 +435,7 @@ if($id_group == 'Developer'
 	if($todo == 'edit'){
 		$bFileless = false;
 		
-		if(isset($maintag)){
+		if(isset($maintag)) {
 			if($choosenDB == 'xml'){
 				$val = 0;
 				
@@ -546,7 +546,7 @@ if($id_group == 'Developer'
 				}
 			}
 		}
-		else{
+		else {
 			$val = 0;
 			
 			$arr_content['title'][$val] = '';
@@ -629,44 +629,11 @@ if($id_group == 'Developer'
 		
 		
 		if($db_layout != 'db_content_default.php') {
-			/*
-			// table head
-			echo '<table width="100%" cellpadding="1" cellspacing="5" class="tcms_table">';
-			
-			
-			// table row
-			echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._CONTENT_TEMPLATE.'</strong></td>'
-			.'<td>';
-			
-			echo '<table width="349" cellpadding="0" cellspacing="2" class="noborder">';
-			
-			foreach($arr_db['filename'] as $db_key => $db_value){
-				echo '<tr><td width="15" valign="top">'
-					.'<input name="db_layout" type="radio" value="'.$db_value.'" '
-					.'onclick="document.location=\'admin.php?id_user='.$id_user.'&site=mod_content&todo=edit&db_layout='.$db_value.( isset($maintag) ? '&amp;maintag='.$maintag : '' ).'\'" />'
-				.'</td><td width="34" valign="top">'
-					.'<img src="../images/db_layout/'.$arr_db['imagename'][$db_key].'" border="0" />'
-				.'</td><td width="300" valign="top">'
-					.'<a class="tcms_db_template" '
-					.'href="admin.php?id_user='.$id_user.'&amp;site=mod_content&amp;todo=edit&amp;db_layout='.$db_value
-					.( isset($maintag) ? '&amp;maintag='.$maintag : '' )
-					.( isset($lang) ? '&amp;lang='.$lang : '' )
-					.'">'
-					.'<strong>'.$arr_db['templatename'][$db_key].'</strong>'
-					.'<br />'.$arr_db['templatedes'][$db_key].'</a>'
-				.'<td></tr>';
-				
-				echo '<tr><td colspan="3" style="height: 5px;"></td></tr>';
-			}
-			echo '</table>'
-			.'</td></tr>';
-			
-			// table end
-			echo '</table>';
-			*/
-			
 			echo '<script>'
-			.'relocateTo(\'admin.php?id_user='.$id_user.'&site=mod_content&todo=edit&db_layout=db_content_default.php\', \'\');'
+			.'relocateTo(\'admin.php?id_user='.$id_user.'&site=mod_content&todo=edit'
+			.( $tcms_main->isReal($lang) ? '&lang='.$lang : '' )
+			.( $tcms_main->isReal($maintag) ? '&maintag='.$maintag : '' )
+			.'&db_layout=db_content_default.php\', \'\');'
 			.'</script>';
 		}
 		
@@ -1027,11 +994,11 @@ if($id_group == 'Developer'
 		
 		
 		// CHARSETS
-		$titel     = $tcms_main->decode_text($titel, '2', $c_charset);
-		$key       = $tcms_main->decode_text($key, '2', $c_charset);
-		$content   = $tcms_main->decode_text($content, '2', $c_charset);
-		$content01 = $tcms_main->decode_text($content01, '2', $c_charset);
-		$foot      = $tcms_main->decode_text($foot, '2', $c_charset);
+		$titel     = $tcms_main->encodeText($titel, '2', $c_charset);
+		$key       = $tcms_main->encodeText($key, '2', $c_charset);
+		$content   = $tcms_main->encodeText($content, '2', $c_charset);
+		$content01 = $tcms_main->encodeText($content01, '2', $c_charset);
+		$foot      = $tcms_main->encodeText($foot, '2', $c_charset);
 		
 		
 		if($db_layout == ''){ $db_layout = 'db_content_default.php'; }
@@ -1552,7 +1519,13 @@ if($id_group == 'Developer'
 	
 	if($todo == 'delete'){
 		if($choosenDB == 'xml'){
-			unlink('../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml');
+			if(file_exists('../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml')) {
+				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml');
+			}
+			else {
+				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/tcms_content_languages/'.$maintag.'.xml');
+			}
+			
 			
 			$del_menuitem = $tcms_main->xml_readdir_content($maintag, '../../'.$tcms_administer_site.'/tcms_menu/', 'link', 'menu', 5);
 			

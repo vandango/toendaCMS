@@ -1061,7 +1061,10 @@ if($wsShowSite){
 						SITE MANAGEMENT :: WITH ERRORFILES
 					*/
 					if($choosenDB == 'xml'){
-						$site_max_id = $tcms_main->load_xml_files(''.$tcms_administer_site.'/tcms_content/', 'files');
+						$site_max_id  = $tcms_main->load_xml_files(''.$tcms_administer_site.'/tcms_content/', 'files');
+						$site_max_id2 = $tcms_main->load_xml_files(''.$tcms_administer_site.'/tcms_content_languages/', 'files');
+						
+						$site_max_id = array_merge($site_max_id, $site_max_id2);
 						
 						if(is_array($site_max_id)){
 							if(!in_array($id.'.xml', $site_max_id))
@@ -1103,11 +1106,11 @@ if($wsShowSite){
 						*/
 						//if(!file_exists('cache/'.)){
 						if($choosenDB == 'xml'){
-							$arr_files     = $tcms_main->readdir_ext(''.$tcms_administer_site.'/tcms_menu/');
-							$arr_filesT    = $tcms_main->readdir_ext(''.$tcms_administer_site.'/tcms_topmenu/');
+							$arr_files     = $tcms_main->getPathContent(''.$tcms_administer_site.'/tcms_menu/');
+							$arr_filesT    = $tcms_main->getPathContent(''.$tcms_administer_site.'/tcms_topmenu/');
 							$arr_side_navi = $tcms_main->mainmenu($arr_files, $c_charset, ( isset($session) ? $session : NULL ), $s, ( isset($lang) ? $lang : NULL ));
 							
-							$arr_filename = $tcms_main->readdir_ext(''.$tcms_administer_site.'/tcms_topmenu/');
+							$arr_filename = $tcms_main->getPathContent(''.$tcms_administer_site.'/tcms_topmenu/');
 							$arr_top_navi = $tcms_main->topmenu($arr_filename, $c_charset, ( isset($session) ? $session : NULL ), $s, ( isset($lang) ? $lang : NULL ));
 							
 							$arrLinkway = $tcms_main->linkway($arr_files, $arr_filesT, $c_charset, ( isset($session) ? $session : NULL ), $s, ( isset($lang) ? $lang : NULL ));

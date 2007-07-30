@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.0.1
+ * @version 1.0.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -48,7 +48,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * getCommentDCList                          -> Get a list of news data container
  *
- * getContentDC($contentID)                  -> Get a specific content data container
+ * getContentDC                              -> Get a specific content data container
  * getContentLanguages                       -> Get a list of content languages
  * getXmlIdFromContentLanguage               -> Get the id of a language content file
  * getContentTitle                           -> Get the title of a content element
@@ -1227,7 +1227,7 @@ class tcms_datacontainer_provider extends tcms_main {
 		
 		if($this->m_choosenDB == 'xml'){
 			if($withLanguages) {
-				$wsCUid = $this->getXmlIdFromContentLanguage(
+				/*$wsCUid = $this->getXmlIdFromContentLanguage(
 					$contentID, 
 					$language
 				);
@@ -1240,6 +1240,16 @@ class tcms_datacontainer_provider extends tcms_main {
 				else {
 					$xml = new xmlparser(
 						$this->m_path.'/tcms_content/'.$contentID.'.xml', 'r'
+					);
+				}*/
+				if(file_exists($this->m_path.'/tcms_content/'.$contentID.'.xml')) {
+					$xml = new xmlparser(
+						$this->m_path.'/tcms_content/'.$contentID.'.xml', 'r'
+					);
+				}
+				else if(file_exists($this->m_path.'/tcms_content_languages/'.$contentID.'.xml')) {
+					$xml = new xmlparser(
+						$this->m_path.'/tcms_content_languages/'.$contentID.'.xml', 'r'
 					);
 				}
 			}
@@ -1461,11 +1471,11 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * Get the id of a language content file
 	 * 
 	 * @param String $id
-	 * @param String $lang
+	 * @param String $language
 	 * @return String
 	 */
 	function getXmlIdFromContentLanguage($id, $language) {
-		if($this->m_choosenDB == 'xml'){
+		if($this->m_choosenDB == 'xml') {
 			$arr_docs = $this->getPathContent(
 				$this->m_path.'/tcms_content_languages/'
 			);

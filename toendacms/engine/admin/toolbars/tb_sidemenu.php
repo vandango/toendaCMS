@@ -27,7 +27,7 @@ switch($todo){
 		echo '<img src="../images/admin_menu/line.gif" border="0" />';
 		echo '<a style="padding: 3px 3px 0 3px;" href="admin.php?id_user='.$id_user.'&amp;site=mod_sidemenu"><img title="'._TCMS_ADMIN_BACK.'" alt="'._TCMS_ADMIN_BACK.'" src="../images/admin_menu/back.png" border="0" /></a>';
 		echo '<img src="../images/admin_menu/line.gif" border="0" />';
-		echo '<a style="padding: 3px 3px 0 3px;" href="javascript:save();"><img title="'._TCMS_ADMIN_SAVE.'" alt="'._TCMS_ADMIN_SAVE.'" src="../images/admin_menu/save.png" border="0" /></a>';
+		echo '<a style="padding: 3px 3px 0 3px;" href="javascript:accept(\'saveMenuItem\');"><img title="'._TCMS_ADMIN_SAVE.'" alt="'._TCMS_ADMIN_SAVE.'" src="../images/admin_menu/save.png" border="0" /></a>';
 		break;
 	
 	default:

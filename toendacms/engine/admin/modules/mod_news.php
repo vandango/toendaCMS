@@ -631,8 +631,8 @@ if($todo == 'config'){
 //=====================================================
 
 if($todo == 'show'){
-	echo tcms_html::bold(_NEWS_TITLE);
-	echo tcms_html::text(_NEWS_TEXT.'<br /><br />', 'left');
+	echo $tcms_html->bold(_NEWS_TITLE);
+	echo $tcms_html->text(_NEWS_TEXT.'<br /><br />', 'left');
 	
 	if($choosenDB == 'xml'){
 		if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
@@ -1097,7 +1097,7 @@ if($todo == 'edit'){
 		$nws_title = htmlspecialchars($nws_title);
 		$nws_autor = htmlspecialchars($nws_autor);
 		
-		echo tcms_html::bold(_TABLE_EDIT);
+		echo $tcms_html->bold(_TABLE_EDIT);
 		$edit_add_news = _NEWS_NEW_CURRENT;
 		$odot = 'save';
 	}
@@ -1120,7 +1120,7 @@ if($todo == 'edit'){
 		$nws_sof          = 1;
 		$nws_lang         = $tcms_config->getLanguageFrontend();
 		
-		echo tcms_html::bold(_TABLE_NEW);
+		echo $tcms_html->bold(_TABLE_NEW);
 		$edit_add_news = _NEWS_EDIT_CURRENT;
 		$odot = 'next';
 	}
@@ -1172,7 +1172,7 @@ if($todo == 'edit'){
 			$width = '150';
 			
 			
-			echo tcms_html::text(_NEWS_EDIT_CURRENT.'<br /><br />', 'left');
+			echo $tcms_html->text(_NEWS_EDIT_CURRENT.'<br /><br />', 'left');
 			
 			
 			echo '<form action="admin.php?id_user='.$id_user.'&amp;site=mod_news" method="post" id="news">'

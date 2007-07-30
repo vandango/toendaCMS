@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a filemanager for all Sites
  *
- * @version 0.4.6
+ * @version 0.4.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -44,8 +44,8 @@ $fm_height    = 17;
 $fm_menu      = 0;
 
 $namen_xml    = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/namen.xml','r');
-$sitename     = $namen_xml->read_section('namen', 'name');
-$sitekey      = $namen_xml->read_section('namen', 'key');
+$sitename     = $namen_xml->readSection('namen', 'name');
+$sitekey      = $namen_xml->readSection('namen', 'key');
 
 $sitename     = $tcms_main->decodeText($sitename, '2', $c_charset);
 $sitekey      = $tcms_main->decodeText($sitekey, '2', $c_charset);
@@ -76,7 +76,7 @@ $cs_id     = 'components';
 
 if($sidemenu_active == 1){
 	if($choosenDB == 'xml'){
-		$arr_explore['link'] = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_menu/');
+		$arr_explore['link'] = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/tcms_menu/');
 		// IDS
 		$ii = 0;
 		while(!empty($arr_explore['link'][$ii])){
@@ -92,6 +92,7 @@ if($sidemenu_active == 1){
 					$arr_exp['type'][$ii] = $explore_xml->read_value('type');
 					$arr_exp['pub'][$ii]  = $explore_xml->read_value('published');
 					$arr_exp['uid'][$ii]  = substr($arr_explore['link'][$ii], 0, 5);
+					$arr_exp['lang'][$ii] = $explore_xml->readValue('language');
 					
 					$arr_exp['name'][$ii] = $tcms_main->decodeText($arr_exp['name'][$ii], '2', $c_charset);
 				}
@@ -118,6 +119,7 @@ if($sidemenu_active == 1){
 			$arr_exp['pub'][$ii]  = trim($sqlObj->published);
 			$arr_exp['type'][$ii] = trim($sqlObj->type);
 			$arr_exp['uid'][$ii]  = trim($sqlObj->uid);
+			$arr_exp['lang'][$ii]  = trim($sqlObj->language);
 			
 			$arr_exp['name'][$ii] = $tcms_main->decodeText($arr_exp['name'][$ii], '2', $c_charset);
 			
@@ -135,7 +137,8 @@ if($sidemenu_active == 1){
 			$arr_exp['pub'], SORT_ASC, SORT_REGULAR, 
 			$arr_exp['uid'], SORT_ASC, SORT_REGULAR, 
 			$arr_exp['type'], SORT_ASC, SORT_REGULAR, 
-			$arr_exp['name'], SORT_ASC, SORT_REGULAR
+			$arr_exp['name'], SORT_ASC, SORT_REGULAR, 
+			$arr_exp['lang'], SORT_ASC, SORT_REGULAR
 		);
 	}
 }
@@ -150,7 +153,7 @@ if($sidemenu_active == 1){
 
 if($topmenu_active == 1){
 	if($choosenDB == 'xml'){
-		$arr_explore['link'] = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_topmenu/');
+		$arr_explore['link'] = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/tcms_topmenu/');
 		// IDS
 		$iiT = 0;
 		while(!empty($arr_explore['link'][$iiT])){
@@ -163,6 +166,7 @@ if($topmenu_active == 1){
 				$arr_expT['pub'][$iiT]  = $explore_xml->read_value('published');
 				$arr_expT['type'][$iiT] = $explore_xml->read_value('type');
 				$arr_expT['uid'][$iiT]  = substr($arr_explore['link'][$iiT], 0, 5);
+				$arr_expT['lang'][$iiT] = $explore_xml->readValue('language');
 				
 				$arr_expT['name'][$iiT] = $tcms_main->decodeText($arr_expT['name'][$iiT], '2', $c_charset);
 			}
@@ -187,6 +191,7 @@ if($topmenu_active == 1){
 			$arr_expT['pub'][$iiT]  = trim($sqlObj->published);
 			$arr_expT['type'][$iiT] = trim($sqlObj->type);
 			$arr_expT['uid'][$iiT]  = trim($sqlObj->uid);
+			$arr_expT['lang'][$iiT] = trim($sqlObj->language);
 			
 			$arr_expT['name'][$iiT] = $tcms_main->decodeText($arr_expT['name'][$iiT], '2', $c_charset);
 			$iiT++;
@@ -202,7 +207,8 @@ if($topmenu_active == 1){
 			$arr_expT['pub'], SORT_ASC, SORT_REGULAR, 
 			$arr_expT['uid'], SORT_ASC, SORT_REGULAR, 
 			$arr_expT['type'], SORT_ASC, SORT_REGULAR, 
-			$arr_expT['name'], SORT_ASC, SORT_REGULAR
+			$arr_expT['name'], SORT_ASC, SORT_REGULAR, 
+			$arr_expT['lang'], SORT_ASC, SORT_REGULAR
 		);
 	}
 }
@@ -218,7 +224,7 @@ if($topmenu_active == 1){
 if(!isset($wpC)){ $wpC = 0; }
 
 if($choosenDB == 'xml'){
-	$arr_explore['main'] = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_content/');
+	$arr_explore['main'] = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/tcms_content/');
 	while(!empty($arr_explore['main'][$wpC])){
 		if($arr_explore['main'][$wpC] != 'index.html'){
 			$exploreC_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_content/'.$arr_explore['main'][$wpC], 'r');
@@ -311,6 +317,7 @@ if($topmenu_active == 1){
 			// FRONTPAGE
 			if($arr_expT['link'][$ekey] == $front_id) {
 				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_frontpage';
+				
 				$tbMod = true;
 			}
 			
@@ -385,11 +392,15 @@ if($topmenu_active == 1){
 			if($tbMod == false){
 				for($cMM = 0; $cMM < $wpC; $cMM++){
 					if($arr_maint['id'][$cMM] == $arr_expT['link'][$ekey]){
-						if($arr_expT['type'][$ekey] == 'web'){
+						if($arr_expT['type'][$ekey] == 'web') {
 							$prjLink = $arr_expT['link'][$ekey];
 						}
-						else{
+						else {
 							$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_content&amp;todo=edit&amp;maintag='.$arr_expT['link'][$ekey];
+							
+							if($arr_expT['lang'][$ekey] != $tcms_config->getLanguageFrontend()) {
+								$prjLink .= '&amp;lang='.$tcms_config->getLanguageCodeByTCMSCode($arr_exp['lang'][$ekey]);
+							}
 						}
 					}
 					else{
@@ -398,6 +409,10 @@ if($topmenu_active == 1){
 						}
 						else{
 							$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_content&amp;todo=edit&amp;maintag='.$arr_expT['link'][$ekey];
+							
+							if($arr_expT['lang'][$ekey] != $tcms_config->getLanguageFrontend()) {
+								$prjLink .= '&amp;lang='.$tcms_config->getLanguageCodeByTCMSCode($arr_exp['lang'][$ekey]);
+							}
 						}
 					}
 				}
@@ -545,6 +560,10 @@ if($sidemenu_active == 1){
 						}
 						else{
 							$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_content&amp;todo=edit&amp;maintag='.$arr_exp['link'][$ekey];
+							
+							if($arr_exp['lang'][$ekey] != $tcms_config->getLanguageFrontend()) {
+								$prjLink .= '&amp;lang='.$tcms_config->getLanguageCodeByTCMSCode($arr_exp['lang'][$ekey]);
+							}
 						}
 					}
 					else{
@@ -553,6 +572,10 @@ if($sidemenu_active == 1){
 						}
 						else{
 							$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_content&amp;todo=edit&amp;maintag='.$arr_exp['link'][$ekey];
+							
+							if($arr_exp['lang'][$ekey] != $tcms_config->getLanguageFrontend()) {
+								$prjLink .= '&amp;lang='.$tcms_config->getLanguageCodeByTCMSCode($arr_exp['lang'][$ekey]);
+							}
 						}
 					}
 				}

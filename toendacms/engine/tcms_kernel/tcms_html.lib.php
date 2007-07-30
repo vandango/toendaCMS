@@ -82,9 +82,9 @@ class tcms_html {
 		if(trim($subtitle) != '')
 			$output .= $this->contentSubtitle($subtitle).'<br />';
 		
-		if(trim($text)  != '')
+		if(trim($text) != '' && trim($text) != '---')
 			$output .= $this->contentText($text).'<br />';
-		else
+		else if(trim($text) != '---')
 			$output .= '<br />';
 		
 		return $output;

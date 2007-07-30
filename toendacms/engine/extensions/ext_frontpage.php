@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides a frontpage with news and a text.
  *
- * @version 1.4.0
+ * @version 1.4.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -77,8 +77,15 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 	echo $tcms_html->contentModuleHeader(
 		$front_title, 
 		$front_stamp, 
-		$front_text
+		'---'
 	);
+	
+	$toendaScript = new toendaScript($front_text);
+	$front_text = $toendaScript->doParse();
+	$front_text = $toendaScript->checkSEO($front_text, $imagePath);
+	$toendaScript->doParsePHP($front_text);
+	
+	echo '<br />';
 	
 	
 	/*

@@ -1247,9 +1247,8 @@ class tcms_main {
 		if($withoutEncryption == false){
 			if($withoutDatabase == false){
 				include($this->administer.'/tcms_global/database.php');
-				$thisDB = $this->secure_password($tcms_db_engine, 'en');
 				
-				if($thisDB == 'xml') $encode = true;
+				if($tcms_db_engine == 'xml') $encode = true;
 				else $encode = false;
 			}
 			else{
@@ -1278,15 +1277,18 @@ class tcms_main {
 	 * @return String
 	 */
 	function decodeText($text, $quote, $charset, $withoutEncryption = false, $withoutDatabase = false){
-		if($withoutEncryption == false){
-			if($withoutDatabase == false){
+		if($withoutEncryption == false) {
+			if($withoutDatabase == false) {
 				include($this->administer.'/tcms_global/database.php');
-				$thisDB = $this->secure_password($tcms_db_engine, 'en');
 				
-				if($thisDB == 'xml') $encode = true;
-				else $encode = false;
+				if($tcms_db_engine == 'xml') {
+					$encode = true;
+				}
+				else {
+					$encode = false;
+				}
 			}
-			else{
+			else {
 				$encode = true;
 			}
 			
