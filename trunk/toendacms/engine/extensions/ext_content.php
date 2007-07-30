@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a base content loader.
  *
- * @version 0.7.5
+ * @version 0.7.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -111,12 +111,22 @@ switch($id){
 	
 	default:
 		if($choosenDB == 'xml'){
-			$xml = new xmlparser($tcms_administer_site.'/tcms_content/'.$id.'.xml','r');
-			$authorized = $xml->read_section('main', 'access');
-			$content_published = $xml->read_section('main', 'published');
-			$xml->flush();
-			$xml->_xmlparser();
-			unset($xml);
+			if(file_exists($tcms_administer_site.'/tcms_content/'.$id.'.xml')) {
+				$xml = new xmlparser($tcms_administer_site.'/tcms_content/'.$id.'.xml','r');
+				$authorized = $xml->read_section('main', 'access');
+				$content_published = $xml->read_section('main', 'published');
+				$xml->flush();
+				$xml->_xmlparser();
+				unset($xml);
+			}
+			else if(file_exists($tcms_administer_site.'/tcms_content_languages/'.$id.'.xml')) {
+				$xml = new xmlparser($tcms_administer_site.'/tcms_content_languages/'.$id.'.xml','r');
+				$authorized = $xml->read_section('main', 'access');
+				$content_published = $xml->read_section('main', 'published');
+				$xml->flush();
+				$xml->_xmlparser();
+				unset($xml);
+			}
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
@@ -214,38 +224,6 @@ if($content_published == 1){
 					$content00 = $arr_content[$page - 1];
 					
 					
-					// TCMS SCRIPT
-					$toendaScript = new toendaScript($key);
-					$key = $toendaScript->toendaScript_trigger();
-					
-					$toendaScript = new toendaScript($content00);
-					$content00 = $toendaScript->toendaScript_trigger();
-					$content00 = $toendaScript->checkSEO($content00, $imagePath);
-					
-					$toendaScript = new toendaScript($content01);
-					$content01 = $toendaScript->toendaScript_trigger();
-					$content01 = $toendaScript->checkSEO($content01, $imagePath);
-					
-					$toendaScript = new toendaScript($foot);
-					$foot = $toendaScript->toendaScript_trigger();
-					$foot = $toendaScript->checkSEO($foot, $imagePath);
-					
-					
-					/*
-						Load Layout ID for Content Templates
-					*/
-					if($dcContent->getTextLayout() == '')
-						$dcContent->SetTextLayout('db_content_default.php');
-					
-					include_once('engine/db_layout/'.$dcContent->getTextLayout());
-					
-					$content_template = str_replace('{$title}', $dcContent->getTitle(), $content_template);
-					$content_template = str_replace('{$key}', $key, $content_template);
-					$content_template = str_replace('{$content00}', $content00, $content_template);
-					$content_template = str_replace('{$content01}', $content01, $content_template);
-					$content_template = str_replace('{$foot}', $foot, $content_template);
-					
-					
 					if($show_pages == 1){
 						if(count($arr_content) > 1){
 							$pageAmount = count($arr_content);
@@ -335,7 +313,47 @@ if($content_published == 1){
 					}
 					
 					
-					echo $content_template;
+					// TCMS SCRIPT
+					$toendaScript = new toendaScript($key);
+					$key = $toendaScript->doParse();
+					
+					$toendaScript = new toendaScript($content00);
+					$content00 = $toendaScript->doParse();
+					$content00 = $toendaScript->checkSEO($content00, $imagePath);
+					
+					$toendaScript = new toendaScript($content01);
+					$content01 = $toendaScript->doParse();
+					$content01 = $toendaScript->checkSEO($content01, $imagePath);
+					
+					$toendaScript = new toendaScript($foot);
+					$foot = $toendaScript->doParse();
+					$foot = $toendaScript->checkSEO($foot, $imagePath);
+					
+					
+					/*
+						Load Layout ID for Content Templates
+					*/
+					//if($dcContent->getTextLayout() == '')
+					//	$dcContent->SetTextLayout('db_content_default.php');
+					
+					//include_once('engine/db_layout/'.$dcContent->getTextLayout());
+					
+					/*$content_template = str_replace('{$title}', $dcContent->getTitle(), $content_template);
+					$content_template = str_replace('{$key}', $key, $content_template);
+					$content_template = str_replace('{$content00}', $content00, $content_template);
+					$content_template = str_replace('{$content01}', $content01, $content_template);
+					$content_template = str_replace('{$foot}', $foot, $content_template);
+					*/
+					echo '<div style="width: 99%; display: block;">'
+					.'<div class="contentheading">'.$dcContent->getTitle().'</div>'
+					.'<span class="contentstamp">'.$key.'</span><br />'
+					.'<p class="contentmain"><br />';
+					
+					$toendaScript->doParsePHP($content00);
+					
+					echo '<br />'.$content01.'<br />'
+					.$foot.'</p>'
+					.'</div>';
 					
 					
 					// view page links

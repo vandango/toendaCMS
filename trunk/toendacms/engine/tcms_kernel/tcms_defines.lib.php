@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for global values
  *
- * @version 0.5.8
+ * @version 0.5.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -291,12 +291,22 @@ switch($id){
 	
 	default:
 		if($choosenDB == 'xml'){
-			$xml = new xmlparser($tcms_administer_site.'/tcms_content/'.$id.'.xml','r');
-			$id_meta_ad = $xml->readSection('main', 'title');
-			$id_meta_ad = $tcms_main->decodeText($id_meta_ad, '2', $c_charset);
-			$xml->flush();
-			$xml->_xmlparser();
-			unset($xml);
+			if(file_exists($tcms_administer_site.'/tcms_content/'.$id.'.xml')) {
+				$xml = new xmlparser($tcms_administer_site.'/tcms_content/'.$id.'.xml','r');
+				$id_meta_ad = $xml->readSection('main', 'title');
+				$id_meta_ad = $tcms_main->decodeText($id_meta_ad, '2', $c_charset);
+				$xml->flush();
+				$xml->_xmlparser();
+				unset($xml);
+			}
+			else if(file_exists($tcms_administer_site.'/tcms_content_languages/'.$id.'.xml')) {
+				$xml = new xmlparser($tcms_administer_site.'/tcms_content_languages/'.$id.'.xml','r');
+				$id_meta_ad = $xml->readSection('main', 'title');
+				$id_meta_ad = $tcms_main->decodeText($id_meta_ad, '2', $c_charset);
+				$xml->flush();
+				$xml->_xmlparser();
+				unset($xml);
+			}
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -330,8 +340,18 @@ if(!defined('_SITE_METATAG_DESCRIPTION')) define('_SITE_METATAG_DESCRIPTION', $d
 /* _SITE_METATAG_AUTOR */
 if(!in_array($id, $arrTCMSModules)){
 	if($choosenDB == 'xml'){
-		$content_xml = new xmlparser($tcms_administer_site.'/tcms_content/'.$id.'.xml','r');
-		$doc_Autor = $content_xml->readSection('main', 'autor');
+		if(file_exists($tcms_administer_site.'/tcms_content/'.$id.'.xml')) {
+			$content_xml = new xmlparser($tcms_administer_site.'/tcms_content/'.$id.'.xml','r');
+			$doc_Autor = $content_xml->readSection('main', 'autor');
+		}
+		else if(file_exists($tcms_administer_site.'/tcms_content_languages/'.$id.'.xml')) {
+			$xml = new xmlparser($tcms_administer_site.'/tcms_content_languages/'.$id.'.xml','r');
+			$id_meta_ad = $xml->readSection('main', 'title');
+			$id_meta_ad = $tcms_main->decodeText($id_meta_ad, '2', $c_charset);
+			$xml->flush();
+			$xml->_xmlparser();
+			unset($xml);
+		}
 	}
 	else{
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
