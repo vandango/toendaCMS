@@ -9,8 +9,7 @@
 | 
 | toendaCMS Import API
 |
-| File:		mod_import.php
-| Version:	0.1.9
+| File:	mod_import.php
 |
 +
 */
@@ -19,6 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * toendaCMS Import API
+ *
+ * This is used for the import api.
+ *
+ * @version 0.2.0
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 if(isset($_GET['action'])){ $action = $_GET['action']; }
@@ -28,9 +37,9 @@ if(isset($_POST['action'])){ $action = $_POST['action']; }
 
 
 
-//=====================================================
+// ----------------------------------------
 // INIT
-//=====================================================
+// ----------------------------------------
 
 if(!isset($todo)){ $todo = 'show'; }
 
@@ -39,13 +48,13 @@ $impKey = 1;
 
 
 
-//=====================================================
+// ----------------------------------------
 // SHOW OLD VALUES
-//=====================================================
+// ----------------------------------------
 
 if($todo == 'show'){
-	echo tcms_html::bold(_NEWS_CATEGORIES_TITLE);
-	echo tcms_html::text('If you have posts or comments in another system WordPress can import them into your current blog. To get started, choose a system to import from below:<br /><br />', 'left');
+	echo $tcms_html->bold(_NEWS_CATEGORIES_TITLE);
+	echo $tcms_html->text('If you have posts or comments in another system WordPress can import them into your current blog. To get started, choose a system to import from below:<br /><br />', 'left');
 	
 	
 	echo '<table cellpadding="3" cellspacing="0" border="0" class="noborder">';
@@ -112,12 +121,13 @@ if($todo == 'show'){
 
 
 
-//=====================================================
-// IMPORT FROM BLOGGER FTP
-//=====================================================
 
-if($todo == 'bloggerftp'){
-	if($action == 'startimport'){
+// ----------------------------------------
+// IMPORT FROM BLOGGER FTP
+// ----------------------------------------
+
+if($todo == 'bloggerftp') {
+	if($action == 'startimport') {
 		// information
 		$letImport = false;
 		$fileName = 'blogger.xml';
@@ -125,9 +135,15 @@ if($todo == 'bloggerftp'){
 		
 		
 		// check
-		if($_FILES['event']['size'] > 0 && preg_match('/.xml/i', strtolower($_FILES['event']['name']))) $letImport = true;
-		elseif(file_exists($imgDir.$fileName)) $letImport = true;
-		else $letImport = false;
+		if($_FILES['event']['size'] > 0 && preg_match('/.xml/i', strtolower($_FILES['event']['name']))) {
+			$letImport = true;
+		}
+		elseif(file_exists($imgDir.$fileName)) {
+			$letImport = true;
+		}
+		else {
+			$letImport = false;
+		}
 		
 		
 		// start
@@ -320,8 +336,8 @@ if($todo == 'bloggerftp'){
 		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_import\'</script>';
 	}
 	else{
-		echo tcms_html::bold(_IMPORT_BLOGGER_FTP).'<br />';
-		echo tcms_html::text(_IMPORT_BLOGGER_FTP_DESC.'<br /><br />', 'left');
+		echo $tcms_html->bold(_IMPORT_BLOGGER_FTP).'<br />';
+		echo $tcms_html->text(_IMPORT_BLOGGER_FTP_DESC.'<br /><br />', 'left');
 		
 		echo '<div style="padding: 0 0 0 10px;">';
 		
@@ -383,8 +399,8 @@ if($todo == 'docbookxml'){
 		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_import\'</script>';
 	}
 	else{
-		echo tcms_html::bold(_IMPORT_OOO2_DOCBOOK_XML).'<br />';
-		echo tcms_html::text(_IMPORT_OOO2_DOCBOOK_XML_DESC.'<br /><br />', 'left');
+		echo $tcms_html->bold(_IMPORT_OOO2_DOCBOOK_XML).'<br />';
+		echo $tcms_html->text(_IMPORT_OOO2_DOCBOOK_XML_DESC.'<br /><br />', 'left');
 		
 		echo '<div style="padding: 0 0 0 10px;">';
 		

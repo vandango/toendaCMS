@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to authenticate a login user.
  *
- * @version 0.2.1
+ * @version 0.2.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -359,17 +359,23 @@ class tcms_authentication extends tcms_main {
 									}
 								}
 								else{
+									//echo 'usergroup<br>';
 									return false;
 								}
 							}
 							else{
+								//echo 'user not enabled<br>';
 								return false;
 							}
 						}
 						else{
+							//echo 'password incorrect<br>';
 							return false;
 						}
 					}
+					
+					$xml->flush();
+					unset($xml);
 				}
 			}
 			else{

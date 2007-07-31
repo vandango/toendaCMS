@@ -23,16 +23,16 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the syndication.
  *
- * @version 0.1.0
+ * @version 0.1.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
  */
 
 
-if($use_syndication == 1){
-	if($use_syn_title == 1){
-		echo tcms_html::subtitle(_NEWS_SYNDICATION);
+if($use_syndication == 1) {
+	if($use_syn_title == 1) {
+		echo $tcms_html->subTitle(_NEWS_SYNDICATION);
 	}
 	
 	echo '<br />';

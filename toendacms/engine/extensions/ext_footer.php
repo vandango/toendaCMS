@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a footer.
  *
- * @version 0.3.7
+ * @version 0.3.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -53,18 +53,6 @@ include_once(_VERSION);
 if(!isset($show_default) || $show_default == ''){
 	$show_default = 1;
 }
-
-
-
-$tcms_time->stopTimer();
-$page_load_time = $tcms_time->getTimerValue();
-if($choosenDB != 'xml')
-	$page_query_count = $tcms_time->getSqlQueryCountValue();
-
-//$page_load_time = tcms_time::tcms_load_end();
-//if($choosenDB != 'xml')
-//	$page_query_count = tcms_time::tcms_query_count_end_out();
-
 
 
 echo '<div class="legal">';
@@ -115,7 +103,11 @@ if($show_tcms == 1){
 			SHOW PAGE LOADING TIME
 		*/
 		echo '<div>'
-		.'<span class="legal">'.$page_load_time.'. '.$page_query_count.'</span>'
+		.'<span class="legal">'
+		._MSG_PAGE_LOAD_1.'&nbsp;'.$tcms_time->getCurrentTimerValue().'&nbsp;'._MSG_PAGE_LOAD_2
+		.'. '
+		.$tcms_time->getSqlQueryCountValue()
+		.'</span>'
 		.'</div>';
 	}
 	
@@ -137,7 +129,11 @@ else {
 		if($show_tcms == 1) echo '<br />';
 		
 		echo '<div>'
-		.'<span class="legal">'.$page_load_time.'. '.$page_query_count.'</span>'
+		.'<span class="legal">'
+		._MSG_PAGE_LOAD_1.'&nbsp;'.$tcms_time->getCurrentTimerValue().'&nbsp;'._MSG_PAGE_LOAD_2
+		.'. '
+		.$tcms_time->getSqlQueryCountValue()
+		.'</span>'
 		.'</div>';
 	}
 }

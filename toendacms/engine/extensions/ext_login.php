@@ -49,6 +49,10 @@ if(!isset($reg_login)){ $reg_login = NULL; }
 
 
 if($use_login == 1) {
+	using('toendacms.kernel.authentication');
+	$tcms_auth = new tcms_authentication($tcms_administer_site, $c_charset, $imagePath);
+	
+	
 	if($check_session) {
 		/*
 			READ USERNAME

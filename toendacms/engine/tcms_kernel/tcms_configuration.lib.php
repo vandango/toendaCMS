@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide the global
  * configuration data.
  *
- * @version 0.3.7
+ * @version 0.4.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -144,6 +144,55 @@ class tcms_configuration {
 	 * @param String $administer
 	 */
 	function __construct($administer){
+		$xml_file = file_get_contents($administer.'/tcms_global/var.xml')
+			or die("var.xml does not exist. Please reinstall toendaCMS\n");
+		
+		$this->o_xml = simplexml_load_string($xml_file);
+		
+		$this->m_charset               = $this->o_xml->charset;
+		$this->m_frontlang             = $this->o_xml->front_lang;
+		$this->m_lang                  = $this->o_xml->lang;
+		$this->m_SEOpath               = $this->o_xml->server_folder;
+		$this->m_SEOenabled            = $this->o_xml->seo_enabled;
+		$this->m_SEOformat             = $this->o_xml->seo_format;
+		$this->m_SEOOptionNewsTitle    = $this->o_xml->seo_news_title;
+		$this->m_SEOOptionContentTitle = $this->o_xml->seo_content_title;
+		$this->m_cipherEmail           = $this->o_xml->cipher_email;
+		$this->m_detectBrowser         = $this->o_xml->js_browser_detect;
+		$this->m_statistics            = $this->o_xml->statistics;
+		$this->m_use_components        = $this->o_xml->use_cs;
+		$this->m_use_captcha           = $this->o_xml->captcha;
+		$this->m_captcha_clean         = $this->o_xml->statistics;
+		$this->m_antiFrame             = $this->o_xml->captcha_clean_size;
+		$this->m_showTopPages          = $this->o_xml->anti_frame;
+		$this->m_showTopPages          = $this->o_xml->show_top_pages;
+		$this->m_siteOffline           = $this->o_xml->site_offline;
+		$this->m_siteOfflineText       = $this->o_xml->site_offline_text;
+		$this->m_currency              = $this->o_xml->currency;
+		$this->m_wysiwygEditor         = $this->o_xml->wysiwyg;
+		$this->m_pathwayChar           = $this->o_xml->pathway_char;
+		$this->m_showDocAutor          = $this->o_xml->show_doc_autor;
+		$this->m_defaultCat            = $this->o_xml->default_category;
+		$this->m_tcmsinst              = $this->o_xml->toendacms_in_sitetitle;
+		$this->m_keywords              = $this->o_xml->meta;
+		$this->m_description           = $this->o_xml->description;
+		$this->m_activeTopmenu         = $this->o_xml->topmenu_active;
+		$this->m_sidemenu              = $this->o_xml->menu;
+		$this->m_topmenu               = $this->o_xml->second_menu;
+		$this->m_adminTopmenu          = $this->o_xml->admin_topmenu;
+		$this->m_revisit_after         = $this->o_xml->revisit_after;
+		$this->m_robotsfile            = $this->o_xml->robotsfile;
+		$this->m_pdflink               = $this->o_xml->pdflink;
+		$this->m_cachecontrol          = $this->o_xml->cachecontrol;
+		$this->m_pragma                = $this->o_xml->pragma;
+		$this->m_expires               = $this->o_xml->expires;
+		$this->m_robots                = $this->o_xml->robots;
+		$this->m_last_changes          = $this->o_xml->last_changes;
+		$this->m_useContentLang        = $this->o_xml->use_content_language;
+		$this->m_validLinks            = $this->o_xml->valid_links;
+		
+		/*
+		
 		$this->o_xml = new xmlparser($administer.'/tcms_global/var.xml', 'r');
 		
 		$this->m_charset            = $this->o_xml->readSection('global', 'charset');
@@ -188,7 +237,7 @@ class tcms_configuration {
 		$this->m_validLinks         = $this->o_xml->readSection('global', 'valid_links');
 		
 		$this->o_xml->flush();
-		$this->o_xml->_xmlparser();
+		$this->o_xml->_xmlparser();*/
 		unset($this->o_xml);
 	}
 	
@@ -423,10 +472,10 @@ class tcms_configuration {
 	/**
 	 * Get the setting if the statistic is enabled
 	 *
-	 * @return Integer
+	 * @return Boolean
 	 */
 	function getStatistics(){
-		return $this->m_statistics;
+		return ( $this->m_statistics == 1 ? true : false );
 	}
 	
 	
@@ -434,10 +483,10 @@ class tcms_configuration {
 	/**
 	 * Get the setting if installation uses the components system (API)
 	 *
-	 * @return Integer
+	 * @return Boolean
 	 */
 	function getComponentsSystemEnabled(){
-		return $this->m_use_components;
+		return ( $this->m_use_components == 1 ? true : false );
 	}
 	
 	
@@ -445,10 +494,10 @@ class tcms_configuration {
 	/**
 	 * Get the setting if the installation uses captcha image
 	 *
-	 * @return Integer
+	 * @return Boolean
 	 */
 	function getCaptchaEnabled(){
-		return $this->m_use_captcha;
+		return ( $this->m_use_captcha == 1 ? true : false );
 	}
 	
 	
@@ -467,10 +516,10 @@ class tcms_configuration {
 	/**
 	 * Get the setting if anti frame is enabled
 	 *
-	 * @return Integer
+	 * @return Boolean
 	 */
 	function getAntiFrameEnabled(){
-		return $this->m_antiFrame;
+		return ( $this->m_antiFrame == 1 ? true : false );
 	}
 	
 	

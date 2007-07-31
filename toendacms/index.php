@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.7.1
+ * @version 2.7.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -114,7 +114,7 @@ $tcms_param = new tcms_parameter();
 $tcms_html = new tcms_html();
 
 // load config
-if(file_exists($tcms_administer_site.'/tcms_global/var.xml')){
+if(file_exists($tcms_administer_site.'/tcms_global/var.xml')) {
 	$tcms_version = new tcms_version();
 	$tcms_config  = new tcms_configuration($tcms_administer_site);
 	
@@ -136,11 +136,18 @@ if(file_exists($tcms_administer_site.'/tcms_global/var.xml')){
 	$pathwayChar    = $tcms_config->getPathwayChar();
 	$site_offline   = $tcms_config->getSiteOffline();
 	
-	
 	// create main object
-	$tcms_main = new tcms_main($tcms_administer_site);
+	$tcms_main = new tcms_main($tcms_administer_site, $tcms_time, $tcms_config);
 	$tcms_main->setGlobalFolder($seoFolder, $seoEnabled);
 	$tcms_main->setDatabaseInfo($choosenDB);
+	
+	
+	/*
+		language
+	*/
+	$language_stage = 'index';
+	include_once('engine/language/lang_admin.php');
+	//using('toendacms.language.admin');
 	
 	
 	/*
@@ -212,19 +219,11 @@ if(file_exists($tcms_administer_site.'/tcms_global/var.xml')){
 	
 	
 	/*
-		language
-	*/
-	$language_stage = 'index';
-	include_once('engine/language/lang_admin.php');
-	//using('toendacms.language.admin');
-	
-	
-	/*
 		site offline
 		test application
 	*/
 	if($site_offline == 1) {
-		using('toendacms.kernel.seo');
+		/*using('toendacms.kernel.seo');
 		
 		$tcms_seo = new tcms_seo();
 		
@@ -238,7 +237,7 @@ if(file_exists($tcms_administer_site.'/tcms_global/var.xml')){
 			$arrSEO = $tcms_seo->explodeHTMLFormat();
 		}
 		
-		$tcms_seo->_tcms_seo();
+		$tcms_seo->_tcms_seo();*/
 		
 		if(!isset($session)) {
 			$session = trim($arrSEO['session']);
@@ -286,7 +285,6 @@ if(file_exists($tcms_administer_site.'/tcms_global/var.xml')){
 			}
 		}
 		
-		unset($tcms_main);
 		unset($tcms_seo);
 	}
 	
@@ -308,8 +306,8 @@ if(file_exists($tcms_administer_site.'/tcms_global/var.xml')){
 			$toendaCMSimage = '';
 	}
 }
-else{
-	if($tcms_param->checkInstallDir($tcms_administer_site)){
+else {
+	if($tcms_param->checkInstallDir($tcms_administer_site)) {
 		echo '<div align="center" style=" padding: 100px 10px 100px 10px; border: 1px solid #333; background-color: #f8f8f8; font-family: Georgia, \'Lucida Grande\', \'Lucida Sans\', Serif;">'
 		.'<img src="engine/images/tcms_top.gif" border="0" />'
 		.'<h1>toendaCMS Error 500: Internal Server Error!</h1>'
@@ -318,7 +316,7 @@ else{
 		
 		$wsShowSite = false;
 	}
-	else{
+	else {
 		$site_offline = 0;
 	}
 }
@@ -328,42 +326,99 @@ else{
 /*
 	GLOBAL VAR EXIST / NOT EXIST
 */
-if($wsShowSite){
+if($wsShowSite) {
 	/*
 		SITE ON / OFF
 	*/
-	if($site_offline == 1){
+	if($site_offline == 1) {
 		echo '<div align="center" style=" padding: 100px 10px 100px 10px; border: 1px solid #333; background-color: #f8f8f8; font-family: Georgia, \'Lucida Grande\', \'Lucida Sans\', Serif;">'
 		.'<img src="'.$toendaCMSimage.'engine/images/tcms_top.gif" border="0" />'
 		.'<h2>'.$site_off_text.'</h2>'
 		.'</div>';
 	}
-	else{
+	else {
+		// clean url strings (against cross-site scripting)
+		if(isset($id))              $id              = $tcms_main->cleanUrlString($id, true);
+		if(isset($s))               $s               = $tcms_main->cleanUrlString($s, true);
+		if(isset($news))            $news            = $tcms_main->cleanUrlString($news, true);
+		if(isset($feed))            $feed            = $tcms_main->cleanUrlString($feed, true);
+		if(isset($save))            $save            = $tcms_main->cleanUrlString($save, true);
+		if(isset($session))         $session         = $tcms_main->cleanUrlString($session, true);
+		if(isset($reg_login))       $reg_login       = $tcms_main->cleanUrlString($reg_login, true);
+		if(isset($todo))            $todo            = $tcms_main->cleanUrlString($todo, true);
+		if(isset($u))               $u               = $tcms_main->cleanUrlString($u, true);
+		if(isset($file))            $file            = $tcms_main->cleanUrlString($file, true);
+		if(isset($category))        $category        = $tcms_main->cleanUrlString($category, true);
+		if(isset($cat))             $cat             = $tcms_main->cleanUrlString($cat, true);
+		if(isset($article))         $article         = $tcms_main->cleanUrlString($article, true);
+		if(isset($action))          $action          = $tcms_main->cleanUrlString($action, true);
+		if(isset($albums))          $albums          = $tcms_main->cleanUrlString($albums, true);
+		if(isset($cmd))             $cmd             = $tcms_main->cleanUrlString($cmd, true);
+		if(isset($current_pollall)) $current_pollall = $tcms_main->cleanUrlString($current_pollall, true);
+		if(isset($ps))              $ps              = $tcms_main->cleanUrlString($ps, true);
+		if(isset($vote))            $vote            = $tcms_main->cleanUrlString($vote, true);
+		if(isset($XMLplace))        $XMLplace        = $tcms_main->cleanUrlString($XMLplace, true);
+		if(isset($XMLfile))         $XMLfile         = $tcms_main->cleanUrlString($XMLfile, true);
+		if(isset($page))            $page            = $tcms_main->cleanUrlString($page, true);
+		if(isset($item))            $item            = $tcms_main->cleanUrlString($item, true);
+		if(isset($contact_email))   $contact_email   = $tcms_main->cleanUrlString($contact_email, true);
+		if(isset($date))            $date            = $tcms_main->cleanUrlString($date, true);
+		if(isset($code))            $code            = $tcms_main->cleanUrlString($code, true);
+		if(isset($c))               $c               = $tcms_main->cleanUrlString($c, true);
+		if(isset($lang))            $lang            = $tcms_main->cleanUrlString($lang, true);
+		
+		
+		
 		/*
 			INCLUDE LIBS
 		*/
+		
+		// global
 		using('toendacms.kernel.main');
 		using('toendacms.kernel.script');
 		using('toendacms.kernel.gd');
-		using('toendacms.kernel.components');
 		using('toendacms.kernel.sql');
 		using('toendacms.kernel.modconfig');
 		using('toendacms.kernel.error');
 		using('toendacms.kernel.file');
-		using('toendacms.kernel.statistics');
-		using('toendacms.kernel.blogfeatures');
 		using('toendacms.kernel.menu_provider');
 		using('toendacms.kernel.account_provider');
-		using('toendacms.kernel.authentication');
 		using('toendacms.kernel.modconfig');
 		//using('toendacms.kernel.globals');
 		include_once('engine/tcms_kernel/tcms_globals.lib.php');
 		
-		using('toendacms.tools.feedcreator.feedcreator_class');
-		using('toendacms.tools.phpmailer.class_phpmailer');
+		// stats
+		if($statistics) {
+			using('toendacms.kernel.statistics');
+		}
 		
-		if($wysiwygEditor == 'fckeditor') {
-			using('toendacms.js.FCKeditor.fckeditor');
+		// cs
+		if($use_components) {
+			using('toendacms.kernel.components');
+		}
+		
+		// id specific
+		switch($id) {
+			case 'frontpage':
+			case 'newsmanager':
+				using('toendacms.kernel.blogfeatures');
+				using('toendacms.tools.feedcreator.feedcreator_class');
+				break;
+			
+			case 'contactform':
+			case 'register':
+				using('toendacms.tools.phpmailer.class_phpmailer');
+				break;
+			
+			case 'profile':
+				// fckeditor
+				if($wysiwygEditor == 'fckeditor') {
+					using('toendacms.js.FCKeditor.fckeditor');
+				}
+				break;
+			
+			default:
+				break;
 		}
 		
 		
@@ -403,7 +458,7 @@ if($wsShowSite){
 				/*
 					LOAD toendaCMS ENGINE
 				*/
-				
+				//echo 'start loading engine: '.$tcms_time->getCurrentTimerValue().'<br>';
 				if($seoFormat == 0) {
 					$tcms_main->setURLSEO('colon');
 				}
@@ -413,37 +468,6 @@ if($wsShowSite){
 				else if($seoFormat == 2) {
 					$tcms_main->setURLSEO('');
 				}
-				
-				
-				// clean url strings (against cross-site scripting)
-				if(isset($id))              $id              = $tcms_main->cleanUrlString($id, true);
-				if(isset($s))               $s               = $tcms_main->cleanUrlString($s, true);
-				if(isset($news))            $news            = $tcms_main->cleanUrlString($news, true);
-				if(isset($feed))            $feed            = $tcms_main->cleanUrlString($feed, true);
-				if(isset($save))            $save            = $tcms_main->cleanUrlString($save, true);
-				if(isset($session))         $session         = $tcms_main->cleanUrlString($session, true);
-				if(isset($reg_login))       $reg_login       = $tcms_main->cleanUrlString($reg_login, true);
-				if(isset($todo))            $todo            = $tcms_main->cleanUrlString($todo, true);
-				if(isset($u))               $u               = $tcms_main->cleanUrlString($u, true);
-				if(isset($file))            $file            = $tcms_main->cleanUrlString($file, true);
-				if(isset($category))        $category        = $tcms_main->cleanUrlString($category, true);
-				if(isset($cat))             $cat             = $tcms_main->cleanUrlString($cat, true);
-				if(isset($article))         $article         = $tcms_main->cleanUrlString($article, true);
-				if(isset($action))          $action          = $tcms_main->cleanUrlString($action, true);
-				if(isset($albums))          $albums          = $tcms_main->cleanUrlString($albums, true);
-				if(isset($cmd))             $cmd             = $tcms_main->cleanUrlString($cmd, true);
-				if(isset($current_pollall)) $current_pollall = $tcms_main->cleanUrlString($current_pollall, true);
-				if(isset($ps))              $ps              = $tcms_main->cleanUrlString($ps, true);
-				if(isset($vote))            $vote            = $tcms_main->cleanUrlString($vote, true);
-				if(isset($XMLplace))        $XMLplace        = $tcms_main->cleanUrlString($XMLplace, true);
-				if(isset($XMLfile))         $XMLfile         = $tcms_main->cleanUrlString($XMLfile, true);
-				if(isset($page))            $page            = $tcms_main->cleanUrlString($page, true);
-				if(isset($item))            $item            = $tcms_main->cleanUrlString($item, true);
-				if(isset($contact_email))   $contact_email   = $tcms_main->cleanUrlString($contact_email, true);
-				if(isset($date))            $date            = $tcms_main->cleanUrlString($date, true);
-				if(isset($code))            $code            = $tcms_main->cleanUrlString($code, true);
-				if(isset($c))               $c               = $tcms_main->cleanUrlString($c, true);
-				if(isset($lang))            $lang            = $tcms_main->cleanUrlString($lang, true);
 				
 					
 				// mail
@@ -641,12 +665,9 @@ if($wsShowSite){
 					$tcms_menu = new tcms_menu_provider($tcms_administer_site, $c_charset, $is_admin);
 					
 					// components system
-					if($use_components == 1) {
+					if($tcms_config->getComponentsSystemEnabled()) {
 						$tcms_cs = new tcms_cs($tcms_administer_site, $imagePath);
 					}
-					
-					// authentication
-					$tcms_auth = new tcms_authentication($tcms_administer_site, $c_charset, $imagePath);
 					
 					// blogfeatures
 					if($id == 'frontpage' || $id == 'newsmanager') {
@@ -1127,7 +1148,7 @@ if($wsShowSite){
 						/*
 							Load Components System
 						*/
-						if($use_components == 1) {
+						if($use_components) {
 							$arrSideCS = $tcms_cs->getAllSideCS();
 						}
 						
@@ -1150,25 +1171,26 @@ if($wsShowSite){
 						/*
 							Clean up
 						*/
-						$tcms_auth->_tcms_authentication();
 						$tcms_main->_tcms_main();
+						
 						$tcms_config->_tcms_configuration();
 						
+						unset($tcms_config);
+						unset($tcms_version);
 						unset($tcms_param);
 						unset($sqlAL);
 						unset($tcms_gd);
 						unset($tcms_main);
-						unset($tcms_auth);
 						unset($tcms_dcp);
 						unset($tcms_menu);
-						unset($tcms_config);
-						unset($tcms_version);
 						
-						if($use_components == 1)
+						if($use_components) {
 							unset($tcms_cs);
+						}
 						
-						if($statistics == 1)
+						if($statistics) {
 							unset($tcms_stats);
+						}
 					}
 					else{
 						include_once('engine/tcms_kernel/tcms_defines.lib.php');
