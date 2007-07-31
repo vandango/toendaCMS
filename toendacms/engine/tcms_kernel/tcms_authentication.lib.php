@@ -77,7 +77,6 @@ class tcms_authentication extends tcms_main {
 	function __construct($administer, $charset, $imagePath, $tcmsTimeObj = null){
 		$this->m_administer = $administer;
 		$this->m_imagePath = $imagePath;
-		//$this->administer = $administer;
 		$this->m_charset = $charset;
 		$this->_tcmsTime = $tcmsTimeObj;
 		
@@ -91,8 +90,9 @@ class tcms_authentication extends tcms_main {
 		$this->db_port      = $tcms_db_port;
 		$this->db_prefix    = $tcms_db_prefix;
 		
-		parent::__construct($administer, $tcmsTimeObj);
-		parent::setDatabaseInfo($this->db_choosenDB);
+		parent::setAdministerSite($administer);
+		//parent::__construct($administer, $tcmsTimeObj);
+		//parent::setDatabaseInfo($this->db_choosenDB);
 	}
 	
 	

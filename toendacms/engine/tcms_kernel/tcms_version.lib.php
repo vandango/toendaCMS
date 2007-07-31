@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide the cms
  * version information.
  *
- * @version 0.0.7
+ * @version 0.0.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -52,14 +52,14 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 class tcms_version {
-	var $m_name;
-	var $m_tagline;
-	var $m_codename;
-	var $m_version;
-	var $m_build;
-	var $m_status;
-	var $m_release_date;
-	var $m_toenda_copy;
+	private $m_name;
+	private $m_tagline;
+	private $m_codename;
+	private $m_version;
+	private $m_build;
+	private $m_status;
+	private $m_release_date;
+	private $m_toenda_copy;
 	
 	
 	/**

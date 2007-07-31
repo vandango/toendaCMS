@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.4.6
+ * @version 2.4.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -50,6 +50,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * setURLSEO                         -> Setter for urlSEO
  * setGlobalFolder                   -> Set the global folder
  * setCurrentLang                    -> Set the current lang settings
+ * setAdministerSite                 -> Set the administer-site string
  * getCurrentLang                    -> Get the current lang settings
  * getAdministerSite                 -> Get the administer-site string
  *
@@ -338,6 +339,17 @@ class tcms_main {
 	
 	
 	/**
+	 * Set the active data stores forlder
+	 *
+	 * @param String $value
+	 */
+	function setAdministerSite($value){
+		$this->administer = $value;
+	}
+	
+	
+	
+	/**
 	 * Get the current lang settings
 	 *
 	 * @param String $lang
@@ -373,9 +385,7 @@ class tcms_main {
 	function getAllDocuments() {
 		$count = 0;
 		
-		$tcms_config = new tcms_configuration($this->administer);
-		$c_charset = $tcms_config->getCharset();
-		unset($tcms_config);
+		$c_charset = $this->_tcmsConfig->getCharset();
 		
 		if($this->db_choosenDB == 'xml'){
 			$arr_docs = $this->getPathContent($this->administer.'/tcms_content/');
@@ -1629,9 +1639,13 @@ class tcms_main {
 		
 		$text = strtolower($text);
 		
-		$text = str_replace('&&', '&#038;&', $text);
-		$text = str_replace('&&', '&#038;&', $text);
-		$text = preg_replace('/&(?:$|([^#])(?![a-z1-4]{1,8};))/', '&#038;$1', $text);
+		//$text = str_replace('&&', '&#038;&', $text);
+		//$text = str_replace('&&', '&#038;&', $text);
+		//$text = preg_replace('/&(?:$|([^#])(?![a-z1-4]{1,8};))/', '&#038;$1', $text);
+		$text = str_replace('&&', '', $text);
+		$text = str_replace('&', '', $text);
+		$text = preg_replace('/&(?:$|([^#])(?![a-z1-4]{1,8};))/', '$1', $text);
+		
 		$text = str_replace('<', '', $text);
 		$text = str_replace('>', '', $text);
 		$text = str_replace('"', '', $text);
@@ -2066,12 +2080,6 @@ class tcms_main {
 		$add = '';
 		$encodeMore = false;
 		
-		$dcp = new tcms_datacontainer_provider(
-			$this->administer, 
-			$this->_tcmsConfig->getCharset(), 
-			$this->_tcmsTime
-		);
-		
 		foreach($arr_url as $key => $val){
 			//echo '<span style="color:#fff;">'.$val.'</span><br>';
 			$val = str_replace($this->globalFolder.'/index.php?id=', '', $val);
@@ -2245,7 +2253,14 @@ class tcms_main {
 					$val = substr($val, strpos($val, 'id=') + 3);
 					
 					if($this->_tcmsConfig->getSEOOptionContentTitle()) {
+						$dcp = new tcms_datacontainer_provider(
+							$this->administer, 
+							$this->_tcmsConfig->getCharset(), 
+							$this->_tcmsTime
+						);
 						$val = $dcp->getContentTitle($val, $this->_getLang);
+						unset($dcp);
+						
 						$val = $this->cleanStringForUrlName($val);
 					}
 					
@@ -2301,7 +2316,14 @@ class tcms_main {
 							
 							$val = substr($val, strpos($val, 'news=') + 5);
 							
+							$dcp = new tcms_datacontainer_provider(
+								$this->administer, 
+								$this->_tcmsConfig->getCharset(), 
+								$this->_tcmsTime
+							);
 							$val = $dcp->getNewsTitle($val, $this->_getLang);
+							unset($dcp);
+							
 							$val = $this->cleanStringForUrlName($val);
 							
 							$add .= $val.'.html';

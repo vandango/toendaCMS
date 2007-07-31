@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * publishing form items.
  *
- * @version 0.0.4
+ * @version 0.0.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -32,14 +32,14 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 class tcms_dc_impressum {
-	var $m_title;
-	var $m_key;
-	var $m_legal;
-	var $m_contact;
-	var $m_id;
-	var $m_taxno;
-	var $m_ustid;
-	var $m_lang;
+	private $m_title;
+	private $m_key;
+	private $m_legal;
+	private $m_contact;
+	private $m_id;
+	private $m_taxno;
+	private $m_ustid;
+	private $m_lang;
 	
 	// ---------------------------------------
 	// Constructors / Destructors

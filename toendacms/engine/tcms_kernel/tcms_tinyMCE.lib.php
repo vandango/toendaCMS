@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to implement the tinyMCE editor.
  *
- * @version 0.1.4
+ * @version 0.1.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -31,8 +31,8 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 class tcms_tinyMCE {
-	var $m_seoPath;
-	var $m_seoEnabled;
+	private $m_seoPath;
+	private $m_seoEnabled;
 	
 	
 	

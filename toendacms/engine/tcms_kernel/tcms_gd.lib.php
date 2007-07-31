@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for all graphic actions.
  *
- * @version 0.3.2
+ * @version 0.3.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -53,17 +53,17 @@ defined('_TCMS_VALID') or die('Restricted access');
  */
 
 class tcms_gd {
-	var $m_width;
-	var $m_height;
-	var $m_mimetype;
+	private $m_width;
+	private $m_height;
+	private $m_mimetype;
 	
-	var $m_transparentRed;
-	var $m_transparentGreen;
-	var $m_transparentBlue;
-	var $m_signature;
-	var $m_version;
-	var $m_colorFlag;
-	var $m_backgroundIndex;
+	private $m_transparentRed;
+	private $m_transparentGreen;
+	private $m_transparentBlue;
+	private $m_signature;
+	private $m_version;
+	private $m_colorFlag;
+	private $m_backgroundIndex;
 	
 	
 	

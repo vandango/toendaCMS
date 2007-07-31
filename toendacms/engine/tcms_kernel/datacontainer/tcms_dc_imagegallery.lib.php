@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * the imagegallery.
  *
- * @version 0.0.2
+ * @version 0.0.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -32,20 +32,20 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 class tcms_dc_imagegallery {
-	var $m_uid;
-	var $m_lang;
-	var $m_title;
-	var $m_key;
-	var $m_use_details;
-	var $m_image_sort;
-	var $m_use_comments;
-	var $m_access;
-	var $m_list_option;
-	var $m_max_image;
-	var $m_needle_image;
-	var $m_show_lastimg_title;
-	var $m_align_image;
-	var $m_size_image;
+	private $m_uid;
+	private $m_lang;
+	private $m_title;
+	private $m_key;
+	private $m_use_details;
+	private $m_image_sort;
+	private $m_use_comments;
+	private $m_access;
+	private $m_list_option;
+	private $m_max_image;
+	private $m_needle_image;
+	private $m_show_lastimg_title;
+	private $m_align_image;
+	private $m_size_image;
 	
 	// ---------------------------------------
 	// Constructors / Destructors

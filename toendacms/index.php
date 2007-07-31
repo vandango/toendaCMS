@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.6.9
+ * @version 2.7.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -404,12 +404,6 @@ if($wsShowSite){
 					LOAD toendaCMS ENGINE
 				*/
 				
-				
-				// main
-				$tcms_main = new tcms_main($tcms_administer_site);
-				$tcms_main->setGlobalFolder($seoFolder, $seoEnabled);
-				$tcms_main->setDatabaseInfo($choosenDB);
-				
 				if($seoFormat == 0) {
 					$tcms_main->setURLSEO('colon');
 				}
@@ -637,9 +631,6 @@ if($wsShowSite){
 					/*
 						some objects
 					*/
-					// account provider
-					$tcms_ap = new tcms_account_provider($tcms_administer_site, $c_charset);
-					
 					// configuration
 					$tcms_modconfig = new tcms_modconfig($tcms_administer_site, $imagePath);
 					
@@ -1064,7 +1055,9 @@ if($wsShowSite){
 						$site_max_id  = $tcms_main->load_xml_files(''.$tcms_administer_site.'/tcms_content/', 'files');
 						$site_max_id2 = $tcms_main->load_xml_files(''.$tcms_administer_site.'/tcms_content_languages/', 'files');
 						
-						$site_max_id = array_merge($site_max_id, $site_max_id2);
+						if($tcms_main->isArray($site_max_id2)) {
+							$site_max_id = array_merge($site_max_id, $site_max_id2);
+						}
 						
 						if(is_array($site_max_id)){
 							if(!in_array($id.'.xml', $site_max_id))

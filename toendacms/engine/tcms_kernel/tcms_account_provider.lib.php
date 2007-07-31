@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide methods to get and
  * save user accounts and also contacts.
  * 
- * @version 0.2.8
+ * @version 0.2.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -79,7 +79,6 @@ class tcms_account_provider extends tcms_main {
 	 */
 	function __construct($administer, $charset, $tcmsTimeObj = null){
 		$this->m_administer = $administer;
-		//$this->administer = $administer;
 		$this->m_charset = $charset;
 		$this->_tcmsTime = $tcmsTimeObj;
 		
@@ -93,8 +92,9 @@ class tcms_account_provider extends tcms_main {
 		$this->db_port      = $tcms_db_port;
 		$this->db_prefix    = $tcms_db_prefix;
 		
-		parent::__construct($administer, $tcmsTimeObj);
-		parent::setDatabaseInfo($this->db_choosenDB);
+		parent::setAdministerSite($administer);
+		//parent::__construct($administer, $tcmsTimeObj);
+		//parent::setDatabaseInfo($this->db_choosenDB);
 	}
 	
 	
@@ -145,13 +145,9 @@ class tcms_account_provider extends tcms_main {
 	 * @param String $userID
 	 * @return String
 	 */
-	function getUsername($userID){
-		if($this->db_choosenDB == 'xml'){
-			$tcms_config = new tcms_configuration($this->administer);
-			$c_charset = $tcms_config->getCharset();
-			unset($tcms_config);
-			
-			if(file_exists($this->administer.'/tcms_user/'.$userID.'.xml')){
+	function getUsername($userID) {
+		if($this->db_choosenDB == 'xml') {
+			if(file_exists($this->administer.'/tcms_user/'.$userID.'.xml')) {
 				$xmlUser = new xmlparser($this->administer.'/tcms_user/'.$userID.'.xml', 'r');
 				
 				$tmpNickXML = $xmlUser->readSection('user', 'username');
@@ -160,14 +156,14 @@ class tcms_account_provider extends tcms_main {
 				$tmpNickXML = '';
 			}
 			
-			if($tmpNickXML == ''){
+			if($tmpNickXML == '') {
 				$nickXML = false;
 			}
 			else{
-				$nickXML = $this->decodeText($tmpNickXML, '2', $c_charset);
+				$nickXML = $this->decodeText($tmpNickXML, '2', $this->m_charset);
 			}
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
 			$sqlCN = $sqlAL->connect(
 				$this->db_user, 
@@ -180,11 +176,12 @@ class tcms_account_provider extends tcms_main {
 			$sqlQR = $sqlAL->query("SELECT * FROM ".$this->db_prefix."user WHERE uid = '".$userID."'");
 			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
-			if($sqlNR > 0){
+			if($sqlNR > 0) {
 				$sqlObj = $sqlAL->fetchObject($sqlQR);
 				$nickXML = $sqlObj->username;
+				$nickXML = $this->decodeText($tmpNickXML, '2', $this->m_charset);
 			}
-			else{
+			else {
 				$nickXML = false;
 			}
 		}
@@ -200,22 +197,18 @@ class tcms_account_provider extends tcms_main {
 	 * @param String $realOrNick
 	 * @return String
 	 */
-	function getUserID($realOrNick){
-		if($this->db_choosenDB == 'xml'){
-			$tcms_config = new tcms_configuration($this->administer);
-			$c_charset = $tcms_config->getCharset();
-			unset($tcms_config);
-			
+	function getUserID($realOrNick) {
+		if($this->db_choosenDB == 'xml') {
 			$arrUserXML = $this->getPathContent($this->administer.'/tcms_user');
 			
 			$userFound = false;
 			
-			foreach($arrUserXML as $key => $XMLUserFile){
+			foreach($arrUserXML as $key => $XMLUserFile) {
 				if($XMLUserFile != 'index.html'){
 					$xmlUser = new xmlparser($this->administer.'/tcms_user/'.$XMLUserFile, 'r');
 					
 					$tmpNickXML = $xmlUser->readSection('user', 'name');
-					$nickXML = $this->decodeText($tmpNickXML, '2', $c_charset);
+					$nickXML = $this->decodeText($tmpNickXML, '2', $this->m_charset);
 					
 					if($realOrNick == $nickXML){
 						return substr($XMLUserFile, 0, 32);
@@ -224,7 +217,7 @@ class tcms_account_provider extends tcms_main {
 					}
 					else{
 						$tmpRealXML = $xmlUser->readSection('user', 'username');
-						$arrRealXML = $this->decodeText($tmpRealXML, '2', $c_charset);
+						$arrRealXML = $this->decodeText($tmpRealXML, '2', $this->m_charset);
 						
 						if($realOrNick == $arrRealXML){
 							return substr($XMLUserFile, 0, 32);

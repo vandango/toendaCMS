@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide a small file
  * handler.
  *
- * @version 0.1.4
+ * @version 0.1.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -53,9 +53,9 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 class tcms_file{
-	var $m_file;
-	var $m_openMode;
-	var $m_fp;
+	private $m_file;
+	private $m_openMode;
+	private $m_fp;
 	
 	
 	

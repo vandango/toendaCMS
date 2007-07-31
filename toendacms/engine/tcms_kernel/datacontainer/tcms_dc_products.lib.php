@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * products manager.
  *
- * @version 0.0.6
+ * @version 0.0.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -32,18 +32,18 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 class tcms_dc_products {
-	var $m_uid;
-	var $m_lang;
-	var $m_title;
-	var $m_key;
-	var $m_text;
-	var $m_product_main_category;
-	var $m_side_category_title;
-	var $m_use_side_category;
-	var $m_show_price_only_user;
-	var $m_startpagetitle;
-	var $m_use_sidebar_categories;
-	var $m_max_latest_products;
+	private $m_uid;
+	private $m_lang;
+	private $m_title;
+	private $m_key;
+	private $m_text;
+	private $m_product_main_category;
+	private $m_side_category_title;
+	private $m_use_side_category;
+	private $m_show_price_only_user;
+	private $m_startpagetitle;
+	private $m_use_sidebar_categories;
+	private $m_max_latest_products;
 	
 	// ---------------------------------------
 	// Constructors / Destructors

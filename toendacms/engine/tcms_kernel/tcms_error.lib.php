@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide a small error handler
  * for the CMS framework engine.
  *
- * @version 0.1.0
+ * @version 0.1.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -48,12 +48,12 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 class tcms_error {
-	var $_errorCode;
-	var $_errorDesc;
-	var $_errorMsg;
-	var $_errorInformation;
-	var $_file;
-	var $_imagePath;
+	private $_errorCode;
+	private $_errorDesc;
+	private $_errorMsg;
+	private $_errorInformation;
+	private $_file;
+	private $_imagePath;
 	
 	
 	

@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide some often used html
  * codes.
  *
- * @version 0.4.4
+ * @version 0.4.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -76,18 +76,52 @@ class tcms_html {
 	function contentModuleHeader($title = '', $subtitle = '', $text = ''){
 		$output = '';
 		
-		if(trim($title) != '')
+		if(trim($title) != '') {
 			$output .= $this->contentTitle($title);
+		}
 		
-		if(trim($subtitle) != '')
+		if(trim($subtitle) != '') {
 			$output .= $this->contentSubtitle($subtitle).'<br />';
+		}
 		
-		if(trim($text) != '' && trim($text) != '---')
+		if(trim($text) != '' && trim($text) != '---') {
 			$output .= $this->contentText($text).'<br />';
-		else if(trim($text) != '---')
+		}
+		else if(trim($text) != '---') {
 			$output .= '<br />';
+		}
 		
 		return $output;
+	}
+	
+	
+	
+	/**
+	 * A header for all content modules
+	 * 
+	 * @param String $title = ''
+	 * @param String $subtitle = ''
+	 * @param String $text = ''
+	 * @param Object $tcmsScriptObj = null
+	 * @return String
+	 */
+	function contentModuleHeaderWithParser($title = '', $subtitle = '', $text = '', $tcmsScriptObj = null){
+		if(trim($title) != '') {
+			echo $this->contentTitle($title);
+		}
+		
+		if(trim($subtitle) != '') {
+			echo $this->contentSubtitle($subtitle).'<br />';
+		}
+		
+		if(trim($text) != '' && trim($text) != '---') {
+			echo '<p class="contentmain">';
+			$tcmsScriptObj->doParsePHP($text);
+			echo '</p><br />';
+		}
+		else if(trim($text) != '---') {
+			echo '<br />';
+		}
 	}
 	
 	

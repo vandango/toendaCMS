@@ -9,8 +9,7 @@
 |
 | toendaCMS XML RPC
 |
-| File:		tcms_xmlrpc.lib.php
-| Version:	0.0.1
+| File:	tcms_xmlrpc.lib.php
 |
 +
 */
@@ -24,6 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the MetaWeblog API
  *
+ * @version 0.0.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -33,19 +33,11 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Methods
  *
  * __construct                -> PHP5 Constructor
- * tcms_file                  -> PHP4 Constructor
+ * tcms_xmlrpc                -> PHP4 Constructor
  * __destruct                 -> PHP5 Destructor
- * _tcms_file                 -> PHP4 Destructor
+ * _tcms_xmlrpc               -> PHP4 Destructor
  * 
- * IsEOF                      -> Checks if the end of the file is reched
- * Read                       -> Read
- * ReadLine                   -> Read a line from the active file
- * Write                      -> Write
- * Close                      -> Close
- * Backup                     -> Backup
- * ChangeFile                 -> Change the active file
- * Delete                     -> Close and delete the active file
- * DeleteCustom               -> Delete a custom file
+ * xx                         -> Checks if the end of the file is reched
  * 
  * </code>
  *
@@ -53,7 +45,7 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 class tcms_xmlrpc {
-	var $m_var;
+	private $m_var;
 	
 	
 	
@@ -96,8 +88,8 @@ class tcms_xmlrpc {
 	 * 
 	 * @return String
 	 */
-	function IsEOF(){
-		return feof($this->m_fp);
+	function xx(){
+		return '';
 	}
 }
 
