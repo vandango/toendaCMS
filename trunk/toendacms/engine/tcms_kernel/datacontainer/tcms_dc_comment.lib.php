@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * comment items.
  *
- * @version 0.0.3
+ * @version 0.0.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -32,16 +32,16 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 class tcms_dc_comment {
-	var $m_name;
-	var $m_email;
-	var $m_url;
-	var $m_time;
-	var $m_timestamp;
-	var $m_text;
-	var $m_id;
-	var $m_ip;
-	var $m_domain;
-	var $m_module;
+	private $m_name;
+	private $m_email;
+	private $m_url;
+	private $m_time;
+	private $m_timestamp;
+	private $m_text;
+	private $m_id;
+	private $m_ip;
+	private $m_domain;
+	private $m_module;
 	
 	/**
 	 * PHP5 Constructor

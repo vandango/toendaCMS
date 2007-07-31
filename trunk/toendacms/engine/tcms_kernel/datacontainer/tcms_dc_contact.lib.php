@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * contact items.
  *
- * @version 0.0.5
+ * @version 0.0.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -32,22 +32,22 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 class tcms_dc_contact {
-	var $m_uid;
-	var $m_default_con;
-	var $m_published;
-	var $m_name;
-	var $m_firstname;
-	var $m_lastname;
-	var $m_nameadd;
-	var $m_email;
-	var $m_position;
-	var $m_street;
-	var $m_country;
-	var $m_state;
-	var $m_town;
-	var $m_postal;
-	var $m_phone;
-	var $m_fax;
+	private $m_uid;
+	private $m_default_con;
+	private $m_published;
+	private $m_name;
+	private $m_firstname;
+	private $m_lastname;
+	private $m_nameadd;
+	private $m_email;
+	private $m_position;
+	private $m_street;
+	private $m_country;
+	private $m_state;
+	private $m_town;
+	private $m_postal;
+	private $m_phone;
+	private $m_fax;
 	
 	/**
 	 * PHP5 Constructor

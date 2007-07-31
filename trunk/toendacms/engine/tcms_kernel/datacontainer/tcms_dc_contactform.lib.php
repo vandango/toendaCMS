@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * the contactform.
  *
- * @version 0.0.7
+ * @version 0.0.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -32,18 +32,18 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 class tcms_dc_contactform {
-	var $m_id;
-	var $m_lang;
-	var $m_title;
-	var $m_key;
-	var $m_text;
-	var $m_contact;
-	var $m_show_contacts_in_sidebar;
-	var $m_access;
-	var $m_enabled;
-	var $m_use_adressbook;
-	var $m_use_contact;
-	var $m_show_contactemail;
+	private $m_id;
+	private $m_lang;
+	private $m_title;
+	private $m_key;
+	private $m_text;
+	private $m_contact;
+	private $m_show_contacts_in_sidebar;
+	private $m_access;
+	private $m_enabled;
+	private $m_use_adressbook;
+	private $m_use_contact;
+	private $m_show_contactemail;
 	
 	// ---------------------------------------
 	// Constructors / Destructors

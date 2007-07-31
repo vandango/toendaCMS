@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.0.2
+ * @version 1.0.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -71,18 +71,18 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 class tcms_datacontainer_provider extends tcms_main {
 	// global informaton
-	var $m_CHARSET;
-	var $m_path;
-	var $_tcmsTime;
+	private $m_CHARSET;
+	private $m_path;
+	private $_tcmsTime;
 	
 	// database information
-	var $m_choosenDB;
-	var $m_sqlUser;
-	var $m_sqlPass;
-	var $m_sqlHost;
-	var $m_sqlDB;
-	var $m_sqlPort;
-	var $m_sqlPrefix;
+	private $m_choosenDB;
+	private $m_sqlUser;
+	private $m_sqlPass;
+	private $m_sqlHost;
+	private $m_sqlDB;
+	private $m_sqlPort;
+	private $m_sqlPrefix;
 	
 	
 	
@@ -96,7 +96,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	function __construct($tcms_administer_path = 'data', $charset, $tcmsTimeObj = null){
 		$this->m_CHARSET = $charset;
 		$this->m_path = $tcms_administer_path;
-		$this->administer = $tcms_administer_path;
+		//$this->administer = $tcms_administer_path;
 		$this->_tcmsTime = $tcmsTimeObj;
 		
 		if(file_exists($this->m_path.'/tcms_global/database.php')){
@@ -113,6 +113,9 @@ class tcms_datacontainer_provider extends tcms_main {
 		else{
 			$this->m_choosenDB = 'xml';
 		}
+		
+		parent::__construct($tcms_administer_path, $tcmsTimeObj);
+		parent::setDatabaseInfo($this->m_choosenDB);
 	}
 	
 	

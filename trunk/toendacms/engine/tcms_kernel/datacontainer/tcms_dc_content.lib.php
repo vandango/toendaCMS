@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * content items.
  *
- * @version 0.0.7
+ * @version 0.0.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -32,18 +32,18 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 class tcms_dc_content {
-	var $m_title;
-	var $m_key;
-	var $m_content00;
-	var $m_content01;
-	var $m_foot;
-	var $m_id;
-	var $m_text_layout;
-	var $m_acs;
-	var $m_pub;
-	var $m_autor;
-	var $m_in_work;
-	var $m_language;
+	private $m_title;
+	private $m_key;
+	private $m_content00;
+	private $m_content01;
+	private $m_foot;
+	private $m_id;
+	private $m_text_layout;
+	private $m_acs;
+	private $m_pub;
+	private $m_autor;
+	private $m_in_work;
+	private $m_language;
 	
 	// ---------------------------------------
 	// Constructors / Destructors

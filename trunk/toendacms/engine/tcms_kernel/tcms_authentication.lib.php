@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to authenticate a login user.
  *
- * @version 0.2.0
+ * @version 0.2.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -51,19 +51,19 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 class tcms_authentication extends tcms_main {
-	var $m_administer;
-	var $m_imagePath;
-	var $m_charset;
-	var $_tcmsTime;
+	private $m_administer;
+	private $m_imagePath;
+	private $m_charset;
+	private $_tcmsTime;
 	
 	// database information
-	var $db_choosenDB;
-	var $db_user;
-	var $db_pass;
-	var $db_host;
-	var $db_database;
-	var $db_port;
-	var $db_prefix;
+	private $db_choosenDB;
+	private $db_user;
+	private $db_pass;
+	private $db_host;
+	private $db_database;
+	private $db_port;
+	private $db_prefix;
 	
 	
 	
@@ -77,7 +77,7 @@ class tcms_authentication extends tcms_main {
 	function __construct($administer, $charset, $imagePath, $tcmsTimeObj = null){
 		$this->m_administer = $administer;
 		$this->m_imagePath = $imagePath;
-		$this->administer = $administer;
+		//$this->administer = $administer;
 		$this->m_charset = $charset;
 		$this->_tcmsTime = $tcmsTimeObj;
 		
@@ -90,6 +90,9 @@ class tcms_authentication extends tcms_main {
 		$this->db_database  = $tcms_db_database;
 		$this->db_port      = $tcms_db_port;
 		$this->db_prefix    = $tcms_db_prefix;
+		
+		parent::__construct($administer, $tcmsTimeObj);
+		parent::setDatabaseInfo($this->db_choosenDB);
 	}
 	
 	

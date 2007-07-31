@@ -26,7 +26,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * a complete API with toendaCMS constants and can load the
  * component itself.
  *
- * @version 0.2.7
+ * @version 0.3.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_cs
@@ -36,9 +36,9 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Methods
  *
  * __construct()             -> PHP5 Constructor
- * tcms_seo()                -> PHP4 Constructor
+ * tcms_cs()                 -> PHP4 Constructor
  * __destruct()              -> PHP5 Destructor
- * _tcms_seo                 -> PHP4 Destructor
+ * _tcms_cs                  -> PHP4 Destructor
  * 
  * getSettings               -> Loads the current settings from component
  * getSpecialSettings        -> Loads the special settingsfile
@@ -49,11 +49,11 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  */
 
-class tcms_cs {
-	var $tcms_main_path;
-	var $tcms_image_path;
-	var $tcms_db_prefix;
-	var $tcms_admin_path;
+class tcms_cs extends tcms_main {
+	private $tcms_main_path;
+	private $tcms_image_path;
+	private $tcms_db_prefix;
+	private $tcms_admin_path;
 	
 	
 	
@@ -65,7 +65,7 @@ class tcms_cs {
 	 * @param Boolean $forAdmin = false
 	 */
 	function __construct($administer, $imagePath, $forAdmin = false){
-		global $tcms_main;
+		//global $tcms_main;
 		
 		$this->tcms_main_path = $administer;
 		$this->tcms_image_path = $imagePath;
@@ -77,8 +77,8 @@ class tcms_cs {
 			$this->tcms_admin_path = '';
 		}
 		
-		//require($administer.'/tcms_global/database.php');
-		//$this->tcms_db_prefix = $tcms_main->secure_password($tcms_db_prefix, 'en');
+		parent::__construct($administer, $tcmsTimeObj);
+		parent::setDatabaseInfo();
 	}
 	
 	
@@ -120,7 +120,7 @@ class tcms_cs {
 	 * @return Array
 	 */
 	function getSettings($item){
-		global $tcms_main;
+		//global $tcms_main;
 		
 		if(file_exists($this->tcms_main_path.'/components/'.$item.'/component.xml')){
 			$csXML = new xmlparser($this->tcms_main_path.'/components/'.$item.'/component.xml','r');
@@ -156,9 +156,9 @@ class tcms_cs {
 			if($arrCS['settings'] == false){ $arrCS['settings'] = ''; }
 			
 			// CHARSETS
-			$arrCS['title']    = $tcms_main->decodeText($arrCS['title'], '2', $c_charset);
-			$arrCS['subtitle'] = $tcms_main->decodeText($arrCS['subtitle'], '2', $c_charset);
-			$arrCS['desc']     = $tcms_main->decodeText($arrCS['desc'], '2', $c_charset);
+			$arrCS['title']    = $this->decodeText($arrCS['title'], '2', $c_charset);
+			$arrCS['subtitle'] = $this->decodeText($arrCS['subtitle'], '2', $c_charset);
+			$arrCS['desc']     = $this->decodeText($arrCS['desc'], '2', $c_charset);
 		}
 		else{
 			$arrCS = false;
@@ -178,7 +178,7 @@ class tcms_cs {
 	 * @return Array
 	 */
 	function getSpecialSettings($item, $settingsfile, $current_cs_id){
-		global $tcms_main;
+		//global $tcms_main;
 		
 		if(file_exists($this->tcms_admin_path.$this->tcms_main_path.'/components/'.$item.'/'.$settingsfile)){
 			$csXML = new xmlparser($this->tcms_admin_path.$this->tcms_main_path.'/components/'.$item.'/'.$settingsfile, 'r');
@@ -209,11 +209,11 @@ class tcms_cs {
 	 * @return Array
 	 */
 	function getAllSideCS(){
-		global $tcms_main;
+		//global $tcms_main;
 		global $is_admin;
 		
 		$i = 0;
-		$arrCSFiles = $tcms_main->getPathContent($this->tcms_main_path.'/components/');
+		$arrCSFiles = $this->getPathContent($this->tcms_main_path.'/components/');
 		
 		if(is_array($arrCSFiles)){
 			foreach($arrCSFiles as $key => $val){
@@ -256,7 +256,7 @@ class tcms_cs {
 			}
 		}
 		
-		if(is_array($arrSideCS)){
+		if($this->isArray($arrSideCS)){
 			array_multisort(
 				$arrSideCS['sort'], SORT_ASC, 
 				$arrSideCS['folder'], SORT_ASC, 
@@ -279,10 +279,10 @@ class tcms_cs {
 	 * @return Array
 	 */
 	function getMainCS($item){
-		global $tcms_main;
+		//global $tcms_main;
 		global $is_admin;
 		
-		$arrCSFiles = $tcms_main->getPathContent($this->tcms_main_path.'/components/');
+		$arrCSFiles = $this->getPathContent($this->tcms_main_path.'/components/');
 		
 		if(is_array($arrCSFiles)){
 			foreach($arrCSFiles as $key => $val){
