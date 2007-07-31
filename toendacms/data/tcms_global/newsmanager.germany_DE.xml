@@ -24,6 +24,6 @@
 	<use_trackback>0</use_trackback>
 	<use_timesince>0</use_timesince>
 	<readmore_link>0</readmore_link>
-	<news_spacing></news_spacing>
+	<news_spacing>20</news_spacing>
 
 </config>

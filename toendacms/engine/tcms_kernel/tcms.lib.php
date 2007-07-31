@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.4.8
+ * @version 2.4.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -2050,9 +2050,7 @@ class tcms_main {
 			}
 			else {
 				//echo '<span style="color:#fff;">url-vorher:'.$text.'</span><br>';
-				
 				$text = $this->urlConvertToHTMLFormat($text);
-				
 				//echo '<span style="color:#fff;">url-nachher:'.$text.'</span><br><br>';
 			}
 		}
@@ -2353,7 +2351,11 @@ class tcms_main {
 			$ret = str_replace('?', $this->globalFolder.'/index.php?', $text_copy);
 		}
 		
-		//echo '<span style="color:#fff;"><b>url:'.$text.'</b></span><br>';
+		if($this->globalFolder != '') {
+			$ret = '/'.$ret;
+		}
+		
+		//echo '<span style="color:#000;"><b>url:'.$ret.'</b></span><br>';
 		//echo '<span style="color:#fff;"><b>url:'.$ret.$lang.$text.$add.'</b></span><br><br>';
 		
 		return $ret;
