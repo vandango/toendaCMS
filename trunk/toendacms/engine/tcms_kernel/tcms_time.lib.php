@@ -22,7 +22,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to have some often used time tools.
  *
- * @version 0.1.2
+ * @version 0.1.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -50,6 +50,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getCurrentDate                      -> Get the current date
  * startTimer                          -> Start the timer
  * stopTimer                           -> Stop the timer
+ * getCurrentTimerValue                -> Return a string with the current timer value
  * getTimerValue                       -> Return a string with the timer value
  * startSqlQueryCounter                -> Starts the sql query counter
  * incrmentSqlQueryCounter             -> Increment the sql query counter
@@ -158,12 +159,23 @@ class tcms_time {
 	
 	
 	/**
+	 * Return a string with the current timer value
+	 */
+	function getCurrentTimerValue(){
+		$this->_endtime = $this->getMicrotime();
+		$time = $this->_endtime - $this->_starttime;
+		
+		return round($time, 4);
+	}
+	
+	
+	/**
 	 * Return a string with the timer value
 	 */
 	function getTimerValue(){
 		$time = $this->_endtime - $this->_starttime;
 		
-		return _MSG_PAGE_LOAD_1.'&nbsp;'.round($time, 4).'&nbsp;'._MSG_PAGE_LOAD_2;
+		return round($time, 4);
 	}
 	
 	

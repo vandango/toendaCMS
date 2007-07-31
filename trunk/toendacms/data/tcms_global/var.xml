@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><global>
+<?xml version="1.0" encoding="utf-8"?>
+<global>
 	<menu>1</menu>
 	<second_menu>1</second_menu>
 	<meta></meta>
@@ -39,5 +40,4 @@
 	<last_changes>2007-07-30 20:02:05</last_changes>
 	<use_content_language>1</use_content_language>
 	<valid_links>1</valid_links>
-
 </global>

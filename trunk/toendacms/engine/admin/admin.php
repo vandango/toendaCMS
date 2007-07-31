@@ -21,7 +21,7 @@
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 1.1.4
+ * @version 1.1.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -126,9 +126,6 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 	
 	// mainclass
 	$tcms_main = new tcms_main($tcms_administer_path, $tcms_time);
-	
-	// authentication
-	$tcms_auth = new tcms_authentication($tcms_administer_path, $c_charset, '', $tcms_time);
 	
 	// account provider
 	$tcms_ap = new tcms_account_provider($tcms_administer_path, $c_charset, $tcms_time);
@@ -317,49 +314,15 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 			$check_session = $tcms_main->check_session_exists($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $id_user);
 		}
 		
-		if($check_session){
-			if($choosenDB == 'xml'){
-				$m_tag = $tcms_main->create_admin($id_user);
-			}
-			else{
-				$arr_ws = $tcms_main->create_sql_username($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $id_user);
-				$m_tag = $arr_ws['id'];
-			}
-		}
-		
-		
-		if($check_session){
-			if($choosenDB == 'xml'){
-				$xml = new xmlparser($tcms_administer_path.'/tcms_user/'.$m_tag.'.xml','r');
-				$id_name     = $xml->read_section('user', 'name');
-				$id_username = $xml->read_section('user', 'username');
-				$id_group    = $xml->read_section('user', 'group');
-				$id_uid      = $m_tag;
-				$xml->flush();
-				$xml->_xmlparser();
-				
-				$id_name     = $tcms_main->decodeText($id_name, '2', $c_charset);
-				$id_username = $tcms_main->decodeText($id_username, '2', $c_charset);
-			}
-			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-				
-				$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'user', $m_tag);
-				$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
-				
-				$id_name     = $sqlObj->name;
-				$id_username = $sqlObj->username;
-				$id_group    = $sqlObj->group;
-				$id_uid      = $sqlObj->uid;
-				
-				$id_name     = $tcms_main->decodeText($id_name, '2', $c_charset);
-				$id_username = $tcms_main->decodeText($id_username, '2', $c_charset);
-				
-				if($id_name     == NULL){ $id_name     = ''; }
-				if($id_username == NULL){ $id_username = ''; }
-				if($id_group    == NULL){ $id_group    = ''; }
-			}
+		if($check_session) {
+			$arr_ws = $tcms_ap->getUserInfo($id_user, true);
+			
+			$id_name     = $arr_ws['name'];
+			$id_username = $arr_ws['user'];
+			$id_uid      = $arr_ws['id'];
+			$id_group    = $arr_ws['group'];
+			
+			$m_tag       = $id_uid;
 			
 			if($id_group == 'Administrator'
 			|| $id_group == 'Developer'
@@ -480,7 +443,10 @@ else{
 /*
 	Logout
 */
-if($todo == 'logout'){
+if($todo == 'logout') {
+	// authentication
+	$tcms_auth = new tcms_authentication($tcms_administer_path, $c_charset, '', $tcms_time);
+	
 	$tcms_auth->doLogout($id_user, true);
 	
 	echo '<script>document.location.href=\'index.php\';</script>';

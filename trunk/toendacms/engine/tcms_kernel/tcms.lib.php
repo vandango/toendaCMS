@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.4.9
+ * @version 2.5.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -217,12 +217,26 @@ class tcms_main {
 	 * PHP5 Constructor
 	 *
 	 * @param String $administer = 'data'
+	 * @param Object $tcmsTimeObj = null
+	 * @param Object $tcmsConfigObj = null
 	 */
-	function __construct($administer = 'data', $tcmsTimeObj = null){
+	function __construct($administer = 'data', $tcmsTimeObj = null, $tcmsConfigObj = null){
 		$this->administer = $administer;
 		$this->urlSEO = 'colon';
-		$this->_tcmsTime = $tcmsTimeObj;
-		$this->_tcmsConfig = new tcms_configuration($administer);
+		
+		if($tcmsTimeObj == null) {
+			$this->_tcmsTime = new tcms_time();
+		}
+		else {
+			$this->_tcmsTime = $tcmsTimeObj;
+		}
+		
+		if($tcmsConfigObj == null) {
+			$this->_tcmsConfig = new tcms_configuration($administer);
+		}
+		else {
+			$this->_tcmsConfig = $tcmsConfigObj;
+		}
 	}
 	
 	
@@ -231,9 +245,11 @@ class tcms_main {
 	 * PHP4 Constructor
 	 *
 	 * @param String $administer = 'data'
+	 * @param Object $tcmsTimeObj = null
+	 * @param Object $tcmsConfigObj = null
 	 */
-	function tcms_main($administer = 'data', $tcmsTimeObj = null){
-		$this->__construct($administer, $tcmsTimeObj);
+	function tcms_main($administer = 'data', $tcmsTimeObj = null, $tcmsConfigObj = null){
+		$this->__construct($administer, $tcmsTimeObj, $tcmsConfigObj);
 	}
 	
 	

@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide methods to get and
  * save user accounts and also contacts.
  * 
- * @version 0.3.0
+ * @version 0.3.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -276,12 +276,19 @@ class tcms_account_provider extends tcms_main {
 	 * Get some information about the current user
 	 *
 	 * @param String $session
+	 * @param Boolean $forAdmin = false
 	 * @return Array
 	 */
-	function getUserInfo($session){
+	function getUserInfo($session, $forAdmin = false){
 		if($this->db_choosenDB == 'xml'){
-			$fileopen = fopen($this->m_administer.'/tcms_session/'.$session, 'r');
-			$arr_user = fread($fileopen, filesize($this->m_administer.'/tcms_session/'.$session));
+			if($forAdmin) {
+				$fileopen = fopen('session/'.$session, 'r');
+				$arr_user = fread($fileopen, filesize('session/'.$session));
+			}
+			else {
+				$fileopen = fopen($this->m_administer.'/tcms_session/'.$session, 'r');
+				$arr_user = fread($fileopen, filesize($this->m_administer.'/tcms_session/'.$session));
+			}
 			
 			$arr_username = explode('##', $arr_user);
 			$ws_user = $arr_username[0];
@@ -291,10 +298,10 @@ class tcms_account_provider extends tcms_main {
 			
 			$authXML = new xmlparser($this->m_administer.'/tcms_user/'.$ws_id.'.xml', 'r');
 			
-			$arr_ws['user']  = $ws_user;
+			$arr_ws['user']  = $this->decodeText($ws_user, '2', $this->m_charset);
 			$arr_ws['id']    = $ws_id;
 			$arr_ws['group'] = $authXML->readSection('user', 'group');
-			$arr_ws['name']  = $authXML->readSection('user', 'name');
+			$arr_ws['name']  = $this->decodeText($authXML->readSection('user', 'name'), '2', $this->m_charset);
 			
 			$authXML->flush();
 			$authXML->_xmlparser();
