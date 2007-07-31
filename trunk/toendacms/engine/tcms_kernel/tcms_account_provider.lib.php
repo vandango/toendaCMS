@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide methods to get and
  * save user accounts and also contacts.
  * 
- * @version 0.2.9
+ * @version 0.3.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -147,8 +147,8 @@ class tcms_account_provider extends tcms_main {
 	 */
 	function getUsername($userID) {
 		if($this->db_choosenDB == 'xml') {
-			if(file_exists($this->administer.'/tcms_user/'.$userID.'.xml')) {
-				$xmlUser = new xmlparser($this->administer.'/tcms_user/'.$userID.'.xml', 'r');
+			if(file_exists($this->m_administer.'/tcms_user/'.$userID.'.xml')) {
+				$xmlUser = new xmlparser($this->m_administer.'/tcms_user/'.$userID.'.xml', 'r');
 				
 				$tmpNickXML = $xmlUser->readSection('user', 'username');
 			}
@@ -199,13 +199,13 @@ class tcms_account_provider extends tcms_main {
 	 */
 	function getUserID($realOrNick) {
 		if($this->db_choosenDB == 'xml') {
-			$arrUserXML = $this->getPathContent($this->administer.'/tcms_user');
+			$arrUserXML = $this->getPathContent($this->m_administer.'/tcms_user');
 			
 			$userFound = false;
 			
 			foreach($arrUserXML as $key => $XMLUserFile) {
 				if($XMLUserFile != 'index.html'){
-					$xmlUser = new xmlparser($this->administer.'/tcms_user/'.$XMLUserFile, 'r');
+					$xmlUser = new xmlparser($this->m_administer.'/tcms_user/'.$XMLUserFile, 'r');
 					
 					$tmpNickXML = $xmlUser->readSection('user', 'name');
 					$nickXML = $this->decodeText($tmpNickXML, '2', $this->m_charset);
@@ -280,8 +280,8 @@ class tcms_account_provider extends tcms_main {
 	 */
 	function getUserInfo($session){
 		if($this->db_choosenDB == 'xml'){
-			$fileopen = fopen($this->administer.'/tcms_session/'.$session, 'r');
-			$arr_user = fread($fileopen, filesize($this->administer.'/tcms_session/'.$session));
+			$fileopen = fopen($this->m_administer.'/tcms_session/'.$session, 'r');
+			$arr_user = fread($fileopen, filesize($this->m_administer.'/tcms_session/'.$session));
 			
 			$arr_username = explode('##', $arr_user);
 			$ws_user = $arr_username[0];
@@ -289,7 +289,7 @@ class tcms_account_provider extends tcms_main {
 			
 			fclose($fileopen);
 			
-			$authXML = new xmlparser($this->administer.'/tcms_user/'.$ws_id.'.xml', 'r');
+			$authXML = new xmlparser($this->m_administer.'/tcms_user/'.$ws_id.'.xml', 'r');
 			
 			$arr_ws['user']  = $ws_user;
 			$arr_ws['id']    = $ws_id;

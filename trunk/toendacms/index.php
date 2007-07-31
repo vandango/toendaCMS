@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.7.0
+ * @version 2.7.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -649,7 +649,9 @@ if($wsShowSite){
 					$tcms_auth = new tcms_authentication($tcms_administer_site, $c_charset, $imagePath);
 					
 					// blogfeatures
-					$tcms_blogfeatures = new tcms_blogfeatures();
+					if($id == 'frontpage' || $id == 'newsmanager') {
+						$tcms_blogfeatures = new tcms_blogfeatures();
+					}
 					
 					// graphic engine
 					$tcms_gd = new tcms_gd();
