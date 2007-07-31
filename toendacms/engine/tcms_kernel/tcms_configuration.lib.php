@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide the global
  * configuration data.
  *
- * @version 0.3.6
+ * @version 0.3.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -91,50 +91,50 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 class tcms_configuration {
-	var $o_xml;
-	var $m_administer;
+	private $o_xml;
+	private $m_administer;
 	
 	// Config data
-	var $m_frontlang;
-	var $m_lang;
-	var $m_charset;
-	var $m_SEOpath;
-	var $m_SEOenabled;
-	var $m_SEOformat;
-  var $m_SEOOptionNewsTitle;
-  var $m_SEOOptionContentTitle;
-	var $m_cipherEmail;
-	var $m_detectBrowser;
-	var $m_statistics;
-	var $m_use_components;
-	var $m_use_captcha;
-	var $m_captcha_clean;
-	var $m_antiFrame;
-	var $m_showTopPages;
-	var $m_siteOffline;
-	var $m_siteOfflineText;
-	var $m_currency;
-	var $m_wysiwygEditor;
-	var $m_pathwayChar;
-	var $m_showDocAutor;
-	var $m_defaultCat;
-	var $m_tcmsinst;
-	var $m_keywords;
-	var $m_description;
-	var $m_activeTopmenu;
-	var $m_sidemenu;
-	var $m_topmenu;
-	var $m_adminTopmenu;
-	var $m_revisit_after;
-	var $m_robotsfile;
-	var $m_pdflink;
-	var $m_cachecontrol;
-	var $m_pragma;
-	var $m_expires;
-	var $m_robots;
-	var $m_last_changes;
-	var $m_useContentLang;
-	var $m_validLinks;
+	private $m_frontlang;
+	private $m_lang;
+	private $m_charset;
+	private $m_SEOpath;
+	private $m_SEOenabled;
+	private $m_SEOformat;
+	private $m_SEOOptionNewsTitle;
+	private $m_SEOOptionContentTitle;
+	private $m_cipherEmail;
+	private $m_detectBrowser;
+	private $m_statistics;
+	private $m_use_components;
+	private $m_use_captcha;
+	private $m_captcha_clean;
+	private $m_antiFrame;
+	private $m_showTopPages;
+	private $m_siteOffline;
+	private $m_siteOfflineText;
+	private $m_currency;
+	private $m_wysiwygEditor;
+	private $m_pathwayChar;
+	private $m_showDocAutor;
+	private $m_defaultCat;
+	private $m_tcmsinst;
+	private $m_keywords;
+	private $m_description;
+	private $m_activeTopmenu;
+	private $m_sidemenu;
+	private $m_topmenu;
+	private $m_adminTopmenu;
+	private $m_revisit_after;
+	private $m_robotsfile;
+	private $m_pdflink;
+	private $m_cachecontrol;
+	private $m_pragma;
+	private $m_expires;
+	private $m_robots;
+	private $m_last_changes;
+	private $m_useContentLang;
+	private $m_validLinks;
 	
 	
 	
@@ -152,8 +152,8 @@ class tcms_configuration {
 		$this->m_SEOpath            = $this->o_xml->readSection('global', 'server_folder');
 		$this->m_SEOenabled         = $this->o_xml->readSection('global', 'seo_enabled');
 		$this->m_SEOformat          = $this->o_xml->readSection('global', 'seo_format');
-    $this->m_SEOOptionNewsTitle = $this->o_xml->readSection('global', 'seo_news_title');
-    $this->m_SEOOptionContentTitle = $this->o_xml->readSection('global', 'seo_content_title');
+		$this->m_SEOOptionNewsTitle = $this->o_xml->readSection('global', 'seo_news_title');
+		$this->m_SEOOptionContentTitle = $this->o_xml->readSection('global', 'seo_content_title');
 		$this->m_cipherEmail        = $this->o_xml->readSection('global', 'cipher_email');
 		$this->m_detectBrowser      = $this->o_xml->readSection('global', 'js_browser_detect');
 		$this->m_statistics         = $this->o_xml->readSection('global', 'statistics');

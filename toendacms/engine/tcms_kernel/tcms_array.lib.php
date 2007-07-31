@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * This file is used for different variables.
  * 
- * @version 0.2.9
+ * @version 0.3.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -31,9 +31,9 @@ defined('_TCMS_VALID') or die('Restricted access');
  */
 
 
-//
-// TABLES
-//
+/*
+	TABLES
+*/
 
 $ticTCMS = 0;
 $arrTables[$ticTCMS++] = 'albums';
@@ -79,9 +79,10 @@ $arrTables[$ticTCMS++] = 'userpage';
 
 
 
-//***********************
-// GROUPS
-//
+
+/*
+	GROUPS
+*/
 
 $arr_group[0] = 'Developer';
 $arr_group[1] = 'Administrator';
@@ -101,11 +102,10 @@ $arr_group_txt[5] = _GROUP_USER;
 
 
 
+/*
+	CURRENCYS
+*/
 
-
-//**********************
-// CURRENCYS
-//
 $arr_currency['name'][0] = 'Euro';
 $arr_currency['code'][0] = 'EUR';
 
@@ -116,11 +116,9 @@ $arr_currency['code'][1] = 'USD';
 
 
 
-
-
-//***********************
-// FILESYSTEMS
-//
+/*
+	FILESYSTEMS
+*/
 
 $arr_fs['tag'][0] = 'folder';
 $arr_fs['des'][0] = _FOLDER_DEFAULT;
@@ -143,11 +141,9 @@ $arr_fs['des'][7] = _FOLDER_VID;
 
 
 
-
-
-//***********************
-// DATES
-//
+/*
+	DATES
+*/
 
 for($ic = 0; $ic < 31; $ic ++){
 	if($ic + 1 < 10){ $icd = $ic + 1; $icd = '0'.$icd; }
@@ -182,11 +178,9 @@ $monthName[12] = _TCMS_MONTH_DECEMBER;
 
 
 
-
-
-//***********************
-// CHARSETS
-//
+/*
+	CHARSETS
+*/
 
 $icc = 0;
 $arr_char[$icc++] = 'ISO-8859-1';
@@ -228,11 +222,9 @@ unset($icc);
 
 
 
-
-
-//***********************
-// DATABASES
-//
+/*
+	DATABASES
+*/
 
 $arrDB['tech'][0] = 'xml';
 $arrDB['name'][0] = _DB_XML;
@@ -247,11 +239,9 @@ $arrDB['name'][3] = _DB_MSSQL;
 
 
 
-
-
-//***********************
-// LANGUAGES
-//
+/*
+	LANGUAGES
+*/
 
 $arr_language = $tcms_main->getPathContent('../language/');
 

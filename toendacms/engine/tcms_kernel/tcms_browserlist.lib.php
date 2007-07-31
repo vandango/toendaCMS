@@ -9,14 +9,7 @@
 | 
 | Browser list
 |
-| This list came from the absolute professionell open source
-| content management system Joomla! (www.joomla.org).
-| It's free software and released under the GNU General Public License.
-| (http://www.gnu.org/copyleft/gpl.html)
-| Copyright (C) 2005 Open Source Matters. All rights reserved.
-|
-| File:		tcms_browserlist.lib.php
-| Version:	0.0.2
+| File: tcms_browserlist.lib.php
 |
 +
 */
@@ -24,6 +17,22 @@
 
 defined('_TCMS_VALID') or die('Restricted access');
 
+
+/**
+ * Browser list
+ * 
+ * This list came from the absolute professionell open source
+ * content management system Joomla! (www.joomla.org).
+ * It's free software and released under the GNU General Public License.
+ * (http://www.gnu.org/copyleft/gpl.html)
+ * Copyright (C) 2005 Open Source Matters. All rights reserved.
+ * 
+ * @version 0.3.0
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage tcms_kernel
+ *
+ */
 
 
 /**

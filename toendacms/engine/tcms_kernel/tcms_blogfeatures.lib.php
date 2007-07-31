@@ -25,7 +25,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Adapted from original code by Natalie Downe: 
  * http://blog.natbat.co.uk/archive/2003/Jun/14/time_since
  *
- * @version 0.1.0
+ * @version 0.1.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -35,9 +35,9 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Methods
  *
  * __construct                -> PHP5 Constructor
- * tcms_file                  -> PHP4 Constructor
+ * tcms_blogfeatures          -> PHP4 Constructor
  * __destruct                 -> PHP5 Destructor
- * _tcms_file                 -> PHP4 Destructor
+ * _tcms_blogfeatures         -> PHP4 Destructor
  * 
  * timeSince                  -> Return timesince string
  * timeOfDay                  -> Get the time of day
@@ -48,7 +48,7 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 class tcms_blogfeatures {
-	var $m_var;
+	private $m_var;
 	
 	
 	

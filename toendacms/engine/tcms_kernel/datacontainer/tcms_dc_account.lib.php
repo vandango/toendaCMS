@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * user accounts items.
  *
- * @version 0.1.1
+ * @version 0.1.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -32,29 +32,29 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 class tcms_dc_account {
-	var $m_uid;
-	var $m_username;
-	var $m_password;
-	var $m_email;
-	var $m_name;
-	var $m_group;
-	var $m_joindate;
-	var $m_lastlogin;
-	var $m_birthday;
-	var $m_gender;
-	var $m_occupation;
-	var $m_homepage;
-	var $m_icq;
-	var $m_aim;
-	var $m_yim;
-	var $m_msn;
-	var $m_skype;
-	var $m_enabled;
-	var $m_tcms_enabled;
-	var $m_static_value;
-	var $m_signature;
-	var $m_location;
-	var $m_hobby;
+	private $m_uid;
+	private $m_username;
+	private $m_password;
+	private $m_email;
+	private $m_name;
+	private $m_group;
+	private $m_joindate;
+	private $m_lastlogin;
+	private $m_birthday;
+	private $m_gender;
+	private $m_occupation;
+	private $m_homepage;
+	private $m_icq;
+	private $m_aim;
+	private $m_yim;
+	private $m_msn;
+	private $m_skype;
+	private $m_enabled;
+	private $m_tcms_enabled;
+	private $m_static_value;
+	private $m_signature;
+	private $m_location;
+	private $m_hobby;
 	
 	/**
 	 * PHP5 Constructor

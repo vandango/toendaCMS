@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used as a upload and edit page for the
  * templates.
  *
- * @version 0.3.5
+ * @version 0.3.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -48,21 +48,22 @@ if(isset($_POST['template_file'])){ $template_file = $_POST['template_file']; }
 
 
 
-
-
-if($id_group == 'Developer' || $id_group == 'Administrator'){
+if($id_group == 'Developer' 
+|| $id_group == 'Administrator'){
 	/*
 		init
 	*/
-	if(!isset($todo)){ $todo = 'show'; }
+	if(!isset($todo)) { $todo = 'show'; }
+	
+	
 	
 	
 	
 	/*
 		upload
 	*/
-	if($todo == 'show'){
-		echo tcms_html::text(_LU_TEXT.'<br /><br />', 'left');
+	if($todo == 'show') {
+		echo $tcms_html->text(_LU_TEXT.'<br /><br />', 'left');
 		
 		
 		// form
@@ -100,12 +101,14 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	
 	
 	
+	
+	
 	/*
 		edit index.php files
 	*/
-	if($todo != 'edit'){
+	if($todo != 'edit') {
 		$layout_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/layout.xml', 'r');
-		$s = $layout_xml->read_section('layout', 'select');
+		$s = $layout_xml->readSection('layout', 'select');
 		
 		
 		// form
@@ -127,7 +130,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		echo '<div style="display: block; width: 100%; border-bottom: 1px solid #ccc; padding-bottom: 2px;">'
 		.'<div style="display: block; width: 30px; float: left;">&nbsp;</div>';
 		
-		$arrFiles = $tcms_main->readdir_ext('../../theme/'.$s.'/');
+		$arrFiles = $tcms_main->getPathContent('../../theme/'.$s.'/');
 		
 		foreach($arrFiles as $key => $val){
 			if(!is_dir($val)){
@@ -226,12 +229,11 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	
 	
 	
-	
-	
 	/*
 		save template
 	*/
-	if($todo == 'template_save'){
+	
+	if($todo == 'template_save') {
 		//$content = stripslashes($content);
 		$tcms_file = new tcms_file('../../theme/'.$s.'/'.$template_file, 'w+');
 		$tcms_file->Backup();
@@ -245,16 +247,15 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	
 	
 	
-	
-	
 	/*
 		create new xml template description file
 	*/
-	if($todo == 'edit'){
+	
+	if($todo == 'edit') {
 		/*
 			Create XML with Description
 		*/
-		echo tcms_html::text(_LU_DES_TEXT.'<br /><br />', 'left');
+		echo $tcms_html->text(_LU_DES_TEXT.'<br /><br />', 'left');
 		
 		
 		// form
@@ -317,11 +318,10 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	
 	
 	
-	
-	
 	/*
 		GZ OR ZIP UPLOAD AND INSTALL
 	*/
+	
 	if($todo == 'zlib_save'){
 		if($_FILES['zlib_upload']['size'] > 0 && $_FILES['zlib_upload']['type'] == 'application/zip'){
 			// theme file name
@@ -355,10 +355,10 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 			chmod($themeDir, 0777);
 		}
 		
-		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_upload_layout\'</script>';
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_upload_layout\';'
+		.'</script>';
 	}
-	
-	
 	
 	
 	
@@ -367,31 +367,33 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	/*
 		write description.
 	*/
-	if($todo == 'edit_save'){
+	if($todo == 'edit_save') {
 		$var_conf = 'layout';
 		
-		if(!is_dir('../../theme/'.$dir)){
+		if(!is_dir('../../theme/'.$dir)) {
 			mkdir('../../theme/'.$dir, 0777);
 		}
 		
 		$xmluser = new xmlparser('../../theme/'.$dir.'/index.xml','w');
-		$xmluser->xml_declaration();
-		$xmluser->xml_section('template');
+		$xmluser->xmlDeclaration();
+		$xmluser->xmlSection('template');
 		
-		$xmluser->write_value('name', $name);
-		$xmluser->write_value('autor', $autor);
-		$xmluser->write_value('url', $url);
-		$xmluser->write_value('version', $template_version);
-		$xmluser->write_value('desc', $desc);
+		$xmluser->writeValue('name', $name);
+		$xmluser->writeValue('autor', $autor);
+		$xmluser->writeValue('url', $url);
+		$xmluser->writeValue('version', $template_version);
+		$xmluser->writeValue('desc', $desc);
 		
-		$xmluser->xml_section_buffer();
-		$xmluser->xml_section_end('template');
+		$xmluser->xmlSectionBuffer();
+		$xmluser->xmlSectionEnd('template');
 		$xmluser->_xmlparser();
 		
-		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_upload_layout\'</script>';
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_upload_layout\';'
+		.'</script>';
 	}
 }
-else{
+else {
 	echo '<strong>'._MSG_NOTENOUGH_USERRIGHTS.'</strong>';
 }
 

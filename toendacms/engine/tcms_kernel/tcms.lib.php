@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.4.4
+ * @version 2.4.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -186,22 +186,22 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 class tcms_main {
-	var $administer;
-	var $globalFolder;
-	var $globalSEO;
-	var $urlSEO;
-	var $_getLang;
-	var $_tcmsConfig;
-	var $_tcmsTime;
+	private $administer;
+	private $globalFolder;
+	private $globalSEO;
+	private $urlSEO;
+	private $_getLang;
+	private $_tcmsConfig;
+	private $_tcmsTime;
 	
 	// database information
-	var $db_choosenDB;
-	var $db_user;
-	var $db_pass;
-	var $db_host;
-	var $db_database;
-	var $db_port;
-	var $db_prefix;
+	private $db_choosenDB;
+	private $db_user;
+	private $db_pass;
+	private $db_host;
+	private $db_database;
+	private $db_port;
+	private $db_prefix;
 	
 	
 	
@@ -274,20 +274,26 @@ class tcms_main {
 	/**
 	 * Set the database information
 	 *
-	 * @param String $choosenDB
+	 * @param String $choosenDB = ''
 	 */
-	function setDatabaseInfo($choosenDB){
-		$this->db_choosenDB = $choosenDB;
-		
+	function setDatabaseInfo($choosenDB = ''){
 		if(file_exists($this->administer.'/tcms_global/database.php')){
-			include($this->administer.'/tcms_global/database.php');
+			//include($this->administer.'/tcms_global/database.php');
+			require($this->administer.'/tcms_global/database.php');
 			
-			$this->db_user     = $this->securePassword($tcms_db_user);
-			$this->db_pass     = $this->securePassword($tcms_db_password);
-			$this->db_host     = $this->securePassword($tcms_db_host);
-			$this->db_database = $this->securePassword($tcms_db_database);
-			$this->db_port     = $this->securePassword($tcms_db_port);
-			$this->db_prefix   = $this->securePassword($tcms_db_prefix);
+			if(trim($choosenDB) == '') {
+				$this->db_choosenDB = $tcms_db_engine;
+			}
+			else {
+				$this->db_choosenDB = $choosenDB;
+			}
+			
+			$this->db_user     = $tcms_db_user;
+			$this->db_pass     = $tcms_db_password;
+			$this->db_host     = $tcms_db_host;
+			$this->db_database = $tcms_db_database;
+			$this->db_port     = $tcms_db_port;
+			$this->db_prefix   = $tcms_db_prefix;
 		}
 		else{
 			$this->db_prefix = 'tcms_';
