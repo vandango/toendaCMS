@@ -125,19 +125,19 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 	$tcms_front_lang = $tcms_config->getLanguageFrontend();
 	
 	// mainclass
-	$tcms_main = new tcms_main($tcms_administer_path);
+	$tcms_main = new tcms_main($tcms_administer_path, $tcms_time);
 	
 	// authentication
-	$tcms_auth = new tcms_authentication($tcms_administer_path, $c_charset, '');
+	$tcms_auth = new tcms_authentication($tcms_administer_path, $c_charset, '', $tcms_time);
 	
 	// account provider
-	$tcms_ap = new tcms_account_provider($tcms_administer_path, $c_charset);
+	$tcms_ap = new tcms_account_provider($tcms_administer_path, $c_charset, $tcms_time);
 	
 	// html
 	$tcms_html = new tcms_html();
 	
 	// datacontainer
-	$tcms_dcp = new tcms_datacontainer_provider($tcms_administer_path, $c_charset);
+	$tcms_dcp = new tcms_datacontainer_provider($tcms_administer_path, $c_charset, $tcms_time);
 	
 	// image class
 	$tcms_gd = new tcms_gd();
@@ -218,7 +218,7 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 	$copyright    = $tcms_main->decodeText($copyright, '2', $c_charset);
 	
 	
-	$tcms_cs = new tcms_cs($tcms_administer_site, '../../', true);
+	$tcms_cs = new tcms_cs($tcms_administer_path, '../../', true);
 	
 	
 	echo '

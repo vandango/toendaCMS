@@ -22,7 +22,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to write all the website statistics.
  *
- * @version 0.3.0
+ * @version 0.3.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -32,36 +32,36 @@ defined('_TCMS_VALID') or die('Restricted access');
 /**
  * Methods
  *
- * __construct                -> PHP5 Constructor
- * tcms_error                 -> PHP4 Constructor
- * __destruct                 -> PHP5 Destructor
- * _tcms_error                -> PHP4 Destructor
+ * __construct                 -> PHP5 Constructor
+ * tcms_statistics             -> PHP4 Constructor
+ * __destruct                  -> PHP5 Destructor
+ * _tcms_statistics            -> PHP4 Destructor
  * 
  * setTcmsTimeObj              -> Set the tcms_time object
  *
- * countSiteURL($s)           -> Count a click and remove the template string from the url
- * countBrowserInfo           -> Saves the browser information data
- * getBrowser($browserString) -> Returns the Browser Software
- * getOS($osString)           -> Returns the Operating System
+ * countSiteURL                -> Count a click and remove the template string from the url
+ * countBrowserInfo            -> Saves the browser information data
+ * getBrowser                  -> Returns the Browser Software
+ * getOS                       -> Returns the Operating System
  *
  */
 
 
-class tcms_statistics {
-	var $m_CHARSET;
-	var $_ipUID;
-	var $_tcmsPath;
-	var $_tcmsMain;
-	var $_tcmsTime;
+class tcms_statistics extends tcms_main {
+	private $m_CHARSET;
+	private $_ipUID;
+	private $_tcmsPath;
+	//private $_tcmsMain;
+	private $_tcmsTime;
 	
 	// database information
-	var $_choosenDB;
-	var $_sqlUser;
-	var $_sqlPass;
-	var $_sqlHost;
-	var $_sqlDB;
-	var $_sqlPort;
-	var $_db_prefix;
+	private $_choosenDB;
+	private $_sqlUser;
+	private $_sqlPass;
+	private $_sqlHost;
+	private $_sqlDB;
+	private $_sqlPort;
+	private $_db_prefix;
 	
 	
 	
@@ -76,9 +76,6 @@ class tcms_statistics {
 		$this->_tcmsPath = $tcms_administer_path;
 		$this->_tcmsTime = $tcmsTimeObj;
 		//echo 'Constructor: '.$this->_tcmsPath.'<br>';
-		
-		$_tcmsMain = new tcms_main($this->_tcmsPath);
-		$_tcmsMain->setDatabaseInfo($this->_choosenDB);
 		
 		if(file_exists($this->_tcmsPath.'/tcms_global/database.php')){
 			require($this->_tcmsPath.'/tcms_global/database.php');
@@ -95,7 +92,13 @@ class tcms_statistics {
 			$this->m_choosenDB = 'xml';
 		}
 		
-		unset($_tcmsMain);
+		//$_tcmsMain = new tcms_main($this->_tcmsPath);
+		//$this->setDatabaseInfo($this->_choosenDB);
+		
+		parent::__construct($tcms_administer_path, $tcmsTimeObj);
+		//parent::setDatabaseInfo($this->db_choosenDB);
+		
+		//unset($_tcmsMain);
 	}
 	
 	
@@ -179,15 +182,15 @@ class tcms_statistics {
 			);
 		}
 		
-		$_tcmsMain = new tcms_main($this->_tcmsPath);
-		$_tcmsMain->setDatabaseInfo($this->_choosenDB);
+		//$_tcmsMain = new tcms_main($this->_tcmsPath);
+		//$this->setDatabaseInfo($this->_choosenDB);
 		
 		
 		/*
 			search for value
 		*/
 		if($this->_choosenDB == 'xml'){
-			$arr_statfiles = $_tcmsMain->getPathContent($this->_tcmsPath.'/tcms_statistics/');
+			$arr_statfiles = $this->getPathContent($this->_tcmsPath.'/tcms_statistics/');
 			
 			if(!empty($arr_statfiles) && $arr_statfiles != '' && isset($arr_statfiles)){
 				foreach($arr_statfiles as $key => $value){
@@ -225,7 +228,7 @@ class tcms_statistics {
 			/*
 				create ip value
 			*/
-			$maintag = $_tcmsMain->getNewUID(32, 'statistics_ip');
+			$maintag = $this->getNewUID(32, 'statistics_ip');
 			
 			if($this->_choosenDB == 'xml'){
 				$xmluser = new xmlparser(''.$this->_tcmsPath.'/tcms_statistics_ip/'.$maintag.'.xml', 'w');
@@ -468,7 +471,7 @@ class tcms_statistics {
 			unset($sqlAL);
 		}
 		
-		unset($_tcmsMain);
+		//unset($_tcmsMain);
 	}
 	
 	
@@ -499,8 +502,8 @@ class tcms_statistics {
 			);
 		}
 		
-		$_tcmsMain = new tcms_main($this->_tcmsPath);
-		$_tcmsMain->setDatabaseInfo($this->_choosenDB);
+		//$_tcmsMain = new tcms_main($this->_tcmsPath);
+		//$this->setDatabaseInfo($this->_choosenDB);
 		
 		
 		
@@ -509,7 +512,7 @@ class tcms_statistics {
 			software counter
 		*/
 		if($this->_choosenDB == 'xml'){
-			$arr_statfiles = $_tcmsMain->getPathContent(''.$this->_tcmsPath.'/tcms_statistics_os/');
+			$arr_statfiles = $this->getPathContent(''.$this->_tcmsPath.'/tcms_statistics_os/');
 			
 			if(!empty($arr_statfiles) && $arr_statfiles != '' && isset($arr_statfiles)){
 				foreach($arr_statfiles as $key => $value){
@@ -549,7 +552,7 @@ class tcms_statistics {
 			create a new one
 		*/
 		if($oldValue == 0){
-			$maintag = $_tcmsMain->getNewUID(32, 'statistics_ip');
+			$maintag = $this->getNewUID(32, 'statistics_ip');
 			
 			if($this->_choosenDB == 'xml'){
 				$xmluser = new xmlparser(''.$this->_tcmsPath.'/tcms_statistics_os/'.$maintag.'.xml', 'w');
@@ -629,7 +632,7 @@ class tcms_statistics {
 		}
 		
 		
-		unset($_tcmsMain);
+		//unset($_tcmsMain);
 	}
 	
 	

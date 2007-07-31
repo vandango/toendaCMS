@@ -72,7 +72,7 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 class tcms_wikiparser {
-	var $content;
+	private $content;
 	
 	
 	/**
@@ -437,21 +437,6 @@ class tcms_wikiparser {
 		$output = str_replace('#:}', '">', $output);
 		$output = str_replace('#_blank:}', '" target="_blank">', $output);
 		$output = str_replace('{:url}', '</a>', $output);
-		
-		return $output;
-	}
-	
-	
-	
-	/**
-	 * [PRIVATE] Parse the php tags
-	 * 
-	 * @param String $newsContent
-	 * @return String
-	 */
-	function _parsePHP($newsContent){
-		$output = str_replace('{php:}', '<?php ', $newsContent);
-		$output = str_replace('{:php}', ' ?>', $output);
 		
 		return $output;
 	}

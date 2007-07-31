@@ -21,7 +21,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a complete database backup dump.
  *
- * @version 0.0.4
+ * @version 0.0.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -50,8 +50,8 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 class tcms_sql_dump {
-	var $cms_ver;
-	var $cms_build;
+	private $cms_ver;
+	private $cms_build;
 	
 	
 	

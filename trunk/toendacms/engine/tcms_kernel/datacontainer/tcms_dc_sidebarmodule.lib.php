@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * sidemenu items.
  *
- * @version 0.0.4
+ * @version 0.0.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -32,17 +32,17 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 class tcms_dc_sidebarmodule {
-	var $m_side_gallery;
-	var $m_side_category;
-	var $m_side_archives;
-	var $m_side_links;
-	var $m_layout_chooser;
-	var $m_login;
-	var $m_syndication;
-	var $m_newsletter;
-	var $m_search;
-	var $m_sidebar;
-	var $m_poll;
+	private $m_side_gallery;
+	private $m_side_category;
+	private $m_side_archives;
+	private $m_side_links;
+	private $m_layout_chooser;
+	private $m_login;
+	private $m_syndication;
+	private $m_newsletter;
+	private $m_search;
+	private $m_sidebar;
+	private $m_poll;
 	
 	/**
 	 * PHP5 Constructor

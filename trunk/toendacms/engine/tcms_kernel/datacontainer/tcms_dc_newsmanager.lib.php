@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * the newsmanager.
  *
- * @version 0.0.6
+ * @version 0.0.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -32,32 +32,32 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 class tcms_dc_newsmanager {
-	var $m_id;
-	var $m_lang;
-	var $m_title;
-	var $m_key;
-	var $m_text;
-	var $m_image;
-	var $m_UseComments;
-	var $m_ShowAutor;
-	var $m_ShowAutorAsLink;
-	var $m_NewsAmount;
-	var $m_NewsChars;
-	var $m_Access;
-	var $m_UseGravatar;
-	var $m_UseEmoticons;
-	var $m_UseTrachback;
-	var $m_UseTimesince;
-	var $m_ReadmoreLink;
-	var $m_NewsSpacing;
-	var $m_SynRSS091;
-	var $m_SynRSS10;
-	var $m_SynRSS20;
-	var $m_SynRSSAtom;
-	var $m_SynRSSOpml;
-	var $m_SynAmount;
-	var $m_SynUseTitle;
-	var $m_SynDefaultFeed;
+	private $m_id;
+	private $m_lang;
+	private $m_title;
+	private $m_key;
+	private $m_text;
+	private $m_image;
+	private $m_UseComments;
+	private $m_ShowAutor;
+	private $m_ShowAutorAsLink;
+	private $m_NewsAmount;
+	private $m_NewsChars;
+	private $m_Access;
+	private $m_UseGravatar;
+	private $m_UseEmoticons;
+	private $m_UseTrachback;
+	private $m_UseTimesince;
+	private $m_ReadmoreLink;
+	private $m_NewsSpacing;
+	private $m_SynRSS091;
+	private $m_SynRSS10;
+	private $m_SynRSS20;
+	private $m_SynRSSAtom;
+	private $m_SynRSSOpml;
+	private $m_SynAmount;
+	private $m_SynUseTitle;
+	private $m_SynDefaultFeed;
 	
 	// ---------------------------------------
 	// Constructors / Destructors

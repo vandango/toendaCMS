@@ -40,7 +40,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Untested Database Server:
  * - SQLite        -> sqlite
  *
- * @version 0.6.8
+ * @version 0.7.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -160,17 +160,17 @@ defined('_TCMS_VALID') or die('Restricted access');
  */
 
 
-class sqlAbstractionLayer{
+class sqlAbstractionLayer {
 	/*
 		PRIVATE VAR
 	*/
-	var $_sqlInterface;
-	var $_sqlUsername;
-	var $_sqlPassword;
-	var $_sqlHost;
-	var $_sqlDB;
-	var $_sqlPort;
-	var $_tcmsTime;
+	private $_sqlInterface;
+	private $_sqlUsername;
+	private $_sqlPassword;
+	private $_sqlHost;
+	private $_sqlDB;
+	private $_sqlPort;
+	private $_tcmsTime;
 	
 	
 	

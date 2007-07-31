@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used as a datacontainer for the news.
  *
- * @version 0.1.5
+ * @version 0.1.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -31,21 +31,21 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 class tcms_dc_news {
-	var $m_title;
-	var $m_autor;
-	var $m_date;
-	var $m_time;
-	var $m_newstext;
-	var $m_order;
-	var $m_stamp;
-	var $m_pub;
-	var $m_pub_date;
-	var $m_cmt;
-	var $m_img;
-	var $m_cat;
-	var $m_acs;
-	var $m_frontpage;
-	var $m_language;
+	private $m_title;
+	private $m_autor;
+	private $m_date;
+	private $m_time;
+	private $m_newstext;
+	private $m_order;
+	private $m_stamp;
+	private $m_pub;
+	private $m_pub_date;
+	private $m_cmt;
+	private $m_img;
+	private $m_cat;
+	private $m_acs;
+	private $m_frontpage;
+	private $m_language;
 	
 	// ---------------------------------------
 	// Constructors / Destructors

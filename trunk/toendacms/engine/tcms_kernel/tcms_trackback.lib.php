@@ -27,7 +27,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Originaly coded by Ran Aroussi (http://www.blogish.org)
  * License GNU GPL
  *
- * @version 0.0.6
+ * @version 0.0.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -57,14 +57,14 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 class tcms_trackback{
-	var $m_blog_name = ''; // Default blog name used throughout the class (ie. BLOGish)
-	var $m_author = ''; // Default author name used throughout the class (ie. Ran Aroussi)
-	var $m_encoding = ''; // Default encoding used throughout the class (ie. UTF-8)
-	var $m_get_id = ''; // Retreives and holds $_GET['id'] (if not empty)
-	var $m_post_id = ''; // Retreives and holds $_POST['id'] (if not empty)
-	var $m_url = ''; // Retreives and holds $_POST['url'] (if not empty)
-	var $m_title = ''; // Retreives and holds $_POST['title'] (if not empty)
-	var $m_excerpt = ''; // Retreives and holds $_POST['expert'] (if not empty)
+	private $m_blog_name = ''; // Default blog name used throughout the class (ie. BLOGish)
+	private $m_author = ''; // Default author name used throughout the class (ie. Ran Aroussi)
+	private $m_encoding = ''; // Default encoding used throughout the class (ie. UTF-8)
+	private $m_get_id = ''; // Retreives and holds $_GET['id'] (if not empty)
+	private $m_post_id = ''; // Retreives and holds $_POST['id'] (if not empty)
+	private $m_url = ''; // Retreives and holds $_POST['url'] (if not empty)
+	private $m_title = ''; // Retreives and holds $_POST['title'] (if not empty)
+	private $m_excerpt = ''; // Retreives and holds $_POST['expert'] (if not empty)
 	
 	
 	

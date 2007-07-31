@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a provider for sidemenu datacontainer
  * objects.
  *
- * @version 0.2.3
+ * @version 0.2.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -53,19 +53,19 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 class tcms_menu_provider extends tcms_main {
 	// global informaton
-	var $m_CHARSET;
-	var $m_path;
-	var $m_IsAdmin;
-	var $_tcmsTime;
+	private $m_CHARSET;
+	private $m_path;
+	private $m_IsAdmin;
+	private $_tcmsTime;
 	
 	// database information
-	var $m_choosenDB;
-	var $m_sqlUser;
-	var $m_sqlPass;
-	var $m_sqlHost;
-	var $m_sqlDB;
-	var $m_sqlPort;
-	var $m_sqlPrefix;
+	private $m_choosenDB;
+	private $m_sqlUser;
+	private $m_sqlPass;
+	private $m_sqlHost;
+	private $m_sqlDB;
+	private $m_sqlPort;
+	private $m_sqlPrefix;
 	
 	
 	
@@ -80,7 +80,6 @@ class tcms_menu_provider extends tcms_main {
 	function __construct($tcms_administer_path = 'data', $charset, $isAdmin, $tcmsTimeObj = null){
 		$this->m_CHARSET = $charset;
 		$this->m_path = $tcms_administer_path;
-		$this->administer = $tcms_administer_path;
 		$this->m_IsAdmin = $isAdmin;
 		$this->_tcmsTime = $tcmsTimeObj;
 		
@@ -100,6 +99,10 @@ class tcms_menu_provider extends tcms_main {
 		else{
 			$this->m_choosenDB = 'xml';
 		}
+		
+		parent::setAdministerSite($tcms_administer_path);
+		//parent::__construct($tcms_administer_path, $tcmsTimeObj);
+		//parent::setDatabaseInfo($this->m_choosenDB);
 	}
 	
 	

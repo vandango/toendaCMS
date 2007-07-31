@@ -96,7 +96,6 @@ class tcms_datacontainer_provider extends tcms_main {
 	function __construct($tcms_administer_path = 'data', $charset, $tcmsTimeObj = null){
 		$this->m_CHARSET = $charset;
 		$this->m_path = $tcms_administer_path;
-		//$this->administer = $tcms_administer_path;
 		$this->_tcmsTime = $tcmsTimeObj;
 		
 		if(file_exists($this->m_path.'/tcms_global/database.php')){
@@ -114,8 +113,9 @@ class tcms_datacontainer_provider extends tcms_main {
 			$this->m_choosenDB = 'xml';
 		}
 		
-		parent::__construct($tcms_administer_path, $tcmsTimeObj);
-		parent::setDatabaseInfo($this->m_choosenDB);
+		parent::setAdministerSite($tcms_administer_path);
+		//parent::__construct($tcms_administer_path, $tcmsTimeObj);
+		//parent::setDatabaseInfo($this->m_choosenDB);
 	}
 	
 	

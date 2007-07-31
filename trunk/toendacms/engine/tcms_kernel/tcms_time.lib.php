@@ -22,7 +22,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to have some often used time tools.
  *
- * @version 0.1.1
+ * @version 0.1.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -71,7 +71,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  */
 
 
-class tcms_time{
+class tcms_time {
 	var $starttime;
 	var $endtime;
 	var $sqlQuery;

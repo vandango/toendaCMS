@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * the frontpage.
  *
- * @version 0.0.7
+ * @version 0.0.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -32,19 +32,19 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 class tcms_dc_frontpage {
-	var $m_id;
-	var $m_lang;
-	var $m_title;
-	var $m_key;
-	var $m_text;
-	var $m_newstitle;
-	var $m_newschars;
-	var $m_newsamount;
-	var $m_sbnewstitle;
-	var $m_sbnewsamount;
-	var $m_sbnewscut;
-	var $m_sbnewsenabled;
-	var $m_sbnewsdisplay;
+	private $m_id;
+	private $m_lang;
+	private $m_title;
+	private $m_key;
+	private $m_text;
+	private $m_newstitle;
+	private $m_newschars;
+	private $m_newsamount;
+	private $m_sbnewstitle;
+	private $m_sbnewsamount;
+	private $m_sbnewscut;
+	private $m_sbnewsenabled;
+	private $m_sbnewsdisplay;
 	
 	// ---------------------------------------
 	// Constructors / Destructors

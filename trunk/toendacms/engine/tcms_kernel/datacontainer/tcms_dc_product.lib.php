@@ -32,7 +32,7 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 class tcms_dc_product {
-	var $_uid;
+	private $_uid;
 	
 	// ---------------------------------------
 	// Constructors / Destructors

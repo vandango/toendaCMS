@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * sidemenu items.
  *
- * @version 0.0.7
+ * @version 0.0.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -32,17 +32,17 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 class tcms_dc_sidemenuitem {
-	var $m_uid;
-	var $m_title;
-	var $m_order;
-	var $m_suborder;
-	var $m_type;
-	var $m_parent;
-	var $m_link;
-	var $m_pub;
-	var $m_acs;
-	var $m_root;
-	var $m_target;
+	private $m_uid;
+	private $m_title;
+	private $m_order;
+	private $m_suborder;
+	private $m_type;
+	private $m_parent;
+	private $m_link;
+	private $m_pub;
+	private $m_acs;
+	private $m_root;
+	private $m_target;
 	
 	// ---------------------------------------
 	// Constructors / Destructors
