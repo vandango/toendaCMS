@@ -385,16 +385,16 @@ if($action == 'showall'){
 							if($check_session) {
 								if($arr_pro['price'][$key] != -1
 								&& trim($arr_pro['price'][$key]) != '') {
-									if($currency == 'EUR') {
+									if($tcms_config->getCurrency() == 'EUR') {
 										echo '<br />'
 										.'<strong>'._TABLE_PRICE.':</strong> '
 										.$arr_pro['price'][$key]
-										.'&nbsp;'.$arr_currency['html'][$currency];
+										.'&nbsp;'.$tcms_config->getCurrencyHtmlEntity();
 									}
 									else {
 										echo '<br />'
 										.'<strong>'._TABLE_PRICE.':</strong> '
-										.$arr_currency['html'][$currency]
+										.$tcms_config->getCurrencyHtmlEntity()
 										.'&nbsp;'.$arr_pro['price'][$key];
 									}
 								}
@@ -403,16 +403,16 @@ if($action == 'showall'){
 						else {
 							if($arr_pro['price'][$key] != -1
 							&& trim($arr_pro['price'][$key]) != '') {
-								if($currency == 'EUR') {
+								if($tcms_config->getCurrency() == 'EUR') {
 									echo '<br />'
 									.'<strong>'._TABLE_PRICE.':</strong> '
 									.$arr_pro['price'][$key]
-									.'&nbsp;'.$arr_currency['html'][$currency];
+									.'&nbsp;'.$tcms_config->getCurrencyHtmlEntity();
 								}
 								else {
 									echo '<br />'
 									.'<strong>'._TABLE_PRICE.':</strong> '
-									.$arr_currency['html'][$currency]
+									.$tcms_config->getCurrencyHtmlEntity()
 									.'&nbsp;'.$arr_pro['price'][$key];
 								}
 							}
@@ -704,16 +704,16 @@ if($action == 'showall'){
 					if($check_session) {
 						if($arr_pro['price'][$key] != -1
 						&& trim($arr_pro['price'][$key]) != '') {
-							if($currency == 'EUR') {
+							if($tcms_config->getCurrency() == 'EUR') {
 								echo '<br />'
 								.'<strong>'._TABLE_PRICE.':</strong> '
 								.$arr_pro['price'][$key]
-								.'&nbsp;'.$arr_currency['html'][$currency];
+								.'&nbsp;'.$tcms_config->getCurrencyHtmlEntity();
 							}
 							else {
 								echo '<br />'
 								.'<strong>'._TABLE_PRICE.':</strong> '
-								.$arr_currency['html'][$currency]
+								.$tcms_config->getCurrencyHtmlEntity()
 								.'&nbsp;'.$arr_pro['price'][$key];
 							}
 						}
@@ -722,16 +722,16 @@ if($action == 'showall'){
 				else {
 					if($arr_pro['price'][$key] != -1
 					&& trim($arr_pro['price'][$key]) != '') {
-						if($currency == 'EUR') {
+						if($tcms_config->getCurrency() == 'EUR') {
 							echo '<br />'
 							.'<strong>'._TABLE_PRICE.':</strong> '
 							.$arr_pro['price'][$key]
-							.'&nbsp;'.$arr_currency['html'][$currency];
+							.'&nbsp;'.$tcms_config->getCurrencyHtmlEntity();
 						}
 						else {
 							echo '<br />'
 							.'<strong>'._TABLE_PRICE.':</strong> '
-							.$arr_currency['html'][$currency]
+							.$tcms_config->getCurrencyHtmlEntity()
 							.'&nbsp;'.$arr_pro['price'][$key];
 						}
 					}
@@ -952,18 +952,18 @@ if($action == 'showone') {
 				
 				$taxPrice = $tcms_main->getTaxPrice($arr_price, $arr_pricetax);
 				
-				if($currency == 'EUR') {
+				if($tcms_config->getCurrency() == 'EUR') {
 					echo $arr_price
-					.'&nbsp;'.$arr_currency['html'][$currency]
+					.'&nbsp;'.$tcms_config->getCurrencyHtmlEntity()
 					.'</strong><br />'
 					.'('.$taxPrice.')'
-					.'&nbsp;'.$arr_currency['html'][$currency];
+					.'&nbsp;'.$tcms_config->getCurrencyHtmlEntity();
 				}
 				else {
-					echo $arr_currency['html'][$currency]
+					echo $tcms_config->getCurrencyHtmlEntity()
 					.'&nbsp;'.$arr_price
 					.'</strong><br />'
-					.$arr_currency['html'][$currency]
+					.$tcms_config->getCurrencyHtmlEntity()
 					.'&nbsp;('.$taxPrice.')';
 				}
 				
@@ -973,12 +973,12 @@ if($action == 'showone') {
 			else {
 				echo '<strong>';
 				
-				if($currency == 'EUR') {
+				if($tcms_config->getCurrency() == 'EUR') {
 					echo $arr_price
-					.'&nbsp;'.$arr_currency['html'][$currency];
+					.'&nbsp;'.$tcms_config->getCurrencyHtmlEntity();
 				}
 				else {
-					echo $arr_currency['html'][$currency]
+					echo $tcms_config->getCurrencyHtmlEntity()
 					.'&nbsp;'.$arr_price;
 				}
 				

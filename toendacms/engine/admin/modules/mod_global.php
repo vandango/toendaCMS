@@ -507,11 +507,14 @@ if($id_group == 'Developer'
 		
 		
 		echo '<tr>'
-		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_CURRENCY.'</td>'
-		.'<td>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'
+		._GLOBAL_CURRENCY
+		.'</td><td>'
 		.'<select name="tmp_currency" class="tcms_select">';
-		foreach($arr_currency['name'] as $lg_key => $lg_value){
-			echo '<option value="'.$arr_currency['code'][$lg_key].'"'.( $old_currency == $arr_currency['code'][$lg_key] ? ' selected="selected"' : '' ).'>'.$lg_value.'</option>';
+		foreach($arr_currency['name'] as $lg_key => $lg_value) {
+			echo '<option value="'.$arr_currency['code'][$lg_key].'"'.( $old_currency == $arr_currency['code'][$lg_key] ? ' selected="selected"' : '' ).'>'
+			.$lg_value
+			.'</option>';
 		}
 		echo '</select></td></tr>';
 		
@@ -523,8 +526,8 @@ if($id_group == 'Developer'
 			.( file_exists('../js/tinymce') ? '<option value="tinymce"'.( $old_use_wysiwyg == 'tinymce' ? ' selected="selected"' : '' ).'>tinyMCE</option>' : '' )
 			.( file_exists('../js/FCKeditor') ? '<option value="fckeditor"'.( $old_use_wysiwyg == 'fckeditor' ? ' selected="selected"' : '' ).'>FCKEditor</option>' : '' )
 			.'<option value="toendaScript"'.( $old_use_wysiwyg == 'toendaScript' ? ' selected="selected"' : '' ).'>'._TCMS_ADMIN_NO.' WYSIWYG (toendaScript)</option>'
-			//.'<option value="wiki"'.(         $old_use_wysiwyg == 'wiki'         ? ' selected="selected"' : '' ).'>'._TCMS_ADMIN_NO.' WYSIWYG (Wiki Syntax)</option>'
-			.'<option value="no"'.(           $old_use_wysiwyg == 'no'           ? ' selected="selected"' : '' ).'>'._TCMS_ADMIN_NO.' WYSIWYG (HTML)</option>'
+			.'<option value="no"'.( $old_use_wysiwyg == 'no' ? ' selected="selected"' : '' ).'>'._TCMS_ADMIN_NO.' WYSIWYG (HTML)</option>'
+			//.'<option value="wiki"'.( $old_use_wysiwyg == 'wiki' ? ' selected="selected"' : '' ).'>'._TCMS_ADMIN_NO.' WYSIWYG (Wiki Syntax)</option>'
 		.'</select></td></tr>';
 		
 		

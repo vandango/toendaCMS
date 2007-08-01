@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.7.2
+ * @version 2.7.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -1149,7 +1149,7 @@ if($wsShowSite) {
 							Load Components System
 						*/
 						if($use_components) {
-							$arrSideCS = $tcms_cs->getAllSideCS();
+							$arrSideCS = $tcms_cs->getAllSideCS($is_admin);
 						}
 						
 						
@@ -1171,10 +1171,6 @@ if($wsShowSite) {
 						/*
 							Clean up
 						*/
-						$tcms_main->_tcms_main();
-						
-						$tcms_config->_tcms_configuration();
-						
 						unset($tcms_config);
 						unset($tcms_version);
 						unset($tcms_param);

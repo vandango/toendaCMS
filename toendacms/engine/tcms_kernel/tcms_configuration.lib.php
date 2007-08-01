@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide the global
  * configuration data.
  *
- * @version 0.4.0
+ * @version 0.4.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -61,6 +61,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getSiteOffline              -> Get the setting if the site is offline
  * getSiteOfflineText          -> Get the site offline text
  * getCurrency                 -> Get the currency
+ * getCurrencyHtmlEntity       -> Get the currency html entity
  * getWYSIWYGEditor            -> Get the wysiwyg editor
  * getPathwayChar              -> Get the pathway char
  * getToendaCMSInSitetitle     -> Get the setting if "toendaCMS" should be in the sitetitle
@@ -257,7 +258,7 @@ class tcms_configuration {
 	/**
 	 * PHP5 Destructor
 	 */
-	function __destruct(){
+	function __destruct() {
 	}
 	
 	
@@ -265,7 +266,7 @@ class tcms_configuration {
 	/**
 	 * PHP4 Destructor
 	 */
-	function _tcms_configuration(){
+	function _tcms_configuration() {
 		$this->__destruct();
 	}
 	
@@ -276,7 +277,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getLanguageFrontend(){
+	function getLanguageFrontend() {
 		return $this->m_frontlang;
 	}
 	
@@ -287,7 +288,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getLanguageBackend(){
+	function getLanguageBackend() {
 		return $this->m_lang;
 	}
 	
@@ -386,7 +387,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getCharset(){
+	function getCharset() {
 		return $this->m_charset;
 	}
 	
@@ -397,7 +398,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getSEOPath(){
+	function getSEOPath() {
 		return $this->m_SEOpath;
 	}
 	
@@ -406,10 +407,10 @@ class tcms_configuration {
 	/**
 	 * Get the SEO enabled state
 	 *
-	 * @return Integer
+	 * @return Boolean
 	 */
-	function getSEOEnabled(){
-		return $this->m_SEOenabled;
+	function getSEOEnabled() {
+    	return ( $this->m_SEOenabled == '1' ? true : false );
 	}
 	
 	
@@ -419,7 +420,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getSEOFormat(){
+	function getSEOFormat() {
 		return $this->m_SEOformat;
 	}
   
@@ -452,7 +453,7 @@ class tcms_configuration {
 	 *
 	 * @return Integer
 	 */
-	function getEmailCiphering(){
+	function getEmailCiphering() {
 		return $this->m_cipherEmail;
 	}
 	
@@ -461,10 +462,10 @@ class tcms_configuration {
 	/**
 	 * Get the setting if the client browser should be detected by a javascript
 	 *
-	 * @return Integer
+	 * @return Boolean
 	 */
-	function getBrowserDetection(){
-		return $this->m_detectBrowser;
+	function getBrowserDetection() {
+    	return ( $this->m_detectBrowser == '1' ? true : false );
 	}
 	
 	
@@ -474,8 +475,8 @@ class tcms_configuration {
 	 *
 	 * @return Boolean
 	 */
-	function getStatistics(){
-		return ( $this->m_statistics == 1 ? true : false );
+	function getStatistics() {
+		return ( $this->m_statistics == '1' ? true : false );
 	}
 	
 	
@@ -485,8 +486,8 @@ class tcms_configuration {
 	 *
 	 * @return Boolean
 	 */
-	function getComponentsSystemEnabled(){
-		return ( $this->m_use_components == 1 ? true : false );
+	function getComponentsSystemEnabled() {
+		return ( $this->m_use_components == '1' ? true : false );
 	}
 	
 	
@@ -496,8 +497,8 @@ class tcms_configuration {
 	 *
 	 * @return Boolean
 	 */
-	function getCaptchaEnabled(){
-		return ( $this->m_use_captcha == 1 ? true : false );
+	function getCaptchaEnabled() {
+		return ( $this->m_use_captcha == '1' ? true : false );
 	}
 	
 	
@@ -507,7 +508,7 @@ class tcms_configuration {
 	 *
 	 * @return Integer
 	 */
-	function getCaptchaCleanSize(){
+	function getCaptchaCleanSize() {
 		return $this->m_captcha_clean;
 	}
 	
@@ -518,8 +519,8 @@ class tcms_configuration {
 	 *
 	 * @return Boolean
 	 */
-	function getAntiFrameEnabled(){
-		return ( $this->m_antiFrame == 1 ? true : false );
+	function getAntiFrameEnabled() {
+		return ( $this->m_antiFrame == '1' ? true : false );
 	}
 	
 	
@@ -527,10 +528,10 @@ class tcms_configuration {
 	/**
 	 * Get the setting if the document options like the pages are displayed at the top of a document
 	 *
-	 * @return Integer
+	 * @return Boolean
 	 */
-	function getShowTopPages(){
-		return $this->m_showTopPages;
+	function getShowTopPages() {
+		return ( $this->m_showTopPages == '1' ? true : false );
 	}
 	
 	
@@ -538,10 +539,10 @@ class tcms_configuration {
 	/**
 	 * Get the setting if the site is offline
 	 *
-	 * @return Integer
+	 * @return Boolean
 	 */
-	function getSiteOffline(){
-		return $this->m_siteOffline;
+	function getSiteOffline() {
+		return ( $this->m_siteOffline == '1' ? true : false );
 	}
 	
 	
@@ -551,7 +552,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getSiteOfflineText(){
+	function getSiteOfflineText() {
 		return $this->m_siteOfflineText;
 	}
 	
@@ -562,8 +563,27 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getCurrency(){
+	function getCurrency() {
 		return $this->m_currency;
+	}
+	
+	
+	
+	/**
+	 * Get the currency html entity
+	 *
+	 * @return String
+	 */
+	function getCurrencyHtmlEntity() {
+		$wsCur = '&euro;';
+		
+		switch($this->m_currency) {
+			case 'EUR': $wsCur = '&euro;'; break;
+			case 'USD': $wsCur = '$'; break;
+			default: $wsCur = '&euro;'; break;
+		}
+		
+		return $wsCur;
 	}
 	
 	
@@ -573,7 +593,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getWYSIWYGEditor(){
+	function getWYSIWYGEditor() {
 		return $this->m_wysiwygEditor;
 	}
 	
@@ -584,7 +604,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getPathwayChar(){
+	function getPathwayChar() {
 		return $this->m_pathwayChar;
 	}
 	
@@ -593,10 +613,10 @@ class tcms_configuration {
 	/**
 	 * Get the setting if the autor of document should be display
 	 *
-	 * @return Integer
+	 * @return Boolean
 	 */
-	function getShowDocAutor(){
-		return $this->m_showDocAutor;
+	function getShowDocAutor() {
+		return ( $this->m_showDocAutor == '1' ? true : false );
 	}
 	
 	
@@ -606,7 +626,7 @@ class tcms_configuration {
 	 *
 	 * @return Integer
 	 */
-	function getDefaultCategory(){
+	function getDefaultCategory() {
 		return $this->m_defaultCat;
 	}
 	
@@ -615,10 +635,10 @@ class tcms_configuration {
 	/**
 	 * Get the setting if "toendaCMS" should be in the sitetitle
 	 *
-	 * @return String
+	 * @return Boolean
 	 */
-	function getToendaCMSInSitetitle(){
-		return $this->m_tcmsinst;
+	function getToendaCMSInSitetitle() {
+		return ( $this->m_tcmsinst == '1' ? true : false );
 	}
 	
 	
@@ -626,10 +646,10 @@ class tcms_configuration {
 	/**
 	 * Get the active topmenu
 	 *
-	 * @return Integer
+	 * @return Boolean
 	 */
-	function getTopmenuActive(){
-		return $this->m_activeTopmenu;
+	function getTopmenuActive() {
+		return ( $this->m_activeTopmenu == '1' ? true : false );
 	}
 	
 	
@@ -639,7 +659,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getMetadataKeywords(){
+	function getMetadataKeywords() {
 		return $this->m_keywords;
 	}
 	
@@ -650,7 +670,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getMetadataDescription(){
+	function getMetadataDescription() {
 		return $this->m_description;
 	}
 	
@@ -659,10 +679,10 @@ class tcms_configuration {
 	/**
 	 * Get the setting if the sidemenu is enabled
 	 *
-	 * @return Integer
+	 * @return Boolean
 	 */
-	function getSidemenuEnabled(){
-		return $this->m_sidemenu;
+	function getSidemenuEnabled() {
+		return ( $this->m_sidemenu == '1' ? true : false );
 	}
 	
 	
@@ -670,10 +690,10 @@ class tcms_configuration {
 	/**
 	 * Get the setting if the topmenu is enabled
 	 *
-	 * @return Integer
+	 * @return Boolean
 	 */
-	function getTopmenuEnabled(){
-		return $this->m_topmenu;
+	function getTopmenuEnabled() {
+		return ( $this->m_topmenu == '1' ? true : false );
 	}
 	
 	
@@ -683,7 +703,7 @@ class tcms_configuration {
 	 *
 	 * @return Integer
 	 */
-	function getAdminTopmenu(){
+	function getAdminTopmenu() {
 		return $this->m_adminTopmenu;
 	}
 	
@@ -694,7 +714,7 @@ class tcms_configuration {
 	 *
 	 * @return Integer
 	 */
-	function getMetadataRevisitAfterDays(){
+	function getMetadataRevisitAfterDays() {
 		return $this->m_revisit_after;
 	}
 	
@@ -705,7 +725,7 @@ class tcms_configuration {
 	 *
 	 * @return Integer
 	 */
-	function getMetadataRobotsFileURL(){
+	function getMetadataRobotsFileURL() {
 		return $this->m_robotsfile;
 	}
 	
@@ -716,7 +736,7 @@ class tcms_configuration {
 	 *
 	 * @return Integer
 	 */
-	function getMetadataCacheControl(){
+	function getMetadataCacheControl() {
 		return $this->m_cachecontrol;
 	}
 	
@@ -727,7 +747,7 @@ class tcms_configuration {
 	 *
 	 * @return Integer
 	 */
-	function getMetadataRobotsSettings(){
+	function getMetadataRobotsSettings() {
 		return $this->m_robots;
 	}
 	
@@ -738,7 +758,7 @@ class tcms_configuration {
 	 *
 	 * @return Integer
 	 */
-	function getMetadataPragma(){
+	function getMetadataPragma() {
 		return $this->m_pragma;
 	}
 	
@@ -749,7 +769,7 @@ class tcms_configuration {
 	 *
 	 * @return Integer
 	 */
-	function getMetadataExpires(){
+	function getMetadataExpires() {
 		return $this->m_expires;
 	}
 	
@@ -760,7 +780,7 @@ class tcms_configuration {
 	 *
 	 * @return Integer
 	 */
-	function getLastChanges(){
+	function getLastChanges() {
 		return $this->m_last_changes;
 	}
 	
@@ -769,10 +789,10 @@ class tcms_configuration {
 	/**
 	 * Get the usage value for the content languages
 	 *
-	 * @return String
+	 * @return Boolean
 	 */
 	function useContentLanguage() {
-		return $this->m_useContentLang;
+		return ( $this->m_useContentLang == '1' ? true : false );
 	}
 	
 	
@@ -780,10 +800,10 @@ class tcms_configuration {
 	/**
 	 * Get the setting if the pdf link should be display in footer
 	 *
-	 * @return Integer
+	 * @return Boolean
 	 */
-	function usePDFLink(){
-		return $this->m_pdflink;
+	function usePDFLink() {
+		return ( $this->m_pdflink == '1' ? true : false );
 	}
 	
 	
@@ -793,8 +813,8 @@ class tcms_configuration {
 	 *
 	 * @return Integer
 	 */
-	function showValidationLinks(){
-		return ( $this->m_validLinks == 1 ? true : false );
+	function showValidationLinks() {
+		return ( $this->m_validLinks == '1' ? true : false );
 	}
 }
 
