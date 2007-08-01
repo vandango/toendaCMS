@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * This file is used for different variables.
  * 
- * @version 0.3.0
+ * @version 0.3.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -106,11 +106,13 @@ $arr_group_txt[5] = _GROUP_USER;
 	CURRENCYS
 */
 
-$arr_currency['name'][0] = 'Euro';
-$arr_currency['code'][0] = 'EUR';
+$arr_currency['name']['EUR'] = 'Euro';
+$arr_currency['code']['EUR'] = 'EUR';
+$arr_currency['html']['EUR'] = '&euro;';
 
-$arr_currency['name'][1] = 'US Dollar';
-$arr_currency['code'][1] = 'USD';
+$arr_currency['name']['USD'] = 'US Dollar';
+$arr_currency['code']['USD'] = 'USD';
+$arr_currency['html']['USD'] = '$';
 
 
 

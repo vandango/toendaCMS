@@ -26,7 +26,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * a complete API with toendaCMS constants and can load the
  * component itself.
  *
- * @version 0.3.0
+ * @version 0.3.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_cs
@@ -64,7 +64,7 @@ class tcms_cs extends tcms_main {
 	 * @param String $imagePath
 	 * @param Boolean $forAdmin = false
 	 */
-	function __construct($administer, $imagePath, $forAdmin = false){
+	function __construct($administer, $imagePath, $forAdmin = false) {
 		//global $tcms_main;
 		
 		$this->tcms_main_path = $administer;
@@ -77,8 +77,9 @@ class tcms_cs extends tcms_main {
 			$this->tcms_admin_path = '';
 		}
 		
-		parent::__construct($administer, $tcmsTimeObj);
-		parent::setDatabaseInfo();
+		parent::setAdministerSite($administer);
+		//parent::__construct($administer, $tcmsTimeObj);
+		//parent::setDatabaseInfo();
 	}
 	
 	
@@ -90,7 +91,7 @@ class tcms_cs extends tcms_main {
 	 * @param String $imagePath
 	 * @param Boolean $forAdmin = false
 	 */
-	function tcms_cs($administer, $imagePath, $forAdmin = false){
+	function tcms_cs($administer, $imagePath, $forAdmin = false) {
 		$this->__construct($administer, $imagePath, $forAdmin);
 	}
 	
@@ -99,7 +100,7 @@ class tcms_cs extends tcms_main {
 	/**
 	 * PHP5 Destructor
 	 */
-	function __destruct(){
+	function __destruct() {
 	}
 	
 	
@@ -107,7 +108,7 @@ class tcms_cs extends tcms_main {
 	/**
 	 * PHP4 Destructor
 	 */
-	function _tcms_main(){
+	function _tcms_main() {
 		$this->__destruct();
 	}
 	
@@ -119,9 +120,7 @@ class tcms_cs extends tcms_main {
 	 * @param String $item
 	 * @return Array
 	 */
-	function getSettings($item){
-		//global $tcms_main;
-		
+	function getSettings($item) {
 		if(file_exists($this->tcms_main_path.'/components/'.$item.'/component.xml')){
 			$csXML = new xmlparser($this->tcms_main_path.'/components/'.$item.'/component.xml','r');
 			
@@ -177,9 +176,7 @@ class tcms_cs extends tcms_main {
 	 * @param String $current_cs_id
 	 * @return Array
 	 */
-	function getSpecialSettings($item, $settingsfile, $current_cs_id){
-		//global $tcms_main;
-		
+	function getSpecialSettings($item, $settingsfile, $current_cs_id) {
 		if(file_exists($this->tcms_admin_path.$this->tcms_main_path.'/components/'.$item.'/'.$settingsfile)){
 			$csXML = new xmlparser($this->tcms_admin_path.$this->tcms_main_path.'/components/'.$item.'/'.$settingsfile, 'r');
 			
@@ -206,12 +203,10 @@ class tcms_cs extends tcms_main {
 	/**
 	 * Loads all sidebar CS
 	 *
+	 * @param Integer $isAdmin
 	 * @return Array
 	 */
-	function getAllSideCS(){
-		//global $tcms_main;
-		global $is_admin;
-		
+	function getAllSideCS($isAdmin) {
 		$i = 0;
 		$arrCSFiles = $this->getPathContent($this->tcms_main_path.'/components/');
 		
@@ -232,7 +227,7 @@ class tcms_cs extends tcms_main {
 						if($csEnabled == 1){
 							$csAccess = $csXML->readValue('access');
 							
-							$csAcs = $tcms_main->checkAccess($csAccess, $is_admin);
+							$csAcs = $this->checkAccess($csAccess, $isAdmin);
 							
 							if($csAcs){
 								$cs_sort     = $csXML->readValue('sideSort');
@@ -276,12 +271,10 @@ class tcms_cs extends tcms_main {
 	 * Loads the current mainpage CS
 	 *
 	 * @param String $item
+	 * @param Integer $isAdmin
 	 * @return Array
 	 */
-	function getMainCS($item){
-		//global $tcms_main;
-		global $is_admin;
-		
+	function getMainCS($item, $isAdmin) {
 		$arrCSFiles = $this->getPathContent($this->tcms_main_path.'/components/');
 		
 		if(is_array($arrCSFiles)){
@@ -304,7 +297,7 @@ class tcms_cs extends tcms_main {
 							if($csEnabled == 1){
 								$csAccess = $csXML->readValue('access');
 								
-								$csAcs = $tcms_main->checkAccess($csAccess, $is_admin);
+								$csAcs = $this->checkAccess($csAccess, $isAdmin);
 								
 								if($csAcs){
 									$cs_folder   = $csXML->readValue('folder');

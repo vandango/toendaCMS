@@ -23,14 +23,14 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a base components loader.
  *
- * @version 0.1.5
+ * @version 0.1.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
  */
 
 
-if($use_components == 1){
+if($tcms_config->getComponentsSystemEnabled()){
 	if(is_array($arrSideCS) && !empty($arrSideCS)){
 		foreach($arrSideCS['id'] as $key => $val){
 			//echo $item.' - '.$arrSideCS['id'][$key].'<br>';

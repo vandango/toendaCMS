@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a base components loader.
  *
- * @version 0.1.2
+ * @version 0.1.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -31,10 +31,10 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 //if component system is enabled
-if($use_components == 1){
+if($tcms_config->getComponentsSystemEnabled()){
 	if(file_exists($tcms_administer_site.'/components/'.$item.'/component.xml')){
 		// get the component information about the choosen component
-		$arrMainCS = $tcms_cs->getMainCS($item);
+		$arrMainCS = $tcms_cs->getMainCS($item, $is_admin);
 		
 		// if component is not disabled
 		if($arrMainCS['id'] != '_TCMS_COMPONENT_DISABLED_'){

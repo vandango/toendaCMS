@@ -23,24 +23,18 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for global values
  *
- * @version 0.5.9
+ * @version 0.6.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
  */
 
 
-/*
-	CURRENCYS
-*/
-$arr_currency['html']['EUR'] = '&euro;';
-$arr_currency['html']['USD'] = '$';
-
-
 
 /*
 	DOWNLOAD CATEGORIES
 */
+
 $arr_fs['tag'][0] = 'folder';
 $arr_fs['des'][0] = _FOLDER_DEFAULT;
 $arr_fs['tag'][1] = 'folder_html';
@@ -60,9 +54,12 @@ $arr_fs['des'][7] = _FOLDER_VID;
 
 
 
+
+
 /*
 	LANGUAGE NAMES
 */
+
 $languages['code'][0] = 'germany_DE';
 $languages['name'][0] = _LANG_GERMAN;
 $languages['fine'][0] = 'de';
@@ -117,9 +114,12 @@ $languages['fine'][12] = 'se';
 
 
 
+
+
 /*
 	MONTH NAMES
 */
+
 $monthName[1] = _TCMS_MONTH_JANUARY;
 $monthName[2] = _TCMS_MONTH_FEBUARY;
 $monthName[3] = _TCMS_MONTH_MARCH;
@@ -135,9 +135,12 @@ $monthName[12] = _TCMS_MONTH_DECEMBER;
 
 
 
+
+
 /*
 	DAY NAMES
 */
+
 $dayName['name'][1] = _TCMS_DAY_MONDAY;
 $dayName['short'][1] = _TCMS_DAY_MONDAY_XS;
 $dayName['name'][2] = _TCMS_DAY_TUESDAY;
