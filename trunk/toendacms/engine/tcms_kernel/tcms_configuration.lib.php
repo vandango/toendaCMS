@@ -794,7 +794,7 @@ class tcms_configuration {
 	 * @return Integer
 	 */
 	function showValidationLinks(){
-		return $this->m_validLinks;
+		return ( $this->m_validLinks == 1 ? true : false );
 	}
 }
 
