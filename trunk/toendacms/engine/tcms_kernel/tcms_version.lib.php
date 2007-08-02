@@ -24,14 +24,13 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide the cms
  * version information.
  *
- * @version 0.0.8
+ * @version 0.1.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
- */
-
-
-/**
+ *
+ * <code>
+ * 
  * Methods
  *
  * __construct                 -> PHP5 Constructor
@@ -47,6 +46,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getState                    -> Get the state of toendaCMS
  * getReleaseDate              -> Get the release date of toendaCMS
  * getToendaCopyright          -> Get the toenda copyright of toendaCMS
+ * 
+ * </code>
  * 
  */
 
@@ -67,21 +68,17 @@ class tcms_version {
 	 *
 	 * @param String $relativePath = ''
 	 */
-	function __construct($relativePath = ''){
-		$this->o_xml = new xmlparser($relativePath.'engine/tcms_kernel/tcms_version.xml', 'r');
+	function __construct($relativePath = '') {
+		$this->o_xml = simplexml_load_file($relativePath.'engine/tcms_kernel/tcms_version.xml');
 		
-		$this->m_name         = $this->o_xml->readSection('version', 'name');
-		$this->m_tagline      = $this->o_xml->readSection('version', 'tagline');
-		$this->m_codename     = $this->o_xml->readSection('version', 'codename');
-		$this->m_version      = $this->o_xml->readSection('version', 'release');
-		$this->m_build        = $this->o_xml->readSection('version', 'build');
-		$this->m_status       = $this->o_xml->readSection('version', 'status');
-		$this->m_release_date = $this->o_xml->readSection('version', 'release_date');
-		$this->m_toenda_copy  = $this->o_xml->readSection('version', 'toenda_copyright');
-		
-		$this->o_xml->flush();
-		$this->o_xml->_xmlparser();
-		unset($this->o_xml);
+		$this->m_name         = $this->o_xml->name;
+		$this->m_tagline      = $this->o_xml->tagline;
+		$this->m_codename     = $this->o_xml->codename;
+		$this->m_version      = $this->o_xml->release;
+		$this->m_build        = $this->o_xml->build;
+		$this->m_status       = $this->o_xml->status;
+		$this->m_release_date = $this->o_xml->release_date;
+		$this->m_toenda_copy  = $this->o_xml->toenda_copyright;
 	}
 	
 	

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.5.0
+ * @version 2.5.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -85,6 +85,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * deleteDir                         -> Remove dir with all files and directorys inside
  * deleteDirContent                  -> Remove all files and directorys inside a directory
  * deleteFile                        -> Delete a file (if it exist)
+ * encodeUtf8                        -> Encode (cipher) a string to a utf8 string
+ * decodeUtf8                        -> Decode (decipher) a string from a utf8 string
  * encodeBase64                      -> Encode (decipher) a crypt a string from a base64 crypt string
  * decodeBase64                      -> Decode (cipher) a string into a base64 crypt string
  * encodeText                        -> Encode (cipher) a text
@@ -1203,6 +1205,34 @@ class tcms_main {
 		else {
 			return false;
 		}
+	}
+	
+	
+	
+	/**
+	 * Encode (cipher) a string to a utf8 string
+	 *
+	 * @param String $value
+	 * @return String
+	 */
+	function encodeUtf8($value){
+		$value = utf8_encode($value);
+		
+		return $value;
+	}
+	
+	
+	
+	/**
+	 * Decode (decipher) a string from a utf8 string
+	 *
+	 * @param String $value
+	 * @return String
+	 */
+	function decodeUtf8($value){
+		$value = utf8_decode($value);
+		
+		return $value;
 	}
 	
 	
