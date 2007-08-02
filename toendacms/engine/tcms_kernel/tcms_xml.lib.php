@@ -122,11 +122,11 @@ class xmlparser {
 		// For Remote (only read-only)
 		//
 		
-		if ($mode == 'o'){
+		if($mode == 'o') {
 			if(!fopen($xml_file, 'r'))
 				die ('Remote XML-File <strong>'.$xml_file.'</strong> not found!');
 		}
-		else{
+		else {
 			if((!file_exists($xml_file)) && ($mode == 'r'))
 				die ('XML-File <strong>'.$xml_file.'</strong> not found!');
 		}
@@ -177,7 +177,8 @@ class xmlparser {
 				$this->file_handle = fopen($xml_file, 'w');
 				break;
 			
-			default: die ('Unknown modus for XML-File '.$this->filename);
+			default:
+				die('Unknown modus for XML-File '.$this->filename);
 		}
 		
 		//tcms_time::tcms_query_counter();

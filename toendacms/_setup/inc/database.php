@@ -20,7 +20,7 @@
  *
  * This file is used for the database actions.
  *
- * @version 0.6.7
+ * @version 0.6.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -176,7 +176,7 @@ if($todo == 'selectDB'){
 	update toendaCMS
 */
 
-if($todo == 'update'){
+if($todo == 'update') {
 	echo '<h2>'._TCMS_DB_UPDATE_TITLE.'</h2>';
 	echo '<h3>'._TCMS_DB_UPDATE_DB1.' ';
 	
@@ -209,103 +209,34 @@ if($todo == 'update'){
 	.'<input name="new_engine" type="hidden" value="'.$db.'" />';
 	
 	
-	if($db != 'xml'){
-		echo '<div style="display: block; float: left; width: 220px; font-weight: bold;">'
-		._TCMS_DB_TABLEPREFIX
-		.'</div>';
-		
-		echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-		.'<input class="tcms_input" name="new_prefix" type="text" value="tcms_" />'
-		.'</div>';
-		
-		echo '<div style="display: block; margin: 0 0 0 560px;">&nbsp;</div>';
-		
-		
-		echo '<br />';
-	}
+	
+	echo '<div style="display: block; float: left; width: 220px; font-weight: bold;">'
+	._TCMS_DB_UPDATE_VERSION_107
+	.'</div>';
+	
+	echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
+	.'<input checked="checked" name="new_update" type="radio" value="107" />'
+	.'</div>';
+	
+	echo '<div style="display: block; margin: 0 0 0 560px;">&nbsp;</div>';
 	
 	
-	if($db == 'mysql' || $db == 'mssql'){
-		echo '<div style="display: block; float: left; width: 220px; font-weight: bold;">'
-		._TCMS_DB_UPDATE_VERSION_107
-		.'</div>';
-		
-		echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-		.'<input checked="checked" name="new_update" type="radio" value="107" />'
-		.'</div>';
-		
-		echo '<div style="display: block; margin: 0 0 0 560px;">&nbsp;</div>';
-		
-		
-		echo '<br />';
-	}
-	
-	
-	if($db == 'mysql'){
-		echo '<div style="display: block; float: left; width: 220px; font-weight: bold;">'
-		._TCMS_DB_UPDATE_VERSION_103
-		.'</div>';
-		
-		echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-		.'<input name="new_update" type="radio" value="103" />'
-		.'</div>';
-		
-		echo '<div style="display: block; margin: 0 0 0 560px;">&nbsp;</div>';
-		
-		
-		echo '<br />';
-	}
+	echo '<br />';
 	
 	
 	
-	if($db == 'mysql'){
-		echo '<div style="display: block; float: left; width: 220px; font-weight: bold;">'
-		._TCMS_DB_UPDATE_VERSION_102
-		.'</div>';
-		
-		echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-		.'<input name="new_update" type="radio" value="102" />'
-		.'</div>';
-		
-		echo '<div style="display: block; margin: 0 0 0 560px;">&nbsp;</div>';
-		
-		
-		echo '<br />';
-	}
+	echo '<div style="display: block; float: left; width: 220px; font-weight: bold;">'
+	._TCMS_DB_UPDATE_VERSION_156
+	.'</div>';
+	
+	echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
+	.'<input checked="checked" name="new_update" type="radio" value="107" />'
+	.'</div>';
+	
+	echo '<div style="display: block; margin: 0 0 0 560px;">&nbsp;</div>';
 	
 	
-	
-	if($db != 'mssql'){
-		echo '<div style="display: block; float: left; width: 220px; font-weight: bold;">'
-		.( $db == 'xml' ? _TCMS_DB_UPDATE_VERSION_100_XML : _TCMS_DB_UPDATE_VERSION_100 )
-		.'</div>';
-		
-		echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-		.'<input name="new_update" type="radio" value="100" />'
-		.'</div>';
-		
-		echo '<div style="display: block; margin: 0 0 0 560px;">&nbsp;</div>';
-		
-		
-		echo '<br />';
-	}
-	
-	
-	
-	if($db != 'mssql'){
-		echo '<div style="display: block; float: left; width: 220px; font-weight: bold;">'
-		._TCMS_DB_UPDATE_VERSION_070
-		.'</div>';
-		
-		echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-		.'<input name="new_update" type="radio" value="070" />'
-		.'</div>';
-		
-		echo '<div style="display: block; margin: 0 0 0 560px;">&nbsp;</div>';
-		
-		
-		echo '<br />';
-	}
+	echo '<br />';
 	
 	
 	echo '<br />';
@@ -550,12 +481,16 @@ if($todo == 'global'){
 	
 	
 	// xml engine relocate
-	if($db == 'xml'){
-		if($tcms_main->get_php_setting('safe_mode') == 'off'){
-			echo '<script>document.getElementById(\'db_form\').submit();</script>';
+	if($db == 'xml') {
+		if($tcms_main->get_php_setting('safe_mode') == 'off') {
+			echo '<script>'
+			.'document.getElementById(\'db_form\').submit();'
+			.'</script>';
 		}
-		else{
-			echo '<script>document.location=\'index.php?site=error&code=1&lang='.$lang.'\';</script>';
+		else {
+			echo '<script>'
+			.'document.location=\'index.php?site=error&code=1&lang='.$lang.'\';'
+			.'</script>';
 		}
 	}
 }
@@ -570,74 +505,19 @@ if($todo == 'global'){
 	update database settings
 */
 
-if($todo == 'save_update'){
-	if($new_update == '070'){
-		include_once('../'.$tcms_administer_site.'/tcms_global/database.php');
-		
-		$new_user     = $tcms_db_user;
-		$new_password = $tcms_db_password;
-		$new_host     = $tcms_db_host;
-		$new_database = $tcms_db_database;
-		$new_port     = $tcms_db_port;
-		
-		$set_engine   = $new_engine;
-		$set_prefix   = $new_prefix;
-		$set_user     = $new_user;
-		$set_password = $new_password;
-		$set_host     = $new_host;
-		$set_database = $new_database;
-		$set_port     = $new_port;
-		
-		
-		//***************************************
-		
-		$fp_header = ''
-.'<?php /* _\|/_
-         (o o)
-+-----oOO-{_}-OOo--------------------------------------------------------+
-| toendaCMS - Content Management and Weblogging System with XML and SQL  |
-+------------------------------------------------------------------------+
-| Copyright (c) Toenda Software Development                              |
-| Author: Jonathan Naumann                                               |
-+------------------------------------------------------------------------+
-|
-| Database Usersettings
-|
-| File:		database.php
-| Version:	0.0.1
-|
-+
-*/
-
-$tcms_db_engine   = \''.$set_engine.'\';
-$tcms_db_user     = \''.$set_user.'\';
-$tcms_db_password = \''.$set_password.'\';
-$tcms_db_host     = \''.$set_host.'\';
-$tcms_db_database = \''.$set_database.'\';
-$tcms_db_prefix   = \''.$set_prefix.'\';
-$tcms_db_port     = \''.$set_port.'\';
-
-?>
-';
-		
-		$fp = fopen('../'.$tcms_administer_site.'/tcms_global/database.php', 'w');
-		fwrite($fp, $fp_header);
-		fclose($fp);
-	}
-	else {
-		include_once('../'.$tcms_administer_site.'/tcms_global/database.php');
-		
-		$new_user     = $tcms_db_user;
-		$new_password = $tcms_db_password;
-		$new_host     = $tcms_db_host;
-		$new_database = $tcms_db_database;
-		$new_port     = $tcms_db_port;
-		$new_prefix   = $tcms_db_prefix;
-	}
+if($todo == 'save_update') {
+	include_once('../'.$tcms_administer_site.'/tcms_global/database.php');
 	
-	if($new_engine == 'xml'){
+	$new_user     = $tcms_db_user;
+	$new_password = $tcms_db_password;
+	$new_host     = $tcms_db_host;
+	$new_database = $tcms_db_database;
+	$new_port     = $tcms_db_port;
+	$new_prefix   = $tcms_db_prefix;
+	
+	if($new_engine == 'xml') {
 		// XML data settings
-		$gzFileName = 'XMLdataUpdate_'.$new_update.'.zip';
+		$gzFileName = 'xml_pdate_'.$new_update.'.zip';
 		$gzFilePath = '../data/';
 		$gzFileDir  = '../data';
 		
@@ -661,10 +541,10 @@ $tcms_db_port     = \''.$set_port.'\';
 		// update now
 		updateLanguageForXML($tcms_administer_site);
 	}
-	else{
-		if(file_exists('db/toendaCMS_'.$new_engine.'_Update_'.$new_update.'.sql')){
-			$fp = fopen('db/toendaCMS_'.$new_engine.'_Update_'.$new_update.'.sql', 'r');
-			$tcms_sql_command = fread($fp, filesize('db/toendaCMS_'.$new_engine.'_Update_'.$new_update.'.sql'));
+	else {
+		if(file_exists('db/'.$new_engine.'_update_'.$new_update.'.sql')) {
+			$fp = fopen('db/'.$new_engine.'_update_'.$new_update.'.sql', 'r');
+			$tcms_sql_command = fread($fp, filesize('db/'.$new_engine.'_update_'.$new_update.'.sql'));
 			fclose($fp);
 			
 			$sqlAL = new sqlAbstractionLayer($new_engine);
@@ -689,9 +569,9 @@ $tcms_db_port     = \''.$set_port.'\';
 			$layout_xml = new xmlparser('../'.$tcms_administer_site.'/tcms_global/var.xml','r');
 			$plang = $layout_xml->read_value('front_lang');
 			
-			if(file_exists('db/toendaCMS_'.$new_engine.'_Update_ML.sql')){
-				$fp = fopen('db/toendaCMS_'.$new_engine.'_Update_ML.sql', 'r');
-				$tcms_ml = fread($fp, filesize('db/toendaCMS_'.$new_engine.'_Update_ML.sql'));
+			if(file_exists('db/'.$new_engine.'_ext_updateml.sql')){
+				$fp = fopen('db/'.$new_engine.'_ext_updateml.sql', 'r');
+				$tcms_ml = fread($fp, filesize('db/'.$new_engine.'_ext_updateml.sql'));
 				fclose($fp);
 				
 				$sqlAL = new sqlAbstractionLayer($new_engine);
@@ -715,56 +595,29 @@ $tcms_db_port     = \''.$set_port.'\';
 	
 	
 	// create components folder
-	if(!is_dir('../'.$tcms_administer_site.'/components/')){
+	if(!is_dir('../'.$tcms_administer_site.'/components/')) {
 		mkdir('../'.$tcms_administer_site.'/components/');
 		copy('db/index.html', '../'.$tcms_administer_site.'/components/index.html');
 	}
 	
 	
 	// create captchas folder
-	if(!is_dir('../cache/captcha/')){
+	if(!is_dir('../cache/captcha/')) {
 		mkdir('../cache/captcha/');
 		copy('db/index.html', '../cache/captcha/index.html');
 	}
 	
 	
-	if($new_update == '070'){
-		// update the var.xml file
-		$layout_xml = new xmlparser('../'.$tcms_administer_site.'/tcms_global/var.xml','r');
-		$ucs = $layout_xml->read_value('use_cs');
-		xmlparser::edit_value('../'.$tcms_administer_site.'/tcms_global/var.xml', 'use_cs', $ucs, '1');
+	if(file_exists('../'.$tcms_administer_site.'/tcms_global/database.php')) {
+		echo '<script>'
+		.'document.location.href=\'index.php?site=finish&db='.$new_engine.'\';'
+		.'</script>';
 	}
-	
-	
-	// update the layout.xml file
-	$layout_xml = new xmlparser('../'.$tcms_administer_site.'/tcms_global/layout.xml','r');
-	$sel = $layout_xml->read_section('layout', 'select');
-	$adm = $layout_xml->read_section('layout', 'admin');
-	
-	if($sel == false || $sel == '' || empty($sel) || !isset($sel)) $sel = 'biz';
-	if($adm == false || $adm == '' || empty($adm) || !isset($adm)) $adm = 'default';
-	
-	$xmluser = new xmlparser('../'.$tcms_administer_site.'/tcms_global/layout.xml', 'w');
-	$xmluser->xml_declaration();
-	$xmluser->xml_section('layout');
-	
-	$xmluser->write_value('select', $sel);
-	$xmluser->write_value('admin', $adm);
-	
-	$xmluser->xml_section_buffer();
-	$xmluser->xml_section_end('layout');
-	$xmluser->_xmlparser();
-	
-	
-	//***************************************
-	
-	
-	if(file_exists('../'.$tcms_administer_site.'/tcms_global/database.php')){
-		echo '<script>document.location.href=\'index.php?site=finish&db='.$new_engine.'\';</script>';
-	}
-	else{
-		echo '<script>alert(\''._TCMS_DB_UPDATE_NOT_SUCCESSFULL.'\n'._TCMS_DB_CHECK_WRITERIGHTS.'\');</script>'
-		.'<script>document.location.href=\'index.php?site=check\';</script>';
+	else {
+		echo '<script>'
+		.'alert(\''._TCMS_DB_UPDATE_NOT_SUCCESSFULL.'\n'._TCMS_DB_CHECK_WRITERIGHTS.'\');'
+		.'document.location.href=\'index.php?site=check\';'
+		.'</script>';
 	}
 }
 
@@ -842,7 +695,7 @@ $tcms_db_port     = \''.$set_port.'\';
 	
 	
 	
-	if($new_drop == 1){
+	if($new_drop == 1) {
 		$sqlAL = new sqlAbstractionLayer($new_engine);
 		$sqlCN = $sqlAL->sqlConnectWithoutDB($new_user, $new_password, $new_host, $new_port);
 		
@@ -857,13 +710,13 @@ $tcms_db_port     = \''.$set_port.'\';
 	
 	
 	
-	if($new_engine == 'xml'){
+	if($new_engine == 'xml') {
 		// XML data settings
-		$gzFileName = 'XMLdata.zip';
+		$gzFileName = 'xml_data.zip';
 		$gzFilePath = '../data/';
 		$gzFileDir  = '../data';
 		
-		$gzMainName = 'tcms_global.zip';
+		$gzMainName = 'xml_tcms_global.zip';
 		$gzMainPath = '../data/tcms_global/';
 		$gzMainDir  = '../data/tcms_global';
 		
@@ -889,15 +742,15 @@ $tcms_db_port     = \''.$set_port.'\';
 		// remove zip file
 		unlink($gzMainPath.$gzMainName);
 	}
-	else{
+	else {
 		if($new_sample == 1) {
-			$file = 'db/toendaCMS_'.$new_engine.'_with_sample_data.sql';
+			$file = 'db/'.$new_engine.'_sample.sql';
 		}
 		else {
-			$file = 'db/toendaCMS_'.$new_engine.'_empty.sql';
+			$file = 'db/'.$new_engine.'_empty.sql';
 			
-			$tcms_main->rmdirr('../'.$tcms_administer_site.'/images/albums/625106/');
-			$tcms_main->rmdirr('../'.$tcms_administer_site.'/thumbnails/625106/');
+			//$tcms_main->rmdirr('../'.$tcms_administer_site.'/images/albums/625106/');
+			//$tcms_main->rmdirr('../'.$tcms_administer_site.'/thumbnails/625106/');
 		}
 		
 		$fp = fopen($file, 'r');
@@ -978,9 +831,9 @@ $tcms_db_port     = \''.$set_port.'\';
 		}
 		
 		// optimize
-		if(file_exists('db/toendaCMS_'.$new_engine.'_Optimize.sql')) {
-			$fp = fopen('db/toendaCMS_'.$new_engine.'_Optimize.sql', 'r');
-			$tcms_sql_command = fread($fp, filesize('db/toendaCMS_'.$new_engine.'_Optimize.sql'));
+		if(file_exists('db/'.$new_engine.'_ext_optimize.sql')) {
+			$fp = fopen('db/'.$new_engine.'_ext_optimize.sql', 'r');
+			$tcms_sql_command = fread($fp, filesize('db/'.$new_engine.'_ext_optimize.sql'));
 			fclose($fp);
 			
 			$pieces = $tcms_main->split_sql($tcms_sql_command);
@@ -1004,15 +857,17 @@ $tcms_db_port     = \''.$set_port.'\';
 	}
 	*/
 	
-	//***************************************
 	
-	
-	if(file_exists('../'.$tcms_administer_site.'/tcms_global/database.php')){
-		echo '<script>document.location.href=\'index.php?site=site&lang='.$lang.'&db='.$new_engine.'\';</script>';
+	if(file_exists('../'.$tcms_administer_site.'/tcms_global/database.php')) {
+		echo '<script>'
+		.'document.location.href=\'index.php?site=site&lang='.$lang.'&db='.$new_engine.'\';'
+		.'</script>';
 	}
-	else{
-		echo '<script>alert(\''._TCMS_DB_SETTINGS.'\n'._TCMS_DB_CHECK_WRITERIGHTS.'\');</script>'
-		.'<script>document.location.href=\'index.php?site=check&lang='.$lang.'\';</script>';
+	else {
+		echo '<script>'
+		.'alert(\''._TCMS_DB_SETTINGS.'\n'._TCMS_DB_CHECK_WRITERIGHTS.'\');'
+		.'document.location.href=\'index.php?site=check&lang='.$lang.'\';'
+		.'</script>';
 	}
 }
 
