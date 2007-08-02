@@ -33,7 +33,7 @@ if(isset($_GET['id_user'])){ $id_user = $_GET['id_user']; }
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 0.6.3
+ * @version 0.6.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -57,6 +57,7 @@ include_once('../tcms_kernel/tcms_xml.lib.php');
 include_once('../../'.$tcms_administer_site.'/tcms_global/database.php');
 include_once('../tcms_kernel/tcms_authentication.lib.php');
 include_once('../tcms_kernel/tcms_configuration.lib.php');
+include_once('../tcms_kernel/tcms_version.lib.php');
 include_once('../tcms_kernel/phpmailer/class.phpmailer.php');
 
 

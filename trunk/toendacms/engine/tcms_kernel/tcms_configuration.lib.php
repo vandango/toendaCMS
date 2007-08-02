@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide the global
  * configuration data.
  *
- * @version 0.4.8
+ * @version 0.4.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -252,17 +252,18 @@ class tcms_configuration {
 		
 		
 		// utf8 chars
-		$this->m_description  = base64_decode(htmlspecialchars($this->m_description));
-		$this->m_keywords     = base64_decode(htmlspecialchars($this->m_keywords));
-		$this->m_sitetitle    = base64_decode(htmlspecialchars($this->m_sitetitle));
-		$this->m_sitename     = base64_decode(htmlspecialchars($this->m_sitename));
-		$this->m_sitekey      = base64_decode(htmlspecialchars($this->m_sitekey));
-		$this->m_sitelogo     = base64_decode(htmlspecialchars($this->m_sitelogo));
-		$this->m_wpowner      = base64_decode(htmlspecialchars($this->m_wpowner));
-		$this->m_wpcopyright  = base64_decode(htmlspecialchars($this->m_wpcopyright));
-		$this->m_wpowner_url  = base64_decode(htmlspecialchars($this->m_wpowner_url));
-		$this->m_wpowner_mail = base64_decode(htmlspecialchars($this->m_wpowner_mail));
-		$this->m_footer_text  = base64_decode(htmlspecialchars($this->m_footer_text));
+		$this->m_siteOfflineText = base64_decode($this->m_siteOfflineText);
+		$this->m_description     = base64_decode($this->m_description);
+		$this->m_keywords        = base64_decode($this->m_keywords);
+		$this->m_sitetitle       = base64_decode($this->m_sitetitle);
+		$this->m_sitename        = base64_decode($this->m_sitename);
+		$this->m_sitekey         = base64_decode($this->m_sitekey);
+		$this->m_sitelogo        = base64_decode($this->m_sitelogo);
+		$this->m_wpowner         = base64_decode($this->m_wpowner);
+		$this->m_wpcopyright     = base64_decode($this->m_wpcopyright);
+		$this->m_wpowner_url     = base64_decode($this->m_wpowner_url);
+		$this->m_wpowner_mail    = base64_decode($this->m_wpowner_mail);
+		$this->m_footer_text     = base64_decode($this->m_footer_text);
 	}
 	
 	
