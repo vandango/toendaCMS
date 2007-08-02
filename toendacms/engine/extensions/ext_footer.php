@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a footer.
  *
- * @version 0.4.7
+ * @version 0.4.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -46,8 +46,8 @@ $link = $tcms_main->urlAmpReplace($link);
 
 echo '<a class="legal" href="'.$owner_url.'" target="_blank">'.$websiteowner.'</a>&nbsp;'
 .'<span class="legal">&copy; '.$copyright.' '._TCMS_ADMIN_RIGHT.'</span>&nbsp;';
-if($show_ll == 1){ echo '|&nbsp;<a class="legal" href="'.$link.'">'._PATH_LEGAL.'</a>&nbsp;'; }
-if($show_al == 1){ echo '|&nbsp;<a class="legal" href="'.$imagePath.'engine/admin/index.php">'._LOGIN_ADMIN.'</a>'; }
+if($tcms_config->showLegalLinkInFooter()){ echo '|&nbsp;<a class="legal" href="'.$link.'">'._PATH_LEGAL.'</a>&nbsp;'; }
+if($tcms_config->showAdminLinkInFooter()){ echo '|&nbsp;<a class="legal" href="'.$imagePath.'engine/admin/index.php">'._LOGIN_ADMIN.'</a>'; }
 echo '<br />';
 
 
