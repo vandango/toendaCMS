@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.7.5
+ * @version 2.7.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -140,6 +140,8 @@ if(file_exists($tcms_administer_site.'/tcms_global/var.xml')) {
 	$tcms_main = new tcms_main($tcms_administer_site, $tcms_time, $tcms_config);
 	$tcms_main->setGlobalFolder($seoFolder, $seoEnabled);
 	$tcms_main->setDatabaseInfo($choosenDB);
+	
+	$site_off_text = $tcms_main->decodeText($site_off_text, '2', $c_charset);
 	
 	
 	/*

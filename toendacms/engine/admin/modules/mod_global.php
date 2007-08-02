@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * This module is for the global configuration settings.
  * 
- * @version 1.3.2
+ * @version 1.3.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Admin Backend
@@ -245,41 +245,44 @@ if($id_group == 'Developer'
 	/*
 		charsets
 	*/
-	$sitetitle        = $tcms_main->decodeBase64($sitetitle);
-	$sitename         = $tcms_main->decodeBase64($sitename);
-	$sitekey          = $tcms_main->decodeBase64($sitekey);
-	$logo             = $tcms_main->decodeBase64($logo);
-	$old_websiteowner = $tcms_main->decodeBase64($old_websiteowner);
-	$old_owner_url    = $tcms_main->decodeBase64($old_owner_url);
-	$old_copyright    = $tcms_main->decodeBase64($old_copyright);
-	$old_owner_email  = $tcms_main->decodeBase64($old_owner_email);
-	$old_keywords     = $tcms_main->decodeBase64($old_keywords);
-	$old_description  = $tcms_main->decodeBase64($old_description);
-	$old_footer_text  = $tcms_main->decodeBase64($old_footer_text);
+	$old_site_off_text = $tcms_main->decodeBase64($old_site_off_text);
+	$old_keywords      = $tcms_main->decodeBase64($old_keywords);
+	$old_description   = $tcms_main->decodeBase64($old_description);
+	$sitetitle         = $tcms_main->decodeBase64($sitetitle);
+	$sitename          = $tcms_main->decodeBase64($sitename);
+	$sitekey           = $tcms_main->decodeBase64($sitekey);
+	$logo              = $tcms_main->decodeBase64($logo);
+	$old_websiteowner  = $tcms_main->decodeBase64($old_websiteowner);
+	$old_owner_url     = $tcms_main->decodeBase64($old_owner_url);
+	$old_copyright     = $tcms_main->decodeBase64($old_copyright);
+	$old_owner_email   = $tcms_main->decodeBase64($old_owner_email);
+	$old_footer_text   = $tcms_main->decodeBase64($old_footer_text);
 	
-	$sitetitle        = $tcms_main->decodeText($sitetitle, '2', $c_charset);
-	$sitename         = $tcms_main->decodeText($sitename, '2', $c_charset);
-	$sitekey          = $tcms_main->decodeText($sitekey, '2', $c_charset);
-	$logo             = $tcms_main->decodeText($logo, '2', $c_charset);
-	$old_websiteowner = $tcms_main->decodeText($old_websiteowner, '2', $c_charset);
-	$old_owner_url    = $tcms_main->decodeText($old_owner_url, '2', $c_charset);
-	$old_copyright    = $tcms_main->decodeText($old_copyright, '2', $c_charset);
-	$old_owner_email  = $tcms_main->decodeText($old_owner_email, '2', $c_charset);
-	$old_keywords     = $tcms_main->decodeText($old_keywords, '2', $c_charset);
-	$old_description  = $tcms_main->decodeText($old_description, '2', $c_charset);
-	$old_footer_text  = $tcms_main->decodeText($old_footer_text, '2', $c_charset);
+	$old_site_off_text = $tcms_main->decodeText($old_site_off_text, '2', $c_charset);
+	$old_keywords      = $tcms_main->decodeText($old_keywords, '2', $c_charset);
+	$old_description   = $tcms_main->decodeText($old_description, '2', $c_charset);
+	$sitetitle         = $tcms_main->decodeText($sitetitle, '2', $c_charset);
+	$sitename          = $tcms_main->decodeText($sitename, '2', $c_charset);
+	$sitekey           = $tcms_main->decodeText($sitekey, '2', $c_charset);
+	$logo              = $tcms_main->decodeText($logo, '2', $c_charset);
+	$old_websiteowner  = $tcms_main->decodeText($old_websiteowner, '2', $c_charset);
+	$old_owner_url     = $tcms_main->decodeText($old_owner_url, '2', $c_charset);
+	$old_copyright     = $tcms_main->decodeText($old_copyright, '2', $c_charset);
+	$old_owner_email   = $tcms_main->decodeText($old_owner_email, '2', $c_charset);
+	$old_footer_text   = $tcms_main->decodeText($old_footer_text, '2', $c_charset);
 	
-	$sitetitle        = htmlspecialchars($sitetitle);
-	$sitename         = htmlspecialchars($sitename);
-	$sitekey          = htmlspecialchars($sitekey);
-	$logo             = htmlspecialchars($logo);
-	$old_websiteowner = htmlspecialchars($old_websiteowner);
-	$old_owner_url    = htmlspecialchars($old_owner_url);
-	$old_copyright    = htmlspecialchars($old_copyright);
-	$old_owner_email  = htmlspecialchars($old_owner_email);
-	$old_keywords     = htmlspecialchars($old_keywords);
-	$old_description  = htmlspecialchars($old_description);
-	$old_footer_text  = htmlspecialchars($old_footer_text);
+	$old_site_off_text = htmlspecialchars($old_site_off_text);
+	$old_keywords      = htmlspecialchars($old_keywords);
+	$old_description   = htmlspecialchars($old_description);
+	$sitetitle         = htmlspecialchars($sitetitle);
+	$sitename          = htmlspecialchars($sitename);
+	$sitekey           = htmlspecialchars($sitekey);
+	$logo              = htmlspecialchars($logo);
+	$old_websiteowner  = htmlspecialchars($old_websiteowner);
+	$old_owner_url     = htmlspecialchars($old_owner_url);
+	$old_copyright     = htmlspecialchars($old_copyright);
+	$old_owner_email   = htmlspecialchars($old_owner_email);
+	$old_footer_text   = htmlspecialchars($old_footer_text);
 	
 	
 	
@@ -1301,29 +1304,31 @@ $tcms_mail_password    = \''.$new_mail_password.'\';
 			//***********
 			// Charsets
 			//
-			if($title           != ''){ $title           = $tcms_main->encodeText($title, '2', $c_charset); }
-			if($name            != ''){ $name            = $tcms_main->encodeText($name, '2', $c_charset); }
-			if($new_key         != ''){ $new_key         = $tcms_main->encodeText($new_key, '2', $c_charset); }
-			if($logo            != ''){ $logo            = $tcms_main->encodeText($logo, '2', $c_charset); }
-			if($owner           != ''){ $owner           = $tcms_main->encodeText($owner, '2', $c_charset); }
-			if($owner_url       != ''){ $owner_url       = $tcms_main->encodeText($owner_url, '2', $c_charset); }
-			if($copy            != ''){ $copy            = $tcms_main->encodeText($copy, '2', $c_charset); }
-			if($email           != ''){ $email           = $tcms_main->encodeText($email, '2', $c_charset); }
-			if($keywords        != ''){ $keywords        = $tcms_main->encodeText($keywords, '2', $c_charset); }
-			if($description     != ''){ $description     = $tcms_main->encodeText($description, '2', $c_charset); }
-			if($new_footer_text != ''){ $new_footer_text = $tcms_main->encodeText($new_footer_text, '2', $c_charset); }
+			if($new_site_off_text != ''){ $new_site_off_text = $tcms_main->encodeText($new_site_off_text, '2', $c_charset); }
+			if($keywords          != ''){ $keywords          = $tcms_main->encodeText($keywords, '2', $c_charset); }
+			if($description       != ''){ $description       = $tcms_main->encodeText($description, '2', $c_charset); }
+			if($title             != ''){ $title             = $tcms_main->encodeText($title, '2', $c_charset); }
+			if($name              != ''){ $name              = $tcms_main->encodeText($name, '2', $c_charset); }
+			if($new_key           != ''){ $new_key           = $tcms_main->encodeText($new_key, '2', $c_charset); }
+			if($logo              != ''){ $logo              = $tcms_main->encodeText($logo, '2', $c_charset); }
+			if($owner             != ''){ $owner             = $tcms_main->encodeText($owner, '2', $c_charset); }
+			if($owner_url         != ''){ $owner_url         = $tcms_main->encodeText($owner_url, '2', $c_charset); }
+			if($copy              != ''){ $copy              = $tcms_main->encodeText($copy, '2', $c_charset); }
+			if($email             != ''){ $email             = $tcms_main->encodeText($email, '2', $c_charset); }
+			if($new_footer_text   != ''){ $new_footer_text   = $tcms_main->encodeText($new_footer_text, '2', $c_charset); }
 			
-			if($title           != ''){ $title           = $tcms_main->encodeBase64($title); }
-			if($name            != ''){ $name            = $tcms_main->encodeBase64($name); }
-			if($new_key         != ''){ $new_key         = $tcms_main->encodeBase64($new_key); }
-			if($logo            != ''){ $logo            = $tcms_main->encodeBase64($logo); }
-			if($owner           != ''){ $owner           = $tcms_main->encodeBase64($owner); }
-			if($owner_url       != ''){ $owner_url       = $tcms_main->encodeBase64($owner_url); }
-			if($copy            != ''){ $copy            = $tcms_main->encodeBase64($copy); }
-			if($email           != ''){ $email           = $tcms_main->encodeBase64($email); }
-			if($keywords        != ''){ $keywords        = $tcms_main->encodeBase64($keywords); }
-			if($description     != ''){ $description     = $tcms_main->encodeBase64($description); }
-			if($new_footer_text != ''){ $new_footer_text = $tcms_main->encodeBase64($new_footer_text); }
+			if($new_site_off_text != ''){ $new_site_off_text = $tcms_main->encodeBase64($new_site_off_text); }
+			if($keywords          != ''){ $keywords          = $tcms_main->encodeBase64($keywords); }
+			if($description       != ''){ $description       = $tcms_main->encodeBase64($description); }
+			if($title             != ''){ $title             = $tcms_main->encodeBase64($title); }
+			if($name              != ''){ $name              = $tcms_main->encodeBase64($name); }
+			if($new_key           != ''){ $new_key           = $tcms_main->encodeBase64($new_key); }
+			if($logo              != ''){ $logo              = $tcms_main->encodeBase64($logo); }
+			if($owner             != ''){ $owner             = $tcms_main->encodeBase64($owner); }
+			if($owner_url         != ''){ $owner_url         = $tcms_main->encodeBase64($owner_url); }
+			if($copy              != ''){ $copy              = $tcms_main->encodeBase64($copy); }
+			if($email             != ''){ $email             = $tcms_main->encodeBase64($email); }
+			if($new_footer_text   != ''){ $new_footer_text   = $tcms_main->encodeBase64($new_footer_text); }
 			//
 			//***********
 			
