@@ -68,7 +68,7 @@ if($tcms_config->showDefaultFooterText()) {
 	ADDITIONAL FOOTER TEXT
 */
 echo '<span class="legal">'
-.$tcms_config->getFooterText()
+.$footer_text
 .'</span>';
 
 
