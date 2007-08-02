@@ -21,7 +21,7 @@
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 1.1.5
+ * @version 1.1.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -64,7 +64,7 @@ include_once('../tcms_kernel/tcms_loader.lib.php');
 	show site
 	if the global var file exist
 */
-if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
+if(file_exists($tcms_administer_path.'/tcms_global/var.xml')){
 	$language_stage = 'admin';
 	include_once('../language/lang_admin.php');
 	
@@ -203,12 +203,9 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 	/*
 		COPYRIGHT
 	*/
-	$foot_xml = new xmlparser($tcms_administer_path.'/tcms_global/footer.xml','r');
-	$websiteowner = $foot_xml->read_section('footer', 'websiteowner');
-	$owner_url    = $foot_xml->read_section('footer', 'owner_url');
-	$copyright    = $foot_xml->read_section('footer', 'copyright');
-	$foot_xml->flush();
-	$foot_xml->_xmlparser();
+	$websiteowner = $tcms_config->getWebpageOwner();
+	$owner_url    = $tcms_config->getWebpageOwnerUrl();
+	$copyright    = $tcms_config->getWebpageCopyright();
 	
 	$websiteowner = $tcms_main->decodeText($websiteowner, '2', $c_charset);
 	$owner_url    = $tcms_main->decodeText($owner_url, '2', $c_charset);
@@ -382,14 +379,11 @@ if(file_exists('../../'.$tcms_administer_site.'/tcms_global/var.xml')){
 				.'<div class="tcms_footer_img">&nbsp;</div>'
 				.'<div class="legal tcms_footer_color">';
 				
-				$tcms_time->stopTimer();
-				$page_load_time = $tcms_time->getTimerValue();
-				
-				echo '<strong>'.$version.' &bull;</strong> '.$page_load_time;
+				echo '<strong>'.$version.' &bull;</strong>&nbsp;'
+				._MSG_PAGE_LOAD_1.'&nbsp;'.$tcms_time->getCurrentTimerValue().'&nbsp;'._MSG_PAGE_LOAD_2;
 				
 				if($choosenDB != 'xml'){
-					$page_query_count = $tcms_time->getSqlQueryCountValue();
-					echo '.&nbsp;'.$page_query_count;
+					echo '.&nbsp;'.$tcms_time->getSqlQueryCountValue();
 				}
 				
 				echo '<br />'._TCMS_ADMIN_DEV

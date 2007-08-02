@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide the global
  * configuration data.
  *
- * @version 0.4.6
+ * @version 0.4.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -90,6 +90,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getWebpageOwner             -> Get the webpage owner
  * getWebpageCopyright         -> Get the webpage copyright
  * getWebpageOwnerUrl          -> Get the webpage owner url
+ * getWebpageOwnerMail         -> Get the webpage owner mail
  * showTCMSLogo                -> Get the setting if the toendaCMS logo should be displayed
  * showDefaultFooterText       -> Get the setting if the default footer text should be displayed
  * showPageLoadingTime         -> Get the setting if the page loading time should be displayed
@@ -158,6 +159,7 @@ class tcms_configuration {
 	private $m_wpowner;
 	private $m_wpcopyright;
 	private $m_wpowner_url;
+	private $m_wpowner_mail;
 	private $m_showtcmslogo;
 	private $m_show_default;
 	private $m_show_plt;
@@ -238,6 +240,7 @@ class tcms_configuration {
 		$this->m_wpowner      = $this->o_xml->websiteowner;
 		$this->m_wpcopyright  = $this->o_xml->copyright;
 		$this->m_wpowner_url  = $this->o_xml->owner_url;
+		$this->m_wpowner_mail = $this->o_xml->email;
 		$this->m_showtcmslogo = $this->o_xml->show_tcmslogo;
 		$this->m_show_default = $this->o_xml->show_defaultfooter;
 		$this->m_show_plt     = $this->o_xml->show_page_loading_time;
@@ -246,6 +249,20 @@ class tcms_configuration {
 		$this->m_footer_text  = $this->o_xml->footer_text;
 		
 		unset($this->o_xml);
+		
+		
+		// utf8 chars
+		$this->m_description  = base64_decode(htmlspecialchars($this->m_description));
+		$this->m_keywords     = base64_decode(htmlspecialchars($this->m_keywords));
+		$this->m_sitetitle    = base64_decode(htmlspecialchars($this->m_sitetitle));
+		$this->m_sitename     = base64_decode(htmlspecialchars($this->m_sitename));
+		$this->m_sitekey      = base64_decode(htmlspecialchars($this->m_sitekey));
+		$this->m_sitelogo     = base64_decode(htmlspecialchars($this->m_sitelogo));
+		$this->m_wpowner      = base64_decode(htmlspecialchars($this->m_wpowner));
+		$this->m_wpcopyright  = base64_decode(htmlspecialchars($this->m_wpcopyright));
+		$this->m_wpowner_url  = base64_decode(htmlspecialchars($this->m_wpowner_url));
+		$this->m_wpowner_mail = base64_decode(htmlspecialchars($this->m_wpowner_mail));
+		$this->m_footer_text  = base64_decode(htmlspecialchars($this->m_footer_text));
 	}
 	
 	
@@ -898,6 +915,17 @@ class tcms_configuration {
 	 */
 	function getWebpageOwnerUrl() {
 		return $this->m_wpowner_url;
+	}
+	
+	
+	
+	/**
+	 * Get the webpage owner mail
+	 *
+	 * @return String
+	 */
+	function getWebpageOwnerMail() {
+		return $this->m_wpowner_mail;
 	}
 	
 	

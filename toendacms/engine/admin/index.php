@@ -33,7 +33,7 @@ if(isset($_GET['id_user'])){ $id_user = $_GET['id_user']; }
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 0.6.2
+ * @version 0.6.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -85,8 +85,7 @@ $tcms_db_prefix = $sqlPrefix;
 $tcms_main->setDatabaseInfo($choosenDB);
 
 
-$footer_xml   = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/footer.xml','r');
-$websiteowner = $footer_xml->readSection('footer', 'websiteowner');
+$websiteowner = $tcms_config->getWebpageOwner();
 $websiteowner = $tcms_main->decodeText($websiteowner, '2', $c_charset);
 
 
@@ -109,17 +108,16 @@ if(!isset($cmd)) $cmd = '';
 /*
 	Version
 */
-$ver_xml = new xmlparser('../../engine/tcms_kernel/tcms_version.xml','r');
-$release      = $ver_xml->readSection('version', 'release');
-$codename     = $ver_xml->readSection('version', 'codename');
-$status       = $ver_xml->readSection('version', 'status');
-$build        = $ver_xml->readSection('version', 'build');
-$cms_name     = $ver_xml->readSection('version', 'name');
-$cms_tagline  = $ver_xml->readSection('version', 'tagline');
-$release_date = $ver_xml->readSection('version', 'release_date');
-$toenda_copy  = $ver_xml->readSection('version', 'toenda_copyright');
-$ver_xml->flush();
-$ver_xml->_xmlparser();
+$tcms_version = new tcms_version('../../');
+
+$release      = $tcms_version->getVersion();
+$codename     = $tcms_version->getCodename();
+$status       = $tcms_version->getState();
+$build        = $tcms_version->getBuild();
+$cms_name     = $tcms_version->getName();
+$cms_tagline  = $tcms_version->getTagline();
+$release_date = $tcms_version->getReleaseDate();
+$toenda_copy  = $tcms_version->getToendaCopyright();
 
 $version = '&nbsp;'.$cms_name.' &bull; '.$release.' ['.$codename.'] &bull; '.$status.'&nbsp;';
 

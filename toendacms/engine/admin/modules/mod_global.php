@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * This module is for the global configuration settings.
  * 
- * @version 1.3.1
+ * @version 1.3.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Admin Backend
@@ -185,8 +185,8 @@ if($id_group == 'Developer'
 	$old_seo_enabled    = $globals_xml->read_section('global', 'seo_enabled');
 	$old_seo_folder     = $globals_xml->read_section('global', 'server_folder');
 	$old_seo_format     = $globals_xml->read_section('global', 'seo_format');
-  $old_seo_news_title = $globals_xml->read_section('global', 'seo_news_title');
-  $old_seo_c_title    = $globals_xml->read_section('global', 'seo_content_title');
+	$old_seo_news_title = $globals_xml->read_section('global', 'seo_news_title');
+	$old_seo_c_title    = $globals_xml->read_section('global', 'seo_content_title');
 	$old_site_offline   = $globals_xml->read_section('global', 'site_offline');
 	$old_site_off_text  = $globals_xml->read_section('global', 'site_offline_text');
 	$old_show_top_pages = $globals_xml->read_section('global', 'show_top_pages');
@@ -245,6 +245,17 @@ if($id_group == 'Developer'
 	/*
 		charsets
 	*/
+	$sitetitle        = $tcms_main->decodeBase64($sitetitle);
+	$sitename         = $tcms_main->decodeBase64($sitename);
+	$sitekey          = $tcms_main->decodeBase64($sitekey);
+	$logo             = $tcms_main->decodeBase64($logo);
+	$old_websiteowner = $tcms_main->decodeBase64($old_websiteowner);
+	$old_owner_url    = $tcms_main->decodeBase64($old_owner_url);
+	$old_copyright    = $tcms_main->decodeBase64($old_copyright);
+	$old_owner_email  = $tcms_main->decodeBase64($old_owner_email);
+	$old_keywords     = $tcms_main->decodeBase64($old_keywords);
+	$old_description  = $tcms_main->decodeBase64($old_description);
+	$old_footer_text  = $tcms_main->decodeBase64($old_footer_text);
 	
 	$sitetitle        = $tcms_main->decodeText($sitetitle, '2', $c_charset);
 	$sitename         = $tcms_main->decodeText($sitename, '2', $c_charset);
@@ -258,7 +269,6 @@ if($id_group == 'Developer'
 	$old_description  = $tcms_main->decodeText($old_description, '2', $c_charset);
 	$old_footer_text  = $tcms_main->decodeText($old_footer_text, '2', $c_charset);
 	
-	$sitetitle        = htmlspecialchars($sitetitle);
 	$sitetitle        = htmlspecialchars($sitetitle);
 	$sitename         = htmlspecialchars($sitename);
 	$sitekey          = htmlspecialchars($sitekey);
@@ -275,7 +285,7 @@ if($id_group == 'Developer'
 	
 	
 	
-	if($todo != 'optimize' && $todo != 'backup'){
+	if($todo != 'optimize' && $todo != 'backup') {
 		echo '<script type="text/javascript" src="../js/tabs/tabpane.js"></script>
 		<link type="text/css" rel="StyleSheet" href="../js/tabs/css/luna/tab.css" />
 		<!--<link type="text/css" rel="StyleSheet" href="../js/tabs/tabpane.css" />-->
@@ -1129,16 +1139,6 @@ if($id_group == 'Developer'
 		else{
 			if(empty($new_mail_pop3) || $new_mail_pop3 == '' || !isset($new_mail_pop3)){ $new_mail_pop3 = 0; }
 			
-			$new_mail_with_smtp   = $tcms_main->securePassword($new_mail_with_smtp, false);
-			$new_mail_as_html     = $tcms_main->securePassword($new_mail_as_html, false);
-			$new_mail_server_pop3 = $tcms_main->securePassword($new_mail_server_pop3, false);
-			$new_mail_server_smtp = $tcms_main->securePassword($new_mail_server_smtp, false);
-			$new_mail_port        = $tcms_main->securePassword($new_mail_port, false);
-			$new_mail_pop3        = $tcms_main->securePassword($new_mail_pop3, false);
-			$new_mail_user        = $tcms_main->securePassword($new_mail_user, false);
-			$new_mail_password    = $tcms_main->securePassword($new_mail_password, false);
-			
-			
 			$fp_header = ''
 .'<?php /* _\|/_
          (o o)                         
@@ -1281,8 +1281,8 @@ $tcms_mail_password    = \''.$new_mail_password.'\';
 			if(empty($new_show_defaultfoot)) { $new_show_defaultfoot  = 0; }
 			if(empty($new_statistics))       { $new_statistics        = 0; }
 			if(empty($new_seo_enabled))      { $new_seo_enabled       = 0; }
-      if(empty($new_seo_news_title))   { $new_seo_news_title    = 0; }
-      if(empty($new_seo_content_title)){ $new_seo_content_title = 0; }
+			if(empty($new_seo_news_title))   { $new_seo_news_title    = 0; }
+			if(empty($new_seo_content_title)){ $new_seo_content_title = 0; }
 			if(empty($new_cipher_email))     { $new_cipher_email      = 0; }
 			if(empty($new_js_browser_detect)){ $new_js_browser_detect = 0; }
 			if(empty($new_captcha))          { $new_captcha           = 0; }
@@ -1312,6 +1312,18 @@ $tcms_mail_password    = \''.$new_mail_password.'\';
 			if($keywords        != ''){ $keywords        = $tcms_main->encodeText($keywords, '2', $c_charset); }
 			if($description     != ''){ $description     = $tcms_main->encodeText($description, '2', $c_charset); }
 			if($new_footer_text != ''){ $new_footer_text = $tcms_main->encodeText($new_footer_text, '2', $c_charset); }
+			
+			if($title           != ''){ $title           = $tcms_main->encodeBase64($title); }
+			if($name            != ''){ $name            = $tcms_main->encodeBase64($name); }
+			if($new_key         != ''){ $new_key         = $tcms_main->encodeBase64($new_key); }
+			if($logo            != ''){ $logo            = $tcms_main->encodeBase64($logo); }
+			if($owner           != ''){ $owner           = $tcms_main->encodeBase64($owner); }
+			if($owner_url       != ''){ $owner_url       = $tcms_main->encodeBase64($owner_url); }
+			if($copy            != ''){ $copy            = $tcms_main->encodeBase64($copy); }
+			if($email           != ''){ $email           = $tcms_main->encodeBase64($email); }
+			if($keywords        != ''){ $keywords        = $tcms_main->encodeBase64($keywords); }
+			if($description     != ''){ $description     = $tcms_main->encodeBase64($description); }
+			if($new_footer_text != ''){ $new_footer_text = $tcms_main->encodeBase64($new_footer_text); }
 			//
 			//***********
 			
@@ -1379,8 +1391,8 @@ $tcms_mail_password    = \''.$new_mail_password.'\';
 			$xmluser->write_value('seo_enabled', $new_seo_enabled);
 			$xmluser->write_value('server_folder', $new_seo_folder);
 			$xmluser->write_value('seo_format', $new_seo_format);
-      $xmluser->write_value('seo_news_title', $new_seo_news_title);
-      $xmluser->write_value('seo_content_title', $new_seo_content_title);
+			$xmluser->write_value('seo_news_title', $new_seo_news_title);
+			$xmluser->write_value('seo_content_title', $new_seo_content_title);
 			$xmluser->write_value('site_offline', $new_site_offline);
 			$xmluser->write_value('site_offline_text', $new_site_off_text);
 			$xmluser->write_value('show_top_pages', $new_show_top_pages);
@@ -1407,15 +1419,6 @@ $tcms_mail_password    = \''.$new_mail_password.'\';
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('global');
 			$xmluser->_xmlparser();
-			
-			
-			$new_engine   = $tcms_main->securePassword($new_engine, false);
-			$new_user     = $tcms_main->securePassword($new_user, false);
-			$new_password = $tcms_main->securePassword($new_password, false);
-			$new_host     = $tcms_main->securePassword($new_host, false);
-			$new_database = $tcms_main->securePassword($new_database, false);
-			$new_port     = $tcms_main->securePassword($new_port, false);
-			$new_prefix   = $tcms_main->securePassword($new_prefix, false);
 			
 			
 			//***************************************

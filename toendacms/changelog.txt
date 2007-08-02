@@ -28,7 +28,7 @@ Version 1.6
 Developer Version
 	- 1.6.0 Development
 
-Building Steps: 3217
+Building Steps: 3222
 
 
 
@@ -54,6 +54,7 @@ Building Steps: 3217
  - changed: Default content text in imagegallery removed
  - changed: Framework rewrite to workl well with PHP5
  - changed: Configuration now read by simple_xml parser from PHP5
+ - changed: Global configuration values now saved in base64 for the xml configuration files.
 
  - added: New SEO format available: instead of using the old url format
           [www.domain.com/index.php?id=frontpage&lang=en]
