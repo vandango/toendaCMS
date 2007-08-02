@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used fore the site title.
  *
- * @version 0.4.3
+ * @version 0.4.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -150,13 +150,13 @@ switch($id){
 				
 				$count = 0;
 				
-				$sqlQR = $sqlAL->query($sqlSTRparent);
-				$sqlNR = $sqlAL->getNumber($sqlQR);
+				$sqlQR = $tcms_dal->query($sqlSTRparent);
+				$sqlNR = $tcms_dal->getNumber($sqlQR);
 				
 				//echo '<b>'.$sqlNR.'<br>'.$sqlSTRparent.'</b><br><br>';
 				
 				while($sqlNR > 0){
-					$sqlARR = $sqlAL->fetchArray($sqlQR);
+					$sqlARR = $tcms_dal->fetchArray($sqlQR);
 					
 					unset($sqlQR);
 					
@@ -177,9 +177,9 @@ switch($id){
 					."AND ( access = 'Public' "
 					.$strAdd;
 					
-					$sqlQR = $sqlAL->query($sqlSTRparent);
+					$sqlQR = $tcms_dal->query($sqlSTRparent);
 					
-					$sqlNR = $sqlAL->getNumber($sqlQR);
+					$sqlNR = $tcms_dal->getNumber($sqlQR);
 					
 					//echo $sqlNR.'<br>'.$sqlSTRparent.'<br><br>';
 					
@@ -268,11 +268,11 @@ switch($id){
 				
 				$count = 0;
 				
-				$sqlQR = $sqlAL->query($sqlSTRparent);
-				$sqlNR = $sqlAL->getNumber($sqlQR);
+				$sqlQR = $tcms_dal->query($sqlSTRparent);
+				$sqlNR = $tcms_dal->getNumber($sqlQR);
 				
 				while($sqlNR > 0){
-					$sqlARR = $sqlAL->fetchArray($sqlQR);
+					$sqlARR = $tcms_dal->fetchArray($sqlQR);
 					
 					unset($sqlQR);
 					
@@ -295,9 +295,9 @@ switch($id){
 					."AND ( access = 'Public' "
 					.$strAdd;
 					
-					$sqlQR = $sqlAL->query($sqlSTRparent);
+					$sqlQR = $tcms_dal->query($sqlSTRparent);
 					
-					$sqlNR = $sqlAL->getNumber($sqlQR);
+					$sqlNR = $tcms_dal->getNumber($sqlQR);
 					
 					$count++;
 					$checkFAQTitle = $count;
@@ -362,9 +362,9 @@ switch($id){
 				
 				$count = 0;
 				
-				$sqlQR = $sqlAL->query($sqlSTRparent);
+				$sqlQR = $tcms_dal->query($sqlSTRparent);
 				
-				$sqlARR = $sqlAL->fetchArray($sqlQR);
+				$sqlARR = $tcms_dal->fetchArray($sqlQR);
 				
 				$arrFAQparent['title']  = $sqlARR['title'];
 				$arrFAQparent['parent'] = $sqlARR['parent'];
@@ -588,9 +588,9 @@ switch($id){
 					
 					$count = 0;
 					
-					$sqlQR = $sqlAL->query($sqlSTRparent);
+					$sqlQR = $tcms_dal->query($sqlSTRparent);
 					
-					$sqlObj = $sqlAL->fetchObject($sqlQR);
+					$sqlObj = $tcms_dal->fetchObject($sqlQR);
 					
 					$category = $sqlObj->category;
 				}
@@ -626,11 +626,11 @@ switch($id){
 				
 				$count = 0;
 				
-				$sqlQR = $sqlAL->query($sqlSTRparent);
-				$sqlNR = $sqlAL->getNumber($sqlQR);
+				$sqlQR = $tcms_dal->query($sqlSTRparent);
+				$sqlNR = $tcms_dal->getNumber($sqlQR);
 				
 				while($sqlNR > 0){
-					$sqlObj = $sqlAL->fetchObject($sqlQR);
+					$sqlObj = $tcms_dal->fetchObject($sqlQR);
 					
 					unset($sqlQR);
 					
@@ -653,9 +653,9 @@ switch($id){
 					."AND ( access = 'Public' "
 					.$strAdd;
 					
-					$sqlQR = $sqlAL->query($sqlSTRparent);
+					$sqlQR = $tcms_dal->query($sqlSTRparent);
 					
-					$sqlNR = $sqlAL->getNumber($sqlQR);
+					$sqlNR = $tcms_dal->getNumber($sqlQR);
 					
 					$count++;
 					$checkFAQTitle = $count;
@@ -724,9 +724,9 @@ switch($id){
 				
 				$count = 0;
 				
-				$sqlQR = $sqlAL->query($sqlSTRparent);
+				$sqlQR = $tcms_dal->query($sqlSTRparent);
 				
-				$sqlObj = $sqlAL->fetchObject($sqlQR);
+				$sqlObj = $tcms_dal->fetchObject($sqlQR);
 				
 				$arrFAQparent['title']  = $sqlObj->name;
 				$arrFAQparent['parent'] = $sqlObj->category;

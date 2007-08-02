@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a Knowledgebase / FAQ and Article database.
  *
- * @version 0.4.3
+ * @version 0.4.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -323,7 +323,7 @@ if(trim($faq_enabled) == 1) {
 								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 								.'id=knowledgebase&amp;s='.$s.'&amp;cmd=list&amp;category='.$arrFAQ['uid'][$key]
 								.( isset($lang) ? '&amp;lang='.$lang : '' );
-								$link = $tcms_main->urlAmpReplace($link);
+								$link = $tcms_main->urlConvertToSEO($link);
 								
 								echo '<a href="'.$link.'">';
 								
@@ -356,7 +356,7 @@ if(trim($faq_enabled) == 1) {
 								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 								.'id=knowledgebase&amp;s='.$s.'&amp;cmd=detail'.( $arrFAQ['cat'][$key] != '' ? '&amp;category='.$arrFAQ['cat'][$key] : '' ).'&amp;article='.$arrFAQ['uid'][$key]
 								.( isset($lang) ? '&amp;lang='.$lang : '' );
-								$link = $tcms_main->urlAmpReplace($link);
+								$link = $tcms_main->urlConvertToSEO($link);
 								
 								echo '<a href="'.$link.'">';
 								
@@ -396,21 +396,21 @@ if(trim($faq_enabled) == 1) {
 								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 								.'id=knowledgebase&amp;s='.$s.'&amp;cmd=list&amp;category='.$arrFAQ['uid'][$key]
 								.( isset($lang) ? '&amp;lang='.$lang : '' );
-								$link = $tcms_main->urlAmpReplace($link);
+								$link = $tcms_main->urlConvertToSEO($link);
 								break;
 							
 							case 'a':
 								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 								.'id=knowledgebase&amp;s='.$s.'&amp;cmd=detail'.( $arrFAQ['cat'][$key] != '' ? '&amp;category='.$arrFAQ['cat'][$key] : '' ).'&amp;article='.$arrFAQ['uid'][$key]
 								.( isset($lang) ? '&amp;lang='.$lang : '' );
-								$link = $tcms_main->urlAmpReplace($link);
+								$link = $tcms_main->urlConvertToSEO($link);
 								break;
 						}
 						
 						echo '<a class="main text_big" href="'.$link.'">'
 						.tcms_html::bold($arrFAQ['title'][$key])
 						.'</a>'
-						.tcms_html::text($arrFAQ['subt'][$key], 'left');
+						.$tcms_html->text($arrFAQ['subt'][$key], 'left');
 						
 						echo '</td>';
 						
@@ -589,7 +589,7 @@ if(trim($faq_enabled) == 1) {
 					.'id=knowledgebase&amp;s='.$s.'&amp;cmd=list&amp;category='.$arrFAQ['cat']
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
 				}
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
 				
 				echo tcms_html::contentheading($arrFAQ['title']);//.'<br />';
@@ -606,7 +606,7 @@ if(trim($faq_enabled) == 1) {
 					.'<br />';
 					
 					
-					echo tcms_html::text($arrFAQ['content'], 'left');
+					echo $tcms_html->text($arrFAQ['content'], 'left');
 					
 					
 					echo '<br />'
@@ -617,7 +617,7 @@ if(trim($faq_enabled) == 1) {
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id=profile&amp;s='.$s.'&amp;u='.$arrFAQ['autorid']
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
-						$link = $tcms_main->urlAmpReplace($link);
+						$link = $tcms_main->urlConvertToSEO($link);
 					}
 					
 					if($choosenDB == 'xml'){
