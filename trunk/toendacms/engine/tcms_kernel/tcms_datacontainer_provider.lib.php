@@ -743,7 +743,9 @@ class tcms_datacontainer_provider extends tcms_main {
 			$sql = "SELECT uid "
 			."FROM ".$this->m_sqlPrefix."news "
 			."WHERE language = '".$language."' ";
-      
+			
+			//echo $title.'<br>';
+			
 			$arrTitle = explode(' ', $title);
 			
 			foreach($arrTitle as $key => $value) {
