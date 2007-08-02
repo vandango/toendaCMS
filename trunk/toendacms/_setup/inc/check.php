@@ -20,7 +20,7 @@
  *
  * This file is used for the check actions.
  *
- * @version 0.1.7
+ * @version 0.1.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -95,11 +95,11 @@ echo '<div style="display: block; float: left; width: '.$width.'px;">'
 .'</div>';
 
 echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-.( phpversion() >= '4.3.0' ? phpversion().' >= 4.3.0' : '< 4.3.0' )
+.( phpversion() >= '5.2.0' ? phpversion().' >= 5.2.0' : '< 5.2.0' )
 .'</div>';
 
 echo '<div style="display: block; margin: 0 0 0 560px;">'
-.( phpversion() >= '4.3.0' ? '<img src="images/yes.png" border="0" />' : '<img src="images/no.png" border="0" />' )
+.( phpversion() >= '5.2.0' ? '<img src="images/yes.png" border="0" />' : '<img src="images/no.png" border="0" />' )
 .'</div>';
 
 
@@ -422,7 +422,8 @@ echo '<div style="display: block; float: left; margin: 0 0 0 40px; width: '.$wid
 
 echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">&nbsp;</div>';
 
-if(extension_loaded('zlib') 
+if(phpversion() >= '5.2.0'
+&& extension_loaded('zlib') 
 && extension_loaded('gd') 
 && is_writeable('../data') 
 && is_writeable('../data/images/albums') 
@@ -431,7 +432,7 @@ if(extension_loaded('zlib')
 && is_writeable('../data/images/Image') 
 && is_writeable('../cache') 
 && is_writeable('../cache/captcha') 
-&& is_writeable('../data/tcms_global')){
+&& is_writeable('../data/tcms_global')) {
 	echo '<div style="display: block; margin: 0 0 0 560px;">'
 	.'<a class="tcms_main" href="index.php?site=license&amp;lang='.$lang.'">'
 	._TCMS_NEXT.' &rarr;'
@@ -439,7 +440,7 @@ if(extension_loaded('zlib')
 	.'</div>'
 	.'<br />';
 }
-else{
+else {
 	echo '<div style="display: block; margin: 0 0 0 560px;">'
 	.'<a class="tcms_main" href="index.php?site=check&amp;lang='.$lang.'">'
 	._TCMS_RELOAD.' &crarr;'
