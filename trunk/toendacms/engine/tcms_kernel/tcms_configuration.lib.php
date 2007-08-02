@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide the global
  * configuration data.
  *
- * @version 0.4.2
+ * @version 0.4.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -80,11 +80,22 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getMetadataPragma           -> Get the pragma setting
  * getMetadataExpires          -> Get the setting if the site can disbaled on a time
  * getLastChanges              -> Get the last changes
- * 
  * useContentLanguage          -> Get the usage value for the content languages
  * usePDFLink                  -> Get the setting if the pdf link should be display in footer
- * 
  * showValidationLinks         -> Get the setting if the validation links should be displayed
+ * getSiteTitle                -> Get the site title
+ * getSiteName                 -> Get the site name
+ * getSiteKey                  -> Get the site key
+ * getSiteLogo                 -> Get the site logo
+ * getWebpageOwner             -> Get the webpage owner
+ * getWebpageCopyright         -> Get the webpage copyright
+ * getWebpageOwnerUrl          -> Get the webpage owner url
+ * showTCMSLogo                -> Get the setting if the toendaCMS logo should be displayed
+ * showDefaultFooterText       -> Get the setting if the default footer text should be displayed
+ * showPageLoadingTime         -> Get the setting if the page loading time should be displayed
+ * showLegalLinkInFooter       -> Get the setting if the admin link should be displayed in footer
+ * showAdminLinkInFooter       -> Get the setting if the admin link should be displayed in footer
+ * getFooterText               -> Get the footer text
  * 
  * </code>
  *
@@ -137,6 +148,23 @@ class tcms_configuration {
 	private $m_useContentLang;
 	private $m_validLinks;
 	
+	// names
+	private $m_sitetitle;
+	private $m_sitename;
+	private $m_sitekey;
+	private $m_sitelogo;
+	
+	// footer
+	private $m_wpowner;
+	private $m_wpcopyright;
+	private $m_wpowner_url;
+	private $m_showtcmslogo;
+	private $m_show_default;
+	private $m_show_plt;
+	private $m_show_llif;
+	private $m_show_alif;
+	private $m_footer_text;
+	
 	
 	
 	/**
@@ -144,11 +172,9 @@ class tcms_configuration {
 	 *
 	 * @param String $administer
 	 */
-	function __construct($administer){
-		$xml_file = file_get_contents($administer.'/tcms_global/var.xml')
-			or die("var.xml does not exist. Please reinstall toendaCMS\n");
-		
-		$this->o_xml = simplexml_load_string($xml_file);
+	function __construct($administer) {
+		// var.xml
+		$this->o_xml = simplexml_load_file($administer.'/tcms_global/var.xml');
 		
 		$this->m_charset               = $this->o_xml->charset;
 		$this->m_frontlang             = $this->o_xml->front_lang;
@@ -192,53 +218,33 @@ class tcms_configuration {
 		$this->m_useContentLang        = $this->o_xml->use_content_language;
 		$this->m_validLinks            = $this->o_xml->valid_links;
 		
-		/*
+		unset($this->o_xml);
 		
-		$this->o_xml = new xmlparser($administer.'/tcms_global/var.xml', 'r');
 		
-		$this->m_charset            = $this->o_xml->readSection('global', 'charset');
-		$this->m_frontlang          = $this->o_xml->readSection('global', 'front_lang');
-		$this->m_lang               = $this->o_xml->readSection('global', 'lang');
-		$this->m_SEOpath            = $this->o_xml->readSection('global', 'server_folder');
-		$this->m_SEOenabled         = $this->o_xml->readSection('global', 'seo_enabled');
-		$this->m_SEOformat          = $this->o_xml->readSection('global', 'seo_format');
-		$this->m_SEOOptionNewsTitle = $this->o_xml->readSection('global', 'seo_news_title');
-		$this->m_SEOOptionContentTitle = $this->o_xml->readSection('global', 'seo_content_title');
-		$this->m_cipherEmail        = $this->o_xml->readSection('global', 'cipher_email');
-		$this->m_detectBrowser      = $this->o_xml->readSection('global', 'js_browser_detect');
-		$this->m_statistics         = $this->o_xml->readSection('global', 'statistics');
-		$this->m_use_components     = $this->o_xml->readSection('global', 'use_cs');
-		$this->m_use_captcha        = $this->o_xml->readSection('global', 'captcha');
-		$this->m_captcha_clean      = $this->o_xml->readSection('global', 'captcha_clean_size');
-		$this->m_antiFrame          = $this->o_xml->readSection('global', 'anti_frame');
-		$this->m_showTopPages       = $this->o_xml->readSection('global', 'show_top_pages');
-		$this->m_siteOffline        = $this->o_xml->readSection('global', 'site_offline');
-		$this->m_siteOfflineText    = $this->o_xml->readSection('global', 'site_offline_text');
-		$this->m_currency           = $this->o_xml->readSection('global', 'currency');
-		$this->m_wysiwygEditor      = $this->o_xml->readSection('global', 'wysiwyg');
-		$this->m_pathwayChar        = $this->o_xml->readSection('global', 'pathway_char');
-		$this->m_showDocAutor       = $this->o_xml->readSection('global', 'show_doc_autor');
-		$this->m_defaultCat         = $this->o_xml->readSection('global', 'default_category');
-		$this->m_tcmsinst           = $this->o_xml->readSection('global', 'toendacms_in_sitetitle');
-		$this->m_keywords           = $this->o_xml->readSection('global', 'meta');
-		$this->m_description        = $this->o_xml->readSection('global', 'description');
-		$this->m_activeTopmenu      = $this->o_xml->readSection('global', 'topmenu_active');
-		$this->m_sidemenu           = $this->o_xml->readSection('global', 'menu');
-		$this->m_topmenu            = $this->o_xml->readSection('global', 'second_menu');
-		$this->m_adminTopmenu       = $this->o_xml->readSection('global', 'admin_topmenu');
-		$this->m_revisit_after      = $this->o_xml->readSection('global', 'revisit_after');
-		$this->m_robotsfile         = $this->o_xml->readSection('global', 'robotsfile');
-		$this->m_pdflink            = $this->o_xml->readSection('global', 'pdflink');
-		$this->m_cachecontrol       = $this->o_xml->readSection('global', 'cachecontrol');
-		$this->m_pragma             = $this->o_xml->readSection('global', 'pragma');
-		$this->m_expires            = $this->o_xml->readSection('global', 'expires');
-		$this->m_robots             = $this->o_xml->readSection('global', 'robots');
-		$this->m_last_changes       = $this->o_xml->readSection('global', 'last_changes');
-		$this->m_useContentLang     = $this->o_xml->readSection('global', 'use_content_language');
-		$this->m_validLinks         = $this->o_xml->readSection('global', 'valid_links');
+		// namen.xml
+		$this->o_xml = simplexml_load_file($administer.'/tcms_global/namen.xml');
 		
-		$this->o_xml->flush();
-		$this->o_xml->_xmlparser();*/
+		$this->m_sitetitle = $this->o_xml->title;
+		$this->m_sitename  = $this->o_xml->name;
+		$this->m_sitekey   = $this->o_xml->key;
+		$this->m_sitelogo  = $this->o_xml->logo;
+		
+		unset($this->o_xml);
+		
+		
+		// footer.xml
+		$this->o_xml = simplexml_load_file($administer.'/tcms_global/footer.xml');
+		
+		$this->m_wpowner      = $this->o_xml->websiteowner;
+		$this->m_wpcopyright  = $this->o_xml->copyright;
+		$this->m_wpowner_url  = $this->o_xml->owner_url;
+		$this->m_showtcmslogo = $this->o_xml->show_tcmslogo;
+		$this->m_show_default = $this->o_xml->show_defaultfooter;
+		$this->m_show_plt     = $this->o_xml->show_page_loading_time;
+		$this->m_show_llif    = $this->o_xml->legal_link_in_footer;
+		$this->m_show_alif    = $this->o_xml->admin_link_in_footer;
+		$this->m_footer_text  = $this->o_xml->footer_text;
+		
 		unset($this->o_xml);
 	}
 	
@@ -811,10 +817,153 @@ class tcms_configuration {
 	/**
 	 * Get the setting if the validation links should be displayed
 	 *
-	 * @return Integer
+	 * @return Boolean
 	 */
 	function showValidationLinks() {
 		return ( $this->m_validLinks == '1' ? true : false );
+	}
+	
+	
+	
+	/**
+	 * Get the site title
+	 *
+	 * @return String
+	 */
+	function getSiteTitle() {
+		return $this->m_sitetitle;
+	}
+	
+	
+	
+	/**
+	 * Get the site name
+	 *
+	 * @return String
+	 */
+	function getSiteName() {
+		return $this->m_sitename;
+	}
+	
+	
+	
+	/**
+	 * Get the site key
+	 *
+	 * @return String
+	 */
+	function getSiteKey() {
+		return $this->m_sitekey;
+	}
+	
+	
+	
+	/**
+	 * Get the site logo
+	 *
+	 * @return String
+	 */
+	function getSiteLogo() {
+		return $this->m_sitelogo;
+	}
+	
+	
+	
+	/**
+	 * Get the webpage owner
+	 *
+	 * @return String
+	 */
+	function getWebpageOwner() {
+		return $this->m_wpowner;
+	}
+	
+	
+	
+	/**
+	 * Get the webpage copyright
+	 *
+	 * @return String
+	 */
+	function getWebpageCopyright() {
+		return $this->m_wpcopyright;
+	}
+	
+	
+	
+	/**
+	 * Get the webpage owner url
+	 *
+	 * @return String
+	 */
+	function getWebpageOwnerUrl() {
+		return $this->m_wpowner_url;
+	}
+	
+	
+	
+	/**
+	 * Get the setting if the toendaCMS logo should be displayed
+	 *
+	 * @return Boolean
+	 */
+	function showTCMSLogo() {
+		return ( $this->m_showtcmslogo == '1' ? true : false );
+	}
+	
+	
+	
+	/**
+	 * Get the setting if the default footer text should be displayed
+	 *
+	 * @return Boolean
+	 */
+	function showDefaultFooterText() {
+		return ( $this->m_show_default == '1' ? true : false );
+	}
+	
+	
+	
+	/**
+	 * Get the setting if the page loading time should be displayed
+	 *
+	 * @return Boolean
+	 */
+	function showPageLoadingTime() {
+		return ( $this->m_show_plt == '1' ? true : false );
+	}
+	
+	
+	
+	/**
+	 * Get the setting if the admin link should be displayed in footer
+	 *
+	 * @return Boolean
+	 */
+	function showLegalLinkInFooter() {
+		return ( $this->m_show_llif == '1' ? true : false );
+	}
+	
+	
+	
+	/**
+	 * Get the setting if the admin link should be displayed in footer
+	 *
+	 * @return Boolean
+	 */
+	function showAdminLinkInFooter() {
+		return ( $this->m_show_alif == '1' ? true : false );
+	}
+	
+	
+	
+	/**
+	 * Get the footer text
+	 *
+	 * @return String
+	 */
+	function getFooterText() {
+		return $this->m_footer_text;
 	}
 }
 

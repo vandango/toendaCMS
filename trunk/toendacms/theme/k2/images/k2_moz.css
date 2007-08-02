@@ -410,7 +410,7 @@ a.index:hover { text-decoration: underline; }
 /* pathway */
 .pathway { font-size: 10px; text-decoration: none; }
 a.pathway:link, a.pathway:visited { font-size: 10px; text-decoration: none; }
-a.pathway:hover { font-size: 10px; text-decoration: none; }
+a.pathway:hover { font-size: 10px; text-decoration: underline; }
 
 
 /* mainlevel - mainmenu */
@@ -629,6 +629,14 @@ a.products_active_tab:hover {
 	color: #6a6f71;
 	font-size: 11px; 
 	text-decoration: none;
+}
+
+.tcmsshop_cartadd_button {
+	/*border: 1px solid #000;*/
+	position: absolute;
+	right: 245px;
+	padding: 0 0 0 0;
+	margin: -2px 0 0 0 !important;
 }
 
 

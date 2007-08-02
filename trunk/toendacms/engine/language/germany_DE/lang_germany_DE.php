@@ -1080,6 +1080,7 @@ define('_PRODUCTS_CATALOGUE', 'Katalog');
 define('_PRODUCTS_USESIDEBARCATEGORIES', 'Kategorien in der Seitenleiste anzeigen');
 define('_PRODUCTS_LATEST', 'Neuste Artikel');
 define('_PRODUCTS_AMOUNT_OF_LATEST', 'Anzahl an neusten Artikeln im Frontend');
+define('_PRODUCTS_ADD_TO_CART', 'In den Einkaufswagen');
 
 
 // NEWS

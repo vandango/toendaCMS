@@ -23,15 +23,15 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a topmenu.
  *
- * @version 0.3.0
+ * @version 0.3.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
  */
 
 
-if($second_navigation == 1){
-	if($choosenDB == 'xml'){
+if($tcms_config->getTopmenuEnabled()) {
+	if($choosenDB == 'xml') {
 		$poll_xml      = new xmlparser($tcms_administer_site.'/tcms_global/poll.xml','r');
 		$show_tm_poll  = $poll_xml->readSection('poll', 'use_poll_topmenu');
 		$tm_poll_id    = $poll_xml->readSection('poll', 'poll_topmenu_id');
@@ -58,11 +58,12 @@ if($second_navigation == 1){
 	
 	$femCount = 0;
 	
-	if(is_array($arr_top_navi['link']) && !empty($arr_top_navi['link'])){
-		foreach($arr_top_navi['link'] as $key => $value){
-			/********************
-			* AUTH
+	if($tcms_main->isArray($arr_top_navi['link'])) {
+		foreach($arr_top_navi['link'] as $key => $value) {
+			/*
+				AUTH
 			*/
+			
 			if($tcms_main->checkAccess($arr_top_navi['access'][$key], $is_admin)) {
 				$authorizeNav = 1;
 			}
@@ -72,64 +73,71 @@ if($second_navigation == 1){
 			
 			
 			
-			/********************
-			* TOP LINKS
+			/*
+				TOP LINKS
 			*/
-			if($authorizeNav == 1){
-				if($arr_top_navi['pub'][$key] == 1){ $femCount++;
-					if($active_topmenu == 1){
+			
+			if($authorizeNav == 1) {
+				if($arr_top_navi['pub'][$key] == 1) {
+					$femCount++;
+					
+					if($active_topmenu == 1) {
 						if($set_active_link == true){
-							if($id == $arr_top_navi['id'][$key] && $id != 'components'){
+							if($id == $arr_top_navi['id'][$key] && $id != 'components') {
 								$value = str_replace('class="toplevel"', 'class="toplevelActive"', $value);
 								$set_active_link = false;
 							}
-							elseif($id != 'polls' && !in_array($id, $arr_top_navi['id']) && $id != 'components'){
+							elseif($id != 'polls' && !in_array($id, $arr_top_navi['id'])) {
+								// && $id != 'components'){
 								$value = str_replace('class="toplevel"', 'class="toplevelActive"', $value);
 								$set_active_link = false;
 							}
-							elseif($id == 'polls' && $show_tm_poll == 0 && $id != 'components'){
+							elseif($id == 'polls' && $show_tm_poll == 0 && $id != 'components') {
 								$value = str_replace('class="toplevel"', 'class="toplevelActive"', $value);
 								$set_active_link = false;
 							}
-							elseif(($id.'&item='.$item) == $arr_top_navi['id'][$key]){
+							elseif(($id.'&item='.$item) == $arr_top_navi['id'][$key]) {
 								$value = str_replace('class="toplevel"', 'class="toplevelActive"', $value);
 								$set_active_link = false;
 							}
-							elseif($id == 'polls'){
+							elseif($id == 'polls') {
 								$set_active_link = true;
 							}
 						}
 					}
+					
 					echo $value;
 				}
 			}
 			
 			
-			/********************
-			* POLL LINK
-			*/
-			if($tm_poll_id > $arr_top_navi['last'][$key])
-				$tm_poll_id = $arr_top_navi['last'][$key];
 			
-			if($key == ($tm_poll_id - 2) && $show_tm_poll == 1){
+			/*
+				POLL LINK
+			*/
+			if($tm_poll_id > $arr_top_navi['last'][$key]) {
+				$tm_poll_id = $arr_top_navi['last'][$key];
+			}
+			
+			if($key == ($tm_poll_id - 2) && $show_tm_poll == 1) {
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=polls&amp;s='.$s
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlConvertToSEO($link);
 				
-				if($active_topmenu == 1){
-					if($set_active_link == true){
-						if($id == 'polls'){
+				if($active_topmenu == 1) {
+					if($set_active_link == true) {
+						if($id == 'polls') {
 							echo '<a class="toplevelActive" href="'.$link.'">'.$tm_poll_title.'</a>';
 						}
-						else{
+						else {
 							echo '<a class="toplevel" href="'.$link.'">'.$tm_poll_title.'</a>';
 						}
 					}
-					else{
+					else {
 						echo '<a class="toplevel" href="'.$link.'">'.$tm_poll_title.'</a>';
 					}
 				}
-				else{
+				else {
 					echo '<a class="toplevel" href="'.$link.'">'.$tm_poll_title.'</a>';
 				}
 			}

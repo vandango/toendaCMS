@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.7.3
+ * @version 2.7.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -123,7 +123,7 @@ if(file_exists($tcms_administer_site.'/tcms_global/var.xml')) {
 	$seoEnabled     = $tcms_config->getSEOEnabled();
 	$seoFormat      = $tcms_config->getSEOFormat();
 	$cipher_email   = $tcms_config->getEmailCiphering();
-	$detect_browser = $tcms_config->getBrowserDetection();
+	$detect_browser = ( $tcms_config->getBrowserDetection() ? 1 : 0 );
 	$statistics     = $tcms_config->getStatistics();
 	$use_components = $tcms_config->getComponentsSystemEnabled();
 	$use_captcha    = $tcms_config->getCaptchaEnabled();
@@ -483,7 +483,7 @@ if($wsShowSite) {
 				$mail_password    = $tcms_mail_password;
 				
 				// sql abstraction layer
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
+				$tcms_dal = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				
 				// safe_mode ?
 				$param_save_mode = $tcms_main->getPHPSetting('safe_mode');
@@ -538,9 +538,7 @@ if($wsShowSite) {
 					Check db connection
 				*/
 				if($choosenDB != 'xml'){
-					$sqlAL = new sqlAbstractionLayer($choosenDB);
-					
-					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+					$sqlCN = $tcms_dal->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					
 					if(isset($sqlCN['num']) && $sqlCN['num'] == 0){
 						$start_tcms_loading = false;
@@ -553,8 +551,6 @@ if($wsShowSite) {
 					else {
 						$start_tcms_loading = true;
 					}
-					
-					$sqlAL->_sqlAbstractionLayer();
 				}
 				else {
 					$start_tcms_loading = true;
@@ -675,7 +671,9 @@ if($wsShowSite) {
 					}
 					
 					// graphic engine
-					$tcms_gd = new tcms_gd();
+					if($id == 'products' || $id == 'imagegallery') {
+						$tcms_gd = new tcms_gd();
+					}
 					
 					
 					
@@ -687,14 +685,10 @@ if($wsShowSite) {
 						$lang = strtolower($tcms_config->getLanguageCode());
 					}
 					
-					$namen_xml = new xmlparser($tcms_administer_site.'/tcms_global/namen.xml','r');
-					$sitetitle = $namen_xml->readSection('namen', 'title');
-					$sitename  = $namen_xml->readSection('namen', 'name');
-					$sitekey   = $namen_xml->readSection('namen', 'key');
-					$logo      = $namen_xml->readSection('namen', 'logo');
-					$namen_xml->flush();
-					$namen_xml->_xmlparser();
-					unset($namen_xml);
+					$sitetitle = $tcms_config->getSiteTitle();
+					$sitename  = $tcms_config->getSiteName();
+					$sitekey   = $tcms_config->getSiteKey();
+					$logo      = $tcms_config->getSiteLogo();
 					
 					$logo = $tcms_main->decodeText($logo, '2', $c_charset);
 					$logo = trim($logo);
@@ -990,23 +984,17 @@ if($wsShowSite) {
 					/*
 						Global Configuration from XML
 					*/
-					$keywords       = $tcms_config->getMetadataKeywords();
-					$description    = $tcms_config->getMetadataDescription();
-					$active_topmenu = $tcms_config->getTopmenuActive();
-					
-					$footer_xml       = new xmlparser($tcms_administer_site.'/tcms_global/footer.xml','r');
-					$websiteowner     = $footer_xml->readSection('footer', 'websiteowner');
-					$websitecopyright = $footer_xml->readSection('footer', 'copyright');
-					$websiteowner_url = $footer_xml->readSection('footer', 'owner_url');
-					$footer_xml->flush();
-					$footer_xml->_xmlparser();
+					$keywords         = $tcms_config->getMetadataKeywords();
+					$description      = $tcms_config->getMetadataDescription();
+					$active_topmenu   = $tcms_config->getTopmenuActive();
 					
 					// CHARSETS
 					$keywords         = $tcms_main->decodeText($keywords, '2', $c_charset);
 					$description      = $tcms_main->decodeText($description, '2', $c_charset);
-					$websiteowner     = $tcms_main->decodeText($websiteowner, '2', $c_charset);
-					$websitecopyright = $tcms_main->decodeText($websitecopyright, '2', $c_charset);
-					$websiteowner_url = $tcms_main->decodeText($websiteowner_url, '2', $c_charset);
+					$websiteowner     = $tcms_main->decodeText($tcms_config->getWebpageOwner(), '2', $c_charset);
+					$websitecopyright = $tcms_main->decodeText($tcms_config->getWebpageCopyright(), '2', $c_charset);
+					$websiteowner_url = $tcms_main->decodeText($tcms_config->getWebpageOwnerUrl(), '2', $c_charset);
+					$footer_text      = $tcms_main->decodeText($tcms_config->getFooterText(), '2', $c_charset);
 					
 					
 					
@@ -1016,11 +1004,11 @@ if($wsShowSite) {
 					$navigation        = $tcms_config->getSidemenuEnabled();
 					$second_navigation = $tcms_config->getTopmenuEnabled();
 					
-					if($choosenDB == 'xml'){
+					if($choosenDB == 'xml') {
 						$xml    = new xmlparser(''.$tcms_administer_site.'/tcms_global/sidebar.xml','r');
 						$user_navigation = $xml->readSection('side', 'usermenu');
 						
-						if($use_login == 1){
+						if($use_login == 1) {
 							$login_title  = $xml->readSection('side', 'login_title');
 							$no_login     = $xml->readSection('side', 'nologin');
 							$reg_link     = $xml->readSection('side', 'reg_link');
@@ -1040,17 +1028,15 @@ if($wsShowSite) {
 						$xml->flush();
 						$xml->_xmlparser();
 					}
-					else{
-						$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+					else {
+						$sqlCN = $tcms_dal->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 						
-						$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'sidebar_extensions', 'sidebar_extensions');
-						$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
-						
-						$sqlAL->_sqlAbstractionLayer();
+						$sqlQR = $tcms_dal->getOne($tcms_db_prefix.'sidebar_extensions', 'sidebar_extensions');
+						$sqlARR = $tcms_dal->fetchArray($sqlQR);
 						
 						$user_navigation = $sqlARR['usermenu'];
 						
-						if($use_login == 1){
+						if($use_login == 1) {
 							$login_title  = $sqlARR['login_title'];
 							$no_login     = $sqlARR['nologin'];
 							$reg_link     = $sqlARR['reg_link'];
@@ -1074,7 +1060,7 @@ if($wsShowSite) {
 					/*
 						SITE MANAGEMENT :: WITH ERRORFILES
 					*/
-					if($choosenDB == 'xml'){
+					if($choosenDB == 'xml') {
 						$site_max_id  = $tcms_main->load_xml_files(''.$tcms_administer_site.'/tcms_content/', 'files');
 						$site_max_id2 = $tcms_main->load_xml_files(''.$tcms_administer_site.'/tcms_content_languages/', 'files');
 						
@@ -1087,21 +1073,21 @@ if($wsShowSite) {
 								$ws_error = true;
 						}
 					}
-					else{
-						$sqlAL = new sqlAbstractionLayer($choosenDB);
-						$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+					else {
+						$sqlCN = $tcms_dal->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 						
-						$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'content', $id);
-						$site_max_id = $sqlAL->sqlGetNumber($sqlQR);
+						$sqlQR = $tcms_dal->getOne($tcms_db_prefix.'content', $id);
+						$site_max_id = $tcms_dal->getNumber($sqlQR);
 						
 						if($site_max_id == 0)
 							$ws_error = true;
 					}
 					
-					if(in_array($id, $arrTCMSModules))
+					if(in_array($id, $arrTCMSModules)) {
 						$ws_error = false;
+					}
 					
-					if($ws_error == false){
+					if($ws_error == false) {
 						if(!isset($download_id)){ $download_id = 'download'; }
 						if(!isset($products_id)){ $products_id = 'products'; }
 						if(!isset($send_id)){ $send_id = 'contactform'; }
@@ -1174,7 +1160,7 @@ if($wsShowSite) {
 						unset($tcms_config);
 						unset($tcms_version);
 						unset($tcms_param);
-						unset($sqlAL);
+						unset($tcms_dal);
 						unset($tcms_gd);
 						unset($tcms_main);
 						unset($tcms_dcp);
