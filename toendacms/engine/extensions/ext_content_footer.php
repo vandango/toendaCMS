@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Content footer with links for the "top of page", "print" 
  * and "pdf" functions.
  *
- * @version 0.5.3
+ * @version 0.5.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -42,7 +42,7 @@ echo '<div align="left" class="contentFooter">';
 
 echo '<a href="#top">';
 
-if($detect_browser == 1){
+if($tcms_config->getBrowserDetection()) {
 	echo '<script>if(browser == \'ie\'){'
 	.'document.write(\'<img alt="'._TCMS_TOP_OF_PAGE.'" title="'._TCMS_TOP_OF_PAGE.'" style="padding-top: 2px;" src="'.$imagePath.'engine/images/top.gif" border="0" />\');'
 	.'}else{'
@@ -53,7 +53,7 @@ if($detect_browser == 1){
 	.'<img alt="'._TCMS_TOP_OF_PAGE.'" title="'._TCMS_TOP_OF_PAGE.'" style="padding-top: 2px;" src="'.$imagePath.'engine/images/top.png" border="0" />'
 	.'</noscript>';
 }
-else{
+else {
 	echo '<img alt="'._TCMS_TOP_OF_PAGE.'" title="'._TCMS_TOP_OF_PAGE.'" style="padding-top: 2px;" src="'.$imagePath.'engine/images/top.png" border="0" />';
 }
 
@@ -81,15 +81,15 @@ if($id == 'register'
 || $id == 'components' 
 || $id == 'frontpage' 
 || isset($cat) 
-|| !isset($_GET['news'])){
-	if($seoEnabled == 1){
+|| !isset($_GET['news'])) {
+	if($tcms_config->getSEOEnabled()) {
 		$print_url = $_SERVER['REQUEST_URI'];
 		
-		if($seoFormat == 0){
+		if($seoFormat == 0) {
 			$print_url = str_replace('/template:'.$s, '', $print_url);
 			$modulSEO = 'seo0';
 		}
-		else{
+		else {
 			$print_url = str_replace('/template/'.$s, '', $print_url);
 			$modulSEO = 'seo1';
 		}
@@ -109,7 +109,7 @@ else{
 	echo '<a href="javascript:printWindow(\''.$s.'\', \''.$id.'\', \''.$_GET['news'].'\', \''.$session.'\', \''.$imagePath.'\');">';
 }
 
-if($detect_browser == 1){
+if($tcms_config->getBrowserDetection()){
 	echo '<script>if(browser == \'ie\'){'
 	.'document.write(\'<img alt="'._TCMS_PRINT_PAGE.'" title="'._TCMS_PRINT_PAGE.'" style="padding-top: 2px;" src="'.$imagePath.'engine/images/print.gif" border="0" />\');'
 	.'}else{'
@@ -177,12 +177,12 @@ if($tcms_config->usePDFLink()) {
 		
 		//if(trim($id) == 'products'){ $show_pdf = false; }
 		
-		if($show_pdf){
+		if($tcms_config->usePDFLink()) {
 			echo '&nbsp;';
 			echo '<a href="javascript:pdfWindow(\''.$s.'\', \''.$pdfID.'\', \''.$news.'\', \''.$pdfCategory.'\', \''.$pdfArticle.'\', \''.$session.'\', \''.$imagePath.'\');">';
 			
 			
-			if($detect_browser == 1){
+			if($tcms_config->getBrowserDetection()) {
 				echo '<script>if(browser == \'ie\'){'
 				.'document.write(\'<img alt="'._TCMS_PDF_PAGE.'" title="'._TCMS_PDF_PAGE.'" style="padding-top: 2px;" src="'.$imagePath.'engine/images/pdf.gif" border="0" />\');'
 				.'}else{'
@@ -193,7 +193,7 @@ if($tcms_config->usePDFLink()) {
 				.'<img alt="'._TCMS_PDF_PAGE.'" title="'._TCMS_PDF_PAGE.'" style="padding-top: 2px;" src="'.$imagePath.'engine/images/pdf.png" border="0" />'
 				.'</noscript>';
 			}
-			else{
+			else {
 				echo '<img alt="'._TCMS_PDF_PAGE.'" title="'._TCMS_PDF_PAGE.'" style="padding-top: 2px;" src="'.$imagePath.'engine/images/pdf.png" border="0" />';
 			}
 			
@@ -227,7 +227,7 @@ switch($id){
 	case $imp_id         : break;
 	
 	default:
-		if($show_doc_autor == 1){
+		if($tcms_config->getShowDocAutor()){
 			echo '&nbsp;&nbsp;'
 			.'<img style="padding-top: 2px;" src="'.$imagePath.'engine/images/v_line.gif" border="0" />'
 			.'&nbsp;&nbsp;';
@@ -245,7 +245,7 @@ switch($id){
 				}
 				
 				
-				if($detect_browser == 1){
+				if($tcms_config->getBrowserDetection()){
 					echo '<script>if(browser == \'ie\'){'
 					.'document.write(\'<img alt="'._NEWS_WRITTEN.'&nbsp;'.$docAutor.'" title="'._NEWS_WRITTEN.'&nbsp;'.$docAutor.'" style="padding-top: 2px;" src="'.$imagePath.'engine/images/docuser.gif" border="0" />\');'
 					.'}else{'

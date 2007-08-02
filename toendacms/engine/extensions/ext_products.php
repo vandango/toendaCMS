@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a product manager.
  *
- * @version 0.6.8
+ * @version 0.7.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -906,7 +906,9 @@ if($action == 'showone') {
 	// display item
 	if($sqlNR > 0) {
 		echo $tcms_html->tableHead('0', '0', '0', '100%')
-		.'<tr><td valign="top" colspan="2" class="products_top">'
+		.'<tr><td valign="top"'
+		.( $tcms_config->getComponentsSystemEnabled() ? '' : ' colspan="2"' )
+		.' class="products_top">'
 		.$tcms_html->contentTitle($arr_name)
 		.'<span class="text_small">';
 		
@@ -936,7 +938,32 @@ if($action == 'showone') {
 		
 		echo ( $arr_product_no != '' ? '['.$arr_product_no.']' : '' )
 		.'</span>'
-		.'</td></tr>';
+		.'</td>';
+		
+		if($tcms_config->getComponentsSystemEnabled() 
+		&& is_dir($tcms_administer_site.'/components/tcmsshop/')) {
+			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+			.'id=components&amp;item=tcmsshop'
+			.'&amp;cmd=add'
+			.'&amp;article='.$arr_uid
+			.'&amp;s='.$s
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
+			$link = $tcms_main->urlConvertToSEO($link);
+			
+			// valign="top"
+			echo '<td align="right" class="products_top text_normal" width="110">'
+			.'<div class="tcmsshop_cartadd_button">'
+			.'<a class="main" title="'._PRODUCTS_ADD_TO_CART.'" href="'.$link.'">'
+			//.'Add to cart'
+			._PRODUCTS_ADD_TO_CART
+			.'<img style="margin-bottom: -5px;" src="'.$imagePath.'engine/images/cart_add.png"'
+			.' border="0" alt="'._PRODUCTS_ADD_TO_CART.'" />'
+			.'</a>'
+			.'</div>'
+			.'</td>';
+		}
+		
+		echo '</tr>';
 		
 		// row1
 		echo '<tr>'
@@ -1160,11 +1187,8 @@ if($action == 'showone') {
 		.'</tr>';
 		
 		echo '<tr>'
-		.'<td colspan="2" style="height: 10px;"></td>'
-		.'</tr>';
-		
-		echo '<tr>'
 		.'<td valign="top" colspan="2" class="text_normal">'
+		.'<br />'
 		.( $arr_factory != '' 
 			? _TABLE_FACTORY
 			.': <a href="'

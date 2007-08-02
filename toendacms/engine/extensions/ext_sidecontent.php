@@ -277,7 +277,9 @@ if($id != 'register'
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
 						$link = $tcms_main->urlConvertToSEO($link);
 						
-						echo '<strong class="text_normal">'
+						//echo '<span class="newsCategories">';
+						
+						echo '<span style="padding-left: 6px;" class="text_normal">&raquo; '
 						.'<a href="'.$link.'">'.$arr_art['name'][$key].'</a>'
 						.'</strong>'
 						.'<br />';

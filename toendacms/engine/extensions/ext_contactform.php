@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a contactform with a internal
  * adressbook with vcard export.
  *
- * @version 0.7.7
+ * @version 0.7.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -52,6 +52,11 @@ if($cform_enabled == 1){
 	
 	using('toendacms.datacontainer.contact');
 	
+	
+	
+	/*
+		adressbook
+	*/
 	
 	if($item == 'adressbook' 
 	&& $use_adressbook == 1){
@@ -100,17 +105,17 @@ if($cform_enabled == 1){
 						
 						if($detect_browser == 1){
 							echo '<script>if(browser == \'ie\'){
-							document.write(\'<img style="margin-bottom: -7px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.gif" border="0" />\');
+							document.write(\'<img style="margin-bottom: -6px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.gif" border="0" />\');
 							}else{
-							document.write(\'<img style="margin-bottom: -7px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="padding-bottom: 0px; padding-top: 1px;" src="'.$imagePath.'engine/images/email.png" border="0" />\');
+							document.write(\'<img style="margin-bottom: -6px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="padding-bottom: 0px; padding-top: 1px;" src="'.$imagePath.'engine/images/email.png" border="0" />\');
 							}</script>';
 							
 							echo '<noscript>'
-							.'<img style="margin-bottom: -7px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.gif" border="0" />'
+							.'<img style="margin-bottom: -6px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.gif" border="0" />'
 							.'</noscript>';
 						}
 						else{
-							echo '<img style="margin-bottom: -7px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.png" border="0" />';
+							echo '<img style="margin-bottom: -6px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.png" border="0" />';
 						}
 						
 						echo '<strong style="padding-bottom: 3px; padding-top: 0px;">'._CONTACT_SEND_A_EMAIL.'</strong></a>';
@@ -128,7 +133,7 @@ if($cform_enabled == 1){
 						.'</form>';
 						
 						echo '<a href="#" class="main" onclick="document.vcard.submit();" />'
-						.'<img style="margin-bottom: -7px;" alt="'._CONTACT_VCARD_DOWNLOAD.'" title="'._CONTACT_VCARD_DOWNLOAD.'"'
+						.'<img style="margin-bottom: -6px;" alt="'._CONTACT_VCARD_DOWNLOAD.'" title="'._CONTACT_VCARD_DOWNLOAD.'"'
 						.' src="'.$imagePath.'engine/images/vcard.png" border="0" />'
 						.'&nbsp;<strong style="padding-bottom: 3px; padding-top: 0px;">'._CONTACT_VCARD_DOWNLOAD.'</strong>'
 						.'</a>';
@@ -218,17 +223,17 @@ if($cform_enabled == 1){
 					
 					if($detect_browser == 1){
 						echo '<script>if(browser == \'ie\'){'
-						.'document.write(\'<img style="margin-bottom: -7px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.gif" border="0" />\');'
+						.'document.write(\'<img style="margin-bottom: -6px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.gif" border="0" />\');'
 						.'}else{'
-						.'document.write(\'<img style="margin-bottom: -7px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="padding-bottom: 0px; padding-top: 1px;" src="'.$imagePath.'engine/images/email.png" border="0" />\');'
+						.'document.write(\'<img style="margin-bottom: -6px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="padding-bottom: 0px; padding-top: 1px;" src="'.$imagePath.'engine/images/email.png" border="0" />\');'
 						.'}</script>';
 						
 						echo '<noscript>'
-						.'<img style="margin-bottom: -7px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.png" border="0" />'
+						.'<img style="margin-bottom: -6px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.png" border="0" />'
 						.'</noscript>';
 					}
 					else{
-						echo '<img style="margin-bottom: -7px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.png" border="0" />';
+						echo '<img style="margin-bottom: -6px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.png" border="0" />';
 					}
 					
 					echo '&nbsp;<strong style="padding-bottom: 3px; padding-top: 0px;">'._CONTACT_SEND_A_EMAIL.'</strong></a>';
@@ -247,7 +252,7 @@ if($cform_enabled == 1){
 					.'</form>';
 					
 					echo '<a href="#" class="main" onclick="document.vcard_'.$csb_id.'.submit();" />'
-					.'<img style="margin-bottom: -7px;" alt="'._CONTACT_VCARD_DOWNLOAD.'" title="'._CONTACT_VCARD_DOWNLOAD.'"'
+					.'<img style="margin-bottom: -6px;" alt="'._CONTACT_VCARD_DOWNLOAD.'" title="'._CONTACT_VCARD_DOWNLOAD.'"'
 					.' src="'.$imagePath.'engine/images/vcard.png" border="0" />'
 					.'&nbsp;<strong style="padding-bottom: 3px; padding-top: 0px;">'._CONTACT_VCARD_DOWNLOAD.'</strong>'
 					.'</a>';
@@ -286,6 +291,10 @@ if($cform_enabled == 1){
 	
 	
 	
+	
+	/*
+		contactform
+	*/
 	
 	if($item != 'adressbook'){
 		if($use_contactad == 1){

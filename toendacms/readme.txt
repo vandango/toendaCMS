@@ -181,8 +181,8 @@ Then add the language to the following files:
 
           Release titles
 **********************************************************************************
- * not published * 1.2.0 - Osaka
- * not published * 1.1.0 - Yokohama
+ 1.6.0 - Osaka
+ 1.5.0 - Yokohama
  1.0.0 - Shizouka
  0.7.0 - Sendai
  0.6.0 - Kanazawa
@@ -304,15 +304,16 @@ Search
 
 Products
 ------------------------------------
-.products_text      - toendaShop text layout
-.products_active_tab- Active tab on the products page
-.products_tab       - Tab on the products page
-.products_top		- toendaSHOP layout classes
-a.products_top		- toendaSHOP layout classes for links
-.products_category  - Category line in the category table
-.products_tab_line  - Line under the products tabs
-products_tab_line_add - Line under the products tabs (only set if text is displayed)
-.product_view_image - On image on the article view
+.products_text          - toendaShop text layout
+.products_active_tab    - Active tab on the products page
+.products_tab           - Tab on the products page
+.products_top		    - toendaSHOP layout classes
+a.products_top		    - toendaSHOP layout classes for links
+.products_category      - Category line in the category table
+.products_tab_line      - Line under the products tabs
+products_tab_line_add   - Line under the products tabs (only set if text is displayed)
+.product_view_image     - On image on the article view
+tcmsshop_cartadd_button - The "add to cart" button
 
 
 

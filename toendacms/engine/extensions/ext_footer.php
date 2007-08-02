@@ -23,36 +23,13 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a footer.
  *
- * @version 0.3.9
+ * @version 0.4.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
  */
 
-
-$footer_xml   = new xmlparser($tcms_administer_site.'/tcms_global/footer.xml','r');
-$websiteowner = $footer_xml->read_section('footer', 'websiteowner');
-$owner_url    = $footer_xml->read_section('footer', 'owner_url');
-$copyright    = $footer_xml->read_section('footer', 'copyright');
-$show_tcms    = $footer_xml->read_section('footer', 'show_tcmslogo');
-$show_default = $footer_xml->read_section('footer', 'show_defaultfooter');
-$show_plt     = $footer_xml->read_section('footer', 'show_page_loading_time');
-$show_ll      = $footer_xml->read_section('footer', 'legal_link_in_footer');
-$show_al      = $footer_xml->read_section('footer', 'admin_link_in_footer');
-$footer_text  = $footer_xml->read_section('footer', 'footer_text');
-$footer_xml->flush();
-$footer_xml->_xmlparser();
-
-if($websiteowner != ''){ $websiteowner = $tcms_main->decodeText($websiteowner, '2', $c_charset); }
-if($owner_url    != ''){ $owner_url    = $tcms_main->decodeText($owner_url, '2', $c_charset); }
-if($copyright    != ''){ $copyright    = $tcms_main->decodeText($copyright, '2', $c_charset); }
-if($footer_text  != ''){ $footer_text  = $tcms_main->decodeText($footer_text, '2', $c_charset); }
-
 include_once(_VERSION);
-
-if(!isset($show_default) || $show_default == ''){
-	$show_default = 1;
-}
 
 
 echo '<div class="legal">';
@@ -78,7 +55,7 @@ echo '<br />';
 /*
 	SHOW ONLY TEXT IN FOOTER
 */
-if($show_default == 1){
+if($tcms_config->showDefaultFooterText()) {
 	echo '<span class="legal">'._ABOUT_POWERED_BY.'&nbsp;'
 	.'<a title="'._ABOUT_POWERED_BY.' '.$tcms_version->getName().' - '.$tcms_version->getTagline().'!" class="legal" href="http://www.toendacms.com" target="_blank">'.$tcms_version->getName().'</a>&nbsp;&copy;&nbsp;'.$toenda_copyright.'&nbsp;'
 	.'<a title="'._ABOUT_POWERED_BY.' '.$tcms_version->getName().' - '.$tcms_version->getTagline().'!" class="legal" href="http://www.toenda.com" target="_blank">Toenda Software Development</a>.&nbsp;'
@@ -90,15 +67,17 @@ if($show_default == 1){
 /*
 	ADDITIONAL FOOTER TEXT
 */
-echo '<span class="legal">'.$footer_text.'</span>';
+echo '<span class="legal">'
+.$tcms_config->getFooterText()
+.'</span>';
 
 
 
 /*
 	SHOW LOGO IN FOOTER
 */
-if($show_tcms == 1){
-	if($show_plt == 1){
+if($tcms_config->showTCMSLogo()) {
+	if($tcms_config->showPageLoadingTime()) {
 		/*
 			SHOW PAGE LOADING TIME
 		*/
@@ -125,8 +104,10 @@ else {
 	/*
 		SHOW PAGE LOADING TIME
 	*/
-	if($show_plt == 1){
-		if($show_tcms == 1) echo '<br />';
+	if($tcms_config->showPageLoadingTime()){
+		if($tcms_config->showTCMSLogo()) {
+			echo '<br />';
+		}
 		
 		echo '<div>'
 		.'<span class="legal">'
@@ -182,7 +163,7 @@ if($tcms_config->showValidationLinks()) {
 	.'&nbsp;';
 	
 	echo '<a title="'._FOOTER_VALID_ANY_BROWSER.'" '
-	.'class="legal" href="http://wiki.toendacms.com/index.php/ToendaCMS_Browser_Support" target="_blank">'
+	.'class="legal" href="http://toendacms.com/index.php/en/articles.html?cmd=detail&amp;article=0de66f4a19" target="_blank">'
 	.'<img align="center" '
 	.'alt="'._FOOTER_VALID_ANY_BROWSER.'" '
 	.'title="'._FOOTER_VALID_ANY_BROWSER.'" '

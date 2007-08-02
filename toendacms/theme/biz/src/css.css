@@ -817,3 +817,15 @@ a.products_active_tab:hover {
 	text-decoration: none;
 }
 
+.tcmsshop_cartadd_button {
+	/*border: 1px solid #000;*/
+	/*position: absolute;
+	right: 400px;*/
+	
+	/*border: 1px solid #000;*/
+	position: absolute;
+	left: 569px;
+	padding: 0 0 0 0;
+	margin: -7px 0 0 0 !important;
+}
+
