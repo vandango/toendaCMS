@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.5.1
+ * @version 2.5.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -1450,7 +1450,7 @@ class tcms_main {
 			$counter = 0;
 			
 			foreach($arr as $key => $val) {
-				if(strpos($val, $wordToCount)) {
+				if(strpos(' '.$val.' ', $wordToCount)) {
 					$counter++;
 				}
 			}
