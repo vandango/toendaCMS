@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a parser and a base class
  * for the toendaScript.
  * 
- * @version 0.5.5
+ * @version 0.5.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -435,7 +435,7 @@ class toendaScript {
 			$counter = 0;
 			
 			foreach($arr as $key => $val) {
-				if(strpos($val, $wordToCount)) {
+				if(strpos(' '.$val.' ', $wordToCount, 0)) {
 					$counter++;
 				}
 			}
