@@ -28,7 +28,7 @@ Version 1.6
 Developer Version
 	- 1.6.0 Development
 
-Building Steps: 3239
+Building Steps: 3247
 
 
 
@@ -39,13 +39,14 @@ Building Steps: 3239
 
  - security fixed: 
 
- - bug fixed: Knowledgebase category deleting bug
+ - bug fixed: Knowledgebase category deleting bug.
  - bug fixed: Knowledgebase Drop-Down selection bug (if you are in a
               category and you want to create a new item, the category is not
-              selected)
+              selected).
  - bug fixed: Knowledge relocate after saveing brings you now back to the
-              selected category
- - bug fixed: Notebook display on desktop now with overflow
+              selected category.
+ - bug fixed: Notebook display on desktop now with overflow.
+ - bug fixed: Register validation link comes without the lang variable.
               
 
  - changed: Complete rewrite of the product manager as a base for the upcoming
@@ -70,6 +71,7 @@ Building Steps: 3239
           with a javascript window.
  - added: Lightbox (including script.aculo.us 1.5.1) for the images from the
           mediabrowser.
+ - added: Incorrect login information.
 
 
 

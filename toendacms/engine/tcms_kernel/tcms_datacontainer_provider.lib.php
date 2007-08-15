@@ -532,12 +532,12 @@ class tcms_datacontainer_provider extends tcms_main {
 			
 			$count = 0;
 			
-			while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
 				$wsPubD = $sqlARR['publish_date'];
 				
 				$wsPubD = mktime(substr($wsPubD, 11, 2), substr($wsPubD, 14, 2), 0, substr($wsPubD, 3, 2), substr($wsPubD, 0, 2), substr($wsPubD, 6, 4));
 				
-				if($wsPubD <= time()){
+				if($wsPubD <= time()) {
 					$wsSOF   = $sqlObj->show_on_frontpage;
 					if($wsSOF   == NULL) $wsSOF   = 1;
 					
@@ -945,29 +945,14 @@ class tcms_datacontainer_provider extends tcms_main {
 			using('toendacms.datacontainer.account');
 		}
 		
-		$xml = new xmlparser($this->m_path.'/tcms_global/namen.xml','r');
-		$wstitle = $xml->readSection('namen', 'title');
-		$wsname  = $xml->readSection('namen', 'name');
-		$wskey   = $xml->readSection('namen', 'key');
-		$logo    = $xml->readSection('namen', 'logo');
-		$xml->flush();
-		$xml->_xmlparser();
-		unset($xml);
+		$cfgObj = new tcms_configuration($this->m_path);
 		
-		$xml = new xmlparser($this->m_path.'/tcms_global/footer.xml','r');
-		$wsowner     = $xml->readSection('footer', 'websiteowner');
-		$wscopyright = $xml->readSection('footer', 'copyright');
-		$wsowner_url = $xml->readSection('footer', 'owner_url');
-		$xml->flush();
-		$xml->_xmlparser();
-		unset($xml);
-		
-		$wstitle     = $this->decodeText($wstitle, '2', $this->m_CHARSET);
-		$wsname      = $this->decodeText($wsname, '2', $this->m_CHARSET);
-		$wskey       = $this->decodeText($wskey, '2', $this->m_CHARSET);
-		$wsowner     = $this->decodeText($wsowner, '2', $this->m_CHARSET);
-		$wscopyright = $this->decodeText($wscopyright, '2', $this->m_CHARSET);
-		$wsowner_url = $this->decodeText($wsowner_url, '2', $this->m_CHARSET);
+		$wstitle     = $this->decodeText($cfgObj->getSiteTitle(), '2', $this->m_CHARSET);
+		$wsname      = $this->decodeText($cfgObj->getSiteName(), '2', $this->m_CHARSET);
+		$wskey       = $this->decodeText($cfgObj->getSiteKey(), '2', $this->m_CHARSET);
+		$wsowner     = $this->decodeText($cfgObj->getWebpageOwner(), '2', $this->m_CHARSET);
+		$wscopyright = $this->decodeText($cfgObj->getWebpageCopyright(), '2', $this->m_CHARSET);
+		$wsowner_url = $this->decodeText($cfgObj->getWebpageOwnerUrl(), '2', $this->m_CHARSET);
 		
 		$rss = new UniversalFeedCreator();
 		$rss->_setFormat($defaultFormat);
@@ -1027,8 +1012,9 @@ class tcms_datacontainer_provider extends tcms_main {
 				
 				$item->author = ( $show_autor == 1 ? $dcNews->getAutor() : $wsowner );
 				
-				if($show_autor == 1)
+				if($show_autor == 1) {
 					$item->authorEmail = $dcAcc->getEmail();
+				}
 				
 				$rss->addItem($item);
 				

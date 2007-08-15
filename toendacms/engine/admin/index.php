@@ -33,7 +33,7 @@ if(isset($_GET['id_user'])){ $id_user = $_GET['id_user']; }
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 0.6.4
+ * @version 0.6.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -257,16 +257,40 @@ function displayKeyCode() {
 	Login and retrieve
 */
 
-if($cmd == 'login'){
+if($cmd == 'login') {
 	$id_user = $tcms_auth->doLogin($username, $password, true);
 	
-	if($id_user){
-		echo '<script>document.location.href=\'admin.php?id_user='.$id_user.'\';</script>';
+	if($id_user !== false && strlen($id_user) == 32) {
+		echo '<script>'
+		.'document.location.href=\'admin.php?id_user='.$id_user.'\';'
+		.'</script>';
 	}
-	else{
+	else {
+		switch($id_user) {
+			case 'u':
+				$msg = 'Incorrect usergroup!';
+				break;
+			
+			case 'e':
+				$msg = 'User not enabled!';
+				break;
+			
+			case 'p':
+				$msg = 'Incorrect Password!';
+				break;
+			
+			default:
+				$msg = '';
+				break;
+		}
+		
 		echo '<div class="loginerror" align="center">'
 		.'<h1>! '._MSG_ERROR.' !</h1>'
 		.'<h2>'._LOGIN_FALSE.'</h2>'
+		.( $msg == '' 
+			? '' 
+			: '<br />'.$msg
+		)
 		.'<br /><br />'
 		.'</div>';
 		
@@ -274,7 +298,7 @@ if($cmd == 'login'){
 	}
 }
 
-if($cmd == 'retrieve'){
+if($cmd == 'retrieve') {
 	$tcms_auth->doRetrieve($username, $email);
 	
 	echo '<script>document.location.href=\'index.php\';</script>';

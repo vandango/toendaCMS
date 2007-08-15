@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to authenticate a login user.
  *
- * @version 0.2.2
+ * @version 0.2.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -313,27 +313,27 @@ class tcms_authentication extends tcms_main {
 	 * @return String
 	 */
 	function doLogin($username, $password, $backend = false){
-		if($this->db_choosenDB == 'xml'){
+		if($this->db_choosenDB == 'xml') {
 			$arr_files = $this->getPathContent($this->m_administer.'/tcms_user/');
 			
-			if($this->isReal($arr_files)){
-				foreach($arr_files as $key => $value){
+			if($this->isReal($arr_files)) {
+				foreach($arr_files as $key => $value) {
 					$xml = new xmlparser($this->m_administer.'/tcms_user/'.$value,'r');
 					
 					$ws_username = $xml->readSection('user', 'username');
 					$ws_username = $this->decodeText($ws_username, '2', $this->m_charset);
 					
 					// username
-					if($ws_username == $username){
+					if($ws_username == $username) {
 						$password = md5($password);
 						$ws_password = $xml->readSection('user', 'password');
 						
 						// password
-						if($ws_password == $password){
+						if($ws_password == $password) {
 							$ws_enabled = $xml->readSection('user', 'enabled');
 							
 							// enabled
-							if($ws_enabled == 1){
+							if($ws_enabled == 1) {
 								$ws_group = $xml->readSection('user', 'group');
 								
 								$xml->flush();
@@ -345,32 +345,29 @@ class tcms_authentication extends tcms_main {
 								$ws_group == 'Developer' || 
 								$ws_group == 'Writer' || 
 								$ws_group == 'Editor' || 
-								$ws_group == 'Presenter'){
+								$ws_group == 'Presenter') {
 									$ws_maintag = substr($value, 0, 32);
 									$ws_return = $this->createSession($ws_username, $ws_maintag, $backend);
 									
-									if($ws_return){
+									if($ws_return) {
 										$this->updateLoginTime($ws_maintag);
 										
 										return $ws_return;
 									}
-									else{
+									else {
 										return false;
 									}
 								}
-								else{
-									//echo 'usergroup<br>';
-									return false;
+								else {
+									return 'u';
 								}
 							}
-							else{
-								//echo 'user not enabled<br>';
-								return false;
+							else {
+								return 'e';
 							}
 						}
-						else{
-							//echo 'password incorrect<br>';
-							return false;
+						else {
+							return 'p';
 						}
 					}
 					
@@ -378,7 +375,7 @@ class tcms_authentication extends tcms_main {
 					unset($xml);
 				}
 			}
-			else{
+			else {
 				return false;
 			}
 		}
@@ -403,7 +400,7 @@ class tcms_authentication extends tcms_main {
 			$sqlQR = $sqlAL->query($strSQL);
 			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
-			if($sqlNR > 0){
+			if($sqlNR > 0) {
 				$sqlObj = $sqlAL->fetchObject($sqlQR);
 				
 				$ws_maintag  = $sqlObj->uid;
@@ -415,23 +412,23 @@ class tcms_authentication extends tcms_main {
 				$ws_group == 'Developer' || 
 				$ws_group == 'Writer' || 
 				$ws_group == 'Editor' || 
-				$ws_group == 'Presenter'){
+				$ws_group == 'Presenter') {
 					$ws_return = $this->createSession($ws_username, $ws_maintag, $backend);
 					
-					if($ws_return){
+					if($ws_return) {
 						$this->updateLoginTime($ws_maintag);
 						
 						return $ws_return;
 					}
-					else{
+					else {
 						return false;
 					}
 				}
-				else{
-					return false;
+				else {
+					return 'u';
 				}
 			}
-			else{
+			else {
 				return false;
 			}
 		}

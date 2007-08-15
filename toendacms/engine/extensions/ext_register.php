@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the register functions.
  *
- * @version 0.5.6
+ * @version 0.5.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -190,10 +190,10 @@ if($cmd == 'retrieve'){
 		/*
 			retrieve
 		*/
-		if($fulluser2 == $arr_login['username'][$fulluser2]){
+		if($fulluser2 == $arr_login['username'][$fulluser2]) {
 			
 			// CHECK GROUP
-			if($fullemail2 == $arr_login['email'][$fulluser2]){
+			if($fullemail2 == $arr_login['email'][$fulluser2]) {
 				/*********************************************
 				*
 				* SEND THE NEW PASSWORD
@@ -659,15 +659,9 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 						/*
 							Mail
 						*/
-						$footer_xml  = new xmlparser($tcms_administer_site.'/tcms_global/footer.xml','r');
-						
-						$owner_email = $footer_xml->readSection('footer', 'email');
-						$owner       = $footer_xml->readSection('footer', 'websiteowner');
-						$owner_url   = $footer_xml->readSection('footer', 'owner_url');
-						
-						$owner_email = $tcms_main->decodeText($owner_email, '2', $c_charset);
-						$owner       = $tcms_main->decodeText($owner, '2', $c_charset);
-						$owner_url   = $tcms_main->decodeText($owner_url, '2', $c_charset);
+						$owner_email = $tcms_config->getWebpageOwnerMail();
+						$owner       = $tcms_config->getWebpageOwner();
+						$owner_url   = $tcms_config->getWebpageOwnerUrl();
 						
 						$send_mail_to = $fullemail;
 						$subject      = _REG_SUCCESS;
@@ -678,17 +672,88 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 						$userprofile  = _REG_USERPROFILE;
 						$date         = date('d.m.Y');
 						
-						if(strpos($owner_url, $seoPath)) $owner_url = str_replace($seoPath, '', $owner_url);
+						if(strpos($owner_url, $seoPath)) {
+							$owner_url = str_replace($seoPath, '', $owner_url);
+						}
 						
-						$seoURL = '?id=register&cmd=validate&code=';
+						$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
+							.'id=frontpage&s='.$s
+							.( isset($lang) ? '&amp;lang='.$lang : '' );
+							$link = $tcms_main->urlConvertToSEO($link);
+						
+						$seoURL = '?id=register'
+						.( isset($lang) ? '&amp;lang='.$lang : '' )
+						.'&amp;cmd=validate&amp;code=';
 						$seoURL = $tcms_main->urlConvertToSEO($seoURL);
 						
-						if($seoEnabled == 0)
+						if($seoEnabled == 0) {
 							$seoURL = str_replace('&amp;', '&', $seoURL);
+						}
 						
-						$header = "From: $owner <$owner_email>\n";
-						$header .= "Content-Type: text/plain";
-						mail("$send_mail_to", "$owner - $date - $subject","
+						if($mail_with_smtp == '1' && $mail_as_html == '1') {
+							// phpmailer
+							$mail = new PHPMailer();
+							
+							$mail->IsSMTP();
+							$mail->Host     = $mail_server_smtp;
+							$mail->SMTPAuth = true;
+							$mail->Username = $mail_user;
+							$mail->Password = $mail_password;
+							
+							$mail->From     = $owner_email;
+							$mail->FromName = $owner;
+							$mail->AddAddress($send_mail_to, $fulluser); 
+							$mail->AddBCC($owner_email, $owner);
+							
+							$mail->WordWrap = 50;
+							
+							$mail->Subject  =  $owner.' - '.$date.' - '.$subject;
+							
+							// text message
+							$mail_body_text = $subject.".\n"
+							."----------------------------------------------------------------------\n\n"
+							.$success_text."\n"
+							.$sc_details."\n\n"
+							.$sc_user.": ".$fulluser."\n"
+							.$sc_pass.": ".$pass_md5."\n"
+							."URL: ".$owner_url."/".$seoURL.$validate_md5."\n"
+							.$sc_userprofile."\n"
+							."----------------------------------------------------------------------";
+							
+							// html message
+							$mail_body_html = $subject.'<hr />'
+							.$success_text.'<br />'
+							.$sc_details.'<br /><br />'
+							.'<strong>'.$sc_user.'</strong>: '.$fulluser.'<br />'
+							.'<strong>'.$sc_pass.'</strong>: '.$pass_md5.'<br />'
+							.'<strong>URL</strong>:'.$owner_url.'/'.$seoURL.$validate_md5.'<br /><br />'
+							.$sc_userprofile.'<hr />';
+							
+							if($mail_as_html == '1') {
+								$mail->IsHTML(true);
+								$mail->Body     =  $mail_body_html;
+								$mail->AltBody  =  $mail_body_text;
+							}
+							else {
+								$mail->IsHTML(false);
+								//$mail->IsMail();
+								//$mail->Body     =  $mail_body_text;
+								//$mail->AltBody  =  $mail_body_html;
+								$mail->Body     =  $mail_body_html;
+								$mail->AltBody  =  $mail_body_text;
+							}
+							
+							if(!$mail->Send()) {
+								echo '<script>'
+								.'history.back();'
+								.'alert(\''._MSG_SEND_FAILED.'\n\nMailer Error: '.$mail->ErrorInfo.'\');'
+								.'</script>';
+							}
+						}
+						else {
+							$header = "From: $owner <$owner_email>\n";
+							$header .= "Content-Type: text/plain";
+							mail("$send_mail_to", "$owner - $date - $subject","
 	$subject. 
 -----------------------------------------------------------------------------------
 	
@@ -703,34 +768,24 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 	
 	$sc_userprofile
 -----------------------------------------------------------------------------------
-						","$header");
-						
-						/*
-							 Mail for the admin
-						*/
-						$footer_xml  = new xmlparser($tcms_administer_site.'/tcms_global/footer.xml','r');
-						
-						$owner_email = $footer_xml->readSection('footer', 'email');
-						$owner       = $footer_xml->readSection('footer', 'websiteowner');
-						$owner_url   = $footer_xml->readSection('footer', 'owner_url');
-						
-						$owner_email = $tcms_main->decodeText($owner_email, '2', $c_charset);
-						$owner       = $tcms_main->decodeText($owner, '2', $c_charset);
-						$owner_url   = $tcms_main->decodeText($owner_url, '2', $c_charset);
-						
-						$send_mail_to = $fullemail;
-						$subject      = _REG_SUCCESS;
-						$success_text = _REG_SUCCESS_MAIL;
-						$sc_user      = _PERSON_USERNAME;
-						$sc_pass      = _PERSON_PASSWORD;
-						$sc_details   = _TABLE_URL;
-						$userprofile  = _REG_USERPROFILE;
-						$app_get_mail = _REG_EMAIL;
-						$date         = date('d.m.Y');
-						
-						$header = "From: $owner <$owner_email>\n";
-						$header .= "Content-Type: text/plain";
-						mail("$owner_email", "$app_get_mail - $date","
+","$header");
+							
+							/*
+								 Mail for the admin
+							*/
+							$send_mail_to = $fullemail;
+							$subject      = _REG_SUCCESS;
+							$success_text = _REG_SUCCESS_MAIL;
+							$sc_user      = _PERSON_USERNAME;
+							$sc_pass      = _PERSON_PASSWORD;
+							$sc_details   = _TABLE_URL;
+							$userprofile  = _REG_USERPROFILE;
+							$app_get_mail = _REG_EMAIL;
+							$date         = date('d.m.Y');
+							
+							$header = "From: $owner <$owner_email>\n";
+							$header .= "Content-Type: text/plain";
+							mail("$owner_email", "$app_get_mail - $date","
 	$subject. 
 -----------------------------------------------------------------------------------
 	
@@ -742,7 +797,8 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 	$sc_user: $fulluser
 	
 -----------------------------------------------------------------------------------
-						","$header");
+","$header");
+						}
 						
 						if($choosenDB == 'xml'){
 							if(file_exists('cache/'.$validate_md5.'.xml'))

@@ -15,13 +15,13 @@
 +
 */
 
-$tcms_mail_with_smtp   = '';
-$tcms_mail_as_html     = '';
-$tcms_mail_server_pop3 = '';
-$tcms_mail_server_smtp = '';
-$tcms_mail_port        = '';
-$tcms_mail_pop3        = '0';
-$tcms_mail_user        = '';
-$tcms_mail_password    = '';
+$tcms_mail_with_smtp   = '1';
+$tcms_mail_as_html     = '1';
+$tcms_mail_server_pop3 = 'wp045.webpack.hosteurope.de';
+$tcms_mail_server_smtp = 'wp045.webpack.hosteurope.de';
+$tcms_mail_port        = '110';
+$tcms_mail_pop3        = '1';
+$tcms_mail_user        = 'wp1026432-0';
+$tcms_mail_password    = 'elegance';
 
 ?>
