@@ -37,7 +37,7 @@ if(isset($_POST['reg_cookie'])){ $reg_cookie = $_POST['reg_cookie']; }
  * This module provides the login functionality
  * and a login formular.
  *
- * @version 0.5.1
+ * @version 0.5.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -139,12 +139,12 @@ if($use_login == 1) {
 // LOGIN NOW
 // -----------------------------------
 
-if($reg_login == 'login'){
+if($reg_login == 'login') {
 	$linkAdd = '';
 	
 	$session = $tcms_auth->doLogin($reg_user, $reg_pass);
 	
-	if($session){
+	if($session !== false && strlen($session) == 32) {
 		if($reg_cookie) {
 			$linkAdd = '&code=setc';
 		}
@@ -153,16 +153,22 @@ if($reg_login == 'login'){
 		.( isset($lang) ? '&amp;lang='.$lang : '' );
 		$link = $tcms_main->urlConvertToSEO($link, false);
 	}
-	else{
+	else {
 		$link = '?id='.$id.'&amp;s='.$s
 		.( isset($lang) ? '&amp;lang='.$lang : '' );
 		$link = $tcms_main->urlConvertToSEO($link);
+		
+		if($session === 'u') {
+			$msg = 'Incorrect usergroup!';
+		}
 	}
 	
 	echo '<script>'
 	.'document.location.href=\''.$link.'\';'
-	.( $session ? '' : 'alert(\''._LOGIN_FALSE.'\');' )
-	.'</script>';
+	.( $session !== false && strlen($session) == 32 
+		? '' 
+		: 'alert(\''._LOGIN_FALSE.'\n'.$msg.'\');'
+	).'</script>';
 }
 
 

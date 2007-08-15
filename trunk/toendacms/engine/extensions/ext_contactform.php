@@ -559,7 +559,7 @@ if($cform_enabled == 1){
 			$msg_form_system   = _FORM_SYSTEM;
 			$msg_form_regards  = _FORM_GREETS;
 			
-			if($mail_with_smtp == '1' && $mail_as_html == '1'){
+			if($mail_with_smtp == '1' && $mail_as_html == '1') {
 				// phpmailer
 				$mail = new PHPMailer();
 				
