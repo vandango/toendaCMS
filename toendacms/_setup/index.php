@@ -22,7 +22,7 @@ define('_TCMS_VALID', 1);
  *
  * This file is used as the installer central.
  *
- * @version 0.4.0
+ * @version 0.4.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -138,14 +138,15 @@ if(isset($_POST['fullc_email'])){ $fullc_email = $_POST['fullc_email']; }
 if(!isset($site)){ $site = 'language'; }
 if(!isset($lang)){ $lang = 'en'; }
 
-
-
-include_once ('../engine/tcms_kernel/tcms.lib.php');
-include_once ('../engine/tcms_kernel/tcms_xml.lib.php');
-include_once ('../engine/tcms_kernel/tcms_sql.lib.php');
-include_once ('../engine/tcms_kernel/pclzip/pclzip.lib.php');
-include_once ('../engine/tcms_kernel/tcms_time.lib.php');
-include_once ('functions.php');
+include_once('../engine/tcms_kernel/tcms_time.lib.php');
+include_once('../engine/tcms_kernel/tcms_xml.lib.php');
+include_once('../engine/tcms_kernel/tcms_configuration.lib.php');
+include_once('../engine/tcms_kernel/tcms_version.lib.php');
+include_once('../engine/tcms_kernel/tcms_html.lib.php');
+include_once('../engine/tcms_kernel/tcms.lib.php');
+include_once('../engine/tcms_kernel/tcms_sql.lib.php');
+include_once('../engine/tcms_kernel/pclzip/pclzip.lib.php');
+include_once('functions.php');
 
 $tcms_main = new tcms_main('../data');
 
