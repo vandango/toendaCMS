@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 17. Februar 2007 um 01:11
--- Server Version: 5.0.21
+-- Erstellungszeit: 31. August 2007 um 00:28
+-- Server Version: 5.0.33
 -- PHP-Version: 5.2.1
 -- 
 -- Datenbank: `tcms_blog`
@@ -26,11 +26,6 @@ CREATE TABLE `#####albums` (
   PRIMARY KEY  (`uid`)
 ) ENGINE=MyISAM ;
 
--- 
--- Daten für Tabelle `#####albums`
--- 
-
-
 -- --------------------------------------------------------
 
 -- 
@@ -47,13 +42,8 @@ CREATE TABLE `#####comments` (
   `msg` text,
   `time` varchar(14) NOT NULL default '',
   `ip` varchar(15) default NULL,
-  `domain` varchar(255) default NULL,
-  PRIMARY KEY  (`uid`)
+  `domain` varchar(255) default NULL
 ) ENGINE=MyISAM ;
-
--- 
--- Daten für Tabelle `#####comments`
--- 
 
 -- --------------------------------------------------------
 
@@ -82,8 +72,8 @@ CREATE TABLE `#####contactform` (
 -- Daten für Tabelle `#####contactform`
 -- 
 
-INSERT INTO `#####contactform` (`uid`, `language`, `contact`, `show_contacts_in_sidebar`, `send_id`, `contacttitle`, `contactstamp`, `contacttext`, `access`, `enabled`, `use_adressbook`, `use_contact`, `show_contactemail`) VALUES ('contactform', 'english_EN', 'info@toenda.com', 0, 'contactform', 'Contact Us and ...', '... send us a message.', 'my contacttext&lt;br /&gt;\r\n', 'Public', 1, 1, 1, 1),
-('196716e11c5', 'germany_DE', '', 0, 'contactform', '', '', '', 'Public', 1, 0, 0, 0);
+INSERT INTO `#####contactform` (`uid`, `language`, `contact`, `show_contacts_in_sidebar`, `send_id`, `contacttitle`, `contactstamp`, `contacttext`, `access`, `enabled`, `use_adressbook`, `use_contact`, `show_contactemail`) VALUES ('contactform', 'english_EN', '', 0, 'contactform', '', '', '', 'Public', 1, 1, 1, 1),
+('196716e11c5', 'germany_DE', '', 1, 'contactform', '', '', '', 'Public', 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -108,10 +98,6 @@ CREATE TABLE `#####contacts` (
   PRIMARY KEY  (`uid`)
 ) ENGINE=MyISAM ;
 
--- 
--- Daten für Tabelle `#####contacts`
--- 
-
 -- --------------------------------------------------------
 
 -- 
@@ -134,10 +120,6 @@ CREATE TABLE `#####content` (
   PRIMARY KEY  (`uid`)
 ) ENGINE=MyISAM ;
 
--- 
--- Daten für Tabelle `#####content`
--- 
-
 -- --------------------------------------------------------
 
 -- 
@@ -158,11 +140,7 @@ CREATE TABLE `#####content_languages` (
   `access` varchar(10) collate utf8_unicode_ci NOT NULL,
   `in_work` int(11) NOT NULL default '0',
   `published` int(11) NOT NULL default '0'
-) ENGINE=InnoDB ;
-
--- 
--- Daten für Tabelle `#####content_languages`
--- 
+) ENGINE=MyISAM ;
 
 -- --------------------------------------------------------
 
@@ -189,11 +167,6 @@ CREATE TABLE `#####downloads` (
   KEY `uid` (`uid`)
 ) ENGINE=MyISAM ;
 
--- 
--- Daten für Tabelle `#####downloads`
--- 
-
-
 -- --------------------------------------------------------
 
 -- 
@@ -212,8 +185,7 @@ CREATE TABLE `#####downloads_config` (
 -- Daten für Tabelle `#####downloads_config`
 -- 
 
-INSERT INTO `#####downloads_config` (`uid`, `download_id`, `download_title`, `download_stamp`, `download_text`) 
-VALUES ('download', 'download', '', '', '');
+INSERT INTO `#####downloads_config` (`uid`, `download_id`, `download_title`, `download_stamp`, `download_text`) VALUES ('download', 'download', 'Downloads and Software', 'Toenda Software Downloads', 'Our software downloads.');
 
 -- --------------------------------------------------------
 
@@ -243,9 +215,11 @@ CREATE TABLE `#####frontpage` (
 -- Daten für Tabelle `#####frontpage`
 -- 
 
-INSERT INTO `#####frontpage` (`uid`, `language`, `front_id`, `front_title`, `front_stamp`, `front_text`, `news_title`, `news_cut`, `module_use_0`, `sb_news_title`, `sb_news_amount`, `sb_news_chars`, `sb_news_enabled`, `sb_news_display`) 
-VALUES ('24k58ilp6', 'english_EN', 'frontpage', '', '', '', 'News', 0, 5, '', 5, 100, 0, 3),
-('4frtgh587', 'germany_DE', 'frontpage', '', '', '', 'Neuigkeiten', 0, 5, '', 5, 100, 0, 3);
+INSERT INTO `#####frontpage` 
+(`uid`, `language`, `front_id`, `front_title`, `front_stamp`, `front_text`, `news_title`, `news_cut`, `module_use_0`, `sb_news_title`, `sb_news_amount`, `sb_news_chars`, `sb_news_enabled`, `sb_news_display`) 
+VALUES 
+('24k58ilp6', 'english_EN', 'frontpage', '', '', '', '', 0, 5, '', 5, 100, 0, 3),
+('4frtgh587', 'germany_DE', 'frontpage', '', '', '', '', 0, 5, '', 5, 100, 0, 3);
 
 -- --------------------------------------------------------
 
@@ -274,8 +248,7 @@ CREATE TABLE `#####guestbook` (
 -- Daten für Tabelle `#####guestbook`
 -- 
 
-INSERT INTO `#####guestbook` (`uid`, `guest_id`, `booktitle`, `bookstamp`, `access`, `enabled`, `clean_link`, `clean_script`, `convert_at`, `show_email`, `name_width`, `text_width`, `color_row_1`, `color_row_2`) 
-VALUES ('guestbook', 'guestbook', '', '', 'Public', 1, 1, 1, 1, 1, '140', '360', 'efefef', 'ffffff');
+INSERT INTO `#####guestbook` (`uid`, `guest_id`, `booktitle`, `bookstamp`, `access`, `enabled`, `clean_link`, `clean_script`, `convert_at`, `show_email`, `name_width`, `text_width`, `color_row_1`, `color_row_2`) VALUES ('guestbook', 'guestbook', 'My Guests', 'of this beautiful website', 'Public', 1, 1, 1, 1, 1, '140', '360', 'efefef', 'ffffff');
 
 -- --------------------------------------------------------
 
@@ -291,10 +264,6 @@ CREATE TABLE `#####guestbook_items` (
   `date` varchar(8) default NULL,
   `time` varchar(5) default NULL
 ) ENGINE=MyISAM ;
-
--- 
--- Daten für Tabelle `#####guestbook_items`
--- 
 
 -- --------------------------------------------------------
 
@@ -342,8 +311,7 @@ CREATE TABLE `#####imagegallery_config` (
 -- Daten für Tabelle `#####imagegallery_config`
 -- 
 
-INSERT INTO `#####imagegallery_config` (`uid`, `image_id`, `image_title`, `image_stamp`, `image_details`, `use_comments`, `access`, `max_image`, `needle_image`, `show_lastimg_title`, `align_image`, `size_image`, `image_sort`, `list_option`) 
-VALUES ('imagegallery', 'imagegallery', '', '', 0, 1, 'Public', 5, '', 1, 'center', 100, 'desc', 1);
+INSERT INTO `#####imagegallery_config` (`uid`, `image_id`, `image_title`, `image_stamp`, `image_details`, `use_comments`, `access`, `max_image`, `needle_image`, `show_lastimg_title`, `align_image`, `size_image`, `image_sort`, `list_option`) VALUES ('imagegallery', 'imagegallery', 'Imagegallery', 'Picture i like', 0, 1, 'Public', 5, 'Last uploaded', 1, 'center', 100, 'desc', 1);
 
 -- --------------------------------------------------------
 
@@ -367,9 +335,11 @@ CREATE TABLE `#####impressum` (
 -- Daten für Tabelle `#####impressum`
 -- 
 
-INSERT INTO `#####impressum` (`uid`, `language`, `imp_id`, `imp_title`, `imp_stamp`, `imp_contact`, `taxno`, `ustid`, `legal`)
-VALUES ('impressum', 'english_EN', 'impressum', '', '', '', '', '', ''),
-('hgztkj87r', 'germany_DE', 'impressum', '', '', '', '', '', '');
+INSERT INTO `#####impressum` 
+(`uid`, `language`, `imp_id`, `imp_title`, `imp_stamp`, `imp_contact`, `taxno`, `ustid`, `legal`) 
+VALUES 
+('impressum', 'english_EN', 'impressum', '', '', '10a1b5f6ab', '', '', ''),
+('hgztkj87r', 'germany_DE', 'impressum', '', '', '10a1b5f6ab', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -398,6 +368,7 @@ CREATE TABLE `#####knowledgebase` (
 -- Daten für Tabelle `#####knowledgebase`
 -- 
 
+INSERT INTO `#####knowledgebase` (`uid`, `category`, `parent`, `title`, `subtitle`, `content`, `image`, `type`, `date`, `last_update`, `access`, `autor`, `sort`, `publish_state`) VALUES ('6e6f2483b7', '', '', 'sdfsdf', 'sdfsdf', 'sdfsdf\r\n', '', 'a', '02.08.2007-19:33', '02.08.2007-19:33', 'Public', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff', 0, 2);
 
 -- --------------------------------------------------------
 
@@ -420,8 +391,7 @@ CREATE TABLE `#####knowledgebase_config` (
 -- Daten für Tabelle `#####knowledgebase_config`
 -- 
 
-INSERT INTO `#####knowledgebase_config` (`uid`, `id`, `title`, `subtitle`, `text`, `enabled`, `autor_enabled`, `access`) 
-VALUES ('knowledgebase', 'knowledgebase', '', '', '', 1, 0, 'Public');
+INSERT INTO `#####knowledgebase_config` (`uid`, `id`, `title`, `subtitle`, `text`, `enabled`, `autor_enabled`, `access`) VALUES ('knowledgebase', 'knowledgebase', 'FAQs and Articles', 'A small knowledge database', 'Here you will find an example set of FAQs and Articles.', 1, 0, 'Public');
 
 -- --------------------------------------------------------
 
@@ -466,9 +436,8 @@ CREATE TABLE `#####links_config` (
 -- Daten für Tabelle `#####links_config`
 -- 
 
-INSERT INTO `#####links_config` (`uid`, `link_use_side_desc`, `link_use_side_title`, `link_side_title`, `link_use_main_desc`, `link_main_title`, `link_main_subtitle`, `link_main_text`, `link_main_access`) 
-VALUES ('links_config_side', 0, 1, 'Blogroll', NULL, NULL, NULL, NULL, NULL),
-('links_config_main', NULL, NULL, NULL, 1, '', '', '', 'Public');
+INSERT INTO `#####links_config` (`uid`, `link_use_side_desc`, `link_use_side_title`, `link_side_title`, `link_use_main_desc`, `link_main_title`, `link_main_subtitle`, `link_main_text`, `link_main_access`) VALUES ('links_config_side', 0, 1, 'Blogroll', NULL, NULL, NULL, NULL, NULL),
+('links_config_main', NULL, NULL, NULL, 1, 'myLinks', 'A list of all websites i like', 'This is a example text for the textlink page.&lt;a href__________&quot;/toendacms/index.php/section/contactform/template/k2&quot;&gt;Kontaktformular&lt;/a&gt;', 'Public');
 
 -- --------------------------------------------------------
 
@@ -536,8 +505,7 @@ CREATE TABLE `#####newsletter` (
 -- Daten für Tabelle `#####newsletter`
 -- 
 
-INSERT INTO `#####newsletter` (`uid`, `nl_title`, `nl_show_title`, `nl_text`, `nl_link`) 
-VALUES ('newsletter', '', 1, '', '');
+INSERT INTO `#####newsletter` (`uid`, `nl_title`, `nl_show_title`, `nl_text`, `nl_link`) VALUES ('newsletter', '', 1, '', 'Submit');
 
 -- --------------------------------------------------------
 
@@ -592,9 +560,8 @@ CREATE TABLE `#####newsmanager` (
 -- Daten für Tabelle `#####newsmanager`
 -- 
 
-INSERT INTO `#####newsmanager` (`uid`, `news_id`, `news_title`, `news_stamp`, `news_text`, `news_image`, `use_comments`, `show_autor`, `show_autor_as_link`, `news_amount`, `access`, `news_cut`, `use_gravatar`, `use_emoticons`, `use_rss091`, `use_rss10`, `use_rss20`, `use_atom03`, `use_opml`, `syn_amount`, `use_syn_title`, `def_feed`, `use_trackback`, `use_timesince`, `readmore_link`, `news_spacing`, `language`) 
-VALUES ('newsmanager', 'newsmanager', '', '', '', '', 1, 1, 1, 20, 'Public', 0, 0, 1, 1, 1, 1, 1, 1, 5, 0, 'RSS2.0', 0, 2, 0, 0, 'english_EN'),
-('45789hgtzu', 'newsmanager', '', '', '', '', 1, 1, 1, 20, 'Public', 0, 0, 1, 1, 1, 1, 1, 1, 5, 0, 'RSS2.0', 0, 2, 0, 0, 'germany_DE');
+INSERT INTO `#####newsmanager` (`uid`, `news_id`, `news_title`, `news_stamp`, `news_text`, `news_image`, `use_comments`, `show_autor`, `show_autor_as_link`, `news_amount`, `access`, `news_cut`, `use_gravatar`, `use_emoticons`, `use_rss091`, `use_rss10`, `use_rss20`, `use_atom03`, `use_opml`, `syn_amount`, `use_syn_title`, `def_feed`, `use_trackback`, `use_timesince`, `readmore_link`, `news_spacing`, `language`) VALUES ('newsmanager', 'newsmanager', 'News', 'Current', 'My newstext&lt;br /&gt;\r\n', '', 1, 1, 1, 20, 'Public', 0, 0, 1, 1, 1, 1, 1, 1, 5, 0, 'RSS2.0', 0, 2, 0, 0, 'english_EN'),
+('45789hgtzu', 'newsmanager', '', '', '', '', 1, 1, 1, 20, 'Public', 0, 1, 1, 1, 1, 1, 1, 1, 5, 0, 'RSS2.0', 0, 0, 0, 0, 'germany_DE');
 
 -- --------------------------------------------------------
 
@@ -634,8 +601,7 @@ CREATE TABLE `#####poll_config` (
 -- Daten für Tabelle `#####poll_config`
 -- 
 
-INSERT INTO `#####poll_config` (`uid`, `poll_title`, `allpoll_title`, `show_poll_title`, `poll_side_width`, `poll_main_width`, `poll_sm_title`, `use_poll_sidemenu`, `poll_sidemenu_id`, `poll_tm_title`, `use_poll_topmenu`, `poll_topmenu_id`) 
-VALUES ('poll', 'Poll', '', 1, 110, 500, 'Poll', 0, 2, 'Poll', 0, 4);
+INSERT INTO `#####poll_config` (`uid`, `poll_title`, `allpoll_title`, `show_poll_title`, `poll_side_width`, `poll_main_width`, `poll_sm_title`, `use_poll_sidemenu`, `poll_sidemenu_id`, `poll_tm_title`, `use_poll_topmenu`, `poll_topmenu_id`) VALUES ('poll', 'Poll', 'All Polls', 1, 110, 500, 'Poll', 0, 2, 'Poll', 0, 4);
 
 -- --------------------------------------------------------
 
@@ -687,8 +653,8 @@ CREATE TABLE `#####products` (
   `factory` varchar(255) default NULL,
   `factory_url` varchar(255) default NULL,
   `desc` text,
-  `category` varchar(255) NOT NULL default '',
-  `image` varchar(255) default NULL,
+  `category` varchar(32) default NULL,
+  `image1` varchar(255) default NULL,
   `date` varchar(16) NOT NULL default '',
   `price` varchar(50) default NULL,
   `price_tax` varchar(50) default NULL,
@@ -697,13 +663,16 @@ CREATE TABLE `#####products` (
   `weight` varchar(50) default NULL,
   `sort` int(5) NOT NULL default '0',
   `access` varchar(10) default NULL,
-  `sql_type` char(1) NOT NULL default ''
+  `sql_type` char(1) NOT NULL default '',
+  `image2` varchar(255) default NULL,
+  `image3` varchar(255) default NULL,
+  `image4` varchar(255) default NULL,
+  `show_on_startpage` tinyint(4) NOT NULL default '0',
+  `pub` tinyint(4) NOT NULL default '0',
+  `parent` varchar(32) default NULL,
+  `language` varchar(25) NOT NULL default 'english_EN',
+  PRIMARY KEY  (`uid`)
 ) ENGINE=MyISAM ;
-
--- 
--- Daten für Tabelle `#####products`
--- 
-
 
 -- --------------------------------------------------------
 
@@ -713,21 +682,26 @@ CREATE TABLE `#####products` (
 
 CREATE TABLE `#####products_config` (
   `uid` varchar(8) NOT NULL default '',
+  `language` varchar(25) NOT NULL,
   `products_id` varchar(8) NOT NULL default '',
   `products_title` varchar(255) NOT NULL default '',
   `products_stamp` varchar(255) NOT NULL default '',
   `products_text` text NOT NULL,
   `category_state` varchar(255) NOT NULL default '',
   `category_title` varchar(255) NOT NULL default '',
-  `use_category_title` int(1) NOT NULL default '0'
+  `use_category_title` int(1) NOT NULL default '0',
+  `show_price_only_users` tinyint(4) default NULL,
+  `startpagetitle` varchar(255) default NULL,
+  `use_sidebar_categories` tinyint(4) NOT NULL default '1',
+  `max_latest_products` int(11) NOT NULL default '15'
 ) ENGINE=MyISAM ;
 
 -- 
 -- Daten für Tabelle `#####products_config`
 -- 
 
-INSERT INTO `#####products_config` (`uid`, `products_id`, `products_title`, `products_stamp`, `products_text`, `category_state`, `category_title`, `use_category_title`) 
-VALUES ('products', 'products', '', '', '', '', '', 1);
+INSERT INTO `#####products_config` (`uid`, `language`, `products_id`, `products_title`, `products_stamp`, `products_text`, `category_state`, `category_title`, `use_category_title`, `show_price_only_users`, `startpagetitle`, `use_sidebar_categories`, `max_latest_products`) VALUES ('products', 'germany_DE', 'products', 'Products', 'Lorem ipsum dolor', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer tellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam feugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio mauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris dolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\r\n', '', 'Product Categories', 1, 0, 'Aktuelle Angebot', 1, 15),
+('f225076a', 'english_EN', 'products', 'sdfsdfsdf', 'sdfsdf', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer\r\ntellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam\r\nfeugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio\r\nmauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris\r\ndolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque\r\nhabitant morbi tristique senectus et netus et malesuada fames ac turpis\r\negestas.\r\n', '', 'sdfsdf', 1, 0, 'Current offers', 1, 15);
 
 -- --------------------------------------------------------
 
@@ -741,10 +715,6 @@ CREATE TABLE `#####session` (
   `user` varchar(255) NOT NULL default '',
   `user_id` varchar(32) NOT NULL default ''
 ) ENGINE=MyISAM ;
-
--- 
--- Daten für Tabelle `#####session`
--- 
 
 -- --------------------------------------------------------
 
@@ -760,13 +730,6 @@ CREATE TABLE `#####sidebar` (
   `foot` varchar(255) default NULL,
   `id` varchar(255) NOT NULL default ''
 ) ENGINE=MyISAM ;
-
--- 
--- Daten für Tabelle `#####sidebar`
--- 
-
-INSERT INTO `#####sidebar` (`uid`, `title`, `key`, `content`, `foot`, `id`) 
-VALUES ('frontpage', '', '', '', '', 'frontpage');
 
 -- --------------------------------------------------------
 
@@ -806,8 +769,7 @@ CREATE TABLE `#####sidebar_extensions` (
 -- Daten für Tabelle `#####sidebar_extensions`
 -- 
 
-INSERT INTO `#####sidebar_extensions` (`uid`, `sidemenu_title`, `sidemenu`, `sidebar_title`, `show_sidebar_title`, `chooser_title`, `show_chooser_title`, `search_title`, `show_search_title`, `search_alignment`, `search_withbr`, `search_withbutton`, `search_word`, `login_title`, `usermenu_title`, `nologin`, `reg_link`, `reg_user`, `reg_pass`, `login_user`, `usermenu`, `show_login_title`, `show_news_cat_amount`, `show_memberlist`, `lang`) 
-VALUES ('sidebar_extensions', '', 0, '', 0, '', 1, 'Search website', 0, 'left', 0, 0, '', 'Login', 'Usermenu', 'No account yet?', 'Create one', 'Username', 'Password', 1, 1, 1, 1, 1, 'de;en;nl;');
+INSERT INTO `#####sidebar_extensions` (`uid`, `sidemenu_title`, `sidemenu`, `sidebar_title`, `show_sidebar_title`, `chooser_title`, `show_chooser_title`, `search_title`, `show_search_title`, `search_alignment`, `search_withbr`, `search_withbutton`, `search_word`, `login_title`, `usermenu_title`, `nologin`, `reg_link`, `reg_user`, `reg_pass`, `login_user`, `usermenu`, `show_login_title`, `show_news_cat_amount`, `show_memberlist`, `lang`) VALUES ('sidebar_extensions', 'Sidemenu', 0, 'Sidebar', 0, 'Showcase', 1, 'Search website', 0, 'left', 0, 0, '', 'Login', 'Usermenu', 'No account yet?', 'Create one', 'Username', 'Password', 1, 1, 1, 1, 1, 'de;en;nl;');
 
 -- --------------------------------------------------------
 
@@ -848,11 +810,6 @@ CREATE TABLE `#####statistics` (
   `timestamp` datetime default NULL
 ) ENGINE=MyISAM ;
 
--- 
--- Daten für Tabelle `#####statistics`
--- 
-
-
 -- --------------------------------------------------------
 
 -- 
@@ -864,11 +821,6 @@ CREATE TABLE `#####statistics_ip` (
   `ip` varchar(15) NOT NULL default '',
   `value` int(10) default NULL
 ) ENGINE=MyISAM ;
-
--- 
--- Daten für Tabelle `#####statistics_ip`
--- 
-
 
 -- --------------------------------------------------------
 
@@ -882,11 +834,6 @@ CREATE TABLE `#####statistics_os` (
   `os` varchar(255) default NULL,
   `value` int(10) default NULL
 ) ENGINE=MyISAM ;
-
--- 
--- Daten für Tabelle `#####statistics_os`
--- 
-
 
 -- --------------------------------------------------------
 
@@ -938,9 +885,6 @@ CREATE TABLE `#####user` (
   `hobby` varchar(255) default NULL
 ) ENGINE=MyISAM ;
 
--- 
--- Daten für Tabelle `#####user`
--- 
 -- --------------------------------------------------------
 
 -- 
@@ -985,5 +929,4 @@ CREATE TABLE `#####userpage` (
 -- Daten für Tabelle `#####userpage`
 -- 
 
-INSERT INTO `#####userpage` (`uid`, `text_width`, `input_width`, `news_publish`, `image_publish`, `album_publish`, `cat_publish`, `pic_publish`) 
-VALUES ('userpage', '150', '150', 0, 0, 0, 0, '0');
+INSERT INTO `#####userpage` (`uid`, `text_width`, `input_width`, `news_publish`, `image_publish`, `album_publish`, `cat_publish`, `pic_publish`) VALUES ('userpage', '150', '150', 1, 1, 1, 1, '1');
