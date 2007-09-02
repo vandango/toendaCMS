@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.7.6
+ * @version 2.7.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -369,6 +369,8 @@ if($wsShowSite) {
 		if(isset($c))               $c               = $tcms_main->cleanUrlString($c, true);
 		if(isset($lang))            $lang            = $tcms_main->cleanUrlString($lang, true);
 		
+		if(!isset($id)) $id = 'frontpage';
+		
 		
 		
 		/*
@@ -429,21 +431,24 @@ if($wsShowSite) {
 			START MAIN PAGE
 		*/
 		if(isset($choosenDB) && $choosenDB == 'xml'){
-			if(!$tcms_param->checkWriteableSession($tcms_administer_site))
+			if(!$tcms_param->checkWriteableSession($tcms_administer_site)) {
 				echo $tcms_html->messageUnwritableSession();
+			}
 		}
 		
-		if(!$tcms_param->checkWriteableData($tcms_administer_site))
+		if(!$tcms_param->checkWriteableData($tcms_administer_site)) {
 			echo $tcms_html->messageUnwritableData();
-		else{
+		}
+		else {
 			/*
 				MAIN
 			*/
 			
-			if(!$tcms_param->checkInstallDir($tcms_administer_site))
+			if(!$tcms_param->checkInstallDir($tcms_administer_site)) {
 				echo $tcms_html->messageInstallerLink();
+			}
 			
-			if(!$tcms_param->checkInstallExist() && $tcms_param->checkInstallDir($tcms_administer_site)){
+			if(!$tcms_param->checkInstallExist() && $tcms_param->checkInstallDir($tcms_administer_site)) {
 				/*
 				include('setup/functions.php');
 				
@@ -456,7 +461,7 @@ if($wsShowSite) {
 				echo $tcms_html->messageIsInstalled();
 			}
 			
-			if($tcms_param->checkInstallDir($tcms_administer_site) && $tcms_param->checkInstallExist()){
+			if($tcms_param->checkInstallDir($tcms_administer_site) && $tcms_param->checkInstallExist()) {
 				/*
 					LOAD toendaCMS ENGINE
 				*/
@@ -771,8 +776,6 @@ if($wsShowSite) {
 					/*
 						load module configuration
 					*/
-					
-					if(!isset($id)) $id = 'frontpage';
 					
 					switch($id){
 						case 'frontpage':
