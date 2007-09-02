@@ -28,7 +28,7 @@ Version 1.6
 Developer Version
 	- 1.6.0 Development
 
-Building Steps: 3255
+Building Steps: 3280
 
 
 
@@ -58,6 +58,8 @@ Building Steps: 3255
  - changed: Global configuration values now saved in base64 for the xml configuration files.
  - changed: Minimal PHP version is now 5.2.0
  - changed: Updated MSSQL 2005 support
+ - changed: Installer updated, now the installer can only update version 1.0.7 and
+            version 1.5.6 to the current 1.6
 
  - added: New SEO format available: instead of using the old url format
           [www.domain.com/index.php?id=frontpage&lang=en]
