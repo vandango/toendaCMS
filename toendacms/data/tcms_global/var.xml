@@ -5,7 +5,7 @@
 	<charset>ISO-8859-1</charset>
 	<wysiwyg>tinymce</wysiwyg>
 	<lang>english_EN</lang>
-	<front_lang>germany_DE</front_lang>
+	<front_lang>english_EN</front_lang>
 	<description></description>
 	<currency>EUR</currency>
 	<toendacms_in_sitetitle>0</toendacms_in_sitetitle>
