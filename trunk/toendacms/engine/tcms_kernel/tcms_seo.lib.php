@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used for the search engine
  * optimization.
  *
- * @version 0.5.4
+ * @version 0.5.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -361,8 +361,8 @@ class tcms_seo {
 			if(strlen($urlValue) > 0) {
 				if(strpos($urlValue, '.', 1) > 0) {
 					// found point
-					$val = substr($urlValue, 0, strrpos($urlValue, '.', 1));
-					$end = substr($urlValue, strrpos($urlValue, '.', 1) + 5);
+					$val = substr($urlValue, 0, strpos($urlValue, '.', 1));
+					$end = substr($urlValue, strpos($urlValue, '.', 1) + 5);
 				}
 				else {
 					$val = $urlValue;
@@ -372,7 +372,7 @@ class tcms_seo {
 				$val = $urlValue;
 			}
 			
-			//echo '$val:'.$val.'<br>';
+			//echo '$val:'.$val.'<br><br>';
 			//echo '<span style="color:#fff;">$val:'.$val.'</span><br>';
 			//echo '<span style="color:#fff;">$end:'.$end.'</span><br>';
 			//echo '<span style="color:#fff;">arr id: '.$end.' -> '.substr($end, 1, strpos($end, '=') - 1).'</span><br>';

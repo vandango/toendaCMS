@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides a download manager..
  *
- * @version 0.8.1
+ * @version 0.8.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -384,10 +384,11 @@ if($action == 'showall'){
 					$showThis = $tcms_main->checkAccess($checkAcc, $is_admin);
 					
 					
-					if($arr_dw['st'][$key] == 'd'){
+					if($arr_dw['st'][$key] == 'd') {
 						if($showThis){
 							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-							.'id=download&amp;s='.$s.'&amp;action=showall&amp;category='.$arr_dw['uid'][$key]
+							.'id=download&amp;s='.$s.'&amp;action=showall'
+							.'&amp;category='.$arr_dw['uid'][$key]
 							.( isset($lang) ? '&amp;lang='.$lang : '' );
 							$link = $tcms_main->urlConvertToSEO($link);
 							
@@ -427,29 +428,35 @@ if($action == 'showall'){
 							}
 						}
 					}
-					else{
-						if($showThis){
-							if($arr_dw['mir'][$key] == 0 && $tcms_main->checkWebLink($arr_dw['file'][$key]) == false){
-								$downFile = $arr_dw['file'][$key];
-								
+					else {
+						if($showThis) {
+							if($arr_dw['mir'][$key] == 0 
+							&& !$tcms_main->checkWebLink($arr_dw['file'][$key])) {
 								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-								.'id=download&amp;s='.$s.'&amp;action=start&amp;category='.$arr_dw['uid'][$key].'&amp;file='.$downFile;
-								//.( isset($lang) ? '&amp;lang='.$lang : '' );
+								.'id=download&amp;s='.$s.'&amp;action=start'
+								.( isset($lang) ? '&amp;lang='.$lang : '' )
+								.'&amp;category='.$arr_dw['uid'][$key]
+								.'&amp;file='.$arr_dw['file'][$key];
+								
 								$link = $tcms_main->urlConvertToSEO($link);
 							}
-							else{
+							else {
 								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-								.( isset($lang) ? 'lang='.$lang.'&amp;' : '' )
-								.'id=download&amp;s='.$s.'&amp;action=start&amp;category='.$arr_dw['uid'][$key].'&amp;c=_mirror_&amp;file=';
+								.'id=download&amp;s='.$s.'&amp;action=start'
+								.( isset($lang) ? '&amp;lang='.$lang : '' )
+								.'&amp;category='.$arr_dw['uid'][$key]
+								.'&amp;c=_mirror_'
+								.'&amp;file=';
+								
 								$link = $tcms_main->urlConvertToSEO($link);
 								$link = $link.$arr_dw['file'][$key];
 							}
 							
 							echo '<a href="'.$link.'" target="_blank">';
 							
-							if($arr_dw['img'][$key] == '_mimetypes_'){
-								if(file_exists('engine/images/mimetypes/'.$arr_dw['type'][$key].'.png')){
-									if($detect_browser == 1){
+							if($arr_dw['img'][$key] == '_mimetypes_') {
+								if($tcms_main->checkFileExist('engine/images/mimetypes/'.$arr_dw['type'][$key].'.png')) {
+									if($detect_browser == 1) {
 										echo '<script>if(browser == \'ie\'){'
 										.'document.write(\'<img src="'.$imagePath.'engine/images/mimetypesGIF/'.$arr_dw['type'][$key].'.gif" border="0" />\');'
 										.'}else{'
@@ -460,7 +467,7 @@ if($action == 'showall'){
 										.'<img src="'.$imagePath.'engine/images/mimetypes/'.$arr_dw['type'][$key].'.png" border="0" />'
 										.'</noscript>';
 									}
-									else{
+									else {
 										echo '<img src="'.$imagePath.'engine/images/mimetypes/'.$arr_dw['type'][$key].'.png" border="0" />';
 									}
 								}
@@ -578,7 +585,8 @@ if($action == 'showall'){
 			if($page > 1){
 				if($showME1){
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-					.'id=download&amp;s='.$s.'&action=showall'.( trim($category) != '' ? '&category='.$category : '' ).'&amp;page=1'
+					.'id=download&amp;s='.$s.'&action=showall'.( trim($category) != '' ? '&category='.$category : '' )
+					.'&amp;page=1'
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlConvertToSEO($link);
 					
@@ -587,7 +595,8 @@ if($action == 'showall'){
 					
 					
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-					.'id=download&amp;s='.$s.'&action=showall'.( trim($category) != '' ? '&category='.$category : '' ).'&amp;page='.( $page - 1 )
+					.'id=download&amp;s='.$s.'&action=showall'.( trim($category) != '' ? '&category='.$category : '' )
+					.'&amp;page='.( $page - 1 )
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlConvertToSEO($link);
 					
