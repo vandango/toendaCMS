@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.5.2
+ * @version 2.5.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -118,6 +118,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * indexOf                           -> The same as strpos
  * convertNewlineToHTML              -> Replaces all newlines in a stzring with <br /> tags
  * cutStringToLength                 -> Cut a string and append a string
+ * checkDirExist                     -> Checks if a directory exist
+ * checkFileExist                    -> Checks if a file exist
  *
  * xml_readdir_content         -> return id saved in xml file
  * xml_readdir_content_without -> return id saved in xml file
@@ -2644,6 +2646,40 @@ class tcms_main {
 	 */
 	function cutStringToLength($text, $length = 15, $appendString = ''){
 		return ( strlen($text) > 15 ? substr($text, 0, $length).$appendString : $text );
+	}
+	
+	
+	
+	/**
+	 * Checks if a directory exist
+	 *
+	 * @param string $directoryWithPath
+	 * @return bool
+	 */
+	function checkDirExist($directoryWithPath) {
+		if(is_writable($directoryWithPath)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	
+	
+	/**
+	 * Checks if a file exist
+	 *
+	 * @param string $fileWithPath
+	 * @return bool
+	 */
+	function checkFileExist($fileWithPath) {
+		if(file_exists($fileWithPath)) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	

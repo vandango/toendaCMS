@@ -28,7 +28,7 @@ Version 1.6
 Developer Version
 	- 1.6.0 Development
 
-Building Steps: 3280
+Building Steps: 3290
 
 
 
@@ -47,7 +47,6 @@ Building Steps: 3280
               selected category.
  - bug fixed: Notebook display on desktop now with overflow.
  - bug fixed: Register validation link comes without the lang variable.
-              
 
  - changed: Complete rewrite of the product manager as a base for the upcoming
             toendaCMS shop system.

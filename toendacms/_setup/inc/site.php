@@ -61,7 +61,7 @@ $arr_char[13] = 'EUC-JP';
 	languages
 */
 
-$arr_language = $tcms_main->readdir_ext('../engine/language/');
+$arr_language = $tcms_main->getPathContent('../engine/language/');
 
 $ll = 0;
 while(!empty($arr_language[$ll])){
@@ -75,7 +75,7 @@ while(!empty($arr_language[$ll])){
 	main settings
 */
 
-if($todo == 'global'){
+if($todo == 'global') {
 	echo '<h2>'._TCMS_SITE_TITLE.'</h2>';
 	echo '<h3>'._TCMS_DB_NEWINSTALL_DB1.' '
 	.( $db == 'mysql' ? 'MySQL' : ( $db == 'pgsql' ? 'PostgreSQL' : 'XML' ) ).'&nbsp;'
@@ -364,32 +364,47 @@ if($todo == 'global'){
 */
 
 if($todo == 'save'){
-	if(!is_writable('../data/tcms_global')){ chmod('../data/tcms_global/', 0777); }
-	
-	
-	
-	if($db == 'xml'){
-		$m_title          = $tcms_main->decode_text_without_db($m_title, '2', $c_charset);
-		$m_name           = $tcms_main->decode_text_without_db($m_name, '2', $c_charset);
-		$new_key          = $tcms_main->decode_text_without_db($new_key, '2', $c_charset);
-		$new_websiteowner = $tcms_main->decode_text_without_db($new_websiteowner, '2', $c_charset);
-		$new_owner_url    = $tcms_main->decode_text_without_db($new_owner_url, '2', $c_charset);
-		$new_copyright    = $tcms_main->decode_text_without_db($new_copyright, '2', $c_charset);
-		$email            = $tcms_main->decode_text_without_db($email, '2', $c_charset);
-		$keywords         = $tcms_main->decode_text_without_db($keywords, '2', $c_charset);
-		$description      = $tcms_main->decode_text_without_db($description, '2', $c_charset);
+	if(!$tcms_main->checkDirExist('../data/tcms_global')) {
+		chmod('../data/tcms_global/', 0777);
 	}
-	else{
-		$m_title          = $tcms_main->decode_text_without_crypt($m_title, '2', $c_charset);
-		$m_name           = $tcms_main->decode_text_without_crypt($m_name, '2', $c_charset);
-		$new_key          = $tcms_main->decode_text_without_crypt($new_key, '2', $c_charset);
-		$new_websiteowner = $tcms_main->decode_text_without_crypt($new_websiteowner, '2', $c_charset);
-		$new_owner_url    = $tcms_main->decode_text_without_crypt($new_owner_url, '2', $c_charset);
-		$new_copyright    = $tcms_main->decode_text_without_crypt($new_copyright, '2', $c_charset);
-		$email            = $tcms_main->decode_text_without_crypt($email, '2', $c_charset);
-		$keywords         = $tcms_main->decode_text_without_crypt($keywords, '2', $c_charset);
-		$description      = $tcms_main->decode_text_without_crypt($description, '2', $c_charset);
+	
+	if($db == 'xml') {
+		$m_title          = $tcms_main->encodeText($m_title, '2', $c_charset, false, true);
+		$m_name           = $tcms_main->encodeText($m_name, '2', $c_charset, false, true);
+		$new_key          = $tcms_main->encodeText($new_key, '2', $c_charset, false, true);
+		$new_websiteowner = $tcms_main->encodeText($new_websiteowner, '2', $c_charset, false, true);
+		$new_owner_url    = $tcms_main->encodeText($new_owner_url, '2', $c_charset, false, true);
+		$new_copyright    = $tcms_main->encodeText($new_copyright, '2', $c_charset, false, true);
+		$email            = $tcms_main->encodeText($email, '2', $c_charset, false, true);
+		$keywords         = $tcms_main->encodeText($keywords, '2', $c_charset, false, true);
+		$description      = $tcms_main->encodeText($description, '2', $c_charset, false, true);
 	}
+	else {
+		$m_title          = $tcms_main->encodeText($m_title, '2', $c_charset, true);
+		$m_name           = $tcms_main->encodeText($m_name, '2', $c_charset, true);
+		$new_key          = $tcms_main->encodeText($new_key, '2', $c_charset, true);
+		$new_websiteowner = $tcms_main->encodeText($new_websiteowner, '2', $c_charset, true);
+		$new_owner_url    = $tcms_main->encodeText($new_owner_url, '2', $c_charset, true);
+		$new_copyright    = $tcms_main->encodeText($new_copyright, '2', $c_charset, true);
+		$email            = $tcms_main->encodeText($email, '2', $c_charset, true);
+		$keywords         = $tcms_main->encodeText($keywords, '2', $c_charset, true);
+		$description      = $tcms_main->encodeText($description, '2', $c_charset, true);
+	}
+	
+	
+	$new_site_off_text = 'This site is down for maintenance.<br />Please check back again soon.';
+	
+	
+	if($new_site_off_text != ''){ $new_site_off_text = $tcms_main->encodeBase64($new_site_off_text); }
+	if($m_title           != ''){ $m_title           = $tcms_main->encodeBase64($m_title); }
+	if($m_name            != ''){ $m_name            = $tcms_main->encodeBase64($m_name); }
+	if($new_key           != ''){ $new_key           = $tcms_main->encodeBase64($new_key); }
+	if($new_websiteowner  != ''){ $new_websiteowner  = $tcms_main->encodeBase64($new_websiteowner); }
+	if($new_owner_url     != ''){ $new_owner_url     = $tcms_main->encodeBase64($new_owner_url); }
+	if($new_copyright     != ''){ $new_copyright     = $tcms_main->encodeBase64($new_copyright); }
+	if($email             != ''){ $email             = $tcms_main->encodeBase64($email); }
+	if($keywords          != ''){ $keywords          = $tcms_main->encodeBase64($keywords); }
+	if($description       != ''){ $description       = $tcms_main->encodeBase64($description); }
 	
 	
 	//***************************************
@@ -401,16 +416,16 @@ if($todo == 'save'){
 	if($new_key   == ''){ $new_key   = '-'; }
 	
 	$xmluser = new xmlparser('../'.$tcms_administer_site.'/tcms_global/namen.xml', 'w');
-	$xmluser->xml_declaration();
-	$xmluser->xml_section($var_conf);
+	$xmluser->xmlDeclaration();
+	$xmluser->xmlSection($var_conf);
 	
-	$xmluser->write_value('title', $m_title);
-	$xmluser->write_value('name', $m_name);
-	$xmluser->write_value('key', $new_key);
-	$xmluser->write_value('logo', '');
+	$xmluser->writeValue('title', $m_title);
+	$xmluser->writeValue('name', $m_name);
+	$xmluser->writeValue('key', $new_key);
+	$xmluser->writeValue('logo', '');
 	
-	$xmluser->xml_section_buffer();
-	$xmluser->xml_section_end($var_conf);
+	$xmluser->xmlSectionBuffer();
+	$xmluser->xmlSectionEnd($var_conf);
 	$xmluser->_xmlparser();
 	
 	//***************************************
@@ -422,22 +437,22 @@ if($todo == 'save'){
 	if($new_copyright    == ''){ $new_copyright    = '-'; }
 	
 	$xmluser = new xmlparser('../'.$tcms_administer_site.'/tcms_global/footer.xml', 'w');
-	$xmluser->xml_declaration();
-	$xmluser->xml_section($var_conf);
+	$xmluser->xmlDeclaration();
+	$xmluser->xmlSection($var_conf);
 	
-	$xmluser->write_value('websiteowner', $new_websiteowner);
-	$xmluser->write_value('owner_url', $new_owner_url);
-	$xmluser->write_value('copyright', $new_copyright);
-	$xmluser->write_value('email', $email);
-	$xmluser->write_value('show_tcmslogo', '0');
-	$xmluser->write_value('show_defaultfooter', '0');
-	$xmluser->write_value('show_page_loading_time', '0');
-	$xmluser->write_value('legal_link_in_footer', '1');
-	$xmluser->write_value('admin_link_in_footer', '1');
-	$xmluser->write_value('footer_text', '');
+	$xmluser->writeValue('websiteowner', $new_websiteowner);
+	$xmluser->writeValue('owner_url', $new_owner_url);
+	$xmluser->writeValue('copyright', $new_copyright);
+	$xmluser->writeValue('email', $email);
+	$xmluser->writeValue('show_tcmslogo', '0');
+	$xmluser->writeValue('show_defaultfooter', '0');
+	$xmluser->writeValue('show_page_loading_time', '0');
+	$xmluser->writeValue('legal_link_in_footer', '1');
+	$xmluser->writeValue('admin_link_in_footer', '1');
+	$xmluser->writeValue('footer_text', '');
 	
-	$xmluser->xml_section_buffer();
-	$xmluser->xml_section_end($var_conf);
+	$xmluser->xmlSectionBuffer();
+	$xmluser->xmlSectionEnd($var_conf);
 	$xmluser->_xmlparser();
 	
 	//***************************************
@@ -448,71 +463,71 @@ if($todo == 'save'){
 	if(empty($description)){ $description = '-'; }
 	
 	$xmluser = new xmlparser('../'.$tcms_administer_site.'/tcms_global/var.xml', 'w');
-	$xmluser->xml_declaration();
-	$xmluser->xml_section($var_conf);
+	$xmluser->xmlDeclaration();
+	$xmluser->xmlSection($var_conf);
 	
-	$xmluser->write_value('menu', $menu);
-	$xmluser->write_value('second_menu', $second_menu);
-	$xmluser->write_value('meta', $keywords);
-	$xmluser->write_value('charset', $tmp_charset);
-	$xmluser->write_value('wysiwyg', 'tinymce');
-	$xmluser->write_value('lang', $tmp_lang);
-	$xmluser->write_value('front_lang', $tmp_lang);
-	$xmluser->write_value('description', $description);
-	$xmluser->write_value('currency', 'EUR');
-	$xmluser->write_value('toendacms_in_sitetitle', '1');
-	$xmluser->write_value('default_category', '');
-	$xmluser->write_value('topmenu_active', '1');
-	$xmluser->write_value('statistics', '0');
-	$xmluser->write_value('seo_enabled', '0');
-	$xmluser->write_value('server_folder', '');
-	$xmluser->write_value('site_offline', '0');
-	$xmluser->write_value('site_offline_text', 'This site is down for maintenance.<br /> Please check back again soon.');
-	$xmluser->write_value('show_top_pages', '0');
-	$xmluser->write_value('cipher_email', '1');
-	$xmluser->write_value('js_browser_detect', '1');
-	$xmluser->write_value('use_cs', '1');
-	$xmluser->write_value('captcha', '1');
-	$xmluser->write_value('captcha_clean_size', '1024');
-	$xmluser->write_value('show_doc_autor', '0');
-	$xmluser->write_value('admin_topmenu', '0');
-	$xmluser->write_value('pathway_char', '/');
-	$xmluser->write_value('anti_frame', '1');
-	$xmluser->write_value('revisit_after', '2');
-	$xmluser->write_value('robotsfile', '');
-	$xmluser->write_value('pdflink', '1');
-	$xmluser->write_value('cachecontrol', '');
-	$xmluser->write_value('pragma', '');
-	$xmluser->write_value('expires', '');
-	$xmluser->write_value('robots', '');
-	$xmluser->write_value('last_changes', date('Y-m-d H:i:s'));
-	$xmluser->write_value('use_content_language', '1');
-	$xmluser->write_value('valid_links', '1');
+	$xmluser->writeValue('menu', $menu);
+	$xmluser->writeValue('second_menu', $second_menu);
+	$xmluser->writeValue('meta', $keywords);
+	$xmluser->writeValue('charset', $tmp_charset);
+	$xmluser->writeValue('wysiwyg', 'tinymce');
+	$xmluser->writeValue('lang', $tmp_lang);
+	$xmluser->writeValue('front_lang', $tmp_lang);
+	$xmluser->writeValue('description', $description);
+	$xmluser->writeValue('currency', 'EUR');
+	$xmluser->writeValue('toendacms_in_sitetitle', '1');
+	$xmluser->writeValue('default_category', '');
+	$xmluser->writeValue('topmenu_active', '1');
+	$xmluser->writeValue('statistics', '0');
+	$xmluser->writeValue('seo_enabled', '0');
+	$xmluser->writeValue('server_folder', '');
+	$xmluser->writeValue('site_offline', '0');
+	$xmluser->writeValue('site_offline_text', '');
+	$xmluser->writeValue('show_top_pages', '0');
+	$xmluser->writeValue('cipher_email', '1');
+	$xmluser->writeValue('js_browser_detect', '1');
+	$xmluser->writeValue('use_cs', '1');
+	$xmluser->writeValue('captcha', '1');
+	$xmluser->writeValue('captcha_clean_size', '1024');
+	$xmluser->writeValue('show_doc_autor', '0');
+	$xmluser->writeValue('admin_topmenu', '0');
+	$xmluser->writeValue('pathway_char', '/');
+	$xmluser->writeValue('anti_frame', '1');
+	$xmluser->writeValue('revisit_after', '2');
+	$xmluser->writeValue('robotsfile', '');
+	$xmluser->writeValue('pdflink', '1');
+	$xmluser->writeValue('cachecontrol', '');
+	$xmluser->writeValue('pragma', '');
+	$xmluser->writeValue('expires', '');
+	$xmluser->writeValue('robots', '');
+	$xmluser->writeValue('last_changes', date('Y-m-d H:i:s'));
+	$xmluser->writeValue('use_content_language', '1');
+	$xmluser->writeValue('valid_links', '1');
 	
-	$xmluser->xml_section_buffer();
-	$xmluser->xml_section_end($var_conf);
+	$xmluser->xmlSectionBuffer();
+	$xmluser->xmlSectionEnd($var_conf);
 	$xmluser->_xmlparser();
 	
 	//***************************************
 	
 	$xmluser = new xmlparser('../data/tcms_global/modules.xml', 'w');
-	$xmluser->xml_declaration();
-	$xmluser->xml_section('config');
+	$xmluser->xmlDeclaration();
+	$xmluser->xmlSection('config');
 	
-	$xmluser->write_value('side_gallery', '0');
-	$xmluser->write_value('layout_chooser', '0');
-	$xmluser->write_value('side_links', '0');
-	$xmluser->write_value('login', '1');
-	$xmluser->write_value('side_category', '1');
-	$xmluser->write_value('side_archives', '1');
-	$xmluser->write_value('syndication', '1');
-	$xmluser->write_value('newsletter', '0');
-	$xmluser->write_value('search', '1');
-	$xmluser->write_value('sidebar', '0');
-	$xmluser->write_value('poll', '0');
+	$xmluser->writeValue('side_gallery', '0');
+	$xmluser->writeValue('layout_chooser', '0');
+	$xmluser->writeValue('side_links', '0');
+	$xmluser->writeValue('login', '1');
+	$xmluser->writeValue('side_category', '1');
+	$xmluser->writeValue('side_archives', '1');
+	$xmluser->writeValue('syndication', '1');
+	$xmluser->writeValue('newsletter', '0');
+	$xmluser->writeValue('search', '1');
+	$xmluser->writeValue('sidebar', '0');
+	$xmluser->writeValue('poll', '0');
 	
-	$xmluser->xml_section_buffer();
-	$xmluser->xml_section_end('config');
+	$xmluser->xmlSectionBuffer();
+	$xmluser->xmlSectionEnd('config');
 	$xmluser->_xmlparser();
 	
 	//***************************************
@@ -522,12 +537,18 @@ if($todo == 'save'){
 		updateLanguageForXML($tcms_administer_site);
 	}
 	
-	if(file_exists('../data/tcms_global/namen.xml') && file_exists('../data/tcms_global/footer.xml') && file_exists('../data/tcms_global/var.xml')){
-		echo '<script>document.location.href=\'index.php?site=user&lang='.$lang.'&db='.$db.'\';</script>';
+	if($tcms_main->checkFileExist('../data/tcms_global/namen.xml') 
+	&& $tcms_main->checkFileExist('../data/tcms_global/footer.xml') 
+	&& $tcms_main->checkFileExist('../data/tcms_global/var.xml')) {
+		echo '<script>'
+		.'document.location.href=\'index.php?site=user&lang='.$lang.'&db='.$db.'\';'
+		.'</script>';
 	}
-	else{
-		echo '<script>alert(\''._TCMS_SITE_ERROR.'\');</script>';
-		echo '<script>document.location.href=\'index.php?site=site&lang='.$lang.'\';</script>';
+	else {
+		echo '<script>'
+		.'alert(\''._TCMS_SITE_ERROR.'\');'
+		.'document.location.href=\'index.php?site=site&lang='.$lang.'\';'
+		.'</script>';
 	}
 }
 
