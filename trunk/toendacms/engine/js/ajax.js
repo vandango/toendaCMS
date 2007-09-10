@@ -10,7 +10,7 @@
 | Ajax Functions
 |
 | File:		ajax.js
-| Version:	0.0.9
+| Version:	0.1.1
 |
 +
 */
@@ -29,7 +29,8 @@
 
 /*
 * Methods
-*
+* 
+* gebi(id)
 * ajaxChangeSidemenuType(type)
 * ajaxChangeTopmenuType(type)
 * ajaxChangeDateTime(item, value)
@@ -37,6 +38,51 @@
 *
 */
 
+
+
+// --------------------------------------
+// GET ELEMENT BY ID
+// --------------------------------------
+
+function gebi(id) {
+	return document.getElementById(id);
+}
+
+
+function getTimeFromNumber(number) {
+	var tmp = 0;
+	
+	//tmp2 = Number(tmp2) / 0.6;
+	//tmp2 = String(tmp2).substr(0, 2);
+	//tmp2 = tmp2.replace(/,/g, '');
+	//tmp2 = tmp2.replace(/./g, '');
+	
+	switch(number) {
+		case '0':  tmp = '0'; break;
+		case '1':  tmp = '0'; break;
+		case '2':  tmp = '0'; break;
+		case '3':  tmp = '0'; break;
+		case '4':  tmp = '0'; break;
+		case '5':  tmp = '3'; break;
+		case '6':  tmp = '0'; break;
+		case '7':  tmp = '0'; break;
+		case '8':  tmp = '0'; break;
+		case '9':  tmp = '0'; break;
+		case '25': tmp = '15'; break;
+		case '50': tmp = '30'; break;
+		case '50': tmp = '30'; break;
+		case '75': tmp = '45'; break;
+		default:   tmp = '0'; break;
+	}
+	
+	return tmp;
+}
+
+
+
+// --------------------------------------
+// MENU
+// --------------------------------------
 
 function ajaxChangeSidemenuType(type){
 	switch(type){
@@ -70,7 +116,6 @@ function ajaxChangeSidemenuType(type){
 }
 
 
-
 function ajaxChangeTopmenuType(type){
 	switch(type){
 		case 'link':
@@ -93,23 +138,138 @@ function ajaxChangeTopmenuType(type){
 
 
 
-function ajaxChangeDateTime(item, value){
+// --------------------------------------
+// DATETIME
+// --------------------------------------
+
+function ajaxChangeDateTime(item, value) {
+	var tmp, tmp2;
+	
 	switch(item){
 		case 'new_publish_date':
-			document.getElementById('new_date').value = value.substr(0, 10);
-			document.getElementById('new_time').value = value.substr(11, 5);
+			var dt = value.substr(0, 10);
+			var tm = value.substr(11, 5);
+			
+			switch(tm.length) {
+				case 1:
+					tm = '0' + tm + ':00';
+					break;
+				
+				case 2:
+					tm = tm + ':00';
+					break;
+				
+				case 3:
+					if(tm.indexOf(':') != -1) {
+						tmp = tm.substr(0, tm.indexOf(':'));
+						tmp2 = tm.substr(tm.indexOf(':') + 1);
+						
+						tm = ( tmp.length == 1 ? '0' + tmp : tmp ) + ':' + ( tmp2.length == 1 ? tmp2 + '0' : tmp2 );
+						
+						//tm = tm.substr(0, 2) + ':' + tm.substr(2, 1) + '0';
+					}
+					else if(tm.indexOf(',') > 0) {
+						tmp = tm.substr(0, tm.indexOf(','));
+						tmp2 = ts.substr(tm.indexOf(',') + 1);
+						tmp2 = getTimeFromNumber(tmp2);
+						
+						tm = ( tmp.length == 1 ? '0' + tmp : tmp ) + ':' + ( tmp2.length == 1 ? tmp2 + '0' : tmp2 );
+					}
+					else {
+						tm = tm + '00';
+					}
+					break;
+				
+				case 4:
+					if(tm.indexOf(',') > 1) {
+						tmp = tm.substr(0, tm.indexOf(','));
+						tmp2 = ts.substr(tm.indexOf(',') + 1);
+						tmp2 = getTimeFromNumber(tmp2);
+						
+						tm = ( tmp.length == 1 ? '0' + tmp : tmp ) + ':' + ( tmp2.length == 1 ? tmp2 + '0' : tmp2 );
+					}
+					else if(tm.indexOf(':') > 1) {
+						tmp = tm.substr(0, tm.indexOf(':'));
+						tmp2 = ts.substr(tm.indexOf(':') + 1);
+						//tmp2 = getTimeFromNumber(tmp2);
+						
+						tm = ( tmp.length == 1 ? '0' + tmp : tmp ) + ':' + ( tmp2.length == 1 ? tmp2 + '0' : tmp2 );
+					}
+					break;
+				
+				default:
+					break;
+			}
+			
+			gebi('new_publish_date').value = gebi('new_publish_date').value.substr(0, 11) + tm;
+			gebi('new_date').value = dt;
+			gebi('new_time').value = tm;
 			break;
 		
 		case 'new_date':
-			document.getElementById('new_publish_date').value = value + document.getElementById('new_publish_date').value.substr(10, 6);
+			gebi('new_publish_date').value = value + gebi('new_publish_date').value.substr(10, 6);
 			break;
 		
 		case 'new_time':
-			document.getElementById('new_publish_date').value = document.getElementById('new_publish_date').value.substr(0, 11) + value;
+			var ts = value;
+			
+			switch(ts.length) {
+				case 1:
+					ts = '0' + ts + ':00';
+					break;
+				
+				case 2:
+					ts = ts + ':00';
+					break;
+				
+				case 3:
+					//ts = ts + '0';
+					if(ts.indexOf(':') != -1) {
+						tmp = ts.substr(0, ts.indexOf(':'));
+						tmp2 = ts.substr(ts.indexOf(':') + 1);
+						
+						ts = ( tmp.length == 1 ? '0' + tmp : tmp ) + ':' + ( tmp2.length == 1 ? tmp2 + '0' : tmp2 );
+						
+						//ts = ts.substr(0, 2) + ':' + ts.substr(2, 1) + '0';
+					}
+					else if(ts.indexOf(',') > 0) {
+						tmp = ts.substr(0, ts.indexOf(','));
+						tmp2 = ts.substr(ts.indexOf(',') + 1);
+						tmp2 = getTimeFromNumber(tmp2);
+						
+						ts = ( tmp.length == 1 ? '0' + tmp : tmp ) + ':' + ( tmp2.length == 1 ? tmp2 + '0' : tmp2 );
+					}
+					else {
+						ts = ts + '00';
+					}
+					break;
+				
+				case 4:
+					if(ts.indexOf(',') > 0) {
+						tmp = ts.substr(0, ts.indexOf(','));
+						tmp2 = ts.substr(ts.indexOf(',') + 1);
+						tmp2 = getTimeFromNumber(tmp2);
+						
+						ts = ( tmp.length == 1 ? '0' + tmp : tmp ) + ':' + ( tmp2.length == 1 ? tmp2 + '0' : tmp2 );
+					}
+					else if(ts.indexOf(':') > 0) {
+						tmp = ts.substr(0, ts.indexOf(':'));
+						tmp2 = ts.substr(ts.indexOf(':') + 1);
+						//tmp2 = getTimeFromNumber(tmp2);
+						
+						ts = ( tmp.length == 1 ? '0' + tmp : tmp ) + ':' + ( tmp2.length == 1 ? tmp2 + '0' : tmp2 );
+					}
+					break;
+				
+				default:
+					break;
+			}
+			
+			gebi('new_time').value = ts;
+			gebi('new_publish_date').value = gebi('new_publish_date').value.substr(0, 11) + ts;
 			break;
 	}
 }
-
 
 
 function ajaxTextAreaSize(height) {
@@ -119,7 +279,6 @@ function ajaxTextAreaSize(height) {
 	box.style.height = height + "px";
 	grip.style.cursor = 's-resize';
 }
-
 
 
 function ajaxContentResizer(mouseevent){

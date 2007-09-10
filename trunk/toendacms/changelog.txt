@@ -28,7 +28,7 @@ Version 1.6
 Developer Version
 	- 1.6.0 Development
 
-Building Steps: 3290
+Building Steps: 3300
 
 
 
@@ -59,6 +59,8 @@ Building Steps: 3290
  - changed: Updated MSSQL 2005 support
  - changed: Installer updated, now the installer can only update version 1.0.7 and
             version 1.5.6 to the current 1.6
+ - changed: Changed the JavaScript function to fill the date fields in the edit mode
+            of a news.
 
  - added: New SEO format available: instead of using the old url format
           [www.domain.com/index.php?id=frontpage&lang=en]

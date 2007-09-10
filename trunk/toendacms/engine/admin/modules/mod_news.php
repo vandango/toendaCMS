@@ -1375,10 +1375,14 @@ if($todo == 'edit'){
 			
 			
 			// table row
-			echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._NEWS_TIME.' / '._NEWS_DATE.'</strong></td>'
-			.'<td valign="top"><input class="tcms_id_box" id="new_time" name="new_time" type="text" value="'.( $nws_time == '' ? date('H:i') : $nws_time ).'" onchange="JSAjax.ajaxChangeDateTime(this.id, this.value);" />'
+			echo '<tr><td valign="top" width="'.$width.'">'
+			.'<strong class="tcms_bold">'._NEWS_TIME.' / '._NEWS_DATE.'</strong>'
+			.'</td><td valign="top">'
+			.'<input class="tcms_id_box" id="new_time" name="new_time" type="text" value="'.( $nws_time == '' ? date('H:i') : $nws_time ).'"'
+			.' onchange="JSAjax.ajaxChangeDateTime(this.id, this.value);" />'
 			.'&nbsp;'
-			.'<input class="tcms_input_mini" name="new_date" id="new_date" type="text" value="'.( $nws_date == '' ? date('d.m.Y') : $nws_date ).'" onchange="JSAjax.ajaxChangeDateTime(this.id, this.value);" />'
+			.'<input class="tcms_input_mini" name="new_date" id="new_date" type="text" value="'.( $nws_date == '' ? date('d.m.Y') : $nws_date ).'"'
+			.' onchange="JSAjax.ajaxChangeDateTime(this.id, this.value);" />'
 			.'<input type="button" value="&nbsp;" style="background: transparent url(../js/jscalendar/img.gif) no-repeat;" id="triggerButtonDate" />'
 			.'</td></tr>';
 			
@@ -1395,8 +1399,11 @@ if($todo == 'edit'){
 			
 			
 			// table row
-			echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._TABLE_PUBLISHING.'</strong></td>'
-			.'<td valign="top"><input class="tcms_input_small" id="new_publish_date" name="new_publish_date" type="text" value="'.( $nws_publish_date == '' ? date('d.m.Y-H:i') : $nws_publish_date ).'" onchange="JSAjax.ajaxChangeDateTime(\'new_publish_date\', this.value);" />'
+			echo '<tr><td valign="top" width="'.$width.'">'
+			.'<strong class="tcms_bold">'._TABLE_PUBLISHING.'</strong>'
+			.'</td><td valign="top">'
+			.'<input class="tcms_input_small" id="new_publish_date" name="new_publish_date" type="text" value="'.( $nws_publish_date == '' ? date('d.m.Y-H:i') : $nws_publish_date ).'"'
+			.' onchange="JSAjax.ajaxChangeDateTime(\'new_publish_date\', this.value);" />'
 			.'<input type="button" value="&nbsp;" style="background: transparent url(../js/jscalendar/img.gif) no-repeat;" id="triggerButtonDateTime" />'
 			.'</td></tr>';
 			
