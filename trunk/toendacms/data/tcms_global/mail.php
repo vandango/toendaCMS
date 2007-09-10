@@ -17,11 +17,11 @@
 
 $tcms_mail_with_smtp   = '1';
 $tcms_mail_as_html     = '1';
-$tcms_mail_server_pop3 = 'wp045.webpack.hosteurope.de';
-$tcms_mail_server_smtp = 'wp045.webpack.hosteurope.de';
+$tcms_mail_server_pop3 = 'pop.yourserver.xxx';
+$tcms_mail_server_smtp = 'smtp.yourserver.zzz';
 $tcms_mail_port        = '110';
 $tcms_mail_pop3        = '1';
-$tcms_mail_user        = 'wp1026432-0';
-$tcms_mail_password    = 'elegance';
+$tcms_mail_user        = 'your_account';
+$tcms_mail_password    = 'your_pw';
 
 ?>
