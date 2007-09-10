@@ -286,9 +286,11 @@ a.index:hover { text-decoration: underline; }
 .news_content_bg{ font-size: 11px; }
 
 
-/* imagegyllery */
+/* imagegallery */
 .gallery_text{ display: block; }
-
+#comment { 
+    color:#000000;
+}
 
 /* table title */
 .titleBG{ font-size: 14px; border-bottom: 2px #9bb2b9 solid; padding-left: 4px; margin: 0px; }

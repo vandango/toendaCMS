@@ -322,9 +322,11 @@ a.index:hover { text-decoration: underline; }
 .news_content_bg{ font-size: 11px; }
 
 
-/* imagegyllery */
+/* imagegallery */
 .gallery_text{ display: block; }
-
+#comment { 
+    color:#000000;
+}
 
 /* misc */
 .hr_line {
