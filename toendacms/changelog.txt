@@ -28,13 +28,13 @@ Version 1.6
 Developer Version
 	- 1.6.0 Development
 
-Building Steps: 3300
+Building Steps: 3301
 
 
 
  Version 1.6.0 Development
 -----------------------------------------------------------------
-
+ - bug #0000113: fixed problem showing text at detail-view in gallery using K2-theme
  - bug #0000122: 
 
  - security fixed: 
