@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * This module is for the global configuration settings.
  * 
- * @version 1.3.4
+ * @version 1.3.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Admin Backend
@@ -848,7 +848,7 @@ if($id_group == 'Developer'
 		.'</td></tr>';
 		
 		echo '<tr style="background: '.$arr_color[0].';">'
-    .'<td width="300" height="25" style="width: 300px !important;" class="tcms_padding_mini" valign="top">'
+		.'<td width="300" height="25" style="width: 300px !important;" class="tcms_padding_mini" valign="top">'
 		._GLOBAL_SEO_FORMAT
 		.'</td><td>'
 		.'<label for="urlformat_0">'
@@ -863,23 +863,23 @@ if($id_group == 'Developer'
 		.'<br />'
 		.'<label for="urlformat_2">'
 		.'<input type="radio" name="new_seo_format" id="urlformat_2" value="2"'.($old_seo_format == 2 ? ' checked="checked"' : '' ).' />'
-		.'index.php/en/frontpage.html (<strong>!!! BETA !!!</strong>)'
+		.'index.php/en/frontpage.html'
 		.'</label>'
 		.'</td></tr>';
 		
 		
 		echo '<tr style="background: '.$arr_color[1].';">'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini">'
-    ._GLOBAL_SEO_NEWS_TITLE
-    .'</td><td>'
+		._GLOBAL_SEO_NEWS_TITLE
+    	.'</td><td>'
 		.'<input type="checkbox" name="new_seo_news_title"'.($old_seo_news_title == 1 ? ' checked' : '' ).' value="1" />'
 		.'</td></tr>';
 		
 		
 		echo '<tr style="background: '.$arr_color[0].';">'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini">'
-    ._GLOBAL_SEO_CONTENT_TITLE
-    .'</td><td>'
+		._GLOBAL_SEO_CONTENT_TITLE
+	    .'</td><td>'
 		.'<input type="checkbox" name="new_seo_content_title"'.($old_seo_c_title == 1 ? ' checked' : '' ).' value="1" />'
 		.'</td></tr>';
 		
@@ -900,8 +900,10 @@ if($id_group == 'Developer'
 		
 		// table rows
 		echo '<tr>'
-		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._USERPAGE_TEXT_WIDTH.'</td>'
-		.'<td><input type="text" name="new_text_width" class="tcms_id_box" value="'.$old_text_width.'" />'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'
+		._USERPAGE_TEXT_WIDTH
+		.'</td><td>'
+		.'<input type="text" name="new_text_width" class="tcms_id_box" value="'.$old_text_width.'" />'
 		.'</td></tr>';
 		
 		
