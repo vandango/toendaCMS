@@ -340,11 +340,13 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 					}
 				}
 				
-				if(!empty($catLink) && $catLink != ''){
+				if(!empty($catLink) && $catLink != '') {
 					echo '&nbsp;'._NEWS_IN;
 					
-					foreach($catLink['link'] as $catKey => $catVal){
-						if($catKey != 0){ echo ','; }
+					foreach($catLink['link'] as $catKey => $catVal) {
+						if($catKey != 0) {
+							echo ',';
+						}
 						
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id=newsmanager&amp;s='.$s.'&amp;cat='.$catVal
@@ -357,7 +359,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 					}
 				}
 				
-				if($use_trackback == 1){
+				if($use_trackback == 1) {
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=newsmanager&amp;s='.$s.'&amp;news='.$dcNews->GetID().'&amp;cmd=trackback'
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -367,8 +369,8 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 					.'<a href="'.$link.'">'._NEWS_TRACKBACK.'</a>';
 				}
 				
-				if($use_news_comments == 1){
-					if($dcNews->GetCommentsEnabled() == 1){
+				if($use_news_comments == 1) {
+					if($dcNews->GetCommentsEnabled() == 1) {
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id=newsmanager&amp;s='.$s.'&amp;news='.$dcNews->GetID()
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -398,13 +400,13 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 				
 				$check_news_content = $toendaScript->hasTcmsMoreTag($news_content);
 				
-				if($check_news_content == true) {
+				if($check_news_content) {
 					$news_content = $toendaScript->doParsePHP($news_content, true);
 					$news_pos = $toendaScript->getTcmsMoreTagPos($news_content);
 					$news_content = $toendaScript->removeTcmsMoreTag($news_content);
-					$news = substr($news_content, 0, $news_pos);
-					$news = trim($news);
-					echo $news;
+					
+					echo trim(substr($news_content, 0, $news_pos));
+					
 					$toendaScript_more_show = true;
 				}
 				else{
