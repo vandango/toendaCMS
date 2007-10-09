@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the register functions.
  *
- * @version 0.5.7
+ * @version 0.6.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -33,6 +33,7 @@ defined('_TCMS_VALID') or die('Restricted access');
 if(isset($_GET['cmd'])){ $cmd = $_GET['cmd']; }
 if(isset($_GET['todo'])){ $todo = $_GET['todo']; }
 if(isset($_GET['code'])){ $code = $_GET['code']; }
+if(isset($_GET['conduct'])){ $conduct = $_GET['conduct']; }
 
 if(isset($_POST['todo'])){ $todo = $_POST['todo']; }
 if(isset($_POST['fulluser2'])){ $fulluser2 = $_POST['fulluser2']; }
@@ -65,7 +66,7 @@ if(!isset($cmd)){ $cmd = 'register'; }
 	form:
 	retrieve a new password
 */
-if($cmd == 'lostpassword'){
+if($cmd == 'lostpassword') {
 	echo $tcms_html->contentModuleHeader(
 		_REG_LPW, 
 		'', 
@@ -117,12 +118,12 @@ if($cmd == 'lostpassword'){
 	retrieve a new password
 */
 
-if($cmd == 'retrieve'){
+if($cmd == 'retrieve') {
 	/*
 		READ USERNAME AND PASSWORD
 	*/
 	
-	if($fulluser2 == '' || $fullemail2 == ''){
+	if($fulluser2 == '' || $fullemail2 == '') {
 		$link = '?id=register&s='.$s.'&cmd=lostpassword'
 		.( isset($lang) ? '&amp;lang='.$lang : '' );
 		$link = $tcms_main->urlConvertToSEO($link);
@@ -132,11 +133,11 @@ if($cmd == 'retrieve'){
 		.'alert(\''._MSG_NOCONTENT.'\');'
 		.'</script>';
 	}
-	else{
-		if($choosenDB == 'xml'){
+	else {
+		if($choosenDB == 'xml') {
 			$arr_filename = $tcms_main->getPathContent($tcms_administer_site.'/tcms_user/');
 			
-			foreach($arr_filename as $key => $value){
+			foreach($arr_filename as $key => $value) {
 				$user_login_xml = new xmlparser($tcms_administer_site.'/tcms_user/'.$value,'r');
 				
 				$arr_maintag[$key] = substr($value, 0, 32);
@@ -144,7 +145,8 @@ if($cmd == 'retrieve'){
 				$ws_email          = $user_login_xml->readSection('user', 'email');
 				$ws_username       = $tcms_main->decodeText($ws_username, '2', $c_charset);
 				
-				if($fulluser2 == $ws_username && $ws_email == $fullemail2){
+				if($fulluser2 == $ws_username 
+				&& $ws_email == $fullemail2) {
 					$arr_login['maintag'][$ws_username]  = $arr_maintag[$key];
 					$arr_login['username'][$ws_username] = $user_login_xml->readSection('user', 'username');
 					$arr_login['password'][$ws_username] = $user_login_xml->readSection('user', 'password');
@@ -155,14 +157,14 @@ if($cmd == 'retrieve'){
 				}
 			}
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$sqlQR = $sqlAL->query("SELECT * FROM ".$tcms_db_prefix."user WHERE username='".$fulluser2."' AND email='".$fullemail2."'");
 			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
-			if($sqlNR != 0){
+			if($sqlNR != 0) {
 				$sqlARR = $sqlAL->fetchArray($sqlQR);
 				
 				$arr_login['maintag'][$fulluser2]  = $sqlARR['uid'];
@@ -185,13 +187,10 @@ if($cmd == 'retrieve'){
 		
 		
 		
-		
-		
 		/*
 			retrieve
 		*/
 		if($fulluser2 == $arr_login['username'][$fulluser2]) {
-			
 			// CHECK GROUP
 			if($fullemail2 == $arr_login['email'][$fulluser2]) {
 				/*********************************************
@@ -231,6 +230,7 @@ if($cmd == 'retrieve'){
 				$sc_user      = _PERSON_USERNAME;
 				$sc_pass      = _PERSON_PASSWORD;
 				$sc_details   = _PERSON_DETAILS;
+				$npw_activate = _MSG_ACTIVATE_NEW_PW_FIRST;
 				$date         = date('d.m.Y');
 				
 				$header = "From: $owner <$owner_email>\n";
@@ -253,13 +253,20 @@ if($cmd == 'retrieve'){
 				$link = '?'.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlConvertToSEO($link);
 				
-				echo '<script>document.location.href=\''.$link.'\';alert(\''._MSG_SEND.'\');</script>';
+				echo '<script>'
+				.'document.location.href=\''.$link.'\';'
+				.'alert(\''._MSG_SEND.'\');'
+				.'</script>';
 			}
-			else{ $ws_check_lpw = 'no'; }
+			else {
+				$ws_check_lpw = 'no';
+			}
 		}
-		else{ $ws_check_lpw = 'no'; }
+		else {
+			$ws_check_lpw = 'no';
+		}
 		
-		if($ws_check_lpw == 'no'){
+		if($ws_check_lpw == 'no') {
 			//Administrator
 			$link = '?';
 			$link = $tcms_main->urlConvertToSEO($link);
@@ -298,7 +305,7 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 	}
 	
 	if($login_user == 1){
-		switch($cmd){
+		switch($cmd) {
 			case 'register':
 				/*
 					register
@@ -656,6 +663,7 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 							$sqlQR = $sqlAL->sqlCreateOne($tcms_db_prefix.'user', $newSQLColumns, $newSQLData, $validate_md5);
 						}
 						
+						
 						/*
 							Mail
 						*/
@@ -677,9 +685,9 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 						}
 						
 						$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
-							.'id=frontpage&s='.$s
-							.( isset($lang) ? '&amp;lang='.$lang : '' );
-							$link = $tcms_main->urlConvertToSEO($link);
+						.'id=frontpage&s='.$s
+						.( isset($lang) ? '&amp;lang='.$lang : '' );
+						$link = $tcms_main->urlConvertToSEO($link);
 						
 						$seoURL = '?id=register'
 						.( isset($lang) ? '&amp;lang='.$lang : '' )
@@ -889,7 +897,7 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 						echo '<span class="text_normal">'._REG_NO_VALIDATE.'</span>';
 					}
 				}
-				else{
+				else {
 					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					
@@ -902,7 +910,7 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 					$sqlQR = $sqlAL->query($sqlSTR);
 					$user_exists = $sqlAL->getNumber($sqlQR);
 					
-					if($user_exists != 0){
+					if($user_exists != 0) {
 						$sqlARR = $sqlAL->fetchArray($sqlQR);
 						$nname = $sqlARR['name'];
 						$nname = $tcms_main->decodeText($nname, '2', $c_charset);
@@ -918,11 +926,30 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 						
 						echo '<span class="text_normal">'._REG_VALIDATE.'</span>';
 					}
-					else{
+					else {
 						echo '<span class="text_normal">'._REG_NO_VALIDATE.'</span>';
 					}
 				}
 				
+				break;
+			
+			case 'validatepw':
+				/*
+					validate
+					lost password
+				*/
+				if($tcms_auth->doValidateNewPassword($conduct, $code)) {
+					echo '<script>'
+					.'document.location.href=\'index.php\';'
+					.'alert(\''._MSG_SUCCESSFULL_RETRIEVED.'\');'
+					.'</script>';
+				}
+				else {
+					echo '<script>'
+					.'document.location.href=\'index.php\';'
+					.'alert(\''._MSG_ERROR_ON_RETRIEVING.'\');'
+					.'</script>';
+				}
 				break;
 		}
 	}

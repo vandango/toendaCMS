@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to authenticate a login user.
  *
- * @version 0.2.3
+ * @version 0.2.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -488,54 +488,59 @@ class tcms_authentication extends tcms_main {
 	 * @param String $email
 	 * @return Boolean
 	 */
-	function doRetrieve($username, $email){
-		if($this->db_choosenDB == 'xml'){
+	function doRetrieve($username, $email) {
+		if($this->db_choosenDB == 'xml') {
 			$arr_files = $this->getPathContent($this->m_administer.'/tcms_user/');
 			
-			if($this->isReal($arr_files)){
-				foreach($arr_files as $key => $value){
+			if($this->isReal($arr_files)) {
+				foreach($arr_files as $key => $value) {
 					$xml = new xmlparser($this->m_administer.'/tcms_user/'.$value,'r');
 					
 					$ws_username = $xml->readSection('user', 'username');
 					$ws_username = $this->decodeText($ws_username, '2', $this->m_charset);
 					
 					// username
-					if($ws_username == $username){
+					if($ws_username == $username) {
 						$ws_email = $xml->readSection('user', 'email');
 						
 						// password
-						if($ws_email == $email){
+						if($ws_email == $email) {
 							$ws_enabled  = $xml->readSection('user', 'enabled');
 							$ws_password = $xml->readSection('user', 'password');
 							
 							// enabled
-							if($ws_enabled == 1){
+							if($ws_enabled == 1) {
 								$new_password  = substr(md5(microtime()), 0, 8);
+								
+								/*
 								$save_password = md5($new_password);
 								
 								xmlparser::edit_value($this->m_administer.'/tcms_user/'.$value.'.xml', 'password', $ws_password, $save_password);
+								*/
 								
-								$this->sendRetrievementMail($ws_username, $ws_email, $new_password);
+								$this->sendRetrievementMail($value, $ws_username, $ws_email, $new_password);
 								
 								$xml->flush();
 								$xml->_xmlparser();
 								unset($xml);
+								
+								return true;
 							}
-							else{
+							else {
 								return false;
 							}
 						}
-						else{
+						else {
 							return false;
 						}
 					}
 				}
 			}
-			else{
+			else {
 				return false;
 			}
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
 			$sqlCN = $sqlAL->connect(
 				$this->db_user, 
@@ -556,7 +561,7 @@ class tcms_authentication extends tcms_main {
 			$sqlQR = $sqlAL->query($strSQL);
 			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
-			if($sqlNR > 0){
+			if($sqlNR > 0) {
 				$sqlObj = $sqlAL->fetchObject($sqlQR);
 				
 				$ws_maintag  = $sqlObj->uid;
@@ -564,16 +569,81 @@ class tcms_authentication extends tcms_main {
 				$ws_email    = $sqlObj->email;
 				
 				$new_password  = substr(md5(microtime()), 0, 8);
+				
+				/*
 				$save_password = md5($new_password);
 				
 				$newSQLData = $this->db_prefix.'user.password="'.$save_password.'"';
 				$sqlQR = $sqlAL->updateOne($this->db_prefix.'user', $newSQLData, $ws_maintag);
+				*/
 				
-				$this->sendRetrievementMail($ws_username, $ws_email, $new_password);
+				$this->sendRetrievementMail($ws_maintag, $ws_username, $ws_email, $new_password);
 				
 				unset($sqlAL);
+				
+				return true;
 			}
-			else{
+			else {
+				return false;
+			}
+		}
+	}
+	
+	
+	
+	/**
+	 * Validate a new password
+	 *
+	 * @param String $id
+	 * @param String $newPassword
+	 * @return Boolean
+	 */
+	function doValidateNewPassword($id, $newPassword) {
+		$save_password = md5($newPassword);
+		
+		if($this->db_choosenDB == 'xml') {
+			if($this->checkFileExist($this->m_administer.'/tcms_user/'.$id)) {
+				$xml = new xmlparser($this->m_administer.'/tcms_user/'.$id,'r');
+				$ws_password = $xml->readSection('user', 'password');
+				
+				xmlparser::edit_value(
+					$this->m_administer.'/tcms_user/'.$id.'.xml', 
+					'password', 
+					$ws_password, 
+					$save_password
+				);
+				
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
+			
+			$strSQL = "SELECT *"
+			." FROM ".$this->db_prefix."user"
+			." WHERE uid='".$id."'"
+			." AND enabled = 1";
+			
+			$sqlQR = $sqlAL->query($strSQL);
+			$sqlNR = $sqlAL->getNumber($sqlQR);
+			
+			if($sqlNR > 0) {
+				$newSQLData = $this->db_prefix.'user.password="'.$save_password.'"';
+				$sqlQR = $sqlAL->updateOne($this->db_prefix.'user', $newSQLData, $id);
+				
+				return true;
+			}
+			else {
 				return false;
 			}
 		}
@@ -585,20 +655,34 @@ class tcms_authentication extends tcms_main {
 	 * Send a mail at the email of the founded user
 	 * with a new password.
 	 *
+	 * @param String $id
 	 * @param String $email
 	 * @param String $new_password
 	 * @return Boolean
 	 */
-	function sendRetrievementMail($username, $email, $new_password){
-		$xml  = new xmlparser($this->m_administer.'/tcms_global/footer.xml','r');
-		$owner_email = $xml->read_section('footer', 'email');
-		$owner       = $xml->read_section('footer', 'websiteowner');
-		$xml->flush();
-		$xml->_xmlparser();
-		unset($xml);
+	function sendRetrievementMail($id, $username, $email, $new_password){
+		// cfg
+		$path = '';
+		$isBackend = false;
 		
-		$owner       = $this->decodeText($owner, '2', $this->m_charset);
-		$owner_email = $this->decodeText($owner_email, '2', $this->m_charset);
+		if(substr($this->m_administer, 0, 6) == '../../') {
+			$path = '../';
+			$isBackend = true;
+		}
+		else {
+			$path = 'engine';
+			$isBackend = false;
+		}
+		
+		include_once($path.'/tcms_kernel/tcms_configuration.lib.php');
+		
+		$tcms_config = new tcms_configuration('../../'.$this->m_administer);
+		
+		$owner_email = $tcms_config->getWebpageOwnerMail();
+		$owner       = $tcms_config->getWebpageOwner();
+		$owner_url   = $tcms_config->getWebpageOwnerUrl();
+		$seoPath     = $tcms_config->getSEOPath();
+		$seoEnabled  = $tcms_config->getSEOEnabled();
 		
 		// mail
 		include_once($this->m_administer.'/tcms_global/mail.php');
@@ -619,7 +703,29 @@ class tcms_authentication extends tcms_main {
 		$sc_details   = _PERSON_DETAILS;
 		$date         = date('d.m.Y');
 		
-		if($mail_with_smtp == '1'){
+		if(strpos($owner_url, $seoPath)) {
+			$owner_url = str_replace($seoPath, '', $owner_url);
+		}
+		
+		if($isBackend) {
+			$seoURL = '/engine/admin/index.php?'
+			.'cmd=validate&amp;code='.$new_password
+			.'&amp;conduct='.$id;
+			$seoURL = $tcms_main->urlConvertToSEO($seoURL);
+		}
+		else {
+			$seoURL = '?id=register'
+			.( isset($lang) ? '&amp;lang='.$lang : '' )
+			.'&amp;cmd=validatepw&amp;code='.$new_password
+			.'&amp;conduct='.$id;
+			$seoURL = $tcms_main->urlConvertToSEO($seoURL);
+		}
+		
+		if($seoEnabled == 0) {
+			$seoURL = str_replace('&amp;', '&', $seoURL);
+		}
+		
+		if($mail_with_smtp == '1') {
 			// phpmailer
 			$mail = new PHPMailer();
 			
@@ -643,6 +749,8 @@ class tcms_authentication extends tcms_main {
 
  $lpw_text
 
+ ".$npw_activate." ".$seoURL."
+
  ".$sc_user.": $username
  ".$sc_pass.": $new_password
  ----------------------------------------------------------------------";
@@ -650,10 +758,11 @@ class tcms_authentication extends tcms_main {
 			// html message
 			$mail_body_html = $msg_form_content.' '.$date.'<hr />'
 			.$lpw_text.'<br /><br />'
+			.$npw_activate.' '.$seoURL.'<br /><br />'
 			.'<strong>'.$sc_user.'</strong>: '.$username.'<br />'
 			.'<strong>'.$sc_pass.'</strong>: '.$new_password.'<br />';
 			
-			if($mail_as_html == '1'){
+			if($mail_as_html == '1') {
 				$mail->IsHTML(true);
 				$mail->Body     =  $mail_body_html;
 				$mail->AltBody  =  $mail_body_text;
@@ -667,7 +776,7 @@ class tcms_authentication extends tcms_main {
 				$mail->AltBody  =  $mail_body_text;
 			}
 			
-			if(!$mail->Send()){
+			if(!$mail->Send()) {
 				echo '<script>'
 				.'history.back();'
 				.'alert(\''._MSG_SEND_FAILED.'\n\nMailer Error: '.$mail->ErrorInfo.'\');'
@@ -675,7 +784,7 @@ class tcms_authentication extends tcms_main {
 				break;
 			}
 		}
-		else{
+		else {
 			$header = "From: $owner <$owner_email>\n";
 			$header .= 'Content-Type: text/plain';
 			mail($email, $owner.' - '.$date.' - '.$lpw_subject, "
@@ -683,6 +792,8 @@ class tcms_authentication extends tcms_main {
 ----------------------------------------------------------------------
 
  $lpw_text
+
+ $npw_activate $seoURL
 
  $sc_details:
  $sc_user: $username

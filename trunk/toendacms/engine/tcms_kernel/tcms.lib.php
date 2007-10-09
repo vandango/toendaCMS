@@ -1699,7 +1699,7 @@ class tcms_main {
 		$text = str_replace('"', '', $text);
     	$text = str_replace('?', '', $text);
 		$text = str_replace('!', '', $text);
-		$text = str_replace('§', '', $text);
+		$text = str_replace('ï¿½', '', $text);
 		$text = str_replace('$', '', $text);
 		$text = str_replace('%', '', $text);
 		//$text = str_replace('/', '', $text);
@@ -1711,26 +1711,26 @@ class tcms_main {
 		$text = str_replace('{', '', $text);
 		$text = str_replace('}', '', $text);
 		//$text = str_replace('`', '', $text);
-		//$text = str_replace('´', '', $text);
+		//$text = str_replace('ï¿½', '', $text);
 		//$text = str_replace('*', '', $text);
 		//$text = str_replace('+', '', $text);
     	//$text = str_replace('&nbsp;-&nbsp;', '', $text);
 		//$text = str_replace(' - ', '', $text);
 		$text = str_replace('#', '', $text);
-		$text = str_replace('³', '', $text);
-		$text = str_replace('²', '', $text);
+		$text = str_replace('ï¿½', '', $text);
+		$text = str_replace('ï¿½', '', $text);
 		//$text = str_replace('^', '', $text);
-		//$text = str_replace('°', '', $text);
+		//$text = str_replace('ï¿½', '', $text);
 		//$text = str_replace(':', '', $text);
 		//$text = str_replace(';', '', $text);
 		$text = str_replace(',', '', $text);
 		//$text = str_replace('_', '', $text);
-		$text = str_replace('µ', '', $text);
+		$text = str_replace('ï¿½', '', $text);
 		$text = str_replace('@', '', $text);
-		$text = str_replace('€', '', $text);
+		$text = str_replace('ï¿½', '', $text);
 		$text = str_replace('&euro;', '', $text);
-	    $text = str_replace('«', '', $text);
-	    $text = str_replace('»', '', $text);
+	    $text = str_replace('ï¿½', '', $text);
+	    $text = str_replace('ï¿½', '', $text);
 	    $text = str_replace('&187;', '', $text);
 	    $text = str_replace('&171;', '', $text);
 	    
@@ -1744,9 +1744,9 @@ class tcms_main {
 	    $text = str_replace('.&nbsp;', '', $text);
 	    //$text = str_replace('.', '', $text);
 	    
-		$text = str_replace("'", '’', $text);
-		$text = str_replace('&#039;', '’', $text);
-		$text = str_replace('&039;', '’', $text);
+		$text = str_replace("'", 'ï¿½', $text);
+		$text = str_replace('&#039;', 'ï¿½', $text);
+		$text = str_replace('&039;', 'ï¿½', $text);
 		
 		$text = trim($text);
 		
@@ -1990,7 +1990,7 @@ class tcms_main {
 		//$string = str_replace($asci_chars['in'], $asci_chars['out'], $string);
 	    
 	    $string = str_replace('%E2%80%99', '\\\'', $string);
-	    $string = str_replace('’', '\\\'', $string);
+	    $string = str_replace('ï¿½', '\\\'', $string);
 		
 		return $string;
 	}
@@ -2058,7 +2058,8 @@ class tcms_main {
 		$text = str_replace('*-*', '&#', $text);
 		
 		if($this->globalSEO == 1){
-			if($this->urlSEO == 'colon' || $this->urlSEO == 'slash'){
+			if($this->urlSEO == 'colon' 
+			|| $this->urlSEO == 'slash') {
 				// id -> section
 				$text = str_replace('id=', 'section=', $text);
 				
@@ -2083,16 +2084,15 @@ class tcms_main {
 				//$text = str_replace('&amp;cat=', '&amp;category=', $text);
 				//$text = str_replace('&cat=', '&category=', $text);
 				
-				
 				// main replace
 				$text = str_replace('?', $this->globalFolder.'/index.php/', $text);
 				$text = str_replace('&amp;', '/', $text);
 				$text = str_replace('&', '/', $text);
 				
-				if($this->urlSEO == 'colon'){
+				if($this->urlSEO == 'colon') {
 					$text = $this->urlAddColon($text);
 				}
-				else if($this->urlSEO == 'slash'){
+				else if($this->urlSEO == 'slash') {
 					$text = $this->urlAddSlash($text);
 				}
 			}

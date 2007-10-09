@@ -206,9 +206,13 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 				/*
 					the amount of comments
 				*/
-				if($use_news_comments == 1){
-					if($dcNews->GetCommentsEnabled() == 1){
-						$nw_amount = $tcms_dcp->getCommentDCList($dcNews->GetID(), 'news', false);
+				if($use_news_comments == 1) {
+					if($dcNews->GetCommentsEnabled() == 1) {
+						$nw_amount = $tcms_dcp->getCommentDCList(
+							$dcNews->GetID(), 
+							'news', 
+							false
+						);
 					}
 				}
 				
@@ -217,16 +221,17 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 					get user id
 					and the categories
 				*/
-				if($choosenDB == 'xml'){
-					if($show_autor_as_link == 1)
+				if($choosenDB == 'xml') {
+					if($show_autor_as_link == 1) {
 						$userID = $tcms_main->getUserID($dcNews->GetAutor());
+					}
 					
 					
 					/*
 						load categories from xml
 					*/
-					if($dcNews->GetCategories() != ''){
-						if(strpos($dcNews->GetCategories(), '{###}')){
+					if($dcNews->GetCategories() != '') {
+						if(strpos($dcNews->GetCategories(), '{###}')) {
 							$catLinkTmp = explode('{###}', $dcNews->GetCategories());
 							
 							$count = 0;
