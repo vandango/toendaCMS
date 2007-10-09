@@ -393,20 +393,20 @@ define('_MSG_NOSUBJECT', 'Please enter subject');
 define('_MSG_NOMSG', 'Please enter message');
 define('_MSG_NEWSLETTER', 'You have successfully subscribe to our newsletter.');
 define('_MSG_POLL', 'Thank you for your vote in this poll.');
-define('_MSG_UPLOAD', 'The file uploaded to');
-define('_MSG_NOUPLOAD', 'The file cant be upload.');
-define('_MSG_REGNOTALLOWD', 'No Registration allowed.');
-define('_MSG_NOACCOUNT', 'No account.');
-define('_MSG_NOCONTENT', 'Please fill all fields.');
-define('_MSG_USERNOTEXISTS', 'User not exists.');
-define('_MSG_USEREXISTS', 'Username exists. Please choose another one.');
-define('_MSG_ERROR', 'Error');
-define('_MSG_CODE', 'Code');
+if(!defined('_MSG_UPLOAD'))                    define('_MSG_UPLOAD', 'The file uploaded to');
+if(!defined('_MSG_NOUPLOAD'))                  define('_MSG_NOUPLOAD', 'The file cant be upload.');
+if(!defined('_MSG_REGNOTALLOWD'))              define('_MSG_REGNOTALLOWD', 'No Registration allowed.');
+if(!defined('_MSG_NOACCOUNT'))                 define('_MSG_NOACCOUNT', 'No account.');
+if(!defined('_MSG_NOCONTENT'))                 define('_MSG_NOCONTENT', 'Please fill all fields.');
+if(!defined('_MSG_USERNOTEXISTS'))             define('_MSG_USERNOTEXISTS', 'User not exists.');
+if(!defined('_MSG_USEREXISTS'))                define('_MSG_USEREXISTS', 'Username exists. Please choose another one.');
+if(!defined('_MSG_ERROR'))                     define('_MSG_ERROR', 'Error');
+if(!defined('_MSG_CODE'))                      define('_MSG_CODE', 'Code');
 if(!defined('_MSG_PHP_UPLOAD_SETTINGS'))       define('_MSG_PHP_UPLOAD_SETTINGS', 'PHP upload settings not enough for this function.');
 if(!defined('_MSG_PHP_SAFE_MODE_SETTINGS'))    define('_MSG_PHP_SAFE_MODE_SETTINGS', 'The \'safe_mode\' option is on your server \'on\' for PHP, you cannot use this feature.');
 if(!defined('_MSG_MAX_FILE_SIZE'))             define('_MSG_MAX_FILE_SIZE', 'Max filesize');
 if(!defined('_MSG_FILE_UPLOADS'))              define('_MSG_FILE_UPLOADS', 'File uploads');
-if(!defined('_MSG_NOTENOUGH_USERRIGHTS'))      define('_MSG_NOTENOUGH_USERRIGHTS', 'Ihre Benutzerrechte erlauben ihnen die Benutzung dieser Seite nicht.');
+if(!defined('_MSG_NOTENOUGH_USERRIGHTS'))      define('_MSG_NOTENOUGH_USERRIGHTS', 'Your userrights are not enough to use this page.');
 if(!defined('_MSG_SESSION_EXPIRED'))           define('_MSG_SESSION_EXPIRED', '<div align="center"><h1>Your Session is expired!</h1><br /><strong>Please log in again.</strong><br /><a href="index.php">Log in</a></div>');
 if(!defined('_MSG_NOT_FINALIZED'))             define('_MSG_NOT_FINALIZED', 'Your Document isnt finalised. Do you want to publish it too?');
 if(!defined('_MSG_NOT_PUBLISHED'))             define('_MSG_NOT_PUBLISHED', 'The choosen document is not yet published. You cannot read it!!');
@@ -419,7 +419,9 @@ if(!defined('_MSG_CHANGES'))                   define('_MSG_CHANGES', 'You have 
 if(!defined('_MSG_SAVE_NOW'))                  define('_MSG_SAVE_NOW', 'Do you want to save those now?');
 if(!defined('_MSG_NO_ALBUM_WITH_THIS_ID'))     define('_MSG_NO_ALBUM_WITH_THIS_ID', 'The System dont have found a album with this ID!');
 if(!defined('_MSG_CREATE_ALBUM_FIRST'))        define('_MSG_CREATE_ALBUM_FIRST', '* Create a album first *');
-
+if(!defined('_MSG_ACTIVATE_NEW_PW_FIRST'))     define('_MSG_ACTIVATE_NEW_PW_FIRST', 'You must activate your new password by clicking the following link:');
+if(!defined('_MSG_SUCCESSFULL_RETRIEVED'))     define('_MSG_SUCCESSFULL_RETRIEVED', 'You have successfully retrieved a new password.');
+if(!defined('_MSG_ERROR_ON_RETRIEVING'))       define('_MSG_ERROR_ON_RETRIEVING', 'Error on validating a new password!');
 
 
 // LOGIN

@@ -25,6 +25,8 @@ if(isset($_POST['cmd'])){ $cmd = $_POST['cmd']; }
 if(isset($_GET['cmd'])){ $cmd = $_GET['cmd']; }
 if(isset($_GET['todo'])){ $todo = $_GET['todo']; }
 if(isset($_GET['id_user'])){ $id_user = $_GET['id_user']; }
+if(isset($_GET['code'])){ $code = $_GET['code']; }
+if(isset($_GET['conduct'])){ $conduct = $_GET['conduct']; }
 
 
 /**
@@ -33,7 +35,7 @@ if(isset($_GET['id_user'])){ $id_user = $_GET['id_user']; }
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 0.6.5
+ * @version 0.7.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -91,7 +93,7 @@ $websiteowner = $tcms_main->decodeText($websiteowner, '2', $c_charset);
 
 
 $param_save_mode = $tcms_main->getPHPSetting('safe_mode');
-if($param_save_mode){
+if($param_save_mode) {
 	$set_save_mode = $tcms_main->setPHPSetting('safe_mode', 'on');
 }
 
@@ -109,8 +111,6 @@ if(!isset($cmd)) $cmd = '';
 /*
 	Version
 */
-$tcms_version = new tcms_version('../../');
-
 $release      = $tcms_version->getVersion();
 $codename     = $tcms_version->getCodename();
 $status       = $tcms_version->getState();
@@ -268,7 +268,7 @@ if($cmd == 'login') {
 	else {
 		switch($id_user) {
 			case 'u':
-				$msg = 'Incorrect usergroup!';
+				$msg = 'False usergroup!';
 				break;
 			
 			case 'e':
@@ -299,9 +299,32 @@ if($cmd == 'login') {
 }
 
 if($cmd == 'retrieve') {
-	$tcms_auth->doRetrieve($username, $email);
-	
-	echo '<script>document.location.href=\'index.php\';</script>';
+	if($tcms_auth->doRetrieve($username, $email)) {
+		echo '<script>'
+		.'document.location.href=\'index.php\';'
+		.'</script>';
+	}
+	else {
+		echo '<script>'
+		.'document.location.href=\'index.php\';'
+		.'alert(\'ERROR: User not enabled, incorrect password or false usergroup!\');'
+		.'</script>';
+	}
+}
+
+if($cmd == 'validate') {
+	if($tcms_auth->doValidateNewPassword($conduct, $code)) {
+		echo '<script>'
+		.'document.location.href=\'index.php\';'
+		.'alert(\''._MSG_SUCCESSFULL_RETRIEVED.'\');'
+		.'</script>';
+	}
+	else {
+		echo '<script>'
+		.'document.location.href=\'index.php\';'
+		.'alert(\''._MSG_ERROR_ON_RETRIEVING.'\');'
+		.'</script>';
+	}
 }
 
 

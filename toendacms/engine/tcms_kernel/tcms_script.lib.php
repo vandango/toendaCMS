@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a parser and a base class
  * for the toendaScript.
  * 
- * @version 0.5.7
+ * @version 0.5.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -157,10 +157,12 @@ class toendaScript {
 	 * @param String $newsContent
 	 */
 	function cutAtTcmsMoreTag($newsContent){
-		if(strpos($newsContent, '{tcms_more}'))
+		if(strpos($newsContent, '{tcms_more}')) {
 			return substr($newsContent, 0, strpos($newsContent, '{tcms_more}'));
-		else
+		}
+		else {
 			return $newsContent;
+		}
 	}
 	
 	

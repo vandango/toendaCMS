@@ -290,7 +290,7 @@ define('_TABLE_FACTORY', 'Hersteller');
 define('_TABLE_URL', 'Internetadresse');
 define('_TABLE_STOCK', 'Auf Lager');
 define('_TABLE_PRICE', 'Preis');
-define('_TABLE_PRICE_ADD', '(Brutto, für Netto MwSt. leer lassen)');
+define('_TABLE_PRICE_ADD', '(Brutto, fï¿½r Netto MwSt. leer lassen)');
 define('_TABLE_TAX', 'Mehrwertsteuersatz');
 define('_TABLE_QUANTITY', 'Menge');
 define('_TABLE_WEIGHT', 'Gewicht');
@@ -420,6 +420,9 @@ define('_MSG_CHANGES', 'Sie haben einige AEnderungen noch nicht gespeichert.');
 define('_MSG_SAVE_NOW', 'Moechten sie jetzt speichern?');
 define('_MSG_NO_ALBUM_WITH_THIS_ID', 'Es konnte kein Album zu dieser ID gefunden werden!');
 define('_MSG_CREATE_ALBUM_FIRST', '* Erst ein Album erstellen *');
+define('_MSG_ACTIVATE_NEW_PW_FIRST', 'Sie m&uuml;ssen ihr neues Passwort erst aktivieren, nutzen sie dazu folgenden Link:');
+define('_MSG_SUCCESSFULL_RETRIEVED', 'Das Passwort wurde erfolgreich aktiviert.');
+define('_MSG_ERROR_ON_RETRIEVING', 'Fehler beim aktivieren des Passwortes!');
 
 
 // LOGIN

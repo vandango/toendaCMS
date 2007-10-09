@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a news manager with a news,
  * a news view and a archive with different formats.
  *
- * @version 1.4.0
+ * @version 1.4.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -253,22 +253,24 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 		/*
 			get categories
 		*/
-		if($choosenDB == 'xml'){
+		if($choosenDB == 'xml') {
 			/*
 				load categories from xml
 			*/
-			if($arr_news['cat'] != ''){
-				if(strpos($arr_news['cat'], '{###}')){
+			$arr_news['cat'] = $dcNews->getCategories();
+			
+			if($arr_news['cat'] != '') {
+				if(strpos($arr_news['cat'], '{###}')) {
 					$catLinkTmp = explode('{###}', $arr_news['cat']);
 					
 					$count = 0;
 					
-					foreach($catLinkTmp as $catKey => $catVal){
-						if(trim($catVal) != ''){
+					foreach($catLinkTmp as $catKey => $catVal) {
+						if(trim($catVal) != '') {
 							$catXML = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$catVal.'.xml','r');
 							
 							$catLink['link'][$count] = $catVal;
-							$catLink['name'][$count] = $catXML->read_section('cat', 'name');
+							$catLink['name'][$count] = $catXML->readSection('cat', 'name');
 							
 							$catLink['name'][$count] = $tcms_main->decodeText($catLink['name'][$count], '2', $c_charset);
 							
@@ -276,57 +278,61 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 						}
 					}
 				}
-				else{
+				else {
 					$catXML = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$arr_news['cat'].'.xml','r');
 					
-					$catLink['name'][0] = $catXML->read_section('cat', 'name');
+					$catLink['name'][0] = $catXML->readSection('cat', 'name');
 					
 					$catLink['name'][0] = $tcms_main->decodeText($catLink['name'][0], '2', $c_charset);
 					
 					$catLink['link'][0] = $arr_news['cat'];
 				}
 			}
-			else{
+			else {
 				$catXML = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$defaultCat.'.xml','r');
 				
-				$catLink['name'][0] = $catXML->read_section('cat', 'name');
+				$catLink['name'][0] = $catXML->readSection('cat', 'name');
 				
 				$catLink['name'][0] = $tcms_main->decodeText($catLink['name'][0], '2', $c_charset);
 				
 				$catLink['link'][0] = $defaultCat;
 			}
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-			
+			$sqlCN = $sqlAL->connect(
+				$sqlUser, 
+				$sqlPass, 
+				$sqlHost, 
+				$sqlDB, 
+				$sqlPort
+			);
 			
 			$strSQL = "SELECT * "
 			."FROM ".$tcms_db_prefix."news_to_categories "
 			."INNER JOIN ".$tcms_db_prefix."news_categories ON (".$tcms_db_prefix."news_to_categories.cat_uid = ".$tcms_db_prefix."news_categories.uid) "
 			."WHERE (".$tcms_db_prefix."news_to_categories.news_uid = '".$dcNews->getID()."')";
 			
-			$sqlQR = $sqlAL->sqlQuery($strSQL);
-			$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+			$sqlQR = $sqlAL->query($strSQL);
+			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
-			
-			if($sqlNR == 0){
-				$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'news_categories', $defaultCat);
-				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+			if($sqlNR == 0) {
+				$sqlQR = $sqlAL->getOne($tcms_db_prefix.'news_categories', $defaultCat);
+				$sqlObj = $sqlAL->fetchObject($sqlQR);
 				
-				$catLink['name'][0] = $sqlARR['name'];
+				$catLink['name'][0] = $sqlObj->name;
 				$catLink['link'][0] = $defaultCat;
 				
-				if($catLink['name'][0] == NULL){ $catLink['name'][0] = ''; }
+				if($catLink['name'][0] == NULL) { $catLink['name'][0] = ''; }
 				
 				$catLink['name'][0] = $tcms_main->decodeText($catLink['name'][0], '2', $c_charset);
 			}
-			else{
+			else {
 				$count = 0;
 				
-				while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
-					$catLink['link'][$count] = $sqlARR['cat_uid'];
-					$catLink['name'][$count] = $sqlARR['name'];
+				while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+					$catLink['link'][$count] = $sqlObj->cat_uid;
+					$catLink['name'][$count] = $sqlObj->name;
 					
 					$catLink['name'][$count] = $tcms_main->decodeText($catLink['name'][$count], '2', $c_charset);
 					
@@ -340,8 +346,10 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 			time
 			and categories
 		*/
-		echo '<span class="text_small">'._TABLE_PUBLISHED.'&nbsp;';
-		switch($use_timesince){
+		echo '<span class="text_small">'
+		._TABLE_PUBLISHED.'&nbsp;';
+		
+		switch($use_timesince) {
 			case 0:
 				echo lang_date(
 					substr($dcNews->getDate(), 0, 2), 
@@ -392,11 +400,13 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 				break;
 		}
 		
-		if(!empty($catLink) && $catLink != ''){
+		if(!empty($catLink) && $catLink != '') {
 			echo '&nbsp;'._NEWS_IN;
 			
-			foreach($catLink['link'] as $catKey => $catVal){
-				if($catKey != 0){ echo ','; }
+			foreach($catLink['link'] as $catKey => $catVal) {
+				if($catKey != 0) {
+					echo ',';
+				}
 				
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id=newsmanager&amp;s='.$s.'&amp;cat='.$catVal
@@ -413,14 +423,14 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 		/*
 			author
 		*/
-		if($show_autor == 1){
+		if($show_autor == 1) {
 			echo '&nbsp;&bull;&nbsp;';
 			
-			if($show_autor_as_link == 1){
-				if($dcNews->getAutor() != ''){
+			if($show_autor_as_link == 1) {
+				if($dcNews->getAutor() != '') {
 					echo _NEWS_WRITTEN.'&nbsp;';
 					
-					if($userID != false){
+					if($userID != false) {
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id=profile&amp;s='.$s.'&amp;u='.$userID
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -428,12 +438,12 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 						
 						echo '<a href="'.$link.'">'.$dcNews->getAutor().'</a>';
 					}
-					else{
+					else {
 						echo $dcNews->getAutor();
 					}
 				}
 			}
-			else{
+			else {
 				echo _NEWS_WRITTEN.' '.$dcNews->getAutor();
 			}
 		}
@@ -450,7 +460,7 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 		
 		$toendaScript = new toendaScript($news_content);
 		$news_content = $toendaScript->doParse();
-		$news_content = $toendaScript->cutAtTcmsMoreTag($news_content, 'text');
+		$news_content = $toendaScript->removeTcmsMoreTag($news_content);
 		$news_content = $toendaScript->checkSEO($news_content, $imagePath);
 		
 		$toendaScript->doParsePHP($news_content);
@@ -461,13 +471,13 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 		/*
 			comments?
 		*/
-		if($use_news_comments == 1){
-			if($dcNews->getCommentsEnabled() == 1){
+		if($use_news_comments == 1) {
+			if($dcNews->getCommentsEnabled() == 1) {
 				$nw_amount = $tcms_dcp->getCommentDCList($dcNews->getID(), 'news', false);
 				
 				echo '<strong class="news_title_bg text_huge">'.$nw_amount.' '.( $nw_amount == 1 ? _FRONT_COMMENT : _FRONT_COMMENTS ).'</strong>';
 				
-				if($use_trackback == 1){
+				if($use_trackback == 1) {
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=newsmanager&amp;s='.$s.'&amp;news='.$dcNews->getID().'&amp;cmd=trackback'
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -485,41 +495,44 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 		/*
 			trackback
 		*/
-		if($cmd == 'trackback'){
-			if($use_trackback == 1){
-				if(isset($trackback_url) && $trackback_url != ''){
+		if($cmd == 'trackback') {
+			if($use_trackback == 1) {
+				if(isset($trackback_url) 
+				&& $trackback_url != '') {
 					$trackback = new tcms_trackback($sitename, $arr_news['autor'], $c_charset);
 					$trackback->ping($trackback_url, $websiteowner_url, $dcNews->getTitle());
 				}
-				else{
+				else {
 					$footer_xml = new xmlparser('data/tcms_global/footer.xml','r');
 					$owner_url  = $footer_xml->read_section('footer', 'owner_url');
 					
-					echo '<strong>'._FRONT_OWN_TRACKBACK.':</strong> '.$owner_url.'?id=newsmanager&amp;news='.$news;
+					$trackbackLink = ( $seoEnabled == 1 ? ( $seoFolder != '' ? $seoFolder.'/' : '' ) : '' )
+					.'?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id='.$id
+					.'&amp;s='.$s
+					.'&amp;cmd=trackback';
 					
-					echo '<form name="trackback" id="trackback" action="'.( $seoEnabled == 1 ? ( $seoFolder != '' ? $seoFolder.'/' : '' ) : '' ).'?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$id.'&amp;s='.$s.'&amp;cmd=trackback" method="post">';
-					
-					echo '<strong>'._FRONT_TRACKBACK_URL.'</strong>&nbsp;<input name="trackback_url" id="comment_web" class="inputtext" type="text" /><br />';
-					
-					echo '<input type="hidden" name="news" value="'.$news.'" />';
-					
-					echo '<br /><input class="inputbutton" type="submit" value="'._FORM_SEND.'" />';
-					
-					echo '</form>';
+					echo '<strong>'._FRONT_OWN_TRACKBACK.':</strong> '
+					.$owner_url.'?id=newsmanager&amp;news='.$news
+					.'<form name="trackback" id="trackback" action="'.$trackbackLink.'" method="post">'
+					.'<strong>'._FRONT_TRACKBACK_URL.'</strong>'
+					.'&nbsp;<input name="trackback_url" id="comment_web" class="inputtext" type="text" />'
+					.'<br />'
+					.'<input type="hidden" name="news" value="'.$news.'" />'
+					.'<br />'
+					.'<input class="inputbutton" type="submit" value="'._FORM_SEND.'" />'
+					.'</form>';
 				}
 			}
 		}
 		
-		echo '</div><br /><br />';
+		echo '</div>'
+		.'<br />'
+		.'<br />';
 		
 		
-		
-		if($use_news_comments == 1){
-			if($dcNews->getCommentsEnabled() == 1){
-				//************************************
-				// COMMENT FORM
-				//
-				
+		if($use_news_comments == 1) {
+			if($dcNews->getCommentsEnabled() == 1) {
 				/*
 					JavaScript for checking inputs
 				*/
@@ -576,15 +589,15 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 				
 				$arrCommentDC = $tcms_dcp->getCommentDCList($news);
 				
-				if(count($arrCommentDC) > 0){
+				if(count($arrCommentDC) > 0) {
 					$count = 1;
 					
-					if(!empty($arrCommentDC) && $arrCommentDC != '' && isset($arrCommentDC)){
-						foreach($arrCommentDC as $key => $value){
+					if(!empty($arrCommentDC) && $arrCommentDC != '' && isset($arrCommentDC)) {
+						foreach($arrCommentDC as $key => $value) {
 							$commentDC = new tcms_dc_comment();
 							$commentDC = $arrCommentDC[$key];
 							
-							if($use_gravatar == 1){
+							if($use_gravatar == 1) {
 								$grav_url = 'http://www.gravatar.com/'
 								.'avatar.php?'
 								.'gravatar_id='.md5($commentDC->getEMail())
@@ -596,31 +609,50 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 							}
 							
 							echo '<strong class="comment_title">'.$count.'. ';
-							if($commentDC->getURL() != ''){ echo '<a href="'.$commentDC->getURL().'">'.$commentDC->getName().'</a>'; }
-							else{ echo $commentDC->getName(); }
+							
+							if($commentDC->getURL() != '') {
+								echo '<a href="'.$commentDC->getURL().'">'.$commentDC->getName().'</a>';
+							}
+							else {
+								echo $commentDC->getName();
+							}
+							
 							echo '</strong>';
 							
-							echo '<span class="text_small" style="padding: 3px 0 0 3px;">'.lang_date(substr($commentDC->getTime(), 6, 2), substr($commentDC->getTime(), 4, 2), substr($commentDC->getTime(), 0, 4), substr($commentDC->getTime(), 8, 2), substr($commentDC->getTime(), 10, 2), substr($commentDC->getTime(), 12, 2)).'</span>';
+							echo '<span class="text_small" style="padding: 3px 0 0 3px;">'
+							.lang_date(
+								substr($commentDC->getTime(), 6, 2), 
+								substr($commentDC->getTime(), 4, 2), 
+								substr($commentDC->getTime(), 0, 4), 
+								substr($commentDC->getTime(), 8, 2), 
+								substr($commentDC->getTime(), 10, 2), 
+								substr($commentDC->getTime(), 12, 2)
+							).'</span>';
 							
 							echo $hr_line_5;
 							
 							$msg = $commentDC->getText();
-							if($use_emoticons == 1)
+							
+							if($use_emoticons == 1) {
 								$msg = $tcms_main->replaceSmilyTags($msg, $imagePath);
+							}
 							
-							echo '<div class="comment_text">';
-							echo $msg;
-							echo '</div>';
+							echo '<div class="comment_text">'
+							.$msg
+							.'</div>';
 							
-							if($check_session){
-								if($is_admin == 'Administrator' || $is_admin == 'Developer'){
+							if($check_session) {
+								if($is_admin == 'Administrator' 
+								|| $is_admin == 'Developer') {
 									$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 									.'id='.$id.'&amp;s='.$s.'&amp;cmd=delete&amp;XMLplace='.$commentDC->getID()
 									.'&amp;XMLfile='.$commentDC->getTimestamp()
 									.( isset($lang) ? '&amp;lang='.$lang : '' );
 									$link = $tcms_main->urlAmpReplace($link);
 									
-									echo '<a class="main" href="'.$link.'"><strong>'._TCMS_ADMIN_DELETE.'</strong></a>';
+									echo '<a class="main" href="'.$link.'">'
+									.'<strong>'._TCMS_ADMIN_DELETE.'</strong>'
+									.'</a>';
 								}
 							}
 							
@@ -634,17 +666,18 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 					echo _FRONT_NOCOMMENT.'<br />';
 				}
 				
-				echo tcms_html::hr('#cccccc');
+				echo $tcms_html->hr('#cccccc');
 				
-				echo '<br />';
-				echo '<strong class="news_title_bg text_huge">'._FRONT_COMMENT_TITLE.'</strong><br />';
-				echo '<br />';
+				echo '<br />'
+				.'<strong class="news_title_bg text_huge">'._FRONT_COMMENT_TITLE.'</strong>'
+				.'<br />'
+				.'<br />';
 				
 				echo '<a name="comments"></a>';
 				
 				echo '<form name="comment" id="comment" action="'.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$id.'&amp;s='.$s.'" method="post">';
 				
-				if($use_captcha == 1){
+				if($use_captcha == 1) {
 					$captchaImage = tcms_gd::createCaptchaImage('cache/captcha/', $captcha_clean);
 					
 					echo '<strong>'._FRONT_CAPTCHA.'</strong>'
@@ -1018,16 +1051,26 @@ if($action == 'archive' && (isset($cat) || isset($date) || isset($day))){
 						$checkDate = $main_xml->read_section('news', 'date');
 						
 						
-						if(strlen(substr($date, 6, 2)) == '0'){ $ccDay = '0'.substr(substr($date, 6, 2), 1, 1); }
-						else{ $ccDay = substr($date, 6, 2); }
+						if(strlen(substr($date, 6, 2)) == '0') {
+							$ccDay = '0'.substr(substr($date, 6, 2), 1, 1);
+						}
+						else {
+							$ccDay = substr($date, 6, 2);
+						}
 						
-						if(substr(substr($date, 4, 2), 0, 1) != '0'){ $ccMonth = '0'.substr(substr($date, 4, 2), 1, 1); }
-						else{ $ccMonth = substr($date, 4, 2); }
+						if(substr(substr($date, 4, 2), 0, 1) != '0') {
+							$ccMonth = '0'.substr(substr($date, 4, 2), 1, 1);
+						}
+						else {
+							$ccMonth = substr($date, 4, 2);
+						}
 						
-						if($checkDate == ($ccDay.'.'.$ccMonth.'.'.substr($date, 0, 4))) $isCorrect = true;
+						if($checkDate == ($ccDay.'.'.$ccMonth.'.'.substr($date, 0, 4))) {
+							$isCorrect = true;
+						}
 					}
 				}
-				else{
+				else {
 					/*
 						-- CATEGORY ARCHIVE --
 						
