@@ -20,7 +20,7 @@
  *
  * This file is used for the check actions.
  *
- * @version 0.1.8
+ * @version 0.2.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -40,16 +40,14 @@ $width = 150;
 
 
 
-
-
 /*
 	print system settings
 */
 
-echo '<h2>'._TCMS_SYSTEM_INFO.'</h2>';
-echo '<h3>'._TCMS_RELEVANT.' '.$release.' ('.$build.')</h3>';
-echo '<hr />';
-echo '<br />';
+echo '<h2>'._TCMS_SYSTEM_INFO.'</h2>'
+.'<h3>'._TCMS_RELEVANT.' '.$release.' ('.$build.')</h3>'
+.'<hr />'
+.'<br />';
 
 
 
@@ -95,11 +93,17 @@ echo '<div style="display: block; float: left; width: '.$width.'px;">'
 .'</div>';
 
 echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-.( phpversion() >= '5.2.0' ? phpversion().' >= 5.2.0' : '< 5.2.0' )
+.( phpversion() >= $tcms_setup_cfg->getRequiredPHPVersion() 
+	? phpversion().' >= '.$tcms_setup_cfg->getRequiredPHPVersion() 
+	: '< '.$tcms_setup_cfg->getRequiredPHPVersion() 
+)
 .'</div>';
 
 echo '<div style="display: block; margin: 0 0 0 560px;">'
-.( phpversion() >= '5.2.0' ? '<img src="images/yes.png" border="0" />' : '<img src="images/no.png" border="0" />' )
+.( phpversion() >= $tcms_setup_cfg->getRequiredPHPVersion() 
+	? '<img src="images/yes.png" border="0" />' 
+	: '<img src="images/no.png" border="0" />' 
+)
 .'</div>';
 
 
@@ -422,7 +426,7 @@ echo '<div style="display: block; float: left; margin: 0 0 0 40px; width: '.$wid
 
 echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">&nbsp;</div>';
 
-if(phpversion() >= '5.2.0'
+if(phpversion() >= $tcms_setup_cfg->getRequiredPHPVersion()
 && extension_loaded('zlib') 
 && extension_loaded('gd') 
 && is_writeable('../data') 

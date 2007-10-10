@@ -63,18 +63,17 @@ include_once('../tcms_kernel/tcms_version.lib.php');
 include_once('../tcms_kernel/phpmailer/class.phpmailer.php');
 
 
-$c_xml      = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/layout.xml','r');
+$c_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/layout.xml','r');
 $adminTheme = $c_xml->readSection('layout', 'admin');
-
 
 $tcms_config = new tcms_configuration('../../'.$tcms_administer_site);
 $c_charset = $tcms_config->getCharset();
 
-
-$tcms_auth   = new tcms_authentication('../../'.$tcms_administer_site, $c_charset, '');
-
+$tcms_auth = new tcms_authentication('../../'.$tcms_administer_site, $c_charset, '');
 
 $tcms_main = new tcms_main('../../'.$tcms_administer_site);
+
+$tcms_version = new tcms_version('../../');
 
 $choosenDB = $tcms_db_engine;
 $sqlUser   = $tcms_db_user;

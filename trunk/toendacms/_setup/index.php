@@ -22,7 +22,7 @@ define('_TCMS_VALID', 1);
  *
  * This file is used as the installer central.
  *
- * @version 0.4.2
+ * @version 0.5.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -59,8 +59,6 @@ if(isset($_GET['code'])){ $code = $_GET['code']; }
 if(isset($_POST['code'])){ $code = $_POST['code']; }
 
 
-
-
 // DATABASE
 
 if(isset($_GET['new_user'])){ $new_user = $_GET['new_user']; }
@@ -79,8 +77,6 @@ if(isset($_POST['new_create'])){ $new_create = $_POST['new_create']; }
 if(isset($_POST['new_drop'])){ $new_drop = $_POST['new_drop']; }
 if(isset($_POST['new_sample'])){ $new_sample = $_POST['new_sample']; }
 if(isset($_POST['new_update'])){ $new_update = $_POST['new_update']; }
-
-
 
 
 
@@ -112,9 +108,6 @@ if(isset($_POST['new_owner_url'])){ $new_owner_url = $_POST['new_owner_url']; }
 if(isset($_POST['new_copyright'])){ $new_copyright = $_POST['new_copyright']; }
 
 
-
-
-
 // USER
 
 if(isset($_POST['fullc_password'])){ $fullc_password = $_POST['fullc_password']; }
@@ -127,10 +120,6 @@ if(isset($_POST['fullc_email'])){ $fullc_email = $_POST['fullc_email']; }
 
 
 
-
-
-
-
 /*
 	init
 */
@@ -138,6 +127,7 @@ if(isset($_POST['fullc_email'])){ $fullc_email = $_POST['fullc_email']; }
 if(!isset($site)){ $site = 'language'; }
 if(!isset($lang)){ $lang = 'en'; }
 
+include_once('inc/configuration.php');
 include_once('../engine/tcms_kernel/tcms_time.lib.php');
 include_once('../engine/tcms_kernel/tcms_xml.lib.php');
 include_once('../engine/tcms_kernel/tcms_configuration.lib.php');
@@ -152,13 +142,14 @@ $tcms_main = new tcms_main('../data');
 
 $tcms_administer_site = 'data';
 
+$tcms_setup_cfg = new tcms_setup_configuration();
+
+$tcms_version = new tcms_version('../');
+
 $param_save_mode = $tcms_main->getPHPSetting('safe_mode');
-if($param_save_mode == 'on'){
+if($param_save_mode == 'on') {
 	$set_save_mode = $tcms_main->setPHPSetting('safe_mode', 'off');
 }
-
-
-
 
 
 
@@ -167,20 +158,16 @@ if($param_save_mode == 'on'){
 /*
 	version
 */
-
-$ver_xml = new xmlparser('../engine/tcms_kernel/tcms_version.xml','r');
-
-$release      = $ver_xml->read_section('version', 'release');
-$codename     = $ver_xml->read_section('version', 'codename');
-$status       = $ver_xml->read_section('version', 'status');
-$build        = $ver_xml->read_section('version', 'build');
-$cms_name     = $ver_xml->read_section('version', 'name');
-$tagline      = $ver_xml->read_section('version', 'tagline');
-$release_date = $ver_xml->read_section('version', 'release_date');
-$copyright_yr = $ver_xml->read_section('version', 'toenda_copyright');
+$release      = $tcms_version->getVersion();
+$codename     = $tcms_version->getCodename();
+$status       = $tcms_version->getState();
+$build        = $tcms_version->getBuild();
+$cms_name     = $tcms_version->getName();
+$tagline      = $tcms_version->getTagline();
+$release_date = $tcms_version->getReleaseDate();
+$copyright_yr = $tcms_version->getToendaCopyright();
 
 $version = $cms_name.' | '.$tagline.' &bull; '.$release.' ['.$codename.'] &bull; '.$status;
-
 
 
 
