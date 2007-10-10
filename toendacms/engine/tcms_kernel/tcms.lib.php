@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.5.6
+ * @version 2.5.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -1604,31 +1604,6 @@ class tcms_main {
 				$this->db_port
 			);
 			
-			/*
-			$sqlStr = "DELETE"
-			." FROM ".$this->db_prefix."session";
-			
-			switch($this->db_choosenDB) {
-				case 'mysql':
-					$sqlStr .= " WHERE DATE_ADD(date, INTERVAL 10 HOUR) < NOW()";
-					break;
-				
-				case 'pgsql':
-					break;
-				
-				case 'mssql':
-					$sqlStr .= " WHERE DATEADD(hh, 10, date) < GETDATE()";
-					break;
-				
-				case 'sqlite':
-					break;
-				
-				default:
-					$sqlStr .= " WHERE DATE_ADD(date, INTERVAL 10 HOUR) < NOW()";
-					break;
-			}
-			*/
-			
 			$sqlQR = $sqlAL->getALL($this->db_prefix.'session');
 			
 			while($sqlObj = $sqlAL->fetchObject($sqlQR)){
@@ -1642,6 +1617,9 @@ class tcms_main {
 					}
 				}
 			}
+			
+			$sqlAL->_sqlAbstractionLayer();
+			unset($sqlAL);
 		}
 	}
 	
