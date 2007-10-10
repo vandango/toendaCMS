@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.5.3
+ * @version 2.5.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -95,6 +95,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * countWords                        -> Count Words in a phrase
  * checkWebLink                      -> Check if a link is a weblink
  * checkAccess                       -> Check if a usergroup can read a access level
+ * checkSessionExist                 -> Check if a session exist
+ * checkSessionTimeout               -> Check the session timeouts
  * cleanUrlString                    -> Clean a text from javascript code
  * cleanGBLink                       -> Clean a text from links code
  * cleanGBScript                     -> Clean a text from javascript and php code
@@ -130,10 +132,6 @@ defined('_TCMS_VALID') or die('Restricted access');
  * count_subid                 -> count all xml files in an dir ( files or numbers files )
  * count_answers               -> count answers in poll
  * count_answers_sql           -> count answers in poll from sql
- * check_session               -> checks the session files for the mtime
- * create_admin                -> get the admin session uid
- * check_sql_session           -> check session time in sql
- * check_session_exists        -> check if sql session exists
  * create_sort_id              -> create a sort id
  * create_sort_id_sub          -> create a sort id for subid tag (with parent as parent)
  * linkway                     -> return arrays with links for sitetitle and pathway
@@ -184,6 +182,10 @@ defined('_TCMS_VALID') or die('Restricted access');
  * DEPRECATED nl2br                       -> convertNewlineToHTML
  * DEPRECATED ampReplace                  -> replaceAmp
  * DEPRECATED urlAmpReplace               -> urlConvertToSEO
+ * DEPRECATED check_session_exists        -> check if sql session exists
+ * DEPRECATED check_session               -> checks the session files for the mtime
+ * DEPRECATED check_sql_session           -> check session time in sql
+ * DEPRECATED create_admin                -> get the admin session uid
  * 
  * </code>
  *
@@ -1510,6 +1512,137 @@ class tcms_main {
 		}
 		
 		return $show_this;
+	}
+	
+	
+	
+	/**
+	 * Check if a session exist
+	 *
+	 * @param String $session
+	 */
+	function checkSessionExist($session) {
+		if($this->db_choosenDB == 'xml') {
+			if($this->isReal($session) 
+			&& $this->checkFileExist($tcms_administer_site.'/tcms_session/'.$session) 
+			&& filesize(''.$tcms_administer_site.'/tcms_session/'.$session) != 0) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB);
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
+			
+			$sqlQR = $sqlAL->getOne($this->db_prefix.'session', $session);
+			$session_exists = $sqlAL->getNumber($sqlQR);
+			
+			$sqlAL->_sqlAbstractionLayer();
+			unset($sqlAL);
+			
+			if($session_exists != 0) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+	}
+	
+	
+	
+	/**
+	 * Check the session timeouts
+	 *
+	 * @param String $session
+	 * @param Integer $webend (0 = Frontend, 1 = Backend)
+	 */
+	function checkSessionTimeout($session, $webend = 0) {
+		if($this->db_choosenDB == 'xml') {
+			if($webend == 0) {
+				$pp = $this->administer.'/tcms_';
+			}
+			elseif($webend == 1) {
+				$pp = '';
+			}
+			
+			$handle = opendir($pp.'session/');
+			
+			while($file = readdir($handle)) {
+				if($file != '.' 
+				&& $file != '..' 
+				&& $file != $session 
+				&& $file != 'CVS' 
+				&& $file != '.svn'
+				&& $file != '_svn'
+				&& $file != '.SVN'
+				&& $file != '_SVN'
+				&& $file != 'index.html'){
+					if(date('U') - date('U', filemtime($pp.'session/'.$file)) > 36000) {
+						unlink($pp.'session/'.$file);
+					}
+				}
+			}
+			
+			closedir($handle);
+		}
+		else {
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB);
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
+			
+			/*
+			$sqlStr = "DELETE"
+			." FROM ".$this->db_prefix."session";
+			
+			switch($this->db_choosenDB) {
+				case 'mysql':
+					$sqlStr .= " WHERE DATE_ADD(date, INTERVAL 10 HOUR) < NOW()";
+					break;
+				
+				case 'pgsql':
+					break;
+				
+				case 'mssql':
+					$sqlStr .= " WHERE DATEADD(hh, 10, date) < GETDATE()";
+					break;
+				
+				case 'sqlite':
+					break;
+				
+				default:
+					$sqlStr .= " WHERE DATE_ADD(date, INTERVAL 10 HOUR) < NOW()";
+					break;
+			}
+			*/
+			
+			$sqlQR = $sqlAL->getALL($this->db_prefix.'session');
+			
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+				$checkSessionUID = $sqlObj->uid;
+				
+				if($session != $checkSessionUID){
+					$checkSessionTime = $sqlObj->date;
+					
+					if(date('U') - $checkSessionTime > 36000 || $checkSessionTime == NULL){
+						$sqlAL->deleteOne($this->db_prefix.'session', $checkSessionUID);
+					}
+				}
+			}
+		}
 	}
 	
 	
@@ -2994,101 +3127,6 @@ class tcms_main {
 			$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
 			return $sqlNR;
 		}
-	}
-	
-	
-	
-	/***
-	* @return Checks the session files for his old
-	* @desc 
-	*/
-	function check_session($session, $webend){
-		if($webend == 'user'){ $pp = $this->administer.'/tcms_'; }
-		if($webend == 'admin'){ $pp = ''; }
-		
-		$check_handle = opendir($pp.'session/');
-		while($check_file = readdir($check_handle)){
-			if($check_file != '.' 
-			&& $check_file != '..' 
-			&& $check_file != $session 
-			&& $check_file != 'CVS' 
-			&& $check_file != '.svn'
-			&& $check_file != '_svn'
-			&& $check_file != '.SVN'
-			&& $check_file != '_SVN'
-			&& $check_file != 'index.html'){
-				if(date('U') - date('U', filemtime($pp.'session/'.$check_file)) > 36000){ unlink($pp.'session/'.$check_file); }
-			}
-		}
-		closedir($check_handle);
-	}
-	
-	
-	
-	/***
-	* @return return username and id
-	* @desc 
-	*/
-	function create_admin($session, $rt = 'id'){
-		$sp = fopen('session/'.$session, 'r');
-		$m_tag = fread($sp, filesize('session/'.$session));
-		fclose($sp);
-		
-		$m_tag = explode('##', $m_tag);
-		$ws_user = $m_tag[0];
-		$ws_id   = $m_tag[1];
-		
-		if($rt == 'user'){ return $ws_user; }
-		if($rt == 'id')  { return $ws_id; }
-	}
-	
-	
-	
-	/***
-	* @return Checks the session files for his old
-	* @desc 
-	*/
-	function check_sql_session($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session){
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-		
-		$sqlQR = $sqlAL->sqlGetALL($this->db_prefix.'session');
-		$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
-		
-		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
-			$checkSessionUID = $sqlARR['uid'];
-			
-			if($session != $checkSessionUID){
-				$checkSessionTime = $sqlARR['date'];
-				
-				if(date('U') - $checkSessionTime > 36000 || $checkSessionTime == NULL){
-					$sqlAL->sqlDeleteOne($this->db_prefix.'session', $checkSessionUID);
-					$sqlAL->_sqlAbstractionLayer();
-					return true;
-				}
-				else{ return false; }
-			}
-		}
-	}
-	
-	
-	
-	/***
-	* @return Check if session in SQL exists
-	* @desc 
-	*/
-	function check_session_exists($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session){
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-		
-		$sqlQR = $sqlAL->sqlGetOne($this->db_prefix.'session', $session);
-		$session_exists = $sqlAL->sqlGetNumber($sqlQR);
-		
-		$sqlAL->_sqlAbstractionLayer();
-		unset($sqlAL);
-		
-		if($session_exists != 0){ return true; }
-		else{ return false; }
 	}
 	
 	
@@ -4790,6 +4828,79 @@ class tcms_main {
 	 */
 	function urlAmpReplace($text, $withApmersant = true){
 		return $this->urlConvertToSEO($text, $withApmersant);
+	}
+	
+	
+	
+	/**
+	 * Check if a session exist
+	 *
+	 * @deprecated 
+	 * @param String $choosenDB
+	 * @param String $sqlUser
+	 * @param String $sqlPass
+	 * @param String $sqlHost
+	 * @param String $sqlDB
+	 * @param String $sqlPort
+	 * @param String $session
+	 * @return Boolean
+	 */
+	function check_session_exists($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session){
+		return $this->checkSessionExist($session);
+	}
+	
+	
+	
+	/**
+	 * Check session timeouts
+	 *
+	 * @deprecated 
+	 * @param unknown_type $session
+	 * @param unknown_type $webend
+	 */
+	function check_session($session, $webend){
+		$this->checkSessionTimeout($session, ( $webend == 'user' ? 0 : 1 ));
+	}
+	
+	
+	
+	/**
+	 * Check session timeouts
+	 *
+	 * @deprecated 
+	 * @param unknown_type $choosenDB
+	 * @param unknown_type $sqlUser
+	 * @param unknown_type $sqlPass
+	 * @param unknown_type $sqlHost
+	 * @param unknown_type $sqlDB
+	 * @param unknown_type $sqlPort
+	 * @param unknown_type $session
+	 */
+	function check_sql_session($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session){
+		$this->checkSessionTimeout($session);
+	}
+	
+	
+	
+	/**
+	 * Get admin user info
+	 *
+	 * @deprecated 
+	 * @param unknown_type $session
+	 * @param unknown_type $rt
+	 * @return unknown
+	 */
+	function create_admin($session, $rt = 'id'){
+		$sp = fopen('session/'.$session, 'r');
+		$m_tag = fread($sp, filesize('session/'.$session));
+		fclose($sp);
+		
+		$m_tag = explode('##', $m_tag);
+		$ws_user = $m_tag[0];
+		$ws_id   = $m_tag[1];
+		
+		if($rt == 'user'){ return $ws_user; }
+		if($rt == 'id')  { return $ws_id; }
 	}
 }
 

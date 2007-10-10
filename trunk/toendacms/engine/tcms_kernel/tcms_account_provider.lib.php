@@ -280,7 +280,7 @@ class tcms_account_provider extends tcms_main {
 	 * @return Array
 	 */
 	function getUserInfo($session, $forAdmin = false){
-		if($this->db_choosenDB == 'xml'){
+		if($this->db_choosenDB == 'xml') {
 			if($forAdmin) {
 				$fileopen = fopen('session/'.$session, 'r');
 				$arr_user = fread($fileopen, filesize('session/'.$session));
@@ -307,7 +307,7 @@ class tcms_account_provider extends tcms_main {
 			$authXML->_xmlparser();
 			unset($authXML);
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
 			$sqlCN = $sqlAL->connect(
 				$this->db_user, 

@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.7.7
+ * @version 2.7.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -615,13 +615,14 @@ if($wsShowSite) {
 						}
 						
 						
-						if($choosenDB == 'xml'){
+						/*if($choosenDB == 'xml'){
 							if(isset($session) && $session != '' && file_exists(''.$tcms_administer_site.'/tcms_session/'.$session) && filesize(''.$tcms_administer_site.'/tcms_session/'.$session) != 0){ $check_session = true; }
 							else{ $check_session = false; }
 						}
 						else{
 							$check_session = $tcms_main->check_session_exists($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session);
-						}
+						}*/
+						$check_session = $tcms_main->checkSessionExist($session);
 						
 						
 						if($check_session){
@@ -636,17 +637,22 @@ if($wsShowSite) {
 							if($is_admin == 'Administrator'
 							|| $is_admin == 'Developer'
 							|| $is_admin == 'Writer'
-							|| $is_admin == 'Editor'){
+							|| $is_admin == 'Editor') {
 								$canEdit = true;
 							}
-							else{
+							else {
 								$canEdit = false;
 							}
 						}
 						
 						
-						if($choosenDB == 'xml'){ $tcms_main->check_session($session, 'user'); }
-						else{ $tcms_main->check_sql_session($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session); }
+						$tcms_main->checkSessionTimeout($session);
+						/*if($choosenDB == 'xml') {
+							$tcms_main->check_session($session, 'user');
+						}
+						else {
+							$tcms_main->check_sql_session($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session);
+						}*/
 					}
 					else{
 						$check_session = false;
