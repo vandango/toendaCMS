@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.7.8
+ * @version 2.7.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -71,7 +71,6 @@ $tcms_administer_site = $tcms_site[0]['path'];
 // database
 if(file_exists($tcms_administer_site.'/tcms_global/database.php')) {
 	require($tcms_administer_site.'/tcms_global/database.php');
-	//import($tcms_administer_site.'.database.settings');
 	
 	$choosenDB = $tcms_db_engine;
 	$sqlUser   = $tcms_db_user;
@@ -83,8 +82,9 @@ if(file_exists($tcms_administer_site.'/tcms_global/database.php')) {
 }
 
 // page
-if(!isset($ws_error))
+if(!isset($ws_error)) {
 	$ws_error = false;
+}
 
 $wsShowSite = true;
 $noSEOFolder = false;
@@ -104,8 +104,9 @@ using('toendacms.kernel.datacontainer_provider');
 $tcms_time = new tcms_time();
 
 $tcms_time->startTimer();
-if(isset($choosenDB) && $choosenDB != 'xml')
+if(isset($choosenDB) && $choosenDB != 'xml') {
 	$tcms_time->startSqlQueryCounter();
+}
 
 // params
 $tcms_param = new tcms_parameter();
