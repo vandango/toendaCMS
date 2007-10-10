@@ -7,14 +7,30 @@
 | Author: Jonathan Naumann                                               |
 +------------------------------------------------------------------------+
 | 
-| Help
+| Help Window
 |
-| File:		help.php
-| Version:	0.0.6
+| File:	help.php
 |
 +
 */
 
+
+/**
+ * Help Window
+ *
+ * This is used as a help window.
+ *
+ * @version 0.0.7
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
+
+
+
+// ---------------------------------------------
+// INIT
+// ---------------------------------------------
 
 define('_TCMS_VALID', 1);
 
@@ -23,23 +39,26 @@ if(isset($_GET['helpText'])){ $helpText = $_GET['helpText']; }
 
 
 include_once('../tcms_kernel/tcms_xml.lib.php');
+include_once('../tcms_kernel/tcms_configuration.lib.php');
 
-$tcms_administer_site = 'data';
+$tcms_administer_site = '../../data';
 
-$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/layout.xml','r');
-$adminTheme = $xml->read_section('layout', 'admin');
+$tcms_config = new tcms_configuration($tcms_administer_site);
+$tcms_version = new tcms_version('../../');
+
+$adminTheme = $tcms_config->getAdminTheme();
 
 
 $language_stage = 'admin';
 include_once('../language/lang_admin.php');
 
-
-$ver_xml = new xmlparser('../../engine/tcms_kernel/tcms_version.xml','r');
-
-$toenda_copy  = $ver_xml->read_section('version', 'toenda_copyright');
+$toenda_copy = $tcms_version->getToendaCopyright();
 
 
 
+// ---------------------------------------------
+// HTML
+// ---------------------------------------------
 
 echo '<html><head>'
 .'<title>'._TABLE_HELPBROWSER.'</title>'

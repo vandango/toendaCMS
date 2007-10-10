@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide the global
  * configuration data.
  *
- * @version 0.4.9
+ * @version 0.5.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -97,6 +97,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * showLegalLinkInFooter       -> Get the setting if the admin link should be displayed in footer
  * showAdminLinkInFooter       -> Get the setting if the admin link should be displayed in footer
  * getFooterText               -> Get the footer text
+ * getAdminTheme               -> Get the admin theme
+ * getFrontendTheme            -> Get the frontend theme
  * 
  * </code>
  *
@@ -166,6 +168,10 @@ class tcms_configuration {
 	private $m_show_llif;
 	private $m_show_alif;
 	private $m_footer_text;
+	
+	// layout
+	private $m_adminTheme;
+	private $m_frontendTheme;
 	
 	
 	
@@ -247,6 +253,15 @@ class tcms_configuration {
 		$this->m_show_llif    = $this->o_xml->legal_link_in_footer;
 		$this->m_show_alif    = $this->o_xml->admin_link_in_footer;
 		$this->m_footer_text  = $this->o_xml->footer_text;
+		
+		unset($this->o_xml);
+		
+		
+		// layout
+		$this->o_xml = simplexml_load_file($administer.'/tcms_global/layout.xml');
+		
+		$this->m_frontendTheme = $this->o_xml->select;
+		$this->m_adminTheme    = $this->o_xml->admin;
 		
 		unset($this->o_xml);
 		
@@ -993,6 +1008,28 @@ class tcms_configuration {
 	 */
 	function getFooterText() {
 		return $this->m_footer_text;
+	}
+	
+	
+	
+	/**
+	 * Get the admin theme
+	 *
+	 * @return String
+	 */
+	function getAdminTheme() {
+		return $this->m_adminTheme;
+	}
+	
+	
+	
+	/**
+	 * Get the frontend theme
+	 *
+	 * @return String
+	 */
+	function getFrontendTheme() {
+		return $this->m_frontendTheme;
 	}
 }
 

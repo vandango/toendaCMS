@@ -20,7 +20,7 @@
  *
  * This is used as a linkbrowser
  *
- * @version 0.3.2
+ * @version 0.3.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -40,6 +40,8 @@ if(isset($_POST['todo'])){ $todo = $_POST['todo']; }
 if(isset($_POST['id_user'])){ $id_user = $_POST['id_user']; }
 
 
+
+
 // ---------------------------------------------
 // INIT
 // ---------------------------------------------
@@ -49,7 +51,7 @@ define('_TCMS_VALID', 1);
 $language_stage = 'admin';
 include_once('../language/lang_admin.php');
 
-$tcms_administer_site = 'data';
+$tcms_administer_site = '../../data';
 
 include_once('../tcms_kernel/tcms_time.lib.php');
 include_once('../tcms_kernel/tcms.lib.php');
@@ -57,11 +59,14 @@ include_once('../tcms_kernel/tcms_html.lib.php');
 include_once('../tcms_kernel/tcms_gd.lib.php');
 include_once('../tcms_kernel/tcms_sql.lib.php');
 include_once('../tcms_kernel/tcms_configuration.lib.php');
+include_once('../tcms_kernel/tcms_version.lib.php');
 include('../../'.$tcms_administer_site.'/tcms_global/database.php');
 
 
-$tcms_main = new tcms_main('../../'.$tcms_administer_site, $choosenDB);
+$tcms_main = new tcms_main($tcms_administer_site, $choosenDB);
 $tcms_time = new tcms_time();
+$tcms_config = new tcms_configuration($tcms_administer_site);
+$tcms_version = new tcms_version('../../');
 
 // database
 $choosenDB = $tcms_db_engine;
@@ -74,8 +79,6 @@ $sqlPrefix = $tcms_db_prefix;
 
 $tcms_main->setDatabaseInfo($choosenDB);
 
-
-
 if(isset($faq) && $faq != '') {
 	$arr_dir = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/images/knowledgebase/');
 }
@@ -83,59 +86,61 @@ else {
 	$arr_dir = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/images/Image/');
 }
 
+$cms_name     = $tcms_version->getName();
+$cms_tagline  = $tcms_version->getTagline();
+$toenda_copyr = $tcms_version->getToendaCopyright();
 
-$c_xml        = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/var.xml', 'r');
-$show_wysiwyg = $c_xml->readSection('global', 'wysiwyg');
-$seoEnabled   = $c_xml->readSection('global', 'seo_enabled');
-$seoFolder    = $c_xml->readSection('global', 'server_folder');
-$seoFormat    = $c_xml->readSection('global', 'seo_format');
-
+$show_wysiwyg = $tcms_config->getWYSIWYGEditor();
+$seoEnabled   = $tcms_config->getSEOEnabled();
+$seoFolder    = $tcms_config->getSEOPath();
+$seoFormat    = $tcms_config->getSEOFormat();
+$adminTheme   = $tcms_config->getAdminTheme();
+$webURL       = $tcms_config->getWebpageOwnerUrl();
 
 $tcms_main->setGlobalFolder($seoFolder, $seoEnabled);
-if($seoFormat == 0){ $tcms_main->setURLSEO('colon'); }
-else{ $tcms_main->setURLSEO('slash'); }
 
-
-$xmlURL = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/footer.xml','r');
-$webURL = $xmlURL->readSection('footer', 'owner_url');
-
-
-
-$version_xml  = new xmlparser('../../engine/tcms_kernel/tcms_version.xml','r');
-$cms_name     = $version_xml->readSection('version', 'name');
-$cms_tagline  = $version_xml->readSection('version', 'tagline');
-$toenda_copyr = $version_xml->readSection('version', 'toenda_copyright');
-$version_xml->flush();
-$version_xml->_xmlparser();
-unset($version_xml);
+if($seoFormat == 0) {
+	$tcms_main->setURLSEO('colon');
+}
+else {
+	$tcms_main->setURLSEO('slash');
+}
 
 
 
 
+// ---------------------------------------------
+// HTML
+// ---------------------------------------------
 
-//***********************************
-// IF NOT LOGED IN
-//
-if(isset($id_user)){
-	//***********************************************
-	// IF THE FILE TO OLD, UNLINK IT
-	//
-	if($choosenDB == 'xml'){ $tcms_main->check_session($id_user, 'admin'); }
-	else{ $tcms_main->check_sql_session($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $id_user); }
+if(isset($id_user)) {
+	/*if($choosenDB == 'xml') {
+		$tcms_main->check_session($id_user, 'admin');
+	}
+	else {
+		$tcms_main->check_sql_session($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $id_user);
+	}
 	
-	
-	
-	
-	if($choosenDB == 'xml'){
+	if($choosenDB == 'xml') {
 		if(isset($id_user) && $id_user != '' && file_exists('session/'.$id_user) && filesize('session/'.$id_user) != 0){ $check_session = true; }
 		else{ $check_session = false; }
 	}
 	else{
 		$check_session = $tcms_main->check_session_exists($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $id_user);
-	}
+	}*/
 	
-	if($check_session){
-		if($choosenDB == 'xml'){
+	$tcms_main->checkSessionTimeout($id_user, 1);
+	$check_session = $tcms_main->checkSessionExist($id_user);
+	
+	if($check_session) {
+		$arr_ws = $tcms_ap->getUserInfo($id_user, true);
+		
+		$id_name     = $arr_ws['name'];
+		$id_username = $arr_ws['user'];
+		$id_group    = $arr_ws['group'];
+		$id_uid      = $arr_ws['id'];
+		
+		/*if($choosenDB == 'xml'){
 			$m_tag = $tcms_main->create_admin($id_user);
 			
 			
@@ -169,15 +174,8 @@ if(isset($id_user)){
 			if($id_name     == NULL){ $id_name     = ''; }
 			if($id_username == NULL){ $id_username = ''; }
 			if($id_group    == NULL){ $id_group    = ''; }
-		}
+		}*/
 		
-		
-		
-		
-		
-		// layout
-		$c_xml      = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/layout.xml','r');
-		$adminTheme = $c_xml->readSection('layout', 'admin');
 		
 		
 		echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
