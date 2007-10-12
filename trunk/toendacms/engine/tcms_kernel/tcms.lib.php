@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.6.3
+ * @version 2.6.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -4758,7 +4758,7 @@ class tcms_main {
 	 * @return bool
 	 */
 	function checkDirExist($directoryWithPath) {
-		include($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
+		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
 		
 		$f = new tcms_file();
 		return $f->checkDirExist($directoryWithPath);
@@ -4782,7 +4782,7 @@ class tcms_main {
 	 * @return bool
 	 */
 	function checkFileExist($fileWithPath) {
-		include($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
+		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
 		
 		$f = new tcms_file();
 		return $f->checkFileExist($fileWithPath);
@@ -4807,7 +4807,7 @@ class tcms_main {
 	 * @return Integer
 	 */
 	function getDirectorySize($path, $size = 0) {
-		include($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
+		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
 		
 		$f = new tcms_file();
 		return $f->getDirectorySize($path, $size);
@@ -4841,7 +4841,7 @@ class tcms_main {
 	 * @return String
 	 */
 	function getDirectorySizeString($path) {
-		include($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
+		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
 		
 		$f = new tcms_file();
 		return $f->getDirectorySizeString($path);
@@ -4935,7 +4935,7 @@ class tcms_main {
 	 * @return Boolean
 	 */
 	function isCHMODable($file) {
-		include($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
+		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
 		
 		$f = new tcms_file();
 		return $f->isCHMODable($file);
