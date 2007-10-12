@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.5.8
+ * @version 2.6.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -63,8 +63,6 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getPathContent                    -> Return a array of all files or folders inside a path
  * getPathContentCSSFilesRecursivly  -> Return a array with the files in "path"
  * getXMLFiles                       -> Return a array of all xml files inside a path
- * getDirectorySize                  -> Get the complete filesize of a directory
- * getDirectorySizeString            -> Get the complete filesize of a directory as a string
  * getNewUID                         -> Get a new guid
  * getAmountOfItems                  -> Get the amount of items from a table.
  * getMimeType                       -> Get the mimetype of a filename
@@ -81,7 +79,6 @@ defined('_TCMS_VALID') or die('Restricted access');
  * isVideo                           -> Check if a file type is a video file
  * isMultimedia                      -> Check if a file type is a multimedia file
  * isReal                            -> Check if a variable is not empty and is set
- * isCHMODable                       -> Checks if a file is CHMODable
  * deleteDir                         -> Remove dir with all files and directorys inside
  * deleteDirContent                  -> Remove all files and directorys inside a directory
  * deleteFile                        -> Delete a file (if it exist)
@@ -95,8 +92,6 @@ defined('_TCMS_VALID') or die('Restricted access');
  * countWords                        -> Count Words in a phrase
  * checkWebLink                      -> Check if a link is a weblink
  * checkAccess                       -> Check if a usergroup can read a access level
- * checkSessionExist                 -> Check if a session exist
- * checkSessionTimeout               -> Check the session timeouts
  * cleanUrlString                    -> Clean a text from javascript code
  * cleanGBLink                       -> Clean a text from links code
  * cleanGBScript                     -> Clean a text from javascript and php code
@@ -112,7 +107,6 @@ defined('_TCMS_VALID') or die('Restricted access');
  * urlConvertToHTMLFormat            -> Converts a normal link into a html based link
  * urlAddSlash                       -> Convert a equal-char (=) into a slash-char (/)
  * urlAddColon                       -> Convert a equal-char (=) into a double-dot-char (:)
- * reCHMOD                           -> Chmods files and directories recursivel to given permissions
  * replaceSmilyTags                  -> Replace all smiley tags with the icons
  * replaceAmp                        -> Replace different chars with unicode chars
  * paf                               -> Prints a array
@@ -120,8 +114,6 @@ defined('_TCMS_VALID') or die('Restricted access');
  * indexOf                           -> The same as strpos
  * convertNewlineToHTML              -> Replaces all newlines in a stzring with <br /> tags
  * cutStringToLength                 -> Cut a string and append a string
- * checkDirExist                     -> Checks if a directory exist
- * checkFileExist                    -> Checks if a file exist
  *
  * xml_readdir_content         -> return id saved in xml file
  * xml_readdir_content_without -> return id saved in xml file
@@ -186,6 +178,12 @@ defined('_TCMS_VALID') or die('Restricted access');
  * DEPRECATED check_session               -> checks the session files for the mtime
  * DEPRECATED check_sql_session           -> check session time in sql
  * DEPRECATED create_admin                -> get the admin session uid
+ * DEPRECATED checkDirExist               -> Moved to tcms_file: Checks if a directory exist
+ * DEPRECATED checkFileExist              -> Moved to tcms_file: Checks if a file exist
+ * DEPRECATED reCHMOD                     -> Moved to tcms_file: Chmods files and directories recursivel to given permissions
+ * DEPRECATED getDirectorySize            -> Moved to tcms_file: Get the complete filesize of a directory
+ * DEPRECATED getDirectorySizeString      -> Moved to tcms_file: Get the complete filesize of a directory as a string
+ * DEPRECATED isCHMODable                 -> Moved to tcms_file: Checks if a file is CHMODable
  * 
  * </code>
  *
@@ -226,7 +224,7 @@ class tcms_main {
 	 * @param Object $tcmsTimeObj = null
 	 * @param Object $tcmsConfigObj = null
 	 */
-	function __construct($administer = 'data', $tcmsTimeObj = null, $tcmsConfigObj = null){
+	function __construct($administer = 'data', $tcmsTimeObj = null, $tcmsConfigObj = null) {
 		$this->administer = $administer;
 		$this->urlSEO = 'colon';
 		
@@ -254,7 +252,7 @@ class tcms_main {
 	 * @param Object $tcmsTimeObj = null
 	 * @param Object $tcmsConfigObj = null
 	 */
-	function tcms_main($administer = 'data', $tcmsTimeObj = null, $tcmsConfigObj = null){
+	function tcms_main($administer = 'data', $tcmsTimeObj = null, $tcmsConfigObj = null) {
 		$this->__construct($administer, $tcmsTimeObj, $tcmsConfigObj);
 	}
 	
@@ -263,7 +261,7 @@ class tcms_main {
 	/**
 	 * PHP5 Destructor
 	 */
-	function __destruct(){
+	function __destruct() {
 	}
 	
 	
@@ -271,7 +269,7 @@ class tcms_main {
 	/**
 	 * PHP4 Destructor
 	 */
-	function _tcms_main(){
+	function _tcms_main() {
 		$this->__destruct();
 	}
 	
@@ -299,8 +297,8 @@ class tcms_main {
 	 *
 	 * @param String $choosenDB = ''
 	 */
-	function setDatabaseInfo($choosenDB = ''){
-		if(file_exists($this->administer.'/tcms_global/database.php')){
+	function setDatabaseInfo($choosenDB = '') {
+		if(file_exists($this->administer.'/tcms_global/database.php')) {
 			//include($this->administer.'/tcms_global/database.php');
 			require($this->administer.'/tcms_global/database.php');
 			
@@ -330,7 +328,7 @@ class tcms_main {
 	 *
 	 * @param String $art
 	 */
-	function setURLSEO($art){
+	function setURLSEO($art) {
 		$this->urlSEO = $art;
 	}
 	
@@ -342,7 +340,7 @@ class tcms_main {
 	 * @param String $text
 	 * @param Boolean $seo
 	 */
-	function setGlobalFolder($text, $seo){
+	function setGlobalFolder($text, $seo) {
 		$this->globalFolder = $text;
 		$this->globalSEO = $seo;
 	}
@@ -354,7 +352,7 @@ class tcms_main {
 	 *
 	 * @param String $lang
 	 */
-	function setCurrentLang($lang){
+	function setCurrentLang($lang) {
 		$this->_getLang = $lang;
 	}
 	
@@ -365,7 +363,7 @@ class tcms_main {
 	 *
 	 * @param String $value
 	 */
-	function setAdministerSite($value){
+	function setAdministerSite($value) {
 		$this->administer = $value;
 	}
 	
@@ -376,7 +374,7 @@ class tcms_main {
 	 *
 	 * @param String $lang
 	 */
-	function getCurrentLang(){
+	function getCurrentLang() {
 		return $this->_getLang;
 	}
 	
@@ -387,7 +385,7 @@ class tcms_main {
 	 *
 	 * @return String
 	 */
-	function getAdministerSite(){
+	function getAdministerSite() {
 		return $this->administer;
 	}
 	
@@ -409,7 +407,7 @@ class tcms_main {
 		
 		$c_charset = $this->_tcmsConfig->getCharset();
 		
-		if($this->db_choosenDB == 'xml'){
+		if($this->db_choosenDB == 'xml') {
 			$arr_docs = $this->getPathContent($this->administer.'/tcms_content/');
 			
 			if($this->isReal($arr_docs)) {
@@ -443,7 +441,7 @@ class tcms_main {
 			
 			$sqlQR = $sqlAL->getAll($this->db_prefix.'content');
 			
-			while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
 				$arrDocuments['id'][$count] = $sqlObj->uid;
 				$arrDocuments['name'][$count] = $this->decodeText($sqlObj->title, '2', $c_charset);
 				
@@ -464,7 +462,7 @@ class tcms_main {
 	 * @param String $path
 	 * @return Integer
 	 */
-	function getPathContentAmount($path){
+	function getPathContentAmount($path) {
 		$handle = opendir($path);
 		$i = 0;
 		
@@ -495,11 +493,11 @@ class tcms_main {
 	 * @param String $fileType = ''
 	 * @return Array
 	 */
-	function getPathContent($path, $onlyFolders = false, $fileType = ''){
+	function getPathContent($path, $onlyFolders = false, $fileType = '') {
 		$i = 0;
 		$handle = opendir($path);
 		
-		while($dir = readdir($handle)){
+		while($dir = readdir($handle)) {
 			if ($dir != '.'
 			&& $dir != '..'
 			&& $dir != 'CVS'
@@ -508,20 +506,20 @@ class tcms_main {
 			&& $dir != '.SVN'
 			&& $dir != '_SVN'
 			&& substr($dir, 0, 9) != 'comments_'
-			&& $dir != 'index.html'){
-				if($onlyFolders){
-					if(is_dir($path.$dir)){
+			&& $dir != 'index.html') {
+				if($onlyFolders) {
+					if(is_dir($path.$dir)) {
 						$arr_dirContent[$i] = $dir;
 						$i++;
 					}
 				}
 				else{
-					if($fileType == ''){
+					if($fileType == '') {
 						$arr_dirContent[$i] = $dir;
 						$i++;
 					}
 					else{
-						if(strpos($dir, $fileType)){
+						if(strpos($dir, $fileType)) {
 							$arr_dirContent[$i] = $dir;
 							$i++;
 						}
@@ -542,12 +540,12 @@ class tcms_main {
 	 * @param Unknown $returnOnlyAmount = false
 	 * @return READ A DIR AND RETURN THE CSS FILES
 	 */
-	function getPathContentCSSFilesRecursivly($path, $returnOnlyAmount = false){
+	function getPathContentCSSFilesRecursivly($path, $returnOnlyAmount = false) {
 		$handle = opendir($path);
 		$i = 0;
 		$c = 0;
 		
-		while($directories = readdir($handle)){
+		while($directories = readdir($handle)) {
 			if($directories != '.' 
 			&& $directories != '..' 
 			&& $directories != 'CVS' 
@@ -555,13 +553,13 @@ class tcms_main {
 			&& $directories != '_svn'
 			&& $directories != '.SVN'
 			&& $directories != '_SVN'
-			&& $directories != 'index.html'){
-				if(strpos($directories, '.css')){
+			&& $directories != 'index.html') {
+				if(strpos($directories, '.css')) {
 					$arr_css['files'][$i] = $directories;
 					$i++;
 				}
 				else{
-					if(!is_file($directories) && !strpos($directories, '.')){
+					if(!is_file($directories) && !strpos($directories, '.')) {
 						$arr_css['dir'][$i] = $directories;
 						$i++;
 					}
@@ -569,10 +567,10 @@ class tcms_main {
 			}
 		}
 		
-		if(is_array($arr_css['dir'])){
-			foreach($arr_css['dir'] as $key => $value){
+		if(is_array($arr_css['dir'])) {
+			foreach($arr_css['dir'] as $key => $value) {
 				$handle = opendir($path.'/'.$value);
-				while($directories = readdir($handle)){
+				while($directories = readdir($handle)) {
 					if($directories != '.' 
 					&& $directories != '..' 
 					&& $directories != 'CVS' 
@@ -580,8 +578,8 @@ class tcms_main {
 					&& $directories != '_svn'
 					&& $directories != '.SVN'
 					&& $directories != '_SVN'
-					&& $directories != 'index.html'){
-						if(strpos($directories, '.css')){
+					&& $directories != 'index.html') {
+						if(strpos($directories, '.css')) {
 							$arr_css['files'][$i] = $directories;
 							$i++;
 						}
@@ -590,7 +588,7 @@ class tcms_main {
 			}
 		}
 		
-		if($i == 0){
+		if($i == 0) {
 			return NULL;
 		}
 		else{
@@ -611,69 +609,8 @@ class tcms_main {
 	 * @param String $path
 	 * @return Array
 	 */
-	function getXMLFiles($path){
+	function getXMLFiles($path) {
 		return $this->getPathContent($path, false, '.xml');
-	}
-	
-	
-	
-	/**
-	 * Get the complete filesize of a directory
-	 *
-	 * @param String $path
-	 * @param Integer $size
-	 * @return Integer
-	 */
-	function getDirectorySize($path, $size){
-		if(!is_dir($path)){
-			$size += filesize($path);
-		}
-		else{
-			$dir = opendir($path);
-			
-			while($file = readdir($dir)){
-				if(is_file($path."/".$file))
-					$size += filesize($path.'/'.$file);
-				
-				if(is_dir($path.'/'.$file) && $file != '.' && $file != '..')
-					$size = $this->getDirectorySize($path.'/'.$file, $size);
-			}
-		}
-		
-		return($size);
-	}
-	
-	
-	
-	/**
-	 * Get the complete filesize of a directory as string
-	 *
-	 * @param String $path
-	 * @return String
-	 */
-	function getDirectorySizeString($path){
-		$size = $this->getDirectorySize($path, 0);
-		
-		$measure = 'Byte';
-		
-		if($size >= 1024){
-			$measure = 'KB';
-			$size = $size / 1024;
-		}
-		
-		if($size >= 1024){
-			$measure = 'MB';
-			$size = $size / 1024;
-		}
-		
-		if($size >= 1024){
-			$measure = 'GB';
-			$size = $size / 1024;
-		}
-		
-		$size = sprintf("%01.2f", $size);
-		
-		return $size.'&nbsp;'.$measure;
 	}
 	
 	
@@ -685,9 +622,9 @@ class tcms_main {
 	 * @param String $table
 	 * @return String
 	 */
-	function getNewUID($length, $table){
-		if($this->db_choosenDB == 'xml'){
-			while(($uid = substr(md5(microtime()), 0, $length)) && file_exists($this->administer.'/tcms_'.$table.'/'.$uid.'.xml')){}
+	function getNewUID($length, $table) {
+		if($this->db_choosenDB == 'xml') {
+			while(($uid = substr(md5(microtime()), 0, $length)) && file_exists($this->administer.'/tcms_'.$table.'/'.$uid.'.xml')) {}
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
@@ -727,7 +664,7 @@ class tcms_main {
 	 * @param String $category = ''
 	 * @return String
 	 */
-	function getAmountOfItems($table, $countField = 'uid', $categoryField = 'category', $category = ''){
+	function getAmountOfItems($table, $countField = 'uid', $categoryField = 'category', $category = '') {
 		if($this->db_choosenDB == 'xml') {
 			return $this->getPathContentAmount($table);
 		}
@@ -764,9 +701,9 @@ class tcms_main {
 	 * @param Boolean $tolower = false
 	 * @return String
 	 */
-	function getMimeType($filename, $tolower = false){
+	function getMimeType($filename, $tolower = false) {
 		// get the filename from an url
-		if(substr($filename, 0, 7) == 'http://' || substr($filename, 0, 6) == 'ftp://'){
+		if(substr($filename, 0, 7) == 'http://' || substr($filename, 0, 6) == 'ftp://') {
 			$filename = substr(strrchr($filename, "/"), 1);
 			
 			if(strlen($filename) > 6 && strpos($filename, '?'))
@@ -774,7 +711,7 @@ class tcms_main {
 		}
 		
 		// tar.gz
-		if(strpos($filename, '.tar.gz')){
+		if(strpos($filename, '.tar.gz')) {
 			$mime = 'tar';
 		}
 		else{
@@ -801,8 +738,8 @@ class tcms_main {
 	 * @param Boolean $asString
 	 * @return Boolean or String
 	 */
-	function getPHPSetting($value, $asString = false){
-		if($asString){
+	function getPHPSetting($value, $asString = false) {
+		if($asString) {
 			return ini_get($value);
 		}
 		else{
@@ -842,7 +779,7 @@ class tcms_main {
 	 * @param Integer $taxkey
 	 * @return Double
 	 */
-	function getTaxPrice($price, $taxkey){
+	function getTaxPrice($price, $taxkey) {
 		$tmp = ($price * ($taxkey / (100 + $taxkey)));// / 100;
 		//$tmp = $price * ('0.'.$taxkey);
 		return round($tmp, 2);
@@ -857,7 +794,7 @@ class tcms_main {
 	 * @param Integer $taxkey
 	 * @return Double
 	 */
-	function getClearPrice($price, $taxkey){
+	function getClearPrice($price, $taxkey) {
 		$tmp = ($price * 100 / (100 + $taxkey));// / 100;
 		return round($tmp, 2);
 	}
@@ -871,7 +808,7 @@ class tcms_main {
 	 * @param Integer $taxkey
 	 * @return Double
 	 */
-	function getTaxPriceFromClearPrice($price, $taxkey){
+	function getTaxPriceFromClearPrice($price, $taxkey) {
 		$tmp = $price * ('0.'.$taxkey);
 		return round($tmp, 2);
 	}
@@ -901,7 +838,7 @@ class tcms_main {
 	 * @param String $value
 	 * @return Boolean
 	 */
-	function setPHPSetting($setting, $value){
+	function setPHPSetting($setting, $value) {
 		ini_set($setting, $value);
 		return true;
 	}
@@ -934,7 +871,7 @@ class tcms_main {
 	 * @param Array $variable
 	 * @return Boolean
 	 */
-	function isArray($variable){
+	function isArray($variable) {
 		if(is_array($variable) && isset($variable) && !empty($variable) && $variable != NULL)
 			return true;
 		else
@@ -950,8 +887,8 @@ class tcms_main {
 	 * @param Boolean $checkType = true
 	 * @return Boolean
 	 */
-	function isImage($type, $checkType = true){
-		if($checkType){
+	function isImage($type, $checkType = true) {
+		if($checkType) {
 			if($type == 'image/gif'
 			|| $type == 'image/png'
 			|| $type == 'image/jpg'
@@ -986,8 +923,8 @@ class tcms_main {
 	 * @param Boolean $checkType = true
 	 * @return Boolean
 	 */
-	function isAudio($type, $checkType = true){
-		if($checkType){
+	function isAudio($type, $checkType = true) {
+		if($checkType) {
 			if($type == 'audio/x-mpeg'
 			|| $type == 'audio/x-wav'
 			|| $type == 'audio/x-midi'
@@ -1017,8 +954,8 @@ class tcms_main {
 	 * @param Boolean $checkType = true
 	 * @return Boolean
 	 */
-	function isVideo($type, $checkType = true){
-		if($checkType){
+	function isVideo($type, $checkType = true) {
+		if($checkType) {
 			if($type == 'video/mpeg'
 			|| $type == 'video/quicktime'
 			|| $type == 'video/x-msvideo'
@@ -1052,8 +989,8 @@ class tcms_main {
 	 * @param Boolean $checkType = true
 	 * @return Boolean
 	 */
-	function isMultimedia($type, $checkType = true){
-		if($checkType){
+	function isMultimedia($type, $checkType = true) {
+		if($checkType) {
 			if($type == 'application/x-shockwave-flash')
 				return true;
 			else
@@ -1076,30 +1013,11 @@ class tcms_main {
 	 * @param unknown_type $variable
 	 * @return Boolean
 	 */
-	function isReal($variable){
+	function isReal($variable) {
 		if(isset($variable) && trim($variable) != '' && !empty($variable) && $variable != NULL)
 			return true;
 		else
 			return false;
-	}
-	
-	
-	
-	/**
-	 * Checks if a file is CHMODable
-	 * 
-	 * @return Boolean
-	 */
-	function isCHMODable($file){
-		$perms = fileperms($file);
-		
-		if($perms !== false)
-			if(@chmod($file, $perms ^ 0001)){
-				@chmod($file, $perms);
-				return true;
-			}
-		
-		return false;
 	}
 	
 	
@@ -1117,8 +1035,8 @@ class tcms_main {
 		//if($this->canCHMOD($dir))
 			//chmod($dir, 777);
 		
-		if($handle = opendir($dir)){
-			while($obj = readdir($handle)){
+		if($handle = opendir($dir)) {
+			while($obj = readdir($handle)) {
 				if($obj != '.' 
 				&& $obj != '..'
 				&& $obj != 'CVS'
@@ -1126,12 +1044,12 @@ class tcms_main {
 				&& $obj != '.SVN'
 				&& $obj != '.svn'
 				&& $obj != '_svn'
-				&& $obj != '_SVN'){
-					if(is_dir($dir.$obj)){
+				&& $obj != '_SVN') {
+					if(is_dir($dir.$obj)) {
 						if(!$this->deleteDir($dir.$obj))
 							return false;
 					}
-					elseif(is_file($dir.$obj)){
+					elseif(is_file($dir.$obj)) {
 						if(!unlink($dir.$obj))
 							return false;
 					}
@@ -1164,8 +1082,8 @@ class tcms_main {
 		//if($this->canCHMOD($dir))
 			//chmod($dir, 777);
 		
-		if($handle = opendir($dir)){
-			while($obj = readdir($handle)){
+		if($handle = opendir($dir)) {
+			while($obj = readdir($handle)) {
 				if($obj != '.' 
 				&& $obj != '..'
 				&& $obj != 'CVS'
@@ -1173,12 +1091,12 @@ class tcms_main {
 				&& $obj != '.SVN'
 				&& $obj != '.svn'
 				&& $obj != '_svn'
-				&& $obj != '_SVN'){
-					if(is_dir($dir.$obj)){
+				&& $obj != '_SVN') {
+					if(is_dir($dir.$obj)) {
 						if(!$this->deleteDir($dir.$obj))
 							return false;
 					}
-					elseif(is_file($dir.$obj)){
+					elseif(is_file($dir.$obj)) {
 						if(!unlink($dir.$obj))
 							return false;
 					}
@@ -1219,7 +1137,7 @@ class tcms_main {
 	 * @param String $value
 	 * @return String
 	 */
-	function encodeUtf8($value){
+	function encodeUtf8($value) {
 		$value = utf8_encode($value);
 		
 		return $value;
@@ -1233,7 +1151,7 @@ class tcms_main {
 	 * @param String $value
 	 * @return String
 	 */
-	function decodeUtf8($value){
+	function decodeUtf8($value) {
 		$value = utf8_decode($value);
 		
 		return $value;
@@ -1247,7 +1165,7 @@ class tcms_main {
 	 * @param String $value
 	 * @return String
 	 */
-	function encodeBase64($value){
+	function encodeBase64($value) {
 		$value = base64_encode($value);
 		
 		return $value;
@@ -1261,7 +1179,7 @@ class tcms_main {
 	 * @param String $value
 	 * @return String
 	 */
-	function decodeBase64($value){
+	function decodeBase64($value) {
 		$value = base64_decode($value);
 		
 		return $value;
@@ -1279,10 +1197,10 @@ class tcms_main {
 	 * @param Boolean $withoutDatabase = false
 	 * @return String
 	 */
-	function encodeText($text, $quote, $charset, $withoutEncryption = false, $withoutDatabase = false){
+	function encodeText($text, $quote, $charset, $withoutEncryption = false, $withoutDatabase = false) {
 		$trans = get_html_translation_table(HTML_ENTITIES);
 		
-		switch($quote){
+		switch($quote) {
 			case '1':
 				//$_SET = ENT_COMPAT;
 				//$tmp = htmlentities($text, $_SET, $charset);
@@ -1297,7 +1215,7 @@ class tcms_main {
 				$text = $this->ampReplace($text);
 				$text = htmlentities($text);
 				
-				if(extension_loaded('mbstring')){
+				if(extension_loaded('mbstring')) {
 					$text = mb_substr($text, 0, mb_strlen($text));
 				}
 				break;
@@ -1310,8 +1228,8 @@ class tcms_main {
 				break;
 		}
 		
-		if($withoutEncryption == false){
-			if($withoutDatabase == false){
+		if($withoutEncryption == false) {
+			if($withoutDatabase == false) {
 				include($this->administer.'/tcms_global/database.php');
 				
 				if($tcms_db_engine == 'xml') $encode = true;
@@ -1321,7 +1239,7 @@ class tcms_main {
 				$encode = true;
 			}
 			
-			if($encode){
+			if($encode) {
 				$text = serialize($text);
 				$text = base64_encode($text);
 			}
@@ -1342,7 +1260,7 @@ class tcms_main {
 	 * @param Boolean $withoutDatabase = false
 	 * @return String
 	 */
-	function decodeText($text, $quote, $charset, $withoutEncryption = false, $withoutDatabase = false){
+	function decodeText($text, $quote, $charset, $withoutEncryption = false, $withoutDatabase = false) {
 		if($withoutEncryption == false) {
 			if($withoutDatabase == false) {
 				include($this->administer.'/tcms_global/database.php');
@@ -1358,7 +1276,7 @@ class tcms_main {
 				$encode = true;
 			}
 			
-			if($encode){
+			if($encode) {
 				$text = base64_decode($text);
 				$text = unserialize($text);
 			}
@@ -1366,7 +1284,7 @@ class tcms_main {
 		
 		$trans = get_html_translation_table(HTML_ENTITIES);
 		
-		switch($quote){
+		switch($quote) {
 			case '1':
 				//$_SET = ENT_COMPAT;
 				//$text = html_entity_decode($text, $_SET, $charset);
@@ -1421,9 +1339,9 @@ class tcms_main {
 	 * @param Boolean $encode = true
 	 * @return String
 	 */
-	function securePassword($password, $encode = true){
+	function securePassword($password, $encode = true) {
 		/*
-		if($encode){
+		if($encode) {
 			$password = unserialize($password);
 			$password = str_rot13($password);
 		}
@@ -1471,7 +1389,7 @@ class tcms_main {
 	 * @param String $link
 	 * @return Boolean
 	 */
-	function checkWebLink($link){
+	function checkWebLink($link) {
 		if(substr($link, 0, 7) == 'http://' || substr($link, 0, 6) == 'ftp://')
 			return true;
 		else
@@ -1487,13 +1405,13 @@ class tcms_main {
 	 * @param String $usergroup
 	 * @return Boolean
 	 */
-	function checkAccess($access, $usergroup){
+	function checkAccess($access, $usergroup) {
 		$show_this = true;
 		
-		if($access == 'Public'){
+		if($access == 'Public') {
 			$show_this = true;
 		}
-		elseif($access == 'Protected'){
+		elseif($access == 'Protected') {
 			if($usergroup == 'User'
 			|| $usergroup == 'Administrator'
 			|| $usergroup == 'Developer'
@@ -1503,7 +1421,7 @@ class tcms_main {
 			else
 				$show_this = false;
 		}
-		elseif($access == 'Private'){
+		elseif($access == 'Private') {
 			if($usergroup == 'Administrator'
 			|| $usergroup == 'Developer')
 				$show_this = true;
@@ -1517,122 +1435,13 @@ class tcms_main {
 	
 	
 	/**
-	 * Check if a session exist
-	 *
-	 * @param String $session
-	 */
-	function checkSessionExist($session) {
-		if($this->db_choosenDB == 'xml') {
-			if($this->isReal($session) 
-			&& $this->checkFileExist($tcms_administer_site.'/tcms_session/'.$session) 
-			&& filesize(''.$tcms_administer_site.'/tcms_session/'.$session) != 0) {
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
-		else {
-			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB);
-			$sqlCN = $sqlAL->connect(
-				$this->db_user, 
-				$this->db_pass, 
-				$this->db_host, 
-				$this->db_database, 
-				$this->db_port
-			);
-			
-			$sqlQR = $sqlAL->getOne($this->db_prefix.'session', $session);
-			$session_exists = $sqlAL->getNumber($sqlQR);
-			
-			$sqlAL->_sqlAbstractionLayer();
-			unset($sqlAL);
-			
-			if($session_exists != 0) {
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
-	}
-	
-	
-	
-	/**
-	 * Check the session timeouts
-	 *
-	 * @param String $session
-	 * @param Integer $webend (0 = Frontend, 1 = Backend)
-	 */
-	function checkSessionTimeout($session, $webend = 0) {
-		if($this->db_choosenDB == 'xml') {
-			if($webend == 0) {
-				$pp = $this->administer.'/tcms_';
-			}
-			elseif($webend == 1) {
-				$pp = '';
-			}
-			
-			$handle = opendir($pp.'session/');
-			
-			while($file = readdir($handle)) {
-				if($file != '.' 
-				&& $file != '..' 
-				&& $file != $session 
-				&& $file != 'CVS' 
-				&& $file != '.svn'
-				&& $file != '_svn'
-				&& $file != '.SVN'
-				&& $file != '_SVN'
-				&& $file != 'index.html'){
-					if(date('U') - date('U', filemtime($pp.'session/'.$file)) > 36000) {
-						unlink($pp.'session/'.$file);
-					}
-				}
-			}
-			
-			closedir($handle);
-		}
-		else {
-			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB);
-			$sqlCN = $sqlAL->connect(
-				$this->db_user, 
-				$this->db_pass, 
-				$this->db_host, 
-				$this->db_database, 
-				$this->db_port
-			);
-			
-			$sqlQR = $sqlAL->getALL($this->db_prefix.'session');
-			
-			while($sqlObj = $sqlAL->fetchObject($sqlQR)){
-				$checkSessionUID = $sqlObj->uid;
-				
-				if($session != $checkSessionUID){
-					$checkSessionTime = $sqlObj->date;
-					
-					if(date('U') - $checkSessionTime > 36000 || $checkSessionTime == NULL){
-						$sqlAL->deleteOne($this->db_prefix.'session', $checkSessionUID);
-					}
-				}
-			}
-			
-			$sqlAL->_sqlAbstractionLayer();
-			unset($sqlAL);
-		}
-	}
-	
-	
-	
-	/**
 	 * Clean a url from javascript code
 	 *
 	 * @param String $text
 	 * @param Boolean $withHtmlEntities = false
 	 * @return String
 	 */
-	function cleanUrlString($text, $withHtmlEntities = false){
+	function cleanUrlString($text, $withHtmlEntities = false) {
 		$text = $this->cleanGBScript($text);
 		
 		$text = preg_replace("'/<script[^>]*>/i.*?/</script>/gi'", '', $text);
@@ -1652,7 +1461,7 @@ class tcms_main {
 	 * @param String $text
 	 * @return String
 	 */
-	function cleanGBLink($text){
+	function cleanGBLink($text) {
 		$text = preg_replace("'<a[^>]*>'", '', $text);
 		$text = preg_replace("'</a>'", '', $text);
 		
@@ -1667,7 +1476,7 @@ class tcms_main {
 	 * @param String $text
 	 * @return String
 	 */
-	function cleanGBScript($text){
+	function cleanGBScript($text) {
 		$text = preg_replace("'/<script[^>]*>/i.*?/</script>/gi'", '', $text);
 		$text = preg_replace("'<?php*.*?\?>'", '', $text);
 		$text = str_replace('<?', '', $text);
@@ -1688,7 +1497,7 @@ class tcms_main {
 	 * @param String $file
 	 * @return String
 	 */
-	function cleanFilename($file){
+	function cleanFilename($file) {
 		$file = preg_replace("'<script[^>]*>.*?</script>'", '', $file);
 		$file = preg_replace("'<?php*.*?\?>'", '', $file);
 		$file = str_replace('<?', '', $file);
@@ -1709,8 +1518,8 @@ class tcms_main {
 	 * @param String $string
 	 * @return String
 	 */
-	function cleanImageFromString($string){
-		if(strpos($string, '<img')){
+	function cleanImageFromString($string) {
+		if(strpos($string, '<img')) {
 			$str3 = '';
 			$offset = 0;
 			
@@ -1738,9 +1547,9 @@ class tcms_main {
 	 * @param String $string
 	 * @return String
 	 */
-	function cleanAllImagesFromString($string){
-		if(strpos($string, '<img')){
-			while(strpos($string, '<img')){
+	function cleanAllImagesFromString($string) {
+		if(strpos($string, '<img')) {
+			while(strpos($string, '<img')) {
 				$string = $this->cleanImageFromString($string);
 			}
 		}
@@ -1756,7 +1565,7 @@ class tcms_main {
 	 * @param String $string
 	 * @return String
 	 */
-	function cleanHTMLforPDF($string){
+	function cleanHTMLforPDF($string) {
 		$string = str_replace('<p>', "\n\n" , $string);
 		$string = str_replace('<P>', "\n\n" , $string);
 		$string = str_replace('<br />', "\n" , $string);
@@ -2158,7 +1967,7 @@ class tcms_main {
 	 * @param String $text
 	 * @param Boolean $withAmpersant = true
 	 */
-	function urlConvertToSEO($text, $withAmpersant = true){
+	function urlConvertToSEO($text, $withAmpersant = true) {
 		$text = str_replace('&#', '*-*', $text);
 		
 		if($withAmpersant) {
@@ -2168,7 +1977,7 @@ class tcms_main {
 		
 		$text = str_replace('*-*', '&#', $text);
 		
-		if($this->globalSEO == 1){
+		if($this->globalSEO == 1) {
 			if($this->urlSEO == 'colon' 
 			|| $this->urlSEO == 'slash') {
 				// id -> section
@@ -2237,7 +2046,7 @@ class tcms_main {
 		$add = '';
 		$encodeMore = false;
 		
-		foreach($arr_url as $key => $val){
+		foreach($arr_url as $key => $val) {
 			//echo '<span style="color:#fff;">'.$val.'</span><br>';
 			$val = str_replace($this->globalFolder.'/index.php?id=', '', $val);
 			
@@ -2527,7 +2336,7 @@ class tcms_main {
 	 * 
 	 * @param String $text
 	 */
-	function urlAddSlash($text){
+	function urlAddSlash($text) {
 		$text = str_replace('=', '/', $text);
 		 
 		return $text;
@@ -2540,62 +2349,10 @@ class tcms_main {
 	 * 
 	 * @param String $text
 	 */
-	function urlAddColon($text){
+	function urlAddColon($text) {
 		$text = str_replace('=', ':', $text);
 		 
 		return $text;
-	}
-	
-	
-	
-	/**
-	 * --- FUNCTION FROM Joomla! (www.joomla.org) ---
-	 * 
-	 * Chmods files and directories recursivel to given permissions
-	 * 
-	 * @param path The starting file or directory (no trailing slash)
-	 * @param filemode Integer value to chmod files. NULL = dont chmod files.
-	 * @param dirmode Integer value to chmod directories. NULL = dont chmod directories.
-	 * @return TRUE=all succeeded FALSE=one or more chmods failed
-	 */
-	function reCHMOD($path, $filemode = 0777, $dirmode = 1){
-		$ret = true;
-		
-		if(is_dir($path)){
-			$dh = opendir($path);
-			
-			while($file = readdir($dh)){
-				if($file != '.' && $file != '..'){
-					$fullpath = $path.'/'.$file;
-					
-					if(is_dir($fullpath)){
-						if(!reCHMOD($fullpath, $filemode, $dirmode)){
-							$ret = false;
-						}
-					}
-					else{
-						if(isset($filemode)){
-							if(!@chmod($fullpath, $filemode)){
-								$ret = false;
-							}
-						}
-					} // if
-				} // if
-			} // while
-			
-			closedir($dh);
-			
-			if(isset($dirmode))
-				if(!@chmod($path, $dirmode)){
-					$ret = false;
-				}
-		}
-		else{
-			if(isset($filemode))
-				$ret = @chmod($path, $filemode);
-		} // if
-		
-		return $ret;
 	}
 	
 	
@@ -2607,7 +2364,7 @@ class tcms_main {
 	 * @param String $imagePath
 	 * @return String
 	 */
-	function replaceSmilyTags($msg, $imagePath){
+	function replaceSmilyTags($msg, $imagePath) {
 		$msg = str_replace(';-)', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_wink.gif" border="0" title="" alt="" />', $msg);
 		$msg = str_replace(' ;) ', '<img src="'.$imagePath.'engine/images/emoticons/_smiley_wink.gif" border="0" title="" alt="" />', $msg);
 		
@@ -2665,7 +2422,7 @@ class tcms_main {
 	 * @param String $text
 	 * @return String
 	 */
-	function replaceAmp($text){
+	function replaceAmp($text) {
 		$text = stripslashes($text);
 		
 		//$text = preg_replace('~&#x([0-9a-f]+);~ei', 'chr(hexdec("\\1"))', $text);
@@ -2688,7 +2445,7 @@ class tcms_main {
 	/**
 	 * Prints a array
 	 */
-	function paf($array){
+	function paf($array) {
 		echo '<span style="font-size: 12px;"><pre>';
 		print_r($array);
 		echo '</pre></span>';
@@ -2704,14 +2461,14 @@ class tcms_main {
 	 * @package Integer $offset
 	 * @return Integer (The index of the last position of a expression)
 	 */
-	function lastIndexOf($findHere, $searchThis, $offset = 0){
+	function lastIndexOf($findHere, $searchThis, $offset = 0) {
 		$strrpos = false;
 		
-		if(is_string($findHere) && is_string($searchThis) && is_numeric($offset)){
+		if(is_string($findHere) && is_string($searchThis) && is_numeric($offset)) {
 			$strlen = strlen($findHere);
 			$strpos = strpos(strrev(substr($findHere, $offset)), strrev($searchThis));
 			
-			if(is_numeric($strpos)){
+			if(is_numeric($strpos)) {
 				$strrpos = $strlen - $strpos - strlen($searchThis);
 			}
 		}
@@ -2741,7 +2498,7 @@ class tcms_main {
 	 * @param String $text
 	 * @return String
 	 */
-	function convertNewlineToHTML($text){
+	function convertNewlineToHTML($text) {
 		return nl2br($text);
 	}
 	
@@ -2755,42 +2512,8 @@ class tcms_main {
 	 * @param String $appendString = ''
 	 * @return String
 	 */
-	function cutStringToLength($text, $length = 15, $appendString = ''){
+	function cutStringToLength($text, $length = 15, $appendString = '') {
 		return ( strlen($text) > 15 ? substr($text, 0, $length).$appendString : $text );
-	}
-	
-	
-	
-	/**
-	 * Checks if a directory exist
-	 *
-	 * @param string $directoryWithPath
-	 * @return bool
-	 */
-	function checkDirExist($directoryWithPath) {
-		if(is_writable($directoryWithPath)) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-	
-	
-	
-	/**
-	 * Checks if a file exist
-	 *
-	 * @param string $fileWithPath
-	 * @return bool
-	 */
-	function checkFileExist($fileWithPath) {
-		if(file_exists($fileWithPath)) {
-			return true;
-		}
-		else {
-			return false;
-		}
 	}
 	
 	
@@ -2807,7 +2530,7 @@ class tcms_main {
 	* @return unknown
 	* @desc Loads from "$path" the content from order-no. "$look4"
 	*/
-	function xml_readdir_content($look4, $path, $tag, $parenttag, $len){
+	function xml_readdir_content($look4, $path, $tag, $parenttag, $len) {
 		$handle = opendir($path);
 		$i = 0;
 		while ($files = readdir ($handle)) {
@@ -2824,7 +2547,7 @@ class tcms_main {
 				$all_xml = new xmlparser($path.$files,'r');
 				$check_id = $all_xml->read_section($parenttag, $tag);
 				
-				if($look4 == $check_id){
+				if($look4 == $check_id) {
 					$id = substr($files, 0, $len);
 					break;
 				}
@@ -2840,7 +2563,7 @@ class tcms_main {
 	* @return unknown
 	* @desc Loads from "$path" the content from order-no. "$zahl"
 	*/
-	function xml_readdir_content_without($look4, $without,  $path, $tag, $tag2, $parenttag, $len){
+	function xml_readdir_content_without($look4, $without,  $path, $tag, $tag2, $parenttag, $len) {
 		$handle = opendir($path);
 		$i = 0;
 		while ($files = readdir ($handle)) {
@@ -2858,8 +2581,8 @@ class tcms_main {
 				$check_id  = $all_xml->read_section($parenttag, $tag);
 				$check_sub = $all_xml->read_section($parenttag, $tag2);
 				
-				if($look4 == $check_id){
-					if($check_sub != $without){
+				if($look4 == $check_id) {
+					if($check_sub != $without) {
 						$id = substr($files, 0, $len);
 						break;
 					}
@@ -2876,7 +2599,7 @@ class tcms_main {
 	* @return unknown
 	* @desc Loads from "$path" the content from order-no. "$zahl"
 	*/
-	function count_submenu_xml($look4, $without,  $path, $tag, $tag2, $parenttag, $len){
+	function count_submenu_xml($look4, $without,  $path, $tag, $tag2, $parenttag, $len) {
 		$handle = opendir($path);
 		$i = 0;
 		while ($files = readdir ($handle)) {
@@ -2894,8 +2617,8 @@ class tcms_main {
 				$check_id  = $all_xml->read_section($parenttag, $tag);
 				$check_sub = $all_xml->read_section($parenttag, $tag2);
 				
-				if($check_sub != $without){
-					if($look4 == $check_id){
+				if($check_sub != $without) {
+					if($look4 == $check_id) {
 						$i++;
 					}
 				}
@@ -2910,10 +2633,10 @@ class tcms_main {
 	* @return Array with files from directory
 	* @desc Return a array with the files in "path"
 	*/
-	function readdir_comment($path){
+	function readdir_comment($path) {
 		$handle = opendir($path);
 		$i = 0;
-		while($dir = readdir($handle)){
+		while($dir = readdir($handle)) {
 			if($dir != '.' 
 			&& $dir != '..' 
 			&& $dir != 'CVS' 
@@ -2921,8 +2644,8 @@ class tcms_main {
 			&& $files != '_svn'
 			&& $files != '.SVN'
 			&& $files != '_SVN'
-			&& $dir != 'index.html'){
-				if(substr($dir, 0, 9) == 'comments_'){
+			&& $dir != 'index.html') {
+				if(substr($dir, 0, 9) == 'comments_') {
 					$arr_dirContent[$i] = $dir;
 					$i++;
 				}
@@ -2937,10 +2660,10 @@ class tcms_main {
 	* @return Array with files from directory
 	* @desc Return a array with the files in "path"
 	*/
-	function readdir_image_comment($path, $cmd){
+	function readdir_image_comment($path, $cmd) {
 		$handle = opendir($path);
 		$i = 0;
-		while($dir = readdir($handle)){
+		while($dir = readdir($handle)) {
 			if($dir != '.' 
 			&& $dir != '..' 
 			&& $dir != 'CVS' 
@@ -2948,11 +2671,11 @@ class tcms_main {
 			&& $files != '_svn'
 			&& $files != '.SVN'
 			&& $files != '_SVN'
-			&& $dir != 'index.html'){
+			&& $dir != 'index.html') {
 				$arrThis = $this->readdir_comment($path.$dir.'/');
 				
-				if(is_array($arrThis)){
-					foreach($arrThis as $key => $val){
+				if(is_array($arrThis)) {
+					foreach($arrThis as $key => $val) {
 						$arr_dirContent[$i] = $val;
 						$arr_dirAlbum[$i] = $dir;
 						$i++;
@@ -2962,7 +2685,7 @@ class tcms_main {
 			}
 		}
 		
-		if($cmd == 'image'){
+		if($cmd == 'image') {
 			return ( isset($arr_dirContent) && $arr_dirContent != '' && !empty($arr_dirContent) ? $arr_dirContent : NULL );
 		}
 		else{
@@ -2976,10 +2699,10 @@ class tcms_main {
 	* @return READ A DIR AND RETURN THE XML FILES OR THE NUMBER
 	* @desc Return a array with the files in "path" (only .xml)
 	*/
-	function count_subid($path, $search_id, $file_or_number){
+	function count_subid($path, $search_id, $file_or_number) {
 		$handle = opendir($path);
 		$i = 0;
-		if(!isset($s)){ $s = 0; }
+		if(!isset($s)) { $s = 0; }
 		
 		while ($directories = readdir ($handle)) {
 			if ($directories != '.' 
@@ -2996,14 +2719,14 @@ class tcms_main {
 				$sub_xml = new xmlparser($path.$arr_xml['files'][$i], 'r');
 				$sub_id  = $sub_xml->read_value('sub_for');
 				
-				if($sub_id == $search_id){ $s++; }
+				if($sub_id == $search_id) { $s++; }
 				
 				$i++;
 			}
 		}
 		
-		if($file_or_number == 'files'){ return $arr_xml['files']; }
-		if($file_or_number == 'number'){ return $s; }
+		if($file_or_number == 'files') { return $arr_xml['files']; }
+		if($file_or_number == 'number') { return $s; }
 	}
 	
 	
@@ -3012,7 +2735,7 @@ class tcms_main {
 	* @return Array with all poll answers
 	* @desc 
 	*/
-	function count_answers($ca_path){
+	function count_answers($ca_path) {
 		$arr_cpoll = $this->load_xml_files($ca_path, 'files');
 		$all_answers = 0;
 		
@@ -3026,14 +2749,14 @@ class tcms_main {
 			$qc++;
 		}while($arr_question[$qc-1] != '__END_POLL_QUESTION__');
 		
-		if(is_array($arr_cpoll)){
-			foreach($arr_cpoll as $key => $value){
-				if($value != 'index.html'){
+		if(is_array($arr_cpoll)) {
+			foreach($arr_cpoll as $key => $value) {
+				if($value != 'index.html') {
 					$res_xml = new xmlparser($ca_path.'/'.$value, 'r');
 					$answer  = $res_xml->read_section('vote', 'answer');
 					
-					for($caq = 1; $caq < $qc; $caq++){
-						if($answer == $aw[$caq]){
+					for($caq = 1; $caq < $qc; $caq++) {
+						if($answer == $aw[$caq]) {
 							$arr_count_answers[$answer] += 1;
 						}
 					}
@@ -3057,11 +2780,11 @@ class tcms_main {
 	* @return Array with all poll answers
 	* @desc 
 	*/
-	function count_answers_sql($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $ac_poll, $command){
+	function count_answers_sql($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $ac_poll, $command) {
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
 		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		if($command == 'nothing'){
+		if($command == 'nothing') {
 			$qc = 1;
 			
 			$sqlQR = $sqlAL->sqlGetOne($this->db_prefix.'polls', $ac_poll);
@@ -3069,7 +2792,7 @@ class tcms_main {
 			
 			do{
 				$question = $sqlARR['question'.$qc];
-				if($question != NULL){
+				if($question != NULL) {
 					$arr_question[$qc] = $question;
 					$aw[$qc] = $qc;
 				}
@@ -3080,12 +2803,12 @@ class tcms_main {
 			$sqlQR = $sqlAL->sqlGetAll($this->db_prefix."poll_items WHERE  poll_uid='".$ac_poll."'");
 			$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
 			
-			if($sqlNR != 0){
-				while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+			if($sqlNR != 0) {
+				while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)) {
 					$answer = $sqlARR['answer'];
 					
-					for($caq = 1; $caq < $qc; $caq++){
-						if($answer == $aw[$caq]){
+					for($caq = 1; $caq < $qc; $caq++) {
+						if($answer == $aw[$caq]) {
 							$arr_count_answers[$answer] += 1;
 						}
 					}
@@ -3100,7 +2823,7 @@ class tcms_main {
 			return $arrPollSet;
 		}
 		
-		if($command == 'poll_answers'){
+		if($command == 'poll_answers') {
 			$sqlQR = $sqlAL->sqlGetAll($this->db_prefix."poll_items WHERE  poll_uid='".$ac_poll."'");
 			$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
 			return $sqlNR;
@@ -3113,8 +2836,8 @@ class tcms_main {
 	* @return Checks the session files for his old
 	* @desc 
 	*/
-	function create_sort_id($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $sqlTable, $sqlField, $forDownload = false, $category = ''){
-		if($choosenDB == 'xml'){
+	function create_sort_id($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $sqlTable, $sqlField, $forDownload = false, $category = '') {
+		if($choosenDB == 'xml') {
 			$returnME = 1;
 		}
 		else{
@@ -3122,8 +2845,8 @@ class tcms_main {
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			$session_exists = 1;
 			
-			if($forDownload == false){
-				switch($choosenDB){
+			if($forDownload == false) {
+				switch($choosenDB) {
 					case 'mysql': $sqlStr = 'SELECT MAX(`'.$sqlTable.'`.`'.$sqlField.'`) AS newMax FROM '.$sqlTable; break;
 					case 'pgsql': $sqlStr = 'SELECT MAX('.$sqlField.') AS newMax FROM '.$sqlTable; break;
 					case 'mssql': $sqlStr = 'SELECT MAX('.$sqlField.') AS newMax FROM '.$sqlTable; break;
@@ -3132,14 +2855,14 @@ class tcms_main {
 				$sqlQR  = $sqlAL->sqlQuery($sqlStr);
 				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
 				
-				switch($choosenDB){
+				switch($choosenDB) {
 					case 'mysql': $returnME = ($sqlARR['newMax'] + 1); break;
 					case 'pgsql': $returnME = ($sqlARR['newmax'] + 1); break;
 					case 'mssql': $returnME = ($sqlARR['newMax'] + 1); break;
 				}
 			}
 			else{
-				switch($choosenDB){
+				switch($choosenDB) {
 					case 'mysql':
 						$sqlStr = 'SELECT CASE WHEN ( MAX(`'.$sqlTable.'`.`'.$sqlField.'`) IS NULL ) THEN 0'
 						.' ELSE MAX(`'.$sqlTable.'`.`'.$sqlField.'`) END AS newMax'
@@ -3160,7 +2883,7 @@ class tcms_main {
 				$sqlQR  = $sqlAL->sqlQuery($sqlStr);
 				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
 				
-				switch($choosenDB){
+				switch($choosenDB) {
 					case 'mysql': $returnME = ($sqlARR['newMax'] + 1); break;
 					case 'pgsql': $returnME = ($sqlARR['newmax'] + 1); break;
 					case 'mssql': $returnME = ($sqlARR['newMax'] + 1); break;
@@ -3179,8 +2902,8 @@ class tcms_main {
 	* @return Checks the session files for his old
 	* @desc 
 	*/
-	function create_sort_id_sub($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $sqlTable, $sqlField, $sqlFromField = '', $sqlFromValue = ''){
-		if($choosenDB == 'xml'){
+	function create_sort_id_sub($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $sqlTable, $sqlField, $sqlFromField = '', $sqlFromValue = '') {
+		if($choosenDB == 'xml') {
 			$handle = opendir($this->administer.'/'.$sqlTable.'/');
 			$i = 0;
 			while ($dir = readdir($handle)) {
@@ -3195,7 +2918,7 @@ class tcms_main {
 				&& $dir != 'index.html') {
 					$xmlUser = new xmlparser($this->administer.'/'.$sqlTable.'/'.$dir, 'r');
 					
-					switch($sqlTable){
+					switch($sqlTable) {
 						case $this->db_prefix.'links': $tmpSection = 'link'; break;
 						case $this->db_prefix.'user': $tmpSection = 'user'; break;
 						default: $tmpSection = 'link'; break;
@@ -3203,7 +2926,7 @@ class tcms_main {
 					
 					$tmpCheck = $xmlUser->read_section($tmpSection, $sqlFromField);
 					
-					if($tmpCheck == $sqlFromValue){
+					if($tmpCheck == $sqlFromValue) {
 						$i++;
 					}
 				}
@@ -3216,7 +2939,7 @@ class tcms_main {
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			$session_exists = 1;
 			
-			switch($choosenDB){
+			switch($choosenDB) {
 				case 'mysql': $sqlStr = 'SELECT MAX(`'.$sqlTable.'`.`'.$sqlField.'`) AS newMax FROM '.$sqlTable.( $sqlFromField != '' ? ' WHERE '.$sqlFromField.'='.$sqlFromValue : '' ); break;
 				case 'pgsql': $sqlStr = 'SELECT MAX('.$sqlField.') AS newMax FROM '.$sqlTable.( $sqlFromField != '' ? ' WHERE '.$sqlFromField.'='.$sqlFromValue : '' ); break;
 				case 'mssql': $sqlStr = 'SELECT MAX('.$sqlField.') AS newMax FROM '.$sqlTable.( $sqlFromField != '' ? ' WHERE ['.$sqlFromField.']='.$sqlFromValue : '' ); break;
@@ -3225,7 +2948,7 @@ class tcms_main {
 			$sqlQR  = $sqlAL->sqlQuery($sqlStr);
 			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
 			
-			switch($choosenDB){
+			switch($choosenDB) {
 				case 'mysql': $returnME = ($sqlARR['newMax'] + 1); break;
 				case 'pgsql': $returnME = ($sqlARR['newmax'] + 1); break;
 				case 'mssql': $returnME = ($sqlARR['newMax'] + 1); break;
@@ -3246,7 +2969,7 @@ class tcms_main {
 	*      title   => Sitetitle
 	*      pathway => Pathway
 	*/
-	function linkway($arr_files, $arr_filesT, $c_charset, $session, $s, $lang){
+	function linkway($arr_files, $arr_filesT, $c_charset, $session, $s, $lang) {
 		global $tcms_config;
 		
 		$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
@@ -3255,8 +2978,8 @@ class tcms_main {
 		
 		// from sidemenu
 		if($this->isArray($arr_files)) {
-			foreach($arr_files as $fnk => $fnvalue){
-				if($fnvalue != 'index.html'){
+			foreach($arr_files as $fnk => $fnvalue) {
+				if($fnvalue != 'index.html') {
 					$link_xml = new xmlparser($this->administer.'/tcms_menu/'.$fnvalue,'r');
 					
 					$is_lang = $link_xml->read_value('language');
@@ -3279,14 +3002,14 @@ class tcms_main {
 			}
 			
 			if($this->isArray($arr_link)) {
-				if($which != 'check_id'){
+				if($which != 'check_id') {
 					array_multisort(
 						$arr_link['id'], SORT_ASC, 
 						$arr_link['name'], SORT_ASC, 
 						$arr_link['link'], SORT_ASC
 					);
 					
-					foreach ($arr_link['link'] as $key => $value){
+					foreach ($arr_link['link'] as $key => $value) {
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id='.$value.'&amp;s='.$s
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -3303,8 +3026,8 @@ class tcms_main {
 		
 		// from topmenu
 		if($this->isArray($arr_filesT)) {
-			foreach($arr_filesT as $fnk => $fnvalue){
-				if($fnvalue != 'index.html'){
+			foreach($arr_filesT as $fnk => $fnvalue) {
+				if($fnvalue != 'index.html') {
 					$link_xml = new xmlparser($this->administer.'/tcms_topmenu/'.$fnvalue,'r');
 					
 					$is_lang = $link_xml->read_value('language');
@@ -3327,14 +3050,14 @@ class tcms_main {
 			}
 			
 			if($this->isArray($arr_link)) {
-				if($which != 'check_id'){
+				if($which != 'check_id') {
 					array_multisort(
 						$arr_link['id'], SORT_ASC, 
 						$arr_link['name'], SORT_ASC, 
 						$arr_link['link'], SORT_ASC
 					);
 					
-					foreach ($arr_link['link'] as $key => $value){
+					foreach ($arr_link['link'] as $key => $value) {
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id='.$value.'&amp;s='.$s
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -3349,18 +3072,18 @@ class tcms_main {
 		}
 		
 		
-		if(is_array($pathwayT) && !empty($pathwayT)){
-			foreach($pathwayT as $key => $value){ $tmpPathway[$key] = $value; }
+		if(is_array($pathwayT) && !empty($pathwayT)) {
+			foreach($pathwayT as $key => $value) { $tmpPathway[$key] = $value; }
 		}
-		if(is_array($pathway) && !empty($pathway)){
-			foreach($pathway as $key => $value){ $tmpPathway[$key] = $value; }
+		if(is_array($pathway) && !empty($pathway)) {
+			foreach($pathway as $key => $value) { $tmpPathway[$key] = $value; }
 		}
 		
 		
 		if(!is_array($arr_path)) { $arr_path[0]  = ''; }
-		if(!is_array($arr_pathT)){ $arr_pathT[0] = ''; }
+		if(!is_array($arr_pathT)) { $arr_pathT[0] = ''; }
 		if(!is_array($titleway)) { $titleway[0]  = ''; }
-		if(!is_array($titlewayT)){ $titlewayT[0] = ''; }
+		if(!is_array($titlewayT)) { $titlewayT[0] = ''; }
 		
 		
 		$arr_path = array_merge($arr_path, $arr_pathT);
@@ -3383,7 +3106,7 @@ class tcms_main {
 	*      title   => Sitetitle
 	*      pathway => Pathway
 	*/
-	function linkwaySQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, $session, $s, $lang){
+	function linkwaySQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, $session, $s, $lang) {
 		global $tcms_config;
 		
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
@@ -3399,14 +3122,14 @@ class tcms_main {
 		
 		$count = 0;
 		
-		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)) {
 			$arr_link['name'][$count] = $sqlARR['name'];
 			$arr_link['id'][$count]   = $sqlARR['id'];
 			$arr_link['link'][$count] = $sqlARR['link'];
 			
-			if($arr_link['name'][$count] == NULL){ $arr_link['name'][$count] = ''; }
-			if($arr_link['id'][$count]   == NULL){ $arr_link['id'][$count]   = ''; }
-			if($arr_link['link'][$count] == NULL){ $arr_link['link'][$count] = ''; }
+			if($arr_link['name'][$count] == NULL) { $arr_link['name'][$count] = ''; }
+			if($arr_link['id'][$count]   == NULL) { $arr_link['id'][$count]   = ''; }
+			if($arr_link['link'][$count] == NULL) { $arr_link['link'][$count] = ''; }
 			
 			// CHARSETS
 			$arr_link['name'][$count] = $this->decodeText($arr_link['name'][$count], '2', $c_charset);
@@ -3416,8 +3139,8 @@ class tcms_main {
 		}
 		
 		
-		if($which != 'check_id'){
-			/*if(is_array($arr_link)){
+		if($which != 'check_id') {
+			/*if(is_array($arr_link)) {
 				array_multisort(
 					$arr_link['id'], SORT_ASC, 
 					$arr_link['name'], SORT_ASC, 
@@ -3425,8 +3148,8 @@ class tcms_main {
 				);
 			}*/
 			
-			if(is_array($arr_link['link']) && !empty($arr_link['link'])){
-				foreach($arr_link['link'] as $key => $value){
+			if(is_array($arr_link['link']) && !empty($arr_link['link'])) {
+				foreach($arr_link['link'] as $key => $value) {
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id='.$value.'&amp;s='.$s
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -3449,14 +3172,14 @@ class tcms_main {
 		
 		//$sqlQR = $sqlAL->sqlGetAll($this->db_prefix.'topmenu');
 		$count = 0;
-		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)) {
 			$arr_link['name'][$count] = $sqlARR['name'];
 			$arr_link['id'][$count]   = $sqlARR['id'];
 			$arr_link['link'][$count] = $sqlARR['link'];
 			
-			if($arr_link['name'][$count] == NULL){ $arr_link['name'][$count] = ''; }
-			if($arr_link['id'][$count]   == NULL){ $arr_link['id'][$count]   = ''; }
-			if($arr_link['link'][$count] == NULL){ $arr_link['link'][$count] = ''; }
+			if($arr_link['name'][$count] == NULL) { $arr_link['name'][$count] = ''; }
+			if($arr_link['id'][$count]   == NULL) { $arr_link['id'][$count]   = ''; }
+			if($arr_link['link'][$count] == NULL) { $arr_link['link'][$count] = ''; }
 			
 			// CHARSETS
 			$arr_link['name'][$count] = $this->decodeText($arr_link['name'][$count], '2', $c_charset);
@@ -3466,8 +3189,8 @@ class tcms_main {
 		}
 		
 		
-		if($which != 'check_id'){
-			/*if(is_array($arr_link)){
+		if($which != 'check_id') {
+			/*if(is_array($arr_link)) {
 				array_multisort(
 					$arr_link['id'], SORT_ASC, 
 					$arr_link['name'], SORT_ASC, 
@@ -3475,8 +3198,8 @@ class tcms_main {
 				);
 			}*/
 			
-			if(is_array($arr_link['link']) && !empty($arr_link['link'])){
-				foreach($arr_link['link'] as $key => $value){
+			if(is_array($arr_link['link']) && !empty($arr_link['link'])) {
+				foreach($arr_link['link'] as $key => $value) {
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id='.$value.'&amp;s='.$s
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -3490,18 +3213,18 @@ class tcms_main {
 		}
 		
 		
-		if(is_array($pathwayT) && !empty($pathwayT)){
-			foreach($pathwayT as $key => $value){ $tmpPathway[$key] = $value; }
+		if(is_array($pathwayT) && !empty($pathwayT)) {
+			foreach($pathwayT as $key => $value) { $tmpPathway[$key] = $value; }
 		}
-		if(is_array($pathway) && !empty($pathway)){
-			foreach($pathway as $key => $value){ $tmpPathway[$key] = $value; }
+		if(is_array($pathway) && !empty($pathway)) {
+			foreach($pathway as $key => $value) { $tmpPathway[$key] = $value; }
 		}
 		
 		
 		if(!is_array($arr_path)) { $arr_path[0]  = ''; }
-		if(!is_array($arr_pathT)){ $arr_pathT[0] = ''; }
+		if(!is_array($arr_pathT)) { $arr_pathT[0] = ''; }
 		if(!is_array($titleway)) { $titleway[0]  = ''; }
-		if(!is_array($titlewayT)){ $titlewayT[0] = ''; }
+		if(!is_array($titlewayT)) { $titlewayT[0] = ''; }
 		
 		$arr_path = array_merge($arr_path, $arr_pathT);
 		$titleway = array_merge($titleway, $titlewayT);
@@ -3529,15 +3252,15 @@ class tcms_main {
 	*   array -> 'submenu'	-> complete submenu link
 	*   array -> 'name'		-> simple link name
 	*/
-	function mainmenu($arr_file, $c_charset, $session, $s, $lang){
+	function mainmenu($arr_file, $c_charset, $session, $s, $lang) {
 		global $tcms_config;
 		
 		$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
 		$count = 0;
 		
 		if($this->isArray($arr_file)) {
-			foreach($arr_file as $key => $value){
-				if($value != 'index.html'){
+			foreach($arr_file as $key => $value) {
+				if($value != 'index.html') {
 					$side_xml = new xmlparser($this->administer.'/tcms_menu/'.$value,'r');
 					
 					$is_lang = $side_xml->read_value('language');
@@ -3578,13 +3301,13 @@ class tcms_main {
 					$arr_menu['tar'], SORT_ASC
 				);
 				
-				foreach($arr_menu['id'] as $mkey => $mvalue){
+				foreach($arr_menu['id'] as $mkey => $mvalue) {
 					if($arr_menu['tar'][$mkey] != '')
 						$ltarget = ' target="'.$arr_menu['tar'][$mkey].'"';
 					else
 						$ltarget = '';
 					
-					if($arr_menu['type'][$mkey] == 'web'){
+					if($arr_menu['type'][$mkey] == 'web') {
 						$arr_mainmenu['link'][$mkey] = '<a'.$ltarget.' class="mainlevel" href="'.$arr_menu['link'][$mkey].'">'.$arr_menu['name'][$mkey].'</a>';
 					}
 					else{
@@ -3605,7 +3328,7 @@ class tcms_main {
 					$arr_mainmenu['pub'][$mkey] = $arr_menu['pub'][$mkey];
 					$arr_mainmenu['url'][$mkey] = $arr_menu['link'][$mkey];
 					
-					if($arr_menu['type'][$mkey] == 'web'){
+					if($arr_menu['type'][$mkey] == 'web') {
 						$arr_mainmenu['submenu'][$mvalue][$mkey] = '<a'.$ltarget.' class="submenu" href="'.$arr_menu['link'][$mkey].'">'.$arr_menu['name'][$mkey].'</a>';
 					}
 					else{
@@ -3630,15 +3353,15 @@ class tcms_main {
 	* @return Topmenu links
 	* @desc 
 	*/
-	function topmenu($arr_filename, $c_charset, $session, $s, $lang){
+	function topmenu($arr_filename, $c_charset, $session, $s, $lang) {
 		global $tcms_config;
 		
 		$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
 		$count = 0;
 		
 		if($this->isArray($arr_filename)) {
-			foreach($arr_filename as $k => $v){
-				if($v != 'index.html'){
+			foreach($arr_filename as $k => $v) {
+				if($v != 'index.html') {
 					$all_xml = new xmlparser($this->administer.'/tcms_topmenu/'.$v,'r');
 					
 					$is_lang = $all_xml->read_value('language');
@@ -3675,14 +3398,14 @@ class tcms_main {
 					$arr_top['tar'], SORT_ASC
 				);
 				
-				foreach($arr_top['id'] as $key => $value){
+				foreach($arr_top['id'] as $key => $value) {
 					if($arr_top['tar'][$key] != '')
 						$ltarget = ' target="'.$arr_top['tar'][$key].'"';
 					else
 						$ltarget = '';
 					
 					
-					if(trim($arr_top['type'][$key]) == 'web'){
+					if(trim($arr_top['type'][$key]) == 'web') {
 						$arr_top_navi['link'][$key] = '<a'.$ltarget.' class="toplevel" href="'.trim($arr_top['link'][$key]).'">'.trim($arr_top['name'][$key]).'</a>';
 					}
 					else{
@@ -3712,7 +3435,7 @@ class tcms_main {
 	* @return Topmenu links
 	* @desc 
 	*/
-	function topmenuSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, $session, $s, $lang){
+	function topmenuSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, $session, $s, $lang) {
 		global $tcms_config;
 		
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
@@ -3730,7 +3453,7 @@ class tcms_main {
 		
 		$count = 0;
 		
-		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)) {
 			$arr_top['tag'][$count]    = $sqlARR['uid'];
 			$arr_top['name'][$count]   = $sqlARR['name'];
 			$arr_top['id'][$count]     = $sqlARR['id'];
@@ -3740,13 +3463,13 @@ class tcms_main {
 			$arr_top['pub'][$count]    = $sqlARR['published'];
 			$arr_top['tar'][$count]    = $sqlARR['target'];
 			
-			if($arr_top['name'][$count]   == NULL){ $arr_top['name'][$count]   = ''; }
-			if($arr_top['id'][$count]     == NULL){ $arr_top['id'][$count]     = ''; }
-			if($arr_top['access'][$count] == NULL){ $arr_top['access'][$count] = ''; }
-			if($arr_top['link'][$count]   == NULL){ $arr_top['link'][$count]   = ''; }
-			if($arr_top['pub'][$count]    == NULL){ $arr_top['pub'][$count]    = ''; }
-			if($arr_top['type'][$count]   == NULL){ $arr_top['type'][$count]   = ''; }
-			if($arr_top['tar'][$count]    == NULL){ $arr_top['tar'][$count]    = ''; }
+			if($arr_top['name'][$count]   == NULL) { $arr_top['name'][$count]   = ''; }
+			if($arr_top['id'][$count]     == NULL) { $arr_top['id'][$count]     = ''; }
+			if($arr_top['access'][$count] == NULL) { $arr_top['access'][$count] = ''; }
+			if($arr_top['link'][$count]   == NULL) { $arr_top['link'][$count]   = ''; }
+			if($arr_top['pub'][$count]    == NULL) { $arr_top['pub'][$count]    = ''; }
+			if($arr_top['type'][$count]   == NULL) { $arr_top['type'][$count]   = ''; }
+			if($arr_top['tar'][$count]    == NULL) { $arr_top['tar'][$count]    = ''; }
 			
 			// CHARSETS
 			$arr_top['name'][$count] = $this->decodeText($arr_top['name'][$count], '2', $c_charset);
@@ -3755,7 +3478,7 @@ class tcms_main {
 			$count++;
 		}
 		
-		/*if(is_array($arr_top)){
+		/*if(is_array($arr_top)) {
 			array_multisort(
 				$arr_top['id'], SORT_ASC, 
 				$arr_top['name'], SORT_ASC, 
@@ -3767,15 +3490,15 @@ class tcms_main {
 			);
 		}*/
 		
-		if(!empty($arr_top) && isset($arr_top)){
-			foreach($arr_top['id'] as $key => $value){
+		if(!empty($arr_top) && isset($arr_top)) {
+			foreach($arr_top['id'] as $key => $value) {
 				if($arr_top['tar'][$key] != '')
 					$ltarget = ' target="'.$arr_top['tar'][$key].'"';
 				else
 					$ltarget = '';
 				
 				
-				if(trim($arr_top['type'][$key]) == 'web'){
+				if(trim($arr_top['type'][$key]) == 'web') {
 					$arr_top_navi['link'][$key] = '<a'.$ltarget.' class="toplevel" href="'.trim($arr_top['link'][$key]).'">'.trim($arr_top['name'][$key]).'</a>';
 				}
 				else{
@@ -3805,13 +3528,13 @@ class tcms_main {
 	* @return max id in content
 	* @desc 
 	*/
-	function get_max_id($backend){
-		if($backend == 'admin'){ $path = $this->administer.'/tcms_content/'; }
-		if($backend == 'front'){ $path = $this->administer.'/tcms_content/'; }
+	function get_max_id($backend) {
+		if($backend == 'admin') { $path = $this->administer.'/tcms_content/'; }
+		if($backend == 'front') { $path = $this->administer.'/tcms_content/'; }
 		$arr_fn = readdir_ext($path);
 		$i = 0;
-		while(!empty($arr_fn[$i])){
-			if($arr_fn[$i] != 'index.html'){
+		while(!empty($arr_fn[$i])) {
+			if($arr_fn[$i] != 'index.html') {
 				$all_xml = new xmlparser($path.$arr_fn[$i],'r');
 				$arr_tc[$i] = $all_xml->read_value('id');
 			}
@@ -3826,7 +3549,7 @@ class tcms_main {
 	* @return array with all id's
 	* @desc Returns an array with all available ID numbers
 	*/
-	function get_id_array(){
+	function get_id_array() {
 		$handle = opendir($this->administer.'/tcms_content/');
 		$i = 0;
 		while ($files = readdir($handle)) {
@@ -3855,10 +3578,10 @@ class tcms_main {
 	* @return contact xml filename
 	* @desc the default contact for the contactform
 	*/
-	function get_default_contact(){
+	function get_default_contact() {
 		$handle = opendir($this->administer.'/tcms_contacts/');
 		$i = 0;
-		while($files = readdir($handle)){
+		while($files = readdir($handle)) {
 			if($files != '.' 
 			&& $files != '..' 
 			&& $files != 'CVS' 
@@ -3866,16 +3589,16 @@ class tcms_main {
 			&& $files != '_svn'
 			&& $files != '.SVN'
 			&& $files != '_SVN'
-			&& $files != 'index.html'){
+			&& $files != 'index.html') {
 				$len = strlen($files);
 				$maintag = substr($files, 0, $len);
 				
 				$all_xml = new xmlparser($this->administer.'/tcms_contacts/'.$files,'r');
 				$check_pub = $all_xml->read_section('contact', 'published');
 				
-				if($check_pub == 1){
+				if($check_pub == 1) {
 					$check_def = $all_xml->read_section('contact', 'default_con');
-					if($check_def == 1){
+					if($check_def == 1) {
 						$def_con = $files;
 					}
 				}
@@ -3890,7 +3613,7 @@ class tcms_main {
 	* @return contact xml filename
 	* @desc the default contact for the contactform
 	*/
-	function get_default_sql_contact($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort){
+	function get_default_sql_contact($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort) {
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
 		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
@@ -3908,7 +3631,7 @@ class tcms_main {
 	* @return splitet sql string
 	* @desc 
 	*/
-	function split_sql($sql){
+	function split_sql($sql) {
 		$sql = trim($sql);
 		$sql = ereg_replace("\n#[^\n]*\n", "\n", $sql);
 		
@@ -3916,26 +3639,26 @@ class tcms_main {
 		$ret = array();
 		$in_string = false;
 		
-		for($i=0; $i<strlen($sql)-1; $i++){
-			if($sql[$i] == ";" && !$in_string){
+		for($i=0; $i<strlen($sql)-1; $i++) {
+			if($sql[$i] == ";" && !$in_string) {
 				$ret[] = substr($sql, 0, $i);
 				$sql = substr($sql, $i + 1);
 				$i = 0;
 			}
 			
-			if($in_string && ($sql[$i] == $in_string) && $buffer[1] != "\\"){
+			if($in_string && ($sql[$i] == $in_string) && $buffer[1] != "\\") {
 				$in_string = false;
 			}
-			elseif(!$in_string && ($sql[$i] == '"' || $sql[$i] == "'") && (!isset($buffer[0]) || $buffer[0] != "\\")){
+			elseif(!$in_string && ($sql[$i] == '"' || $sql[$i] == "'") && (!isset($buffer[0]) || $buffer[0] != "\\")) {
 				$in_string = $sql[$i];
 			}
 			
-			if(isset($buffer[1])){ $buffer[0] = $buffer[1]; }
+			if(isset($buffer[1])) { $buffer[0] = $buffer[1]; }
 			
 			$buffer[1] = $sql[$i];
 		}
 		
-		if(!empty($sql)){ $ret[] = $sql; }
+		if(!empty($sql)) { $ret[] = $sql; }
 		return($ret);
 	}
 	
@@ -3945,12 +3668,12 @@ class tcms_main {
 	* @return The amount of news in categories with the given cat uid
 	* @desc 
 	*/
-	function getNewsCatAmount($catUID, $authSQL1, $authSQL2){
+	function getNewsCatAmount($catUID, $authSQL1, $authSQL2) {
 		$path = $this->administer.'/tcms_news/';
 		$handle = opendir($path);
 		$i = 0;
 		
-		while($files = readdir ($handle)){
+		while($files = readdir ($handle)) {
 			if($files != '.' 
 			&& $files != '..' 
 			&& $files != 'CVS' 
@@ -3959,36 +3682,36 @@ class tcms_main {
 			&& $files != '.SVN'
 			&& $files != '_SVN'
 			&& substr($files, 0, 9) != 'comments_' 
-			&& $files != 'index.html'){
+			&& $files != 'index.html') {
 				$chkXML = new xmlparser($path.$files, 'r');
 				$chkACS = $chkXML->read_section('news', 'access');
 				
 				// check public rights
-				if($chkACS == 'Public'){ $chk = true; }
+				if($chkACS == 'Public') { $chk = true; }
 				
 				// check protected rights
-				if($authSQL1 != ''){
-					if($chk == false){
-						if($chkACS == $authSQL1){
+				if($authSQL1 != '') {
+					if($chk == false) {
+						if($chkACS == $authSQL1) {
 							$chk = true;
 						}
 					}
 				}
 				
 				// check private rights
-				if($authSQL2 != ''){
-					if($chk == false){
-						if($chkACS == $authSQL2){
+				if($authSQL2 != '') {
+					if($chk == false) {
+						if($chkACS == $authSQL2) {
 							$chk = true;
 						}
 					}
 				}
 				
-				if($chk){
+				if($chk) {
 					$chkCAT = $chkXML->read_section('news', 'category');
 					$arrCAT = explode('{###}', $chkCAT);
 					
-					if(in_array($catUID, $arrCAT)){ $i++; }
+					if(in_array($catUID, $arrCAT)) { $i++; }
 				}
 			}
 		}
@@ -4002,14 +3725,14 @@ class tcms_main {
 	* @return boolean
 	* @desc Checks contacts for a default contact
 	*/
-	function chkDefaultContact(){
+	function chkDefaultContact() {
 		$path = $this->administer.'/tcms_contacts/';
 		$handle = opendir($path);
 		$i = 0;
 		$chkACScount = 0;
 		$return = false;
 		
-		while($files = readdir ($handle)){
+		while($files = readdir ($handle)) {
 			if($files != '.' 
 			&& $files != '..' 
 			&& $files != 'CVS' 
@@ -4018,15 +3741,15 @@ class tcms_main {
 			&& $files != '.SVN'
 			&& $files != '_SVN'
 			&& substr($files, 0, 9) != 'comments_' 
-			&& $files != 'index.html'){
+			&& $files != 'index.html') {
 				$chkXML = new xmlparser($path.$files, 'r');
 				$chkACS = $chkXML->read_section('contact', 'default_con');
 				
-				if($chkACS == 1){ $chkACScount++; }
+				if($chkACS == 1) { $chkACScount++; }
 			}
 		}
 		
-		if($chkACScount > 0){
+		if($chkACScount > 0) {
 			$return = true;
 		}
 		else{
@@ -4042,15 +3765,15 @@ class tcms_main {
 	* @return string
 	* @desc return a string with a command for inserting
 	*/
-	function returnInsertCommand($n, $show_wysiwyg, $dvalue, $v, $key, $a = 1, $b = '', $c = '', $url = ''){
+	function returnInsertCommand($n, $show_wysiwyg, $dvalue, $v, $key, $a = 1, $b = '', $c = '', $url = '') {
 		$cmdImage = '';
 		
-		if($url != ''){
+		if($url != '') {
 			$url = str_replace($this->globalFolder, '', $url);
 			$url = str_replace("///", "/", $url);
 		}
 		
-		if(isset($n) && $n == 'without'){
+		if(isset($n) && $n == 'without') {
 			if(isset($url) && $url != '')
 				$rTemp = $url;
 			
@@ -4060,7 +3783,7 @@ class tcms_main {
 				$cmdImage = 'setLink(\''.$rTemp.$dvalue.'\', document.getElementById(\'lb_title_'.$key.'\').value, \'content\', \'HTML\')';
 		}
 		else{
-			if($show_wysiwyg == 'tinymce' && $v != 'links'){
+			if($show_wysiwyg == 'tinymce' && $v != 'links') {
 				if($a == 1)
 					$cmdImage = 'opener.tinyMCE.execCommand(\'mceInsertContent\', false, \'&lt;a href=&quot;'.$dvalue.'&quot;&gt;\' + document.getElementById(\'lb_title_'.$key.'\').value + \'&lt;/a&gt;\');self.close()';
 				else
@@ -4089,16 +3812,17 @@ class tcms_main {
 	/**
 	 * Get the username of a user id
 	 *
+	 * @deprecated Deprecated since version 1.6
 	 * @param String $userID
 	 * @return String
 	 */
-	function getUser($userID){
-		if($this->db_choosenDB == 'xml'){
+	function getUser($userID) {
+		if($this->db_choosenDB == 'xml') {
 			$tcms_config = new tcms_configuration($this->administer);
 			$c_charset = $tcms_config->getCharset();
 			unset($tcms_config);
 			
-			if(file_exists($this->administer.'/tcms_user/'.$userID.'.xml')){
+			if(file_exists($this->administer.'/tcms_user/'.$userID.'.xml')) {
 				$xmlUser = new xmlparser($this->administer.'/tcms_user/'.$userID.'.xml', 'r');
 				
 				$tmpNickXML = $xmlUser->readSection('user', 'username');
@@ -4107,7 +3831,7 @@ class tcms_main {
 				$tmpNickXML = '';
 			}
 			
-			if($tmpNickXML == ''){
+			if($tmpNickXML == '') {
 				$nickXML = false;
 			}
 			else{
@@ -4127,7 +3851,7 @@ class tcms_main {
 			$sqlQR = $sqlAL->query("SELECT * FROM ".$this->db_prefix."user WHERE uid = '".$userID."'");
 			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
-			if($sqlNR > 0){
+			if($sqlNR > 0) {
 				$sqlObj = $sqlAL->fetchObject($sqlQR);
 				$nickXML = $sqlObj->username;
 			}
@@ -4144,11 +3868,12 @@ class tcms_main {
 	/**
 	 * Get the id for a user
 	 *
+	 * @deprecated Deprecated since version 1.6
 	 * @param String $realOrNick
 	 * @return String
 	 */
-	function getUserID($realOrNick){
-		if($this->db_choosenDB == 'xml'){
+	function getUserID($realOrNick) {
+		if($this->db_choosenDB == 'xml') {
 			$tcms_config = new tcms_configuration($this->administer);
 			$c_charset = $tcms_config->getCharset();
 			unset($tcms_config);
@@ -4157,14 +3882,14 @@ class tcms_main {
 			
 			$userFound = false;
 			
-			foreach($arrUserXML as $key => $XMLUserFile){
-				if($XMLUserFile != 'index.html'){
+			foreach($arrUserXML as $key => $XMLUserFile) {
+				if($XMLUserFile != 'index.html') {
 					$xmlUser = new xmlparser($this->administer.'/tcms_user/'.$XMLUserFile, 'r');
 					
 					$tmpNickXML = $xmlUser->readSection('user', 'name');
 					$nickXML = $this->decodeText($tmpNickXML, '2', $c_charset);
 					
-					if($realOrNick == $nickXML){
+					if($realOrNick == $nickXML) {
 						return substr($XMLUserFile, 0, 32);
 						$userFound = true;
 						break;
@@ -4173,7 +3898,7 @@ class tcms_main {
 						$tmpRealXML = $xmlUser->readSection('user', 'username');
 						$arrRealXML = $this->decodeText($tmpRealXML, '2', $c_charset);
 						
-						if($realOrNick == $arrRealXML){
+						if($realOrNick == $arrRealXML) {
 							return substr($XMLUserFile, 0, 32);
 							$userFound = true;
 							break;
@@ -4201,7 +3926,7 @@ class tcms_main {
 			$sqlQR = $sqlAL->query("SELECT * FROM ".$this->db_prefix."user WHERE username = '".$realOrNick."'");
 			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
-			if($sqlNR != 0){
+			if($sqlNR != 0) {
 				$sqlObj = $sqlAL->fetchObject($sqlQR);
 				$userID = $sqlObj->uid;
 			}
@@ -4209,7 +3934,7 @@ class tcms_main {
 				$sqlQR = $sqlAL->query("SELECT * FROM ".$this->db_prefix."user WHERE name = '".$realOrNick."'");
 				$sqlNR = $sqlAL->getNumber($sqlQR);
 				
-				if($sqlNR != 0){
+				if($sqlNR != 0) {
 					$sqlARR = $sqlAL->fetchObject($sqlQR);
 					$userID = $sqlObj->uid;
 				}
@@ -4221,7 +3946,7 @@ class tcms_main {
 			return $userID;
 		}
 		
-		if(!$userFound){ return false; }
+		if(!$userFound) { return false; }
 	}
 	
 	
@@ -4229,11 +3954,12 @@ class tcms_main {
 	/**
 	 * Get some information about the current user
 	 *
+	 * @deprecated Deprecated since version 1.6
 	 * @param String $session
 	 * @return Array
 	 */
-	function getUserInfo($session){
-		if($this->db_choosenDB == 'xml'){
+	function getUserInfo($session) {
+		if($this->db_choosenDB == 'xml') {
 			$fileopen = fopen($this->administer.'/tcms_session/'.$session, 'r');
 			$arr_user = fread($fileopen, filesize($this->administer.'/tcms_session/'.$session));
 			
@@ -4264,7 +3990,7 @@ class tcms_main {
 				$this->db_port
 			);
 			
-			if($this->db_choosenDB == 'mssql'){
+			if($this->db_choosenDB == 'mssql') {
 				$strSQL = "SELECT "
 				.$this->db_prefix."session.[user_id], "
 				.$this->db_prefix."user.[name], "
@@ -4310,22 +4036,22 @@ class tcms_main {
 	/**
 	 * DEPRECATED: Get the amount of related files in a path (without directorys)
 	 * 
-	 * @deprecated
+	 * @deprecated Deprecated since version 1.6
 	 * @param String $path
 	 * @return Integer
 	 */
-	function readdir_count($path){
+	function readdir_count($path) {
 		return $this->getPathContentAmount($path);
 	}
 	
 	
 	
 	/**
-	 * @deprecated
+	 * @deprecated Deprecated since version 1.6
 	 * @return Checks the session files for his old
 	 * @desc 
 	 */
-	function create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $sqlTable, $sqlNumber){
+	function create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $sqlTable, $sqlNumber) {
 		$sqlTable = substr($sqlTable, strlen($this->db_prefix), strlen($sqlTable));
 		return $this->getNewUID($sqlNumber, $sqlTable);
 	}
@@ -4333,77 +4059,77 @@ class tcms_main {
 	
 	
 	/**
-	 * @deprecated
+	 * @deprecated Deprecated since version 1.6
 	 * @return return XML ID for username or realname
 	 * @desc returns false, if nothing found
 	 */
-	function getUserFromSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $userID){
+	function getUserFromSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $userID) {
 		return $this->getUser($userID);
 	}
 	
 	
 	
 	/**
-	 * @deprecated
+	 * @deprecated Deprecated since version 1.6
 	 * @return Array with files from directory
 	 * @desc Return a array with the files in "path"
 	 */
-	function readdir_ext($path){
+	function readdir_ext($path) {
 		return $this->getPathContent($path);
 	}
 	
 	
 	
 	/**
-	 * @deprecated
+	 * @deprecated Deprecated since version 1.6
 	 * @return return username and id
 	 * @desc 
 	 */
-	function create_username($session){
+	function create_username($session) {
 		return $this->getUserInfo($session);
 	}
 	
 	
 	
 	/**
-	 * @deprecated
+	 * @deprecated Deprecated since version 1.6
 	 * @return return username and id (SQL)
 	 * @desc 
 	 */
-	function create_sql_username($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session){
+	function create_sql_username($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session) {
 		return $this->getUserInfo($session);
 	}
 	
 	
 	
 	/**
-	 * @deprecated
+	 * @deprecated Deprecated since version 1.6
 	 * @return With charset convert text
 	 * @desc converts text with charset
 	 */
-	function rmdirr($path){
+	function rmdirr($path) {
 		return $this->deleteDir($path);
 	}
 	
 	
 	
 	/**
-	 * @deprecated
+	 * @deprecated Deprecated since version 1.6
 	 * @return return XML ID for username or realname
 	 * @desc returns false, if nothing found
 	 */
-	function getUserIDfromSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $realOrNick){
+	function getUserIDfromSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $realOrNick) {
 		return $this->getUserID($realOrNick);
 	}
 	
 	
 	
 	/**
-	 * @deprecated
+	 * @deprecated Deprecated since version 1.6
 	 * @return string
 	 * @desc give a php setting
 	 */
-	function get_php_setting($val){
+	function get_php_setting($val) {
 		$r = $this->getPHPSetting($val, false);
 		return $r ? 'on' : 'off';
 	}
@@ -4411,11 +4137,11 @@ class tcms_main {
 	
 	
 	/**
-	 * @deprecated
+	 * @deprecated Deprecated since version 1.6
 	 * @return boolean
 	 * @desc set a php setting
 	 */
-	function set_php_setting($setting, $val){
+	function set_php_setting($setting, $val) {
 		$this->setPHPSetting($setting, $val);
 		return true;
 	}
@@ -4423,33 +4149,33 @@ class tcms_main {
 	
 	
 	/**
-	 * @deprecated
+	 * @deprecated Deprecated since version 1.6
 	 * @return return a decoded or encoded string to secure the database password
 	 * @desc $de_or_encode -> 'de' or $de_or_encode -> 'en'
 	 */
-	function secure_password($password_string, $de_or_encode){
+	function secure_password($password_string, $de_or_encode) {
 		return $this->securePassword($password_string, ( $de_or_encode == 'en' ? true : false ));
 	}
 	
 	
 	
 	/**
-	 * @deprecated
+	 * @deprecated Deprecated since version 1.6
 	 * @return boolean
 	 * @desc Log the login
 	 */
-	function log_login($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcmsUserID){
+	function log_login($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcmsUserID) {
 		//$this->updateLoginTime($tcmsUserID);
 	}
 	
 	
 	
 	/**
-	 * @deprecated
+	 * @deprecated Deprecated since version 1.6
 	 * @return Checks the session files for his old
 	 * @desc 
 	 */
-	function delete_sql_session($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session){
+	function delete_sql_session($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session) {
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
 		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
@@ -4462,7 +4188,7 @@ class tcms_main {
 	
 	
 	/**
-	 * @deprecated
+	 * @deprecated Deprecated since version 1.6
 	 * DECODING TO CHARSETS
 	 * --
 	 * INPUT 2 SAVE
@@ -4470,76 +4196,76 @@ class tcms_main {
 	 * @return With charset convert text
 	 * @desc converts text with charset
 	 */
-	function decode_text($text, $quote, $charset){
+	function decode_text($text, $quote, $charset) {
 		return $this->encodeText($text, $quote, $charset);
 	}
 	
 	
 	
 	/**
-	 * @deprecated
+	 * @deprecated Deprecated since version 1.6
 	 * @return With charset convert text
 	 * @desc converts text with charset
 	 */
-	function encode_text($text, $quote, $charset){
+	function encode_text($text, $quote, $charset) {
 		return $this->decodeText($text, $quote, $charset);
 	}
 	
 	
 	
 	/**
-	 * @deprecated
+	 * @deprecated Deprecated since version 1.6
 	 * @return With charset convert text
 	 * @desc converts text with charset
 	 */
-	function decode_text_without_crypt($text, $quote, $charset){
+	function decode_text_without_crypt($text, $quote, $charset) {
 		return $this->encodeText($text, $quote, $charset, true);
 	}
 	
 	
 	
 	/**
-	 * @deprecated
+	 * @deprecated Deprecated since version 1.6
 	 * @return With charset convert text
 	 * @desc converts text with charset
 	 */
-	function encode_text_without_crypt($text, $quote, $charset){
+	function encode_text_without_crypt($text, $quote, $charset) {
 		return $this->decodeText($text, $quote, $charset, true);
 	}
 	
 	
 	/**
-	 * @deprecated
+	 * @deprecated Deprecated since version 1.6
 	 * @return With charset convert text
 	 * @desc converts text with charset
 	 */
-	function decode_text_without_db($text, $quote, $charset){
+	function decode_text_without_db($text, $quote, $charset) {
 		return $this->encodeText($text, $quote, $charset, false, true);
 	}
 	
 	
 	
 	/**
-	 * @deprecated
+	 * @deprecated Deprecated since version 1.6
 	 * @return With charset convert text
 	 * @desc converts text with charset
 	 */
-	function encode_text_without_db($text, $quote, $charset){
+	function encode_text_without_db($text, $quote, $charset) {
 		return $this->decodeText($text, $quote, $charset, false, true);
 	}
 	
 	
 	
 	/**
-	 * @deprecated
+	 * @deprecated Deprecated since version 1.6
 	 * @return Checks the session files for his old
 	 * @desc 
 	 */
-	function create_session($webend){
-		if($webend == 'user'){ $pp = $this->administer.'/tcms_'; }
-		if($webend == 'admin'){ $pp = ''; }
+	function create_session($webend) {
+		if($webend == 'user') { $pp = $this->administer.'/tcms_'; }
+		if($webend == 'admin') { $pp = ''; }
 		
-		while(($session = md5(microtime())) && file_exists($pp.'session/'.$session)){}
+		while(($session = md5(microtime())) && file_exists($pp.'session/'.$session)) {}
 		
 		$session_save = fopen($pp.'session/'.$session, 'w');
 		fclose($session_save);
@@ -4552,11 +4278,11 @@ class tcms_main {
 	
 	
 	/**
-	 * @deprecated
+	 * @deprecated Deprecated since version 1.6
 	 * @return Checks the session files for his old
 	 * @desc 
 	 */
-	function create_sql_session($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcmsUser, $tcmsUserID){
+	function create_sql_session($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcmsUser, $tcmsUserID) {
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
 		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		$session_exists = 1;
@@ -4568,7 +4294,7 @@ class tcms_main {
 		}
 		while($session_exists > 0);
 		
-		switch($choosenDB){
+		switch($choosenDB) {
 			case 'mysql': $newSQLColumns = 'date, user, user_id'; break;
 			case 'pgsql': $newSQLColumns = 'date, "user", user_id'; break;
 			case 'mssql': $newSQLColumns = '[date], [user], [user_id]'; break;
@@ -4585,11 +4311,11 @@ class tcms_main {
 	
 	
 	/**
-	 * @deprecated
+	 * @deprecated Deprecated since version 1.6
 	 * @return Array
 	 * @desc Return a array with the files in "path" (only .xml)
 	 */
-	function load_xml_files($path, $file_or_number){
+	function load_xml_files($path, $file_or_number) {
 		$handle = opendir($path);
 		$i = 0;
 		while ($directories = readdir ($handle)) {
@@ -4602,15 +4328,15 @@ class tcms_main {
 			&& $directories != '_SVN'
 			&& $directories != 'index.html') {
 				
-				if(strpos($directories, '.xml')){
+				if(strpos($directories, '.xml')) {
 					$arr_xml['files'][$i] = $directories;
 					$i++;
 				}
 			}
 		}
 		
-		if($file_or_number == 'files'){ return $arr_xml['files']; }
-		if($file_or_number == 'number'){ return $i; }
+		if($file_or_number == 'files') { return $arr_xml['files']; }
+		if($file_or_number == 'number') { return $i; }
 	}
 	
 	
@@ -4618,17 +4344,18 @@ class tcms_main {
 	/**
 	 * Checks if a file is CHMODable
 	 * 
-	 * @deprecated
+	 * @deprecated Deprecated since version 1.6
 	 * @return Boolean
 	 */
-	function canCHMOD($file){
+	function canCHMOD($file) {
 		$perms = fileperms($file);
 		
-		if($perms !== false)
-			if(@chmod($file, $perms ^ 0001)){
+		if($perms !== false) {
+			if(@chmod($file, $perms ^ 0001)) {
 				@chmod($file, $perms);
 				return true;
 			}
+		}
 		
 		return false;
 	}
@@ -4636,7 +4363,7 @@ class tcms_main {
 	
 	
 	/**
-	 * @deprecated 
+	 * @deprecated Deprecated since version 1.6
 	 * @return Mainmenu links (for SQL DB)
 	 * @desc returns an multi array with all mainmenulinks as array, the follow idizies exists
 	 *   array -> 'link'		-> complete link
@@ -4649,7 +4376,7 @@ class tcms_main {
 	 *   array -> 'submenu'	-> complete submenu link
 	 *   array -> 'name'		-> simple link name
 	 */
-	function mainmenuSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, $session, $s, $lang){
+	function mainmenuSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, $session, $s, $lang) {
 		global $tcms_config;
 		
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
@@ -4666,7 +4393,7 @@ class tcms_main {
 		
 		$count = 0;
 		
-		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)) {
 			$arr_menu['tag'][$count]  = $sqlARR['uid'];
 			$arr_menu['name'][$count] = $sqlARR['name'];
 			$arr_menu['id'][$count]   = $sqlARR['id'];
@@ -4678,12 +4405,12 @@ class tcms_main {
 			$arr_menu['auth'][$count] = $sqlARR['access'];
 			$arr_menu['tar'][$count]  = $sqlARR['target'];
 			
-			if($arr_menu['name'][$count] == NULL){ $arr_menu['name'][$count] = ''; }
-			if($arr_menu['id'][$count]   == NULL){ $arr_menu['id'][$count]   = ''; }
-			if($arr_menu['auth'][$count] == NULL){ $arr_menu['auth'][$count] = ''; }
-			if($arr_menu['link'][$count] == NULL){ $arr_menu['link'][$count] = ''; }
-			if($arr_menu['pub'][$count]  == NULL){ $arr_menu['pub'][$count]  = ''; }
-			if($arr_menu['tar'][$count]  == NULL){ $arr_menu['tar'][$count]  = ''; }
+			if($arr_menu['name'][$count] == NULL) { $arr_menu['name'][$count] = ''; }
+			if($arr_menu['id'][$count]   == NULL) { $arr_menu['id'][$count]   = ''; }
+			if($arr_menu['auth'][$count] == NULL) { $arr_menu['auth'][$count] = ''; }
+			if($arr_menu['link'][$count] == NULL) { $arr_menu['link'][$count] = ''; }
+			if($arr_menu['pub'][$count]  == NULL) { $arr_menu['pub'][$count]  = ''; }
+			if($arr_menu['tar'][$count]  == NULL) { $arr_menu['tar'][$count]  = ''; }
 			
 			// CHARSETS
 			$arr_menu['name'][$count] = $this->decodeText($arr_menu['name'][$count], '2', $c_charset);
@@ -4692,7 +4419,7 @@ class tcms_main {
 			$count++;
 		}
 		
-		if(is_array($arr_menu)){
+		if(is_array($arr_menu)) {
 			/*array_multisort(
 				$arr_menu['id'], SORT_ASC, 
 				$arr_menu['sub'], SORT_ASC, 
@@ -4705,13 +4432,13 @@ class tcms_main {
 				$arr_menu['tar'], SORT_ASC
 			);*/
 			
-			foreach($arr_menu['id'] as $mkey => $mvalue){
+			foreach($arr_menu['id'] as $mkey => $mvalue) {
 				if($arr_menu['tar'][$mkey] != '')
 					$ltarget = ' target="'.$arr_menu['tar'][$mkey].'"';
 				else
 					$ltarget = '';
 				
-				if($arr_menu['type'][$mkey] == 'web'){
+				if($arr_menu['type'][$mkey] == 'web') {
 					$arr_mainmenu['link'][$mkey] = '<a'.$ltarget.' class="mainlevel" href="'.trim($arr_menu['link'][$mkey]).'">'.trim($arr_menu['name'][$mkey]).'</a>';
 				}
 				else{
@@ -4731,7 +4458,7 @@ class tcms_main {
 				$arr_mainmenu['pub'][$mkey] = trim($arr_menu['pub'][$mkey]);
 				$arr_mainmenu['url'][$mkey] = trim($arr_menu['link'][$mkey]);
 				
-				if($arr_menu['type'][$mkey] == 'web'){
+				if($arr_menu['type'][$mkey] == 'web') {
 					$arr_mainmenu['submenu'][$mvalue][$mkey] = '<a'.$ltarget.' class="submenu" href="'.trim($arr_menu['link'][$mkey]).'">'.trim($arr_menu['name'][$mkey]).'</a>';
 				}
 				else{
@@ -4752,13 +4479,13 @@ class tcms_main {
 	
 	
 	/**
-	 * @deprecated 
+	 * @deprecated Deprecated since version 1.6
 	 */
 	function load_css_files($path, $file_or_number) {
-		if($file_or_number == 'files'){
+		if($file_or_number == 'files') {
 			return $this->getPathCSSFilesRecursivly($path);
 		}
-		else if($file_or_number == 'number'){
+		else if($file_or_number == 'number') {
 			return $this->getPathCSSFilesRecursivly($path, true);
 		}
 	}
@@ -4766,7 +4493,7 @@ class tcms_main {
 	
 	
 	/**
-	 * @deprecated 
+	 * @deprecated Deprecated since version 1.6
 	 * @return return the last index of a expression
 	 */
 	function tcms_strrpos($findHere, $searchThis, $offset = 0) {
@@ -4776,22 +4503,22 @@ class tcms_main {
 	
 	
 	/**
-	 * @deprecated 
+	 * @deprecated Deprecated since version 1.6
 	 * @return A string where all nl replaced with a <br> tag
 	 * @desc
 	 */
-	function nl2br($msg){
+	function nl2br($msg) {
 		return $this->convertNewlineToHTML($msg);
 	}
 	
 	
 	
 	/**
-	 * @deprecated 
+	 * @deprecated Deprecated since version 1.6
 	 * @return string
 	 * @desc check unicode problems
 	 */
-	function ampReplace($text){
+	function ampReplace($text) {
 		return $this->replaceAmp($text);
 	}
 	
@@ -4800,11 +4527,11 @@ class tcms_main {
 	/**
 	 * Convert a url link into a SEO friendly link
 	 * 
-	 * @deprecated 
+	 * @deprecated Deprecated since version 1.6
 	 * @param String $text
 	 * @param Boolean $withApmersant = true
 	 */
-	function urlAmpReplace($text, $withApmersant = true){
+	function urlAmpReplace($text, $withApmersant = true) {
 		return $this->urlConvertToSEO($text, $withApmersant);
 	}
 	
@@ -4813,7 +4540,7 @@ class tcms_main {
 	/**
 	 * Check if a session exist
 	 *
-	 * @deprecated 
+	 * @deprecated Deprecated since version 1.6
 	 * @param String $choosenDB
 	 * @param String $sqlUser
 	 * @param String $sqlPass
@@ -4823,8 +4550,40 @@ class tcms_main {
 	 * @param String $session
 	 * @return Boolean
 	 */
-	function check_session_exists($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session){
-		return $this->checkSessionExist($session);
+	function check_session_exists($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session) {
+		if($this->db_choosenDB == 'xml') {
+			if($this->isReal($session) 
+			&& $this->checkFileExist($tcms_administer_site.'/tcms_session/'.$session) 
+			&& filesize(''.$tcms_administer_site.'/tcms_session/'.$session) != 0) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
+			
+			$sqlQR = $sqlAL->getOne($this->db_prefix.'session', $session);
+			$session_exists = $sqlAL->getNumber($sqlQR);
+			
+			$sqlAL->_sqlAbstractionLayer();
+			unset($sqlAL);
+			
+			if($session_exists != 0) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
 	}
 	
 	
@@ -4832,12 +4591,66 @@ class tcms_main {
 	/**
 	 * Check session timeouts
 	 *
-	 * @deprecated 
+	 * @deprecated Deprecated since version 1.6
 	 * @param unknown_type $session
 	 * @param unknown_type $webend
 	 */
-	function check_session($session, $webend){
-		$this->checkSessionTimeout($session, ( $webend == 'user' ? 0 : 1 ));
+	function check_session($session, $webend) {
+		if($this->db_choosenDB == 'xml') {
+			if($webend == 0) {
+				$pp = $this->administer.'/tcms_';
+			}
+			elseif($webend == 1) {
+				$pp = '';
+			}
+			
+			$handle = opendir($pp.'session/');
+			
+			while($file = readdir($handle)) {
+				if($file != '.' 
+				&& $file != '..' 
+				&& $file != $session 
+				&& $file != 'CVS' 
+				&& $file != '.svn'
+				&& $file != '_svn'
+				&& $file != '.SVN'
+				&& $file != '_SVN'
+				&& $file != 'index.html') {
+					if(date('U') - date('U', filemtime($pp.'session/'.$file)) > 36000) {
+						unlink($pp.'session/'.$file);
+					}
+				}
+			}
+			
+			closedir($handle);
+		}
+		else {
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB);
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
+			
+			$sqlQR = $sqlAL->getALL($this->db_prefix.'session');
+			
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
+				$checkSessionUID = $sqlObj->uid;
+				
+				if($session != $checkSessionUID) {
+					$checkSessionTime = $sqlObj->date;
+					
+					if(date('U') - $checkSessionTime > 36000 || $checkSessionTime == NULL) {
+						$sqlAL->deleteOne($this->db_prefix.'session', $checkSessionUID);
+					}
+				}
+			}
+			
+			$sqlAL->_sqlAbstractionLayer();
+			unset($sqlAL);
+		}
 	}
 	
 	
@@ -4845,7 +4658,7 @@ class tcms_main {
 	/**
 	 * Check session timeouts
 	 *
-	 * @deprecated 
+	 * @deprecated Deprecated since version 1.6
 	 * @param unknown_type $choosenDB
 	 * @param unknown_type $sqlUser
 	 * @param unknown_type $sqlPass
@@ -4854,8 +4667,62 @@ class tcms_main {
 	 * @param unknown_type $sqlPort
 	 * @param unknown_type $session
 	 */
-	function check_sql_session($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session){
-		$this->checkSessionTimeout($session);
+	function check_sql_session($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session) {
+		if($this->db_choosenDB == 'xml') {
+			if($webend == 0) {
+				$pp = $this->administer.'/tcms_';
+			}
+			elseif($webend == 1) {
+				$pp = '';
+			}
+			
+			$handle = opendir($pp.'session/');
+			
+			while($file = readdir($handle)) {
+				if($file != '.' 
+				&& $file != '..' 
+				&& $file != $session 
+				&& $file != 'CVS' 
+				&& $file != '.svn'
+				&& $file != '_svn'
+				&& $file != '.SVN'
+				&& $file != '_SVN'
+				&& $file != 'index.html') {
+					if(date('U') - date('U', filemtime($pp.'session/'.$file)) > 36000) {
+						unlink($pp.'session/'.$file);
+					}
+				}
+			}
+			
+			closedir($handle);
+		}
+		else {
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB);
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
+			
+			$sqlQR = $sqlAL->getALL($this->db_prefix.'session');
+			
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
+				$checkSessionUID = $sqlObj->uid;
+				
+				if($session != $checkSessionUID) {
+					$checkSessionTime = $sqlObj->date;
+					
+					if(date('U') - $checkSessionTime > 36000 || $checkSessionTime == NULL) {
+						$sqlAL->deleteOne($this->db_prefix.'session', $checkSessionUID);
+					}
+				}
+			}
+			
+			$sqlAL->_sqlAbstractionLayer();
+			unset($sqlAL);
+		}
 	}
 	
 	
@@ -4863,12 +4730,12 @@ class tcms_main {
 	/**
 	 * Get admin user info
 	 *
-	 * @deprecated 
+	 * @deprecated Deprecated since version 1.6
 	 * @param unknown_type $session
 	 * @param unknown_type $rt
 	 * @return unknown
 	 */
-	function create_admin($session, $rt = 'id'){
+	function create_admin($session, $rt = 'id') {
 		$sp = fopen('session/'.$session, 'r');
 		$m_tag = fread($sp, filesize('session/'.$session));
 		fclose($sp);
@@ -4877,8 +4744,212 @@ class tcms_main {
 		$ws_user = $m_tag[0];
 		$ws_id   = $m_tag[1];
 		
-		if($rt == 'user'){ return $ws_user; }
+		if($rt == 'user') { return $ws_user; }
 		if($rt == 'id')  { return $ws_id; }
+	}
+	
+	
+	
+	/**
+	 * Checks if a directory exist
+	 *
+	 * @deprecated Deprecated since version 1.6
+	 * @param string $directoryWithPath
+	 * @return bool
+	 */
+	function checkDirExist($directoryWithPath) {
+		include($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
+		
+		$f = new tcms_file();
+		return $f->checkDirExist($directoryWithPath);
+		
+		/*
+		if(is_writable($directoryWithPath)) {
+			return true;
+		}
+		else {
+			return false;
+		}*/
+	}
+	
+	
+	
+	/**
+	 * Checks if a file exist
+	 *
+	 * @deprecated Deprecated since version 1.6
+	 * @param string $fileWithPath
+	 * @return bool
+	 */
+	function checkFileExist($fileWithPath) {
+		include($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
+		
+		$f = new tcms_file();
+		return $f->checkFileExist($fileWithPath);
+		
+		/*
+		if(file_exists($fileWithPath)) {
+			return true;
+		}
+		else {
+			return false;
+		}*/
+	}
+	
+	
+	
+	/**
+	 * Get the complete filesize of a directory
+	 *
+	 * @deprecated Deprecated since version 1.6
+	 * @param String $path
+	 * @param Integer $size
+	 * @return Integer
+	 */
+	function getDirectorySize($path, $size = 0) {
+		include($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
+		
+		$f = new tcms_file();
+		return $f->getDirectorySize($path, $size);
+		
+		/*
+		if(!is_dir($path)) {
+			$size += filesize($path);
+		}
+		else{
+			$dir = opendir($path);
+			
+			while($file = readdir($dir)) {
+				if(is_file($path."/".$file))
+					$size += filesize($path.'/'.$file);
+				
+				if(is_dir($path.'/'.$file) && $file != '.' && $file != '..')
+					$size = $this->getDirectorySize($path.'/'.$file, $size);
+			}
+		}
+		
+		return($size);*/
+	}
+	
+	
+	
+	/**
+	 * Get the complete filesize of a directory as string
+	 *
+	 * @deprecated Deprecated since version 1.6
+	 * @param String $path
+	 * @return String
+	 */
+	function getDirectorySizeString($path) {
+		include($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
+		
+		$f = new tcms_file();
+		return $f->getDirectorySizeString($path);
+		
+		/*
+		$size = $this->getDirectorySize($path, 0);
+		
+		$measure = 'Byte';
+		
+		if($size >= 1024) {
+			$measure = 'KB';
+			$size = $size / 1024;
+		}
+		
+		if($size >= 1024) {
+			$measure = 'MB';
+			$size = $size / 1024;
+		}
+		
+		if($size >= 1024) {
+			$measure = 'GB';
+			$size = $size / 1024;
+		}
+		
+		$size = sprintf("%01.2f", $size);
+		
+		return $size.'&nbsp;'.$measure;*/
+	}
+	
+	
+	
+	/**
+	 * --- FUNCTION FROM Joomla! (www.joomla.org) ---
+	 * 
+	 * Chmods files and directories recursivel to given permissions
+	 * 
+	 * @deprecated Deprecated since version 1.6
+	 * @param path The starting file or directory (no trailing slash)
+	 * @param filemode Integer value to chmod files. NULL = dont chmod files.
+	 * @param dirmode Integer value to chmod directories. NULL = dont chmod directories.
+	 * @return TRUE=all succeeded FALSE=one or more chmods failed
+	 */
+	function reCHMOD($path, $filemode = 0777, $dirmode = 1) {
+		$ret = true;
+		
+		if(is_dir($path)) {
+			$dh = opendir($path);
+			
+			while($file = readdir($dh)) {
+				if($file != '.' && $file != '..') {
+					$fullpath = $path.'/'.$file;
+					
+					if(is_dir($fullpath)) {
+						if(!reCHMOD($fullpath, $filemode, $dirmode)) {
+							$ret = false;
+						}
+					}
+					else{
+						if(isset($filemode)) {
+							if(!@chmod($fullpath, $filemode)) {
+								$ret = false;
+							}
+						}
+					} // if
+				} // if
+			} // while
+			
+			closedir($dh);
+			
+			if(isset($dirmode)) {
+				if(!@chmod($path, $dirmode)) {
+					$ret = false;
+				}
+			}
+		}
+		else {
+			if(isset($filemode)) {
+				$ret = @chmod($path, $filemode);
+			}
+		} // if
+		
+		return $ret;
+	}
+	
+	
+	
+	/**
+	 * Checks if a file is CHMODable
+	 * 
+	 * @deprecated Deprecated since version 1.6
+	 * @return Boolean
+	 */
+	function isCHMODable($file) {
+		include($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
+		
+		$f = new tcms_file();
+		return $f->isCHMODable($file);
+		
+		/*
+		$perms = fileperms($file);
+		
+		if($perms !== false)
+			if(@chmod($file, $perms ^ 0001)) {
+				@chmod($file, $perms);
+				return true;
+			}
+		
+		return false;*/
 	}
 }
 

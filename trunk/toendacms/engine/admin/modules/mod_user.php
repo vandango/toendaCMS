@@ -9,8 +9,7 @@
 | 
 | User Manager
 |
-| File:		mod_user.php
-| Version:	0.4.7
+| File:	mod_user.php
 |
 +
 */
@@ -19,6 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * User Manager
+ *
+ * This module is used for user administration
+ *
+ * @version 0.5.0
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 if(isset($_GET['action'])){ $action = $_GET['action']; }
@@ -74,13 +83,13 @@ include_once('../tcms_kernel/datacontainer/tcms_dc_account.lib.php');
 //=====================================================
 
 if($todo == 'show'){
-	echo tcms_html::bold(_USER_TITLE);
-	echo tcms_html::text(_USER_TEXT.'<br /><br />', 'left');
+	echo $tcms_html->bold(_USER_TITLE);
+	echo $tcms_html->text(_USER_TEXT.'<br /><br />', 'left');
 	
 	if($choosenDB == 'xml'){
-		$arr_filename = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_user/');
+		$arr_filename = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/tcms_user/');
 		
-		if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
+		if($tcms_main->isArray($arr_filename)){
 			foreach($arr_filename as $key => $value){
 				$menu_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_user/'.$value,'r');
 				$arr_user['tag'][$key]    = substr($value, 0, 32);
@@ -97,6 +106,11 @@ if($todo == 'show'){
 				if(!$arr_user['email'][$key]) { $arr_user['email'][$key]  = ''; }
 				if(!$arr_user['enable'][$key]){ $arr_user['enable'][$key] = ''; }
 				if(!$arr_user['static'][$key]){ $arr_user['static'][$key] = ''; }
+				
+				if(trim($arr_user['static'][$key]) == ''
+				&& $arr_user['user'][$key] 'root') {
+					$arr_user['static'][$key] = '1';
+				}
 				
 				// CHARSETS
 				$arr_user['name'][$key] = $tcms_main->decodeText($arr_user['name'][$key], '2', $c_charset);
@@ -117,7 +131,7 @@ if($todo == 'show'){
 		}
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		if($choosenDB == 'mssql'){
@@ -322,7 +336,7 @@ if($todo == 'edit'){
 			$tu_signature = htmlspecialchars($tu_signature);
 			
 			
-			echo tcms_html::bold(_TABLE_EDIT);
+			echo $tcms_html->bold(_TABLE_EDIT);
 			$odot = 'save';
 		}
 		else{
@@ -357,7 +371,7 @@ if($todo == 'edit'){
 			
 			$maintag = $tcms_main->getNewUID(32, 'user');
 			
-			echo tcms_html::bold(_TABLE_NEW);
+			echo $tcms_html->bold(_TABLE_NEW);
 			$odot = 'next';
 		}
 		
@@ -365,7 +379,7 @@ if($todo == 'edit'){
 		if($show_edit_fields){
 			$width = '200';
 			
-			echo tcms_html::text(_LU_DES_TEXT.'<br /><br />', 'left');
+			echo $tcms_html->text(_LU_DES_TEXT.'<br /><br />', 'left');
 			
 			
 			// form

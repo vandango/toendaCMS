@@ -37,7 +37,7 @@ if(isset($_POST['reg_cookie'])){ $reg_cookie = $_POST['reg_cookie']; }
  * This module provides the login functionality
  * and a login formular.
  *
- * @version 0.5.2
+ * @version 0.5.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -49,10 +49,6 @@ if(!isset($reg_login)){ $reg_login = NULL; }
 
 
 if($use_login == 1) {
-	using('toendacms.kernel.authentication');
-	$tcms_auth = new tcms_authentication($tcms_administer_site, $c_charset, $imagePath);
-	
-	
 	if($check_session) {
 		/*
 			READ USERNAME
@@ -150,12 +146,12 @@ if($reg_login == 'login') {
 		}
 		
 		$link = '?session='.$session.'&id='.$id.'&s='.$s.$linkAdd
-		.( isset($lang) ? '&amp;lang='.$lang : '' );
+		.( isset($lang) ? '&lang='.$lang : '' );
 		$link = $tcms_main->urlConvertToSEO($link, false);
 	}
 	else {
-		$link = '?id='.$id.'&amp;s='.$s
-		.( isset($lang) ? '&amp;lang='.$lang : '' );
+		$link = '?id='.$id.'&s='.$s
+		.( isset($lang) ? '&lang='.$lang : '' );
 		$link = $tcms_main->urlConvertToSEO($link);
 		
 		if($session === 'u') {
@@ -182,7 +178,7 @@ if($reg_login == 'login') {
 if($reg_login == 'logout'){
 	$tcms_auth->doLogout($session);
 	
-	$link = '?s='.$s.( isset($lang) ? '&amp;lang='.$lang : '' );
+	$link = '?s='.$s.( isset($lang) ? '&lang='.$lang : '' );
 	$link = $tcms_main->urlConvertToSEO($link);
 	
 	echo '<script>document.location.href=\''.$link.'\';</script>';

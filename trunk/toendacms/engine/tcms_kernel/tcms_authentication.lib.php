@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to authenticate a login user.
  *
- * @version 0.2.4
+ * @version 0.3.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -33,19 +33,21 @@ defined('_TCMS_VALID') or die('Restricted access');
 /**
  * Methods
  *
- * __construct                 -> PHP5 Constructor
- * tcms_authentication         -> PHP4 Constructor
- * __destruct                  -> PHP5 Destructor
- * _tcms_authentication        -> PHP4 Destructor
+ * __construct                       -> PHP5 Constructor
+ * tcms_authentication               -> PHP4 Constructor
+ * __destruct                        -> PHP5 Destructor
+ * _tcms_authentication              -> PHP4 Destructor
  * 
- * setTcmsTimeObj              -> Set the tcms_time object
+ * setTcmsTimeObj                    -> Set the tcms_time object
  *
- * createSession               -> Create a session
- * updateLoginTime             -> Update the last_login value to current datetime
- * doLogin                     -> Login to the system
- * doLogout                    -> Logout from the system
- * doRetrieve                  -> Retrieve a new password
- * sendRetrievementMail        -> Send a mail at the email of the founded user with a new password.
+ * createSession                     -> Create a session
+ * checkSessionExist                 -> Check if a session exist
+ * cleanupOutdatedSessions           -> Cleanup the outdated sessions
+ * updateLoginTime                   -> Update the last_login value to current datetime
+ * doLogin                           -> Login to the system
+ * doLogout                          -> Logout from the system
+ * doRetrieve                        -> Retrieve a new password
+ * sendRetrievementMail              -> Send a mail at the email of the founded user with a new password.
  *
  */
 
@@ -74,7 +76,7 @@ class tcms_authentication extends tcms_main {
 	 * @param String $charset
 	 * @param String $imagePath
 	 */
-	function __construct($administer, $charset, $imagePath, $tcmsTimeObj = null){
+	function __construct($administer, $charset, $imagePath, $tcmsTimeObj = null) {
 		$this->m_administer = $administer;
 		$this->m_imagePath = $imagePath;
 		$this->m_charset = $charset;
@@ -104,7 +106,7 @@ class tcms_authentication extends tcms_main {
 	 * @param String $charset
 	 * @param String $imagePath
 	 */
-	function tcms_authentication($administer, $charset, $imagePath, $tcmsTimeObj = null){
+	function tcms_authentication($administer, $charset, $imagePath, $tcmsTimeObj = null) {
 		$this->__construct($administer, $charset, $imagePath, $tcmsTimeObj);
 	}
 	
@@ -113,7 +115,7 @@ class tcms_authentication extends tcms_main {
 	/**
 	 * PHP5 Destructor
 	 */
-	function __destruct(){
+	function __destruct() {
 	}
 	
 	
@@ -121,7 +123,7 @@ class tcms_authentication extends tcms_main {
 	/**
 	 * PHP4 Destructor
 	 */
-	function _tcms_authentication(){
+	function _tcms_authentication() {
 		$this->__destruct();
 	}
 	
@@ -143,38 +145,63 @@ class tcms_authentication extends tcms_main {
 	 *
 	 * @param String $username
 	 * @param String $id
-	 * @param Boolean $backend = false
+	 * @param Boolean $forBackend = false
 	 * @return Boolean
 	 */
-	function createSession($username, $id, $backend = false){
-		if($this->db_choosenDB == 'xml'){
-			if($backend){
+	function createSession($username, $id, $forBackend = false) {
+		if($this->db_choosenDB == 'xml') {
+			if($forBackend) {
 				$ws_path = '';
 			}
 			else{
 				$ws_path = $this->m_imagePath.$this->m_administer.'/tcms_';
 			}
 			
-			while(($session_id = md5(microtime())) && file_exists($ws_path.'session/'.$session_id)){}
+			include_once($this->m_administer.'/../engine/tcms_kernel/tcms_file.lib.php');
 			
-			$session_save = fopen($ws_path.'session/'.$session_id, 'w');
-			fclose($session_save);
+			$file = new tcms_file();
 			
-			chmod($ws_path.'session/'.$session_id, 0777);
+			//while(($session_id = md5(microtime())) && file_exists($ws_path.'session/'.$session_id)) {}
+			while(($session_id = md5(microtime())) && $file->checkFileExist($ws_path.'session/'.$session_id)) {}
+			
+			$file->open($ws_path.'session/'.$session_id, 'w');
+			$file->write($username.'##'.$id);
+			$file->close();
+			//$session_save = fopen($ws_path.'session/'.$session_id, 'w');
+			//fclose($session_save);
+			
+			$file->CHMOD($ws_path.'session/'.$session_id);
+			//chmod($ws_path.'session/'.$session_id, 0777);
 			
 			umask(077);
-			$wp = fopen($ws_path.'session/'.$session_id, 'w');
-			fwrite($wp, $username.'##'.$id);
-			fclose($wp);
 			
-			$www = fopen($ws_path.'session/'.$session_id, 'r');
-			$ws_check = fread($www, filesize($ws_path.'session/'.$session_id));
-			fclose($www);
+			//$file->open($ws_path.'session/'.$session_id, 'w');
+			//$file->write($username.'##'.$id);
+			//$file->close();
+			//$wp = fopen($ws_path.'session/'.$session_id, 'w');
+			//fwrite($wp, $username.'##'.$id);
+			//fclose($wp);
 			
-			if(file_exists($ws_path.'session/'.$session_id))
-				$ws_return = $session_id;
-			else
+			if($file->getFilesize($ws_path.'session/'.$session_id) > 0) {
+				$file->open($ws_path.'session/'.$session_id, 'r');
+				$ws_check = $file->read();
+				$file->close();
+				//$www = fopen($ws_path.'session/'.$session_id, 'r');
+				//$ws_check = fread($www, filesize($ws_path.'session/'.$session_id));
+				//fclose($www);
+				
+				//if(file_exists($ws_path.'session/'.$session_id)) {
+				if($file->checkFileExist($ws_path.'session/'.$session_id)
+				&& $file->getFilesize($ws_path.'session/'.$session_id) > 0) {
+					$ws_return = $session_id;
+				}
+				else {
+					$ws_return = false;
+				}
+			}
+			else {
 				$ws_return = false;
+			}
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
@@ -194,7 +221,7 @@ class tcms_authentication extends tcms_main {
 			}
 			while($session_exists > 0);
 			
-			switch($this->db_choosenDB){
+			switch($this->db_choosenDB) {
 				case 'mysql': $newSQLColumns = 'date, user, user_id'; break;
 				case 'pgsql': $newSQLColumns = 'date, "user", user_id'; break;
 				case 'mssql': $newSQLColumns = 'date, [user], [user_id]'; break;
@@ -214,18 +241,145 @@ class tcms_authentication extends tcms_main {
 	
 	
 	/**
+	 * Check if a session exist
+	 *
+	 * @param String $session
+	 * @param Boolean $forBackend = false
+	 * @return Boolean
+	 */
+	function checkSessionExist($session, $forBackend = false) {
+		if($this->db_choosenDB == 'xml') {
+			include_once($this->m_administer.'/../engine/tcms_kernel/tcms_file.lib.php');
+			
+			$file = new tcms_file();
+			
+			if($forBackend) {
+				$ws_path = 'session/'.$session;
+			}
+			else{
+				$ws_path = $this->m_administer.'/tcms_session/'.$session;
+			}
+			
+			//echo 'exist:'.($file->checkFileExist($ws_path) ? '1' : '0').'<br>';
+			//echo 'size:'.$file->getFilesize($ws_path).'<br>';
+			
+			if($this->isReal($session) 
+			&& $file->checkFileExist($ws_path) 
+			&& $file->getFilesize($ws_path) != 0) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
+			
+			$sqlQR = $sqlAL->getOne($this->db_prefix.'session', $session);
+			$session_exists = $sqlAL->getNumber($sqlQR);
+			
+			$sqlAL->_sqlAbstractionLayer();
+			
+			unset($sqlAL);
+			
+			if($session_exists != 0) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+	}
+	
+	
+	
+	/**
+	 * Cleanup the outdated sessions
+	 *
+	 * @param String $session
+	 * @param Boolean $forBackend
+	 */
+	function cleanupOutdatedSessions($session, $forBackend = false) {
+		if($this->db_choosenDB == 'xml') {
+			if($forBackend) {
+				$ws_path = 'session/';
+			}
+			else {
+				$ws_path = $this->m_administer.'/tcms_session/';
+			}
+			
+			$handle = opendir($ws_path);
+			
+			while($file = readdir($handle)) {
+				if($file != '.' 
+				&& $file != '..' 
+				&& $file != $session 
+				&& $file != 'CVS' 
+				&& $file != '.svn'
+				&& $file != '_svn'
+				&& $file != '.SVN'
+				&& $file != '_SVN'
+				&& $file != 'index.html') {
+					if((filesize($ws_path.$file) == 0)
+					|| (date('U') - date('U', filemtime($ws_path.$file)) > 36000)) {
+						unlink($ws_path.$file);
+					}
+				}
+			}
+			
+			closedir($handle);
+		}
+		else {
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
+			
+			$sqlQR = $sqlAL->getALL($this->db_prefix.'session');
+			
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
+				$checkSessionUID = $sqlObj->uid;
+				
+				if($session != $checkSessionUID) {
+					$checkSessionTime = $sqlObj->date;
+					
+					if(date('U') - $checkSessionTime > 36000 || $checkSessionTime == NULL) {
+						$sqlAL->deleteOne($this->db_prefix.'session', $checkSessionUID);
+					}
+				}
+			}
+			
+			$sqlAL->_sqlAbstractionLayer();
+			unset($sqlAL);
+		}
+	}
+	
+	
+	
+	/**
 	 * Update the last_login value to current datetime
 	 *
 	 * @param String $tcmsUserID
 	 */
-	function updateLoginTime($tcmsUserID){
-		if($this->db_choosenDB == 'xml'){
+	function updateLoginTime($tcmsUserID) {
+		if($this->db_choosenDB == 'xml') {
 			$arrUserXML = $this->getPathContent($this->m_administer.'/tcms_user');
 			
-			if($this->isArray($arrUserXML)){
-				foreach($arrUserXML as $key => $XMLUserFile){
-					if($XMLUserFile != 'index.html'){
-						if($tcmsUserID == substr($XMLUserFile, 0, 32)){
+			if($this->isArray($arrUserXML)) {
+				foreach($arrUserXML as $key => $XMLUserFile) {
+					if($XMLUserFile != 'index.html') {
+						if($tcmsUserID == substr($XMLUserFile, 0, 32)) {
 							$xmlUser = new xmlparser($this->m_administer.'/tcms_user/'.$XMLUserFile, 'r');
 							$tmpLLXML = $xmlUser->readSection('user', 'last_login');
 							
@@ -312,7 +466,7 @@ class tcms_authentication extends tcms_main {
 	 * @param Boolean $backend = false
 	 * @return String
 	 */
-	function doLogin($username, $password, $backend = false){
+	function doLogin($username, $password, $backend = false) {
 		if($this->db_choosenDB == 'xml') {
 			$arr_files = $this->getPathContent($this->m_administer.'/tcms_user/');
 			
@@ -444,9 +598,9 @@ class tcms_authentication extends tcms_main {
 	 * @param Boolean $backend = false
 	 * @return Boolean
 	 */
-	function doLogout($session, $backend = false){
-		if($this->db_choosenDB == 'xml'){
-			if($backend){
+	function doLogout($session, $backend = false) {
+		if($this->db_choosenDB == 'xml') {
+			if($backend) {
 				if('session/'.$session)
 					unlink('session/'.$session);
 				else
@@ -660,7 +814,7 @@ class tcms_authentication extends tcms_main {
 	 * @param String $new_password
 	 * @return Boolean
 	 */
-	function sendRetrievementMail($id, $username, $email, $new_password){
+	function sendRetrievementMail($id, $username, $email, $new_password) {
 		// cfg
 		$path = '';
 		$isBackend = false;
