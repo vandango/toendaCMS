@@ -21,7 +21,7 @@
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 1.1.6
+ * @version 1.2.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -58,19 +58,23 @@ $tcms_administer_site = $tcms_site[0]['path'];
 $tcms_administer_path = '../../'.$tcms_site[0]['path'];
 
 include_once('../tcms_kernel/tcms_loader.lib.php');
+include_once('../tcms_kernel/tcms_file.lib.php');
+
+$tcms_file = new tcms_file();
 
 
 /*
 	show site
 	if the global var file exist
 */
-if(file_exists($tcms_administer_path.'/tcms_global/var.xml')){
+if($tcms_file->checkFileExist($tcms_administer_path.'/tcms_global/var.xml')){
 	$language_stage = 'admin';
 	include_once('../language/lang_admin.php');
 	
 	
-	if(!isset($site))
+	if(!isset($site)) {
 		$site = 'mod_start';
+	}
 	
 	include_once($tcms_administer_path.'/tcms_global/database.php');
 	include_once($tcms_administer_path.'/tcms_global/mail.php');
@@ -83,7 +87,6 @@ if(file_exists($tcms_administer_path.'/tcms_global/var.xml')){
 	include_once('../tcms_kernel/pclzip/pclzip.lib.php');
 	include_once('../tcms_kernel/tcms_gd.lib.php');
 	include_once('../tcms_kernel/tcms_sql.lib.php');
-	include_once('../tcms_kernel/tcms_file.lib.php');
 	include_once('../tcms_kernel/tcms_components.lib.php');
 	using('toendacms.kernel.datacontainer_provider', false, true);
 	using('toendacms.kernel.account_provider', false, true);
@@ -95,8 +98,9 @@ if(file_exists($tcms_administer_path.'/tcms_global/var.xml')){
 	
 	include_once('../tcms_kernel/phpmailer/class.phpmailer.php');
 	
-	if(file_exists('../js/FCKeditor/fckeditor.php'))
+	if($tcms_file->checkFileExist('../js/FCKeditor/fckeditor.php')) {
 		include_once('../js/FCKeditor/fckeditor.php');
+	}
 	
 	
 	// timer
@@ -124,8 +128,33 @@ if(file_exists($tcms_administer_path.'/tcms_global/var.xml')){
 	$tcms_lang       = $tcms_config->getLanguageBackend();
 	$tcms_front_lang = $tcms_config->getLanguageFrontend();
 	
+	// imagepath
+	if($seoEnabled == 1){
+		if($seoFolder != ''){
+			if($noSEOFolder){
+				$templatePath = '../../theme/'.$s.'/';
+				$imagePath = '../../';
+			}
+			else{
+				$templatePath = '../../'.$seoFolder.'/theme/'.$s.'/';
+				$imagePath = '../../'.$seoFolder.'/';
+			}
+		}
+		else{
+			$templatePath = '../../theme/'.$s.'/';
+			$imagePath = '../../';
+		}
+	}
+	else{
+		$templatePath = '../../theme/'.$s.'/';
+		$imagePath = '../../';
+	}
+	
 	// mainclass
 	$tcms_main = new tcms_main($tcms_administer_path, $tcms_time);
+	
+	// authentication
+	$tcms_auth = new tcms_authentication($tcms_administer_path, $c_charset, $imagePath);
 	
 	// account provider
 	$tcms_ap = new tcms_account_provider($tcms_administer_path, $c_charset, $tcms_time);
@@ -173,8 +202,9 @@ if(file_exists($tcms_administer_path.'/tcms_global/var.xml')){
 	
 	
 	$param_save_mode = $tcms_main->getPHPSetting('safe_mode');
-	if($param_save_mode)
+	if($param_save_mode) {
 		$set_save_mode = $tcms_main->setPHPSetting('safe_mode', 'off');
+	}
 	
 	
 	
@@ -274,18 +304,18 @@ if(file_exists($tcms_administer_path.'/tcms_global/var.xml')){
 	/*
 		Login?
 	*/
-	if(isset($id_user)){
-		if($choosenDB == 'xml'){
-			if($_GET['setXMLSession'] == 1){
-				if(file_exists($tcms_administer_path.'/tcms_session/'.$id_user)){
-					$tcms_file = new tcms_file($tcms_administer_path.'/tcms_session/'.$id_user, 'r');
-					$ws_id = $tcms_file->Read();
+	if(isset($id_user)) {
+		if($choosenDB == 'xml') {
+			if($_GET['setXMLSession'] == 1) {
+				if($tcms_file->checkFileExist($tcms_administer_path.'/tcms_session/'.$id_user)){
+					$file = new tcms_file($tcms_administer_path.'/tcms_session/'.$id_user, 'r');
+					$ws_id = $file->Read();
 					
-					$tcms_file->ChangeFile('session/'.$id_user, 'w');
-					$tcms_file->Write($ws_id);
-					$tcms_file->Close();
+					$file->ChangeFile('session/'.$id_user, 'w');
+					$file->Write($ws_id);
+					$file->Close();
 					
-					$tcms_file->DeleteCustom($tcms_administer_path.'/tcms_session/'.$id_user);
+					$file->DeleteCustom($tcms_administer_path.'/tcms_session/'.$id_user);
 				}
 			}
 		}
@@ -295,21 +325,8 @@ if(file_exists($tcms_administer_path.'/tcms_global/var.xml')){
 		/*
 			Check session
 		*/
-		if($choosenDB == 'xml')
-			$tcms_main->check_session($id_user, 'admin');
-		else
-			$tcms_main->check_sql_session($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $id_user);
-		
-		
-		if($choosenDB == 'xml'){
-			if(isset($id_user) && $id_user != '' && file_exists('session/'.$id_user) && filesize('session/'.$id_user) != 0)
-				$check_session = true;
-			else
-				$check_session = false;
-		}
-		else{
-			$check_session = $tcms_main->check_session_exists($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $id_user);
-		}
+		$tcms_auth->cleanupOutdatedSessions($id_user, 1);
+		$check_session = $tcms_auth->checkSessionExist($id_user, true);
 		
 		if($check_session) {
 			$arr_ws = $tcms_ap->getUserInfo($id_user, true);

@@ -276,25 +276,34 @@ class tcms_account_provider extends tcms_main {
 	 * Get some information about the current user
 	 *
 	 * @param String $session
-	 * @param Boolean $forAdmin = false
+	 * @param Boolean $forBackend = false
 	 * @return Array
 	 */
-	function getUserInfo($session, $forAdmin = false){
+	function getUserInfo($session, $forBackend = false){
 		if($this->db_choosenDB == 'xml') {
-			if($forAdmin) {
-				$fileopen = fopen('session/'.$session, 'r');
-				$arr_user = fread($fileopen, filesize('session/'.$session));
+			if($forBackend) {
+				$ws_path = 'session/'.$session;
+				$ws_incl = '../';
 			}
 			else {
-				$fileopen = fopen($this->m_administer.'/tcms_session/'.$session, 'r');
-				$arr_user = fread($fileopen, filesize($this->m_administer.'/tcms_session/'.$session));
+				$ws_path = $this->m_administer.'/tcms_session/'.$session;
+				$ws_incl = 'engine/';
 			}
+			
+			include_once($ws_incl.'tcms_kernel/tcms_file.lib.php');
+			
+			$file = new tcms_file();
+			
+			$file->open($ws_path, 'r');
+			$arr_user = $file->read();
+			$file->close();
+			
+			$file->_tcms_file();
+			unset($file);
 			
 			$arr_username = explode('##', $arr_user);
 			$ws_user = $arr_username[0];
 			$ws_id   = $arr_username[1];
-			
-			fclose($fileopen);
 			
 			$authXML = new xmlparser($this->m_administer.'/tcms_user/'.$ws_id.'.xml', 'r');
 			

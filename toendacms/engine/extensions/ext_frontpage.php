@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides a frontpage with news and a text.
  *
- * @version 1.4.2
+ * @version 1.4.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -108,10 +108,10 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 				$dcNews = new tcms_dc_news();
 				$dcNews = $arrNewsDC[$n_key];
 				
-				
 				if(($check_session && $canEdit)
 				&& (($dcNews->GetAutor() == $ws_name)
-				|| ($dcNews->GetAutor() == $ws_user))){
+				|| ($dcNews->GetAutor() == $ws_user)
+				|| (trim($is_admin) == 'Administrator'))){
 					$link = ( $seoFolder == '' ? '' : $seoFolder.'/' ).'engine/admin/admin.php?id_user='.$session.'&amp;site=mod_news&amp;todo=edit&amp;maintag='.$dcNews->GetID();
 					
 					echo '<div style="display: block; float: right;">';

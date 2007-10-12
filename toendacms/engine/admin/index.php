@@ -54,6 +54,7 @@ $tcms_administer_site = 'data';
 include_once('../language/lang_admin.php');
 include_once('../tcms_kernel/tcms.lib.php');
 include_once('../tcms_kernel/tcms_time.lib.php');
+include_once('../tcms_kernel/tcms_file.lib.php');
 include_once('../tcms_kernel/tcms_sql.lib.php');
 include_once('../tcms_kernel/tcms_xml.lib.php');
 include_once('../../'.$tcms_administer_site.'/tcms_global/database.php');

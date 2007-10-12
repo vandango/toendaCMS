@@ -76,8 +76,8 @@ if(isset($cat)){ $action = 'archive'; $news = ''; $cmd = ''; }
 if(isset($date)){ $action = 'archive'; $news = ''; $cmd = ''; $cat = ''; }
 if(isset($day)){ $action = 'archive'; $news = ''; $cmd = ''; $cat = ''; $date = ''; }
 
-if($action == 'start' || $action == 'archive'){
-	if($cat == '' || !isset($cat)){
+if($action == 'start' || $action == 'archive') {
+	if($cat == '' || !isset($cat)) {
 		echo $tcms_html->contentModuleHeader(
 			$news_title, 
 			$news_stamp, 
@@ -211,8 +211,8 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 	$dcNews = new tcms_dc_news();
 	$dcNews = $tcms_dcp->getNewsDC($getLang, $news, $is_admin);
 	
-	if($dcNews->getPublished() == 1){
-		if($check_session && $canEdit){
+	if($dcNews->getPublished() == 1) {
+		if($check_session && $canEdit) {
 			$link = ( $seoFolder == '' ? '' : $seoFolder.'/' ).'engine/admin/admin.php?id_user='.$session.'&amp;site=mod_news&amp;todo=edit&amp;maintag='.$dcNews->getID();
 			
 			echo '<div style="display: block; float: right;">';
