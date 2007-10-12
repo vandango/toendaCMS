@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides a download manager..
  *
- * @version 0.8.2
+ * @version 0.8.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -37,18 +37,20 @@ if(isset($_GET['action'])){ $action = $_GET['action']; }
 if(isset($_GET['category'])){ $category = $_GET['category']; }
 
 
-if(!isset($action))
+if(!isset($action)) {
 	$action = 'showall';
+}
 
-if(!isset($page))
+if(!isset($page)) {
 	$page = 1;
+}
 
 
 
 /*
 	SHOW CATEGORIES
 */
-if($action == 'showall'){
+if($action == 'showall') {
 	echo $tcms_html->contentModuleHeader(
 		$download_title, 
 		$download_stamp, 
@@ -59,7 +61,7 @@ if($action == 'showall'){
 	$displayDownload = true;
 	
 	
-	if($choosenDB == 'xml'){
+	if($choosenDB == 'xml') {
 		$arr_downfiles = $tcms_main->getPathContent($tcms_administer_site.'/files/');
 		
 		$count = 0;
@@ -67,7 +69,7 @@ if($action == 'showall'){
 		/*
 			access
 		*/
-		if($tcms_main->isReal($category)){
+		if($tcms_main->isReal($category)) {
 			$xml      = new xmlparser($tcms_administer_site.'/files/'.$category.'/info.xml','r');
 			$checkAcc = $xml->readSection('info', 'access');
 			$wsCatTit = $xml->readSection('info', 'name');
@@ -87,9 +89,9 @@ if($action == 'showall'){
 		}
 		
 		
-		if($displayDownload){
-			if($tcms_main->isArray($arr_downfiles)){
-				foreach($arr_downfiles as $key => $value){
+		if($displayDownload) {
+			if($tcms_main->isArray($arr_downfiles)) {
+				foreach($arr_downfiles as $key => $value) {
 					if($value != 'index.html'){
 						$xml      = new xmlparser($tcms_administer_site.'/files/'.$value.'/info.xml', 'r');
 						$checkPub = $xml->readSection('info', 'pub');
@@ -104,16 +106,20 @@ if($action == 'showall'){
 								rules
 							*/
 							if(!isset($category) || trim($category) == ''){
-								if($checkCat == '')
+								if($checkCat == '') {
 									$countThis = true;
-								else
+								}
+								else {
 									$countThis = false;
+								}
 							}
 							else{
-								if($checkCat == $category)
+								if($checkCat == $category) {
 									$countThis = true;
-								else
+								}
+								else {
 									$countThis = false;
+								}
 							}
 							
 							
@@ -153,7 +159,7 @@ if($action == 'showall'){
 			}
 		}
 		
-		if(is_array($arr_dw) && !empty($arr_dw)){
+		if($tcms_main->isArray($arr_dw)){
 			array_multisort(
 				$arr_dw['sort'], SORT_ASC, 
 				$arr_dw['date'], SORT_ASC, 
@@ -455,7 +461,7 @@ if($action == 'showall'){
 							echo '<a href="'.$link.'" target="_blank">';
 							
 							if($arr_dw['img'][$key] == '_mimetypes_') {
-								if($tcms_main->checkFileExist('engine/images/mimetypes/'.$arr_dw['type'][$key].'.png')) {
+								if($tcms_file->checkFileExist('engine/images/mimetypes/'.$arr_dw['type'][$key].'.png')) {
 									if($detect_browser == 1) {
 										echo '<script>if(browser == \'ie\'){'
 										.'document.write(\'<img src="'.$imagePath.'engine/images/mimetypesGIF/'.$arr_dw['type'][$key].'.gif" border="0" />\');'
@@ -510,26 +516,28 @@ if($action == 'showall'){
 					.'<td valign="top" align="left">';
 					
 					
-					if($arr_dw['st'][$key] == 'd'){
-						if($showThis){
+					if($arr_dw['st'][$key] == 'd') {
+						if($showThis) {
 							echo '<a class="main text_big" href="'.$link.'">'
 							.$tcms_html->bold($arr_dw['name'][$key])
 							.'</a>'
 							.$tcms_html->text($arr_dw['desc'][$key], 'left');
 						}
-						else{
+						else {
 							echo $tcms_html->bold($arr_dw['name'][$key])
 							.$tcms_html->text($arr_dw['desc'][$key], 'left');
 						}
 					}
-					else{
-						if(file_exists($tcms_administer_site.'/files/'.$category.'/'.$arr_dw['file'][$key])){
-							$size = filesize($tcms_administer_site.'/files/'.$category.'/'.$arr_dw['file'][$key]) / 1024;
+					else {
+						if($tcms_file->checkFileExist($tcms_administer_site.'/files/'.$category.'/'.$arr_dw['file'][$key])){
+							$size = $tcms_file->getFilesize(
+								$tcms_administer_site.'/files/'.$category.'/'.$arr_dw['file'][$key]
+							) / 1024;
 							$kpos = strpos($size, '.');
 							$file_size = substr($size, 0, $kpos+3);
 						}
 						
-						if($showThis){
+						if($showThis) {
 							echo '<a class="main text_big" href="'.$link.'" target="_blank">'
 							.$tcms_html->bold($arr_dw['name'][$key])
 							.'</a>'
