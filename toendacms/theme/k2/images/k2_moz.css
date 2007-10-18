@@ -28,6 +28,12 @@ body {
 	color: #444;
 	background-color: #EDEDED;
 	text-align: center;
+	
+	font: 62.5% 'Lucida Grande', Verdana, Arial, Sans-Serif;
+	color: #444;
+	background: #EDEDED;
+	text-align: center;
+	
 	margin: 0 0 30px;
 }
 
@@ -60,8 +66,6 @@ body {
 	font-weight: bold !important;
 }
 
-
-
 #header .description {
 	font-size: 0.9em;
 	margin: 0 0 0 40px;
@@ -70,8 +74,15 @@ body {
 .mainText {
 	width: 500px;
 	/*width: 70%;*/
-	font: 11px 'Lucida Grande', Verdana, Arial, Sans-Serif;
+	
+	/*font: 11px 'Lucida Grande', Verdana, Arial, Sans-Serif;
 	text-align: justify;
+	
+	font: 62.5% 'Lucida Grande', Verdana, Arial, Sans-Serif;
+	color: #444;
+	background: #EDEDED;
+	text-align: center;
+	*/
 	float: left;
 	padding: 0 0 20px 35px;
 	margin: 0 0 0 125px;
@@ -113,7 +124,7 @@ body.twocolumns .mainText {
 	margin: 0 0 0 40px;
 }
 
-.menu { margin: 0 10px 0 40px; position: absolute; bottom: 0; }
+.menu { margin: 0 10px 0 20px; position: absolute; bottom: 0; }
 .menu ul { padding: 0; margin: 0; }
 .menu ul li { display: inline; margin: 0; }
 .menu, .menu ul li a { padding: 4px 15px 5px; }
@@ -148,6 +159,12 @@ html>body .item ul { margin-left: 0px; padding: 0 0 0 20px; list-style: none; te
 html>body .item ul li { margin: 0 0 0 10px; }
 .item ul li:before { content: "\00BB \00A0 \00A0 "; }
 
+
+
+
+/*- Headings */
+
+
 h1, h2, h3, h4 { font-family: 'Century Gothic', 'Lucida Grande', 'Trebuchet MS', Verdana, Sans-Serif; }
 h2 { font-size: 2em; font-weight: bold; margin: 20px 0 0; letter-spacing: -1px; }
 h3 { font-size: 1.6em; font-weight: bold; letter-spacing: -1px; padding: 0; margin: 20px 0 0; }
@@ -162,6 +179,42 @@ h2, h2 a, h2 a:visited, h3, h3 a, h3 a:visited, h4, h4 a, h4 a:visited { color: 
 h2, h2 a, h2 a:hover, h2 a:visited, h3, h3 a, h3 a:hover, h3 a:visited, h4, h4 a, h4 a:hover, h4 a:visited, .sidebar h2, #wp-calendar caption, cite {
 	text-decoration: none;
 }
+
+
+h1, h2, h3, h4 {
+	font-family: 'Trebuchet MS', Verdana, Sans-Serif;
+}
+
+h1 { /* H1 is the title in the header */
+	font-size: 3em;
+	font-weight: bold;
+	letter-spacing: -1px;
+	margin: 0;
+}
+
+h1, h1 a, h1 a:hover, h1 a:visited,
+#header .description {
+	text-decoration: none;
+	color: white;
+}
+
+h1 a:hover {
+	text-decoration: underline;
+}
+
+#header .description { /* Description in header */
+	font-size: 1em;
+	margin: 0 40px;
+}
+
+h2 { /* H2 is what kind of page you are on. Eg. 'Monthly Archive'. */
+	text-align: center;
+	font-size: 2.5em;
+	font-weight: bold;
+	letter-spacing: -1px;
+}
+
+
 
 input[type=text], textarea {
 	font: 1em Verdana, Arial, Helvetica, Sans-Serif;
@@ -193,8 +246,8 @@ acronym, abbr, span.caps { font-size: 0.9em; letter-spacing: .07em; }
 
 /* Links */
 a:hover, a:visited:hover { text-decoration: underline; }
-h2 a:hover, h2 span a:hover { color: #1A78E2 !important; }
-a { color: #1A78E2; text-decoration: none; }
+h2 a:hover, h2 span a:hover { color: #27d/*1A78E2*/ !important; }
+a { color: #27d;/*1A78E2;*/ text-decoration: none; }
 
 input, textarea {
 	/*border: 1px #aaa solid;*/
@@ -238,8 +291,6 @@ p a img:hover { background: #C2E5FA; }
 toendaCMS specific code
 */
 
-.news_content_box{ padding-bottom: 10px; }
-
 /* legal */
 .legal {
 	font-size: 9px;
@@ -271,9 +322,17 @@ a.index:hover { text-decoration: underline; }
 
 /* content */
 .contentheading {
-	font-family: 'Century Gothic', Verdana, Sans-Serif;
+	/*font-family: 'Century Gothic', Verdana, Sans-Serif;
 	font-size: 17px;
+	font-weight: bold;*/
+	
+	font-family: 'Trebuchet MS', Verdana, Sans-Serif;
+	/*text-align: center;*/
+	font-size: 2.5em;
 	font-weight: bold;
+	letter-spacing: -1px;
+	
+	margin: 0 0 5px 0;
 }
 
 .contentstamp {
@@ -281,10 +340,20 @@ a.index:hover { text-decoration: underline; }
 }
 
 .contentmain {
-	font-size: 11px;
+	/*font-size: 11px;*/
+	
+	font-size: 1.2em;
+	line-height: 1.7em;
+	text-align: justify;
+	color: #444;
 }
 
-.newsCategories { font-family: Arial, Helvetica, Sans-Serif; font-size: 10px; line-height: 1.5em; color: #777; }
+.newsCategories {
+	font-family: Arial, Helvetica, Sans-Serif;
+	font-size: 10px;
+	line-height: 1.5em;
+	color: #777;
+}
 
 .text_small { font-family: Arial, Helvetica, Sans-Serif; font-size: 10px; color: #676767; }
 .text_normal { font-size: 11px; }
@@ -295,35 +364,65 @@ a.index:hover { text-decoration: underline; }
 }
 
 .text_huge {
-	font-size: 15px !important;
+	/*font-size: 15px !important;*/
+	font-family: 'Trebuchet MS', Verdana, Sans-Serif;
+	font-size: 1.9em !important;
+	font-weight: bold;
+	letter-spacing: -1px;
 }
 
 .text_bold {
 	font-weight: bold;
 }
 
-.book_content{ font-size: 11px; }
+.book_content {
+	font-size: 11px;
+}
 
 
 /* news */
-.news_title_bg { text-align: justify; }
-.news_title_bg a {
+.news_title_bg {
 	color: #444;
-	font-family: 'Century Gothic', Verdana, Sans-Serif;
+	
+	/*font-family: 'Century Gothic', Verdana, Sans-Serif;
 	font-size: 17px;
+	text-decoration: underline;*/
+	
+	text-align: justify;
+	font-family: 'Trebuchet MS', Verdana, Sans-Serif;
+	font-size: 2.4em !important;
+	font-weight: normal;
+	letter-spacing: -1px;
+}
+
+.news_title_bg a {
+	color: #444 !important;
 	text-decoration: none;
 }
+
 .news_title_bg a:hover {
-	color: #444;
-	font-family: 'Century Gothic', Verdana, Sans-Serif;
-	font-size: 17px;
 	text-decoration: underline;
 }
-.news_content_bg{ font-size: 11px; }
+
+.news_content_bg {
+	/*font-size: 11px;*/
+}
+
+.news_content_box {
+	padding-bottom: 10px;
+	
+	font-size: 1.2em;
+	line-height: 1.7em;
+	text-align: justify;
+	color: #444;
+}
 
 
 /* imagegallery */
-.gallery_text{ display: block; }
+.gallery_text {
+	display: block;
+}
+
 #comment { 
     color:#000000;
 }
@@ -350,15 +449,26 @@ a.index:hover { text-decoration: underline; }
 
 
 /* sidebar content */
-.sideheading { font-size: 11px; font-weight: bold; color: #222; text-align: left; }
-.sidemain { font-size: 10px; padding: 3px 0 3px 0; color: #444; }
+.sideheading {
+	font-size: 11px;
+	font-weight: bold;
+	color: #222;
+	text-align: left;
+}
+
+.sidemain {
+	font-size: 10px;
+	padding: 3px 0 3px 0;
+	color: #444;
+}
 
 
 /* impressum */
 .imptitle {
 	color: #444;
-	font-family: 'Century Gothic', Verdana, Sans-Serif;
-	font-size: 17px;
+	/*font-family: 'Century Gothic', Verdana, Sans-Serif;*/
+	font-family: 'Trebuchet MS', Verdana, Sans-Serif;
+	font-size: 2.0em;
 	text-decoration: none;
 }
 
@@ -369,14 +479,34 @@ a.index:hover { text-decoration: underline; }
 
 /* comments */
 .comment_title{
-	font-family: 'Century Gothic', Verdana, Sans-Serif;
-	font-size: 17px;
+	/*font-family: 'Century Gothic', Verdana, Sans-Serif;
+	font-size: 17px;*/
+	
+	font-size: 1.5em;
+	font-weight: normal;
+	margin-top: 25px;
 }
+
 .comment_text{
 	/*border-bottom: 1px solid #aaa;*/
-	padding: 5px 5px 5px 5px;
 	font-size: 11px;
 	display: block;
+	
+	font-family: 'Trebuchet MS', Verdana, Sans-Serif;
+	font-size: 1.3em;
+	line-height: 1.6em;
+}
+
+.comment_box {
+	padding: 7px 7px 7px 7px;
+}
+
+.comment_box_bgcolor_1 {
+	background: #fff;
+}
+
+.comment_box_bgcolor_2 {
+	background: #f7f7f7;
 }
 
 

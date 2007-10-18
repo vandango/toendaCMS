@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides a frontpage with news and a text.
  *
- * @version 1.4.3
+ * @version 1.4.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -92,9 +92,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 	
 	if($how_many != 0){
 		if($front_news_title != ''){
-			echo $tcms_html->contentTitle($front_news_title)
-			.'<hr class="hr_line" />'
-			.'<br />';
+			echo $tcms_html->contentUnderlinedTitle($front_news_title);
 		}
 		
 		$arrNewsDC = $tcms_dcp->getNewsDCList($getLang, $is_admin, $how_many, '1', true);
@@ -141,11 +139,11 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 				$link = $tcms_main->urlAmpReplace($link);
 				
 				echo '<div style="width: 100%;" class="news_title_bg">'
-				.'<strong class="text_huge">'
+				//.'<strong class="text_huge">'
 				.'<a href="'.$link.'">'
 				.$dcNews->GetTitle()
 				.'</a>'
-				.'</strong>'
+				//.'</strong>'
 				.'</div>';
 				
 				
@@ -393,9 +391,9 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 				/*
 					show the news
 				*/
-				echo '<br />';
-				echo '<br />';
-				echo '<div class="news_content_box">';
+				echo '<br />'
+				.'<br />'
+				.'<div class="news_content_box">';
 				
 				$news_content = $dcNews->GetText();
 				
@@ -414,10 +412,10 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 					
 					$toendaScript_more_show = true;
 				}
-				else{
+				else {
 					$news_content = $toendaScript->removeTcmsMoreTag($news_content);
 					
-					if($cut_news == 0){
+					if($cut_news == 0) {
 						$toendaScript->doParsePHP($news_content);
 						
 						//$news_content = trim($news_content);
@@ -425,8 +423,8 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 						
 						$toendaScript_more_show = false;
 					}
-					else{
-						if(strlen($news_content) > $cut_news){
+					else {
+						if(strlen($news_content) > $cut_news) {
 							$news_content = $toendaScript->doParsePHP($news_content, true);
 							
 							$str_off = strpos($news_content, ' ', $cut_news);
@@ -435,7 +433,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 							echo $news.' ...';
 							$toendaScript_more_show = true;
 						}
-						elseif(strlen($news_content) < $cut_news){
+						elseif(strlen($news_content) < $cut_news) {
 							//$news_content = trim($news_content);
 							//echo $news_content;
 							
@@ -448,13 +446,13 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 				
 				unset($toendaScript);
 				
-				if($toendaScript_more_show){
+				if($toendaScript_more_show) {
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=newsmanager&amp;s='.$s.'&amp;news='.$dcNews->GetID()
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 					
-					switch($readmore_link){
+					switch($readmore_link) {
 						case 0: //--> new line - left align
 							echo '<br />'
 							.'<a href="'.$link.'">'
