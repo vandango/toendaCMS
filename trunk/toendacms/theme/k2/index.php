@@ -97,9 +97,11 @@ switch($k2CSS){
 	<? } ?>
  	
  	<div class="sidebar">
- 		<div class="livesearchform"><? include(_SEARCH); ?></div>
- 		<br />
-		<?
+ 		<?
+ 		echo '<div class="livesearchform">';
+		include(_SEARCH);
+		echo '</div>';
+		
 		include(_SIDE_MENU);
 		include(_FRONT_NEWS);
 		
