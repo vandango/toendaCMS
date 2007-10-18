@@ -9,7 +9,7 @@
 | 
 | toendaCMS Html structure class
 |
-| File:		tcms_html.lib.php
+| File:	tcms_html.lib.php
 |
 +
 */
@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide some often used html
  * codes.
  *
- * @version 0.4.5
+ * @version 0.4.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -122,6 +122,20 @@ class tcms_html {
 		else if(trim($text) != '---') {
 			echo '<br />';
 		}
+	}
+	
+	
+	
+	/**
+	 * A header for the content title
+	 * 
+	 * @param String $title = ''
+	 * @return String
+	 */
+	function contentUnderlinedTitle($title = ''){
+		return '<div class="text_huge">'.$title.'</div>'
+		.'<hr class="hr_line" />'
+		.'<br />';
 	}
 	
 	
