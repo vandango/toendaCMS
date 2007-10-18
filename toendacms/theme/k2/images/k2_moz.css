@@ -489,7 +489,6 @@ a.index:hover { text-decoration: underline; }
 
 .comment_text{
 	/*border-bottom: 1px solid #aaa;*/
-	font-size: 11px;
 	display: block;
 	
 	font-family: 'Trebuchet MS', Verdana, Sans-Serif;
