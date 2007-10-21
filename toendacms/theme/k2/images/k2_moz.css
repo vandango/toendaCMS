@@ -328,10 +328,9 @@ a.index:hover { text-decoration: underline; }
 .contentmain {
 	/*font-size: 11px;*/
 	
-	/*font-size: 1.2em;
-	line-height: 1.7em;*/
+	/*font-size: 1.2em;*/
 	font-size: 12px;
-	line-height: 17px;
+	line-height: 1.7em;
 	text-align: justify;
 	color: #444;
 }
@@ -351,8 +350,9 @@ a.index:hover { text-decoration: underline; }
 
 .text_normal {
 	/*font-size: 11px;*/
+	/*font-size: 1.2em;*/
 	font-size: 12px;
-	line-height: 17px;
+	line-height: 1.7em;
 }
 
 .text_big {
@@ -409,10 +409,9 @@ a.index:hover { text-decoration: underline; }
 .news_content_box {
 	padding-bottom: 10px;
 	
-	/*font-size: 1.2em;
-	line-height: 1.7em;*/
+	/*font-size: 1.2em;*/
 	font-size: 12px;
-	line-height: 17px;
+	line-height: 1.7em;
 	text-align: justify;
 	color: #444;
 }
@@ -427,7 +426,7 @@ a.index:hover { text-decoration: underline; }
     color:#000000;
 }
 
-/* misc */
+/* misc *9
 .hr_line {
 	height: 1px;
 	background-color: #ccc;

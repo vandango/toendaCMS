@@ -346,13 +346,13 @@ if($content_published == 1){
 					*/
 					echo '<div style="width: 99%; display: block;">'
 					.'<div class="contentheading">'.$dcContent->getTitle().'</div>'
-					.'<span class="contentstamp">'.$key.'</span><br />'
-					.'<p class="contentmain"><br />';
+					.'<span class="contentstamp">'.$key.'</span><br /><br />'
+					.'<div class="contentmain"><br />';
 					
 					$toendaScript->doParsePHP($content00);
 					
 					echo '<br />'.$content01.'<br />'
-					.$foot.'</p>'
+					.$foot.'</div>'
 					.'</div>';
 					
 					
