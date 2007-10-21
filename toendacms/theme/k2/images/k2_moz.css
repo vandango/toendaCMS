@@ -328,8 +328,10 @@ a.index:hover { text-decoration: underline; }
 .contentmain {
 	/*font-size: 11px;*/
 	
-	font-size: 1.2em;
-	line-height: 1.7em;
+	/*font-size: 1.2em;
+	line-height: 1.7em;*/
+	font-size: 12px;
+	line-height: 17px;
 	text-align: justify;
 	color: #444;
 }
@@ -349,8 +351,8 @@ a.index:hover { text-decoration: underline; }
 
 .text_normal {
 	/*font-size: 11px;*/
-	font-size: 1.2em;
-	line-height: 1.7em;
+	font-size: 12px;
+	line-height: 17px;
 }
 
 .text_big {
