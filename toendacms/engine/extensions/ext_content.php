@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a base content loader.
  *
- * @version 0.7.7
+ * @version 0.7.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -333,17 +333,7 @@ if($content_published == 1){
 					/*
 						Load Layout ID for Content Templates
 					*/
-					//if($dcContent->getTextLayout() == '')
-					//	$dcContent->SetTextLayout('db_content_default.php');
 					
-					//include_once('engine/db_layout/'.$dcContent->getTextLayout());
-					
-					/*$content_template = str_replace('{$title}', $dcContent->getTitle(), $content_template);
-					$content_template = str_replace('{$key}', $key, $content_template);
-					$content_template = str_replace('{$content00}', $content00, $content_template);
-					$content_template = str_replace('{$content01}', $content01, $content_template);
-					$content_template = str_replace('{$foot}', $foot, $content_template);
-					*/
 					echo '<div style="width: 99%; display: block;">'
 					.'<div class="contentheading">'.$dcContent->getTitle().'</div>'
 					.'<span class="contentstamp">'.$key.'</span><br /><br />'

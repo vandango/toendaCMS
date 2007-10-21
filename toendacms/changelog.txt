@@ -28,7 +28,7 @@ Version 1.6
 Developer Version
 	- 1.6.0 Development
 
-Building Steps: 3435
+Building Steps: 3445
 
 
 
@@ -62,7 +62,8 @@ Building Steps: 3435
  - changed: Changed the JavaScript function to fill the date fields in the edit mode
             of a news.
  - changed: All file relevate functions moved to the tcms_file object.
-
+ - changed: Removing the db_layout.
+ 
  - added: New SEO format available: instead of using the old url format
           [www.domain.com/index.php?id=frontpage&lang=en]
           or [[www.domain.com/index.php/section/frontpage/lang/en]
