@@ -1664,9 +1664,9 @@ class tcms_main {
 	    $text = str_replace('.&nbsp;', '', $text);
 	    //$text = str_replace('.', '', $text);
 	    
-		$text = str_replace("'", '�', $text);
-		$text = str_replace('&#039;', '�', $text);
-		$text = str_replace('&039;', '�', $text);
+		$text = str_replace("'", '-', $text); // ??? \'
+		$text = str_replace('&#039;', '-', $text); // ??? \'
+		$text = str_replace('&039;', '-', $text); // ??? \'
 		
 		$text = trim($text);
 		
