@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * This module is for the global configuration settings.
  * 
- * @version 1.3.5
+ * @version 1.3.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Admin Backend
@@ -267,7 +267,7 @@ if($id_group == 'Developer'
 	$logo              = $tcms_main->decodeText($logo, '2', $c_charset);
 	$old_websiteowner  = $tcms_main->decodeText($old_websiteowner, '2', $c_charset);
 	$old_owner_url     = $tcms_main->decodeText($old_owner_url, '2', $c_charset);
-	$old_copyright     = $tcms_main->decodeText($old_copyright, '2', $c_charset);
+	//$old_copyright     = $tcms_main->decodeText($old_copyright, '2', $c_charset);
 	$old_owner_email   = $tcms_main->decodeText($old_owner_email, '2', $c_charset);
 	$old_footer_text   = $tcms_main->decodeText($old_footer_text, '2', $c_charset);
 	
@@ -1315,7 +1315,7 @@ $tcms_mail_password    = \''.$new_mail_password.'\';
 			if($logo              != ''){ $logo              = $tcms_main->encodeText($logo, '2', $c_charset); }
 			if($owner             != ''){ $owner             = $tcms_main->encodeText($owner, '2', $c_charset); }
 			if($owner_url         != ''){ $owner_url         = $tcms_main->encodeText($owner_url, '2', $c_charset); }
-			if($copy              != ''){ $copy              = $tcms_main->encodeText($copy, '2', $c_charset); }
+			//if($copy              != ''){ $copy              = $tcms_main->encodeText($copy, '2', $c_charset); }
 			if($email             != ''){ $email             = $tcms_main->encodeText($email, '2', $c_charset); }
 			if($new_footer_text   != ''){ $new_footer_text   = $tcms_main->encodeText($new_footer_text, '2', $c_charset); }
 			
