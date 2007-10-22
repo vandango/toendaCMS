@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.0.4
+ * @version 1.0.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -1256,7 +1256,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsSecondText = $xml->readSection('main', 'content01');
 			$wsFootText   = $xml->readSection('main', 'foot');
 			$wsID         = $xml->readSection('main', 'order');
-			$wsLayout     = $xml->readSection('main', 'db_layout');
+			//$wsLayout     = $xml->readSection('main', 'db_layout');
 			$wsAutor      = $xml->readSection('main', 'autor');
 			$wsInWork     = $xml->readSection('main', 'in_work');
 			$wsAcs        = $xml->readSection('main', 'access');
@@ -1279,7 +1279,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			if($wsText       == false) $wsText       = '';
 			if($wsFootText   == false) $wsFootText   = '';
 			if($wsID         == false) $wsID         = '';
-			if($wsLayout     == false) $wsLayout     = '';
+			//if($wsLayout     == false) $wsLayout     = '';
 			if($wsInWork     == false) $wsInWork     = '';
 			if($wsPub        == false) $wsPub        = '';
 			if($wsAcs        == false) $wsAcs        = '';
@@ -1333,7 +1333,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsText       = $sqlObj->content00;
 			$wsSecondText = $sqlObj->content01;
 			$wsFootText   = $sqlObj->foot;
-			$wsLayout     = $sqlObj->db_layout;
+			//$wsLayout     = $sqlObj->db_layout;
 			$wsAutor      = $sqlObj->autor;
 			$wsInWork     = $sqlObj->in_work;
 			$wsPub        = $sqlObj->published;
@@ -1359,7 +1359,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			if($wsText       == NULL) $wsText       = '';
 			if($wsFootText   == NULL) $wsFootText   = '';
 			if($wsID         == NULL) $wsID         = '';
-			if($wsLayout     == NULL) $wsLayout     = '';
+			//if($wsLayout     == NULL) $wsLayout     = '';
 			if($wsInWork     == NULL) $wsInWork     = '';
 			if($wsPub        == NULL) $wsPub        = '';
 			if($wsAcs        == NULL) $wsAcs        = '';
@@ -1377,7 +1377,7 @@ class tcms_datacontainer_provider extends tcms_main {
 		$contentDC->setSecondContent($wsSecondText);
 		$contentDC->setFootText($wsFootText);
 		$contentDC->setAutor($wsAutor);
-		$contentDC->setTextLayout($wsLayout);
+		//$contentDC->setTextLayout($wsLayout);
 		$contentDC->setID($wsID);
 		$contentDC->setInWorkState($wsInWork);
 		$contentDC->setPublished($wsPub);
