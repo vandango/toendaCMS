@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a documents manager.
  *
- * @version 1.1.6
+ * @version 1.1.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -874,6 +874,7 @@ if($id_group == 'Developer'
 		
 		
 		// table row
+		/*
 		echo '<tr><td valign="top" width="'.$width.'">'
 		.'<strong class="tcms_bold">'._CONTENT_TEMPLATE.'</strong>'
 		.'</td><td>'
@@ -889,7 +890,7 @@ if($id_group == 'Developer'
 		}
 		
 		echo '</select>'
-		.'</td></tr>';
+		.'</td></tr>';*/
 		
 		
 		// table row
