@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a documents manager.
  *
- * @version 1.1.5
+ * @version 1.1.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -91,13 +91,13 @@ if($id_group == 'Developer'
 		load data
 	*/
 	
-	if($choosenDB == 'xml'){
+	if($choosenDB == 'xml') {
 		$arr_filename  = $tcms_main->getPathContent(
 			'../../'.$tcms_administer_site.'/tcms_content/'
 		);
 	}
 	
-	$arr_db_layout = $tcms_main->readdir_ext('../db_layout/');
+	/*$arr_db_layout = $tcms_main->readdir_ext('../db_layout/');
 	$db_layout_xml = new xmlparser('../db_layout/db_templates.xml','r');
 	
 	$count = 0;
@@ -106,16 +106,18 @@ if($id_group == 'Developer'
 		$parent       = substr($arr_db_layout[$count],0 ,$end_position-4);
 		
 		if($parent != 'db_templates'){
-			$arr_db['filename'][$count]     = $db_layout_xml->read_section($parent, 'filename');
-			$arr_db['templatename'][$count] = $db_layout_xml->read_section($parent, 'templatename');
-			$arr_db['templatedes'][$count]  = $db_layout_xml->read_section($parent, 'templatedes');
-			$arr_db['imagename'][$count]    = $db_layout_xml->read_section($parent, 'imagename');
+			$arr_db['filename'][$count]     = $db_layout_xml->readSection($parent, 'filename');
+			$arr_db['templatename'][$count] = $db_layout_xml->readSection($parent, 'templatename');
+			$arr_db['templatedes'][$count]  = $db_layout_xml->readSection($parent, 'templatedes');
+			$arr_db['imagename'][$count]    = $db_layout_xml->readSection($parent, 'imagename');
 		}
 		
 		$count++;
-	}
+	}*/
 	
-	if(isset($arr_all) && !empty($arr_all) && $arr_all != ''){ sort($arr_all); }
+	if(isset($arr_all) && !empty($arr_all) && $arr_all != '') {
+		sort($arr_all);
+	}
 	
 	
 	
@@ -123,23 +125,23 @@ if($id_group == 'Developer'
 		display
 	*/
 	
-	if($todo == 'show'){
-		echo tcms_html::bold(_CONTENT_TITLE);
-		echo tcms_html::text(_CONTENT_TEXT.'<br /><br />', 'left');
+	if($todo == 'show') {
+		echo $tcms_html->bold(_CONTENT_TITLE);
+		echo $tcms_html->text(_CONTENT_TEXT.'<br /><br />', 'left');
 		
 		$count = 0;
 		
 		if($choosenDB == 'xml'){
-			if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
-				foreach($arr_filename as $key => $value){
+			if($tcms_main->isArray($arr_filename)) {
+				foreach($arr_filename as $key => $value) {
 					$main_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_content/'.$value, 'r');
 					$arr_content['tag'][$key]    = substr($value, 0, 5);
-					$arr_content['title'][$key]  = $main_xml->read_section('main', 'title');
-					$arr_content['id'][$key]     = $main_xml->read_section('main', 'id');
-					$arr_content['access'][$key] = $main_xml->read_section('main', 'access');
-					$arr_content['pub'][$key]    = $main_xml->read_section('main', 'published');
-					$arr_content['autor'][$key]  = $main_xml->read_section('main', 'autor');
-					$arr_content['inw'][$key]    = $main_xml->read_section('main', 'in_work');
+					$arr_content['title'][$key]  = $main_xml->readSection('main', 'title');
+					$arr_content['id'][$key]     = $main_xml->readSection('main', 'id');
+					$arr_content['access'][$key] = $main_xml->readSection('main', 'access');
+					$arr_content['pub'][$key]    = $main_xml->readSection('main', 'published');
+					$arr_content['autor'][$key]  = $main_xml->readSection('main', 'autor');
+					$arr_content['inw'][$key]    = $main_xml->readSection('main', 'in_work');
 					
 					if(!$arr_content['title'][$key]) { $arr_content['title'][$key]  = ''; }
 					if(!$arr_content['id'][$key])    { $arr_content['id'][$key]     = ''; }
@@ -158,21 +160,21 @@ if($id_group == 'Developer'
 				'../../'.$tcms_administer_site.'/tcms_content_languages/'
 			);
 			
-			if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
-				foreach($arr_filename as $key => $value){
+			if($tcms_main->isArray($arr_filename)) {
+				foreach($arr_filename as $key => $value) {
 					$main_xml = new xmlparser(
 						'../../'.$tcms_administer_site.'/tcms_content_languages/'.$value, 'r'
 					);
 					
-					$arr_content['title'][$count]  = $main_xml->read_section('main', 'title');
-					$arr_content['id'][$count]     = $main_xml->read_section('main', 'id');
-					$arr_content['access'][$count] = $main_xml->read_section('main', 'access');
-					$arr_content['pub'][$count]    = $main_xml->read_section('main', 'published');
-					$arr_content['autor'][$count]  = $main_xml->read_section('main', 'autor');
-					$arr_content['inw'][$count]    = $main_xml->read_section('main', 'in_work');
+					$arr_content['title'][$count]  = $main_xml->readSection('main', 'title');
+					$arr_content['id'][$count]     = $main_xml->readSection('main', 'id');
+					$arr_content['access'][$count] = $main_xml->readSection('main', 'access');
+					$arr_content['pub'][$count]    = $main_xml->readSection('main', 'published');
+					$arr_content['autor'][$count]  = $main_xml->readSection('main', 'autor');
+					$arr_content['inw'][$count]    = $main_xml->readSection('main', 'in_work');
 					
-					$obj_lang = $main_xml->read_section('main', 'language');
-					$obj_uid  = $main_xml->read_section('main', 'content_uid');
+					$obj_lang = $main_xml->readSection('main', 'language');
+					$obj_uid  = $main_xml->readSection('main', 'content_uid');
 					
 					$arr_content['tag'][$count] = substr($value, 0, 5).$obj_lang;
 					
@@ -450,21 +452,21 @@ if($id_group == 'Developer'
 					);
 				}
 				
-				$arr_content['title'][$val]     = $main_xml->read_section('main', 'title');
-				$arr_content['key'][$val]       = $main_xml->read_section('main', 'key');
-				$arr_content['text0'][$val]     = $main_xml->read_section('main', 'content00');
-				$arr_content['text1'][$val]     = $main_xml->read_section('main', 'content01');
-				$arr_content['foot'][$val]      = $main_xml->read_section('main', 'foot');
-				$arr_content['id'][$val]        = $main_xml->read_section('main', 'id');
-				$arr_content['db_layout'][$val] = $main_xml->read_section('main', 'db_layout');
-				$arr_content['access'][$val]    = $main_xml->read_section('main', 'access');
-				$arr_content['autor'][$val]     = $main_xml->read_section('main', 'autor');
-				$arr_content['pub'][$val]       = $main_xml->read_section('main', 'published');
-				$arr_content['inw'][$val]       = $main_xml->read_section('main', 'in_work');
+				$arr_content['title'][$val]     = $main_xml->readSection('main', 'title');
+				$arr_content['key'][$val]       = $main_xml->readSection('main', 'key');
+				$arr_content['text0'][$val]     = $main_xml->readSection('main', 'content00');
+				$arr_content['text1'][$val]     = $main_xml->readSection('main', 'content01');
+				$arr_content['foot'][$val]      = $main_xml->readSection('main', 'foot');
+				$arr_content['id'][$val]        = $main_xml->readSection('main', 'id');
+				//$arr_content['db_layout'][$val] = $main_xml->readSection('main', 'db_layout');
+				$arr_content['access'][$val]    = $main_xml->readSection('main', 'access');
+				$arr_content['autor'][$val]     = $main_xml->readSection('main', 'autor');
+				$arr_content['pub'][$val]       = $main_xml->readSection('main', 'published');
+				$arr_content['inw'][$val]       = $main_xml->readSection('main', 'in_work');
 				
 				if($tcms_main->isReal($lang)) {
-					$arr_content['lang'][$val]      = $main_xml->read_section('main', 'language');
-					$arr_content['orgiginal'][$val] = $main_xml->read_section('main', 'content_uid');
+					$arr_content['lang'][$val]      = $main_xml->readSection('main', 'language');
+					$arr_content['orgiginal'][$val] = $main_xml->readSection('main', 'content_uid');
 					
 					if($arr_content['lang'][$val] == null) {
 						$arr_content['lang'][$val] = $tcms_config->getLanguageCode(true);
@@ -481,7 +483,7 @@ if($id_group == 'Developer'
 				if(!$arr_content['text1'][$val])     { $arr_content['text1'][$val]     = ''; }
 				if(!$arr_content['foot'][$val])      { $arr_content['foot'][$val]      = ''; }
 				if(!$arr_content['id'][$val])        { $arr_content['id'][$val]        = ''; }
-				if(!$arr_content['db_layout'][$val]) { $arr_content['db_layout'][$val] = ''; }
+				//if(!$arr_content['db_layout'][$val]) { $arr_content['db_layout'][$val] = ''; }
 				if(!$arr_content['access'][$val])    { $arr_content['access'][$val]    = ''; }
 				if(!$arr_content['autor'][$val])     { $arr_content['autor'][$val]     = ''; }
 				if(!$arr_content['pub'][$val])       { $arr_content['pub'][$val]       = ''; }
@@ -510,7 +512,7 @@ if($id_group == 'Developer'
 				$arr_content['text1'][$val]     = $sqlObj->content01;
 				$arr_content['foot'][$val]      = $sqlObj->foot;
 				$arr_content['id'][$val]        = $sqlObj->uid;
-				$arr_content['db_layout'][$val] = $sqlObj->db_layout;
+				//$arr_content['db_layout'][$val] = $sqlObj->db_layout;
 				$arr_content['access'][$val]    = $sqlObj->access;
 				$arr_content['autor'][$val]     = $sqlObj->autor;
 				$arr_content['pub'][$val]       = $sqlObj->published;
@@ -535,7 +537,7 @@ if($id_group == 'Developer'
 				if($arr_content['text1'][$val]     == NULL){ $arr_content['text1'][$val]     = ''; }
 				if($arr_content['foot'][$val]      == NULL){ $arr_content['foot'][$val]      = ''; }
 				if($arr_content['id'][$val]        == NULL){ $arr_content['id'][$val]        = ''; }
-				if($arr_content['db_layout'][$val] == NULL){ $arr_content['db_layout'][$val] = ''; }
+				//if($arr_content['db_layout'][$val] == NULL){ $arr_content['db_layout'][$val] = ''; }
 				if($arr_content['access'][$val]    == NULL){ $arr_content['access'][$val]    = ''; }
 				if($arr_content['autor'][$val]     == NULL){ $arr_content['autor'][$val]     = ''; }
 				if($arr_content['pub'][$val]       == NULL){ $arr_content['pub'][$val]       = ''; }
@@ -555,7 +557,7 @@ if($id_group == 'Developer'
 			$arr_content['text1'][$val] = '';
 			$arr_content['foot'][$val] = '';
 			$arr_content['id'][$val] = '';
-			$arr_content['db_layout'][$val] = '';
+			//$arr_content['db_layout'][$val] = '';
 			$arr_content['access'][$val] = '';
 			$arr_content['autor'][$val] = '';
 			$arr_content['pub'][$val] = 0;
@@ -628,14 +630,14 @@ if($id_group == 'Developer'
 		
 		
 		
-		if($db_layout != 'db_content_default.php') {
+		/*if($db_layout != 'db_content_default.php') {
 			echo '<script>'
 			.'relocateTo(\'admin.php?id_user='.$id_user.'&site=mod_content&todo=edit'
 			.( $tcms_main->isReal($lang) ? '&lang='.$lang : '' )
 			.( $tcms_main->isReal($maintag) ? '&maintag='.$maintag : '' )
 			.'&db_layout=db_content_default.php\', \'\');'
 			.'</script>';
-		}
+		}*/
 		
 		
 		
@@ -668,270 +670,270 @@ if($id_group == 'Developer'
 		/*
 			EDIT CONTENT
 		*/
-		// table row
-		if($db_layout != ''){
-			/*
-				tabpane start
-			*/
+		
+		/*
+			tabpane start
+		*/
+		
+		echo '<div class="tab-pane" id="tab-pane-1">';
+		
+		
+		/*
+			text tab
+		*/
+		
+		echo '<div class="tab-page" id="tab-page-text">'
+		.'<h2 class="tab">'._TABLE_EDIT.'</h2>'
+		.'<table cellpadding="1" cellspacing="5" width="100%" border="0" class="noborder">';
+		
+		
+		if($tcms_main->isReal($lang)) {
+			$arr_docs = $tcms_main->getAllDocuments();
+			unset($value);
 			
-			echo '<div class="tab-pane" id="tab-pane-1">';
-			
-			
-			/*
-				text tab
-			*/
-			
-			echo '<div class="tab-page" id="tab-page-text">'
-			.'<h2 class="tab">'._TABLE_EDIT.'</h2>'
-			.'<table cellpadding="1" cellspacing="5" width="100%" border="0" class="noborder">';
-			
-			
-			if($tcms_main->isReal($lang)) {
-				$arr_docs = $tcms_main->getAllDocuments();
-				unset($value);
-				
-				// row
-				echo '<tr><td valign="top" width="'.$width.'">'
-				.'<strong class="tcms_bold">'._CONTENT_ORG_DOCUMENT.'</strong>'
-				.'</td><td>'
-				.'<select class="tcms_select" id="original" name="original">';
-				
-				foreach($arr_docs['id'] as $key => $value) {
-					if($arr_content['orgiginal'][$val] == $value)
-						$dl = ' selected="selected"';
-					else
-						$dl = '';
-					
-					echo '<option value="'.$value.'"'.$dl.'>'.$arr_docs['name'][$key].'</option>';
-				}
-				
-				echo '</select>'
-				.'</td></tr>';
-				
-				
-				// row
-				echo '<tr><td valign="top" width="'.$width.'">'
-				.'<strong class="tcms_bold">'._TCMS_LANGUAGE.'</strong>'
-				.'</td><td>'
-				.'<select class="tcms_select" id="language" name="language">';
-				
-				foreach($languages['code'] as $key => $value) {
-					if($value != $tcms_config->getLanguageCode(true)) {
-						if($arr_content['lang'][$val] == $value)
-							$dl = ' selected="selected"';
-						else
-							$dl = '';
-						
-						echo '<option value="'.$value.'"'.$dl.'>'
-						.$languages['name'][$key]
-						.'</option>';
-					}
-				}
-				
-				echo '</select>'
-				.'</td></tr>';
-			}
-			
-			
-			// table row
-			echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._TABLE_TITLE.'</strong></td>'
-			.'<td><input class="tcms_input_normal" name="titel" type="text" value="'.$arr_content['title'][$val].'" />'
-			.'</td></tr>';
-			
-			
-			// table row
-			echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._TABLE_SUBTITLE.'</strong></td>'
-			.'<td><input class="tcms_input_normal" name="key" type="text" value="'.$arr_content['key'][$val].'" />'
-			.'</td></tr>';
-			
-			
-			// table row
-			echo '<tr><td valign="top" colspan="2"><strong class="tcms_bold">'._TABLE_TEXT.' ('._TABLE_ORDER.': '.$arr_content['id'][$val].')</strong>'
-			.'<br /><br />'
-			.'<script>createToendaToolbar(\'contentPage\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');</script>';
-			
-			if($show_wysiwyg == 'tinymce'){ }
-			elseif($show_wysiwyg == 'fckeditor'){ echo ''._TCMSSCRIPT_MORE.': {tcms_more}'; }
-			else{
-				if($show_wysiwyg == 'toendaScript'){ echo '<script>createToolbar(\'contentPage\', \''.$tcms_lang.'\', \'toendaScript\');</script>'; }
-				else{ echo '<script>createToolbar(\'contentPage\', \''.$tcms_lang.'\', \'HTML\');</script>'; }
-			}
-			
-			echo '</td></tr>'
-			.'<tr><td valign="top" colspan="2">';
-			
-			if($show_wysiwyg == 'tinymce'){
-				echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content" mce_editable="true">'.$arr_content['text0'][$val].'</textarea>';
-			}
-			elseif($show_wysiwyg == 'fckeditor'){
-				$sBasePath = '../js/FCKeditor/';
-				
-				$oFCKeditor = new FCKeditor('content');
-				$oFCKeditor->BasePath = $sBasePath;
-				$oFCKeditor->Value = $arr_content['text0'][$val];
-				$oFCKeditor->Create();
-			}
-			else{
-				echo '<textarea class="tcms_textarea_huge" style="width: 95%;" id="content" name="content">'.$arr_content['text0'][$val].'</textarea>';
-			}
-			
-			echo '</td></tr>';
-			
-			
-			// table row
-			if($db_layout == 'db_content_default.php'){
-				// table row
-				$content01 = '';
-			}
-			elseif($db_layout == 'db_content_image.php'){
-				// table row
-				echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._CONTENT_OLDIMAGE.'</strong></td>'
-				.'<td valign="top">'
-				.'<textarea class="tcms_textarea_normal" name="tmp_content01" type="text">'.$arr_content['text1'][$val].'</textarea>'
-				.'</td></tr>';
-				
-				
-				// table row
-				echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._CONTENT_IMAGEUNDER.'</strong></td>'
-				.'<td><input class="tcms_upload" name="content01" type="file" accept="image/*" />'
-				.'</td></tr>';
-			}
-			elseif($db_layout == 'db_content_image_right.php'){
-				// table row
-				echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._CONTENT_OLDIMAGE.'</strong></td>'
-				.'<td valign="top">'
-				.'<textarea class="tcms_textarea_normal" name="tmp_content01" type="text">'.$arr_content['text1'][$val].'</textarea>'
-				.'</td></tr>';
-				
-				
-				// table row
-				echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._CONTENT_IMAGERIGHT.'</strong></td>'
-				.'<td valign="top"><input class="tcms_upload" name="content01" type="file" accept="image/*" />'
-				.'</td></tr>';
-			}
-			
-			
-			echo '</table>'
-			.'</div>';
-			
-			
-			/*
-				settings tab
-			*/
-			
-			echo '<div class="tab-page" id="tab-page-set">'
-			.'<h2 class="tab">'._TABLE_SETTINGS.'</h2>'
-			.'<table cellpadding="1" cellspacing="5" width="100%" border="0" class="noborder">';
-			
-			
-			// table row
-			echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._TABLE_PUBLISHED.'</strong></td>'
-			.'<td valign="top"><input name="new_published" value="1" type="checkbox"'.( $arr_content['pub'][$val] == 1 ? ' checked="checked"' : '' ).' />'
-			.'</td></tr>';
-			
-			
-			// table row
-			echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._TABLE_IN_WORK.'</strong></td>'
-			.'<td valign="top"><input name="new_in_work" value="1" type="checkbox"'.( $arr_content['inw'][$val] == 1 ? ' checked="checked"' : '' ).' />'
-			.'</td></tr>';
-			
-			
-			// table row
-			echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._TABLE_AUTOR.'</strong></td><td valign="top">';
-				echo '<select class="tcms_select" name="new_autor">';
-				
-				if($id_group == 'Developer' || $id_group == 'Administrator'){
-					echo '<optgroup label="'._USER_SELF.'">'
-					.'<option value="'.$id_username.'"'.( $arr_content['autor'][$val] == $id_username ? ' selected="selected"' : '').'>'.$id_username.'</option>'
-					.'<option value="'.$id_name.'"'.( $arr_content['autor'][$val] == $id_name ? ' selected="selected"' : '').'>'.$id_name.'</option>'
-					.'</optgroup>'
-					.'<optgroup label="'._USER_ALL.'">';
-					
-					foreach($arrActiveUser['user'] as $key => $value){
-						echo '<option value="'.$value.'"'.( $arr_content['autor'][$val] == $value ? ' selected="selected"' : '').'>'.$value.'</option>';
-					}
-					
-					echo '</optgroup>';
-				}
-				else{
-					echo '<option value="'.$id_username.'"'.( $arr_content['autor'][$val] == $id_username ? ' selected="selected"' : '').'>'.$id_username.'</option>'
-					.'<option value="'.$id_name.'"'.( $arr_content['autor'][$val] == $id_name ? ' selected="selected"' : '').'>'.$id_name.'</option>';
-					
-					if(isset($arr_content['autor'][$val]) && $arr_content['autor'][$val] != '' && ($arr_content['autor'][$val] != $id_username && $arr_content['autor'][$val] != $id_name)){
-						echo '<option value="'.$arr_content['autor'][$val].'" selected="selected">'.$arr_content['autor'][$val].'</option>';
-					}
-				}
-				
-				if(isset($arr_content['autor'][$val]) && $arr_content['autor'][$val] != '' && ($arr_content['autor'][$val] != $id_username && $arr_content['autor'][$val] != $id_name)){
-					echo '<option value="'.$arr_content['autor'][$val].'" selected="selected">'.$arr_content['autor'][$val].'</option>';
-				}
-				
-				echo '</select>';
-			echo '</td></tr>';
-			
-			
-			// table row
+			// row
 			echo '<tr><td valign="top" width="'.$width.'">'
-			.'<strong class="tcms_bold">'._CONTENT_TEMPLATE.'</strong>'
+			.'<strong class="tcms_bold">'._CONTENT_ORG_DOCUMENT.'</strong>'
 			.'</td><td>'
-			.'<select name="db_layout" class="tcms_select">';
-			// onchange="document.location=\'admin.php?id_user='.$id_user.'&site=mod_content&todo=edit&maintag='.$maintag.'&db_layout=\'+this.value;">';
+			.'<select class="tcms_select" id="original" name="original">';
 			
-			foreach($arr_db['filename'] as $db_key => $db_value) {
-				if($db_value == 'db_content_default.php') {
-					echo '<option'.( $db_layout == $db_value ? ' selected' : '' ).' value="'.$db_value.'">'
-					.$arr_db['templatename'][$db_key]
-					.'</option>';
+			foreach($arr_docs['id'] as $key => $value) {
+				if($arr_content['orgiginal'][$val] == $value) {
+					$dl = ' selected="selected"';
 				}
+				else {
+					$dl = '';
+				}
+				
+				echo '<option value="'.$value.'"'.$dl.'>'.$arr_docs['name'][$key].'</option>';
 			}
 			
 			echo '</select>'
 			.'</td></tr>';
 			
 			
-			// table row
-			echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._TABLE_ACCESS.'</strong></td><td>';
-				echo '<select name="access" class="tcms_select">';
-					echo '<option value="Public"'.( $arr_content['access'][$val] == 'Public' ? ' selected' : '' ).'>'._TABLE_PUBLIC.'</option>';
-					echo '<option value="Protected"'.( $arr_content['access'][$val] == 'Protected' ? ' selected' : '' ).'>'._TABLE_PROTECTED.'</option>';
-					echo '<option value="Private"'.( $arr_content['access'][$val] == 'Private' ? ' selected' : '' ).'>'._TABLE_PRIVATE.'</option>';
-				echo '</select>';
-			echo '</td></tr>';
-			
-			
-			// table head
+			// row
 			echo '<tr><td valign="top" width="'.$width.'">'
-			.'<strong class="tcms_bold">'._CONTENT_FOOT.'</strong>'
+			.'<strong class="tcms_bold">'._TCMS_LANGUAGE.'</strong>'
 			.'</td><td>'
-			.'<textarea class="tcms_textarea_big" name="foot" type="text">'.$arr_content['foot'][$val].'</textarea>'
+			.'<select class="tcms_select" id="language" name="language">';
+			
+			foreach($languages['code'] as $key => $value) {
+				if($value != $tcms_config->getLanguageCode(true)) {
+					if($arr_content['lang'][$val] == $value)
+						$dl = ' selected="selected"';
+					else
+						$dl = '';
+					
+					echo '<option value="'.$value.'"'.$dl.'>'
+					.$languages['name'][$key]
+					.'</option>';
+				}
+			}
+			
+			echo '</select>'
+			.'</td></tr>';
+		}
+		
+		
+		// table row
+		echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._TABLE_TITLE.'</strong></td>'
+		.'<td><input class="tcms_input_normal" name="titel" type="text" value="'.$arr_content['title'][$val].'" />'
+		.'</td></tr>';
+		
+		
+		// table row
+		echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._TABLE_SUBTITLE.'</strong></td>'
+		.'<td><input class="tcms_input_normal" name="key" type="text" value="'.$arr_content['key'][$val].'" />'
+		.'</td></tr>';
+		
+		
+		// table row
+		echo '<tr><td valign="top" colspan="2"><strong class="tcms_bold">'._TABLE_TEXT.' ('._TABLE_ORDER.': '.$arr_content['id'][$val].')</strong>'
+		.'<br /><br />'
+		.'<script>createToendaToolbar(\'contentPage\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');</script>';
+		
+		if($show_wysiwyg == 'tinymce'){ }
+		elseif($show_wysiwyg == 'fckeditor'){ echo ''._TCMSSCRIPT_MORE.': {tcms_more}'; }
+		else{
+			if($show_wysiwyg == 'toendaScript'){ echo '<script>createToolbar(\'contentPage\', \''.$tcms_lang.'\', \'toendaScript\');</script>'; }
+			else{ echo '<script>createToolbar(\'contentPage\', \''.$tcms_lang.'\', \'HTML\');</script>'; }
+		}
+		
+		echo '</td></tr>'
+		.'<tr><td valign="top" colspan="2">';
+		
+		if($show_wysiwyg == 'tinymce'){
+			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content" mce_editable="true">'.$arr_content['text0'][$val].'</textarea>';
+		}
+		elseif($show_wysiwyg == 'fckeditor'){
+			$sBasePath = '../js/FCKeditor/';
+			
+			$oFCKeditor = new FCKeditor('content');
+			$oFCKeditor->BasePath = $sBasePath;
+			$oFCKeditor->Value = $arr_content['text0'][$val];
+			$oFCKeditor->Create();
+		}
+		else{
+			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" id="content" name="content">'.$arr_content['text0'][$val].'</textarea>';
+		}
+		
+		echo '</td></tr>';
+		
+		
+		// table row
+		if($db_layout == 'db_content_default.php'){
+			// table row
+			$content01 = '';
+		}
+		elseif($db_layout == 'db_content_image.php'){
+			// table row
+			echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._CONTENT_OLDIMAGE.'</strong></td>'
+			.'<td valign="top">'
+			.'<textarea class="tcms_textarea_normal" name="tmp_content01" type="text">'.$arr_content['text1'][$val].'</textarea>'
 			.'</td></tr>';
 			
 			
-			echo '</table>'
-			.'</div>';
-			
-			
-			/*
-				tabpane end
-			*/
-			
-			echo '</div>'
-			.'<script type="text/javascript">'
-			.'var tabPane1 = new WebFXTabPane(document.getElementById("tab-pane-1"));'
-			.'tabPane1.addTabPage(document.getElementById("tab-page-text"));'
-			.'tabPane1.addTabPage(document.getElementById("tab-page-set"));'
-			.'setupAllTabs();'
-			.'</script>'
-			.'<br />';
-			
-			
-			/*
-				end
-			*/
-			
-			
-			echo '</form>';
+			// table row
+			echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._CONTENT_IMAGEUNDER.'</strong></td>'
+			.'<td><input class="tcms_upload" name="content01" type="file" accept="image/*" />'
+			.'</td></tr>';
 		}
+		elseif($db_layout == 'db_content_image_right.php'){
+			// table row
+			echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._CONTENT_OLDIMAGE.'</strong></td>'
+			.'<td valign="top">'
+			.'<textarea class="tcms_textarea_normal" name="tmp_content01" type="text">'.$arr_content['text1'][$val].'</textarea>'
+			.'</td></tr>';
+			
+			
+			// table row
+			echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._CONTENT_IMAGERIGHT.'</strong></td>'
+			.'<td valign="top"><input class="tcms_upload" name="content01" type="file" accept="image/*" />'
+			.'</td></tr>';
+		}
+		
+		
+		echo '</table>'
+		.'</div>';
+		
+		
+		/*
+			settings tab
+		*/
+		
+		echo '<div class="tab-page" id="tab-page-set">'
+		.'<h2 class="tab">'._TABLE_SETTINGS.'</h2>'
+		.'<table cellpadding="1" cellspacing="5" width="100%" border="0" class="noborder">';
+		
+		
+		// table row
+		echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._TABLE_PUBLISHED.'</strong></td>'
+		.'<td valign="top"><input name="new_published" value="1" type="checkbox"'.( $arr_content['pub'][$val] == 1 ? ' checked="checked"' : '' ).' />'
+		.'</td></tr>';
+		
+		
+		// table row
+		echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._TABLE_IN_WORK.'</strong></td>'
+		.'<td valign="top"><input name="new_in_work" value="1" type="checkbox"'.( $arr_content['inw'][$val] == 1 ? ' checked="checked"' : '' ).' />'
+		.'</td></tr>';
+		
+		
+		// table row
+		echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._TABLE_AUTOR.'</strong></td><td valign="top">';
+			echo '<select class="tcms_select" name="new_autor">';
+			
+			if($id_group == 'Developer' || $id_group == 'Administrator'){
+				echo '<optgroup label="'._USER_SELF.'">'
+				.'<option value="'.$id_username.'"'.( $arr_content['autor'][$val] == $id_username ? ' selected="selected"' : '').'>'.$id_username.'</option>'
+				.'<option value="'.$id_name.'"'.( $arr_content['autor'][$val] == $id_name ? ' selected="selected"' : '').'>'.$id_name.'</option>'
+				.'</optgroup>'
+				.'<optgroup label="'._USER_ALL.'">';
+				
+				foreach($arrActiveUser['user'] as $key => $value){
+					echo '<option value="'.$value.'"'.( $arr_content['autor'][$val] == $value ? ' selected="selected"' : '').'>'.$value.'</option>';
+				}
+				
+				echo '</optgroup>';
+			}
+			else{
+				echo '<option value="'.$id_username.'"'.( $arr_content['autor'][$val] == $id_username ? ' selected="selected"' : '').'>'.$id_username.'</option>'
+				.'<option value="'.$id_name.'"'.( $arr_content['autor'][$val] == $id_name ? ' selected="selected"' : '').'>'.$id_name.'</option>';
+				
+				if(isset($arr_content['autor'][$val]) && $arr_content['autor'][$val] != '' && ($arr_content['autor'][$val] != $id_username && $arr_content['autor'][$val] != $id_name)){
+					echo '<option value="'.$arr_content['autor'][$val].'" selected="selected">'.$arr_content['autor'][$val].'</option>';
+				}
+			}
+			
+			if(isset($arr_content['autor'][$val]) && $arr_content['autor'][$val] != '' && ($arr_content['autor'][$val] != $id_username && $arr_content['autor'][$val] != $id_name)){
+				echo '<option value="'.$arr_content['autor'][$val].'" selected="selected">'.$arr_content['autor'][$val].'</option>';
+			}
+			
+			echo '</select>';
+		echo '</td></tr>';
+		
+		
+		// table row
+		echo '<tr><td valign="top" width="'.$width.'">'
+		.'<strong class="tcms_bold">'._CONTENT_TEMPLATE.'</strong>'
+		.'</td><td>'
+		.'<select name="db_layout" class="tcms_select">';
+		// onchange="document.location=\'admin.php?id_user='.$id_user.'&site=mod_content&todo=edit&maintag='.$maintag.'&db_layout=\'+this.value;">';
+		
+		foreach($arr_db['filename'] as $db_key => $db_value) {
+			if($db_value == 'db_content_default.php') {
+				echo '<option'.( $db_layout == $db_value ? ' selected' : '' ).' value="'.$db_value.'">'
+				.$arr_db['templatename'][$db_key]
+				.'</option>';
+			}
+		}
+		
+		echo '</select>'
+		.'</td></tr>';
+		
+		
+		// table row
+		echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._TABLE_ACCESS.'</strong></td><td>';
+			echo '<select name="access" class="tcms_select">';
+				echo '<option value="Public"'.( $arr_content['access'][$val] == 'Public' ? ' selected' : '' ).'>'._TABLE_PUBLIC.'</option>';
+				echo '<option value="Protected"'.( $arr_content['access'][$val] == 'Protected' ? ' selected' : '' ).'>'._TABLE_PROTECTED.'</option>';
+				echo '<option value="Private"'.( $arr_content['access'][$val] == 'Private' ? ' selected' : '' ).'>'._TABLE_PRIVATE.'</option>';
+			echo '</select>';
+		echo '</td></tr>';
+		
+		
+		// table head
+		echo '<tr><td valign="top" width="'.$width.'">'
+		.'<strong class="tcms_bold">'._CONTENT_FOOT.'</strong>'
+		.'</td><td>'
+		.'<textarea class="tcms_textarea_big" name="foot" type="text">'.$arr_content['foot'][$val].'</textarea>'
+		.'</td></tr>';
+		
+		
+		echo '</table>'
+		.'</div>';
+		
+		
+		/*
+			tabpane end
+		*/
+		
+		echo '</div>'
+		.'<script type="text/javascript">'
+		.'var tabPane1 = new WebFXTabPane(document.getElementById("tab-pane-1"));'
+		.'tabPane1.addTabPage(document.getElementById("tab-page-text"));'
+		.'tabPane1.addTabPage(document.getElementById("tab-page-set"));'
+		.'setupAllTabs();'
+		.'</script>'
+		.'<br />';
+		
+		
+		/*
+			end
+		*/
+		
+		
+		echo '</form>';
 	}
 	
 	
@@ -942,20 +944,20 @@ if($id_group == 'Developer'
 	// SAVEING
 	//=====================================================
 	
-	if($todo == 'save'){
-		if($show_wysiwyg == 'tinymce'){
+	if($todo == 'save') {
+		if($show_wysiwyg == 'tinymce') {
 			$content = stripslashes($content);
 		}
-		elseif($show_wysiwyg == 'fckeditor'){
+		elseif($show_wysiwyg == 'fckeditor') {
 			$content = str_replace('../../../../../../../../../', '', $content);
 			$content = str_replace('../../../../', '', $content);
 		}
-		else{
+		else {
 			$content = $tcms_main->nl2br($content);
 		}
 		
 		
-		if($seoEnabled == 0 && $show_wysiwyg == 'tinymce'){
+		if($seoEnabled == 0 && $show_wysiwyg == 'tinymce') {
 			//$content = str_replace('src="../../', 'src="', $content);
 		}
 		
@@ -1022,7 +1024,7 @@ if($id_group == 'Developer'
 			$xmluser->write_value('content01', $content01);
 			$xmluser->write_value('foot', $foot);
 			$xmluser->write_value('id', $new_id);
-			$xmluser->write_value('db_layout', $db_layout);
+			//$xmluser->write_value('db_layout', $db_layout);
 			$xmluser->write_value('access', $access);
 			$xmluser->write_value('published', $new_published);
 			$xmluser->write_value('autor', $new_autor);
@@ -1054,7 +1056,7 @@ if($id_group == 'Developer'
 			.$tcms_db_prefix.$tmp.'.content00="'.$content.'", '
 			.$tcms_db_prefix.$tmp.'.content01="'.$content01.'", '
 			.$tcms_db_prefix.$tmp.'.foot="'.$foot.'", '
-			.$tcms_db_prefix.$tmp.'.db_layout="'.$db_layout.'", '
+			//.$tcms_db_prefix.$tmp.'.db_layout="'.$db_layout.'", '
 			.$tcms_db_prefix.$tmp.'.access="'.$access.'", '
 			.$tcms_db_prefix.$tmp.'.autor="'.$new_autor.'", '
 			.$tcms_db_prefix.$tmp.'.published='.$new_published.', '
@@ -1152,7 +1154,7 @@ if($id_group == 'Developer'
 			$xmluser->write_value('content01', $content01);
 			$xmluser->write_value('foot', $foot);
 			$xmluser->write_value('id', $new_id);
-			$xmluser->write_value('db_layout', $db_layout);
+			//$xmluser->write_value('db_layout', $db_layout);
 			$xmluser->write_value('access', $access);
 			$xmluser->write_value('published', $new_published);
 			$xmluser->write_value('autor', $new_autor);
@@ -1173,7 +1175,7 @@ if($id_group == 'Developer'
 			
 			switch($choosenDB){
 				case 'mysql':
-					$newSQLColumns = '`title`, `key`, `content00`, `content01`, `foot`, `db_layout`, '
+					$newSQLColumns = '`title`, `key`, `content00`, `content01`, `foot`, '
 					.'`access`, `autor`, `published`, `in_work`';
 					
 					if($tcms_main->isReal($lang)) {
@@ -1185,7 +1187,7 @@ if($id_group == 'Developer'
 					break;
 				
 				case 'pgsql':
-					$newSQLColumns = 'title, "key", content00, content01, foot, db_layout, '
+					$newSQLColumns = 'title, "key", content00, content01, foot, '
 					.'"access", autor, published, in_work';
 					
 					if($tcms_main->isReal($lang)) {
@@ -1197,7 +1199,7 @@ if($id_group == 'Developer'
 					break;
 				
 				case 'mssql':
-					$newSQLColumns = '[title], [key], [content00], [content01], [foot], [db_layout], '
+					$newSQLColumns = '[title], [key], [content00], [content01], [foot], '
 					.'[access], [autor], [published], [in_work]';
 					
 					if($tcms_main->isReal($lang)) {
@@ -1210,7 +1212,7 @@ if($id_group == 'Developer'
 			}
 			
 			$newSQLData = "'".$titel."', '".$key."', '".$content."', '".$content01."', '".$foot."', "
-			."'".$db_layout."', '".$access."', '".$new_autor."', ".$new_published.", ".$new_in_work;
+			."'".$access."', '".$new_autor."', ".$new_published.", ".$new_in_work;
 			
 			if($tcms_main->isReal($lang)) {
 				$newSQLData .= ", '".$language."', '".$original."'";
@@ -1404,7 +1406,7 @@ if($id_group == 'Developer'
 							);
 						}
 						
-						$checkFinalize = $news_xml->read_section('main', 'in_work');
+						$checkFinalize = $news_xml->readSection('main', 'in_work');
 						
 						if($checkFinalize == 0){
 							if($sender == 'desktop'){

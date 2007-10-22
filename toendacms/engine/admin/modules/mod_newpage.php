@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for a wizard to create a new page.
  *
- * @version 0.2.6
+ * @version 0.2.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -410,7 +410,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 				$xmluser->write_value('content01', '');
 				$xmluser->write_value('foot', '');
 				$xmluser->write_value('id', $new_linkto);
-				$xmluser->write_value('db_layout', '');
+				//$xmluser->write_value('db_layout', '');
 				$xmluser->write_value('access', $access);
 				
 				$xmluser->xml_section_buffer();
@@ -441,8 +441,10 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 			}
 		}
 		
-		echo '<script>alert(\''._MSG_SAVED.'\');
-		document.location=\'admin.php?id_user='.$id_user.'&site='.( $relocate == 'mod_content' ? $relocate.'&todo=edit&maintag='.$new_linkto : $relocate ).'\'</script>';
+		echo '<script>'
+		.'alert(\''._MSG_SAVED.'\');'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site='.( $relocate == 'mod_content' ? $relocate.'&todo=edit&maintag='.$new_linkto : $relocate ).'\';'
+		.'</script>';
 	}
 }
 else{

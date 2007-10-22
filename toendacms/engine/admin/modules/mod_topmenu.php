@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the topmenu items.
  *
- * @version 0.5.7
+ * @version 0.5.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -595,7 +595,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 					$xmluser->write_value('content01', '');
 					$xmluser->write_value('foot', '');
 					$xmluser->write_value('id', $new_tm_link);
-					$xmluser->write_value('db_layout', '');
+					//$xmluser->write_value('db_layout', '');
 					$xmluser->write_value('access', $new_tm_access);
 					$xmluser->write_value('language', $language);
 					
@@ -617,7 +617,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 					$xmluser->write_value('content01', '');
 					$xmluser->write_value('foot', '');
 					$xmluser->write_value('id', $new_tm_link);
-					$xmluser->write_value('db_layout', '');
+					//$xmluser->write_value('db_layout', '');
 					$xmluser->write_value('access', $new_tm_access);
 					
 					$xmluser->xml_section_buffer();

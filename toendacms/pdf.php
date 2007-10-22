@@ -15,6 +15,18 @@
 */
 
 
+/**
+ * Generate PDF Document
+ * 
+ * This module is used to generate a pdf document
+ * 
+ * @version 0.2.7
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS
+ */
+
+
 if(isset($_GET['id'])){ $id = $_GET['id']; }
 if(isset($_GET['s'])){ $s = $_GET['s']; }
 if(isset($_GET['session'])){ $session = $_GET['session']; }
@@ -22,18 +34,6 @@ if(isset($_GET['category'])){ $category = $_GET['category']; }
 if(isset($_GET['article'])){ $article = $_GET['article']; }
 if(isset($_GET['news'])){ $news = $_GET['news']; }
 if(isset($_GET['albums'])){ $albums = $_GET['albums']; }
-
-
-/**
- * Generate PDF Document
- * 
- * This module is used to generate a pdf document
- * 
- * @version 0.2.5
- * @author	Jonathan Naumann <jonathan@toenda.com>
- * @package toendaCMS
- * @subpackage toendaCMS
- */
 
 
 define('_TCMS_VALID', 1);
@@ -444,7 +444,7 @@ if($ws_auth == 1){
 				$content00 = $content_xml->readSection('main', 'content00');
 				$content01 = $content_xml->readSection('main', 'content01');
 				$foot      = $content_xml->readSection('main', 'foot');
-				$layout_id = $content_xml->readSection('main', 'db_layout');
+				//$layout_id = $content_xml->readSection('main', 'db_layout');
 			}
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -458,11 +458,11 @@ if($ws_auth == 1){
 				$content00 = $sqlARR['content00'];
 				$content01 = $sqlARR['content01'];
 				$foot      = $sqlARR['foot'];
-				$layout_id = $sqlARR['db_layout'];
+				//$layout_id = $sqlARR['db_layout'];
 			}
 			
 			// TCMS SCRIPT
-			$toendaScript = new toendaScript($key);
+			/*$toendaScript = new toendaScript($key);
 			$key = $toendaScript->toendaScript_trigger();
 			
 			$toendaScript = new toendaScript($content00);
@@ -472,7 +472,23 @@ if($ws_auth == 1){
 			$content01 = $toendaScript->toendaScript_trigger();
 			
 			$toendaScript = new toendaScript($foot);
-			$foot = $toendaScript->toendaScript_trigger();
+			$foot = $toendaScript->toendaScript_trigger();*/
+			
+			// TCMS SCRIPT
+			$toendaScript = new toendaScript($key);
+			$key = $toendaScript->doParse();
+			
+			$toendaScript = new toendaScript($content00);
+			$content00 = $toendaScript->doParse();
+			$content00 = $toendaScript->checkSEO($content00, $imagePath);
+			
+			$toendaScript = new toendaScript($content01);
+			$content01 = $toendaScript->doParse();
+			$content01 = $toendaScript->checkSEO($content01, $imagePath);
+			
+			$toendaScript = new toendaScript($foot);
+			$foot = $toendaScript->doParse();
+			$foot = $toendaScript->checkSEO($foot, $imagePath);
 			
 			// CHARSETS
 			$title       = $tcms_main->decodeText($title, '2', $c_charset);
@@ -486,23 +502,22 @@ if($ws_auth == 1){
 	
 	
 	
-	if(!isset($layout_id) || $layout_id == '' || empty($layout_id)){
+	/*if(!isset($layout_id) || $layout_id == '' || empty($layout_id)){
 		$layout_id = 'db_content_default.php';
-	}
+	}*/
 	
 	$content00 = str_replace('{tcms_more}', '', $content00);
 	
-	///  BILDER RAUS LOESCHEN
-	/// $content00
-	///
+	$content_template .= '<div style="width: 99%; display: block;">'
+	.'<div class="contentheading">'.$title.'</div>'
+	.'<span class="contentstamp">'.$key.'</span><br /><br />'
+	.'<div class="contentmain"><br />';
 	
-	include('engine/db_layout/'.$layout_id);
+	$content_template .= $toendaScript->doParsePHP($content00, true);
 	
-	$content_template = str_replace('{$title}', $title, $content_template);
-	$content_template = str_replace('{$key}', $key, $content_template);
-	$content_template = str_replace('{$content00}', $content00, $content_template);
-	$content_template = str_replace('{$content01}', $content01, $content_template);
-	$content_template = str_replace('{$foot}', $foot, $content_template);
+	$content_template .= '<br />'.$content01.'<br />'
+	.$foot.'</div>'
+	.'</div>';
 	
 	
 	$buffer = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'
