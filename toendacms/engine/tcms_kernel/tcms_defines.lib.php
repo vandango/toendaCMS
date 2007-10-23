@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for global values
  *
- * @version 0.6.2
+ * @version 0.6.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -399,7 +399,7 @@ $strMetaData = '<meta http-equiv="Content-Type" content="text/html; charset='.$c
 <meta name="description" content="'._SITE_METATAG_DESCRIPTION.'" />
 <meta name="keywords" content="'._SITE_METATAG_KEYWORDS.'" />
 <meta name="Page-topic" content="'._SITE_METATAG_KEYWORDS.'" />
-<meta name="copyright" content="'._SITE_METATAG_AUTOR.' | '.$owner_copyright.'" />
+<meta name="copyright" content="'._SITE_METATAG_AUTOR.' | '.$tcms_config->getWebpageCopyright().'" />
 <meta name="publisher" content="'._SITE_METATAG_AUTOR.'" />
 <meta name="author" content="'._SITE_METATAG_AUTOR.'" />
 <meta name="cache-control" content="'.$tcms_config->getMetadataCacheControl().'" />
@@ -455,23 +455,27 @@ if(!defined('_SITE_META_DATA')) define('_SITE_META_DATA', $strMetaData);
 /*
 	LAYOUT
 */
-if(trim($s) != 'printer'){
-	if(file_exists('theme/'.$s.'/index.php')){
+if(trim($s) != 'printer') {
+	if($tcms_file->checkFileExist('theme/'.$s.'/index.php')) {
 		/*_LAYOUT*/
 		if(!defined('_LAYOUT')) define('_LAYOUT', 'theme/'.$s.'/index.php');
 	}
-	else{
+	else {
 		$tcms_error = new tcms_error('tcms_defines.lib.php', 2, $s, $imagePath);
 		$tcms_error->showMessage(false);
 		
-		if(!defined('_LAYOUT')) define('_LAYOUT', '');
+		if(!defined('_LAYOUT')) {
+			define('_LAYOUT', '');
+		}
 		
 		unset($tcms_error);
 	}
 }
-else{
+else {
 	/*_LAYOUT*/
-	if(!defined('_LAYOUT')) define('_LAYOUT', 'theme/'.$s.'/index.php');
+	if(!defined('_LAYOUT')) {
+		define('_LAYOUT', 'theme/'.$s.'/index.php');
+	}
 }
 
 
