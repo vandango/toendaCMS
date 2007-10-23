@@ -399,7 +399,7 @@ $strMetaData = '<meta http-equiv="Content-Type" content="text/html; charset='.$c
 <meta name="description" content="'._SITE_METATAG_DESCRIPTION.'" />
 <meta name="keywords" content="'._SITE_METATAG_KEYWORDS.'" />
 <meta name="Page-topic" content="'._SITE_METATAG_KEYWORDS.'" />
-<meta name="copyright" content="'._SITE_METATAG_AUTOR.' | '.$tcms_config->getWebpageCopyright().'" />
+<meta name="copyright" content="'._SITE_METATAG_AUTOR.' &#169; '.$tcms_config->getWebpageCopyright().'" />
 <meta name="publisher" content="'._SITE_METATAG_AUTOR.'" />
 <meta name="author" content="'._SITE_METATAG_AUTOR.'" />
 <meta name="cache-control" content="'.$tcms_config->getMetadataCacheControl().'" />
