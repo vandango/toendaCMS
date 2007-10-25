@@ -1255,8 +1255,8 @@ if(!defined('_FAQ_CFG_TITLE'))                 define('_FAQ_CFG_TITLE', 'Configu
 // IMPORT
 if(!defined('_IMPORT_BLOGGER_FTP'))            define('_IMPORT_BLOGGER_FTP', 'Blogger FTP');
 if(!defined('_IMPORT_BLOGGER_FTP_DESC'))       define('_IMPORT_BLOGGER_FTP_DESC', 'Import news and comments from a Blogger account who the blog is located on a own ftp server (documentation is in the wiki).');
-if(!defined('_IMPORT_OOO2_DOCBOOK_XML'))       define('_IMPORT_OOO2_DOCBOOK_XML', 'OpenOffice.org 2.0 DockBook XML');
-if(!defined('_IMPORT_OOO2_DOCBOOK_XML_DESC'))  define('_IMPORT_OOO2_DOCBOOK_XML_DESC', 'Import documents from as <em>DocBook XML</em> saved OpenOffice.org 2.0 documents.');
+if(!defined('_IMPORT_OOO2_DOCBOOK_XML'))       define('_IMPORT_OOO2_DOCBOOK_XML', 'OpenDocument');
+if(!defined('_IMPORT_OOO2_DOCBOOK_XML_DESC'))  define('_IMPORT_OOO2_DOCBOOK_XML_DESC', 'Import documents from <em>OpenDocument</em> formated files.');
 
 
 // COMPONENTS UPLOAD

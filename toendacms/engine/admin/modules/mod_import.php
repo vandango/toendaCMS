@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for the import api.
  *
- * @version 0.2.0
+ * @version 0.2.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -52,9 +52,14 @@ $impKey = 1;
 // SHOW OLD VALUES
 // ----------------------------------------
 
-if($todo == 'show'){
+if($todo == 'show') {
 	echo $tcms_html->bold(_NEWS_CATEGORIES_TITLE);
-	echo $tcms_html->text('If you have posts or comments in another system WordPress can import them into your current blog. To get started, choose a system to import from below:<br /><br />', 'left');
+	echo $tcms_html->text(
+		'If you have posts or comments in another system WordPress'
+		.' can import them into your current blog. To get started, choose'
+		.' a system to import from below:<br /><br />',
+		'left'
+	);
 	
 	
 	echo '<table cellpadding="3" cellspacing="0" border="0" class="noborder">';
@@ -68,7 +73,7 @@ if($todo == 'show'){
 	
 	
 	// blogger ftp import
-	if(phpversion() >= '5.0.0'){
+	if(phpversion() >= '5.0.0') {
 		echo '<tr height="25" id="row'.$impKey.'" '
 		.'bgcolor="'.$arr_color[$impKey].'" '
 		.'onMouseOver="wxlBgCol(\'row'.$impKey.'\',\'#ececec\')" '
@@ -92,26 +97,27 @@ if($todo == 'show'){
 	
 	
 	// docbook xml (openoffice2 docbook) import
-	/*
-	echo '<tr height="25" id="row'.$impKey.'" '
-	.'bgcolor="'.$arr_color[$impKey].'" '
-	.'onMouseOver="wxlBgCol(\'row'.$impKey.'\',\'#ececec\')" '
-	.'onMouseOut="wxlBgCol(\'row'.$impKey.'\',\''.$arr_color[$impKey].'\')" '
-	.'onclick="document.location=\'admin.php?id_user='.$id_user.'&amp;site=mod_import&amp;todo=docbookxml\';">';
-	
-	echo '<td class="tcms_db_2">'._IMPORT_OOO2_DOCBOOK_XML.'</td>';
-	
-	echo '<td class="tcms_db_2">'._IMPORT_OOO2_DOCBOOK_XML_DESC.'</td>';
-	
-	echo '<td class="tcms_db_2" align="right" valign="middle">'
-	.'<a title="'._IMPORT_OOO2_DOCBOOK_XML.' '._TABLE_IMPORT.'" href="admin.php?id_user='.$id_user.'&amp;site=mod_import&amp;todo=docbookxml">'
-	.'<img title="'._IMPORT_OOO2_DOCBOOK_XML.' '._TABLE_IMPORT.'" alt="'._IMPORT_OOO2_DOCBOOK_XML.' '._TABLE_IMPORT.'" style="padding-top: 3px;" border="0" src="../images/import_go.png" />'
-	.'</a>&nbsp;'
-	.'</td>';
-	
-	$impKey++;
-	
-	echo '</tr>';*/
+	if(phpversion() >= '5.2.0') {
+		echo '<tr height="25" id="row'.$impKey.'" '
+		.'bgcolor="'.$arr_color[$impKey].'" '
+		.'onMouseOver="wxlBgCol(\'row'.$impKey.'\',\'#ececec\')" '
+		.'onMouseOut="wxlBgCol(\'row'.$impKey.'\',\''.$arr_color[$impKey].'\')" '
+		.'onclick="document.location=\'admin.php?id_user='.$id_user.'&amp;site=mod_import&amp;todo=opendocument\';">';
+		
+		echo '<td class="tcms_db_2">'._IMPORT_OOO2_DOCBOOK_XML.'</td>';
+		
+		echo '<td class="tcms_db_2">'._IMPORT_OOO2_DOCBOOK_XML_DESC.'</td>';
+		
+		echo '<td class="tcms_db_2" align="right" valign="middle">'
+		.'<a title="'._IMPORT_OOO2_DOCBOOK_XML.' '._TABLE_IMPORT.'" href="admin.php?id_user='.$id_user.'&amp;site=mod_import&amp;todo=opendocument">'
+		.'<img title="'._IMPORT_OOO2_DOCBOOK_XML.' '._TABLE_IMPORT.'" alt="'._IMPORT_OOO2_DOCBOOK_XML.' '._TABLE_IMPORT.'" style="padding-top: 3px;" border="0" src="../images/import_go.png" />'
+		.'</a>&nbsp;'
+		.'</td>';
+		
+		$impKey++;
+		
+		echo '</tr>';
+	}
 	
 	
 	// table end
@@ -333,9 +339,11 @@ if($todo == 'bloggerftp') {
 		//unlink($imgDir.$fileName);
 		
 		
-		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_import\'</script>';
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_import\';'
+		.'</script>';
 	}
-	else{
+	else {
 		echo $tcms_html->bold(_IMPORT_BLOGGER_FTP).'<br />';
 		echo $tcms_html->text(_IMPORT_BLOGGER_FTP_DESC.'<br /><br />', 'left');
 		
@@ -366,12 +374,13 @@ if($todo == 'bloggerftp') {
 
 
 
-//=====================================================
-// IMPORT FROM DOCBOOK XML (OOo2)
-//=====================================================
 
-if($todo == 'docbookxml'){
-	if($action == 'startimport'){
+// ----------------------------------------
+// IMPORT FROM OPENDOCUMENT
+// ----------------------------------------
+
+if($todo == 'opendocument') {
+	if($action == 'startimport') {
 		// information
 		$letImport = false;
 		$fileName = 'docbook.xml';
@@ -396,9 +405,11 @@ if($todo == 'docbookxml'){
 		//unlink($imgDir.$fileName);
 		
 		
-		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_import\'</script>';
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_import\';'
+		.'</script>';
 	}
-	else{
+	else {
 		echo $tcms_html->bold(_IMPORT_OOO2_DOCBOOK_XML).'<br />';
 		echo $tcms_html->text(_IMPORT_OOO2_DOCBOOK_XML_DESC.'<br /><br />', 'left');
 		
@@ -422,6 +433,31 @@ if($todo == 'docbookxml'){
 		
 		
 		echo '</div>';
+		
+		echo '<h3>ODT2XHTML</h3><br />';
+		
+		using('toendacms.kernel.odtconverter', false, true);
+		
+		$class = new tcms_odtconverter();
+		
+		echo 'Try unzip file: ../../../test.odt<br />';
+		
+		try {
+			$xml = $class->unzipFile('../../../test.odt');
+			
+			echo 'Convert: '.$xml.'<br />';
+			
+			echo $class->convertUnzippedContent($xml);
+		}
+		catch(Exception $ex) {
+			$tcms_html->displayException(
+				$ex->getMessage(), 
+				$ex->getTrace(), 
+				$ex->getLine(), 
+				$ex->getFile(), 
+				$ex->getCode()
+			);
+		}
 	}
 }
 

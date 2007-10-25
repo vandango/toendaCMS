@@ -1257,8 +1257,8 @@ define('_FAQ_CFG_TITLE', 'Konfigurieren sie die Wissensdatenbank');
 // IMPORT
 define('_IMPORT_BLOGGER_FTP', 'Blogger FTP');
 define('_IMPORT_BLOGGER_FTP_DESC', 'Importiert Neuigkeiten und Kommentare von einem Blogger Account der auf einem eigenem FTP Server liegt (Anleitung siehe Wiki).');
-define('_IMPORT_OOO2_DOCBOOK_XML', 'OpenOffice.org 2.0 DockBook XML');
-define('_IMPORT_OOO2_DOCBOOK_XML_DESC', 'Importiert Dokumente von als <em>DocBook XML</em> gespeicherten OpenOffice.org 2.0 Dokumenten.');
+define('_IMPORT_OOO2_DOCBOOK_XML', 'OpenDocument');
+define('_IMPORT_OOO2_DOCBOOK_XML_DESC', 'Importiert Dokumente mit dem OpenDocument Dateiformat.');
 
 
 // COMPONENTS UPLOAD
