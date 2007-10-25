@@ -28,7 +28,7 @@ Version 1.6
 Developer Version
 	- 1.6.0 Development
 
-Building Steps: 3456
+Building Steps: 3465
 
 
 
@@ -78,6 +78,7 @@ Building Steps: 3456
  - added: Lightbox (including script.aculo.us 1.5.1) for the images from the
           mediabrowser.
  - added: Incorrect login information.
+ - added: Started to add the OpenDocument import.
 
 
 

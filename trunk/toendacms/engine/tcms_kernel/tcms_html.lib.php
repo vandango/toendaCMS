@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide some often used html
  * codes.
  *
- * @version 0.4.6
+ * @version 0.4.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -602,6 +602,58 @@ class tcms_html {
 	 */
 	function userProfileTitle($title){
 		return '<div style="display: block; width: 100%;" class="user_profile_title">'.$title.'</div>';
+	}
+	
+	
+	
+	/**
+	 * displayExceptionDisplay an exception
+	 *
+	 * @param String $message
+	 * @param Array $stacktrace
+	 * @param Integer $line
+	 * @param String $file
+	 * @param Integer $line
+	 */
+	function displayException($message, $stacktrace, $line, $file, $code) {
+		//$stacktrace = str_replace('\n', '<br />', $stacktrace);
+		
+		echo '<br />'
+		.'<div style="'
+		.'display: block; width: 600px; padding: 10px; border: 2px solid #ff0000; background: #ececec;'
+		.'">'
+		.'<strong>ERROR</strong>'
+		.'<br />'
+		.'<br />'
+		.'<strong>File:</strong> '.$file
+		.'<br />'
+		.'<strong>Line:</strong> '.$line
+		.'<br />'
+		.'<strong>Code:</strong> '.$code
+		.'<br />'
+		.'<strong>Message:</strong> '.$message
+		.'<br />'
+		.'<strong>Stacktrace:</strong>'
+		.'<br />';
+		
+		foreach($stacktrace as $key => $value) {
+			echo '<br />';
+			
+			echo '&nbsp;&nbsp;&nbsp;&nbsp;File: '.$value['file'].'<br />';
+			echo '&nbsp;&nbsp;&nbsp;&nbsp;Line: '.$value['line'].'<br />';
+			echo '&nbsp;&nbsp;&nbsp;&nbsp;Function: '.$value['function'].'<br />';
+			echo '&nbsp;&nbsp;&nbsp;&nbsp;Class: '.$value['class'].'<br />';
+			echo '&nbsp;&nbsp;&nbsp;&nbsp;Type: '.$value['type'].'<br />';
+			
+			foreach($value['args'] as $key => $val) {
+				echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Argument #'.$key.': '.$val.'<br />';
+			}
+			
+			echo '<br />';
+		}
+		
+		echo '<br />'
+		.'</div>';
 	}
 	
 	
