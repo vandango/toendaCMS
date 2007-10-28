@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic functions.
  *
- * @version 2.6.4
+ * @version 2.7.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -58,14 +58,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * PUBLIC METHODS
  * --------------------------------------------------------
  *
- * getAllDocuments                   -> Get all documents
- * getPathContentAmount              -> Get the amount of related files in a path (without directorys)
- * getPathContent                    -> Return a array of all files or folders inside a path
- * getPathContentCSSFilesRecursivly  -> Return a array with the files in "path"
- * getXMLFiles                       -> Return a array of all xml files inside a path
  * getNewUID                         -> Get a new guid
  * getAmountOfItems                  -> Get the amount of items from a table.
- * getMimeType                       -> Get the mimetype of a filename
  * getPHPSetting                     -> Get a PHP setting
  * getLanguageNameByTCMSLanguageCode -> Get the name of a language by it's TCMS language code
  * getTaxPrice                       -> Get the tax (mwst) price
@@ -79,9 +73,6 @@ defined('_TCMS_VALID') or die('Restricted access');
  * isVideo                           -> Check if a file type is a video file
  * isMultimedia                      -> Check if a file type is a multimedia file
  * isReal                            -> Check if a variable is not empty and is set
- * deleteDir                         -> Remove dir with all files and directorys inside
- * deleteDirContent                  -> Remove all files and directorys inside a directory
- * deleteFile                        -> Delete a file (if it exist)
  * encodeUtf8                        -> Encode (cipher) a string to a utf8 string
  * decodeUtf8                        -> Decode (decipher) a string from a utf8 string
  * encodeBase64                      -> Encode (decipher) a crypt a string from a base64 crypt string
@@ -184,6 +175,15 @@ defined('_TCMS_VALID') or die('Restricted access');
  * DEPRECATED getDirectorySize            -> Moved to tcms_file: Get the complete filesize of a directory
  * DEPRECATED getDirectorySizeString      -> Moved to tcms_file: Get the complete filesize of a directory as a string
  * DEPRECATED isCHMODable                 -> Moved to tcms_file: Checks if a file is CHMODable
+ * DEPRECATED getAllDocuments             -> Get all documents
+ * DEPRECATED getPathContentAmount        -> Get the amount of related files in a path (without directorys)
+ * DEPRECATED getPathContent              -> Return a array of all files or folders inside a path
+ * DEPRECATED getPathContentCSSFilesRecursivly  -> Return a array with the files in "path"
+ * DEPRECATED getXMLFiles                 -> Return a array of all xml files inside a path
+ * DEPRECATED getMimeType                 -> Get the mimetype of a filename
+ * DEPRECATED deleteDir                   -> Remove dir with all files and directorys inside
+ * DEPRECATED deleteDirContent            -> Remove all files and directorys inside a directory
+ * DEPRECATED deleteFile                  -> Delete a file (if it exist)
  * 
  * </code>
  *
@@ -398,224 +398,6 @@ class tcms_main {
 	
 	
 	/**
-	 * Get all documents
-	 * 
-	 * @return Array
-	 */
-	function getAllDocuments() {
-		$count = 0;
-		
-		$c_charset = $this->_tcmsConfig->getCharset();
-		
-		if($this->db_choosenDB == 'xml') {
-			$arr_docs = $this->getPathContent($this->administer.'/tcms_content/');
-			
-			if($this->isReal($arr_docs)) {
-				unset($val);
-				
-				foreach($arr_docs as $key => $val) {
-					$xml = new xmlparser($this->administer.'/tcms_content/'.$val,'r');
-					
-					$arrDocuments['id'][$count] = $xml->readSection('main', 'id');
-					$arrDocuments['name'][$count] = $this->decodeText(
-						$xml->readSection('main', 'title'), '2', $c_charset
-					);
-					
-					$xml->flush();
-					$xml->_xmlparser();
-					unset($xml);
-					
-					$count++;
-				}
-			}
-		}
-		else {
-			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
-			$sqlCN = $sqlAL->connect(
-				$this->db_user, 
-				$this->db_pass, 
-				$this->db_host, 
-				$this->db_database, 
-				$this->db_port
-			);
-			
-			$sqlQR = $sqlAL->getAll($this->db_prefix.'content');
-			
-			while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
-				$arrDocuments['id'][$count] = $sqlObj->uid;
-				$arrDocuments['name'][$count] = $this->decodeText($sqlObj->title, '2', $c_charset);
-				
-				$count++;
-			}
-			
-			$sqlAL->freeResult($sqlQR);
-		}
-		
-		return $arrDocuments;
-	}
-	
-	
-	
-	/**
-	 * Get the amount of related files in a path (without directorys)
-	 * 
-	 * @param String $path
-	 * @return Integer
-	 */
-	function getPathContentAmount($path) {
-		$handle = opendir($path);
-		$i = 0;
-		
-		while ($dir = readdir($handle)) {
-			if ($dir != '.' 
-			&& $dir != '..' 
-			&& $dir != 'CVS' 
-			&& $dir != '.svn'
-			&& $dir != '_svn'
-			&& $dir != '.SVN'
-			&& $dir != '_SVN'
-			&& substr($dir, 0, 9) != 'comments_' 
-			&& $dir != 'index.html') {
-				$i++;
-			}
-		}
-		
-		return $i;
-	}
-	
-	
-	
-	/**
-	 * Return a array of all files or directory's inside a path
-	 *
-	 * @param String $path
-	 * @param Boolean $onlyFolders
-	 * @param String $fileType = ''
-	 * @return Array
-	 */
-	function getPathContent($path, $onlyFolders = false, $fileType = '') {
-		$i = 0;
-		$handle = opendir($path);
-		
-		while($dir = readdir($handle)) {
-			if ($dir != '.'
-			&& $dir != '..'
-			&& $dir != 'CVS'
-			&& $dir != '.svn'
-			&& $dir != '_svn'
-			&& $dir != '.SVN'
-			&& $dir != '_SVN'
-			&& substr($dir, 0, 9) != 'comments_'
-			&& $dir != 'index.html') {
-				if($onlyFolders) {
-					if(is_dir($path.$dir)) {
-						$arr_dirContent[$i] = $dir;
-						$i++;
-					}
-				}
-				else{
-					if($fileType == '') {
-						$arr_dirContent[$i] = $dir;
-						$i++;
-					}
-					else{
-						if(strpos($dir, $fileType)) {
-							$arr_dirContent[$i] = $dir;
-							$i++;
-						}
-					}
-				}
-			}
-		}
-		
-		return ( $this->isReal($arr_dirContent) ? $arr_dirContent : NULL );
-	}
-	
-	
-	
-	/**
-	 * Return a array with the files in "path"
-	 * 
-	 * @param String $path
-	 * @param Unknown $returnOnlyAmount = false
-	 * @return READ A DIR AND RETURN THE CSS FILES
-	 */
-	function getPathContentCSSFilesRecursivly($path, $returnOnlyAmount = false) {
-		$handle = opendir($path);
-		$i = 0;
-		$c = 0;
-		
-		while($directories = readdir($handle)) {
-			if($directories != '.' 
-			&& $directories != '..' 
-			&& $directories != 'CVS' 
-			&& $directories != '.svn'
-			&& $directories != '_svn'
-			&& $directories != '.SVN'
-			&& $directories != '_SVN'
-			&& $directories != 'index.html') {
-				if(strpos($directories, '.css')) {
-					$arr_css['files'][$i] = $directories;
-					$i++;
-				}
-				else{
-					if(!is_file($directories) && !strpos($directories, '.')) {
-						$arr_css['dir'][$i] = $directories;
-						$i++;
-					}
-				}
-			}
-		}
-		
-		if(is_array($arr_css['dir'])) {
-			foreach($arr_css['dir'] as $key => $value) {
-				$handle = opendir($path.'/'.$value);
-				while($directories = readdir($handle)) {
-					if($directories != '.' 
-					&& $directories != '..' 
-					&& $directories != 'CVS' 
-					&& $directories != '.svn'
-					&& $directories != '_svn'
-					&& $directories != '.SVN'
-					&& $directories != '_SVN'
-					&& $directories != 'index.html') {
-						if(strpos($directories, '.css')) {
-							$arr_css['files'][$i] = $directories;
-							$i++;
-						}
-					}
-				}
-			}
-		}
-		
-		if($i == 0) {
-			return NULL;
-		}
-		else{
-			if($returnOnlyAmount) {
-				return $i;
-			}
-			else {
-				return $arr_css;
-			}
-		}
-	}
-	
-	
-	
-	/**
-	 * Return a array of all xml files inside a path
-	 * 
-	 * @param String $path
-	 * @return Array
-	 */
-	function getXMLFiles($path) {
-		return $this->getPathContent($path, false, '.xml');
-	}
-	
-	
-	
-	/**
 	 * Get a new uid for a specific table
 	 *
 	 * @param Integer $length
@@ -690,43 +472,6 @@ class tcms_main {
 			
 			return $sqlObj->amount;
 		}
-	}
-	
-	
-	
-	/**
-	 * Get the mimetype of an filename
-	 *
-	 * @param String $filename
-	 * @param Boolean $tolower = false
-	 * @return String
-	 */
-	function getMimeType($filename, $tolower = false) {
-		// get the filename from an url
-		if(substr($filename, 0, 7) == 'http://' || substr($filename, 0, 6) == 'ftp://') {
-			$filename = substr(strrchr($filename, "/"), 1);
-			
-			if(strlen($filename) > 6 && strpos($filename, '?'))
-				$filename = substr($filename, 0, strpos($filename, '?'));
-		}
-		
-		// tar.gz
-		if(strpos($filename, '.tar.gz')) {
-			$mime = 'tar';
-		}
-		else{
-			$mime = substr(strrchr($filename, '.'), 1);
-			
-			if($filename == '')
-				$mime = 'empty';
-			else
-				$mime = strtolower(str_replace('.', '', $mime));
-		}
-		
-		if($tolower)
-			return strtolower($mime);
-		else
-			return $mime;
 	}
 	
 	
@@ -1014,114 +759,10 @@ class tcms_main {
 	 * @return Boolean
 	 */
 	function isReal($variable) {
-		if(isset($variable) && trim($variable) != '' && !empty($variable) && $variable != NULL)
-			return true;
-		else
-			return false;
-	}
-	
-	
-	
-	/**
-	 * Deletes a directory beginning at the deepest path
-	 * 
-	 * @param String $dir
-	 * @return Boolean
-	 */
-	function deleteDir($dir) {
-		if(substr($dir, strlen($dir) - 1, 1) != '/')
-			$dir .= '/';
-		
-		//if($this->canCHMOD($dir))
-			//chmod($dir, 777);
-		
-		if($handle = opendir($dir)) {
-			while($obj = readdir($handle)) {
-				if($obj != '.' 
-				&& $obj != '..'
-				&& $obj != 'CVS'
-				&& $obj != 'cvs'
-				&& $obj != '.SVN'
-				&& $obj != '.svn'
-				&& $obj != '_svn'
-				&& $obj != '_SVN') {
-					if(is_dir($dir.$obj)) {
-						if(!$this->deleteDir($dir.$obj))
-							return false;
-					}
-					elseif(is_file($dir.$obj)) {
-						if(!unlink($dir.$obj))
-							return false;
-					}
-				}
-			}
-			
-			closedir($handle);
-			
-			if(!@rmdir($dir))
-				return false;
-			
-			return true;
-		}
-		
-		return false;
-	}
-	
-	
-	
-	/**
-	 * Deletes the content of a directory
-	 * 
-	 * @param String $dir
-	 * @return Boolean
-	 */
-	function deleteDirContent($dir) {
-		if(substr($dir, strlen($dir) - 1, 1) != '/')
-			$dir .= '/';
-		
-		//if($this->canCHMOD($dir))
-			//chmod($dir, 777);
-		
-		if($handle = opendir($dir)) {
-			while($obj = readdir($handle)) {
-				if($obj != '.' 
-				&& $obj != '..'
-				&& $obj != 'CVS'
-				&& $obj != 'cvs'
-				&& $obj != '.SVN'
-				&& $obj != '.svn'
-				&& $obj != '_svn'
-				&& $obj != '_SVN') {
-					if(is_dir($dir.$obj)) {
-						if(!$this->deleteDir($dir.$obj))
-							return false;
-					}
-					elseif(is_file($dir.$obj)) {
-						if(!unlink($dir.$obj))
-							return false;
-					}
-				}
-			}
-			
-			closedir($handle);
-			
-			return true;
-		}
-		
-		return false;
-	}
-	
-	
-	
-	/**
-	 * Delete a file (if it exist)
-	 * 
-	 * @param String $file
-	 * @return Boolean
-	 */
-	function deleteFile($file) {
-		if(file_exists($file)) {
-			unlink($file);
+		if(isset($variable) 
+		&& trim($variable) != '' 
+		&& !empty($variable) 
+		&& $variable != NULL) {
 			return true;
 		}
 		else {
@@ -4979,6 +4620,421 @@ class tcms_main {
 			}
 		
 		return false;*/
+	}
+	
+	
+	
+	/**
+	 * Get all documents
+	 * 
+	 * @deprecated Deprecated since version 1.6
+	 * @return Array
+	 */
+	function getAllDocuments() {
+		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
+		
+		$f = new tcms_file();
+		return $f->getAllDocuments();
+		/*
+		$count = 0;
+		
+		$c_charset = $this->_tcmsConfig->getCharset();
+		
+		if($this->db_choosenDB == 'xml') {
+			$arr_docs = $this->getPathContent($this->administer.'/tcms_content/');
+			
+			if($this->isReal($arr_docs)) {
+				unset($val);
+				
+				foreach($arr_docs as $key => $val) {
+					$xml = new xmlparser($this->administer.'/tcms_content/'.$val,'r');
+					
+					$arrDocuments['id'][$count] = $xml->readSection('main', 'id');
+					$arrDocuments['name'][$count] = $this->decodeText(
+						$xml->readSection('main', 'title'), '2', $c_charset
+					);
+					
+					$xml->flush();
+					$xml->_xmlparser();
+					unset($xml);
+					
+					$count++;
+				}
+			}
+		}
+		else {
+			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
+			
+			$sqlQR = $sqlAL->getAll($this->db_prefix.'content');
+			
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
+				$arrDocuments['id'][$count] = $sqlObj->uid;
+				$arrDocuments['name'][$count] = $this->decodeText($sqlObj->title, '2', $c_charset);
+				
+				$count++;
+			}
+			
+			$sqlAL->freeResult($sqlQR);
+		}
+		
+		return $arrDocuments;*/
+	}
+	
+	
+	
+	/**
+	 * Get the amount of related files in a path (without directorys)
+	 * 
+	 * @deprecated Deprecated since version 1.6
+	 * @param String $path
+	 * @return Integer
+	 */
+	function getPathContentAmount($path) {
+		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
+		
+		$f = new tcms_file();
+		return $f->getPathContentAmount($path);
+		/*
+		$handle = opendir($path);
+		$i = 0;
+		
+		while ($dir = readdir($handle)) {
+			if ($dir != '.' 
+			&& $dir != '..' 
+			&& $dir != 'CVS' 
+			&& $dir != '.svn'
+			&& $dir != '_svn'
+			&& $dir != '.SVN'
+			&& $dir != '_SVN'
+			&& substr($dir, 0, 9) != 'comments_' 
+			&& $dir != 'index.html') {
+				$i++;
+			}
+		}
+		
+		return $i;*/
+	}
+	
+	
+	
+	/**
+	 * Return a array of all files or directory's inside a path
+	 *
+	 * @deprecated Deprecated since version 1.6
+	 * @param String $path
+	 * @param Boolean $onlyFolders
+	 * @param String $fileType = ''
+	 * @return Array
+	 */
+	function getPathContent($path, $onlyFolders = false, $fileType = '') {
+		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
+		
+		$f = new tcms_file();
+		return $f->getPathContent($path, $onlyFolders, $fileType);
+		/*
+		$i = 0;
+		$handle = opendir($path);
+		
+		while($dir = readdir($handle)) {
+			if ($dir != '.'
+			&& $dir != '..'
+			&& $dir != 'CVS'
+			&& $dir != '.svn'
+			&& $dir != '_svn'
+			&& $dir != '.SVN'
+			&& $dir != '_SVN'
+			&& substr($dir, 0, 9) != 'comments_'
+			&& $dir != 'index.html') {
+				if($onlyFolders) {
+					if(is_dir($path.$dir)) {
+						$arr_dirContent[$i] = $dir;
+						$i++;
+					}
+				}
+				else{
+					if($fileType == '') {
+						$arr_dirContent[$i] = $dir;
+						$i++;
+					}
+					else{
+						if(strpos($dir, $fileType)) {
+							$arr_dirContent[$i] = $dir;
+							$i++;
+						}
+					}
+				}
+			}
+		}
+		
+		return ( $this->isReal($arr_dirContent) ? $arr_dirContent : NULL );*/
+	}
+	
+	
+	
+	/**
+	 * Return a array with the files in "path"
+	 * 
+	 * @deprecated Deprecated since version 1.6
+	 * @param String $path
+	 * @param Unknown $returnOnlyAmount = false
+	 * @return READ A DIR AND RETURN THE CSS FILES
+	 */
+	function getPathContentCSSFilesRecursivly($path, $returnOnlyAmount = false) {
+		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
+		
+		$f = new tcms_file();
+		return $f->getPathContentCSSFilesRecursivly($path, $returnOnlyAmount);
+		/*
+		$handle = opendir($path);
+		$i = 0;
+		$c = 0;
+		
+		while($directories = readdir($handle)) {
+			if($directories != '.' 
+			&& $directories != '..' 
+			&& $directories != 'CVS' 
+			&& $directories != '.svn'
+			&& $directories != '_svn'
+			&& $directories != '.SVN'
+			&& $directories != '_SVN'
+			&& $directories != 'index.html') {
+				if(strpos($directories, '.css')) {
+					$arr_css['files'][$i] = $directories;
+					$i++;
+				}
+				else{
+					if(!is_file($directories) && !strpos($directories, '.')) {
+						$arr_css['dir'][$i] = $directories;
+						$i++;
+					}
+				}
+			}
+		}
+		
+		if(is_array($arr_css['dir'])) {
+			foreach($arr_css['dir'] as $key => $value) {
+				$handle = opendir($path.'/'.$value);
+				while($directories = readdir($handle)) {
+					if($directories != '.' 
+					&& $directories != '..' 
+					&& $directories != 'CVS' 
+					&& $directories != '.svn'
+					&& $directories != '_svn'
+					&& $directories != '.SVN'
+					&& $directories != '_SVN'
+					&& $directories != 'index.html') {
+						if(strpos($directories, '.css')) {
+							$arr_css['files'][$i] = $directories;
+							$i++;
+						}
+					}
+				}
+			}
+		}
+		
+		if($i == 0) {
+			return NULL;
+		}
+		else {
+			if($returnOnlyAmount) {
+				return $i;
+			}
+			else {
+				return $arr_css;
+			}
+		}*/
+	}
+	
+	
+	
+	/**
+	 * Return a array of all xml files inside a path
+	 * 
+	 * @deprecated Deprecated since version 1.6
+	 * @param String $path
+	 * @return Array
+	 */
+	function getXMLFiles($path) {
+		return $this->getPathContent($path, false, '.xml');
+	}
+	
+	
+	
+	/**
+	 * Get the mimetype of an filename
+	 *
+	 * @deprecated Deprecated since version 1.6
+	 * @param String $filename
+	 * @param Boolean $tolower = false
+	 * @return String
+	 */
+	function getMimeType($filename, $tolower = false) {
+		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
+		
+		$f = new tcms_file();
+		return $f->getMimeType($filename, $tolower);
+		/*
+		// get the filename from an url
+		if(substr($filename, 0, 7) == 'http://' || substr($filename, 0, 6) == 'ftp://') {
+			$filename = substr(strrchr($filename, "/"), 1);
+			
+			if(strlen($filename) > 6 && strpos($filename, '?')) {
+				$filename = substr($filename, 0, strpos($filename, '?'));
+			}
+		}
+		
+		// tar.gz
+		if(strpos($filename, '.tar.gz')) {
+			$mime = 'tar';
+		}
+		else{
+			$mime = substr(strrchr($filename, '.'), 1);
+			
+			if($filename == '') {
+				$mime = 'empty';
+			}
+			else {
+				$mime = strtolower(str_replace('.', '', $mime));
+			}
+		}
+		
+		if($tolower) {
+			return strtolower($mime);
+		}
+		else {
+			return $mime;
+		}*/
+	}
+	
+	
+	
+	/**
+	 * Deletes a directory beginning at the deepest path
+	 * 
+	 * @deprecated Deprecated since version 1.6
+	 * @param String $dir
+	 * @return Boolean
+	 */
+	function deleteDir($dir) {
+		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
+		
+		$f = new tcms_file();
+		return $f->deleteDir($dir);
+		/*
+		if(substr($dir, strlen($dir) - 1, 1) != '/') {
+			$dir .= '/';
+		}
+		
+		if($handle = opendir($dir)) {
+			while($obj = readdir($handle)) {
+				if($obj != '.' 
+				&& $obj != '..'
+				&& $obj != 'CVS'
+				&& $obj != 'cvs'
+				&& $obj != '.SVN'
+				&& $obj != '.svn'
+				&& $obj != '_svn'
+				&& $obj != '_SVN') {
+					if(is_dir($dir.$obj)) {
+						if(!$this->deleteDir($dir.$obj))
+							return false;
+					}
+					elseif(is_file($dir.$obj)) {
+						if(!unlink($dir.$obj))
+							return false;
+					}
+				}
+			}
+			
+			closedir($handle);
+			
+			if(!@rmdir($dir)) {
+				return false;
+			}
+			
+			return true;
+		}
+		
+		return false;*/
+	}
+	
+	
+	
+	/**
+	 * Deletes the content of a directory
+	 * 
+	 * @deprecated Deprecated since version 1.6
+	 * @param String $dir
+	 * @return Boolean
+	 */
+	function deleteDirContent($dir) {
+		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
+		
+		$f = new tcms_file();
+		return $f->deleteDirContent($dir);
+		/*
+		if(substr($dir, strlen($dir) - 1, 1) != '/') {
+			$dir .= '/';
+		}
+		
+		if($handle = opendir($dir)) {
+			while($obj = readdir($handle)) {
+				if($obj != '.' 
+				&& $obj != '..'
+				&& $obj != 'CVS'
+				&& $obj != 'cvs'
+				&& $obj != '.SVN'
+				&& $obj != '.svn'
+				&& $obj != '_svn'
+				&& $obj != '_SVN') {
+					if(is_dir($dir.$obj)) {
+						if(!$this->deleteDir($dir.$obj))
+							return false;
+					}
+					elseif(is_file($dir.$obj)) {
+						if(!unlink($dir.$obj))
+							return false;
+					}
+				}
+			}
+			
+			closedir($handle);
+			
+			return true;
+		}
+		
+		return false;*/
+	}
+	
+	
+	
+	/**
+	 * Delete a file (if it exist)
+	 * 
+	 * @deprecated Deprecated since version 1.6
+	 * @param String $file
+	 * @return Boolean
+	 */
+	function deleteFile($file) {
+		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
+		
+		$f = new tcms_file();
+		return $f->deleteFile($file);
+		/*
+		if(file_exists($file)) {
+			unlink($file);
+			return true;
+		}
+		else {
+			return false;
+		}*/
 	}
 }
 

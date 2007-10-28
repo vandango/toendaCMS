@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to convert documents from
  * the opendocument format into html.
  *
- * @version 0.0.1
+ * @version 0.0.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -81,24 +81,64 @@ class tcms_odtconverter {
 	 * Unzip a file an get the contents as xml
 	 *
 	 * @param String $filename
+	 * @param Object $tcms_file
 	 * @return String
 	 */
-	function unzipFile($filename) {
-		if(!function_exists('zip_open')) {
-			throw new Exception('NO ZIP FUNCTIONS DETECTED. Do you have the PECL ZIP extensions loaded?');
-		}
+	function unzipFile($filename, &$tcms_file) {
+		//if(!function_exists('zip_open')) {
+		//	throw new Exception('NO ZIP FUNCTIONS DETECTED. Do you have the PECL ZIP extensions loaded?');
+		//}
 		
 		if(!is_file($filename)) {
 			throw new Exception('Can\'t find file: '.$filename);
 		}
 		
-		echo 'open zip<br />';
+		$dir = $filename.'_dir/';
+		
+		//echo 'open zip using PclZip<br />';
+		$pcl = new PclZip($filename);
+		//$io = new tcms_file();
+		
+		//include_once('pclzip/pclzip.lib.php');
+		//$pcl->listContent();
+		
+		if(!$tcms_file->checkDirExist($dir)) {
+			$tcms_file->createDir($dir);
+		}
+		
+		if($pcl->extract(PCLZIP_OPT_PATH, $dir) == 0){
+			die('PclZip ERROR : '.$archive->errorInfo(true));
+		}
+		
+		/*
+		echo '<hr />open zip<br />';
 		$zip = zip_open($filename);
 		
 		echo 'read zip<br />';
 		$zip_entry = zip_read($zip);
 		echo '1. :'.$zip_entry.'<br>';
+		*/
 		
+		$files = $tcms_file->getPathContent($dir);
+		
+		foreach($files as $key => $value) {
+			//echo $key.' - '.$value.'<br>';
+			
+			if($value == 'content.xml') {
+				$tcms_file->open($dir.$value, 'r');
+				$content = $tcms_file->read();
+				$tcms_file->close();
+			}
+			
+			/*if(ereg('Pictures/', $value) && !ereg('Object', $value)) {
+				$img[$value] = zip_entry_read($zip_entry, zip_entry_filesize($zip_entry));
+				zip_entry_close($zip_entry);
+			}*/
+		}
+		
+		$tcms_file->deleteDir($dir);
+		
+		/*
 		while($zip_entry = zip_read($zip)) {
 			$filename = zip_entry_name($zip_entry);
 			
@@ -111,10 +151,10 @@ class tcms_odtconverter {
 				$img[$filename] = zip_entry_read($zip_entry, zip_entry_filesize($zip_entry));
 				zip_entry_close($zip_entry);
 			}
-		}
+		}*/
 		
 		if(isset($content)) {
-			if(is_array($img)) {
+			/*if(is_array($img)) {
 				if(!is_dir($path.'Pictures')) {
 					mkdir($path.'Pictures');
 				}
@@ -122,7 +162,7 @@ class tcms_odtconverter {
 				foreach($img as $key => $val) {
 					file_put_contents($path.$key, $val);
 				}
-			}
+			}*/
 			
 			return $content;
 		}
@@ -140,15 +180,15 @@ class tcms_odtconverter {
 	 * @return String
 	 */
 	public function convertUnzippedContent($xml) {
-		$xls = new DOMDocument;
-		$xls->load('template.xsl');
+		$xls = new DOMDocument('');
+		$xls->load('../styles/template.xsl');
 		
-		$xslt = new XSLTProcessor;
+		$xslt = new XSLTProcessor();
 		$xslt->importStylesheet($xls);
 		
 		$x = preg_replace('#<draw:image xlink:href="Pictures/([a-z .A-Z_0-9]*)" (.*?)/>#es', "ODT2XHTML::makeImage('\\1')", $xml);
 		
-		$xml = new DOMDocument;
+		$xml = new DOMDocument('');
 		$xml->loadXML($x);
 		
 		return html_entity_decode($xslt->transformToXML($xml));
