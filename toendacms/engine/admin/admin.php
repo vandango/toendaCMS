@@ -83,7 +83,7 @@ if($tcms_file->checkFileExist($tcms_administer_path.'/tcms_global/var.xml')){
 	include_once('../tcms_kernel/tcms_xml.lib.php');
 	include_once('../tcms_kernel/tcms.lib.php');
 	using('toendacms.kernel.script', false, true);
-	include_once('../tcms_kernel/tcms_html.lib.php');
+	using('toendacms.kernel.html', false, true);
 	include_once('../tcms_kernel/pclzip/pclzip.lib.php');
 	include_once('../tcms_kernel/tcms_gd.lib.php');
 	include_once('../tcms_kernel/tcms_sql.lib.php');

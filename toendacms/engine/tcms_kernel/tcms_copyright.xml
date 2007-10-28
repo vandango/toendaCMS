@@ -568,9 +568,9 @@
 		
 		<table cellpadding="3" cellspacing="0" border="0" width="100%" class="noborder" style="border: 1px solid #fff;">
 		
-		<tr bgcolor="#ececec"><td width="250"><strong>PhpConcept Library - Zip Module 2.3</strong>
+		<tr bgcolor="#ececec"><td width="250"><strong>PhpConcept Library Zip Module (PclZip)</strong>
 		</td><td width="200"><a href="http://www.phpconcept.net" target="_blank">www.phpconcept.net</a>
-		</td><td width="100">Version 2.3
+		</td><td width="100">Version 2.6
 		</td><td width="74"><a href="http://www.gnu.org/copyleft/lesser.html" target="_blank">LGPL</a>
 		</td></tr>
 		

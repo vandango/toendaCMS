@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for the import api.
  *
- * @version 0.2.1
+ * @version 0.2.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -443,7 +443,7 @@ if($todo == 'opendocument') {
 		echo 'Try unzip file: ../../../test.odt<br />';
 		
 		try {
-			$xml = $class->unzipFile('../../../test.odt');
+			$xml = $class->unzipFile('../../../test.odt', $tcms_file);
 			
 			echo 'Convert: '.$xml.'<br />';
 			

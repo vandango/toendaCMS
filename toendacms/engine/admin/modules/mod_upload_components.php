@@ -9,8 +9,7 @@
 | 
 | Components Upload Manager
 |
-| File:		mod_upload_components.php
-| Version:	0.0.2
+| File:	mod_upload_components.php
 |
 +
 */
@@ -19,7 +18,17 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-
+/**
+ * Components Upload Manager
+ *
+ * This module is used as a upload and edit page for the
+ * components.
+ *
+ * @version 0.0.3
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 if(isset($_POST['zlib_upload'])){ $zlib_upload = $_POST['zlib_upload']; }
@@ -28,7 +37,12 @@ if(isset($_POST['zlib_upload'])){ $zlib_upload = $_POST['zlib_upload']; }
 
 
 
-if($id_group == 'Developer' || $id_group == 'Administrator'){
+// ---------------------------------
+// VIEW
+// ---------------------------------
+
+if($id_group == 'Developer' 
+|| $id_group == 'Administrator'){
 	/*
 		init
 	*/
@@ -42,7 +56,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		upload
 	*/
 	if($todo == 'show'){
-		echo tcms_html::text(_CS_UPLOAD_TEXT.'<br /><br />', 'left');
+		echo $tcms_html->text(_CS_UPLOAD_TEXT.'<br /><br />', 'left');
 		
 		
 		// form
@@ -85,8 +99,9 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	/*
 		GZ OR ZIP UPLOAD AND INSTALL
 	*/
-	if($todo == 'zlib_save'){
-		if($_FILES['zlib_upload']['size'] > 0 && $_FILES['zlib_upload']['type'] == 'application/zip'){
+	if($todo == 'zlib_save') {
+		if($_FILES['zlib_upload']['size'] > 0 
+		&& $_FILES['zlib_upload']['type'] == 'application/zip') {
 			// theme file name
 			$gzFileName = $_FILES['zlib_upload']['name'];
 			
@@ -118,10 +133,12 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 			chmod($themeDir, 0777);
 		}
 		
-		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_components\'</script>';
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_components\';'
+		.'</script>';
 	}
 }
-else{
+else {
 	echo '<strong>'._MSG_NOTENOUGH_USERRIGHTS.'</strong>';
 }
 
