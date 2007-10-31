@@ -10,6 +10,7 @@ $skinPath = $templatePath.'images/';
 // 1 = K2
 // 2 = K2 BIG
 // 3 = K2 Vader
+// 4 = KS Garcia Solar Landscape
 //
 
 $k2CSS = 1;
@@ -20,30 +21,53 @@ $k2CSS = 1;
 	echo _SITE_TITLE.' | ';
 	include(_SITETITLE);
 ?></title>
-<? echo _SITE_META_DATA; ?>
-<script type="text/javascript" language="JavaScript">
-var name = navigator.userAgent.toLowerCase()
-var css = 'moz';
+<?php
 
-var ie = (name.indexOf("msie")>-1 && name.indexOf("opera") == -1)
-var netscape = (name.indexOf("mozilla") >=-1 && name.indexOf("msie")==-1)
-
-if(ie) css = 'ie';
-else css = 'moz';
-</script>
-<?
+echo _SITE_META_DATA;
 
 switch($k2CSS){
-	case 1: echo '<script type="text/javascript" language="JavaScript">document.write (\'<link href="'.$skinPath.'k2_\' + css + \'.css" rel="stylesheet" type="text/css" />\');</script>'; break;
-	case 2: echo '<link href="'.$skinPath.'k2_big.css" rel="stylesheet" type="text/css" />'; break;
-	case 3: echo '<link href="'.$skinPath.'vader.css" rel="stylesheet" type="text/css" />'; break;
-	default: echo '<link href="'.$skinPath.'k2.css" rel="stylesheet" type="text/css" />'; break;
+	case 1:
+		echo '
+		<style type="text/css">@import "'.$skinPath.'k2_moz.css";</style>
+		<!--[if lt IE 5.5000]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
+		<!--[if IE 5.5000]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
+		<!--[if IE 6]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
+		<!--[if IE 7]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
+		';
+		break;
+	
+	case 2:
+		echo '<style type="text/css">@import "'.$skinPath.'k2_big.css";</style>';
+		break;
+	
+	case 3:
+		echo '<style type="text/css">@import "'.$skinPath.'vader.css";</style>';
+		break;
+	
+	case 4:
+		echo '
+		<style type="text/css">@import "'.$skinPath.'k2_moz.css";</style>
+		<!--[if lt IE 5.5000]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
+		<!--[if IE 5.5000]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
+		<!--[if IE 6]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
+		<!--[if IE 7]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->'
+		.'<style type="text/css">@import "'.$skinPath.'k2_garciasolar.css";</style>
+		';
+		break;
+	
+	default:
+		echo '
+		<style type="text/css">@import "'.$skinPath.'k2_moz.css";</style>
+		<!--[if lt IE 5.5000]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
+		<!--[if IE 5.5000]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
+		<!--[if IE 6]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
+		<!--[if IE 7]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
+		';
+		break;
 }
 
 ?>
 </head>
-
-
 
 
 <body class="twocolumns">
@@ -68,20 +92,31 @@ switch($k2CSS){
 	include(_PATHWAY);
 	echo '</div>';?>
 	
-	<? if($k2CSS != 4){ ?>
+	<? if($k2CSS != 5){ ?>
 		<div class="mainText"><div class="item"><br /><? include(_CONTENT); ?></div></div>
 	<? } ?>
  	
  	<div class="sidebar">
- 		<div class="livesearchform"><? include(_SEARCH); ?></div>
- 		<br />
-		<?
+ 		<?
+ 		echo '<div class="livesearchform">';
+		include(_SEARCH);
+		echo '</div>';
+		
 		include(_SIDE_MENU);
 		include(_FRONT_NEWS);
-		?>
-		<div class="categorylist"><? include(_CATEGORIES); ?></div>
-		<div class="categorylist"><? include(_MONTHVIEW); ?></div>
-		<?
+		
+		if($use_side_category == 1) {
+			echo '<div class="categorylist">';
+			include(_CATEGORIES);
+			echo '</div>';
+		}
+		
+		if($use_side_archives == 1) {
+			echo '<div class="categorylist">';
+			include(_MONTHVIEW);
+			echo '</div>';
+		}
+		
 		include(_SIDE_LINKS);
 		include(_LAST_IMAGES);
 		include(_LOGIN);
@@ -94,7 +129,7 @@ switch($k2CSS){
 		?>
 	</div>
 	
-	<? if($k2CSS == 4){ ?>
+	<? if($k2CSS == 5){ ?>
 		<div class="mainText"><div class="item"><br /><? include(_CONTENT); ?></div></div>
 	<? } ?>
 	
@@ -107,7 +142,11 @@ switch($k2CSS){
 
 <hr />
 
-<div id="footer"><? include(_FOOTER); ?></div>
+<div id="footer">
+	<?
+	include(_FOOTER);
+	?>
+</div>
 
 <br />
 
