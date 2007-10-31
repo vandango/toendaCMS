@@ -31,7 +31,10 @@ $skinPath = $templatePath.'images/';
 	
 	<div style="padding-left: 18px; padding-top: 5px;" class="pathway">
 		&raquo;
-		<? include(_PATHWAY); ?>
+		<?
+		include(_LANG_SELECTOR);
+		include(_PATHWAY);
+		?>
 	</div>
 	
 	<hr />

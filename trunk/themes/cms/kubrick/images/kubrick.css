@@ -383,11 +383,63 @@ a.products_top:hover { color: #000000; }
 
 
 /* input */
-.tcms_more{ font-size: 11px; height: 18px; }
-.inputtext{ font-size: 11px; height: 18px; border: 1px solid #777777; }
-.inputbutton{ font-size: 11px; }
-.inputtextarea{ width: 255px; height: 180px; font-size: 11px; margin: 0 0 2px 0; border: 1px solid #777777; }
-.newsSubmit{ width: 400px; height: 500px; font-size: 11px; margin: 0 0 2px 0; }
+.tcms_more {
+	font-size: 11px;
+	height: 18px;
+}
+
+.inputtext {
+	font-size: 11px;
+	height: 18px;
+	border: 1px solid #777777;
+}
+
+.inputbutton {
+	font-size: 11px;
+}
+
+.inputtextarea {
+	width: 255px;
+	height: 180px;
+	font-size: 11px;
+	margin: 0 0 2px 0;
+	border: 1px solid #777777;
+}
+
+.newsSubmit {
+	width: 400px;
+	height: 500px;
+	font-size: 11px;
+	margin: 0 0 2px 0;
+}
+
+.captcha {
+	width: 80px !important;
+}
+
+.contentFooter {
+	padding: 0 0 5px 33px;
+}
+
+
+/*
+	language selector
+*/
+
+.langSelector {
+	display: block;
+	float: right;
+	margin: -17px 5px 0 0;
+}
+
+a.langSelectorLink,
+a.langSelectorLink:link,
+a.langSelectorLink:visited,
+a.langSelectorLink:active {
+}
+
+a.langSelectorLink:hover {
+}
 
 
 
