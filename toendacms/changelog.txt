@@ -34,8 +34,14 @@ Building Steps: 3477
 
  Version 1.6.0 Development
 -----------------------------------------------------------------
- - bug #0000113: fixed problem showing text at detail-view in gallery using K2-theme
- - bug #0000122: 
+ - bug #0000113: Fixed problem showing text at detail-view in gallery using K2-theme.
+ - bug #0000171: Fixed the color chooser.
+ - bug #0000182: Fixed the newsletter from field.
+ - bug #0000186: Fixed the footer webpageowner link.
+ - bug #0000189: Fixed the contactform problem, the contact mailaddress was not correctly decoded.
+ - bug #0000187: Fixed the userlist problem in the backend user administration.
+ - bug #0000177: Fixed the backslash problem with the site offline text.
+ - bug #0000185: Fised the contactform problem with enabled seo and installed in the root folder.
 
  - security fixed: 
 

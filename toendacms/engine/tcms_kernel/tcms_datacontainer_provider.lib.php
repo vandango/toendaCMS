@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.0.5
+ * @version 1.0.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -2176,6 +2176,7 @@ class tcms_datacontainer_provider extends tcms_main {
 		$wsTitle   = $this->decodeText($wsTitle, '2', $this->m_CHARSET);
 		$wsKeynote = $this->decodeText($wsKeynote, '2', $this->m_CHARSET);
 		$wsText    = $this->decodeText($wsText, '2', $this->m_CHARSET);
+		$wsContact = $this->decodeText($wsContact, '2', $this->m_CHARSET);
 		
 		$cfDC->setID($wsID);
 		$cfDC->setTitle($wsTitle);

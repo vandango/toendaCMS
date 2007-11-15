@@ -21,7 +21,7 @@
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 1.2.0
+ * @version 1.2.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -179,15 +179,12 @@ if($tcms_file->checkFileExist($tcms_administer_path.'/tcms_global/var.xml')){
 	$sqlPrefix = $tcms_db_prefix;
 	
 	$tcms_main->setDatabaseInfo($choosenDB);
+	$tcms_config->decodeConfiguration($tcms_main);
 	
 	
 	// layout
-	$c_xml      = new xmlparser($tcms_administer_path.'/tcms_global/layout.xml', 'r');
-	$theme      = $c_xml->readSection('layout', 'select');
-	$adminTheme = $c_xml->readSection('layout', 'admin');
-	$c_xml->flush();
-	$c_xml->_xmlparser();
-	unset($c_xml);
+	$theme      = $tcms_config->getFrontendTheme();
+	$adminTheme = $tcms_config->getAdminTheme();
 	
 	
 	// mail
@@ -236,10 +233,6 @@ if($tcms_file->checkFileExist($tcms_administer_path.'/tcms_global/var.xml')){
 	$websiteowner = $tcms_config->getWebpageOwner();
 	$owner_url    = $tcms_config->getWebpageOwnerUrl();
 	$copyright    = $tcms_config->getWebpageCopyright();
-	
-	$websiteowner = $tcms_main->decodeText($websiteowner, '2', $c_charset);
-	$owner_url    = $tcms_main->decodeText($owner_url, '2', $c_charset);
-	$copyright    = $tcms_main->decodeText($copyright, '2', $c_charset);
 	
 	
 	$tcms_cs = new tcms_cs($tcms_administer_path, '../../', true);

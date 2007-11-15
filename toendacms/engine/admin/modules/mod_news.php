@@ -2157,10 +2157,14 @@ if($todo == 'enableComments'){
 			}
 			
 			if($sender == 'desktop'){
-				echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\';</script>';
+				echo '<script type="text/javascript">'
+				.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\';'
+				.'</script>';
 			}
 			else{
-				echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_news\';</script>';
+				echo '<script type="text/javascript">'
+				.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_news\';'
+				.'</script>';
 			}
 			break;
 		

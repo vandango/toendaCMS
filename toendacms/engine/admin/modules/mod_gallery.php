@@ -140,9 +140,13 @@ if($param_save_mode == 'off'){
 	
 	
 	
-	if($todo == 'config'){
+	// --------------------------------------------------
+	// CONFIG
+	// --------------------------------------------------
+	
+	if($todo == 'config') {
 		if($id_group == 'Developer' 
-		|| $id_group == 'Administrator'){
+		|| $id_group == 'Administrator') {
 			if($choosenDB == 'xml'){
 				$image_xml            = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/imagegallery.xml','r');
 				$old_image_id         = $image_xml->read_section('config', 'image_id');

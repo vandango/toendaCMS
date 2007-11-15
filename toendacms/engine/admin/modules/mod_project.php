@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a filemanager for all Sites
  *
- * @version 0.4.8
+ * @version 0.5.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -45,9 +45,6 @@ $fm_menu      = 0;
 
 $sitename     = $tcms_config->getSiteName();
 $sitekey      = $tcms_config->getSiteKey();
-
-$sitename     = $tcms_main->decodeText($sitename, '2', $c_charset);
-$sitekey      = $tcms_main->decodeText($sitekey, '2', $c_charset);
 
 $bMod         = false;
 $checkEnd     = false;

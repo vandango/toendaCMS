@@ -357,7 +357,7 @@ define('_TABLE_IMPORT', 'Import');
 define('_TABLE_SORT', 'Sortation');
 define('_TABLE_SORT_DESC', 'Descending sortation');
 define('_TABLE_SORT_ASC', 'Ascending sortation');
-if(!defined('_TABLE_VIEW'))                    define('_TABLE_TABLE_VIEW_RSS', 'View');
+if(!defined('_TABLE_VIEW'))                    define('_TABLE_VIEW', 'View');
 if(!defined('_TABLE_FRONTPAGE'))               define('_TABLE_FRONTPAGE', 'Frontpage');
 if(!defined('_TABLE_SHOWONMAINPAGE'))          define('_TABLE_SHOWONMAINPAGE', 'Show on mainpage');
 if(!defined('_TABLE_BROWSE'))                  define('_TABLE_BROWSE', 'Browse');

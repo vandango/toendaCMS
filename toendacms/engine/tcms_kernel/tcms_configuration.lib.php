@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide the global
  * configuration data.
  *
- * @version 0.5.1
+ * @version 0.5.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -180,90 +180,97 @@ class tcms_configuration {
 	 *
 	 * @param String $administer
 	 */
-	function __construct($administer) {
-		// var.xml
-		$this->o_xml = simplexml_load_file($administer.'/tcms_global/var.xml');
-		
-		$this->m_charset               = $this->o_xml->charset;
-		$this->m_frontlang             = $this->o_xml->front_lang;
-		$this->m_lang                  = $this->o_xml->lang;
-		$this->m_SEOpath               = $this->o_xml->server_folder;
-		$this->m_SEOenabled            = $this->o_xml->seo_enabled;
-		$this->m_SEOformat             = $this->o_xml->seo_format;
-		$this->m_SEOOptionNewsTitle    = $this->o_xml->seo_news_title;
-		$this->m_SEOOptionContentTitle = $this->o_xml->seo_content_title;
-		$this->m_cipherEmail           = $this->o_xml->cipher_email;
-		$this->m_detectBrowser         = $this->o_xml->js_browser_detect;
-		$this->m_statistics            = $this->o_xml->statistics;
-		$this->m_use_components        = $this->o_xml->use_cs;
-		$this->m_use_captcha           = $this->o_xml->captcha;
-		$this->m_captcha_clean         = $this->o_xml->statistics;
-		$this->m_antiFrame             = $this->o_xml->captcha_clean_size;
-		$this->m_showTopPages          = $this->o_xml->anti_frame;
-		$this->m_showTopPages          = $this->o_xml->show_top_pages;
-		$this->m_siteOffline           = $this->o_xml->site_offline;
-		$this->m_siteOfflineText       = $this->o_xml->site_offline_text;
-		$this->m_currency              = $this->o_xml->currency;
-		$this->m_wysiwygEditor         = $this->o_xml->wysiwyg;
-		$this->m_pathwayChar           = $this->o_xml->pathway_char;
-		$this->m_showDocAutor          = $this->o_xml->show_doc_autor;
-		$this->m_defaultCat            = $this->o_xml->default_category;
-		$this->m_tcmsinst              = $this->o_xml->toendacms_in_sitetitle;
-		$this->m_keywords              = $this->o_xml->meta;
-		$this->m_description           = $this->o_xml->description;
-		$this->m_activeTopmenu         = $this->o_xml->topmenu_active;
-		$this->m_sidemenu              = $this->o_xml->menu;
-		$this->m_topmenu               = $this->o_xml->second_menu;
-		$this->m_adminTopmenu          = $this->o_xml->admin_topmenu;
-		$this->m_revisit_after         = $this->o_xml->revisit_after;
-		$this->m_robotsfile            = $this->o_xml->robotsfile;
-		$this->m_pdflink               = $this->o_xml->pdflink;
-		$this->m_cachecontrol          = $this->o_xml->cachecontrol;
-		$this->m_pragma                = $this->o_xml->pragma;
-		$this->m_expires               = $this->o_xml->expires;
-		$this->m_robots                = $this->o_xml->robots;
-		$this->m_last_changes          = $this->o_xml->last_changes;
-		$this->m_useContentLang        = $this->o_xml->use_content_language;
-		$this->m_validLinks            = $this->o_xml->valid_links;
-		
-		unset($this->o_xml);
-		
-		
-		// namen.xml
-		$this->o_xml = simplexml_load_file($administer.'/tcms_global/namen.xml');
-		
-		$this->m_sitetitle = $this->o_xml->title;
-		$this->m_sitename  = $this->o_xml->name;
-		$this->m_sitekey   = $this->o_xml->key;
-		$this->m_sitelogo  = $this->o_xml->logo;
-		
-		unset($this->o_xml);
-		
-		
-		// footer.xml
-		$this->o_xml = simplexml_load_file($administer.'/tcms_global/footer.xml');
-		
-		$this->m_wpowner      = $this->o_xml->websiteowner;
-		$this->m_wpcopyright  = $this->o_xml->copyright;
-		$this->m_wpowner_url  = $this->o_xml->owner_url;
-		$this->m_wpowner_mail = $this->o_xml->email;
-		$this->m_showtcmslogo = $this->o_xml->show_tcmslogo;
-		$this->m_show_default = $this->o_xml->show_defaultfooter;
-		$this->m_show_plt     = $this->o_xml->show_page_loading_time;
-		$this->m_show_llif    = $this->o_xml->legal_link_in_footer;
-		$this->m_show_alif    = $this->o_xml->admin_link_in_footer;
-		$this->m_footer_text  = $this->o_xml->footer_text;
-		
-		unset($this->o_xml);
-		
-		
-		// layout
-		$this->o_xml = simplexml_load_file($administer.'/tcms_global/layout.xml');
-		
-		$this->m_frontendTheme = $this->o_xml->select;
-		$this->m_adminTheme    = $this->o_xml->admin;
-		
-		unset($this->o_xml);
+	public function __construct($administer) {
+		if(function_exists('simplexml_load_file')) {
+			// var.xml
+			$this->o_xml = simplexml_load_file($administer.'/tcms_global/var.xml');
+			
+			$this->m_charset               = $this->o_xml->charset;
+			$this->m_frontlang             = $this->o_xml->front_lang;
+			$this->m_lang                  = $this->o_xml->lang;
+			$this->m_SEOpath               = $this->o_xml->server_folder;
+			$this->m_SEOenabled            = $this->o_xml->seo_enabled;
+			$this->m_SEOformat             = $this->o_xml->seo_format;
+			$this->m_SEOOptionNewsTitle    = $this->o_xml->seo_news_title;
+			$this->m_SEOOptionContentTitle = $this->o_xml->seo_content_title;
+			$this->m_cipherEmail           = $this->o_xml->cipher_email;
+			$this->m_detectBrowser         = $this->o_xml->js_browser_detect;
+			$this->m_statistics            = $this->o_xml->statistics;
+			$this->m_use_components        = $this->o_xml->use_cs;
+			$this->m_use_captcha           = $this->o_xml->captcha;
+			$this->m_captcha_clean         = $this->o_xml->statistics;
+			$this->m_antiFrame             = $this->o_xml->captcha_clean_size;
+			$this->m_showTopPages          = $this->o_xml->anti_frame;
+			$this->m_showTopPages          = $this->o_xml->show_top_pages;
+			$this->m_siteOffline           = $this->o_xml->site_offline;
+			$this->m_siteOfflineText       = $this->o_xml->site_offline_text;
+			$this->m_currency              = $this->o_xml->currency;
+			$this->m_wysiwygEditor         = $this->o_xml->wysiwyg;
+			$this->m_pathwayChar           = $this->o_xml->pathway_char;
+			$this->m_showDocAutor          = $this->o_xml->show_doc_autor;
+			$this->m_defaultCat            = $this->o_xml->default_category;
+			$this->m_tcmsinst              = $this->o_xml->toendacms_in_sitetitle;
+			$this->m_keywords              = $this->o_xml->meta;
+			$this->m_description           = $this->o_xml->description;
+			$this->m_activeTopmenu         = $this->o_xml->topmenu_active;
+			$this->m_sidemenu              = $this->o_xml->menu;
+			$this->m_topmenu               = $this->o_xml->second_menu;
+			$this->m_adminTopmenu          = $this->o_xml->admin_topmenu;
+			$this->m_revisit_after         = $this->o_xml->revisit_after;
+			$this->m_robotsfile            = $this->o_xml->robotsfile;
+			$this->m_pdflink               = $this->o_xml->pdflink;
+			$this->m_cachecontrol          = $this->o_xml->cachecontrol;
+			$this->m_pragma                = $this->o_xml->pragma;
+			$this->m_expires               = $this->o_xml->expires;
+			$this->m_robots                = $this->o_xml->robots;
+			$this->m_last_changes          = $this->o_xml->last_changes;
+			$this->m_useContentLang        = $this->o_xml->use_content_language;
+			$this->m_validLinks            = $this->o_xml->valid_links;
+			
+			unset($this->o_xml);
+			
+			
+			// namen.xml
+			$this->o_xml = simplexml_load_file($administer.'/tcms_global/namen.xml');
+			
+			$this->m_sitetitle = $this->o_xml->title;
+			$this->m_sitename  = $this->o_xml->name;
+			$this->m_sitekey   = $this->o_xml->key;
+			$this->m_sitelogo  = $this->o_xml->logo;
+			
+			unset($this->o_xml);
+			
+			
+			// footer.xml
+			$this->o_xml = simplexml_load_file($administer.'/tcms_global/footer.xml');
+			
+			$this->m_wpowner      = $this->o_xml->websiteowner;
+			$this->m_wpcopyright  = $this->o_xml->copyright;
+			$this->m_wpowner_url  = $this->o_xml->owner_url;
+			$this->m_wpowner_mail = $this->o_xml->email;
+			$this->m_showtcmslogo = $this->o_xml->show_tcmslogo;
+			$this->m_show_default = $this->o_xml->show_defaultfooter;
+			$this->m_show_plt     = $this->o_xml->show_page_loading_time;
+			$this->m_show_llif    = $this->o_xml->legal_link_in_footer;
+			$this->m_show_alif    = $this->o_xml->admin_link_in_footer;
+			$this->m_footer_text  = $this->o_xml->footer_text;
+			
+			unset($this->o_xml);
+			
+			
+			// layout
+			$this->o_xml = simplexml_load_file($administer.'/tcms_global/layout.xml');
+			
+			$this->m_frontendTheme = $this->o_xml->select;
+			$this->m_adminTheme    = $this->o_xml->admin;
+			
+			unset($this->o_xml);
+		}
+		else {
+			// old xml parser
+			
+			die('ERROR: SimpleXML not loaded. Please use PHP5 or a newer Version.');
+		}
 		
 		
 		// utf8 chars
@@ -288,7 +295,7 @@ class tcms_configuration {
 	 *
 	 * @param String $administer
 	 */
-	function tcms_configuration($administer){
+	public function tcms_configuration($administer){
 		$this->__construct($administer);
 	}
 	
@@ -297,7 +304,7 @@ class tcms_configuration {
 	/**
 	 * PHP5 Destructor
 	 */
-	function __destruct() {
+	public function __destruct() {
 	}
 	
 	
@@ -305,8 +312,30 @@ class tcms_configuration {
 	/**
 	 * PHP4 Destructor
 	 */
-	function _tcms_configuration() {
+	public function _tcms_configuration() {
 		$this->__destruct();
+	}
+	
+	
+	
+	/**
+	 * Decode the configuration object
+	 *
+	 * @param tcms_main &$tcms_main
+	 */
+	public function decodeConfiguration(&$tcms_main) {
+		$this->m_siteOfflineText = $tcms_main->decodeText($this->m_siteOfflineText, '2', $this->m_charset);
+		$this->m_description = $tcms_main->decodeText($this->m_description, '2', $this->m_charset);
+		$this->m_keywords = $tcms_main->decodeText($this->m_keywords, '2', $this->m_charset);
+		$this->m_sitetitle = $tcms_main->decodeText($this->m_sitetitle, '2', $this->m_charset);
+		$this->m_sitename = $tcms_main->decodeText($this->m_sitename, '2', $this->m_charset);
+		$this->m_sitekey = $tcms_main->decodeText($this->m_sitekey, '2', $this->m_charset);
+		$this->m_sitelogo = $tcms_main->decodeText($this->m_sitelogo, '2', $this->m_charset);
+		$this->m_wpowner = $tcms_main->decodeText($this->m_wpowner, '2', $this->m_charset);
+		$this->m_wpcopyright = $tcms_main->decodeText($this->m_wpcopyright, '2', $this->m_charset);
+		$this->m_wpowner_url = $tcms_main->decodeText($this->m_wpowner_url, '2', $this->m_charset);
+		$this->m_wpowner_mail = $tcms_main->decodeText($this->m_wpowner_mail, '2', $this->m_charset);
+		$this->m_footer_text = $tcms_main->decodeText($this->m_footer_text, '2', $this->m_charset);
 	}
 	
 	
@@ -316,7 +345,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getLanguageFrontend() {
+	public function getLanguageFrontend() {
 		return $this->m_frontlang;
 	}
 	
@@ -327,7 +356,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getLanguageBackend() {
+	public function getLanguageBackend() {
 		return $this->m_lang;
 	}
 	
@@ -339,7 +368,7 @@ class tcms_configuration {
 	 * @param Boolean $inLowerCase = false
 	 * @return String
 	 */
-	function getLanguageCode($inLowerCase = false){
+	public function getLanguageCode($inLowerCase = false){
 		switch($this->m_frontlang){
 			case 'bulgarian_BG': $return = 'BG'; break;
 			case 'dutch_NL': $return = 'NL'; break;
@@ -356,10 +385,12 @@ class tcms_configuration {
 			case 'swedish_SE': $return = 'SE'; break;
 		}
 		
-		if($inLowerCase)
+		if($inLowerCase) {
 			return strtolower($return);
-		else
+		}
+		else {
 			return $return;
+		}
 	}
 	
 	
@@ -370,7 +401,7 @@ class tcms_configuration {
 	 * @param String $langCode
 	 * @return String
 	 */
-	function getLanguageCodeByTCMSCode($langCode){
+	public function getLanguageCodeByTCMSCode($langCode){
 		switch($langCode){
 			case 'bulgarian_BG': $return = 'bg'; break;
 			case 'dutch_NL': $return = 'nl'; break;
@@ -399,7 +430,7 @@ class tcms_configuration {
 	 * @param String $langCode
 	 * @return String
 	 */
-	function getLanguageCodeForTCMS($langCode){
+	public function getLanguageCodeForTCMS($langCode){
 		switch(strtolower($langCode)){
 			case 'bg': $return = 'bulgarian_BG'; break;
 			case 'nl': $return = 'dutch_NL'; break;
@@ -426,7 +457,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getCharset() {
+	public function getCharset() {
 		return $this->m_charset;
 	}
 	
@@ -437,7 +468,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getSEOPath() {
+	public function getSEOPath() {
 		return $this->m_SEOpath;
 	}
 	
@@ -448,7 +479,7 @@ class tcms_configuration {
 	 *
 	 * @return Boolean
 	 */
-	function getSEOEnabled() {
+	public function getSEOEnabled() {
     	return ( $this->m_SEOenabled == '1' ? true : false );
 	}
 	
@@ -459,7 +490,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getSEOFormat() {
+	public function getSEOFormat() {
 		return $this->m_SEOformat;
 	}
   
@@ -470,7 +501,7 @@ class tcms_configuration {
    *
    * @return Boolean
    */
-  function getSEOOptionNewsTitle() {
+  public function getSEOOptionNewsTitle() {
     return ( $this->m_SEOOptionNewsTitle == '1' ? true : false );
   }
   
@@ -481,7 +512,7 @@ class tcms_configuration {
    *
    * @return Boolean
    */
-  function getSEOOptionContentTitle() {
+  public function getSEOOptionContentTitle() {
     return ( $this->m_SEOOptionContentTitle == '1' ? true : false );
   }
 	
@@ -492,7 +523,7 @@ class tcms_configuration {
 	 *
 	 * @return Integer
 	 */
-	function getEmailCiphering() {
+	public function getEmailCiphering() {
 		return $this->m_cipherEmail;
 	}
 	
@@ -503,7 +534,7 @@ class tcms_configuration {
 	 *
 	 * @return Boolean
 	 */
-	function getBrowserDetection() {
+	public function getBrowserDetection() {
     	return ( $this->m_detectBrowser == '1' ? true : false );
 	}
 	
@@ -514,7 +545,7 @@ class tcms_configuration {
 	 *
 	 * @return Boolean
 	 */
-	function getStatistics() {
+	public function getStatistics() {
 		return ( $this->m_statistics == '1' ? true : false );
 	}
 	
@@ -525,7 +556,7 @@ class tcms_configuration {
 	 *
 	 * @return Boolean
 	 */
-	function getComponentsSystemEnabled() {
+	public function getComponentsSystemEnabled() {
 		return ( $this->m_use_components == '1' ? true : false );
 	}
 	
@@ -536,7 +567,7 @@ class tcms_configuration {
 	 *
 	 * @return Boolean
 	 */
-	function getCaptchaEnabled() {
+	public function getCaptchaEnabled() {
 		return ( $this->m_use_captcha == '1' ? true : false );
 	}
 	
@@ -547,7 +578,7 @@ class tcms_configuration {
 	 *
 	 * @return Integer
 	 */
-	function getCaptchaCleanSize() {
+	public function getCaptchaCleanSize() {
 		return $this->m_captcha_clean;
 	}
 	
@@ -558,7 +589,7 @@ class tcms_configuration {
 	 *
 	 * @return Boolean
 	 */
-	function getAntiFrameEnabled() {
+	public function getAntiFrameEnabled() {
 		return ( $this->m_antiFrame == '1' ? true : false );
 	}
 	
@@ -569,7 +600,7 @@ class tcms_configuration {
 	 *
 	 * @return Boolean
 	 */
-	function getShowTopPages() {
+	public function getShowTopPages() {
 		return ( $this->m_showTopPages == '1' ? true : false );
 	}
 	
@@ -580,7 +611,7 @@ class tcms_configuration {
 	 *
 	 * @return Boolean
 	 */
-	function getSiteOffline() {
+	public function getSiteOffline() {
 		return ( $this->m_siteOffline == '1' ? true : false );
 	}
 	
@@ -591,7 +622,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getSiteOfflineText() {
+	public function getSiteOfflineText() {
 		return $this->m_siteOfflineText;
 	}
 	
@@ -602,7 +633,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getCurrency() {
+	public function getCurrency() {
 		return $this->m_currency;
 	}
 	
@@ -613,7 +644,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getCurrencyHtmlEntity() {
+	public function getCurrencyHtmlEntity() {
 		$wsCur = '&euro;';
 		
 		switch($this->m_currency) {
@@ -632,7 +663,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getWYSIWYGEditor() {
+	public function getWYSIWYGEditor() {
 		return $this->m_wysiwygEditor;
 	}
 	
@@ -643,7 +674,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getPathwayChar() {
+	public function getPathwayChar() {
 		return $this->m_pathwayChar;
 	}
 	
@@ -654,7 +685,7 @@ class tcms_configuration {
 	 *
 	 * @return Boolean
 	 */
-	function getShowDocAutor() {
+	public function getShowDocAutor() {
 		return ( $this->m_showDocAutor == '1' ? true : false );
 	}
 	
@@ -665,7 +696,7 @@ class tcms_configuration {
 	 *
 	 * @return Integer
 	 */
-	function getDefaultCategory() {
+	public function getDefaultCategory() {
 		return $this->m_defaultCat;
 	}
 	
@@ -676,7 +707,7 @@ class tcms_configuration {
 	 *
 	 * @return Boolean
 	 */
-	function getToendaCMSInSitetitle() {
+	public function getToendaCMSInSitetitle() {
 		return ( $this->m_tcmsinst == '1' ? true : false );
 	}
 	
@@ -687,7 +718,7 @@ class tcms_configuration {
 	 *
 	 * @return Boolean
 	 */
-	function getTopmenuActive() {
+	public function getTopmenuActive() {
 		return ( $this->m_activeTopmenu == '1' ? true : false );
 	}
 	
@@ -698,7 +729,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getMetadataKeywords() {
+	public function getMetadataKeywords() {
 		return $this->m_keywords;
 	}
 	
@@ -709,7 +740,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getMetadataDescription() {
+	public function getMetadataDescription() {
 		return $this->m_description;
 	}
 	
@@ -720,7 +751,7 @@ class tcms_configuration {
 	 *
 	 * @return Boolean
 	 */
-	function getSidemenuEnabled() {
+	public function getSidemenuEnabled() {
 		return ( $this->m_sidemenu == '1' ? true : false );
 	}
 	
@@ -731,7 +762,7 @@ class tcms_configuration {
 	 *
 	 * @return Boolean
 	 */
-	function getTopmenuEnabled() {
+	public function getTopmenuEnabled() {
 		return ( $this->m_topmenu == '1' ? true : false );
 	}
 	
@@ -742,7 +773,7 @@ class tcms_configuration {
 	 *
 	 * @return Integer
 	 */
-	function getAdminTopmenu() {
+	public function getAdminTopmenu() {
 		return $this->m_adminTopmenu;
 	}
 	
@@ -753,7 +784,7 @@ class tcms_configuration {
 	 *
 	 * @return Integer
 	 */
-	function getMetadataRevisitAfterDays() {
+	public function getMetadataRevisitAfterDays() {
 		return $this->m_revisit_after;
 	}
 	
@@ -764,7 +795,7 @@ class tcms_configuration {
 	 *
 	 * @return Integer
 	 */
-	function getMetadataRobotsFileURL() {
+	public function getMetadataRobotsFileURL() {
 		return $this->m_robotsfile;
 	}
 	
@@ -775,7 +806,7 @@ class tcms_configuration {
 	 *
 	 * @return Integer
 	 */
-	function getMetadataCacheControl() {
+	public function getMetadataCacheControl() {
 		return $this->m_cachecontrol;
 	}
 	
@@ -786,7 +817,7 @@ class tcms_configuration {
 	 *
 	 * @return Integer
 	 */
-	function getMetadataRobotsSettings() {
+	public function getMetadataRobotsSettings() {
 		return $this->m_robots;
 	}
 	
@@ -797,7 +828,7 @@ class tcms_configuration {
 	 *
 	 * @return Integer
 	 */
-	function getMetadataPragma() {
+	public function getMetadataPragma() {
 		return $this->m_pragma;
 	}
 	
@@ -808,7 +839,7 @@ class tcms_configuration {
 	 *
 	 * @return Integer
 	 */
-	function getMetadataExpires() {
+	public function getMetadataExpires() {
 		return $this->m_expires;
 	}
 	
@@ -819,7 +850,7 @@ class tcms_configuration {
 	 *
 	 * @return Integer
 	 */
-	function getLastChanges() {
+	public function getLastChanges() {
 		return $this->m_last_changes;
 	}
 	
@@ -830,7 +861,7 @@ class tcms_configuration {
 	 *
 	 * @return Boolean
 	 */
-	function useContentLanguage() {
+	public function useContentLanguage() {
 		return ( $this->m_useContentLang == '1' ? true : false );
 	}
 	
@@ -841,7 +872,7 @@ class tcms_configuration {
 	 *
 	 * @return Boolean
 	 */
-	function usePDFLink() {
+	public function usePDFLink() {
 		return ( $this->m_pdflink == '1' ? true : false );
 	}
 	
@@ -852,7 +883,7 @@ class tcms_configuration {
 	 *
 	 * @return Boolean
 	 */
-	function showValidationLinks() {
+	public function showValidationLinks() {
 		return ( $this->m_validLinks == '1' ? true : false );
 	}
 	
@@ -863,7 +894,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getSiteTitle() {
+	public function getSiteTitle() {
 		return $this->m_sitetitle;
 	}
 	
@@ -874,7 +905,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getSiteName() {
+	public function getSiteName() {
 		return $this->m_sitename;
 	}
 	
@@ -885,7 +916,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getSiteKey() {
+	public function getSiteKey() {
 		return $this->m_sitekey;
 	}
 	
@@ -896,7 +927,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getSiteLogo() {
+	public function getSiteLogo() {
 		return $this->m_sitelogo;
 	}
 	
@@ -907,7 +938,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getWebpageOwner() {
+	public function getWebpageOwner() {
 		return $this->m_wpowner;
 	}
 	
@@ -918,7 +949,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getWebpageCopyright() {
+	public function getWebpageCopyright() {
 		return $this->m_wpcopyright;
 	}
 	
@@ -929,7 +960,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getWebpageOwnerUrl() {
+	public function getWebpageOwnerUrl() {
 		return $this->m_wpowner_url;
 	}
 	
@@ -940,7 +971,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getWebpageOwnerMail() {
+	public function getWebpageOwnerMail() {
 		return $this->m_wpowner_mail;
 	}
 	
@@ -951,7 +982,7 @@ class tcms_configuration {
 	 *
 	 * @return Boolean
 	 */
-	function showTCMSLogo() {
+	public function showTCMSLogo() {
 		return ( $this->m_showtcmslogo == '1' ? true : false );
 	}
 	
@@ -962,7 +993,7 @@ class tcms_configuration {
 	 *
 	 * @return Boolean
 	 */
-	function showDefaultFooterText() {
+	public function showDefaultFooterText() {
 		return ( $this->m_show_default == '1' ? true : false );
 	}
 	
@@ -973,7 +1004,7 @@ class tcms_configuration {
 	 *
 	 * @return Boolean
 	 */
-	function showPageLoadingTime() {
+	public function showPageLoadingTime() {
 		return ( $this->m_show_plt == '1' ? true : false );
 	}
 	
@@ -984,7 +1015,7 @@ class tcms_configuration {
 	 *
 	 * @return Boolean
 	 */
-	function showLegalLinkInFooter() {
+	public function showLegalLinkInFooter() {
 		return ( $this->m_show_llif == '1' ? true : false );
 	}
 	
@@ -995,7 +1026,7 @@ class tcms_configuration {
 	 *
 	 * @return Boolean
 	 */
-	function showAdminLinkInFooter() {
+	public function showAdminLinkInFooter() {
 		return ( $this->m_show_alif == '1' ? true : false );
 	}
 	
@@ -1006,7 +1037,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getFooterText() {
+	public function getFooterText() {
 		return $this->m_footer_text;
 	}
 	
@@ -1017,7 +1048,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getAdminTheme() {
+	public function getAdminTheme() {
 		return $this->m_adminTheme;
 	}
 	
@@ -1028,7 +1059,7 @@ class tcms_configuration {
 	 *
 	 * @return String
 	 */
-	function getFrontendTheme() {
+	public function getFrontendTheme() {
 		return $this->m_frontendTheme;
 	}
 }
