@@ -9,8 +9,7 @@
 | 
 | Personal Notebook
 |
-| File:		mod_notebook.php
-| Version:	0.1.9
+| File:	mod_notebook.php
 |
 +
 */
@@ -19,9 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-
-
-
+/**
+ * Personal Notebook
+ *
+ * This module is used as a personal notebook.
+ *
+ * @version 0.2.0
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 if(isset($_GET['sender'])){ $sender = $_GET['sender']; }
@@ -32,26 +38,15 @@ if(isset($_POST['sender'])){ $sender = $_POST['sender']; }
 
 
 
-
-
-
-//=====================================================
+// ----------------------------------------------------
 // INIT
-//=====================================================
+// ----------------------------------------------------
 
 
 
-
-
-
-
-
-
-
-
-//============================================================================
+// ----------------------------------------------------
 // USERNAME
-//============================================================================
+// ----------------------------------------------------
 
 if($choosenDB == 'xml'){
 	$note_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_notepad/'.$m_tag.'.xml','r');
@@ -92,17 +87,10 @@ $nnote = ereg_replace('<br>', chr(13), $nnote);
 
 
 
-
-
-
-
-
-
-
-
-//==================================================
+// ----------------------------------------------------
 // BEGIN FORM
-//==================================================
+// ----------------------------------------------------
+
 echo '<!--BEGIN-FORM-->'
 .'<form action="admin.php?id_user='.$id_user.'&amp;site=mod_notebook" method="post">'
 .'<input type="hidden" name="new_name" value="'.$nname.'" />'
@@ -144,20 +132,11 @@ echo '</table></form><br />';
 
 
 
-
-
-
-
-
-
-
-//==================================================
+// ----------------------------------------------------
 // SAVE, EDIT AND DELETE
-//==================================================
+// ----------------------------------------------------
 
-if($todo == 'save'){
-	//******************************************
-	
+if($todo == 'save') {
 	if($new_note == ''){ $new_note = _NOTEBOOK_MSG.' ...'; }
 	
 	$new_note = $tcms_main->nl2br($new_note);
@@ -186,14 +165,14 @@ if($todo == 'save'){
 		$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'notepad', $newSQLData, $maintag);
 	}
 	
-	//******************************************
-	
-	if($sender == 'desktop'){
-		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\'</script>';
+	if($sender == 'desktop') {
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\';'
+		.'</script>';
 	}
-	else{
-		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_notebook\'</script>';
+	else {
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_notebook\';'
+		.'</script>';
 	}
-	
-	//******************************************
 }

@@ -22,7 +22,7 @@ define('_TCMS_VALID', 1);
  *
  * This is used as a color chooser window.
  *
- * @version 0.0.5
+ * @version 0.0.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -39,6 +39,8 @@ include_once('../language/lang_admin.php');
 
 include_once ('../tcms_kernel/tcms.lib.php');
 include_once ('../tcms_kernel/tcms_html.lib.php');
+
+$tcms_html = new tcms_html();
 
 
 $arrColor[0][0] = 'ff8080';

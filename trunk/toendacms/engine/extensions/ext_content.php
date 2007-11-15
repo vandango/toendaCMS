@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a base content loader.
  *
- * @version 0.7.8
+ * @version 0.7.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -110,7 +110,7 @@ switch($id){
 		break;
 	
 	default:
-		if($choosenDB == 'xml'){
+		if($choosenDB == 'xml') {
 			if(file_exists($tcms_administer_site.'/tcms_content/'.$id.'.xml')) {
 				$xml = new xmlparser($tcms_administer_site.'/tcms_content/'.$id.'.xml','r');
 				$authorized = $xml->read_section('main', 'access');
@@ -128,7 +128,7 @@ switch($id){
 				unset($xml);
 			}
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'content', $id);

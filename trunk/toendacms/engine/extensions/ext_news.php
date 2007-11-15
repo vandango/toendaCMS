@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a news manager with a news,
  * a news view and a archive with different formats.
  *
- * @version 1.4.3
+ * @version 1.4.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -698,7 +698,9 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 				
 				echo '<a name="comments"></a>';
 				
-				echo '<form name="comment" id="comment" action="'.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$id.'&amp;s='.$s.'" method="post">';
+				echo '<form name="comment" id="comment" action="'
+				.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id='.$id.'&amp;s='.$s
+				.'" method="post">';
 				
 				if($use_captcha == 1) {
 					$captchaImage = tcms_gd::createCaptchaImage('cache/captcha/', $captcha_clean);

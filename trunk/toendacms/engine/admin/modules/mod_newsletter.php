@@ -7,10 +7,9 @@
 | Author: Jonathan Naumann                                               |
 +------------------------------------------------------------------------+
 |
-| Extension Newsletter
+| Newsletter Extension
 |
-| File:		mod_newsletter.php
-| Version:	0.5.0
+| File:	mod_newsletter.php
 |
 +
 */
@@ -19,6 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * Newsletter Extension
+ *
+ * This module is used as a newsletter extension.
+ *
+ * @version 0.5.2
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 if(isset($_GET['check'])){ $check = $_GET['check']; }
@@ -37,11 +46,13 @@ if(isset($_POST['new_nl_name'])){ $new_nl_name = $_POST['new_nl_name']; }
 
 
 
-
-if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Writer'){
-	/*
-		INIT
-	*/
+if($id_group == 'Developer' 
+|| $id_group == 'Administrator' 
+|| $id_group == 'Writer') {
+	// ----------------------------------------------------
+	// INIT
+	// ----------------------------------------------------
+	
 	if(!isset($action)){ $action = 'show'; }
 	
 	$bgkey     = 0;
@@ -103,20 +114,21 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 	
 	
 	
+	// ----------------------------------------------------
+	// CONFIG
+	// ----------------------------------------------------
 	
-	/*
-		load data
-	*/
-	if($todo == 'config'){
-		if($id_group == 'Developer' || $id_group == 'Administrator'){
-			if($choosenDB == 'xml'){
+	if($todo == 'config') {
+		if($id_group == 'Developer' 
+		|| $id_group == 'Administrator') {
+			if($choosenDB == 'xml') {
 				$nl_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/newsletter.xml','r');
 				$old_title_nl = $nl_xml->read_section('newsletter', 'nl_title');
 				$old_show_nlt = $nl_xml->read_section('newsletter', 'nl_show_title');
 				$old_text_nl  = $nl_xml->read_section('newsletter', 'nl_text');
 				$old_link_nl  = $nl_xml->read_section('newsletter', 'nl_link');
 			}
-			else{
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB);
 				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
@@ -135,11 +147,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			$old_link_nl     = $tcms_main->decodeText($old_link_nl, '2', $c_charset);
 			
 			
-			
-			
-			
-			
-			if($action == 'show'){
+			if($action == 'show') {
 				// form
 				echo '<form action="admin.php?id_user='.$id_user.'&amp;site=mod_newsletter" method="post">'
 				.'<input name="todo" type="hidden" value="save_nl" />';
@@ -185,15 +193,15 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				echo '</table></form><br />';
 			}
 		}
-		else{
+		else {
 			echo '<strong>'._MSG_NOTENOUGH_USERRIGHTS.'</strong>';
 		}
 	}
-	else{
-		if($todo == 'show'){
-			/*
-				SEND NEWSLETTER
-			*/
+	else {
+		if($todo == 'show') {
+			// ----------------------------------------------------
+			// SEND NEWSLETTER
+			// ----------------------------------------------------
 			
 			?><script language="JavaScript">
 			function sendinputs(){
@@ -309,21 +317,10 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	if($todo == 'listNL'){
-		/*
-			LOAD NEWSLETTER USER
-		*/
+		// ----------------------------------------------------
+		// LIST NEWSLETTER ENTRYS
+		// ----------------------------------------------------
 		
 		if($choosenDB == 'xml'){
 			$arr_nl_user['files'] = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_newsletter/');
@@ -419,16 +416,9 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	/*
-		EDIT FORMULAR
-	*/
+	// ----------------------------------------------------
+	// EDIT
+	// ----------------------------------------------------
 	
 	if($todo == 'edit'){
 		// Auslesen
@@ -511,22 +501,13 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/*
-		SENDING MESSAGE
-	*/
+	// ----------------------------------------------------
+	// SEND MESSAGE
+	// ----------------------------------------------------
 	
 	if($todo == 'send_newsletter'){
 		if($choosenDB == 'xml'){
-			$arr_send_nl['files'] = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_newsletter/');
+			$arr_send_nl['files'] = $tcms_file->getPathContent('../../'.$tcms_administer_site.'/tcms_newsletter/');
 			
 			$nl = 0;
 			foreach($arr_send_nl['files'] as $nl => $val){
@@ -658,7 +639,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				}
 			}
 			else{
-				$header = "From: $owner <$owner_email>\n";
+				$header = "From: ".$tcms_config->getWebpageOwner()." <".$tcms_config->getWebpageOwnerMail().">\n";
 				$header .= "Content-Type: text/plain";
 				mail($send_mail_to, $owner.' - '._NL_NEWSLETTER.' - '.$date.' -  '.$subject, _FORM_FROM.$owner."
 -------------------------------------------------------------------------------

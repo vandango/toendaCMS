@@ -10,5 +10,6 @@
 	<use_adressbook>1</use_adressbook>
 	<use_contact>0</use_contact>
 	<show_contactemail>0</show_contactemail>
+	<language>en</language>
 
 </email>

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a imagegallery.
  *
- * @version 0.7.0
+ * @version 0.7.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -42,7 +42,7 @@ $hr_line_2 = '<tr style="height: 5px;"><td colspan="2"><hr class="hrule" noshade
 */
 
 if($choosenDB == 'xml'){
-	$arr_albums['count'] = $tcms_main->getPathContent($tcms_administer_site.'/tcms_albums/');
+	$arr_albums['count'] = $tcms_file->getPathContent($tcms_administer_site.'/tcms_albums/');
 	
 	$ca = 0;
 	if($tcms_main->isReal($arr_albums['count'])){
@@ -363,7 +363,7 @@ if($albums != 'start'){
 								
 								switch($list_option){
 									case 0:
-										echo '<tr><td width="100">'
+										echo '<tr><td width="110" valign="top">'
 										.'<a href="'.$imagePath.'media.php?album='.$a_value.'&amp;key='.$dvalue.'" target="_blank">'
 										.'<img style="border: 1px solid #333333;" src="'.$imagePath.$tcms_administer_site.'/thumbnails/'.$a_value.'/thumb_'.$dvalue.'" border="0" />'
 										.'</a>';
@@ -376,7 +376,9 @@ if($albums != 'start'){
 										
 										echo '<div class="text_normal gallery_text">'.$old_des.'</div>';
 										
-										echo '<hr class="hr_line" />';
+										if(trim($old_des) != '') {
+											echo '<hr class="hr_line" />';
+										}
 										
 										if($use_image_comments == 1){
 											if($choosenDB == 'xml'){

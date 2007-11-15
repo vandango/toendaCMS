@@ -137,7 +137,6 @@ if($tcms_file->checkFileExist($tcms_administer_site.'/tcms_global/var.xml')) {
 	$captcha_clean  = $tcms_config->getCaptchaCleanSize();
 	$antiFrame      = $tcms_config->getAntiFrameEnabled();
 	$show_pages     = $tcms_config->getShowTopPages();
-	$site_off_text  = $tcms_config->getSiteOfflineText();
 	$currency       = $tcms_config->getCurrency();
 	$wysiwygEditor  = $tcms_config->getWYSIWYGEditor();
 	$pathwayChar    = $tcms_config->getPathwayChar();
@@ -148,7 +147,7 @@ if($tcms_file->checkFileExist($tcms_administer_site.'/tcms_global/var.xml')) {
 	$tcms_main->setGlobalFolder($seoFolder, $seoEnabled);
 	$tcms_main->setDatabaseInfo($choosenDB);
 	
-	$site_off_text = $tcms_main->decodeText($site_off_text, '2', $c_charset);
+	$tcms_config->decodeConfiguration($tcms_main);
 	
 	
 	/*
@@ -356,7 +355,7 @@ if($wsShowSite) {
 	if($site_offline == 1) {
 		echo '<div align="center" style=" padding: 100px 10px 100px 10px; border: 1px solid #333; background-color: #f8f8f8; font-family: Georgia, \'Lucida Grande\', \'Lucida Sans\', Serif;">'
 		.'<img src="'.$toendaCMSimage.'engine/images/tcms_top.gif" border="0" />'
-		.'<h2>'.$site_off_text.'</h2>'
+		.'<h2>'.$tcms_config->getSiteOfflineText().'</h2>'
 		.'</div>';
 	}
 	else {
@@ -709,10 +708,6 @@ if($wsShowSite) {
 					}
 					
 					// CHARSETS
-					$sitetitle  = $tcms_main->decodeText($sitetitle, '2', $c_charset);
-					$sitename   = $tcms_main->decodeText($sitename, '2', $c_charset);
-					$sitekey    = $tcms_main->decodeText($sitekey, '2', $c_charset);
-					
 					$cms_name         = $tcms_version->getName();
 					$cms_tagline      = $tcms_version->getTagline();
 					$cms_version      = $tcms_version->getVersion();
@@ -723,8 +718,9 @@ if($wsShowSite) {
 					$defaultCat     = $tcms_config->getDefaultCategory();
 					$tcmsinst       = $tcms_config->getToendaCMSInSitetitle();
 					
-					if($tcmsinst == 1)
+					if($tcmsinst == 1) {
 						$sitetitle  = $cms_name.' | '.$sitetitle;
+					}
 					
 					// Pathway Char
 					if(!$tcms_main->isReal($pathwayChar)) {
@@ -891,8 +887,9 @@ if($wsShowSite) {
 							$dcCF = new tcms_dc_contactform();
 							$dcCF = $tcms_dcp->getContactformDC($getLang);
 							
-							if(!isset($contact_email))
+							if(!isset($contact_email)) {
 								$contact_email = $dcCF->getContact();
+							}
 							
 							$send_id           = $dcCF->getID();
 							$contact_title     = $dcCF->getTitle();

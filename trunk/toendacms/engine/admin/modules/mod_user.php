@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for user administration
  *
- * @version 0.5.0
+ * @version 0.5.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -82,15 +82,15 @@ include_once('../tcms_kernel/datacontainer/tcms_dc_account.lib.php');
 //	OLD VALUES
 //=====================================================
 
-if($todo == 'show'){
+if($todo == 'show') {
 	echo $tcms_html->bold(_USER_TITLE);
 	echo $tcms_html->text(_USER_TEXT.'<br /><br />', 'left');
 	
-	if($choosenDB == 'xml'){
+	if($choosenDB == 'xml') {
 		$arr_filename = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/tcms_user/');
 		
-		if($tcms_main->isArray($arr_filename)){
-			foreach($arr_filename as $key => $value){
+		if($tcms_main->isArray($arr_filename)) {
+			foreach($arr_filename as $key => $value) {
 				$menu_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_user/'.$value,'r');
 				$arr_user['tag'][$key]    = substr($value, 0, 32);
 				$arr_user['name'][$key]   = $menu_xml->read_section('user', 'name');
@@ -108,7 +108,7 @@ if($todo == 'show'){
 				if(!$arr_user['static'][$key]){ $arr_user['static'][$key] = ''; }
 				
 				if(trim($arr_user['static'][$key]) == ''
-				&& $arr_user['user'][$key] 'root') {
+				&& $arr_user['user'][$key] == 'root') {
 					$arr_user['static'][$key] = '1';
 				}
 				

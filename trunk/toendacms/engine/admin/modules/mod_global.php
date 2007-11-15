@@ -1488,13 +1488,16 @@ $tcms_db_prefix   = \''.$new_prefix.'\';
 	//==================================================
 	
 	if($todo == 'backup'){
-		if($this_engine == 'xml'){
-			$archive = new PclZip('../../cache/xml_database_backup.zip');
+		if($choosenDB == 'xml'){
+			$archive = new PclZip('../../cache/xml_database_backup_'.date('dmYHi').'.zip');
   			$v_list = $archive->create('../../'.$tcms_administer_site);
   			
   			if($v_list == 0) die('Error : '.$archive->errorInfo(true));
     		
-    		echo '<script>alert(\''._MSG_SAVED.'\');</script>';
+    		echo '<script>'
+    		.'alert(\''._MSG_SAVED.'\');'
+			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_global\';'
+			.'</script>';
 		}
 		else{
 			if(empty($with_output))   { $with_output    = 0; };

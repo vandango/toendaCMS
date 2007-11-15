@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a contactform with a internal
  * adressbook with vcard export.
  *
- * @version 0.7.8
+ * @version 0.8.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -413,9 +413,9 @@ if($cform_enabled == 1){
 		
 		if(!isset($send_form) && $send_form != 1){
 			if($use_adressbook == 1){
-				echo '<form id="adress" action="'.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?" method="get">'
-				.'<input name="id" type="hidden" value="contactform" />'
-				.'<input name="s" type="hidden" value="'.$s.'" />'
+				echo '<form id="adress" action="'
+				.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=contactform&amp;s='.$s
+				.'" method="get">'
 				.'<input name="item" type="hidden" value="adressbook" />'
 				.( isset($session) ? '<input type="hidden" name="session" value="'.$session.'" />' : '' )
 				.( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' );
@@ -427,10 +427,10 @@ if($cform_enabled == 1){
 			}
 			
 			
-			echo '<form name="cform" id="cform" method="post" action="'.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?">'
+			echo '<form name="cform" id="cform" action="'
+			.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=contactform&amp;s='.$s
+			.'" method="post">'
 			.'<input name="send_form" type="hidden" id="send_form" value="1" />'
-			.'<input name="id" type="hidden" id="id" value="contactform" />'
-			.'<input name="s" type="hidden" id="s" value="'.$s.'" />'
 			.( isset($session) ? '<input type="hidden" name="session" value="'.$session.'" />' : '' )
 			.( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' );
 			
@@ -442,7 +442,7 @@ if($cform_enabled == 1){
 			}
 			
 			
-			if($show_contactemail == 1){
+			if($show_contactemail == 1) {
 				// inputs
 				echo '<div style="float: left; width: 140px;">'
 				.'<strong><span class="text_normal">'._CONTACT_ADRESS_EMAIL.':</strong></span></div>';
@@ -536,7 +536,7 @@ if($cform_enabled == 1){
 		/*
 			send email
 		*/
-		if($send_form == 1){
+		if($send_form == 1) {
 			$mail_message = stripslashes($mail_message);
 			$mail_message = $tcms_main->nl2br($mail_message);
 			//$mail_messagehtml = ereg_replace("\n", "<br />", $mail_message);
@@ -571,7 +571,7 @@ if($cform_enabled == 1){
 				
 				$mail->From     = $mail_email;
 				$mail->FromName = $mail_name;
-				$mail->AddAddress($contact_email, $websiteowner); 
+				$mail->AddAddress($contact_email, $tcms_config->getWebpageOwner()); 
 				$mail->AddReplyTo($mail_email, $mail_name);
 				
 				$mail->WordWrap = 50;
@@ -623,7 +623,7 @@ if($cform_enabled == 1){
 				if(isset($kopie)){
 					// copy
 					$mail->From     = $contact_email;
-					$mail->FromName = $websiteowner;
+					$mail->FromName = $tcms_config->getWebpageOwner();
 					$mail->AddAddress($mail_email, $mail_name);
 					
 					$mail->WordWrap = 50;
