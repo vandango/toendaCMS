@@ -25,7 +25,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Adapted from original code by Natalie Downe: 
  * http://blog.natbat.co.uk/archive/2003/Jun/14/time_since
  *
- * @version 0.1.1
+ * @version 0.1.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -114,12 +114,12 @@ class tcms_blogfeatures {
 		// difference in seconds
 		$since = $newer_date - $older_date;
 		
-		for ($i = 0, $j = count($chunks); $i < $j; $i++){
+		for($i = 0, $j = count($chunks); $i < $j; $i++) {
 			$seconds = $chunks[$i][0];
 			$name = $chunks[$i][1];
 			
 			// finding the biggest chunk (if the chunk fits, break)
-			if (($count = floor($since / $seconds)) != 0){
+			if(($count = floor($since / $seconds)) != 0) {
 				break;
 			}
 		}
@@ -128,11 +128,11 @@ class tcms_blogfeatures {
 		$output = ($count == 1) ? '1 '.$name : "$count {$name}s";
 	
 		// step two: the second chunk
-		if ($i + 1 < $j){
+		if ($i + 1 < $j) {
 			$seconds2 = $chunks[$i + 1][0];
 			$name2 = $chunks[$i + 1][1];
 			
-			if (($count2 = floor(($since - ($seconds * $count)) / $seconds2)) != 0){
+			if(($count2 = floor(($since - ($seconds * $count)) / $seconds2)) != 0) {
 				// add to output var
 				$output .= ($count2 == 1) ? ', 1 '.$name2 : ", $count2 {$name2}s";
 			}
@@ -147,21 +147,30 @@ class tcms_blogfeatures {
 	 * Get the time of day
 	 * 
 	 * @param String $hour
+	 * @param String $lang = 'en'
 	 * @return String
 	*/
-	function timeOfDay($hour){
+	function timeOfDay($hour, $lang = 'en'){
 		switch($hour){
 			case 00:
 			case 01:
 			case 02:
-				$tod = 'the wee hours';
+				switch(trim($lang)) {
+					case 'en': $tod = 'the wee hours'; break;
+					case 'de': $tod = 'die Geisterstunde'; break;
+					default: $tod = 'the wee hours'; break;
+				}
 				break;
 			
 			case 03:
 			case 04:
 			case 05:
 			case 06:
-				$tod = 'terribly early in the morning';
+				switch(trim($lang)) {
+					case 'en': $tod = 'terribly early in the morning'; break;
+					case 'de': $tod = 'sehr früh am morgen'; break;
+					default: $tod = 'terribly early in the morning'; break;
+				}
 				break;
 			
 			case 07:

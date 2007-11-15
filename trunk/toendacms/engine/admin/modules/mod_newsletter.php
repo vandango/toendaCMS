@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a newsletter extension.
  *
- * @version 0.5.2
+ * @version 0.5.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -276,17 +276,16 @@ if($id_group == 'Developer'
 			echo '<tr><td colspan="2" height="2"><br /></td></tr>';
 			
 			
-			$c_xml        = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/var.xml','r');
-			$seoEnabled   = $c_xml->read_section('global', 'seo_enabled');
-			$seoFolder    = $c_xml->read_section('global', 'server_folder');
+			$seoEnabled = $tcms_config->getSEOEnabled();
+			$seoFolder  = $tcms_config->getSEOPath();
+			$_owner_url = $tcms_config->getWebpageOwnerUrl();
 			
-			$footer_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/footer.xml','r');
-			$_owner_url  = $footer_xml->read_section('footer', 'owner_url');
-			
-			if($seoEnabled == 1)
-				$_owner_url = $_owner_url.'/'.$seoFolder.'/';
-			else
+			if($seoEnabled == 1) {
+				$_owner_url = $_owner_url.'/'.( trim($seoFolder) != '' ? $seoFolder.'/' : '' );
+			}
+			else {
 				$_owner_url = $_owner_url.'/';
+			}
 			
 			
 			// table rows with toolbar

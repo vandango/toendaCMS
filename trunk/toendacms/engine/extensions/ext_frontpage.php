@@ -177,16 +177,22 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 					
 					case 2:
 						$month = substr($dcNews->GetDate(), 3, 2);
+						
 						echo substr($dcNews->GetDate(), 0, 2).'. '
 						.$monthName[((
 							substr($month, 0, 1) == 0 ?
 							substr($month, 1, 1) :
 							$month
 						))].' ';
+						
 						echo substr($dcNews->GetDate(), 6, 4)
 						.' '.substr($dcNews->GetTime(), 0, 2).':'
 						.substr($dcNews->GetTime(), 3, 2).'h';
-						echo ' '.$tcms_blogfeatures->timeOfDay(substr($dcNews->GetTime(), 0, 2));
+						
+						echo ' '.$tcms_blogfeatures->timeOfDay(
+							substr($dcNews->GetTime(), 0, 2), 
+							$lang
+						);
 						break;
 					
 					default:
