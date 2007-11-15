@@ -28,7 +28,7 @@ Version 1.6
 Developer Version
 	- 1.6.0 Development
 
-Building Steps: 3477
+Building Steps: 3500
 
 
 
@@ -42,6 +42,11 @@ Building Steps: 3477
  - bug #0000187: Fixed the userlist problem in the backend user administration.
  - bug #0000177: Fixed the backslash problem with the site offline text.
  - bug #0000185: Fised the contactform problem with enabled seo and installed in the root folder.
+ - bug #0000180: Fixed the encoding bug for the links in a newsletter.
+ - bug #0000174: Fixed the encoding bug for the password retreavement mails.
+ - bug #0000166: Fixed the pathway navigation.
+ - bug #0000178: Fixed the "open dir" error on the documents list.
+ - bug #0000168: Changed the blogfeatures (timeOfDay) to multilingual.
 
  - security fixed: 
 

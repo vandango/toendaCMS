@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to authenticate a login user.
  *
- * @version 0.3.1
+ * @version 0.3.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -830,13 +830,20 @@ class tcms_authentication extends tcms_main {
 		
 		include_once($path.'/tcms_kernel/tcms_configuration.lib.php');
 		
+		//global $tcms_main;
+		
 		$tcms_config = new tcms_configuration('../../'.$this->m_administer);
+		//$tcms_config->decodeConfiguration($tcms_main);
 		
 		$owner_email = $tcms_config->getWebpageOwnerMail();
 		$owner       = $tcms_config->getWebpageOwner();
 		$owner_url   = $tcms_config->getWebpageOwnerUrl();
 		$seoPath     = $tcms_config->getSEOPath();
 		$seoEnabled  = $tcms_config->getSEOEnabled();
+		
+		$owner_email = $this->decodeText($owner_email, '2', $this->m_charset);
+		$owner       = $this->decodeText($owner, '2', $this->m_charset);
+		$owner_url   = $this->decodeText($owner_url, '2', $this->m_charset);
 		
 		// mail
 		include_once($this->m_administer.'/tcms_global/mail.php');

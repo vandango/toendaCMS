@@ -138,10 +138,12 @@ if($todo == 'config'){
 	if($id_group == 'Developer' || $id_group == 'Administrator'){
 		if(!isset($action)){ $action = 'news'; }
 		
-		if($tcms_main->isReal($lang))
+		if($tcms_main->isReal($lang)) {
 			$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
-		else
+		}
+		else {
 			$getLang = $tcms_front_lang;
+		}
 		
 		if($choosenDB == 'xml'){
 			if(file_exists('../../'.$tcms_administer_site.'/tcms_global/newsmanager.'.$getLang.'.xml')) {

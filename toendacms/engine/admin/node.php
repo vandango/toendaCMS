@@ -20,7 +20,7 @@
  *
  * This is used as a linkbrowser
  *
- * @version 0.3.4
+ * @version 0.4.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -48,21 +48,31 @@ if(isset($_POST['id_user'])){ $id_user = $_POST['id_user']; }
 
 define('_TCMS_VALID', 1);
 
+include_once('../tcms_kernel/tcms_loader.lib.php');
+
 $language_stage = 'admin';
 include_once('../language/lang_admin.php');
 
 $tcms_administer_site = '../../data';
 
-include_once('../tcms_kernel/tcms_time.lib.php');
-include_once('../tcms_kernel/tcms.lib.php');
-include_once('../tcms_kernel/tcms_html.lib.php');
-include_once('../tcms_kernel/tcms_gd.lib.php');
-include_once('../tcms_kernel/tcms_sql.lib.php');
-include_once('../tcms_kernel/tcms_configuration.lib.php');
-include_once('../tcms_kernel/tcms_version.lib.php');
-include('../../'.$tcms_administer_site.'/tcms_global/database.php');
+using('toendacms.kernel.file', false, true);
+using('toendacms.kernel.time', false, true);
+using('toendacms.kernel.xml', false, true);
+using('toendacms.kernel.main', false, true);
+using('toendacms.kernel.html', false, true);
+using('toendacms.kernel.gd', false, true);
+using('toendacms.kernel.sql', false, true);
+using('toendacms.kernel.authentication', false, true);
+using('toendacms.kernel.configuration', false, true);
+using('toendacms.kernel.account_provider', false, true);
+using('toendacms.kernel.datacontainer_provider', false, true);
+using('toendacms.kernel.version', false, true);
+
+include($tcms_administer_site.'/tcms_global/database.php');
 
 
+$tcms_file = new tcms_file();
+$tcms_html = new tcms_html();
 $tcms_main = new tcms_main($tcms_administer_site, $choosenDB);
 $tcms_time = new tcms_time();
 $tcms_config = new tcms_configuration($tcms_administer_site);
@@ -78,12 +88,39 @@ $sqlPort   = $tcms_db_port;
 $sqlPrefix = $tcms_db_prefix;
 
 $tcms_main->setDatabaseInfo($choosenDB);
+$tcms_config->decodeConfiguration($tcms_main);
+
+// imagepath
+if($seoEnabled == 1){
+	if($seoFolder != ''){
+		if($noSEOFolder){
+			$templatePath = '../../theme/'.$s.'/';
+			$imagePath = '../../';
+		}
+		else{
+			$templatePath = '../../'.$seoFolder.'/theme/'.$s.'/';
+			$imagePath = '../../'.$seoFolder.'/';
+		}
+	}
+	else{
+		$templatePath = '../../theme/'.$s.'/';
+		$imagePath = '../../';
+	}
+}
+else{
+	$templatePath = '../../theme/'.$s.'/';
+	$imagePath = '../../';
+}
+
+$tcms_dcp = new tcms_datacontainer_provider($tcms_administer_site, $tcms_config->getCharset(), $tcms_time);
+$tcms_ap = new tcms_account_provider($tcms_administer_site, $tcms_config->getCharset(), $tcms_time);
+$tcms_auth = new tcms_authentication($tcms_administer_site, $tcms_config->getCharset(), $imagePath);
 
 if(isset($faq) && $faq != '') {
-	$arr_dir = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/images/knowledgebase/');
+	$arr_dir = $tcms_file->getPathContent($tcms_administer_site.'/images/knowledgebase/');
 }
 else {
-	$arr_dir = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/images/Image/');
+	$arr_dir = $tcms_file->getPathContent($tcms_administer_site.'/images/Image/');
 }
 
 $cms_name     = $tcms_version->getName();
@@ -102,8 +139,11 @@ $tcms_main->setGlobalFolder($seoFolder, $seoEnabled);
 if($seoFormat == 0) {
 	$tcms_main->setURLSEO('colon');
 }
-else {
+else if($seoFormat == 1) {
 	$tcms_main->setURLSEO('slash');
+}
+else if($seoFormat == 2) {
+	$tcms_main->setURLSEO('html');
 }
 
 
@@ -114,67 +154,27 @@ else {
 // ---------------------------------------------
 
 if(isset($id_user)) {
-	/*if($choosenDB == 'xml') {
-		$tcms_main->check_session($id_user, 'admin');
-	}
-	else {
-		$tcms_main->check_sql_session($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $id_user);
-	}
-	
-	if($choosenDB == 'xml') {
-		if(isset($id_user) && $id_user != '' && file_exists('session/'.$id_user) && filesize('session/'.$id_user) != 0){ $check_session = true; }
-		else{ $check_session = false; }
-	}
-	else{
-		$check_session = $tcms_main->check_session_exists($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $id_user);
-	}*/
-	
-	$tcms_main->checkSessionTimeout($id_user, 1);
-	$check_session = $tcms_main->checkSessionExist($id_user);
+	$check_session = $tcms_auth->checkSessionExist($id_user);
 	
 	if($check_session) {
 		$arr_ws = $tcms_ap->getUserInfo($id_user, true);
 		
 		$id_name     = $arr_ws['name'];
 		$id_username = $arr_ws['user'];
-		$id_group    = $arr_ws['group'];
 		$id_uid      = $arr_ws['id'];
+		$id_group    = $arr_ws['group'];
 		
-		/*if($choosenDB == 'xml'){
-			$m_tag = $tcms_main->create_admin($id_user);
-			
-			
-			$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_user/'.$m_tag.'.xml','r');
-			$id_name     = $xml->readSection('user', 'name');
-			$id_username = $xml->readSection('user', 'username');
-			$id_group    = $xml->readSection('user', 'group');
-			$id_uid      = $m_tag;
-			
-			$id_name     = $tcms_main->decodeText($id_name, '2', $c_charset);
-			$id_username = $tcms_main->decodeText($id_username, '2', $c_charset);
+		$m_tag       = $id_uid;
+		
+		if($id_group == 'Administrator'
+		|| $id_group == 'Developer'
+		|| $id_group == 'Editor'
+		|| $id_group == 'Writer'){
+			$canEdit = true;
 		}
 		else{
-			$arr_ws = $tcms_main->create_sql_username($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $id_user);
-			$m_tag = $arr_ws['id'];
-			
-			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-			
-			$sqlQR = $sqlAL->getOne($tcms_db_prefix.'user', $m_tag);
-			$sqlARR = $sqlAL->fetchArray($sqlQR);
-			
-			$id_name     = $sqlARR['name'];
-			$id_username = $sqlARR['username'];
-			$id_group    = $sqlARR['group'];
-			$id_uid      = $sqlARR['uid'];
-			
-			$id_name     = $tcms_main->decodeText($id_name, '2', $c_charset);
-			$id_username = $tcms_main->decodeText($id_username, '2', $c_charset);
-			
-			if($id_name     == NULL){ $id_name     = ''; }
-			if($id_username == NULL){ $id_username = ''; }
-			if($id_group    == NULL){ $id_group    = ''; }
-		}*/
+			$canEdit = false;
+		}
 		
 		
 		
@@ -204,15 +204,14 @@ if(isset($id_user)) {
 		echo '<hr />';
 		
 		
-		$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/layout.xml','r');
-		$lb_layout = $xml->readSection('layout', 'select');
+		$lb_layout = $tcms_config->getFrontendTheme();
 		
 		$iKey = 0;
 		
 		
 		echo '<div style="margin: 5px !important;">';
 		
-		echo tcms_html::table_head('5', '0', '0', '100%');
+		echo $tcms_html->tableHead('5', '0', '0', '100%');
 		
 		echo '<tr>';
 		
@@ -232,11 +231,12 @@ if(isset($id_user)) {
 		*/
 		$dvalue = '?id=search'; //&amp;s='.$lb_layout;
 		
-		if($seoEnabled == 1){
-			$dvalue = $tcms_main->urlConvertToSEO($dvalue, $seoFormat);
+		if($seoEnabled == 1) {
+			//$dvalue = $tcms_main->urlConvertToSEO($dvalue, $seoFormat);
+			$dvalue = $tcms_main->urlConvertToSEO($dvalue);
 			$dvalue = '/'.$dvalue;
 		}
-		else{
+		else {
 			//$dvalue = '/'.$dvalue;
 		}
 		
@@ -515,12 +515,12 @@ if(isset($id_user)) {
 			echo '</tr>';
 			
 			if($choosenDB == 'xml'){
-				$arrDocuments = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_content/');
+				$arrDocuments = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_content/');
 				
 				if(is_array($arrDocuments)){
 					foreach($arrDocuments as $key => $val){
 						if($val != 'index.html'){
-							$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_content/'.$val,'r');
+							$xml = new xmlparser($tcms_administer_site.'/tcms_content/'.$val,'r');
 							$xmlID = $xml->readSection('main', 'id');
 							$xmlAccess = $xml->readSection('main', 'access');
 							
@@ -626,14 +626,14 @@ if(isset($id_user)) {
 		echo '</tr>';
 		
 		if($choosenDB == 'xml'){
-			$arrAlbums = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_imagegallery/');
+			$arrAlbums = $tcms_file->getPathContent($tcms_administer_site.'/tcms_imagegallery/');
 			
 			if(is_array($arrAlbums)){
 				foreach($arrAlbums as $key => $val){
 					if($val != 'index.html'){
-						$arrImages = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_imagegallery/'.$val.'/');
+						$arrImages = $tcms_file->getPathContent($tcms_administer_site.'/tcms_imagegallery/'.$val.'/');
 						
-						$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_albums/album_'.$val.'.xml','r');
+						$xml = new xmlparser($tcms_administer_site.'/tcms_albums/album_'.$val.'.xml','r');
 						$xmlAlbum = $xml->readSection('album', 'title');
 						$xmlPath = $xml->readSection('album', 'path');
 						
@@ -667,7 +667,7 @@ if(isset($id_user)) {
 						if(is_array($arrImages)){
 							foreach($arrImages as $key2 => $val2){
 								if($val2 != 'index.html'){
-									$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_imagegallery/'.$val.'/'.$val2,'r');
+									$xml = new xmlparser($tcms_administer_site.'/tcms_imagegallery/'.$val.'/'.$val2,'r');
 									$xmlTitle = $xml->readSection('image', 'text');
 									
 									$xmlTitle = $tcms_main->decodeText($xmlTitle, '2', $c_charset);

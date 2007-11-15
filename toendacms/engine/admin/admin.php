@@ -58,7 +58,8 @@ $tcms_administer_site = $tcms_site[0]['path'];
 $tcms_administer_path = '../../'.$tcms_site[0]['path'];
 
 include_once('../tcms_kernel/tcms_loader.lib.php');
-include_once('../tcms_kernel/tcms_file.lib.php');
+
+using('toendacms.kernel.file', false, true);
 
 $tcms_file = new tcms_file();
 
@@ -79,23 +80,23 @@ if($tcms_file->checkFileExist($tcms_administer_path.'/tcms_global/var.xml')){
 	include_once($tcms_administer_path.'/tcms_global/database.php');
 	include_once($tcms_administer_path.'/tcms_global/mail.php');
 	
-	include_once('../tcms_kernel/tcms_time.lib.php');
-	include_once('../tcms_kernel/tcms_xml.lib.php');
-	include_once('../tcms_kernel/tcms.lib.php');
+	using('toendacms.kernel.time', false, true);
+	using('toendacms.kernel.xml', false, true);
+	using('toendacms.kernel.main', false, true);
 	using('toendacms.kernel.script', false, true);
 	using('toendacms.kernel.html', false, true);
-	include_once('../tcms_kernel/pclzip/pclzip.lib.php');
-	include_once('../tcms_kernel/tcms_gd.lib.php');
-	include_once('../tcms_kernel/tcms_sql.lib.php');
-	include_once('../tcms_kernel/tcms_components.lib.php');
+	using('toendacms.kernel.gd', false, true);
+	using('toendacms.kernel.sql', false, true);
+	using('toendacms.kernel.components', false, true);
 	using('toendacms.kernel.datacontainer_provider', false, true);
 	using('toendacms.kernel.account_provider', false, true);
-	include_once('../tcms_kernel/tcms_authentication.lib.php');
-	include_once('../tcms_kernel/tcms_configuration.lib.php');
-	include_once('../tcms_kernel/tcms_version.lib.php');
-	include_once('../tcms_kernel/tcms_import.lib.php');
-	include_once('../tcms_kernel/tcms_globals.lib.php');
+	using('toendacms.kernel.authentication', false, true);
+	using('toendacms.kernel.configuration', false, true);
+	using('toendacms.kernel.version', false, true);
+	using('toendacms.kernel.import', false, true);
 	
+	include_once('../tcms_kernel/tcms_globals.lib.php');
+	include_once('../tcms_kernel/pclzip/pclzip.lib.php');
 	include_once('../tcms_kernel/phpmailer/class.phpmailer.php');
 	
 	if($tcms_file->checkFileExist('../js/FCKeditor/fckeditor.php')) {

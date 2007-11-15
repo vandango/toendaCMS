@@ -15,7 +15,7 @@
 +
 */
 
-$tcms_mail_with_smtp   = '1';
+$tcms_mail_with_smtp   = '';
 $tcms_mail_as_html     = '';
 $tcms_mail_server_pop3 = '';
 $tcms_mail_server_smtp = '';
