@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides a frontpage with news and a text.
  *
- * @version 1.5.0
+ * @version 1.5.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -245,12 +245,11 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 					get user id
 					and the categories
 				*/
+				if($show_autor_as_link == 1) {
+					$userID = $tcms_auth->getUserID($dcNews->GetAutor());
+				}
+				
 				if($choosenDB == 'xml') {
-					if($show_autor_as_link == 1) {
-						$userID = $tcms_main->getUserID($dcNews->GetAutor());
-					}
-					
-					
 					/*
 						load categories from xml
 					*/
@@ -260,7 +259,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 							
 							$count = 0;
 							
-							foreach($catLinkTmp as $catKey => $catVal){
+							foreach($catLinkTmp as $catKey => $catVal) {
 								if(trim($catVal) != ''){
 									$catXML = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$catVal.'.xml','r');
 									
@@ -273,7 +272,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 								}
 							}
 						}
-						else{
+						else {
 							$catXML = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$dcNews->GetCategories().'.xml','r');
 							
 							$catLink['name'][0] = $catXML->read_section('cat', 'name');
@@ -283,7 +282,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 							$catLink['link'][0] = $dcNews->GetCategories();
 						}
 					}
-					else{
+					else {
 						$catXML = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$defaultCat.'.xml','r');
 						
 						$catLink['name'][0] = $catXML->read_section('cat', 'name');
@@ -293,12 +292,8 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 						$catLink['link'][0] = $defaultCat;
 					}
 				}
-				else{
-					if($show_autor_as_link == 1)
-						$userID = $tcms_main->getUserIDfromSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $dcNews->GetAutor());
-					
-					
-					$sqlAL = new sqlAbstractionLayer($choosenDB);
+				else {
+					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					
 					
@@ -311,7 +306,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 					$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
 					
 					
-					if($sqlNR == 0){
+					if($sqlNR == 0) {
 						$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'news_categories', $defaultCat);
 						$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
 						
@@ -322,10 +317,10 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 						
 						$catLink['name'][0] = $tcms_main->decodeText($catLink['name'][0], '2', $c_charset);
 					}
-					else{
+					else {
 						$count = 0;
 						
-						while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+						while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)) {
 							$catLink['link'][$count] = $sqlARR['cat_uid'];
 							$catLink['name'][$count] = $sqlARR['name'];
 							
@@ -345,12 +340,12 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 					show categories
 					show comments, if enabled
 				*/
-				if($show_autor == 1){
-					if($show_autor_as_link == 1){
-						if($dcNews->GetAutor() != ''){
+				if($show_autor == 1) {
+					if($show_autor_as_link == 1) {
+						if($dcNews->GetAutor() != '') {
 							echo '&nbsp;'._NEWS_WRITTEN.'&nbsp;';
 							
-							if($userID != false){
+							if($userID != false) {
 								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 								.'id=profile&amp;s='.$s.'&amp;u='.$userID
 								.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -359,12 +354,12 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 								echo '<a href="'.$link.'">'
 								.$dcNews->GetAutor().'</a>';
 							}
-							else{
+							else {
 								echo $dcNews->GetAutor();
 							}
 						}
 					}
-					else{
+					else {
 						echo '&nbsp;'._NEWS_WRITTEN.'&nbsp;'.$dcNews->GetAutor();
 					}
 				}
@@ -512,7 +507,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 		}
 		
 		
-		if(count($arrNewsDC) >= $how_many){
+		if(count($arrNewsDC) >= $how_many) {
 			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 			.'id=newsmanager&amp;s='.$s
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -525,7 +520,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 	}
 	
 	
-	if($use_syndication == 1){
+	if($use_syndication == 1) {
 		$tcms_dcp->generateFeed(
 			$getLang, 
 			( $tcms_main->isReal($feed) ? $feed : $def_feed ), 
@@ -535,12 +530,14 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 			$show_autor
 		);
 		
-		if($tcms_main->isReal($feed)){
-			if(isset($save) && $save == true){
+		if($tcms_main->isReal($feed)) {
+			if(isset($save) && $save == true) {
 				//$rss->saveFeed($feed, 'cache/'.$feed.'.xml', false);
-				echo '<script>document.location=\''.$imagePath.'cache/'.$feed.'.xml\'</script>';
+				echo '<script>'
+				.'document.location=\''.$imagePath.'cache/'.$feed.'.xml\';'
+				.'</script>';
 			}
-			else{
+			else {
 				//$rss->saveFeed($feed, 'cache/'.$feed.'.xml', false);
 			}
 		}

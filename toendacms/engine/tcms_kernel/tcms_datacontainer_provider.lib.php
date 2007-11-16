@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.0.8
+ * @version 1.1.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -947,12 +947,13 @@ class tcms_datacontainer_provider extends tcms_main {
 		
 		$cfgObj = new tcms_configuration($this->m_path);
 		
-		$wstitle     = $this->decodeText($cfgObj->getSiteTitle(), '2', $this->m_CHARSET);
-		$wsname      = $this->decodeText($cfgObj->getSiteName(), '2', $this->m_CHARSET);
-		$wskey       = $this->decodeText($cfgObj->getSiteKey(), '2', $this->m_CHARSET);
-		$wsowner     = $this->decodeText($cfgObj->getWebpageOwner(), '2', $this->m_CHARSET);
-		$wscopyright = $this->decodeText($cfgObj->getWebpageCopyright(), '2', $this->m_CHARSET);
-		$wsowner_url = $this->decodeText($cfgObj->getWebpageOwnerUrl(), '2', $this->m_CHARSET);
+		$wstitle      = $this->decodeText($cfgObj->getSiteTitle(), '2', $this->m_CHARSET);
+		$wsname       = $this->decodeText($cfgObj->getSiteName(), '2', $this->m_CHARSET);
+		$wskey        = $this->decodeText($cfgObj->getSiteKey(), '2', $this->m_CHARSET);
+		$wsowner      = $this->decodeText($cfgObj->getWebpageOwner(), '2', $this->m_CHARSET);
+		$wscopyright  = $this->decodeText($cfgObj->getWebpageCopyright(), '2', $this->m_CHARSET);
+		$wsowner_url  = $this->decodeText($cfgObj->getWebpageOwnerUrl(), '2', $this->m_CHARSET);
+		$wsowner_mail = $this->decodeText($cfgObj->getWebpageOwnerMail(), '2', $this->m_CHARSET);
 		
 		$rss = new UniversalFeedCreator();
 		$rss->_setFormat($defaultFormat);
@@ -971,7 +972,8 @@ class tcms_datacontainer_provider extends tcms_main {
 		$rss->image = $image;
 		
 		// generate now ...
-		$_tcms_ap = new tcms_account_provider($this->m_path, $c_charset);
+		$_tcms_ap = new tcms_account_provider($this->m_path, $this->m_CHARSET);
+		$_tcms_auth = new tcms_authentication($this->m_path, $this->m_CHARSET, '', null);
 		
 		if($seoFolder != ''){
 			$imagePath = $seoFolder.'/';
@@ -987,8 +989,16 @@ class tcms_datacontainer_provider extends tcms_main {
 				$dcNews = new tcms_dc_news();
 				$dcNews = $arrNewsDC[$n_key];
 				
-				$dcAcc = new tcms_dc_account();
-				$dcAcc = $_tcms_ap->getAccountByUsername($dcNews->getAutor());
+				$userID = $_tcms_auth->getUserID($dcNews->GetAutor());
+				
+				if($userID != false) {
+					$dcAcc = new tcms_dc_account();
+					$dcAcc = $_tcms_ap->getAccount($userID);
+					$wsMail = $dcAcc->getEmail();
+				}
+				else {
+					$wsMail = $wsowner_mail;
+				}
 				
 				$item = new FeedItem();
 				
@@ -1013,7 +1023,7 @@ class tcms_datacontainer_provider extends tcms_main {
 				$item->author = ( $show_autor == 1 ? $dcNews->getAutor() : $wsowner );
 				
 				if($show_autor == 1) {
-					$item->authorEmail = $dcAcc->getEmail();
+					$item->authorEmail = $wsMail;
 				}
 				
 				$rss->addItem($item);
