@@ -33,7 +33,6 @@ defined('_TCMS_VALID') or die('Restricted access');
 if($tcms_config->useContentLanguage()){
 	using('toendacms.datacontainer.sidebarextensions');
 	
-	
 	$seDC = new tcms_dc_sidebarextensions();
 	$seDC = $tcms_dcp->getSidebarExtensionSettings();
 	

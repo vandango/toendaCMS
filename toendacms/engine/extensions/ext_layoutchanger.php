@@ -23,39 +23,26 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the layout changer functionality.
  *
- * @version 0.2.4
+ * @version 0.2.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
  */
 
 
-if($use_layout_chooser == 1){
-	if($choosenDB == 'xml'){
-		$layout_xml    = new xmlparser($tcms_administer_site.'/tcms_global/sidebar.xml','r');
-		$show_ct       = $layout_xml->read_section('side', 'show_chooser_title');
-		$chooser_title = $layout_xml->read_section('side', 'chooser_title');
-		
-		$chooser_title = $tcms_main->decodeText($chooser_title, '2', $c_charset);
+if($use_layout_chooser == 1) {
+	using('toendacms.datacontainer.sidebarextensions');
+	
+	$seDC = new tcms_dc_sidebarextensions();
+	$seDC = $tcms_dcp->getSidebarExtensionSettings();
+	
+	
+	$arr_webtheme  = $tcms_file->getPathContent('theme/');
+	
+	
+	if($seDC->getShowLayoutChooserTitle()) {
+		echo $tcms_html->subTitle($seDC->getLayoutChooserTitle());
 	}
-	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-		
-		$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'sidebar_extensions', 'sidebar_extensions');
-		$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
-		
-		$show_ct       = $sqlARR['show_chooser_title'];
-		$chooser_title = $sqlARR['chooser_title'];
-		
-		$chooser_title = $tcms_main->decodeText($chooser_title, '2', $c_charset);
-	}
-	
-	
-	$arr_webtheme  = $tcms_main->readdir_ext('theme/');
-	
-	
-	if($show_ct == 1){ echo tcms_html::subtitle($chooser_title); }
 	
 	echo '<div align="center">'
 	.'<img id="show_thumbnail" src="'.$imagePath.'theme/'.$s.'/thumbnail.jpg" border="0" style="border: 1px solid #777777;" alt="Thumbnail" />';
@@ -67,10 +54,14 @@ if($use_layout_chooser == 1){
 	.( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' )
 	.'<select name="s" onchange="document.getElementById(\'show_thumbnail\').src=\''.$imagePath.'theme/\'+this.value+\'/thumbnail.jpg\';">';
 	
-	foreach ($arr_webtheme as $lc_key => $lc_value){
-		if($lc_value != 'printer' && ( substr($lc_value, 0, 1) != '.' )){
-			$lc_template_xml = new xmlparser('theme/'.$lc_value.'/index.xml','r');
-			$layout_name=$lc_template_xml->read_section('template', 'name');
+	foreach($arr_webtheme as $lc_key => $lc_value) {
+		if($lc_value != 'printer' && ( substr($lc_value, 0, 1) != '.' )) {
+			$xml = new xmlparser('theme/'.$lc_value.'/index.xml','r');
+			$layout_name = $xml->readSection('template', 'name');
+			
+			$xml->flush();
+			$xml->_xmlparser();
+			unset($xml);
 			
 			echo '<option'.( $lc_value == $s ? ' selected' : '' ).' value="'.$lc_value.'">'
 			.$layout_name

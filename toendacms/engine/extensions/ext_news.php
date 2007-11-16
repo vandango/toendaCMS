@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a news manager with a news,
  * a news view and a archive with different formats.
  *
- * @version 1.4.4
+ * @version 1.5.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -375,21 +375,47 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 					substr($dcNews->getDate(), 6, 4)
 				);
 				
-				echo $tcms_blogfeatures->timeSince($timestamp);
+				echo $tcms_blogfeatures->timeSince(
+					$timestamp, 
+					false, 
+					$lang
+				);
 				break;
 			
 			case 2:
 				$month = substr($dcNews->getDate(), 3, 2);
+				
 				echo substr($dcNews->getDate(), 0, 2).'. '
 				.$monthName[((
 					substr($month, 0, 1) == 0 ?
 					substr($month, 1, 1) :
 					$month
 				))].' ';
-				echo substr($dcNews->getDate(), 6, 4)
-				.' '.substr($dcNews->getTime(), 0, 2).':'
-				.substr($dcNews->getTime(), 3, 2).'h';
-				echo ' '.$tcms_blogfeatures->timeOfDay(substr($dcNews->getTime(), 0, 2));
+				
+				switch(trim($lang)) {
+					case 'en':
+						echo substr($dcNews->GetDate(), 6, 4)
+						.' '.substr($dcNews->GetTime(), 0, 2).':'
+						.substr($dcNews->GetTime(), 3, 2).'h';
+						break;
+					
+					case 'de':
+						echo substr($dcNews->GetDate(), 6, 4)
+						.' '.substr($dcNews->GetTime(), 0, 2).':'
+						.substr($dcNews->GetTime(), 3, 2).' Uhr';
+						break;
+					
+					default:
+						echo substr($dcNews->GetDate(), 6, 4)
+						.' '.substr($dcNews->GetTime(), 0, 2).':'
+						.substr($dcNews->GetTime(), 3, 2).'h';
+						break;
+				}
+				
+				echo ' '.$tcms_blogfeatures->timeOfDay(
+					substr($dcNews->getTime(), 0, 2), 
+					$lang
+				);
 				break;
 			
 			default:
@@ -520,7 +546,7 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 				}
 				else {
 					$footer_xml = new xmlparser('data/tcms_global/footer.xml','r');
-					$owner_url  = $footer_xml->read_section('footer', 'owner_url');
+					$owner_url  = $footer_xml->readSection('footer', 'owner_url');
 					
 					$trackbackLink = ( $seoEnabled == 1 ? ( $seoFolder != '' ? $seoFolder.'/' : '' ) : '' )
 					.'?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
@@ -909,20 +935,25 @@ if($use_news_comments == 1){
 	and mothview
 */
 
-if($action == 'archive' && (isset($cat) || isset($date) || isset($day))){
+if($action == 'archive' && (isset($cat) || isset($date) || isset($day))) {
 //if($cmd == '' && $action == '') {
-	if(isset($date)){
-		if(strlen($date) == 6){
+	if(isset($date)) {
+		if(strlen($date) == 6) {
 			/*
 			*
 			* MONTHVIEW
 			*
 			*/
-			if(substr(substr($date, 4, 2), 0, 1) == '0'){ $ccMonth = substr(substr($date, 4, 2), 1, 1); }
-			else{ $ccMonth = substr($date, 4, 2); }
+			if(substr(substr($date, 4, 2), 0, 1) == '0') {
+				$ccMonth = substr(substr($date, 4, 2), 1, 1);
+			}
+			else {
+				$ccMonth = substr($date, 4, 2);
+			}
 			
-			echo tcms_html::contentheading(_NEWS_ARCHIV_FOR.'&nbsp;'.$monthName[$ccMonth].',&nbsp;'.substr($date, 0, 4))
-			.'<br /><br />';
+			echo $tcms_html->contentTitle(
+				_NEWS_ARCHIV_FOR.'&nbsp;'.$monthName[$ccMonth].',&nbsp;'.substr($date, 0, 4)
+			).'<br /><br />';
 			
 			
 			if($choosenDB != 'xml'){
@@ -950,14 +981,23 @@ if($action == 'archive' && (isset($cat) || isset($date) || isset($day))){
 			* DAYVIEW
 			*
 			*/
-			if(substr(substr($date, 6, 2), 0, 1) == '0'){ $ccDay = substr(substr($date, 6, 2), 1, 1); }
-			else{ $ccDay = substr($date, 6, 2); }
+			if(substr(substr($date, 6, 2), 0, 1) == '0') {
+				$ccDay = substr(substr($date, 6, 2), 1, 1);
+			}
+			else {
+				$ccDay = substr($date, 6, 2);
+			}
 			
-			if(substr(substr($date, 4, 2), 0, 1) == '0'){ $ccMonth = substr(substr($date, 4, 2), 1, 1); }
-			else{ $ccMonth = substr($date, 4, 2); }
+			if(substr(substr($date, 4, 2), 0, 1) == '0') {
+				$ccMonth = substr(substr($date, 4, 2), 1, 1);
+			}
+			else {
+				$ccMonth = substr($date, 4, 2);
+			}
 			
-			echo tcms_html::contentheading(_NEWS_ARCHIV_FOR.'&nbsp;'.$ccDay.'.&nbsp;'.$monthName[$ccMonth].',&nbsp;'.substr($date, 0, 4))
-			.'<br /><br />';
+			echo $tcms_html->contentTitle(
+				_NEWS_ARCHIV_FOR.'&nbsp;'.$ccDay.'.&nbsp;'.$monthName[$ccMonth].',&nbsp;'.substr($date, 0, 4)
+			).'<br /><br />';
 			
 			
 			if($choosenDB != 'xml'){
@@ -983,8 +1023,8 @@ if($action == 'archive' && (isset($cat) || isset($date) || isset($day))){
 	else{
 		if($choosenDB == 'xml'){
 			$xmlP = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$cat.'.xml', 'r');
-			$catName = $xmlP->read_section('cat', 'name');
-			$catDesc = $xmlP->read_section('cat', 'desc');
+			$catName = $xmlP->readSection('cat', 'name');
+			$catDesc = $xmlP->readSection('cat', 'desc');
 			
 			if(!$catName){ $catName = ''; }
 			if(!$catDesc){ $catDesc = ''; }
@@ -1049,9 +1089,9 @@ if($action == 'archive' && (isset($cat) || isset($date) || isset($day))){
 							and the access
 						*/
 						$main_xml = new xmlparser($tcms_administer_site.'/tcms_news/'.$cvalue,'r');
-						$is_pub = $main_xml->read_section('news', 'published');
-						$nws_acc  = $main_xml->read_section('news', 'access');
-						$checkDate = $main_xml->read_section('news', 'date');
+						$is_pub = $main_xml->readSection('news', 'published');
+						$nws_acc  = $main_xml->readSection('news', 'access');
+						$checkDate = $main_xml->readSection('news', 'date');
 						
 						
 						if(substr(substr($date, 4, 2), 0, 1) == '0'){ $ccMonth = substr(substr($date, 4, 2), 1, 1); }
@@ -1071,9 +1111,9 @@ if($action == 'archive' && (isset($cat) || isset($date) || isset($day))){
 						*/
 						$main_xml = new xmlparser($tcms_administer_site.'/tcms_news/'.$cvalue,'r');
 						
-						$is_pub = $main_xml->read_section('news', 'published');
-						$nws_acc  = $main_xml->read_section('news', 'access');
-						$checkDate = $main_xml->read_section('news', 'date');
+						$is_pub = $main_xml->readSection('news', 'published');
+						$nws_acc  = $main_xml->readSection('news', 'access');
+						$checkDate = $main_xml->readSection('news', 'date');
 						
 						
 						if(strlen(substr($date, 6, 2)) == '0') {
@@ -1104,9 +1144,9 @@ if($action == 'archive' && (isset($cat) || isset($date) || isset($day))){
 						and the access
 					*/
 					$main_xml = new xmlparser($tcms_administer_site.'/tcms_news/'.$cvalue,'r');
-					$is_pub = $main_xml->read_section('news', 'published');
-					$nws_acc  = $main_xml->read_section('news', 'access');
-					$checkCat = $main_xml->read_section('news', 'category');
+					$is_pub = $main_xml->readSection('news', 'published');
+					$nws_acc  = $main_xml->readSection('news', 'access');
+					$checkCat = $main_xml->readSection('news', 'category');
 					$arrCat = explode('{###}', $checkCat);
 					
 					if(in_array($cat, $arrCat)){
@@ -1143,18 +1183,18 @@ if($action == 'archive' && (isset($cat) || isset($date) || isset($day))){
 				
 				
 				if($is_pub == 1 && $show_this_news == true && $isCorrect == true){
-					$is_date  = $main_xml->read_section('news', 'publish_date');
+					$is_date  = $main_xml->readSection('news', 'publish_date');
 					$is_date = mktime(substr($is_date, 11, 2), substr($is_date, 14, 2), 0, substr($is_date, 3, 2), substr($is_date, 0, 2), substr($is_date, 6, 4));
 					
 					if($is_date < time()){
-						$arr_newsItems['title'][$cZ] = $main_xml->read_section('news', 'title');
-						$arr_newsItems['news'][$cZ]  = $main_xml->read_section('news', 'newstext');
-						$arr_newsItems['date'][$cZ]  = $main_xml->read_section('news', 'date');
-						$arr_newsItems['time'][$cZ]  = $main_xml->read_section('news', 'time');
-						$arr_newsItems['order'][$cZ] = $main_xml->read_section('news', 'order');
-						$arr_newsItems['stamp'][$cZ] = $main_xml->read_section('news', 'stamp');
-						$arr_newsItems['autor'][$cZ] = $main_xml->read_section('news', 'autor');
-						$arr_newsItems['cmt'][$cZ]   = $main_xml->read_section('news', 'comments_enabled');
+						$arr_newsItems['title'][$cZ] = $main_xml->readSection('news', 'title');
+						$arr_newsItems['news'][$cZ]  = $main_xml->readSection('news', 'newstext');
+						$arr_newsItems['date'][$cZ]  = $main_xml->readSection('news', 'date');
+						$arr_newsItems['time'][$cZ]  = $main_xml->readSection('news', 'time');
+						$arr_newsItems['order'][$cZ] = $main_xml->readSection('news', 'order');
+						$arr_newsItems['stamp'][$cZ] = $main_xml->readSection('news', 'stamp');
+						$arr_newsItems['autor'][$cZ] = $main_xml->readSection('news', 'autor');
+						$arr_newsItems['cmt'][$cZ]   = $main_xml->readSection('news', 'comments_enabled');
 						$arr_newsItems['cat'][$cZ]   = $checkCat;
 						
 						if(!$arr_newsItems['title'][$cZ]){ $arr_newsItems['title'][$cZ] = ''; }
@@ -1239,7 +1279,7 @@ if($action == 'archive' && (isset($cat) || isset($date) || isset($day))){
 	
 	
 	
-	if(!empty($arr_newsItems['stamp']) && $arr_newsItems['stamp'] != '' && isset($arr_newsItems['stamp'])){
+	if($tcms_main->isArray($arr_newsItems['stamp'])) {
 		foreach($arr_newsItems['stamp'] as $key => $value){
 			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 			.'id=newsmanager&amp;s='.$s.'&amp;news='.$arr_newsItems['order'][$key]
@@ -1283,21 +1323,53 @@ if($action == 'archive' && (isset($cat) || isset($date) || isset($day))){
 						substr($arr_newsItems['date'][$key], 6, 4)
 					);
 					
-					echo $tcms_blogfeatures->timeSince($timestamp);
+					echo $tcms_blogfeatures->timeSince(
+						$timestamp, 
+						false, 
+						$lang
+					);
 					break;
 				
 				case 2:
 					$month = substr($arr_newsItems['date'][$key], 3, 2);
+					
 					echo substr($arr_newsItems['date'][$key], 0, 2).'. '
 					.$monthName[((
 						substr($month, 0, 1) == 0 ?
 						substr($month, 1, 1) :
 						$month
 					))].' ';
+					
+					/*
 					echo substr($arr_newsItems['date'][$key], 6, 4)
 					.' '.substr($arr_newsItems['time'][$key], 0, 2).':'
 					.substr($arr_newsItems['time'][$key], 3, 2).'h';
-					echo ' '.$tcms_blogfeatures->timeOfDay(substr($arr_newsItems['time'], 0, 2));
+					*/
+					
+					switch(trim($lang)) {
+						case 'en':
+							echo substr($arr_newsItems['time'][$key], 6, 4)
+							.' '.substr($arr_newsItems['time'][$key], 0, 2).':'
+							.substr($arr_newsItems['time'][$key], 3, 2).'h';
+							break;
+						
+						case 'de':
+							echo substr($arr_newsItems['time'][$key], 6, 4)
+							.' '.substr($arr_newsItems['time'][$key], 0, 2).':'
+							.substr($arr_newsItems['time'][$key], 3, 2).' Uhr';
+							break;
+						
+						default:
+							echo substr($arr_newsItems['time'][$key], 6, 4)
+							.' '.substr($arr_newsItems['time'][$key], 0, 2).':'
+							.substr($arr_newsItems['time'][$key], 3, 2).'h';
+							break;
+					}
+					
+					echo ', '.$tcms_blogfeatures->timeOfDay(
+						substr($arr_newsItems['time'], 0, 2), 
+						$lang
+					);
 					break;
 				
 				default:
@@ -1356,7 +1428,7 @@ if($action == 'archive' && (isset($cat) || isset($date) || isset($day))){
 								$catXML = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$catVal.'.xml','r');
 								
 								$catLink['link'][$count] = $catVal;
-								$catLink['name'][$count] = $catXML->read_section('cat', 'name');
+								$catLink['name'][$count] = $catXML->readSection('cat', 'name');
 								
 								$catLink['name'][$count] = $tcms_main->decodeText($catLink['name'][$count], '2', $c_charset);
 								
@@ -1367,7 +1439,7 @@ if($action == 'archive' && (isset($cat) || isset($date) || isset($day))){
 					else{
 						$catXML = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$arr_newsItems['cat'][$key].'.xml','r');
 						
-						$catLink['name'][0] = $catXML->read_section('cat', 'name');
+						$catLink['name'][0] = $catXML->readSection('cat', 'name');
 						
 						$catLink['name'][0] = $tcms_main->decodeText($catLink['name'][0], '2', $c_charset);
 						
@@ -1377,7 +1449,7 @@ if($action == 'archive' && (isset($cat) || isset($date) || isset($day))){
 				else{
 					$catXML = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$defaultCat.'.xml','r');
 					
-					$catLink['name'][0] = $catXML->read_section('cat', 'name');
+					$catLink['name'][0] = $catXML->readSection('cat', 'name');
 					
 					$catLink['name'][0] = $tcms_main->decodeText($catLink['name'][0], '2', $c_charset);
 					
@@ -1736,7 +1808,7 @@ if($action == 'archive' && (isset($cat) || isset($date) || isset($day))){
 	foreach($arr_cat_files as $Ckey => $Cvalue){
 	$cat_xml = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$Cvalue,'r');
 	
-	$this_cat_name = $cat_xml->read_section('cat', 'name');
+	$this_cat_name = $cat_xml->readSection('cat', 'name');
 	$this_cat_uid = substr($Cvalue, 0, 5);
 	
 	$this_cat_name = $tcms_main->decodeText($this_cat_name, '2', $c_charset);
@@ -1744,13 +1816,13 @@ if($action == 'archive' && (isset($cat) || isset($date) || isset($day))){
 	
 	foreach($arr_news as $key => $value){
 	$main_xml = new xmlparser($tcms_administer_site.'/tcms_news/'.$value,'r');
-	$checkCat = $main_xml->read_section('news', 'category');
+	$checkCat = $main_xml->readSection('news', 'category');
 	$arrCat = explode('{###}', $checkCat);
 	
 	if(in_array($this_cat_uid, $arrCat)){
-	$is_pub   = $main_xml->read_section('news', 'published');
-	$is_date  = $main_xml->read_section('news', 'publish_date');
-	$nws_acc  = $main_xml->read_section('news', 'access');
+	$is_pub   = $main_xml->readSection('news', 'published');
+	$is_date  = $main_xml->readSection('news', 'publish_date');
+	$nws_acc  = $main_xml->readSection('news', 'access');
 	
 	if($nws_acc == 'Public'){ $show_this_news = true; }
 	elseif($nws_acc == 'Protected'){
@@ -1767,11 +1839,11 @@ if($action == 'archive' && (isset($cat) || isset($date) || isset($day))){
 	
 	if($is_pub == 1 && $is_date < time()){
 	$arr_newsItems['categ'][$count] = $this_cat_name;
-	$arr_newsItems['title'][$count] = $main_xml->read_section('news', 'title');
-	$arr_newsItems['date'][$count]  = $main_xml->read_section('news', 'date');
-	$arr_newsItems['time'][$count]  = $main_xml->read_section('news', 'time');
-	$arr_newsItems['order'][$count] = $main_xml->read_section('news', 'order');
-	$arr_newsItems['stamp'][$count] = $main_xml->read_section('news', 'stamp');
+	$arr_newsItems['title'][$count] = $main_xml->readSection('news', 'title');
+	$arr_newsItems['date'][$count]  = $main_xml->readSection('news', 'date');
+	$arr_newsItems['time'][$count]  = $main_xml->readSection('news', 'time');
+	$arr_newsItems['order'][$count] = $main_xml->readSection('news', 'order');
+	$arr_newsItems['stamp'][$count] = $main_xml->readSection('news', 'stamp');
 	
 	if(!$arr_newsItems['title'][$count]){ $arr_newsItems['title'][$count] = ''; }
 	if(!$arr_newsItems['date'][$count]) { $arr_newsItems['date'][$count]  = ''; }

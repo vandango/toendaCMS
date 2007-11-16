@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic public functions.
  *
- * @version 2.7.3
+ * @version 2.7.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -66,6 +66,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getClearPrice                     -> Get the clear (netto) price
  * getTaxPriceFromClearPrice         -> Get the tax price from a clear price
  * setPHPSetting                     -> Set a PHP setting
+ * getUploadMaxSizeInBytes           -> Get the maximal uplaod size of a file applicated in the php.ini file
+ * getPostMaxSizeInBytes             -> Get the maximal post size of a file applicated in the php.ini file
  * isElementInArray                  -> Check if a element in in a array
  * isArray                           -> Check if a array is realy a array
  * isImage                           -> Check if a file type is a image file
@@ -492,6 +494,54 @@ class tcms_main {
 			$r = (ini_get($value) == '1' || ini_get($value) == 'on' ? true : false);
 			return $r;
 		}
+	}
+	
+	
+	
+	/**
+	 * Get the maximal uplaod size of a file applicated in the php.ini file
+	 *
+	 * @return Integer
+	 */
+	public function getUploadMaxSizeInBytes() {
+		$upload_max_filesize = ini_get('upload_max_filesize');
+		$result = 0;
+		
+		if(preg_match('/g/i', strtolower($upload_max_filesize))) {
+			$result = (($upload_max_filesize * 1024) * 1024) * 1024;
+		}
+		else if(preg_match('/m/i', strtolower($upload_max_filesize))) {
+			$result = ($upload_max_filesize * 1024) * 1024;
+		}
+		else if(preg_match('/k/i', strtolower($upload_max_filesize))) {
+			$result = $upload_max_filesize * 1024;
+		}
+		
+		return $result;
+	}
+	
+	
+	
+	/**
+	 * Get the maximal post size of a file applicated in the php.ini file
+	 *
+	 * @return Integer
+	 */
+	public function getPostMaxSizeInBytes() {
+		$upload_max_filesize = ini_get('post_max_size');
+		$result = 0;
+		
+		if(preg_match('/g/i', strtolower($upload_max_filesize))) {
+			$result = (($upload_max_filesize * 1024) * 1024) * 1024;
+		}
+		else if(preg_match('/m/i', strtolower($upload_max_filesize))) {
+			$result = ($upload_max_filesize * 1024) * 1024;
+		}
+		else if(preg_match('/k/i', strtolower($upload_max_filesize))) {
+			$result = $upload_max_filesize * 1024;
+		}
+		
+		return $result;
 	}
 	
 	

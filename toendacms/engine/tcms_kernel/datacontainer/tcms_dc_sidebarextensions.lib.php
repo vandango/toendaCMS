@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * sidebar extension settings.
  *
- * @version 0.0.3
+ * @version 0.0.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -35,6 +35,8 @@ class tcms_dc_sidebarextensions {
 	private $m_id;
 	private $m_lang;
 	private $m_sidemenu_title;
+	private $m_show_chooser_title;
+	private $m_chooser_title;
 	
 	/**
 	 * PHP5 Constructor
@@ -51,12 +53,12 @@ class tcms_dc_sidebarextensions {
 		$this->__construct();
 	}
 	
-	/***
+	/**
 	 * Set the id
 	 * 
 	 * @param String $value
 	 * @return String
-	*/
+	 */
 	function setID($value){
 		$this->m_id = $value;
 	}
@@ -106,6 +108,44 @@ class tcms_dc_sidebarextensions {
 	 */
 	function getSidemenuTitle(){
 		return $this->m_sidemenu_title;
+	}
+	
+	/**
+	 * Set the layout chooser title show flag
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	function setShowLayoutChooserTitle($value){
+		$this->m_show_chooser_title = $value;
+	}
+	
+	/**
+	 * Get the layout chooser title show flag
+	 * 
+	 * @return String
+	 */
+	function getShowLayoutChooserTitle(){
+		return ( $this->m_show_chooser_title == 1 ? true : false );
+	}
+	
+	/**
+	 * Set the layout chooser title
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	function setLayoutChooserTitle($value){
+		$this->m_chooser_title = $value;
+	}
+	
+	/**
+	 * Get the layout chooser title
+	 * 
+	 * @return String
+	 */
+	function getLayoutChooserTitle(){
+		return $this->m_chooser_title;
 	}
 }
 

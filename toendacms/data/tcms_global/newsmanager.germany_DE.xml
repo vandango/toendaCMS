@@ -22,7 +22,7 @@
 	<use_syn_title>0</use_syn_title>
 	<def_feed>RSS2.0</def_feed>
 	<use_trackback>0</use_trackback>
-	<use_timesince>2</use_timesince>
+	<use_timesince>0</use_timesince>
 	<readmore_link>0</readmore_link>
 	<news_spacing>20</news_spacing>
 

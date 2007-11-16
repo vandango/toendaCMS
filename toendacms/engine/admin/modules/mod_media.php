@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a media manager.
  *
- * @version 0.4.4
+ * @version 0.4.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -69,10 +69,10 @@ echo '<div class="tcms_tabPage"><br />';
 if(!isset($path)) $path = '';
 
 if($action == 'image') {
-	$arr_dir = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/images/Image/'.$path);
+	$arr_dir = $tcms_file->getPathContent('../../'.$tcms_administer_site.'/images/Image/'.$path);
 }
 else {
-	$arr_dir = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/images/knowledgebase/');
+	$arr_dir = $tcms_file->getPathContent('../../'.$tcms_administer_site.'/images/knowledgebase/');
 }
 
 $maxVal = count($arr_dir);
@@ -120,7 +120,10 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 	.'<select class="tcms_select" name="directory" id="directory">'
 	.'<option value="'.( $path == '' ? '__DEFAULT__' : $path ).'">'.( $path == '' ? _TCMS_BASE_DIRECTORY : $path ).'</option>';
 	
-	$arr_path = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/images/'.( $action == 'image' ? 'Image' : 'knowledgebase' ).'/'.$path, true);
+	$arr_path = $tcms_file->getPathContent(
+		'../../'.$tcms_administer_site.'/images/'.( $action == 'image' ? 'Image' : 'knowledgebase' ).'/'.$path, 
+		true
+	);
 	
 	foreach($arr_path as $fkey => $fvalue){
 		echo '<option value="'.$fvalue.'">'.$fvalue.'</option>';
@@ -243,7 +246,7 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 				$boxImgH = 0;
 				
 				if($tcms_main->isImage($dvalue, false)) {
-					if(file_exists('../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue)) {
+					if($tcms_file->checkFileExist('../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue)) {
 						$tcms_gd->readImageInformation(
 							'../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue
 						);
@@ -293,13 +296,19 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 				
 				
 				if($action == 'image') {
-					if(file_exists('../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue)) {
-						$size = filesize('../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue) / 1024;
+					if($tcms_file->checkFileExist('../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue)) {
+						//$size = filesize('../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue) / 1024;
+						$size = $tcms_file->getFilesize(
+							'../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue
+						) / 1024;
 					}
 				}
 				else {
-					if(file_exists('../../'.$tcms_administer_site.'/images/knowledgebase/'.$dvalue)) {
-						$size = filesize('../../'.$tcms_administer_site.'/images/knowledgebase/'.$dvalue) / 1024;
+					if($tcms_file->checkFileExist('../../'.$tcms_administer_site.'/images/knowledgebase/'.$dvalue)) {
+						//$size = filesize('../../'.$tcms_administer_site.'/images/knowledgebase/'.$dvalue) / 1024;
+						$size = $tcms_file->getFilesize(
+							'../../'.$tcms_administer_site.'/images/knowledgebase/'.$dvalue
+						) / 1024;
 					}
 				}
 				
@@ -339,50 +348,50 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 				
 				$checkType = true;
 				
-				if(preg_match('/.mp3/i', strtolower($dvalue)) && $checkType){
+				if($tcms_file->getMimeType(strtolower($dvalue)) == 'mp3' && $checkType){
 					echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/mp3.png" border="0" />';
 					$checkType = false;
 				}
-				if(preg_match('/.wma/i', strtolower($dvalue)) && $checkType){
+				else if($tcms_file->getMimeType(strtolower($dvalue)) == 'wma' && $checkType){
 					echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/wma.png" border="0" />';
 					$checkType = false;
 				}
-				if(preg_match('/.wav/i', strtolower($dvalue)) && $checkType){
+				else if($tcms_file->getMimeType(strtolower($dvalue)) == 'wav' && $checkType){
 					echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/wav.png" border="0" />';
 					$checkType = false;
 				}
-				if(preg_match('/.ogg/i', strtolower($dvalue)) && $checkType){
+				else if($tcms_file->getMimeType(strtolower($dvalue)) == 'ogg' && $checkType){
 					echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/ogg.png" border="0" />';
 					$checkType = false;
 				}
-				elseif(preg_match('/.avi/i', strtolower($dvalue)) && $checkType){
+				elseif($tcms_file->getMimeType(strtolower($dvalue)) == 'avi' && $checkType){
 					echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/avi.png" border="0" />';
 					$checkType = false;
 				}
-				elseif(preg_match('/.mpeg/i', strtolower($dvalue)) && $checkType){
+				else if($tcms_file->getMimeType(strtolower($dvalue)) == 'mpeg' && $checkType){
 					echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/mpeg.png" border="0" />';
 					$checkType = false;
 				}
-				elseif(preg_match('/.mpg/i', strtolower($dvalue)) && $checkType){
+				else if($tcms_file->getMimeType(strtolower($dvalue)) == 'mpg' && $checkType){
 					echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/mpeg.png" border="0" />';
 					$checkType = false;
 				}
-				elseif(preg_match('/.wmv/i', strtolower($dvalue)) && $checkType){
+				else if($tcms_file->getMimeType(strtolower($dvalue)) == 'wmv' && $checkType){
 					echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/wmv.png" border="0" />';
 					$checkType = false;
 				}
-				elseif(preg_match('/.swf/i', strtolower($dvalue)) && $checkType){
+				else if($tcms_file->getMimeType(strtolower($dvalue)) == 'swf' && $checkType){
 					echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;"'
 					.' src="../images/mimetypes/swf.png" border="0" />';
 					$checkType = false;
 				}
-				elseif(preg_match('/.cab/i', strtolower($dvalue)) && $checkType){
+				else if($tcms_file->getMimeType(strtolower($dvalue)) == 'cab' && $checkType){
 					echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;"'
 					.' src="../images/mimetypes/cab.png" border="0" />';
 					$checkType = false;
 				}
-				elseif($checkType){
-					if(file_exists('../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue)) {
+				else if($checkType){
+					if($tcms_file->checkFileExist('../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue)) {
 						echo '<img'.(
 							$img_o_height > $img_o_width
 							? ( $img_o_height > 100 ? ' height="100"' : '' )
@@ -420,7 +429,7 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 	}
 	
 	echo '</td></tr>';
-	echo tcms_html::table_end();
+	echo $tcms_html->tableEnd();
 }
 
 
@@ -440,23 +449,32 @@ if($todo == 'upload'){
 	$tcms_main->isAudio($_FILES['event']['type']) ||
 	$tcms_main->isVideo($_FILES['event']['type']) ||
 	$tcms_main->isMultimedia($_FILES['event']['type']))){
-		$fileName = $_FILES['event']['name'];
-		
-		$fileName = $tcms_main->cleanFilename($fileName);
-		
-		if($action == 'image')
-			$imgDir = '../../'.$tcms_administer_site.'/images/Image/';
-		else
-			$imgDir = '../../'.$tcms_administer_site.'/images/knowledgebase/';
-		
-		if($directory != '__DEFAULT__')
-			$imgDir .= $directory.'/';
-		
-		copy($_FILES['event']['tmp_name'], $imgDir.$fileName);
-		
-		$msg = _MSG_UPLOAD.' '.$imgDir.$_FILES['event']['name'];
+		if($_FILES['event']['size'] <= $upload_max_filesize
+		&& $_FILES['event']['size'] <= $post_max_size) {
+			$fileName = $_FILES['event']['name'];
+			
+			$fileName = $tcms_main->cleanFilename($fileName);
+			
+			if($action == 'image') {
+				$imgDir = '../../'.$tcms_administer_site.'/images/Image/';
+			}
+			else {
+				$imgDir = '../../'.$tcms_administer_site.'/images/knowledgebase/';
+			}
+			
+			if($directory != '__DEFAULT__') {
+				$imgDir .= $directory.'/';
+			}
+			
+			copy($_FILES['event']['tmp_name'], $imgDir.$fileName);
+			
+			$msg = _MSG_UPLOAD.' '.$imgDir.$_FILES['event']['name'];
+		}
+		else {
+			$msg = _MSG_NOUPLOAD_PHP;
+		}
 	}
-	else{
+	else {
 		$msg = _MSG_NOUPLOAD;
 	}
 	

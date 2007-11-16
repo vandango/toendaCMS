@@ -25,7 +25,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Adapted from original code by Natalie Downe: 
  * http://blog.natbat.co.uk/archive/2003/Jun/14/time_since
  *
- * @version 0.1.2
+ * @version 0.1.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -91,19 +91,46 @@ class tcms_blogfeatures {
 	 * 
 	 * @param String $older_date
 	 * @param Boolean $newer_date
+	 * @param String $lang = 'en'
 	 * @return String
 	 */
-	function timeSince($older_date, $newer_date = false){
+	function timeSince($older_date, $newer_date = false, $lang = 'en'){
 		global $tcms_main;
 		
-		$chunks = array(
-			array(60 * 60 * 24 * 365 , 'year'),
-			array(60 * 60 * 24 * 30 , 'month'),
-			array(60 * 60 * 24 * 7, 'week'),
-			array(60 * 60 * 24 , 'day'),
-			array(60 * 60 , 'hour'),
-			array(60 , 'minute'),
-		);
+		switch(trim($lang)) {
+			case 'en':
+				$chunks = array(
+					array(60 * 60 * 24 * 365 , 'year'),
+					array(60 * 60 * 24 * 30 , 'month'),
+					array(60 * 60 * 24 * 7, 'week'),
+					array(60 * 60 * 24 , 'day'),
+					array(60 * 60 , 'hour'),
+					array(60 , 'minute'),
+				);
+				break;
+			
+			case 'de':
+				$chunks = array(
+					array(60 * 60 * 24 * 365 , 'Jahr'),
+					array(60 * 60 * 24 * 30 , 'Monat'),
+					array(60 * 60 * 24 * 7, 'Woche'),
+					array(60 * 60 * 24 , 'Tag'),
+					array(60 * 60 , 'Stunde'),
+					array(60 , 'Minute'),
+				);
+				break;
+			
+			default:
+				$chunks = array(
+					array(60 * 60 * 24 * 365 , 'year'),
+					array(60 * 60 * 24 * 30 , 'month'),
+					array(60 * 60 * 24 * 7, 'week'),
+					array(60 * 60 * 24 , 'day'),
+					array(60 * 60 , 'hour'),
+					array(60 , 'minute'),
+				);
+				break;
+		}
 		
 		$newer_date = ( 
 			$newer_date == false 
@@ -125,7 +152,19 @@ class tcms_blogfeatures {
 		}
 		
 		// set output var
-		$output = ($count == 1) ? '1 '.$name : "$count {$name}s";
+		switch(trim($lang)) {
+			case 'en':
+				$output = ($count == 1) ? '1 '.$name : "$count {$name}s";
+				break;
+			
+			case 'de':
+				$output = ($count == 1) ? '1 '.$name : "$count {$name}e";
+				break;
+			
+			default:
+				$output = ($count == 1) ? '1 '.$name : "$count {$name}s";
+				break;
+		}
 	
 		// step two: the second chunk
 		if ($i + 1 < $j) {
@@ -134,11 +173,38 @@ class tcms_blogfeatures {
 			
 			if(($count2 = floor(($since - ($seconds * $count)) / $seconds2)) != 0) {
 				// add to output var
-				$output .= ($count2 == 1) ? ', 1 '.$name2 : ", $count2 {$name2}s";
+				switch(trim($lang)) {
+					case 'en':
+						$output .= ($count2 == 1) ? ', 1 '.$name2 : ", $count2 {$name2}s";
+						break;
+					
+					case 'de':
+						$output .= ($count2 == 1) ? ', 1 '.$name2 : ", $count2 {$name2}e";
+						break;
+					
+					default:
+						$output .= ($count2 == 1) ? ', 1 '.$name2 : ", $count2 {$name2}s";
+						break;
+				}
 			}
 		}
 		
-		return $output.' ago';
+		switch(trim($lang)) {
+			case 'en':
+				$output.' ago';
+				break;
+			
+			case 'de':
+				$output = str_replace('Stundee', 'Stunden', $output);
+				$output.' her';
+				break;
+			
+			default:
+				$output.' ago';
+				break;
+		}
+		
+		return $output;
 	}
 	
 	
@@ -168,7 +234,7 @@ class tcms_blogfeatures {
 			case 06:
 				switch(trim($lang)) {
 					case 'en': $tod = 'terribly early in the morning'; break;
-					case 'de': $tod = 'sehr früh am morgen'; break;
+					case 'de': $tod = 'sehr früher morgen'; break;
 					default: $tod = 'terribly early in the morning'; break;
 				}
 				break;
@@ -176,51 +242,95 @@ class tcms_blogfeatures {
 			case 07:
 			case 08:
 			case 09:
-				$tod = 'early morning';
+				switch(trim($lang)) {
+					case 'en': $tod = 'early morning'; break;
+					case 'de': $tod = 'früher morgen'; break;
+					default: $tod = 'early morning'; break;
+				}
 				break;
 			
 			case 10:
-				$tod = 'mid-morning';
+				switch(trim($lang)) {
+					case 'en': $tod = 'mid-morning'; break;
+					case 'de': $tod = 'morgens'; break;
+					default: $tod = 'mid-morning'; break;
+				}
 				break;
 			
 			case 11:
-				$tod = 'late morning';
+				switch(trim($lang)) {
+					case 'en': $tod = 'late morning'; break;
+					case 'de': $tod = 'vormittags'; break;
+					default: $tod = 'late morning'; break;
+				}
 				break;
 			
 			case 12:
 			case 13:
-				$tod = 'lunch time';
+				switch(trim($lang)) {
+					case 'en': $tod = 'lunch time'; break;
+					case 'de': $tod = 'Mittagszeit'; break;
+					default: $tod = 'lunch time'; break;
+				}
 				break;
 			
 			case 14:
-				$tod = 'early afternoon';
+				switch(trim($lang)) {
+					case 'en': $tod = 'early afternoon'; break;
+					case 'de': $tod = 'früher nachmittag'; break;
+					default: $tod = 'early afternoon'; break;
+				}
 				break;
 			
 			case 15:
 			case 16:
-				$tod = 'mid-afternoon';
+				switch(trim($lang)) {
+					case 'en': $tod = 'mid-afternoon'; break;
+					case 'de': $tod = 'nachmittags'; break;
+					default: $tod = 'mid-afternoon'; break;
+				}
 				break;
 			
 			case 17:
-				$tod = 'late afternoon';
+				switch(trim($lang)) {
+					case 'en': $tod = 'late afternoon'; break;
+					case 'de': $tod = 'später nachmittag'; break;
+					default: $tod = 'late afternoon'; break;
+				}
 				break;
 			
 			case 18:
 			case 19:
-				$tod = 'early evening';
+				switch(trim($lang)) {
+					case 'en': $tod = 'early evening'; break;
+					case 'de': $tod = 'früher abend'; break;
+					default: $tod = 'early evening'; break;
+				}
 				break;
 			
 			case 20:
 			case 21:
-				$tod = 'evening time';
+				switch(trim($lang)) {
+					case 'en': $tod = 'evening time'; break;
+					case 'de': $tod = 'abends'; break;
+					default: $tod = 'evening time'; break;
+				}
 				break;
 			
 			case 22:
-				$tod = 'late evening';
+				switch(trim($lang)) {
+					case 'en': $tod = 'late evening'; break;
+					case 'de': $tod = 'später abend'; break;
+					default: $tod = 'late evening'; break;
+				}
 				break;
 			
 			case 23:
-				$tod = 'late at night';
+				switch(trim($lang)) {
+					case 'en': $tod = 'late at night'; break;
+					case 'de': $tod = 'spät in der nacht'; break;
+					default: $tod = 'late at night'; break;
+				}
 				break;
 			
 			default:

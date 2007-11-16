@@ -37,6 +37,9 @@
 * ADD THIS
 *
 
+if(!defined('_MSG_MAX_POST_SIZE'))             define('_MSG_MAX_POST_SIZE', 'Max POST-size');
+
+if(!defined('_MSG_NOUPLOAD_PHP'))              define('_MSG_NOUPLOAD_PHP', 'The file cant be upload. Either the upload_max_size or the post_max_size INI setting is to small.');
 if(!defined('_MSG_ACTIVATE_NEW_PW_FIRST'))     define('_MSG_ACTIVATE_NEW_PW_FIRST', 'You must activate your new password by clicking the following link:');
 if(!defined('_MSG_SUCCESSFULL_RETRIEVED'))     define('_MSG_SUCCESSFULL_RETRIEVED', 'You have successfully retrieved a new password.');
 if(!defined('_MSG_ERROR_ON_RETRIEVING'))       define('_MSG_ERROR_ON_RETRIEVING', 'Error on validating a new password!');

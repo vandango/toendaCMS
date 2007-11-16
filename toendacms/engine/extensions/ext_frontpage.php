@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides a frontpage with news and a text.
  *
- * @version 1.4.4
+ * @version 1.5.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -172,7 +172,11 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 							substr($dcNews->GetDate(), 6, 4)
 						);
 						
-						echo $tcms_blogfeatures->timeSince($timestamp);
+						echo $tcms_blogfeatures->timeSince(
+							$timestamp, 
+							false, 
+							$lang
+						);
 						break;
 					
 					case 2:
@@ -185,11 +189,27 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 							$month
 						))].' ';
 						
-						echo substr($dcNews->GetDate(), 6, 4)
-						.' '.substr($dcNews->GetTime(), 0, 2).':'
-						.substr($dcNews->GetTime(), 3, 2).'h';
+						switch(trim($lang)) {
+							case 'en':
+								echo substr($dcNews->GetDate(), 6, 4)
+								.' '.substr($dcNews->GetTime(), 0, 2).':'
+								.substr($dcNews->GetTime(), 3, 2).'h';
+								break;
+							
+							case 'de':
+								echo substr($dcNews->GetDate(), 6, 4)
+								.' '.substr($dcNews->GetTime(), 0, 2).':'
+								.substr($dcNews->GetTime(), 3, 2).' Uhr';
+								break;
+							
+							default:
+								echo substr($dcNews->GetDate(), 6, 4)
+								.' '.substr($dcNews->GetTime(), 0, 2).':'
+								.substr($dcNews->GetTime(), 3, 2).'h';
+								break;
+						}
 						
-						echo ' '.$tcms_blogfeatures->timeOfDay(
+						echo ', '.$tcms_blogfeatures->timeOfDay(
 							substr($dcNews->GetTime(), 0, 2), 
 							$lang
 						);
