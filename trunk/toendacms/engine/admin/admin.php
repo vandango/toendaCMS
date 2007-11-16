@@ -21,7 +21,7 @@
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 1.2.1
+ * @version 1.2.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -203,6 +203,9 @@ if($tcms_file->checkFileExist($tcms_administer_path.'/tcms_global/var.xml')){
 	if($param_save_mode) {
 		$set_save_mode = $tcms_main->setPHPSetting('safe_mode', 'off');
 	}
+	
+	$upload_max_filesize = $tcms_main->getUploadMaxSizeInBytes();
+	$post_max_size = $tcms_main->getPostMaxSizeInBytes();
 	
 	
 	

@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * the imagegallery.
  *
- * @version 0.0.3
+ * @version 0.0.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -55,14 +55,14 @@ class tcms_dc_imagegallery {
 	 * PHP5 Constructor
 	 *
 	 */
-	function __construct() {
+	public function __construct() {
 	}
 	
 	/**
 	 * PHP4 Constructor
 	 *
 	 */
-	function tcms_dc_imagegallery(){
+	public function tcms_dc_imagegallery(){
 		$this->__construct();
 	}
 	
@@ -76,7 +76,7 @@ class tcms_dc_imagegallery {
 	 * @param String $value
 	 * @return String
 	 */
-	function setID($value){
+	public function setID($value){
 		$this->m_uid = $value;
 	}
 	
@@ -85,7 +85,7 @@ class tcms_dc_imagegallery {
 	 * 
 	 * @return String
 	 */
-	function getID(){
+	public function getID(){
 		return $this->m_uid;
 	}
 	
@@ -95,7 +95,7 @@ class tcms_dc_imagegallery {
 	 * @param String $value
 	 * @return String
 	 */
-	function setLanguage($value){
+	public function setLanguage($value){
 		$this->m_lang = $value;
 	}
 	
@@ -104,7 +104,7 @@ class tcms_dc_imagegallery {
 	 * 
 	 * @return String
 	 */
-	function getLanguage(){
+	public function getLanguage(){
 		return $this->m_lang;
 	}
 	
@@ -114,7 +114,7 @@ class tcms_dc_imagegallery {
 	 * @param String $value
 	 * @return String
 	*/
-	function setTitle($value){
+	public function setTitle($value){
 		$this->m_title = $value;
 	}
 	
@@ -123,7 +123,7 @@ class tcms_dc_imagegallery {
 	 * 
 	 * @return String
 	 */
-	function getTitle(){
+	public function getTitle(){
 		return $this->m_title;
 	}
 	
@@ -132,7 +132,7 @@ class tcms_dc_imagegallery {
 	 * 
 	 * @param String $value
 	 */
-	function setSubtitle($value){
+	public function setSubtitle($value){
 		$this->m_key = $value;
 	}
 	
@@ -141,7 +141,7 @@ class tcms_dc_imagegallery {
 	 * 
 	 * @return String
 	 */
-	function getSubtitle(){
+	public function getSubtitle(){
 		return $this->m_key;
 	}
 	
@@ -150,7 +150,7 @@ class tcms_dc_imagegallery {
 	 * 
 	 * @param String $value
 	 */
-	function setUseImageDetails($value){
+	public function setUseImageDetails($value){
 		$this->m_use_details = $value;
 	}
 	
@@ -159,7 +159,7 @@ class tcms_dc_imagegallery {
 	 * 
 	 * @return String
 	 */
-	function getUseImageDetails(){
+	public function getUseImageDetails(){
 		return $this->m_use_details;
 	}
 	
@@ -168,7 +168,7 @@ class tcms_dc_imagegallery {
 	 * 
 	 * @param String $value
 	 */
-	function setImageSort($value){
+	public function setImageSort($value){
 		$this->m_image_sort = $value;
 	}
 	
@@ -177,7 +177,7 @@ class tcms_dc_imagegallery {
 	 * 
 	 * @return String
 	 */
-	function getImageSort(){
+	public function getImageSort(){
 		return $this->m_image_sort;
 	}
 	
@@ -186,7 +186,7 @@ class tcms_dc_imagegallery {
 	 * 
 	 * @param String $value
 	 */
-	function setUseComments($value){
+	public function setUseComments($value){
 		$this->m_use_comments = $value;
 	}
 	
@@ -195,7 +195,7 @@ class tcms_dc_imagegallery {
 	 * 
 	 * @return String
 	 */
-	function getUseComments(){
+	public function getUseComments(){
 		return $this->m_use_comments;
 	}
 	
@@ -204,7 +204,7 @@ class tcms_dc_imagegallery {
 	 * 
 	 * @param String $value
 	 */
-	function setAccess($value){
+	public function setAccess($value){
 		$this->m_access = $value;
 	}
 	
@@ -213,7 +213,7 @@ class tcms_dc_imagegallery {
 	 * 
 	 * @return String
 	 */
-	function getAccess(){
+	public function getAccess(){
 		return $this->m_access;
 	}
 	
@@ -222,7 +222,7 @@ class tcms_dc_imagegallery {
 	 * 
 	 * @param String $value
 	 */
-	function setListOption($value){
+	public function setListOption($value){
 		$this->m_list_option = $value;
 	}
 	
@@ -231,7 +231,7 @@ class tcms_dc_imagegallery {
 	 * 
 	 * @return String
 	 */
-	function getListOption(){
+	public function getListOption(){
 		return $this->m_list_option;
 	}
 	
@@ -240,7 +240,7 @@ class tcms_dc_imagegallery {
 	 * 
 	 * @param String $value
 	 */
-	function setMaxImages($value){
+	public function setMaxImages($value){
 		$this->m_max_image = $value;
 	}
 	
@@ -249,7 +249,7 @@ class tcms_dc_imagegallery {
 	 * 
 	 * @return String
 	 */
-	function getMaxImages(){
+	public function getMaxImages(){
 		return $this->m_max_image;
 	}
 	
@@ -258,7 +258,7 @@ class tcms_dc_imagegallery {
 	 * 
 	 * @param String $value
 	 */
-	function setNeedleImage($value){
+	public function setNeedleImage($value){
 		$this->m_needle_image = $value;
 	}
 	
@@ -267,7 +267,7 @@ class tcms_dc_imagegallery {
 	 * 
 	 * @return String
 	 */
-	function getNeedleImage(){
+	public function getNeedleImage(){
 		return $this->m_needle_image;
 	}
 	
@@ -276,7 +276,7 @@ class tcms_dc_imagegallery {
 	 * 
 	 * @param String $value
 	 */
-	function setShowLastImageTitle($value){
+	public function setShowLastImageTitle($value){
 		$this->m_show_lastimg_title = $value;
 	}
 	
@@ -285,8 +285,8 @@ class tcms_dc_imagegallery {
 	 * 
 	 * @return String
 	 */
-	function getShowLastImageTitle(){
-		return $this->m_show_lastimg_title;
+	public function getShowLastImageTitle(){
+		return ( $this->m_show_lastimg_title == 1 ? true : false );
 	}
 	
 	/**
@@ -294,7 +294,7 @@ class tcms_dc_imagegallery {
 	 * 
 	 * @param String $value
 	 */
-	function setImageAlignment($value){
+	public function setImageAlignment($value){
 		$this->m_align_image = $value;
 	}
 	
@@ -303,7 +303,7 @@ class tcms_dc_imagegallery {
 	 * 
 	 * @return String
 	 */
-	function getImageAlignment(){
+	public function getImageAlignment(){
 		return $this->m_align_image;
 	}
 	
@@ -312,7 +312,7 @@ class tcms_dc_imagegallery {
 	 * 
 	 * @param String $value
 	 */
-	function setImageSize($value){
+	public function setImageSize($value){
 		$this->m_size_image = $value;
 	}
 	
@@ -321,7 +321,7 @@ class tcms_dc_imagegallery {
 	 * 
 	 * @return String
 	 */
-	function getImageSize(){
+	public function getImageSize(){
 		return $this->m_size_image;
 	}
 }

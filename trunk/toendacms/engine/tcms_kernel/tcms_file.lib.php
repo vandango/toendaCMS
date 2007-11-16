@@ -22,9 +22,9 @@ defined('_TCMS_VALID') or die('Restricted access');
  * toendaCMS File Handling
  *
  * This class is used to provide all file and directory
- * related methods und functions.
+ * related methods und public functions.
  *
- * @version 0.3.5
+ * @version 0.4.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -57,6 +57,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * delete                            -> Close and delete the active file
  * deleteCustom                      -> Delete a custom file
  * getFilesize                       -> Get the size of a file in bytes
+ * checkIsDir                        -> Checks if a value is a directory
+ * checkIsFile                       -> Checks if a value is a file
  * checkDirExist                     -> Checks if a directory exist
  * checkFileExist                    -> Checks if a file exist
  * createDir                         -> Create a directory
@@ -70,7 +72,10 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getPathContent                    -> Return a array of all files or folders inside a path
  * getPathContentCSSFilesRecursivly  -> Return a array with the files in "path"
  * getXMLFiles                       -> Return a array of all xml files inside a path
+ * getFileExtension                  -> Get the file extension of an filename
  * getMimeType                       -> Get the mimetype of a filename
+ * getFileMimetype                   -> Get the mimetype of a file
+ * getFileType                       -> Get the type of a file
  * deleteDir                         -> Remove dir with all files and directorys inside
  * deleteDirContent                  -> Remove all files and directorys inside a directory
  * deleteFile                        -> Delete a file (if it exist)
@@ -93,7 +98,7 @@ class tcms_file {
 	 * @param String $openFile
 	 * @param String $openMode
 	 */
-	function __construct($openFile = '', $openMode = '') {
+	public function __construct($openFile = '', $openMode = '') {
 		if(trim($openFile) != ''
 		&& trim($openMode) != '') {
 			$this->m_file = $openFile;
@@ -111,7 +116,7 @@ class tcms_file {
 	 * @param String $openFile
 	 * @param String $openMode
 	 */
-	function tcms_file($openFile = '', $openMode = '') {
+	public function tcms_file($openFile = '', $openMode = '') {
 		$this->__construct($openFile, $openMode);
 	}
 	
@@ -120,7 +125,7 @@ class tcms_file {
 	/**
 	 * PHP5 Destructor
 	 */
-	function __destruct() {
+	public function __destruct() {
 	}
 	
 	
@@ -128,7 +133,7 @@ class tcms_file {
 	/**
 	 * PHP4 Destructor
 	 */
-	function _tcms_file() {
+	public function _tcms_file() {
 		$this->__destruct();
 	}
 	
@@ -152,7 +157,7 @@ class tcms_file {
 	 * @param String $openFile
 	 * @param String $openMode
 	 */
-	function open($openFile, $openMode) {
+	public function open($openFile, $openMode) {
 		if(trim($openFile) != ''
 		&& trim($openMode) != '') {
 			$this->m_file = $openFile;
@@ -167,7 +172,7 @@ class tcms_file {
 	/**
 	 * Close the active file
 	 */
-	function close() {
+	public function close() {
 		fclose($this->m_fp);
 	}
 	
@@ -178,7 +183,7 @@ class tcms_file {
 	 * 
 	 * @return Boolean
 	 */
-	function isEOF() {
+	public function isEOF() {
 		return feof($this->m_fp);
 	}
 	
@@ -189,7 +194,7 @@ class tcms_file {
 	 * 
 	 * @return String
 	 */
-	function read() {
+	public function read() {
 		return fread($this->m_fp, filesize($this->m_file));
 	}
 	
@@ -200,7 +205,7 @@ class tcms_file {
 	 * 
 	 * @return String
 	 */
-	function readLine() {
+	public function readLine() {
 		return fgets($this->m_fp);
 	}
 	
@@ -211,7 +216,7 @@ class tcms_file {
 	 * 
 	 * @param String $content
 	 */
-	function write($content) {
+	public function write($content) {
 		fwrite($this->m_fp, $content);
 	}
 	
@@ -220,7 +225,7 @@ class tcms_file {
 	/**
 	 * Backup the active file
 	 */
-	function backup() {
+	public function backup() {
 		/*copy(
 			$this->m_file, 
 			$this->m_file.'.bak'
@@ -247,7 +252,7 @@ class tcms_file {
 	 * @param String $openFile
 	 * @param String $openMode
 	*/
-	function changeFile($openFile, $openMode) {
+	public function changeFile($openFile, $openMode) {
 		fclose($this->m_fp);
 		
 		$this->m_file = $openFile;
@@ -261,7 +266,7 @@ class tcms_file {
 	/**
 	 * Close and delete the active file
 	 */
-	function delete() {
+	public function delete() {
 		$this->fileClose();
 		unlink($this->m_fp);
 	}
@@ -273,7 +278,7 @@ class tcms_file {
 	 * 
 	 * @param String $file
 	 */
-	function deleteCustom($file) {
+	public function deleteCustom($file) {
 		unlink($file);
 	}
 	
@@ -285,8 +290,42 @@ class tcms_file {
 	 * @param String $fileWithPath
 	 * @return Integer
 	 */
-	function getFilesize($fileWithPath) {
+	public function getFilesize($fileWithPath) {
 		return filesize($fileWithPath);
+	}
+	
+	
+	
+	/**
+	 * Checks if a value is a directory
+	 *
+	 * @param String $value
+	 * @return Boolean
+	 */
+	public function checkIsDir($value) {
+		if(is_dir($value)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	
+	
+	/**
+	 * Checks if a value is a file
+	 *
+	 * @param String $value
+	 * @return Boolean
+	 */
+	public function checkIsFile($value) {
+		if(is_file($value)) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	
@@ -297,7 +336,7 @@ class tcms_file {
 	 * @param string $directoryWithPath
 	 * @return bool
 	 */
-	function checkDirExist($directoryWithPath) {
+	public function checkDirExist($directoryWithPath) {
 		if(is_writable($directoryWithPath)
 		&& is_dir($directoryWithPath)) {
 			return true;
@@ -315,7 +354,7 @@ class tcms_file {
 	 * @param string $fileWithPath
 	 * @return bool
 	 */
-	function checkFileExist($fileWithPath) {
+	public function checkFileExist($fileWithPath) {
 		if(file_exists($fileWithPath)) {
 			return true;
 		}
@@ -330,9 +369,10 @@ class tcms_file {
 	 * Create a directory
 	 *
 	 * @param String $path
+	 * @param Integer $mode = 0777
 	 */
-	function createDir($path) {
-		mkdir($path, 0777);
+	public function createDir($path, $mode = 0777) {
+		mkdir($path, $mode);
 	}
 	
 	
@@ -342,7 +382,7 @@ class tcms_file {
 	 * 
 	 * @return Boolean
 	 */
-	function isCHMODable($file) {
+	public function isCHMODable($file) {
 		$perms = fileperms($file);
 		
 		if($perms !== false) {
@@ -364,21 +404,21 @@ class tcms_file {
 	 * @param Integer $filemode
 	 * @return Boolean
 	 */
-	function CHMOD($file, $filemode = 0777) {
+	public function CHMOD($file, $filemode = 0777) {
 		return @chmod($file, $filemode);
 	}
 	
 	
 	
 	/**
-	 * --- FUNCTION FROM Joomla! (www.joomla.org) ---<br>Chmods files and directories recursivel to given permissions
+	 * --- public function FROM Joomla! (www.joomla.org) ---<br>Chmods files and directories recursivel to given permissions
 	 * 
 	 * @param String path The starting file or directory (no trailing slash)
 	 * @param Integer filemode Integer value to chmod files. NULL = dont chmod files.
 	 * @param Integer dirmode Integer value to chmod directories. NULL = dont chmod directories.
 	 * @return Boolean TRUE=all succeeded FALSE=one or more chmods failed
 	 */
-	function reCHMOD($path, $filemode = 0777, $dirmode = 1) {
+	public function reCHMOD($path, $filemode = 0777, $dirmode = 1) {
 		$ret = true;
 		
 		if(is_dir($path)) {
@@ -429,7 +469,7 @@ class tcms_file {
 	 * @param Integer $size
 	 * @return Integer
 	 */
-	function getDirectorySize($path, $size = 0) {
+	public function getDirectorySize($path, $size = 0) {
 		if(!is_dir($path)) {
 			$size += filesize($path);
 		}
@@ -456,7 +496,7 @@ class tcms_file {
 	 * @param String $path
 	 * @return String
 	 */
-	function getDirectorySizeString($path) {
+	public function getDirectorySizeString($path) {
 		$size = $this->getDirectorySize($path, 0);
 		
 		$measure = 'Byte';
@@ -488,7 +528,7 @@ class tcms_file {
 	 * 
 	 * @return Array
 	 */
-	function getAllDocuments() {
+	public function getAllDocuments() {
 		$count = 0;
 		
 		$c_charset = $this->_tcmsConfig->getCharset();
@@ -548,7 +588,7 @@ class tcms_file {
 	 * @param String $path
 	 * @return Integer
 	 */
-	function getPathContentAmount($path) {
+	public function getPathContentAmount($path) {
 		$handle = opendir($path);
 		$i = 0;
 		
@@ -579,7 +619,7 @@ class tcms_file {
 	 * @param String $fileType = ''
 	 * @return Array
 	 */
-	function getPathContent($path, $onlyFolders = false, $fileType = '') {
+	public function getPathContent($path, $onlyFolders = false, $fileType = '') {
 		$i = 0;
 		$handle = opendir($path);
 		
@@ -626,7 +666,7 @@ class tcms_file {
 	 * @param Unknown $returnOnlyAmount = false
 	 * @return READ A DIR AND RETURN THE CSS FILES
 	 */
-	function getPathContentCSSFilesRecursivly($path, $returnOnlyAmount = false) {
+	public function getPathContentCSSFilesRecursivly($path, $returnOnlyAmount = false) {
 		$handle = opendir($path);
 		$i = 0;
 		$c = 0;
@@ -695,20 +735,20 @@ class tcms_file {
 	 * @param String $path
 	 * @return Array
 	 */
-	function getXMLFiles($path) {
+	public function getXMLFiles($path) {
 		return $this->getPathContent($path, false, '.xml');
 	}
 	
 	
 	
 	/**
-	 * Get the mimetype of an filename
+	 * Get the file extension of an filename
 	 *
 	 * @param String $filename
 	 * @param Boolean $tolower = false
 	 * @return String
 	 */
-	function getMimeType($filename, $tolower = false) {
+	public function getFileExtension($filename, $tolower = false) {
 		// get the filename from an url
 		if(substr($filename, 0, 7) == 'http://' || substr($filename, 0, 6) == 'ftp://') {
 			$filename = substr(strrchr($filename, "/"), 1);
@@ -744,12 +784,64 @@ class tcms_file {
 	
 	
 	/**
+	 * Get the mimetype of an filename
+	 *
+	 * @param String $filename
+	 * @param Boolean $tolower = false
+	 * @return String
+	 */
+	public function getMimeType($filename, $tolower = false) {
+		return $this->getFileExtension($filename, $tolower);
+	}
+	
+	
+	
+	/**
+	 * Get the mimetype of a file (!!!)
+	 *
+	 * @param String $filename
+	 * @param Boolean $tolower = false
+	 * @return String
+	 */
+	public function getFileMimetype($filename, $tolower = false) {
+		//$tmp = mime_content_type($filename);
+		$tmp = '';
+		
+		if($tolower) {
+			$tmp = strtolower($tmp);
+		}
+		
+		return $tmp;
+	}
+	
+	
+	
+	/**
+	 * Get the type of a file
+	 *
+	 * @param String $filename
+	 * @param Boolean $tolower = false
+	 * @return String
+	 */
+	public function getFileType($filename, $tolower = false) {
+		$tmp = filetype($filename);
+		
+		if($tolower) {
+			$tmp = strtolower($tmp);
+		}
+		
+		return $tmp;
+	}
+	
+	
+	
+	/**
 	 * Deletes a directory beginning at the deepest path
 	 * 
 	 * @param String $dir
 	 * @return Boolean
 	 */
-	function deleteDir($dir) {
+	public function deleteDir($dir) {
 		if(substr($dir, strlen($dir) - 1, 1) != '/') {
 			$dir .= '/';
 		}
@@ -795,7 +887,7 @@ class tcms_file {
 	 * @param String $dir
 	 * @return Boolean
 	 */
-	function deleteDirContent($dir) {
+	public function deleteDirContent($dir) {
 		if(substr($dir, strlen($dir) - 1, 1) != '/') {
 			$dir .= '/';
 		}
@@ -837,7 +929,7 @@ class tcms_file {
 	 * @param String $file
 	 * @return Boolean
 	 */
-	function deleteFile($file) {
+	public function deleteFile($file) {
 		if(file_exists($file)) {
 			unlink($file);
 			return true;

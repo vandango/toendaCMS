@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.0.6
+ * @version 1.0.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -2411,6 +2411,7 @@ class tcms_datacontainer_provider extends tcms_main {
 		$wsKeynote = $this->decodeText($wsKeynote, '2', $this->m_CHARSET);
 		$wsText    = $this->decodeText($wsText, '2', $this->m_CHARSET);
 		$wsSPT     = $this->decodeText($wsSPT, '2', $this->m_CHARSET);
+		$needleImg = $this->decodeText($needleImg, '2', $this->m_CHARSET);
 		
 		$iDC->setID($wsID);
 		$iDC->setTitle($wsTitle);
@@ -2499,6 +2500,8 @@ class tcms_datacontainer_provider extends tcms_main {
 			
 			$wsLang          = $xml->readSection('side', 'lang');
 			$wsSidemenuTitle = $xml->readSection('side', 'sidemenu_title');
+			$wsShowCT        = $xml->readSection('side', 'show_chooser_title');
+			$wsChooserTitle  = $xml->readSection('side', 'chooser_title');
 			
 			$xml->flush();
 			$xml->_xmlparser();
@@ -2506,6 +2509,8 @@ class tcms_datacontainer_provider extends tcms_main {
 			
 			if($wsLang          == false) $wsLang          = '';
 			if($wsSidemenuTitle == false) $wsSidemenuTitle = '';
+			if($wsShowCT        == false) $wsShowCT        = '';
+			if($wsChooserTitle  == false) $wsChooserTitle  = '';
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
@@ -2522,6 +2527,8 @@ class tcms_datacontainer_provider extends tcms_main {
 			
 			$wsLang          = $sqlObj->lang;
 			$wsSidemenuTitle = $sqlObj->sidemenu_title;
+			$wsShowCT        = $sqlObj->show_chooser_title;
+			$wsChooserTitle  = $sqlObj->chooser_title;
 			
 			$sqlAL->freeResult($sqlQR);
 			$sqlAL->_sqlAbstractionLayer();
@@ -2529,13 +2536,18 @@ class tcms_datacontainer_provider extends tcms_main {
 			
 			if($wsLang          == NULL) $wsLang          = '';
 			if($wsSidemenuTitle == NULL) $wsSidemenuTitle = '';
+			if($wsShowCT        == NULL) $wsShowCT        = '';
+			if($wsChooserTitle  == NULL) $wsChooserTitle  = '';
 		}
 		
-		//$wsTitle   = $this->decodeText($wsTitle, '2', $this->m_CHARSET);
+		$wsSidemenuTitle = $this->decodeText($wsSidemenuTitle, '2', $this->m_CHARSET);
+		$wsChooserTitle  = $this->decodeText($wsChooserTitle, '2', $this->m_CHARSET);
 		
 		$se->setID('sidebar_extensions');
 		$se->setLanguages($wsLang);
 		$se->setSidemenuTitle($wsSidemenuTitle);
+		$se->setShowLayoutChooserTitle($wsShowCT);
+		$se->setLayoutChooserTitle($wsChooserTitle);
 		
 		return $se;
 	}

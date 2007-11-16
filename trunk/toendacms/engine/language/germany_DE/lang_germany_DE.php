@@ -396,6 +396,7 @@ define('_MSG_NEWSLETTER', 'Sie haben sich erfolgreich zum Newsletter angemeldet'
 define('_MSG_POLL', 'Vielen Dank das sie an dieser Umfrage teilgenommen haben.');
 define('_MSG_UPLOAD', 'Die Datei wurde erfolgreich hochgeladen, nach');
 define('_MSG_NOUPLOAD', 'Die Datei konnte nicht hochgeladen werden.');
+define('_MSG_NOUPLOAD_PHP', 'Die Datei konnte nicht hochgeladen werden. Entweder ist die <upload_max_size> oder die <post_max_size> Einstellung in der <php.ini> zu klein.');
 define('_MSG_ERROR', 'Fehler');
 define('_MSG_CODE', 'Nummer');
 define('_MSG_REGNOTALLOWD', 'Zur Zeit ist leider keine Registrierung moeglich.');
@@ -406,6 +407,7 @@ define('_MSG_USEREXISTS', 'Der Benutzer ist bereits vorhanden. Bitte waehlen sie
 define('_MSG_PHP_UPLOAD_SETTINGS', 'Ihre PHP Hochladeeinstellungen reichen fuer diese Funktion nicht aus.');
 define('_MSG_PHP_SAFE_MODE_SETTINGS', 'Auf ihrem Server ist f&uuml;r PHP \'safe_mode\' auf \'on\' geschaltet, dadurch k&ouml;nnen sie gewisse Funktionen nicht nutzen.');
 define('_MSG_MAX_FILE_SIZE', 'Maximale Dateigr&ouml;&szlig;e');
+define('_MSG_MAX_POST_SIZE', 'Maximale POST-Gr&ouml;&szlig;e');
 define('_MSG_FILE_UPLOADS', 'Dateien hochladen');
 define('_MSG_NOTENOUGH_USERRIGHTS', 'Ihre Benutzerrechte erlauben Ihnen die Benutzung dieser Seite nicht.');
 define('_MSG_SESSION_EXPIRED', '<div align="center"><h1>Ihre Session ist abgelaufen!</h1><br /><strong>Bitte melden Sie sich erneut an.</strong><br /><a href="index.php">Einloggen</a></div>');

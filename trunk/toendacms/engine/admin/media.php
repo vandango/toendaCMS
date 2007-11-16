@@ -21,7 +21,7 @@
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 0.5.5
+ * @version 0.5.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -145,6 +145,9 @@ $cms_tagline  = $tcms_version->getTagline();
 $release_date = $tcms_version->getReleaseDate();
 $toenda_copyr = $tcms_version->getToendaCopyright();
 
+$upload_max_filesize = $tcms_main->getUploadMaxSizeInBytes();
+$post_max_size = $tcms_main->getPostMaxSizeInBytes();
+
 
 
 
@@ -241,29 +244,36 @@ if(isset($id_user)){
 			$_FILES['mediaImage']['type'] == 'video/mpeg' || 
 			$_FILES['mediaImage']['type'] == 'video/avi' || 
 			$_FILES['mediaImage']['type'] == 'video/wmv')){
-				$fileName = $_FILES['mediaImage']['name'];
-				
-				$fileName = $tcms_main->cleanFilename($fileName);
-				
-				if(isset($faq) && $faq != '') {
-					$imgDir = $tcms_administer_site.'/images/knowledgebase/';
+				if($_FILES['mediaImage']['size'] <= $upload_max_filesize
+				&& $_FILES['mediaImage']['size'] <= $post_max_size) {
+					$fileName = $_FILES['mediaImage']['name'];
+					
+					$fileName = $tcms_main->cleanFilename($fileName);
+					
+					if(isset($faq) && $faq != '') {
+						$imgDir = $tcms_administer_site.'/images/knowledgebase/';
+					}
+					else {
+						$imgDir = $tcms_administer_site.'/images/Image/';
+					}
+					
+					copy($_FILES['mediaImage']['tmp_name'], $imgDir.$fileName);
+					
+					$msg = _MSG_UPLOAD.' '.$imgDir.$_FILES['mediaImage']['name'];
+					$relocate = 1;
 				}
 				else {
-					$imgDir = $tcms_administer_site.'/images/Image/';
+					$msg = _MSG_NOUPLOAD_PHP;
+					$relocate = 0;
 				}
-				
-				copy($_FILES['mediaImage']['tmp_name'], $imgDir.$fileName);
-				
-				$msg = _MSG_UPLOAD.' '.$imgDir.$_FILES['mediaImage']['name'];
-				$relocate = 1;
 			}
-			else{
+			else {
 				$msg = _MSG_NOUPLOAD;
 				$relocate = 0;
 			}
 			
 			
-			if($relocate == 1){
+			if($relocate == 1) {
 				if(isset($faq) && $faq != '') {
 					echo '<script>'
 					.'document.location=\'media.php?id_user='.$id_user.'&faq='.$faq.'\';'
@@ -275,7 +285,7 @@ if(isset($id_user)){
 					.'</script>';
 				}
 			}
-			else{
+			else {
 				if(isset($faq) && $faq != '') {
 					echo '<script>'
 					.'alert(\''.$msg.'.\');'
@@ -394,31 +404,31 @@ if(isset($id_user)){
 					
 					$checkType = true;
 					
-					if(preg_match('/.mp3/i', strtolower($dvalue)) && $checkType){
+					if($tcms_file->getMimeType(strtolower($dvalue)) == 'mp3' && $checkType){
 						echo '<img style="border: 1px solid #ccc; margin: 6px auto auto 6px;" src="../images/mimetypes/mp3.png" border="0" />';
 						$checkType = false;
 					}
-					if(preg_match('/.wma/i', strtolower($dvalue)) && $checkType){
+					if($tcms_file->getMimeType(strtolower($dvalue)) == 'wma' && $checkType){
 						echo '<img style="border: 1px solid #ccc; margin: 6px auto auto 6px;" src="../images/mimetypes/wma.png" border="0" />';
 						$checkType = false;
 					}
-					if(preg_match('/.wav/i', strtolower($dvalue)) && $checkType){
+					if($tcms_file->getMimeType(strtolower($dvalue)) == 'wav' && $checkType){
 						echo '<img style="border: 1px solid #ccc; margin: 6px auto auto 6px;" src="../images/mimetypes/wav.png" border="0" />';
 						$checkType = false;
 					}
-					elseif(preg_match('/.avi/i', strtolower($dvalue)) && $checkType){
+					elseif($tcms_file->getMimeType(strtolower($dvalue)) == 'avi' && $checkType){
 						echo '<img style="border: 1px solid #ccc; margin: 6px auto auto 6px;" src="../images/mimetypes/avi.png" border="0" />';
 						$checkType = false;
 					}
-					elseif(preg_match('/.mpeg/i', strtolower($dvalue)) && $checkType){
+					elseif($tcms_file->getMimeType(strtolower($dvalue)) == 'mpeg' && $checkType){
 						echo '<img style="border: 1px solid #ccc; margin: 6px auto auto 6px;" src="../images/mimetypes/mpeg.png" border="0" />';
 						$checkType = false;
 					}
-					elseif(preg_match('/.mpg/i', strtolower($dvalue)) && $checkType){
+					elseif($tcms_file->getMimeType(strtolower($dvalue)) == 'mpg' && $checkType){
 						echo '<img style="border: 1px solid #ccc; margin: 6px auto auto 6px;" src="../images/mimetypes/mpeg.png" border="0" />';
 						$checkType = false;
 					}
-					elseif(preg_match('/.wmv/i', strtolower($dvalue)) && $checkType){
+					elseif($tcms_file->getMimeType(strtolower($dvalue)) == 'wmv' && $checkType){
 						echo '<img style="border: 1px solid #ccc; margin: 6px auto auto 6px;" src="../images/mimetypes/wmv.png" border="0" />';
 						$checkType = false;
 					}

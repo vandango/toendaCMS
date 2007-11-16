@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a info provider.
  *
- * @version 0.1.8
+ * @version 0.2.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -137,6 +137,9 @@ echo '<div class="tcms_placeholder_200"><strong>'._MSG_FILE_UPLOADS.':</strong><
 
 echo '<div class="tcms_placeholder_200"><strong>'._MSG_MAX_FILE_SIZE.':</strong></div>'
 .'<div class="tcms_placeholder"><em>'.ini_get('upload_max_filesize').'</em></div>';
+
+echo '<div class="tcms_placeholder_200"><strong>'._MSG_MAX_POST_SIZE.':</strong></div>'
+.'<div class="tcms_placeholder"><em>'.ini_get('post_max_size').'</em></div>';
 
 echo '<div class="tcms_placeholder_200"><strong>save_mode:</strong></div>'
 .'<div class="tcms_placeholder"><em>'.get_php_setting('save_mode').'</em></div>';

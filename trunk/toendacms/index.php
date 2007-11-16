@@ -676,9 +676,7 @@ if($wsShowSite) {
 					}
 					
 					// graphic engine
-					if($id == 'products' || $id == 'imagegallery') {
-						$tcms_gd = new tcms_gd();
-					}
+					$tcms_gd = new tcms_gd();
 					
 					
 					

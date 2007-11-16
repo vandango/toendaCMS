@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the sidebar imagegallery.
  *
- * @version 0.2.1
+ * @version 0.2.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -31,31 +31,48 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 if($use_side_gallery == 1) {
+	using('toendacms.datacontainer.imagegallery');
+	
+	$dcIG = new tcms_dc_imagegallery();
+	$dcIG = $tcms_dcp->getImagegalleryDC();
+	
 	/*
 		load last 5 images
 	*/
 	
-	if($choosenDB == 'xml'){
-		$arr_albums = $tcms_main->getPathContent($tcms_administer_site.'/tcms_albums/');
+	if($choosenDB == 'xml') {
+		$arr_albums = $tcms_file->getPathContent(
+			$tcms_administer_site.'/tcms_albums/'
+		);
 		
 		$countImg = 0;
 		
-		if($tcms_main->isArray($arr_albums)){
-			foreach($arr_albums as $key => $value){
+		if($tcms_main->isArray($arr_albums)) {
+			foreach($arr_albums as $key => $value) {
 				$dir = substr($value, 6, 6);
 				
 				$aXML = new xmlparser($tcms_administer_site.'/tcms_albums/'.$value, 'r');
 				$use = $aXML->readSection('album', 'use');
 				
+				$aXML->flush();
+				$aXML->_xmlparser();
+				unset($aXML);
+				
 				if($use == 1){
-					$arr_files = $tcms_main->getPathContent($tcms_administer_site.'/tcms_imagegallery/'.$dir.'/');
+					$arr_files = $tcms_file->getPathContent(
+						$tcms_administer_site.'/tcms_imagegallery/'.$dir.'/'
+					);
 					
 					foreach($arr_files as $ikey => $ival){
 						$imgXML = new xmlparser($tcms_administer_site.'/tcms_imagegallery/'.$dir.'/'.$ival, 'r');
 						
-						$arr_images['image'][$countImg] = substr($ival, 0, $tcms_main->tcms_strrpos($ival, '.xml'));
+						$arr_images['image'][$countImg] = substr($ival, 0, $tcms_main->lastIndexOf($ival, '.xml'));
 						$arr_images['stamp'][$countImg] = $imgXML->readSection('image', 'timecode');
 						$arr_images['album'][$countImg] = $dir;
+						
+						$imgXML->flush();
+						$imgXML->_xmlparser();
+						unset($imgXML);
 						
 						$countImg++;
 					}
@@ -115,8 +132,10 @@ if($use_side_gallery == 1) {
 		n = "variable value"
 	*/
 	
-	if($showTitleImg == 1){
-		if(trim($needleImg) != ''){ echo $tcms_html->subTitle($needleImg); }
+	if($dcIG->getShowLastImageTitle()){
+		if(trim($dcIG->getNeedleImage()) != '') {
+			echo $tcms_html->subTitle($dcIG->getNeedleImage());
+		}
 	}
 	
 	echo '<div style="margin: 4px 0 0 0; display: block;" align="'.$alignImg.'">';
@@ -125,16 +144,18 @@ if($use_side_gallery == 1) {
 	.( isset($lang) ? '&amp;lang='.$lang : '' );
 	$link = $tcms_main->urlConvertToSEO($link);
 	
-	echo '<a href="'.$link.'">'.$imgGalleryTitle.'</a><br />';
+	echo '<a href="'.$link.'">'.$dcIG->getTitle().'</a><br />';
 	
-	if(isset($arr_images) && !empty($arr_images) && $arr_images != ''){
+	$sizeImg = $dcIG->getImageSize();
+	
+	if($tcms_main->isArray($arr_images)){
 		foreach($arr_images['stamp'] as $key => $val){
-			if($key < $maxImg){
-				if(!is_dir($tcms_administer_site.'/thumbnails/'.$arr_images['album'][$key].'/')){
-					mkdir($tcms_administer_site.'/thumbnails/'.$arr_images['album'][$key].'/', 0777);
+			if($key < $dcIG->getMaxImages()){
+				if(!$tcms_file->checkIsDir($tcms_administer_site.'/thumbnails/'.$arr_images['album'][$key].'/')){
+					$tcms_file->createDir($tcms_administer_site.'/thumbnails/'.$arr_images['album'][$key].'/', 0777);
 				}
 				
-				if(!file_exists($tcms_administer_site.'/thumbnails/'.$arr_images['album'][$key].'/thumb_'.$arr_images['image'][$key])){
+				if(!$tcms_file->checkFileExist($tcms_administer_site.'/thumbnails/'.$arr_images['album'][$key].'/thumb_'.$arr_images['image'][$key])){
 					$tcms_gd->createThumbnail(
 						$tcms_administer_site.'/images/albums/'.$arr_images['album'][$key].'/', 
 						$tcms_administer_site.'/thumbnails/'.$arr_images['album'][$key].'/', 
@@ -143,12 +164,15 @@ if($use_side_gallery == 1) {
 					);
 				}
 				else {
-					$img_size = getimagesize($tcms_administer_site.'/thumbnails/'.$arr_images['album'][$key].'/');
+					$img_size = getimagesize(
+						$tcms_administer_site.'/thumbnails/'.$arr_images['album'][$key].'/thumb_'.$arr_images['image'][$key]
+					);
+					
 					$img_o_width  = $img_size[0];
 					$img_o_height = $img_size[1];
 					
 					if($img_o_width != $sizeImg) {
-						unlink($tcms_administer_site.'/thumbnails/'.$arr_images['album'][$key].'/');
+						$tcms_file->deleteFile($tcms_administer_site.'/thumbnails/'.$arr_images['album'][$key].'/thumb_'.$arr_images['image'][$key]);
 						
 						$tcms_gd->createThumbnail(
 							$tcms_administer_site.'/images/albums/'.$arr_images['album'][$key].'/', 
