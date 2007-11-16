@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide methods to get and
  * save user accounts and also contacts.
  * 
- * @version 0.3.1
+ * @version 0.3.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -307,7 +307,7 @@ class tcms_account_provider extends tcms_main {
 			
 			$authXML = new xmlparser($this->m_administer.'/tcms_user/'.$ws_id.'.xml', 'r');
 			
-			$arr_ws['user']  = $this->decodeText($ws_user, '2', $this->m_charset);
+			$arr_ws['user']  = $ws_user;//$this->decodeText($ws_user, '2', $this->m_charset);
 			$arr_ws['id']    = $ws_id;
 			$arr_ws['group'] = $authXML->readSection('user', 'group');
 			$arr_ws['name']  = $this->decodeText($authXML->readSection('user', 'name'), '2', $this->m_charset);
@@ -326,7 +326,7 @@ class tcms_account_provider extends tcms_main {
 				$this->db_port
 			);
 			
-			if($this->db_choosenDB == 'mssql'){
+			if($this->db_choosenDB == 'mssql') {
 				$strSQL = "SELECT "
 				.$this->db_prefix."session.[user_id], "
 				.$this->db_prefix."user.[name], "
@@ -338,7 +338,7 @@ class tcms_account_provider extends tcms_main {
 				//." INNER JOIN ".$this->db_prefix."usergroup ON (".$this->db_prefix."user.group = ".$this->db_prefix."usergroup.uid)"
 				." WHERE (".$this->db_prefix."session.uid = '".$session."')";
 			}
-			else{
+			else {
 				$strSQL = "SELECT "
 				.$this->db_prefix."session.user_id, "
 				.$this->db_prefix."user.name, "

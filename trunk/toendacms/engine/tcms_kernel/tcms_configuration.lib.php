@@ -183,88 +183,96 @@ class tcms_configuration {
 	public function __construct($administer) {
 		if(function_exists('simplexml_load_file')) {
 			// var.xml
-			$this->o_xml = simplexml_load_file($administer.'/tcms_global/var.xml');
-			
-			$this->m_charset               = $this->o_xml->charset;
-			$this->m_frontlang             = $this->o_xml->front_lang;
-			$this->m_lang                  = $this->o_xml->lang;
-			$this->m_SEOpath               = $this->o_xml->server_folder;
-			$this->m_SEOenabled            = $this->o_xml->seo_enabled;
-			$this->m_SEOformat             = $this->o_xml->seo_format;
-			$this->m_SEOOptionNewsTitle    = $this->o_xml->seo_news_title;
-			$this->m_SEOOptionContentTitle = $this->o_xml->seo_content_title;
-			$this->m_cipherEmail           = $this->o_xml->cipher_email;
-			$this->m_detectBrowser         = $this->o_xml->js_browser_detect;
-			$this->m_statistics            = $this->o_xml->statistics;
-			$this->m_use_components        = $this->o_xml->use_cs;
-			$this->m_use_captcha           = $this->o_xml->captcha;
-			$this->m_captcha_clean         = $this->o_xml->statistics;
-			$this->m_antiFrame             = $this->o_xml->captcha_clean_size;
-			$this->m_showTopPages          = $this->o_xml->anti_frame;
-			$this->m_showTopPages          = $this->o_xml->show_top_pages;
-			$this->m_siteOffline           = $this->o_xml->site_offline;
-			$this->m_siteOfflineText       = $this->o_xml->site_offline_text;
-			$this->m_currency              = $this->o_xml->currency;
-			$this->m_wysiwygEditor         = $this->o_xml->wysiwyg;
-			$this->m_pathwayChar           = $this->o_xml->pathway_char;
-			$this->m_showDocAutor          = $this->o_xml->show_doc_autor;
-			$this->m_defaultCat            = $this->o_xml->default_category;
-			$this->m_tcmsinst              = $this->o_xml->toendacms_in_sitetitle;
-			$this->m_keywords              = $this->o_xml->meta;
-			$this->m_description           = $this->o_xml->description;
-			$this->m_activeTopmenu         = $this->o_xml->topmenu_active;
-			$this->m_sidemenu              = $this->o_xml->menu;
-			$this->m_topmenu               = $this->o_xml->second_menu;
-			$this->m_adminTopmenu          = $this->o_xml->admin_topmenu;
-			$this->m_revisit_after         = $this->o_xml->revisit_after;
-			$this->m_robotsfile            = $this->o_xml->robotsfile;
-			$this->m_pdflink               = $this->o_xml->pdflink;
-			$this->m_cachecontrol          = $this->o_xml->cachecontrol;
-			$this->m_pragma                = $this->o_xml->pragma;
-			$this->m_expires               = $this->o_xml->expires;
-			$this->m_robots                = $this->o_xml->robots;
-			$this->m_last_changes          = $this->o_xml->last_changes;
-			$this->m_useContentLang        = $this->o_xml->use_content_language;
-			$this->m_validLinks            = $this->o_xml->valid_links;
-			
-			unset($this->o_xml);
+			if(file_exists($administer.'/tcms_global/var.xml')) {
+				$this->o_xml = simplexml_load_file($administer.'/tcms_global/var.xml');
+				
+				$this->m_charset               = $this->o_xml->charset;
+				$this->m_frontlang             = $this->o_xml->front_lang;
+				$this->m_lang                  = $this->o_xml->lang;
+				$this->m_SEOpath               = $this->o_xml->server_folder;
+				$this->m_SEOenabled            = $this->o_xml->seo_enabled;
+				$this->m_SEOformat             = $this->o_xml->seo_format;
+				$this->m_SEOOptionNewsTitle    = $this->o_xml->seo_news_title;
+				$this->m_SEOOptionContentTitle = $this->o_xml->seo_content_title;
+				$this->m_cipherEmail           = $this->o_xml->cipher_email;
+				$this->m_detectBrowser         = $this->o_xml->js_browser_detect;
+				$this->m_statistics            = $this->o_xml->statistics;
+				$this->m_use_components        = $this->o_xml->use_cs;
+				$this->m_use_captcha           = $this->o_xml->captcha;
+				$this->m_captcha_clean         = $this->o_xml->statistics;
+				$this->m_antiFrame             = $this->o_xml->captcha_clean_size;
+				$this->m_showTopPages          = $this->o_xml->anti_frame;
+				$this->m_showTopPages          = $this->o_xml->show_top_pages;
+				$this->m_siteOffline           = $this->o_xml->site_offline;
+				$this->m_siteOfflineText       = $this->o_xml->site_offline_text;
+				$this->m_currency              = $this->o_xml->currency;
+				$this->m_wysiwygEditor         = $this->o_xml->wysiwyg;
+				$this->m_pathwayChar           = $this->o_xml->pathway_char;
+				$this->m_showDocAutor          = $this->o_xml->show_doc_autor;
+				$this->m_defaultCat            = $this->o_xml->default_category;
+				$this->m_tcmsinst              = $this->o_xml->toendacms_in_sitetitle;
+				$this->m_keywords              = $this->o_xml->meta;
+				$this->m_description           = $this->o_xml->description;
+				$this->m_activeTopmenu         = $this->o_xml->topmenu_active;
+				$this->m_sidemenu              = $this->o_xml->menu;
+				$this->m_topmenu               = $this->o_xml->second_menu;
+				$this->m_adminTopmenu          = $this->o_xml->admin_topmenu;
+				$this->m_revisit_after         = $this->o_xml->revisit_after;
+				$this->m_robotsfile            = $this->o_xml->robotsfile;
+				$this->m_pdflink               = $this->o_xml->pdflink;
+				$this->m_cachecontrol          = $this->o_xml->cachecontrol;
+				$this->m_pragma                = $this->o_xml->pragma;
+				$this->m_expires               = $this->o_xml->expires;
+				$this->m_robots                = $this->o_xml->robots;
+				$this->m_last_changes          = $this->o_xml->last_changes;
+				$this->m_useContentLang        = $this->o_xml->use_content_language;
+				$this->m_validLinks            = $this->o_xml->valid_links;
+				
+				unset($this->o_xml);
+			}
 			
 			
 			// namen.xml
-			$this->o_xml = simplexml_load_file($administer.'/tcms_global/namen.xml');
-			
-			$this->m_sitetitle = $this->o_xml->title;
-			$this->m_sitename  = $this->o_xml->name;
-			$this->m_sitekey   = $this->o_xml->key;
-			$this->m_sitelogo  = $this->o_xml->logo;
-			
-			unset($this->o_xml);
+			if(file_exists($administer.'/tcms_global/namen.xml')) {
+				$this->o_xml = simplexml_load_file($administer.'/tcms_global/namen.xml');
+				
+				$this->m_sitetitle = $this->o_xml->title;
+				$this->m_sitename  = $this->o_xml->name;
+				$this->m_sitekey   = $this->o_xml->key;
+				$this->m_sitelogo  = $this->o_xml->logo;
+				
+				unset($this->o_xml);
+			}
 			
 			
 			// footer.xml
-			$this->o_xml = simplexml_load_file($administer.'/tcms_global/footer.xml');
-			
-			$this->m_wpowner      = $this->o_xml->websiteowner;
-			$this->m_wpcopyright  = $this->o_xml->copyright;
-			$this->m_wpowner_url  = $this->o_xml->owner_url;
-			$this->m_wpowner_mail = $this->o_xml->email;
-			$this->m_showtcmslogo = $this->o_xml->show_tcmslogo;
-			$this->m_show_default = $this->o_xml->show_defaultfooter;
-			$this->m_show_plt     = $this->o_xml->show_page_loading_time;
-			$this->m_show_llif    = $this->o_xml->legal_link_in_footer;
-			$this->m_show_alif    = $this->o_xml->admin_link_in_footer;
-			$this->m_footer_text  = $this->o_xml->footer_text;
-			
-			unset($this->o_xml);
+			if(file_exists($administer.'/tcms_global/footer.xml')) {
+				$this->o_xml = simplexml_load_file($administer.'/tcms_global/footer.xml');
+				
+				$this->m_wpowner      = $this->o_xml->websiteowner;
+				$this->m_wpcopyright  = $this->o_xml->copyright;
+				$this->m_wpowner_url  = $this->o_xml->owner_url;
+				$this->m_wpowner_mail = $this->o_xml->email;
+				$this->m_showtcmslogo = $this->o_xml->show_tcmslogo;
+				$this->m_show_default = $this->o_xml->show_defaultfooter;
+				$this->m_show_plt     = $this->o_xml->show_page_loading_time;
+				$this->m_show_llif    = $this->o_xml->legal_link_in_footer;
+				$this->m_show_alif    = $this->o_xml->admin_link_in_footer;
+				$this->m_footer_text  = $this->o_xml->footer_text;
+				
+				unset($this->o_xml);
+			}
 			
 			
 			// layout
-			$this->o_xml = simplexml_load_file($administer.'/tcms_global/layout.xml');
-			
-			$this->m_frontendTheme = $this->o_xml->select;
-			$this->m_adminTheme    = $this->o_xml->admin;
-			
-			unset($this->o_xml);
+			if(file_exists($administer.'/tcms_global/footer.xml')) {
+				$this->o_xml = simplexml_load_file($administer.'/tcms_global/layout.xml');
+				
+				$this->m_frontendTheme = $this->o_xml->select;
+				$this->m_adminTheme    = $this->o_xml->admin;
+				
+				unset($this->o_xml);
+			}
 		}
 		else {
 			// old xml parser

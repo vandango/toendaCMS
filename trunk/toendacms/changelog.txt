@@ -28,7 +28,7 @@ Version 1.6
 Developer Version
 	- 1.6.0 Development
 
-Building Steps: 3551
+Building Steps: 3557
 
 
 
@@ -51,6 +51,8 @@ Building Steps: 3551
  - bug #0000179: Image file in the mediamanager with a "ogg" or another multimedia file extension
                  are now correctly displayed as an image and not as the multimedia filetype.
  - bug #0000193: Gallery sidebar extension fixed.
+ - bug #0000194: Newsletter send bug fixed.
+ - bug #0000188: Fixed display problem on frontpage after deleting a user, who has written a news.
 
  - security fixed: 
 

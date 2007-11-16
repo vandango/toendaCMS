@@ -1350,20 +1350,21 @@ if($todo == 'edit'){
 			.'</td><td valign="top">'
 			.'<select class="tcms_select" name="autor">';
 			
-			if($id_group == 'Developer' || $id_group == 'Administrator'){
+			if($id_group == 'Developer' 
+			|| $id_group == 'Administrator') {
 				echo '<optgroup label="'._USER_SELF.'">'
 				.'<option value="'.$id_username.'"'.( $nws_autor == $id_username ? ' selected="selected"' : '').'>'.$id_username.'</option>'
 				.'<option value="'.$id_name.'"'.( $nws_autor == $id_name ? ' selected="selected"' : '').'>'.$id_name.'</option>'
 				.'</optgroup>'
 				.'<optgroup label="'._USER_ALL.'">';
 				
-				foreach($arrActiveUser['user'] as $key => $value){
+				foreach($arrActiveUser['user'] as $key => $value) {
 					echo '<option value="'.$value.'"'.( $nws_autor == $value ? ' selected="selected"' : '').'>'.$value.'</option>';
 				}
 				
 				echo '</optgroup>';
 			}
-			else{
+			else {
 				echo '<option value="'.$id_username.'"'.( $nws_autor == $id_username ? ' selected="selected"' : '').'>'.$id_username.'</option>'
 				.'<option value="'.$id_name.'"'.( $nws_autor == $id_name ? ' selected="selected"' : '').'>'.$id_name.'</option>';
 				

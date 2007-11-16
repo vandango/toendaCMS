@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a newsletter extension.
  *
- * @version 0.5.5
+ * @version 0.5.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -76,15 +76,21 @@ if($id_group == 'Developer'
 	
 	$checkNOW = false;
 	
-	if($alwaysCheck == 1){ $checkNOW = true; }
-	else{
-		if($todo == 'alwaysCheck'){ $checkNOW = true; }
-		else{ $checkNOW = false; }
+	if($alwaysCheck == 1) {
+		$checkNOW = true;
+	}
+	else {
+		if($todo == 'alwaysCheck') {
+			$checkNOW = true;
+		}
+		else {
+			$checkNOW = false;
+		}
 	}
 	
-	if($checkNOW == true){
-		echo tcms_html::bold(_NL_CHECKTITLE).'<br />';
-		echo tcms_html::text(_NL_CHECKTEXT.'<br /><br />', 'left');
+	if($checkNOW == true) {
+		echo $tcms_html->bold(_NL_CHECKTITLE).'<br />';
+		echo $tcms_html->text(_NL_CHECKTEXT.'<br /><br />', 'left');
 		
 		echo '<div style="padding: 0 0 0 10px;">';
 		
@@ -123,13 +129,13 @@ if($id_group == 'Developer'
 		|| $id_group == 'Administrator') {
 			if($choosenDB == 'xml') {
 				$nl_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/newsletter.xml','r');
-				$old_title_nl = $nl_xml->read_section('newsletter', 'nl_title');
-				$old_show_nlt = $nl_xml->read_section('newsletter', 'nl_show_title');
-				$old_text_nl  = $nl_xml->read_section('newsletter', 'nl_text');
-				$old_link_nl  = $nl_xml->read_section('newsletter', 'nl_link');
+				$old_title_nl = $nl_xml->readSection('newsletter', 'nl_title');
+				$old_show_nlt = $nl_xml->readSection('newsletter', 'nl_show_title');
+				$old_text_nl  = $nl_xml->readSection('newsletter', 'nl_text');
+				$old_link_nl  = $nl_xml->readSection('newsletter', 'nl_link');
 			}
 			else {
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'newsletter', 'newsletter');
@@ -330,15 +336,15 @@ if($id_group == 'Developer'
 					$nl_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_newsletter/'.$arr_nl_user['files'][$nl], 'r');
 					
 					$arr_nl_user['tag'][$nl]   = substr($arr_nl_user['files'][$nl], 0, 6);
-					$arr_nl_user['id'][$nl]    = $nl_xml->read_section('nl_user', 'user');
-					$arr_nl_user['email'][$nl] = $nl_xml->read_section('nl_user', 'email');
+					$arr_nl_user['id'][$nl]    = $nl_xml->readSection('nl_user', 'user');
+					$arr_nl_user['email'][$nl] = $nl_xml->readSection('nl_user', 'email');
 					
 					$arr_nl_user['id'][$nl] = $tcms_main->decodeText($arr_nl_user['id'][$nl], '2', $c_charset);
 				}
 			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix.'newsletter_items');
@@ -426,14 +432,14 @@ if($id_group == 'Developer'
 		if(isset($maintag)){
 			if($choosenDB == 'xml'){
 				$main_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_newsletter/'.$maintag.'.xml','r');
-				$arr_nl['email'] = $main_xml->read_section('nl_user', 'email');
-				$arr_nl['name'] = $main_xml->read_section('nl_user', 'user');
+				$arr_nl['email'] = $main_xml->readSection('nl_user', 'email');
+				$arr_nl['name'] = $main_xml->readSection('nl_user', 'user');
 				
 				if(!$arr_nl['email']){ $arr_nl['email'] = ''; }
 				if(!$arr_nl['name']) { $arr_nl['name'] = ''; }
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'newsletter_items', $maintag);
@@ -512,14 +518,14 @@ if($id_group == 'Developer'
 			foreach($arr_send_nl['files'] as $nl => $val){
 				$nl_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_newsletter/'.$arr_send_nl['files'][$nl], 'r');
 				
-				$arr_send_nl['email'][$nl] = $nl_xml->read_section('nl_user', 'email');
-				$arr_send_nl['user'][$nl]  = $nl_xml->read_section('nl_user', 'user');
+				$arr_send_nl['email'][$nl] = $nl_xml->readSection('nl_user', 'email');
+				$arr_send_nl['user'][$nl]  = $nl_xml->readSection('nl_user', 'user');
 				$arr_send_nl['user'][$nl] = $tcms_main->decodeText($arr_send_nl['user'][$nl], '2', $c_charset);
 				
 			}
 		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
+		else {
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix.'newsletter_items');
@@ -536,12 +542,14 @@ if($id_group == 'Developer'
 		}
 		
 		
-		if($choosenDB == 'xml'){
-			$send_nl_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/contactform.xml','r');
-			$owner_email = $send_nl_xml->read_section('email', 'contact');
+		if($choosenDB == 'xml') {
+			$send_nl_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/contactform.'
+			.$tcms_config->getLanguageCodeByTCMSCode($tcms_config->getLanguageBackend())
+			.'.xml','r');
+			$owner_email = $send_nl_xml->readSection('email', 'contact');
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$strQuery = "SELECT contact "
@@ -559,12 +567,9 @@ if($id_group == 'Developer'
 		}
 		
 		
-		$footer_xml  = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/footer.xml','r');
-		$owner       = $footer_xml->read_section('footer', 'websiteowner');
+		$owner_email = $tcms_config->getWebpageOwnerMail();
+		$owner       = $tcms_config->getWebpageOwner();
 		
-		
-		$owner_email = $tcms_main->decodeText($owner_email, '2', $c_charset);
-		$owner       = $tcms_main->decodeText($owner, '2', $c_charset);
 		$nlmailmsg   = _NL_MAILMESSAGE.': '._NL_CHECKSTRING;
 		
 		if($mail_with_smtp == '1')
@@ -679,9 +684,9 @@ if($id_group == 'Developer'
 			if($link_nl == '')  { $link_nl  = 'Submit'; }
 			
 			
-			$text_nl    = $tcms_main->decode_text($text_nl, '2',$c_charset);
-			$title_nl   = $tcms_main->decode_text($title_nl, '2', $c_charset);
-			$link_nl    = $tcms_main->decode_text($link_nl, '2', $c_charset);
+			$text_nl    = $tcms_main->encodeText($text_nl, '2',$c_charset);
+			$title_nl   = $tcms_main->encodeText($title_nl, '2', $c_charset);
+			$link_nl    = $tcms_main->encodeText($link_nl, '2', $c_charset);
 			
 			
 			if($choosenDB == 'xml'){
@@ -699,7 +704,7 @@ if($id_group == 'Developer'
 				$xmluser->_xmlparser();
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				$newSQLData = ''
@@ -733,7 +738,7 @@ if($id_group == 'Developer'
 			if($choosenDB == 'xml'){
 				$var_conf = 'nl_user';
 				
-				$new_nl_name = $tcms_main->decode_text($new_nl_name, '2', $c_charset);
+				$new_nl_name = $tcms_main->encodeText($new_nl_name, '2', $c_charset);
 				
 				$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_newsletter/'.$maintag.'.xml', 'w');
 				$xmluser->xml_declaration();
@@ -747,9 +752,9 @@ if($id_group == 'Developer'
 				$xmluser->_xmlparser();
 			}
 			else{
-				$new_nl_name = $tcms_main->decode_text($new_nl_name, '2', $c_charset);
+				$new_nl_name = $tcms_main->encodeText($new_nl_name, '2', $c_charset);
 				
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				if(isset($action) && !empty($action) && $action == 'new'){
@@ -796,7 +801,7 @@ if($id_group == 'Developer'
 				unlink('../../'.$tcms_administer_site.'/tcms_newsletter/'.$maintag.'.xml');
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				$sqlAL->sqlDeleteOne($tcms_db_prefix.'newsletter_items', $maintag);
 			}
