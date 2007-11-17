@@ -27,8 +27,24 @@ Version 1.6
 
 Developer Version
 	- 1.6.0 Development
+	- 1.6.0 Stable
 
 Building Steps: 3600
+
+
+
+ Version 1.6.0 Stable
+-----------------------------------------------------------------
+
+ - bug #0000xxx: 
+
+ - security fixed: 
+
+ - bug fixed: 
+
+ - changed: 
+
+ - added: 
 
 
 
