@@ -97,7 +97,7 @@ if($todo == 'show') {
 	
 	
 	// docbook xml (openoffice2 docbook) import
-	if(phpversion() >= '5.2.0') {
+	/*if(phpversion() >= '5.2.0') {
 		echo '<tr height="25" id="row'.$impKey.'" '
 		.'bgcolor="'.$arr_color[$impKey].'" '
 		.'onMouseOver="wxlBgCol(\'row'.$impKey.'\',\'#ececec\')" '
@@ -117,7 +117,7 @@ if($todo == 'show') {
 		$impKey++;
 		
 		echo '</tr>';
-	}
+	}*/
 	
 	
 	// table end
@@ -388,16 +388,24 @@ if($todo == 'opendocument') {
 		
 		
 		// check
-		if($_FILES['event']['size'] > 0 && preg_match('/.xml/i', strtolower($_FILES['event']['name']))) $letImport = true;
-		elseif(file_exists($imgDir.$fileName)) $letImport = true;
-		else $letImport = false;
+		if($_FILES['event']['size'] > 0 && preg_match('/.xml/i', strtolower($_FILES['event']['name']))) {
+			$letImport = true;
+		}
+		elseif(file_exists($imgDir.$fileName)) {
+			$letImport = true;
+		}
+		else {
+			$letImport = false;
+		}
 		
 		
 		// start
-		if($letImport){
+		if($letImport) {
 			// file upload
-			if($_FILES['event']['size'] > 0 && preg_match('/.xml/i', strtolower($_FILES['event']['name'])))
+			if($_FILES['event']['size'] > 0 
+			&& preg_match('/.xml/i', strtolower($_FILES['event']['name']))) {
 				copy($_FILES['event']['tmp_name'], $imgDir.$fileName);
+			}
 		}
 		
 		

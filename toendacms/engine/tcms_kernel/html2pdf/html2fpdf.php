@@ -59,6 +59,8 @@ Perl:  '/regexp/x'  where x == option ( x = i:ignore case , x = s: DOT gets \n a
 define('HTML2FPDF_VERSION','3.0(beta)');
 if (!defined('RELATIVE_PATH')) define('RELATIVE_PATH','');
 if (!defined('FPDF_FONTPATH')) define('FPDF_FONTPATH','font/');
+
+
 require_once(RELATIVE_PATH.'fpdf.php');
 require_once(RELATIVE_PATH.'htmltoolkit.php');
 
@@ -151,8 +153,17 @@ function HTML2FPDF($orientation='P',$unit='mm',$format='A4')
 	$this->AliasNbPages();
 	//Enable all tags as default
 	$this->DisableTags();
-  //Set default display preferences
+  
+	
+	
+	
+	
+	//Set default display preferences
   $this->DisplayPreferences('');
+  
+  
+  
+  
 	//Initialization of the attributes
 	$this->SetFont('Arial','',11); // Changeable?(not yet...)
   $this->lineheight = 5; // Related to FontSizePt == 11
