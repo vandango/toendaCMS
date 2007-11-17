@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a documents manager.
  *
- * @version 1.1.7
+ * @version 1.1.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -53,6 +53,11 @@ if(isset($_POST['original'])){ $original = $_POST['original']; }
 if(isset($_POST['language'])){ $language = $_POST['language']; }
 
 
+
+
+// -----------------------------------------------------
+// INIT
+// -----------------------------------------------------
 
 if($id_group == 'Developer' 
 || $id_group == 'Administrator' 
@@ -96,24 +101,6 @@ if($id_group == 'Developer'
 			'../../'.$tcms_administer_site.'/tcms_content/'
 		);
 	}
-	
-	/*$arr_db_layout = $tcms_main->readdir_ext('../db_layout/');
-	$db_layout_xml = new xmlparser('../db_layout/db_templates.xml','r');
-	
-	$count = 0;
-	while(!empty($arr_db_layout[$count])){
-		$end_position = strlen($arr_db_layout[$count]);
-		$parent       = substr($arr_db_layout[$count],0 ,$end_position-4);
-		
-		if($parent != 'db_templates'){
-			$arr_db['filename'][$count]     = $db_layout_xml->readSection($parent, 'filename');
-			$arr_db['templatename'][$count] = $db_layout_xml->readSection($parent, 'templatename');
-			$arr_db['templatedes'][$count]  = $db_layout_xml->readSection($parent, 'templatedes');
-			$arr_db['imagename'][$count]    = $db_layout_xml->readSection($parent, 'imagename');
-		}
-		
-		$count++;
-	}*/
 	
 	if(isset($arr_all) && !empty($arr_all) && $arr_all != '') {
 		sort($arr_all);
@@ -206,7 +193,7 @@ if($id_group == 'Developer'
 			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			// get docs
@@ -491,10 +478,10 @@ if($id_group == 'Developer'
 				
 				if(!isset($db_layout)){ $db_layout = $arr_content['db_layout'][$val]; }
 			}
-			else{
+			else {
 				$val = 0;
 				
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				if($tcms_main->isReal($lang)) {
@@ -543,7 +530,7 @@ if($id_group == 'Developer'
 				if($arr_content['pub'][$val]       == NULL){ $arr_content['pub'][$val]       = ''; }
 				if($arr_content['inw'][$val]       == NULL){ $arr_content['inw'][$val]       = ''; }
 				
-				if(!isset($db_layout)){
+				if(!isset($db_layout)) {
 					$db_layout = $arr_content['db_layout'][$val];
 				}
 			}
@@ -568,7 +555,7 @@ if($id_group == 'Developer'
 				$arr_content['orgiginal'][$val] = '';
 			}
 			
-			if(!isset($db_layout)){
+			if(!isset($db_layout)) {
 				$db_layout = $arr_content['db_layout'][$val];
 			}
 			
@@ -651,7 +638,7 @@ if($id_group == 'Developer'
 		
 		if($bFileless == true) {
 			$maintag = $tcms_main->getNewUID(5, 'content');
-			$arr_content['id'][$val] = $tcms_main->getNewUID(5, 'content');
+			$arr_content['id'][$val] = $maintag;//$tcms_main->getNewUID(5, 'content');
 		}
 		
 		
@@ -1041,7 +1028,7 @@ if($id_group == 'Developer'
 			$xmluser->_xmlparser();
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			if($tcms_main->isReal($lang)) {
@@ -1171,7 +1158,7 @@ if($id_group == 'Developer'
 			$xmluser->_xmlparser();
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			switch($choosenDB){
@@ -1267,7 +1254,7 @@ if($id_group == 'Developer'
 					}
 				}
 				else{
-					$sqlAL = new sqlAbstractionLayer($choosenDB);
+					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					
 					if($tcms_main->isReal($lang)) {
@@ -1309,7 +1296,7 @@ if($id_group == 'Developer'
 					}
 				}
 				else{
-					$sqlAL = new sqlAbstractionLayer($choosenDB);
+					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					
 					if($tcms_main->isReal($lang)) {
@@ -1367,7 +1354,7 @@ if($id_group == 'Developer'
 					}
 				}
 				else{
-					$sqlAL = new sqlAbstractionLayer($choosenDB);
+					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					
 					if($tcms_main->isReal($lang)) {
@@ -1453,7 +1440,7 @@ if($id_group == 'Developer'
 					if($check != 'yes'){ $check = 'no'; }
 					
 					if($check == 'no'){
-						$sqlAL = new sqlAbstractionLayer($choosenDB);
+						$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 						$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 						
 						if($tcms_main->isReal($lang)) {
@@ -1488,7 +1475,7 @@ if($id_group == 'Developer'
 					}
 					
 					if($check == 'yes'){
-						$sqlAL = new sqlAbstractionLayer($choosenDB);
+						$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 						$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 						
 						if($tcms_main->isReal($lang)) {
@@ -1502,11 +1489,15 @@ if($id_group == 'Developer'
 					}
 				}
 				
-				if($sender == 'desktop'){
-					echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\';</script>';
+				if($sender == 'desktop') {
+					echo '<script type="text/javascript">'
+					.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\';'
+					.'</script>';
 				}
-				else{
-					echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_content\';</script>';
+				else {
+					echo '<script type="text/javascript">'
+					.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_content\';'
+					.'</script>';
 				}
 				break;
 		}
@@ -1522,11 +1513,11 @@ if($id_group == 'Developer'
 	
 	if($todo == 'delete'){
 		if($choosenDB == 'xml'){
-			if(file_exists('../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml')) {
-				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml');
+			if($tcms_file->checkFileExist('../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml')) {
+				$tcms_file->deleteFile('../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml');
 			}
-			else {
-				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/tcms_content_languages/'.$maintag.'.xml');
+			else if($tcms_file->checkFileExist('../../'.$tcms_administer_site.'/tcms_content_languages/'.$maintag.'.xml')) {
+				$tcms_file->deleteFile('../../'.$tcms_administer_site.'/tcms_content_languages/'.$maintag.'.xml');
 			}
 			
 			
@@ -1541,7 +1532,7 @@ if($id_group == 'Developer'
 			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			$sqlAL->sqlDeleteOne($tcms_db_prefix.'content', $maintag);
 			

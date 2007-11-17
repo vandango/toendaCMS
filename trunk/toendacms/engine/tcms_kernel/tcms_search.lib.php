@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide a dynamic
  * search class.
  *
- * @version 0.1.6
+ * @version 0.1.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -99,6 +99,8 @@ class tcms_search extends tcms_main {
 		else{
 			$this->m_choosenDB = 'xml';
 		}
+		
+		parent::setAdministerSite($tcms_administer_path);
 	}
 	
 	

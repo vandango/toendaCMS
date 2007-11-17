@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.8.1
+ * @version 2.8.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -606,11 +606,11 @@ if($wsShowSite) {
 					
 					if(isset($session)) {
 						if($_GET['setXMLSession'] == 1) {
-							if(file_exists('engine/admin/session/'.$session)) {
-								$file = new file('engine/admin/session/'.$session, 'r');
+							if($tcms_file->checkFileExist('engine/admin/session/'.$session)) {
+								$file = new tcms_file('engine/admin/session/'.$session, 'r');
 								$ws_id = $file->read();
 								
-								$file->changeFile($administer_site.'/session/'.$session, 'w');
+								$file->changeFile($tcms_administer_site.'/tcms_session/'.$session, 'w');
 								$file->write($ws_id);
 								$file->close();
 								

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to authenticate a login user.
  *
- * @version 0.3.2
+ * @version 0.3.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -249,7 +249,13 @@ class tcms_authentication extends tcms_main {
 	 */
 	function checkSessionExist($session, $forBackend = false) {
 		if($this->db_choosenDB == 'xml') {
-			include_once($this->m_administer.'/../engine/tcms_kernel/tcms_file.lib.php');
+			if($forBackend) {
+				include_once('..//tcms_kernel/tcms_file.lib.php');
+			}
+			else {
+				//include_once($this->m_administer.'/../engine/tcms_kernel/tcms_file.lib.php');
+				include_once('engine/tcms_kernel/tcms_file.lib.php');
+			}
 			
 			$file = new tcms_file();
 			
