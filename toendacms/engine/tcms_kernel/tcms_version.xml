@@ -3,14 +3,14 @@
 	<release>1.6.0</release>
 	<codename>Osaka</codename>
 	
-	<status>Development</status>
 	<status>Stable</status>
+	<status>Development</status>
 	<status>RC1</status>
 	<status>Beta</status>
 	
 	<build>Build 3600</build>
 	<name>toendaCMS</name>
 	<tagline>Your ideas ahead</tagline>
-	<release_date>17.11.2007 - 13:41</release_date>
+	<release_date>17.11.2007 - 15:37</release_date>
 	<toenda_copyright>2003 - 2007</toenda_copyright>
 </version>
