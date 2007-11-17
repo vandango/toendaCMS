@@ -4717,7 +4717,7 @@ class tcms_main {
 		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
 		
 		$f = new tcms_file();
-		return $f->getAllDocuments();
+		return $f->getAllDocuments($this->_tcmsConfig->getCharset());
 		/*
 		$count = 0;
 		

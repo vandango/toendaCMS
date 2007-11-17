@@ -21,7 +21,7 @@
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 0.6.0
+ * @version 0.6.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -312,6 +312,7 @@ if(isset($id_user)){
 		if($tcms_main->isArray($arr_dir)){
 			foreach($arr_dir as $dkey => $dvalue){
 				$dvalue2 = ( isset($folder) ? $folder.'/' : '' ).$dvalue;
+				$dvalue3 = $dvalue;
 				
 				if(is_dir(trim($tcms_administer_site.'/images/Image/'.$dvalue2))) {
 					$addurl = '';
@@ -519,7 +520,7 @@ if(isset($id_user)){
 								.'\'&lt;a href=&quot;'.$seo_path.'/images/Image/'.$dvalue2.'&quot; '
 								.'rel=&quot;lightbox&quot;&gt;'
 								.'&lt;img '
-								.'src=&quot;'.$img_path.'/images/upload_thumb/thumb_'.$dvalue2.'&quot; '
+								.'src=&quot;'.$img_path.'/images/upload_thumb/thumb_'.$dvalue3.'&quot; '
 								.'alt=&quot;'.$dvalue.'&quot; /&gt;'
 								.'&lt;\/a&gt;\');'
 								.'self.close()';
