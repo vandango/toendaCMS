@@ -94,14 +94,11 @@ $sqlPort   = $tcms_db_port;
 $sqlPrefix = $tcms_db_prefix;
 
 $tcms_main->setDatabaseInfo($choosenDB);
+$tcms_config->decodeConfiguration($tcms_main);
 
 
 $charset  = $tcms_config->getCharset();
 $currency = $tcms_config->getCurrency();
-
-
-$layout_xml = new xmlparser($tcms_administer_site.'/tcms_global/layout.xml','r');
-$s = $layout_xml->readSection('layout', 'select');
 
 
 $cms_name         = $tcms_version->getName();
@@ -111,13 +108,25 @@ $cms_release      = $tcms_version->getVersion();
 $cms_build        = $tcms_version->getBuild();
 
 
-$footer_xml       = new xmlparser(''.$tcms_administer_site.'/tcms_global/footer.xml','r');
-$websiteowner     = $footer_xml->readSection('footer', 'websiteowner');
-$websitecopyright = $footer_xml->readSection('footer', 'copyright');
-$websiteowner_url = $footer_xml->readSection('footer', 'owner_url');
-$footer_xml->flush();
-$footer_xml->_xmlparser();
+$s                = $tcms_config->getFrontendTheme();
+$websiteowner     = $tcms_config->getWebpageOwner();
+$websitecopyright = $tcms_config->getWebpageCopyright();
+$websiteowner_url = $tcms_config->getWebpageOwnerUrl();
+$seoEnabled       = $tcms_config->getSEOEnabled();
 
+if($seoEnabled) {
+	$seoFolder = $tcms_config->getSEOPath();
+	
+	if($seoFolder != '') {
+		$seoFolder = '/'.$seoFolder.'/';
+	}
+	else {
+		$seoFolder = '/';
+	}
+}
+else {
+	$seoFolder = '/';
+}
 
 
 
@@ -532,6 +541,45 @@ if($ws_auth == 1){
 	
 	//echo $buffer;
 	
+	
+	//--> DOMPDF
+	
+	$html ='<html><body>'.
+	'<p>Put your html here, or generate it with your favourite '.
+	'templating system.</p>'.
+	'</body></html>';
+	
+	$fp = fopen('cache/output4pdf.html', 'w');
+	fwrite($fp, $html);
+	fclose($fp);
+	
+	$input_file = '../../../../cache/output4pdf.html';
+	//$input_file = $seoFolder.'cache/output4pdf.html';
+	
+	$output_file = 'dompdf.pdf';
+	
+	$url = $seoFolder.'engine/tcms_kernel/dompdf/dompdf.php?input_file='
+	.rawurlencode($input_file)
+	.'&paper=letter&output_file='.rawurlencode($output_file);
+    
+    //header('Location: http://'.$_SERVER['HTTP_HOST'].$url);
+    echo '<script>'
+	.'document.location=\'http://'.$_SERVER['HTTP_HOST'].$url.'\';'
+	.'</script>';
+    
+	unlink('cache/output4pdf.html');
+    
+	/*
+	require_once('engine/tcms_kernel/dompdf/dompdf_config.inc.php');
+	
+	$dompdf = new DOMPDF();
+	$dompdf->set_base_path('engine/tcms_kernel/dompdf/');
+	$dompdf->load_html($html);
+	$dompdf->render();
+	$dompdf->stream('../../../cache/dompdf.pdf');
+	*/
+	
+	/*
 	include_once('engine/tcms_kernel/html2pdf/html2fpdf.php');
 	
 	$returnPDF = new HTML2FPDF();
@@ -540,38 +588,6 @@ if($ws_auth == 1){
 	$returnPDF->SetAuthor($websiteowner);
 	$returnPDF->SetCreator('toendaCMS - '.$cms_release.' - '.$cms_build);
 	$returnPDF->Output();
-	
-	
-	//--> XHTML2PDF
-	/*
-	$fp = fopen('cache/output4pdf.html', 'w');
-	fwrite($fp, $buffer);
-	fclose($fp);
-	
-	define('X_PATH', 'engine/tcms_kernel/xhtml2pdf/');
-	define('DOC_PATH', 'cache/');
-	
-	include_once(X_PATH.'/classes/x2fpdf.php');
-	
-	$pdf['author'] = $websiteowner;
-	$pdf['name'] = 'output4pdf.pdf';
-	$pdf['title'] = 'toendaCMS generated PDF';
-	$pdf['chapo'] = 'toendaCMS generated PDF';
-	$pdf['date']['created'] = date('d.m.Y-H:i');
-	$pdf['date']['modified'] = date('d.m.Y-H:i');
-	
-	$xpdf = new xhtml2pdf(DOC_PATH.'output4pdf.html', 'theme/printer/data/css.css', $config);
-	
-	$xpdf->SetTitle($pdf['title']);
-	$xpdf->SetAuthor($pdf['author']);
-	$xpdf->SetCreator('toendaCMS - '.$cms_release.' - '.$cms_build);
-	$xpdf->SetSubject($pdf['chapo']);
-	$xpdf->SetKeywords($keywords='');
-	$xpdf->WriteRights();
-	
-	$xpdf->output($pdf['name'], 'I');
-	
-	unlink('cache/output4pdf.html');
 	*/
 }
 else{

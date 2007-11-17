@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used to manage the galleries.
  *
- * @version 0.8.5
+ * @version 0.8.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -495,7 +495,9 @@ if($param_save_mode == 'off') {
 					$bgkey++;
 					if(is_integer($bgkey/2)){ $ws_farbe=$arr_farbe[0]; } else{ $ws_farbe=$arr_farbe[1]; }
 					
-					echo '<form name="albums_'.$arr_albums['path'][$key].'" id="albums_'.$arr_albums['path'][$key].'" action="admin.php?id_user='.$id_user.'&site=mod_gallery" method="post">';
+					echo '<form name="albums_'.$arr_albums['path'][$key].'" id="albums_'.$arr_albums['path'][$key].'" action="'
+					.'admin.php?id_user='.$id_user.'&site=mod_gallery'
+					.'" method="post">';
 					
 					echo '<tr bgcolor="'.$ws_farbe.'">';
 					
@@ -503,9 +505,12 @@ if($param_save_mode == 'off') {
 					.'<input name="title" class="tcms_input_normal" value="'.$arr_albums['title'][$key].'" /><br />'
 					.'<textarea name="description" class="tcms_textarea_big">'.$arr_albums['description'][$key].'</textarea>';
 					
-					if($choosenDB == 'xml'){ $tvalue = substr($value, 6, 6); }
-					else{
+					if($choosenDB == 'xml') {
+						$tvalue = substr($value, 6, 6);
+					}
+					else {
 						$tvalue = $arr_albums['path'][$key];
+						
 						echo '<input type="hidden" name="tmp_image_id" value="'.$value.'" />';
 					}
 					
@@ -554,14 +559,23 @@ if($param_save_mode == 'off') {
 					echo '<br />';
 					echo '<select name="gImage" onchange="document.getElementById(\'show_thumbnail_'.$key.'\').src=\'../../'.$tcms_administer_site.'/thumbnails/'.$tvalue.'/thumb_\'+this.value;">';
 					
-					if($arrGImages){
-						foreach($arrGImages as $keyz => $val){
-							if($choosenDB == 'xml'){ $valImg = substr($val, 0, strpos($val, '.xml')); }
-							else{ $valImg = $val; }
-							echo '<option'.( $valImg == $arr_albums['image'][$key] ? ' selected' : '' ).' value="'.$valImg.'">'.$valImg.'</option>';
+					if($arrGImages) {
+						foreach($arrGImages as $keyz => $val) {
+							if($choosenDB == 'xml') {
+								$valImg = substr($val, 0, strpos($val, '.xml'));
+							}
+							else {
+								$valImg = $val;
+							}
+							
+							echo '<option'
+							.( $valImg == $arr_albums['image'][$key] ? ' selected' : '' )
+							.' value="'.$valImg.'">'
+							.$tcms_main->cutLongStringToShortString($valImg, 35)
+							.'</option>';
 						}
 					}
-					else{
+					else {
 						echo '<option value="">empty</option>';
 					}
 					
@@ -569,8 +583,6 @@ if($param_save_mode == 'off') {
 					
 					echo '</td>';
 					
-					/*
-					***************************/
 					
 					
 					echo '<td class="tcms_db_2" valign="top"><input type="checkbox" name="use" '.( $arr_albums['use'][$key] == 1 ? 'checked' : '' ).' value="1" /></td>';
