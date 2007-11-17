@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a documents manager.
  *
- * @version 1.1.8
+ * @version 1.1.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -675,7 +675,7 @@ if($id_group == 'Developer'
 		
 		
 		if($tcms_main->isReal($lang)) {
-			$arr_docs = $tcms_main->getAllDocuments();
+			$arr_docs = $tcms_main->getAllDocuments($tcms_config->getCharset());
 			unset($value);
 			
 			// row
@@ -911,6 +911,7 @@ if($id_group == 'Developer'
 		.'var tabPane1 = new WebFXTabPane(document.getElementById("tab-pane-1"));'
 		.'tabPane1.addTabPage(document.getElementById("tab-page-text"));'
 		.'tabPane1.addTabPage(document.getElementById("tab-page-set"));'
+		.'tabPanel.setSelectedIndex(0);'
 		.'setupAllTabs();'
 		.'</script>'
 		.'<br />';
@@ -1523,12 +1524,14 @@ if($id_group == 'Developer'
 			
 			$del_menuitem = $tcms_main->xml_readdir_content($maintag, '../../'.$tcms_administer_site.'/tcms_menu/', 'link', 'menu', 5);
 			
-			if($del_menuitem == '' || empty($del_menuitem) || !isset($del_menuitem)){
+			if($del_menuitem == '' 
+			|| empty($del_menuitem) 
+			|| !isset($del_menuitem)){
 				$del_menuitem = $tcms_main->xml_readdir_content($maintag, '../../'.$tcms_administer_site.'/tcms_topmenu/', 'link', 'top', 5);
-				unlink('../../'.$tcms_administer_site.'/tcms_topmenu/'.$del_menuitem.'.xml');
+				$tcms_file->deleteFile('../../'.$tcms_administer_site.'/tcms_topmenu/'.$del_menuitem.'.xml');
 			}
-			else{
-				unlink('../../'.$tcms_administer_site.'/tcms_menu/'.$del_menuitem.'.xml');
+			else {
+				$tcms_file->deleteFile('../../'.$tcms_administer_site.'/tcms_menu/'.$del_menuitem.'.xml');
 			}
 		}
 		else{

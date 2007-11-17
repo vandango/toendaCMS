@@ -178,7 +178,7 @@ if($tcms_config->usePDFLink()) {
 		//if(trim($id) == 'products'){ $show_pdf = false; }
 		
 		if($tcms_config->usePDFLink()) {
-			echo '&nbsp;';
+			/*echo '&nbsp;';
 			echo '<a href="javascript:pdfWindow(\''.$s.'\', \''.$pdfID.'\', \''.$news.'\', \''.$pdfCategory.'\', \''.$pdfArticle.'\', \''.$session.'\', \''.$imagePath.'\');">';
 			
 			
@@ -198,7 +198,7 @@ if($tcms_config->usePDFLink()) {
 			}
 			
 			
-			echo '</a>';
+			echo '</a>';*/
 		}
 	}
 }

@@ -526,12 +526,11 @@ class tcms_file {
 	/**
 	 * Get all documents
 	 * 
+	 * @param String $charset = 'ISO-8859-1'
 	 * @return Array
 	 */
-	public function getAllDocuments() {
+	public function getAllDocuments($charset = 'ISO-8859-1') {
 		$count = 0;
-		
-		$c_charset = $this->_tcmsConfig->getCharset();
 		
 		if($this->db_choosenDB == 'xml') {
 			$arr_docs = $this->getPathContent($this->administer.'/tcms_content/');
@@ -544,7 +543,7 @@ class tcms_file {
 					
 					$arrDocuments['id'][$count] = $xml->readSection('main', 'id');
 					$arrDocuments['name'][$count] = $this->decodeText(
-						$xml->readSection('main', 'title'), '2', $c_charset
+						$xml->readSection('main', 'title'), '2', $charset
 					);
 					
 					$xml->flush();
@@ -569,7 +568,7 @@ class tcms_file {
 			
 			while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
 				$arrDocuments['id'][$count] = $sqlObj->uid;
-				$arrDocuments['name'][$count] = $this->decodeText($sqlObj->title, '2', $c_charset);
+				$arrDocuments['name'][$count] = $this->decodeText($sqlObj->title, '2', $charset);
 				
 				$count++;
 			}
