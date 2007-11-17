@@ -20,7 +20,7 @@
  *
  * This is used as a linkbrowser
  *
- * @version 0.4.2
+ * @version 0.4.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -154,7 +154,7 @@ else if($seoFormat == 2) {
 // ---------------------------------------------
 
 if(isset($id_user)) {
-	$check_session = $tcms_auth->checkSessionExist($id_user);
+	$check_session = $tcms_auth->checkSessionExist($id_user, true);
 	
 	if($check_session) {
 		$arr_ws = $tcms_ap->getUserInfo($id_user, true);
@@ -820,13 +820,13 @@ if(isset($id_user)) {
 		
 		echo '</div>';
 	}
-	else{
+	else {
 		echo '<div align="center" style=" padding: 100px 10px 100px 10px; border: 1px solid #333; background-color: #f8f8f8; font-family: Georgia, \'Lucida Grande\', \'Lucida Sans\', Serif;">'
 		.'<h1>'._MSG_SESSION_EXPIRED.'</h2>'
 		.'</div>';
 	}
 }
-else{
+else {
 	echo '<div align="center" style=" padding: 100px 10px 100px 10px; border: 1px solid #333; background-color: #f8f8f8; font-family: Georgia, \'Lucida Grande\', \'Lucida Sans\', Serif;">'
 	.'<h1>'._DIE_LOGIN.'</h2>'
 	.'</div>';

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic public functions.
  *
- * @version 2.7.5
+ * @version 2.7.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -3508,6 +3508,13 @@ class tcms_main {
 		if($url != '') {
 			$url = str_replace($this->globalFolder, '', $url);
 			$url = str_replace('///', '/', $url);
+			//$url = str_replace('//', '/', $url);
+		}
+		
+		if(isset($dvalue) && $dvalue != '') {
+			$rTemp2 = $dvalue;
+			$rTemp2 = str_replace('///', '/', $rTemp2);
+			$rTemp2 = str_replace('//', '/', $rTemp2);
 		}
 		
 		if(isset($n) && $n == 'without') {
@@ -3527,18 +3534,18 @@ class tcms_main {
 		else {
 			if($show_wysiwyg == 'tinymce' && $v != 'links') {
 				if($a == 1) {
-					$cmdImage = 'opener.tinyMCE.execCommand(\'mceInsertContent\', false, \'&lt;a href=&quot;'.$dvalue.'&quot;&gt;\' + document.getElementById(\'lb_title_'.$key.'\').value + \'&lt;/a&gt;\');self.close()';
+					$cmdImage = 'opener.tinyMCE.execCommand(\'mceInsertContent\', false, \'&lt;a href=&quot;'.$rTemp2.'&quot;&gt;\' + document.getElementById(\'lb_title_'.$key.'\').value + \'&lt;/a&gt;\');self.close()';
 				}
 				else {
-					$cmdImage = 'opener.tinyMCE.execCommand(\'mceInsertContent\', false, \'&lt;a href=&quot;'.$dvalue.'&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;'.$b.'/images/albums/'.$c.'/'.$a.'&quot; border=&quot;0&quot; alt=&quot;\' + document.getElementById(\'lb_title_'.$key.'\').value + \'&quot; /&gt;&lt;/a&gt;\');self.close()';
+					$cmdImage = 'opener.tinyMCE.execCommand(\'mceInsertContent\', false, \'&lt;a href=&quot;'.$rTemp2.'&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;'.$b.'/images/albums/'.$c.'/'.$a.'&quot; border=&quot;0&quot; alt=&quot;\' + document.getElementById(\'lb_title_'.$key.'\').value + \'&quot; /&gt;&lt;/a&gt;\');self.close()';
 				}
 			}
 			else {
 				if($show_wysiwyg == 'toendaScript') {
-					$cmdImage = 'setLink(\''.$dvalue.'\', document.getElementById(\'lb_title_'.$key.'\').value, \'content\', \'toendaScript\')';
+					$cmdImage = 'setLink(\''.$rTemp2.'\', document.getElementById(\'lb_title_'.$key.'\').value, \'content\', \'toendaScript\')';
 				}
 				else {
-					$cmdImage = 'setLink(\''.$dvalue.'\', document.getElementById(\'lb_title_'.$key.'\').value, \'content\', \'HTML\')';
+					$cmdImage = 'setLink(\''.$rTemp2.'\', document.getElementById(\'lb_title_'.$key.'\').value, \'content\', \'HTML\')';
 				}
 			}
 		}

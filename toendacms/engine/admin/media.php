@@ -21,7 +21,7 @@
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 0.5.8
+ * @version 0.6.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -89,6 +89,9 @@ $tcms_db_prefix = $sqlPrefix;
 $tcms_main->setDatabaseInfo($choosenDB);
 $tcms_config->decodeConfiguration($tcms_main);
 
+$seoEnabled   = $tcms_config->getSEOEnabled();
+$seoFolder    = $tcms_config->getSEOPath();
+
 // imagepath
 if($seoEnabled == 1){
 	if($seoFolder != ''){
@@ -127,8 +130,6 @@ else{
 
 $show_wysiwyg = $tcms_config->getWYSIWYGEditor();
 $c_charset    = $tcms_config->getCharset();
-$seoEnabled   = $tcms_config->getSEOEnabled();
-$seoFolder    = $tcms_config->getSEOPath();
 $webURL       = $tcms_config->getWebpageOwnerUrl();
 
 
@@ -459,6 +460,18 @@ if(isset($id_user)){
 					echo '</td>';
 					
 					
+					if($seoEnabled) {
+						$seo_path = str_replace('../../', '', $tcms_administer_site);
+						$seo_path = '/'.$seoFolder.'/'.$seo_path;
+						
+						$img_path = $seo_path;//str_replace('../../', '', $tcms_administer_site);
+					}
+					else {
+						$seo_path = $tcms_administer_site;
+						$img_path = $tcms_administer_site;
+					}
+					
+					
 					// images
 					if(!preg_match('/.mp3/i', strtolower($dvalue))){
 						// news configuration
@@ -493,20 +506,20 @@ if(isset($id_user)){
 						else {
 							if($show_wysiwyg == 'tinymce' && $v != 'links') {
 								$cmdImage = 'opener.tinyMCE.execCommand(\'mceInsertContent\', false, '
-								.'\'&lt;a href=&quot;'.( $seoEnabled == 1 ? '' : '' ).$tcms_administer_site.'/images/Image/'.$dvalue2.'&quot; '
+								.'\'&lt;a href=&quot;'.$seo_path.'/images/Image/'.$dvalue2.'&quot; '
 								.'rel=&quot;lightbox&quot;&gt;'
 								.'&lt;img '
-								.'src=&quot;'.( $seoEnabled == 1 ? '' : '' ).$tcms_administer_site.'/images/Image/'.$dvalue2.'&quot; '
+								.'src=&quot;'.$img_path.'/images/Image/'.$dvalue2.'&quot; '
 								.'alt=&quot;'.$dvalue.'&quot; /&gt;'
 								.'&lt;\/a&gt;\');'
 								.'self.close()';
 								
 								$cmdThumb = 'opener.tinyMCE.execCommand(\'mceInsertContent\', false, '
 								//.'\'&lt;a href=&quot;javascript:imageWindow(\&#39;'.$dvalue2.'\&#39;, \&#39;media\&#39;);&quot;&gt;'
-								.'\'&lt;a href=&quot;'.( $seoEnabled == 1 ? '' : '' ).$tcms_administer_site.'/images/Image/'.$dvalue2.'&quot; '
+								.'\'&lt;a href=&quot;'.$seo_path.'/images/Image/'.$dvalue2.'&quot; '
 								.'rel=&quot;lightbox&quot;&gt;'
 								.'&lt;img '
-								.'src=&quot;'.( $seoEnabled == 1 ? '' : '' ).$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue2.'&quot; '
+								.'src=&quot;'.$img_path.'/images/upload_thumb/thumb_'.$dvalue2.'&quot; '
 								.'alt=&quot;'.$dvalue.'&quot; /&gt;'
 								.'&lt;\/a&gt;\');'
 								.'self.close()';
@@ -546,7 +559,7 @@ if(isset($id_user)){
 						}
 						else {
 							if($show_wysiwyg == 'tinymce' && $v != 'links') {
-								$cmdImage = 'opener.tinyMCE.execCommand(\'mceInsertContent\', false, \'&lt;a href=&quot;'.$tcms_administer_site.'/images/Image/'.$dvalue2.'&quot; target=&quot;_blank&quot;&gt;'.$dvalue.'&lt;/a&gt;\');self.close()';
+								$cmdImage = 'opener.tinyMCE.execCommand(\'mceInsertContent\', false, \'&lt;a href=&quot;'.$seo_path.'/images/Image/'.$dvalue2.'&quot; target=&quot;_blank&quot;&gt;'.$dvalue.'&lt;/a&gt;\');self.close()';
 							}
 							else {
 								if($show_wysiwyg == 'toendaScript') {

@@ -216,6 +216,8 @@ class toendaScript {
 		if($seoEnabled == 1){
 			$tempSEO = str_replace('/', '', $seoImageFolder);
 			$text = preg_replace('/(src=")(?!\/'.$tempSEO.')(?!http)/i', 'src="'.$seoImageFolder, $text);
+			
+			$text = str_replace($seoImageFolder.$seoImageFolder, $seoImageFolder, $text);
 		}
 		
 		if($tcms_main->isReal($session)){

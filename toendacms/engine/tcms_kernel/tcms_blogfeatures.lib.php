@@ -25,7 +25,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Adapted from original code by Natalie Downe: 
  * http://blog.natbat.co.uk/archive/2003/Jun/14/time_since
  *
- * @version 0.1.5
+ * @version 0.1.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -196,6 +196,7 @@ class tcms_blogfeatures {
 			
 			case 'de':
 				$output = str_replace('Stundee', 'Stunden', $output);
+				$output = str_replace('Minutee', 'Minuten', $output);
 				$output.' her';
 				break;
 			
