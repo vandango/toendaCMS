@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * This module is for the global configuration settings.
  * 
- * @version 1.3.6
+ * @version 1.3.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Admin Backend
@@ -101,6 +101,7 @@ if(isset($_POST['new_last_changes'])){ $new_last_changes = $_POST['new_last_chan
 if(isset($_POST['new_use_content_l'])){ $new_use_content_l = $_POST['new_use_content_l']; }
 if(isset($_POST['new_seo_news_title'])){ $new_seo_news_title = $_POST['new_seo_news_title']; }
 if(isset($_POST['new_seo_content_title'])){ $new_seo_content_title = $_POST['new_seo_content_title']; }
+if(isset($_POST['new_mediaman_view'])){ $new_mediaman_view = $_POST['new_mediaman_view']; }
 
 if(isset($_POST['new_mail_with_smtp'])){ $new_mail_with_smtp = $_POST['new_mail_with_smtp']; }
 if(isset($_POST['new_mail_as_html'])){ $new_mail_as_html = $_POST['new_mail_as_html']; }
@@ -209,6 +210,7 @@ if($id_group == 'Developer'
 	$old_last_changes   = $globals_xml->read_section('global', 'last_changes');
 	$old_use_content_l  = $globals_xml->read_section('global', 'use_content_language');
 	$old_valid_links    = $globals_xml->read_section('global', 'valid_links');
+	$old_mediaman_view  = $globals_xml->read_section('global', 'mediaman_view');
 	
 	
 	// userpage
@@ -474,14 +476,25 @@ if($id_group == 'Developer'
 		.'</td></tr>';
 		
 		
-		echo '<tr>'
-		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_USE_CONTENT_LANG.'</td>'
-		.'<td>'
+		echo '<tr><td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'
+		._GLOBAL_USE_CONTENT_LANG
+		.'</td><td>'
 		.'<input type="checkbox" name="new_use_content_l"'.($old_use_content_l == 1 ? ' checked="checked"' : '' ).' value="1" />'
 		.'</td></tr>';
 		
 		
 		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'
+		._GLOBAL_MM_VIEW
+		.'</td><td>'
+		.'<select name="new_mediaman_view" class="tcms_select">'
+		.'<option value="list"'.( $old_mediaman_view == 'list' ? ' selected="selected"' : '' ).'>'._GLOBAL_MM_VIEW_LIST.'</option>'
+		.'<option value="icon"'.( $old_mediaman_view == 'icon' ? ' selected="selected"' : '' ).'>'._GLOBAL_MM_VIEW_ICON.'</option>'
+		.'</select>'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_CHARSET.'</td>'
 		.'<td>'
 		.'<select name="charset" class="tcms_select">';
@@ -491,7 +504,7 @@ if($id_group == 'Developer'
 		echo '</select></td></tr>';
 		
 		
-		echo '<tr>'
+		echo '<tr style="background: '.$arr_color[1].';">'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_LANG.'</td>'
 		.'<td>'
 		.'<select name="tmp_lang" class="tcms_select">';
@@ -505,7 +518,7 @@ if($id_group == 'Developer'
 		echo '</select></td></tr>';
 		
 		
-		echo '<tr style="background: '.$arr_color[1].';">'
+		echo '<tr>'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_FRONT_LANG.'</td>'
 		.'<td>'
 		.'<select name="tmp_front_lang" class="tcms_select">';
@@ -519,7 +532,7 @@ if($id_group == 'Developer'
 		echo '</select></td></tr>';
 		
 		
-		echo '<tr>'
+		echo '<tr style="background: '.$arr_color[1].';">'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'
 		._GLOBAL_CURRENCY
 		.'</td><td>'
@@ -532,7 +545,7 @@ if($id_group == 'Developer'
 		echo '</select></td></tr>';
 		
 		
-		echo '<tr style="background: '.$arr_color[1].';">'
+		echo '<tr>'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25">'._GLOBAL_WYSIWYG.'</td>'
 		.'<td>'
 		.'<select name="tmp_use_wysiwyg" class="tcms_select">'
@@ -544,7 +557,7 @@ if($id_group == 'Developer'
 		.'</select></td></tr>';
 		
 		
-		echo '<tr>'
+		echo '<tr style="background: '.$arr_color[1].';">'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" valign="top" height="25">'._TABLE_DEFAULT_NEWS_CATEGORY.'</td>'
 		.'<td valign="top">'
 		.'<select name="new_default_cat" class="tcms_select">';
@@ -554,7 +567,7 @@ if($id_group == 'Developer'
 		echo '</select></td></tr>';
 		
 		
-		echo '<tr style="background: '.$arr_color[1].';">'
+		echo '<tr>'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" valign="top" height="25">'._GLOBAL_FOOTER_TEXT.'</td>'
 		.'<td valign="top">'
 		.'<textarea id="new_footer_text" name="new_footer_text" class="tcms_textarea_big">'.$old_footer_text.'</textarea>'
@@ -1297,6 +1310,7 @@ $tcms_mail_password    = \''.$new_mail_password.'\';
 			if(empty($new_expires))          { $new_expires           = 0; }
 			if(empty($new_use_content_l))    { $new_use_content_l     = 0; }
 			if(empty($new_last_changes))     { $new_last_changes      = date('Y-m-d H:i:s'); }
+			if(empty($new_mediaman_view))    { $new_mediaman_view     = 0; }
 			
 			//
 			//***********
@@ -1422,6 +1436,7 @@ $tcms_mail_password    = \''.$new_mail_password.'\';
 			$xmluser->write_value('last_changes', $new_last_changes);
 			$xmluser->write_value('use_content_language', $new_use_content_l);
 			$xmluser->write_value('valid_links', $new_valid_links);
+			$xmluser->write_value('mediaman_view', $new_mediaman_view);
 			
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('global');

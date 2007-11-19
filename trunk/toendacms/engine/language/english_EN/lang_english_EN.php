@@ -897,6 +897,9 @@ if(!defined('_GLOBAL_ROBOTSSETTINGS'))         define('_GLOBAL_ROBOTSSETTINGS', 
 if(!defined('_GLOBAL_LAST_CHANGES'))           define('_GLOBAL_LAST_CHANGES', 'Last website changes');
 if(!defined('_GLOBAL_USE_CONTENT_LANG'))       define('_GLOBAL_USE_CONTENT_LANG', 'Use content languages');
 if(!defined('_GLOBAL_VALIDLINKS'))             define('_GLOBAL_VALIDLINKS', 'Show WebStandards Links');
+if(!defined('_GLOBAL_MM_VIEW_LIST'))           define('_GLOBAL_MM_VIEW_LIST', 'List view');
+if(!defined('_GLOBAL_MM_VIEW_ICON'))           define('_GLOBAL_MM_VIEW_ICON', 'Icon view');
+if(!defined('_GLOBAL_MM_VIEW'))                define('_GLOBAL_MM_VIEW', 'Mediamanager Item View');
 
 
 // POLL

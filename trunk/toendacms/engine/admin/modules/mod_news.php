@@ -799,8 +799,12 @@ if($todo == 'show'){
 				if($showAll == true){
 					$bgkey++;
 					
-					if(is_integer($bgkey/2)) $ws_farbe = $arr_farbe[0];
-					else $ws_farbe = $arr_farbe[1];
+					if(is_integer($bgkey/2)) {
+						$ws_farbe = $arr_farbe[0];
+					}
+					else {
+						$ws_farbe = $arr_farbe[1];
+					}
 					
 					$strJS = ' onclick="document.location=\'admin.php?id_user='.$id_user.'&amp;site=mod_news&amp;todo=edit&amp;maintag='.$arr_news['order'][$key].'\';"';
 					

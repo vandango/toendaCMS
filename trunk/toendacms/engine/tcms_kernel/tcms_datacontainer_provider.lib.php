@@ -324,13 +324,13 @@ class tcms_datacontainer_provider extends tcms_main {
 	function getNewsDCList($language, $usergroup = '', $amount, $published = '1', $withShowOnFrontpage = false){
 		$doFill = false;
 		
-		if($this->m_choosenDB == 'xml'){
+		if($this->m_choosenDB == 'xml') {
 			$arr_filename = $this->getPathContent($this->m_path.'/tcms_news/');
 			
 			$count = 0;
 			
 			if($this->isArray($arr_filename)) {
-				foreach($arr_filename as $nkey => $nvalue){
+				foreach($arr_filename as $nkey => $nvalue) {
 					$xml = new xmlparser($this->m_path.'/tcms_news/'.$nvalue,'r');
 					
 					$is_pub  = $xml->readSection('news', 'published');
@@ -341,10 +341,10 @@ class tcms_datacontainer_provider extends tcms_main {
 					if($is_lang == $language) {
 						$show_this_news = $this->checkAccess($is_auth, $usergroup);
 						
-						if($show_this_news == true){
+						if($show_this_news == true) {
 							$is_date = mktime(substr($is_date, 11, 2), substr($is_date, 14, 2), 0, substr($is_date, 3, 2), substr($is_date, 0, 2), substr($is_date, 6, 4));
 							
-							if($is_pub == 1 && $is_date < time()){
+							if($is_pub == 1 && $is_date < time()) {
 								$is_sof = $xml->readSection('news', 'show_on_frontpage');
 								//if($is_sof == false) $is_sof  = 1;
 								

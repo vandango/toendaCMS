@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a media manager.
  *
- * @version 0.4.7
+ * @version 0.5.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -149,56 +149,226 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 		PLACE FOR IMG
 	*/
 	
-	echo $tcms_html->tableHead('0', '0', '0', '100%');
-	echo '<tr valign="top"><td valign="top">';
+	$count = 1;
+	$bgkey = 0;
 	
-	if($tcms_main->isArray($arr_dir)){
+	echo $tcms_html->tableHead('0', '0', '0', '100%');
+	
+	if($tcms_config->getMediamanagerItemView() == 'list') {
+		echo '<tr class="tcms_bg_blue_01">'
+		.'<th valign="middle" class="tcms_db_title tcms_padding_mini" width="55%" align="left">'._TABLE_TITLE.'</th>'
+		.'<th valign="middle" class="tcms_db_title tcms_padding_mini" width="15%" align="left">'._TABLE_DATE.'</th>'
+		.'<th valign="middle" class="tcms_db_title tcms_padding_mini" width="15%" align="left">'._GALLERY_IMGSIZE.'</th>'
+		.'<th valign="middle" class="tcms_db_title tcms_padding_mini" width="15%" align="right">'._TABLE_FUNCTIONS.'</th>'
+		.'<tr>';
+	}
+	else {
+		echo '<tr valign="top"><td valign="top">';
+	}
+	
+	if(trim($path) != '') {
+		echo '<tr height="30" id="row_root" '
+		.'style="background: '.$arr_color[0].';" '
+		.'onMouseOver="wxlBgCol(\'row_root\',\'#ececec\')" '
+		.'onMouseOut="wxlBgCol(\'row_root\',\''.$arr_color[0].'\')">';
+		
+		// name
+		echo '<td align="left" class="tcms_db_2">'
+		.'<a href="admin.php?id_user='.$id_user.'&amp;site=mod_media&amp;action='.$action.'">'
+		.'<img style="border: 1px solid #ccc; margin: 2px 2px 0 2px; float: left;"'
+		.' src="../images/explore/faq_folder.png" border="0" />'
+		.'<div style="padding: 8px 0 0 5px;">'
+		.'..'
+		.'</div>'
+		.'</a>'
+		.'</td>';
+		
+		// date
+		echo '<td class="tcms_db_2">'
+		//.$tcms_file->getFileCreateTime(
+		//	'../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue
+		//)
+		.'</td>';
+		
+		// size
+		echo '<td class="tcms_db_2">'
+		//.$tcms_file->getDirectorySizeString(
+		//	'../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue
+		//)
+		.'</td>';
+		
+		// function
+		echo '<td class="tcms_db_2" style="text-align: middle;" align="right" valign="middle">'
+		/*.$formStart
+		.'<a title="'._TABLE_DELBUTTON.'" href="#" onclick="deleteMediafile(\''.$id_user.'\', \''.$action.'\', \''.$path.'/'.$dvalue.'\', \''._MSG_DELETE_SUBMIT.'\');">'
+		.'<div style="float: right; padding: 2px 0 0 0;">'
+		.'<strong>'._TCMS_ADMIN_DELETE.'</strong>'
+		.'</div>'
+		.'<img title="'._TABLE_DELBUTTON.'" alt="'._TABLE_DELBUTTON.'" border="0"'
+		//.' style="margin: 2px 2px 0 2px; float: right;"'
+		.' src="../images/a_delete.gif" />'
+		.'</a>&nbsp;'
+		.$formEnd*/
+		.'</td>';
+		
+		echo '</tr>';
+	}
+	
+	if($tcms_main->isArray($arr_dir)) {
 		// folder
-		foreach($arr_dir as $dkey => $dvalue){
+		foreach($arr_dir as $dkey => $dvalue) {
 			if(is_dir(trim('../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue))){
-				echo '<form id="'.$dvalue.'" name="'.$dvalue.'" action="admin.php?id_user='.$id_user.'&amp;site=mod_media" method="post">'
+				$formStart = '<form id="'.$dvalue.'" name="'.$dvalue.'"'
+				.' action="admin.php?id_user='.$id_user.'&amp;site=mod_media" method="post">'
 				.'<input name="todo" type="hidden" value="del_img" />'
 				.'<input name="action" type="hidden" value="'.$action.'" />'
 				.'<input name="delimg" type="hidden" value="'.$dvalue.'" />';
 				
-				echo '<div style="width: 100px; height: 155px; float: left; '
-				.'margin: 0 10px 0 0 !important; padding: 0px !important; '
-				.'border: 1px solid #ececec; text-align: left;">';
+				$formEnd = '</form>';
 				
-				$overlibText = '<strong>'._GALLERY_IMGTITLE.':</strong><br />'.$dvalue;
+				if($tcms_config->getMediamanagerItemView() == 'list') {
+					$bgkey++;
+					
+					if(is_integer($bgkey / 2)) {
+						$ws_color = $arr_color[0];
+					}
+					else {
+						$ws_color = $arr_color[1];
+					}
+					
+					$overlibText = '<strong>'._GALLERY_IMGTITLE.':</strong>'
+					.'<br />'.$dvalue;
+					
+					echo '<tr height="30" id="row'.$count.'" '
+					.'style="background: '.$ws_color.';" '
+					.'onMouseOver="wxlBgCol(\'row'.$count.'\',\'#ececec\')" '
+					.'onMouseOut="wxlBgCol(\'row'.$count.'\',\''.$ws_color.'\')">';
+					
+					// name
+					echo '<td align="left" class="tcms_db_2">'
+					.'<a onmouseover="return overlib(\''.$overlibText.'\', CAPTION, \''
+					.( strlen($dvalue) > 25 ? substr($dvalue, 0, 20).' ...' : $dvalue )
+					.'\', BELOW, RIGHT, WIDTH, 150);" onmouseout="return nd();"'
+					.' href="admin.php?id_user='.$id_user.'&amp;site=mod_media&amp;action=image&amp;path='.$dvalue.'">'
+					.'<img style="border: 1px solid #ccc; margin: 2px 2px 0 2px; float: left;"'
+					.' src="../images/explore/faq_folder.png" border="0" />'
+					.'<div style="padding: 8px 0 0 5px;">'
+					.$dvalue
+					.'</div>'
+					.'</a>'
+					.'</td>';
+					
+					// date
+					echo '<td class="tcms_db_2">'
+					.$tcms_file->getFileCreateTime(
+						'../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue
+					)
+					.'</td>';
+					
+					// size
+					echo '<td class="tcms_db_2">'
+					.$tcms_file->getDirectorySizeString(
+						'../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue
+					)
+					.'</td>';
+					
+					// function
+					echo '<td class="tcms_db_2" style="text-align: middle;" align="right" valign="middle">'
+					.$formStart
+					.'<a title="'._TABLE_DELBUTTON.'" href="#" onclick="deleteMediafile(\''.$id_user.'\', \''.$action.'\', \''.$path.'/'.$dvalue.'\', \''._MSG_DELETE_SUBMIT.'\');">'
+					.'<div style="float: right; padding: 2px 0 0 0;">'
+					.'<strong>'._TCMS_ADMIN_DELETE.'</strong>'
+					.'</div>'
+					.'<img title="'._TABLE_DELBUTTON.'" alt="'._TABLE_DELBUTTON.'" border="0"'
+					//.' style="margin: 2px 2px 0 2px; float: right;"'
+					.' src="../images/a_delete.gif" />'
+					.'</a>&nbsp;'
+					.$formEnd
+					.'</td>';
+					
+					echo '</tr>';
+					
+					
+					
+					/*
+					
+					echo '<div style="width: 100%; height: 30px; display: block; '
+					.'margin: 0 0 0 0 !important; padding: 0px !important; '
+					.'text-align: left;"'
+					.' onmouseover="return overlib(\''.$overlibText.'\', CAPTION, \''
+					.( strlen($dvalue) > 25 ? substr($dvalue, 0, 20).' ...' : $dvalue )
+					.'\', BELOW, RIGHT, WIDTH, 150);" onmouseout="return nd();">';
+					
+					$checkType = true;
+					
+					echo '<a href="admin.php?id_user='.$id_user.'&amp;site=mod_media&amp;action=image&amp;path='.$dvalue.'">'
+					.'<img style="border: 1px solid #ccc; margin: 2px 2px 0 2px; float: left;"'
+					.' src="../images/explore/faq_folder.png" border="0" />'
+					.'<div style="padding: 8px 0 0 5px;">'
+					.$dvalue
+					.'</div>'
+					.'</a>';
+					
+					echo '<span style="position: absolute; right: 50px; padding: 0 0 0 4px;">'
+					.'<a style="text-decoration: none !important;" href="#" onclick="deleteMediafile(\''.$id_user.'\', \''.$action.'\', \''.$path.'/'.$dvalue.'\', \''._MSG_DELETE_SUBMIT.'\');">'
+					.'<img title="'._TCMS_ADMIN_DELETE.'" alt="'._TCMS_ADMIN_DELETE.'" border="0"'
+					.' src="../images/a_delete.gif" />'
+					.'<strong>'._TCMS_ADMIN_DELETE.'</strong>'
+					.'</span>';
+					
+					echo '</div>';
+					
+					if($count < $amount) {
+						echo '<div style="border-bottom: 1px solid #ececec;"></div>';
+					}*/
+				}
+				else {
+					//if($tcms_config->getMediamanagerItemView() == 'icon') {
+					echo '<form id="'.$dvalue.'" name="'.$dvalue.'" action="admin.php?id_user='.$id_user.'&amp;site=mod_media" method="post">'
+					.'<input name="todo" type="hidden" value="del_img" />'
+					.'<input name="action" type="hidden" value="'.$action.'" />'
+					.'<input name="delimg" type="hidden" value="'.$dvalue.'" />';
+					
+					$overlibText = '<strong>'._GALLERY_IMGTITLE.':</strong>'
+					.'<br />'.$dvalue;
+					
+					echo '<div style="width: 100px; height: 155px; float: left; '
+					.'margin: 0 10px 0 0 !important; padding: 0px !important; '
+					.'border: 1px solid #ececec; text-align: left;">';
+					
+					echo '<div style="width: 100px; height: 100px; display: block; float: left; '
+					.'margin: 0 0 5px 0 !important; padding: 0px !important; '
+					.'border-bottom: 1px solid #ececec;" '
+					.'onmouseover="return overlib(\''.$overlibText.'\', CAPTION, \''
+					.( strlen($dvalue) > 25 ? substr($dvalue, 0, 20).' ...' : $dvalue )
+					.'\', BELOW, RIGHT, WIDTH, 150);" onmouseout="return nd();">';
+					
+					$checkType = true;
+					
+					echo '<a href="admin.php?id_user='.$id_user.'&amp;site=mod_media&amp;action=image&amp;path='.$dvalue.'">'
+					.'<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;"'
+					.' src="../images/filesystem/folder.png" border="0" />'
+					.'</a>';
+					
+					echo '</div>';
+					
+					echo '<div style="padding: 0 0 0 4px;">'.$dvalue.'<br />'
+					.'<a style="text-decoration: none !important;" href="#" onclick="deleteMediafile(\''.$id_user.'\', \''.$action.'\', \''.$path.'/'.$dvalue.'\', \''._MSG_DELETE_SUBMIT.'\');">'
+					.'<img title="'._TCMS_ADMIN_DELETE.'" alt="'._TCMS_ADMIN_DELETE.'" border="0"'
+					.' src="../images/a_delete.gif" />'
+					.'&nbsp;<strong style="padding-top: 5px;">'._TCMS_ADMIN_DELETE.'</strong></a>'
+					.'</div>';
+					
+					echo '</div>';
+					
+					echo '</form>';
+				}
 				
-				echo '<div style="width: 100px; height: 100px; display: block; float: left; '
-				.'margin: 0 0 5px 0 !important; padding: 0px !important; '
-				.'border-bottom: 1px solid #ececec;" '
-				.'onmouseover="return overlib(\''.$overlibText.'\', CAPTION, \''
-				.( strlen($dvalue) > 25 ? substr($dvalue, 0, 20).' ...' : $dvalue )
-				.'\', BELOW, RIGHT, WIDTH, 150);" onmouseout="return nd();">';
-				
-				$checkType = true;
-				
-				echo '<a href="admin.php?id_user='.$id_user.'&amp;site=mod_media&amp;action=image&amp;path='.$dvalue.'">'
-				.'<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;"'
-				.' src="../images/filesystem/folder.png" border="0" />'
-				.'</a>';
-				
-				echo '</div>';
-				
-				
-				echo '<div style="padding: 0 0 0 4px;">'.$dvalue.'<br />'
-				.'<a style="text-decoration: none !important;" href="#" onclick="deleteMediafile(\''.$id_user.'\', \''.$action.'\', \''.$path.'/'.$dvalue.'\', \''._MSG_DELETE_SUBMIT.'\');">'
-				.'<img title="'._TCMS_ADMIN_DELETE.'" alt="'._TCMS_ADMIN_DELETE.'" border="0"'
-				.' src="../images/a_delete.gif" />'
-				.'&nbsp;<strong style="padding-top: 5px;">'._TCMS_ADMIN_DELETE.'</strong></a>'
-				.'</div>';
-				
-				
-				echo '</div>';
-				
-				echo '</form>';
+				$count++;
 			}
 		}
 		
-		//$tcms_main->paf($arr_dir);
+		$bgkey = 0;
 		
 		// files
 		foreach($arr_dir as $fileKey => $fileVal){
@@ -210,8 +380,8 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 			if($tcms_main->isImage($dvalue, false)
 			|| $tcms_main->isAudio($dvalue, false)
 			|| $tcms_main->isVideo($dvalue, false)
-			|| $tcms_main->isMultimedia($dvalue, false)){
-				if(!preg_match('/.mp3/i', strtolower($dvalue))){
+			|| $tcms_main->isMultimedia($dvalue, false)) {
+				if(!preg_match('/.mp3/i', strtolower($dvalue))) {
 					if($action == 'image'){
 						if(!file_exists('../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue)) {
 							$tcms_gd->createThumbnail(
@@ -234,11 +404,13 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 					}
 				}
 				
-				echo '<form id="'.$dvalue.'" name="'.$dvalue.'"'
+				$formStart = '<form id="'.$dvalue.'" name="'.$dvalue.'"'
 				.' action="admin.php?id_user='.$id_user.'&amp;site=mod_media" method="post">'
 				.'<input name="todo" type="hidden" value="del_img" />'
 				.'<input name="action" type="hidden" value="'.$action.'" />'
 				.'<input name="delimg" type="hidden" value="'.$path.'/'.$dvalue.'" />';
+				
+				$formEnd = '</form>';
 				
 				
 				// get thumbnail info
@@ -270,12 +442,6 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 					$boxImgH = 100;
 				}
 				
-				echo '<a href="javascript:imageWindow(\''.$path.'/'.$dvalue.'\', \'media\');">'
-				.'<div style="width: 100px; height: '.$boxH.'px; float: left; '
-				.'margin: 0 10px 10px 0 !important; padding: 0px !important; '
-				.'border: 1px solid #ececec; text-align: left;">';
-				
-				
 				// get image info
 				if(!preg_match('/.mp3/i', strtolower($dvalue))){
 					if($action == 'image'){
@@ -293,7 +459,6 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 						}
 					}
 				}
-				
 				
 				if($action == 'image') {
 					if($tcms_file->checkFileExist('../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue)) {
@@ -315,120 +480,296 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 				$kpos = strpos($size, '.');
 				$img_size = substr($size, 0, $kpos+3);
 				
-				if(strlen($dvalue) > 15){
+				if(strlen($dvalue) > 15) {
 					$dvalue1 = substr($dvalue, 0, 15);
 					$dvalue2 = substr($dvalue, 15, ( strlen($dvalue) - 15 ));
 					$dvalue3 = $dvalue1.' '.$dvalue2;
 				}
-				else{
+				else {
 					$dvalue3 = $dvalue;
 				}
 				
-				$overlibText = '<strong>'._GALLERY_IMGTITLE.':</strong><br />'.$dvalue3.'<br />'
-				.'<strong>'._GALLERY_IMGSIZE.':</strong><br /><em>'.$img_size.' KB</em>';
-				
-				if($tcms_main->isImage($dvalue, false)) {
-					$overlibText .= '<br />'
-					.'<strong>'._GALLERY_IMGRESOLUTION.':</strong>'
-					.'<br />'
-					.'<em>W '.$tcms_gd->getImageWidth().' x H '.$tcms_gd->getImageHeight().'</em>';
+				// display now...
+				if($tcms_config->getMediamanagerItemView() == 'list') {
+					$bgkey++;
 					
-					$overlibText .= '<br />'
-					.'<strong>'._GALLERY_MIMETYPE.':</strong>'
-					.'<br />'
-					.'<em>'.$tcms_gd->getImageMimetyp().'</em>';
-				}
-				
-				echo '<div style="width: 100px; height: '.$boxImgH.'px; display: block; float: left; '
-				.'margin: 0 0 5px 0 !important; padding: 0px !important; '
-				.'border-bottom: 1px solid #ececec;" '
-				.'onmouseover="return overlib(\''.$overlibText.'\', CAPTION, \''
-				.( strlen($dvalue) > 25 ? substr($dvalue, 0, 20).' ...' : $dvalue )
-				.'\', BELOW, RIGHT, WIDTH, 150);" onmouseout="return nd();">';
-				
-				$checkType = true;
-				
-				if($tcms_file->getMimeType(strtolower($dvalue)) == 'mp3' && $checkType){
-					echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/mp3.png" border="0" />';
-					$checkType = false;
-				}
-				else if($tcms_file->getMimeType(strtolower($dvalue)) == 'wma' && $checkType){
-					echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/wma.png" border="0" />';
-					$checkType = false;
-				}
-				else if($tcms_file->getMimeType(strtolower($dvalue)) == 'wav' && $checkType){
-					echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/wav.png" border="0" />';
-					$checkType = false;
-				}
-				else if($tcms_file->getMimeType(strtolower($dvalue)) == 'ogg' && $checkType){
-					echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/ogg.png" border="0" />';
-					$checkType = false;
-				}
-				elseif($tcms_file->getMimeType(strtolower($dvalue)) == 'avi' && $checkType){
-					echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/avi.png" border="0" />';
-					$checkType = false;
-				}
-				else if($tcms_file->getMimeType(strtolower($dvalue)) == 'mpeg' && $checkType){
-					echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/mpeg.png" border="0" />';
-					$checkType = false;
-				}
-				else if($tcms_file->getMimeType(strtolower($dvalue)) == 'mpg' && $checkType){
-					echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/mpeg.png" border="0" />';
-					$checkType = false;
-				}
-				else if($tcms_file->getMimeType(strtolower($dvalue)) == 'wmv' && $checkType){
-					echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/wmv.png" border="0" />';
-					$checkType = false;
-				}
-				else if($tcms_file->getMimeType(strtolower($dvalue)) == 'swf' && $checkType){
-					echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;"'
-					.' src="../images/mimetypes/swf.png" border="0" />';
-					$checkType = false;
-				}
-				else if($tcms_file->getMimeType(strtolower($dvalue)) == 'cab' && $checkType){
-					echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;"'
-					.' src="../images/mimetypes/cab.png" border="0" />';
-					$checkType = false;
-				}
-				else if($checkType){
-					if($tcms_file->checkFileExist('../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue)) {
-						echo '<img'.(
-							$img_o_height > $img_o_width
-							? ( $img_o_height > 100 ? ' height="100"' : '' )
-							: ( $img_o_width > 100 ? ' width="100"' : '' )
-						).' style="border: 1px solid #ccc;"'
-						.' src="../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue.'"'
-						.' border="0" />';
+					if(is_integer($bgkey / 2)) {
+						$ws_color = $arr_color[0];
 					}
 					else {
-						echo '<img'
-						.' height="100"'
-						.' width="100"'
-						.' style="border: 1px solid #ccc;"'
-						.' src="../images/blank.gif"'
-						.' border="0" />';
+						$ws_color = $arr_color[1];
 					}
+					
+					$checkType = true;
+					
+					if($tcms_file->getMimeType(strtolower($dvalue)) == 'mp3' && $checkType){
+						$imgAdd = '<img src=../images/mimetypes/mp3.png border=0 />';
+						$fileType = 'music';
+						$checkType = false;
+					}
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'wma' && $checkType){
+						$imgAdd = '<img  src=../images/mimetypes/wma.png border=0 />';
+						$fileType = 'music';
+						$checkType = false;
+					}
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'wav' && $checkType){
+						$imgAdd = '<img  src=../images/mimetypes/wav.png border=0 />';
+						$fileType = 'music';
+						$checkType = false;
+					}
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'ogg' && $checkType){
+						$imgAdd = '<img  src=../images/mimetypes/ogg.png border=0 />';
+						$fileType = 'music';
+						$checkType = false;
+					}
+					elseif($tcms_file->getMimeType(strtolower($dvalue)) == 'avi' && $checkType){
+						$imgAdd = '<img  src=../images/mimetypes/avi.png border=0 />';
+						$fileType = 'movie';
+						$checkType = false;
+					}
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'mpeg' && $checkType){
+						$imgAdd = '<img  src=../images/mimetypes/mpeg.png border=0 />';
+						$fileType = 'movie';
+						$checkType = false;
+					}
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'mpg' && $checkType){
+						$imgAdd = '<img  src=../images/mimetypes/mpeg.png border=0 />';
+						$fileType = 'movie';
+						$checkType = false;
+					}
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'wmv' && $checkType){
+						$imgAdd = '<img  src=../images/mimetypes/wmv.png border=0 />';
+						$fileType = 'movie';
+						$checkType = false;
+					}
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'swf' && $checkType){
+						$imgAdd = '<img '
+						.' src=../images/mimetypes/swf.png border=0 />';
+						$fileType = 'movie';
+						$checkType = false;
+					}
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'cab' && $checkType){
+						$imgAdd = '<img '
+						.' src=../images/mimetypes/cab.png border=0 />';
+						$fileType = 'movie';
+						$checkType = false;
+					}
+					else if($checkType){
+						if($tcms_file->checkFileExist('../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue)) {
+							$imgAdd = '<img'.(
+								$img_o_height > $img_o_width
+								? ( $img_o_height > 100 ? ' height=100' : '' )
+								: ( $img_o_width > 100 ? ' width=100' : '' )
+							).' src=../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue.''
+							.' border=0 />';
+							
+							$fileType = 'image';
+						}
+						else {
+							$imgAdd = '<img'
+							.' height=100'
+							.' width=100'
+							//.' style=border: 1px solid #ccc;'
+							//.' style="border: 1px solid #ccc; margin: 26px auto auto 26px;" '
+							.' src=../images/blank.gif'
+							.' border=0 />';
+							
+							$fileType = 'image';
+						}
+					}
+					
+					$overlibText = '<strong>'._GALLERY_IMGTITLE.':</strong>'
+					.'<br />'
+					.$dvalue3
+					.'<br />'
+					.'<strong>'._GALLERY_IMGSIZE.':</strong>'
+					.'<br />'
+					.'<em>'.$img_size.' KB</em>';
+					
+					if($tcms_main->isImage($dvalue, false)) {
+						$overlibText .= '<br />'
+						.'<strong>'._GALLERY_IMGRESOLUTION.':</strong>'
+						.'<br />'
+						.$imgAdd
+						.'<br />'
+						.'<em>W '.$tcms_gd->getImageWidth().' x H '.$tcms_gd->getImageHeight().'</em>';
+						
+						$overlibText .= '<br />'
+						.'<strong>'._GALLERY_MIMETYPE.':</strong>'
+						.'<br />'
+						.'<em>'.$tcms_gd->getImageMimetyp().'</em>';
+					}
+					
+					echo '<tr height="30" id="row'.$count.'" '
+					.'style="background: '.$ws_color.';" '
+					.'onMouseOver="wxlBgCol(\'row'.$count.'\',\'#ececec\')" '
+					.'onMouseOut="wxlBgCol(\'row'.$count.'\',\''.$ws_color.'\')">';
+					
+					// name
+					echo '<td align="left" class="tcms_db_2">'
+					.'
+					
+					<a onmouseover="return overlib(\''.$overlibText.'\', CAPTION, \''
+					.( strlen($dvalue) > 25 ? substr($dvalue, 0, 20).' ...' : $dvalue )
+					.'\', BELOW, RIGHT, WIDTH, 150);" onmouseout="return nd();"'
+					.' href="javascript:imageWindow(\''.$path.'/'.$dvalue.'\', \'media\');">'
+					.'<img style="border: 1px solid #ccc; margin: 2px 2px 0 2px; float: left;"'
+					.' src="../images/explore/'.$fileType.'.png" border="0" />'
+					.'<div style="padding: 8px 0 0 5px;">'
+					.$dvalue
+					.'</div>'
+					.'</a>'
+					.'</td>';
+					
+					// date
+					echo '<td class="tcms_db_2">'
+					.$tcms_file->getFileCreateTime(
+						'../../data/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue
+					)
+					.'</td>';
+					
+					// size
+					echo '<td class="tcms_db_2">'
+					.$tcms_file->getDirectorySizeString(
+						'../../data/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue
+					)
+					.'</td>';
+					
+					// function
+					echo '<td class="tcms_db_2" style="text-align: middle;" align="right" valign="middle">'
+					.$formStart
+					.'<a title="'._TABLE_DELBUTTON.'" href="#" onclick="deleteMediafile(\''.$id_user.'\', \''.$action.'\', \''.$path.'/'.$dvalue.'\', \''._MSG_DELETE_SUBMIT.'\');">'
+					.'<div style="float: right; padding: 2px 0 0 0;">'
+					.'<strong>'._TCMS_ADMIN_DELETE.'</strong>'
+					.'</div>'
+					.'<img title="'._TABLE_DELBUTTON.'" alt="'._TABLE_DELBUTTON.'" border="0"'
+					//.' style="margin: 2px 2px 0 2px; float: right;"'
+					.' src="../images/a_delete.gif" />'
+					.'</a>&nbsp;'
+					.$formEnd
+					.'</td>';
+					
+					echo '</tr>';
+				}
+				else {
+					echo $formStart;
+					
+					echo '<a href="javascript:imageWindow(\''.$path.'/'.$dvalue.'\', \'media\');">'
+					.'<div style="width: 100px; height: '.$boxH.'px; float: left; '
+					.'margin: 0 10px 10px 0 !important; padding: 0px !important; '
+					.'border: 1px solid #ececec; text-align: left;">';
+					
+					$overlibText = '<strong>'._GALLERY_IMGTITLE.':</strong><br />'.$dvalue3.'<br />'
+					.'<strong>'._GALLERY_IMGSIZE.':</strong><br /><em>'.$img_size.' KB</em>';
+					
+					if($tcms_main->isImage($dvalue, false)) {
+						$overlibText .= '<br />'
+						.'<strong>'._GALLERY_IMGRESOLUTION.':</strong>'
+						.'<br />'
+						.'<em>W '.$tcms_gd->getImageWidth().' x H '.$tcms_gd->getImageHeight().'</em>';
+						
+						$overlibText .= '<br />'
+						.'<strong>'._GALLERY_MIMETYPE.':</strong>'
+						.'<br />'
+						.'<em>'.$tcms_gd->getImageMimetyp().'</em>';
+					}
+					
+					echo '<div style="width: 100px; height: '.$boxImgH.'px; display: block; float: left; '
+					.'margin: 0 0 5px 0 !important; padding: 0px !important; '
+					.'border-bottom: 1px solid #ececec;" '
+					.'onmouseover="return overlib(\''.$overlibText.'\', CAPTION, \''
+					.( strlen($dvalue) > 25 ? substr($dvalue, 0, 20).' ...' : $dvalue )
+					.'\', BELOW, RIGHT, WIDTH, 150);" onmouseout="return nd();">';
+					
+					$checkType = true;
+					
+					if($tcms_file->getMimeType(strtolower($dvalue)) == 'mp3' && $checkType){
+						echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/mp3.png" border="0" />';
+						$checkType = false;
+					}
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'wma' && $checkType){
+						echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/wma.png" border="0" />';
+						$checkType = false;
+					}
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'wav' && $checkType){
+						echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/wav.png" border="0" />';
+						$checkType = false;
+					}
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'ogg' && $checkType){
+						echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/ogg.png" border="0" />';
+						$checkType = false;
+					}
+					elseif($tcms_file->getMimeType(strtolower($dvalue)) == 'avi' && $checkType){
+						echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/avi.png" border="0" />';
+						$checkType = false;
+					}
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'mpeg' && $checkType){
+						echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/mpeg.png" border="0" />';
+						$checkType = false;
+					}
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'mpg' && $checkType){
+						echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/mpeg.png" border="0" />';
+						$checkType = false;
+					}
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'wmv' && $checkType){
+						echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/wmv.png" border="0" />';
+						$checkType = false;
+					}
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'swf' && $checkType){
+						echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;"'
+						.' src="../images/mimetypes/swf.png" border="0" />';
+						$checkType = false;
+					}
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'cab' && $checkType){
+						echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;"'
+						.' src="../images/mimetypes/cab.png" border="0" />';
+						$checkType = false;
+					}
+					else if($checkType){
+						if($tcms_file->checkFileExist('../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue)) {
+							echo '<img'.(
+								$img_o_height > $img_o_width
+								? ( $img_o_height > 100 ? ' height="100"' : '' )
+								: ( $img_o_width > 100 ? ' width="100"' : '' )
+							).' style="border: 1px solid #ccc;"'
+							.' src="../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue.'"'
+							.' border="0" />';
+						}
+						else {
+							echo '<img'
+							.' height="100"'
+							.' width="100"'
+							.' style="border: 1px solid #ccc;"'
+							.' src="../images/blank.gif"'
+							.' border="0" />';
+						}
+					}
+					
+					echo '</div>';
+					
+					
+					echo '<div style="padding: 0 0 0 4px;">'.$dvalue3.'<br />'
+					.'<a style="text-decoration: none !important;" href="#" onclick="deleteMediafile(\''.$id_user.'\', \''.$action.'\', \''.$dvalue.'\', \''._MSG_DELETE_SUBMIT.'\');">'
+					.'<img title="'._TCMS_ADMIN_DELETE.'" alt="'._TCMS_ADMIN_DELETE.'" border="0" src="../images/a_delete.gif" />'
+					.'&nbsp;<strong style="padding-top: 5px;">'._TCMS_ADMIN_DELETE.'</strong></a>'
+					.'</div>';
+					
+					
+					echo '</div>'
+					.'</a>';
+					
+					echo $formEnd;
 				}
 				
-				echo '</div>';
-				
-				
-				echo '<div style="padding: 0 0 0 4px;">'.$dvalue3.'<br />'
-				.'<a style="text-decoration: none !important;" href="#" onclick="deleteMediafile(\''.$id_user.'\', \''.$action.'\', \''.$dvalue.'\', \''._MSG_DELETE_SUBMIT.'\');">'
-				.'<img title="'._TCMS_ADMIN_DELETE.'" alt="'._TCMS_ADMIN_DELETE.'" border="0" src="../images/a_delete.gif" />'
-				.'&nbsp;<strong style="padding-top: 5px;">'._TCMS_ADMIN_DELETE.'</strong></a>'
-				.'</div>';
-				
-				
-				echo '</div>'
-				.'</a>';
-				
-				echo '</form>';
+				$count++;
 			}
 		}
 	}
 	
-	echo '</td></tr>';
+	if($tcms_config->getMediamanagerItemView() == 'icon') {
+		echo '</td></tr>';
+	}
+	
 	echo $tcms_html->tableEnd();
 }
 
