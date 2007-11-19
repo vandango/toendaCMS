@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide all file and directory
  * related methods und public functions.
  *
- * @version 0.4.0
+ * @version 0.4.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -79,6 +79,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * deleteDir                         -> Remove dir with all files and directorys inside
  * deleteDirContent                  -> Remove all files and directorys inside a directory
  * deleteFile                        -> Delete a file (if it exist)
+ * getFileCreateTime                 -> Get the creation time of a file or directory
  * 
  * </code>
  *
@@ -936,6 +937,20 @@ class tcms_file {
 		else {
 			return false;
 		}
+	}
+	
+	
+	
+	/**
+	 * Get the creation time of a file or directory
+	 *
+	 * @param unknown_type $path
+	 * @return unknown
+	 */
+	public function getFileCreateTime($path) {
+		$time = filectime($path);
+		clearstatcache();
+		return date('d.m.Y H:m:s', $time);
 	}
 }
 

@@ -900,6 +900,9 @@ define('_GLOBAL_ROBOTSSETTINGS', 'Einstellungen f&uuml;r den Webseiten Bot');
 define('_GLOBAL_LAST_CHANGES', 'Letzte &Auml;nderung an der Webseite');
 define('_GLOBAL_USE_CONTENT_LANG', 'Multible Sprachen verwenden');
 define('_GLOBAL_VALIDLINKS', 'WebStandards Links anzeigen');
+define('_GLOBAL_MM_VIEW_LIST', 'Listenansicht');
+define('_GLOBAL_MM_VIEW_ICON', 'Symbolansicht');
+define('_GLOBAL_MM_VIEW', 'Mediamanager Item Ansicht');
 
 
 // POLL

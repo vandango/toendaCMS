@@ -29,7 +29,7 @@ Developer Version
 	- 1.6.0 Development
 	- 1.6.0 Stable
 
-Building Steps: 3600
+Building Steps: 3607
 
 
 
@@ -44,7 +44,8 @@ Building Steps: 3600
 
  - changed: 
 
- - added: 
+ - added: Another view for the mediamanager. We can now disply the content of the media manager
+          with a icon and new a list view.
 
 
 

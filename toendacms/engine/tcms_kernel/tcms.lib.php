@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic public functions.
  *
- * @version 2.7.6
+ * @version 2.7.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -83,6 +83,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * decodeText                        -> Decode (decipher) a text
  * securePassword                    -> Secure or unsecure a password string
  * countWords                        -> Count Words in a phrase
+ * countItemsInArray                 -> Count the items in a array
  * checkWebLink                      -> Check if a link is a weblink
  * checkAccess                       -> Check if a usergroup can read a access level
  * cleanUrlString                    -> Clean a text from javascript code
@@ -1076,16 +1077,56 @@ class tcms_main {
 	
 	
 	/**
+	 * Count the items in a array
+	 *
+	 * @param Array $array
+	 * @param Boolean $checkForDir = false
+	 * @param Boolean $checkForFile = false
+	 * @param String $path = ''
+	 * @return Integer
+	 */
+	public function countItemsInArray($array, $checkForDir = false, $checkForFile = false, $path = '') {
+		$count = 0;
+		
+		if($this->isArray($array)) {
+			foreach($array as $key => $value) {
+				if($checkForDir) {
+					if(is_dir(trim($this->administer.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$value))){
+						$count++;
+					}
+				}
+				else if($checkForFile) {
+					if($this->isImage($value, false)
+					|| $this->isAudio($value, false)
+					|| $this->isVideo($value, false)
+					|| $this->isMultimedia($value, false)) {
+						$count++;
+					}
+				}
+				else {
+					$count++;
+				}
+			}
+		}
+		
+		return $count;
+	}
+	
+	
+	
+	/**
 	 * Check if a link is a weblink
 	 *
 	 * @param String $link
 	 * @return Boolean
 	 */
 	public function checkWebLink($link) {
-		if(substr($link, 0, 7) == 'http://' || substr($link, 0, 6) == 'ftp://')
+		if(substr($link, 0, 7) == 'http://' || substr($link, 0, 6) == 'ftp://') {
 			return true;
-		else
+		}
+		else {
 			return false;
+		}
 	}
 	
 	

@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide the global
  * configuration data.
  *
- * @version 0.5.5
+ * @version 0.5.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -150,6 +150,7 @@ class tcms_configuration {
 	private $m_last_changes;
 	private $m_useContentLang;
 	private $m_validLinks;
+	private $m_mediaman_view;
 	
 	// names
 	private $m_sitetitle;
@@ -227,6 +228,7 @@ class tcms_configuration {
 				$this->m_last_changes          = $this->o_xml->last_changes;
 				$this->m_useContentLang        = $this->o_xml->use_content_language;
 				$this->m_validLinks            = $this->o_xml->valid_links;
+				$this->m_mediaman_view         = $this->o_xml->mediaman_view;
 				
 				unset($this->o_xml);
 			}
@@ -1069,6 +1071,17 @@ class tcms_configuration {
 	 */
 	public function getFrontendTheme() {
 		return $this->m_frontendTheme;
+	}
+	
+	
+	
+	/**
+	 * Get the item view setting for the mediamanager
+	 *
+	 * @return String
+	 */
+	public function getMediamanagerItemView() {
+		return $this->m_mediaman_view;
 	}
 }
 
