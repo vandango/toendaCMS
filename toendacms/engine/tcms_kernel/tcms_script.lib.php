@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a parser and a base class
  * for the toendaScript.
  * 
- * @version 0.5.8
+ * @version 0.6.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -213,7 +213,11 @@ class toendaScript {
 		global $seoFormat;
 		global $tcms_main;
 		
-		if($seoEnabled == 1){
+		//echo 'seo:'.$seoImageFolder.'<br>';
+		
+		if($seoEnabled == 1 
+		&& trim($seoImageFolder) != ''
+		&& trim($seoImageFolder) != '/') {
 			$tempSEO = str_replace('/', '', $seoImageFolder);
 			$text = preg_replace('/(src=")(?!\/'.$tempSEO.')(?!http)/i', 'src="'.$seoImageFolder, $text);
 			

@@ -29,7 +29,7 @@ Developer Version
 	- 1.6.0 Development
 	- 1.6.0 Stable
 
-Building Steps: 3607
+Building Steps: 3611
 
 
 
@@ -40,7 +40,8 @@ Building Steps: 3607
 
  - security fixed: 
 
- - bug fixed: 
+ - bug fixed: Fixed a bug which replace the http:// of a image link in content data if seo is
+              enabled and the cms is installed in root level.
 
  - changed: 
 
