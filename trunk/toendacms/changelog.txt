@@ -26,14 +26,14 @@ Version 1.6
 	- Version 1.6.0
 
 Developer Version
-	- 1.6.0 Development
-	- 1.6.0 Stable
+	- 1.6.0 Development / Stable
+	- 1.6.1 Stable
 
 Building Steps: 3611
 
 
 
- Version 1.6.0 Stable
+ Version 1.6.1 Stable
 -----------------------------------------------------------------
 
  - bug #0000xxx: 
@@ -50,7 +50,7 @@ Building Steps: 3611
 
 
 
- Version 1.6.0 Development
+ Version 1.6.0 Development / Stable
 -----------------------------------------------------------------
  - bug #0000113: Fixed problem showing text at detail-view in gallery using K2-theme.
  - bug #0000171: Fixed the color chooser.
