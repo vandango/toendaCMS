@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a contactform with a internal
  * adressbook with vcard export.
  *
- * @version 0.8.1
+ * @version 0.8.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -60,11 +60,10 @@ if($cform_enabled == 1){
 	
 	if($item == 'adressbook' 
 	&& $use_adressbook == 1){
-		echo '<form action="?" method="get">'
-		.'<input name="id" type="hidden" value="contactform" />'
-		.'<input name="s" type="hidden" value="'.$s.'" />'
+		echo '<form id="adress_back" action="'
+		.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=contactform&amp;s='.$s
+		.'" method="get">'
 		.'<input type="submit" class="inputbutton" value="'._TCMS_ADMIN_BACK.'" />'
-		.( isset($session) ? '<input name="session" type="hidden" value="'.$session.'" />' : '' )
 		.( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' )
 		.'</form><br />';
 		
