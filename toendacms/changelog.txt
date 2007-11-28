@@ -29,7 +29,7 @@ Developer Version
 	- 1.6.0 Development / Stable
 	- 1.6.1 Stable
 
-Building Steps: 3614
+Building Steps: 3617
 
 
 
@@ -47,6 +47,9 @@ Building Steps: 3614
 
  - added: Another view for the mediamanager. We can now disply the content of the media manager
           with a icon and new a list view.
+ - added: Some lines of PHP.ini settings code to the .htaccess (_.htaccess) file to set the
+          PHP fileextension .php to PHP5 (it's currently a problem on websites hosted on the
+          "1&1 Webhosting AG" in Germany).
 
 
 

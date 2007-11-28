@@ -1,23 +1,31 @@
 ##
-# @version $Id: htaccess.txt 002 2005-06-11 16:02:50Z sendai $
+# @version $Id: htaccess.txt 003 2007-11-28 12:52:50Z osaka $
 # @package toendaCMS
-# @copyright Copyright (C) 2005 Toenda Software Development. All rights reserved.
+# @copyright Copyright (C) 2003 - 2007 Toenda Software Development. All rights reserved.
 # @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 # toendaCMS is Free Software
+##
+
+## -------------------------------------------------------
+##  Start Rewrite Engine
 ##
 
 #
 #  mod_rewrite in use
 #
 
-RewriteEngine On
+#RewriteEngine On
+
+## -------------------------------------------------------
+##  Set the root folder and the rules
+##
 
 #  Uncomment following line if your webserver's URL 
 #  is not directly related to physical file paths.
 #  Update YourtoendaCMSDirectory (just / for root)
 
 #RewriteBase /YourtoendaCMSDirectory
-RewriteBase /toendacms
+#RewriteBase /toendacms
 
 #
 #  Rules
@@ -27,4 +35,18 @@ RewriteBase /toendacms
 #RewriteCond %{REQUEST_FILENAME} !-f
 #RewriteCond %{REQUEST_FILENAME} !-d
 
-RewriteRule ^(.*) index.php
+#RewriteRule ^(.*) index.php
+
+## -------------------------------------------------------
+##  PHP5 Handler
+##
+
+#  Uncomment the following lines, if your webserver's
+#  PHP settings differs between PHP4 and PHP5 using the
+#  file extension .php for PHP4 and .php5 for PHP5.
+#  This lines sets the file extension for this application
+#  to .php for PHP5 usage.
+
+AddType x-mapp-php5 .php
+AddHandler x-mapp-php5 .php
+
