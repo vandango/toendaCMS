@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a contactform with a internal
  * adressbook with vcard export.
  *
- * @version 0.8.3
+ * @version 0.8.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -567,6 +567,10 @@ if($cform_enabled == 1){
 				$mail->Host     = $mail_server_smtp;
 				$mail->SMTPAuth = true;
 				//$mail->Timeout  = 60;
+				$mail->SetLanguage(
+					'en', 
+					'engine/tcms_kernel/phpmailer/language/'
+				);
 				
 				$mail->Username = $mail_user;
 				$mail->Password = $mail_password;

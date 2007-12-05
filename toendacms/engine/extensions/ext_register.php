@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the register functions.
  *
- * @version 0.6.0
+ * @version 0.6.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -698,7 +698,7 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 							$seoURL = str_replace('&amp;', '&', $seoURL);
 						}
 						
-						if($mail_with_smtp == '1' && $mail_as_html == '1') {
+						if($mail_with_smtp == '1') {
 							// phpmailer
 							$mail = new PHPMailer();
 							
@@ -707,6 +707,10 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 							$mail->SMTPAuth = true;
 							$mail->Username = $mail_user;
 							$mail->Password = $mail_password;
+							$mail->SetLanguage(
+								'en', 
+								'engine/tcms_kernel/phpmailer/language/'
+							);
 							
 							$mail->From     = $owner_email;
 							$mail->FromName = $owner;
