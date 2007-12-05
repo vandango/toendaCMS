@@ -642,7 +642,7 @@
 		
 		<tr bgcolor="#ececec"><td width="250"><strong>phpMailer</strong>
 		</td><td width="200"><a href="http://phpmailer.sourceforge.net/" target="_blank">phpMailer</a>
-		</td><td width="100">Version 1.73
+		</td><td width="100">Version 2.0.0 rc3
 		</td><td width="74"><a href="http://www.gnu.org" target="_blank">GPL</a>
 		</td></tr>
 		

@@ -558,13 +558,16 @@ if($cform_enabled == 1){
 			$msg_form_system   = _FORM_SYSTEM;
 			$msg_form_regards  = _FORM_GREETS;
 			
-			if($mail_with_smtp == '1' && $mail_as_html == '1') {
+			if($mail_with_smtp == '1') {// && $mail_as_html == '1') {
 				// phpmailer
 				$mail = new PHPMailer();
 				
 				$mail->IsSMTP();
+				$mail->Mailer   = 'smtp';
 				$mail->Host     = $mail_server_smtp;
 				$mail->SMTPAuth = true;
+				//$mail->Timeout  = 60;
+				
 				$mail->Username = $mail_user;
 				$mail->Password = $mail_password;
 				
@@ -678,7 +681,7 @@ if($cform_enabled == 1){
 				
 				// end phpmailer
 			}
-			else{
+			else {
 				$header = "From: $mail_name <$mail_email>\n";
 				$header .= "Reply-To: $mail_email\n";     
 				$header .= "Content-Type: text/plain";

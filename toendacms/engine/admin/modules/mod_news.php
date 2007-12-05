@@ -610,6 +610,7 @@ if($todo == 'config'){
 		var tabPane1 = new WebFXTabPane(document.getElementById("tab-pane-1"));
 		tabPane1.addTabPage(document.getElementById("tab-page-text"));
 		tabPane1.addTabPage(document.getElementById("tab-page-set"));
+		tabPanel.setSelectedIndex(0);
 		setupAllTabs();
 		</script>'
 		.'<br />';
