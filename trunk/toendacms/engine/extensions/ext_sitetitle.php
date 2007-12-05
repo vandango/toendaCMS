@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used fore the site title.
  *
- * @version 0.4.4
+ * @version 0.4.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -43,6 +43,11 @@ if(isset($_POST['news'])){ $news = $_POST['news']; }
 
 if(!isset($action)){ $action = 'showall'; }
 if(!isset($task)){ $task = 'register'; }
+
+
+if(trim(_SITE_TITLE) != '') {
+	echo _SITE_TITLE.' | ';
+}
 
 
 switch($id){
@@ -819,6 +824,16 @@ switch($id){
 		echo _PATH_LEGAL;
 		break;
 	
+	case 'contactform':
+		/*
+			IMPRESSUM
+		*/
+		
+		echo _PATH_HOME;
+		echo '&nbsp;/&nbsp;';
+		echo _PATH_CONTACTFORM;
+		break;
+	
 	case 'components':
 		/*
 			COMPONENTS
@@ -842,7 +857,42 @@ switch($id){
 			DEFAULT
 		*/
 		
-		echo $pathway[$id];
+		if($id == 'frontpage') {
+			echo $pathway[$id];
+		}
+		else {
+			$arrContentAccess = $tcms_dcp->getContentAccess($id);
+			$authorized = $arrContentAccess['authorized'];
+			$content_published = $arrContentAccess['content_published'];
+			
+			if($content_published == 1) {
+				$ws_auth = $tcms_main->checkAccess($authorized, $is_admin);
+				
+				if($ws_auth) {
+					using('toendacms.datacontainer.content');
+					
+					$dcContent = new tcms_dc_content();
+					
+					$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
+					
+					$dcContent = $tcms_dcp->getContentDC(
+						$id, 
+						true, 
+						$getLang
+					);
+					
+					//echo _PATH_HOME;
+					//echo '&nbsp;/&nbsp;';
+					echo $dcContent->getTitle();
+				}
+				else {
+					echo $pathway[$id];
+				}
+			}
+			else {
+				echo $pathway[$id];
+			}
+		}
 		break;
 }
 

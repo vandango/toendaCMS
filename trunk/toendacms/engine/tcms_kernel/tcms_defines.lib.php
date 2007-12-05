@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for global values
  *
- * @version 0.6.4
+ * @version 0.6.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -270,7 +270,6 @@ if(!defined('_SITE_KEY')) define('_SITE_KEY', '<span class="subtitle">'.$sitekey
 
 
 /* _SITE_TITLE */
-$sitetitle = $sitetitle;
 if(!defined('_SITE_TITLE')) define('_SITE_TITLE', $sitetitle);
 
 
@@ -293,50 +292,64 @@ switch($id){
 	case 'components': $id_meta_ad = _TCMS_MENU_CS; break;
 	
 	default:
-		if($choosenDB == 'xml'){
-			if(file_exists($tcms_administer_site.'/tcms_content/'.$id.'.xml')) {
-				$xml = new xmlparser($tcms_administer_site.'/tcms_content/'.$id.'.xml','r');
-				$id_meta_ad = $xml->readSection('main', 'title');
-				$id_meta_ad = $tcms_main->decodeText($id_meta_ad, '2', $c_charset);
-				$xml->flush();
-				$xml->_xmlparser();
-				unset($xml);
+		$arrContentAccess = $tcms_dcp->getContentAccess($id);
+		$authorized = $arrContentAccess['authorized'];
+		$content_published = $arrContentAccess['content_published'];
+		
+		if($content_published == 1) {
+			$ws_auth = $tcms_main->checkAccess($authorized, $is_admin);
+			
+			if($ws_auth) {
+				using('toendacms.datacontainer.content');
+				
+				$dcContent = new tcms_dc_content();
+				
+				$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
+				
+				$dcContent = $tcms_dcp->getContentDC(
+					$id, 
+					true, 
+					$getLang
+				);
+				
+				$id_meta_ad = $dcContent->getTitle();
+				$id_meta_ad .= ': ';
+				$id_meta_ad .= $dcContent->getKeynote();
 			}
-			else if(file_exists($tcms_administer_site.'/tcms_content_languages/'.$id.'.xml')) {
-				$xml = new xmlparser($tcms_administer_site.'/tcms_content_languages/'.$id.'.xml','r');
-				$id_meta_ad = $xml->readSection('main', 'title');
-				$id_meta_ad = $tcms_main->decodeText($id_meta_ad, '2', $c_charset);
-				$xml->flush();
-				$xml->_xmlparser();
-				unset($xml);
+			else {
+				$id_meta_ad = '';
 			}
 		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-			$sqlQR = $sqlAL->getOne($tcms_db_prefix.'content', $id);
-			$sqlObj = $sqlAL->fetchObject($sqlQR);
-			$id_meta_ad = $sqlObj->title;
-			$sqlAL->freeResult($sqlQR);
-			$sqlAL->_sqlAbstractionLayer();
-			unset($sqlAL);
-			$id_meta_ad = $tcms_main->decodeText($id_meta_ad, '2', $c_charset);
+		else {
+			$id_meta_ad = '';
 		}
 		break;
 }
-if($id_meta_ad != '')
-	$id_meta_ad = $id_meta_ad.', ';
 
 
 /* _SITE_METATAG_KEYWORDS */
-$keywords = $tcms_main->decodeText($keywords, '2', $c_charset);
-$keywords = $id_meta_ad.$keywords;
+//$keywords = $tcms_main->decodeText($keywords, '2', $c_charset);
+if($tcms_config->getMetadataDescription() != ''
+&& trim($id_meta_ad) != '') {
+	$keywords = $id_meta_ad.' - '.$keywords;
+}
+else {
+	$keywords = $id_meta_ad;
+}
+
 if(!defined('_SITE_METATAG_KEYWORDS')) define('_SITE_METATAG_KEYWORDS', $keywords);
 
 
 /* _SITE_METATAG_DESCRIPTION */
-$description = $tcms_main->decodeText($description, '2', $c_charset);
-$description = $id_meta_ad.$description;
+//$description = $tcms_main->decodeText($description, '2', $c_charset);
+if($tcms_config->getMetadataDescription() != ''
+&& trim($id_meta_ad) != '') {
+	$description = $id_meta_ad.' - '.$description;
+}
+else {
+	$description = $id_meta_ad;
+}
+
 if(!defined('_SITE_METATAG_DESCRIPTION')) define('_SITE_METATAG_DESCRIPTION', $description);
 
 
@@ -366,16 +379,17 @@ if(!in_array($id, $arrTCMSModules)){
 		$sqlAL->_sqlAbstractionLayer();
 		unset($sqlAL);
 	}
-	$websiteownerMETA = $doc_Autor.': '.$websiteowner;
+	
+	$websiteownerMETA = $websiteowner.' ('._TABLE_AUTOR.': '.$doc_Autor.')';
 }
-else{
+else {
 	$websiteownerMETA = $websiteowner;
 }
 if(!defined('_SITE_METATAG_AUTOR')) define('_SITE_METATAG_AUTOR', $websiteownerMETA);
 
 
 /* _SITE_LOGO */
-if($sitelogo != ''){
+if($sitelogo != '') {
 	$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 	.'id='.$id.'&amp;s='.$s
 	.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -386,20 +400,12 @@ if(!defined('_SITE_LOGO')) define('_SITE_LOGO', $sitelogo);
 
 
 /* METADATA */
-$xml = new xmlparser($tcms_administer_site.'/tcms_global/footer.xml','r');
-$owner_url = $xml->read_section('footer', 'owner_url');
-$owner_copyright = $xml->readSection('footer', 'copyright');
-$owner_url = $tcms_main->decodeText($owner_url, '2', $c_charset);
-$xml->flush();
-$xml->_xmlparser();
-unset($xml);
-
 $strMetaData = '<meta http-equiv="Content-Type" content="text/html; charset='.$c_charset.'" />
 <meta name="generator" content="'.$tcms_version->getName().' - '.$tcms_version->getTagline().'! - Version '.$tcms_version->getVersion().' '.$tcms_version->getBuild().' | Copyright '.$tcms_version->getToendaCopyright().' Toenda Software Development. '._TCMS_ADMIN_RIGHT.'" />
 <meta name="description" content="'._SITE_METATAG_DESCRIPTION.'" />
 <meta name="keywords" content="'._SITE_METATAG_KEYWORDS.'" />
 <meta name="Page-topic" content="'._SITE_METATAG_KEYWORDS.'" />
-<meta name="copyright" content="'._SITE_METATAG_AUTOR.' &#169; '.$tcms_config->getWebpageCopyright().'" />
+<meta name="copyright" content="'._SITE_METATAG_AUTOR.' (c) '.$tcms_config->getWebpageCopyright().'" />
 <meta name="publisher" content="'._SITE_METATAG_AUTOR.'" />
 <meta name="author" content="'._SITE_METATAG_AUTOR.'" />
 <meta name="cache-control" content="'.$tcms_config->getMetadataCacheControl().'" />

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.1.0
+ * @version 1.1.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -49,6 +49,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getCommentDCList                          -> Get a list of news data container
  *
  * getContentDC                              -> Get a specific content data container
+ * getContentAccess                          -> Get the access infos from a content item
  * getContentLanguages                       -> Get a list of content languages
  * getXmlIdFromContentLanguage               -> Get the id of a language content file
  * getContentTitle                           -> Get the title of a content element
@@ -1294,7 +1295,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			if($wsPub        == false) $wsPub        = '';
 			if($wsAcs        == false) $wsAcs        = '';
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
 			$sqlCN = $sqlAL->connect(
 				$this->m_sqlUser, 
@@ -1398,6 +1399,134 @@ class tcms_datacontainer_provider extends tcms_main {
 		}
 		
 		return $contentDC;
+	}
+	
+	
+	
+	/**
+	 * Get the access infos from a content item
+	 *
+	 * @param String $id
+	 * @return Array
+	 */
+	function getContentAccess($id) {
+		switch($id) {
+			case 'profile':
+			case 'polls':
+			case 'register':
+				$authorized = 'Public';
+				$content_published = 1;
+				break;
+			
+			case 'imagegallery':
+				$authorized = $authorized;
+				$content_published = 1;
+				break;
+			
+			case 'guestbook':
+				$authorized = $authorized;
+				$content_published = 1;
+				break;
+			
+			case 'newsmanager':
+				$authorized = $authorized;
+				$content_published = 1;
+				break;
+			
+			case 'contactform':
+				$authorized = $authorized;
+				$content_published = 1;
+				break;
+			
+			case 'knowledgebase':
+				$authorized = $authorized;
+				$content_published = 1;
+				break;
+			
+			case 'impressum':
+				$authorized = 'Public';
+				$content_published = 1;
+				break;
+			
+			case 'frontpage':
+				$authorized = 'Public';
+				$content_published = 1;
+				break;
+			
+			case 'search':
+				$authorized = 'Public';
+				$content_published = 1;
+				break;
+			
+			case 'links':
+				$authorized = $authorized;
+				$content_published = 1;
+				break;
+			
+			case 'download':
+				$authorized = 'Public';
+				$content_published = 1;
+				break;
+			
+			case 'products':
+				$authorized = 'Public';
+				$content_published = 1;
+				break;
+			
+			case 'components':
+				$authorized = 'Public';
+				$content_published = 1;
+				break;
+			
+			default:
+				if($choosenDB == 'xml') {
+					if(file_exists($this->m_path.'/tcms_content/'.$id.'.xml')) {
+						$xml = new xmlparser($this->m_path.'/tcms_content/'.$id.'.xml','r');
+						
+						$authorized = $xml->readSection('main', 'access');
+						$content_published = $xml->readSection('main', 'published');
+						
+						$xml->flush();
+						$xml->_xmlparser();
+						unset($xml);
+					}
+					else if(file_exists($this->m_path.'/tcms_content_languages/'.$id.'.xml')) {
+						$xml = new xmlparser($this->m_path.'/tcms_content_languages/'.$id.'.xml','r');
+						
+						$authorized = $xml->readSection('main', 'access');
+						$content_published = $xml->readSection('main', 'published');
+						
+						$xml->flush();
+						$xml->_xmlparser();
+						unset($xml);
+					}
+				}
+				else {
+					$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+					$sqlCN = $sqlAL->connect(
+						$this->m_sqlUser, 
+						$this->m_sqlPass, 
+						$this->m_sqlHost, 
+						$this->m_sqlDB, 
+						$this->m_sqlPort
+					);
+					
+					$sqlQR = $sqlAL->getOne($this->m_sqlPrefix.'content', $id);
+					$sqlObj = $sqlAL->fetchObject($sqlQR);
+					
+					$authorized = $sqlObj->access;
+					$content_published = $sqlObj->published;
+					
+					$sqlAL->freeResult($sqlQR);
+					unset($sqlAL);
+				}
+				break;
+		}
+		
+		$arrContentAccess['authorized'] = $authorized;
+		$arrContentAccess['content_published'] = $content_published;
+		
+		return $arrContentAccess;
 	}
 	
 	

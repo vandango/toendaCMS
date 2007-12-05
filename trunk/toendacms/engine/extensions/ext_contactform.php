@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a contactform with a internal
  * adressbook with vcard export.
  *
- * @version 0.8.2
+ * @version 0.8.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -446,10 +446,10 @@ if($cform_enabled == 1){
 				echo '<div style="float: left; width: 140px;">'
 				.'<strong><span class="text_normal">'._CONTACT_ADRESS_EMAIL.':</strong></span></div>';
 				
-				$contact_email = str_replace('@', '[at]', $contact_email);
+				$contact_email_tmp = str_replace('@', '[at]', $contact_email);
 				
 				echo '<div style="margin: 0 0 3px 1px;">'
-				.$contact_email.'</div>';
+				.$contact_email_tmp.'</div>';
 				
 				echo '<br />';
 			}

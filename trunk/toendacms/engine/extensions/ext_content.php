@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a base content loader.
  *
- * @version 0.7.9
+ * @version 0.8.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -32,8 +32,13 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 using('toendacms.datacontainer.content');
 
-if(!isset($ws_auth)) $ws_auth = 0;
-if(!isset($page)) $page = 1;
+if(!isset($ws_auth)) {
+	$ws_auth = 0;
+}
+
+if(!isset($page)) {
+	$page = 1;
+}
 
 
 
@@ -41,108 +46,14 @@ if(!isset($page)) $page = 1;
 	ACCESS LEVEL
 */
 
-switch($id){
-	case 'profile':
-	case 'polls':
-	case 'register':
-		$authorized = 'Public';
-		$content_published = 1;
-		break;
-	
-	case 'imagegallery':
-		$authorized = $authorized;
-		$content_published = 1;
-		break;
-	
-	case 'guestbook':
-		$authorized = $authorized;
-		$content_published = 1;
-		break;
-	
-	case 'newsmanager':
-		$authorized = $authorized;
-		$content_published = 1;
-		break;
-	
-	case 'contactform':
-		$authorized = $authorized;
-		$content_published = 1;
-		break;
-	
-	case 'knowledgebase':
-		$authorized = $authorized;
-		$content_published = 1;
-		break;
-	
-	case 'impressum':
-		$authorized = 'Public';
-		$content_published = 1;
-		break;
-	
-	case 'frontpage':
-		$authorized = 'Public';
-		$content_published = 1;
-		break;
-	
-	case 'search':
-		$authorized = 'Public';
-		$content_published = 1;
-		break;
-	
-	case 'links':
-		$authorized = $authorized;
-		$content_published = 1;
-		break;
-	
-	case 'download':
-		$authorized = 'Public';
-		$content_published = 1;
-		break;
-	
-	case 'products':
-		$authorized = 'Public';
-		$content_published = 1;
-		break;
-	
-	case 'components':
-		$authorized = 'Public';
-		$content_published = 1;
-		break;
-	
-	default:
-		if($choosenDB == 'xml') {
-			if(file_exists($tcms_administer_site.'/tcms_content/'.$id.'.xml')) {
-				$xml = new xmlparser($tcms_administer_site.'/tcms_content/'.$id.'.xml','r');
-				$authorized = $xml->read_section('main', 'access');
-				$content_published = $xml->read_section('main', 'published');
-				$xml->flush();
-				$xml->_xmlparser();
-				unset($xml);
-			}
-			else if(file_exists($tcms_administer_site.'/tcms_content_languages/'.$id.'.xml')) {
-				$xml = new xmlparser($tcms_administer_site.'/tcms_content_languages/'.$id.'.xml','r');
-				$authorized = $xml->read_section('main', 'access');
-				$content_published = $xml->read_section('main', 'published');
-				$xml->flush();
-				$xml->_xmlparser();
-				unset($xml);
-			}
-		}
-		else {
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-			$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'content', $id);
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
-			$authorized = $sqlARR['access'];
-			$content_published = $sqlARR['published'];
-		}
-		break;
-}
+$arrContentAccess = $tcms_dcp->getContentAccess($id);
+$authorized = $arrContentAccess['authorized'];
+$content_published = $arrContentAccess['content_published'];
 
 
 
 
-if($content_published == 1){
+if($content_published == 1) {
 	/*
 		check for public access
 	*/
@@ -154,8 +65,8 @@ if($content_published == 1){
 	/*
 		read data
 	*/
-	if($ws_auth){
-		switch($id){
+	if($ws_auth) {
+		switch($id) {
 			case 'register'    : include(_REGISTER); break;
 			case 'profile'     : include(_PROFILE); break;
 			case 'search'      : include(_SEARCH_RESULT); break;
