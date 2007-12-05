@@ -23,14 +23,13 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to authenticate a login user.
  *
- * @version 0.3.3
+ * @version 0.3.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
- */
-
-
-/**
+ *
+ * <code>
+ *
  * Methods
  *
  * __construct                       -> PHP5 Constructor
@@ -48,6 +47,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * doLogout                          -> Logout from the system
  * doRetrieve                        -> Retrieve a new password
  * sendRetrievementMail              -> Send a mail at the email of the founded user with a new password.
+ *
+ * </code>
  *
  */
 
@@ -879,6 +880,7 @@ class tcms_authentication extends tcms_main {
 			.'cmd=validate&amp;code='.$new_password
 			.'&amp;conduct='.$id;
 			$seoURL = $tcms_main->urlConvertToSEO($seoURL);
+			$mailerPath = '../tcms_kernel/phpmailer/language/';
 		}
 		else {
 			$seoURL = '?id=register'
@@ -886,6 +888,7 @@ class tcms_authentication extends tcms_main {
 			.'&amp;cmd=validatepw&amp;code='.$new_password
 			.'&amp;conduct='.$id;
 			$seoURL = $tcms_main->urlConvertToSEO($seoURL);
+			$mailerPath = 'engine/tcms_kernel/phpmailer/language/';
 		}
 		
 		if($seoEnabled == 0) {
@@ -901,6 +904,10 @@ class tcms_authentication extends tcms_main {
 			$mail->SMTPAuth = true;
 			$mail->Username = $mail_user;
 			$mail->Password = $mail_password;
+			$mail->SetLanguage(
+				'en', 
+				$mailerPath
+			);
 			
 			$mail->From     = $owner_email;
 			$mail->FromName = $owner;
