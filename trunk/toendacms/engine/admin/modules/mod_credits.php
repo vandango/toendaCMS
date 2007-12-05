@@ -208,6 +208,7 @@ var tabPane1 = new WebFXTabPane(document.getElementById("tab-pane-1"));
 tabPane1.addTabPage(document.getElementById("tab-page-info"));
 tabPane1.addTabPage(document.getElementById("tab-page-php"));
 tabPane1.addTabPage(document.getElementById("tab-page-licence"));
+tabPanel.setSelectedIndex(0);
 setupAllTabs();
 </script>'
 .'<br />';
