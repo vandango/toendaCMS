@@ -41,6 +41,8 @@ if(!defined('_GLOBAL_MM_VIEW_LIST'))           define('_GLOBAL_MM_VIEW_LIST', 'L
 if(!defined('_GLOBAL_MM_VIEW_ICON'))           define('_GLOBAL_MM_VIEW_ICON', 'Icon view');
 if(!defined('_GLOBAL_MM_VIEW'))                define('_GLOBAL_MM_VIEW', 'Mediamanager Item View');
 
+if(!defined('_PATH_CONTACTFORM'))              define('_PATH_CONTACTFORM', 'Contactform');
+
 *
 *
 **************************

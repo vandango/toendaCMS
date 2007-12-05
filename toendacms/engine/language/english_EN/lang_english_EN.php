@@ -933,6 +933,7 @@ if(!defined('_PATH_LOSTPW'))                   define('_PATH_LOSTPW', 'Lost your
 if(!defined('_PATH_SEARCH'))                   define('_PATH_SEARCH', 'Search');
 if(!defined('_PATH_LEGAL'))                    define('_PATH_LEGAL', 'Legal');
 if(!defined('_PATH_LINKS'))                    define('_PATH_LINKS', 'Links');
+if(!defined('_PATH_CONTACTFORM'))              define('_PATH_CONTACTFORM', 'Contactform');
 
 
 // LAYOUT

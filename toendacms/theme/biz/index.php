@@ -46,10 +46,7 @@ $arrHeaderImages['defaultimage'] = 'startpage02.jpg'; // <-- This image is displ
 
 ?>
 <head>
-<title><?php
-	echo _SITE_TITLE.' | ';
-	include(_SITETITLE);
-?></title>
+<title><?php include(_SITETITLE); ?></title>
 <?php echo _SITE_META_DATA; ?>
 <style type="text/css">@import "<?php echo $skinPath; ?>css.css";</style>
 <!--[if lt IE 5.5000]><style type="text/css">@import "<?php echo $skinPath; ?>css_ie.css";</style><![endif]-->

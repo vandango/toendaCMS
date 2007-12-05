@@ -17,10 +17,7 @@ $k2CSS = 1;
 
 ?>
 <head>
-<title><?
-	echo _SITE_TITLE.' | ';
-	include(_SITETITLE);
-?></title>
+<title><? include(_SITETITLE); ?></title>
 <?php
 
 echo _SITE_META_DATA;

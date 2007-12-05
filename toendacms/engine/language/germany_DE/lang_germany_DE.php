@@ -936,6 +936,7 @@ define('_PATH_LOSTPW', 'Passwort vergessen?');
 define('_PATH_SEARCH', 'Suche');
 define('_PATH_LINKS', 'Links');
 define('_PATH_LEGAL', 'Impressum');
+define('_PATH_CONTACTFORM', 'Kontaktformular');
 
 
 // LAYOUT
