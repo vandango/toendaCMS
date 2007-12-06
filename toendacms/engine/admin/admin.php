@@ -21,7 +21,7 @@
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 1.2.2
+ * @version 1.2.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -181,6 +181,7 @@ if($tcms_file->checkFileExist($tcms_administer_path.'/tcms_global/var.xml')){
 	
 	$tcms_main->setDatabaseInfo($choosenDB);
 	$tcms_config->decodeConfiguration($tcms_main);
+	$tcms_main->setTcmsConfigObj($tcms_config);
 	
 	
 	// layout

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic public functions.
  *
- * @version 2.7.8
+ * @version 2.8.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -46,6 +46,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * --------------------------------------------------------
  *
  * setTcmsTimeObj                    -> Set the tcms_time object
+ * setTcmsConfigObj                  -> Set the tcms_config object
  * setDatabaseInfo                   -> Setter for the databse information
  * setURLSEO                         -> Setter for urlSEO
  * setGlobalFolder                   -> Set the global folder
@@ -79,6 +80,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * decodeUtf8                        -> Decode (decipher) a string from a utf8 string
  * encodeBase64                      -> Encode (decipher) a crypt a string from a base64 crypt string
  * decodeBase64                      -> Decode (cipher) a string into a base64 crypt string
+ * decodeIconV                       -> Decode (decipher) a string using iconv
  * encodeText                        -> Encode (cipher) a text
  * decodeText                        -> Decode (decipher) a text
  * securePassword                    -> Secure or unsecure a password string
@@ -292,6 +294,17 @@ class tcms_main {
 	 */
 	public function setTcmsTimeObj($value) {
 		$this->_tcmsTime = $value;
+	}
+	
+	
+	
+	/**
+	 * Set the tcms_config object
+	 *
+	 * @param Object $value
+	 */
+	public function setTcmsConfigObj($value) {
+		$this->_tcmsConfig = $value;
 	}
 	
 	
@@ -881,6 +894,28 @@ class tcms_main {
 	
 	
 	/**
+	 * Decode (decipher) a string using iconv
+	 *
+	 * @param String $value
+	 * @param String $charset
+	 * @return String
+	 */
+	public function decodeIconV($value, $charset = 'iso-8859-1') {
+		if(extension_loaded('iconv')) {
+			return str_replace(
+				'&auml;', 
+				iconv($charset, 'UTF-8', 'ä'), 
+				$value
+			);
+		}
+		else {
+			return $value;
+		}
+	}
+	
+	
+	
+	/**
 	 * Encode (cipher) a text
 	 *
 	 * @param String $text
@@ -1019,6 +1054,11 @@ class tcms_main {
 				$text = strtr($text, $trans);
 				break;
 		}
+		
+		$text = $this->decodeIconV(
+			$text, 
+			$charset
+		);
 		
 		return $text;
 	}

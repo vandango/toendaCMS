@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a info provider.
  *
- * @version 0.2.0
+ * @version 0.2.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -136,10 +136,10 @@ echo '<div class="tcms_placeholder_200"><strong>'._MSG_FILE_UPLOADS.':</strong><
 .'<div class="tcms_placeholder"><em>'.get_php_setting('file_uploads').'</em></div>';
 
 echo '<div class="tcms_placeholder_200"><strong>'._MSG_MAX_FILE_SIZE.':</strong></div>'
-.'<div class="tcms_placeholder"><em>'.ini_get('upload_max_filesize').'</em></div>';
+.'<div class="tcms_placeholder"><em>'.ini_get('upload_max_filesize').' / '.$upload_max_filesize.' Bytes</em></div>';
 
 echo '<div class="tcms_placeholder_200"><strong>'._MSG_MAX_POST_SIZE.':</strong></div>'
-.'<div class="tcms_placeholder"><em>'.ini_get('post_max_size').'</em></div>';
+.'<div class="tcms_placeholder"><em>'.ini_get('post_max_size').' / '.$post_max_size.' Bytes</em></div>';
 
 echo '<div class="tcms_placeholder_200"><strong>save_mode:</strong></div>'
 .'<div class="tcms_placeholder"><em>'.get_php_setting('save_mode').'</em></div>';
@@ -152,8 +152,48 @@ echo '<hr noshade="noshade" align="left" style="width: 800px; height: 1px; backg
 
 echo '<h3 class="tcms_ft_blue_01">'._CREDITS_PHP_MODULES.'</h3>';
 
+echo '<h4 class="tcms_ft_blue_01">'
+.'XML Modules'
+.'</h4>';
+
 echo '<div class="tcms_placeholder_200"><strong>XML '._CREDITS_SET.':</strong></div>'
 .'<div class="tcms_placeholder"><em>'.( extension_loaded('xml') ? 'Yes' : 'No' ).'</em></div>';
+
+echo '<div class="tcms_placeholder_200"><strong>SimpleXML '._CREDITS_SET.':</strong></div>'
+.'<div class="tcms_placeholder"><em>'.( extension_loaded('simplexml') ? 'Yes' : 'No' ).'</em></div>';
+
+echo '<div class="tcms_placeholder_200"><strong>XML RPC '._CREDITS_SET.':</strong></div>'
+.'<div class="tcms_placeholder"><em>'.( extension_loaded('xmlrpc') ? 'Yes' : 'No' ).'</em></div>';
+
+echo '<h4 class="tcms_ft_blue_01">'
+.'Database Modules'
+.'</h4>';
+
+echo '<div class="tcms_placeholder_200"><strong>mySQL '._CREDITS_SET.':</strong></div>'
+.'<div class="tcms_placeholder"><em>'.( extension_loaded('mysql') ? 'Yes' : 'No' ).'</em></div>';
+
+echo '<div class="tcms_placeholder_200"><strong>postgreSQL '._CREDITS_SET.':</strong></div>'
+.'<div class="tcms_placeholder"><em>'.( extension_loaded('pgsql') ? 'Yes' : 'No' ).'</em></div>';
+
+echo '<div class="tcms_placeholder_200"><strong>SQlite '._CREDITS_SET.':</strong></div>'
+.'<div class="tcms_placeholder"><em>'.( extension_loaded('sqlite') ? 'Yes' : 'No' ).'</em></div>';
+
+echo '<div class="tcms_placeholder_200"><strong>Microsoft SQL '._CREDITS_SET.':</strong></div>'
+.'<div class="tcms_placeholder"><em>'.( extension_loaded('mssql') ? 'Yes' : 'No' ).'</em></div>';
+
+echo '<h4 class="tcms_ft_blue_01">'
+.'Unicode Modules'
+.'</h4>';
+
+echo '<div class="tcms_placeholder_200"><strong>MB String '._CREDITS_SET.':</strong></div>'
+.'<div class="tcms_placeholder"><em>'.( extension_loaded('mbstring') ? 'Yes' : 'No' ).'</em></div>';
+
+echo '<div class="tcms_placeholder_200"><strong>Iconv '._CREDITS_SET.':</strong></div>'
+.'<div class="tcms_placeholder"><em>'.( extension_loaded('iconv') ? 'Yes' : 'No' ).'</em></div>';
+
+echo '<h4 class="tcms_ft_blue_01">'
+.'Misc Modules'
+.'</h4>';
 
 echo '<div class="tcms_placeholder_200"><strong>GD '._CREDITS_SET.':</strong></div>'
 .'<div class="tcms_placeholder"><em>'.( extension_loaded('gd') ? 'Yes' : 'No' ).'</em></div>';
@@ -164,17 +204,8 @@ echo '<div class="tcms_placeholder_200"><strong>ZIP '._CREDITS_SET.':</strong></
 echo '<div class="tcms_placeholder_200"><strong>zLib '._CREDITS_SET.':</strong></div>'
 .'<div class="tcms_placeholder"><em>'.( extension_loaded('zlib') ? 'Yes' : 'No' ).'</em></div>';
 
-echo '<div class="tcms_placeholder_200"><strong>mySQL '._CREDITS_SET.':</strong></div>'
-.'<div class="tcms_placeholder"><em>'.( extension_loaded('mysql') ? 'Yes' : 'No' ).'</em></div>';
-
-echo '<div class="tcms_placeholder_200"><strong>postgreSQL '._CREDITS_SET.':</strong></div>'
-.'<div class="tcms_placeholder"><em>'.( extension_loaded('pgsql') ? 'Yes' : 'No' ).'</em></div>';
-
 echo '<div class="tcms_placeholder_200"><strong>IMAP '._CREDITS_SET.':</strong></div>'
 .'<div class="tcms_placeholder"><em>'.( extension_loaded('imap') ? 'Yes' : 'No' ).'</em></div>';
-
-echo '<div class="tcms_placeholder_200"><strong>MB String '._CREDITS_SET.':</strong></div>'
-.'<div class="tcms_placeholder"><em>'.( extension_loaded('mbstring') ? 'Yes' : 'No' ).'</em></div>';
 
 
 echo '<br /><br />';
