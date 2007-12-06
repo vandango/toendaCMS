@@ -29,7 +29,7 @@ Developer Version
 	- 1.6.0 Development / Stable
 	- 1.6.1 Stable
 
-Building Steps: 3645
+Building Steps: 3655
 
 
 
@@ -52,6 +52,8 @@ Building Steps: 3645
  - added: Some lines of PHP.ini settings code to the .htaccess (_.htaccess) file to set the
           PHP fileextension .php to PHP5 (it's currently a problem on websites hosted on the
           "1&1 Webhosting AG" in Germany).
+ - added: Iconv support for the text decode methods for the whole system (better support for
+          unicode charsets).
 
 
 

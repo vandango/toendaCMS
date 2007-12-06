@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.1.1
+ * @version 1.1.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -1007,7 +1007,13 @@ class tcms_datacontainer_provider extends tcms_main {
 				$item->link = $wsowner_url.$seoFolder.'/?id=newsmanager&news='.$dcNews->getID();
 				
 				$toendaScript = new toendaScript();
-				$news_content = $toendaScript->checkSEO($dcNews->getText(), $imagePath);
+				
+				$news_content = $this->decodeIconV(
+					$dcNews->getText(), 
+					$this->m_CHARSET
+				);
+				
+				$news_content = $toendaScript->checkSEO($news_content, $imagePath);
 				$news_content = $toendaScript->cutAtTcmsMoreTag($news_content);
 				
 				$item->description = $news_content;
