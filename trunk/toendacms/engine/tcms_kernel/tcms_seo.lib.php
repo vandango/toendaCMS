@@ -373,8 +373,8 @@ class tcms_seo {
 			}
 			
 			//echo '$val:'.$val.'<br><br>';
-			//echo '<span style="color:#fff;">$val:'.$val.'</span><br>';
-			//echo '<span style="color:#fff;">$end:'.$end.'</span><br>';
+			//echo '<span style="color:#333;">$val:'.$val.'</span><br>';
+			//echo '<span style="color:#333;">$end:'.$end.'</span><br><br>';
 			//echo '<span style="color:#fff;">arr id: '.$end.' -> '.substr($end, 1, strrpos($end, '=') - 1).'</span><br>';
 			//echo '<span style="color:#fff;">$arr val: '.$end.' -> '.substr($end, strrpos($end, '=') + 1).'</span><br>';
 			

@@ -29,7 +29,7 @@ Developer Version
 	- 1.6.0 Development / Stable
 	- 1.6.1 Stable
 
-Building Steps: 3655
+Building Steps: 3670
 
 
 
@@ -42,6 +42,7 @@ Building Steps: 3655
 
  - bug fixed: Fixed a bug which replace the http:// of a image link in content data if seo is
               enabled and the cms is installed in root level.
+ - bug fixed: Fixed a bug which generates a false link fot the addressbook button.
 
  - changed: Sitetitle now with the title of the document page and the description of the document
             page is now in the metag tag.

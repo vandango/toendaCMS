@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a contactform with a internal
  * adressbook with vcard export.
  *
- * @version 0.8.4
+ * @version 0.8.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -59,13 +59,37 @@ if($cform_enabled == 1){
 	*/
 	
 	if($item == 'adressbook' 
-	&& $use_adressbook == 1){
-		echo '<form id="adress_back" action="'
-		.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=contactform&amp;s='.$s
-		.'" method="get">'
-		.'<input type="submit" class="inputbutton" value="'._TCMS_ADMIN_BACK.'" />'
-		.( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' )
-		.'</form><br />';
+	&& $use_adressbook == 1) {
+		if($seoEnabled && $seoFormat == 2) {
+			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+			.'id=contactform&amp;s='.$s
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
+			$link = $tcms_main->urlAmpReplace($link);
+			
+			echo '<form id="adress_back" action="'
+			.$link
+			//.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+			.'" method="get">'
+			//.'<input name="s" type="hidden" value="'.$s.'" />'
+			//.'<input name="id" type="hidden" value="contactform" />'
+			.( isset($session) ? '<input type="hidden" name="session" value="'.$session.'" />' : '' )
+			//.( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' )
+			.'<input type="submit" class="inputbutton" value="'._TCMS_ADMIN_BACK.'" />'
+			.'</form><br />';
+			
+		}
+		else {
+			echo '<form id="adress_back" action="'
+			//.$link
+			.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+			.'" method="get">'
+			.'<input name="s" type="hidden" value="'.$s.'" />'
+			.'<input name="id" type="hidden" value="contactform" />'
+			.( isset($session) ? '<input type="hidden" name="session" value="'.$session.'" />' : '' )
+			.( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' )
+			.'<input type="submit" class="inputbutton" value="'._TCMS_ADMIN_BACK.'" />'
+			.'</form><br />';
+		}
 		
 		if($choosenDB == 'xml'){
 			$arr_sbc = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_contacts/');
@@ -96,7 +120,8 @@ if($cform_enabled == 1){
 						echo '<div style="display: block; float: right;">';
 						
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-						.'id=contactform&amp;s='.$s.'&amp;contact_email='.$csb_email
+						.'id=contactform&amp;s='.$s.'&amp;contact_email='
+						.$tcms_main->encodeBase64($csb_email)
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
 						$link = $tcms_main->urlAmpReplace($link);
 						
@@ -127,7 +152,9 @@ if($cform_enabled == 1){
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
 						$link = $tcms_main->urlAmpReplace($link);
 						
-						echo '<form name="vcard" action="engine/tcms_kernel/vcard/vcard.php" method="post">'
+						echo '<form name="vcard" action="'
+						.( $seoEnabled == 1 ? $seoFolder.'/' : '' )
+						.'engine/tcms_kernel/vcard/vcard.php" method="post">'
 						.'<input type="hidden" name="c" value="'.$csb_id.'">' // contact_id
 						.'</form>';
 						
@@ -159,7 +186,7 @@ if($cform_enabled == 1){
 			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$sqlQR = $sqlAL->sqlGetALL($tcms_db_prefix.'contacts WHERE published=1 ORDER BY name');
@@ -214,7 +241,8 @@ if($cform_enabled == 1){
 					echo '<div style="display: block; float: right;">';
 					
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-					.'id=contactform&amp;s='.$s.'&amp;contact_email='.$csb_email
+					.'id=contactform&amp;s='.$s.'&amp;contact_email='
+					.$tcms_main->encodeBase64($csb_email)
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 					
@@ -246,7 +274,9 @@ if($cform_enabled == 1){
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlAmpReplace($link);
 					
-					echo '<form name="vcard_'.$csb_id.'" action="engine/tcms_kernel/vcard/vcard.php" method="post">'
+					echo '<form name="vcard_'.$csb_id.'" action="'
+					.( $seoEnabled == 1 ? $seoFolder.'/' : '' )
+					.'engine/tcms_kernel/vcard/vcard.php" method="post">'
 					.'<input type="hidden" name="c" value="'.$csb_id.'">' // contact_id
 					.'</form>';
 					
@@ -410,14 +440,36 @@ if($cform_enabled == 1){
 		else{ $ip = getHostByAddr($remote); }
 		
 		
-		if(!isset($send_form) && $send_form != 1){
-			if($use_adressbook == 1){
-				echo '<form id="adress" action="'
-				.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=contactform&amp;s='.$s
-				.'" method="get">'
-				.'<input name="item" type="hidden" value="adressbook" />'
-				.( isset($session) ? '<input type="hidden" name="session" value="'.$session.'" />' : '' )
-				.( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' );
+		if(!isset($send_form) 
+		&& $send_form != 1) {
+			if($use_adressbook == 1) {
+				if($seoEnabled && $seoFormat == 2) {
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id=contactform&amp;s='.$s
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
+					$link = $tcms_main->urlAmpReplace($link);
+					
+					echo '<form id="adress" action="'
+					.$link
+					//.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'" method="get">'
+					//.'<input name="s" type="hidden" value="'.$s.'" />'
+					//.'<input name="id" type="hidden" value="contactform" />'
+					.'<input name="item" type="hidden" value="adressbook" />'
+					.( isset($session) ? '<input type="hidden" name="session" value="'.$session.'" />' : '' );
+					//.( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' );
+				}
+				else {
+					echo '<form id="adress" action="'
+					//.$link
+					.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'" method="get">'
+					.'<input name="s" type="hidden" value="'.$s.'" />'
+					.'<input name="id" type="hidden" value="contactform" />'
+					.'<input name="item" type="hidden" value="adressbook" />'
+					.( isset($session) ? '<input type="hidden" name="session" value="'.$session.'" />' : '' )
+					.( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' );
+				}
 				
 				echo '<input style="float: left;" type="button" class="inputbutton adressbook" onclick="javascript:document.forms[\'adress\'].submit();" value="'._CONTACT_ADRESS_BOOK.'" />'
 				.'<noscript><input type="submit" class="inputbutton adressbook" value="'._CONTACT_ADRESS_BOOK.'" /></noscript>';
