@@ -102,7 +102,10 @@ if($use_side_links == 1) {
 				
 				
 				foreach($arrLink['name'] as $lKey => $lVal){
-					echo '<span class="text_normal" style="padding-left: 3px;"><strong>'.$lVal.'</strong></span><br />';
+					echo '<span class="text_normal" style="padding-left: 3px;">'
+					.'<strong>'.$lVal.'</strong>'
+					.'</span>'
+					.'<br />';
 					
 					unset($arrLinkItem);
 					unset($arr_filename);

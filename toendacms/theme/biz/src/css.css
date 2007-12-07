@@ -451,6 +451,17 @@ a.index:hover { text-decoration: none; color: #676767 !important; }
 	color: #777;
 }
 
+.syndicationLink {
+	font-size: 11px;
+	line-height: 1.5em;
+}
+
+.syndicationImage {
+	float: left;
+	margin: 0 0 0 0;
+	padding: 1px 4px 0 0 !important;
+}
+
 .text_small {
 	font-family: Arial, Helvetica, Sans-Serif;
 	font-size: 10px;

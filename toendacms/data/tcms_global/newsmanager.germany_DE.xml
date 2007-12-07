@@ -13,13 +13,27 @@
 	<news_cut>0</news_cut>
 	<use_emoticons>1</use_emoticons>
 	<use_gravatar>0</use_gravatar>
-	<use_rss091>1</use_rss091>
-	<use_rss10>1</use_rss10>
+	<use_rss091>0</use_rss091>
+	<use_rss10>0</use_rss10>
 	<use_rss20>1</use_rss20>
-	<use_atom03>1</use_atom03>
-	<use_opml>1</use_opml>
+	<use_atom03>0</use_atom03>
+	<use_opml>0</use_opml>
 	<syn_amount>5</syn_amount>
 	<use_syn_title>0</use_syn_title>
+	<use_rss091_img>0</use_rss091_img>
+	<rss091_text>RSS 0.91 Feed</rss091_text>
+	<use_rss10_img>0</use_rss10_img>
+	<rss10_text>RSS 1.0 Feed</rss10_text>
+	<use_rss20_img>0</use_rss20_img>
+	<rss20_text>News abonnieren</rss20_text>
+	<use_atom03_img>0</use_atom03_img>
+	<atom03_text>ATOM 0.3 Feed</atom03_text>
+	<use_opml_img>0</use_opml_img>
+	<opml_text>OPML Feed</opml_text>
+	<use_comment_feed>1</use_comment_feed>
+	<comment_feed_text>Kommentare abonnieren</comment_feed_text>
+	<comment_feed_type>RSS2.0</comment_feed_type>
+	<use_comment_feed_img>0</use_comment_feed_img>
 	<def_feed>RSS2.0</def_feed>
 	<use_trackback>0</use_trackback>
 	<use_timesince>0</use_timesince>

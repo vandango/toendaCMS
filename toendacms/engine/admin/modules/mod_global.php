@@ -1202,19 +1202,19 @@ $tcms_mail_password    = \''.$new_mail_password.'\';
 			
 			if($choosenDB == 'xml'){
 				$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/userpage.xml', 'w');
-				$xmluser->xml_declaration();
-				$xmluser->xml_section('userpage');
+				$xmluser->xmlDeclaration();
+				$xmluser->xmlSection('userpage');
 				
-				$xmluser->write_value('text_width', $new_text_width);
-				$xmluser->write_value('input_width', $new_input_width);
-				$xmluser->write_value('news_publish', $new_news_publish);
-				$xmluser->write_value('image_publish', $new_img_publish);
-				$xmluser->write_value('album_publish', $new_alb_publish);
-				$xmluser->write_value('cat_publish', $new_cat_publish);
-				$xmluser->write_value('pic_publish', $new_pic_publish);
+				$xmluser->writeValue('text_width', $new_text_width);
+				$xmluser->writeValue('input_width', $new_input_width);
+				$xmluser->writeValue('news_publish', $new_news_publish);
+				$xmluser->writeValue('image_publish', $new_img_publish);
+				$xmluser->writeValue('album_publish', $new_alb_publish);
+				$xmluser->writeValue('cat_publish', $new_cat_publish);
+				$xmluser->writeValue('pic_publish', $new_pic_publish);
 				
-				$xmluser->xml_section_buffer();
-				$xmluser->xml_section_end('userpage');
+				$xmluser->xmlSectionBuffer();
+				$xmluser->xmlSectionEnd('userpage');
 				$xmluser->_xmlparser();
 			}
 			else{
@@ -1357,89 +1357,89 @@ $tcms_mail_password    = \''.$new_mail_password.'\';
 			//***************************************
 			
 			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/namen.xml', 'w');
-			$xmluser->xml_declaration();
-			$xmluser->xml_section('namen');
+			$xmluser->xmlDeclaration();
+			$xmluser->xmlSection('namen');
 			
-			$xmluser->write_value('title', $title);
-			$xmluser->write_value('name', $name);
-			$xmluser->write_value('key', $new_key);
-			$xmluser->write_value('logo', $logo);
+			$xmluser->writeValue('title', $title);
+			$xmluser->writeValue('name', $name);
+			$xmluser->writeValue('key', $new_key);
+			$xmluser->writeValue('logo', $logo);
 			
-			$xmluser->xml_section_buffer();
-			$xmluser->xml_section_end('namen');
+			$xmluser->xmlSectionBuffer();
+			$xmluser->xmlSectionEnd('namen');
 			$xmluser->_xmlparser();
 			
 			//***************************************
 			
 			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/footer.xml', 'w');
-			$xmluser->xml_declaration();
-			$xmluser->xml_section('footer');
+			$xmluser->xmlDeclaration();
+			$xmluser->xmlSection('footer');
 			
-			$xmluser->write_value('websiteowner', $owner);
-			$xmluser->write_value('owner_url', $owner_url);
-			$xmluser->write_value('copyright', $copy);
-			$xmluser->write_value('email', $email);
-			$xmluser->write_value('show_tcmslogo', $new_show_tcmslogo);
-			$xmluser->write_value('show_defaultfooter', $new_show_defaultfoot);
-			$xmluser->write_value('show_page_loading_time', $new_show_plt);
-			$xmluser->write_value('legal_link_in_footer', $new_legallink);
-			$xmluser->write_value('admin_link_in_footer', $new_adminlink);
-			$xmluser->write_value('footer_text', $new_footer_text);
+			$xmluser->writeValue('websiteowner', $owner);
+			$xmluser->writeValue('owner_url', $owner_url);
+			$xmluser->writeValue('copyright', $copy);
+			$xmluser->writeValue('email', $email);
+			$xmluser->writeValue('show_tcmslogo', $new_show_tcmslogo);
+			$xmluser->writeValue('show_defaultfooter', $new_show_defaultfoot);
+			$xmluser->writeValue('show_page_loading_time', $new_show_plt);
+			$xmluser->writeValue('legal_link_in_footer', $new_legallink);
+			$xmluser->writeValue('admin_link_in_footer', $new_adminlink);
+			$xmluser->writeValue('footer_text', $new_footer_text);
 			
-			$xmluser->xml_section_buffer();
-			$xmluser->xml_section_end('footer');
+			$xmluser->xmlSectionBuffer();
+			$xmluser->xmlSectionEnd('footer');
 			$xmluser->_xmlparser();
 			
 			// ---------------------------
 			
 			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/var.xml', 'w');
-			$xmluser->xml_declaration();
-			$xmluser->xml_section('global');
+			$xmluser->xmlDeclaration();
+			$xmluser->xmlSection('global');
 			
-			$xmluser->write_value('menu', $menu);
-			$xmluser->write_value('second_menu', $second_menu);
-			$xmluser->write_value('meta', $keywords);
-			$xmluser->write_value('charset', $charset);
-			$xmluser->write_value('wysiwyg', $tmp_use_wysiwyg);
-			$xmluser->write_value('lang', $tmp_lang);
-			$xmluser->write_value('front_lang', $tmp_front_lang);
-			$xmluser->write_value('description', $description);
-			$xmluser->write_value('currency', $tmp_currency);
-			$xmluser->write_value('toendacms_in_sitetitle', $new_tcmsinst);
-			$xmluser->write_value('default_category', $new_default_cat);
-			$xmluser->write_value('topmenu_active', $new_topmenu_active);
-			$xmluser->write_value('statistics', $new_statistics);
-			$xmluser->write_value('seo_enabled', $new_seo_enabled);
-			$xmluser->write_value('server_folder', $new_seo_folder);
-			$xmluser->write_value('seo_format', $new_seo_format);
-			$xmluser->write_value('seo_news_title', $new_seo_news_title);
-			$xmluser->write_value('seo_content_title', $new_seo_content_title);
-			$xmluser->write_value('site_offline', $new_site_offline);
-			$xmluser->write_value('site_offline_text', $new_site_off_text);
-			$xmluser->write_value('show_top_pages', $new_show_top_pages);
-			$xmluser->write_value('cipher_email', $new_cipher_email);
-			$xmluser->write_value('js_browser_detect', $new_js_browser_detect);
-			$xmluser->write_value('use_cs', $new_use_cs);
-			$xmluser->write_value('captcha', $new_captcha);
-			$xmluser->write_value('captcha_clean_size', $new_captcha_clean);
-			$xmluser->write_value('show_doc_autor', $new_doc_autor);
-			$xmluser->write_value('admin_topmenu', $new_admin_topmenu);
-			$xmluser->write_value('pathway_char', $new_pathchar);
-			$xmluser->write_value('anti_frame', $new_anti_frame);
-			$xmluser->write_value('revisit_after', $new_revisit_after);
-			$xmluser->write_value('robotsfile', $new_robotsfile);
-			$xmluser->write_value('pdflink', $new_pdflink);
-			$xmluser->write_value('cachecontrol', $new_cache_control);
-			$xmluser->write_value('pragma', $new_pragma);
-			$xmluser->write_value('expires', $new_expires);
-			$xmluser->write_value('robots', $new_robots);
-			$xmluser->write_value('last_changes', $new_last_changes);
-			$xmluser->write_value('use_content_language', $new_use_content_l);
-			$xmluser->write_value('valid_links', $new_valid_links);
-			$xmluser->write_value('mediaman_view', $new_mediaman_view);
+			$xmluser->writeValue('menu', $menu);
+			$xmluser->writeValue('second_menu', $second_menu);
+			$xmluser->writeValue('meta', $keywords);
+			$xmluser->writeValue('charset', $charset);
+			$xmluser->writeValue('wysiwyg', $tmp_use_wysiwyg);
+			$xmluser->writeValue('lang', $tmp_lang);
+			$xmluser->writeValue('front_lang', $tmp_front_lang);
+			$xmluser->writeValue('description', $description);
+			$xmluser->writeValue('currency', $tmp_currency);
+			$xmluser->writeValue('toendacms_in_sitetitle', $new_tcmsinst);
+			$xmluser->writeValue('default_category', $new_default_cat);
+			$xmluser->writeValue('topmenu_active', $new_topmenu_active);
+			$xmluser->writeValue('statistics', $new_statistics);
+			$xmluser->writeValue('seo_enabled', $new_seo_enabled);
+			$xmluser->writeValue('server_folder', $new_seo_folder);
+			$xmluser->writeValue('seo_format', $new_seo_format);
+			$xmluser->writeValue('seo_news_title', $new_seo_news_title);
+			$xmluser->writeValue('seo_content_title', $new_seo_content_title);
+			$xmluser->writeValue('site_offline', $new_site_offline);
+			$xmluser->writeValue('site_offline_text', $new_site_off_text);
+			$xmluser->writeValue('show_top_pages', $new_show_top_pages);
+			$xmluser->writeValue('cipher_email', $new_cipher_email);
+			$xmluser->writeValue('js_browser_detect', $new_js_browser_detect);
+			$xmluser->writeValue('use_cs', $new_use_cs);
+			$xmluser->writeValue('captcha', $new_captcha);
+			$xmluser->writeValue('captcha_clean_size', $new_captcha_clean);
+			$xmluser->writeValue('show_doc_autor', $new_doc_autor);
+			$xmluser->writeValue('admin_topmenu', $new_admin_topmenu);
+			$xmluser->writeValue('pathway_char', $new_pathchar);
+			$xmluser->writeValue('anti_frame', $new_anti_frame);
+			$xmluser->writeValue('revisit_after', $new_revisit_after);
+			$xmluser->writeValue('robotsfile', $new_robotsfile);
+			$xmluser->writeValue('pdflink', $new_pdflink);
+			$xmluser->writeValue('cachecontrol', $new_cache_control);
+			$xmluser->writeValue('pragma', $new_pragma);
+			$xmluser->writeValue('expires', $new_expires);
+			$xmluser->writeValue('robots', $new_robots);
+			$xmluser->writeValue('last_changes', $new_last_changes);
+			$xmluser->writeValue('use_content_language', $new_use_content_l);
+			$xmluser->writeValue('valid_links', $new_valid_links);
+			$xmluser->writeValue('mediaman_view', $new_mediaman_view);
 			
-			$xmluser->xml_section_buffer();
-			$xmluser->xml_section_end('global');
+			$xmluser->xmlSectionBuffer();
+			$xmluser->xmlSectionEnd('global');
 			$xmluser->_xmlparser();
 			
 			

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for global values
  *
- * @version 0.6.5
+ * @version 0.6.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -433,12 +433,23 @@ $strMetaData = '<meta http-equiv="Content-Type" content="text/html; charset='.$c
 ';
 
 if($use_syndication == 1) {
-	$wsUrl = $websiteowner_url.$imagePath.'/cache/'.$def_feed.'.xml';
+	$wsUrlBase = 'http://'.$_SERVER['HTTP_HOST'];
+	
+	/*
+	$wsUrl = '/'.$imagePath.'/cache/ATOM0.3.xml';
 	$wsUrl = str_replace('//', '/', $wsUrl);
 	
-	$strMetaData .= '<link rel="alternate" type="application/rss+xml" '
-	.'title="'._SITE_TITLE.' RSS Feed" '
-	.'href="'.$wsUrl.'" />';
+	$strMetaData .= '<link rel="alternate" type="application/atom+xml"'
+	.' title="Atom 0.3"'
+	.' href="'.$wsUrlBase.$wsUrl.'" />'.chr(13);
+	*/
+	
+	$wsUrl = '/'.$imagePath.'/cache/'.$def_feed.'.xml';
+	$wsUrl = str_replace('//', '/', $wsUrl);
+	
+	$strMetaData .= '<link rel="alternate" type="application/rss+xml"'
+	.' title="'.$def_feed.'"'
+	.' href="'.$wsUrlBase.$wsUrl.'" />';
 }
 
 $strMetaData .= '

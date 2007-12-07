@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.8.3
+ * @version 2.8.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -198,7 +198,7 @@ if($tcms_file->checkFileExist($tcms_administer_site.'/tcms_global/var.xml')) {
 		if(!isset($action))         { $action          = trim($arrSEO['action']);        if($action          == '') { unset($action); } }
 		if(!isset($albums))         { $albums          = trim($arrSEO['albums']);        if($albums          == '') { unset($albums); } }
 		if(!isset($cmd))            { $cmd             = trim($arrSEO['command']);       if($cmd             == '') { unset($cmd); } }
-		if(!isset($current_pollall)) { $current_pollall = trim($arrSEO['poll']);          if($current_pollall == '') { unset($current_pollall); } }
+		if(!isset($current_pollall)){ $current_pollall = trim($arrSEO['poll']);          if($current_pollall == '') { unset($current_pollall); } }
 		if(!isset($ps))             { $ps              = trim($arrSEO['ps']);            if($ps              == '') { unset($ps); } }
 		if(!isset($vote))           { $vote            = trim($arrSEO['vote']);          if($vote            == '') { unset($vote); } }
 		if(!isset($XMLplace))       { $XMLplace        = trim($arrSEO['XMLplace']);      if($XMLplace        == '') { unset($XMLplace); } }
@@ -759,14 +759,28 @@ if($wsShowSite) {
 						$dcNewsMan = new tcms_dc_newsmanager();
 						$dcNewsMan = $tcms_dcp->getNewsmanagerDC($getLang);
 						
-						$use_rss091    = $dcNewsMan->getSyndicationRSS091();
-						$use_rss10     = $dcNewsMan->getSyndicationRSS10();
-						$use_rss20     = $dcNewsMan->getSyndicationRSS20();
-						$use_atom03    = $dcNewsMan->getSyndicationRSSAtom();
-						$use_opml      = $dcNewsMan->getSyndicationRSSOpml();
-						$syn_amount    = $dcNewsMan->getSyndicationAmount();
-						$use_syn_title = $dcNewsMan->getSyndicationUseTitle();
-						$def_feed      = $dcNewsMan->getSyndicationDefaultFeed();
+						$use_rss091     = $dcNewsMan->getSyndicationRSS091();
+						$use_rss10      = $dcNewsMan->getSyndicationRSS10();
+						$use_rss20      = $dcNewsMan->getSyndicationRSS20();
+						$use_atom03     = $dcNewsMan->getSyndicationRSSAtom();
+						$use_opml       = $dcNewsMan->getSyndicationRSSOpml();
+						$syn_amount     = $dcNewsMan->getSyndicationAmount();
+						$use_syn_title  = $dcNewsMan->getSyndicationUseTitle();
+						$def_feed       = $dcNewsMan->getSyndicationDefaultFeed();
+						$use_rss091_img = $dcNewsMan->getSyndicationUseRSS091Image();
+						$rss091_text    = $dcNewsMan->getSyndicationRSS091Text();
+						$use_rss10_img  = $dcNewsMan->getSyndicationUseRSS10Image();
+						$rss10_text     = $dcNewsMan->getSyndicationRSS10Text();
+						$use_rss20_img  = $dcNewsMan->getSyndicationUseRSS20Image();
+						$rss20_text     = $dcNewsMan->getSyndicationRSS20Text();
+						$use_atom03_img = $dcNewsMan->getSyndicationUseATOM03Image();
+						$atom03_text    = $dcNewsMan->getSyndicationATOM03Text();
+						$use_opml_img   = $dcNewsMan->getSyndicationUseOPMLImage();
+						$opml_text      = $dcNewsMan->getSyndicationOPMLText();
+						$use_cfeed      = $dcNewsMan->getSyndicationUseCommentFeed();
+						$use_cfeed_img  = $dcNewsMan->getSyndicationUseCommentFeedImage();
+						$cfeed_text     = $dcNewsMan->getSyndicationCommentFeedText();
+						$cfeed_type     = $dcNewsMan->getSyndicationCommentFeedType();
 					}
 					
 					

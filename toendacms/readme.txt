@@ -292,6 +292,8 @@ News and comments
 .comment_text		- Comment text
 .newsSubmit			- Textarea for publish news
 .captcha            - Captcha field
+.syndicationLink    - Syndication Link Text
+.syndicationImage   - Syndication Link Image
 
 
 

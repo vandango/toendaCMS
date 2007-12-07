@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the news.
  *
- * @version 1.6.4
+ * @version 1.7.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -82,7 +82,20 @@ if(isset($_POST['lang_exist'])){ $lang_exist = $_POST['lang_exist']; }
 if(isset($_POST['language'])){ $language = $_POST['language']; }
 if(isset($_POST['draft'])){ $draft = $_POST['draft']; }
 
-
+/*
+$wsSynRSS091UseImg
+$wsSynRSS091Text
+$wsSynRSS10UseImg
+$wsSynRSS10Text
+$wsSynRSS20UseImg
+$wsSynRSS20Text
+$wsSynATOM03UseImg
+$wsSynATOM03Text
+$wsSynOPMLUseImg
+$wsSynOPMLText
+$wsSynUseCFeed
+$wsSynCFeedText
+*/
 
 
 
@@ -174,6 +187,20 @@ if($todo == 'config'){
 				$old_use_timesince    = $news_xml->readSection('config', 'use_timesince');
 				$old_readmore_link    = $news_xml->readSection('config', 'readmore_link');
 				$old_news_spacing     = $news_xml->readSection('config', 'news_spacing');
+				$wsSynRSS091UseImg    = $news_xml->readSection('config', 'use_rss091_img');
+				$wsSynRSS091Text      = $news_xml->readSection('config', 'rss091_text');
+				$wsSynRSS10UseImg     = $news_xml->readSection('config', 'use_rss10_img');
+				$wsSynRSS10Text       = $news_xml->readSection('config', 'rss10_text');
+				$wsSynRSS20UseImg     = $news_xml->readSection('config', 'use_rss20_img');
+				$wsSynRSS20Text       = $news_xml->readSection('config', 'rss20_feed');
+				$wsSynATOM03UseImg    = $news_xml->readSection('config', 'use_atom03_img');
+				$wsSynATOM03Text      = $news_xml->readSection('config', 'atom03_text');
+				$wsSynOPMLUseImg      = $news_xml->readSection('config', 'use_opml_img');
+				$wsSynOPMLText        = $news_xml->readSection('config', 'opml_text');
+				$wsSynUseCFeed        = $news_xml->readSection('config', 'use_comment_feed');
+				$wsSynCFeedText       = $news_xml->readSection('config', 'comment_feed_text');
+				$wsSynCFeedType       = $news_xml->readSection('config', 'comment_feed_type');
+				$wsSynUseCFeedImg     = $news_xml->readSection('config', 'use_comment_feed_img');
 				$old_news_lang        = $getLang;
 				//$news_xml->readSection('config', 'language');
 				
@@ -221,6 +248,20 @@ if($todo == 'config'){
 			$old_readmore_link  = $sqlObj->readmore_link;
 			$old_news_spacing   = $sqlObj->news_spacing;
 			$old_news_lang      = $sqlObj->language;
+			$wsSynRSS091UseImg  = $sqlObj->use_rss091_img;
+			$wsSynRSS091Text    = $sqlObj->rss091_text;
+			$wsSynRSS10UseImg   = $sqlObj->use_rss10_img;
+			$wsSynRSS10Text     = $sqlObj->rss10_text;
+			$wsSynRSS20UseImg   = $sqlObj->use_rss20_img;
+			$wsSynRSS20Text     = $sqlObj->rss20_feed;
+			$wsSynATOM03UseImg  = $sqlObj->use_atom03_img;
+			$wsSynATOM03Text    = $sqlObj->atom03_text;
+			$wsSynOPMLUseImg    = $sqlObj->use_opml_img;
+			$wsSynOPMLText      = $sqlObj->opml_text;
+			$wsSynUseCFeed      = $sqlObj->use_comment_feed;
+			$wsSynCFeedText     = $sqlObj->comment_feed_text;
+			$wsSynCFeedType     = $sqlObj->comment_feed_type;
+			$wsSynUseCFeedImg   = $sqlObj->use_comment_feed_img;
 			
 			if($old_news_mm_id     == NULL){ $old_news_mm_id     = ''; }
 			if($old_news_mm_title  == NULL){ $old_news_mm_title  = ''; }
@@ -259,10 +300,22 @@ if($todo == 'config'){
 		$old_news_mm_title = $tcms_main->decodeText($old_news_mm_title, '2', $c_charset);
 		$old_news_mm_stamp = $tcms_main->decodeText($old_news_mm_stamp, '2', $c_charset);
 		$old_news_mm_text  = $tcms_main->decodeText($old_news_mm_text, '2', $c_charset);
+		$wsSynRSS091Text   = $tcms_main->decodeText($wsSynRSS091Text, '2', $c_charset);
+		$wsSynRSS10Text    = $tcms_main->decodeText($wsSynRSS10Text, '2', $c_charset);
+		$wsSynRSS20Text    = $tcms_main->decodeText($wsSynRSS20Text, '2', $c_charset);
+		$wsSynATOM03Text   = $tcms_main->decodeText($wsSynATOM03Text, '2', $c_charset);
+		$wsSynOPMLText     = $tcms_main->decodeText($wsSynOPMLText, '2', $c_charset);
+		$wsSynCFeedText    = $tcms_main->decodeText($wsSynCFeedText, '2', $c_charset);
 		
 		$old_news_mm_title = htmlspecialchars($old_news_mm_title);
 		$old_news_mm_stamp = htmlspecialchars($old_news_mm_stamp);
 		$old_news_mm_text  = htmlspecialchars($old_news_mm_text);
+		$wsSynRSS091Text   = htmlspecialchars($wsSynRSS091Text);
+		$wsSynRSS10Text    = htmlspecialchars($wsSynRSS10Text);
+		$wsSynRSS20Text    = htmlspecialchars($wsSynRSS20Text);
+		$wsSynATOM03Text   = htmlspecialchars($wsSynATOM03Text);
+		$wsSynOPMLText     = htmlspecialchars($wsSynOPMLText);
+		$wsSynCFeedText    = htmlspecialchars($wsSynCFeedText);
 		
 		
 		switch(trim($show_wysiwyg)){
@@ -595,6 +648,38 @@ if($todo == 'config'){
 			.'<option value="OPML"'.( $old_def_feed == 'OPML' ? ' selected="selected"' : '' ).'>OPML</option>'
 		.'</select>'
 		.'</td></tr>';
+		
+		
+		/*
+		$wsSynRSS091UseImg
+		$wsSynRSS091Text
+		$wsSynRSS10UseImg
+		$wsSynRSS10Text
+		$wsSynRSS20UseImg
+		$wsSynRSS20Text
+		$wsSynATOM03UseImg
+		$wsSynATOM03Text
+		$wsSynOPMLUseImg
+		$wsSynOPMLText
+		$wsSynUseCFeed
+		$wsSynCFeedText
+		*/
+		define('_EXT_NEWS_CFEED_TYPE', 'Feed type for the comments');
+		
+		echo '<tr>'
+		.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_CFEED_TYPE.'</td>'
+		.'<td>'
+		.'<select name="newSynCFeedType" class="tcms_select">'
+			.'<option value="RSS0.91"'.( $wsSynCFeedType == 'RSS0.91' ? ' selected="selected"' : '' ).'>RSS 0.91</option>'
+			.'<option value="RSS1.0"'.( $wsSynCFeedType == 'RSS1.0' ? ' selected="selected"' : '' ).'>RSS 1.0</option>'
+			.'<option value="RSS2.0"'.( $wsSynCFeedType == 'RSS2.0' ? ' selected="selected"' : '' ).'>RSS 2.0</option>'
+		.'</select>'
+		.'</td></tr>';
+		
+		
+		/*
+		$wsSynUseCFeedImg
+		*/
 		
 		
 		echo '</table>'
@@ -1563,40 +1648,40 @@ if($todo == 'save_config'){
 	}
 	
 	
-	if($choosenDB == 'xml'){
-		$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/newsmanager.'.$setLang.'.xml', 'w');
-		$xmluser->xml_declaration();
-		$xmluser->xml_section('config');
+	if($choosenDB == 'xml') {
+		$xmluser = new xmlparser($tcms_administer_path.'/tcms_global/newsmanager.'.$setLang.'.xml', 'w');
+		$xmluser->xmlDeclaration();
+		$xmluser->xmlSection('config');
 		
-		$xmluser->write_value('language', $setLang);
-		$xmluser->write_value('news_id', $new_news_mm_id);
-		$xmluser->write_value('news_title', $news_mm_title);
-		$xmluser->write_value('news_stamp', $news_mm_stamp);
-		$xmluser->write_value('news_text', $content);
-		$xmluser->write_value('news_image', $news_mm_image);
-		$xmluser->write_value('use_comments', $new_use_comments);
-		$xmluser->write_value('show_autor', $new_use_autor);
-		$xmluser->write_value('show_autor_as_link', $new_use_autor_link);
-		$xmluser->write_value('news_amount', $new_news_mm_amount);
-		$xmluser->write_value('access', $news_mm_access);
-		$xmluser->write_value('news_cut', $new_news_cut);
-		$xmluser->write_value('use_emoticons', $use_emoticons);
-		$xmluser->write_value('use_gravatar', $use_gravatar);
-		$xmluser->write_value('use_rss091', $new_use_rss091);
-		$xmluser->write_value('use_rss10', $new_use_rss10);
-		$xmluser->write_value('use_rss20', $new_use_rss20);
-		$xmluser->write_value('use_atom03', $new_use_atom03);
-		$xmluser->write_value('use_opml', $new_use_opml);
-		$xmluser->write_value('syn_amount', $new_syn_amount);
-		$xmluser->write_value('use_syn_title', $new_use_syn_title);
-		$xmluser->write_value('def_feed', $new_def_feed);
-		$xmluser->write_value('use_trackback', $new_use_trackback);
-		$xmluser->write_value('use_timesince', $new_use_timesince);
-		$xmluser->write_value('readmore_link', $new_readmore_link);
-		$xmluser->write_value('news_spacing', $new_news_spacing);
+		$xmluser->writeValue('language', $setLang);
+		$xmluser->writeValue('news_id', $new_news_mm_id);
+		$xmluser->writeValue('news_title', $news_mm_title);
+		$xmluser->writeValue('news_stamp', $news_mm_stamp);
+		$xmluser->writeValue('news_text', $content);
+		$xmluser->writeValue('news_image', $news_mm_image);
+		$xmluser->writeValue('use_comments', $new_use_comments);
+		$xmluser->writeValue('show_autor', $new_use_autor);
+		$xmluser->writeValue('show_autor_as_link', $new_use_autor_link);
+		$xmluser->writeValue('news_amount', $new_news_mm_amount);
+		$xmluser->writeValue('access', $news_mm_access);
+		$xmluser->writeValue('news_cut', $new_news_cut);
+		$xmluser->writeValue('use_emoticons', $use_emoticons);
+		$xmluser->writeValue('use_gravatar', $use_gravatar);
+		$xmluser->writeValue('use_rss091', $new_use_rss091);
+		$xmluser->writeValue('use_rss10', $new_use_rss10);
+		$xmluser->writeValue('use_rss20', $new_use_rss20);
+		$xmluser->writeValue('use_atom03', $new_use_atom03);
+		$xmluser->writeValue('use_opml', $new_use_opml);
+		$xmluser->writeValue('syn_amount', $new_syn_amount);
+		$xmluser->writeValue('use_syn_title', $new_use_syn_title);
+		$xmluser->writeValue('def_feed', $new_def_feed);
+		$xmluser->writeValue('use_trackback', $new_use_trackback);
+		$xmluser->writeValue('use_timesince', $new_use_timesince);
+		$xmluser->writeValue('readmore_link', $new_readmore_link);
+		$xmluser->writeValue('news_spacing', $new_news_spacing);
 		
-		$xmluser->xml_section_buffer();
-		$xmluser->xml_section_end('config');
+		$xmluser->xmlSectionBuffer();
+		$xmluser->xmlSectionEnd('config');
 		$xmluser->_xmlparser();
 	}
 	else{
@@ -1845,27 +1930,27 @@ if($todo == 'save'){
 	
 	if($choosenDB == 'xml'){
 		$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_news/'.$maintag.'.xml', 'w');
-		$xmluser->xml_declaration();
-		$xmluser->xml_section('news');
+		$xmluser->xmlDeclaration();
+		$xmluser->xmlSection('news');
 		
-		$xmluser->write_value('title', $titel);
-		$xmluser->write_value('autor', $autor);
-		$xmluser->write_value('date', $new_date);
-		$xmluser->write_value('time', $new_time);
-		$xmluser->write_value('newstext', $content);
-		$xmluser->write_value('order', $order);
-		$xmluser->write_value('stamp', $stamp);
-		$xmluser->write_value('published', $new_published);
-		$xmluser->write_value('publish_date', $new_publish_date);
-		$xmluser->write_value('comments_enabled', $new_comments_en);
-		$xmluser->write_value('image', $news_image);
-		$xmluser->write_value('category', $new_cat);
-		$xmluser->write_value('access', $new_access);
-		$xmluser->write_value('show_on_frontpage', $new_sof);
-		$xmluser->write_value('language', $language);
+		$xmluser->writeValue('title', $titel);
+		$xmluser->writeValue('autor', $autor);
+		$xmluser->writeValue('date', $new_date);
+		$xmluser->writeValue('time', $new_time);
+		$xmluser->writeValue('newstext', $content);
+		$xmluser->writeValue('order', $order);
+		$xmluser->writeValue('stamp', $stamp);
+		$xmluser->writeValue('published', $new_published);
+		$xmluser->writeValue('publish_date', $new_publish_date);
+		$xmluser->writeValue('comments_enabled', $new_comments_en);
+		$xmluser->writeValue('image', $news_image);
+		$xmluser->writeValue('category', $new_cat);
+		$xmluser->writeValue('access', $new_access);
+		$xmluser->writeValue('show_on_frontpage', $new_sof);
+		$xmluser->writeValue('language', $language);
 		
-		$xmluser->xml_section_buffer();
-		$xmluser->xml_section_end('news');
+		$xmluser->xmlSection_buffer();
+		$xmluser->xmlSection_end('news');
 		$xmluser->_xmlparser();
 	}
 	else{
@@ -2036,27 +2121,27 @@ if($todo == 'next'){
 	
 	if($choosenDB == 'xml'){
 		$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_news/'.$maintag.'.xml', 'w');
-		$xmluser->xml_declaration();
-		$xmluser->xml_section('news');
+		$xmluser->xmlDeclaration();
+		$xmluser->xmlSection('news');
 		
-		$xmluser->write_value('title', $titel);
-		$xmluser->write_value('autor', $autor);
-		$xmluser->write_value('date', $new_date);
-		$xmluser->write_value('time', $new_time);
-		$xmluser->write_value('newstext', $content);
-		$xmluser->write_value('order', $order);
-		$xmluser->write_value('stamp', $stamp);
-		$xmluser->write_value('published', $new_published);
-		$xmluser->write_value('publish_date', $new_publish_date);
-		$xmluser->write_value('comments_enabled', $new_comments_en);
-		$xmluser->write_value('image', $news_image);
-		$xmluser->write_value('category', $new_cat);
-		$xmluser->write_value('access', $new_access);
-		$xmluser->write_value('show_on_frontpage', $new_sof);
-		$xmluser->write_value('language', $language);
+		$xmluser->writeValue('title', $titel);
+		$xmluser->writeValue('autor', $autor);
+		$xmluser->writeValue('date', $new_date);
+		$xmluser->writeValue('time', $new_time);
+		$xmluser->writeValue('newstext', $content);
+		$xmluser->writeValue('order', $order);
+		$xmluser->writeValue('stamp', $stamp);
+		$xmluser->writeValue('published', $new_published);
+		$xmluser->writeValue('publish_date', $new_publish_date);
+		$xmluser->writeValue('comments_enabled', $new_comments_en);
+		$xmluser->writeValue('image', $news_image);
+		$xmluser->writeValue('category', $new_cat);
+		$xmluser->writeValue('access', $new_access);
+		$xmluser->writeValue('show_on_frontpage', $new_sof);
+		$xmluser->writeValue('language', $language);
 		
-		$xmluser->xml_section_buffer();
-		$xmluser->xml_section_end('news');
+		$xmluser->xmlSection_buffer();
+		$xmluser->xmlSection_end('news');
 		$xmluser->_xmlparser();
 		
 		$old_umask = umask(0);
