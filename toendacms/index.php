@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.8.2
+ * @version 2.8.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -887,6 +887,9 @@ if($wsShowSite) {
 							
 							if(!isset($contact_email)) {
 								$contact_email = $dcCF->getContact();
+							}
+							else {
+								$contact_email = $tcms_main->decodeBase64($contact_email);
 							}
 							
 							$send_id           = $dcCF->getID();
