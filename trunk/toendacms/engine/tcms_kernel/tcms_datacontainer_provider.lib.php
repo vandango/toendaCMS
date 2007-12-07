@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.1.3
+ * @version 1.1.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -45,6 +45,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getNewsIdByTitle                          -> Get the id of a news element by its title
  * getXmlIdFromNewsLanguage                  -> Get the id of a language news file
  * generateFeed                              -> ReGenerate the news syndication feeds
+ * generateCommentsFeed                      -> ReGenerate the news comments syndication feeds
  *
  * getCommentDCList                          -> Get a list of news data container
  *
@@ -1044,6 +1045,135 @@ class tcms_datacontainer_provider extends tcms_main {
 		}
 		else {
 			$rss->saveFeed($defaultFormat, 'cache/'.$defaultFormat.'.xml', false);
+		}
+	}
+	
+	
+	
+	/**
+	 * ReGenerate the news comments syndication feeds
+	 * 
+	 * @param String $language
+	 * @param String $defaultFormat = 'RSS2.0'
+	 * @param String $seoFolder = ''
+	 * @param Boolean $admin = false
+	 * @param Integer $amount = 5
+	 * @param Boolean $show_autor = false
+	 */
+	function generateCommentsFeed($language, $defaultFormat = 'RSS2.0', $seoFolder = '', $admin = false, $amount = 5, $show_autor = false) {
+		if($admin) {
+			using('toendacms.tools.feedcreator.feedcreator_class', false, true);
+			using('toendacms.kernel.script', false, true);
+			using('toendacms.kernel.account_provider', false, true);
+			using('toendacms.datacontainer.news', false, true);
+			using('toendacms.datacontainer.account', false, true);
+		}
+		else {
+			using('toendacms.tools.feedcreator.feedcreator_class');
+			using('toendacms.kernel.script');
+			using('toendacms.kernel.account_provider');
+			using('toendacms.datacontainer.news');
+			using('toendacms.datacontainer.account');
+		}
+		
+		$cfgObj = new tcms_configuration($this->m_path);
+		
+		$wstitle      = $this->decodeText($cfgObj->getSiteTitle(), '2', $this->m_CHARSET);
+		$wsname       = $this->decodeText($cfgObj->getSiteName(), '2', $this->m_CHARSET);
+		$wskey        = $this->decodeText($cfgObj->getSiteKey(), '2', $this->m_CHARSET);
+		$wsowner      = $this->decodeText($cfgObj->getWebpageOwner(), '2', $this->m_CHARSET);
+		$wscopyright  = $this->decodeText($cfgObj->getWebpageCopyright(), '2', $this->m_CHARSET);
+		$wsowner_url  = $this->decodeText($cfgObj->getWebpageOwnerUrl(), '2', $this->m_CHARSET);
+		$wsowner_mail = $this->decodeText($cfgObj->getWebpageOwnerMail(), '2', $this->m_CHARSET);
+		
+		$rss = new UniversalFeedCreator();
+		$rss->_setFormat($defaultFormat);
+		$rss->useCached();
+		$rss->title = $wsname;
+		$rss->description = $wskey;
+		$rss->link = $wsowner_url;
+		$rss->syndicationURL = $wsowner_url.$seoFolder.'/cache/comments'.$defaultFormat.'.xml';
+		
+		$image = new FeedImage();
+		$image->title = $wsname.' Logo';
+		$image->url = '../engine/images/logos/toendaCMS_button_01.png';
+		$image->link = $wsowner_url;
+		$image->description = 'Feed provided by '.$wsname.'. Click to visit.';
+		
+		$rss->image = $image;
+		
+		// generate now ...
+		$_tcms_ap = new tcms_account_provider($this->m_path, $this->m_CHARSET);
+		$_tcms_auth = new tcms_authentication($this->m_path, $this->m_CHARSET, '', null);
+		
+		if($seoFolder != ''){
+			$imagePath = $seoFolder.'/';
+		}
+		else{
+			$imagePath = '/';
+		}
+		
+		/*$arrNewsDC = $this->getNewsDCList($language, 'Guest', $amount, '1', true);
+		
+		if($this->isArray($arrNewsDC)) {
+			foreach($arrNewsDC as $n_key => $n_value){
+				$dcNews = new tcms_dc_news();
+				$dcNews = $arrNewsDC[$n_key];
+				
+				$userID = $_tcms_auth->getUserID($dcNews->GetAutor());
+				
+				if($userID != false) {
+					$dcAcc = new tcms_dc_account();
+					$dcAcc = $_tcms_ap->getAccount($userID);
+					$wsMail = $dcAcc->getEmail();
+				}
+				else {
+					$wsMail = $wsowner_mail;
+				}
+				
+				$item = new FeedItem();
+				
+				$item->title = $dcNews->getTitle();
+				$item->link = $wsowner_url.$seoFolder.'/?id=newsmanager&news='.$dcNews->getID();
+				
+				$toendaScript = new toendaScript();
+				
+				$news_content = $this->decodeIconV(
+					$dcNews->getText(), 
+					$this->m_CHARSET
+				);
+				
+				$news_content = $toendaScript->checkSEO($news_content, $imagePath);
+				$news_content = $toendaScript->cutAtTcmsMoreTag($news_content);
+				
+				$item->description = $news_content;
+				$item->date = mktime(
+					substr($dcNews->getTime(), 0, 2), 
+					substr($dcNews->getTime(), 3, 2), 
+					0, 
+					substr($dcNews->getDate(), 3, 2), 
+					substr($dcNews->getDate(), 0, 2), 
+					substr($dcNews->getDate(), 6, 4)
+				);
+				$item->source = $wsowner_url;
+				
+				$item->author = ( $show_autor == 1 ? $dcNews->getAutor() : $wsowner );
+				
+				if($show_autor == 1) {
+					$item->authorEmail = $wsMail;
+				}
+				
+				$rss->addItem($item);
+				
+				unset($toendaScript);
+			}
+		}*/
+		
+		if($admin) {
+			$rss->saveFeed($defaultFormat, '../../cache/comments'.$defaultFormat.'.xml', false);
+		}
+		else {
+			$rss->saveFeed($defaultFormat, 'cache/comments'.$defaultFormat.'.xml', false);
 		}
 	}
 	
@@ -2066,7 +2196,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param String $language
 	 * @return tcms_dc_newsmanager Object
 	 */
-	function getNewsmanagerDC($language){
+	function getNewsmanagerDC($language) {
 		$newsDC = new tcms_dc_newsmanager();
 		
 		if($this->m_choosenDB == 'xml'){
@@ -2115,6 +2245,20 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsSynAmount       = $xml->readSection('config', 'syn_amount');
 			$wsSynUseTitle     = $xml->readSection('config', 'use_syn_title');
 			$wsSynDefaultFeed  = $xml->readSection('config', 'def_feed');
+			$wsSynRSS091UseImg = $xml->readSection('config', 'use_rss091_img');
+			$wsSynRSS091Text   = $xml->readSection('config', 'rss091_text');
+			$wsSynRSS10UseImg  = $xml->readSection('config', 'use_rss10_img');
+			$wsSynRSS10Text    = $xml->readSection('config', 'rss10_text');
+			$wsSynRSS20UseImg  = $xml->readSection('config', 'use_rss20_img');
+			$wsSynRSS20Text    = $xml->readSection('config', 'rss20_feed');
+			$wsSynATOM03UseImg = $xml->readSection('config', 'use_atom03_img');
+			$wsSynATOM03Text   = $xml->readSection('config', 'atom03_text');
+			$wsSynOPMLUseImg   = $xml->readSection('config', 'use_opml_img');
+			$wsSynOPMLText     = $xml->readSection('config', 'opml_text');
+			$wsSynUseCFeed     = $xml->readSection('config', 'use_comment_feed');
+			$wsSynCFeedText    = $xml->readSection('config', 'comment_feed_text');
+			$wsSynCFeedType    = $xml->readSection('config', 'comment_feed_type');
+			$wsSynUseCFeedImg  = $xml->readSection('config', 'use_comment_feed_img');
 			
 			$xml->flush();
 			$xml->_xmlparser();
@@ -2135,7 +2279,10 @@ class tcms_datacontainer_provider extends tcms_main {
 			$strQuery = "SELECT language, news_title, news_stamp, news_image, use_comments, show_autor, "
 			."show_autor_as_link, news_amount, news_cut, access, use_gravatar, use_emoticons, "
 			."use_trackback, use_timesince, news_text, readmore_link, news_spacing, use_rss091, use_rss10, "
-			."use_rss20, use_atom03, use_opml, syn_amount, use_syn_title, def_feed "
+			."use_rss20, use_atom03, use_opml, syn_amount, use_syn_title, def_feed, "
+			."use_rss091_img, rss091_text, use_rss10_img, rss10_text, use_rss20_img, "
+			."rss20_feed, use_atom03_img, atom03_text, use_opml_img, opml_text, "
+			."use_comment_feed, comment_feed_text, comment_feed_type, comment_feed_type "
 			."FROM ".$this->m_sqlPrefix."newsmanager "
 			."WHERE language = '".$language."'";
 			
@@ -2168,6 +2315,20 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsSynAmount       = $sqlObj->syn_amount;
 			$wsSynUseTitle     = $sqlObj->use_syn_title;
 			$wsSynDefaultFeed  = $sqlObj->def_feed;
+			$wsSynRSS091UseImg = $sqlObj->use_rss091_img;
+			$wsSynRSS091Text   = $sqlObj->rss091_text;
+			$wsSynRSS10UseImg  = $sqlObj->use_rss10_img;
+			$wsSynRSS10Text    = $sqlObj->rss10_text;
+			$wsSynRSS20UseImg  = $sqlObj->use_rss20_img;
+			$wsSynRSS20Text    = $sqlObj->rss20_feed;
+			$wsSynATOM03UseImg = $sqlObj->use_atom03_img;
+			$wsSynATOM03Text   = $sqlObj->atom03_text;
+			$wsSynOPMLUseImg   = $sqlObj->use_opml_img;
+			$wsSynOPMLText     = $sqlObj->opml_text;
+			$wsSynUseCFeed     = $sqlObj->use_comment_feed;
+			$wsSynCFeedText    = $sqlObj->comment_feed_text;
+			$wsSynCFeedType    = $sqlObj->comment_feed_type;
+			$wsSynUseCFeedImg  = $sqlObj->use_comment_feed_img;
 			
 			$sqlAL->freeResult($sqlQR);
 			$sqlAL->_sqlAbstractionLayer();
@@ -2210,6 +2371,20 @@ class tcms_datacontainer_provider extends tcms_main {
 		$newsDC->setSyndicationAmount($wsSynAmount);
 		$newsDC->setSyndicationUseTitle($wsSynUseTitle);
 		$newsDC->setSyndicationDefaultFeed($wsSynDefaultFeed);
+		$newsDC->setSyndicationUseRSS091Image($wsSynRSS091UseImg);
+		$newsDC->setSyndicationRSS091Text($wsSynRSS091Text);
+		$newsDC->setSyndicationUseRSS10Image($wsSynRSS10UseImg);
+		$newsDC->setSyndicationRSS10Text($wsSynRSS10Text);
+		$newsDC->setSyndicationUseRSS20Image($wsSynRSS20UseImg);
+		$newsDC->setSyndicationRSS20Text($wsSynRSS20Text);
+		$newsDC->setSyndicationUseATOM03Image($wsSynATOM03UseImg);
+		$newsDC->setSyndicationATOM03Text($wsSynATOM03Text);
+		$newsDC->setSyndicationUseOPMLImage($wsSynOPMLUseImg);
+		$newsDC->setSyndicationOPMLText($wsSynOPMLText);
+		$newsDC->setSyndicationUseCommentFeed($wsSynUseCFeed);
+		$newsDC->setSyndicationUseCommentFeedImage($wsSynUseCFeedImg);
+		$newsDC->setSyndicationCommentFeedText($wsSynCFeedText);
+		$newsDC->setSyndicationCommentFeedType($wsSynCFeedType);
 				
 		return $newsDC;
 	}

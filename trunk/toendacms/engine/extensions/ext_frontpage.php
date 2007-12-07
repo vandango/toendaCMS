@@ -521,24 +521,56 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 	
 	
 	if($use_syndication == 1) {
-		$tcms_dcp->generateFeed(
-			$getLang, 
-			( $tcms_main->isReal($feed) ? $feed : $def_feed ), 
-			$seoFolder, 
-			false, 
-			$syn_amount, 
-			$show_autor
-		);
-		
-		if($tcms_main->isReal($feed)) {
-			if(isset($save) && $save == true) {
-				//$rss->saveFeed($feed, 'cache/'.$feed.'.xml', false);
-				echo '<script>'
-				.'document.location=\''.$imagePath.'cache/'.$feed.'.xml\';'
-				.'</script>';
+		if($tcms_main->isReal($item)) {
+			/*
+				comment feed
+			*/
+			
+			$tcms_dcp->generateCommentsFeed(
+				$getLang, 
+				( $tcms_main->isReal($feed) ? $feed : $def_feed ), 
+				$seoFolder, 
+				false, 
+				$syn_amount, 
+				$show_autor
+			);
+			
+			if($tcms_main->isReal($feed)) {
+				if(isset($save) && $save == true) {
+					//$rss->saveFeed($feed, 'cache/'.$feed.'.xml', false);
+					echo '<script>'
+					.'document.location=\''.$imagePath.'cache/comments'.$feed.'.xml\';'
+					.'</script>';
+				}
+				else {
+					//$rss->saveFeed($feed, 'cache/'.$feed.'.xml', false);
+				}
 			}
-			else {
-				//$rss->saveFeed($feed, 'cache/'.$feed.'.xml', false);
+		}
+		else {
+			/*
+				news feed
+			*/
+			
+			$tcms_dcp->generateFeed(
+				$getLang, 
+				( $tcms_main->isReal($feed) ? $feed : $def_feed ), 
+				$seoFolder, 
+				false, 
+				$syn_amount, 
+				$show_autor
+			);
+			
+			if($tcms_main->isReal($feed)) {
+				if(isset($save) && $save == true) {
+					//$rss->saveFeed($feed, 'cache/'.$feed.'.xml', false);
+					echo '<script>'
+					.'document.location=\''.$imagePath.'cache/'.$feed.'.xml\';'
+					.'</script>';
+				}
+				else {
+					//$rss->saveFeed($feed, 'cache/'.$feed.'.xml', false);
+				}
 			}
 		}
 	}

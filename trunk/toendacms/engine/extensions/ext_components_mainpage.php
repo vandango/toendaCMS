@@ -32,7 +32,7 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 //if component system is enabled
 if($tcms_config->getComponentsSystemEnabled()){
-	if(file_exists($tcms_administer_site.'/components/'.$item.'/component.xml')){
+	if($tcms_file->checkFileExist($tcms_administer_site.'/components/'.$item.'/component.xml')){
 		// get the component information about the choosen component
 		$arrMainCS = $tcms_cs->getMainCS($item, $is_admin);
 		
@@ -44,7 +44,11 @@ if($tcms_config->getComponentsSystemEnabled()){
 			$_TCMS_CS_ID[$item]['path']   = $arrMainCS['path'];
 			
 			// get all special settings from it's own xml file
-			$_TCMS_CS_ARRAY = $tcms_cs->getSpecialSettings($item, $arrMainCS['settings'], $item);
+			$_TCMS_CS_ARRAY = $tcms_cs->getSpecialSettings(
+				$item, 
+				$arrMainCS['settings'], 
+				$item
+			);
 			
 			// finally include the mainsite file
 			include_once($tcms_administer_site.'/components/'.$arrMainCS['folder'].'/'.$arrMainCS['file']);

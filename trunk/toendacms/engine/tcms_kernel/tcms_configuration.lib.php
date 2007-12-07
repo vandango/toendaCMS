@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide the global
  * configuration data.
  *
- * @version 0.5.7
+ * @version 0.5.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -99,6 +99,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getFooterText               -> Get the footer text
  * getAdminTheme               -> Get the admin theme
  * getFrontendTheme            -> Get the frontend theme
+ * toendaCMSShopIsInstalled    -> Get the setting if the toendaCMS shop is installed
  * 
  * </code>
  *
@@ -1082,6 +1083,22 @@ class tcms_configuration {
 	 */
 	public function getMediamanagerItemView() {
 		return $this->m_mediaman_view;
+	}
+	
+	
+	
+	/**
+	 * Get the setting if the toendaCMS shop is installed
+	 *
+	 * @return Boolean
+	 */
+	public function toendaCMSShopIsInstalled() {
+		if(file_exists('data/components/tcmsshop/tcmsshop.php')) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }
 

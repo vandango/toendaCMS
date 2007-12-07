@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * the newsmanager.
  *
- * @version 0.0.7
+ * @version 0.1.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -58,6 +58,20 @@ class tcms_dc_newsmanager {
 	private $m_SynAmount;
 	private $m_SynUseTitle;
 	private $m_SynDefaultFeed;
+	private $m_UseRSS091Image;
+	private $m_RSS091Text;
+	private $m_UseRSS10Image;
+	private $m_RSS10Text;
+	private $m_UseRSS20Image;
+	private $m_RSS20Text;
+	private $m_UseATOM03Image;
+	private $m_ATOM03Text;
+	private $m_UseOPMLImage;
+	private $m_OPMLText;
+	private $m_use_comment_feed;
+	private $m_comment_feed_text;
+	private $m_comment_feed_type;
+	private $m_use_comment_feed_img;
 	
 	// ---------------------------------------
 	// Constructors / Destructors
@@ -67,14 +81,14 @@ class tcms_dc_newsmanager {
 	 * PHP5 Constructor
 	 *
 	 */
-	function __construct() {
+	public function __construct() {
 	}
 	
 	/**
 	 * PHP4 Constructor
 	 *
 	 */
-	function tcms_dc_newsmanager(){
+	public function tcms_dc_newsmanager() {
 		$this->__construct();
 	}
 	
@@ -88,7 +102,7 @@ class tcms_dc_newsmanager {
 	 * @param String $value
 	 * @return String
 	 */
-	function setID($value){
+	public function setID($value) {
 		$this->m_id = $value;
 	}
 	
@@ -97,7 +111,7 @@ class tcms_dc_newsmanager {
 	 * 
 	 * @return String
 	 */
-	function getID(){
+	public function getID() {
 		return $this->m_id;
 	}
 	
@@ -107,7 +121,7 @@ class tcms_dc_newsmanager {
 	 * @param String $value
 	 * @return String
 	 */
-	function setLanguage($value){
+	public function setLanguage($value) {
 		$this->m_lang = $value;
 	}
 	
@@ -116,7 +130,7 @@ class tcms_dc_newsmanager {
 	 * 
 	 * @return String
 	 */
-	function getLanguage(){
+	public function getLanguage() {
 		return $this->m_lang;
 	}
 	
@@ -126,7 +140,7 @@ class tcms_dc_newsmanager {
 	 * @param String $value
 	 * @return String
 	 */
-	function setTitle($value){
+	public function setTitle($value) {
 		$this->m_title = $value;
 	}
 	
@@ -135,7 +149,7 @@ class tcms_dc_newsmanager {
 	 * 
 	 * @return String
 	 */
-	function getTitle(){
+	public function getTitle() {
 		return $this->m_title;
 	}
 	
@@ -144,7 +158,7 @@ class tcms_dc_newsmanager {
 	 * 
 	 * @param String $value
 	 */
-	function setSubtitle($value){
+	public function setSubtitle($value) {
 		$this->m_key = $value;
 	}
 	
@@ -153,7 +167,7 @@ class tcms_dc_newsmanager {
 	 * 
 	 * @return String
 	 */
-	function getSubtitle(){
+	public function getSubtitle() {
 		return $this->m_key;
 	}
 	
@@ -163,7 +177,7 @@ class tcms_dc_newsmanager {
 	 * @param String $value
 	 * @return String
 	 */
-	function setText($value){
+	public function setText($value) {
 		$this->m_text = $value;
 	}
 	
@@ -172,7 +186,7 @@ class tcms_dc_newsmanager {
 	 * 
 	 * @return String
 	 */
-	function getText(){
+	public function getText() {
 		return $this->m_text;
 	}
 	
@@ -182,7 +196,7 @@ class tcms_dc_newsmanager {
 	 * @param String $value
 	 * @return String
 	 */
-	function setImage($value){
+	public function setImage($value) {
 		$this->m_image = $value;
 	}
 	
@@ -191,7 +205,7 @@ class tcms_dc_newsmanager {
 	 * 
 	 * @return String
 	 */
-	function getImage(){
+	public function getImage() {
 		return $this->m_image;
 	}
 	
@@ -201,7 +215,7 @@ class tcms_dc_newsmanager {
 	 * @param String $value
 	 * @return String
 	 */
-	function setUseComments($value){
+	public function setUseComments($value) {
 		$this->m_UseComments = $value;
 	}
 	
@@ -210,7 +224,7 @@ class tcms_dc_newsmanager {
 	 * 
 	 * @return String
 	 */
-	function getUseComments(){
+	public function getUseComments() {
 		return $this->m_UseComments;
 	}
 	
@@ -220,7 +234,7 @@ class tcms_dc_newsmanager {
 	 * @param String $value
 	 * @return String
 	 */
-	function setShowAutor($value){
+	public function setShowAutor($value) {
 		$this->m_ShowAutor = $value;
 	}
 	
@@ -229,7 +243,7 @@ class tcms_dc_newsmanager {
 	 * 
 	 * @return String
 	 */
-	function getShowAutor(){
+	public function getShowAutor() {
 		return $this->m_ShowAutor;
 	}
 	
@@ -239,7 +253,7 @@ class tcms_dc_newsmanager {
 	 * @param String $value
 	 * @return String
 	 */
-	function setShowAutorAsLink($value){
+	public function setShowAutorAsLink($value) {
 		$this->m_ShowAutorAsLink = $value;
 	}
 	
@@ -248,7 +262,7 @@ class tcms_dc_newsmanager {
 	 * 
 	 * @return String
 	 */
-	function getShowAutorAsLink(){
+	public function getShowAutorAsLink() {
 		return $this->m_ShowAutorAsLink;
 	}
 	
@@ -258,7 +272,7 @@ class tcms_dc_newsmanager {
 	 * @param String $value
 	 * @return String
 	 */
-	function setNewsAmount($value){
+	public function setNewsAmount($value) {
 		$this->m_NewsAmount = $value;
 	}
 	
@@ -267,7 +281,7 @@ class tcms_dc_newsmanager {
 	 * 
 	 * @return String
 	 */
-	function getNewsAmount(){
+	public function getNewsAmount() {
 		return $this->m_NewsAmount;
 	}
 	
@@ -277,7 +291,7 @@ class tcms_dc_newsmanager {
 	 * @param String $value
 	 * @return String
 	 */
-	function setNewsChars($value){
+	public function setNewsChars($value) {
 		$this->m_NewsChars = $value;
 	}
 	
@@ -286,7 +300,7 @@ class tcms_dc_newsmanager {
 	 * 
 	 * @return String
 	 */
-	function getNewsChars(){
+	public function getNewsChars() {
 		return $this->m_NewsChars;
 	}
 	
@@ -296,7 +310,7 @@ class tcms_dc_newsmanager {
 	 * @param String $value
 	 * @return String
 	 */
-	function setAccess($value){
+	public function setAccess($value) {
 		$this->m_Access = $value;
 	}
 	
@@ -305,7 +319,7 @@ class tcms_dc_newsmanager {
 	 * 
 	 * @return String
 	 */
-	function getAccess(){
+	public function getAccess() {
 		return $this->m_Access;
 	}
 	
@@ -315,7 +329,7 @@ class tcms_dc_newsmanager {
 	 * @param String $value
 	 * @return String
 	 */
-	function setUseGravatar($value){
+	public function setUseGravatar($value) {
 		$this->m_UseGravatar = $value;
 	}
 	
@@ -324,7 +338,7 @@ class tcms_dc_newsmanager {
 	 * 
 	 * @return String
 	 */
-	function getUseGravatar(){
+	public function getUseGravatar() {
 		return $this->m_UseGravatar;
 	}
 	
@@ -334,7 +348,7 @@ class tcms_dc_newsmanager {
 	 * @param String $value
 	 * @return String
 	 */
-	function setUseEmoticons($value){
+	public function setUseEmoticons($value) {
 		$this->m_UseEmoticons = $value;
 	}
 	
@@ -343,7 +357,7 @@ class tcms_dc_newsmanager {
 	 * 
 	 * @return String
 	 */
-	function getUseEmoticons(){
+	public function getUseEmoticons() {
 		return $this->m_UseEmoticons;
 	}
 	
@@ -353,7 +367,7 @@ class tcms_dc_newsmanager {
 	 * @param String $value
 	 * @return String
 	 */
-	function setUseTrachback($value){
+	public function setUseTrachback($value) {
 		$this->m_UseTrachback = $value;
 	}
 	
@@ -362,7 +376,7 @@ class tcms_dc_newsmanager {
 	 * 
 	 * @return String
 	 */
-	function getUseTrachback(){
+	public function getUseTrachback() {
 		return $this->m_UseTrachback;
 	}
 	
@@ -372,7 +386,7 @@ class tcms_dc_newsmanager {
 	 * @param String $value
 	 * @return String
 	 */
-	function setUseTimesince($value){
+	public function setUseTimesince($value) {
 		$this->m_UseTimesince = $value;
 	}
 	
@@ -381,7 +395,7 @@ class tcms_dc_newsmanager {
 	 * 
 	 * @return String
 	 */
-	function getUseTimesince(){
+	public function getUseTimesince() {
 		return $this->m_UseTimesince;
 	}
 	
@@ -391,7 +405,7 @@ class tcms_dc_newsmanager {
 	 * @param String $value
 	 * @return String
 	 */
-	function setReadmoreLink($value){
+	public function setReadmoreLink($value) {
 		$this->m_ReadmoreLink = $value;
 	}
 	
@@ -400,7 +414,7 @@ class tcms_dc_newsmanager {
 	 * 
 	 * @return String
 	 */
-	function getReadmoreLink(){
+	public function getReadmoreLink() {
 		return $this->m_ReadmoreLink;
 	}
 	
@@ -410,7 +424,7 @@ class tcms_dc_newsmanager {
 	 * @param String $value
 	 * @return String
 	 */
-	function setNewsSpacing($value){
+	public function setNewsSpacing($value) {
 		$this->m_NewsSpacing = $value;
 	}
 	
@@ -419,7 +433,7 @@ class tcms_dc_newsmanager {
 	 * 
 	 * @return String
 	 */
-	function getNewsSpacing(){
+	public function getNewsSpacing() {
 		return $this->m_NewsSpacing;
 	}
 	
@@ -429,7 +443,7 @@ class tcms_dc_newsmanager {
 	 * @param String $value
 	 * @return String
 	 */
-	function setSyndicationRSS091($value){
+	public function setSyndicationRSS091($value) {
 		$this->m_SynRSS091 = $value;
 	}
 	
@@ -438,7 +452,7 @@ class tcms_dc_newsmanager {
 	 * 
 	 * @return String
 	 */
-	function getSyndicationRSS091(){
+	public function getSyndicationRSS091() {
 		return $this->m_SynRSS091;
 	}
 	
@@ -448,7 +462,7 @@ class tcms_dc_newsmanager {
 	 * @param String $value
 	 * @return String
 	 */
-	function setSyndicationRSS10($value){
+	public function setSyndicationRSS10($value) {
 		$this->m_SynRSS10 = $value;
 	}
 	
@@ -457,7 +471,7 @@ class tcms_dc_newsmanager {
 	 * 
 	 * @return String
 	 */
-	function getSyndicationRSS10(){
+	public function getSyndicationRSS10() {
 		return $this->m_SynRSS10;
 	}
 	
@@ -467,7 +481,7 @@ class tcms_dc_newsmanager {
 	 * @param String $value
 	 * @return String
 	 */
-	function setSyndicationRSS20($value){
+	public function setSyndicationRSS20($value) {
 		$this->m_SynRSS20 = $value;
 	}
 	
@@ -476,7 +490,7 @@ class tcms_dc_newsmanager {
 	 * 
 	 * @return String
 	 */
-	function getSyndicationRSS20(){
+	public function getSyndicationRSS20() {
 		return $this->m_SynRSS20;
 	}
 	
@@ -486,7 +500,7 @@ class tcms_dc_newsmanager {
 	 * @param String $value
 	 * @return String
 	 */
-	function setSyndicationRSSAtom($value){
+	public function setSyndicationRSSAtom($value) {
 		$this->m_SynRSSAtom = $value;
 	}
 	
@@ -495,7 +509,7 @@ class tcms_dc_newsmanager {
 	 * 
 	 * @return String
 	 */
-	function getSyndicationRSSAtom(){
+	public function getSyndicationRSSAtom() {
 		return $this->m_SynRSSAtom;
 	}
 	
@@ -505,7 +519,7 @@ class tcms_dc_newsmanager {
 	 * @param String $value
 	 * @return String
 	 */
-	function setSyndicationRSSOpml($value){
+	public function setSyndicationRSSOpml($value) {
 		$this->m_SynRSSOpml = $value;
 	}
 	
@@ -514,7 +528,7 @@ class tcms_dc_newsmanager {
 	 * 
 	 * @return String
 	 */
-	function getSyndicationRSSOpml(){
+	public function getSyndicationRSSOpml() {
 		return $this->m_SynRSSOpml;
 	}
 	
@@ -524,7 +538,7 @@ class tcms_dc_newsmanager {
 	 * @param String $value
 	 * @return String
 	 */
-	function setSyndicationAmount($value){
+	public function setSyndicationAmount($value) {
 		$this->m_SynAmount = $value;
 	}
 	
@@ -533,7 +547,7 @@ class tcms_dc_newsmanager {
 	 * 
 	 * @return String
 	 */
-	function getSyndicationAmount(){
+	public function getSyndicationAmount() {
 		return $this->m_SynAmount;
 	}
 	
@@ -543,7 +557,7 @@ class tcms_dc_newsmanager {
 	 * @param String $value
 	 * @return String
 	 */
-	function setSyndicationUseTitle($value){
+	public function setSyndicationUseTitle($value) {
 		$this->m_SynUseTitle = $value;
 	}
 	
@@ -552,7 +566,7 @@ class tcms_dc_newsmanager {
 	 * 
 	 * @return String
 	 */
-	function getSyndicationUseTitle(){
+	public function getSyndicationUseTitle() {
 		return $this->m_SynUseTitle;
 	}
 	
@@ -562,7 +576,7 @@ class tcms_dc_newsmanager {
 	 * @param String $value
 	 * @return String
 	 */
-	function setSyndicationDefaultFeed($value){
+	public function setSyndicationDefaultFeed($value) {
 		$this->m_SynDefaultFeed = $value;
 	}
 	
@@ -571,8 +585,274 @@ class tcms_dc_newsmanager {
 	 * 
 	 * @return String
 	 */
-	function getSyndicationDefaultFeed(){
+	public function getSyndicationDefaultFeed() {
 		return $this->m_SynDefaultFeed;
+	}
+	
+	/**
+	 * Set the UseRSS091Image
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	public function setSyndicationUseRSS091Image($value) {
+		$this->m_UseRSS091Image = $value;
+	}
+	
+	/**
+	 * Get the UseRSS091Image
+	 * 
+	 * @return String
+	 */
+	public function getSyndicationUseRSS091Image() {
+		return $this->m_UseRSS091Image;
+	}
+	
+	/**
+	 * Set the RSS091Text
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	public function setSyndicationRSS091Text($value) {
+		$this->m_RSS091Text = $value;
+	}
+	
+	/**
+	 * Get the RSS091Text
+	 * 
+	 * @return String
+	 */
+	public function getSyndicationRSS091Text() {
+		return $this->m_RSS091Text;
+	}
+	
+	/**
+	 * Set the UseRSS10Image
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	public function setSyndicationUseRSS10Image($value) {
+		$this->m_UseRSS10Image = $value;
+	}
+	
+	/**
+	 * Get the UseRSS10Image
+	 * 
+	 * @return String
+	 */
+	public function getSyndicationUseRSS10Image() {
+		return $this->m_UseRSS10Image;
+	}
+	
+	/**
+	 * Set the RSS10Text
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	public function setSyndicationRSS10Text($value) {
+		$this->m_RSS10Text = $value;
+	}
+	
+	/**
+	 * Get the RSS10Text
+	 * 
+	 * @return String
+	 */
+	public function getSyndicationRSS10Text() {
+		return $this->m_RSS10Text;
+	}
+	
+	/**
+	 * Set the UseRSS20Image
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	public function setSyndicationUseRSS20Image($value) {
+		$this->m_UseRSS20Image = $value;
+	}
+	
+	/**
+	 * Get the UseRSS20Image
+	 * 
+	 * @return String
+	 */
+	public function getSyndicationUseRSS20Image() {
+		return $this->m_UseRSS20Image;
+	}
+	
+	/**
+	 * Set the RSS20Text
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	public function setSyndicationRSS20Text($value) {
+		$this->m_RSS20Text = $value;
+	}
+	
+	/**
+	 * Get the RSS20Text
+	 * 
+	 * @return String
+	 */
+	public function getSyndicationRSS20Text() {
+		return $this->m_RSS20Text;
+	}
+	
+	/**
+	 * Set the UseATOM03Image
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	public function setSyndicationUseATOM03Image($value) {
+		$this->m_UseATOM03Image = $value;
+	}
+	
+	/**
+	 * Get the UseATOM03Image
+	 * 
+	 * @return String
+	 */
+	public function getSyndicationUseATOM03Image() {
+		return $this->m_UseATOM03Image;
+	}
+	
+	/**
+	 * Set the ATOM03Text
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	public function setSyndicationATOM03Text($value) {
+		$this->m_ATOM03Text = $value;
+	}
+	
+	/**
+	 * Get the ATOM03Text
+	 * 
+	 * @return String
+	 */
+	public function getSyndicationATOM03Text() {
+		return $this->m_ATOM03Text;
+	}
+	
+	/**
+	 * Set the UseATOM03Image
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	public function setSyndicationUseOPMLImage($value) {
+		$this->m_UseOPMLImage = $value;
+	}
+	
+	/**
+	 * Get the UseOPMLImage
+	 * 
+	 * @return String
+	 */
+	public function getSyndicationUseOPMLImage() {
+		return $this->m_UseOPMLImage;
+	}
+	
+	/**
+	 * Set the OPMLText
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	public function setSyndicationOPMLText($value) {
+		$this->m_OPMLText = $value;
+	}
+	
+	/**
+	 * Get the OPMLText
+	 * 
+	 * @return String
+	 */
+	public function getSyndicationOPMLText() {
+		return $this->m_OPMLText;
+	}
+	
+	/**
+	 * Set the UseCommentFeed
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	public function setSyndicationUseCommentFeed($value) {
+		$this->m_use_comment_feed = $value;
+	}
+	
+	/**
+	 * Get the UseCommentFeed
+	 * 
+	 * @return String
+	 */
+	public function getSyndicationUseCommentFeed() {
+		return $this->m_use_comment_feed;
+	}
+	
+	/**
+	 * Set the CommentFeedText
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	public function setSyndicationCommentFeedText($value) {
+		$this->m_comment_feed_text = $value;
+	}
+	
+	/**
+	 * Get the CommentFeedText
+	 * 
+	 * @return String
+	 */
+	public function getSyndicationCommentFeedText() {
+		return $this->m_comment_feed_text;
+	}
+	
+	/**
+	 * Set the CommentFeedType
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	public function setSyndicationCommentFeedType($value) {
+		$this->m_comment_feed_type = $value;
+	}
+	
+	/**
+	 * Get the CommentFeedType
+	 * 
+	 * @return String
+	 */
+	public function getSyndicationCommentFeedType() {
+		return $this->m_comment_feed_type;
+	}
+	
+	/**
+	 * Set the UseCommentFeedImage
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	public function setSyndicationUseCommentFeedImage($value) {
+		$this->m_use_comment_feed_img = $value;
+	}
+	
+	/**
+	 * Get the UseCommentFeedImage
+	 * 
+	 * @return String
+	 */
+	public function getSyndicationUseCommentFeedImage() {
+		return $this->m_use_comment_feed_img;
 	}
 }
 

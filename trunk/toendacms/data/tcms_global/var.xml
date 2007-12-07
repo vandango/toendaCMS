@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><global>
+<?xml version="1.0" encoding="utf-8"?><global>
 	<menu>1</menu>
 	<second_menu>1</second_menu>
 	<meta></meta>
@@ -38,7 +38,6 @@
 	<robots>index, follow</robots>
 	<last_changes>2007-11-17 15:00:06</last_changes>
 	<use_content_language>1</use_content_language>
-	<valid_links>1</valid_links>
+	<valid_links></valid_links>
 	<mediaman_view>list</mediaman_view>
-
 </global>

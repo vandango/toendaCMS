@@ -426,7 +426,7 @@ class xmlparser {
 	 * Write the XML declaration
 	 */
 	function xmlDeclaration(){
-		fwrite ($this->file_handle, '<?xml version="1.0" encoding="utf-8"?>');
+		fwrite ($this->file_handle, '<?xml version="1.0" encoding="utf-8"?>'.chr(13));
 	}
 	
 	
@@ -434,11 +434,10 @@ class xmlparser {
 	/**
 	 * Write the XML declaration with the charset
 	 *
-	 * @param String $charset
+	 * @param String $charset = 'ISO-8859-1'
 	 */
-	function xmlDeclarationWithCharset($charset){
-		if(!isset($charset)){ $charset = 'ISO-8859-1'; }
-		fwrite ($this->file_handle, '<?xml version="1.0" encoding="'.$charset.'"?>');
+	function xmlDeclarationWithCharset($charset = 'ISO-8859-1') {
+		fwrite ($this->file_handle, '<?xml version="1.0" encoding="'.$charset.'"?>'.chr(13));
 	}
 	
 	
@@ -469,7 +468,7 @@ class xmlparser {
 	 * @param String $section
 	 */
 	function xmlSectionEnd($section){
-		fwrite($this->file_handle, "\n</".$section.">\n");
+		fwrite($this->file_handle, "</".$section.">\n");
 	}
 	
 	
@@ -804,7 +803,7 @@ class xmlparser {
 	 *
 	 */
 	function xml_declaration(){
-		fwrite ($this->file_handle, '<?xml version="1.0" encoding="utf-8"?>');
+		fwrite ($this->file_handle, '<?xml version="1.0" encoding="utf-8"?>'.chr(13));
 	}
 	
 	
@@ -817,7 +816,7 @@ class xmlparser {
 	 */
 	function xml_c_declaration($charset){
 		if(!isset($charset)){ $charset = 'ISO-8859-1'; }
-		fwrite ($this->file_handle, '<?xml version="1.0" encoding="'.$charset.'"?>');
+		fwrite ($this->file_handle, '<?xml version="1.0" encoding="'.$charset.'"?>'.chr(13));
 	}
 	
 	
@@ -853,7 +852,7 @@ class xmlparser {
 	 * @param unknown_type $charset
 	 */
 	function xml_section_end($section){
-		fwrite ($this->file_handle, "\n</".$section.">\n");
+		fwrite ($this->file_handle, "</".$section.">\n");
 	}
 }
 

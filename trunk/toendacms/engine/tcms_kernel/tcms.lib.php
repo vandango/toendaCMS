@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic public functions.
  *
- * @version 2.8.0
+ * @version 2.8.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -902,11 +902,27 @@ class tcms_main {
 	 */
 	public function decodeIconV($value, $charset = 'iso-8859-1') {
 		if(extension_loaded('iconv')) {
-			return str_replace(
-				'&auml;', 
-				iconv($charset, 'UTF-8', 'ä'), 
-				$value
+			$arrChars = array(
+				'&auml;' => 'ä', // ae
+				'&ouml;' => 'ö', // oe
+				'&uuml;' => 'ü', // ue
+				'&Auml;' => 'Ä', // Ae
+				'&Ouml;' => 'Ö', // Oe
+				'&Uuml;' => 'Ü', // Ue
+				'&szlig;' => 'ß' // ss
 			);
+			
+			foreach($arrChars as $key => $val) {
+				//echo $key.' - '.$val.'<br>';
+				
+				$value = str_replace(
+					$key, 
+					iconv($charset, 'UTF-8', $val), 
+					$value
+				);
+			}
+			
+			return $value;
 		}
 		else {
 			return $value;
@@ -1031,7 +1047,10 @@ class tcms_main {
 				$xml = new xmlparser($this->administer.'/tcms_global/var.xml', 'r');
 				$lang = $xml->read_section('global', 'front_lang');
 				
-				//echo ( phpversion() >= '5.1.6' ? phpversion().' >= 5.1.6' : '< 5.1.6' ).' - '.$lang;
+				$text = $this->decodeIconV(
+					$text, 
+					$charset
+				);
 				
 				if(phpversion() >= '5.1.6' && $lang == 'germany_DE') {
 					//echo phpversion().' >= 5.1.6';
@@ -1054,11 +1073,6 @@ class tcms_main {
 				$text = strtr($text, $trans);
 				break;
 		}
-		
-		$text = $this->decodeIconV(
-			$text, 
-			$charset
-		);
 		
 		return $text;
 	}

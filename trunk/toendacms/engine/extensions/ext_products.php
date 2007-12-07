@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a product manager.
  *
- * @version 0.7.0
+ * @version 0.7.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -46,6 +46,16 @@ else {
 
 $hrLineOneUp = false;
 
+if($tcms_config->getComponentsSystemEnabled()
+&& $tcms_config->toendaCMSShopIsInstalled()) {
+	$arrTcmsShopSettings = $tcms_cs->getSettings(
+		'tcmsshop'
+	);
+}
+else {
+	$arrTcmsShopSettings['enabled'] = false;
+}
+
 
 
 
@@ -61,7 +71,10 @@ if($action == 'showall'){
 		//( $cmd == 'browse' ? '' : $products_text )
 	);
 	
-	if($cmd != 'browse' || trim($startpage_title) == '') {
+	if($cmd == 'offers' 
+	|| $cmd == 'latest' 
+	|| $cmd == 'browse' 
+	|| trim($startpage_title) == '') {
 		$hrLineOneUp = true;
 	}
 	
@@ -907,8 +920,8 @@ if($action == 'showone') {
 	if($sqlNR > 0) {
 		echo $tcms_html->tableHead('0', '0', '0', '100%')
 		.'<tr><td valign="top"'
-		.( $tcms_config->getComponentsSystemEnabled() ? '' : ' colspan="2"' )
-		.' class="products_top">'
+		.( $arrTcmsShopSettings['enabled'] ? '' : ' colspan="2"' )
+		.' class="products_top"><br />'
 		.$tcms_html->contentTitle($arr_name)
 		.'<span class="text_small">';
 		
@@ -940,8 +953,7 @@ if($action == 'showone') {
 		.'</span>'
 		.'</td>';
 		
-		if($tcms_config->getComponentsSystemEnabled() 
-		&& is_dir($tcms_administer_site.'/components/tcmsshop/')) {
+		if($arrTcmsShopSettings['enabled']) {
 			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 			.'id=components&amp;item=tcmsshop'
 			.'&amp;cmd=add'
@@ -983,15 +995,17 @@ if($action == 'showone') {
 					echo $arr_price
 					.'&nbsp;'.$tcms_config->getCurrencyHtmlEntity()
 					.'</strong><br />'
-					.'('.$taxPrice.')'
-					.'&nbsp;'.$tcms_config->getCurrencyHtmlEntity();
+					.'('.$taxPrice
+					.'&nbsp;'.$tcms_config->getCurrencyHtmlEntity()
+					.')';
 				}
 				else {
 					echo $tcms_config->getCurrencyHtmlEntity()
 					.'&nbsp;'.$arr_price
 					.'</strong><br />'
+					.'('
 					.$tcms_config->getCurrencyHtmlEntity()
-					.'&nbsp;('.$taxPrice.')';
+					.'&nbsp;'.$taxPrice.')';
 				}
 				
 				echo '<br />'
