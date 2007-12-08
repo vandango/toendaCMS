@@ -723,22 +723,28 @@ if($todo == 'show'){
 	echo $tcms_html->text(_NEWS_TEXT.'<br /><br />', 'left');
 	
 	if($choosenDB == 'xml'){
-		if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
+		if($tcms_main->isArray($arr_filename)){
 			$count = 0;
 			
-			foreach($arr_filename as $key => $value){
+			foreach($arr_filename as $key => $value) {
 				$main_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_news/'.$value,'r');
 				$chk_autor = $main_xml->read_value('autor');
 				
-				if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Writer'){
+				if($id_group == 'Developer' 
+				|| $id_group == 'Administrator' 
+				|| $id_group == 'Writer') {
 					$showAll = true;
 				}
-				else{
-					if($chk_autor == $id_username){ $showAll = true; }
-					else{ $showAll = false; }
+				else {
+					if($chk_autor == $id_username) {
+						$showAll = true;
+					}
+					else {
+						$showAll = false;
+					}
 				}
 				
-				if($showAll == true){
+				if($showAll == true) {
 					$arr_news['title'][$count] = $main_xml->read_value('title');
 					$arr_news['date'][$count]  = $main_xml->read_value('date');
 					$arr_news['time'][$count]  = $main_xml->read_value('time');

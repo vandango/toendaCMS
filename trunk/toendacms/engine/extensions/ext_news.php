@@ -865,24 +865,30 @@ if($use_news_comments == 1){
 			
 			if($choosenDB == 'xml'){
 				$xmluser = new xmlparser($tcms_administer_site.'/tcms_news/comments_'.$news.'/'.$cur_c_date.'.xml', 'w');
-				$xmluser->xml_declaration();
-				$xmluser->xml_section('comment');
+				$xmluser->xmlDeclaration();
+				$xmluser->xmlSection('comment');
 				
-				$xmluser->write_value('name', $comment_name);
-				$xmluser->write_value('email', $comment_email);
-				$xmluser->write_value('web', $comment_web);
-				$xmluser->write_value('msg', $comment_text);
-				$xmluser->write_value('time', $cur_c_date);
-				$xmluser->write_value('ip', $comment_ip);
-				$xmluser->write_value('domain', $comment_remote);
+				$xmluser->writeValue('name', $comment_name);
+				$xmluser->writeValue('email', $comment_email);
+				$xmluser->writeValue('web', $comment_web);
+				$xmluser->writeValue('msg', $comment_text);
+				$xmluser->writeValue('time', $cur_c_date);
+				$xmluser->writeValue('ip', $comment_ip);
+				$xmluser->writeValue('domain', $comment_remote);
 				
-				$xmluser->xml_section_buffer();
-				$xmluser->xml_section_end('comment');
+				$xmluser->xmlSectionBuffer();
+				$xmluser->xmlSectionEnd('comment');
 				$xmluser->_xmlparser();
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect(
+					$sqlUser, 
+					$sqlPass, 
+					$sqlHost, 
+					$sqlDB, 
+					$sqlPort
+				);
 				
 				switch($choosenDB){
 					case 'mysql':
@@ -900,9 +906,24 @@ if($use_news_comments == 1){
 				
 				$newSQLData = "'news', '".$cur_c_date."', '".$comment_name."', '".$comment_email."', '".$comment_web."', '".$comment_text."', '".$cur_c_date."', '".$comment_ip."', '".$comment_remote."'";
 				
-				$sqlQR = $sqlAL->sqlCreateOne($tcms_db_prefix.'comments', $newSQLColumns, $newSQLData, $news);
+				$sqlQR = $sqlAL->createOne(
+					$tcms_db_prefix.'comments', 
+					$newSQLColumns, 
+					$newSQLData, 
+					$news
+				);
 			}
 			
+			if($use_syndication) {
+				$tcms_dcp->generateCommentsFeed(
+					$getLang, 
+					( $tcms_main->isReal($feed) ? $feed : $def_feed ), 
+					$seoFolder, 
+					false, 
+					$syn_amount, 
+					$show_autor
+				);
+			}
 			
 			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
 			.'id='.$id.'&s='.$s.'&news='.$news
@@ -910,7 +931,9 @@ if($use_news_comments == 1){
 			if($seoEnabled == 1)
 				$link = $tcms_main->urlAmpReplace($link);
 			
-			echo '<script>document.location=\''.$link.'\'</script>';
+			echo '<script>'
+			.'document.location=\''.$link.'\';'
+			.'</script>';
 			
 			
 			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
@@ -1031,7 +1054,7 @@ if($action == 'archive' && (isset($cat) || isset($date) || isset($day))) {
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'news_categories', $cat);
 			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
@@ -1234,7 +1257,7 @@ if($action == 'archive' && (isset($cat) || isset($date) || isset($day))) {
 	}
 	else{
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		$sqlQR = $sqlAL->sqlQuery($sqlStr);
 		
@@ -1398,7 +1421,7 @@ if($action == 'archive' && (isset($cat) || isset($date) || isset($day))) {
 					}
 					else{
 						$sqlAL = new sqlAbstractionLayer($choosenDB);
-						$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+						$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 						
 						$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'comments', $arr_newsItems['order'][$key]);
 						
@@ -1463,7 +1486,7 @@ if($action == 'archive' && (isset($cat) || isset($date) || isset($day))) {
 				
 				
 				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				
 				$strSQL = "SELECT * "
@@ -1864,7 +1887,7 @@ if($action == 'archive' && (isset($cat) || isset($date) || isset($day))) {
 	}
 	else{
 	$sqlAL = new sqlAbstractionLayer($choosenDB);
-	$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+	$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 	$authSQL = '';
 	
 	
@@ -2055,7 +2078,7 @@ if($check_session){
 			}
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				$strSQL = "DELETE FROM ".$tcms_db_prefix."comments"
 				." WHERE module='news'"

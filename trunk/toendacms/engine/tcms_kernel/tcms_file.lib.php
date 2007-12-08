@@ -617,9 +617,10 @@ class tcms_file {
 	 * @param String $path
 	 * @param Boolean $onlyFolders
 	 * @param String $fileType = ''
+	 * @param Boolean $commentFolders = false
 	 * @return Array
 	 */
-	public function getPathContent($path, $onlyFolders = false, $fileType = '') {
+	public function getPathContent($path, $onlyFolders = false, $fileType = '', $commentFolders = false) {
 		$i = 0;
 		$handle = opendir($path);
 		
@@ -631,7 +632,7 @@ class tcms_file {
 			&& $dir != '_svn'
 			&& $dir != '.SVN'
 			&& $dir != '_SVN'
-			&& substr($dir, 0, 9) != 'comments_'
+			&& ( $commentFolders ? substr($dir, 0, 9) == 'comments_' : substr($dir, 0, 9) != 'comments_' )
 			&& $dir != 'index.html') {
 				if($onlyFolders) {
 					if(is_dir($path.$dir)) {

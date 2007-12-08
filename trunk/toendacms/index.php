@@ -781,6 +781,7 @@ if($wsShowSite) {
 						$use_cfeed_img  = $dcNewsMan->getSyndicationUseCommentFeedImage();
 						$cfeed_text     = $dcNewsMan->getSyndicationCommentFeedText();
 						$cfeed_type     = $dcNewsMan->getSyndicationCommentFeedType();
+						$show_autor     = $dcNewsMan->getShowAutor();
 					}
 					
 					
