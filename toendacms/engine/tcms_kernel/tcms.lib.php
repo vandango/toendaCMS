@@ -4912,11 +4912,11 @@ class tcms_main {
 	 * @param String $fileType = ''
 	 * @return Array
 	 */
-	public function getPathContent($path, $onlyFolders = false, $fileType = '') {
+	public function getPathContent($path, $onlyFolders = false, $fileType = '', $commentFolders = false) {
 		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
 		
 		$f = new tcms_file();
-		return $f->getPathContent($path, $onlyFolders, $fileType);
+		return $f->getPathContent($path, $onlyFolders, $fileType, $commentFolders);
 		/*
 		$i = 0;
 		$handle = opendir($path);

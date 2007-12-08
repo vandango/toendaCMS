@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides a frontpage with news and a text.
  *
- * @version 1.5.1
+ * @version 1.5.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -539,7 +539,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 				if(isset($save) && $save == true) {
 					//$rss->saveFeed($feed, 'cache/'.$feed.'.xml', false);
 					echo '<script>'
-					.'document.location=\''.$imagePath.'cache/comments'.$feed.'.xml\';'
+					.'document.location=\''.$imagePath.'cache/comments'.$feed.'.'.$lang.'.xml\';'
 					.'</script>';
 				}
 				else {
@@ -565,7 +565,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 				if(isset($save) && $save == true) {
 					//$rss->saveFeed($feed, 'cache/'.$feed.'.xml', false);
 					echo '<script>'
-					.'document.location=\''.$imagePath.'cache/'.$feed.'.xml\';'
+					.'document.location=\''.$imagePath.'cache/'.$feed.'.'.$lang.'.xml\';'
 					.'</script>';
 				}
 				else {

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.1.7
+ * @version 1.2.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -949,6 +949,8 @@ class tcms_datacontainer_provider extends tcms_main {
 		
 		$cfgObj = new tcms_configuration($this->m_path);
 		
+		$lang = $cfgObj->getLanguageCodeByTCMSCode($language);
+		
 		$wstitle      = $this->decodeText($cfgObj->getSiteTitle(), '2', $this->m_CHARSET);
 		$wsname       = $this->decodeText($cfgObj->getSiteName(), '2', $this->m_CHARSET);
 		$wskey        = $this->decodeText($cfgObj->getSiteKey(), '2', $this->m_CHARSET);
@@ -963,7 +965,7 @@ class tcms_datacontainer_provider extends tcms_main {
 		$rss->title = $wsname;
 		$rss->description = $wskey;
 		$rss->link = $wsowner_url;
-		$rss->syndicationURL = $wsowner_url.$seoFolder.'/cache/'.$defaultFormat.'.xml';
+		$rss->syndicationURL = $wsowner_url.$seoFolder.'/cache/'.$defaultFormat.'.'.$lang.'.xml';
 		
 		$image = new FeedImage();
 		$image->title = $wsname.' Logo';
@@ -1041,10 +1043,10 @@ class tcms_datacontainer_provider extends tcms_main {
 		}
 		
 		if($admin) {
-			$rss->saveFeed($defaultFormat, '../../cache/'.$defaultFormat.'.xml', false);
+			$rss->saveFeed($defaultFormat, '../../cache/'.$defaultFormat.'.'.$lang.'.xml', false);
 		}
 		else {
-			$rss->saveFeed($defaultFormat, 'cache/'.$defaultFormat.'.xml', false);
+			$rss->saveFeed($defaultFormat, 'cache/'.$defaultFormat.'.'.$lang.'.xml', false);
 		}
 	}
 	
@@ -1078,6 +1080,8 @@ class tcms_datacontainer_provider extends tcms_main {
 		
 		$cfgObj = new tcms_configuration($this->m_path);
 		
+		$lang = $cfgObj->getLanguageCodeByTCMSCode($language);
+		
 		$wstitle      = $this->decodeText($cfgObj->getSiteTitle(), '2', $this->m_CHARSET);
 		$wsname       = $this->decodeText($cfgObj->getSiteName(), '2', $this->m_CHARSET);
 		$wskey        = $this->decodeText($cfgObj->getSiteKey(), '2', $this->m_CHARSET);
@@ -1092,7 +1096,7 @@ class tcms_datacontainer_provider extends tcms_main {
 		$rss->title = $wsname;
 		$rss->description = $wskey;
 		$rss->link = $wsowner_url;
-		$rss->syndicationURL = $wsowner_url.$seoFolder.'/cache/comments'.$defaultFormat.'.xml';
+		$rss->syndicationURL = $wsowner_url.$seoFolder.'/cache/comments'.$defaultFormat.'.'.$lang.'.xml';
 		
 		$image = new FeedImage();
 		$image->title = $wsname.' Logo';
@@ -1112,68 +1116,55 @@ class tcms_datacontainer_provider extends tcms_main {
 		else{
 			$imagePath = '/';
 		}
+		echo 'c<br>';
+		$arrCommentsDC = $this->getCommentDCList(
+			'__ALL_NEWS__', 
+			'news', 
+			true, 
+			$language
+		);
 		
-		/*$arrNewsDC = $this->getNewsDCList($language, 'Guest', $amount, '1', true);
+		$this->paf($arrCommentsDC);
 		
-		if($this->isArray($arrNewsDC)) {
-			foreach($arrNewsDC as $n_key => $n_value){
-				$dcNews = new tcms_dc_news();
-				$dcNews = $arrNewsDC[$n_key];
+		if($this->isArray($arrCommentsDC)) {
+			foreach($arrCommentsDC as $n_key => $n_value) {
+				$dcComment = new tcms_dc_comment();
+				$dcComment = $arrCommentsDC[$n_key];
 				
-				$userID = $_tcms_auth->getUserID($dcNews->GetAutor());
-				
-				if($userID != false) {
-					$dcAcc = new tcms_dc_account();
-					$dcAcc = $_tcms_ap->getAccount($userID);
-					$wsMail = $dcAcc->getEmail();
-				}
-				else {
-					$wsMail = $wsowner_mail;
-				}
+				echo $n_key.'<br>';
 				
 				$item = new FeedItem();
 				
-				$item->title = $dcNews->getTitle();
-				$item->link = $wsowner_url.$seoFolder.'/?id=newsmanager&news='.$dcNews->getID();
-				
-				$toendaScript = new toendaScript();
-				
-				$news_content = $this->decodeIconV(
-					$dcNews->getText(), 
-					$this->m_CHARSET
+				$wsTitle = $this->getNewsTitle(
+					$dcComment->getID(), 
+					$language
 				);
 				
-				$news_content = $toendaScript->checkSEO($news_content, $imagePath);
-				$news_content = $toendaScript->cutAtTcmsMoreTag($news_content);
+				$item->title = $wsTitle.' - '.$dcComment->getName();
+				$item->link = $wsowner_url.$seoFolder.'/?id=newsmanager&amp;news='.$dcComment->getID();
 				
-				$item->description = $news_content;
+				$item->description = $dcComment->getText();
 				$item->date = mktime(
-					substr($dcNews->getTime(), 0, 2), 
-					substr($dcNews->getTime(), 3, 2), 
-					0, 
-					substr($dcNews->getDate(), 3, 2), 
-					substr($dcNews->getDate(), 0, 2), 
-					substr($dcNews->getDate(), 6, 4)
+					substr($dcComment->getTimestamp(), 8, 2), 
+					substr($dcComment->getTimestamp(), 10, 2), 
+					substr($dcComment->getTimestamp(), 12, 2), 
+					substr($dcComment->getTimestamp(), 4, 2), 
+					substr($dcComment->getTimestamp(), 6, 2), 
+					substr($dcComment->getTimestamp(), 0, 4)
 				);
 				$item->source = $wsowner_url;
 				
-				$item->author = ( $show_autor == 1 ? $dcNews->getAutor() : $wsowner );
-				
-				if($show_autor == 1) {
-					$item->authorEmail = $wsMail;
-				}
+				$item->author = $dcComment->getName();
 				
 				$rss->addItem($item);
-				
-				unset($toendaScript);
 			}
-		}*/
+		}
 		
 		if($admin) {
-			$rss->saveFeed($defaultFormat, '../../cache/comments'.$defaultFormat.'.xml', false);
+			$rss->saveFeed($defaultFormat, '../../cache/comments'.$defaultFormat.'.'.$lang.'.xml', false);
 		}
 		else {
-			$rss->saveFeed($defaultFormat, 'cache/comments'.$defaultFormat.'.xml', false);
+			$rss->saveFeed($defaultFormat, 'cache/comments'.$defaultFormat.'.'.$lang.'.xml', false);
 		}
 	}
 	
@@ -1185,46 +1176,104 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param String $newsID
 	 * @param String $module = 'news'
 	 * @param Boolean $load = true
+	 * @param String $language = ''
 	 * @return tcms_dc_comment Object Array
 	 */
-	function getCommentDCList($newsID, $module = 'news', $load = true){
-		if($this->m_choosenDB == 'xml'){
+	function getCommentDCList($newsID, $module = 'news', $load = true, $language = '') {			
+		if($this->m_choosenDB == 'xml') {
 			if($module == 'news') {
-				$arr_comments = $this->getPathContent($this->m_path.'/tcms_news/comments_'.$newsID.'/');
+				if(trim($newsID) == '__ALL_NEWS__') {
+					$arr_comments = $this->getPathContent(
+						$this->m_path.'/tcms_news/', 
+						true, 
+						'', 
+						true
+					);
+				}
+				else {
+					$arr_comments = $this->getPathContent(
+						$this->m_path.'/tcms_news/comments_'.$newsID.'/'
+					);
+				}
 			}
 			
 			$count = 0;
 			
-			if($load){
-				if($this->isArray($arr_comments)){
-					foreach($arr_comments as $nkey => $nvalue){
-						$xml = new xmlparser($this->m_path.'/tcms_news/comments_'.$newsID.'/'.$nvalue, 'r');
-						
-						$arr_news['name'][$count]   = $xml->readSection('comment', 'name');
-						$arr_news['email'][$count]  = $xml->readSection('comment', 'email');
-						$arr_news['url'][$count]    = $xml->readSection('comment', 'web');
-						$arr_news['text'][$count]   = $xml->readSection('comment', 'msg');
-						$arr_news['time'][$count]   = $xml->readSection('comment', 'time');
-						$arr_news['ip'][$count]     = $xml->readSection('comment', 'ip');
-						$arr_news['domain'][$count] = $xml->readSection('comment', 'domain');
-						$arr_news['id'][$count]     = $newsID;
-						
-						$xml->flush();
-						$xml->_xmlparser();
-						unset($xml);
-						
-						if($arr_news['name'][$count]   == false) $arr_news['name'][$count]   = '';
-						if($arr_news['email'][$count]  == false) $arr_news['email'][$count]  = '';
-						if($arr_news['url'][$count]    == false) $arr_news['url'][$count]    = '';
-						if($arr_news['text'][$count]   == false) $arr_news['text'][$count]   = '';
-						if($arr_news['time'][$count]   == false) $arr_news['time'][$count]   = '';
-						if($arr_news['ip'][$count]     == false) $arr_news['ip'][$count]     = '';
-						if($arr_news['domain'][$count] == false) $arr_news['domain'][$count] = '';
-						if($arr_news['id'][$count]     == false) $arr_news['id'][$count]     = '';
-						
-						$arr_news['text'][$count]  = $this->decodeText($arr_news['text'][$count], '2', $this->m_CHARSET);
-						
-						$count++;
+			if($load) {
+				if($this->isArray($arr_comments)) {
+					foreach($arr_comments as $nkey => $nvalue) {
+						if(trim($newsID) == '__ALL_NEWS__') {
+							$arrCommentFile = $this->getPathContent(
+								$this->m_path.'/tcms_news/'.$nvalue.'/'
+							);
+							
+							if($this->isArray($arrCommentFile)) {
+								foreach($arrCommentFile as $ckey => $cvalue) {
+									$path = $this->m_path.'/tcms_news/'.$nvalue.'/'.$cvalue;
+									
+									echo $path.'<br>';
+									
+									$xml = new xmlparser($path, 'r');
+									
+									$arr_news['name'][$count]   = $xml->readSection('comment', 'name');
+									$arr_news['email'][$count]  = $xml->readSection('comment', 'email');
+									$arr_news['url'][$count]    = $xml->readSection('comment', 'web');
+									$arr_news['text'][$count]   = $xml->readSection('comment', 'msg');
+									$arr_news['time'][$count]   = $xml->readSection('comment', 'time');
+									$arr_news['ip'][$count]     = $xml->readSection('comment', 'ip');
+									$arr_news['domain'][$count] = $xml->readSection('comment', 'domain');
+									$arr_news['id'][$count]     = $nvalue;
+									
+									$xml->flush();
+									$xml->_xmlparser();
+									unset($xml);
+									
+									if($arr_news['name'][$count]   == false) $arr_news['name'][$count]   = '';
+									if($arr_news['email'][$count]  == false) $arr_news['email'][$count]  = '';
+									if($arr_news['url'][$count]    == false) $arr_news['url'][$count]    = '';
+									if($arr_news['text'][$count]   == false) $arr_news['text'][$count]   = '';
+									if($arr_news['time'][$count]   == false) $arr_news['time'][$count]   = '';
+									if($arr_news['ip'][$count]     == false) $arr_news['ip'][$count]     = '';
+									if($arr_news['domain'][$count] == false) $arr_news['domain'][$count] = '';
+									if($arr_news['id'][$count]     == false) $arr_news['id'][$count]     = '';
+									
+									$arr_news['text'][$count]  = $this->decodeText($arr_news['text'][$count], '2', $this->m_CHARSET);
+									
+									$count++;
+								}
+							}
+						}
+						else {
+							$path = $this->m_path.'/tcms_news/comments_'.$newsID.'/'.$nvalue;
+							
+							$xml = new xmlparser($path, 'r');
+							
+							$arr_news['name'][$count]   = $xml->readSection('comment', 'name');
+							$arr_news['email'][$count]  = $xml->readSection('comment', 'email');
+							$arr_news['url'][$count]    = $xml->readSection('comment', 'web');
+							$arr_news['text'][$count]   = $xml->readSection('comment', 'msg');
+							$arr_news['time'][$count]   = $xml->readSection('comment', 'time');
+							$arr_news['ip'][$count]     = $xml->readSection('comment', 'ip');
+							$arr_news['domain'][$count] = $xml->readSection('comment', 'domain');
+							$arr_news['id'][$count]     = $newsID;
+							
+							$xml->flush();
+							$xml->_xmlparser();
+							unset($xml);
+							
+							if($arr_news['name'][$count]   == false) $arr_news['name'][$count]   = '';
+							if($arr_news['email'][$count]  == false) $arr_news['email'][$count]  = '';
+							if($arr_news['url'][$count]    == false) $arr_news['url'][$count]    = '';
+							if($arr_news['text'][$count]   == false) $arr_news['text'][$count]   = '';
+							if($arr_news['time'][$count]   == false) $arr_news['time'][$count]   = '';
+							if($arr_news['ip'][$count]     == false) $arr_news['ip'][$count]     = '';
+							if($arr_news['domain'][$count] == false) $arr_news['domain'][$count] = '';
+							if($arr_news['id'][$count]     == false) $arr_news['id'][$count]     = '';
+							
+							$arr_news['text'][$count]  = $this->decodeText($arr_news['text'][$count], '2', $this->m_CHARSET);
+							
+							$count++;
+						}
 					}
 				}
 				
@@ -1283,10 +1332,22 @@ class tcms_datacontainer_provider extends tcms_main {
 			);
 			
 			$sqlStr = "SELECT * "
-			."FROM ".$this->m_sqlPrefix."comments "
-			."WHERE uid = '".$newsID."' "
-			."AND module = '".$module."' "
-			."ORDER BY timestamp ASC";
+			."FROM ".$this->m_sqlPrefix."comments ";
+			
+			if(trim($newsID) == '__ALL_NEWS__') {
+				$sqlStr .= "WHERE module = '".$module."' ";
+			}
+			else {
+				$sqlStr .= "WHERE uid = '".$newsID."'"
+				." AND module = '".$module."' ";
+			}
+			
+			if($language != '') {
+				$sqlStr .= " AND uid IN"
+				." (SELECT uid FROM blog_news WHERE language = '".$language."') ";
+			}
+			
+			$sqlStr .= "ORDER BY timestamp ASC";
 			
 			$sqlQR = $sqlAL->query($sqlStr);
 			
@@ -1336,7 +1397,7 @@ class tcms_datacontainer_provider extends tcms_main {
 					$count++;
 				}
 			}
-			else{
+			else {
 				$arrReturn = $sqlAL->getNumber($sqlQR);
 			}
 			

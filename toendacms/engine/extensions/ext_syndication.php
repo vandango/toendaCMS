@@ -38,7 +38,9 @@ if($use_syndication == 1) {
 	echo '<br />';
 	
 	if($use_rss091 == 1) {
-		$link = '?id=frontpage&amp;feed=RSS0.91&amp;save=true';
+		$link = '?id=frontpage'
+		.( isset($lang) ? '&amp;lang='.$lang : '' )
+		.'&amp;feed=RSS0.91&amp;save=true';
 		$link = $tcms_main->urlConvertToSEO($link);
 		
 		echo '<div'
@@ -75,7 +77,9 @@ if($use_syndication == 1) {
 	}
 	
 	if($use_rss10 == 1) {
-		$link = '?id=frontpage&amp;feed=RSS1.0&amp;save=true';
+		$link = '?id=frontpage'
+		.( isset($lang) ? '&amp;lang='.$lang : '' )
+		.'&amp;feed=RSS1.0&amp;save=true';
 		$link = $tcms_main->urlConvertToSEO($link);
 		
 		echo '<div'
@@ -112,7 +116,9 @@ if($use_syndication == 1) {
 	}
 	
 	if($use_rss20 == 1) {
-		$link = '?id=frontpage&amp;feed=RSS2.0&amp;save=true';
+		$link = '?id=frontpage'
+		.( isset($lang) ? '&amp;lang='.$lang : '' )
+		.'&amp;feed=RSS2.0&amp;save=true';
 		$link = $tcms_main->urlConvertToSEO($link);
 		
 		echo '<div'
@@ -149,7 +155,9 @@ if($use_syndication == 1) {
 	}
 	
 	if($use_atom03 == 1) {
-		$link = '?id=frontpage&amp;feed=ATOM0.3&amp;save=true';
+		$link = '?id=frontpage'
+		.( isset($lang) ? '&amp;lang='.$lang : '' )
+		.'&amp;feed=ATOM0.3&amp;save=true';
 		$link = $tcms_main->urlConvertToSEO($link);
 		
 		echo '<div'
@@ -186,7 +194,9 @@ if($use_syndication == 1) {
 	}
 	
 	if($use_opml == 1) {
-		$link = '?id=frontpage&amp;feed=OPML&amp;save=true';
+		$link = '?id=frontpage'
+		.( isset($lang) ? '&amp;lang='.$lang : '' )
+		.'&amp;feed=OPML&amp;save=true';
 		$link = $tcms_main->urlConvertToSEO($link);
 		
 		echo '<div'
@@ -223,7 +233,9 @@ if($use_syndication == 1) {
 	}
 	
 	if($use_cfeed == 1) {
-		$link = '?id=frontpage&amp;feed='.$cfeed_type.'&amp;item=comments&amp;save=true';
+		$link = '?id=frontpage'
+		.( isset($lang) ? '&amp;lang='.$lang : '' )
+		.'&amp;feed='.$cfeed_type.'&amp;item=comments&amp;save=true';
 		$link = $tcms_main->urlConvertToSEO($link);
 		
 		echo '<div'
