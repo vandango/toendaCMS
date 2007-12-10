@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.2.0
+ * @version 1.2.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -493,8 +493,25 @@ class tcms_datacontainer_provider extends tcms_main {
 			);
 			
 			switch($this->m_choosenDB){
-				case 'mysql': $dbLimit = ( $amount == 0 ? "" : "LIMIT 0, ".$amount ); break;
-				case 'pgsql': $dbLimit = ( $amount == 0 ? "" : "LIMIT ".$amount ); break;
+				case 'mysql':
+					$dbLimitFront = "";
+					$dbLimitBack = ( $amount == -1 ? "" : "LIMIT 0, ".$amount );
+					break;
+				
+				case 'pgsql':
+					$dbLimitFront = "";
+					$dbLimitBack = ( $amount == -1 ? "" : "LIMIT ".$amount );
+					break;
+				
+				case 'mssql':
+					$dbLimitFront = ( $amount == -1 ? "" : "TOP ".$amount );
+					$dbLimitBack = "";
+					break;
+				
+				default:
+					$dbLimitFront = "";
+					$dbLimitBack = "";
+					break;
 			}
 			
 			switch($usergroup){
@@ -521,14 +538,14 @@ class tcms_datacontainer_provider extends tcms_main {
 				$strAddSOF = "";
 			}
 			
-			$sqlStr = "SELECT * "
-			."FROM ".$this->m_sqlPrefix."news "
-			."WHERE published = ".$published." "
-			."AND language = '".$language."' "
-			."AND ( access = 'Public' "
+			$sqlStr = "SELECT * ".$dbLimitFront
+			." FROM ".$this->m_sqlPrefix."news "
+			." WHERE published = ".$published." "
+			." AND language = '".$language."' "
+			." AND ( access = 'Public' "
 			.$strAdd
 			.$strAddSOF
-			."ORDER BY stamp DESC, date DESC, time DESC ".$dbLimit;
+			." ORDER BY stamp DESC, date DESC, time DESC ".$dbLimitBack;
 			
 			$sqlQR = $sqlAL->query($sqlStr);
 			
@@ -1116,22 +1133,19 @@ class tcms_datacontainer_provider extends tcms_main {
 		else{
 			$imagePath = '/';
 		}
-		echo 'c<br>';
+		
 		$arrCommentsDC = $this->getCommentDCList(
 			'__ALL_NEWS__', 
 			'news', 
 			true, 
-			$language
+			$language, 
+			$amount
 		);
-		
-		$this->paf($arrCommentsDC);
 		
 		if($this->isArray($arrCommentsDC)) {
 			foreach($arrCommentsDC as $n_key => $n_value) {
 				$dcComment = new tcms_dc_comment();
 				$dcComment = $arrCommentsDC[$n_key];
-				
-				echo $n_key.'<br>';
 				
 				$item = new FeedItem();
 				
@@ -1177,9 +1191,10 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param String $module = 'news'
 	 * @param Boolean $load = true
 	 * @param String $language = ''
+	 * @param Integer $amount = -1
 	 * @return tcms_dc_comment Object Array
 	 */
-	function getCommentDCList($newsID, $module = 'news', $load = true, $language = '') {			
+	function getCommentDCList($newsID, $module = 'news', $load = true, $language = '', $amount = -1) {			
 		if($this->m_choosenDB == 'xml') {
 			if($module == 'news') {
 				if(trim($newsID) == '__ALL_NEWS__') {
@@ -1198,6 +1213,10 @@ class tcms_datacontainer_provider extends tcms_main {
 			}
 			
 			$count = 0;
+			$doBreak = false;
+			$doLoad = true;
+			
+			//echo $amount.'<br>';
 			
 			if($load) {
 				if($this->isArray($arr_comments)) {
@@ -1209,37 +1228,55 @@ class tcms_datacontainer_provider extends tcms_main {
 							
 							if($this->isArray($arrCommentFile)) {
 								foreach($arrCommentFile as $ckey => $cvalue) {
-									$path = $this->m_path.'/tcms_news/'.$nvalue.'/'.$cvalue;
+									if($amount != -1) {
+										if($count < $amount) {
+											$doLoad = true;
+										}
+										else {
+											$doLoad = false;
+										}
+									}
+									else {
+										$doLoad = true;
+									}
 									
-									echo $path.'<br>';
-									
-									$xml = new xmlparser($path, 'r');
-									
-									$arr_news['name'][$count]   = $xml->readSection('comment', 'name');
-									$arr_news['email'][$count]  = $xml->readSection('comment', 'email');
-									$arr_news['url'][$count]    = $xml->readSection('comment', 'web');
-									$arr_news['text'][$count]   = $xml->readSection('comment', 'msg');
-									$arr_news['time'][$count]   = $xml->readSection('comment', 'time');
-									$arr_news['ip'][$count]     = $xml->readSection('comment', 'ip');
-									$arr_news['domain'][$count] = $xml->readSection('comment', 'domain');
-									$arr_news['id'][$count]     = $nvalue;
-									
-									$xml->flush();
-									$xml->_xmlparser();
-									unset($xml);
-									
-									if($arr_news['name'][$count]   == false) $arr_news['name'][$count]   = '';
-									if($arr_news['email'][$count]  == false) $arr_news['email'][$count]  = '';
-									if($arr_news['url'][$count]    == false) $arr_news['url'][$count]    = '';
-									if($arr_news['text'][$count]   == false) $arr_news['text'][$count]   = '';
-									if($arr_news['time'][$count]   == false) $arr_news['time'][$count]   = '';
-									if($arr_news['ip'][$count]     == false) $arr_news['ip'][$count]     = '';
-									if($arr_news['domain'][$count] == false) $arr_news['domain'][$count] = '';
-									if($arr_news['id'][$count]     == false) $arr_news['id'][$count]     = '';
-									
-									$arr_news['text'][$count]  = $this->decodeText($arr_news['text'][$count], '2', $this->m_CHARSET);
-									
-									$count++;
+									if($doLoad) {
+										$path = $this->m_path.'/tcms_news/'.$nvalue.'/'.$cvalue;
+										
+										//echo $path.'<br>';
+										
+										$xml = new xmlparser($path, 'r');
+										
+										$arr_news['name'][$count]   = $xml->readSection('comment', 'name');
+										$arr_news['email'][$count]  = $xml->readSection('comment', 'email');
+										$arr_news['url'][$count]    = $xml->readSection('comment', 'web');
+										$arr_news['text'][$count]   = $xml->readSection('comment', 'msg');
+										$arr_news['time'][$count]   = $xml->readSection('comment', 'time');
+										$arr_news['ip'][$count]     = $xml->readSection('comment', 'ip');
+										$arr_news['domain'][$count] = $xml->readSection('comment', 'domain');
+										$arr_news['id'][$count]     = $nvalue;
+										
+										$xml->flush();
+										$xml->_xmlparser();
+										unset($xml);
+										
+										if($arr_news['name'][$count]   == false) $arr_news['name'][$count]   = '';
+										if($arr_news['email'][$count]  == false) $arr_news['email'][$count]  = '';
+										if($arr_news['url'][$count]    == false) $arr_news['url'][$count]    = '';
+										if($arr_news['text'][$count]   == false) $arr_news['text'][$count]   = '';
+										if($arr_news['time'][$count]   == false) $arr_news['time'][$count]   = '';
+										if($arr_news['ip'][$count]     == false) $arr_news['ip'][$count]     = '';
+										if($arr_news['domain'][$count] == false) $arr_news['domain'][$count] = '';
+										if($arr_news['id'][$count]     == false) $arr_news['id'][$count]     = '';
+										
+										$arr_news['text'][$count]  = $this->decodeText($arr_news['text'][$count], '2', $this->m_CHARSET);
+										
+										$count++;
+									}
+									else {
+										$doBreak = true;
+										break;
+									}
 								}
 							}
 						}
@@ -1274,6 +1311,10 @@ class tcms_datacontainer_provider extends tcms_main {
 							
 							$count++;
 						}
+						
+						if($doBreak) {
+							break;
+						}
 					}
 				}
 				
@@ -1291,13 +1332,12 @@ class tcms_datacontainer_provider extends tcms_main {
 					);
 				}
 				
-				
-				if(is_array($arr_news['time']) && isset($arr_news['time'])){
+				if($this->isArray($arr_news['time'])) {
 					$count = 0;
 					
 					unset($n_key);
 					
-					foreach($arr_news['time'] as $n_key => $n_value){
+					foreach($arr_news['time'] as $n_key => $n_value) {
 						$commentDC = new tcms_dc_comment();
 						
 						$commentDC->setName($arr_news['name'][$n_key]);
@@ -1331,8 +1371,30 @@ class tcms_datacontainer_provider extends tcms_main {
 				$this->m_sqlPort
 			);
 			
-			$sqlStr = "SELECT * "
-			."FROM ".$this->m_sqlPrefix."comments ";
+			switch($this->m_choosenDB){
+				case 'mysql':
+					$dbLimitFront = "";
+					$dbLimitBack = ( $amount == -1 ? "" : "LIMIT 0, ".$amount );
+					break;
+				
+				case 'pgsql':
+					$dbLimitFront = "";
+					$dbLimitBack = ( $amount == -1 ? "" : "LIMIT ".$amount );
+					break;
+				
+				case 'mssql':
+					$dbLimitFront = ( $amount == -1 ? "" : "TOP ".$amount );
+					$dbLimitBack = "";
+					break;
+				
+				default:
+					$dbLimitFront = "";
+					$dbLimitBack = "";
+					break;
+			}
+			
+			$sqlStr = "SELECT * ".$dbLimitFront
+			." FROM ".$this->m_sqlPrefix."comments ";
 			
 			if(trim($newsID) == '__ALL_NEWS__') {
 				$sqlStr .= "WHERE module = '".$module."' ";
@@ -1347,7 +1409,7 @@ class tcms_datacontainer_provider extends tcms_main {
 				." (SELECT uid FROM blog_news WHERE language = '".$language."') ";
 			}
 			
-			$sqlStr .= "ORDER BY timestamp ASC";
+			$sqlStr .= "ORDER BY timestamp ASC ".$dbLimit;
 			
 			$sqlQR = $sqlAL->query($sqlStr);
 			
@@ -2294,7 +2356,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsAccess          = $xml->readSection('config', 'access');
 			$wsUseGravatar     = $xml->readSection('config', 'use_gravatar');
 			$wsUseEmoticons    = $xml->readSection('config', 'use_emoticons');
-			$wsUseTrachback    = $xml->readSection('config', 'use_trackback');
+			$wsUseTrackback    = $xml->readSection('config', 'use_trackback');
 			$wsUseTimesince    = $xml->readSection('config', 'use_timesince');
 			$wsReadmoreLink    = $xml->readSection('config', 'readmore_link');
 			$wsNewsSpacing     = $xml->readSection('config', 'news_spacing');
@@ -2320,6 +2382,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsSynCFeedText    = $xml->readSection('config', 'comment_feed_text');
 			$wsSynCFeedType    = $xml->readSection('config', 'comment_feed_type');
 			$wsSynUseCFeedImg  = $xml->readSection('config', 'use_comment_feed_img');
+			$wsSynCFeedAmount  = $xml->readSection('config', 'comments_feed_amount');
 			
 			$xml->flush();
 			$xml->_xmlparser();
@@ -2343,7 +2406,8 @@ class tcms_datacontainer_provider extends tcms_main {
 			."use_rss20, use_atom03, use_opml, syn_amount, use_syn_title, def_feed, "
 			."use_rss091_img, rss091_text, use_rss10_img, rss10_text, use_rss20_img, "
 			."rss20_feed, use_atom03_img, atom03_text, use_opml_img, opml_text, "
-			."use_comment_feed, comment_feed_text, comment_feed_type, comment_feed_type "
+			."use_comment_feed, comment_feed_text, comment_feed_type, use_comment_feed_img, "
+			."comments_feed_amount "
 			."FROM ".$this->m_sqlPrefix."newsmanager "
 			."WHERE language = '".$language."'";
 			
@@ -2364,7 +2428,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsAccess          = $sqlObj->access;
 			$wsUseGravatar     = $sqlObj->use_gravatar;
 			$wsUseEmoticons    = $sqlObj->use_emoticons;
-			$wsUseTrachback    = $sqlObj->use_trackback;
+			$wsUseTrackback    = $sqlObj->use_trackback;
 			$wsUseTimesince    = $sqlObj->use_timesince;
 			$wsReadmoreLink    = $sqlObj->readmore_link;
 			$wsNewsSpacing     = $sqlObj->news_spacing;
@@ -2390,6 +2454,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsSynCFeedText    = $sqlObj->comment_feed_text;
 			$wsSynCFeedType    = $sqlObj->comment_feed_type;
 			$wsSynUseCFeedImg  = $sqlObj->use_comment_feed_img;
+			$wsSynCFeedAmount  = $sqlObj->comments_feed_amount;
 			
 			$sqlAL->freeResult($sqlQR);
 			$sqlAL->_sqlAbstractionLayer();
@@ -2402,9 +2467,15 @@ class tcms_datacontainer_provider extends tcms_main {
 			if($wsText          == NULL) $wsText          = '';
 		}
 		
-		$wsTitle       = $this->decodeText($wsTitle, '2', $this->m_CHARSET);
-		$wsSubtitle    = $this->decodeText($wsSubtitle, '2', $this->m_CHARSET);
-		$wsText        = $this->decodeText($wsText, '2', $this->m_CHARSET);
+		$wsTitle           = $this->decodeText($wsTitle, '2', $this->m_CHARSET);
+		$wsSubtitle        = $this->decodeText($wsSubtitle, '2', $this->m_CHARSET);
+		$wsText            = $this->decodeText($wsText, '2', $this->m_CHARSET);
+		$wsSynRSS091Text   = $this->decodeText($wsSynRSS091Text, '2', $this->m_CHARSET);
+		$wsSynRSS10Text    = $this->decodeText($wsSynRSS10Text, '2', $this->m_CHARSET);
+		$wsSynRSS20Text    = $this->decodeText($wsSynRSS20Text, '2', $this->m_CHARSET);
+		$wsSynATOM03Text   = $this->decodeText($wsSynATOM03Text, '2', $this->m_CHARSET);
+		$wsSynOPMLText     = $this->decodeText($wsSynOPMLText, '2', $this->m_CHARSET);
+		$wsSynCFeedText    = $this->decodeText($wsSynCFeedText, '2', $this->m_CHARSET);
 		
 		$newsDC->setID($wsID);
 		$newsDC->setLanguage($wsLang);
@@ -2420,7 +2491,7 @@ class tcms_datacontainer_provider extends tcms_main {
 		$newsDC->setAccess($wsAccess);
 		$newsDC->setUseGravatar($wsUseGravatar);
 		$newsDC->setUseEmoticons($wsUseEmoticons);
-		$newsDC->setUseTrachback($wsUseTrachback);
+		$newsDC->setUseTrackback($wsUseTrackback);
 		$newsDC->setUseTimesince($wsUseTimesince);
 		$newsDC->setReadmoreLink($wsReadmoreLink);
 		$newsDC->setNewsSpacing($wsNewsSpacing);
@@ -2446,6 +2517,7 @@ class tcms_datacontainer_provider extends tcms_main {
 		$newsDC->setSyndicationUseCommentFeedImage($wsSynUseCFeedImg);
 		$newsDC->setSyndicationCommentFeedText($wsSynCFeedText);
 		$newsDC->setSyndicationCommentFeedType($wsSynCFeedType);
+		$newsDC->setSyndicationCommentFeedAmount($wsSynCFeedAmount);
 				
 		return $newsDC;
 	}

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 31. August 2007 um 00:28
+-- Erstellungszeit: 10. Dezember 2007 um 01:47
 -- Server Version: 5.0.33
 -- PHP-Version: 5.2.1
 -- 
@@ -55,7 +55,7 @@ CREATE TABLE `blog_comments` (
 -- 
 
 INSERT INTO `blog_comments` (`uid`, `module`, `timestamp`, `name`, `email`, `web`, `msg`, `time`, `ip`, `domain`) VALUES ('c4c846e167', 'news', '20051126005016', 'vandango', 'vandango@toenda.com', 'http://vandango.org', 'This is a test comment ...', '20051126005016', '127.0.0.1', 'localhost'),
-('90ac2e39eb', 'news', '20070701170303', 'vandango', 'vandango@toenda.com', 'http://vandango.org', 'Ein Kommentar, hier sind &lt;strong&gt;fette&lt;/strong&gt; Texte, &lt;p&gt;neue Bl&ouml;cke&lt;/p&gt;&lt;br /&gt;\r\n&lt;br /&gt;Zeilenumbr&uuml;che&lt;br /&gt;&lt;br /&gt;\r\nund &lt;a href__________&quot;http://www.toendacms.com&quot; target__________&quot;_blank&quot;&gt;Links&lt;/a&gt; erlaubt.', '20070701170303', '127.0.0.1', 'vandango-PC');
+('90ac2e39eb', 'news', '20070701170303', 'vandango', 'vandango@toenda.com', 'http://vandango.org', 'Ein Kommentar, hier sind &lt;strong&gt;fette&lt;/strong&gt; Texte und &lt;a href__________&quot;http://www.toendacms.com&quot; target__________&quot;_blank&quot;&gt;Links&lt;/a&gt; erlaubt.', '20070701170303', '127.0.0.1', 'vandango-PC');
 
 -- --------------------------------------------------------
 
@@ -203,7 +203,8 @@ CREATE TABLE `blog_downloads` (
 -- Daten für Tabelle `blog_downloads`
 -- 
 
-INSERT INTO `blog_downloads` (`uid`, `name`, `date`, `desc`, `type`, `sort`, `pub`, `access`, `image`, `file`, `cat`, `parent`, `sql_type`, `mirror`) VALUES ('05cb9c17d8', 'dsf', '02.08.2007-19:34', 'sdfsdf', 'zip', 1, 1, 'Public', '_mimetypes_', 'http://static.toenda.com/templates/pushbutton.zip', NULL, NULL, 'f', 1);
+INSERT INTO `blog_downloads` (`uid`, `name`, `date`, `desc`, `type`, `sort`, `pub`, `access`, `image`, `file`, `cat`, `parent`, `sql_type`, `mirror`) VALUES ('05cb9c17d8', 'dsf', '02.08.2007-19:34', 'sdfsdf', 'zip', 1, 1, 'Public', '_mimetypes_', 'http://static.toenda.com/templates/pushbutton.zip', NULL, NULL, 'f', 1),
+('c82faaec99', 'test', '05.09.2007-00:13', 'dsfgsdfsdf', 'xls', 2, 1, 'Public', '_mimetypes_', 'Fahrschul-Preise.xls', NULL, NULL, 'f', 0);
 
 -- --------------------------------------------------------
 
@@ -519,7 +520,7 @@ CREATE TABLE `blog_news` (
 -- 
 
 INSERT INTO `blog_news` (`uid`, `language`, `title`, `autor`, `date`, `time`, `newstext`, `stamp`, `published`, `publish_date`, `comments_enabled`, `image`, `access`, `show_on_frontpage`) VALUES ('c4c846e167', 'english_EN', 'Hello world!', 'Dolly', '29.03.2007', '00:00', 'Hello world. This is Dolly  and you reading my first post. If you want you can delete it, but you can edit it too. Or you write a new one and let this where it is. It''s your choice.&lt;br /&gt;\r\n&lt;br /&gt;\r\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer tellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam feugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio mauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris dolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.&lt;br /&gt;\r\n', 200703290000, 1, '29.03.2007-00:00', 1, '', 'Public', 1),
-('90ac2e39eb', 'germany_DE', 'Hallo Welt!', 'Dolly', '30.03.2007', '17:25', 'Hallo Welt. Ich bin Dolly und du liest gerade den ersten Eintrag. Wenn du willst, kannst du mich l&ouml;schen, oder du bearbeitest mich einfach. Order du schreibst einen neuen und l&auml;sst mich hier zur&uuml;ck, ganz wie du willst.&lt;br /&gt;\r\n&lt;br /&gt;\r\n&lt;a href__________&quot;http://localhost/toendacms_svn/toendacms/data/images/Image/toendaCMS.png&quot; rel__________&quot;lightbox&quot;&gt;&lt;img align__________&quot;left&quot; alt__________&quot;toendaCMS.png&quot; src__________&quot;http://localhost/toendacms_svn/toendacms/data/images/Image/toendaCMS.png&quot; title__________&quot;toendaCMS.png&quot; /&gt;&lt;/a&gt;\r\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer\r\ntellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam\r\nfeugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio\r\nmauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris\r\ndolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque\r\nhabitant morbi tristique senectus et netus et malesuada fames ac turpis\r\negestas.\r\n', 200703301725, 1, '30.03.2007-17:25', 1, '', 'Public', 1);
+('90ac2e39eb', 'germany_DE', 'Hallo Welt!', 'Dolly', '30.03.2007', '17:25', 'Hallo Welt. Ich bin Dolly und du liest gerade den ersten Eintrag. Wenn du willst, kannst du mich l&ouml;schen, oder du bearbeitest mich einfach. Order du schreibst einen neuen und l&auml;sst mich hier zur&uuml;ck, ganz wie du willst.&lt;br /&gt;\r\n&lt;br /&gt;\r\n&lt;a href__________&quot;/toendacms_svn/toendacms/data/images/Image/toendaCMS.png&quot; rel__________&quot;lightbox&quot;&gt;&lt;img align__________&quot;left&quot; alt__________&quot;toendaCMS.png&quot; src__________&quot;http://localhost/toendacms_svn/toendacms/data/images/upload_thumb/thumb_toendaCMS.png&quot; title__________&quot;toendaCMS.png&quot; /&gt;&lt;/a&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer\r\ntellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam\r\nfeugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio\r\nmauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris\r\ndolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque\r\nhabitant morbi tristique senectus et netus et malesuada fames ac turpis\r\negestas.\r\n', 200703301725, 1, '30.03.2007-17:25', 1, '', 'Public', 1);
 
 -- --------------------------------------------------------
 
@@ -558,7 +559,7 @@ CREATE TABLE `blog_news_to_categories` (
 INSERT INTO `blog_news_to_categories` (`uid`, `news_uid`, `cat_uid`) VALUES ('faf794901b615e2c26ef4a78f7219853', '79b944ed5f', 'erdf4'),
 ('ec42d00d6ed95e280c1ed0086b6bba09', 'c4c846e167', 'erdf4'),
 ('145a5946991378852797f16685d75fb0', 'a4439ff6b4', 'erdf4'),
-('019a7e022961e19855032b4981717200', '90ac2e39eb', 'erdf4');
+('845d7f4c56f3d5ee182ad6a8b2e81f4d', '90ac2e39eb', 'erdf4');
 
 -- --------------------------------------------------------
 
@@ -633,6 +634,21 @@ CREATE TABLE `blog_newsmanager` (
   `readmore_link` int(1) NOT NULL default '0',
   `news_spacing` int(2) NOT NULL default '0',
   `language` varchar(25) NOT NULL,
+  `use_rss091_img` tinyint(4) NOT NULL default '1',
+  `rss091_text` varchar(255) NOT NULL default '',
+  `use_rss10_img` tinyint(4) NOT NULL default '1',
+  `rss10_text` varchar(255) NOT NULL default '',
+  `use_rss20_img` tinyint(4) NOT NULL default '1',
+  `rss20_feed` varchar(255) NOT NULL default '',
+  `use_atom03_img` tinyint(4) NOT NULL default '1',
+  `atom03_text` varchar(255) NOT NULL default '',
+  `use_opml_img` tinyint(4) NOT NULL default '1',
+  `opml_text` varchar(255) NOT NULL default '',
+  `use_comment_feed` tinyint(4) NOT NULL default '1',
+  `comment_feed_text` varchar(255) default '""',
+  `comment_feed_type` varchar(7) default '""',
+  `use_comment_feed_img` tinyint(4) NOT NULL default '0',
+  `comments_feed_amount` int(11) NOT NULL default '5',
   PRIMARY KEY  (`uid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -640,8 +656,8 @@ CREATE TABLE `blog_newsmanager` (
 -- Daten für Tabelle `blog_newsmanager`
 -- 
 
-INSERT INTO `blog_newsmanager` (`uid`, `news_id`, `news_title`, `news_stamp`, `news_text`, `news_image`, `use_comments`, `show_autor`, `show_autor_as_link`, `news_amount`, `access`, `news_cut`, `use_gravatar`, `use_emoticons`, `use_rss091`, `use_rss10`, `use_rss20`, `use_atom03`, `use_opml`, `syn_amount`, `use_syn_title`, `def_feed`, `use_trackback`, `use_timesince`, `readmore_link`, `news_spacing`, `language`) VALUES ('newsmanager', 'newsmanager', 'News', 'Current', 'My newstext&lt;br /&gt;\r\n', '', 1, 1, 1, 20, 'Public', 0, 0, 1, 1, 1, 1, 1, 1, 5, 0, 'RSS2.0', 0, 2, 0, 0, 'english_EN'),
-('45789hgtzu', 'newsmanager', 'Neuigkeiten', 'Aktuell', 'Mein Neuigkeitentext und noch viel mehr&lt;br /&gt;\r\nUnd ein wenig Text ...&lt;br /&gt;\r\n', '', 1, 1, 1, 20, 'Public', 0, 1, 1, 1, 1, 1, 1, 1, 5, 0, 'RSS2.0', 0, 0, 0, 0, 'germany_DE');
+INSERT INTO `blog_newsmanager` (`uid`, `news_id`, `news_title`, `news_stamp`, `news_text`, `news_image`, `use_comments`, `show_autor`, `show_autor_as_link`, `news_amount`, `access`, `news_cut`, `use_gravatar`, `use_emoticons`, `use_rss091`, `use_rss10`, `use_rss20`, `use_atom03`, `use_opml`, `syn_amount`, `use_syn_title`, `def_feed`, `use_trackback`, `use_timesince`, `readmore_link`, `news_spacing`, `language`, `use_rss091_img`, `rss091_text`, `use_rss10_img`, `rss10_text`, `use_rss20_img`, `rss20_feed`, `use_atom03_img`, `atom03_text`, `use_opml_img`, `opml_text`, `use_comment_feed`, `comment_feed_text`, `comment_feed_type`, `use_comment_feed_img`, `comments_feed_amount`) VALUES ('newsmanager', 'newsmanager', 'News', 'Current', 'My newstext&lt;br /&gt;\r\n', '', 1, 1, 1, 20, 'Public', 0, 0, 1, 1, 1, 1, 1, 1, 5, 0, 'RSS2.0', 0, 2, 0, 0, 'english_EN', 1, '', 1, '', 1, '', 1, '', 1, '', 1, '""', '""', 0, 5),
+('45789hgtzu', 'newsmanager', 'Neuigkeiten', 'Aktuell', 'Mein Neuigkeitentext und noch viel mehr&lt;br /&gt;\r\nUnd ein wenig Text ...&lt;br /&gt;\r\n', '', 1, 1, 1, 20, 'Public', 0, 1, 1, 0, 0, 1, 0, 0, 5, 0, 'RSS2.0', 0, 0, 0, 0, 'germany_DE', 0, 'RSS 0.91 Feed', 0, 'RSS 1.0 Feed', 0, 'News abonnieren', 0, 'ATOM 0.3 Feed', 0, 'OPML Feed', 1, 'Kommentare abonnieren', 'RSS2.0', 0, 5);
 
 -- --------------------------------------------------------
 
@@ -837,8 +853,7 @@ CREATE TABLE `blog_session` (
 -- Daten für Tabelle `blog_session`
 -- 
 
-INSERT INTO `blog_session` (`uid`, `date`, `user`, `user_id`) VALUES ('a579eefac60b0139da98e972c19432dc', '1153685958', 'root', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff'),
-('0a7219df8562254fe673bae16cab9c68', '1188506585', 'root', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff');
+INSERT INTO `blog_session` (`uid`, `date`, `user`, `user_id`) VALUES ('149c91d0994da46443bbc6c95636eaf6', '1197238932', 'root', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff');
 
 -- --------------------------------------------------------
 
@@ -940,11 +955,11 @@ INSERT INTO `blog_sidemenu` (`uid`, `language`, `name`, `id`, `subid`, `root`, `
 ('1fffa', 'germany_DE', 'Startseite', 8, '-', '-', '-', '-', '-', '-', 'link', 'frontpage', 0, 'Public', ''),
 ('a27fc', 'germany_DE', 'G&auml;stebuch', 9, '-', '-', '-', '-', '-', '-', 'link', 'guestbook', 1, 'Public', ''),
 ('e19ce', 'germany_DE', 'Kontaktformular', 11, '-', '-', '-', '-', '-', '-', 'link', 'contactform', 1, 'Public', ''),
-('b0abf', 'germany_DE', 'Komponenten', 12, '-', '-', '-', '-', '-', '-', 'title', '-', 1, 'Public', ''),
+('b0abf', 'germany_DE', 'Komponenten', 12, '-', '-', '-', '-', '-', '-', 'title', '-', 0, 'Public', ''),
 ('7364b', 'germany_DE', 'sadasd', 8, '1', '-', '8', '-', '-', '-', 'link', 'impressum', 1, 'Public', ''),
-('60af3', 'germany_DE', 'Domainchecker', 13, '-', '-', '-', '-', '-', '-', 'link', 'components&item=domainchecker', 1, 'Public', ''),
-('e0fab', 'germany_DE', 'Shop', 14, '-', '-', '-', '-', '-', '-', 'link', 'components&item=tcmsshop', 1, 'Public', ''),
-('f48d6', 'germany_DE', 'Test', 15, '-', '-', '-', '-', '-', '-', 'link', '3ce0c', 1, 'Public', '');
+('60af3', 'germany_DE', 'Domainchecker', 13, '-', '-', '-', '-', '-', '-', 'link', 'components&item=domainchecker', 0, 'Public', ''),
+('e0fab', 'germany_DE', 'Shop', 14, '-', '-', '-', '-', '-', '-', 'link', 'components&item=tcmsshop', 0, 'Public', ''),
+('f48d6', 'germany_DE', 'Test', 15, '-', '-', '-', '-', '-', '-', 'link', '3ce0c', 0, 'Public', '');
 
 -- --------------------------------------------------------
 
@@ -965,136 +980,6 @@ CREATE TABLE `blog_statistics` (
 -- Daten für Tabelle `blog_statistics`
 -- 
 
-INSERT INTO `blog_statistics` (`host`, `site_url`, `value`, `ip_uid`, `referrer`, `timestamp`) VALUES ('localhost', '/toendacms_svn/toendacms/', 29, 'a84573f07ee669969e4cc7b88b0f6c4b', 'http://localhost/toendacms_svn/', '2007-07-30 20:01:32'),
-('localhost', '/toendacms_svn/toendacms/index.php/section:products/template:k2/lang:de', 2, 'a0cdf664ad4b7de524521df9a378629e', 'http://localhost/toendacms_svn/toendacms/', '2007-07-14 14:50:42'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html', 198, '4d22a521425317f0226508b3f9812534', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=offers', '2007-07-26 21:11:10'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/contact.html', 12, 'c0e26a49eae98b0cff8342aa5902ea5b', 'http://localhost/toendacms_svn/toendacms/index.php/de/License.html', '2007-07-24 22:10:36'),
-('localhost', '/toendacms_svn/toendacms/index.php/en/products.html', 1, 'a5b068f6649021a1a859e1656e9b645b', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html', '2007-07-14 21:03:37'),
-('localhost', '/toendacms_svn/toendacms/index.php/nl/products.html', 1, '8621a52928b1fb24fc5e63e6b6e90f55', 'http://localhost/toendacms_svn/toendacms/index.php/en/products.html', '2007-07-14 21:03:39'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse', 201, '426a7666ff4aab21513aa810e8ab2cdd', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=latest', '2007-07-26 21:09:16'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/frontpage.html', 53, '4a47ecce2e92bd4ba9cce60f11874b3b', 'http://localhost/toendacms_svn/toendacms/index.php/en/frontpage.html', '2007-07-26 21:08:43'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/news.html?news=90ac2e39eb', 59, 'b9a80edb7130d2ab89a53e1b01faebcb', 'http://localhost/toendacms_svn/toendacms/index.php/de/frontpage.html', '2007-07-22 14:48:30'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showone&article=13482fa849ab1b901ababf3e3fc0bbab', 17, '7f058f8273d5e768001db28dfc38bff8', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse&category=764f068e33673ecda7978c1a63b48294', '2007-07-22 15:35:22'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/engine/js/lightbox/images/closelabel.gif', 1, '2dfe93296e35b9201a4b2f9758667180', 'http://localhost/toendacms_svn/toendacms/index.php/de/news.html?news=90ac2e39eb', '2007-07-15 02:40:34'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/images/closelabel.gif', 11, 'cf3ca668c92f1f76dd18feab3b22e728', 'http://localhost/toendacms_svn/toendacms/index.php/de/news.html?news=90ac2e39eb', '2007-07-15 02:40:55'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/images/loading.gif', 8, 'c7cecdcd46d877fcf1f906ab4814e0b5', 'http://localhost/toendacms_svn/toendacms/index.php/de/news.html?news=90ac2e39eb', '2007-07-15 02:23:53'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/engine/js/lightbox/images/loading.gif', 1, '17f658782466bbd78e35b4ce6f6547ad', 'http://localhost/toendacms_svn/toendacms/index.php/de/news.html?news=90ac2e39eb', '2007-07-15 02:25:37'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/closelabel.gif', 3, '2b132273c7964b41a5601049a941cba4', 'http://localhost/toendacms_svn/toendacms/index.php/de/news.html?news=90ac2e39eb', '2007-07-15 02:43:24'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=offers', 101, '63a1b92ef572ffbf523db284e4405863', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse', '2007-07-26 21:09:48'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/news.html', 14, 'a5227af2c49fb901f9b239c3150a487e', 'http://localhost/toendacms_svn/toendacms/index.php/de/frontpage.html', '2007-07-21 14:14:46'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/news.html?news=archive', 8, 'bb015c782df94918ea06163483b682ac', 'http://localhost/toendacms_svn/toendacms/index.php/de/news.html?news=archive&cmd=category', '2007-07-18 01:27:04'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/news.html?news=archive&cmd=category', 15, 'a499da6798767e9ef98af0d350eee3ab', 'http://localhost/toendacms_svn/toendacms/index.php/de/news.html?news=archive', '2007-07-18 01:27:08'),
-('localhost', '/toendacms_svn/toendacms/index.php/en/news.html', 1, '4d49ab4e698facfaa7fa4f15f94bd252', 'http://localhost/toendacms_svn/toendacms/index.php/de/news.html?news=archive&cmd=category', '2007-07-18 01:24:34'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/guestbook.html', 1, '1e36e7539f47da63985a033b26f620a2', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse', '2007-07-19 23:20:10'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showone&article=b0b14e7381294e263b72a0c9d65b9f31', 77, 'ba53a180993a4fc7fb084b46bec7b7ef', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=offers', '2007-07-24 00:47:47'),
-('localhost', '/toendacms_svn/toendacms/index.php/en/news.html?news=archive&cmd=category', 1, 'c9c5c03f05c47a7c94abc394166b65a7', 'http://localhost/toendacms_svn/toendacms/index.php/en/news.html', '2007-07-18 01:24:39'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showone&article=6031401fddf765e03ca0ec6261623cf6', 11, 'ee35f40171c79c69a15ed5640897ba1d', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=offers', '2007-07-20 00:11:50'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showone&article=32acfdf114279d275709c2e277341b5c', 7, 'b8a74731df6ff25d7df998acd6f49b96', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=offers', '2007-07-24 00:13:34'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/gallery.html?albums=3fe4cb', 1, '6c133e844d47d3a6b8a4610979515e49', 'http://localhost/toendacms_svn/toendacms/index.php/de/gallery.html', '2007-07-21 15:12:00'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showall&category=9593610a4bd7f9e0fa31753648a9d08b', 4, 'c6d433ad1c4abae569742d044e8711c7', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showone&article=b0b14e7381294e263b72a0c9d65b9f31', '2007-07-24 00:03:23'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showone&article=45de263d00b4bb677f325848a132a9c2', 1, '32f62133019e9e59e218310ca11fcccc', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html', '2007-07-22 14:31:09'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse&category=9593610a4bd7f9e0fa31753648a9d08b', 6, '222b9ad1d9f120df613f27499ca25b3d', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showone&article=b0b14e7381294e263b72a0c9d65b9f31', '2007-07-24 00:13:56'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse&category=764f068e33673ecda7978c1a63b48294', 20, 'efaf1a0d9285d82864e66b0034922307', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse', '2007-07-22 17:48:24'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/download.html', 4, '11d211092a423cea1d7acd6240018183', 'http://localhost/toendacms_svn/toendacms/index.php/de/gallery.html', '2007-07-21 14:14:52'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/gallery.html', 7, '5389a6b1b1f7d737da925e1b0f772c07', 'http://localhost/toendacms_svn/toendacms/index.php/de/gallery.html?albums=3fe4cb', '2007-07-21 15:12:22'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/register.html', 21, 'a96b61be92c40858c8af2bb7ef9f7ab1', 'http://localhost/toendacms_svn/toendacms/index.php/de/news.html?news=90ac2e39eb', '2007-07-22 15:01:51'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/register.html?cmd=lostpassword', 3, 'd2c1a2f84929d5404ccdca6e361044d0', 'http://localhost/toendacms_svn/toendacms/index.php/de/register.html', '2007-07-22 15:03:18'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/profile.html?action=list', 2, '34e2b40582847652f2f9fa2e5fb07e00', 'http://localhost/toendacms_svn/toendacms/index.php/de/register.html', '2007-07-22 15:02:08'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/18e2a.html', 32, 'de672bfa0a98de09d2a0029cfe57713c', 'http://localhost/toendacms_svn/toendacms/index.php/de/register.html?cmd=lostpassword', '2007-07-22 15:03:57'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse&category=2f10f7cf479f1c5c227452d45d8ad9d9', 2, '9df7802eed7db848790aebccb805f456', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse', '2007-07-22 17:52:19'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showall&category=764f068e33673ecda7978c1a63b48294', 1, 'b1b3348fe38940419e3eba30483693b6', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showone&article=13482fa849ab1b901ababf3e3fc0bbab', '2007-07-22 15:27:59'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showall', 4, '4156ef51a5c530bbaf1e321520958b28', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showone&article=b0b14e7381294e263b72a0c9d65b9f31', '2007-07-22 17:53:24'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?ampaction=showall&amp:cmd=browse&category=', 2, '0c8a2eab0cc19542d55941943af924c7', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=browse', '2007-07-22 16:44:24'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/neuigkeiten.html', 25, '06b0dc0416988505ae294a81a0187740', 'http://localhost/toendacms_svn/toendacms/index.php/de/neuigkeiten/hallo-welt.html', '2007-07-26 00:56:07'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?ampaction=showall&cmd=browse&category=764f068e33673ecda7978c1a63b48294', 1, '720c3152fa00e3898771b52a65499c19', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?ampaction=showall&amp:cmd=browse&category=', '2007-07-22 16:44:28'),
-('localhost', '/toendacms_svn/toendacms/?', 14, 'b62d8e8d2d282b232167dd98b335512c', 'http://localhost/toendacms_svn/toendacms/?', '2007-07-22 16:55:17'),
-('localhost', '/toendacms_svn/toendacms/index.php/products.html?action=showall&category=9593610a4bd7f9e0fa31753648a9d08b', 1, '72c1d65d9bfc1004a912cc41e78ac2bc', 'http://localhost/toendacms_svn/toendacms/?', '2007-07-22 16:54:29'),
-('localhost', '/toendacms_svn/toendacms/index.php/products.html?action=showone&article=b0b14e7381294e263b72a0c9d65b9f31', 1, '02368e01ea9cac14bd8789229015c704', 'http://localhost/toendacms_svn/toendacms/?', '2007-07-22 16:55:00'),
-('localhost', '/toendacms_svn/toendacms/index.php/products.html?action=showall&cmd=browse&category=9593610a4bd7f9e0fa31753648a9d08b', 1, '80968a84a7377771e6c46c90f84f2705', 'http://localhost/toendacms_svn/toendacms/?', '2007-07-22 16:55:07'),
-('localhost', '/toendacms_svn/toendacms/index.php/products.html?action=showall&cmd=browse&category=764f068e33673ecda7978c1a63b48294', 1, 'b1a3b87155b509c46a30f1069ea702f4', 'http://localhost/toendacms_svn/toendacms/?', '2007-07-22 16:55:21'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showone&article=b0b14e7381294e263b72a0c9d65b9f31/template/printer', 2, 'a2593285b1ee64aeff22e5eed876f41b', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html?action=showone&article=b0b14e7381294e263b72a0c9d65b9f31', '2007-07-22 17:23:59'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/products.html?action=showall&cmd=latest', 12, 'b1a2df096ca8e1cbb4ffea732e873543', 'http://localhost/toendacms_svn/toendacms/index.php/de/products.html', '2007-07-26 21:09:13'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/produkte.html', 12, 'ef6f69277e12f3de93f22a386d94996c', 'http://localhost/toendacms_svn/toendacms/index.php/en/produkte.html?action=showall&cmd=offers', '2007-07-26 21:18:22'),
-('localhost', '/toendacms_svn/toendacms/?id=contactform&item=adressbook&lang=de', 2, 'cea2fb3618fe135814a39c6a6fa590a1', 'http://localhost/toendacms_svn/toendacms/index.php/de/kontakt.html', '2007-07-26 21:19:40'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/contact.html?contact_email=max@musterman.com', 1, 'c167b97146bc22a4cb4d4c268a5ce2df', 'http://localhost/toendacms_svn/toendacms/?id=contactform&s=biz&item=adressbook&lang=de', '2007-07-24 00:43:52'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/startseite.html', 55, '0285065b14f191dd462c3bddcc2e945b', 'http://localhost/toendacms_svn/toendacms/index.php/de/gaestebuch.html', '2007-07-26 21:20:12'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/sub1.html', 1, '265119df08581bc6effb079e110e6d2b', 'http://localhost/toendacms_svn/toendacms/index.php/de/startseite.html', '2007-07-24 19:28:48'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/Lizenz.html', 11, '84a69ad593721ee75a97a408bba838bc', 'http://localhost/toendacms_svn/toendacms/index.php/de/startseite.html', '2007-07-24 19:54:04'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/Die-toendaCMS-?-ss-Lizenz-aou-als-Text.html', 3, 'c8829a448141ab636233d204f3cb7707', 'http://localhost/toendacms_svn/toendacms/index.php/de/Lizenz.html', '2007-07-24 19:55:20'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/Die-toendaCMS--ss-Lizenz-aou-als-Text.html', 16, '92394bed7b5640e7563a4ab471cce96d', 'http://localhost/toendacms_svn/toendacms/index.php/de/Die-toendaCMS--ss-Lizenz-aou-als-Text.html', '2007-07-24 20:04:13'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/Die-toendaCMS-ss-Lizenz-aou-als-Text.html', 16, '992035f98cbeb5e7ac8eec79ce073983', 'http://localhost/toendacms_svn/toendacms/index.php/de/Die-toendaCMS--ss-Lizenz-aou-als-Text.html', '2007-07-24 20:28:49'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/Die-toendaCMS-Lizenz-als-Text.html', 31, '8d8f8e23a320a24087a2fbb62ec8a94c', 'http://localhost/toendacms_svn/toendacms/index.php/de/startseite.html', '2007-07-24 23:16:18'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/Die-toendaCMS-Lizenz-als-Text.html?id=18e2a&lang=de', 1, 'ac5783669bdb474ee88cc8c2642cb13c', 'http://localhost/toendacms_svn/toendacms/index.php/de/Die-toendaCMS-Lizenz-als-Text.html', '2007-07-24 21:36:24'),
-('localhost', '/toendacms_svn/toendacms/index.php/en/Die-toendaCMS-Lizenz-als-Text.html', 2, '5de610215b82d3683322704c2955a7f0', 'http://localhost/toendacms_svn/toendacms/index.php/de/Die-toendaCMS-Lizenz-als-Text.html', '2007-07-24 21:53:28'),
-('localhost', '/toendacms_svn/toendacms/index.php/en/startseite.html', 6, 'f02e0d1cb3f67661fac8171d19f2a2b8', 'http://localhost/toendacms_svn/toendacms/index.php/en/neuigkeiten.html', '2007-07-24 21:13:53'),
-('localhost', '/toendacms_svn/toendacms/index.php/en/License.html', 23, 'd4f1ef15613c464da871fb2cd1504a8a', 'http://localhost/toendacms_svn/toendacms/index.php/en/Die-toendaCMS-Lizenz-als-Text.html', '2007-07-24 21:53:36'),
-('localhost', '/toendacms_svn/toendacms/index.php/en/License.html?page=2', 1, '68500550f2c681eac64da6f20b45a2db', 'http://localhost/toendacms_svn/toendacms/index.php/en/License.html', '2007-07-24 21:13:37'),
-('localhost', '/toendacms_svn/toendacms/index.php/en/License.html?page=4', 1, '22599806cf92c798ea75c5e50c5f2ea5', 'http://localhost/toendacms_svn/toendacms/index.php/en/License.html?page=2', '2007-07-24 21:13:41'),
-('localhost', '/toendacms_svn/toendacms/index.php/en/neuigkeiten.html', 1, '22b2f2d39badad9a2bb48c8de33aaca8', 'http://localhost/toendacms_svn/toendacms/index.php/en/License.html?page=4', '2007-07-24 21:13:43'),
-('localhost', '/toendacms_svn/toendacms/?id=18e2a&lang=de', 15, '95361c353fc5d45cf134af8c8a8422c6', 'http://localhost/toendacms_svn/toendacms/', '2007-07-25 23:23:39'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/engine/styles/tcms_common.css', 3, 'fdf18bd253cca73969e5fd9ccb72ccf5', 'http://localhost/toendacms_svn/toendacms/index.php/de/die-toendacms-lizenz.html', '2007-07-25 23:23:07'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/engine/styles/tcms_editor.css', 3, 'f0806e505be32b11c7bedc2472174eda', 'http://localhost/toendacms_svn/toendacms/index.php/de/die-toendacms-lizenz.html', '2007-07-25 23:23:08'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/engine/js/antiframe.js', 3, '90aac5e38b0407e0fd5908e65e48a581', 'http://localhost/toendacms_svn/toendacms/index.php/de/die-toendacms-lizenz.html', '2007-07-25 23:23:09'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/engine/js/browsercheck.js', 3, '2151256651782dac51fc80625d392d12', 'http://localhost/toendacms_svn/toendacms/index.php/de/die-toendacms-lizenz.html', '2007-07-25 23:23:11'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/engine/js/jscrypt.js', 3, '9f5cbc64afd96131dff92958b45ffdd1', 'http://localhost/toendacms_svn/toendacms/index.php/de/die-toendacms-lizenz.html', '2007-07-25 23:23:12'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/engine/js/dhtml.js', 3, 'a167930eeb302d6baac414e3e8bf0193', 'http://localhost/toendacms_svn/toendacms/index.php/de/die-toendacms-lizenz.html', '2007-07-25 23:23:13'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/engine/js/edit.js', 3, '855e5fb4b6862cccddae8a276e767cd4', 'http://localhost/toendacms_svn/toendacms/index.php/de/die-toendacms-lizenz.html', '2007-07-25 23:23:15'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/engine/js/lightbox2/prototype.js', 3, '67e9d15974c47960e0254e894afa1279', 'http://localhost/toendacms_svn/toendacms/index.php/de/die-toendacms-lizenz.html', '2007-07-25 23:23:16'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/engine/js/lightbox2/scriptaculous.js?load=effects', 3, 'ccad811aa2cf0fe0e4379c3a7dc2ed93', 'http://localhost/toendacms_svn/toendacms/index.php/de/die-toendacms-lizenz.html', '2007-07-25 23:23:17'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/engine/js/lightbox2/lightbox.js', 2, '03d4b721387ba4195b131a438cae2cbd', 'http://localhost/toendacms_svn/toendacms/index.php/de/die-toendacms-lizenz.html', '2007-07-25 23:23:18'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/engine/js/lightbox2/css/lightbox.css', 2, '07c29bfb1916128fa667ce8a1abd6d16', 'http://localhost/toendacms_svn/toendacms/index.php/de/die-toendacms-lizenz.html', '2007-07-25 23:23:19'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/theme/k2/images/k2_moz.css', 2, '409589c9915336a06189979629c8d167', 'http://localhost/toendacms_svn/toendacms/index.php/de/die-toendacms-lizenz.html', '2007-07-25 23:23:20'),
-('localhost', '/toendacms_svn/toendacms/?id=18e2a&lang=en', 1, 'a178d38a022bba7cfc3c836ad46527eb', 'http://localhost/toendacms_svn/toendacms/?id=18e2a&s=k2&lang=de', '2007-07-24 21:27:26'),
-('localhost', '/toendacms_svn/toendacms/?id=frontpage&lang=en', 1, '1c3f6ea267e5068dfe8d172f5bcf60db', 'http://localhost/toendacms_svn/toendacms/?id=18e2a&s=k2&lang=en', '2007-07-24 21:27:40'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/License.html', 4, '5085385bca4f63574ba6f2bc2c25064a', 'http://localhost/toendacms_svn/toendacms/index.php/en/License.html', '2007-07-24 22:01:42'),
-('localhost', '/toendacms_svn/toendacms/index.php//Die-toendaCMS-Lizenz-als-Text.htmlde', 3, 'a5b309545cf45f2c9a7925d69188d0f8', 'http://localhost/toendacms_svn/toendacms/index.php/de/Die-toendaCMS-Lizenz-als-Text.html', '2007-07-24 21:34:00'),
-('localhost', '/toendacms_svn/toendacms/index.php//Die-toendaCMS-Lizenz-als-Text.htmlen', 1, 'a6161a647b5c42538f63c9b5d7e08d74', 'http://localhost/toendacms_svn/toendacms/index.php/de/Die-toendaCMS-Lizenz-als-Text.html', '2007-07-24 21:50:34'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/produkte.html?action=showall&cmd=browse&category=9593610a4bd7f9e0fa31753648a9d08b', 1, '988d1c766f7885c2fefc3e9cfe915a52', 'http://localhost/toendacms_svn/toendacms/index.php/de/produkte.html', '2007-07-24 22:11:39'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/produkte.html?action=showone&article=b0b14e7381294e263b72a0c9d65b9f31', 3, 'eeaf71cf91eae3f28c17938023055c0f', 'http://localhost/toendacms_svn/toendacms/index.php/de/produkte.html?action=showall&category=2f10f7cf479f1c5c227452d45d8ad9d9', '2007-07-26 21:18:59'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/neuigkeiten.html?news=90ac2e39eb', 1, 'b5df53f564f6ff0182a557e52e98b497', 'http://localhost/toendacms_svn/toendacms/index.php/de/startseite.html', '2007-07-24 22:13:56'),
-('localhost', '/toendacms_svn/toendacms/index.php/en/produkte.html', 8, '5b6b6b91a5b4ad0281317d35ae09a382', 'http://localhost/toendacms_svn/toendacms/index.php/de/produkte.html', '2007-07-26 21:17:59'),
-('localhost', '/toendacms_svn/toendacms/index.php/admin.html', 1, '7b67772d0dcdc05c6cf0bc4578bb5fc7', '', '2007-07-24 22:15:25'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/cs.html?item=domainchecker', 13, '717286cafe175a45b405847354a192fb', 'http://localhost/toendacms_svn/toendacms/index.php/de/cs.html?item=domainchecker', '2007-07-24 23:13:51'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/cs.html?item=tcmsshop', 1, '6e7ee4f6b92f92f4adbe1cbb550d1c79', 'http://localhost/toendacms_svn/toendacms/index.php/de/cs.html?item=domainchecker', '2007-07-24 22:56:18'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/Die-toendaCMS-Lizenz.html', 10, '4c3098c677ce6d158403877f552404dd', 'http://localhost/toendacms_svn/toendacms/index.php/de/produkte.html?action=showall&category=9593610a4bd7f9e0fa31753648a9d08b', '2007-07-26 21:19:32'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/neuigkeiten/hallo-welt.html', 18, '3654c8930a389dff462931f9dbbcde13', 'http://localhost/toendacms_svn/toendacms/index.php/de/startseite.html', '2007-07-26 00:56:32'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/anmeldung.html', 1, 'cfa5e1a822cd4072e716ac49d98bcba7', 'http://localhost/toendacms_svn/toendacms/index.php/de/Die-toendaCMS-Lizenz.html', '2007-07-25 01:22:33'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/engine/images/flags/en.png', 1, 'ff3478f5f6efa1a55929df6ab5952e4c', 'http://localhost/toendacms_svn/toendacms/index.php/de/die-toendacms-lizenz.html', '2007-07-25 23:23:22'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/engine/images/flags/de.png', 1, '8ceb2458c7bf93ea6ae0b8115ab7d9bc', 'http://localhost/toendacms_svn/toendacms/index.php/de/die-toendacms-lizenz.html', '2007-07-25 23:23:22'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/engine/images/logos/f_rss091.png', 1, '9ddee94da1e5a862a9c503f6c84fd97b', 'http://localhost/toendacms_svn/toendacms/index.php/de/die-toendacms-lizenz.html', '2007-07-25 23:23:23'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/engine/images/flags/nl.png', 1, '00fc9c41a77c2744217e4acce605c32a', 'http://localhost/toendacms_svn/toendacms/index.php/de/die-toendacms-lizenz.html', '2007-07-25 23:23:24'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/engine/images/logos/f_rss10.png', 1, 'c3b421d78555050ffd77d721429641f6', 'http://localhost/toendacms_svn/toendacms/index.php/de/die-toendacms-lizenz.html', '2007-07-25 23:23:26'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/engine/images/logos/f_rss20.png', 1, 'a00b54cf177f12843d668ba6d72717df', 'http://localhost/toendacms_svn/toendacms/index.php/de/die-toendacms-lizenz.html', '2007-07-25 23:23:28'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/engine/images/logos/atom03.gif', 1, '92a64cfde59bca30b5807d680b9c357f', 'http://localhost/toendacms_svn/toendacms/index.php/de/die-toendacms-lizenz.html', '2007-07-25 23:23:29'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/startseite.html?session=45645645645645645645645645645645', 3, '8fe743cb0ccfe0359eba80263c3862f0', '', '2007-07-25 23:42:05'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/neuigkeiten/hallo.html', 8, 'baa9128613807689f3b826afd1325e9f', 'http://localhost/toendacms_svn/toendacms/index.php/de/startseite.html', '2007-07-26 00:02:05'),
-('localhost', '/toendacms_svn/toendacms/index.php/en/news/hello-world.html', 96, '5c92bef3bd70bc546ca94933b0db8bb6', 'http://localhost/toendacms_svn/toendacms/index.php/en/news.html?cat=erdf4', '2007-07-26 20:39:48'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/neuigkeiten.html?cat=erdf4', 1, '675b36c92752dc8c2fd4f4f5aaa60d25', 'http://localhost/toendacms_svn/toendacms/index.php/de/startseite.html', '2007-07-26 00:14:40'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/neuigkeiten/hallo-welt-ich-bins.html', 1, '4f5036e1f4bec78c1e4eff3ed23d35a9', 'http://localhost/toendacms_svn/toendacms/index.php/de/neuigkeiten.html', '2007-07-26 00:02:48'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/neuigkeiten/hallo-welt2.html', 1, '7559051a2108cde11799005ec27501c0', 'http://localhost/toendacms_svn/toendacms/index.php/de/neuigkeiten.html', '2007-07-26 00:11:32'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/neuigkeiten/das-fussball-stockchen....html', 3, '2e07940d9e7ddcf18596d8f977dddba7', 'http://localhost/toendacms_svn/toendacms/index.php/de/neuigkeiten/hallo-welt.html', '2007-07-26 00:34:53'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/neuigkeiten/toendacms-commit-12-16-alpha.html', 1, '517b52877c5b3a2df9eb04a929415f47', 'http://localhost/toendacms_svn/toendacms/index.php/de/startseite.html', '2007-07-26 00:29:14'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/neuigkeiten/toendacms-commit-12-1.6-alpha.html', 1, '3c6c1d480f5ec4b66d3078a63cacfee0', 'http://localhost/toendacms_svn/toendacms/index.php/de/neuigkeiten.html', '2007-07-26 00:31:50'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/neuigkeiten/hallo-welt!.html', 1, 'aa0398b9ad4fe913fd0c0793a909018a', 'http://localhost/toendacms_svn/toendacms/index.php/de/neuigkeiten.html', '2007-07-26 00:30:57'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/neuigkeiten/die-toendacms-lizenz-aeoeue-als-text.html', 3, 'e426e989e48a77f782e01c30777fedd0', 'http://localhost/toendacms_svn/toendacms/index.php/de/neuigkeiten.html', '2007-07-26 00:55:37'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/neuigkeiten/das-fussball-st-ckchen....html', 1, '9e181a7b9252c86bd6c57395956b3a1c', 'http://localhost/toendacms_svn/toendacms/index.php/de/neuigkeiten.html', '2007-07-26 00:32:34'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/neuigkeiten/das-fussball-stoeckchen....html', 7, '544df3a680def4f462255955ac67e253', 'http://localhost/toendacms_svn/toendacms/index.php/de/neuigkeiten.html', '2007-07-26 00:51:38'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/neuigkeiten/das-fussball-st%F6ckchen....html', 2, 'bd11dc9bc61767d18cadf6a216768255', 'http://localhost/toendacms_svn/toendacms/index.php/de/neuigkeiten/das-fussball-stoeckchen....html', '2007-07-26 00:36:13'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/neuigkeiten/die-toendacms-lizenz-%E4%F6%FC-als-text.html', 2, 'd1c29ed6a77cff0cfad069921d35d7ab', 'http://localhost/toendacms_svn/toendacms/index.php/de/neuigkeiten/die-toendacms-lizenz-aeoeue-als-text.html', '2007-07-26 00:55:53'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/neuigkeiten/die-toendacms-lizenz-als-text.html', 1, '2dd572783e166fa2ccfcff8b3c8fcbf6', 'http://localhost/toendacms_svn/toendacms/index.php/de/neuigkeiten/die-toendacms-lizenz-%E4%F6%FC-als-text.html', '2007-07-26 00:55:57'),
-('localhost', '/toendacms_svn/toendacms/index.php/en/news.html?cat=erdf4', 6, '924aa3e5d9a41282a745aa235ea37aad', 'http://localhost/toendacms_svn/toendacms/index.php/en/frontpage.html', '2007-07-26 20:47:18'),
-('localhost', '/toendacms_svn/toendacms/index.php/en/frontpage.html', 7, '9b3eddaa12673cac90456855a8aea990', 'http://localhost/toendacms_svn/toendacms/index.php/en/frontpage.html', '2007-07-26 21:08:40'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/galerie.html', 2, 'f07f11da2868507b5af2c6e47959ddd4', 'http://localhost/toendacms_svn/toendacms/', '2007-07-26 21:12:28'),
-('localhost', '/toendacms_svn/toendacms/index.php/nl/produkte.html', 1, '5640fa7774653ac445dc1c296bfc62d4', 'http://localhost/toendacms_svn/toendacms/index.php/de/produkte.html', '2007-07-26 21:15:04'),
-('localhost', '/toendacms_svn/toendacms/index.php/en/produkte.html?action=showall&cmd=latest', 1, 'f82c141f854a4a616e0266581b0d6bdf', 'http://localhost/toendacms_svn/toendacms/index.php/en/produkte.html', '2007-07-26 21:18:15'),
-('localhost', '/toendacms_svn/toendacms/index.php/en/produkte.html?action=showall&cmd=offers', 1, '46b42247e8b593eaf225d57e5e7bcaf7', 'http://localhost/toendacms_svn/toendacms/index.php/en/produkte.html?action=showall&cmd=latest', '2007-07-26 21:18:18'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/produkte.html?action=showone&article=32acfdf114279d275709c2e277341b5c', 1, '1eb4e97f6f00516152481393915ad524', 'http://localhost/toendacms_svn/toendacms/index.php/de/produkte.html', '2007-07-26 21:18:39'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/produkte.html?action=showall&category=2f10f7cf479f1c5c227452d45d8ad9d9', 1, '9983a0da5f41dfb299a3716ba36f2579', 'http://localhost/toendacms_svn/toendacms/index.php/de/produkte.html?action=showone&article=32acfdf114279d275709c2e277341b5c', '2007-07-26 21:18:47'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/produkte.html?action=showall&category=9593610a4bd7f9e0fa31753648a9d08b', 1, '49c051a2f1b8c4d7439f72483f23cda1', 'http://localhost/toendacms_svn/toendacms/index.php/de/produkte.html?action=showone&article=b0b14e7381294e263b72a0c9d65b9f31', '2007-07-26 21:19:23'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/kontakt.html', 1, '8dd73542e571164eb142db0c1879d1cf', 'http://localhost/toendacms_svn/toendacms/index.php/de/die-toendacms-lizenz.html', '2007-07-26 21:19:35'),
-('localhost', '/toendacms_svn/toendacms/?id=contactform&lang=de', 1, 'eaaf80144f6d7b59273d3a5b165c8ad6', 'http://localhost/toendacms_svn/toendacms/?id=contactform&s=k2&item=adressbook&lang=de', '2007-07-26 21:19:45'),
-('localhost', '/toendacms_svn/toendacms/index.php/de/gaestebuch.html', 1, 'a440a8291ecf0ee635368c43763d1e94', 'http://localhost/toendacms_svn/toendacms/?id=contactform&s=k2&lang=de', '2007-07-26 21:19:55'),
-('localhost', '/toendacms_svn/toendacms/index.php?session=8679d01a141da142f1f261ec75a0063f', 1, '261c05c91373e1e2bdee50e03ff5f61c', 'http://localhost/toendacms_svn/toendacms/engine/admin/admin.php?id_user=8679d01a141da142f1f261ec75a0063f&site=mod_global', '2007-07-27 00:41:11');
 
 -- --------------------------------------------------------
 
@@ -1112,136 +997,6 @@ CREATE TABLE `blog_statistics_ip` (
 -- Daten für Tabelle `blog_statistics_ip`
 -- 
 
-INSERT INTO `blog_statistics_ip` (`uid`, `ip`, `value`) VALUES ('a84573f07ee669969e4cc7b88b0f6c4b', '127.0.0.1', 29),
-('a0cdf664ad4b7de524521df9a378629e', '127.0.0.1', 3),
-('4d22a521425317f0226508b3f9812534', '127.0.0.1', 25),
-('c0e26a49eae98b0cff8342aa5902ea5b', '127.0.0.1', 17),
-('a5b068f6649021a1a859e1656e9b645b', '127.0.0.1', 1),
-('8621a52928b1fb24fc5e63e6b6e90f55', '127.0.0.1', 1),
-('4a47ecce2e92bd4ba9cce60f11874b3b', '127.0.0.1', 25),
-('b9a80edb7130d2ab89a53e1b01faebcb', '127.0.0.1', 13),
-('cf3ca668c92f1f76dd18feab3b22e728', '127.0.0.1', 6),
-('c7cecdcd46d877fcf1f906ab4814e0b5', '127.0.0.1', 6),
-('17f658782466bbd78e35b4ce6f6547ad', '127.0.0.1', 1),
-('2dfe93296e35b9201a4b2f9758667180', '127.0.0.1', 1),
-('2b132273c7964b41a5601049a941cba4', '127.0.0.1', 6),
-('7f058f8273d5e768001db28dfc38bff8', '127.0.0.1', 13),
-('426a7666ff4aab21513aa810e8ab2cdd', '127.0.0.1', 25),
-('63a1b92ef572ffbf523db284e4405863', '127.0.0.1', 25),
-('a5227af2c49fb901f9b239c3150a487e', '127.0.0.1', 11),
-('bb015c782df94918ea06163483b682ac', '127.0.0.1', 8),
-('a499da6798767e9ef98af0d350eee3ab', '127.0.0.1', 8),
-('4d49ab4e698facfaa7fa4f15f94bd252', '127.0.0.1', 1),
-('c9c5c03f05c47a7c94abc394166b65a7', '127.0.0.1', 1),
-('1e36e7539f47da63985a033b26f620a2', '127.0.0.1', 1),
-('ee35f40171c79c69a15ed5640897ba1d', '127.0.0.1', 10),
-('ba53a180993a4fc7fb084b46bec7b7ef', '127.0.0.1', 14),
-('c6d433ad1c4abae569742d044e8711c7', '127.0.0.1', 14),
-('222b9ad1d9f120df613f27499ca25b3d', '127.0.0.1', 14),
-('efaf1a0d9285d82864e66b0034922307', '127.0.0.1', 13),
-('11d211092a423cea1d7acd6240018183', '127.0.0.1', 11),
-('5389a6b1b1f7d737da925e1b0f772c07', '127.0.0.1', 11),
-('a96b61be92c40858c8af2bb7ef9f7ab1', '127.0.0.1', 13),
-('d2c1a2f84929d5404ccdca6e361044d0', '127.0.0.1', 13),
-('34e2b40582847652f2f9fa2e5fb07e00', '127.0.0.1', 13),
-('de672bfa0a98de09d2a0029cfe57713c', '127.0.0.1', 13),
-('6c133e844d47d3a6b8a4610979515e49', '127.0.0.1', 1),
-('32f62133019e9e59e218310ca11fcccc', '127.0.0.1', 1),
-('b8a74731df6ff25d7df998acd6f49b96', '127.0.0.1', 14),
-('b1b3348fe38940419e3eba30483693b6', '127.0.0.1', 1),
-('4156ef51a5c530bbaf1e321520958b28', '127.0.0.1', 13),
-('9df7802eed7db848790aebccb805f456', '127.0.0.1', 13),
-('0c8a2eab0cc19542d55941943af924c7', '127.0.0.1', 13),
-('720c3152fa00e3898771b52a65499c19', '127.0.0.1', 1),
-('b62d8e8d2d282b232167dd98b335512c', '127.0.0.1', 13),
-('72c1d65d9bfc1004a912cc41e78ac2bc', '127.0.0.1', 1),
-('02368e01ea9cac14bd8789229015c704', '127.0.0.1', 1),
-('80968a84a7377771e6c46c90f84f2705', '127.0.0.1', 1),
-('b1a3b87155b509c46a30f1069ea702f4', '127.0.0.1', 1),
-('a2593285b1ee64aeff22e5eed876f41b', '127.0.0.1', 13),
-('b1a2df096ca8e1cbb4ffea732e873543', '127.0.0.1', 25),
-('cea2fb3618fe135814a39c6a6fa590a1', '127.0.0.1', 27),
-('c167b97146bc22a4cb4d4c268a5ce2df', '127.0.0.1', 1),
-('06b0dc0416988505ae294a81a0187740', '127.0.0.1', 23),
-('0285065b14f191dd462c3bddcc2e945b', '127.0.0.1', 27),
-('265119df08581bc6effb079e110e6d2b', '127.0.0.1', 1),
-('84a69ad593721ee75a97a408bba838bc', '127.0.0.1', 15),
-('c8829a448141ab636233d204f3cb7707', '127.0.0.1', 15),
-('92394bed7b5640e7563a4ab471cce96d', '127.0.0.1', 15),
-('992035f98cbeb5e7ac8eec79ce073983', '127.0.0.1', 15),
-('8d8f8e23a320a24087a2fbb62ec8a94c', '127.0.0.1', 17),
-('5de610215b82d3683322704c2955a7f0', '127.0.0.1', 17),
-('f02e0d1cb3f67661fac8171d19f2a2b8', '127.0.0.1', 15),
-('d4f1ef15613c464da871fb2cd1504a8a', '127.0.0.1', 17),
-('68500550f2c681eac64da6f20b45a2db', '127.0.0.1', 1),
-('22599806cf92c798ea75c5e50c5f2ea5', '127.0.0.1', 1),
-('22b2f2d39badad9a2bb48c8de33aaca8', '127.0.0.1', 1),
-('95361c353fc5d45cf134af8c8a8422c6', '127.0.0.1', 20),
-('fdf18bd253cca73969e5fd9ccb72ccf5', '127.0.0.1', 19),
-('f0806e505be32b11c7bedc2472174eda', '127.0.0.1', 19),
-('90aac5e38b0407e0fd5908e65e48a581', '127.0.0.1', 19),
-('2151256651782dac51fc80625d392d12', '127.0.0.1', 19),
-('9f5cbc64afd96131dff92958b45ffdd1', '127.0.0.1', 19),
-('a167930eeb302d6baac414e3e8bf0193', '127.0.0.1', 19),
-('855e5fb4b6862cccddae8a276e767cd4', '127.0.0.1', 19),
-('67e9d15974c47960e0254e894afa1279', '127.0.0.1', 19),
-('ccad811aa2cf0fe0e4379c3a7dc2ed93', '127.0.0.1', 19),
-('03d4b721387ba4195b131a438cae2cbd', '127.0.0.1', 19),
-('07c29bfb1916128fa667ce8a1abd6d16', '127.0.0.1', 19),
-('409589c9915336a06189979629c8d167', '127.0.0.1', 19),
-('a178d38a022bba7cfc3c836ad46527eb', '127.0.0.1', 1),
-('1c3f6ea267e5068dfe8d172f5bcf60db', '127.0.0.1', 1),
-('5085385bca4f63574ba6f2bc2c25064a', '127.0.0.1', 17),
-('a5b309545cf45f2c9a7925d69188d0f8', '127.0.0.1', 17),
-('ac5783669bdb474ee88cc8c2642cb13c', '127.0.0.1', 1),
-('a6161a647b5c42538f63c9b5d7e08d74', '127.0.0.1', 1),
-('ef6f69277e12f3de93f22a386d94996c', '127.0.0.1', 27),
-('988d1c766f7885c2fefc3e9cfe915a52', '127.0.0.1', 1),
-('eeaf71cf91eae3f28c17938023055c0f', '127.0.0.1', 27),
-('b5df53f564f6ff0182a557e52e98b497', '127.0.0.1', 1),
-('7b67772d0dcdc05c6cf0bc4578bb5fc7', '127.0.0.1', 1),
-('717286cafe175a45b405847354a192fb', '127.0.0.1', 17),
-('6e7ee4f6b92f92f4adbe1cbb550d1c79', '127.0.0.1', 1),
-('4c3098c677ce6d158403877f552404dd', '127.0.0.1', 27),
-('cfa5e1a822cd4072e716ac49d98bcba7', '127.0.0.1', 1),
-('ff3478f5f6efa1a55929df6ab5952e4c', '127.0.0.1', 1),
-('8ceb2458c7bf93ea6ae0b8115ab7d9bc', '127.0.0.1', 1),
-('9ddee94da1e5a862a9c503f6c84fd97b', '127.0.0.1', 1),
-('00fc9c41a77c2744217e4acce605c32a', '127.0.0.1', 1),
-('c3b421d78555050ffd77d721429641f6', '127.0.0.1', 1),
-('a00b54cf177f12843d668ba6d72717df', '127.0.0.1', 1),
-('92a64cfde59bca30b5807d680b9c357f', '127.0.0.1', 1),
-('8fe743cb0ccfe0359eba80263c3862f0', '127.0.0.1', 20),
-('3654c8930a389dff462931f9dbbcde13', '127.0.0.1', 23),
-('baa9128613807689f3b826afd1325e9f', '127.0.0.1', 20),
-('4f5036e1f4bec78c1e4eff3ed23d35a9', '127.0.0.1', 1),
-('7559051a2108cde11799005ec27501c0', '127.0.0.1', 1),
-('675b36c92752dc8c2fd4f4f5aaa60d25', '127.0.0.1', 1),
-('517b52877c5b3a2df9eb04a929415f47', '127.0.0.1', 1),
-('aa0398b9ad4fe913fd0c0793a909018a', '127.0.0.1', 1),
-('3c6c1d480f5ec4b66d3078a63cacfee0', '127.0.0.1', 1),
-('9e181a7b9252c86bd6c57395956b3a1c', '127.0.0.1', 1),
-('2e07940d9e7ddcf18596d8f977dddba7', '127.0.0.1', 23),
-('544df3a680def4f462255955ac67e253', '127.0.0.1', 23),
-('bd11dc9bc61767d18cadf6a216768255', '127.0.0.1', 23),
-('e426e989e48a77f782e01c30777fedd0', '127.0.0.1', 23),
-('d1c29ed6a77cff0cfad069921d35d7ab', '127.0.0.1', 23),
-('2dd572783e166fa2ccfcff8b3c8fcbf6', '127.0.0.1', 1),
-('5c92bef3bd70bc546ca94933b0db8bb6', '127.0.0.1', 25),
-('924aa3e5d9a41282a745aa235ea37aad', '127.0.0.1', 25),
-('9b3eddaa12673cac90456855a8aea990', '127.0.0.1', 25),
-('f07f11da2868507b5af2c6e47959ddd4', '127.0.0.1', 27),
-('5b6b6b91a5b4ad0281317d35ae09a382', '127.0.0.1', 27),
-('5640fa7774653ac445dc1c296bfc62d4', '127.0.0.1', 1),
-('f82c141f854a4a616e0266581b0d6bdf', '127.0.0.1', 1),
-('46b42247e8b593eaf225d57e5e7bcaf7', '127.0.0.1', 1),
-('1eb4e97f6f00516152481393915ad524', '127.0.0.1', 1),
-('9983a0da5f41dfb299a3716ba36f2579', '127.0.0.1', 1),
-('49c051a2f1b8c4d7439f72483f23cda1', '127.0.0.1', 1),
-('8dd73542e571164eb142db0c1879d1cf', '127.0.0.1', 1),
-('eaaf80144f6d7b59273d3a5b165c8ad6', '127.0.0.1', 1),
-('a440a8291ecf0ee635368c43763d1e94', '127.0.0.1', 1),
-('261c05c91373e1e2bdee50e03ff5f61c', '127.0.0.1', 1);
 
 -- --------------------------------------------------------
 
@@ -1260,9 +1015,6 @@ CREATE TABLE `blog_statistics_os` (
 -- Daten für Tabelle `blog_statistics_os`
 -- 
 
-INSERT INTO `blog_statistics_os` (`uid`, `browser`, `os`, `value`) VALUES ('552d3d91be3151ca77252cebdde54c42', 'Mozilla Firefox 2.0.0.4', 'Microsoft Windows Vista', 239),
-('7b19a04af96b56d341cb89953696b04f', 'Mozilla Firefox 2.0.0.5', 'Microsoft Windows Vista', 1142),
-('65f1e8e545be6d47cb70ebe4770988fe', 'Microsoft Internet Explorer 7.0', 'Microsoft Windows Vista', 82);
 
 -- --------------------------------------------------------
 
@@ -1333,7 +1085,7 @@ CREATE TABLE `blog_user` (
 -- Daten für Tabelle `blog_user`
 -- 
 
-INSERT INTO `blog_user` (`uid`, `name`, `username`, `password`, `email`, `group`, `join_date`, `last_login`, `birthday`, `gender`, `occupation`, `homepage`, `icq`, `aim`, `yim`, `msn`, `skype`, `enabled`, `tcms_enabled`, `static_value`, `signature`, `location`, `hobby`) VALUES ('ccdc5cfffaf3cd9342e40dd9dcb3a3ff', 'Dolly', 'root', '5473e3f141e0328ce87dac9366e0aace', 'info@toenda.com', 'Administrator', '2006.01.22-22:26:44', '2007.08.30-22:43:05', '26.11.1982', '-', '', 'http://www.vandango.org', '', '', '', '', '', 1, 1, 1, '', '', ''),
+INSERT INTO `blog_user` (`uid`, `name`, `username`, `password`, `email`, `group`, `join_date`, `last_login`, `birthday`, `gender`, `occupation`, `homepage`, `icq`, `aim`, `yim`, `msn`, `skype`, `enabled`, `tcms_enabled`, `static_value`, `signature`, `location`, `hobby`) VALUES ('ccdc5cfffaf3cd9342e40dd9dcb3a3ff', 'Dolly', 'root', '5473e3f141e0328ce87dac9366e0aace', 'info@toenda.com', 'Administrator', '2006.01.22-22:26:44', '2007.12.09-23:22:13', '26.11.1982', '-', '', 'http://www.vandango.org', '', '', '', '', '', 1, 1, 1, '', '', ''),
 ('9e07ddbe2eb87663511e4716cb94eef2', 'writer', 'writer', 'a82feee3cc1af8bcabda979e8775ef0f', 'info@toenda.com', 'Writer', '2006.08.21-23:09:14', '2006.10.06-20:43:46', '01.1.', '-', '', '', '', '', '', '', '', 1, 1, 0, '', '', '');
 
 -- --------------------------------------------------------

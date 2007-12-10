@@ -1230,7 +1230,7 @@ define('_LINK_WICH_MODULE', 'Show link in this module');
 
 // COMMENTS
 if(!defined('_COMMENTS_TITLE'))                define('_COMMENTS_TITLE', 'Administer Comments');
-if(!defined('_COMMENTS_TEXT'))                 define('_COMMENTS_TEXT', 'You can administer all the comments of your news and images here. If you wantm you can edit or delete them. Furthermore can you see here the eMail-Adresses, IP-Adresses and Domainnames of the commenting people.');
+if(!defined('_COMMENTS_TEXT'))                 define('_COMMENTS_TEXT', 'You can administer all the comments of your news and images here. If you want you can edit or delete them. Furthermore can you see here the eMail-Adresses, IP-Adresses and Domainnames of the commenting people.');
 
 
 // STATS

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic public functions.
  *
- * @version 2.8.1
+ * @version 2.8.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -903,18 +903,16 @@ class tcms_main {
 	public function decodeIconV($value, $charset = 'iso-8859-1') {
 		if(extension_loaded('iconv')) {
 			$arrChars = array(
-				'&auml;' => 'ä', // ae
-				'&ouml;' => 'ö', // oe
-				'&uuml;' => 'ü', // ue
-				'&Auml;' => 'Ä', // Ae
-				'&Ouml;' => 'Ö', // Oe
-				'&Uuml;' => 'Ü', // Ue
-				'&szlig;' => 'ß' // ss
+				'&auml;' => '&#228;', //'ä', // ae
+				'&ouml;' => '&#246;', //'ö', // oe
+				'&uuml;' => '&#252;', //'ü', // ue
+				'&Auml;' => '&#196;', //'Ä', // Ae
+				'&Ouml;' => '&#214;', //'Ö', // Oe
+				'&Uuml;' => '&#220;', //'Ü', // Ue
+				'&szlig;' => '&#223;', //'ß' // ss
 			);
 			
 			foreach($arrChars as $key => $val) {
-				//echo $key.' - '.$val.'<br>';
-				
 				$value = str_replace(
 					$key, 
 					iconv($charset, 'UTF-8', $val), 
@@ -1026,25 +1024,23 @@ class tcms_main {
 			}
 		}
 		
-		$trans = get_html_translation_table(HTML_ENTITIES);
-		
 		switch($quote) {
 			case '1':
-				//$_SET = ENT_COMPAT;
-				//$text = html_entity_decode($text, $_SET, $charset);
+				$trans = get_html_translation_table(HTML_ENTITIES);
 				$text = strtr($text, $trans);
 				break;
 			
 			case '2':
-				$trans = array_flip($trans);
+				//$trans = get_html_translation_table(HTML_ENTITIES);
+				//$trans = array_flip($trans);
 				
 				$text = str_replace('__________', '=', $text);
 				
-				//$text = strtr($text, $trans);
-				//$text = html_entity_decode($text, null, $charset);
-				//$text = htmlentities($text, null, $charset);
+				//////$text = strtr($text, $trans);
+				//////$text = html_entity_decode($text, null, $charset);
+				//////$text = htmlentities($text, null, $charset);
 				
-				$xml = new xmlparser($this->administer.'/tcms_global/var.xml', 'r');
+				/*$xml = new xmlparser($this->administer.'/tcms_global/var.xml', 'r');
 				$lang = $xml->read_section('global', 'front_lang');
 				
 				$text = $this->decodeIconV(
@@ -1060,21 +1056,177 @@ class tcms_main {
 				else {
 					//echo '< 5.1.6';
 					$text = strtr($text, $trans);
+				}*/
+				
+				
+				
+				
+				
+				/*
+					testing:
+					new utf8 decoding
+				*/
+				
+				$text = $this->convertChars($text);
+				
+				if(phpversion() >= '5.1.0') {
+					$text = htmlspecialchars_decode($text);
+				}
+				else {
+					$text = strtr(
+						$text, 
+						array_flip(get_html_translation_table(HTML_SPECIALCHARS, ENT_QUOTES))
+					);
 				}
 				
-				//echo '</br>';
-				
+				$text = $this->decodeIconV($text, $charset);
 				$text = stripslashes($text);
 				break;
 			
 			case '3':
-				//$_SET = ENT_NOQUOTES;
-				//$text = html_entity_decode($text, $_SET, $charset);
+				$trans = get_html_translation_table(HTML_ENTITIES);
 				$text = strtr($text, $trans);
 				break;
 		}
 		
 		return $text;
+	}
+	
+	
+	
+	/**
+	 * Encode a utf8 uri
+	 *
+	 * @param String $utf8_string
+	 * @param Integer $length
+	 * @return String
+	 */
+	public function encodeUtf8Uri($utf8_string, $length = 0) {
+		$unicode = '';
+		$values = array();
+		$num_octets = 1;
+	
+		for ($i = 0; $i < strlen( $utf8_string ); $i++ ) {
+			$value = ord( $utf8_string[ $i ] );
+	
+			if ( $value < 128 ) {
+				if ( $length && ( strlen($unicode) + 1 > $length ) )
+					break;
+				$unicode .= chr($value);
+			} else {
+				if ( count( $values ) == 0 ) $num_octets = ( $value < 224 ) ? 2 : 3;
+	
+				$values[] = $value;
+	
+				if ( $length && ( (strlen($unicode) + ($num_octets * 3)) > $length ) )
+					break;
+				if ( count( $values ) == $num_octets ) {
+					if ($num_octets == 3) {
+						$unicode .= '%' . dechex($values[0]) . '%' . dechex($values[1]) . '%' . dechex($values[2]);
+					} else {
+						$unicode .= '%' . dechex($values[0]) . '%' . dechex($values[1]);
+					}
+	
+					$values = array();
+					$num_octets = 1;
+				}
+			}
+		}
+	
+		return $unicode;
+	}
+	
+	
+	
+	/**
+	 * Converter like htmlspecialchars except don't double-encode HTML entities
+	 *
+	 * @param String $text
+	 * @param String $quotes
+	 * @return String
+	 */
+	public function specialChars($text, $quotes = 0) {
+		// Like htmlspecialchars except don't double-encode HTML entities
+		$text = str_replace('&&', '&#038;&', $text);
+		$text = str_replace('&&', '&#038;&', $text);
+		$text = preg_replace('/&(?:$|([^#])(?![a-z1-4]{1,8};))/', '&#038;$1', $text);
+		$text = str_replace('<', '&lt;', $text);
+		$text = str_replace('>', '&gt;', $text);
+		
+		if('double' === $quotes) {
+			$text = str_replace('"', '&quot;', $text);
+		}
+		elseif('single' === $quotes) {
+			$text = str_replace("'", '&#039;', $text);
+		}
+		elseif($quotes) {
+			$text = str_replace('"', '&quot;', $text);
+			$text = str_replace("'", '&#039;', $text);
+		}
+		return $text;
+	}
+	
+	
+	
+	/**
+	 * Convert chars
+	 *
+	 * @param String $content
+	 * @param String $flag
+	 * @return String
+	 */
+	public function convertChars($content, $flag = 'obsolete') {
+		// Translation of invalid Unicode references range to valid range
+		$htmltranswinuni = array(
+		'&#128;' => '&#8364;', // the Euro sign
+		'&#129;' => '',
+		'&#130;' => '&#8218;', // these are Windows CP1252 specific characters
+		'&#131;' => '&#402;',  // they would look weird on non-Windows browsers
+		'&#132;' => '&#8222;',
+		'&#133;' => '&#8230;',
+		'&#134;' => '&#8224;',
+		'&#135;' => '&#8225;',
+		'&#136;' => '&#710;',
+		'&#137;' => '&#8240;',
+		'&#138;' => '&#352;',
+		'&#139;' => '&#8249;',
+		'&#140;' => '&#338;',
+		'&#141;' => '',
+		'&#142;' => '&#382;',
+		'&#143;' => '',
+		'&#144;' => '',
+		'&#145;' => '&#8216;',
+		'&#146;' => '&#8217;',
+		'&#147;' => '&#8220;',
+		'&#148;' => '&#8221;',
+		'&#149;' => '&#8226;',
+		'&#150;' => '&#8211;',
+		'&#151;' => '&#8212;',
+		'&#152;' => '&#732;',
+		'&#153;' => '&#8482;',
+		'&#154;' => '&#353;',
+		'&#155;' => '&#8250;',
+		'&#156;' => '&#339;',
+		'&#157;' => '',
+		'&#158;' => '',
+		'&#159;' => '&#376;'
+		);
+		
+		// Remove metadata tags
+		$content = preg_replace('/<title>(.+?)<\/title>/','',$content);
+		$content = preg_replace('/<category>(.+?)<\/category>/','',$content);
+		
+		// Converts lone & characters into &#38; (a.k.a. &amp;)
+		$content = preg_replace('/&([^#])(?![a-z1-4]{1,8};)/i', '&#038;$1', $content);
+		
+		// Fix Word pasting
+		$content = strtr($content, $htmltranswinuni);
+		
+		// Just a little XHTML help
+		$content = str_replace('<br>', '<br />', $content);
+		$content = str_replace('<hr>', '<hr />', $content);
+		
+		return $content;
 	}
 	
 	

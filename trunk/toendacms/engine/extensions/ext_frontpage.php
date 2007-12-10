@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides a frontpage with news and a text.
  *
- * @version 1.5.2
+ * @version 1.5.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -521,55 +521,45 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 	
 	
 	if($use_syndication == 1) {
-		if($tcms_main->isReal($item)) {
-			/*
-				comment feed
-			*/
-			
-			$tcms_dcp->generateCommentsFeed(
-				$getLang, 
-				( $tcms_main->isReal($feed) ? $feed : $def_feed ), 
-				$seoFolder, 
-				false, 
-				$syn_amount, 
-				$show_autor
-			);
-			
-			if($tcms_main->isReal($feed)) {
-				if(isset($save) && $save == true) {
-					//$rss->saveFeed($feed, 'cache/'.$feed.'.xml', false);
+		/*
+			comment feed
+		*/
+		
+		$tcms_dcp->generateCommentsFeed(
+			$getLang, 
+			( $tcms_main->isReal($feed) ? $feed : $def_feed ), 
+			$seoFolder, 
+			false, 
+			$cfeed_amount, 
+			$show_autor
+		);
+		
+		/*
+			news feed
+		*/
+		
+		$tcms_dcp->generateFeed(
+			$getLang, 
+			( $tcms_main->isReal($feed) ? $feed : $def_feed ), 
+			$seoFolder, 
+			false, 
+			$syn_amount, 
+			$show_autor
+		);
+		
+		if($tcms_main->isReal($feed)) {
+			if(isset($save) && $save == true) {
+				if($tcms_main->isReal($item)) {
+					// comment feed
 					echo '<script>'
 					.'document.location=\''.$imagePath.'cache/comments'.$feed.'.'.$lang.'.xml\';'
 					.'</script>';
 				}
 				else {
-					//$rss->saveFeed($feed, 'cache/'.$feed.'.xml', false);
-				}
-			}
-		}
-		else {
-			/*
-				news feed
-			*/
-			
-			$tcms_dcp->generateFeed(
-				$getLang, 
-				( $tcms_main->isReal($feed) ? $feed : $def_feed ), 
-				$seoFolder, 
-				false, 
-				$syn_amount, 
-				$show_autor
-			);
-			
-			if($tcms_main->isReal($feed)) {
-				if(isset($save) && $save == true) {
-					//$rss->saveFeed($feed, 'cache/'.$feed.'.xml', false);
+					// news feed
 					echo '<script>'
 					.'document.location=\''.$imagePath.'cache/'.$feed.'.'.$lang.'.xml\';'
 					.'</script>';
-				}
-				else {
-					//$rss->saveFeed($feed, 'cache/'.$feed.'.xml', false);
 				}
 			}
 		}

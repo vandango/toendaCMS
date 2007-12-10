@@ -157,7 +157,7 @@ if($todo == 'config'){
 		else {
 			$getLang = $tcms_front_lang;
 		}
-		
+		/*
 		if($choosenDB == 'xml'){
 			if(file_exists('../../'.$tcms_administer_site.'/tcms_global/newsmanager.'.$getLang.'.xml')) {
 				$news_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/newsmanager.'.$getLang.'.xml','r');
@@ -262,6 +262,7 @@ if($todo == 'config'){
 			$wsSynCFeedText     = $sqlObj->comment_feed_text;
 			$wsSynCFeedType     = $sqlObj->comment_feed_type;
 			$wsSynUseCFeedImg   = $sqlObj->use_comment_feed_img;
+			$wsSynCFeedAmount   = $sqlObj->comments_feed_amount;
 			
 			if($old_news_mm_id     == NULL){ $old_news_mm_id     = ''; }
 			if($old_news_mm_title  == NULL){ $old_news_mm_title  = ''; }
@@ -289,14 +290,14 @@ if($todo == 'config'){
 			if($old_readmore_link  == NULL){ $old_readmore_link  = 0; }
 			if($old_news_spacing   == NULL){ $old_news_spacing   = 0; }
 		}
-		
+		*/
 		
 		if($langExist == 0) {
 			$old_news_mm_id = 'newsmanager';
 			$old_news_lang = $getLang;
 		}
 		
-		
+		/*
 		$old_news_mm_title = $tcms_main->decodeText($old_news_mm_title, '2', $c_charset);
 		$old_news_mm_stamp = $tcms_main->decodeText($old_news_mm_stamp, '2', $c_charset);
 		$old_news_mm_text  = $tcms_main->decodeText($old_news_mm_text, '2', $c_charset);
@@ -305,7 +306,51 @@ if($todo == 'config'){
 		$wsSynRSS20Text    = $tcms_main->decodeText($wsSynRSS20Text, '2', $c_charset);
 		$wsSynATOM03Text   = $tcms_main->decodeText($wsSynATOM03Text, '2', $c_charset);
 		$wsSynOPMLText     = $tcms_main->decodeText($wsSynOPMLText, '2', $c_charset);
-		$wsSynCFeedText    = $tcms_main->decodeText($wsSynCFeedText, '2', $c_charset);
+		$wsSynCFeedText    = $tcms_main->decodeText($wsSynCFeedText, '2', $c_charset);*/
+		
+		$dcNewsMan = $tcms_dcp->getNewsmanagerDC($getLang);
+		
+		$old_news_mm_id     = $dcNewsMan->getID();
+		$old_news_mm_title  = $dcNewsMan->getTitle();
+		$old_news_mm_stamp  = $dcNewsMan->getSubtitle();
+		$old_news_mm_text   = $dcNewsMan->getText();
+		$old_news_mm_image  = $dcNewsMan->getImage();
+		$old_news_mm_usec   = $dcNewsMan->getUseComments();
+		$old_news_mm_usea   = $dcNewsMan->getShowAutor();
+		$old_news_mm_useal  = $dcNewsMan->getShowAutorAsLink();
+		$old_news_mm_amount = $dcNewsMan->getNewsAmount();
+		$old_news_mm_access = $dcNewsMan->getAccess();
+		$old_news_cut       = $dcNewsMan->getNewsChars();
+		$old_use_gravatar   = $dcNewsMan->getUseGravatar();
+		$old_use_emoticons  = $dcNewsMan->getUseEmoticons();
+		$old_use_rss091     = $dcNewsMan->getSyndicationRSS091();
+		$old_use_rss10      = $dcNewsMan->getSyndicationRSS10();
+		$old_use_rss20      = $dcNewsMan->getSyndicationRSS20();
+		$old_use_atom03     = $dcNewsMan->getSyndicationRSSAtom();
+		$old_use_opml       = $dcNewsMan->getSyndicationRSSOpml();
+		$old_syn_amount     = $dcNewsMan->getSyndicationAmount();
+		$old_use_syn_title  = $dcNewsMan->getSyndicationUseTitle();
+		$old_def_feed       = $dcNewsMan->getSyndicationDefaultFeed();
+		$old_use_trackback  = $dcNewsMan->getUseTrackback();
+		$old_use_timesince  = $dcNewsMan->getUseTimesince();
+		$old_readmore_link  = $dcNewsMan->getReadmoreLink();
+		$old_news_spacing   = $dcNewsMan->getNewsSpacing();
+		$old_news_lang      = $dcNewsMan->getLanguage();
+		$wsSynRSS091UseImg  = $dcNewsMan->getSyndicationUseRSS091Image();
+		$wsSynRSS091Text    = $sqlObj->rss091_text;
+		$wsSynRSS10UseImg   = $sqlObj->use_rss10_img;
+		$wsSynRSS10Text     = $sqlObj->rss10_text;
+		$wsSynRSS20UseImg   = $sqlObj->use_rss20_img;
+		$wsSynRSS20Text     = $sqlObj->rss20_feed;
+		$wsSynATOM03UseImg  = $sqlObj->use_atom03_img;
+		$wsSynATOM03Text    = $sqlObj->atom03_text;
+		$wsSynOPMLUseImg    = $sqlObj->use_opml_img;
+		$wsSynOPMLText      = $sqlObj->opml_text;
+		$wsSynUseCFeed      = $sqlObj->use_comment_feed;
+		$wsSynCFeedText     = $sqlObj->comment_feed_text;
+		$wsSynCFeedType     = $sqlObj->comment_feed_type;
+		$wsSynUseCFeedImg   = $sqlObj->use_comment_feed_img;
+		$wsSynCFeedAmount   = $sqlObj->comments_feed_amount;
 		
 		$old_news_mm_title = htmlspecialchars($old_news_mm_title);
 		$old_news_mm_stamp = htmlspecialchars($old_news_mm_stamp);
@@ -663,6 +708,7 @@ if($todo == 'config'){
 		$wsSynOPMLText
 		$wsSynUseCFeed
 		$wsSynCFeedText
+		$wsSynCFeedAmount
 		*/
 		define('_EXT_NEWS_CFEED_TYPE', 'Feed type for the comments');
 		
