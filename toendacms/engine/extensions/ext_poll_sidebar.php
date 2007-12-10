@@ -23,14 +23,14 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the poll functionality.
  *
- * @version 0.3.8
+ * @version 0.3.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
  */
 
 
-if($use_poll == 1){
+if($use_poll == 1) {
 	if(isset($_GET['paction'])){ $paction = $_GET['paction']; }
 	if(isset($_GET['ps'])){ $ps = $_GET['ps']; }
 	if(isset($_GET['vote'])){ $vote = $_GET['vote']; }
@@ -298,11 +298,15 @@ if($use_poll == 1){
 				$qc                = $arrPollCalc['amount'];
 			}
 			
-			echo tcms_html::text('(<span style="font-size: 9px;">'._POLL_RESULTTEXT.'</span>)', 'left');
-			echo '<br />';
-			echo tcms_html::table_head('0', '0', '0', '95%');
-			echo tcms_html::poll_result_table_line('#eeeeee');
-			for($sp = 1; $sp < $qc-1; $sp++){
+			echo $tcms_html->text(
+				'(<span style="font-size: 9px; line-height: 0.9em;">'._POLL_RESULTTEXT.'</span>)', 
+				'left'
+			).'<br />';
+			
+			echo $tcms_html->tableHead('0', '0', '0', '95%')
+			.$tcms_html->pollResultTableBreakLine('#eeeeee');
+			
+			for($sp = 1; $sp < $qc-1; $sp++) {
 				
 				/* WHICH BAR USE */ $bar_sp = $sp;
 				/* AND FROM NULL */ if($bar_sp > 6){ $bar_sp = 1; }
@@ -328,8 +332,8 @@ if($use_poll == 1){
 				
 				$arr_question[$sp] = $tcms_main->decodeText($arr_question[$sp], '2', $c_charset);
 				
-				echo tcms_html::poll_result_table('10', $arr_question[$sp], $tbz_width, $bar_place.$poll_bar.$bar_place, '('.$counted_answers.')', $ws_percent.'&nbsp;&#37;');
-				echo tcms_html::poll_result_table_line('#eeeeee');
+				echo $tcms_html->pollResultTable('10', $arr_question[$sp], $tbz_width, $bar_place.$poll_bar.$bar_place, '('.$counted_answers.')', $ws_percent.'&nbsp;&#37;');
+				echo $tcms_html->pollResultTableBreakLine('#eeeeee');
 			}
 			echo tcms_html::table_end();
 			
