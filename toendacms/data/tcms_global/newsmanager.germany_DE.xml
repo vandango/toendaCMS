@@ -39,5 +39,5 @@
 	<use_timesince>0</use_timesince>
 	<readmore_link>0</readmore_link>
 	<news_spacing>20</news_spacing>
-
+<comments_feed_amount>25</comments_feed_amount>
 </config>

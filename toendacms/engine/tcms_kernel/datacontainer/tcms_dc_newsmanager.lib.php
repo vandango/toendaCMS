@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * the newsmanager.
  *
- * @version 0.1.0
+ * @version 0.1.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -72,6 +72,7 @@ class tcms_dc_newsmanager {
 	private $m_comment_feed_text;
 	private $m_comment_feed_type;
 	private $m_use_comment_feed_img;
+	private $m_comment_feed_amount;
 	
 	// ---------------------------------------
 	// Constructors / Destructors
@@ -367,7 +368,7 @@ class tcms_dc_newsmanager {
 	 * @param String $value
 	 * @return String
 	 */
-	public function setUseTrachback($value) {
+	public function setUseTrackback($value) {
 		$this->m_UseTrachback = $value;
 	}
 	
@@ -376,7 +377,7 @@ class tcms_dc_newsmanager {
 	 * 
 	 * @return String
 	 */
-	public function getUseTrachback() {
+	public function getUseTrackback() {
 		return $this->m_UseTrachback;
 	}
 	
@@ -853,6 +854,25 @@ class tcms_dc_newsmanager {
 	 */
 	public function getSyndicationUseCommentFeedImage() {
 		return $this->m_use_comment_feed_img;
+	}
+	
+	/**
+	 * Set the CommentFeedAmount
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	public function setSyndicationCommentFeedAmount($value) {
+		$this->m_comment_feed_amount = $value;
+	}
+	
+	/**
+	 * Get the CommentFeedAmount
+	 * 
+	 * @return String
+	 */
+	public function getSyndicationCommentFeedAmount() {
+		return $this->m_comment_feed_amount;
 	}
 }
 

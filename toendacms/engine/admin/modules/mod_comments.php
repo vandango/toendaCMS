@@ -7,10 +7,9 @@
 | Author: Jonathan Naumann                                               |
 +------------------------------------------------------------------------+
 | 
-| Commentmanagement
+| Comment management
 |
-| File:		mod_comments.php
-| Version:	0.2.6
+| File:	mod_comments.php
 |
 +
 */
@@ -19,7 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-
+/**
+ * Comment management
+ *
+ * This module is used to manage the comments.
+ *
+ * @version 0.2.7
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 if(isset($_GET['action'])){ $action = $_GET['action']; }
@@ -44,9 +52,8 @@ if(isset($_POST['new_comment_time'])){ $new_comment_time = $_POST['new_comment_t
 
 
 
-
-
-if($id_group == 'Developer' || $id_group == 'Administrator'){
+if($id_group == 'Developer' 
+|| $id_group == 'Administrator'){
 	/*
 		init
 	*/
@@ -80,29 +87,33 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	
 	
 	if($todo == 'show'){
-		echo tcms_html::bold(_COMMENTS_TITLE);
-		echo tcms_html::text(_COMMENTS_TEXT.'<br /><br />', 'left');
+		echo $tcms_html->bold(_COMMENTS_TITLE);
+		echo $tcms_html->text(_COMMENTS_TEXT.'<br /><br />', 'left');
 		
 		
-		if($choosenDB == 'xml'){
-			if($action == 'news'){
+		if($choosenDB == 'xml') {
+			if($action == 'news') {
 				$arr_filename = $tcms_main->readdir_comment('../../'.$tcms_administer_site.'/tcms_news/');
 			}
-			else{
+			else {
 				$arr_filename = $tcms_main->readdir_image_comment('../../'.$tcms_administer_site.'/tcms_imagegallery/', 'image');
 				$arr_album    = $tcms_main->readdir_image_comment('../../'.$tcms_administer_site.'/tcms_imagegallery/', 'album');
 			}
 			
 			$count = 0;
 			
-			if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
-				foreach($arr_filename as $key => $value){
-					if($value != 'index.html'){
-						if($action == 'news'){
-							$arrComments = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_news/'.$value.'/');
+			if($tcms_main->isArray($arr_filename)) {
+				foreach($arr_filename as $key => $value) {
+					if($value != 'index.html') {
+						if($action == 'news') {
+							$arrComments = $tcms_file->getPathContent(
+								'../../'.$tcms_administer_site.'/tcms_news/'.$value.'/'
+							);
 						}
-						else{
-							$arrComments = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_imagegallery/'.$arr_album[$key].'/'.$value.'/');
+						else {
+							$arrComments = $tcms_file->getPathContent(
+								'../../'.$tcms_administer_site.'/tcms_imagegallery/'.$arr_album[$key].'/'.$value.'/'
+							);
 						}
 						
 						if(isset($arrComments) && !empty($arrComments) && $arrComments != ''){
@@ -129,14 +140,24 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 									/*
 										comment
 									*/
-									if($action == 'news'){
-										$menu_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_news/'.$value.'/'.$Cvalue,'r');
+									if($action == 'news') {
+										$menu_xml = new xmlparser(
+											'../../'.$tcms_administer_site.'/tcms_news/'.$value.'/'.$Cvalue,
+											'r'
+										);
 									}
-									else{
-										$menu_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_imagegallery/'.$arr_album[$key].'/'.$value.'/'.$Cvalue,'r');
+									else {
+										$menu_xml = new xmlparser(
+											'../../'.$tcms_administer_site.'/tcms_imagegallery/'.$arr_album[$key].'/'.$value.'/'.$Cvalue,
+											'r'
+										);
 									}
 									
-									$_msg_ = $tcms_main->decodeText($menu_xml->read_section('comment', 'msg'), '2', $c_charset);
+									$_msg_ = $tcms_main->decodeText(
+										$menu_xml->readSection('comment', 'msg'), 
+										'2', 
+										$c_charset
+									);
 									
 									$_msg_ = str_replace('<br />', ' - ', $_msg_);
 									$_msg_ = str_replace('<br/>', ' - ', $_msg_);
@@ -144,6 +165,9 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 									$_msg_ = str_replace('<BR />', ' - ', $_msg_);
 									$_msg_ = str_replace('<BR/>', ' - ', $_msg_);
 									$_msg_ = str_replace('<BR>', ' - ', $_msg_);
+									//$_msg_ = str_replace('<a href=', '[a href=', $_msg_);
+									//$_msg_ = str_replace('</a>', '[/a]', $_msg_);
+									$_msg_ = strip_tags($_msg_);
 									
 									$arrCat['cnt'][$count]    = $count;
 									$arrCat['tag'][$count]    = substr($Cvalue, 0, 14);
@@ -228,6 +252,9 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 				$_msg_ = str_replace('<BR />', ' - ', $_msg_);
 				$_msg_ = str_replace('<BR/>', ' - ', $_msg_);
 				$_msg_ = str_replace('<BR>', ' - ', $_msg_);
+				//$_msg_ = str_replace('<a href=', '[a href=', $_msg_);
+				//$_msg_ = str_replace('</a>', '[/a]', $_msg_);
+				$_msg_ = strip_tags($_msg_);
 				
 				$arrCat['cnt'][$count]    = $count;
 				$arrCat['uid'][$count]    = $sqlARR['uid'];
@@ -475,7 +502,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		$comment_desc = ereg_replace('<br>', chr(13), $comment_desc);
 		
 		
-		echo tcms_html::bold(_TABLE_EDIT).'<br />';
+		echo $tcms_html->bold(_TABLE_EDIT).'<br />';
 		
 		
 		// form begin

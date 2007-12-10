@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.8.5
+ * @version 2.8.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -782,6 +782,7 @@ if($wsShowSite) {
 						$cfeed_text     = $dcNewsMan->getSyndicationCommentFeedText();
 						$cfeed_type     = $dcNewsMan->getSyndicationCommentFeedType();
 						$show_autor     = $dcNewsMan->getShowAutor();
+						$cfeed_amount   = $dcNewsMan->getSyndicationCommentFeedAmount();
 					}
 					
 					
@@ -819,7 +820,7 @@ if($wsShowSite) {
 							$show_autor_as_link = $dcNewsMan->getShowAutorAsLink();
 							$use_gravatar       = $dcNewsMan->getUseGravatar();
 							$use_emoticons      = $dcNewsMan->getUseEmoticons();
-							$use_trackback      = $dcNewsMan->getUseTrachback();
+							$use_trackback      = $dcNewsMan->getUseTrackback();
 							$use_timesince      = $dcNewsMan->getUseTimesince();
 							$readmore_link      = $dcNewsMan->getReadmoreLink();
 							$news_spacing       = $dcNewsMan->getNewsSpacing();
@@ -870,7 +871,7 @@ if($wsShowSite) {
 							$authorized         = $dcNewsMan->getAccess();
 							$use_gravatar       = $dcNewsMan->getUseGravatar();
 							$use_emoticons      = $dcNewsMan->getUseEmoticons();
-							$use_trackback      = $dcNewsMan->getUseTrachback();
+							$use_trackback      = $dcNewsMan->getUseTrackback();
 							$use_timesince      = $dcNewsMan->getUseTimesince();
 							$readmore_link      = $dcNewsMan->getReadmoreLink();
 							$news_spacing       = $dcNewsMan->getNewsSpacing();

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the syndication.
  *
- * @version 0.1.5
+ * @version 0.1.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -44,7 +44,7 @@ if($use_syndication == 1) {
 		$link = $tcms_main->urlConvertToSEO($link);
 		
 		echo '<div'
-		.' style="display: block; margin: 7px 0 2px 0;"'
+		.' style="display: block;'.( $use_rss091_img ? '' : ' margin: 7px 0 2px 0;' ).'"'
 		.' align="'.( $use_rss091_img ? 'center' : 'left' ).'">';
 		
 		if($use_rss091_img) {
@@ -83,7 +83,7 @@ if($use_syndication == 1) {
 		$link = $tcms_main->urlConvertToSEO($link);
 		
 		echo '<div'
-		.' style="display: block; margin: 7px 0 2px 0;"'
+		.' style="display: block;'.( $use_rss10_img ? '' : ' margin: 7px 0 2px 0;' ).'"'
 		.' align="'.( $use_rss10_img ? 'center' : 'left' ).'">';
 		
 		if($use_rss10_img) {
@@ -122,7 +122,7 @@ if($use_syndication == 1) {
 		$link = $tcms_main->urlConvertToSEO($link);
 		
 		echo '<div'
-		.' style="display: block; margin: 7px 0 2px 0;"'
+		.' style="display: block;'.( $use_rss20_img ? '' : ' margin: 7px 0 2px 0;' ).'"'
 		.' align="'.( $use_rss20_img ? 'center' : 'left' ).'">';
 		
 		if($use_rss20_img) {
@@ -161,7 +161,7 @@ if($use_syndication == 1) {
 		$link = $tcms_main->urlConvertToSEO($link);
 		
 		echo '<div'
-		.' style="display: block; margin: 7px 0 2px 0;"'
+		.' style="display: block;'.( $use_atom03_img ? '' : ' margin: 7px 0 2px 0;' ).'"'
 		.' align="'.( $use_atom03_img ? 'center' : 'left' ).'">';
 		
 		if($use_atom03_img) {
@@ -200,7 +200,7 @@ if($use_syndication == 1) {
 		$link = $tcms_main->urlConvertToSEO($link);
 		
 		echo '<div'
-		.' style="display: block; margin: 7px 0 2px 0;"'
+		.' style="display: block;'.( $use_opml_img ? '' : ' margin: 7px 0 2px 0;' ).'"'
 		.' align="'.( $use_opml_img ? 'center' : 'left' ).'">';
 		
 		if($use_opml_img) {
@@ -239,7 +239,7 @@ if($use_syndication == 1) {
 		$link = $tcms_main->urlConvertToSEO($link);
 		
 		echo '<div'
-		.' style="display: block; margin: 7px 0 2px 0;"'
+		.' style="display: block;'.( $use_cfeed_img ? '' : ' margin: 7px 0 2px 0;' ).'"'
 		.' align="'.( $use_cfeed_img ? 'center' : 'left' ).'">';
 		
 		if($use_cfeed_img) {
