@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide some often used html
  * codes.
  *
- * @version 0.4.7
+ * @version 0.4.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -527,12 +527,14 @@ class tcms_html {
 	 * @return String
 	 */
 	function pollResultTable($tr_height = '10', $vote_name, $vb_width, $vote_bar, $vote_number, $vote_percent){
-		$prt = '<tr align="left" height="'.$tr_height.'" class="text_normal">'
+		$prt = '<tr align="left" height="'.$tr_height.'" class="sidemain">'
 		.'<td align="left" colspan="3">'.$vote_name.'</td>'
-		.'</tr><tr align="left" height="'.$tr_height.'" class="text_normal">'
+		.'</tr>'
+		.'<tr align="left" height="'.$tr_height.'" class="sidemain">'
 		.'<td align="left" width="'.$vb_width.'" align="left">'.$vote_bar.'</td>'
 		.'<td width="10" align="right">&nbsp;'.$vote_number.'&nbsp;</td>'
-		.'<td width="10" align="right">&nbsp;'.$vote_percent.'&nbsp;</td></tr>';
+		.'<td width="10" align="right">&nbsp;'.$vote_percent.'&nbsp;</td>'
+		.'</tr>';
 		
 		return $prt;
 	}
