@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.2.8
+ * @version 1.3.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -1411,7 +1411,7 @@ class tcms_datacontainer_provider extends tcms_main {
 				." (SELECT uid FROM ".$this->m_sqlPrefix."news WHERE language = '".$language."') ";
 			}
 			
-			$sqlStr .= "ORDER BY timestamp ASC ".$dbLimitBack;
+			$sqlStr .= "ORDER BY timestamp DESC ".$dbLimitBack;
 			
 			$sqlQR = $sqlAL->query($sqlStr);
 			
