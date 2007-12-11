@@ -1408,10 +1408,10 @@ class tcms_datacontainer_provider extends tcms_main {
 			
 			if($language != '') {
 				$sqlStr .= " AND uid IN"
-				." (SELECT uid FROM blog_news WHERE language = '".$language."') ";
+				." (SELECT uid FROM ".$this->m_sqlPrefix."news WHERE language = '".$language."') ";
 			}
 			
-			$sqlStr .= "ORDER BY timestamp ASC ".$dbLimit;
+			$sqlStr .= "ORDER BY timestamp ASC ".$dbLimitBack;
 			
 			$sqlQR = $sqlAL->query($sqlStr);
 			
