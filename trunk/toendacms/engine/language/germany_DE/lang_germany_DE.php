@@ -425,6 +425,7 @@ define('_MSG_CREATE_ALBUM_FIRST', '* Erst ein Album erstellen *');
 define('_MSG_ACTIVATE_NEW_PW_FIRST', 'Sie m&uuml;ssen ihr neues Passwort erst aktivieren, nutzen sie dazu folgenden Link:');
 define('_MSG_SUCCESSFULL_RETRIEVED', 'Das Passwort wurde erfolgreich aktiviert.');
 define('_MSG_ERROR_ON_RETRIEVING', 'Fehler beim aktivieren des Passwortes!');
+define('_MSG_COMMENT_FOR', 'Kommentar zu');
 
 
 // LOGIN

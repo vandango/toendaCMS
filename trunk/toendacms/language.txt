@@ -43,6 +43,8 @@ if(!defined('_GLOBAL_MM_VIEW'))                define('_GLOBAL_MM_VIEW', 'Mediam
 
 if(!defined('_PATH_CONTACTFORM'))              define('_PATH_CONTACTFORM', 'Contactform');
 
+if(!defined('_MSG_COMMENT_FOR'))               define('_MSG_COMMENT_FOR', 'Comment to');
+
 *
 *
 **************************

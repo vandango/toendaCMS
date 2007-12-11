@@ -424,6 +424,7 @@ if(!defined('_MSG_CREATE_ALBUM_FIRST'))        define('_MSG_CREATE_ALBUM_FIRST',
 if(!defined('_MSG_ACTIVATE_NEW_PW_FIRST'))     define('_MSG_ACTIVATE_NEW_PW_FIRST', 'You must activate your new password by clicking the following link:');
 if(!defined('_MSG_SUCCESSFULL_RETRIEVED'))     define('_MSG_SUCCESSFULL_RETRIEVED', 'You have successfully retrieved a new password.');
 if(!defined('_MSG_ERROR_ON_RETRIEVING'))       define('_MSG_ERROR_ON_RETRIEVING', 'Error on validating a new password!');
+if(!defined('_MSG_COMMENT_FOR'))               define('_MSG_COMMENT_FOR', 'Comment to');
 
 
 // LOGIN
