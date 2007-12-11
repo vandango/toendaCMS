@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.2.7
+ * @version 1.2.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -1072,6 +1072,8 @@ class tcms_datacontainer_provider extends tcms_main {
 	/**
 	 * ReGenerate the news comments syndication feeds
 	 * 
+	 * @param String $commentForText
+	 * @param String $postedByText
 	 * @param String $language
 	 * @param String $defaultFormat = 'RSS2.0'
 	 * @param String $seoFolder = ''
@@ -1079,7 +1081,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param Integer $amount = 5
 	 * @param Boolean $show_autor = false
 	 */
-	function generateCommentsFeed($language, $defaultFormat = 'RSS2.0', $seoFolder = '', $admin = false, $amount = 5, $show_autor = false) {
+	function generateCommentsFeed($commentForText, $postedByText, $language, $defaultFormat = 'RSS2.0', $seoFolder = '', $admin = false, $amount = 5, $show_autor = false) {
 		if($admin) {
 			using('toendacms.tools.feedcreator.feedcreator_class', false, true);
 			using('toendacms.kernel.script', false, true);
@@ -1154,7 +1156,7 @@ class tcms_datacontainer_provider extends tcms_main {
 					$language
 				);
 				
-				$item->title = $wsTitle.' - '.$dcComment->getName();
+				$item->title = $commentForText.' '.$wsTitle.' '.strtolower($postedByText).' '.$dcComment->getName();
 				$item->link = $wsowner_url.$seoFolder.'/?id=newsmanager&amp;news='.$dcComment->getID();
 				
 				$item->description = $dcComment->getText();
