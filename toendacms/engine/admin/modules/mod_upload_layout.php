@@ -57,8 +57,6 @@ if($id_group == 'Developer'
 	
 	
 	
-	
-	
 	/*
 		upload
 	*/
@@ -98,8 +96,6 @@ if($id_group == 'Developer'
 		// end form
 		echo '</form>';
 	}
-	
-	
 	
 	
 	
@@ -227,8 +223,6 @@ if($id_group == 'Developer'
 	
 	
 	
-	
-	
 	/*
 		save template
 	*/
@@ -242,8 +236,6 @@ if($id_group == 'Developer'
 		
 		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_upload_layout&load_template_file='.$template_file.'\'</script>';
 	}
-	
-	
 	
 	
 	
@@ -316,14 +308,13 @@ if($id_group == 'Developer'
 	
 	
 	
-	
-	
 	/*
 		GZ OR ZIP UPLOAD AND INSTALL
 	*/
 	
-	if($todo == 'zlib_save'){
-		if($_FILES['zlib_upload']['size'] > 0 && $_FILES['zlib_upload']['type'] == 'application/zip'){
+	if($todo == 'zlib_save') {
+		if($_FILES['zlib_upload']['size'] > 0 
+		&& $_FILES['zlib_upload']['type'] == 'application/zip') {
 			// theme file name
 			$gzFileName = $_FILES['zlib_upload']['name'];
 			

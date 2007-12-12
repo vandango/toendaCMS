@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the news.
  *
- * @version 1.7.1
+ * @version 1.7.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -81,21 +81,21 @@ if(isset($_POST['new_news_lang'])){ $new_news_lang = $_POST['new_news_lang']; }
 if(isset($_POST['lang_exist'])){ $lang_exist = $_POST['lang_exist']; }
 if(isset($_POST['language'])){ $language = $_POST['language']; }
 if(isset($_POST['draft'])){ $draft = $_POST['draft']; }
-
-/*
-$wsSynRSS091UseImg
-$wsSynRSS091Text
-$wsSynRSS10UseImg
-$wsSynRSS10Text
-$wsSynRSS20UseImg
-$wsSynRSS20Text
-$wsSynATOM03UseImg
-$wsSynATOM03Text
-$wsSynOPMLUseImg
-$wsSynOPMLText
-$wsSynUseCFeed
-$wsSynCFeedText
-*/
+if(isset($_POST['newSynRSS091UseImg'])){ $newSynRSS091UseImg = $_POST['newSynRSS091UseImg']; }
+if(isset($_POST['newSynRSS091Text'])){ $newSynRSS091Text = $_POST['newSynRSS091Text']; }
+if(isset($_POST['newSynRSS10UseImg'])){ $newSynRSS10UseImg = $_POST['newSynRSS10UseImg']; }
+if(isset($_POST['newSynRSS10Text'])){ $newSynRSS10Text = $_POST['newSynRSS10Text']; }
+if(isset($_POST['newSynRSS20UseImg'])){ $newSynRSS20UseImg = $_POST['newSynRSS20UseImg']; }
+if(isset($_POST['newSynRSS20Text'])){ $newSynRSS20Text = $_POST['newSynRSS20Text']; }
+if(isset($_POST['newSynATOM03UseImg'])){ $newSynATOM03UseImg = $_POST['newSynATOM03UseImg']; }
+if(isset($_POST['newSynATOM03Text'])){ $newSynATOM03Text = $_POST['newSynATOM03Text']; }
+if(isset($_POST['newSynOPMLUseImg'])){ $newSynOPMLUseImg = $_POST['newSynOPMLUseImg']; }
+if(isset($_POST['newSynOPMLText'])){ $newSynOPMLText = $_POST['newSynOPMLText']; }
+if(isset($_POST['newSynUseCFeed'])){ $newSynUseCFeed = $_POST['newSynUseCFeed']; }
+if(isset($_POST['newSynUseCFeedImg'])){ $newSynUseCFeedImg = $_POST['newSynUseCFeedImg']; }
+if(isset($_POST['newSynCFeedText'])){ $newSynCFeedText = $_POST['newSynCFeedText']; }
+if(isset($_POST['newSynCFeedType'])){ $newSynCFeedType = $_POST['newSynCFeedType']; }
+if(isset($_POST['newSynCFeedAmount'])){ $newSynCFeedAmount = $_POST['newSynCFeedAmount']; }
 
 
 
@@ -143,13 +143,16 @@ if(!isset($thisValue)){ $thisValue = 10; }
 
 
 
-//=====================================================
+// -----------------------------------------------------
 // CONFIG
-//=====================================================
+// -----------------------------------------------------
 
-if($todo == 'config'){
-	if($id_group == 'Developer' || $id_group == 'Administrator'){
+if($todo == 'config') {
+	if($id_group == 'Developer' 
+	|| $id_group == 'Administrator') {
 		if(!isset($action)){ $action = 'news'; }
+		
+		using('toendacms.datacontainer.newsmanager', false, true);
 		
 		if($tcms_main->isReal($lang)) {
 			$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
@@ -157,157 +160,37 @@ if($todo == 'config'){
 		else {
 			$getLang = $tcms_front_lang;
 		}
-		/*
-		if($choosenDB == 'xml'){
-			if(file_exists('../../'.$tcms_administer_site.'/tcms_global/newsmanager.'.$getLang.'.xml')) {
-				$news_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/newsmanager.'.$getLang.'.xml','r');
-				
-				$old_news_mm_id       = $news_xml->readSection('config', 'news_id');
-				$old_news_mm_title    = $news_xml->readSection('config', 'news_title');
-				$old_news_mm_stamp    = $news_xml->readSection('config', 'news_stamp');
-				$old_news_mm_text     = $news_xml->readSection('config', 'news_text');
-				$old_news_mm_image    = $news_xml->readSection('config', 'news_image');
-				$old_news_mm_usec     = $news_xml->readSection('config', 'use_comments');
-				$old_news_mm_usea     = $news_xml->readSection('config', 'show_autor');
-				$old_news_mm_useal    = $news_xml->readSection('config', 'show_autor_as_link');
-				$old_news_mm_amount   = $news_xml->readSection('config', 'news_amount');
-				$old_news_mm_access   = $news_xml->readSection('config', 'access');
-				$old_news_cut         = $news_xml->readSection('config', 'news_cut');
-				$old_use_gravatar     = $news_xml->readSection('config', 'use_gravatar');
-				$old_use_emoticons    = $news_xml->readSection('config', 'use_emoticons');
-				$old_use_rss091       = $news_xml->readSection('config', 'use_rss091');
-				$old_use_rss10        = $news_xml->readSection('config', 'use_rss10');
-				$old_use_rss20        = $news_xml->readSection('config', 'use_rss20');
-				$old_use_atom03       = $news_xml->readSection('config', 'use_atom03');
-				$old_use_opml         = $news_xml->readSection('config', 'use_opml');
-				$old_syn_amount       = $news_xml->readSection('config', 'syn_amount');
-				$old_use_syn_title    = $news_xml->readSection('config', 'use_syn_title');
-				$old_def_feed         = $news_xml->readSection('config', 'def_feed');
-				$old_use_trackback    = $news_xml->readSection('config', 'use_trackback');
-				$old_use_timesince    = $news_xml->readSection('config', 'use_timesince');
-				$old_readmore_link    = $news_xml->readSection('config', 'readmore_link');
-				$old_news_spacing     = $news_xml->readSection('config', 'news_spacing');
-				$wsSynRSS091UseImg    = $news_xml->readSection('config', 'use_rss091_img');
-				$wsSynRSS091Text      = $news_xml->readSection('config', 'rss091_text');
-				$wsSynRSS10UseImg     = $news_xml->readSection('config', 'use_rss10_img');
-				$wsSynRSS10Text       = $news_xml->readSection('config', 'rss10_text');
-				$wsSynRSS20UseImg     = $news_xml->readSection('config', 'use_rss20_img');
-				$wsSynRSS20Text       = $news_xml->readSection('config', 'rss20_feed');
-				$wsSynATOM03UseImg    = $news_xml->readSection('config', 'use_atom03_img');
-				$wsSynATOM03Text      = $news_xml->readSection('config', 'atom03_text');
-				$wsSynOPMLUseImg      = $news_xml->readSection('config', 'use_opml_img');
-				$wsSynOPMLText        = $news_xml->readSection('config', 'opml_text');
-				$wsSynUseCFeed        = $news_xml->readSection('config', 'use_comment_feed');
-				$wsSynCFeedText       = $news_xml->readSection('config', 'comment_feed_text');
-				$wsSynCFeedType       = $news_xml->readSection('config', 'comment_feed_type');
-				$wsSynUseCFeedImg     = $news_xml->readSection('config', 'use_comment_feed_img');
-				$old_news_lang        = $getLang;
-				//$news_xml->readSection('config', 'language');
-				
+		
+		// check lang
+		if($choosenDB == 'xml') {
+			if($tcms_file->checkFileExist('../../'.$tcms_administer_site.'/tcms_global/newsmanager.'.$getLang.'.xml')) {
 				$langExist = 1;
 			}
 			else {
 				$langExist = 0;
 			}
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			$strQuery = "SELECT * "
+			$strQuery = "SELECT uid "
 			."FROM ".$tcms_db_prefix."newsmanager "
 			."WHERE language = '".$getLang."'";
 			
-			$sqlQR = $sqlAL->sqlQuery($strQuery);
-			$langExist = $sqlAL->sqlGetNumber($sqlQR);
-			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+			$sqlQR = $sqlAL->query($strQuery);
+			$langExist = $sqlAL->getNumber($sqlQR);
 			
-			$old_news_mm_id     = $sqlObj->news_id;
-			$old_news_mm_title  = $sqlObj->news_title;
-			$old_news_mm_stamp  = $sqlObj->news_stamp;
-			$old_news_mm_text   = $sqlObj->news_text;
-			$old_news_mm_image  = $sqlObj->news_image;
-			$old_news_mm_usec   = $sqlObj->use_comments;
-			$old_news_mm_usea   = $sqlObj->show_autor;
-			$old_news_mm_useal  = $sqlObj->show_autor_as_link;
-			$old_news_mm_amount = $sqlObj->news_amount;
-			$old_news_mm_access = $sqlObj->access;
-			$old_news_cut       = $sqlObj->news_cut;
-			$old_use_gravatar   = $sqlObj->use_gravatar;
-			$old_use_emoticons  = $sqlObj->use_emoticons;
-			$old_use_rss091     = $sqlObj->use_rss091;
-			$old_use_rss10      = $sqlObj->use_rss10;
-			$old_use_rss20      = $sqlObj->use_rss20;
-			$old_use_atom03     = $sqlObj->use_atom03;
-			$old_use_opml       = $sqlObj->use_opml;
-			$old_syn_amount     = $sqlObj->syn_amount;
-			$old_use_syn_title  = $sqlObj->use_syn_title;
-			$old_def_feed       = $sqlObj->def_feed;
-			$old_use_trackback  = $sqlObj->use_trackback;
-			$old_use_timesince  = $sqlObj->use_timesince;
-			$old_readmore_link  = $sqlObj->readmore_link;
-			$old_news_spacing   = $sqlObj->news_spacing;
-			$old_news_lang      = $sqlObj->language;
-			$wsSynRSS091UseImg  = $sqlObj->use_rss091_img;
-			$wsSynRSS091Text    = $sqlObj->rss091_text;
-			$wsSynRSS10UseImg   = $sqlObj->use_rss10_img;
-			$wsSynRSS10Text     = $sqlObj->rss10_text;
-			$wsSynRSS20UseImg   = $sqlObj->use_rss20_img;
-			$wsSynRSS20Text     = $sqlObj->rss20_feed;
-			$wsSynATOM03UseImg  = $sqlObj->use_atom03_img;
-			$wsSynATOM03Text    = $sqlObj->atom03_text;
-			$wsSynOPMLUseImg    = $sqlObj->use_opml_img;
-			$wsSynOPMLText      = $sqlObj->opml_text;
-			$wsSynUseCFeed      = $sqlObj->use_comment_feed;
-			$wsSynCFeedText     = $sqlObj->comment_feed_text;
-			$wsSynCFeedType     = $sqlObj->comment_feed_type;
-			$wsSynUseCFeedImg   = $sqlObj->use_comment_feed_img;
-			$wsSynCFeedAmount   = $sqlObj->comments_feed_amount;
-			
-			if($old_news_mm_id     == NULL){ $old_news_mm_id     = ''; }
-			if($old_news_mm_title  == NULL){ $old_news_mm_title  = ''; }
-			if($old_news_mm_stamp  == NULL){ $old_news_mm_stamp  = ''; }
-			if($old_news_mm_text   == NULL){ $old_news_mm_text   = ''; }
-			if($old_news_mm_image  == NULL){ $old_news_mm_image  = ''; }
-			if($old_news_mm_usec   == NULL){ $old_news_mm_usec   = 0; }
-			if($old_news_mm_usea   == NULL){ $old_news_mm_usea   = 0; }
-			if($old_news_mm_useal  == NULL){ $old_news_mm_useal  = 0; }
-			if($old_news_mm_amount == NULL){ $old_news_mm_amount = ''; }
-			if($old_news_mm_access == NULL){ $old_news_mm_access = ''; }
-			if($old_news_cut       == NULL){ $old_news_cut       = 0; }
-			if($old_use_gravatar   == NULL){ $old_use_gravatar   = 0; }
-			if($old_use_emoticons  == NULL){ $old_use_emoticons  = 0; }
-			if($old_use_rss091     == NULL){ $old_use_rss091     = 0; }
-			if($old_use_rss10      == NULL){ $old_use_rss10      = 0; }
-			if($old_use_rss20      == NULL){ $old_use_rss20      = 0; }
-			if($old_use_atom03     == NULL){ $old_use_atom03     = 0; }
-			if($old_use_opml       == NULL){ $old_use_opml       = 0; }
-			if($old_syn_amount     == NULL){ $old_syn_amount     = ''; }
-			if($old_use_syn_title  == NULL){ $old_use_syn_title  = 0; }
-			if($old_def_feed       == NULL){ $old_def_feed       = ''; }
-			if($old_use_trackback  == NULL){ $old_use_trackback  = 0; }
-			if($old_use_timesince  == NULL){ $old_use_timesince  = 0; }
-			if($old_readmore_link  == NULL){ $old_readmore_link  = 0; }
-			if($old_news_spacing   == NULL){ $old_news_spacing   = 0; }
+			$sqlAL->freeResult($sqlQR);
+			unset($sqlAL);
 		}
-		*/
 		
 		if($langExist == 0) {
 			$old_news_mm_id = 'newsmanager';
 			$old_news_lang = $getLang;
 		}
 		
-		/*
-		$old_news_mm_title = $tcms_main->decodeText($old_news_mm_title, '2', $c_charset);
-		$old_news_mm_stamp = $tcms_main->decodeText($old_news_mm_stamp, '2', $c_charset);
-		$old_news_mm_text  = $tcms_main->decodeText($old_news_mm_text, '2', $c_charset);
-		$wsSynRSS091Text   = $tcms_main->decodeText($wsSynRSS091Text, '2', $c_charset);
-		$wsSynRSS10Text    = $tcms_main->decodeText($wsSynRSS10Text, '2', $c_charset);
-		$wsSynRSS20Text    = $tcms_main->decodeText($wsSynRSS20Text, '2', $c_charset);
-		$wsSynATOM03Text   = $tcms_main->decodeText($wsSynATOM03Text, '2', $c_charset);
-		$wsSynOPMLText     = $tcms_main->decodeText($wsSynOPMLText, '2', $c_charset);
-		$wsSynCFeedText    = $tcms_main->decodeText($wsSynCFeedText, '2', $c_charset);*/
-		
+		// load data
 		$dcNewsMan = $tcms_dcp->getNewsmanagerDC($getLang);
 		
 		$old_news_mm_id     = $dcNewsMan->getID();
@@ -695,25 +578,106 @@ if($todo == 'config'){
 		.'</td></tr>';
 		
 		
-		/*
-		$wsSynRSS091UseImg
-		$wsSynRSS091Text
-		$wsSynRSS10UseImg
-		$wsSynRSS10Text
-		$wsSynRSS20UseImg
-		$wsSynRSS20Text
-		$wsSynATOM03UseImg
-		$wsSynATOM03Text
-		$wsSynOPMLUseImg
-		$wsSynOPMLText
-		$wsSynUseCFeed
-		$wsSynCFeedText
-		$wsSynCFeedAmount
-		*/
-		define('_EXT_NEWS_CFEED_TYPE', 'Feed type for the comments');
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_SYN_USE_RSS091_IMG.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="newSynRSS091UseImg" '.( $wsSynRSS091UseImg == 1 ? 'checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
 		
 		echo '<tr>'
-		.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_CFEED_TYPE.'</td>'
+		.'<td class="tcms_padding_mini" valign="top">'._EXT_NEWS_SYN_RSS091_TEXT.'</td>'
+		.'<td valign="top">'
+		.'<input name="newSynRSS091Text" class="tcms_input_small" value="'.$wsSynRSS091Text.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_SYN_USE_RSS10_IMG.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="newSynRSS10UseImg" '.( $wsSynRSS10UseImg == 1 ? 'checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td class="tcms_padding_mini" valign="top">'._EXT_NEWS_SYN_RSS10_TEXT.'</td>'
+		.'<td valign="top">'
+		.'<input name="newSynRSS10Text" class="tcms_input_small" value="'.$wsSynRSS10Text.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_SYN_USE_RSS20_IMG.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="newSynRSS20UseImg" '.( $wsSynRSS20UseImg == 1 ? 'checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td class="tcms_padding_mini" valign="top">'._EXT_NEWS_SYN_RSS20_TEXT.'</td>'
+		.'<td valign="top">'
+		.'<input name="newSynRSS20Text" class="tcms_input_small" value="'.$wsSynRSS20Text.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_SYN_USE_ATOM03_IMG.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="newSynATOM03UseImg" '.( $wsSynATOM03UseImg == 1 ? 'checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td class="tcms_padding_mini" valign="top">'._EXT_NEWS_SYN_ATOM03_TEXT.'</td>'
+		.'<td valign="top">'
+		.'<input name="newSynATOM03Text" class="tcms_input_small" value="'.$wsSynATOM03Text.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_SYN_USE_OPML_IMG.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="newSynOPMLUseImg" '.( $wsSynOPMLUseImg == 1 ? 'checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td class="tcms_padding_mini" valign="top">'._EXT_NEWS_SYN_OPML_TEXT.'</td>'
+		.'<td valign="top">'
+		.'<input name="newSynOPMLText" class="tcms_input_small" value="'.$wsSynOPMLText.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_SYN_USE_CFEED.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="newSynUseCFeed" '.( $wsSynUseCFeed == 1 ? 'checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_SYN_USE_CFEED_IMG.'</td>'
+		.'<td>'
+		.'<input type="checkbox" name="newSynUseCFeedImg" '.( $wsSynUseCFeedImg == 1 ? 'checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td class="tcms_padding_mini" valign="top">'._EXT_NEWS_SYN_CFEED_TEXT.'</td>'
+		.'<td valign="top">'
+		.'<input name="newSynCFeedText" class="tcms_input_small" value="'.$wsSynCFeedText.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr>'
+		.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_SYN_CFEED_AMOUNT.'</td>'
+		.'<td>'
+		.'<input class="tcms_id_box" name="newSynCFeedAmount" value="'.$wsSynCFeedAmount.'" />'
+		.'</td></tr>';
+		
+		
+		echo '<tr style="background: '.$arr_color[1].';">'
+		.'<td class="tcms_padding_mini" width="250">'._EXT_NEWS_SYN_CFEED_TYPE.'</td>'
 		.'<td>'
 		.'<select name="newSynCFeedType" class="tcms_select">'
 			.'<option value="RSS0.91"'.( $wsSynCFeedType == 'RSS0.91' ? ' selected="selected"' : '' ).'>RSS 0.91</option>'
@@ -721,11 +685,6 @@ if($todo == 'config'){
 			.'<option value="RSS2.0"'.( $wsSynCFeedType == 'RSS2.0' ? ' selected="selected"' : '' ).'>RSS 2.0</option>'
 		.'</select>'
 		.'</td></tr>';
-		
-		
-		/*
-		$wsSynUseCFeedImg
-		*/
 		
 		
 		echo '</table>'
@@ -760,9 +719,9 @@ if($todo == 'config'){
 
 
 
-//=====================================================
+// -----------------------------------------------------
 // VALUES
-//=====================================================
+// -----------------------------------------------------
 
 if($todo == 'show'){
 	echo $tcms_html->bold(_NEWS_TITLE);
@@ -1092,9 +1051,9 @@ if($todo == 'show'){
 
 
 
-//=====================================================
+// -----------------------------------------------------
 // EDIT AND CREATE FORM
-//=====================================================
+// -----------------------------------------------------
 
 if($todo == 'edit'){
 	$canEdit = true;
@@ -1634,33 +1593,49 @@ if($todo == 'edit'){
 
 
 
-//=====================================================
+// -----------------------------------------------------
 // SAVE CONFIG
-//=====================================================
+// -----------------------------------------------------
 
-if($todo == 'save_config'){
-	if(empty($new_use_comments))  { $new_use_comments   = 0; }
-	if(empty($new_use_autor))     { $new_use_autor      = 0; }
-	if(empty($new_use_autor_link)){ $new_use_autor_link = 0; }
-	if(empty($use_emoticons))     { $use_emoticons      = 0; }
-	if(empty($use_gravatar))      { $use_gravatar       = 0; }
-	if(empty($new_use_feeds))     { $new_use_feeds      = 0; }
-	if(empty($new_use_rss091))    { $new_use_rss091     = 0; }
-	if(empty($new_use_rss10))     { $new_use_rss10      = 0; }
-	if(empty($new_use_rss20))     { $new_use_rss20      = 0; }
-	if(empty($new_use_atom03))    { $new_use_atom03     = 0; }
-	if(empty($new_news_cut))      { $new_news_cut       = 0; }
-	if(empty($new_use_opml))      { $new_use_opml       = 0; }
-	if(empty($new_syn_amount))    { $new_syn_amount     = 0; }
-	if(empty($new_use_syn_title)) { $new_use_syn_title  = 0; }
-	if($new_news_mm_amount == '') { $new_news_mm_amount = 20; }
-	if(empty($new_news_mm_id))    { $new_news_mm_id     = $old_news_mm_id; }
-	if($news_mm_title == '')      { $news_mm_title      = ''; }
-	if($news_mm_stamp == '')      { $news_mm_stamp      = ''; }
-	if($new_def_feed  == '')      { $new_def_feed       = 'RSS0.91'; }
-	if(empty($new_use_trackback)) { $new_use_trackback  = 0; }
-	if(empty($new_use_timesince)) { $new_use_timesince  = 0; }
-	if(empty($new_readmore_link)) { $new_readmore_link  = 0; }
+if($todo == 'save_config') {
+	if(empty($new_use_comments))    { $new_use_comments     = 0; }
+	if(empty($new_use_autor))       { $new_use_autor        = 0; }
+	if(empty($new_use_autor_link))  { $new_use_autor_link   = 0; }
+	if(empty($use_emoticons))       { $use_emoticons        = 0; }
+	if(empty($use_gravatar))        { $use_gravatar         = 0; }
+	if(empty($new_use_feeds))       { $new_use_feeds        = 0; }
+	if(empty($new_use_rss091))      { $new_use_rss091       = 0; }
+	if(empty($new_use_rss10))       { $new_use_rss10        = 0; }
+	if(empty($new_use_rss20))       { $new_use_rss20        = 0; }
+	if(empty($new_use_atom03))      { $new_use_atom03       = 0; }
+	if(empty($new_news_cut))        { $new_news_cut         = 0; }
+	if(empty($new_use_opml))        { $new_use_opml         = 0; }
+	if(empty($new_syn_amount))      { $new_syn_amount       = 0; }
+	if(empty($new_use_syn_title))   { $new_use_syn_title    = 0; }
+	if($new_news_mm_amount == '')   { $new_news_mm_amount   = 20; }
+	if(empty($new_news_mm_id))      { $new_news_mm_id       = $old_news_mm_id; }
+	if($news_mm_title == '')        { $news_mm_title        = ''; }
+	if($news_mm_stamp == '')        { $news_mm_stamp        = ''; }
+	if($new_def_feed  == '')        { $new_def_feed         = 'RSS2.0'; }
+	if(empty($new_use_trackback))   { $new_use_trackback    = 0; }
+	if(empty($new_use_timesince))   { $new_use_timesince    = 0; }
+	if(empty($new_readmore_link))   { $new_readmore_link    = 0; }
+	if(empty($newSynRSS091UseImg))  { $newSynRSS091UseImg   = 0; }
+	if(empty($newSynRSS091Text))    { $newSynRSS091Text     = ''; }
+	if(empty($newSynRSS10UseImg))   { $newSynRSS10UseImg    = 0; }
+	if(empty($newSynRSS10Text))     { $newSynRSS10Text      = ''; }
+	if(empty($newSynRSS20UseImg))   { $newSynRSS20UseImg    = 0; }
+	if(empty($newSynRSS20Text))     { $newSynRSS20Text      = ''; }
+	if(empty($newSynATOM03UseImg))  { $newSynATOM03UseImg   = 0; }
+	if(empty($newSynATOM03Text))    { $newSynATOM03Text     = ''; }
+	if(empty($newSynOPMLUseImg))    { $newSynOPMLUseImg     = 0; }
+	if(empty($newSynOPMLText))      { $newSynOPMLText       = ''; }
+	if(empty($newSynUseCFeed))      { $newSynUseCFeed       = 0; }
+	if(empty($newSynCFeedText))     { $newSynCFeedText      = ''; }
+	if(empty($newSynCFeedType))     { $newSynCFeedType      = ''; }
+	if(empty($newSynUseCFeedImg))   { $newSynUseCFeedImg    = 0; }
+	if(empty($newSynCFeedAmount))   { $newSynCFeedAmount    = '25'; }
+	
 	
 	
 	// CHARSETS
@@ -1731,6 +1706,21 @@ if($todo == 'save_config'){
 		$xmluser->writeValue('use_timesince', $new_use_timesince);
 		$xmluser->writeValue('readmore_link', $new_readmore_link);
 		$xmluser->writeValue('news_spacing', $new_news_spacing);
+		$xmluser->writeValue('use_rss091_img', $newSynRSS091UseImg);
+		$xmluser->writeValue('rss091_text', $newSynRSS091Text);
+		$xmluser->writeValue('use_rss10_img', $newSynRSS10UseImg);
+		$xmluser->writeValue('rss10_text', $newSynRSS10Text);
+		$xmluser->writeValue('use_rss20_img', $newSynRSS20UseImg);
+		$xmluser->writeValue('rss20_feed', $newSynRSS20Text);
+		$xmluser->writeValue('use_atom03_img', $newSynATOM03UseImg);
+		$xmluser->writeValue('atom03_text', $newSynATOM03Text);
+		$xmluser->writeValue('use_opml_img', $newSynOPMLUseImg);
+		$xmluser->writeValue('opml_text', $newSynOPMLText);
+		$xmluser->writeValue('use_comment_feed', $newSynUseCFeed);
+		$xmluser->writeValue('comment_feed_text', $newSynCFeedText);
+		$xmluser->writeValue('comment_feed_type', $newSynCFeedType);
+		$xmluser->writeValue('use_comment_feed_img', $newSynUseCFeedImg);
+		$xmluser->writeValue('comments_feed_amount', $newSynCFeedAmount);
 		
 		$xmluser->xmlSectionBuffer();
 		$xmluser->xmlSectionEnd('config');
@@ -1766,7 +1756,24 @@ if($todo == 'save_config'){
 			.$tcms_db_prefix.'newsmanager.use_trackback='.$new_use_trackback.', '
 			.$tcms_db_prefix.'newsmanager.use_timesince='.$new_use_timesince.', '
 			.$tcms_db_prefix.'newsmanager.readmore_link='.$new_readmore_link.', '
-			.$tcms_db_prefix.'newsmanager.news_spacing='.$new_news_spacing;
+			.$tcms_db_prefix.'newsmanager.news_spacing='.$new_news_spacing.', '
+			
+			.$tcms_db_prefix.'newsmanager.use_rss091_img='.$newSynRSS091UseImg.', '
+			.$tcms_db_prefix.'newsmanager.rss091_text="'.$newSynRSS091Text.'", '
+			.$tcms_db_prefix.'newsmanager.use_rss10_img='.$newSynRSS10UseImg.', '
+			.$tcms_db_prefix.'newsmanager.rss10_text="'.$newSynRSS10Text.'", '
+			.$tcms_db_prefix.'newsmanager.use_rss20_img='.$newSynRSS20UseImg.', '
+			.$tcms_db_prefix.'newsmanager.rss20_feed="'.$newSynRSS20Text.'", '
+			.$tcms_db_prefix.'newsmanager.use_atom03_img='.$newSynATOM03UseImg.', '
+			.$tcms_db_prefix.'newsmanager.atom03_text="'.$newSynATOM03Text.'", '
+			.$tcms_db_prefix.'newsmanager.use_opml_img='.$newSynOPMLUseImg.', '
+			.$tcms_db_prefix.'newsmanager.opml_text="'.$newSynOPMLText.'", '
+			.$tcms_db_prefix.'newsmanager.use_comment_feed='.$newSynUseCFeed.', '
+			.$tcms_db_prefix.'newsmanager.comment_feed_text="'.$newSynCFeedText.'", '
+			.$tcms_db_prefix.'newsmanager.comment_feed_type="'.$newSynCFeedType.'", '
+			.$tcms_db_prefix.'newsmanager.use_comment_feed_img='.$newSynUseCFeedImg.', '
+			.$tcms_db_prefix.'newsmanager.comments_feed_amount='.$newSynCFeedAmount;
+			
 			
 			switch($choosenDB) {
 				case 'mysql':
@@ -1796,7 +1803,11 @@ if($todo == 'save_config'){
 					.'`news_amount`, `access`, `news_cut`, `use_emoticons`, '
 					.'`language`, `use_gravatar`, `syn_amount`, `use_syn_title`, '
 					.'`use_rss091`, `use_rss10`, `use_rss20`, `use_atom03`, `use_opml`, '
-					.'`def_feed`, `use_trackback`, `use_timesince`, `readmore_link`, `news_spacing`';
+					.'`def_feed`, `use_trackback`, `use_timesince`, `readmore_link`, `news_spacing`, '
+					.'`use_rss091_img`, `rss091_text`, `use_rss10_img`, `rss10_text`, `use_rss20_img`, '
+					.'`rss20_feed`, `use_atom03_img`, `atom03_text`, `use_opml_img`, `opml_text`, '
+					.'`use_comment_feed`, `comment_feed_text`, `comment_feed_type`, `use_comment_feed_img`, '
+					.'`comments_feed_amount` ';
 					break;
 				
 				case 'pgsql':
@@ -1805,7 +1816,11 @@ if($todo == 'save_config'){
 					.'news_amount, access, news_cut, "use_emoticons", '
 					.'"language", use_gravatar, syn_amount, use_syn_title, '
 					.'use_rss091, use_rss10, use_rss20, "use_atom03", "use_opml", '
-					.'def_feed, use_trackback, use_timesince, "readmore_link", "news_spacing"';
+					.'def_feed, use_trackback, use_timesince, "readmore_link", "news_spacing", '
+					.'use_rss091_img, rss091_text, use_rss10_img, rss10_text, use_rss20_img, '
+					.'rss20_feed, use_atom03_img, atom03_text, use_opml_img, opml_text, '
+					.'use_comment_feed, comment_feed_text, comment_feed_type, use_comment_feed_img, '
+					.'comments_feed_amount ';
 					break;
 				
 				case 'mssql':
@@ -1814,7 +1829,11 @@ if($todo == 'save_config'){
 					.'[news_amount], [access], [news_cut], [use_emoticons], '
 					.'[language], [use_gravatar], [syn_amount], [use_syn_title], '
 					.'[use_rss091], [use_rss10], [use_rss20], [use_atom03], [use_opml], '
-					.'[def_feed], [use_trackback], [use_timesince], [readmore_link], [news_spacing]';
+					.'[def_feed], [use_trackback], [use_timesince], [readmore_link], [news_spacing], '
+					.'[use_rss091_img], [rss091_text], [use_rss10_img], [rss10_text], [use_rss20_img], '
+					.'[rss20_feed], [use_atom03_img], [atom03_text], [use_opml_img], [opml_text], '
+					.'[use_comment_feed], [comment_feed_text], [comment_feed_type], [use_comment_feed_img], '
+					.'[comments_feed_amount] ';
 					break;
 			}
 			
@@ -1824,7 +1843,13 @@ if($todo == 'save_config'){
 			."'".$setLang."', ".$use_gravatar.", ".$new_syn_amount.", ".$new_use_syn_title.", "
 			.$new_use_rss091.", ".$new_use_rss10.", ".$new_use_rss20.", ".$new_use_atom03.", ".$new_use_opml.", "
 			."'".$new_def_feed."', ".$new_use_trackback.", ".$new_use_timesince.", ".$new_readmore_link
-			.", ".$new_news_spacing;
+			.", ".$newSynRSS10UseImg.", ".$newSynRSS091UseImg.", '".$newSynRSS091Text."'"
+			.", ".$newSynRSS10UseImg.", '".$newSynRSS10Text."'"
+			.", ".$newSynRSS20UseImg.", '".$newSynRSS20Text."'"
+			.", ".$newSynATOM03UseImg.", '".$newSynATOM03Text."'"
+			.", ".$newSynOPMLUseImg.", '".$newSynOPMLText."'"
+			.", ".$newSynUseCFeed.", '".$newSynCFeedText."', '".$newSynCFeedType."'"
+			.", ".$newSynUseCFeedImg.", ".$newSynCFeedAmount;
 			
 			$maintag = $tcms_main->getNewUID(11, 'newsmanager');
 			
@@ -1875,9 +1900,9 @@ if($todo == 'save_config'){
 
 
 
-//=====================================================
+// -----------------------------------------------------
 // SAVE
-//=====================================================
+// -----------------------------------------------------
 
 if($todo == 'save'){
 	if($new_published == '' || empty($new_published) || !isset($new_published)){ $new_published = 0; }
@@ -2081,9 +2106,9 @@ if($todo == 'save'){
 
 
 
-//=====================================================
+// -----------------------------------------------------
 // CREATE
-//=====================================================
+// -----------------------------------------------------
 
 if($todo == 'next'){
 	if($new_published == '' || empty($new_published) || !isset($new_published)){ $new_published = 0; }
@@ -2278,9 +2303,9 @@ if($todo == 'next'){
 
 
 
-//===================================================================================
+// -----------------------------------------------------==============================
 // ENABLE / DISABLE COMMENTS
-//===================================================================================
+// -----------------------------------------------------==============================
 
 if($todo == 'enableComments'){
 	switch($action){
@@ -2337,9 +2362,9 @@ if($todo == 'enableComments'){
 
 
 
-//===================================================================================
+// -----------------------------------------------------==============================
 // PUBLISH / UNPUBLISH
-//===================================================================================
+// -----------------------------------------------------==============================
 
 if($todo == 'publishItem'){
 	switch($action){
@@ -2385,9 +2410,9 @@ if($todo == 'publishItem'){
 
 
 
-//===================================================================================
+// -----------------------------------------------------==============================
 // ENABLE FRONTPAGE
-//===================================================================================
+// -----------------------------------------------------==============================
 
 if($todo == 'enableFrontpage'){
 	switch($action){
@@ -2437,9 +2462,9 @@ if($todo == 'enableFrontpage'){
 
 
 
-//===================================================================================
+// -----------------------------------------------------==============================
 // DELETE
-//===================================================================================
+// -----------------------------------------------------==============================
 
 if($todo == 'delete'){
 	if($choosenDB == 'xml'){
