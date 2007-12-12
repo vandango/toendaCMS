@@ -665,6 +665,21 @@ define('_EXT_DOWNLOAD_ID', 'ID');
 define('_EXT_DOWNLOAD_TITLE', 'Download Manager title');
 define('_EXT_DOWNLOAD_SUBTITLE', 'Download Manager subtitle');
 define('_EXT_DOWNLOAD_TEXT', 'Download Manager text');
+if(!defined('_EXT_NEWS_SYN_USE_RSS091_IMG'))   define('_EXT_NEWS_SYN_USE_RSS091_IMG', 'Use default image for the RSS 0.91 link');
+if(!defined('_EXT_NEWS_SYN_RSS091_TEXT'))      define('_EXT_NEWS_SYN_RSS091_TEXT', 'RSS 0.91 link text');
+if(!defined('_EXT_NEWS_SYN_USE_RSS10_IMG'))    define('_EXT_NEWS_SYN_USE_RSS10_IMG', 'Use default image for the RSS 1.0 link');
+if(!defined('_EXT_NEWS_SYN_RSS10_TEXT'))       define('_EXT_NEWS_SYN_RSS10_TEXT', 'RSS 1.0 link text');
+if(!defined('_EXT_NEWS_SYN_USE_RSS20_IMG'))    define('_EXT_NEWS_SYN_USE_RSS20_IMG', 'Use default image for the RSS 2.0 link');
+if(!defined('_EXT_NEWS_SYN_RSS20_TEXT'))       define('_EXT_NEWS_SYN_RSS20_TEXT', 'RSS 2.0 link text');
+if(!defined('_EXT_NEWS_SYN_USE_ATOM03_IMG'))   define('_EXT_NEWS_SYN_USE_ATOM03_IMG', 'Use default image for the Atom 0.3 link');
+if(!defined('_EXT_NEWS_SYN_ATOM03_TEXT'))      define('_EXT_NEWS_SYN_ATOM03_TEXT', 'Atom 0.3 link text');
+if(!defined('_EXT_NEWS_SYN_USE_OPML_IMG'))     define('_EXT_NEWS_SYN_USE_OPML_IMG', 'Use default image for the Opml link');
+if(!defined('_EXT_NEWS_SYN_OPML_TEXT'))        define('_EXT_NEWS_SYN_OPML_TEXT', 'Opml link text');
+if(!defined('_EXT_NEWS_SYN_USE_CFEED'))        define('_EXT_NEWS_SYN_USE_CFEED', 'Use feed for the comments');
+if(!defined('_EXT_NEWS_SYN_USE_CFEED_IMG'))    define('_EXT_NEWS_SYN_USE_CFEED_IMG', 'Use an image for the comment feed link');
+if(!defined('_EXT_NEWS_SYN_CFEED_TEXT'))       define('_EXT_NEWS_SYN_CFEED_TEXT', 'Comment feed link text');
+if(!defined('_EXT_NEWS_SYN_CFEED_AMOUNT'))     define('_EXT_NEWS_SYN_CFEED_AMOUNT', 'Amount of comments in feed');
+if(!defined('_EXT_NEWS_SYN_CFEED_TYPE'))       define('_EXT_NEWS_SYN_CFEED_TYPE', 'Feed type for the comments');
 
 
 // GALLERY

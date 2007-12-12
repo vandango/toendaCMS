@@ -668,6 +668,21 @@ define('_EXT_DOWNLOAD_ID', 'ID');
 define('_EXT_DOWNLOAD_TITLE', 'Download Manager Titel');
 define('_EXT_DOWNLOAD_SUBTITLE', 'Download Manager Untertitel');
 define('_EXT_DOWNLOAD_TEXT', 'Download Manager Text');
+define('_EXT_NEWS_SYN_USE_RSS091_IMG', 'F&uuml;r den RSS 0.91 Link Standard Bild verwenden?');
+define('_EXT_NEWS_SYN_RSS091_TEXT', 'RSS 0.91 Link Text');
+define('_EXT_NEWS_SYN_USE_RSS10_IMG', 'F&uuml;r den RSS 1.0 Link Standard Bild verwenden?');
+define('_EXT_NEWS_SYN_RSS10_TEXT', 'RSS 1.0 Link Text');
+define('_EXT_NEWS_SYN_USE_RSS20_IMG', 'F&uuml;r den RSS 2.0 Link Standard Bild verwenden?');
+define('_EXT_NEWS_SYN_RSS20_TEXT', 'RSS 2.0 Link Text');
+define('_EXT_NEWS_SYN_USE_ATOM03_IMG', 'F&uuml;r den Atom 0.3 Link Standard Bild verwenden?');
+define('_EXT_NEWS_SYN_ATOM03_TEXT', 'Atom 0.3 Link Text');
+define('_EXT_NEWS_SYN_USE_OPML_IMG', 'F&uuml;r den Opml Link Standard Bild verwenden?');
+define('_EXT_NEWS_SYN_OPML_TEXT', 'Opml Link Text');
+define('_EXT_NEWS_SYN_USE_CFEED', 'Syndication f&uuml;r Kommentare verwenden?');
+define('_EXT_NEWS_SYN_USE_CFEED_IMG', 'F&uuml;r Kommentar Feed Link Standard Bild verwenden?');
+define('_EXT_NEWS_SYN_CFEED_TEXT', 'Kommentar Feed Link Text');
+define('_EXT_NEWS_SYN_CFEED_AMOUNT', 'Wieviele Kommentare im Kommentar Feed?');
+define('_EXT_NEWS_SYN_CFEED_TYPE', 'Syndication Feed f&uuml;r Kommentare');
 
 
 // IMAGEGALLERY
