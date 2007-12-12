@@ -1028,11 +1028,12 @@ class tcms_datacontainer_provider extends tcms_main {
 				
 				$toendaScript = new toendaScript();
 				
-				$news_content = $this->decodeIconV(
+				/*$news_content = $this->decodeIconV(
 					$dcNews->getText(), 
 					$this->m_CHARSET
-				);
+				);*/
 				
+				$news_content = $dcNews->getText();
 				$news_content = $toendaScript->checkSEO($news_content, $imagePath);
 				$news_content = $toendaScript->cutAtTcmsMoreTag($news_content);
 				
