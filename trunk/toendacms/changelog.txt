@@ -29,7 +29,7 @@ Developer Version
 	- 1.6.0 Development / Stable
 	- 1.6.1 Stable
 
-Building Steps: 3722
+Building Steps: 3724
 
 
 
@@ -48,6 +48,7 @@ Building Steps: 3722
             page is now in the metag tag.
  - changed: Updated phpMailer to 2.0.
  - changed: Char decoding updated (better support for UTF-8).
+ - changed: Dutch language updated.
 
  - added: Another view for the mediamanager. We can now disply the content of the media manager
           with a icon and new a list view.
