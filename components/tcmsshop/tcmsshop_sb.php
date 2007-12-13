@@ -24,13 +24,17 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This components generates a shop.
  *
- * @version 0.0.1
+ * @version 0.0.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Components
  * 
  */
 
+
+/*
+	init
+*/
 
 $path = $tcms_administer_site.'/components/tcmsshop/images';
 
@@ -48,10 +52,15 @@ if($_TCMS_CS_ARRAY['tcmsshop']['attribute']['sb_tcmsshop_title']['ENCODE'] == 1)
 
 
 
+
+
+/*
+	init
+*/
+
 if($show_tcmsshop_title == 1){
-	echo $tcms_html->sidebarTitle($tcmsshopTitle)
-	.'<br />'
-	.$tcms_html->sidebarText($tcmsshopSubTitle);
+	echo $tcms_html->subTitle($tcmsshopTitle);
+	//.$tcms_html->sidebarText($tcmsshopSubTitle);
 	//echo '<br />';
 }
 else{
@@ -59,7 +68,41 @@ else{
 }
 
 
+
+
+
+/*
+	add to cart link
+*/
+
+if(isset($article)) {
+	$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+	.'id=components&amp;item=tcmsshop'
+	.'&amp;cmd=add'
+	.'&amp;article='.$article
+	.'&amp;s='.$s
+	.( isset($lang) ? '&amp;lang='.$lang : '' );
+	$link = $tcms_main->urlConvertToSEO($link);
+	
+	// valign="top"
+	echo '<div style="padding: 2px 0 0 0;">'
+	.'<a class="main" title="'._PRODUCTS_ADD_TO_CART.'" href="'.$link.'">'
+	.'<img style="margin-bottom: -4px;" src="'.$imagePath.'engine/images/cart_add.png"'
+	.' border="0" alt="'._PRODUCTS_ADD_TO_CART.'" />'
+	.'&nbsp;'
+	._PRODUCTS_ADD_TO_CART
+	.'</a>'
+	.'</div>';
+}
+
+
+
+
+
+/*
+	end
+*/
+
 echo '<br />';
-//echo '<br />';
 
 ?>

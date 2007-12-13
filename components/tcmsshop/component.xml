@@ -3,7 +3,7 @@
 	<subtitle>Start you business, now!</subtitle>
 	<desc></desc>
 	<id>tcmsshop</id>
-	<enabled>1</enabled>
+	<enabled>0</enabled>
 	<mainCS>1</mainCS>
 	<sideCS>1</sideCS>
 	<sideSort>1</sideSort>
