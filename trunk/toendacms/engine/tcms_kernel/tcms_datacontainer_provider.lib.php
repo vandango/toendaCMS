@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.3.0
+ * @version 1.3.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -495,16 +495,16 @@ class tcms_datacontainer_provider extends tcms_main {
 			switch($this->m_choosenDB){
 				case 'mysql':
 					$dbLimitFront = "";
-					$dbLimitBack = ( $amount == -1 ? "" : "LIMIT 0, ".$amount );
+					$dbLimitBack = ( $amount == 0 ? "" : "LIMIT 0, ".$amount );
 					break;
 				
 				case 'pgsql':
 					$dbLimitFront = "";
-					$dbLimitBack = ( $amount == -1 ? "" : "LIMIT ".$amount );
+					$dbLimitBack = ( $amount == 0 ? "" : "LIMIT ".$amount );
 					break;
 				
 				case 'mssql':
-					$dbLimitFront = ( $amount == -1 ? "" : "TOP ".$amount );
+					$dbLimitFront = ( $amount == 0 ? "" : "TOP ".$amount );
 					$dbLimitBack = "";
 					break;
 				

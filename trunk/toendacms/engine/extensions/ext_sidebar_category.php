@@ -24,15 +24,15 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides the news categories for
  * the sidebar.
  *
- * @version 0.4.0
+ * @version 0.4.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
  */
 
 
-if($use_side_category == 1){
-	if($choosenDB == 'xml'){
+if($use_side_category == 1) {
+	if($choosenDB == 'xml') {
 		$side_ext_xml  = new xmlparser($tcms_administer_site.'/tcms_global/sidebar.xml','r');
 		$show_nacat = $side_ext_xml->readSection('side', 'show_news_cat_amount');
 	}
@@ -57,10 +57,10 @@ if($use_side_category == 1){
 			$tcms_administer_site.'/tcms_news_categories/'
 		);
 		
-		if($tcms_main->isArray($arrCatFile)){
+		if($tcms_main->isArray($arrCatFile)) {
 			sort($arrCatFile);
 			
-			foreach($arrCatFile as $cKey => $cVal){
+			foreach($arrCatFile as $cKey => $cVal) {
 				$xmlP = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$cVal, 'r');
 				
 				$catSideName = $xmlP->readSection('cat', 'name');
@@ -87,11 +87,11 @@ if($use_side_category == 1){
 			}
 		}
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		if($check_session){
+		if($check_session) {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			$sqlQR = $sqlAL->getOne($tcms_db_prefix.'user', $ws_id);
@@ -99,59 +99,68 @@ if($use_side_category == 1){
 			$is_admin     = $sqlARR['group'];
 			if($is_admin == NULL){ $is_admin = ''; }
 			
-			if($is_admin == 'User' || $is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor' || $is_admin == 'Presenter'){
+			if($is_admin == 'User' 
+			|| $is_admin == 'Administrator' 
+			|| $is_admin == 'Developer' 
+			|| $is_admin == 'Writer' 
+			|| $is_admin == 'Editor' 
+			|| $is_admin == 'Presenter') {
 				$authSQL = "OR ".$tcms_db_prefix."news.access = 'Protected' ";
 			}
-			if($is_admin == 'Administrator' || $is_admin == 'Developer'){
-				$authSQL = "OR ".$tcms_db_prefix."news.access = 'Protected' OR ".$tcms_db_prefix."news.access = 'Private' ";
+			
+			if($is_admin == 'Administrator' 
+			|| $is_admin == 'Developer') {
+				$authSQL = "OR ".$tcms_db_prefix."news.access = 'Protected'"
+				." OR ".$tcms_db_prefix."news.access = 'Private' ";
 			}
 		}
 		
 		
-		if($choosenDB == 'mssql'){
+		if($choosenDB == 'mssql') {
 			$strSQL = "SELECT COUNT(".$tcms_db_prefix."news_to_categories.[news_uid]) AS countNC"
-			.", ".$tcms_db_prefix."news_categories.[name] AS tncName"
-			.", ".$tcms_db_prefix."news_categories.[uid] AS tncUID "
-			."FROM ".$tcms_db_prefix."news_to_categories "
-			."INNER JOIN ".$tcms_db_prefix."news ON (".$tcms_db_prefix."news_to_categories.[news_uid] = ".$tcms_db_prefix."news.[uid]) "
-			."INNER JOIN ".$tcms_db_prefix."news_categories ON (".$tcms_db_prefix."news_to_categories.[cat_uid] = ".$tcms_db_prefix."news_categories.[uid]) "
-			."WHERE ".$tcms_db_prefix."news.[access] = 'Public' ".$authSQL
-			."GROUP BY ".$tcms_db_prefix."news_categories.[name], ".$tcms_db_prefix."news_categories.[uid] "
-			."ORDER BY tncName";
+			." , ".$tcms_db_prefix."news_categories.[name] AS tncName"
+			." , ".$tcms_db_prefix."news_categories.[uid] AS tncUID "
+			." FROM ".$tcms_db_prefix."news_to_categories "
+			." INNER JOIN ".$tcms_db_prefix."news ON (".$tcms_db_prefix."news_to_categories.[news_uid] = ".$tcms_db_prefix."news.[uid]) "
+			." INNER JOIN ".$tcms_db_prefix."news_categories ON (".$tcms_db_prefix."news_to_categories.[cat_uid] = ".$tcms_db_prefix."news_categories.[uid]) "
+			." WHERE ".$tcms_db_prefix."news.[access] = 'Public' ".$authSQL
+			." AND ".$tcms_db_prefix."news.[language] = '".$tcms_config->getLanguageCodeForTCMS($lang)."'"
+			." GROUP BY ".$tcms_db_prefix."news_categories.[name], ".$tcms_db_prefix."news_categories.[uid] "
+			." ORDER BY tncName";
 		}
 		else{
 			$strSQL = "SELECT COUNT(".$tcms_db_prefix."news_to_categories.news_uid) AS countNC"
-			.", ".$tcms_db_prefix."news_categories.name AS tncName"
-			.", ".$tcms_db_prefix."news_categories.uid AS tncUID "
-			."FROM ".$tcms_db_prefix."news_to_categories "
-			."INNER JOIN ".$tcms_db_prefix."news ON (".$tcms_db_prefix."news_to_categories.news_uid = ".$tcms_db_prefix."news.uid) "
-			."INNER JOIN ".$tcms_db_prefix."news_categories ON (".$tcms_db_prefix."news_to_categories.cat_uid = ".$tcms_db_prefix."news_categories.uid) "
-			."WHERE ".$tcms_db_prefix."news.access = 'Public' ".$authSQL
-			."GROUP BY ".$tcms_db_prefix."news_categories.name, ".$tcms_db_prefix."news_categories.uid "
-			."ORDER BY tncName";
+			." , ".$tcms_db_prefix."news_categories.name AS tncName"
+			." , ".$tcms_db_prefix."news_categories.uid AS tncUID "
+			." FROM ".$tcms_db_prefix."news_to_categories "
+			." INNER JOIN ".$tcms_db_prefix."news ON (".$tcms_db_prefix."news_to_categories.news_uid = ".$tcms_db_prefix."news.uid) "
+			." INNER JOIN ".$tcms_db_prefix."news_categories ON (".$tcms_db_prefix."news_to_categories.cat_uid = ".$tcms_db_prefix."news_categories.uid) "
+			." WHERE ".$tcms_db_prefix."news.access = 'Public' ".$authSQL
+			." AND ".$tcms_db_prefix."news.language = '".$tcms_config->getLanguageCodeForTCMS($lang)."'"
+			." GROUP BY ".$tcms_db_prefix."news_categories.name, ".$tcms_db_prefix."news_categories.uid "
+			." ORDER BY tncName";
 		}
-		
 		
 		$sqlQR = $sqlAL->query($strSQL);
 		
-		while($sqlARR = $sqlAL->fetchArray($sqlQR)){
-			switch($choosenDB){
+		while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
+			switch($choosenDB) {
 				case 'mysql':
-					$catSideName = $tcms_main->decodeText($sqlARR['tncName'], '2', $c_charset);
-					$catSideUID  = $sqlARR['tncUID'];
-					$catSideNO   = $sqlARR['countNC'];
+					$catSideName = $tcms_main->decodeText($sqlObj->tncName, '2', $c_charset);
+					$catSideUID  = $sqlObj->tncUID;
+					$catSideNO   = $sqlObj->countNC;
 					break;
 				
 				case 'pgsql':
-					$catSideName = $tcms_main->decodeText($sqlARR['tncname'], '2', $c_charset);
-					$catSideUID  = $sqlARR['tncuid'];
-					$catSideNO   = $sqlARR['countnc'];
+					$catSideName = $tcms_main->decodeText($sqlObj->tncname, '2', $c_charset);
+					$catSideUID  = $sqlObj->tncuid;
+					$catSideNO   = $sqlObj->countnc;
 					break;
 				
 				case 'mssql':
-					$catSideName = $tcms_main->decodeText($sqlARR['tncName'], '2', $c_charset);
-					$catSideUID  = $sqlARR['tncUID'];
-					$catSideNO   = $sqlARR['countNC'];
+					$catSideName = $tcms_main->decodeText($sqlObj->tncName, '2', $c_charset);
+					$catSideUID  = $sqlObj->tncUID;
+					$catSideNO   = $sqlObj->countNC;
 					break;
 			}
 			
