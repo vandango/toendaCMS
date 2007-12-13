@@ -23,13 +23,17 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This components generates a shop.
  *
- * @version 0.0.1
+ * @version 0.0.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Components
  * 
  */
 
+
+/*
+	init
+*/
 
 $path = $tcms_administer_site.'/components/tcmsshop/images';
 
@@ -47,10 +51,17 @@ if($_TCMS_CS_ARRAY['tcmsshop']['attribute']['tcmsshop_title']['ENCODE'] == 1){
 
 
 
+
+
+/*
+	title
+*/
+
 if($show_tcmsshop_title == 1){
-	echo $tcms_html->contentTitle($tcmsshopTitle);
-	echo $tcms_html->contentText($tcmsshopSubTitle);
-	//echo '<br />';
+	echo $tcms_html->contentModuleHeader(
+		$tcmsshopTitle, 
+		$tcmsshopSubTitle, ''
+	);
 }
 else{
 	echo '<br />';
@@ -58,7 +69,35 @@ else{
 
 
 
+
+
+/*
+	command control
+*/
+
+switch($cmd) {
+	case 'add':
+		echo $article;
+		break;
+	
+	case 'cart':
+		echo 'warenkorb';
+		break;
+	
+	default:
+		echo 'leer';
+		break;
+}
+
+
+
+
+
+
+/*
+	end
+*/
+
 echo '<br />';
-//echo '<br />';
 
 ?>

@@ -23,13 +23,17 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This components generates a domainchecker.
  *
- * @version 0.0.2
+ * @version 0.0.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Components
  * 
  */
 
+
+/*
+	init
+*/
 
 if(isset($_GET['dc_name'])){ $dc_name = $_GET['dc_name']; }
 if(isset($_GET['dc_domain'])){ $dc_domain = $_GET['dc_domain']; }
@@ -58,16 +62,31 @@ if($_TCMS_CS_ARRAY['domainchecker']['attribute']['dc_subtitle']['ENCODE'] == 1){
 
 
 
-if($show_dc_title == 1){
-	echo $tcms_html->contentTitle($dcTitle);
-	echo $tcms_html->contentText($dcSubTitle);
-	//echo '<br />';
+/*
+	title
+*/
+
+if(trim($dc_name) != '') {
+	$wsText = $dc_name.'.'.$dc_domain;
 }
-else{
-	echo '<br />';
+
+if($show_dc_title == 1) {
+	echo $tcms_html->contentModuleHeader(
+		$dcTitle, 
+		$dcSubTitle, 
+		$wsText
+	);
+}
+else {
+	echo $tcms_html->contentText($wsText)
+	.'<br />';
 }
 
 
+
+/*
+	code
+*/
 
 using('toendacms.kernel.domaincheck');
 
@@ -81,6 +100,12 @@ $link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 $link = $tcms_main->urlConvertToSEO($link);
 
 echo $tcms_dc->getDomainCheckForm($link, $dc_name, $dc_domain);
+
+
+
+if(trim($dc_name) != '') {
+	$tcms_dc->lookUp($dc_name, $dc_domain, $cmd);
+}
 
 
 

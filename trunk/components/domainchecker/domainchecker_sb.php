@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This components generates a domainchecker.
  *
- * @version 0.0.1
+ * @version 0.0.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Components
@@ -52,9 +52,9 @@ if($_TCMS_CS_ARRAY['domainchecker']['attribute']['sb_dc_subtitle']['ENCODE'] == 
 
 
 if($show_dc_title == 1){
-	echo $tcms_html->sidebarTitle($dcTitle)
-	.'<br />'
-	.$tcms_html->sidebarText($dcSubTitle);
+	echo $tcms_html->subTitle($dcTitle)
+	.'<br />';
+	//.$tcms_html->sidebarText($dcSubTitle);
 	//echo '<br />';
 }
 else{
