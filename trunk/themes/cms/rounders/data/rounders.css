@@ -1,0 +1,604 @@
+/*   
+* Rounders  for  toendaCMS
+* www.stopdesign.com
+*
+* Ported by Jonathan Naumann (Updated by Themeportal.de)
+* http://www.toenda.com | http://vandango.toenda.com | http://themeportal.de
+*/
+
+
+
+
+
+/* Page Structure
+----------------------------------------------- */
+/* The images which help create rounded corners depend on the 
+   following widths and measurements. If you want to change 
+   these measurements, the images will also need to change.
+ */
+
+body {
+	background: #aba;
+	margin: 0;
+	padding: 20px 10px;
+	text-align: center;
+	font: x-small/1.5em "Trebuchet MS", Verdana, Arial, Sans-serif;
+	color: #333;
+	font-size/* */:/**/small;
+	font-size: /**/small;
+}
+
+#content {
+	width:740px;
+	margin:0 auto;
+	text-align:left;
+}
+
+/*#content img {
+	border: 1px dotted #333;
+	padding: 2px;
+}*/
+
+
+/* Blog Header
+----------------------------------------------- */
+
+#blog-title {
+	margin:0;
+	padding:10px 30px 5px;
+	font-size:200%;
+	line-height:1.2em;
+}
+
+#blog-title a {
+	text-decoration:none;
+	color:#fff;
+}
+
+#description {
+	margin:0;
+	padding:5px 30px 10px;
+	font-size:94%;
+	line-height:1.5em;
+}
+
+#header {
+	background:#456 url("corners_cap_top.gif") no-repeat left top;
+	margin:0 0 0;
+	padding:8px 0 0;
+	color:#fff;
+}
+#header div {
+	background:url("corners_cap_bot.gif") no-repeat left bottom;
+	padding:0 15px 23px;
+}
+
+
+/* Main Content
+----------------------------------------------- */
+#main {
+	width:470px;
+	float:left;
+	background:#fff url("corners_main_bot.gif") no-repeat left bottom;
+	margin:4px 0 0;
+	padding:0 0 10px;
+	color: #000;
+	font-size:97%;
+	line-height:1.5em;
+	
+}
+
+#main2 {
+	float:left;
+	width:100%;
+	background:url("corners_main_top.gif") no-repeat left top;
+	padding:10px 0 0;
+	
+	}
+
+#main3 {
+	background:url("rails_main.gif") repeat-y;
+	padding:0;
+	height: 100%;
+}
+
+.date-header {
+	margin:0 28px 0 43px;
+	font-size:85%;
+	line-height:2em;
+	text-transform:uppercase;
+	letter-spacing:.2em;
+	color:#357;
+}
+
+.post {
+	margin:.3em 0 25px;
+	padding:0 13px;
+}
+
+#sidebar {
+	width:240px;
+	float:right;
+	margin:5px 0 0;
+	font-size:97%;
+	line-height:1.5em;
+}
+
+#profile-container {
+	background:#cdc url("corners_prof_bot.gif") no-repeat left bottom;
+	margin:0 0 15px;
+	padding:0 0 10px;
+	color:#345;
+}
+
+#profile-container h2 {
+	background:url("corners_prof_top.gif") no-repeat left top;
+	padding:10px 15px .2em;
+	margin:0;
+	border-width:0;
+	font-size:115%;
+	line-height:1.5em;
+	color:#234;
+}
+
+.profile-datablock {
+	margin:0 15px .5em;
+	border-top:1px dotted #aba;
+	padding-top:8px;
+}
+
+
+/* Sidebar Boxes
+----------------------------------------------- */
+.box {
+	background:#fff url("corners_side_top.gif") no-repeat left top;
+	margin:0 0 15px;
+	padding:10px 0 0;
+	color:#666;
+}
+
+.box2 {
+	background:url("corners_side_bot.gif") no-repeat left bottom;
+	padding:0 13px 9px;
+}
+
+.sidebar-title {
+	margin:0;
+	padding:0 0 .2em;
+	border-bottom:1px dotted #9b9;
+	font-size:115%;
+	line-height:1.5em;
+	color:#333;
+}
+
+.box ul {
+	margin:0 0 1.25em;
+	padding:0 0px;
+	list-style:none;
+}
+
+.box ul li {
+	/*background:url("icon_arrow_sm.gif") no-repeat 2px .25em;
+	margin-bottom:3px;
+	border-bottom:1px dotted #eee;
+	line-height:1.4em;
+	padding:0 0 3px 16px;*/
+	margin:0;
+}
+
+.box p {
+	margin:0 0 .6em;
+}
+
+
+/* Links
+----------------------------------------------- */
+a:link { color:#258; }
+a:visited { color:#666; }
+a:hover { color:#c63; }
+a img { border-width:0; }
+
+
+
+/* Footer
+----------------------------------------------- */
+#footer {
+  clear:both;
+  margin:0;
+  padding:15px 0 0;
+  }
+#footer div {
+  background:#456 url("corners_cap_top.gif") no-repeat left top;
+  padding:8px 0 0;
+  color:#fff;
+  }
+#footer div div {
+  background:url("corners_cap_bot.gif") no-repeat left bottom;
+  padding:0 15px 8px;
+  }
+#footer hr {display:none;}
+#footer p {margin:0;}
+#footer a {color:#fff;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+toendaCMS specific code
+*/
+
+/* legal */
+.legal{ font: 9px 'Lucida Grande', Verdana, Arial, Sans-Serif; color: #efefef; }
+a.legal:link, a.legal:visited{ font: 9px 'Lucida Grande', Verdana, Arial, Sans-Serif; color: #efefef; text-decoration: none; }
+.legal a:hover{ text-decoration: underline; }
+
+
+/* title */
+.title {  }
+a.index { }
+a.index:hover { text-decoration  : none; }
+.subtitle {  }
+.sitelogo{ padding-top: 10px; padding-left: 10px; }
+
+
+/* pathway */
+.pathway { font-size: 11px; color: #333; text-decoration: none; }
+a.pathway:link, a.pathway:visited { font-size: 11px; color: #333; text-decoration: none; }
+a.pathway:hover { font-size: 11px; color: #333; text-decoration: underline; }
+
+
+/* toplevel - topmenu */
+a.toplevel, a.toplevel:link, a.toplevel:visited {
+	text-align: center;
+	font: bold 11px Arial, Sans-Serif;
+	text-transform: lowercase;
+	color: white !important;
+	margin-top: 2px;
+	width: 92px;
+	height: 20px;
+	line-height: 20px;
+	letter-spacing: 1px;
+	text-decoration: none;
+	padding: 0 1px 0 1px;
+	display: block;
+	float: left;
+}
+a.toplevel:hover {
+	background: url("linkbg_2.gif") top repeat-y;
+	color: #333 !important;
+	text-decoration: none;
+}
+a.toplevelActive {
+	background: url("linkbg_1.gif") top repeat-y;
+	font: bold 11px Arial, Sans-Serif;
+	text-transform: lowercase;
+	text-align: center;
+	color: white !important;
+	margin-top: 2px;
+	width: 92px;
+	height: 20px;
+	line-height: 20px;
+	text-decoration: none;
+	letter-spacing: 1px;
+	padding: 0 1px 0 1px;
+	display: block;
+	float: left;
+}
+a.toplevelActive:hover {
+	background: url("linkbg_2.gif") top repeat-y;
+	color: #333 !important;
+	text-decoration: none;
+}
+
+
+/* content */
+.contentheading {
+	margin:0 28px 0 28px;
+	font-size:85%;
+	line-height:2em;
+	text-transform:uppercase;
+	letter-spacing:.2em;
+	color:#357;
+	margin:.3em 0 25px;
+	padding:0 13px;
+	border:1px dotted #bbb;
+	border-width:1px 0;
+}
+
+.contentstamp {
+	margin: 0px;
+	font-size: 11px;
+	padding: 2px 15px 1px 10px;
+}
+
+.contentmain {
+	padding:2px 15px 1px 10px;
+}
+
+
+/* news */
+.news_title_bg{
+	margin:0;
+	font-size:135%;
+	line-height:1.5em;
+	background:url("icon_arrow.gif") no-repeat 10px .5em;
+	display:block;
+	border:1px dotted #bbb;
+	border-width:0 1px 1px;
+	padding:2px 14px 2px 29px;
+	color:#333;
+}
+
+.news_content_bg{
+	border-left:1px dotted #bbb;
+	border-width:0 1px 1px;
+	padding:10px 14px 1px 29px;
+}
+
+.text_small{ font-size: 9px; }
+
+
+/* misc */
+.hr_line{ padding: 0; background-color: white; }
+
+
+/* navigation */
+.menutitle {
+	background:url("icon_arrow_sm.gif") no-repeat 2px 6px;
+	margin:0;
+	padding:0 0 0 16px;
+	border-bottom:1px dotted #9b9;
+	font-size:115%;
+	line-height:1.5em;
+	color:#333;
+	display:block;
+}
+
+
+/* comments */
+.comment_title{
+	background:url("icon_comment.gif") no-repeat 2px .3em;
+	margin:.5em 0;
+	padding:0 0 0 20px;
+	color:#666;
+}
+.comment_text{
+	margin:-25px 13px 0;
+	border:1px dotted #ccc;
+	border-width:0 1px 1px;
+	padding:20px 0 15px 20px;
+}
+
+
+/* mainlevel - mainmenu */
+a.mainlevel, a.mainlevel:link, a.mainlevel:visited, a.mainlevel:active { font-size: 12px; padding-left: 5px; text-decoration: none; }
+a.mainlevel:hover { text-decoration: underline; }
+
+
+/* submenu - submenu */
+a.submenu, a.submenu:link, a.submenu:visited, a.submenu:active { padding-left: 20px; text-decoration: none; }
+a.submenu:hover { text-decoration: underline; }
+
+
+
+
+/* login */
+.loginform{ width: 90px; }
+.logintext{ font-size: 11px; }
+
+
+
+/* input */
+.inputtext{
+	height: 16px !important;
+	font: 11px Verdana, Arial, Helvetica, Sans-Serif;
+	border: 1px #456 solid;
+	margin: 2px 0 0 0;
+	background: #fff;
+}
+.inputbutton{
+	font-size: 11px;
+	height: 20px !important;
+	margin: 2px 0 0 0;
+	border: 1px #456 solid;
+}
+.inputtextarea{
+	width: 250px;
+	height: 180px;
+	font-size: 11px;
+	border: 1px #456 solid;
+}
+.newsSubmit{
+	width: 400px;
+	height: 500px;
+	font-size: 11px;
+	margin: 0 0 2px 0;
+	border: 1px #456 solid;
+}
+
+
+/* mainlinks - default links */
+.main { padding: 0 0 2px 13px; font-size: 11px; font-weight: bold; color:#258; text-decoration: none; }
+a.main { padding: 0 0 2px 13px; font-size: 11px; font-weight: bold; color:#258; text-decoration: none; }
+a.main:hover { color:#c63; }
+
+
+
+/* search */
+.search_result_bar{
+	background:url("icon_arrow_sm.gif") no-repeat 2px 6px;
+	margin:0;
+	padding:0 0 0 16px;
+	border-bottom:1px dotted #9b9;
+	font-size:115%;
+	line-height:1.5em;
+	color:#333;
+	display:block;
+}
+.search_result{
+	margin:0px 13px 0;
+	border:1px dotted #ccc;
+	border-width:0 1px 1px 0;
+	padding:0px 0 15px 0px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.text_normal{ font-size: 11px; }
+.text_big{ font-size: 14px; }
+.text_huge{ font-size: 15px; }
+
+.book_content{ font-size: 11px; }
+
+
+/* table title */
+.titleBG{
+	margin:0 28px 0 28px;
+	font-size:85%;
+	line-height:2em;
+	text-transform:uppercase;
+	letter-spacing:.2em;
+	color:#357;
+	margin:.3em 0 25px;
+	padding:0 13px;
+	border:1px dotted #bbb;
+	border-width:1px 0;
+}
+tr.titleBG{
+	margin:0 28px 0 28px;
+	font-size:85%;
+	line-height:2em;
+	text-transform:uppercase;
+	letter-spacing:.2em;
+	color:#357;
+	margin:.3em 0 25px;
+	padding:0 13px;
+	border:1px dotted #bbb;
+	border-width:1px 0;
+}
+td.titleBG{
+	margin:0 28px 0 28px;
+	font-size:85%;
+	line-height:2em;
+	text-transform:uppercase;
+	letter-spacing:.2em;
+	color:#357;
+	margin:.3em 0 25px;
+	padding:0 13px;
+	border:1px dotted #bbb;
+	border-width:1px 0;
+}
+th.titleBG{
+	margin:0 28px 0 28px;
+	font-size:85%;
+	line-height:2em;
+	text-transform:uppercase;
+	letter-spacing:.2em;
+	color:#357;
+	margin:.3em 0 25px;
+	padding:0 13px;
+	border:1px dotted #bbb;
+	border-width:1px 0;
+}
+.download_top{
+	margin:0 28px 0 28px;
+	font-size:14px;
+	color:#357;
+	margin:.3em 0 25px;
+	padding:0 13px;
+}
+
+
+
+
+
+/* poll */
+.poll_sheet{ background-color: #f6f6f6; border: 1px solid #eeeeee; font-size: 10px; color: #111111; }
+
+
+/* sidebar content */
+.sideheading { font-size: 11px; font-weight: bold; color: #333333; text-align: left; }
+.sidemain { font-size: 9px; padding: 3px; color: #444444; }
+
+
+/* impressum */
+.imptitle { font-size: 13px; padding-left: 5px; }
+.impoffice { padding-left: 38px; }
+
+
+
+
+/* forum */
+.user_profile_title{
+	font-size: 12px;
+	font-weight: bold;
+	color: #333333;
+	background: #f8f8f8;
+	padding: 2px;
+	border: 1px solid #cccccc;
+}
+
+
+/* ToendaSHOP */
+td.products_top{
+	margin:0 28px 0 28px;
+	font-size:14px;
+	color:#357;
+	margin:.3em 0 25px;
+	padding:0 13px;
+}
+a.products_top, a.products_top:link, a.products_top:visited, a.products_top:active { color: #357; font-size: 14px; text-decoration: none; }
+a.products_top:hover { color: #000000; }
+.products_onetop{ padding-left: 4px; margin: 0px; text-align: left; }
+
+
+
+
+
