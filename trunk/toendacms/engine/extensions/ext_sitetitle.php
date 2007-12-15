@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used fore the site title.
  *
- * @version 0.4.6
+ * @version 0.5.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -45,9 +45,7 @@ if(!isset($action)){ $action = 'showall'; }
 if(!isset($task)){ $task = 'register'; }
 
 
-if(trim(_SITE_TITLE) != '') {
-	echo _SITE_TITLE.' | ';
-}
+$sitetitleAdditional = '';
 
 
 switch($id){
@@ -59,7 +57,7 @@ switch($id){
 		echo _PATH_HOME;
 		
 		if((!isset($category) || $category == '') && (!isset($file) || $file == '')){
-			echo '&nbsp;/&nbsp;'.$download_title;
+			$sitetitleAdditional .= '&nbsp;/&nbsp;'.$download_title;
 		}
 		
 		if(isset($category) || isset($file)){
@@ -196,27 +194,27 @@ switch($id){
 			if(!isset($checkFAQTitle)) $checkFAQTitle = 1;
 			
 			
-			echo '&nbsp;/&nbsp;';
+			$sitetitleAdditional .= '&nbsp;/&nbsp;';
 			
 			
 			// list
-			echo $download_title;
+			$sitetitleAdditional .= $download_title;
 			
 			
 			for($i = ($checkFAQTitle - 1); $i >= 0; $i--){
-				echo '&nbsp;/&nbsp;';
+				$sitetitleAdditional .= '&nbsp;/&nbsp;';
 				
 				if($i != 0){
-					echo $arrFAQparent['title'][$i];
+					$sitetitleAdditional .= $arrFAQparent['title'][$i];
 				}
 				else{
 					if(isset($article)){
-						echo $arrFAQparent['title'][$i];
+						$sitetitleAdditional .= $arrFAQparent['title'][$i];
 						
-						//echo '&nbsp;/&nbsp;';
+						//$sitetitleAdditional .= '&nbsp;/&nbsp;';
 					}
 					else{
-						echo $arrFAQparent['title'][$i];
+						$sitetitleAdditional .= $arrFAQparent['title'][$i];
 					}
 				}
 			}
@@ -226,10 +224,10 @@ switch($id){
 		// file
 		/*if(isset($file)){
 			if($arrParent['parent'] != null && $arrParent['parent'] != ''){
-				echo '&nbsp;/&nbsp;';
+				$sitetitleAdditional .= '&nbsp;/&nbsp;';
 			}
 			
-			echo '<span class="pathway">'.$file.'</a>';
+			$sitetitleAdditional .= '<span class="pathway">'.$file.'</a>';
 		}*/
 		break;
 	
@@ -241,7 +239,7 @@ switch($id){
 		echo _PATH_HOME;
 		
 		if(!isset($category) && !isset($article)){
-			echo '&nbsp;/&nbsp;'.$faq_title;
+			$sitetitleAdditional .= '&nbsp;/&nbsp;'.$faq_title;
 		}
 		
 		if(isset($category) || isset($article)){
@@ -312,24 +310,24 @@ switch($id){
 			if(!isset($checkFAQTitle)){ $checkFAQTitle = 1; }
 			
 			
-			echo '&nbsp;/&nbsp;'
+			$sitetitleAdditional .= '&nbsp;/&nbsp;'
 			.$faq_title;
 			
 			
 			if($choosenDB != 'xml'){
 				for($i = ($checkFAQTitle - 1); $i >= 0; $i--){
-					echo '&nbsp;/&nbsp;';
+					$sitetitleAdditional .= '&nbsp;/&nbsp;';
 					
-					if($i != 0){
-						echo $arrFAQparent['title'][$i];
+					if($i != 0) {
+						$sitetitleAdditional .= $arrFAQparent['title'][$i];
 					}
-					else{
-						if(isset($article)){
-							echo $arrFAQparent['title'][$i];
+					else {
+						if(isset($article)) {
+							$sitetitleAdditional .= $arrFAQparent['title'][$i];
 							//.'&nbsp;/&nbsp;';
 						}
-						else{
-							echo $arrFAQparent['title'][$i];
+						else {
+							$sitetitleAdditional .= $arrFAQparent['title'][$i];
 						}
 					}
 				}
@@ -383,10 +381,10 @@ switch($id){
 				$arrFAQparent['title'][$count] = $tcms_main->decodeText($arrFAQparent['title'][$count], '2', $c_charset);
 				
 				if($arrFAQparent['parent'] != null && $arrFAQparent['parent'] != ''){
-					echo '&nbsp;/&nbsp;';
+					$sitetitleAdditional .= '&nbsp;/&nbsp;';
 				}
 				
-				echo $arrFAQparent['title'];
+				$sitetitleAdditional .= $arrFAQparent['title'];
 				
 				unset($arrFAQparent);
 			}
@@ -399,15 +397,15 @@ switch($id){
 		*/
 		
 		if(!isset($news) && !$cat && !isset($date)){
-			echo _PATH_HOME;
-			echo '&nbsp;/&nbsp;';
-			echo $titleway[$id];
+			$sitetitleAdditional .= _PATH_HOME
+			.'&nbsp;/&nbsp;'
+			.$titleway[$id];
 		}
 		
 		if(isset($news)){
-			echo _PATH_HOME;
-			echo '&nbsp;/&nbsp;';
-			echo $titleway[$id];
+			$sitetitleAdditional .= _PATH_HOME
+			.'&nbsp;/&nbsp;'
+			.$titleway[$id];
 			
 			if($news != 'archive'){
 				if($choosenDB == 'xml'){
@@ -430,45 +428,57 @@ switch($id){
 					$arr_news['title'] = $tcms_main->decodeText($arr_news['title'], '2', $c_charset);
 				}
 				
-				echo '&nbsp;/&nbsp;';
-				echo $tcms_main->cleanGBScript($arr_news['title']);
+				$sitetitleAdditional .= '&nbsp;/&nbsp;'
+				.$tcms_main->cleanGBScript($arr_news['title']);
 			}
 			
 			if($news == 'archive'){
-				echo '&nbsp;/&nbsp;'._NEWS_ARCHIVE;
+				$sitetitleAdditional .= '&nbsp;/&nbsp;'._NEWS_ARCHIVE;
 			}
 		}
 		
-		if(isset($date)){
-			if(strlen($date) == 6){
-				echo _PATH_HOME;
-				echo '&nbsp;/&nbsp;';
-				echo $titleway[$id];
+		if(isset($date)) {
+			if(strlen($date) == 6) {
+				$sitetitleAdditional .= _PATH_HOME
+				.'&nbsp;/&nbsp;'
+				.$titleway[$id];
 				
-				if(substr(substr($day, 4, 2), 0, 1) == '0'){ $ccMonth = substr(substr($date, 4, 2), 1, 1); }
-				else{ $ccMonth = substr($date, 4, 2); }
+				if(substr(substr($day, 4, 2), 0, 1) == '0') {
+					$ccMonth = substr(substr($date, 4, 2), 1, 1);
+				}
+				else {
+					$ccMonth = substr($date, 4, 2);
+				}
 				
-				echo '&nbsp;/&nbsp;'._NEWS_ARCHIV_FOR.'&nbsp;'.$monthName[$ccMonth].',&nbsp;'.substr($date, 0, 4);
+				$sitetitleAdditional .= '&nbsp;/&nbsp;'._NEWS_ARCHIV_FOR.'&nbsp;'.$monthName[$ccMonth].',&nbsp;'.substr($date, 0, 4);
 			}
-			else{
-				echo _PATH_HOME;
-				echo '&nbsp;/&nbsp;';
-				echo $titleway[$id];
+			else {
+				$sitetitleAdditional .= _PATH_HOME
+				.'&nbsp;/&nbsp;'
+				.$titleway[$id];
 				
-				if(substr(substr($date, 4, 2), 0, 1) == '0'){ $ccDay = substr(substr($date, 4, 2), 1, 1); }
-				else{ $ccDay = substr($date, 4, 2); }
+				if(substr(substr($date, 4, 2), 0, 1) == '0') {
+					$ccDay = substr(substr($date, 4, 2), 1, 1);
+				}
+				else {
+					$ccDay = substr($date, 4, 2);
+				}
 				
-				if(substr(substr($day, 4, 2), 0, 1) == '0'){ $ccMonth = substr(substr($date, 4, 2), 1, 1); }
-				else{ $ccMonth = substr($date, 4, 2); }
+				if(substr(substr($day, 4, 2), 0, 1) == '0') {
+					$ccMonth = substr(substr($date, 4, 2), 1, 1);
+				}
+				else {
+					$ccMonth = substr($date, 4, 2);
+				}
 				
-				echo '&nbsp;/&nbsp;'._NEWS_ARCHIV_FOR.'&nbsp;'.$ccDay.'.&nbsp;'.$monthName[$ccMonth].',&nbsp;'.substr($date, 0, 4);
+				$sitetitleAdditional .= '&nbsp;/&nbsp;'._NEWS_ARCHIV_FOR.'&nbsp;'.$ccDay.'.&nbsp;'.$monthName[$ccMonth].',&nbsp;'.substr($date, 0, 4);
 			}
 		}
 		
-		if($cat){
-			echo _PATH_HOME;
-			echo '&nbsp;/&nbsp;';
-			echo $titleway[$id];
+		if($cat) {
+			$sitetitleAdditional .= _PATH_HOME
+			.'&nbsp;/&nbsp;'
+			.$titleway[$id];
 			
 			if($choosenDB == 'xml'){
 				$xmlP = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$cat.'.xml', 'r');
@@ -487,7 +497,7 @@ switch($id){
 				$catName = $tcms_main->decodeText($catName, '2', $c_charset);
 			}
 			
-			echo '&nbsp;/&nbsp;'._NEWS_CATEGORY_ARCHIV.' \''.$catName.'\'';
+			$sitetitleAdditional .= '&nbsp;/&nbsp;'._NEWS_CATEGORY_ARCHIV.' \''.$catName.'\'';
 		}
 		break;
 	
@@ -497,9 +507,9 @@ switch($id){
 		*/
 		
 		if(!isset($albums)){
-			echo _PATH_HOME;
-			echo '&nbsp;/&nbsp;';
-			echo $titleway[$id];
+			$sitetitleAdditional .= _PATH_HOME
+			.'&nbsp;/&nbsp;'
+			.$titleway[$id];
 		}
 		
 		if(isset($albums)){
@@ -521,12 +531,11 @@ switch($id){
 				$album_title = $tcms_main->decodeText($album_title, '2', $c_charset);
 			}
 			
-			echo _PATH_HOME;
-			echo '&nbsp;/&nbsp;';
-			echo $titleway[$id];
-			
-			echo '&nbsp;/&nbsp;';
-			echo $album_title;
+			$sitetitleAdditional .= _PATH_HOME
+			.'&nbsp;/&nbsp;'
+			.$titleway[$id]
+			.'&nbsp;/&nbsp;'
+			.$album_title;
 		}
 		break;
 	
@@ -535,10 +544,10 @@ switch($id){
 			PRODUCTS
 		*/
 		
-		echo _PATH_HOME;
+		$sitetitleAdditional .= _PATH_HOME;
 		
 		if(!isset($category) && !isset($article)){
-			echo '&nbsp;/&nbsp;'.$products_title;
+			$sitetitleAdditional .= '&nbsp;/&nbsp;'.$products_title;
 		}
 		
 		if(isset($category) || isset($article)) {
@@ -670,7 +679,7 @@ switch($id){
 			if(!isset($checkFAQTitle)){ $checkFAQTitle = 1; }
 			
 			
-			echo '&nbsp;/&nbsp;'
+			$sitetitleAdditional .= '&nbsp;/&nbsp;'
 			.$products_title;
 			
 			
@@ -678,18 +687,18 @@ switch($id){
 			}
 			else {
 				for($i = ($checkFAQTitle - 1); $i >= 0; $i--){
-					echo '&nbsp;/&nbsp;';
+					$sitetitleAdditional .= '&nbsp;/&nbsp;';
 					
 					if($i != 0){
-						echo $arrFAQparent['title'][$i];
+						$sitetitleAdditional .= $arrFAQparent['title'][$i];
 					}
 					else{
 						if(isset($article)){
-							echo $arrFAQparent['title'][$i];
+							$sitetitleAdditional .= $arrFAQparent['title'][$i];
 							//.'&nbsp;/&nbsp;';
 						}
 						else{
-							echo $arrFAQparent['title'][$i];
+							$sitetitleAdditional .= $arrFAQparent['title'][$i];
 						}
 					}
 				}
@@ -747,10 +756,10 @@ switch($id){
 				$arrFAQparent['title'][$count] = $tcms_main->decodeText($arrFAQparent['title'][$count], '2', $c_charset);
 				
 				if($arrFAQparent['parent'] != null && $arrFAQparent['parent'] != ''){
-					echo '&nbsp;/&nbsp;';
+					$sitetitleAdditional .= '&nbsp;/&nbsp;';
 				}
 				
-				echo $arrFAQparent['title'];
+				$sitetitleAdditional .= $arrFAQparent['title'];
 				
 				unset($arrFAQparent);
 			}
@@ -762,15 +771,15 @@ switch($id){
 			REGISTER
 		*/
 		
-		if($task == 'lostpassword'){
-			echo _PATH_HOME;
-			echo '&nbsp;/&nbsp;';
-			echo _PATH_LOSTPW;
+		if($task == 'lostpassword') {
+			$sitetitleAdditional .= _PATH_HOME
+			.'&nbsp;/&nbsp;'
+			._PATH_LOSTPW;
 		}
-		else{
-			echo _PATH_HOME;
-			echo '&nbsp;/&nbsp;';
-			echo _PATH_REGISTRATION;
+		else {
+			$sitetitleAdditional .= _PATH_HOME
+			.'&nbsp;/&nbsp;'
+			._PATH_REGISTRATION;
 		}
 		break;
 	
@@ -779,9 +788,9 @@ switch($id){
 			PROFILE
 		*/
 		
-		echo _PATH_HOME;
-		echo '&nbsp;/&nbsp;';
-		echo _PATH_PROFILE;
+		$sitetitleAdditional .= _PATH_HOME
+		.'&nbsp;/&nbsp;'
+		._PATH_PROFILE;
 		break;
 	
 	case 'search':
@@ -789,9 +798,9 @@ switch($id){
 			SEARCH
 		*/
 		
-		echo _PATH_HOME;
-		echo '&nbsp;/&nbsp;';
-		echo _PATH_SEARCH;
+		$sitetitleAdditional .= _PATH_HOME
+		.'&nbsp;/&nbsp;'
+		._PATH_SEARCH;
 		break;
 	
 	case 'links':
@@ -799,9 +808,9 @@ switch($id){
 			LINKS
 		*/
 		
-		echo _PATH_HOME;
-		echo '&nbsp;/&nbsp;';
-		echo _PATH_LINKS;
+		$sitetitleAdditional .= _PATH_HOME
+		.'&nbsp;/&nbsp;'
+		._PATH_LINKS;
 		break;
 	
 	case 'polls':
@@ -809,9 +818,9 @@ switch($id){
 			POLLS
 		*/
 		
-		echo _PATH_HOME;
-		echo '&nbsp;/&nbsp;';
-		echo _PATH_POLLS;
+		$sitetitleAdditional .= _PATH_HOME
+		.'&nbsp;/&nbsp;'
+		._PATH_POLLS;
 		break;
 	
 	case 'impressum':
@@ -819,9 +828,9 @@ switch($id){
 			IMPRESSUM
 		*/
 		
-		echo _PATH_HOME;
-		echo '&nbsp;/&nbsp;';
-		echo _PATH_LEGAL;
+		$sitetitleAdditional .= _PATH_HOME
+		.'&nbsp;/&nbsp;'
+		._PATH_LEGAL;
 		break;
 	
 	case 'contactform':
@@ -829,9 +838,9 @@ switch($id){
 			IMPRESSUM
 		*/
 		
-		echo _PATH_HOME;
-		echo '&nbsp;/&nbsp;';
-		echo _PATH_CONTACTFORM;
+		$sitetitleAdditional .= _PATH_HOME
+		.'&nbsp;/&nbsp;'
+		._PATH_CONTACTFORM;
 		break;
 	
 	case 'components':
@@ -847,9 +856,9 @@ switch($id){
 			$pathName = _MSG_ERROR;
 		}
 		
-		echo _PATH_HOME;
-		echo '&nbsp;/&nbsp;';
-		echo $pathName;
+		$sitetitleAdditional .= _PATH_HOME
+		.'&nbsp;/&nbsp;'
+		.$pathName;
 		break;
 	
 	default:
@@ -858,7 +867,7 @@ switch($id){
 		*/
 		
 		if($id == 'frontpage') {
-			echo $pathway[$id];
+			$sitetitleAdditional .= $pathway[$id];
 		}
 		else {
 			$arrContentAccess = $tcms_dcp->getContentAccess($id);
@@ -883,18 +892,30 @@ switch($id){
 					
 					//echo _PATH_HOME;
 					//echo '&nbsp;/&nbsp;';
-					echo $dcContent->getTitle();
+					$sitetitleAdditional .= $dcContent->getTitle();
 				}
 				else {
-					echo $pathway[$id];
+					$sitetitleAdditional .= $pathway[$id];
 				}
 			}
 			else {
-				echo $pathway[$id];
+				$sitetitleAdditional .= $pathway[$id];
 			}
 		}
 		break;
 }
 
+
+echo $sitetitleAdditional;
+
+if(!defined('_SITE_TITLE_ADDITIONAL')) define('_SITE_TITLE_ADDITIONAL', $sitetitleAdditional);
+
+if(trim(_SITE_TITLE) != '') {
+	echo _SITE_TITLE.' | ';
+}
+
+if(trim(_SITE_TITLE_ADDITIONAL) != '') {
+	echo _SITE_TITLE_ADDITIONAL;
+}
 
 ?>
