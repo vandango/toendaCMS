@@ -9,11 +9,23 @@
 | 
 | English language
 |
-| File:		en_EN.php
-| Version:	0.1.3
+| File:	en_EN.php
 |
 +
 */
+
+
+/**
+ * English language
+ *
+ * This file is used for the english language.
+ *
+ * @version 0.1.4
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Installer
+ *
+ */
 
 
 
@@ -93,6 +105,7 @@ define('_TCMS_DB_UPDATE_TEXT', 'This dialog will update your toendaCMS installat
 
 define('_TCMS_DB_UPDATE_VERSION_107', 'Update Version 1.0.7');
 define('_TCMS_DB_UPDATE_VERSION_156', 'Update Version 1.5.6');
+define('_TCMS_DB_UPDATE_VERSION_160', 'Update Version 1.6.0');
 
 define('_TCMS_DB_NEWINSTALL_TITLE', 'Creating database configuration');
 define('_TCMS_DB_NEWINSTALL_DB1', 'toendaCMS new installation with a');

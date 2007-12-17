@@ -30,7 +30,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide the global
  * setup configuration data.
  *
- * @version 0.0.1
+ * @version 0.0.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -40,10 +40,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * Methods
  *
- * __construct                 -> PHP5 Constructor
- * tcms_setup_configuration    -> PHP4 Constructor
- * __destruct                  -> PHP5 Destructor
- * _tcms_setup_configuration   -> PHP4 Destructor
+ * __construct                 -> Constructor
+ * __destruct                  -> Destructor
  *
  * getRequiredPHPVersion       -> Get the required PHP version
  * 
@@ -60,17 +58,8 @@ class tcms_setup_configuration {
 	/**
 	 * PHP5 Constructor
 	 */
-	function __construct() {
+	public function __construct() {
 		$this->_requiredPHPVersion = '5.0.0';
-	}
-	
-	
-	
-	/**
-	 * PHP4 Constructor
-	 */
-	function tcms_setup_configuration(){
-		$this->__construct();
 	}
 	
 	
@@ -78,16 +67,7 @@ class tcms_setup_configuration {
 	/**
 	 * PHP5 Destructor
 	 */
-	function __destruct() {
-	}
-	
-	
-	
-	/**
-	 * PHP4 Destructor
-	 */
-	function _tcms_setup_configuration() {
-		$this->__destruct();
+	public function __destruct() {
 	}
 	
 	
@@ -97,7 +77,7 @@ class tcms_setup_configuration {
 	 *
 	 * @return String
 	 */
-	function getRequiredPHPVersion() {
+	public function getRequiredPHPVersion() {
 		return $this->_requiredPHPVersion;
 	}
 }

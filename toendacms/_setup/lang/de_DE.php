@@ -9,11 +9,23 @@
 | 
 | German language
 |
-| File:		de_DE.php
-| Version:	0.1.3
+| File:	de_DE.php
 |
 +
 */
+
+
+/**
+ * German language
+ *
+ * This file is used for the german language.
+ *
+ * @version 0.1.4
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Installer
+ *
+ */
 
 
 
@@ -94,6 +106,7 @@ define('_TCMS_DB_UPDATE_TEXT', 'Dieser Dialog wird ihre toendaCMS Installation a
 
 define('_TCMS_DB_UPDATE_VERSION_107', 'Version 1.0.7 aktualisieren');
 define('_TCMS_DB_UPDATE_VERSION_156', 'Version 1.5.6 aktualisieren');
+define('_TCMS_DB_UPDATE_VERSION_160', 'Version 1.6.0 aktualisieren');
 
 define('_TCMS_DB_NEWINSTALL_TITLE', 'Datenbank Konfiguration einstellen');
 define('_TCMS_DB_NEWINSTALL_DB1', 'toendaCMS Neuinstallation mit einer');
