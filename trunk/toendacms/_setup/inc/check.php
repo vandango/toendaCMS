@@ -20,7 +20,7 @@
  *
  * This file is used for the check actions.
  *
- * @version 0.2.0
+ * @version 0.2.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -168,7 +168,7 @@ echo '<br />';
 
 
 echo '<div style="display: block; float: left; width: '.$width.'px;">'
-.'Save Mode'
+.'Save Mode (optional)'
 .'</div>';
 
 echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
@@ -272,7 +272,7 @@ echo '<br />';
 
 
 echo '<div style="display: block; float: left; width: '.$width.'px;">'
-.'/data/images/knowledgebase'
+.'/data/images/knowledge...'
 .'</div>';
 
 echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'

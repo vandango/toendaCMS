@@ -20,7 +20,7 @@
  *
  * This file is used for the database actions.
  *
- * @version 0.6.8
+ * @version 0.7.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -32,8 +32,9 @@
 	init
 */
 
-if(!isset($todo))
+if(!isset($todo)) {
 	$todo = 'selectDB';
+}
 
 
 
@@ -42,7 +43,7 @@ if(!isset($todo))
 	select database
 */
 
-if($todo == 'selectDB'){
+if($todo == 'selectDB') {
 	echo '<h2>'._TCMS_DB_CHOOSE.'</h2>';
 	echo '<h3>'._TCMS_DB_SYSTEMS.'</h3>';
 	echo '<hr />';
@@ -230,13 +231,30 @@ if($todo == 'update') {
 	.'</div>';
 	
 	echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-	.'<input checked="checked" name="new_update" type="radio" value="107" />'
+	.'<input checked="checked" name="new_update" type="radio" value="156" />'
 	.'</div>';
 	
 	echo '<div style="display: block; margin: 0 0 0 560px;">&nbsp;</div>';
 	
 	
 	echo '<br />';
+	
+	
+	
+	if($db == 'mysql') {
+		echo '<div style="display: block; float: left; width: 220px; font-weight: bold;">'
+		._TCMS_DB_UPDATE_VERSION_160
+		.'</div>';
+		
+		echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
+		.'<input checked="checked" name="new_update" type="radio" value="160" />'
+		.'</div>';
+		
+		echo '<div style="display: block; margin: 0 0 0 560px;">&nbsp;</div>';
+		
+		
+		echo '<br />';
+	}
 	
 	
 	echo '<br />';
@@ -271,7 +289,7 @@ if($todo == 'update') {
 	database settings
 */
 
-if($todo == 'global'){
+if($todo == 'global') {
 	echo '<h2>'._TCMS_DB_NEWINSTALL_TITLE.'</h2>';
 	echo '<h3>'._TCMS_DB_NEWINSTALL_DB1.' ';
 	
@@ -565,28 +583,30 @@ if($todo == 'save_update') {
 			}
 			
 			
-			// update to new multi-language
-			$layout_xml = new xmlparser('../'.$tcms_administer_site.'/tcms_global/var.xml','r');
-			$plang = $layout_xml->read_value('front_lang');
-			
-			if(file_exists('db/'.$new_engine.'_ext_updateml.sql')){
-				$fp = fopen('db/'.$new_engine.'_ext_updateml.sql', 'r');
-				$tcms_ml = fread($fp, filesize('db/'.$new_engine.'_ext_updateml.sql'));
-				fclose($fp);
+			if($new_update != '160') {
+				// update to new multi-language
+				$layout_xml = new xmlparser('../'.$tcms_administer_site.'/tcms_global/var.xml','r');
+				$plang = $layout_xml->read_value('front_lang');
 				
-				$sqlAL = new sqlAbstractionLayer($new_engine);
-				
-				$sqlCN = $sqlAL->sqlConnect($new_user, $new_password, $new_host, $new_database, $new_port);
-				
-				$pieces = $tcms_main->split_sql($tcms_ml);
-				
-				for($i = 0; $i < count($pieces); $i++){
-					$pieces[$i] = trim($pieces[$i]);
-					if(!empty($pieces[$i]) && $pieces[$i] != '#'){
-						$pieces[$i] = str_replace( "#####", $new_prefix, $pieces[$i]);
-						$pieces[$i] = str_replace( "+++++", $plang, $pieces[$i]);
-						//echo $pieces[$i].'<br />';
-						$sqlQR = $sqlAL->sqlQuery($pieces[$i]);
+				if(file_exists('db/'.$new_engine.'_ext_updateml.sql')){
+					$fp = fopen('db/'.$new_engine.'_ext_updateml.sql', 'r');
+					$tcms_ml = fread($fp, filesize('db/'.$new_engine.'_ext_updateml.sql'));
+					fclose($fp);
+					
+					$sqlAL = new sqlAbstractionLayer($new_engine);
+					
+					$sqlCN = $sqlAL->sqlConnect($new_user, $new_password, $new_host, $new_database, $new_port);
+					
+					$pieces = $tcms_main->split_sql($tcms_ml);
+					
+					for($i = 0; $i < count($pieces); $i++){
+						$pieces[$i] = trim($pieces[$i]);
+						if(!empty($pieces[$i]) && $pieces[$i] != '#'){
+							$pieces[$i] = str_replace( "#####", $new_prefix, $pieces[$i]);
+							$pieces[$i] = str_replace( "+++++", $plang, $pieces[$i]);
+							//echo $pieces[$i].'<br />';
+							$sqlQR = $sqlAL->sqlQuery($pieces[$i]);
+						}
 					}
 				}
 			}

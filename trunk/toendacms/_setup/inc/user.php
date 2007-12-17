@@ -7,13 +7,25 @@
 | Author: Jonathan Naumann                                               |
 +------------------------------------------------------------------------+
 |
-| create user
+| Create user
 |
-| File:		user.php
-| Version:	0.1.8
+| File:	user.php
 |
 +
 */
+
+
+/**
+ * Create user
+ *
+ * This file is used to create a user.
+ *
+ * @version 0.1.9
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Installer
+ *
+ */
 
 
 if(!isset($todo)){ $todo = 'global'; }

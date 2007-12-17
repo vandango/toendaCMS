@@ -572,10 +572,11 @@ if($id_group == 'Developer'
 		
 		$nlmailmsg   = _NL_MAILMESSAGE.': '._NL_CHECKSTRING;
 		
-		if($mail_with_smtp == '1')
+		if($mail_with_smtp == '1') {
 			$mail = new PHPMailer();
+		}
 		
-		foreach($arr_send_nl['email'] as $key => $val){
+		foreach($arr_send_nl['email'] as $key => $val) {
 			//echo $arr_send_nl['email'][$key]."<br />";
 			$send_mail_to = $arr_send_nl['email'][$key];
 			$send_name = $arr_send_nl['user'][$key];
@@ -583,7 +584,7 @@ if($id_group == 'Developer'
 			// send mail:
 			// over own smtp or
 			// over php mail() function
-			if($mail_with_smtp == '1'){
+			if($mail_with_smtp == '1') {
 				// phpmailer
 				//$mail = new PHPMailer();
 				
