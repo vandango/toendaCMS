@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a newsletter extension.
  *
- * @version 0.5.8
+ * @version 0.6.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -510,12 +510,13 @@ if($id_group == 'Developer'
 	// SEND MESSAGE
 	// ----------------------------------------------------
 	
-	if($todo == 'send_newsletter'){
-		if($choosenDB == 'xml'){
+	if($todo == 'send_newsletter') {
+		if($choosenDB == 'xml') {
 			$arr_send_nl['files'] = $tcms_file->getPathContent('../../'.$tcms_administer_site.'/tcms_newsletter/');
 			
 			$nl = 0;
-			foreach($arr_send_nl['files'] as $nl => $val){
+			
+			foreach($arr_send_nl['files'] as $nl => $val) {
 				$nl_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_newsletter/'.$arr_send_nl['files'][$nl], 'r');
 				
 				$arr_send_nl['email'][$nl] = $nl_xml->readSection('nl_user', 'email');
@@ -539,31 +540,6 @@ if($id_group == 'Developer'
 				
 				$count++;
 			}
-		}
-		
-		
-		if($choosenDB == 'xml') {
-			$send_nl_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/contactform.'
-			.$tcms_config->getLanguageCodeByTCMSCode($tcms_config->getLanguageBackend())
-			.'.xml','r');
-			$owner_email = $send_nl_xml->readSection('email', 'contact');
-		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-			
-			$strQuery = "SELECT contact "
-			."FROM ".$tcms_db_prefix."contactform "
-			."WHERE uid = 'contactform'";
-			
-			$sqlQR = $sqlAL->sqlQuery($strQuery);
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
-			
-			$owner_email = $sqlARR['contact'];
-			
-			$sqlAL->_sqlAbstractionLayer();
-			
-			if($owner_email == NULL){ $owner_email = ''; }
 		}
 		
 		
@@ -591,6 +567,10 @@ if($id_group == 'Developer'
 				$mail->IsSMTP();
 				$mail->Host     = $mail_server_smtp;
 				$mail->SMTPAuth = true;
+				$mail->SetLanguage(
+					'en', 
+					'../tcms_kernel/phpmailer/language/'
+				);
 				$mail->Username = $mail_user;
 				$mail->Password = $mail_password;
 				
@@ -598,8 +578,9 @@ if($id_group == 'Developer'
 				$mail->FromName = $owner;
 				$mail->AddAddress($send_mail_to, $send_name);
 				
-				if($key == 0)
+				if($key == 0) {
 					$mail->AddReplyTo($owner_email, $owner);
+				}
 				
 				$mail->WordWrap = 50;
 				

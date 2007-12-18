@@ -1,20 +1,23 @@
 -- phpMyAdmin SQL Dump
--- version 2.8.2
+-- version 2.11.1
 -- http://www.phpmyadmin.net
--- 
+--
 -- Host: localhost
--- Erstellungszeit: 31. August 2007 um 00:28
--- Server Version: 5.0.33
--- PHP-Version: 5.2.1
--- 
+-- Erstellungszeit: 18. Dezember 2007 um 00:59
+-- Server Version: 5.0.45
+-- PHP-Version: 5.2.4
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+--
 -- Datenbank: `tcms_blog`
--- 
+--
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####albums`
--- 
+--
 
 CREATE TABLE `#####albums` (
   `uid` varchar(12) NOT NULL default '',
@@ -24,13 +27,18 @@ CREATE TABLE `#####albums` (
   `desc` text,
   `image` varchar(255) default NULL,
   PRIMARY KEY  (`uid`)
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `#####albums`
+--
+
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####comments`
--- 
+--
 
 CREATE TABLE `#####comments` (
   `uid` varchar(10) NOT NULL default '',
@@ -43,13 +51,13 @@ CREATE TABLE `#####comments` (
   `time` varchar(14) NOT NULL default '',
   `ip` varchar(15) default NULL,
   `domain` varchar(255) default NULL
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####contactform`
--- 
+--
 
 CREATE TABLE `#####contactform` (
   `uid` varchar(11) NOT NULL default '',
@@ -66,20 +74,21 @@ CREATE TABLE `#####contactform` (
   `use_contact` int(1) default NULL,
   `show_contactemail` int(1) NOT NULL default '0',
   PRIMARY KEY  (`uid`)
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Daten für Tabelle `#####contactform`
--- 
+--
 
-INSERT INTO `#####contactform` (`uid`, `language`, `contact`, `show_contacts_in_sidebar`, `send_id`, `contacttitle`, `contactstamp`, `contacttext`, `access`, `enabled`, `use_adressbook`, `use_contact`, `show_contactemail`) VALUES ('contactform', 'english_EN', '', 0, 'contactform', '', '', '', 'Public', 1, 1, 1, 1),
+INSERT INTO `#####contactform` (`uid`, `language`, `contact`, `show_contacts_in_sidebar`, `send_id`, `contacttitle`, `contactstamp`, `contacttext`, `access`, `enabled`, `use_adressbook`, `use_contact`, `show_contactemail`) VALUES
+('contactform', 'english_EN', '', 0, 'contactform', '', '', '', 'Public', 1, 1, 1, 1),
 ('196716e11c5', 'germany_DE', '', 1, 'contactform', '', '', '', 'Public', 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####contacts`
--- 
+--
 
 CREATE TABLE `#####contacts` (
   `uid` varchar(10) NOT NULL default '',
@@ -96,13 +105,13 @@ CREATE TABLE `#####contacts` (
   `phone` varchar(40) default NULL,
   `fax` varchar(40) default NULL,
   PRIMARY KEY  (`uid`)
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####content`
--- 
+--
 
 CREATE TABLE `#####content` (
   `uid` varchar(5) NOT NULL default '',
@@ -118,13 +127,13 @@ CREATE TABLE `#####content` (
   `autor` varchar(255) default NULL,
   `language` varchar(25) default NULL,
   PRIMARY KEY  (`uid`)
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####content_languages`
--- 
+--
 
 CREATE TABLE `#####content_languages` (
   `uid` varchar(5) collate utf8_unicode_ci NOT NULL,
@@ -140,13 +149,20 @@ CREATE TABLE `#####content_languages` (
   `access` varchar(10) collate utf8_unicode_ci NOT NULL,
   `in_work` int(11) NOT NULL default '0',
   `published` int(11) NOT NULL default '0'
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Daten für Tabelle `#####content_languages`
+--
+
+INSERT INTO `#####content_languages` (`uid`, `content_uid`, `language`, `title`, `key`, `content00`, `content01`, `foot`, `autor`, `db_layout`, `access`, `in_work`, `published`) VALUES
+('fdgd7', '18e2a', 'germany_DE', '', '', '', '', 'root', 'db_content_default.php', 'Public', 1, 1);
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####downloads`
--- 
+--
 
 CREATE TABLE `#####downloads` (
   `uid` varchar(10) NOT NULL default '',
@@ -165,13 +181,13 @@ CREATE TABLE `#####downloads` (
   `mirror` int(1) default NULL,
   PRIMARY KEY  (`uid`),
   KEY `uid` (`uid`)
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####downloads_config`
--- 
+--
 
 CREATE TABLE `#####downloads_config` (
   `uid` varchar(8) NOT NULL default '',
@@ -179,19 +195,20 @@ CREATE TABLE `#####downloads_config` (
   `download_title` varchar(255) default NULL,
   `download_stamp` varchar(255) default NULL,
   `download_text` text
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Daten für Tabelle `#####downloads_config`
--- 
+--
 
-INSERT INTO `#####downloads_config` (`uid`, `download_id`, `download_title`, `download_stamp`, `download_text`) VALUES ('download', 'download', 'Downloads and Software', 'Toenda Software Downloads', 'Our software downloads.');
+INSERT INTO `#####downloads_config` (`uid`, `download_id`, `download_title`, `download_stamp`, `download_text`) VALUES
+('download', 'download', '', '', '');
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####frontpage`
--- 
+--
 
 CREATE TABLE `#####frontpage` (
   `uid` varchar(9) NOT NULL default '',
@@ -209,23 +226,21 @@ CREATE TABLE `#####frontpage` (
   `sb_news_enabled` int(1) NOT NULL default '0',
   `sb_news_display` int(1) NOT NULL default '0',
   PRIMARY KEY  (`uid`)
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Daten für Tabelle `#####frontpage`
--- 
+--
 
-INSERT INTO `#####frontpage` 
-(`uid`, `language`, `front_id`, `front_title`, `front_stamp`, `front_text`, `news_title`, `news_cut`, `module_use_0`, `sb_news_title`, `sb_news_amount`, `sb_news_chars`, `sb_news_enabled`, `sb_news_display`) 
-VALUES 
+INSERT INTO `#####frontpage` (`uid`, `language`, `front_id`, `front_title`, `front_stamp`, `front_text`, `news_title`, `news_cut`, `module_use_0`, `sb_news_title`, `sb_news_amount`, `sb_news_chars`, `sb_news_enabled`, `sb_news_display`) VALUES
 ('24k58ilp6', 'english_EN', 'frontpage', '', '', '', '', 0, 5, '', 5, 100, 0, 3),
 ('4frtgh587', 'germany_DE', 'frontpage', '', '', '', '', 0, 5, '', 5, 100, 0, 3);
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####guestbook`
--- 
+--
 
 CREATE TABLE `#####guestbook` (
   `uid` varchar(9) NOT NULL default '',
@@ -242,19 +257,20 @@ CREATE TABLE `#####guestbook` (
   `text_width` varchar(4) default NULL,
   `color_row_1` varchar(6) default NULL,
   `color_row_2` varchar(6) default NULL
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Daten für Tabelle `#####guestbook`
--- 
+--
 
-INSERT INTO `#####guestbook` (`uid`, `guest_id`, `booktitle`, `bookstamp`, `access`, `enabled`, `clean_link`, `clean_script`, `convert_at`, `show_email`, `name_width`, `text_width`, `color_row_1`, `color_row_2`) VALUES ('guestbook', 'guestbook', 'My Guests', 'of this beautiful website', 'Public', 1, 1, 1, 1, 1, '140', '360', 'efefef', 'ffffff');
+INSERT INTO `#####guestbook` (`uid`, `guest_id`, `booktitle`, `bookstamp`, `access`, `enabled`, `clean_link`, `clean_script`, `convert_at`, `show_email`, `name_width`, `text_width`, `color_row_1`, `color_row_2`) VALUES
+('guestbook', 'guestbook', 'My Guests', 'of this beautiful website', 'Public', 1, 1, 1, 1, 1, '140', '360', 'efefef', 'ffffff');
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####guestbook_items`
--- 
+--
 
 CREATE TABLE `#####guestbook_items` (
   `uid` varchar(32) NOT NULL default '',
@@ -263,13 +279,13 @@ CREATE TABLE `#####guestbook_items` (
   `text` text,
   `date` varchar(8) default NULL,
   `time` varchar(5) default NULL
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####imagegallery`
--- 
+--
 
 CREATE TABLE `#####imagegallery` (
   `uid` varchar(10) NOT NULL default '',
@@ -277,18 +293,18 @@ CREATE TABLE `#####imagegallery` (
   `image` varchar(255) NOT NULL default '',
   `text` text,
   `date` varchar(14) NOT NULL default ''
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Daten für Tabelle `#####imagegallery`
--- 
+--
 
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####imagegallery_config`
--- 
+--
 
 CREATE TABLE `#####imagegallery_config` (
   `uid` varchar(12) NOT NULL default '',
@@ -305,19 +321,20 @@ CREATE TABLE `#####imagegallery_config` (
   `size_image` int(3) default NULL,
   `image_sort` varchar(4) NOT NULL default 'desc',
   `list_option` int(1) NOT NULL default '0'
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Daten für Tabelle `#####imagegallery_config`
--- 
+--
 
-INSERT INTO `#####imagegallery_config` (`uid`, `image_id`, `image_title`, `image_stamp`, `image_details`, `use_comments`, `access`, `max_image`, `needle_image`, `show_lastimg_title`, `align_image`, `size_image`, `image_sort`, `list_option`) VALUES ('imagegallery', 'imagegallery', 'Imagegallery', 'Picture i like', 0, 1, 'Public', 5, 'Last uploaded', 1, 'center', 100, 'desc', 1);
+INSERT INTO `#####imagegallery_config` (`uid`, `image_id`, `image_title`, `image_stamp`, `image_details`, `use_comments`, `access`, `max_image`, `needle_image`, `show_lastimg_title`, `align_image`, `size_image`, `image_sort`, `list_option`) VALUES
+('imagegallery', 'imagegallery', 'Imagegallery', 'Picture i like', 0, 1, 'Public', 5, 'Last uploaded', 1, 'center', 100, 'desc', 1);
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####impressum`
--- 
+--
 
 CREATE TABLE `#####impressum` (
   `uid` varchar(9) NOT NULL default '',
@@ -329,23 +346,21 @@ CREATE TABLE `#####impressum` (
   `taxno` varchar(50) default NULL,
   `ustid` varchar(50) default NULL,
   `legal` text
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Daten für Tabelle `#####impressum`
--- 
+--
 
-INSERT INTO `#####impressum` 
-(`uid`, `language`, `imp_id`, `imp_title`, `imp_stamp`, `imp_contact`, `taxno`, `ustid`, `legal`) 
-VALUES 
-('impressum', 'english_EN', 'impressum', '', '', '10a1b5f6ab', '', '', ''),
-('hgztkj87r', 'germany_DE', 'impressum', '', '', '10a1b5f6ab', '', '', '');
+INSERT INTO `#####impressum` (`uid`, `language`, `imp_id`, `imp_title`, `imp_stamp`, `imp_contact`, `taxno`, `ustid`, `legal`) VALUES
+('impressum', 'english_EN', 'impressum', 'Disclaimer', '', '10a1b5f6ab', '123456789', '123123d', ''),
+('hgztkj87r', 'germany_DE', 'impressum', 'Impressum', '', '10a1b5f6ab', '123456789', '123123d', '');
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####knowledgebase`
--- 
+--
 
 CREATE TABLE `#####knowledgebase` (
   `uid` varchar(10) NOT NULL default '',
@@ -362,19 +377,13 @@ CREATE TABLE `#####knowledgebase` (
   `autor` varchar(32) NOT NULL default '',
   `sort` int(5) NOT NULL default '0',
   `publish_state` int(1) NOT NULL default '0'
-) ENGINE=MyISAM ;
-
--- 
--- Daten für Tabelle `#####knowledgebase`
--- 
-
-INSERT INTO `#####knowledgebase` (`uid`, `category`, `parent`, `title`, `subtitle`, `content`, `image`, `type`, `date`, `last_update`, `access`, `autor`, `sort`, `publish_state`) VALUES ('6e6f2483b7', '', '', 'sdfsdf', 'sdfsdf', 'sdfsdf\r\n', '', 'a', '02.08.2007-19:33', '02.08.2007-19:33', 'Public', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff', 0, 2);
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####knowledgebase_config`
--- 
+--
 
 CREATE TABLE `#####knowledgebase_config` (
   `uid` varchar(13) NOT NULL default '',
@@ -385,19 +394,20 @@ CREATE TABLE `#####knowledgebase_config` (
   `enabled` int(1) NOT NULL default '0',
   `autor_enabled` int(1) NOT NULL default '0',
   `access` varchar(10) NOT NULL default ''
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Daten für Tabelle `#####knowledgebase_config`
--- 
+--
 
-INSERT INTO `#####knowledgebase_config` (`uid`, `id`, `title`, `subtitle`, `text`, `enabled`, `autor_enabled`, `access`) VALUES ('knowledgebase', 'knowledgebase', 'FAQs and Articles', 'A small knowledge database', 'Here you will find an example set of FAQs and Articles.', 1, 0, 'Public');
+INSERT INTO `#####knowledgebase_config` (`uid`, `id`, `title`, `subtitle`, `text`, `enabled`, `autor_enabled`, `access`) VALUES
+('knowledgebase', 'knowledgebase', 'FAQs and Articles', 'A small knowledge database', '', 1, 0, 'Public');
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####links`
--- 
+--
 
 CREATE TABLE `#####links` (
   `uid` varchar(32) NOT NULL default '',
@@ -412,13 +422,13 @@ CREATE TABLE `#####links` (
   `rss` varchar(255) default NULL,
   `access` varchar(10) NOT NULL default '',
   `module` int(1) default NULL
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####links_config`
--- 
+--
 
 CREATE TABLE `#####links_config` (
   `uid` varchar(17) NOT NULL default '',
@@ -430,20 +440,21 @@ CREATE TABLE `#####links_config` (
   `link_main_subtitle` varchar(255) default NULL,
   `link_main_text` text,
   `link_main_access` varchar(10) default NULL
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Daten für Tabelle `#####links_config`
--- 
+--
 
-INSERT INTO `#####links_config` (`uid`, `link_use_side_desc`, `link_use_side_title`, `link_side_title`, `link_use_main_desc`, `link_main_title`, `link_main_subtitle`, `link_main_text`, `link_main_access`) VALUES ('links_config_side', 0, 1, 'Blogroll', NULL, NULL, NULL, NULL, NULL),
-('links_config_main', NULL, NULL, NULL, 1, 'myLinks', 'A list of all websites i like', 'This is a example text for the textlink page.&lt;a href__________&quot;/toendacms/index.php/section/contactform/template/k2&quot;&gt;Kontaktformular&lt;/a&gt;', 'Public');
+INSERT INTO `#####links_config` (`uid`, `link_use_side_desc`, `link_use_side_title`, `link_side_title`, `link_use_main_desc`, `link_main_title`, `link_main_subtitle`, `link_main_text`, `link_main_access`) VALUES
+('links_config_side', 0, 1, 'Blogroll', NULL, NULL, NULL, NULL, NULL),
+('links_config_main', NULL, NULL, NULL, 1, 'myLinks', 'A list of all websites i like', '', 'Public');
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####news`
--- 
+--
 
 CREATE TABLE `#####news` (
   `uid` varchar(10) NOT NULL default '',
@@ -461,37 +472,13 @@ CREATE TABLE `#####news` (
   `access` varchar(10) NOT NULL default '',
   `show_on_frontpage` int(1) NOT NULL,
   PRIMARY KEY  (`uid`)
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
--- Tabellenstruktur für Tabelle `#####news_categories`
--- 
-
-CREATE TABLE `#####news_categories` (
-  `uid` varchar(5) NOT NULL default '',
-  `name` varchar(255) NOT NULL default '',
-  `desc` text
-) ENGINE=MyISAM ;
-
--- --------------------------------------------------------
-
--- 
--- Tabellenstruktur für Tabelle `#####news_to_categories`
--- 
-
-CREATE TABLE `#####news_to_categories` (
-  `uid` varchar(32) NOT NULL default '',
-  `news_uid` varchar(10) NOT NULL default '',
-  `cat_uid` varchar(5) NOT NULL default ''
-) ENGINE=MyISAM ;
-
--- --------------------------------------------------------
-
--- 
+--
 -- Tabellenstruktur für Tabelle `#####newsletter`
--- 
+--
 
 CREATE TABLE `#####newsletter` (
   `uid` varchar(10) NOT NULL default '',
@@ -499,31 +486,32 @@ CREATE TABLE `#####newsletter` (
   `nl_show_title` int(1) NOT NULL default '0',
   `nl_text` varchar(255) NOT NULL default '',
   `nl_link` varchar(255) NOT NULL default ''
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Daten für Tabelle `#####newsletter`
--- 
+--
 
-INSERT INTO `#####newsletter` (`uid`, `nl_title`, `nl_show_title`, `nl_text`, `nl_link`) VALUES ('newsletter', '', 1, '', 'Submit');
+INSERT INTO `#####newsletter` (`uid`, `nl_title`, `nl_show_title`, `nl_text`, `nl_link`) VALUES
+('newsletter', 'Newsletter', 1, 'You want always know whats up, subscribe now!', 'Submit');
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####newsletter_items`
--- 
+--
 
 CREATE TABLE `#####newsletter_items` (
   `uid` varchar(6) NOT NULL default '',
   `user` varchar(255) NOT NULL default '',
   `email` varchar(255) NOT NULL default ''
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####newsmanager`
--- 
+--
 
 CREATE TABLE `#####newsmanager` (
   `uid` varchar(11) character set latin1 collate latin1_german1_ci NOT NULL,
@@ -553,75 +541,74 @@ CREATE TABLE `#####newsmanager` (
   `readmore_link` int(1) NOT NULL default '0',
   `news_spacing` int(2) NOT NULL default '0',
   `language` varchar(25) NOT NULL,
+  `use_rss091_img` tinyint(4) NOT NULL default '1',
+  `rss091_text` varchar(255) NOT NULL default '',
+  `use_rss10_img` tinyint(4) NOT NULL default '1',
+  `rss10_text` varchar(255) NOT NULL default '',
+  `use_rss20_img` tinyint(4) NOT NULL default '1',
+  `rss20_feed` varchar(255) NOT NULL default '',
+  `use_atom03_img` tinyint(4) NOT NULL default '1',
+  `atom03_text` varchar(255) NOT NULL default '',
+  `use_opml_img` tinyint(4) NOT NULL default '1',
+  `opml_text` varchar(255) NOT NULL default '',
+  `use_comment_feed` tinyint(4) NOT NULL default '1',
+  `comment_feed_text` varchar(255) default '',
+  `comment_feed_type` varchar(7) default '',
+  `use_comment_feed_img` tinyint(4) NOT NULL default '0',
+  `comments_feed_amount` int(11) NOT NULL default '5',
   PRIMARY KEY  (`uid`)
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Daten für Tabelle `#####newsmanager`
--- 
+--
 
-INSERT INTO `#####newsmanager` (`uid`, `news_id`, `news_title`, `news_stamp`, `news_text`, `news_image`, `use_comments`, `show_autor`, `show_autor_as_link`, `news_amount`, `access`, `news_cut`, `use_gravatar`, `use_emoticons`, `use_rss091`, `use_rss10`, `use_rss20`, `use_atom03`, `use_opml`, `syn_amount`, `use_syn_title`, `def_feed`, `use_trackback`, `use_timesince`, `readmore_link`, `news_spacing`, `language`) VALUES ('newsmanager', 'newsmanager', 'News', 'Current', 'My newstext&lt;br /&gt;\r\n', '', 1, 1, 1, 20, 'Public', 0, 0, 1, 1, 1, 1, 1, 1, 5, 0, 'RSS2.0', 0, 2, 0, 0, 'english_EN'),
-('45789hgtzu', 'newsmanager', '', '', '', '', 1, 1, 1, 20, 'Public', 0, 1, 1, 1, 1, 1, 1, 1, 5, 0, 'RSS2.0', 0, 0, 0, 0, 'germany_DE');
+INSERT INTO `#####newsmanager` (`uid`, `news_id`, `news_title`, `news_stamp`, `news_text`, `news_image`, `use_comments`, `show_autor`, `show_autor_as_link`, `news_amount`, `access`, `news_cut`, `use_gravatar`, `use_emoticons`, `use_rss091`, `use_rss10`, `use_rss20`, `use_atom03`, `use_opml`, `syn_amount`, `use_syn_title`, `def_feed`, `use_trackback`, `use_timesince`, `readmore_link`, `news_spacing`, `language`, `use_rss091_img`, `rss091_text`, `use_rss10_img`, `rss10_text`, `use_rss20_img`, `rss20_feed`, `use_atom03_img`, `atom03_text`, `use_opml_img`, `opml_text`, `use_comment_feed`, `comment_feed_text`, `comment_feed_type`, `use_comment_feed_img`, `comments_feed_amount`) VALUES
+('newsmanager', 'newsmanager', 'News', 'Current', '', '', 1, 1, 1, 20, 'Public', 0, 0, 1, 1, 1, 1, 1, 1, 5, 0, 'RSS2.0', 0, 2, 0, 0, 'english_EN', 1, '', 1, '', 1, '', 1, '', 1, '', 1, '', '', 0, 5),
+('45789hgtzu', 'newsmanager', 'Neuigkeiten', 'Aktuell', '', '', 1, 1, 1, 20, 'Public', 0, 1, 1, 0, 0, 1, 0, 0, 5, 0, 'RSS2.0', 0, 0, 0, 0, 'germany_DE', 0, '', 0, '', 0, 'News abonnieren', 0, '', 0, '', 1, 'Kommentare abonnieren', 'RSS2.0', 0, 25);
 
 -- --------------------------------------------------------
 
--- 
+--
+-- Tabellenstruktur für Tabelle `#####news_categories`
+--
+
+CREATE TABLE `#####news_categories` (
+  `uid` varchar(5) NOT NULL default '',
+  `name` varchar(255) NOT NULL default '',
+  `desc` text
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `#####news_to_categories`
+--
+
+CREATE TABLE `#####news_to_categories` (
+  `uid` varchar(32) NOT NULL default '',
+  `news_uid` varchar(10) NOT NULL default '',
+  `cat_uid` varchar(5) NOT NULL default ''
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `#####notepad`
--- 
+--
 
 CREATE TABLE `#####notepad` (
   `uid` varchar(32) NOT NULL default '',
   `name` varchar(200) NOT NULL default '',
   `note` text,
   PRIMARY KEY  (`uid`)
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
--- Tabellenstruktur für Tabelle `#####poll_config`
--- 
-
-CREATE TABLE `#####poll_config` (
-  `uid` varchar(4) NOT NULL default '',
-  `poll_title` varchar(30) default NULL,
-  `allpoll_title` varchar(30) default NULL,
-  `show_poll_title` int(1) NOT NULL default '0',
-  `poll_side_width` int(3) NOT NULL default '0',
-  `poll_main_width` int(3) NOT NULL default '0',
-  `poll_sm_title` varchar(30) default NULL,
-  `use_poll_sidemenu` int(1) NOT NULL default '0',
-  `poll_sidemenu_id` int(2) NOT NULL default '0',
-  `poll_tm_title` varchar(30) default NULL,
-  `use_poll_topmenu` int(1) NOT NULL default '0',
-  `poll_topmenu_id` int(2) NOT NULL default '0'
-) ENGINE=MyISAM ;
-
--- 
--- Daten für Tabelle `#####poll_config`
--- 
-
-INSERT INTO `#####poll_config` (`uid`, `poll_title`, `allpoll_title`, `show_poll_title`, `poll_side_width`, `poll_main_width`, `poll_sm_title`, `use_poll_sidemenu`, `poll_sidemenu_id`, `poll_tm_title`, `use_poll_topmenu`, `poll_topmenu_id`) VALUES ('poll', 'Poll', 'All Polls', 1, 110, 500, 'Poll', 0, 2, 'Poll', 0, 4);
-
--- --------------------------------------------------------
-
--- 
--- Tabellenstruktur für Tabelle `#####poll_items`
--- 
-
-CREATE TABLE `#####poll_items` (
-  `uid` varchar(8) NOT NULL default '',
-  `poll_uid` varchar(32) NOT NULL default '',
-  `ip` varchar(15) NOT NULL default '',
-  `domain` varchar(255) NOT NULL default '',
-  `answer` int(1) NOT NULL default '0'
-) ENGINE=MyISAM ;
-
--- --------------------------------------------------------
-
--- 
+--
 -- Tabellenstruktur für Tabelle `#####polls`
--- 
+--
 
 CREATE TABLE `#####polls` (
   `uid` varchar(32) NOT NULL default '',
@@ -638,13 +625,55 @@ CREATE TABLE `#####polls` (
   `question10` varchar(255) default NULL,
   `question11` varchar(255) default NULL,
   `question12` varchar(255) default NULL
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
+-- Tabellenstruktur für Tabelle `#####poll_config`
+--
+
+CREATE TABLE `#####poll_config` (
+  `uid` varchar(4) NOT NULL default '',
+  `poll_title` varchar(30) default NULL,
+  `allpoll_title` varchar(30) default NULL,
+  `show_poll_title` int(1) NOT NULL default '0',
+  `poll_side_width` int(3) NOT NULL default '0',
+  `poll_main_width` int(3) NOT NULL default '0',
+  `poll_sm_title` varchar(30) default NULL,
+  `use_poll_sidemenu` int(1) NOT NULL default '0',
+  `poll_sidemenu_id` int(2) NOT NULL default '0',
+  `poll_tm_title` varchar(30) default NULL,
+  `use_poll_topmenu` int(1) NOT NULL default '0',
+  `poll_topmenu_id` int(2) NOT NULL default '0'
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `#####poll_config`
+--
+
+INSERT INTO `#####poll_config` (`uid`, `poll_title`, `allpoll_title`, `show_poll_title`, `poll_side_width`, `poll_main_width`, `poll_sm_title`, `use_poll_sidemenu`, `poll_sidemenu_id`, `poll_tm_title`, `use_poll_topmenu`, `poll_topmenu_id`) VALUES
+('poll', 'Poll', 'All Polls', 1, 110, 500, 'Poll', 0, 2, 'Poll', 0, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `#####poll_items`
+--
+
+CREATE TABLE `#####poll_items` (
+  `uid` varchar(8) NOT NULL default '',
+  `poll_uid` varchar(32) NOT NULL default '',
+  `ip` varchar(15) NOT NULL default '',
+  `domain` varchar(255) NOT NULL default '',
+  `answer` int(1) NOT NULL default '0'
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `#####products`
--- 
+--
 
 CREATE TABLE `#####products` (
   `uid` varchar(32) NOT NULL default '',
@@ -672,13 +701,13 @@ CREATE TABLE `#####products` (
   `parent` varchar(32) default NULL,
   `language` varchar(25) NOT NULL default 'english_EN',
   PRIMARY KEY  (`uid`)
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####products_config`
--- 
+--
 
 CREATE TABLE `#####products_config` (
   `uid` varchar(8) NOT NULL default '',
@@ -694,33 +723,26 @@ CREATE TABLE `#####products_config` (
   `startpagetitle` varchar(255) default NULL,
   `use_sidebar_categories` tinyint(4) NOT NULL default '1',
   `max_latest_products` int(11) NOT NULL default '15'
-) ENGINE=MyISAM ;
-
--- 
--- Daten für Tabelle `#####products_config`
--- 
-
-INSERT INTO `#####products_config` (`uid`, `language`, `products_id`, `products_title`, `products_stamp`, `products_text`, `category_state`, `category_title`, `use_category_title`, `show_price_only_users`, `startpagetitle`, `use_sidebar_categories`, `max_latest_products`) VALUES ('products', 'germany_DE', 'products', 'Products', 'Lorem ipsum dolor', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer tellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam feugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio mauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris dolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\r\n', '', 'Product Categories', 1, 0, 'Aktuelle Angebot', 1, 15),
-('f225076a', 'english_EN', 'products', 'sdfsdfsdf', 'sdfsdf', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer\r\ntellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam\r\nfeugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio\r\nmauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris\r\ndolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque\r\nhabitant morbi tristique senectus et netus et malesuada fames ac turpis\r\negestas.\r\n', '', 'sdfsdf', 1, 0, 'Current offers', 1, 15);
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####session`
--- 
+--
 
 CREATE TABLE `#####session` (
   `uid` varchar(32) NOT NULL default '',
   `date` varchar(20) NOT NULL default '',
   `user` varchar(255) NOT NULL default '',
   `user_id` varchar(32) NOT NULL default ''
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####sidebar`
--- 
+--
 
 CREATE TABLE `#####sidebar` (
   `uid` varchar(32) NOT NULL default '',
@@ -729,13 +751,18 @@ CREATE TABLE `#####sidebar` (
   `content` text,
   `foot` varchar(255) default NULL,
   `id` varchar(255) NOT NULL default ''
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `#####sidebar`
+--
+
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####sidebar_extensions`
--- 
+--
 
 CREATE TABLE `#####sidebar_extensions` (
   `uid` varchar(18) NOT NULL default '',
@@ -763,19 +790,20 @@ CREATE TABLE `#####sidebar_extensions` (
   `show_news_cat_amount` int(1) default '0',
   `show_memberlist` int(11) NOT NULL default '0',
   `lang` varchar(255) NOT NULL
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Daten für Tabelle `#####sidebar_extensions`
--- 
+--
 
-INSERT INTO `#####sidebar_extensions` (`uid`, `sidemenu_title`, `sidemenu`, `sidebar_title`, `show_sidebar_title`, `chooser_title`, `show_chooser_title`, `search_title`, `show_search_title`, `search_alignment`, `search_withbr`, `search_withbutton`, `search_word`, `login_title`, `usermenu_title`, `nologin`, `reg_link`, `reg_user`, `reg_pass`, `login_user`, `usermenu`, `show_login_title`, `show_news_cat_amount`, `show_memberlist`, `lang`) VALUES ('sidebar_extensions', 'Sidemenu', 0, 'Sidebar', 0, 'Showcase', 1, 'Search website', 0, 'left', 0, 0, '', 'Login', 'Usermenu', 'No account yet?', 'Create one', 'Username', 'Password', 1, 1, 1, 1, 1, 'de;en;nl;');
+INSERT INTO `#####sidebar_extensions` (`uid`, `sidemenu_title`, `sidemenu`, `sidebar_title`, `show_sidebar_title`, `chooser_title`, `show_chooser_title`, `search_title`, `show_search_title`, `search_alignment`, `search_withbr`, `search_withbutton`, `search_word`, `login_title`, `usermenu_title`, `nologin`, `reg_link`, `reg_user`, `reg_pass`, `login_user`, `usermenu`, `show_login_title`, `show_news_cat_amount`, `show_memberlist`, `lang`) VALUES
+('sidebar_extensions', 'Sidemenu', 0, 'Sidebar', 0, 'Showcase', 1, 'Search website', 0, 'left', 0, 0, '', 'Login', 'Usermenu', 'No account yet?', 'Create one', 'Username', 'Password', 1, 1, 1, 1, 1, 'de;en;nl;');
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####sidemenu`
--- 
+--
 
 CREATE TABLE `#####sidemenu` (
   `uid` varchar(5) character set utf8 collate utf8_unicode_ci NOT NULL,
@@ -793,13 +821,13 @@ CREATE TABLE `#####sidemenu` (
   `published` int(1) NOT NULL default '0',
   `access` varchar(10) character set utf8 collate utf8_unicode_ci NOT NULL,
   `target` varchar(20) default NULL
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####statistics`
--- 
+--
 
 CREATE TABLE `#####statistics` (
   `host` varchar(255) NOT NULL default '',
@@ -808,38 +836,38 @@ CREATE TABLE `#####statistics` (
   `ip_uid` varchar(32) default NULL,
   `referrer` varchar(255) default NULL,
   `timestamp` datetime default NULL
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####statistics_ip`
--- 
+--
 
 CREATE TABLE `#####statistics_ip` (
   `uid` varchar(32) NOT NULL default '',
   `ip` varchar(15) NOT NULL default '',
   `value` int(10) default NULL
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####statistics_os`
--- 
+--
 
 CREATE TABLE `#####statistics_os` (
   `uid` varchar(32) NOT NULL default '',
   `browser` varchar(255) default NULL,
   `os` varchar(255) default NULL,
   `value` int(10) default NULL
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####topmenu`
--- 
+--
 
 CREATE TABLE `#####topmenu` (
   `uid` varchar(5) NOT NULL,
@@ -851,13 +879,13 @@ CREATE TABLE `#####topmenu` (
   `published` int(1) NOT NULL default '0',
   `access` varchar(10) NOT NULL default '',
   `target` varchar(20) default NULL
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####user`
--- 
+--
 
 CREATE TABLE `#####user` (
   `uid` varchar(32) NOT NULL default '',
@@ -883,25 +911,26 @@ CREATE TABLE `#####user` (
   `signature` text,
   `location` varchar(255) default NULL,
   `hobby` varchar(255) default NULL
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####usergroup`
--- 
+--
 
 CREATE TABLE `#####usergroup` (
   `uid` varchar(32) collate utf8_unicode_ci NOT NULL,
   `name` varchar(25) collate utf8_unicode_ci NOT NULL,
   `right` int(1) NOT NULL
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- 
+--
 -- Daten für Tabelle `#####usergroup`
--- 
+--
 
-INSERT INTO `#####usergroup` (`uid`, `name`, `right`) VALUES ('418aed8f001f0b88e36bc68013000794', 'Editor', 3),
+INSERT INTO `#####usergroup` (`uid`, `name`, `right`) VALUES
+('418aed8f001f0b88e36bc68013000794', 'Editor', 3),
 ('7f2a4a04ddeffc7caa029e289be712a1', 'Writer', 2),
 ('daf91e6be506252b897977537fa488c8', 'Developer', 0),
 ('8a318ecd72b639ceca72c87dbc6f241c', 'Administrator', 1),
@@ -910,9 +939,9 @@ INSERT INTO `#####usergroup` (`uid`, `name`, `right`) VALUES ('418aed8f001f0b88e
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `#####userpage`
--- 
+--
 
 CREATE TABLE `#####userpage` (
   `uid` varchar(8) collate utf8_unicode_ci NOT NULL default '',
@@ -923,10 +952,11 @@ CREATE TABLE `#####userpage` (
   `album_publish` int(1) NOT NULL default '0',
   `cat_publish` int(1) NOT NULL default '0',
   `pic_publish` char(1) collate utf8_unicode_ci default NULL
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- 
+--
 -- Daten für Tabelle `#####userpage`
--- 
+--
 
-INSERT INTO `#####userpage` (`uid`, `text_width`, `input_width`, `news_publish`, `image_publish`, `album_publish`, `cat_publish`, `pic_publish`) VALUES ('userpage', '150', '150', 1, 1, 1, 1, '1');
+INSERT INTO `#####userpage` (`uid`, `text_width`, `input_width`, `news_publish`, `image_publish`, `album_publish`, `cat_publish`, `pic_publish`) VALUES
+('userpage', '150', '150', 1, 1, 1, 1, '1');

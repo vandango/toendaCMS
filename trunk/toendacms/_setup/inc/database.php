@@ -213,48 +213,32 @@ if($todo == 'update') {
 	
 	echo '<div style="display: block; float: left; width: 220px; font-weight: bold;">'
 	._TCMS_DB_UPDATE_VERSION_107
-	.'</div>';
-	
-	echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
+	.'</div>'
+	.'<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
 	.'<input checked="checked" name="new_update" type="radio" value="107" />'
-	.'</div>';
-	
-	echo '<div style="display: block; margin: 0 0 0 560px;">&nbsp;</div>';
-	
-	
-	echo '<br />';
-	
+	.'</div>'
+	.'<div style="display: block; margin: 0 0 0 560px;">&nbsp;</div>'
+	.'<br />';
 	
 	
 	echo '<div style="display: block; float: left; width: 220px; font-weight: bold;">'
 	._TCMS_DB_UPDATE_VERSION_156
-	.'</div>';
-	
-	echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
+	.'</div>'
+	.'<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
 	.'<input checked="checked" name="new_update" type="radio" value="156" />'
-	.'</div>';
-	
-	echo '<div style="display: block; margin: 0 0 0 560px;">&nbsp;</div>';
-	
-	
-	echo '<br />';
+	.'</div>'
+	.'<div style="display: block; margin: 0 0 0 560px;">&nbsp;</div>'
+	.'<br />';
 	
 	
-	
-	if($db == 'mysql') {
-		echo '<div style="display: block; float: left; width: 220px; font-weight: bold;">'
-		._TCMS_DB_UPDATE_VERSION_160
-		.'</div>';
-		
-		echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-		.'<input checked="checked" name="new_update" type="radio" value="160" />'
-		.'</div>';
-		
-		echo '<div style="display: block; margin: 0 0 0 560px;">&nbsp;</div>';
-		
-		
-		echo '<br />';
-	}
+	echo '<div style="display: block; float: left; width: 220px; font-weight: bold;">'
+	._TCMS_DB_UPDATE_VERSION_160
+	.'</div>'
+	.'<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
+	.'<input checked="checked" name="new_update" type="radio" value="160" />'
+	.'</div>'
+	.'<div style="display: block; margin: 0 0 0 560px;">&nbsp;</div>'
+	.'<br />';
 	
 	
 	echo '<br />';

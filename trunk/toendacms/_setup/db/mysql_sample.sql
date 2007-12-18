@@ -1002,7 +1002,8 @@ CREATE TABLE `#####statistics_os` (
   `browser` varchar(255) default NULL,
   `os` varchar(255) default NULL,
   `value` int(10) default NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
 -- --------------------------------------------------------
 
 --

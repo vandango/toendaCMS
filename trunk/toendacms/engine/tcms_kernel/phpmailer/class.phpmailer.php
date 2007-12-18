@@ -633,16 +633,16 @@ class PHPMailer {
    * @return bool
    */
   function SetLanguage($lang_type, $lang_path = 'language/') {
-  	echo $lang_path.'phpmailer.lang-'.$lang_type.'.php<br>';
+  	
     if(file_exists($lang_path.'phpmailer.lang-'.$lang_type.'.php')) {
       include($lang_path.'phpmailer.lang-'.$lang_type.'.php');
-      echo '1gefunden<br>';
+    
     } elseif (file_exists($lang_path.'phpmailer.lang-en.php')) {
       include($lang_path.'phpmailer.lang-en.php');
-      echo '2gefunden<br>';
+    
     } else {
       $this->SetError('Could not load language file');
-      echo 'nicht gefunden<br>';
+    
       return false;
     }
     $this->language = $PHPMAILER_LANG;
