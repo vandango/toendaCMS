@@ -1,0 +1,379 @@
+/*   
+	eNews
+	
+	Theme for internet newspaper sites.
+	
+	---
+	
+	Basic template
+*/
+
+
+
+
+/***********************************************
+************************************************
+	
+	global
+	
+*/
+
+html {
+	height: 100%;
+	margin-bottom: 1px;
+}
+
+form {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	margin: 0px 0px 0px 0px;
+	height: 100%;
+	font-size: 11px;
+}
+
+a:link, a:visited {
+	color: #971111; 
+	text-decoration: none;
+	font-weight: normal;
+}
+
+a:hover {
+	color: #c00;	
+	text-decoration: underline;
+	font-weight: normal;
+}
+
+p {
+	margin-top: 0;
+	margin-bottom: 5px;
+	text-align: left;
+}
+
+div, p,  table, td, th {
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+	line-height: 130%;
+}
+
+fieldset {
+	border: 0;
+	padding: 5px 0;
+}
+
+h1 {
+	padding: 0;
+	font-family: Helvetica ,Arial,sans-serif;
+	font-size: 18px;
+	font-weight: bold;
+	vertical-align: bottom;
+	color: #fff;
+	text-align: left;
+	width: 100%;	
+}
+
+h2 {
+	font-family: Georgia, Times, serif;
+	font-size: 16px;
+	color: #333;
+}
+
+
+
+
+
+
+
+/***********************************************
+************************************************
+	
+	theme
+	
+*/
+
+.page_bg {
+	height: 100%; 
+	padding: 0;
+	margin-bottom: 1px;
+}
+
+#wrapper {
+	margin: 0 auto;
+	width: 995px;
+}
+
+
+
+
+
+/***********************************************
+	misc
+*/
+
+.contentpadding {
+	padding: 5px 10px;
+}
+
+
+
+
+
+/***********************************************
+	header
+*/
+
+#header_box {
+	height: 98px;
+	position: relative;
+	/*border: 3px solid #ff0000;*/
+}
+
+#header_box .title {
+	font-size: 36px;
+	letter-spacing: -1px;
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+	color: #fff;
+	height: 40px;
+}
+
+#header_box .description {
+	font-size: 14px;
+	margin: -15px 0 0 0;
+}
+
+#header_box div, div#header_box td {
+	color: #fff;
+	/*border: 3px solid #00ff00;*/
+}
+
+#search_box {
+	width: 206px;
+	position: absolute;
+	right: 0;
+	top: 5px;
+	height: 88px;
+	overflow: hidden;
+}
+
+.search input {
+	width: 185px !important;
+	margin-bottom: 5px;
+}
+
+
+
+
+
+/***********************************************
+	h menu and pathway
+*/
+
+#header_menu {
+	height: 22px;
+	width: 100%;
+	padding: 7px 0 0 0;
+	margin: 0 auto 0 auto;
+	/*border: 3px solid #00ff00;*/
+}
+
+#pathway_box {
+	width: 100%;
+	padding: 1px 0 3px 0;
+	margin: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+#nav a {
+	padding: 0em 1.5em 0.2em;
+}
+
+
+
+
+#newsflash {
+	right: 206px;
+	width: 280px;
+}
+
+table.nospace td.right_mods {
+	width: 205px;
+}
+
+
+
+
+
+
+div#logo {
+	position: absolute;
+	left: 0;
+	top: 0;	
+	height: 98px;
+	width: 116px;	
+}
+
+div#headertext {
+	position: absolute;
+	left: 116px;
+	top: 23px;	
+	height: 58px;
+	width: 320px;	
+}
+
+
+.contentpad {
+	padding: 5px 10px;
+}
+
+
+
+div#newsflash {
+	position: absolute;
+	top: 5px;
+	height: 88px;
+	overflow: hidden;
+}
+
+table.contentpaneopen, table.contentpane {
+	width: 100%;
+}
+
+
+
+
+/***********************************************
+	content
+*/
+
+table.blog span.article_seperator {
+	display: block;
+	height: 20px;
+}
+
+table#content {
+	clear: both;
+}
+
+div#maincontent div.moduletable {
+	padding-left: 0;
+	padding-right:0;
+}
+
+div#maincontent {
+	padding: 20px 8px 8px 8px;
+}
+
+div.moduletable h3, .menutitle {
+	border: 0px solid #f00;
+	margin: 0;
+	margin-bottom: 0px;
+	height: 37px;
+	line-height: 26px;
+	font-size: 13px;
+	font-family: "Arial Narrow", "Helvetica Neue Bold Condensed", Arial, sans-serif;
+	font-weight: bold;
+	text-transform: uppercase;
+	text-indent: 8px;
+	color: #333;
+}
+
+div.moduletable ul {
+	margin: 5px 0;
+	padding: 0 2em;
+}
+
+div.moduletable ul li {
+	padding-bottom: 3px;
+}
+
+div.moduletable {
+	padding-bottom: 15px;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+div#shadow_tr, div#shadow_tl {
+	padding-top: 15px;
+}
+
+
+
+/***********************************************
+	sidebar
+*/
+
+div#sidebar ul {
+	margin: 0 !important;
+	padding: 0 !important;
+	/*list-style-type: none !important;
+	list-style-image: none !important;*/
+}
+
+div#sidebar ul li {
+	margin: 0 !important;
+	padding: 0 !important;
+	/*list-style-type: none !important;
+	list-style-image: none !important;*/
+}
+
+
+
+/***********************************************
+	footer
+*/
+
+div#footer_mods {
+	height: 23px;
+	padding-top: 6px;
+	margin-top: 9px;
+	text-align: center;
+	line-height: 23px;
+}
+
+div#padbottom {
+	height: 4px;
+	overflow: hidden;
+}
+
+
+
+
+
+
+
+/***********************************************
+	nospace
+*/
+
+table.nospace {
+	border-collapse: collapse;
+	border: 0;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+table.nospace td {
+	margin: 0;
+	padding: 0;
+}
+
+table.nospace td.showcase_mods {
+	padding-top: 15px;
+}
+
+
+
+
