@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a statistics provider.
  *
- * @version 0.2.6
+ * @version 0.2.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -475,10 +475,13 @@ if($id_group == 'Developer'
 			echo '<div class="tab-page" id="tab-page-os">'
 			.'<h2 class="tab">'._STATS_OS.'</h2>';
 			
+			unset($arr_stat);
+			unset($sqlARR);
+			unset($sqlQR);
 			
 			$sqlSTR = "SELECT * "
 			."FROM ".$tcms_db_prefix."statistics_os "
-			."WHERE NOT (uid IS NULL) "
+			//."WHERE NOT (uid IS NULL) "
 			."ORDER BY value DESC, os DESC";
 			
 			$sqlQR = $sqlAL->sqlQuery($sqlSTR);
@@ -539,10 +542,13 @@ if($id_group == 'Developer'
 			echo '<div class="tab-page" id="tab-page-browser">'
 			.'<h2 class="tab">'._STATS_BROWSER.'</h2>';
 			
+			unset($arr_stat);
+			unset($sqlARR);
+			unset($sqlQR);
 			
 			$sqlSTR = "SELECT * "
 			."FROM ".$tcms_db_prefix."statistics_os "
-			."WHERE NOT (uid IS NULL) "
+			//."WHERE NOT (uid IS NULL) "
 			."ORDER BY value DESC, browser DESC";
 			
 			$sqlQR = $sqlAL->sqlQuery($sqlSTR);

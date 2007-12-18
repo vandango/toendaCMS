@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used fore the site title.
  *
- * @version 0.5.0
+ * @version 0.5.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -905,8 +905,6 @@ switch($id){
 		break;
 }
 
-
-echo $sitetitleAdditional;
 
 if(!defined('_SITE_TITLE_ADDITIONAL')) define('_SITE_TITLE_ADDITIONAL', $sitetitleAdditional);
 
