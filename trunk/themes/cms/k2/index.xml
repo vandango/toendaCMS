@@ -1,7 +1,0 @@
-<template>
-	<name>K2</name>
-	<autor>Michael Heilemann</autor>
-	<url>binarybonsai.com</url>
-	<desc>A port of Kubrick Verison 2 (K2) by Michael Heilemann. Ported by Jonathan Naumann. Included in this theme are 3 various CSS styles. Between the default K2 is a K2 Big with a bigger width and a K2 Vader, a dark theme for Star Wars fans.</desc>
-	<version>1.5</version>
-</template>
