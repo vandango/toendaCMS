@@ -1,0 +1,7 @@
+<template>
+	<name>zen (mod K2)</name>
+	<autor>Jonathan Naumann / Michael Heilemann</autor>
+	<url>http://vandango.toenda.com | http://www.binarybonsai.com</url>
+	<desc>A port of Kubrick Verison 2 (K2) by Michael Heilemann. Ported by Jonathan Naumann.</desc>
+	<version>1.0</version>
+</template>
