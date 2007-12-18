@@ -21,7 +21,7 @@
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 0.6.1
+ * @version 0.6.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -468,8 +468,14 @@ if(isset($id_user)){
 						$img_path = $seo_path;//str_replace('../../', '', $tcms_administer_site);
 					}
 					else {
-						$seo_path = $tcms_administer_site;
-						$img_path = $tcms_administer_site;
+						//$seo_path = $tcms_administer_site;
+						//$img_path = $tcms_administer_site;
+						
+						
+						$seo_path = str_replace('../../', '', $tcms_administer_site);
+						$seo_path = '/'.$seoFolder.'/'.$seo_path;
+						
+						$img_path = $seo_path;//str_replace('../../', '', $tcms_administer_site);
 					}
 					
 					

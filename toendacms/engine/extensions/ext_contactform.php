@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a contactform with a internal
  * adressbook with vcard export.
  *
- * @version 0.8.7
+ * @version 0.8.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -482,10 +482,11 @@ if($cform_enabled == 1){
 			.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=contactform&amp;s='.$s
 			.'" method="post">'
 			.'<input name="send_form" type="hidden" id="send_form" value="1" />'
+			.'<input name="contact_email" type="hidden" id="contact_email" value="'.$tcms_main->encodeBase64($contact_email).'" />'
 			.( isset($session) ? '<input type="hidden" name="session" value="'.$session.'" />' : '' )
 			.( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' );
 			
-			if($use_adressbook == 1){
+			if($use_adressbook == 1) {
 				echo '<input type="button" class="inputbutton sendmail" onclick="javascript:checkinputs(\'cform\');" value="'._FORM_SEND.'" />'
 				.'<noscript><input type="submit" class="inputbutton sendmail" value="'._FORM_SEND.'" /></noscript>';
 				
@@ -594,6 +595,11 @@ if($cform_enabled == 1){
 			$mail_subject = stripslashes($mail_subject);
 			$mail_website = stripslashes($mail_website);
 			$date = date("d.m.Y H:i:s");
+			
+			
+			if(strpos($contact_email, '@') < 1) {
+				$contact_email = $tcms_main->decodeBase64($contact_email);
+			}
 					
 			
 			// Formulardaten verschicken
