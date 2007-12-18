@@ -953,9 +953,9 @@ class tcms_main {
 			case '2':
 				$trans = array_flip($trans);
 				$text = str_replace('=', '__________', $text);
-				$text = strtr($text, $trans);
+				//$text = strtr($text, $trans);
 				$text = $this->ampReplace($text);
-				$text = htmlentities($text);
+				$text = htmlentities($text, ENT_QUOTES, $charset);
 				
 				if(extension_loaded('mbstring')) {
 					$text = mb_substr($text, 0, mb_strlen($text));
@@ -974,10 +974,14 @@ class tcms_main {
 			if($withoutDatabase == false) {
 				include($this->administer.'/tcms_global/database.php');
 				
-				if($tcms_db_engine == 'xml') $encode = true;
-				else $encode = false;
+				if($tcms_db_engine == 'xml') {
+					$encode = true;
+				}
+				else {
+					$encode = false;
+				}
 			}
-			else{
+			else {
 				$encode = true;
 			}
 			

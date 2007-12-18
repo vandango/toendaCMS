@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a news manager with a news,
  * a news view and a archive with different formats.
  *
- * @version 1.5.2
+ * @version 1.5.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -60,6 +60,7 @@ if(isset($_POST['trackback_url'])){ $trackback_url = $_POST['trackback_url']; }
 $getLang = $tcms_config->getLanguageCodeForTCMS($lang);
 
 using('toendacms.datacontainer.news');
+using('toendacms.datacontainer.comment');
 
 $hr_line_1 = '<tr class="hr_line"><td colspan="2"></td></tr>';
 $hr_line_2 = '<hr class="hr_line" /><div style="height: '.$news_spacing.'px;">&nbsp;</div>';

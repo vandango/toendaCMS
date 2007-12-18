@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the register functions.
  *
- * @version 0.6.1
+ * @version 0.6.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -217,12 +217,8 @@ if($cmd == 'retrieve') {
 				
 				//*************************************
 				// Mail
-				$footer_xml  = new xmlparser($tcms_administer_site.'/tcms_global/footer.xml','r');
-				$owner_email = $footer_xml->readSection('footer', 'email');
-				$owner       = $footer_xml->readSection('footer', 'websiteowner');
-				
-				$owner       = $tcms_main->decodeText($owner, '2', $c_charset);
-				$owner_email = $tcms_main->decodeText($owner_email, '2', $c_charset);
+				$owner       = $tcms_config->getWebpageOwner();
+				$owner_email = $tcms_config->getWebpageOwnerMail();
 				
 				$send_mail_to = $arr_login['email'][$fulluser2];
 				$lpw_subject  = _REG_LPW_SUCCESS;
@@ -660,7 +656,7 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 							."'".$new_www."', '".$new_icq."', '".$new_aim."', '".$new_yim."', '".$new_msn."', '".$new_occ."', "
 							."'".$new_location."', '".$new_hobby."', 1, '_NEW_USER_'";
 							
-							$sqlQR = $sqlAL->sqlCreateOne($tcms_db_prefix.'user', $newSQLColumns, $newSQLData, $validate_md5);
+							$sqlQR = $sqlAL->createOne($tcms_db_prefix.'user', $newSQLColumns, $newSQLData, $validate_md5);
 						}
 						
 						
@@ -680,22 +676,22 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 						$userprofile  = _REG_USERPROFILE;
 						$date         = date('d.m.Y');
 						
-						if(strpos($owner_url, $seoPath)) {
-							$owner_url = str_replace($seoPath, '', $owner_url);
+						if(@strpos($owner_url, $seoPath)) {
+							$owner_url = @str_replace($seoPath, '', $owner_url);
 						}
 						
 						$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
 						.'id=frontpage&s='.$s
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
-						$link = $tcms_main->urlConvertToSEO($link);
+						$link = @$tcms_main->urlConvertToSEO($link);
 						
 						$seoURL = '?id=register'
 						.( isset($lang) ? '&amp;lang='.$lang : '' )
 						.'&amp;cmd=validate&amp;code=';
-						$seoURL = $tcms_main->urlConvertToSEO($seoURL);
+						$seoURL = @$tcms_main->urlConvertToSEO($seoURL);
 						
 						if($seoEnabled == 0) {
-							$seoURL = str_replace('&amp;', '&', $seoURL);
+							$seoURL = @str_replace('&amp;', '&', $seoURL);
 						}
 						
 						if($mail_with_smtp == '1') {
@@ -812,24 +808,30 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 ","$header");
 						}
 						
-						if($choosenDB == 'xml'){
-							if(file_exists('cache/'.$validate_md5.'.xml'))
+						if($choosenDB == 'xml') {
+							if(file_exists('cache/'.$validate_md5.'.xml')) {
 								$checkUserExists = true;
-							else
+							}
+							else {
 								$checkUserExists = false;
+							}
 						}
-						else{
+						else {
 							$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 							$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 							
 							$sqlQR = $sqlAL->getOne($tcms_db_prefix.'user', $validate_md5);
 							$user_exists = $sqlAL->getNumber($sqlQR);
 							
-							if($user_exists != 0){ $checkUserExists = true; }
-							else{ $checkUserExists = false; }
+							if($user_exists != 0) {
+								$checkUserExists = true;
+							}
+							else {
+								$checkUserExists = false;
+							}
 						}
 						
-						if($checkUserExists){
+						if($checkUserExists) {
 							$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
 							.'id=frontpage&s='.$s
 							.( isset($lang) ? '&amp;lang='.$lang : '' );
