@@ -1,0 +1,563 @@
+/*   
+	eNewo
+	
+	Theme for internet newspaper sites.
+	
+	---
+	
+	Dark template
+*/
+
+
+
+body {
+	background: url(page_bg.png);
+}
+
+hr {
+	display: none;
+}
+
+
+
+
+
+
+/*
+	header div's
+*/
+
+#header_box {
+	background: transparent url(header_bg.png);
+	height: 98px;
+}
+
+#search_box {
+	background: transparent url(vertical_dots.png) 0 0 repeat-y;
+	height: 83px;
+}
+
+#search_box .searchform {
+	background: #789ACA;
+	color: #fff;
+	border: 1px solid #336DB9;
+}
+
+
+
+
+
+
+/*
+	header menu div's
+*/
+
+#header_menu {
+	background: url(menu_bg.png) 0 0 repeat-x;
+}
+
+
+
+
+
+
+/*
+	shadow div's
+*/
+
+#shadow_left {
+	background: #fff url(shadow_left.png) 0 0 repeat-y;
+}
+
+#shadow_right {
+	padding: 0 14px;
+	background: url(shadow_right.png) 100% 0 repeat-y;
+}
+
+div.shadow_top {
+	background: url(shadow_top_grey.png) 0 0 repeat-x;
+}
+
+div#shadow_tr {
+	background: url(shadow_tr_grey.png) 100% 0 no-repeat;
+}
+
+div#shadow_tl {
+	background: url(shadow_tl_grey.png) 0 0 no-repeat;
+}
+
+td.right_mods {
+	background: #5B5B57 url(shadow_left_grey.png) 0 0 repeat-y;
+}
+
+
+
+
+
+
+/*
+	pathway
+*/
+
+
+#pathway_box {
+	background: #5B5B57 url(shadow_top_grey.png) 0 0 repeat-x;
+	color: #ccc;
+}
+
+.pathway_mods {
+	padding: 0 0 3px 5px;
+	margin: 5px 0 0 5px;
+	vertical-align: middle;
+}
+
+#pathway_box a {
+	color: #B5D6FF;
+}
+
+#pathway_box a:hover {
+	color: #CCE1FF;
+	text-decoration: underline;
+}
+
+
+
+
+
+
+/*
+	content
+*/
+
+td.maincontent {
+	background: #E8E7D7;
+}
+
+div#maincontent {
+	background: url(shadow_top_beige.png) 0 0 repeat-x;
+}
+
+div#maincontent div.moduletable h3, .contentheading, .news_title_bg, .user_profile_title, .search_result_bar {
+	background: url(header_beige.png) 0 0 no-repeat;
+	height: 39px;
+	padding: 2px;
+}
+
+td.topleft_mods div.moduletable h3 {
+	background: url(header_grey.png) no-repeat;
+	color: #ccc;
+}
+
+
+
+
+
+
+/*
+	footer div's
+*/
+
+td.footer {
+	background: url(shadow_bottom_beige.png) 0 0 repeat-x;
+	color: #fff !important;
+}
+
+div#footer_mods {
+	background: url(menu_2bg.png) 0 0 repeat-x;
+	color: #fff !important;
+}
+
+
+
+
+
+
+
+/*
+	misc div's
+*/
+
+td.topleft_mods div.moduletable ul, td.showcase_mods div.moduletable ul {
+	list-style: url(module_bullet_grey.png);
+}
+
+td.right_mods div.moduletable h3, .menutitle {
+	background: url(showcase_header_grey.png) no-repeat;
+	color: #ccc !important;
+}
+
+td.topleft_mods div, td.topleft_mods p, td.topleft_mods td, td.topleft_mods th,
+td.showcase_mods div, td.showcase_mods p, td.showcase_mods td, td.showcase_mods th,
+td.right_mods div, td.right_mods p, td.right_mods td, td.right_mods th {
+	color: #ddd;
+}
+
+td.topleft_mods a:link, td.topleft_mods a:visited,
+td.showcase_mods a:link, td.showcase_mods a:visited,
+td.right_mods a:link, td.right_mods a:visited {
+	color: #B5D6FF;
+}
+
+td.topleft_mods a:hover,
+td.showcase_mods a:hover,
+td.right_mods a:hover {
+	color: #CCE1FF;
+}
+
+
+
+
+
+
+
+
+/***********************************************
+************************************************
+	toendaCMS specific
+*/
+
+.menutitle {
+	display: block;
+	margin: 0 0 -10px 0;
+	padding: 0;
+	font-family: Arial, sans-serif !important;
+	font-weight: bold !important;
+	font-size: 13px !important;
+	list-style-type: none !important;
+	list-style-image: none !important;
+	color: #444;
+	margin: 5px 0 0;
+	display: block;
+	padding: 0;
+}
+
+
+/* title */
+.title {
+   height: 50px;
+	color: #fff;
+	font-weight: bold !important;
+}
+a.index {
+	color: #fff;
+	font-weight: bold !important;
+}
+a.index:hover {
+	color: #fff;
+	font-weight: bold !important;
+	text-decoration: none;
+}
+.subtitle {
+	/*display: block;*/
+}
+#header_box .sitelogo {
+	/*display: block;
+	padding-top: 10px;
+	padding-left: 10px;*/
+}
+
+
+/* toplevel - topmenu */
+a.toplevel, a.toplevel:link, a.toplevel:visited {
+	font-family: "Arial Narrow", "Helvetica Neue Bold Condensed", Arial, sans-serif;
+	font-weight: bold;
+	font-size: 13px;
+	color: #fff;
+	background: url(menu_vrule.png) 0 6px no-repeat;
+	text-transform: uppercase;
+	line-height: 16px;
+	text-decoration: none;
+	height: 16px;
+	padding: 6px 15px 6px 15px;
+}
+a.toplevel:hover {
+	text-decoration: none;
+	background: #333;
+}
+
+a.toplevelActive {
+	font-family: "Arial Narrow", "Helvetica Neue Bold Condensed", Arial, sans-serif;
+	font-weight: bold;
+	font-size: 13px;
+	color: #fff;
+	background: #ad3434;
+	text-transform: uppercase;
+	line-height: 16px;
+	text-decoration: none;
+	height: 16px;
+	padding: 6px 15px 5px 15px;
+	border-bottom: 1px solid #333;
+}
+a.toplevelActive:hover {
+	padding: 6px 15px 6px 15px;
+	text-decoration: none;
+	background: #333;
+}
+
+
+/* pathway */
+.pathway { font-size: 10px; text-decoration: none; }
+a.pathway:link, a.pathway:visited { font-size: 10px; text-decoration: none; }
+a.pathway:hover { font-size: 10px; text-decoration: none; }
+
+
+/* content */
+.contentheading {
+	font-family: Georgia, Times, serif;
+	font-size: 17px;
+	color: #333;
+	font-weight: bold;
+}
+.contentstamp {
+	font-size: 13px;
+}
+.contentmain {
+	font-size: 11px;
+}
+
+.text_small {
+	font-family: Tahoma, Helvetica, sans-serif;
+	font-size: 9px;
+	color: #676767;
+	font-weight: normal;
+	text-transform: uppercase;
+	text-align: left;
+}
+.text_normal { font-size: 11px; }
+.text_big {
+	font-size: 1.2em !important;
+	font-weight: bold;
+	letter-spacing: -1px;
+}
+.text_huge {
+	font-family: Georgia, Times, serif;
+	font-size: 17px;
+	color: #333;
+	font-weight: bold;
+}
+
+.newsCategories {
+	font-family: Arial, Helvetica, Sans-Serif;
+	font-size: 11px;
+	line-height: 1.5em;
+}
+
+.book_content { font-size: 11px; }
+
+
+/* news */
+.news_title_bg {
+	font-family: Georgia, Times, serif;
+	font-size: 17px;
+	color: #333;
+	font-weight: bold;
+	display: block;
+}
+.news_title_bg a {
+	font-family: Georgia, Times, serif;
+	font-size: 17px;
+	color: #333;
+	font-weight: bold;
+	text-decoration: none;
+}
+.news_title_bg a:hover {
+	font-family: Georgia, Times, serif;
+	font-size: 17px;
+	color: #333;
+	font-weight: bold;
+	text-decoration: underline;
+}
+.news_content_bg {
+	font-size: 11px;
+}
+.news_content_box {
+	padding-bottom: 10px;
+}
+
+
+/* imagegyllery */
+.gallery_text{ display: block; }
+
+
+/* misc */
+.hr_line{ display: none; }
+
+
+/* legal */
+.legal{ color: #5B5B57; text-align: center;}
+a.legal, a.legal:link, a.legal:visited{ color: #5B5B57; text-decoration: none; }
+.legal a:hover{ text-decoration: underline; color: #444; }
+
+
+/* mainlevel - mainmenu */
+a.mainlevel, a.mainlevel:link, a.mainlevel:visited, a.mainlevel:active {
+	display: block;
+	font-weight: bold;
+	padding: 0 0 5px 20px;
+	text-decoration: none;
+	background: url(module_bullet_grey.png) 5px 3px no-repeat;
+}
+a.mainlevel:hover { text-decoration: underline; }
+
+
+/* submenu - submenu */
+a.submenu, a.submenu:link, a.submenu:visited, a.submenu:active {
+	margin: -3px 0 4px 0;
+	display: block;
+	padding: 0 0 0 30px;
+	text-decoration: none;
+	background: url(module_bullet_grey.png) 15px 3px no-repeat;
+}
+a.submenu:hover { text-decoration: underline; }
+
+
+/* login */
+.loginform { width: 90px; }
+.logintext { font-size: 11px; }
+
+.searchform { width: 160px !important; height: 15px !important; }
+
+.bookfield { width: 252px !important; height: 15px !important; }
+
+.signatureform { width: 400px !important; }
+
+
+
+/* input */
+.inputtext { font-size: 11px; height: 15px; }
+.inputbutton { font-size: 11px; height: 23px; }
+.inputtextarea { width: 252px; height: 180px; font-size: 11px; }
+.newsSubmit { width: 490px; height: 500px; font-size: 11px; margin: 0 0 2px 0; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* table title */
+.titleBG{ font-size: 14px; border-bottom: 2px #9bb2b9 solid; padding-left: 4px; margin: 0px; }
+tr.titleBG{ font-size: 14px; border-bottom: 2px #9bb2b9 solid; padding-left: 4px; margin: 0px; }
+td.titleBG{ font-size: 14px; border-bottom: 2px #9bb2b9 solid; padding-left: 4px; margin: 0px; }
+th.titleBG{ font-size: 14px; border-bottom: 2px #9bb2b9 solid; padding-left: 4px; margin: 0px; }
+.download_top{ font-size: 14px;	border-bottom: 2px #9bb2b9 solid; padding-left: 4px; margin: 0px; text-align: left; }
+
+
+
+
+
+/* poll */
+.poll_sheet{ background-color: #5B5B5B; font-size: 10px; color: #111111; }
+
+
+/* sidebar content */
+.sideheading { font-size: 11px; font-weight: bold; color: #fff; text-align: left; }
+.sidemain { font-size: 10px; padding: 3px 0 3px 0; color: #444; }
+
+
+/* impressum */
+.imptitle { font-size: 13px; padding-left: 5px; }
+.impoffice { padding-left: 38px; }
+
+
+/* comments */
+.comment_title{
+	font-family: 'Century Gothic', Verdana, Sans-Serif;
+	font-size: 17px;
+	margin: 0 0 3px 0;
+	padding: 0 0 3px 0;
+	border-bottom: 1px solid #333;
+	display: block;
+}
+.comment_text{
+	/*border-bottom: 1px solid #aaa;*/
+	padding: 5px 0 5px 0;
+	font-size: 11px;
+	display: block;
+}
+
+
+/* search */
+.search_result_bar {
+	font-family: Georgia, Times, serif;
+	font-size: 17px;
+	color: #333;
+	font-weight: bold;
+}
+.search_result {
+	font-size: 12px;
+	color: #333333;
+	padding: 2px;
+	border-bottom: 3px dotted #fff;
+}
+
+
+/* forum */
+.user_profile_title {
+	font-family: Georgia, Times, serif;
+	font-size: 17px;
+	color: #333;
+	font-weight: bold;
+}
+
+
+
+
+
+
+
+
+/* mainlinks - default links */
+.main { font-size: 12px; font-weight: bold; color: #1A78E2; text-decoration: none; }
+a.main { font-size: 12px; font-weight: bold; color: #1A78E2; text-decoration: none; }
+a.main:hover { color: #336699; }
+
+
+.tcms_more {
+}
+a.tcms_more, a.tcms_more:link, a.tcms_more:visited {
+	text-decoration: none;
+}
+a.tcms_more:hover {
+	text-decoration: none;
+}
+
+
+/* ToendaSHOP */
+td.products_top{ border-bottom: 2px #9bb2b9 solid; font-size: 14px; padding-left: 4px; margin: 0px; text-align: left; }
+a.products_top, a.products_top:link, a.products_top:visited, a.products_top:active { color: #23598C; font-size: 14px; text-decoration: none; }
+a.products_top:hover { color: #000000; }
+.products_onetop{ padding-left: 4px; margin: 0px; text-align: left; }
+
+
+
+
+
+
+
+
+
+div#footer_mods .text_small {
+	color: #f8f8f8 !important;
+	text-transform: lowercase !important;
+}
+
+div#sidebar .text_small {
+	color: #f8f8f8 !important;
+}
