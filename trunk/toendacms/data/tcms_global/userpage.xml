@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?><userpage>
+<?xml version="1.0" encoding="utf-8"?><userpage>
 	<text_width>150</text_width>
 	<input_width>150</input_width>
-	<news_publish>0</news_publish>
-	<image_publish>0</image_publish>
-	<album_publish>0</album_publish>
-	<cat_publish>0</cat_publish>
-	<pic_publish>0</pic_publish>
-
+	<news_publish>1</news_publish>
+	<image_publish>1</image_publish>
+	<album_publish>1</album_publish>
+	<cat_publish>1</cat_publish>
+	<pic_publish>1</pic_publish>
 </userpage>

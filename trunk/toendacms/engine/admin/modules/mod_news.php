@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the news.
  *
- * @version 1.7.7
+ * @version 1.7.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -1676,6 +1676,13 @@ if($todo == 'save_config') {
 	
 	
 	if($choosenDB == 'xml') {
+		$newSynRSS091Text = $tcms_main->encodeText($newSynRSS091Text, '2', $c_charset);
+		$newSynRSS10Text = $tcms_main->encodeText($newSynRSS10Text, '2', $c_charset);
+		$newSynRSS20Text = $tcms_main->encodeText($newSynRSS20Text, '2', $c_charset);
+		$newSynATOM03Text = $tcms_main->encodeText($newSynATOM03Text, '2', $c_charset);
+		$newSynOPMLText = $tcms_main->encodeText($newSynOPMLText, '2', $c_charset);
+		$newSynCFeedText = $tcms_main->encodeText($newSynCFeedText, '2', $c_charset);
+		
 		$xmluser = new xmlparser($tcms_administer_path.'/tcms_global/newsmanager.'.$setLang.'.xml', 'w');
 		$xmluser->xmlDeclaration();
 		$xmluser->xmlSection('config');

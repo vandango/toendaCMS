@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.3.1
+ * @version 1.3.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -1514,6 +1514,11 @@ class tcms_datacontainer_provider extends tcms_main {
 				else if(file_exists($this->m_path.'/tcms_content_languages/'.$contentID.'.xml')) {
 					$xml = new xmlparser(
 						$this->m_path.'/tcms_content_languages/'.$contentID.'.xml', 'r'
+					);
+				}
+				else {
+					$xml = new xmlparser(
+						$this->m_path.'/tcms_content/'.$contentID.'.xml', 'r'
 					);
 				}
 			}
