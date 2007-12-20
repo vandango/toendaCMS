@@ -1541,6 +1541,35 @@ class tcms_main {
 	 * @return String
 	 */
 	public function cleanStringForUrlName($text) {
+		$trans = get_html_translation_table(HTML_ENTITIES);
+		$trans = array_flip($trans);
+		
+		$text = strtr($text, $trans);
+		//$text = html_entity_decode($text, null, $charset);
+		//$text = htmlentities($text, null, $this->);
+		
+		if(phpversion() >= '5.1.0') {
+			$text = htmlspecialchars_decode($text);
+		}
+		else {
+			$text = strtr(
+				$text, 
+				array_flip(get_html_translation_table(HTML_SPECIALCHARS, ENT_QUOTES))
+			);
+		}
+		
+		for($i = 160; $i < 256; $i++) {
+			$text = str_replace('&#'.$i.';', '', $text);
+		}
+		
+	    $text = str_replace('&#034;', '-', $text); // ??? \'
+	    $text = str_replace('&#038;', '-', $text); // ??? \'
+	    $text = str_replace('&#039;', '-', $text); // ??? \'
+	    $text = str_replace('&#060;', '-', $text); // ??? \'
+	    $text = str_replace('&#062;', '-', $text); // ??? \'
+	    
+		$text = str_replace('&euro;', '', $text);
+		
 		//$text = str_replace('"', '&quot;', $text);
 		//$text = str_replace("'", '&#039;', $text);
 		//$text = str_replace('<', '&lt;', $text);
@@ -1562,8 +1591,9 @@ class tcms_main {
 		$text = str_replace('"', '', $text);
     	$text = str_replace('?', '', $text);
 		$text = str_replace('!', '', $text);
-		$text = str_replace('ï¿½', '', $text);
+		$text = str_replace(';', '', $text);
 		$text = str_replace('$', '', $text);
+		$text = str_replace('§', '', $text);
 		$text = str_replace('%', '', $text);
 		//$text = str_replace('/', '', $text);
 		//$text = str_replace('(', '', $text);
@@ -1574,28 +1604,17 @@ class tcms_main {
 		$text = str_replace('{', '', $text);
 		$text = str_replace('}', '', $text);
 		//$text = str_replace('`', '', $text);
-		//$text = str_replace('ï¿½', '', $text);
 		//$text = str_replace('*', '', $text);
 		//$text = str_replace('+', '', $text);
     	//$text = str_replace('&nbsp;-&nbsp;', '', $text);
 		//$text = str_replace(' - ', '', $text);
 		$text = str_replace('#', '', $text);
-		$text = str_replace('ï¿½', '', $text);
-		$text = str_replace('ï¿½', '', $text);
 		//$text = str_replace('^', '', $text);
-		//$text = str_replace('ï¿½', '', $text);
 		//$text = str_replace(':', '', $text);
 		//$text = str_replace(';', '', $text);
 		$text = str_replace(',', '', $text);
 		//$text = str_replace('_', '', $text);
-		$text = str_replace('ï¿½', '', $text);
 		$text = str_replace('@', '', $text);
-		$text = str_replace('ï¿½', '', $text);
-		$text = str_replace('&euro;', '', $text);
-	    $text = str_replace('ï¿½', '', $text);
-	    $text = str_replace('ï¿½', '', $text);
-	    $text = str_replace('&187;', '', $text);
-	    $text = str_replace('&171;', '', $text);
 	    
 	    $text = str_replace('...', '', $text);
 	    $text = str_replace('..', '', $text);

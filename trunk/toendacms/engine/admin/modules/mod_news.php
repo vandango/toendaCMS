@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the news.
  *
- * @version 1.7.6
+ * @version 1.7.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -2026,8 +2026,8 @@ if($todo == 'save'){
 		$xmluser->writeValue('show_on_frontpage', $new_sof);
 		$xmluser->writeValue('language', $language);
 		
-		$xmluser->xmlSection_buffer();
-		$xmluser->xmlSection_end('news');
+		$xmluser->xmlSectionBuffer();
+		$xmluser->xmlSectionEnd('news');
 		$xmluser->_xmlparser();
 	}
 	else{
@@ -2217,8 +2217,8 @@ if($todo == 'next'){
 		$xmluser->writeValue('show_on_frontpage', $new_sof);
 		$xmluser->writeValue('language', $language);
 		
-		$xmluser->xmlSection_buffer();
-		$xmluser->xmlSection_end('news');
+		$xmluser->xmlSectionBuffer();
+		$xmluser->xmlSectionEnd('news');
 		$xmluser->_xmlparser();
 		
 		$old_umask = umask(0);

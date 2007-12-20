@@ -955,8 +955,7 @@ if($wsShowSite) {
 							$max_latest_products    = $dcP->getMaxLatestProducts();
 							break;
 						
-						case 'imagegallery':
-							using('toendacms.datacontainer.imagegallery');
+						case 'imagegallery':using('toendacms.datacontainer.imagegallery');
 							
 							$dcIG = new tcms_dc_imagegallery();
 							$dcIG = $tcms_dcp->getImagegalleryDC();

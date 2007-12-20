@@ -130,6 +130,8 @@ define('_TCMS_DB_CONNECTION', 'We could not connect to the database. Please chec
 //
 // site.php
 //
+define('_TCMS_SITE_PATH', 'Installpath on webserver (eg. http://www.example.com/<u>cms</u>/)');
+define('_TCMS_SITE_PATH_NAME', 'toendaCMS directory on server');
 define('_TCMS_SITE_TITLE', 'Global website settings');
 define('_TCMS_SITE_TEXT', 'This dialog will save your page title and other importent settings.');
 define('_TCMS_SITE_WEBSITE_SETTINGS', 'Website Settings');

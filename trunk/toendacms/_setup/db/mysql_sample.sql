@@ -951,18 +951,12 @@ INSERT INTO `#####sidemenu` (`uid`, `language`, `name`, `id`, `subid`, `root`, `
 ('51272', 'english_EN', 'Contact Me', 4, '-', '-', '-', '-', '-', '-', 'link', 'contactform', 1, 'Public', ''),
 ('dc688', 'english_EN', 'License', 2, '-', '-', '-', '-', '-', '-', 'link', '18e2a', 1, 'Public', ''),
 ('52d28', 'english_EN', 'Guestbook', 3, '-', '-', '-', '-', '-', '-', 'link', 'guestbook', 1, 'Public', ''),
-('11d22', 'english_EN', 'sub1', 2, '0', '-', '2', '-', '-', '-', 'link', 'polls', 1, 'Public', ''),
-('dfsd7', 'english_EN', 'subsub1', 2, '0', '-', '-', '-', '11d22', '-', 'link', 'search', 0, 'Public', NULL),
 ('c39d0', 'germany_DE', 'Navigation', 7, '-', '-', '-', '-', '-', '-', 'title', '0', 1, 'Public', ''),
 ('638ac', 'germany_DE', 'Lizenz', 10, '-', '-', '-', '-', '-', '-', 'link', '18e2a', 1, 'Public', ''),
 ('1fffa', 'germany_DE', 'Startseite', 8, '-', '-', '-', '-', '-', '-', 'link', 'frontpage', 0, 'Public', ''),
 ('a27fc', 'germany_DE', 'G&auml;stebuch', 9, '-', '-', '-', '-', '-', '-', 'link', 'guestbook', 1, 'Public', ''),
 ('e19ce', 'germany_DE', 'Kontaktformular', 11, '-', '-', '-', '-', '-', '-', 'link', 'contactform', 1, 'Public', ''),
 ('b0abf', 'germany_DE', 'Komponenten', 12, '-', '-', '-', '-', '-', '-', 'title', '-', 1, 'Public', ''),
-('7364b', 'germany_DE', 'sadasd', 8, '1', '-', '8', '-', '-', '-', 'link', 'impressum', 1, 'Public', ''),
-('60af3', 'germany_DE', 'Domainchecker', 13, '-', '-', '-', '-', '-', '-', 'link', 'components&item=domainchecker', 1, 'Public', ''),
-('e0fab', 'germany_DE', 'Shop', 14, '-', '-', '-', '-', '-', '-', 'link', 'components&item=tcmsshop', 1, 'Public', ''),
-('f48d6', 'germany_DE', 'Test', 15, '-', '-', '-', '-', '-', '-', 'link', '3ce0c', 1, 'Public', '');
 
 -- --------------------------------------------------------
 
@@ -1029,14 +1023,10 @@ CREATE TABLE `#####topmenu` (
 INSERT INTO `#####topmenu` (`uid`, `language`, `name`, `id`, `type`, `link`, `published`, `access`, `target`) VALUES
 ('1fbae', 'english_EN', 'Home', 0, 'link', 'frontpage', 1, 'Public', ''),
 ('3c6d9', 'english_EN', 'News', 1, 'link', 'newsmanager', 1, 'Public', ''),
-('d2112', 'english_EN', 'Downloads', 2, 'link', 'download', 1, 'Public', ''),
-('706b2', 'english_EN', 'Gallery', 3, 'link', 'imagegallery', 1, 'Public', ''),
+('d2112', 'english_EN', 'Legal', 2, 'link', 'impressum', 1, 'Public', ''),
 ('7e31e', 'germany_DE', 'Startseite', 7, 'link', 'frontpage', 1, 'Public', ''),
 ('61c34', 'germany_DE', 'Neuigkeiten', 8, 'link', 'newsmanager', 1, 'Public', ''),
-('f39c7', 'germany_DE', 'Downloads', 9, 'link', 'download', 1, 'Public', ''),
-('ac64b', 'germany_DE', 'Gallery', 10, 'link', 'imagegallery', 1, 'Public', ''),
-('87f51', 'germany_DE', 'Produkte', 11, 'link', 'products', 1, 'Public', ''),
-('fb2ee', 'germany_DE', 'FAQ', 12, 'link', 'knowledgebase', 1, 'Public', '');
+('f39c7', 'germany_DE', 'Impressum', 9, 'link', 'impressum', 1, 'Public', '');
 
 -- --------------------------------------------------------
 

@@ -325,7 +325,7 @@ if($site == 'mod_newpage' || $site == 'mod_sidemenu'){
 			}
 		}
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
@@ -333,18 +333,19 @@ if($site == 'mod_newpage' || $site == 'mod_sidemenu'){
 		
 		$count = 0;
 		
-		while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+		while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
 			$xmlID = $sqlObj->uid;
-			if($xmlID == NULL){ $xmlID = ''; }
 			
-			//if(!in_array($xmlID, $arrXMLID)){
-			$xmlTitle = $sqlObj->title;
-			$arr_linkcom['name'][$i] = $xmlTitle;
+			if($xmlID == NULL) {
+				$xmlID = '';
+			}
+			
+			$arr_linkcom['name'][$i] = $sqlObj->title;
 			$arr_linkcom['link'][$i] = $xmlID;
 			
 			$arr_linkcom['name'][$i] = '* '.$tcms_main->decodeText($arr_linkcom['name'][$i], '2', $c_charset);
+			
 			$i++;
-			//}
 		}
 		
 		$sqlAL->freeResult($sqlQR);

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a media manager.
  *
- * @version 0.5.5
+ * @version 0.6.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -53,8 +53,8 @@ if(!isset($action)){ $action = 'image'; }
 
 echo '<div style="display: block; width: 100%; border-bottom: 1px solid #ccc; padding-bottom: 2px; margin: 10px 0 0 0;">'
 .'<div style="display: block; width: 30px; float: left;">&nbsp;</div>'
-.'<a'.( $action == 'image' ? ' class="tcms_tabA"' : ' class="tcms_tab"' ).' href="admin.php?id_user='.$id_user.'&amp;site=mod_media&amp;action=image">'._TCMS_MENU_MEDIA.'</a>'
-.'<a'.( $action == 'faq' ? ' class="tcms_tabA"' : ' class="tcms_tab"' ).' href="admin.php?id_user='.$id_user.'&amp;site=mod_media&amp;action=faq">'._TCMS_MENU_FAQ.'</a>'
+.'<a'.( trim($action) == 'image' ? ' class="tcms_tabA"' : ' class="tcms_tab"' ).' href="admin.php?id_user='.$id_user.'&amp;site=mod_media&amp;action=image">'._TCMS_MENU_MEDIA.'</a>'
+.'<a'.( trim($action) == 'faq' ? ' class="tcms_tabA"' : ' class="tcms_tab"' ).' href="admin.php?id_user='.$id_user.'&amp;site=mod_media&amp;action=faq">'._TCMS_MENU_FAQ.'</a>'
 .'</div>';
 
 echo '<div class="tcms_tabPage"><br />';
@@ -68,7 +68,7 @@ echo '<div class="tcms_tabPage"><br />';
 
 if(!isset($path)) $path = '';
 
-if($action == 'image') {
+if(trim($action) == 'image') {
 	$arr_dir = $tcms_file->getPathContent('../../'.$tcms_administer_site.'/images/Image/'.$path);
 }
 else {
@@ -110,7 +110,7 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 		echo '<tr><td class="tcms_padding_mini">'
 		.'<input name="directory" id="directory" type="text" class="tcms_input_small" />'
 		.'<input name="btn_action" class="tcms_button" type="button" value="'._TCMS_ADMIN_NEW_DIR_BUTTON.'"'
-		.' onclick="document.location=\'admin.php?site=mod_media&id_user='.$id_user.'&todo=createDir&directory=\' + document.getElementById(\'directory\').value;" />'
+		.' onclick="document.location=\'admin.php?site=mod_media&id_user='.$id_user.'&action='.trim($action).'&todo=createDir&directory=\' + document.getElementById(\'directory\').value;" />'
 		.'</td></tr>';
 	}
 	
@@ -121,19 +121,21 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 	.'<option value="'.( $path == '' ? '__DEFAULT__' : $path ).'">'.( $path == '' ? _TCMS_BASE_DIRECTORY : $path ).'</option>';
 	
 	$arr_path = $tcms_file->getPathContent(
-		'../../'.$tcms_administer_site.'/images/'.( $action == 'image' ? 'Image' : 'knowledgebase' ).'/'.$path, 
+		'../../'.$tcms_administer_site.'/images/'.( trim($action) == 'image' ? 'Image' : 'knowledgebase' ).'/'.$path, 
 		true
 	);
 	
-	foreach($arr_path as $fkey => $fvalue){
-		echo '<option value="'.$fvalue.'">'.$fvalue.'</option>';
+	if($tcms_main->isArray($arr_path)) {
+		foreach($arr_path as $fkey => $fvalue){
+			echo '<option value="'.$fvalue.'">'.$fvalue.'</option>';
+		}
 	}
 	
 	echo '</select>'
 	.'<input name="event" type="file" class="tcms_upload" />'
 	.'<input name="btnUpload" type="button" onclick="submitForm(\'upload\');" class="tcms_button" value="'._TCMS_ADMIN_UPLOAD.'" />'
 	.'<input name="todo" type="hidden" value="upload" />'
-	.'<input name="action" type="hidden" value="'.$action.'" />'
+	.'<input name="action" type="hidden" value="'.trim($action).'" />'
 	.'</td></tr>';
 	
 	
@@ -174,7 +176,7 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 		
 		// name
 		echo '<td align="left" class="tcms_db_2">'
-		.'<a href="admin.php?id_user='.$id_user.'&amp;site=mod_media&amp;action='.$action.'">'
+		.'<a href="admin.php?id_user='.$id_user.'&amp;site=mod_media&amp;action='.trim($action).'">'
 		.'<img style="border: 1px solid #ccc; margin: 2px 2px 0 2px; float: left;"'
 		.' src="../images/explore/faq_folder.png" border="0" />'
 		.'<div style="padding: 8px 0 0 5px;">'
@@ -200,7 +202,7 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 		// function
 		echo '<td class="tcms_db_2" style="text-align: middle;" align="right" valign="middle">'
 		/*.$formStart
-		.'<a title="'._TABLE_DELBUTTON.'" href="#" onclick="deleteMediafile(\''.$id_user.'\', \''.$action.'\', \''.$path.'/'.$dvalue.'\', \''._MSG_DELETE_SUBMIT.'\');">'
+		.'<a title="'._TABLE_DELBUTTON.'" href="#" onclick="deleteMediafile(\''.$id_user.'\', \''.trim($action).'\', \''.$path.'/'.$dvalue.'\', \''._MSG_DELETE_SUBMIT.'\');">'
 		.'<div style="float: right; padding: 2px 0 0 0;">'
 		.'<strong>'._TCMS_ADMIN_DELETE.'</strong>'
 		.'</div>'
@@ -217,11 +219,15 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 	if($tcms_main->isArray($arr_dir)) {
 		// folder
 		foreach($arr_dir as $dkey => $dvalue) {
-			if(is_dir(trim('../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue))){
+			$chkPath = '../../'.$tcms_administer_site.'/images/'
+			.( trim($action) == 'image' ? 'Image' : 'knowledgebase' )
+			.'/'.( $path == '' ? '' : $path.'/' ).$dvalue;
+			
+			if(is_dir(trim(($chkPath)))) {
 				$formStart = '<form id="'.$dvalue.'" name="'.$dvalue.'"'
 				.' action="admin.php?id_user='.$id_user.'&amp;site=mod_media" method="post">'
 				.'<input name="todo" type="hidden" value="del_img" />'
-				.'<input name="action" type="hidden" value="'.$action.'" />'
+				.'<input name="action" type="hidden" value="'.trim($action).'" />'
 				.'<input name="delimg" type="hidden" value="'.$dvalue.'" />';
 				
 				$formEnd = '</form>';
@@ -249,7 +255,7 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 					.'<a onmouseover="return overlib(\''.$overlibText.'\', CAPTION, \''
 					.( strlen($dvalue) > 25 ? substr($dvalue, 0, 20).' ...' : $dvalue )
 					.'\', BELOW, RIGHT, WIDTH, 150);" onmouseout="return nd();"'
-					.' href="admin.php?id_user='.$id_user.'&amp;site=mod_media&amp;action=image&amp;path='.$dvalue.'">'
+					.' href="admin.php?id_user='.$id_user.'&amp;site=mod_media&amp;action='.$action.'&amp;path='.$dvalue.'">'
 					.'<img style="border: 1px solid #ccc; margin: 2px 2px 0 2px; float: left;"'
 					.' src="../images/explore/faq_folder.png" border="0" />'
 					.'<div style="padding: 8px 0 0 5px;">'
@@ -261,21 +267,21 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 					// date
 					echo '<td class="tcms_db_2">'
 					.$tcms_file->getFileCreateTime(
-						'../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue
+						'../../'.$tcms_administer_site.'/images/'.( trim($action) == 'image' ? 'Image' : 'knowledgebase' ).'/'.( $path == '' ? '' : $path.'/' ).$dvalue
 					)
 					.'</td>';
 					
 					// size
 					echo '<td class="tcms_db_2">'
 					.$tcms_file->getDirectorySizeString(
-						'../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue
+						'../../'.$tcms_administer_site.'/images/'.( trim($action) == 'image' ? 'Image' : 'knowledgebase' ).'/'.( $path == '' ? '' : $path.'/' ).$dvalue
 					)
 					.'</td>';
 					
 					// function
 					echo '<td class="tcms_db_2" style="text-align: middle;" align="right" valign="middle">'
 					.$formStart
-					.'<a title="'._TABLE_DELBUTTON.'" href="#" onclick="deleteMediafile(\''.$id_user.'\', \''.$action.'\', \''.$path.'/'.$dvalue.'\', \''._MSG_DELETE_SUBMIT.'\');">'
+					.'<a title="'._TABLE_DELBUTTON.'" href="#" onclick="deleteFolder(\''.$id_user.'\', \''.trim($action).'\', \''.$path.'/'.$dvalue.'\', \''._MSG_DELETE_SUBMIT.'\');">'
 					.'<div style="float: right; padding: 2px 0 0 0;">'
 					.'<strong>'._TCMS_ADMIN_DELETE.'</strong>'
 					.'</div>'
@@ -310,7 +316,7 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 					.'</a>';
 					
 					echo '<span style="position: absolute; right: 50px; padding: 0 0 0 4px;">'
-					.'<a style="text-decoration: none !important;" href="#" onclick="deleteMediafile(\''.$id_user.'\', \''.$action.'\', \''.$path.'/'.$dvalue.'\', \''._MSG_DELETE_SUBMIT.'\');">'
+					.'<a style="text-decoration: none !important;" href="#" onclick="deleteMediafile(\''.$id_user.'\', \''.trim($action).'\', \''.$path.'/'.$dvalue.'\', \''._MSG_DELETE_SUBMIT.'\');">'
 					.'<img title="'._TCMS_ADMIN_DELETE.'" alt="'._TCMS_ADMIN_DELETE.'" border="0"'
 					.' src="../images/a_delete.gif" />'
 					.'<strong>'._TCMS_ADMIN_DELETE.'</strong>'
@@ -326,7 +332,7 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 					//if($tcms_config->getMediamanagerItemView() == 'icon') {
 					echo '<form id="'.$dvalue.'" name="'.$dvalue.'" action="admin.php?id_user='.$id_user.'&amp;site=mod_media" method="post">'
 					.'<input name="todo" type="hidden" value="del_img" />'
-					.'<input name="action" type="hidden" value="'.$action.'" />'
+					.'<input name="action" type="hidden" value="'.trim($action).'" />'
 					.'<input name="delimg" type="hidden" value="'.$dvalue.'" />';
 					
 					$overlibText = '<strong>'._GALLERY_IMGTITLE.':</strong>'
@@ -353,7 +359,7 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 					echo '</div>';
 					
 					echo '<div style="padding: 0 0 0 4px;">'.$dvalue.'<br />'
-					.'<a style="text-decoration: none !important;" href="#" onclick="deleteMediafile(\''.$id_user.'\', \''.$action.'\', \''.$path.'/'.$dvalue.'\', \''._MSG_DELETE_SUBMIT.'\');">'
+					.'<a style="text-decoration: none !important;" href="#" onclick="deleteFolder(\''.$id_user.'\', \''.trim($action).'\', \''.$path.'/'.$dvalue.'\', \''._MSG_DELETE_SUBMIT.'\');">'
 					.'<img title="'._TCMS_ADMIN_DELETE.'" alt="'._TCMS_ADMIN_DELETE.'" border="0"'
 					.' src="../images/a_delete.gif" />'
 					.'&nbsp;<strong style="padding-top: 5px;">'._TCMS_ADMIN_DELETE.'</strong></a>'
@@ -382,7 +388,7 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 			|| $tcms_main->isVideo($dvalue, false)
 			|| $tcms_main->isMultimedia($dvalue, false)) {
 				if(!preg_match('/.mp3/i', strtolower($dvalue))) {
-					if($action == 'image'){
+					if(trim($action) == 'image'){
 						if(!file_exists('../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue)) {
 							$tcms_gd->createThumbnail(
 								'../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ), 
@@ -407,7 +413,7 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 				$formStart = '<form id="'.$dvalue.'" name="'.$dvalue.'"'
 				.' action="admin.php?id_user='.$id_user.'&amp;site=mod_media" method="post">'
 				.'<input name="todo" type="hidden" value="del_img" />'
-				.'<input name="action" type="hidden" value="'.$action.'" />'
+				.'<input name="action" type="hidden" value="'.trim($action).'" />'
 				.'<input name="delimg" type="hidden" value="'.$path.'/'.$dvalue.'" />';
 				
 				$formEnd = '</form>';
@@ -444,7 +450,7 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 				
 				// get image info
 				if(!preg_match('/.mp3/i', strtolower($dvalue))){
-					if($action == 'image'){
+					if(trim($action) == 'image'){
 						if(file_exists('../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue)) {
 							$tcms_gd->readImageInformation(
 								'../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue
@@ -460,7 +466,7 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 					}
 				}
 				
-				if($action == 'image') {
+				if(trim($action) == 'image') {
 					if($tcms_file->checkFileExist('../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue)) {
 						//$size = filesize('../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue) / 1024;
 						$size = $tcms_file->getFilesize(
@@ -638,7 +644,7 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 					// function
 					echo '<td class="tcms_db_2" style="text-align: middle;" align="right" valign="middle">'
 					.$formStart
-					.'<a title="'._TABLE_DELBUTTON.'" href="#" onclick="deleteMediafile(\''.$id_user.'\', \''.$action.'\', \''.$path.'/'.$dvalue.'\', \''._MSG_DELETE_SUBMIT.'\');">'
+					.'<a title="'._TABLE_DELBUTTON.'" href="#" onclick="deleteMediafile(\''.$id_user.'\', \''.trim($action).'\', \''.$path.'/'.$dvalue.'\', \''._MSG_DELETE_SUBMIT.'\');">'
 					.'<div style="float: right; padding: 2px 0 0 0;">'
 					.'<strong>'._TCMS_ADMIN_DELETE.'</strong>'
 					.'</div>'
@@ -749,7 +755,7 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 					
 					
 					echo '<div style="padding: 0 0 0 4px;">'.$dvalue3.'<br />'
-					.'<a style="text-decoration: none !important;" href="#" onclick="deleteMediafile(\''.$id_user.'\', \''.$action.'\', \''.$dvalue.'\', \''._MSG_DELETE_SUBMIT.'\');">'
+					.'<a style="text-decoration: none !important;" href="#" onclick="deleteMediafile(\''.$id_user.'\', \''.trim($action).'\', \''.$dvalue.'\', \''._MSG_DELETE_SUBMIT.'\');">'
 					.'<img title="'._TCMS_ADMIN_DELETE.'" alt="'._TCMS_ADMIN_DELETE.'" border="0" src="../images/a_delete.gif" />'
 					.'&nbsp;<strong style="padding-top: 5px;">'._TCMS_ADMIN_DELETE.'</strong></a>'
 					.'</div>';
@@ -783,7 +789,7 @@ echo '</div>';
 // UPLOAD
 // --------------------------------------------------------------------
 
-if($todo == 'upload'){
+if($todo == 'upload') {
 	// image file upload
 	if($_FILES['event']['size'] > 0 && (
 	$tcms_main->isImage($_FILES['event']['type']) ||
@@ -796,7 +802,7 @@ if($todo == 'upload'){
 			
 			$fileName = $tcms_main->cleanFilename($fileName);
 			
-			if($action == 'image') {
+			if(trim($action) == 'image') {
 				$imgDir = '../../'.$tcms_administer_site.'/images/Image/';
 			}
 			else {
@@ -821,7 +827,7 @@ if($todo == 'upload'){
 	
 	echo '<script>'
 	.'alert(\''.$msg.'\');'
-	.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_media&action='.$action
+	.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_media&action='.trim($action)
 	.( $directory == '__DEFAULT__' ? '' : '&path='.$directory ).'\';'
 	.'</script>';
 }
@@ -830,26 +836,51 @@ if($todo == 'upload'){
 
 
 // --------------------------------------------------------------------
-// DELETE
+// DELETE IMAGE
 // --------------------------------------------------------------------
 
-if($todo == 'deleteImage'){
-	if($action == 'image'){
+if($todo == 'deleteImage') {
+	if(trim($action) == 'image') {
 		if(is_dir('../../'.$tcms_administer_site.'/images/Image/'.$delimg) == 1){
 			$tcms_main->deleteDir('../../'.$tcms_administer_site.'/images/Image/'.$delimg);
 		}
-		else{
+		else {
 			unlink('../../'.$tcms_administer_site.'/images/Image/'.$delimg);
 		}
 	}
-	else{
-		unlink('../../'.$tcms_administer_site.'/images/knowledgebase/'.$delimg);
+	else {
+		if(is_dir('../../'.$tcms_administer_site.'/images/knowledgebase/'.$delimg) == 1){
+			$tcms_main->deleteDir('../../'.$tcms_administer_site.'/images/knowledgebase/'.$delimg);
+		}
+		else {
+			unlink('../../'.$tcms_administer_site.'/images/knowledgebase/'.$delimg);
+		}
 	}
 	
 	unlink('../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$delimg);
 	
 	echo '<script>'
-	.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_media&action='.$action.'\';'
+	//.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_media&action='.trim($action).'\';'
+	.'</script>';
+}
+
+
+
+
+// --------------------------------------------------------------------
+// DELETE FOLDER
+// --------------------------------------------------------------------
+
+if($todo == 'deleteFolder') {
+	if(trim($action) == 'image') {
+		$tcms_main->deleteDir('../../'.$tcms_administer_site.'/images/Image/'.$delimg);
+	}
+	else {
+		$tcms_main->deleteDir('../../'.$tcms_administer_site.'/images/knowledgebase/'.$delimg);
+	}
+	
+	echo '<script>'
+	.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_media&action='.trim($action).'\';'
 	.'</script>';
 }
 
@@ -860,13 +891,23 @@ if($todo == 'deleteImage'){
 // CREATE DIR
 // --------------------------------------------------------------------
 
-if($todo == 'createDir'){
-	if(!is_dir('../../'.$tcms_administer_site.'/images/Image/'.$directory)){
-		mkdir('../../'.$tcms_administer_site.'/images/Image/'.$directory, 0777);
-		chmod('../../'.$tcms_administer_site.'/images/Image/'.$directory, 0777);
+if($todo == 'createDir') {
+	if(trim($action) == 'image') {
+		if(!is_dir('../../'.$tcms_administer_site.'/images/Image/'.$directory)) {
+			@mkdir('../../'.$tcms_administer_site.'/images/Image/'.$directory, 0777);
+			@chmod('../../'.$tcms_administer_site.'/images/Image/'.$directory, 0777);
+		}
+	}
+	else {
+		if(!is_dir('../../'.$tcms_administer_site.'/images/knowledgebase/'.$directory)) {
+			@mkdir('../../'.$tcms_administer_site.'/images/knowledgebase/'.$directory, 0777);
+			@chmod('../../'.$tcms_administer_site.'/images/knowledgebase/'.$directory, 0777);
+		}
 	}
 	
-	echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_media\';</script>';
+	echo '<script>'
+	.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_media&action='.trim($action).'\';'
+	.'</script>';
 }
 
 ?>
