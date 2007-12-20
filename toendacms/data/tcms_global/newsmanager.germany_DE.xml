@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><config>
+<?xml version="1.0" encoding="utf-8"?><config>
 	<language>germany_DE</language>
 	<news_id>newsmanager</news_id>
 	<news_title>czo2OiJBcmNoaXYiOw==</news_title>
@@ -20,24 +20,24 @@
 	<use_opml>0</use_opml>
 	<syn_amount>5</syn_amount>
 	<use_syn_title>0</use_syn_title>
-	<use_rss091_img>0</use_rss091_img>
-	<rss091_text>RSS 0.91 Feed</rss091_text>
-	<use_rss10_img>0</use_rss10_img>
-	<rss10_text>RSS 1.0 Feed</rss10_text>
-	<use_rss20_img>0</use_rss20_img>
-	<rss20_text>News abonnieren</rss20_text>
-	<use_atom03_img>0</use_atom03_img>
-	<atom03_text>ATOM 0.3 Feed</atom03_text>
-	<use_opml_img>0</use_opml_img>
-	<opml_text>OPML Feed</opml_text>
-	<use_comment_feed>1</use_comment_feed>
-	<comment_feed_text>Kommentare abonnieren</comment_feed_text>
-	<comment_feed_type>RSS2.0</comment_feed_type>
-	<use_comment_feed_img>0</use_comment_feed_img>
 	<def_feed>RSS2.0</def_feed>
 	<use_trackback>0</use_trackback>
 	<use_timesince>0</use_timesince>
 	<readmore_link>0</readmore_link>
 	<news_spacing>20</news_spacing>
-<comments_feed_amount>25</comments_feed_amount>
+	<use_rss091_img>0</use_rss091_img>
+	<rss091_text>czowOiIiOw==</rss091_text>
+	<use_rss10_img>0</use_rss10_img>
+	<rss10_text>czowOiIiOw==</rss10_text>
+	<use_rss20_img>0</use_rss20_img>
+	<rss20_feed>czoxNDoiR3JhcCBuZXdzIGZlZWQiOw==</rss20_feed>
+	<use_atom03_img>0</use_atom03_img>
+	<atom03_text>czowOiIiOw==</atom03_text>
+	<use_opml_img>0</use_opml_img>
+	<opml_text>czowOiIiOw==</opml_text>
+	<use_comment_feed>1</use_comment_feed>
+	<comment_feed_text>czoxODoiR3JhcCBjb21tZW50cyBmZWVkIjs=</comment_feed_text>
+	<comment_feed_type>RSS2.0</comment_feed_type>
+	<use_comment_feed_img>0</use_comment_feed_img>
+	<comments_feed_amount>25</comments_feed_amount>
 </config>

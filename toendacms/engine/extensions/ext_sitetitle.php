@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used fore the site title.
  *
- * @version 0.5.1
+ * @version 0.5.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -835,12 +835,22 @@ switch($id){
 	
 	case 'contactform':
 		/*
-			IMPRESSUM
+			CONTACTFORM
 		*/
 		
 		$sitetitleAdditional .= _PATH_HOME
 		.'&nbsp;/&nbsp;'
 		._PATH_CONTACTFORM;
+		break;
+	
+	case 'guestbook':
+		/*
+			GUESTBOOK
+		*/
+		
+		$sitetitleAdditional .= _PATH_HOME
+		.'&nbsp;/&nbsp;'
+		._TCMS_MENU_QBOOK;
 		break;
 	
 	case 'components':
