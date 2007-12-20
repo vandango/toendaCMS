@@ -9,8 +9,7 @@
 | 
 | Links for the Content
 |
-| File:		ext_links_mainpage.php
-| Version:	0.1.5
+| File:	ext_links_mainpage.php
 |
 +
 */
@@ -19,8 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-
-
+/**
+ * Links for the Content
+ *
+ * This module is used for the links for the content.
+ *
+ * @version 0.1.7
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Content Modules
+ */
 
 
 $toendaScript = new toendaScript($link_text);
@@ -28,9 +35,11 @@ $link_text = $toendaScript->toendaScript_trigger();
 $link_text = $toendaScript->checkSEO($link_text, $imagePath);
 
 
-if(trim($link_title)    != ''){ echo tcms_html::contentheading($link_title); }
-if(trim($link_subtitle) != ''){ echo tcms_html::contentstamp($link_subtitle).'<br />'; }
-if(trim($link_text)     != ''){ echo tcms_html::contentmain($link_text).'<br /><br />'; }
+echo $tcms_html->contentModuleHeader(
+	$link_title, 
+	$link_subtitle, 
+	$link_text
+);
 
 
 
@@ -74,7 +83,14 @@ if($choosenDB == 'xml'){
 			
 			
 			foreach($arrLink['name'] as $lKey => $lVal){
-				echo '<span class="text_big" style="padding-left: 3px;"><strong>'.$lVal.'</strong></span><br />';
+				//echo '<span class="text_big" style="padding-left: 3px;"><strong>'.$lVal.'</strong></span><br />';
+				echo '<div class="headLineLinksPage">'
+				.'<br />'
+				.'<span class="text_big" style="padding-left: 3px;">'
+				.'<strong>'.$lVal.'</strong>'
+				.'</span>'
+				.'</div>'
+				.'<br />';
 				
 				unset($arrLinkItem);
 				unset($arr_filename);
@@ -169,7 +185,14 @@ else{
 		// CHARSETS
 		$arrLink['name'] = $tcms_main->decodeText($arrLink['name'], '2', $c_charset);
 		
-		echo '<span class="text_big" style="padding-left: 3px;"><strong>'.$arrLink['name'].'</strong></span><br />';
+		//echo '<span class="text_big" style="padding-left: 3px;"><strong>'.$arrLink['name'].'</strong></span><br />';
+		echo '<div class="headLineLinksPage">'
+		.'<br />'
+		.'<span class="text_big" style="padding-left: 3px;">'
+		.'<strong>'.$arrLink['name'].'</strong>'
+		.'</span>'
+		.'</div>'
+		.'<br />';
 		
 		
 		

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a imagegallery.
  *
- * @version 0.7.1
+ * @version 0.7.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -122,7 +122,7 @@ else{
 
 if(!isset($albums)){ $albums = 'start'; }
 
-if($albums == 'start'){
+if($albums == 'start') {
 	echo $tcms_html->contentModuleHeader(
 		$image_title, 
 		$image_stamp, 
@@ -146,10 +146,22 @@ if($albums == 'start'){
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlConvertToSEO($link);
 			
+			/*
 			echo '<tr><td valign="top" colspan="2" class="text_big">'
 			.'<a style="padding-left: 3px;" href="'.$link.'">'
 			.'<strong>'.$arr_albums['title'][$key].'</strong></a>'
 			.'</td></tr>';
+			*/
+			
+			echo '<tr>'
+			.'<td colspan="2" class="text_big">'
+			.'<div class="headLineGallery">'
+			.'<br />'
+			.'<span class="text_big"><a style="padding-left: 3px;" href="'.$link.'">'
+			.'<strong>'.$arr_albums['title'][$key].'</strong></a></span>'
+			.'</div>'
+			.'</td>'
+			.'</tr>';
 			
 			echo '<tr><td valign="top" colspan="2" style="height: 3px;"></td></tr>';
 			
@@ -188,7 +200,14 @@ if($albums == 'start'){
 				$arr_albums['description'][$key]
 			.'</td></tr>';
 			
-			echo '<tr><td valign="top" colspan="2"><hr class="hr_line" /></td></tr>';
+			//echo '<tr><td valign="top" colspan="2"><hr class="hr_line" /></td></tr>';
+			echo '<tr>'
+			.'<td valign="top" colspan="2">'
+			.'<div class="headLinePadding">'
+			.'<img src="'.$imagePath.'engine/images/blank.gif" border="0" height="1" />'
+			.'</div>'
+			.'</td>'
+			.'</tr>';
 		}
 	}
 	
