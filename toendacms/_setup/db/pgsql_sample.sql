@@ -280,7 +280,22 @@ CREATE TABLE #####newsmanager (
     readmore_link integer DEFAULT 0,
     news_text text,
     news_spacing integer,
-    "language" character varying(25)
+    "language" character varying(25),
+    "use_rss091_img" INTEGER,
+	"rss091_text" VARCHAR( 255 ),
+	"use_rss10_img" INTEGER,
+	"rss10_text" VARCHAR( 255 ),
+	"use_rss20_img" INTEGER,
+	"rss20_feed" VARCHAR( 255 ),
+	"use_atom03_img" INTEGER,
+	"atom03_text" VARCHAR( 255 ),
+	"use_opml_img" INTEGER,
+	"opml_text" VARCHAR( 255 ),
+	"use_comment_feed" INTEGER,
+	"comment_feed_text" VARCHAR( 255 ),
+	"comment_feed_type" VARCHAR( 7 ),
+	"use_comment_feed_img" INTEGER,
+	"comments_feed_amount" INTEGER
 );
 --
 -- Structure for table tcms_notepad (OID = 17405) : 
@@ -348,7 +363,12 @@ CREATE TABLE #####products_config (
     products_text text NOT NULL,
     category_state character varying(255) DEFAULT ''::character varying NOT NULL,
     category_title character varying(255) DEFAULT ''::character varying NOT NULL,
-    use_category_title integer DEFAULT 0 NOT NULL
+    use_category_title integer DEFAULT 0 NOT NULL,
+    "language" character varchar(25),
+    "show_price_only_users" INTEGER,
+    "startpagetitle" character VARCHAR( 255 ),
+    "use_sidebar_categories" INTEGER,
+    "max_latest_products" INTEGER
 );
 --
 -- Structure for table tcms_sidebar (OID = 17449) : 
@@ -469,7 +489,10 @@ CREATE TABLE #####products (
     factory character varying(255),
     factory_url character varying(255),
     category character varying(255) DEFAULT ''::character varying NOT NULL,
-    image character varying(255),
+    image1 character varying(255),
+    image2 character varying(255),
+    image3 character varying(255),
+    image4 character varying(255),
     date character varying(16) DEFAULT ''::character varying NOT NULL,
     price character varying(50),
     price_tax character varying(50),
@@ -479,7 +502,12 @@ CREATE TABLE #####products (
     sort integer DEFAULT 0 NOT NULL,
     "access" character varying(10),
     sql_type character(1) DEFAULT ''::bpchar NOT NULL,
-    "desc" text
+    "desc" text,
+    "show_on_startpage" integer,
+	"pub" integer,
+	"parent" character VARCHAR( 32 ),
+	"category" character VARCHAR( 32 ),
+	"language" character VARCHAR( 25 )
 );
 --
 -- Structure for table tcms_session (OID = 17520) : 
@@ -824,7 +852,9 @@ INSERT INTO #####newsletter (uid, use_newsletter, nl_title, nl_show_title, nl_te
 --
 -- Data for blobs (OID = 17395) (LIMIT 0,1)
 --
-INSERT INTO #####newsmanager (uid, news_id, news_title, news_stamp, news_image, use_comments, show_autor, show_autor_as_link, news_amount, "access", news_cut, use_gravatar, use_emoticons, use_rss091, use_rss10, use_rss20, use_atom03, use_opml, syn_amount, use_syn_title, def_feed, use_timesince, use_trackback, readmore_link, news_text, news_spacing, "language") VALUES ('newsmanager', 'newsmanager', 'News', 'Current', '', 1, 0, 1, 1, 'Public', 0, 1, 1, 1, 1, 1, 1, 1, 5, 1, 'RSS2.0', 0, 0, 0, '', 0, 'english_EN');
+INSERT INTO #####newsmanager (uid, news_id, news_title, news_stamp, news_image, use_comments, show_autor, show_autor_as_link, news_amount, "access", news_cut, use_gravatar, use_emoticons, use_rss091, use_rss10, use_rss20, use_atom03, use_opml, syn_amount, use_syn_title, def_feed, use_timesince, use_trackback, readmore_link, news_text, news_spacing, "language") VALUES ('newsmanager', 'newsmanager', 'News', 'Current', '', 1, 0, 1, 1, 'Public', 0, 1, 1, 1, 1, 1, 1, 1, 5, 1, 'RSS2.0', 0, 0, 0, '', 0, 'english_EN', 0, '', 0, '', 0, '', 0, '', 0, '', 1, '', 'RSS2.0', 0, 25);
+	
+	
 --
 -- Data for blobs (OID = 17412) (LIMIT 0,1)
 --
@@ -836,7 +866,7 @@ INSERT INTO #####polls (uid, title, question1, question2, question3, question4, 
 --
 -- Data for blobs (OID = 17437) (LIMIT 0,1)
 --
-INSERT INTO #####products_config (uid, products_id, products_title, products_stamp, products_text, category_state, category_title, use_category_title) VALUES ('products', 'products', 'Products', 'Toenda Software Products', 'Our software products.', 'software', 'Product Categories', 1);
+INSERT INTO #####products_config (uid, products_id, products_title, products_stamp, products_text, category_state, category_title, use_category_title) VALUES ('products', 'products', 'Products', 'Toenda Software Products', 'Our software products.', 'software', 'Product Categories', 1, 'english_EN', 0, '', 0, 10);
 --
 -- Data for blobs (OID = 17449) (LIMIT 0,1)
 --
