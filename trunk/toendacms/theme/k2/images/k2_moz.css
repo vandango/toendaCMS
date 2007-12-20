@@ -826,6 +826,20 @@ a.products_active_tab:hover {
 }
 
 
+.headLinePadding {
+	width: 100%;
+	height: 15px;
+}
+
+.headLineGallery {
+}
+
+.headLineLinksPage {
+	width: 500px;
+	height: 25px;
+}
+
+
 
 
 /* login */

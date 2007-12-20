@@ -855,3 +855,17 @@ a.products_active_tab:hover {
 	margin: -7px 0 0 0 !important;
 }
 
+
+
+.headLinePadding {
+	width: 100%;
+	height: 15px;
+}
+
+.headLineGallery {
+}
+
+.headLineLinksPage {
+	width: 500px;
+	height: 25px;
+}
