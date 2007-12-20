@@ -572,6 +572,21 @@ CREATE TABLE [#####newsmanager](
 	[readmore_link] [int] NOT NULL CONSTRAINT [DF_tcms_newsmanager_readmore_link]  DEFAULT ((0)),
 	[news_spacing] [int] NULL CONSTRAINT [DF_tcms_newsmanager_news_spacing]  DEFAULT ((0)),
 	[language] [varchar](25) NOT NULL DEFAULT (''),
+	[use_rss091_img] [int] NOT NULL DEFAULT '1',
+	[rss091_text] VARCHAR( 255 ) NOT NULL DEFAULT '',
+	[use_rss10_img] [int] NOT NULL DEFAULT '1',
+	[rss10_text] VARCHAR( 255 ) NOT NULL DEFAULT '',
+	[use_rss20_img] [int] NOT NULL DEFAULT '1',
+	[rss20_feed] VARCHAR( 255 ) NOT NULL DEFAULT '',
+	[use_atom03_img] [int] NOT NULL DEFAULT '1',
+	[atom03_text] VARCHAR( 255 ) NOT NULL DEFAULT '',
+	[use_opml_img] [int] NOT NULL DEFAULT '1',
+	[opml_text] VARCHAR( 255 ) NOT NULL DEFAULT '',
+	[use_comment_feed] [int] NOT NULL DEFAULT '1',
+	[comment_feed_text] VARCHAR( 255 ) NULL DEFAULT '',
+	[comment_feed_type] VARCHAR( 7 ) NULL DEFAULT '',
+	[use_comment_feed_img] [int] NOT NULL DEFAULT '0',
+	[comments_feed_amount] [int] NOT NULL DEFAULT '5'
  CONSTRAINT [PK_tcms_newsmanager] PRIMARY KEY CLUSTERED 
 (
 	[uid] ASC
@@ -1262,7 +1277,7 @@ INSERT INTO [#####impressum] ([uid], [imp_id], [imp_title], [imp_stamp], [imp_co
 VALUES ('impressum', 'impressum', 'Disclaimer', 'Information about this website', '10a1b5f6ab', '123456789', '123123d', 'No portion of this web site may be reproduced without express written consent from its owner.', 'english_EN');
 
 INSERT INTO [#####newsmanager] ([uid], [news_id], [news_title], [news_stamp], [news_image], [use_comments], [show_autor], [show_autor_as_link], [news_amount], [access], [news_cut], [use_gravatar], [use_emoticons], [use_rss091], [use_rss10], [use_rss20], [use_atom03], [use_opml], [syn_amount], [use_syn_title], [def_feed], [use_trackback], [use_timesince], [news_text], [readmore_link], [news_spacing], [language]) 
-VALUES ('newsmanager', 'newsmanager', 'News', 'Current', ' ', 1, 0, 0, 20, 'Public', 0, 0, 1, 1, 1, 1, 1, 1, 5, 1, 'RSS2.0', 0, 0, 'testext ', 0, 25, 'english_EN');
+VALUES ('newsmanager', 'newsmanager', 'News', 'Current', ' ', 1, 0, 0, 20, 'Public', 0, 0, 1, 1, 1, 1, 1, 1, 5, 1, 'RSS2.0', 0, 0, 'testext ', 0, 25, 'english_EN', 0, '', 0, '', 0, '', 0, '', 0, '', 1, '', 'RSS2.0', 0, 25);
 
 INSERT INTO [#####sidemenu] ([uid], [name], [id], [subid], [parent], [type], [link], [published], [access], [parent_lvl2], [parent_lvl3], [root], [parent_lvl1], [target], [language]) 
 VALUES ('51272', 'Contact Me', 4, '-  ', '-  ', 'link', 'contactform', 1, 'Public', NULL, NULL, NULL, NULL, NULL, 'english_EN');
