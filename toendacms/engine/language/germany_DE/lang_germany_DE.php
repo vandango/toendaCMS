@@ -290,7 +290,7 @@ define('_TABLE_FACTORY', 'Hersteller');
 define('_TABLE_URL', 'Internetadresse');
 define('_TABLE_STOCK', 'Auf Lager');
 define('_TABLE_PRICE', 'Preis');
-define('_TABLE_PRICE_ADD', '(Brutto, f�r Netto MwSt. leer lassen)');
+define('_TABLE_PRICE_ADD', '(Brutto, f&uuml;r Netto MwSt. leer lassen)');
 define('_TABLE_TAX', 'Mehrwertsteuersatz');
 define('_TABLE_QUANTITY', 'Menge');
 define('_TABLE_WEIGHT', 'Gewicht');

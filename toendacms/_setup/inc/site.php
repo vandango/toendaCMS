@@ -20,7 +20,7 @@
  *
  * This file is used for the dite settings.
  *
- * @version 0.2.3
+ * @version 0.2.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -98,6 +98,29 @@ if($todo == 'global') {
 	echo '<form action="index.php?site=site&amp;lang='.$lang.'" id="site_form" method="post">'
 	.'<input name="todo" type="hidden" value="save" />'
 	.'<input name="db" type="hidden" value="'.$db.'" />';
+	
+	
+	echo '<h3>'._TCMS_SITE_PATH.'</h3>';
+	
+	
+	$sitePath = str_replace('/_setup/index.php', '', $_SERVER['PHP_SELF']);
+	$sitePath = str_replace('/setup/index.php', '', $sitePath);
+	$sitePath = substr($sitePath, 1);
+	
+	echo '<div style="display: block; float: left; width: 150px; font-weight: bold;">'
+	._TCMS_SITE_PATH_NAME
+	.'</div>';
+	
+	echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 390px;">'
+	.'<input class="tcms_input_site" name="tcms_site_path" type="text" value="'
+	.$sitePath
+	.'" />'
+	.'</div>';
+	
+	echo '<div style="display: block; margin: 0 0 0 600px;">&nbsp;</div>';
+	
+	
+	echo '<br />';
 	
 	
 	
@@ -480,7 +503,7 @@ if($todo == 'save'){
 	$xmluser->writeValue('topmenu_active', '1');
 	$xmluser->writeValue('statistics', '0');
 	$xmluser->writeValue('seo_enabled', '0');
-	$xmluser->writeValue('server_folder', '');
+	$xmluser->writeValue('server_folder', $tcms_site_path);
 	$xmluser->writeValue('site_offline', '0');
 	$xmluser->writeValue('site_offline_text', '');
 	$xmluser->writeValue('show_top_pages', '0');

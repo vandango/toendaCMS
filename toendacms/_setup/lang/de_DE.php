@@ -131,6 +131,8 @@ define('_TCMS_DB_CONNECTION', 'Es konnte keine Verbindung zur Datenbank aufgebau
 //
 // site.php
 //
+define('_TCMS_SITE_PATH', 'Installationsverzeichnis (zb. http://www.example.com/<u>cms</u>/)');
+define('_TCMS_SITE_PATH_NAME', 'toendaCMS Verzeichnis auf dem Server');
 define('_TCMS_SITE_TITLE', 'Globale Seiteneinstellungen');
 define('_TCMS_SITE_TEXT', 'Dieser Dialog wird ihren Seitentitel speichern und wichtigsten Einstellungen vornehmen.');
 define('_TCMS_SITE_WEBSITE_SETTINGS', 'Webseiten Einstellungen');

@@ -9,8 +9,7 @@
 | 
 | Links Manager
 |
-| File:		mod_links.php
-| Version:	0.5.5
+| File:	mod_links.php
 |
 +
 */
@@ -19,6 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * Links Manager
+ *
+ * This module is used for the links.
+ *
+ * @version 0.5.7
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 if(isset($_GET['action'])){ $action = $_GET['action']; }
@@ -806,10 +815,10 @@ if($todo == 'save_config'){
 	
 	
 	// CHARSETS
-	$new_link_side_title    = $tcms_main->decode_text($new_link_side_title, '2', $c_charset);
-	$new_link_main_title    = $tcms_main->decode_text($new_link_main_title, '2', $c_charset);
-	$new_link_main_subtitle = $tcms_main->decode_text($new_link_main_subtitle, '2', $c_charset);
-	$content                = $tcms_main->decode_text($content, '2', $c_charset);
+	$new_link_side_title    = $tcms_main->encodeText($new_link_side_title, '2', $c_charset);
+	$new_link_main_title    = $tcms_main->encodeText($new_link_main_title, '2', $c_charset);
+	$new_link_main_subtitle = $tcms_main->encodeText($new_link_main_subtitle, '2', $c_charset);
+	$content                = $tcms_main->encodeText($content, '2', $c_charset);
 	
 	
 	if($choosenDB == 'xml'){
@@ -864,7 +873,7 @@ if($todo == 'save_config'){
 // SAVING
 //=====================================================
 
-if($todo == 'save'){
+if($todo == 'save') {
 	//****************************************
 	
 	if($new_link_name == '' || !isset($new_link_name)){ $new_link_name = ''; }
@@ -885,16 +894,23 @@ if($todo == 'save'){
 	
 	
 	// CHARSETS
-	$new_link_name = $tcms_main->decode_text($new_link_name, '2', $c_charset);
-	$new_link_desc = $tcms_main->decode_text($new_link_desc, '2', $c_charset);
+	$new_link_name = $tcms_main->encodeText($new_link_name, '2', $c_charset);
+	$new_link_desc = $tcms_main->encodeText($new_link_desc, '2', $c_charset);
 	
 	
 	if($new_link_sort == ''){
-		$new_link_sort = $tcms_main->create_sort_id_sub($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'links', 'sort', 'category', "'".$new_link_cat."'");
+		$new_link_sort = $tcms_main->create_sort_id_sub(
+			$choosenDB, 
+			$sqlUser, 
+			$sqlPass, 
+			$sqlHost, 
+			$sqlDB, 
+			$sqlPort, 
+			$tcms_db_prefix.'links', 'sort', 'category', "'".$new_link_cat."'");
 	}
 	
 	
-	if($choosenDB == 'xml'){
+	if($choosenDB == 'xml') {
 		$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_links/'.$maintag.'.xml', 'w');
 		$xmluser->xml_declaration();
 		$xmluser->xml_section('link');
@@ -915,7 +931,7 @@ if($todo == 'save'){
 		$xmluser->xml_section_end('link');
 		$xmluser->_xmlparser();
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
 		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		

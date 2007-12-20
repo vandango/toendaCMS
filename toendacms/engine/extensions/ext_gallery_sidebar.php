@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the sidebar imagegallery.
  *
- * @version 0.2.5
+ * @version 0.2.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -35,6 +35,8 @@ if($use_side_gallery == 1) {
 	
 	$dcIG = new tcms_dc_imagegallery();
 	$dcIG = $tcms_dcp->getImagegalleryDC();
+	
+	$maxImg = $dcIG->getMaxImages();
 	
 	/*
 		load last 5 images
@@ -100,10 +102,13 @@ if($use_side_gallery == 1) {
 			case 'mssql': $dbLimitMS = "TOP ".$maxImg; break;
 		}
 		
-		$strSQL = "SELECT ".$dbLimitMS." * "
+		$strSQL = "SELECT ".$dbLimitMS." ".$tcms_db_prefix."imagegallery.* "
 		."FROM ".$tcms_db_prefix."imagegallery "
-		."WHERE NOT (uid IS NULL) "
-		."ORDER BY date DESC ".$dbLimit;
+		."INNER JOIN ".$tcms_db_prefix."albums "
+		."ON ".$tcms_db_prefix."imagegallery.album = ".$tcms_db_prefix."albums.album_id "
+		."WHERE NOT (".$tcms_db_prefix."imagegallery.uid IS NULL) "
+		."AND ".$tcms_db_prefix."albums.published = 1 "
+		."ORDER BY ".$tcms_db_prefix."imagegallery.date DESC ".$dbLimit;
 		
 		$sqlQR = $sqlAL->query($strSQL);
 		

@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used for the products configuration
  * and the administration of all the products.
  *
- * @version 0.7.6
+ * @version 0.7.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -1431,7 +1431,7 @@ if($todo == 'edit') {
 		echo '<tr><td valign="top" width="'.$width.'">'
 		.'<strong class="tcms_bold">'._TABLE_FACTORY.'</strong>'
 		.'</td><td valign="top">'
-		.'<input class="tcms_input_normal" name="new_factory" type="text" value="'.$wsFactoryUrl.'" />'
+		.'<input class="tcms_input_normal" name="new_factory" type="text" value="'.$wsFactory.'" />'
 		.'</td></tr>';
 		
 		

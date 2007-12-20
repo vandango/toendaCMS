@@ -22,7 +22,7 @@ define('_TCMS_VALID', 1);
  *
  * This file is used as the installer central.
  *
- * @version 0.5.0
+ * @version 0.5.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -106,6 +106,7 @@ if(isset($_POST['new_tcmsinst'])){ $new_tcmsinst = $_POST['new_tcmsinst']; }
 if(isset($_POST['new_websiteowner'])){ $new_websiteowner = $_POST['new_websiteowner']; }
 if(isset($_POST['new_owner_url'])){ $new_owner_url = $_POST['new_owner_url']; }
 if(isset($_POST['new_copyright'])){ $new_copyright = $_POST['new_copyright']; }
+if(isset($_POST['tcms_site_path'])){ $tcms_site_path = $_POST['tcms_site_path']; }
 
 
 // USER

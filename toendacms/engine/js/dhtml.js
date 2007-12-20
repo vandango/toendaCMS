@@ -20,7 +20,7 @@
  *
  * This file provides some favaScript functions.
  *
- * @version 0.4.4
+ * @version 0.4.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -63,6 +63,8 @@
  * setNewsImage(img, id, id2)        -> accept image for openers ID field for newsmanager config
  * setFAQImage(img, id, id2)         -> accept image for openers ID field for knowledgebase config
  * setColor(id, color)               -> accept a color for openers ID field
+ * deleteMediafile                   -> Delete a media file
+ * deleteFolder                      -> Delete a folder in media browser
  *
  * showImage()                       -> random images   ---> TODO: take images as function parameter
  *
@@ -620,7 +622,7 @@ function setLink(link, title, id, script){
 }
 
 
-function setNewsImage(img, id, id2){
+function setNewsImage(img, id, id2) {
 	window.opener.document.getElementById(id).src = '../../data/images/Image/' + img;
 	window.opener.document.getElementById(id).style.visibility='visible';
 	window.opener.document.getElementById(id2).value = img;
@@ -628,7 +630,7 @@ function setNewsImage(img, id, id2){
 }
 
 
-function setFAQImage(img, id, id2){
+function setFAQImage(img, id, id2) {
 	window.opener.document.getElementById(id).src = '../../data/images/knowledgebase/' + img;
 	window.opener.document.getElementById(id).style.display = 'block';
 	window.opener.document.getElementById(id2).value = img;
@@ -636,15 +638,23 @@ function setFAQImage(img, id, id2){
 }
 
 
-function setColor(id, color){
+function setColor(id, color) {
 	window.opener.document.getElementById(id).value = color;
 	self.close();
 }
 
 
-function deleteMediafile(session, action, image, message){
-	if(confirm(message))
+function deleteMediafile(session, action, image, message) {
+	if(confirm(message)) {
 		document.location='admin.php?site=mod_media&id_user=' + session + '&action=' + action + '&todo=deleteImage&delimg=' + image;
+	}
+}
+
+
+function deleteFolder(session, action, image, message) {
+	if(confirm(message)) {
+		document.location='admin.php?site=mod_media&id_user=' + session + '&action=' + action + '&todo=deleteFolder&delimg=' + image;
+	}
 }
 
 
