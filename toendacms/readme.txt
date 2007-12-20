@@ -26,7 +26,7 @@ your Stylesheet file of your Template.
 This are all modules with PHP must be compiled.
 
 - 15 Megabyte free Webspace
-- PHP Version 4 or 5 (at least 4.3.0)
+- PHP Version 5 (at least 5.0.0)
     with GD
     with zLib
     at encoding problems:  with mbstring
@@ -56,18 +56,6 @@ on a Import<->Export function
 
 		  Warnings
 **********************************************************************************
-    NOTE FOR VERSIONS OLDER THAN --Development 0.9.9 Beta3--:
-The old download manager is not compatible with the new one. Sorry, but the
-old structure was too inflexible.
-
-    NOTE FOR VERSIONS OLDER THAN --Development 0.5.7--:
-With this release you cannot update your current toendaCMS site. We have
-completly rewritten the most of the engine and extensions.
-
-    XML DB WARNING:
-If you want to update you currently site to toendaCMS 0.6.0 Beta3 you
-cannot use your old XML Data. You can copy all content with the Administration
-into your new site.
 
 
 
@@ -85,20 +73,6 @@ follow the installation steps.
 
 		  Update
 **********************************************************************************
-
-UPDATE FROM v1.0.2 TO v1.0.3
-  If you cannot save user settings after update, execute the following SQL statement,
-  but replace first the ##### with your database prefix:
-  ALTER TABLE `#####user` CHANGE `group` `group` VARCHAR( 32 ) NOT NULL ;
-  
-  IF you cannot display the contactform and cannot save contactform settings after
-  update, execute the following SQL statement, but replace first the ##### with
-  your database prefix:
-  ALTER TABLE `#####contactform` ADD `show_contactemail` INT( 1 ) DEFAULT '0' NOT NULL ;
-
-ATTENTION: The version 1.0 does not support the old download table structure.
-  For the update, you must delete all entrys (only the cms data entry, that means:
-  the database data, not the files). You must re-create all your downloads.
 
 XML Database:
   First: Back the data directory.
@@ -143,7 +117,7 @@ XML Database:
 
 SQL Database:
     data/
-    data/*/                               -- all subfolders in data/
+    data/*/                               - all subfolders in data/
     cache/                                - caching
     cache/captcha/                        - captcha image caching
   Finish.
