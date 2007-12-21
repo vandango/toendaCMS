@@ -1746,7 +1746,7 @@ class tcms_datacontainer_provider extends tcms_main {
 				break;
 			
 			default:
-				if($choosenDB == 'xml') {
+				if($this->m_choosenDB == 'xml') {
 					if(file_exists($this->m_path.'/tcms_content/'.$id.'.xml')) {
 						$xml = new xmlparser($this->m_path.'/tcms_content/'.$id.'.xml','r');
 						
