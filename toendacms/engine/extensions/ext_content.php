@@ -107,7 +107,7 @@ if($content_published == 1) {
 				$layout_id = $dcContent->getTextLayout();
 				$docAutor  = $dcContent->getAutor();
 				
-				if($dcContent->getInWorkState() == 1){
+				if($dcContent->getInWorkState()) {
 					if($check_session && $canEdit){
 						$link = $seoFolder.'/engine/admin/admin.php?id_user='.$session.'&amp;site=mod_content&amp;todo=edit&amp;maintag='.$id;
 						
@@ -344,18 +344,18 @@ if($content_published == 1) {
 						}
 					}
 				}
-				else{
+				else {
 					echo '<strong>'._MSG_NOT_PUBLISHED.'</strong>';
 				}
 				
 				break;
 		}
 	}
-	else{
+	else {
 		include_once(_ERROR_401);
 	}
 }
-else{
+else {
 	echo '<strong>'._MSG_NOT_PUBLISHED.'</strong>';
 }
 

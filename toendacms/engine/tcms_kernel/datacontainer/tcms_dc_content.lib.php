@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * content items.
  *
- * @version 0.0.8
+ * @version 0.0.
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -244,8 +244,8 @@ class tcms_dc_content {
 	 * 
 	 * @return Boolean
 	 */
-	function getPublished(){
-		return $this->m_pub;
+	function getPublished() {
+		return ( $this->m_pub == '1' || $this->m_pub == 1 ? true : false );
 	}
 	
 	/**
@@ -262,8 +262,8 @@ class tcms_dc_content {
 	 * 
 	 * @return Boolean
 	 */
-	function getInWorkState(){
-		return $this->m_in_work;
+	function getInWorkState() {
+		return ( $this->m_in_work == '1' || $this->m_in_work == 1 ? true : false );
 	}
 	
 	/**
