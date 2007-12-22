@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the links for the content.
  *
- * @version 0.1.7
+ * @version 0.1.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -44,12 +44,12 @@ echo $tcms_html->contentModuleHeader(
 
 
 
-if($choosenDB == 'xml'){
-	$arr_filename = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_links/');
+if($choosenDB == 'xml') {
+	$arr_filename = $tcms_file->getPathContent($tcms_administer_site.'/tcms_links/');
 	$count = 0;
 	
-	if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
-		foreach($arr_filename as $key => $value){
+	if($tcms_main->isArray($arr_filename)) {
+		foreach($arr_filename as $key => $value) {
 			$menu_xml = new xmlparser($tcms_administer_site.'/tcms_links/'.$value,'r');
 			$is_published = $menu_xml->read_section('link', 'published');
 			$is_category  = $menu_xml->read_section('link', 'type');
@@ -84,7 +84,7 @@ if($choosenDB == 'xml'){
 			
 			foreach($arrLink['name'] as $lKey => $lVal){
 				//echo '<span class="text_big" style="padding-left: 3px;"><strong>'.$lVal.'</strong></span><br />';
-				echo '<div class="headLineLinksPage">'
+				echo '<div class="headLineLinksMainpage">'
 				.'<br />'
 				.'<span class="text_big" style="padding-left: 3px;">'
 				.'<strong>'.$lVal.'</strong>'
@@ -96,11 +96,11 @@ if($choosenDB == 'xml'){
 				unset($arr_filename);
 				
 				
-				$arr_filename = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_links/');
+				$arr_filename = $tcms_file->getPathContent($tcms_administer_site.'/tcms_links/');
 				$count = 0;
 				
-				if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
-					foreach($arr_filename as $key => $value){
+				if($tcms_main->isArray($arr_filename)) {
+					foreach($arr_filename as $key => $value) {
 						$menu_xml = new xmlparser($tcms_administer_site.'/tcms_links/'.$value,'r');
 						$is_published = $menu_xml->read_section('link', 'published');
 						$is_type      = $menu_xml->read_section('link', 'type');
@@ -186,7 +186,7 @@ else{
 		$arrLink['name'] = $tcms_main->decodeText($arrLink['name'], '2', $c_charset);
 		
 		//echo '<span class="text_big" style="padding-left: 3px;"><strong>'.$arrLink['name'].'</strong></span><br />';
-		echo '<div class="headLineLinksPage">'
+		echo '<div class="headLineLinksMainpage">'
 		.'<br />'
 		.'<span class="text_big" style="padding-left: 3px;">'
 		.'<strong>'.$arrLink['name'].'</strong>'

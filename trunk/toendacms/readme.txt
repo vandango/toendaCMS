@@ -241,7 +241,7 @@ Content
 .contentFooter      - The content footer
 .headLinePadding    - The padding after a album in the imagegallery
 .headLineGallery    - The header of the album in the albumlist
-.headLineLinksPage  - The header of a link category on the linkspage
+.headLineLinksMainpage - The header of a link category on the linkspage
 
 
 
