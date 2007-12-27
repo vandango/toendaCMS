@@ -111,7 +111,10 @@ if($show_wysiwyg == 'tinymce'){
 	include('../tcms_kernel/tcms_tinyMCE.lib.php');
 	
 	$tcms_tinyMCE = new tcms_tinyMCE($tcms_path, $seoEnabled);
-	$tcms_tinyMCE->initTinyMCE();
+	$tcms_tinyMCE->initTinyMCE(
+		true, 
+		$tcms_config->getLanguageCode(true)
+	);
 	
 	unset($tcms_tinyMCE);
 }

@@ -50,18 +50,6 @@ class tcms_tinyMCE {
 	
 	
 	/**
-	 * PHP4 Constructor
-	 *
-	 * @param String $seoPath
-	 * @param Boolean $seoEnabled
-	 */
-	function tcms_tinyMCE($seoPath, $seoEnabled){
-		$this->__construct($seoPath, $seoEnabled);
-	}
-	
-	
-	
-	/**
 	 * PHP5 Destructor
 	 */
 	function __destruct(){
@@ -70,21 +58,17 @@ class tcms_tinyMCE {
 	
 	
 	/**
-	 * PHP4 Destructor
-	 */
-	function _tcms_tinyMCE(){
-		$this->__destruct();
-	}
-	
-	
-	
-	/**
 	 * Initialize the editor
 	 * 
 	 * @param Boolean $initAdvanced = true
+	 * @param String $language = 'en'
 	 */
-	function initTinyMCE($initAdvanced = true){
-		if($initAdvanced){
+	function initTinyMCE($initAdvanced = true, $language = 'en') {
+		if(trim($language) != 'en' && trim($language) != 'de') {
+			$language = 'en';
+		}
+		
+		if($initAdvanced) {
 			/*
 				mode : "exact",  textareas
 				elements : "content",
@@ -103,7 +87,7 @@ class tcms_tinyMCE {
 			<script language="javascript" type="text/javascript">
 			tinyMCE.init({
 				theme : "advanced",
-				language : "en",
+				language : "'.$language.'",
 				mode : "specific_textareas",
 				relative_urls : false,
 				remove_script_host : false,
