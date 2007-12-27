@@ -28,11 +28,28 @@ Version 1.6
 Developer Version
 	- 1.6.0 Development / Stable
 	- 1.6.1 Stable
+	- 1.6.2 Stable
 
-Building Steps: 3790
+Building Steps: 3800
 
 
 
+ Version 1.6.2 Stable
+-----------------------------------------------------------------
+
+ - bug #0000xxx: 
+
+ - security fixed: 
+
+ - bug fixed: 
+
+ - changed: 
+
+ - added: 
+
+
+
+ 
  Version 1.6.1 Stable
 -----------------------------------------------------------------
 
@@ -61,6 +78,7 @@ Building Steps: 3790
 
 
 
+ 
  Version 1.6.0 Development / Stable
 -----------------------------------------------------------------
  - bug #0000113: Fixed problem showing text at detail-view in gallery using K2-theme.
