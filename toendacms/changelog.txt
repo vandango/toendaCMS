@@ -30,7 +30,7 @@ Developer Version
 	- 1.6.1 Stable
 	- 1.6.2 Stable
 
-Building Steps: 3800
+Building Steps: 3807
 
 
 
@@ -43,7 +43,8 @@ Building Steps: 3800
 
  - bug fixed: 
 
- - changed: 
+ - changed: Imagegallery imagelist option (thumbnail view) changed to set the amount of
+            thumbnails per row.
 
  - added: 
 

@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.8.7
+ * @version 2.8.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -955,7 +955,8 @@ if($wsShowSite) {
 							$max_latest_products    = $dcP->getMaxLatestProducts();
 							break;
 						
-						case 'imagegallery':using('toendacms.datacontainer.imagegallery');
+						case 'imagegallery':
+							using('toendacms.datacontainer.imagegallery');
 							
 							$dcIG = new tcms_dc_imagegallery();
 							$dcIG = $tcms_dcp->getImagegalleryDC();
@@ -968,6 +969,7 @@ if($wsShowSite) {
 							$use_image_comments = $dcIG->getUseComments();
 							$authorized         = $dcIG->getAccess();
 							$list_option        = $dcIG->getListOption();
+							$list_option_amount = $dcIG->getListOptionAmount();
 							$maxImg             = $dcIG->getMaxImages();
 							$needleImg          = $dcIG->getNeedleImage();
 							$showTitleImg       = $dcIG->getShowLastImageTitle();

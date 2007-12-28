@@ -14,3 +14,5 @@ ALTER TABLE [#####newsmanager] ADD [comment_feed_text] VARCHAR( 255 ) NULL DEFAU
 ALTER TABLE [#####newsmanager] ADD [comment_feed_type] VARCHAR( 7 ) NULL DEFAULT '';
 ALTER TABLE [#####newsmanager] ADD [use_comment_feed_img] TINYINT NOT NULL DEFAULT '0';
 ALTER TABLE [#####newsmanager] ADD [comments_feed_amount] INT NOT NULL DEFAULT '5';
+
+

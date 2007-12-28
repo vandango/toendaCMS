@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a imagegallery.
  *
- * @version 0.7.5
+ * @version 0.7.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -330,7 +330,8 @@ if($albums != 'start'){
 						}
 					}
 					
-					$imagesPerRow = 3;
+					
+					$imagesPerRow = ( $tcms_main->isReal($list_option_amount) ? $list_option_amount : 4 );
 					$currentColumn = 0;
 					
 					if($tcms_main->isArray($arr_tc['fn'])){
@@ -355,11 +356,12 @@ if($albums != 'start'){
 								
 								
 								$des_file = $dvalue;
-								if($choosenDB == 'xml'){
+								
+								if($choosenDB == 'xml') {
 									$des_xml = new xmlparser($tcms_administer_site.'/tcms_imagegallery/'.$a_value.'/'.$des_file.'.xml','r');
 									$old_des = $des_xml->readSection('image', 'text');
 								}
-								else{
+								else {
 									$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 									$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 									

@@ -429,6 +429,12 @@ a.index:hover { text-decoration: underline; }
 	color: #444;
 }
 
+.news_seperator {
+	border-bottom: 0px dotted #333;
+	margin: 0 0 5px 0;
+	height: 0px !important;
+}
+
 
 /* imagegallery */
 .gallery_text {

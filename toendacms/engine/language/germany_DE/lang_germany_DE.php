@@ -718,7 +718,7 @@ define('_GALLERY_LAST_SIZE', 'Gr&ouml;&szlig;e der Bilder');
 define('_GALLERY_LAST_TEXT', 'Text der neusten Bilder');
 define('_GALLERY_LAST_ALIGN', 'Ausrichtung der neusten Bilder');
 define('_GALLERY_LIST_NORMAL', 'Normale Auflistung (untereinander, mit Informationen)');
-define('_GALLERY_LIST_3_THUMB', '3 Thumbnail Bilder nebeneinander');
+define('_GALLERY_LIST_3_THUMB', 'Thumbnail Bilder nebeneinander');
 define('_GALLERY_MIMETYPE', 'Mimetyp');
 
 
