@@ -72,11 +72,12 @@ if(!defined('_EXT_NEWS_SYN_CFEED_TYPE'))       define('_EXT_NEWS_SYN_CFEED_TYPE'
 
 this:
 
-...
+if(!defined('_GALLERY_LIST_3_THUMB'))          define('_GALLERY_LIST_3_THUMB', '3 thumbnail images side by side');
+
 
 to:
 
-...
+if(!defined('_GALLERY_LIST_3_THUMB'))          define('_GALLERY_LIST_3_THUMB', 'Thumbnail images side by side');
 
 *
 *

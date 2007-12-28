@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * the imagegallery.
  *
- * @version 0.0.4
+ * @version 0.0.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -46,6 +46,7 @@ class tcms_dc_imagegallery {
 	private $m_show_lastimg_title;
 	private $m_align_image;
 	private $m_size_image;
+	private $m_list_option_amount;
 	
 	// ---------------------------------------
 	// Constructors / Destructors
@@ -56,14 +57,6 @@ class tcms_dc_imagegallery {
 	 *
 	 */
 	public function __construct() {
-	}
-	
-	/**
-	 * PHP4 Constructor
-	 *
-	 */
-	public function tcms_dc_imagegallery(){
-		$this->__construct();
 	}
 	
 	// ---------------------------------------
@@ -323,6 +316,24 @@ class tcms_dc_imagegallery {
 	 */
 	public function getImageSize(){
 		return $this->m_size_image;
+	}
+	
+	/**
+	 * Set the ListOptionAmount
+	 * 
+	 * @param String $value
+	 */
+	public function setListOptionAmount($value) {
+		$this->m_list_option_amount = $value;
+	}
+	
+	/**
+	 * Get the ListOptionAmount
+	 * 
+	 * @return String
+	 */
+	public function getListOptionAmount() {
+		return $this->m_list_option_amount;
 	}
 }
 

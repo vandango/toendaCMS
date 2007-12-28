@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.3.2
+ * @version 1.3.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -2809,6 +2809,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$showTImg   = $xml->readSection('config', 'show_lastimg_title');
 			$alignImg   = $xml->readSection('config', 'align_image');
 			$sizeImg    = $xml->readSection('config', 'size_image');
+			$wsOptionAm = $xml->readSection('config', 'list_option_amount');
 			
 			$xml->flush();
 			$xml->_xmlparser();
@@ -2823,6 +2824,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			//if($wsUCT  == false)     $wsUCT     = 0;
 			//if($wsSPOU  == false)     $wsSPOU     = 0;
 			if($wsOption   == false) $wsOption   = '';
+			if($wsOptionAm == false) $wsOptionAm = 4;
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
@@ -2854,6 +2856,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$showTImg   = $sqlObj->show_lastimg_title;
 			$alignImg   = $sqlObj->align_image;
 			$sizeImg    = $sqlObj->size_image;
+			$wsOptionAm = $sqlObj->list_option_amount;
 			
 			$sqlAL->freeResult($sqlQR);
 			$sqlAL->_sqlAbstractionLayer();
@@ -2874,6 +2877,11 @@ class tcms_datacontainer_provider extends tcms_main {
 		$wsSPT     = $this->decodeText($wsSPT, '2', $this->m_CHARSET);
 		$needleImg = $this->decodeText($needleImg, '2', $this->m_CHARSET);
 		
+		if($wsOption != 0 
+		&& $wsOption != 1) {
+			$wsOption = 0;
+		}
+		
 		$iDC->setID($wsID);
 		$iDC->setTitle($wsTitle);
 		$iDC->setSubtitle($wsKeynote);
@@ -2882,6 +2890,7 @@ class tcms_datacontainer_provider extends tcms_main {
 		$iDC->setUseComments($wsComments);
 		$iDC->setAccess($wsAccess);
 		$iDC->setListOption($wsOption);
+		$iDC->setListOptionAmount($wsOptionAm);
 		$iDC->setMaxImages($maxImg);
 		$iDC->setNeedleImage($needleImg);
 		$iDC->setShowLastImageTitle($showTImg);

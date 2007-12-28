@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides a frontpage with news and a text.
  *
- * @version 1.5.4
+ * @version 1.5.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -53,7 +53,9 @@ $getLang = $tcms_config->getLanguageCodeForTCMS($lang);
 
 $toendaScript_more_show = false;
 
-if(!isset($cmd)) $cmd = '';
+if(!isset($cmd)) {
+	$cmd = '';
+}
 
 using('toendacms.datacontainer.news');
 using('toendacms.datacontainer.comment');
@@ -62,7 +64,8 @@ using('toendacms.datacontainer.account');
 $hr_line_1 = '<tr class="hr_line"><td colspan="2"></td></tr>';
 $hr_line_2 = '<tr style="height: 15px;"><td colspan="2"><br /><br /></td></tr>';
 $hr_line_3 = '<hr class="hr_line" noshade="noshade" />';
-$hr_line_4 = '<div style="height: '.$news_spacing.'px;">&nbsp;</div>';
+//$hr_line_4 = '<div style="height: '.$news_spacing.'px;">&nbsp;</div>';
+$hr_line_4 = '<div class="news_seperator" style="margin-bottom: '.$news_spacing.'px;">&nbsp;</div>';
 
 
 

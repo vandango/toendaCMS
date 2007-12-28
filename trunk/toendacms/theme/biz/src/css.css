@@ -503,7 +503,15 @@ a.index:hover { text-decoration: none; color: #676767 !important; }
 	color: #4C637A !important;
 	text-decoration: underline;
 }
-.news_content_bg{ font-size: 11px; }
+.news_content_bg {
+	font-size: 11px;
+}
+
+.news_seperator {
+	border-bottom: 0px dotted #333;
+	margin: 0 0 5px 0;
+	height: 0px !important;
+}
 
 
 /* table title */

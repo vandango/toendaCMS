@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used to manage the galleries.
  *
- * @version 0.8.7
+ * @version 0.9.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -60,6 +60,7 @@ if(isset($_POST['des'])){ $des = $_POST['des']; }
 if(isset($_POST['folder'])){ $folder = $_POST['folder']; }
 if(isset($_POST['zlib_upload'])){ $zlib_upload = $_POST['zlib_upload']; }
 if(isset($_POST['new_list_option'])){ $new_list_option = $_POST['new_list_option']; }
+if(isset($_POST['new_list_image_amount'])){ $new_list_image_amount = $_POST['new_list_image_amount']; }
 
 
 
@@ -161,21 +162,22 @@ if($param_save_mode == 'off') {
 	if($todo == 'config') {
 		if($id_group == 'Developer' 
 		|| $id_group == 'Administrator') {
-			if($choosenDB == 'xml'){
-				$image_xml            = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/imagegallery.xml','r');
-				$old_image_id         = $image_xml->readSection('config', 'image_id');
-				$old_image_title      = $image_xml->readSection('config', 'image_title');
-				$old_image_stamp      = $image_xml->readSection('config', 'image_stamp');
-				$old_image_details    = $image_xml->readSection('config', 'image_details');
-				$old_image_comments   = $image_xml->readSection('config', 'image_comments');
-				$old_image_access     = $image_xml->readSection('config', 'access');
-				$old_maxImg           = $image_xml->readSection('config', 'max_image');
-				$old_needleImg        = $image_xml->readSection('config', 'needle_image');
-				$old_showTitleImg     = $image_xml->readSection('config', 'show_lastimg_title');
-				$old_alignImg         = $image_xml->readSection('config', 'align_image');
-				$old_sizeImg          = $image_xml->readSection('config', 'size_image');
-				$old_image_sort       = $image_xml->readSection('config', 'image_sort');
-				$old_list_option      = $image_xml->readSection('config', 'list_option');
+			if($choosenDB == 'xml') {
+				$image_xml             = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/imagegallery.xml','r');
+				$old_image_id          = $image_xml->readSection('config', 'image_id');
+				$old_image_title       = $image_xml->readSection('config', 'image_title');
+				$old_image_stamp       = $image_xml->readSection('config', 'image_stamp');
+				$old_image_details     = $image_xml->readSection('config', 'image_details');
+				$old_image_comments    = $image_xml->readSection('config', 'image_comments');
+				$old_image_access      = $image_xml->readSection('config', 'access');
+				$old_maxImg            = $image_xml->readSection('config', 'max_image');
+				$old_needleImg         = $image_xml->readSection('config', 'needle_image');
+				$old_showTitleImg      = $image_xml->readSection('config', 'show_lastimg_title');
+				$old_alignImg          = $image_xml->readSection('config', 'align_image');
+				$old_sizeImg           = $image_xml->readSection('config', 'size_image');
+				$old_image_sort        = $image_xml->readSection('config', 'image_sort');
+				$old_list_option       = $image_xml->readSection('config', 'list_option');
+				$old_list_image_amount = $image_xml->readSection('config', 'list_option_amount');
 				
 				// CHARSETS
 				$old_image_title = $tcms_main->decodeText($old_image_title, '2', $c_charset);
@@ -189,19 +191,20 @@ if($param_save_mode == 'off') {
 				$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'imagegallery_config', 'imagegallery');
 				$sqlObj = $sqlAL->fetchObject($sqlQR);
 				
-				$old_image_id       = $sqlObj->image_id;
-				$old_image_title    = $sqlObj->image_title;
-				$old_image_stamp    = $sqlObj->image_stamp;
-				$old_image_details  = $sqlObj->image_details;
-				$old_image_comments = $sqlObj->use_comments;
-				$old_image_access   = $sqlObj->access;
-				$old_maxImg         = $sqlObj->max_image;
-				$old_needleImg      = $sqlObj->needle_image;
-				$old_showTitleImg   = $sqlObj->show_lastimg_title;
-				$old_alignImg       = $sqlObj->align_image;
-				$old_sizeImg        = $sqlObj->size_image;
-				$old_image_sort     = $sqlObj->image_sort;
-				$old_list_option    = $sqlObj->list_option;
+				$old_image_id          = $sqlObj->image_id;
+				$old_image_title       = $sqlObj->image_title;
+				$old_image_stamp       = $sqlObj->image_stamp;
+				$old_image_details     = $sqlObj->image_details;
+				$old_image_comments    = $sqlObj->use_comments;
+				$old_image_access      = $sqlObj->access;
+				$old_maxImg            = $sqlObj->max_image;
+				$old_needleImg         = $sqlObj->needle_image;
+				$old_showTitleImg      = $sqlObj->show_lastimg_title;
+				$old_alignImg          = $sqlObj->align_image;
+				$old_sizeImg           = $sqlObj->size_image;
+				$old_image_sort        = $sqlObj->image_sort;
+				$old_list_option       = $sqlObj->list_option;
+				$old_list_image_amount = $sqlObj->list_option_amount;
 				
 				if($old_image_id       == NULL){ $old_image_id       = ''; }
 				if($old_image_title    == NULL){ $old_image_title    = ''; }
@@ -215,6 +218,7 @@ if($param_save_mode == 'off') {
 				if($old_alignImg       == NULL){ $old_alignImg       = 'center'; }
 				if($old_sizeImg        == NULL){ $old_sizeImg        = ''; }
 				if($old_image_sort     == NULL){ $old_image_sort     = ''; }
+				if($old_list_image_amount == NULL){ $old_list_image_amount = 4; }
 				
 				$old_image_title = $tcms_main->decodeText($old_image_title, '2', $c_charset);
 				$old_image_stamp = $tcms_main->decodeText($old_image_stamp, '2', $c_charset);
@@ -293,6 +297,15 @@ if($param_save_mode == 'off') {
 				.'<option value="0"'.( $old_list_option == '0' ? ' selected="selected"' : '' ).'>'._GALLERY_LIST_NORMAL.'</option>'
 				.'<option value="1"'.( $old_list_option == '1' ? ' selected="selected"' : '' ).'>'._GALLERY_LIST_3_THUMB.'</option>'
 			.'</select>'
+			.'</td></tr>';
+			
+			
+			// table rows
+			echo '<tr>'
+			.'<td valign="top">'
+			._GALLERY_LAST_MAX_IMG.' ('._TABLE_VIEW.')'
+			.'</td><td valign="top">'
+			.'<input name="new_list_image_amount" class="tcms_id_box" value="'.$old_list_image_amount.'" />'
 			.'</td></tr>';
 			
 			
@@ -1079,6 +1092,7 @@ if($param_save_mode == 'off') {
 		if($_POST['sizeImg']        == '' || empty($_POST['sizeImg']))       { $_POST['sizeImg']        = 0; }
 		if($_POST['new_image_sort'] == '' || empty($_POST['new_image_sort'])){ $_POST['new_image_sort'] = 'desc'; }
 		if($new_list_option         == '' || !isset($new_list_option))       { $new_list_option         = '0'; }
+		if($new_list_image_amount   == '' || !isset($new_list_image_amount)) { $new_list_image_amount   = 4; }
 		
 		$image_stamp        = $tcms_main->encodeText($image_stamp, '2', $c_charset);
 		$image_title        = $tcms_main->encodeText($image_title, '2', $c_charset);
@@ -1102,7 +1116,7 @@ if($param_save_mode == 'off') {
 			$xmluser->writeValue('size_image', $_POST['sizeImg']);
 			$xmluser->writeValue('image_sort', $_POST['new_image_sort']);
 			$xmluser->writeValue('list_option', $new_list_option);
-			
+			$xmluser->writeValue('list_option_amount', $$new_list_image_amount);
 			
 			$xmluser->xmlSectionBuffer();
 			$xmluser->xmlSectionEnd('config');
@@ -1125,7 +1139,8 @@ if($param_save_mode == 'off') {
 			.$tcms_db_prefix.'imagegallery_config.align_image="'.$_POST['alignImg'].'", '
 			.$tcms_db_prefix.'imagegallery_config.size_image='.$_POST['sizeImg'].', '
 			.$tcms_db_prefix.'imagegallery_config.image_sort="'.$_POST['new_image_sort'].'", '
-			.$tcms_db_prefix.'imagegallery_config.list_option='.$new_list_option;
+			.$tcms_db_prefix.'imagegallery_config.list_option='.$new_list_option.', '
+			.$tcms_db_prefix.'imagegallery_config.list_option_amount='.$new_list_image_amount;
 			
 			$sqlQR = $sqlAL->updateOne($tcms_db_prefix.'imagegallery_config', $newSQLData, 'imagegallery');
 		}
@@ -1445,7 +1460,7 @@ if($param_save_mode == 'off') {
 			}
 			
 			echo '<script>'
-			.'alert(\''.$msg.'.\');'
+			//.'alert(\''.$msg.'.\');'
 			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_gallery&gg_albums=edit&value='.$dir.'\';'
 			.'</script>';
 		}

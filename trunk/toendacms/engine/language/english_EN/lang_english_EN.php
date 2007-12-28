@@ -715,7 +715,7 @@ define('_GALLERY_LAST_SIZE', 'Size of the images');
 define('_GALLERY_LAST_TEXT', 'Text for the newest images');
 define('_GALLERY_LAST_ALIGN', 'Alignment for the newest images');
 define('_GALLERY_LIST_NORMAL', 'Normal imagelist (one below the other, with informationen)');
-define('_GALLERY_LIST_3_THUMB', '3 thumbnail images side by side');
+if(!defined('_GALLERY_LIST_3_THUMB'))          define('_GALLERY_LIST_3_THUMB', 'Thumbnail images side by side');
 if(!defined('_GALLERY_MIMETYPE'))              define('_GALLERY_MIMETYPE', 'Mimetype');
 
 
