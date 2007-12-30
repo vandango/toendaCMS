@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used as a law-concurring
  * publishing form.
  *
- * @version 0.3.4
+ * @version 0.3.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -46,23 +46,26 @@ echo $tcms_html->contentModuleHeader(
 
 echo '<span class="contentmain">';
 
-if($imp_contact != 'no_contact'){
-	if($choosenDB == 'xml'){
+if($imp_contact != 'no_contact') {
+	if($choosenDB == 'xml') {
 		$impressum_xml = new xmlparser($tcms_administer_site.'/tcms_contacts/'.$imp_contact.'.xml','r');
-		$con_published = $impressum_xml->read_value('published');
+		$con_published = $impressum_xml->readValue('published');
 		
 		if($con_published == 1){
-			$contact['name']     = $impressum_xml->read_value('name');
-			$contact['position'] = $impressum_xml->read_value('position');
-			$contact['email']    = $impressum_xml->read_value('email');
-			$contact['street']   = $impressum_xml->read_value('street');
-			$contact['country']  = $impressum_xml->read_value('country');
-			$contact['state']    = $impressum_xml->read_value('state');
-			$contact['town']     = $impressum_xml->read_value('town');
-			$contact['postal']   = $impressum_xml->read_value('postal');
-			$contact['phone']    = $impressum_xml->read_value('phone');
-			$contact['fax']      = $impressum_xml->read_value('fax');
+			$contact['name']     = $impressum_xml->readValue('name');
+			$contact['position'] = $impressum_xml->readValue('position');
+			$contact['email']    = $impressum_xml->readValue('email');
+			$contact['street']   = $impressum_xml->readValue('street');
+			$contact['country']  = $impressum_xml->readValue('country');
+			$contact['state']    = $impressum_xml->readValue('state');
+			$contact['town']     = $impressum_xml->readValue('town');
+			$contact['postal']   = $impressum_xml->readValue('postal');
+			$contact['phone']    = $impressum_xml->readValue('phone');
+			$contact['fax']      = $impressum_xml->readValue('fax');
 		}
+		
+		$impressum_xml->flush();
+		unset($impressum_xml);
 		
 		if($contact['name']     == false){ $contact['name']     = ''; }
 		if($contact['position'] == false){ $contact['position'] = ''; }
@@ -76,26 +79,41 @@ if($imp_contact != 'no_contact'){
 		if($contact['fax']      == false){ $contact['fax']      = ''; }
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect(
+			$sqlUser, 
+			$sqlPass, 
+			$sqlHost, 
+			$sqlDB, 
+			$sqlPort
+		);
 		
-		$sqlQR = $sqlAL->sqlQuery("SELECT * FROM ".$tcms_db_prefix."contacts WHERE uid = '".$imp_contact."' AND published = 1");
-		$con_published = $sqlAL->sqlGetNumber($sqlQR);
+		$sqlQR = $sqlAL->query(
+			"SELECT *"
+			." FROM ".$tcms_db_prefix."contacts"
+			." WHERE uid = '".$imp_contact."'"
+			." AND published = 1"
+		);
 		
-		if($con_published != 0){
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+		$con_published = $sqlAL->getNumber($sqlQR);
+		
+		if($con_published != 0) {
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
 			
-			$contact['name']     = $sqlARR['name'];
-			$contact['position'] = $sqlARR['position'];
-			$contact['email']    = $sqlARR['email'];
-			$contact['street']   = $sqlARR['street'];
-			$contact['country']  = $sqlARR['country'];
-			$contact['state']    = $sqlARR['state'];
-			$contact['town']     = $sqlARR['town'];
-			$contact['postal']   = $sqlARR['postal'];
-			$contact['phone']    = $sqlARR['phone'];
-			$contact['fax']      = $sqlARR['fax'];
+			$contact['name']     = $sqlObj->name;
+			$contact['position'] = $sqlObj->position;
+			$contact['email']    = $sqlObj->email;
+			$contact['street']   = $sqlObj->street;
+			$contact['country']  = $sqlObj->country;
+			$contact['state']    = $sqlObj->state;
+			$contact['town']     = $sqlObj->town;
+			$contact['postal']   = $sqlObj->postal;
+			$contact['phone']    = $sqlObj->phone;
+			$contact['fax']      = $sqlObj->fax;
 		}
+		
+		$sqlAL->freeResult($sqlQR);
+		unset($sqlAL);
 		
 		if($contact['name']     == NULL){ $contact['name']     = ''; }
 		if($contact['position'] == NULL){ $contact['position'] = ''; }
@@ -138,15 +156,40 @@ if($imp_contact != 'no_contact'){
 	
 	
 	// email
-	if($cipher_email == 1)
-		echo ( $tcms_main->isReal($contact['email']) ? '<strong>'._IMPRESSUM_EMAIL.':</strong> <script language="JavaScript">JSCrypt.displayCryptMail(\''.$tcms_main->encodeBase64($contact['email']).'\', \''.$contact['name'].'\');</script><br />': '' );
-	else
-		echo ( $tcms_main->isReal($contact['email']) ? '<strong>'._IMPRESSUM_EMAIL.':</strong> <a href="mailto:'.$contact['email'].'">'.$contact['email'].'</a><br />': '' );
+	if($cipher_email == 1) {
+		echo ( $tcms_main->isReal($contact['email']) 
+			? '<strong>'._IMPRESSUM_EMAIL.':</strong>'
+			.'&nbsp;<script language="JavaScript">'
+			.'JSCrypt.displayCryptMail(\''.$tcms_main->encodeBase64($contact['email']).'\', \''.$contact['name'].'\');'
+			.'</script>'
+			.'<br />' 
+			: '' 
+		);
+	}
+	else {
+		echo ( $tcms_main->isReal($contact['email']) 
+			? '<strong>'._IMPRESSUM_EMAIL.':</strong>'
+			.'&nbsp;<a href="mailto:'.$contact['email'].'">'
+			.$contact['email']
+			.'</a>'
+			.'<br />' 
+			: '' 
+		);
+	}
 	
 	
 	// phone and fax
-	echo ( $tcms_main->isReal($contact['phone']) ? '<strong>'._IMPRESSUM_PHONE.':</strong> '.$contact['phone'].'<br />' : '' )
-	.( $tcms_main->isReal($contact['fax']) ? '<strong>'._IMPRESSUM_FAX.':</strong> '.$contact['fax'] : '' );
+	echo ( $tcms_main->isReal($contact['phone']) 
+		? '<strong>'._IMPRESSUM_PHONE.':</strong>'
+		.'&nbsp;'.$contact['phone']
+		.'<br />' 
+		: '' 
+	)
+	.( $tcms_main->isReal($contact['fax']) 
+		? '<strong>'._IMPRESSUM_FAX.':</strong>'
+		.'&nbsp;'.$contact['fax'] 
+		: '' 
+	);
 	
 	
 	echo '<br />';
@@ -154,14 +197,14 @@ if($imp_contact != 'no_contact'){
 	
 	
 	// office
-	echo '<span class="font"><strong>'._IMPRESSUM_OFFICE.'</strong><br />'.
-	( $tcms_main->isReal($contact['name'])    ? $contact['name'].'<br />' : '' ).
-	( $tcms_main->isReal($contact['street'])  ? $contact['street'].'<br />' : '' ).
-	( $tcms_main->isReal($contact['postal'])  ? $contact['postal'].' ' : '' ).
-	( $tcms_main->isReal($contact['town'])    ? $contact['town'].'<br />' : '' ).
-	( $tcms_main->isReal($contact['state'])   ? $contact['state'].', ' : '' ).
-	( $tcms_main->isReal($contact['country']) ? $contact['country'] : '' ).
-	'</span>';
+	echo '<span class="font"><strong>'._IMPRESSUM_OFFICE.'</strong><br />'
+	.( $tcms_main->isReal($contact['name'])    ? $contact['name'].'<br />'   : '' )
+	.( $tcms_main->isReal($contact['street'])  ? $contact['street'].'<br />' : '' )
+	.( $tcms_main->isReal($contact['postal'])  ? $contact['postal'].' '      : '' )
+	.( $tcms_main->isReal($contact['town'])    ? $contact['town'].'<br />'   : '' )
+	.( $tcms_main->isReal($contact['state'])   ? $contact['state'].', '      : '' )
+	.( $tcms_main->isReal($contact['country']) ? $contact['country']         : '' )
+	.'</span>';
 	
 	echo '<br /><br />';
 }

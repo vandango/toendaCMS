@@ -351,16 +351,17 @@ define('_TABLE_LINKBROWSER_TEXT', 'Click on the button to use the link in your d
 define('_TABLE_LINKBROWSER_TEXT_TINYMCE', '<strong>tinyMCE:</strong> You must have selected a text to change it into a link.');
 define('_TABLE_IMAGEBROWSER', 'Mediabrowser');
 define('_TABLE_IMAGEBROWSER_TEXT', 'Click on the button to use the mediafiles in your document.');
-define('_TABLE_DIARY_RSS', 'Diary RSS feeds');
-define('_TABLE_DIARY_TICKET', 'Tickets');
-define('_TABLE_IMPORT', 'Import');
-define('_TABLE_SORT', 'Sortation');
-define('_TABLE_SORT_DESC', 'Descending sortation');
-define('_TABLE_SORT_ASC', 'Ascending sortation');
+if(!defined('_TABLE_DIARY_RSS'))               define('_TABLE_DIARY_RSS', 'Diary RSS feeds');
+if(!defined('_TABLE_DIARY_TICKET'))            define('_TABLE_DIARY_TICKET', 'Tickets');
+if(!defined('_TABLE_IMPORT'))                  define('_TABLE_IMPORT', 'Import');
+if(!defined('_TABLE_SORT'))                    define('_TABLE_SORT', 'Sortation');
+if(!defined('_TABLE_SORT_DESC'))               define('_TABLE_SORT_DESC', 'Descending sortation');
+if(!defined('_TABLE_SORT_ASC'))                define('_TABLE_SORT_ASC', 'Ascending sortation');
 if(!defined('_TABLE_VIEW'))                    define('_TABLE_VIEW', 'View');
 if(!defined('_TABLE_FRONTPAGE'))               define('_TABLE_FRONTPAGE', 'Frontpage');
 if(!defined('_TABLE_SHOWONMAINPAGE'))          define('_TABLE_SHOWONMAINPAGE', 'Show on mainpage');
 if(!defined('_TABLE_BROWSE'))                  define('_TABLE_BROWSE', 'Browse');
+if(!defined('_TABLE_BOOKMARK'))                define('_TABLE_BOOKMARK', 'Bookmark');
 
 
 // MESSAGES
@@ -504,10 +505,10 @@ define('_START_TEXT_4', '<strong>Load an picture up to your imagegallery.</stron
 
 
 // DESKTOP
-define('_DESKTOP_TOP_TEXT', 'If you wish to edit the content of a page, please click the page title in the page tree to the left.');
-define('_DESKTOP_UNPUBLISHED_NEWS', 'Unpublished News');
-define('_DESKTOP_UNPUBLISHED_PAGES', 'Unpublished Documents');
-define('_DESKTOP_UNFINISHED_PAGES', 'Unfinished Documents');
+if(!defined('_DESKTOP_TOP_TEXT'))              define('_DESKTOP_TOP_TEXT', 'If you wish to edit the content of a page, please click the page title in the page tree to the left.');
+if(!defined('_DESKTOP_UNPUBLISHED_NEWS'))      define('_DESKTOP_UNPUBLISHED_NEWS', 'Unpublished News');
+if(!defined('_DESKTOP_UNPUBLISHED_PAGES'))     define('_DESKTOP_UNPUBLISHED_PAGES', 'Unpublished Documents');
+if(!defined('_DESKTOP_UNFINISHED_PAGES'))      define('_DESKTOP_UNFINISHED_PAGES', 'Unfinished Documents');
 
 
 // SIDEMENU
@@ -890,18 +891,20 @@ if(!defined('_GLOBAL_SEO_FOLDER'))             define('_GLOBAL_SEO_FOLDER', 'toe
 if(!defined('_GLOBAL_SEO_FORMAT'))             define('_GLOBAL_SEO_FORMAT', 'SEO Format');
 if(!defined('_GLOBAL_SEO_NEWS_TITLE'))         define('_GLOBAL_SEO_NEWS_TITLE', 'Also convert news-url to title');
 if(!defined('_GLOBAL_SEO_CONTENT_TITLE'))      define('_GLOBAL_SEO_CONTENT_TITLE', 'Also convert content-url to title');
-define('_GLOBAL_SITE_OFFLINE', 'Site Offline');
-define('_GLOBAL_SITE_OFFLINE_TEXT', 'Offline Text');
-define('_GLOBAL_PASTE_FOOTER_TEXT', 'Paste Sampletext');
-define('_GLOBAL_SHOW_TOP_PAGES', 'Show pages on top of a document');
-define('_GLOBAL_CIPHER_EMAIL', 'Always cipher eMailadresses');
-define('_GLOBAL_JS_BROWSER_DETECTION', 'Detect user browser with JavaScript');
-define('_GLOBAL_USE_CS', 'Use toendaCMS components system');
-define('_GLOBAL_SECURITY', 'Security');
-define('_GLOBAL_CAPTCHA', 'Use captcha for the comments');
-define('_GLOBAL_CAPTCHA_CLEAN', 'Size of the captcha cache to clean');
-define('_GLOBAL_SHOW_DOC_AUTOR', 'Show author of a document');
-define('_GLOBAL_PATHWAY_CHAR', 'Char for the pathway');
+if(!defined('_GLOBAL_SITE_OFFLINE'))           define('_GLOBAL_SITE_OFFLINE', 'Site Offline');
+if(!defined('_GLOBAL_SITE_OFFLINE_TEXT'))      define('_GLOBAL_SITE_OFFLINE_TEXT', 'Offline Text');
+if(!defined('_GLOBAL_PASTE_FOOTER_TEXT'))      define('_GLOBAL_PASTE_FOOTER_TEXT', 'Paste Sampletext');
+if(!defined('_GLOBAL_SHOW_TOP_PAGES'))         define('_GLOBAL_SHOW_TOP_PAGES', 'Show pages on top of a document');
+if(!defined('_GLOBAL_CIPHER_EMAIL'))           define('_GLOBAL_CIPHER_EMAIL', 'Always cipher eMailadresses');
+if(!defined('_GLOBAL_JS_BROWSER_DETECTION'))   define('_GLOBAL_JS_BROWSER_DETECTION', 'Detect user browser with JavaScript');
+if(!defined('_GLOBAL_USE_CS'))                 define('_GLOBAL_USE_CS', 'Use toendaCMS components system');
+if(!defined('_GLOBAL_SECURITY'))               define('_GLOBAL_SECURITY', 'Security');
+if(!defined('_GLOBAL_FOOTER'))                 define('_GLOBAL_FOOTER', 'Footer');
+if(!defined('_GLOBAL_SHOW_BOOKMARK_LINKS'))    define('_GLOBAL_SHOW_BOOKMARK_LINKS', 'Show Bookmark Links');
+if(!defined('_GLOBAL_CAPTCHA'))                define('_GLOBAL_CAPTCHA', 'Use captcha for the comments');
+if(!defined('_GLOBAL_CAPTCHA_CLEAN'))          define('_GLOBAL_CAPTCHA_CLEAN', 'Size of the captcha cache to clean');
+if(!defined('_GLOBAL_SHOW_DOC_AUTOR'))         define('_GLOBAL_SHOW_DOC_AUTOR', 'Show author of a document');
+if(!defined('_GLOBAL_PATHWAY_CHAR'))           define('_GLOBAL_PATHWAY_CHAR', 'Char for the pathway');
 if(!defined('_GLOBAL_ANTI_FRAME'))             define('_GLOBAL_ANTI_FRAME', 'Frame-Killer (toendaCMS cannot be loaded into a frame)');
 if(!defined('_GLOBAL_REVISIT_AFTER'))          define('_GLOBAL_REVISIT_AFTER', 'Days to a reindizing by a searchengine');
 if(!defined('_GLOBAL_ROBOTSFILE'))             define('_GLOBAL_ROBOTSFILE', 'URL to the "robots.txt" file');
@@ -1046,35 +1049,35 @@ if(!defined('_FORM_GO'))                       define('_FORM_GO', 'Go');
 // GUESTBOOK
 if(!defined('_BOOK_SEND'))                     define('_BOOK_SEND', 'Send');
 if(!defined('_BOOK_ENTRYS'))                   define('_BOOK_ENTRYS', 'Guestbook Entries');
-define('_BOOK_ENTRY1', 'entries');
-define('_BOOK_ENTRY2', 'entry');
-define('_BOOK_E_NO', 'No.');
-define('_BOOK_E_NAME', 'Name');
-define('_BOOK_E_DATE', 'Date');
-define('_BOOK_E_EMAIL', 'eMail');
-define('_BOOK_PAGE', 'Page');
-define('_BOOK_ADD', 'Post an entry');
-define('_BOOK_FILTER_LINKS', 'Links (Weblinks, eMailadresses)');
+if(!defined('_BOOK_ENTRY1'))                   define('_BOOK_ENTRY1', 'entries');
+if(!defined('_BOOK_ENTRY2'))                   define('_BOOK_ENTRY2', 'entry');
+if(!defined('_BOOK_E_NO'))                     define('_BOOK_E_NO', 'No.');
+if(!defined('_BOOK_E_NAME'))                   define('_BOOK_E_NAME', 'Name');
+if(!defined('_BOOK_E_DATE'))                   define('_BOOK_E_DATE', 'Date');
+if(!defined('_BOOK_E_EMAIL'))                  define('_BOOK_E_EMAIL', 'eMail');
+if(!defined('_BOOK_PAGE'))                     define('_BOOK_PAGE', 'Page');
+if(!defined('_BOOK_ADD'))                      define('_BOOK_ADD', 'Post an entry');
+if(!defined('_BOOK_FILTER_LINKS'))             define('_BOOK_FILTER_LINKS', 'Links (Weblinks, eMailadresses)');
 if(!defined('_BOOK_FILTER_SCRIPT'))            define('_BOOK_FILTER_SCRIPT', 'Scripte (Javascript, PHP)');
 if(!defined('_BOOK_FILTER_MAIL'))              define('_BOOK_FILTER_MAIL', 'Show eMailadress');
 if(!defined('_BOOK_FILTER_SPAM'))              define('_BOOK_FILTER_SPAM', 'Convert @ to [at] in eMailadress');
-define('_BOOK_WIDTH_NAME', 'Width of Namefield (in Pixel)');
-define('_BOOK_WIDTH_TEXT', 'Width of Textfield (in Pixel)');
-define('_BOOK_COLOR_ROW_1', 'Color of row one');
-define('_BOOK_COLOR_ROW_2', 'Color of row two');
-define('_BOOK_TITLE', 'Guestbook Entrys');
-define('_BOOK_TEXT', 'Here can you administer the entry\'s of your guestbook. You can edit or delete them.');
+if(!defined('_BOOK_WIDTH_NAME'))               define('_BOOK_WIDTH_NAME', 'Width of Namefield (in Pixel)');
+if(!defined('_BOOK_WIDTH_TEXT'))               define('_BOOK_WIDTH_TEXT', 'Width of Textfield (in Pixel)');
+if(!defined('_BOOK_COLOR_ROW_1'))              define('_BOOK_COLOR_ROW_1', 'Color of row one');
+if(!defined('_BOOK_COLOR_ROW_2'))              define('_BOOK_COLOR_ROW_2', 'Color of row two');
+if(!defined('_BOOK_TITLE'))                    define('_BOOK_TITLE', 'Guestbook Entrys');
+if(!defined('_BOOK_TEXT'))                     define('_BOOK_TEXT', 'Here can you administer the entry\'s of your guestbook. You can edit or delete them.');
 
 
 // DOWNLOADS
-define('_DOWNLOADS_TITLE', 'Downloads');
-define('_DOWNLOADS_TEXT', 'Controlling all your downloadable files.');
-define('_DOWNLOADS_NEW', 'Create a new download item.');
-define('_DOWNLOADS_EDIT', 'Edit all your download entry\'s in the category');
-define('_DOWNLOADS_HELP', 'If you leave the image upload place blank, a mimetype image would create for this file.');
-define('_DOWNLOADS_NEW_CAT', 'Create a new download category, to sort your downloads by your own wish.');
-define('_DOWNLOADS_SUBMIT_ON', 'Submitted On');
-define('_DOWNLOADS_SAVE_AS_MIMITYPE', 'Save the mimetype as image');
+if(!defined('_DOWNLOADS_TITLE'))               define('_DOWNLOADS_TITLE', 'Downloads');
+if(!defined('_DOWNLOADS_TEXT'))                define('_DOWNLOADS_TEXT', 'Controlling all your downloadable files.');
+if(!defined('_DOWNLOADS_NEW'))                 define('_DOWNLOADS_NEW', 'Create a new download item.');
+if(!defined('_DOWNLOADS_EDIT'))                define('_DOWNLOADS_EDIT', 'Edit all your download entry\'s in the category');
+if(!defined('_DOWNLOADS_HELP'))                define('_DOWNLOADS_HELP', 'If you leave the image upload place blank, a mimetype image would create for this file.');
+if(!defined('_DOWNLOADS_NEW_CAT'))             define('_DOWNLOADS_NEW_CAT', 'Create a new download category, to sort your downloads by your own wish.');
+if(!defined('_DOWNLOADS_SUBMIT_ON'))           define('_DOWNLOADS_SUBMIT_ON', 'Submitted On');
+if(!defined('_DOWNLOADS_SAVE_AS_MIMITYPE'))    define('_DOWNLOADS_SAVE_AS_MIMITYPE', 'Save the mimetype as image');
 
 
 // PRODUCTS

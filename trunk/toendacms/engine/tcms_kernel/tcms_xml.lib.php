@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is the toendaCMS internal xml parser.
  *
- * @version 0.3.5
+ * @version 0.3.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -38,9 +38,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * --------------------------------------------------------
  * 
  * __construct                -> PHP5 Constructor
- * xmlparser                  -> PHP4 Constructor
  * __destruct                 -> PHP5 Destructor
- * _xmlparser                 -> PHP4 Destructor
  *
  * --------------------------------------------------------
  * PUBLIC METHODS
@@ -189,19 +187,11 @@ class xmlparser {
 	
 	
 	
-	/**
-	 * PHP4: Default constructor
-	 */
-	function xmlparser($xml_file, $mode){
-		$this->__construct($xml_file, $mode);
-	}
-	
-	
 	
 	/**
 	 * PHP5: Default destructor
 	 */
-	function __destruct(){
+	function __destruct() {
 		clearstatcache();
 		@fclose($this->file_handle);
 	}
@@ -209,9 +199,10 @@ class xmlparser {
 	
 	
 	/**
-	 * PHP4: Default destructor
+	 * PHP4 Destructor
+	 *
 	 */
-	function _xmlparser(){
+	function _xmlparser($pos = '') {
 		$this->__destruct();
 	}
 	
