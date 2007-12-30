@@ -30,7 +30,7 @@ Developer Version
 	- 1.6.1 Stable
 	- 1.6.2 Stable
 
-Building Steps: 3810
+Building Steps: 3820
 
 
 
@@ -45,7 +45,10 @@ Building Steps: 3810
 
  - changed: Imagegallery imagelist option (thumbnail view) changed to set the amount of
             thumbnails per row.
+ - changed: tinyMCE updated from 2.0.6.1 to 2.1.3.
+ - changed: 
 
+ - added: tinyMCE language support added (currently only english and german).
  - added: 
 
 
