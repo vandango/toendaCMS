@@ -125,7 +125,7 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www
 <head>
 <title>toendaCMS Imagebrowser | '.$sitetitle.'</title>
 <meta http-equiv="Content-Type" content="text/html; charset='.$c_charset.'" />
-<meta name="generator" content="toendaCMS - Copyright 2003 - 2007 Toenda Software Development.  All rights reserved." />
+<meta name="generator" content="toendaCMS - Copyright 2003 - 2008 Toenda Software Development.  All rights reserved." />
 <script language="JavaScript" type="text/javascript" src="../js/dhtml.js"></script>
 <link href="theme/tcms_main.css" rel="stylesheet" type="text/css" />
 </style>

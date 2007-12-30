@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the news.
  *
- * @version 1.8.0
+ * @version 1.8.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -99,13 +99,15 @@ if(isset($_POST['newSynCFeedAmount'])){ $newSynCFeedAmount = $_POST['newSynCFeed
 
 
 
-echo '<script language="JavaScript" src="../js/jscalendar/calendar.js"></script>
+echo '
+<script language="JavaScript" src="../js/jscalendar/calendar.js"></script>
 <script language="Javascript" src="../js/jscalendar/lang/calendar-en.js"></script>
 <script language="Javascript" src="../js/jscalendar/calendar-setup.js"></script>
 <link rel="stylesheet" type="text/css" media="all" href="../js/jscalendar/calendar-toendaCMS.css" title="toendaCMS" />
 <script type="text/javascript" src="../js/tabs/tabpane.js"></script>
 <link type="text/css" rel="StyleSheet" href="../js/tabs/css/luna/tab.css" />
-<!--<link type="text/css" rel="StyleSheet" href="../js/tabs/tabpane.css" />-->';
+<!--<link type="text/css" rel="StyleSheet" href="../js/tabs/tabpane.css" />-->
+';
 
 if($show_wysiwyg == 'tinymce'){
 	include('../tcms_kernel/tcms_tinyMCE.lib.php');
@@ -113,7 +115,9 @@ if($show_wysiwyg == 'tinymce'){
 	$tcms_tinyMCE = new tcms_tinyMCE($tcms_path, $seoEnabled);
 	$tcms_tinyMCE->initTinyMCE(
 		true, 
-		$tcms_config->getLanguageCode(true)
+		$tcms_config->getLanguageCode(true), 
+		false, 
+		'content'
 	);
 	
 	unset($tcms_tinyMCE);
@@ -1341,13 +1345,20 @@ if($todo == 'edit'){
 			// table row
 			echo '<tr><td valign="top" colspan="2">';
 			
-			if($show_wysiwyg == 'tinymce'){
-				echo '<textarea cols="75" rows="50" class="tcms_textarea_huge" style="width: 100%;" id="content" name="content" mce_editable="true">'
+			if($show_wysiwyg == 'tinymce') {
+				echo '<textarea'
+				.' cols="75"'
+				.' rows="50"'
+				.' class="tcms_textarea_huge"'
+				.' style="width: 100%;"'
+				.' id="content"'
+				.' name="content"'
+				.' mce_editable="true">'
 				.$nws_news
 				.'</textarea>';
 				//mce_editable="true"
 			}
-			elseif($show_wysiwyg == 'fckeditor'){
+			elseif($show_wysiwyg == 'fckeditor') {
 				$sBasePath = '../js/FCKeditor/';
 				
 				$oFCKeditor = new FCKeditor('content') ;
@@ -1356,7 +1367,7 @@ if($todo == 'edit'){
 				$oFCKeditor->Value = $nws_news;
 				$oFCKeditor->Create();
 			}
-			else{
+			else {
 				echo '<div class="ebene" id="content_body">'
 				.'<textarea class="tcms_textarea_huge" id="content" name="content">'.$nws_news.'</textarea>'
 				.'</div>'

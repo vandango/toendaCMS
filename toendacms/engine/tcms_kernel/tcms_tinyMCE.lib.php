@@ -62,8 +62,10 @@ class tcms_tinyMCE {
 	 * 
 	 * @param Boolean $initAdvanced = true
 	 * @param String $language = 'en'
+	 * @param Boolean $withAjaxSaveLoad = false
+	 * @param String $textareaForAjaxSaveLoad = ''
 	 */
-	function initTinyMCE($initAdvanced = true, $language = 'en') {
+	function initTinyMCE($initAdvanced = true, $language = 'en', $withAjaxSaveLoad = false, $textareaForAjaxSaveLoad = '') {
 		if(trim($language) != 'en' 
 		&& trim($language) != 'de') {
 			$language = 'en';
@@ -86,6 +88,7 @@ class tcms_tinyMCE {
 			<script language="javascript" type="text/javascript" src="../js/browsercheck.js"></script>
 			<script language="javascript" type="text/javascript" src="../js/tinymce/tiny_mce.js"></script>
 			<script language="javascript" type="text/javascript">
+			
 			tinyMCE.init({
 				theme : "advanced",
 				language : "'.$language.'",
@@ -398,11 +401,37 @@ class tcms_tinyMCE {
 				cleanup : true,
 				cleanup_on_startup : false,
 				safari_warning : false
-			});
+			});'
+			.( $withAjaxSaveLoad ? '
+			
+			function ajaxLoad(contentData) {
+				var ed = tinyMCE.get(\''.$textareaForAjaxSaveLoad.'\');
+			
+				// Do you ajax call here, window.setTimeout fakes ajax call
+				ed.setProgressState(1); // Show progress
+				window.setTimeout(function() {
+					ed.setProgressState(0); // Hide progress
+					ed.setContent(contentData);
+				}, 3000);
+			}
+			
+			function ajaxSave() {
+				var ed = tinyMCE.get(\''.$textareaForAjaxSaveLoad.'\');
+			
+				// Do you ajax call here, window.setTimeout fakes ajax call
+				ed.setProgressState(1); // Show progress
+				window.setTimeout(function() {
+					ed.setProgressState(0); // Hide progress
+					alert(ed.getContent());
+					// ... -> save function here
+				}, 3000);
+			}
+			' : '' ).'
+			
 			</script>
 			<!-- /tinyMCE -->';
 		}
-		else{
+		else {
 			echo '<!-- tinyMCE -->'
 			.'<script language="javascript" type="text/javascript" src="'.( $this->m_seoPath == '' ? '' : $this->m_seoPath.'/' ).'engine/js/browsercheck.js"></script>'
 			.'<script language="javascript" type="text/javascript" src="'.( $this->m_seoPath == '' ? '' : $this->m_seoPath.'/' ).'engine/js/tinymce/tiny_mce.js"></script>'
