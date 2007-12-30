@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Content footer with links for the "top of page", "print" 
  * and "pdf" functions.
  *
- * @version 0.5.4
+ * @version 0.5.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -33,6 +33,13 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 //echo '<br />';
 echo '<div align="left" class="contentFooter">';
+
+if($tcms_config->showBookmarkLinks()) {
+	using('toendacms.tools.bookmark.bookmark');
+	
+	echo '<br />'
+	.'<br />';
+}
 
 
 
@@ -178,7 +185,7 @@ if($tcms_config->usePDFLink()) {
 		//if(trim($id) == 'products'){ $show_pdf = false; }
 		
 		if($tcms_config->usePDFLink()) {
-			/*echo '&nbsp;';
+			echo '&nbsp;';
 			echo '<a href="javascript:pdfWindow(\''.$s.'\', \''.$pdfID.'\', \''.$news.'\', \''.$pdfCategory.'\', \''.$pdfArticle.'\', \''.$session.'\', \''.$imagePath.'\');">';
 			
 			
@@ -198,7 +205,7 @@ if($tcms_config->usePDFLink()) {
 			}
 			
 			
-			echo '</a>';*/
+			echo '</a>';
 		}
 	}
 }
@@ -209,7 +216,7 @@ if($tcms_config->usePDFLink()) {
 	Author
 */
 
-switch($id){
+switch($id) {
 	case 'register'      : break;
 	case 'profile'       : break;
 	case 'search'        : break;
@@ -232,12 +239,12 @@ switch($id){
 			.'<img style="padding-top: 2px;" src="'.$imagePath.'engine/images/v_line.gif" border="0" />'
 			.'&nbsp;&nbsp;';
 			
-			if($choosenDB == 'xml') $userID = $tcms_main->getUserID($docAutor);
-			else $userID = $tcms_main->getUserIDfromSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $docAutor);
+			$userID = $tcms_ap->getUserID($docAutor);
 			
-			if(trim($docAutor) != ''){
+			if(trim($docAutor) != '') {
 				if($userID != false){
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=profile&amp;s='.$s.'&amp;u='.$userID
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id=profile&amp;s='.$s.'&amp;u='.$userID
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlConvertToSEO($link);
 					
@@ -245,7 +252,7 @@ switch($id){
 				}
 				
 				
-				if($tcms_config->getBrowserDetection()){
+				if($tcms_config->getBrowserDetection()) {
 					echo '<script>if(browser == \'ie\'){'
 					.'document.write(\'<img alt="'._NEWS_WRITTEN.'&nbsp;'.$docAutor.'" title="'._NEWS_WRITTEN.'&nbsp;'.$docAutor.'" style="padding-top: 2px;" src="'.$imagePath.'engine/images/docuser.gif" border="0" />\');'
 					.'}else{'
@@ -265,9 +272,36 @@ switch($id){
 				._NEWS_WRITTEN.'&nbsp;'.$docAutor
 				.'</span>';
 				
-				if($userID != false){
+				if($userID != false) {
 					echo '</a>';
 				}
+				
+				/*echo '<div'
+				.' style="display: block; margin: 7px 0 -2px 0; width: 300px;"'
+				.' align="left">';
+				
+				echo '<img'
+				.' style="float: left; margin: -2px 4px 0 0 !important;"'
+				.' src="'.$imagePath.'engine/images/docuser.png"'
+				.' alt="'._NEWS_WRITTEN.'&nbsp;'.$docAutor.'"'
+				.' title="'._NEWS_WRITTEN.'&nbsp;'.$docAutor.'"'
+				.' border="0" />';
+				
+				if($userID != false) {
+					echo '<a'
+					.' class="text_small"'
+					.' href="'.$link.'">'
+					._NEWS_WRITTEN.'&nbsp;'.$docAutor
+					.'</a>';
+				}
+				else {
+					echo '<span'
+					.' class="text_small">'
+					._NEWS_WRITTEN.'&nbsp;'.$docAutor
+					.'</span>';
+				}
+				
+				echo '</div>';*/
 			}
 		}
 		break;

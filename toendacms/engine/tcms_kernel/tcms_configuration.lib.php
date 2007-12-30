@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide the global
  * configuration data.
  *
- * @version 0.5.8
+ * @version 0.6.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -35,9 +35,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Methods
  *
  * __construct                 -> PHP5 Constructor
- * tcms_configuration          -> PHP4 Constructor
  * __destruct                  -> PHP5 Destructor
- * _tcms_configuration         -> PHP4 Destructor
  *
  * getLanguageFrontend         -> Get the language used for the frontend
  * getLanguageBackend          -> Get the language used for the backend
@@ -100,6 +98,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getAdminTheme               -> Get the admin theme
  * getFrontendTheme            -> Get the frontend theme
  * toendaCMSShopIsInstalled    -> Get the setting if the toendaCMS shop is installed
+ * toendaCMSIsInstalled        -> Check if toendaCMS is installed
+ * showBookmarkLinks           -> Get a value that indicates if the bookmark links enabled on footer
  * 
  * </code>
  *
@@ -152,6 +152,7 @@ class tcms_configuration {
 	private $m_useContentLang;
 	private $m_validLinks;
 	private $m_mediaman_view;
+	private $m_show_bookmark_links;
 	
 	// names
 	private $m_sitetitle;
@@ -183,6 +184,8 @@ class tcms_configuration {
 	 * @param String $administer
 	 */
 	public function __construct($administer) {
+		$this->m_administer = $administer;
+		
 		if(function_exists('simplexml_load_file')) {
 			// var.xml
 			if(file_exists($administer.'/tcms_global/var.xml')) {
@@ -201,9 +204,8 @@ class tcms_configuration {
 				$this->m_statistics            = $this->o_xml->statistics;
 				$this->m_use_components        = $this->o_xml->use_cs;
 				$this->m_use_captcha           = $this->o_xml->captcha;
-				$this->m_captcha_clean         = $this->o_xml->statistics;
-				$this->m_antiFrame             = $this->o_xml->captcha_clean_size;
-				$this->m_showTopPages          = $this->o_xml->anti_frame;
+				$this->m_captcha_clean         = $this->o_xml->captcha_clean_size;
+				$this->m_antiFrame             = $this->o_xml->anti_frame;
 				$this->m_showTopPages          = $this->o_xml->show_top_pages;
 				$this->m_siteOffline           = $this->o_xml->site_offline;
 				$this->m_siteOfflineText       = $this->o_xml->site_offline_text;
@@ -252,16 +254,17 @@ class tcms_configuration {
 			if(file_exists($administer.'/tcms_global/footer.xml')) {
 				$this->o_xml = simplexml_load_file($administer.'/tcms_global/footer.xml');
 				
-				$this->m_wpowner      = $this->o_xml->websiteowner;
-				$this->m_wpcopyright  = $this->o_xml->copyright;
-				$this->m_wpowner_url  = $this->o_xml->owner_url;
-				$this->m_wpowner_mail = $this->o_xml->email;
-				$this->m_showtcmslogo = $this->o_xml->show_tcmslogo;
-				$this->m_show_default = $this->o_xml->show_defaultfooter;
-				$this->m_show_plt     = $this->o_xml->show_page_loading_time;
-				$this->m_show_llif    = $this->o_xml->legal_link_in_footer;
-				$this->m_show_alif    = $this->o_xml->admin_link_in_footer;
-				$this->m_footer_text  = $this->o_xml->footer_text;
+				$this->m_wpowner             = $this->o_xml->websiteowner;
+				$this->m_wpcopyright         = $this->o_xml->copyright;
+				$this->m_wpowner_url         = $this->o_xml->owner_url;
+				$this->m_wpowner_mail        = $this->o_xml->email;
+				$this->m_showtcmslogo        = $this->o_xml->show_tcmslogo;
+				$this->m_show_default        = $this->o_xml->show_defaultfooter;
+				$this->m_show_plt            = $this->o_xml->show_page_loading_time;
+				$this->m_show_llif           = $this->o_xml->legal_link_in_footer;
+				$this->m_show_alif           = $this->o_xml->admin_link_in_footer;
+				$this->m_footer_text         = $this->o_xml->footer_text;
+				$this->m_show_bookmark_links = $this->o_xml->show_bookmark_links;
 				
 				unset($this->o_xml);
 			}
@@ -1093,12 +1096,45 @@ class tcms_configuration {
 	 * @return Boolean
 	 */
 	public function toendaCMSShopIsInstalled() {
-		if(file_exists('data/components/tcmsshop/tcmsshop.php')) {
+		if(file_exists($this->m_administer.'/components/tcmsshop/tcmsshop.php')) {
 			return true;
 		}
 		else {
 			return false;
 		}
+	}
+	
+	
+	
+	/**
+	 * Check if toendaCMS is installed
+	 *
+	 */
+	public function toendaCMSIsInstalled() {
+		if(!file_exists($this->m_administer.'/tcms_global/namen.xml')) {
+			return false;
+		}
+		
+		if(!file_exists($this->m_administer.'/tcms_global/var.xml')) {
+			return false;
+		}
+		
+		if(!file_exists($this->m_administer.'/tcms_global/footer.xml')) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	
+	
+	/**
+	 * Get a value that indicates if the bookmark links enabled on footer
+	 *
+	 * @return Boolean
+	 */
+	public function showBookmarkLinks() {
+		return ( $this->m_show_bookmark_links == 1 || $this->m_show_bookmark_links == '1' ? true : false );
 	}
 }
 

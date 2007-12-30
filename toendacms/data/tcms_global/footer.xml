@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><footer>
 	<websiteowner>VG9lbmRhIFNvZnR3YXJlIERldmVsb3BtZW50</websiteowner>
 	<owner_url>aHR0cDovL3d3dy50b2VuZGFjbXMuY29t</owner_url>
-	<copyright>MjAwMyAtIDIwMDc=</copyright>
+	<copyright>MjAwMyAtIDIwMDg=</copyright>
 	<email>aW5mb0B0b2VuZGEuY29t</email>
 	<show_tcmslogo>0</show_tcmslogo>
 	<show_defaultfooter>0</show_defaultfooter>
@@ -9,4 +9,5 @@
 	<legal_link_in_footer>1</legal_link_in_footer>
 	<admin_link_in_footer>1</admin_link_in_footer>
 	<footer_text></footer_text>
+	<show_bookmark_links>1</show_bookmark_links>
 </footer>

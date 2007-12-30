@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide some often used html
  * codes.
  *
- * @version 0.4.8
+ * @version 0.5.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -34,16 +34,7 @@ class tcms_html {
 	/**
 	 * PHP5 Constructor
 	 */
-	function __construct(){
-	}
-	
-	
-	
-	/**
-	 * PHP4 Constructor
-	 */
-	function tcms_configuration(){
-		$this->__construct();
+	public function __construct() {
 	}
 	
 	
@@ -51,16 +42,7 @@ class tcms_html {
 	/**
 	 * PHP5 Destructor
 	 */
-	function __destruct(){
-	}
-	
-	
-	
-	/**
-	 * PHP4 Destructor
-	 */
-	function _tcms_configuration(){
-		$this->__destruct();
+	public function __destruct() {
 	}
 	
 	
@@ -73,7 +55,7 @@ class tcms_html {
 	 * @param String $text = ''
 	 * @return String
 	 */
-	function contentModuleHeader($title = '', $subtitle = '', $text = ''){
+	public function contentModuleHeader($title = '', $subtitle = '', $text = '') {
 		$output = '';
 		
 		if(trim($title) != '') {
@@ -105,7 +87,7 @@ class tcms_html {
 	 * @param Object $tcmsScriptObj = null
 	 * @return String
 	 */
-	function contentModuleHeaderWithParser($title = '', $subtitle = '', $text = '', $tcmsScriptObj = null){
+	public function contentModuleHeaderWithParser($title = '', $subtitle = '', $text = '', $tcmsScriptObj = null) {
 		if(trim($title) != '') {
 			echo $this->contentTitle($title);
 		}
@@ -132,7 +114,7 @@ class tcms_html {
 	 * @param String $title = ''
 	 * @return String
 	 */
-	function contentUnderlinedTitle($title = ''){
+	public function contentUnderlinedTitle($title = '') {
 		return '<div class="text_huge">'.$title.'</div>'
 		.'<hr class="hr_line" />'
 		.'<br />';
@@ -146,7 +128,7 @@ class tcms_html {
 	 * @param String $title = ''
 	 * @return String
 	 */
-	function contentTitle($title = ''){
+	public function contentTitle($title = '') {
 		return '<div class="contentheading">'.$title.'</div>';
 	}
 	
@@ -158,7 +140,7 @@ class tcms_html {
 	 * @param String $subtitle = ''
 	 * @return String
 	 */
-	function contentSubtitle($subtitle){
+	public function contentSubtitle($subtitle) {
 		return '<span class="contentstamp">'.$subtitle.'</span><br />';
 	}
 	
@@ -170,7 +152,7 @@ class tcms_html {
 	 * @param String $text = ''
 	 * @return String
 	 */
-	function contentText($text){
+	public function contentText($text) {
 		return ( trim($text) != '' ? '<p class="contentmain">'.$text.'</p><br />' : '' );
 	}
 	
@@ -182,7 +164,7 @@ class tcms_html {
 	 * @param String $title = ''
 	 * @return String
 	 */
-	function sidebarTitle($title){
+	public function sidebarTitle($title) {
 		return ( trim($title) != '' ? '<strong class="sideheading">'.$title.'</strong>' : '' );
 	}
 	
@@ -194,7 +176,7 @@ class tcms_html {
 	 * @param String $text = ''
 	 * @return String
 	 */
-	function sidebarText($text){
+	public function sidebarText($text) {
 		return ( trim($text) != '' ? '<span class="sidemain">'.$text.'</span><br />' : '' );
 	}
 	
@@ -206,7 +188,7 @@ class tcms_html {
 	 * @param String $subTitle
 	 * @return String
 	 */
-	function subTitle($subTitle){
+	public function subTitle($subTitle) {
 		return ( trim($subTitle) != '' ? '<strong class="menutitle">'.$subTitle.'</strong>' : '' );
 	}
 	
@@ -218,7 +200,7 @@ class tcms_html {
 	 * @param String $text
 	 * @return String
 	 */
-	function bold($text){
+	public function bold($text) {
 		return '<strong>'.$text.'</strong><br />';
 	}
 	
@@ -231,7 +213,7 @@ class tcms_html {
 	 * @param String $align = 'left'
 	 * @return String
 	 */
-	function text($text, $align = 'left'){
+	public function text($text, $align = 'left') {
 		if(trim($align) == '')
 			$align = 'left';
 		
@@ -248,7 +230,7 @@ class tcms_html {
 	 * @param String $barHeight = ''
 	 * @return String
 	 */
-	function image($path, $barWidth = '', $barHeight = ''){
+	public function image($path, $barWidth = '', $barHeight = '') {
 		return '<img src="'.$path.'" border="0"'
 		.( trim($barHeight) != '' ? ' height="'.$barHeight.'"' : '')
 		.( trim($barWidth) != '' ? ' width="'.$barWidth.'"' : '')
@@ -263,7 +245,7 @@ class tcms_html {
 	 * @param String $color = '#000'
 	 * @return String
 	 */
-	function hr($color = '#000'){
+	public function hr($color = '#000') {
 		return '<hr noshade="noshade" style="background: '.$color.'; height: 1px; border: 0px solid '.$color.';" height="1" />';
 	}
 	
@@ -278,7 +260,7 @@ class tcms_html {
 	 * @param String $width = '100%'
 	 * @return String
 	 */
-	function tableHead($padding = '0', $spacing = '0', $border = '0', $width = '100%'){
+	public function tableHead($padding = '0', $spacing = '0', $border = '0', $width = '100%') {
 		return '<table'
 		.( trim($padding) != '' ? ' cellpadding="'.$padding.'"' : '')
 		.( trim($spacing) != '' ? ' cellspacing="'.$spacing.'"' : '')
@@ -299,7 +281,7 @@ class tcms_html {
 	 * @param String $style = ''
 	 * @return String
 	 */
-	function tableHeadStyle($padding = '0', $spacing = '0', $border = '0', $width = '', $style = ''){
+	public function tableHeadStyle($padding = '0', $spacing = '0', $border = '0', $width = '', $style = '') {
 		return '<table'
 		.( trim($padding) != '' ? ' cellpadding="'.$padding.'"' : '')
 		.( trim($spacing) != '' ? ' cellspacing="'.$spacing.'"' : '')
@@ -321,7 +303,7 @@ class tcms_html {
 	 * @param String $class = ''
 	 * @return String
 	 */
-	function tableHeadClass($padding = '0', $spacing = '0', $border = '0', $width = '', $class = ''){
+	public function tableHeadClass($padding = '0', $spacing = '0', $border = '0', $width = '', $class = '') {
 		return '<table'
 		.( trim($padding) != '' ? ' cellpadding="'.$padding.'"' : '')
 		.( trim($spacing) != '' ? ' cellspacing="'.$spacing.'"' : '')
@@ -343,7 +325,7 @@ class tcms_html {
 	 * @param String $align = ''
 	 * @return String
 	 */
-	function tableHeadAlignment($padding = '0', $spacing = '0', $border = '0', $width = '', $align = ''){
+	public function tableHeadAlignment($padding = '0', $spacing = '0', $border = '0', $width = '', $align = '') {
 		return '<table'
 		.( trim($padding) != '' ? ' cellpadding="'.$padding.'"' : '')
 		.( trim($spacing) != '' ? ' cellspacing="'.$spacing.'"' : '')
@@ -361,10 +343,10 @@ class tcms_html {
 	 * @param String $padding = '0'
 	 * @param String $spacing = '0'
 	 * @param String $border = '0'
-	 * @param String $width = ''
+	 * @param String $width = '100%'
 	 * @return String
 	 */
-	function tableHeadNoBorder($padding = '0', $spacing = '0', $border = '0', $width = ''){
+	public function tableHeadNoBorder($padding = '0', $spacing = '0', $border = '0', $width = '100%') {
 		return '<table'
 		.( trim($padding) != '' ? ' cellpadding="'.$padding.'"' : '')
 		.( trim($spacing) != '' ? ' cellspacing="'.$spacing.'"' : '')
@@ -377,11 +359,98 @@ class tcms_html {
 	
 	
 	/**
+	 * Display a table row
+	 *
+	 * @param Integer $rowType = 1 (1 = Admin Global-Setting Row)
+	 * @param Integer $rowContentType = 1 (1 = Checkbox)
+	 * @param String $title = ''
+	 * @param String $inVariable = ''
+	 * @param String $outVariableName = ''
+	 * @param Boolean $rowIsOdd = false
+	 * @param String $rowOddColor = ''
+	 * @return String
+	 */
+	public function tableRow($rowType = 1, $rowContentType = 1, $title = '', $inVariable = '', $outVariableName = '', $rowIsOdd = false, $rowOddColor = '') {
+		$row = '';
+		
+		switch($rowType) {
+			case 1:
+				/*
+					Admin Global-Setting Row
+				*/
+				
+				$row = '<tr'.( $rowIsOdd ? ' style="background: '.$rowOddColor.';"' : '' ).'>'
+				.'<td'
+				.' width="300"'
+				.' height="25"'
+				.' style="width: 300px !important;"'
+				.' class="tcms_padding_mini"'
+				.' valign="top"'
+				.'>'
+				.$title
+				.'</td><td>';
+				
+				switch($rowContentType) {
+					case 1:
+						/*
+							Checkbox
+						*/
+						
+						$row .= '<input'
+						.' type="checkbox"'
+						.' id="'.$outVariableName.'"'
+						.' name="'.$outVariableName.'"'
+						.($inVariable == 1 ? ' checked="checked"' : '' )
+						.' value="1"'
+						.' />';
+						break;
+					
+					case 2:
+						/*
+							Textarea
+						*/
+						
+						$row .= '<script language="Javascript">'
+						.'var _tcmsVALUE = "Site is proudly powered by'
+						.' toendaCMS &#169; 2003 - 2008 Toenda Software Development.'
+						.' All rights reserved.<br />toendaCMS is Free Software'
+						.' released under the GNU/GPL License.<br />";'
+						.'</script>';
+						
+						$row .= '<textarea'
+						.' id="'.$outVariableName.'"'
+						.' name="'.$outVariableName.'"'
+						.' class="tcms_textarea_big"'
+						.'>'.$inVariable.'</textarea>'
+						.'<br />'
+						//.'<img src="../images/px.png" width="9" height="9" border="0" style="margin: 5px 2px 0 0 !important;" align="left" />'
+						.'<input type="button" name="_paste_tcmsVALUE" value="'._GLOBAL_PASTE_FOOTER_TEXT.'"'
+						.' onclick="document.getElementById(\'new_footer_text\').value = document.getElementById(\'new_footer_text\').value + _tcmsVALUE" />';
+						break;
+					
+					default:
+						break;
+				}
+				
+				$row .= '</td>'
+				.'</tr>';
+				break;
+			
+			default:
+				break;
+		}
+		
+		return $row;
+	}
+	
+	
+	
+	/**
 	 * Html for the closing table tag
 	 * 
 	 * @return String
 	 */
-	function tableEnd(){
+	public function tableEnd() {
 		return '</table>';
 	}
 	
@@ -392,7 +461,7 @@ class tcms_html {
 	 * 
 	 * @return String
 	 */
-	function messageInstallerLink(){
+	public function messageInstallerLink() {
 		$returnStr = '<div align="center">'
 		.'<br /><br /><br /><br />'
 		.'<img src="engine/images/tcms_top.jpg" border="0" />'
@@ -412,7 +481,7 @@ class tcms_html {
 	 * 
 	 * @return String
 	 */
-	function messageIsInstalled(){
+	public function messageIsInstalled() {
 		$returnStr = '<div align="center">'
 		.'<br /><br /><br /><br />'
 		.'<img src="engine/images/tcms_top.jpg" border="0" />'
@@ -432,7 +501,7 @@ class tcms_html {
 	 * 
 	 * @return String
 	 */
-	function messageUnwritableData(){
+	public function messageUnwritableData() {
 		$returnStr = '<div align="center">'
 		.'<br /><br /><br /><br />'
 		.'<img src="engine/images/tcms_top.jpg" border="0" />'
@@ -449,7 +518,7 @@ class tcms_html {
 	 * 
 	 * @return String
 	 */
-	function messageUnwritableSession(){
+	public function messageUnwritableSession() {
 		$returnStr = '<div align="center">'
 		.'<br /><br /><br /><br />'
 		.'<img src="engine/images/tcms_top.jpg" border="0" />'
@@ -466,7 +535,7 @@ class tcms_html {
 	 * 
 	 * @return String
 	 */
-	function messageStartUpdate(){
+	public function messageStartUpdate() {
 		$returnStr = '<div align="center">'
 		.'<br /><br />'
 		.'<h1 style="font-family: Georgia, \'Lucida Grande\', \'Lucida Sans\'; padding: 50px 0 0 0;">'
@@ -487,7 +556,7 @@ class tcms_html {
 	 * 
 	 * @return String
 	 */
-	function messageIsTestEnvironment() {
+	public function messageIsTestEnvironment() {
 		$returnStr = '<div style="'
 		.'background: #ffff80; padding: 5px; border: solid 5px #ff0000; '
 		.'width: auto; text-align: center; font-weight: bold; color: #ff0000;'
@@ -506,7 +575,7 @@ class tcms_html {
 	 * @param Integer $width = 10
 	 * @return String
 	 */
-	function pollVoteBar($question = '', $value = 0, $width = 10){
+	public function pollVoteBar($question = '', $value = 0, $width = 10) {
 		return '<div class="poll_sheet" style="width: '.$width.'px;">'
 		.'<input type="radio" name="answer" value="'.$value.'" />&nbsp;'
 		.( $question == '' ? '' : $question )
@@ -526,7 +595,7 @@ class tcms_html {
 	 * @param String $vote_percent
 	 * @return String
 	 */
-	function pollResultTable($tr_height = '10', $vote_name, $vb_width, $vote_bar, $vote_number, $vote_percent){
+	public function pollResultTable($tr_height = '10', $vote_name, $vb_width, $vote_bar, $vote_number, $vote_percent) {
 		$prt = '<tr align="left" height="'.$tr_height.'" class="sidemain">'
 		.'<td align="left" colspan="3">'.$vote_name.'</td>'
 		.'</tr>'
@@ -547,7 +616,7 @@ class tcms_html {
 	 * @param String $color = '#ccc'
 	 * @return String
 	 */
-	function pollResultTableBreakLine($color = '#ccc'){
+	public function pollResultTableBreakLine($color = '#ccc') {
 		return '<tr style="height: 1px; background-color: '.$color.';"><td colspan="3"></td></tr>';
 	}
 	
@@ -559,7 +628,7 @@ class tcms_html {
 	 * @param String $text = ''
 	 * @return String
 	 */
-	function searchResultTitle($text = ''){
+	public function searchResultTitle($text = '') {
 		return '<div class="search_result_bar">'.$text.'</div>';
 	}
 	
@@ -571,7 +640,7 @@ class tcms_html {
 	 * @param String $text = ''
 	 * @return String
 	 */
-	function searchResultPanel($text){
+	public function searchResultPanel($text) {
 		return '<div class="search_result">'.$text.'</div>';
 	}
 	
@@ -585,7 +654,7 @@ class tcms_html {
 	 * @param String $image
 	 * @return String
 	 */
-	function searchPanel($text, $url_and_searchword, $image){
+	public function searchPanel($text, $url_and_searchword, $image) {
 		return '<table cellpadding="0" cellspacing="0" border="0">'
 		.'<tr><td valign="top" style="height: 18px; font-family: Verdana, sans-serif; font-size : 11px;">'
 		.$text.'&nbsp;'
@@ -602,7 +671,7 @@ class tcms_html {
 	 * @param String $title = ''
 	 * @return String
 	 */
-	function userProfileTitle($title){
+	public function userProfileTitle($title) {
 		return '<div style="display: block; width: 100%;" class="user_profile_title">'.$title.'</div>';
 	}
 	
@@ -617,7 +686,7 @@ class tcms_html {
 	 * @param String $file
 	 * @param Integer $line
 	 */
-	function displayException($message, $stacktrace, $line, $file, $code) {
+	public function displayException($message, $stacktrace, $line, $file, $code) {
 		//$stacktrace = str_replace('\n', '<br />', $stacktrace);
 		
 		echo '<br />'
@@ -643,7 +712,7 @@ class tcms_html {
 			
 			echo '&nbsp;&nbsp;&nbsp;&nbsp;File: '.$value['file'].'<br />';
 			echo '&nbsp;&nbsp;&nbsp;&nbsp;Line: '.$value['line'].'<br />';
-			echo '&nbsp;&nbsp;&nbsp;&nbsp;Function: '.$value['function'].'<br />';
+			echo '&nbsp;&nbsp;&nbsp;&nbsp;public function: '.$value['public function'].'<br />';
 			echo '&nbsp;&nbsp;&nbsp;&nbsp;Class: '.$value['class'].'<br />';
 			echo '&nbsp;&nbsp;&nbsp;&nbsp;Type: '.$value['type'].'<br />';
 			
@@ -675,7 +744,7 @@ class tcms_html {
 	 * @param String $width = ''
 	 * @return String
 	 */
-	function table_head($padding = '0', $spacing = '0', $border = '0', $width = ''){
+	public function table_head($padding = '0', $spacing = '0', $border = '0', $width = '') {
 		return tcms_html::tableHead($padding, $spacing, $border, $width);
 	}
 	
@@ -692,7 +761,7 @@ class tcms_html {
 	 * @param String $style = ''
 	 * @return String
 	 */
-	function table_head_style($padding = '0', $spacing = '0', $border = '0', $width = '', $style = ''){
+	public function table_head_style($padding = '0', $spacing = '0', $border = '0', $width = '', $style = '') {
 		return tcms_html::tableHeadStyle($padding, $spacing, $border, $width, $style);
 	}
 	
@@ -709,7 +778,7 @@ class tcms_html {
 	 * @param String $class = ''
 	 * @return String
 	 */
-	function table_head_cl($padding = '0', $spacing = '0', $border = '0', $width = '', $class = ''){
+	public function table_head_cl($padding = '0', $spacing = '0', $border = '0', $width = '', $class = '') {
 		return tcms_html::tableHeadClass($padding, $spacing, $border, $width, $class);
 	}
 	
@@ -726,7 +795,7 @@ class tcms_html {
 	 * @param String $align = ''
 	 * @return String
 	 */
-	function table_head_align($padding = '0', $spacing = '0', $border = '0', $width = '', $align = ''){
+	public function table_head_align($padding = '0', $spacing = '0', $border = '0', $width = '', $align = '') {
 		return tcms_html::tableHeadAlignment($padding, $spacing, $border, $width, $align);
 	}
 	
@@ -742,7 +811,7 @@ class tcms_html {
 	 * @param String $width = ''
 	 * @return String
 	 */
-	function table_head_nb($padding = '0', $spacing = '0', $border = '0', $width = ''){
+	public function table_head_nb($padding = '0', $spacing = '0', $border = '0', $width = '') {
 		return tcms_html::tableHeadNoBorder($padding, $spacing, $border, $width);
 	}
 	
@@ -754,7 +823,7 @@ class tcms_html {
 	 * @deprecated
 	 * @return String
 	 */
-	function table_end(){
+	public function table_end() {
 		return tcms_html::tableEnd();
 	}
 	
@@ -766,7 +835,7 @@ class tcms_html {
 	 * @deprecated
 	 * @return String
 	 */
-	function msg_gotoinstall(){
+	public function msg_gotoinstall() {
 		return tcms_html::messageInstallerLink();
 	}
 	
@@ -778,7 +847,7 @@ class tcms_html {
 	 * @deprecated
 	 * @return String
 	 */
-	function msg_nowrite_data(){
+	public function msg_nowrite_data() {
 		return tcms_html::messageUnwritableData();
 	}
 	
@@ -790,7 +859,7 @@ class tcms_html {
 	 * @deprecated
 	 * @return String
 	 */
-	function msg_nowrite_session(){
+	public function msg_nowrite_session() {
 		return tcms_html::messageUnwritableSession();
 	}
 	
@@ -802,7 +871,7 @@ class tcms_html {
 	 * @deprecated
 	 * @return String
 	 */
-	function msg_isinstalled(){
+	public function msg_isinstalled() {
 		return tcms_html::messageIsInstalled();
 	}
 	
@@ -817,7 +886,7 @@ class tcms_html {
 	 * @param Integer $width = 10
 	 * @return String
 	 */
-	function poll_sheet($question, $value, $width){
+	public function poll_sheet($question, $value, $width) {
 		return tcms_html::pollVoteBar($question, $value, $width);
 	}
 	
@@ -830,7 +899,7 @@ class tcms_html {
 	 * @param String $title = ''
 	 * @return String
 	 */
-	function contentheading($title = ''){
+	public function contentheading($title = '') {
 		return tcms_html::contentTitle($title);
 	}
 	
@@ -843,7 +912,7 @@ class tcms_html {
 	 * @param String $subtitle = ''
 	 * @return String
 	 */
-	function contentstamp($subtitle){
+	public function contentstamp($subtitle) {
 		return tcms_html::contentSubtitle($subtitle);
 	}
 	
@@ -856,7 +925,7 @@ class tcms_html {
 	 * @param String $text = ''
 	 * @return String
 	 */
-	function contentmain($text){
+	public function contentmain($text) {
 		return tcms_html::contentText($text);
 	}
 	
@@ -869,7 +938,7 @@ class tcms_html {
 	 * @param String $title = ''
 	 * @return String
 	 */
-	function sideheading($title){
+	public function sideheading($title) {
 		return tcms_html::sidebarTitle($title);
 	}
 	
@@ -882,7 +951,7 @@ class tcms_html {
 	 * @param String $text = ''
 	 * @return String
 	 */
-	function sidemain($text){
+	public function sidemain($text) {
 		return tcms_html::sidebarText($text);
 	}
 	
@@ -895,7 +964,7 @@ class tcms_html {
 	 * @param String $title = ''
 	 * @return String
 	 */
-	function user_gerneral($title = ''){
+	public function user_gerneral($title = '') {
 		return tcms_html::userProfileTitle($title);
 	}
 	
@@ -913,7 +982,7 @@ class tcms_html {
 	 * @param String $vote_percent
 	 * @return String
 	 */
-	function poll_result_table($tr_height, $vote_name, $vb_width, $vote_bar, $vote_number, $vote_percent){
+	public function poll_result_table($tr_height, $vote_name, $vb_width, $vote_bar, $vote_number, $vote_percent) {
 		echo tcms_html::pollResultTable($tr_height, $vote_name, $vb_width, $vote_bar, $vote_number, $vote_percent);
 	}
 	
@@ -926,7 +995,7 @@ class tcms_html {
 	 * @param String $color = '#ccc'
 	 * @return String
 	 */
-	function poll_result_table_line($color = '#ccc'){
+	public function poll_result_table_line($color = '#ccc') {
 		return tcms_html::pollResultTableBreakLine($color);
 	}
 	
@@ -939,7 +1008,7 @@ class tcms_html {
 	 * @param String $text = ''
 	 * @return String
 	 */
-	function search_result_bar($text = ''){
+	public function search_result_bar($text = '') {
 		return tcms_html::searchResultTitle($text);
 	}
 	
@@ -952,7 +1021,7 @@ class tcms_html {
 	 * @param String $text = ''
 	 * @return String
 	 */
-	function search_result($text){
+	public function search_result($text) {
 		return tcms_html::searchResultPanel($text);
 	}
 	
@@ -967,7 +1036,7 @@ class tcms_html {
 	 * @param String $image
 	 * @return String
 	 */
-	function search_box($text, $url_and_searchword, $image){
+	public function search_box($text, $url_and_searchword, $image) {
 		return tcms_html::searchPanel($text, $url_and_searchword, $image);
 	}
 }

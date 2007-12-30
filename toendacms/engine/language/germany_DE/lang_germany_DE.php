@@ -362,6 +362,7 @@ define('_TABLE_VIEW', 'Ansicht');
 define('_TABLE_FRONTPAGE', 'Startseite');
 define('_TABLE_SHOWONMAINPAGE', 'Auf Hauptseite anzeigen');
 define('_TABLE_BROWSE', 'St&ouml;bern');
+define('_TABLE_BOOKMARK', 'Bookmark');
 
 
 // MESSAGES
@@ -901,6 +902,8 @@ define('_GLOBAL_CIPHER_EMAIL', 'eMailadressen immer verschl&uuml;sseln');
 define('_GLOBAL_JS_BROWSER_DETECTION', 'Browser des Benutzers mit JavaScript ermitteln');
 define('_GLOBAL_USE_CS', 'toendaCMS Komponenten System benutzen');
 define('_GLOBAL_SECURITY', 'Sicherheit');
+define('_GLOBAL_FOOTER', 'Fu&szlig;leiste');
+define('_GLOBAL_SHOW_BOOKMARK_LINKS', 'Zeige Bookmark Links');
 define('_GLOBAL_CAPTCHA', 'Captcha f&uuml;r die Kommentare benutzen');
 define('_GLOBAL_CAPTCHA_CLEAN', 'Gr&ouml;&szlig;e des Captcha Zwischenspeichers bei dem er geleert werden soll');
 define('_GLOBAL_SHOW_DOC_AUTOR', 'Zeige den Autor eines Dokuments an');
