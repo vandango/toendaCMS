@@ -27,16 +27,16 @@
 
 // ADMIN
 define('_TCMS_ADMIN_TITLE', 'toendaCMS Administrator');
-define('_TCMS_ADMIN_BACK', 'Zur&uuml;ck');
-define('_TCMS_ADMIN_FORWARD', 'Vorw&auml;rts');
+define('_TCMS_ADMIN_BACK', 'Zur&#252;ck');
+define('_TCMS_ADMIN_FORWARD', 'Vorw&#228;rts');
 define('_TCMS_ADMIN_CLOSE', 'Schliessen');
 define('_TCMS_ADMIN_SAVE', 'Speichern');
-define('_TCMS_ADMIN_APPLY', '&Uuml;bernehmen');
-define('_TCMS_ADMIN_BACK_TO_PAGE', 'Zur&uuml;ck zur Webseite');
+define('_TCMS_ADMIN_APPLY', '&#220;bernehmen');
+define('_TCMS_ADMIN_BACK_TO_PAGE', 'Zur&#252;ck zur Webseite');
 define('_TCMS_ADMIN_NO', 'Kein');
 define('_TCMS_ADMIN_FTPUPLOAD', 'Erstellen Sie ein Album aus einem per FTP hochgeladenem Bilderordner');
-define('_TCMS_ADMIN_DELETE', 'L&ouml;schen');
-define('_TCMS_ADMIN_DELETE_ALL', 'Alle L&ouml;schen');
+define('_TCMS_ADMIN_DELETE', 'L&#246;schen');
+define('_TCMS_ADMIN_DELETE_ALL', 'Alle L&#246;schen');
 define('_TCMS_ADMIN_UPLOAD', 'Hochladen');
 define('_TCMS_ADMIN_INSTALL', 'Hochladen &amp installieren');
 define('_TCMS_ADMIN_SEND', 'Senden');
@@ -51,9 +51,9 @@ define('_TCMS_ADMIN_NEW_CATEGORY', 'Neue Kategorie erstellen...');
 define('_TCMS_ADMIN_NEW_FTPALBUM', 'Neues Album aus FTP Ordner...');
 define('_TCMS_ADMIN_NEW_DIR', 'Neuen Ordner erstellen...');
 define('_TCMS_ADMIN_NEW_DIR_BUTTON', 'Ordner erstellen');
-define('_TCMS_ADMIN_LIST', 'Eintr&auml;ge auflisten');
+define('_TCMS_ADMIN_LIST', 'Eintr&#228;ge auflisten');
 define('_TCMS_ADMIN_CONFIG', 'Konfigurieren Sie dieses Modul');
-define('_TCMS_ADMIN_NEWPAGE', 'Neue Seite f&uuml;r Ihre Webseite erstellen.');
+define('_TCMS_ADMIN_NEWPAGE', 'Neue Seite f&#252;r Ihre Webseite erstellen.');
 define('_TCMS_ADMIN_UPDATE', 'Update');
 define('_TCMS_ADMIN_VER', 'Version');
 define('_TCMS_ADMIN_DEV', 'Entwickelt von');
@@ -63,12 +63,12 @@ define('_TCMS_ADMIN_GOTOSITE', 'Zur Frontseite wechseln');
 define('_TCMS_ADMIN_EDIT_LANG', 'Diese Sprache bearbeiten');
 define('_TCMS_TOP_OF_PAGE', 'Zum Anfang der Seite');
 define('_TCMS_PRINT_PAGE', 'Diese Seite drucken');
-define('_TCMS_PDF_PAGE', 'F&uuml;r diese Seite ein PDF Dokument erstellen');
+define('_TCMS_PDF_PAGE', 'F&#252;r diese Seite ein PDF Dokument erstellen');
 define('_TCMS_PRINT_NOW', 'Drucken');
-define('_TCMS_COLOR_CHOOSER', 'Farbw&auml;hler');
+define('_TCMS_COLOR_CHOOSER', 'Farbw&#228;hler');
 define('_TCMS_MONTH_JANUARY', 'Januar');
 define('_TCMS_MONTH_FEBUARY', 'Febuar');
-define('_TCMS_MONTH_MARCH', 'M&auml;rz');
+define('_TCMS_MONTH_MARCH', 'M&#228;rz');
 define('_TCMS_MONTH_APRIL', 'April');
 define('_TCMS_MONTH_MAY', 'Mai');
 define('_TCMS_MONTH_JUNE', 'Juni');
@@ -98,7 +98,7 @@ define('_TCMS_BACKGROUND', 'Hintergrund');
 define('_TCMS_BORDER', 'Rahmen');
 define('_TCMS_WEEKDAY', 'Wochentag');
 define('_TCMS_BASE_DIRECTORY', 'Basisverzeichnis');
-define('_TCMS_OPEN_DIRECTORY', 'Ordner &ouml;ffnen');
+define('_TCMS_OPEN_DIRECTORY', 'Ordner &#246;ffnen');
 define('_TCMS_TEST_ENVIRONMENT', 'DIES IST EINE TESTUMGEBUNG!');
 define('_TCMS_THIS_PAGE_IN', 'Diese Seite in');
 define('_TCMS_LANGUAGES', 'Sprachen');
@@ -132,7 +132,7 @@ define('_TCMS_MENU_FILE', 'Dateimanager');
 define('_TCMS_MENU_MEDIA', 'Medienmanager');
 define('_TCMS_MENU_NEWS_CATEGORIES', 'Neuigkeiten-Kategorien');
 define('_TCMS_MENU_COMMENTS', 'Kommentare');
-define('_TCMS_MENU_GUESTBOOK', 'G&auml;stebuch Eintr&auml;ge');
+define('_TCMS_MENU_GUESTBOOK', 'G&#228;stebuch Eintr&#228;ge');
 define('_TCMS_MENU_NOTE', 'Notizblock');
 define('_TCMS_MENU_SIDEMENU', 'Seitenmenu');
 define('_TCMS_MENU_TOPMENU', 'Topmenu');
@@ -155,7 +155,7 @@ define('_TCMS_MENU_CONTACT', 'Kontaktmanager');
 define('_TCMS_MENU_USER', 'Benutzermanager');
 define('_TCMS_MENU_USERPAGE', 'Editorseiten');
 define('_TCMS_MENU_CFORM', 'Kontaktformular');
-define('_TCMS_MENU_QBOOK', 'G&auml;stebuch');
+define('_TCMS_MENU_QBOOK', 'G&#228;stebuch');
 define('_TCMS_MENU_CS', 'Komponentensystem');
 define('_TCMS_MENU_CS_UPLOAD', 'Komponenten Install&amp;edit');
 define('_TCMS_MENU_GLOBAL', 'Systemeinstellungen');
@@ -170,11 +170,11 @@ define('_TCMS_MENU_DOCU', 'Dokumentation');
 define('_TCMS_MENU_HELP', 'Hilfe');
 define('_TCMS_MENU_SUPPORT', 'Support');
 define('_TCMS_MENU_ABOUT_MODULE', 'Modulbeschreibung');
-define('_TCMS_MENU_ABOUT', '&Uuml;ber toendaCMS');
+define('_TCMS_MENU_ABOUT', '&#220;ber toendaCMS');
 define('_TCMS_MENU_SEARCH', 'Suche');
 define('_TCMS_MENU_IMPORT', 'Import');
 define('_TCMS_MENU_CFORM', 'Kontaktformular');
-define('_TCMS_MENU_BOOK', 'G&auml;stebuch');
+define('_TCMS_MENU_BOOK', 'G&#228;stebuch');
 
 
 // MODULE
@@ -184,7 +184,7 @@ define('_MOD_EXPLORE', 'Dateimanager - Verwalten Sie Ihren erstellten Datenbesta
 define('_MOD_MEDIA', 'Medienmanager - Verwalten Sie Ihre Multimedia Dateien');
 define('_MOD_NEWS_CATEGORIES', 'Neuigkeiten-Kategorien verwalten');
 define('_MOD_COMMENTS', 'Kommentare verwalten');
-define('_MOD_GUESTBOOK', 'G&auml;stebuch Eintr&auml;ge verwalten');
+define('_MOD_GUESTBOOK', 'G&#228;stebuch Eintr&#228;ge verwalten');
 define('_MOD_NOTE', 'Notizblock - Schreiben Sie Ihre Ideen und Notizen nieder.');
 define('_MOD_NEWPAGE', 'Eine neue Seite erstellen');
 define('_MOD_SIDEMENU', 'Seitenmenu verwalten');
@@ -201,7 +201,7 @@ define('_MOD_NEWSLETTER', 'Newsletter verwalten');
 define('_MOD_POLL', 'Umfrage');
 define('_MOD_EXTENSIONS', 'Konfiguration der globalen Erweiterungen');
 define('_MOD_CFORM', 'Kontaktformular Konfiguration');
-define('_MOD_BOOK', 'G&auml;stebuch Konfiguration');
+define('_MOD_BOOK', 'G&#228;stebuch Konfiguration');
 define('_MOD_FRONTPAGE', 'Startseiten Konfiguration');
 define('_MOD_IMPRESSUM', 'Impressum Konfiguration');
 define('_MOD_GALLERY', 'Bildergalerie Konfiguration');
@@ -223,24 +223,24 @@ define('_MOD_HELP', 'Hilfe zu verschiedenen Modulen und Einstellungen');
 define('_MOD_DOCU', 'Dokumentation');
 define('_MOD_CREDITS', 'Credits und System Informationen');
 define('_MOD_ABOUT_MODULE', 'toendaCMS Modul Beschreibung');
-define('_MOD_ABOUT', '&Uuml;ber toendaCMS');
+define('_MOD_ABOUT', '&#220;ber toendaCMS');
 
 
 // TABLE
 define('_TABLE_TITLE', 'Titel');
 define('_TABLE_SUBTITLE', 'Untertitel');
-define('_TABLE_PUBLISH', 'Ver&ouml;ffentlichungsinformationen');
+define('_TABLE_PUBLISH', 'Ver&#246;ffentlichungsinformationen');
 define('_TABLE_TEXT', 'Haupttext');
 define('_TABLE_DEFAULT', 'Standard');
-define('_TABLE_PUBLISHED', 'Ver&ouml;ffentlicht');
-define('_TABLE_NOT_PUBLISHED', 'Nicht Ver&ouml;ffentlicht');
-define('_TABLE_PUBLISHING', 'Ver&ouml;ffentlichung');
+define('_TABLE_PUBLISHED', 'Ver&#246;ffentlicht');
+define('_TABLE_NOT_PUBLISHED', 'Nicht Ver&#246;ffentlicht');
+define('_TABLE_PUBLISHING', 'Ver&#246;ffentlichung');
 define('_TABLE_RSS', 'RSS Feed Link');
 define('_TABLE_ENABLED', 'Aktiviert');
 define('_TABLE_NAME', 'Name');
 define('_TABLE_USERNAME', 'Benutzername');
 define('_TABLE_GROUP', 'Benutzergruppe');
-define('_TABLE_PERSON', 'Pers&ouml;nliche Informationen');
+define('_TABLE_PERSON', 'Pers&#246;nliche Informationen');
 define('_TABLE_SUBID', 'SUB ID');
 define('_TABLE_ORDER', 'ID');
 define('_TABLE_TARGET', 'Ziel');
@@ -248,11 +248,11 @@ define('_TABLE_POS', 'Position');
 define('_TABLE_IN_WORK', 'Fertiggestellt');
 define('_TABLE_IS_IN_WORK', 'In Arbeit');
 define('_TABLE_FUNCTIONS', 'Funktion');
-define('_TABLE_PARENT', 'Eltern Element f&uuml;r Submenu');
-define('_TABLE_PARENTC', 'Bitte w&auml;hlen');
+define('_TABLE_PARENT', 'Eltern Element f&#252;r Submenu');
+define('_TABLE_PARENTC', 'Bitte w&#228;hlen');
 define('_TABLE_PARENTN', 'Kein Submenu');
 define('_TABLE_PARENTITEM', 'Eltern Element');
-define('_TABLE_MENUINFO', 'Sie k&ouml;nnen nur im Seitenmenu ein Submenu erstellen.');
+define('_TABLE_MENUINFO', 'Sie k&#246;nnen nur im Seitenmenu ein Submenu erstellen.');
 define('_TABLE_AUTOR', 'Autor');
 define('_TABLE_CATEGORY', 'Kategorie');
 define('_TABLE_PRODUCT', 'Produkt');
@@ -276,7 +276,7 @@ define('_TABLE_SETTINGSFILE', 'Einstellungsdatei');
 define('_TABLE_IMAGE', 'Bild');
 define('_TABLE_IMAGES', 'Bilder');
 define('_TABLE_USE', 'Benutzen');
-define('_TABLE_DELETE', 'L&ouml;schen');
+define('_TABLE_DELETE', 'L&#246;schen');
 define('_TABLE_DESCRIPTION', 'Beschreibung');
 define('_TABLE_NEW', 'Neuer Datensatz');
 define('_TABLE_EDIT', 'Bearbeiten');
@@ -290,7 +290,7 @@ define('_TABLE_FACTORY', 'Hersteller');
 define('_TABLE_URL', 'Internetadresse');
 define('_TABLE_STOCK', 'Auf Lager');
 define('_TABLE_PRICE', 'Preis');
-define('_TABLE_PRICE_ADD', '(Brutto, f&uuml;r Netto MwSt. leer lassen)');
+define('_TABLE_PRICE_ADD', '(Brutto, f&#252;r Netto MwSt. leer lassen)');
 define('_TABLE_TAX', 'Mehrwertsteuersatz');
 define('_TABLE_QUANTITY', 'Menge');
 define('_TABLE_WEIGHT', 'Gewicht');
@@ -299,17 +299,17 @@ define('_TABLE_EDITBUTTON', 'Bearbeiten');
 define('_TABLE_DELBUTTON', 'Entfernen');
 define('_TABLE_SETTINGSBUTTON', 'Einstellungen');
 define('_TABLE_ADMINBUTTON', 'Verwalten');
-define('_TABLE_ACCEPTBUTTON', '&Uuml;bernehmen');
+define('_TABLE_ACCEPTBUTTON', '&#220;bernehmen');
 define('_TABLE_THUMBNAIL', 'Thumbnail');
-define('_TABLE_GOUPBUTTON', 'Aufw&auml;rts');
+define('_TABLE_GOUPBUTTON', 'Aufw&#228;rts');
 define('_TABLE_ACCESS', 'Zugriffsberechtigung');
 define('_TABLE_MACCESS', 'Zugang');
 define('_TABLE_LINKTO', 'Mit welcher Seite verlinken?');
 define('_TABLE_COMMENTS', 'Kommentare'); //aktiviert
 define('_TABLE_LINK', 'CID');
-define('_TABLE_PUBLIC', 'Public (F&uuml;r alle Besucher)');
-define('_TABLE_PROTECTED', 'Protected (F&uuml;r registrierte Benutzer)');
-define('_TABLE_PRIVATE', 'Private (Nicht f&uuml;r Benutzer und Besucher)');
+define('_TABLE_PUBLIC', 'Public (F&#252;r alle Besucher)');
+define('_TABLE_PROTECTED', 'Protected (F&#252;r registrierte Benutzer)');
+define('_TABLE_PRIVATE', 'Private (Nicht f&#252;r Benutzer und Besucher)');
 define('_TABLE_WHICHMENU', 'Eintragen in welchem Menu?');
 define('_TABLE_SIDEMENU', 'Seitenmenu');
 define('_TABLE_TOPMENU', 'Topmenu');
@@ -326,11 +326,11 @@ define('_TABLE_MENULINK', 'Link');
 define('_TABLE_MENUWEB', 'Internetlink');
 define('_TABLE_REORDER', 'Verschieben');
 define('_TABLE_DEFAULT_NEWS_CATEGORY', 'Voreingestellte Neuigkeiten-Kategorie');
-define('_TABLE_MAIN_CS', 'Komponente f&uuml;r die Hauptseite');
-define('_TABLE_SIDE_CS', 'Komponente f&uuml;r die Seitenleiste');
+define('_TABLE_MAIN_CS', 'Komponente f&#252;r die Hauptseite');
+define('_TABLE_SIDE_CS', 'Komponente f&#252;r die Seitenleiste');
 define('_TABLE_START', 'Start');
 define('_TABLE_PREVIOUS', 'Vorherige');
-define('_TABLE_NEXT', 'N&auml;chste');
+define('_TABLE_NEXT', 'N&#228;chste');
 define('_TABLE_END', 'Ende');
 define('_TABLE_DISPLAY', 'Zeige');
 define('_TABLE_A_PAGE', 'pro Seite');
@@ -348,8 +348,8 @@ define('_TABLE_LOCATION', 'Ort');
 define('_TABLE_DATES', 'Termine');
 define('_TABLE_HELPBROWSER', 'toendaCMS Hilfe');
 define('_TABLE_LINKBROWSER', 'Linkbrowser');
-define('_TABLE_LINKBROWSER_TEXT', 'Klick auf den Button um den Link in ihrem Dokument zu nutzen. Sie k&ouml;nnen einen Titel f&uuml;r den Link im Textfeld eingeben, dieser wird dann im Dokument erscheinen.');
-define('_TABLE_LINKBROWSER_TEXT_TINYMCE', '<strong>tinyMCE:</strong> Sie m&uuml;ssen einen Text selektiert haben um ihn in einen Link zu verwandeln.');
+define('_TABLE_LINKBROWSER_TEXT', 'Klick auf den Button um den Link in ihrem Dokument zu nutzen. Sie k&#246;nnen einen Titel f&#252;r den Link im Textfeld eingeben, dieser wird dann im Dokument erscheinen.');
+define('_TABLE_LINKBROWSER_TEXT_TINYMCE', '<strong>tinyMCE:</strong> Sie m&#252;ssen einen Text selektiert haben um ihn in einen Link zu verwandeln.');
 define('_TABLE_IMAGEBROWSER', 'Medienbrowser');
 define('_TABLE_IMAGEBROWSER_TEXT', 'Klick auf den Button um die Mediale Datei in ihrem Dokument zu nutzen.');
 define('_TABLE_DIARY_RSS', 'Termine als RSS Feeds');
@@ -361,13 +361,13 @@ define('_TABLE_SORT_ASC', 'Aufsteigende Sortierung');
 define('_TABLE_VIEW', 'Ansicht');
 define('_TABLE_FRONTPAGE', 'Startseite');
 define('_TABLE_SHOWONMAINPAGE', 'Auf Hauptseite anzeigen');
-define('_TABLE_BROWSE', 'St&ouml;bern');
+define('_TABLE_BROWSE', 'St&#246;bern');
 define('_TABLE_BOOKMARK', 'Bookmark');
 
 
 // MESSAGES
-define('_DIE_LOGIN', 'Sie m&uuml;ssen sich erst anmelden!<br /><a href="index.php">Log in</a>');
-define('_MSG_NOINFO', '[KEINE INFORMATIONEN VERF&Uuml;GBAR]');
+define('_DIE_LOGIN', 'Sie m&#252;ssen sich erst anmelden!<br /><a href="index.php">Log in</a>');
+define('_MSG_NOINFO', '[KEINE INFORMATIONEN VERF&#220;GBAR]');
 define('_MSG_SAVED', 'Erfolgreich gespeichert.');
 define('_MSG_SAVED_FAILED', 'Nicht erfolgreich gespeichert.');
 define('_MSG_SEND', 'Erfolgreich versendet.');
@@ -382,9 +382,9 @@ define('_MSG_NOIMAGE', 'Kein Bild ausgewaehlt.');
 define('_MSG_IMAGE', 'Bild erfolgreich hochgeladen in Pfad:');
 define('_MSG_NONAME', 'Kein Namen eingegeben');
 define('_MSG_NOCAPTCHA', 'Bitte geben sie den Code aus dem Bild ein');
-define('_MSG_CAPTCHA_NOT_VALID', 'Der eingegebene Code und der Code im Bild stimmen nicht &uuml;berein.');
+define('_MSG_CAPTCHA_NOT_VALID', 'Der eingegebene Code und der Code im Bild stimmen nicht &#252;berein.');
 define('_MSG_FALSEPASSWORD', 'Falsches Passwort eingegeben!');
-define('_MSG_PASSWORDNOTVALID', 'Passw&ouml;rter stimmen nicht &uuml;berein!');
+define('_MSG_PASSWORDNOTVALID', 'Passw&#246;rter stimmen nicht &#252;berein!');
 define('_MSG_NOPASSWORD', 'Kein Passwort eingegeben!');
 define('_MSG_NOEMAIL', 'Keine eMail Adresse eingegeben');
 define('_MSG_EMAILVALID', 'eMail Adresse nicht vollstaendig');
@@ -406,15 +406,15 @@ define('_MSG_NOCONTENT', 'Sie haben nicht alle benoetigten Felder ausgefuellt.')
 define('_MSG_USERNOTEXISTS', 'Der Benutzer existiert nicht.');
 define('_MSG_USEREXISTS', 'Der Benutzer ist bereits vorhanden. Bitte waehlen sie einen anderen Benutzernamen.');
 define('_MSG_PHP_UPLOAD_SETTINGS', 'Ihre PHP Hochladeeinstellungen reichen fuer diese Funktion nicht aus.');
-define('_MSG_PHP_SAFE_MODE_SETTINGS', 'Auf ihrem Server ist f&uuml;r PHP \'safe_mode\' auf \'on\' geschaltet, dadurch k&ouml;nnen sie gewisse Funktionen nicht nutzen.');
-define('_MSG_MAX_FILE_SIZE', 'Maximale Dateigr&ouml;&szlig;e');
-define('_MSG_MAX_POST_SIZE', 'Maximale POST-Gr&ouml;&szlig;e');
+define('_MSG_PHP_SAFE_MODE_SETTINGS', 'Auf ihrem Server ist f&#252;r PHP \'safe_mode\' auf \'on\' geschaltet, dadurch k&#246;nnen sie gewisse Funktionen nicht nutzen.');
+define('_MSG_MAX_FILE_SIZE', 'Maximale Dateigr&#246;&#223;e');
+define('_MSG_MAX_POST_SIZE', 'Maximale POST-Gr&#246;&#223;e');
 define('_MSG_FILE_UPLOADS', 'Dateien hochladen');
 define('_MSG_NOTENOUGH_USERRIGHTS', 'Ihre Benutzerrechte erlauben Ihnen die Benutzung dieser Seite nicht.');
 define('_MSG_SESSION_EXPIRED', '<div align="center"><h1>Ihre Session ist abgelaufen!</h1><br /><strong>Bitte melden Sie sich erneut an.</strong><br /><a href="index.php">Einloggen</a></div>');
 define('_MSG_NOT_FINALIZED', 'Ihr Dokument ist noch nicht fertiggestellt. Wollen Sie es trotzdem veroeffentlichen?');
-define('_MSG_NOT_PUBLISHED', 'Das gew&uuml;nschte Dokument wird zur Zeit bearbeitet. Es steht Ihnen in K&uuml;rze wieder zur Verf&uuml;gung!');
-define('_MSG_DISABLED_MODUL', 'Die gew&uuml;nschte Funktion ist zur Zeit deaktiviert. Bitte versuchen Sie es zu einem sp&auml;tern Zeitpunkt noch einmal.');
+define('_MSG_NOT_PUBLISHED', 'Das gew&#252;nschte Dokument wird zur Zeit bearbeitet. Es steht Ihnen in K&#252;rze wieder zur Verf&#252;gung!');
+define('_MSG_DISABLED_MODUL', 'Die gew&#252;nschte Funktion ist zur Zeit deaktiviert. Bitte versuchen Sie es zu einem sp&#228;tern Zeitpunkt noch einmal.');
 define('_MSG_CHANGE_DATABASE_ENGINE', 'Wollen Sie wirklich die Datenbank Engine wechseln?\nSie werden ausgeloggt und koennen Ihre alten Daten nicht in der neuen Datenbank benutzen.\nEin XML-SQL Import ist in Planung.');
 define('_MSG_IF_DOWNLOAD_DOES_NOT_START', 'Falls der Download nicht starten sollte, klicken sie bitte den folgenden Link');
 define('_MSG_BACKUP_SUCCESSFULL', 'Das Datenbank Backup ist erfolgreich abgeschlossen.\nBetroffene Tabellen:');
@@ -423,7 +423,7 @@ define('_MSG_CHANGES', 'Sie haben einige AEnderungen noch nicht gespeichert.');
 define('_MSG_SAVE_NOW', 'Moechten sie jetzt speichern?');
 define('_MSG_NO_ALBUM_WITH_THIS_ID', 'Es konnte kein Album zu dieser ID gefunden werden!');
 define('_MSG_CREATE_ALBUM_FIRST', '* Erst ein Album erstellen *');
-define('_MSG_ACTIVATE_NEW_PW_FIRST', 'Sie m&uuml;ssen ihr neues Passwort erst aktivieren, nutzen sie dazu folgenden Link:');
+define('_MSG_ACTIVATE_NEW_PW_FIRST', 'Sie m&#252;ssen ihr neues Passwort erst aktivieren, nutzen sie dazu folgenden Link:');
 define('_MSG_SUCCESSFULL_RETRIEVED', 'Das Passwort wurde erfolgreich aktiviert.');
 define('_MSG_ERROR_ON_RETRIEVING', 'Fehler beim aktivieren des Passwortes!');
 define('_MSG_COMMENT_FOR', 'Kommentar zu');
@@ -441,7 +441,7 @@ define('_LOGIN_SUBMIT', 'Login');
 define('_LOGIN_LOGOUT', 'Ausloggen');
 define('_LOGIN_PROFILE', 'Profil');
 define('_LOGIN_LIST', 'Mitgliederliste');
-define('_LOGIN_LIST_TEXT', 'Dies ist die Liste aller Mitglieder. Sie k&ouml;nnen auf den Benutzernamen klicken um sich dessen Profil anzuschauen.');
+define('_LOGIN_LIST_TEXT', 'Dies ist die Liste aller Mitglieder. Sie k&#246;nnen auf den Benutzernamen klicken um sich dessen Profil anzuschauen.');
 define('_LOGIN_ADMIN', 'Administration');
 define('_LOGIN_FORGOTPW', 'Das Passwort vergessen?');
 define('_LOGIN_WELCOME', 'Willkommen');
@@ -455,12 +455,12 @@ define('_LOGIN_SUBMIT_MEDIA', 'Medien hochladen');
 // REGISTRATION
 define('_REG_TITLE', 'Registrierung');
 define('_REG_LPW', 'Das Passwort vergessen?');
-define('_REG_LPWTEXT', 'Bitte geben Sie Ihren Benutzernamen und Ihre eMail Adresse ein und klicken auf den Senden Button. Sie werden in K&uuml;rze ein neues Passwort per eMail erhalten. Benutzen Sie das zugestellte Passwort um Zugang zu unseren Seiten zu erhalten.');
-define('_REG_TEXT_1', 'Felder mit einem gef&uuml;llten Punkt, m&uuml;ssen ausgef&uuml;llt werden.');
+define('_REG_LPWTEXT', 'Bitte geben Sie Ihren Benutzernamen und Ihre eMail Adresse ein und klicken auf den Senden Button. Sie werden in K&#252;rze ein neues Passwort per eMail erhalten. Benutzen Sie das zugestellte Passwort um Zugang zu unseren Seiten zu erhalten.');
+define('_REG_TEXT_1', 'Felder mit einem gef&#252;llten Punkt, m&#252;ssen ausgef&#252;llt werden.');
 define('_REG_TEXT_2', 'Leere Felder sind optionale Angaben und muessen nicht ausgefuellt werden.');
 define('_REG_SUBMIT_LPW', 'Passwort zusenden');
-define('_REG_SUBMIT_SR', 'Registrierung abschlie&szlig;en');
-define('_REG_PWNOTAGREE', 'Die Passw&ouml;rter stimmen nicht &uuml;berein!');
+define('_REG_SUBMIT_SR', 'Registrierung abschlie&#223;en');
+define('_REG_PWNOTAGREE', 'Die Passw&#246;rter stimmen nicht &#252;berein!');
 define('_REG_NAME_NG', 'Keinen Namen eingegeben!');
 define('_REG_USERNAME_NG', 'Keinen Benutzernamen eingegeben!');
 define('_REG_PASSWORD_NG', 'Kein Passwort eingegeben!');
@@ -470,12 +470,12 @@ define('_REG_SUCCESS', 'Ihre Registrierung war erfolgreich.');
 define('_REG_NO_SUCCESS', 'Ihre Registrierung war NICHT erfolgreich.');
 define('_REG_SUCCESS_TEXT', 'Ihre Registrierung war erfolgreich. Bitte aktivieren Sie Ihren Account ueber den angegeben Link, um vollen Zugriff auf geschuetzte Bereiche zu erhalten.');
 define('_REG_AUTO_MSG', 'Diese Nachricht wurde automatisch versendet von');
-define('_REG_TEXT_LPW', 'Ein Benutzer hat ein neues Passwort f&uuml;r diesen Benutzeraccount verlangt. Hiermit erhalten Sie Ihr neues Passwort.');
-define('_REG_VALIDATE', 'Gratulation, Sie sind nun registriert. In die Login Felder k&ouml;nnen Sie Ihren Benutzernamen und das Passwort eingeben.');
+define('_REG_TEXT_LPW', 'Ein Benutzer hat ein neues Passwort f&#252;r diesen Benutzeraccount verlangt. Hiermit erhalten Sie Ihr neues Passwort.');
+define('_REG_VALIDATE', 'Gratulation, Sie sind nun registriert. In die Login Felder k&#246;nnen Sie Ihren Benutzernamen und das Passwort eingeben.');
 define('_REG_NO_VALIDATE', 'Fehler! Ihr Validierungcode ist nicht korrekt.');
-define('_REG_USERPROFILE', 'Tip: Sie k&ouml;nnen Ihre Daten unter dem Menupunkt Profil &auml;ndern.');
+define('_REG_USERPROFILE', 'Tip: Sie k&#246;nnen Ihre Daten unter dem Menupunkt Profil &#228;ndern.');
 define('_REG_EMAIL', 'Ein neuer Benutzer hat sich angemeldet.');
-define('_REG_SUCCESS_MAIL', 'Ein neuer Benutzer hat sich &uuml;ber ihre Webseite angemeldet.');
+define('_REG_SUCCESS_MAIL', 'Ein neuer Benutzer hat sich &#252;ber ihre Webseite angemeldet.');
 
 
 // PROFILE
@@ -485,47 +485,47 @@ define('_PROFILE_EDIT', 'Benutzerprofil bearbeiten');
 
 // USERPAGES
 define('_USERPAGE', 'Editorseiten');
-define('_USERPAGE_TEXT', 'Sie k&ouml;nnen einige Einstellungen f&uuml;r die Editorseiten anpassen. Zum Beispiel die Breite der Eingabefelder in den Benutzerprofilen und f&uuml;r die Redaktionsseiten. Die M&ouml;glichkeit Neuigkeiten zu schreiben, Kategorien und Bilderalben zu erstellen und Bilder hochzuladen kann hier auch aktiviert und deaktiviert werden.');
+define('_USERPAGE_TEXT', 'Sie k&#246;nnen einige Einstellungen f&#252;r die Editorseiten anpassen. Zum Beispiel die Breite der Eingabefelder in den Benutzerprofilen und f&#252;r die Redaktionsseiten. Die M&#246;glichkeit Neuigkeiten zu schreiben, Kategorien und Bilderalben zu erstellen und Bilder hochzuladen kann hier auch aktiviert und deaktiviert werden.');
 define('_USERPAGE_TEXT_WIDTH', 'Breite der Textfelder');
 define('_USERPAGE_INPUT_WIDTH', 'Breite der Eingabefelder');
-define('_USERPAGE_PUBLISH_NEWS', 'Benutzer d&uuml;rfen Neuigkeiten schreiben');
-define('_USERPAGE_PUBLISH_IMAGES', 'Benutzer d&uuml;rfen Bilder hochladen');
-define('_USERPAGE_PUBLISH_ALBUMS', 'Benutzer d&uuml;rfen Alben erstellen');
-define('_USERPAGE_CREATE_CATEGORIES', 'Benutzer d&uuml;rfen Neuigkeiten-Kategorien erstellen');
-define('_USERPAGE_PUBLISH_PICTURE', 'Benutzer d&uuml;rfen Bilder in den Medien-Manager hochladen');
+define('_USERPAGE_PUBLISH_NEWS', 'Benutzer d&#252;rfen Neuigkeiten schreiben');
+define('_USERPAGE_PUBLISH_IMAGES', 'Benutzer d&#252;rfen Bilder hochladen');
+define('_USERPAGE_PUBLISH_ALBUMS', 'Benutzer d&#252;rfen Alben erstellen');
+define('_USERPAGE_CREATE_CATEGORIES', 'Benutzer d&#252;rfen Neuigkeiten-Kategorien erstellen');
+define('_USERPAGE_PUBLISH_PICTURE', 'Benutzer d&#252;rfen Bilder in den Medien-Manager hochladen');
 
 
 // STARTPAGE
 define('_START_MSG', 'Willkommen');
-define('_START_QUESTION', 'Was m&ouml;chten Sie heute tun?');
-define('_START_TEXT_0', '<strong>Schauen Sie sich ihren Schreibtisch an.</strong> Auf Ihrem Schreibtisch finden Sie Ihre Aufgaben, Notizen und eine &Uuml;bersicht &uuml;ber noch zu bearbeitende Dokumente und Neuigkeiten.');
+define('_START_QUESTION', 'Was m&#246;chten Sie heute tun?');
+define('_START_TEXT_0', '<strong>Schauen Sie sich ihren Schreibtisch an.</strong> Auf Ihrem Schreibtisch finden Sie Ihre Aufgaben, Notizen und eine &#220;bersicht &#252;ber noch zu bearbeitende Dokumente und Neuigkeiten.');
 define('_START_TEXT_1', '<strong>Eine neue Seite erstellen.</strong> Dazu erstellen Sie einen Menueintrag und editieren danach den Artikel und die Seitenleiste.');
-define('_START_TEXT_2', '<strong>Ihre Systemeinstellungen bearbeiten.</strong> Ver&auml;ndern Sie Name und Titel der Webseite oder bearbeiten Sie ihre Metatags.');
-define('_START_TEXT_3', '<strong>Eine Neuigkeit ver&ouml;ffentlichen.</strong> Schreiben Sie Ihre neuste Nachricht und ver&ouml;ffentlichen Sie sie.');
+define('_START_TEXT_2', '<strong>Ihre Systemeinstellungen bearbeiten.</strong> Ver&#228;ndern Sie Name und Titel der Webseite oder bearbeiten Sie ihre Metatags.');
+define('_START_TEXT_3', '<strong>Eine Neuigkeit ver&#246;ffentlichen.</strong> Schreiben Sie Ihre neuste Nachricht und ver&#246;ffentlichen Sie sie.');
 define('_START_TEXT_4', '<strong>Laden Sie ein Bild in Ihre Bildergalerie.</strong> Zeigen Sie Ihren Freunden Ihre besten Ansichten oder lustigsten Erlebnisse.');
 
 
 
 // DESKTOP
 define('_DESKTOP_TOP_TEXT', 'Wenn Sie den Inhalt dieser Seite bearbeiten wollen, klicken Sie bitte auf den Seitentitel im Seitenbaum auf der linken Seite.');
-define('_DESKTOP_UNPUBLISHED_NEWS', 'Noch nicht ver&ouml;ffentlichte Neuigkeiten');
-define('_DESKTOP_UNPUBLISHED_PAGES', 'Noch nicht ver&ouml;ffentlichte Dokumente');
+define('_DESKTOP_UNPUBLISHED_NEWS', 'Noch nicht ver&#246;ffentlichte Neuigkeiten');
+define('_DESKTOP_UNPUBLISHED_PAGES', 'Noch nicht ver&#246;ffentlichte Dokumente');
 define('_DESKTOP_UNFINISHED_PAGES', 'Noch nicht fertiggestellte Dokumente');
 
 
 // SIDEMENU
 define('_SIDEMENU_TITLE', 'Seitenmenu Links');
-define('_SIDEMENU_TEXT', 'Hier k&ouml;nnen Sie ihr Hauptmenu erstellen. Die ID ist die Reihenfolge der Links, die SUB ID ist die Reihenfolge des Submenus und die CID ist die ID des Dokuments oder der Erweiterung zu der der Link f&uuml;hren soll. Jeden Eintrag k&ouml;nnen Sie per Klick auf den jeweiligen Eintrag bearbeiten.');
+define('_SIDEMENU_TEXT', 'Hier k&#246;nnen Sie ihr Hauptmenu erstellen. Die ID ist die Reihenfolge der Links, die SUB ID ist die Reihenfolge des Submenus und die CID ist die ID des Dokuments oder der Erweiterung zu der der Link f&#252;hren soll. Jeden Eintrag k&#246;nnen Sie per Klick auf den jeweiligen Eintrag bearbeiten.');
 
 
 // SIDEMENU
 define('_CS_TITLE', 'Komponentensystem-Objekte');
-define('_CS_TEXT', 'Dies ist die Liste aller installierten Komponenten. Hier k&ouml;nnen Sie die jeweiligen Einstellungen &auml;ndern.');
+define('_CS_TEXT', 'Dies ist die Liste aller installierten Komponenten. Hier k&#246;nnen Sie die jeweiligen Einstellungen &#228;ndern.');
 
 
 // TOPMENU
 define('_TOPMENU_TITLE', 'Topmenu Links');
-define('_TOPMENU_TEXT', 'Hier k&ouml;nnen Sie Ihr Topmenu erstellen. Die ID ist die Reihenfolge der Links und die CID ist die ID der statischen Seite oder der Erweiterung zu der der Link f&uuml;hren soll.');
+define('_TOPMENU_TEXT', 'Hier k&#246;nnen Sie Ihr Topmenu erstellen. Die ID ist die Reihenfolge der Links und die CID ist die ID der statischen Seite oder der Erweiterung zu der der Link f&#252;hren soll.');
 
 
 // MENUTITLE
@@ -535,19 +535,19 @@ define('_MENUTITLE_TEXT', 'Die Positions-Nummer bestimmt die Stelle im Menu.');
 
 // CONTENT
 define('_CONTENT_TITLE', 'Statische Seiten');
-define('_CONTENT_TEXT', 'Die ID-Nummer ist die Nummer die Sie zum verkn&uuml;pfen der einzelnen Seiten ben&ouml;tigen.');
-define('_CONTENT_TEXT_PAGE', 'Bitte tragen Sie hier alle Daten wie den Titel der Seite, einen kleinen Untertitel, nat&uuml;rlich den Text selbst und vielleicht noch eine kleine Fussnote ein.');
+define('_CONTENT_TEXT', 'Die ID-Nummer ist die Nummer die Sie zum verkn&#252;pfen der einzelnen Seiten ben&#246;tigen.');
+define('_CONTENT_TEXT_PAGE', 'Bitte tragen Sie hier alle Daten wie den Titel der Seite, einen kleinen Untertitel, nat&#252;rlich den Text selbst und vielleicht noch eine kleine Fussnote ein.');
 define('_CONTENT_TEMPLATE', 'Seiten Template');
 define('_CONTENT_SECOND', 'Zweiter Text');
 define('_CONTENT_OLDIMAGE', 'Vorheriges Bild');
 define('_CONTENT_IMAGEUNDER', 'Das Bild unter dem Text');
 define('_CONTENT_IMAGERIGHT', 'Das Bild rechts vom Text');
-define('_CONTENT_FOOT', 'Fu&szlig;note');
-define('_CONTENT_NEXT_PAGE', 'N&auml;chste Seite');
+define('_CONTENT_FOOT', 'Fu&#223;note');
+define('_CONTENT_NEXT_PAGE', 'N&#228;chste Seite');
 define('_CONTENT_BACK_PAGE', 'Vorherige Seite');
 define('_CONTENT_LAST_PAGE', 'Letzte Seite');
 define('_CONTENT_FIRST_PAGE', 'Letzte Seite');
-define('_CONTENT_LAST_UPDATE', 'Letzte &Auml;nderung am');
+define('_CONTENT_LAST_UPDATE', 'Letzte &#196;nderung am');
 define('_CONTENT_NEW_LANG_DOCUMENT', 'Neues Dokument mit einer anderen Sprache');
 define('_CONTENT_ORG_DOCUMENT', 'Original Dokument');
 
@@ -560,7 +560,7 @@ define('_IMPRESSUM_TITLE', 'Impressum Titel');
 define('_IMPRESSUM_SUBTITLE', 'Impressum Untertitel');
 define('_IMPRESSUM_CONTACT', 'Kontaktperson');
 define('_IMPRESSUM_NO_CONTACT', 'Keine Kontaktperson angeben');
-define('_IMPRESSUM_SELECT', 'Bitte w&auml;hlen');
+define('_IMPRESSUM_SELECT', 'Bitte w&#228;hlen');
 define('_IMPRESSUM_TAX', 'Steuernummer / Steuergericht');
 define('_IMPRESSUM_UST', 'UST ID Nr.');
 define('_IMPRESSUM_LEGAL', 'AGB / Rechtliches');
@@ -574,12 +574,12 @@ define('_IMPRESSUM_SITECOPY', 'Der Inhalt dieser Seite unterliegt dem Copyright 
 
 
 // SIDEBAR
-define('_SIDE_TEXT', 'Die ID-Nummer ist die Nummer die Sie zum verkn&uuml;pfen der einzelnen Seiten brauchen.');
+define('_SIDE_TEXT', 'Die ID-Nummer ist die Nummer die Sie zum verkn&#252;pfen der einzelnen Seiten brauchen.');
 define('_SIDE_CONTACTS', 'Kontakte');
 
 
 // HELP
-define('_HELP_SUPPORTED_CHARSETS', 'Unterst&uuml;zte Zeichens&auml;tze');
+define('_HELP_SUPPORTED_CHARSETS', 'Unterst&#252;zte Zeichens&#228;tze');
 
 
 // GROUPS
@@ -599,7 +599,7 @@ define('_TCMSSCRIPT_IMAGES', 'Bilder suchen');
 
 // GLOBAL ID
 define('_NEWPAGE_TITLE', 'Eine neue Seite erstellen');
-define('_NEWPAGE_TEXT', 'Mit diesem Dialog k&ouml;nnen Sie eine neue Seite erstellen. W&auml;hlen Sie dazu den Titel, ein Menu, wenn Sie wollen auch ein Untermenu und die Zugriffsberechtigung.');
+define('_NEWPAGE_TEXT', 'Mit diesem Dialog k&#246;nnen Sie eine neue Seite erstellen. W&#228;hlen Sie dazu den Titel, ein Menu, wenn Sie wollen auch ein Untermenu und die Zugriffsberechtigung.');
 
 
 // EXPLORER
@@ -608,8 +608,8 @@ define('_EXPLORE_DOWN', 'Eintrag nach unten verschieben.');
 
 
 // NOTEPAD
-define('_NOTEBOOK_TITLE', 'Pers&ouml;nlicher Notizblock');
-define('_NOTEBOOK_TEXT', 'Dies ist Ihr pers&ouml;nlicher Notzblock. Sie k&ouml;nnen hier alle Ihre Arbeitsschritte und offenen Ideen aufschreiben. Es ist ausschlie&szlig;lich f&uuml;r ihre Augen gedacht.');
+define('_NOTEBOOK_TITLE', 'Pers&#246;nlicher Notizblock');
+define('_NOTEBOOK_TEXT', 'Dies ist Ihr pers&#246;nlicher Notzblock. Sie k&#246;nnen hier alle Ihre Arbeitsschritte und offenen Ideen aufschreiben. Es ist ausschlie&#223;lich f&#252;r ihre Augen gedacht.');
 define('_NOTEBOOK_DETAIL', 'Ihr Notizblock');
 define('_NOTEBOOK_MSG', 'Ihr Notizblock braucht Sie');
 
@@ -628,14 +628,14 @@ define('_EXT_NEWS_D_DATE', 'Normales Datum');
 define('_EXT_NEWS_D_TEXT', 'Darstellung als Text');
 define('_EXT_NEWS_DISPLAY', 'Darstellung des Datums');
 define('_EXT_NEWS_DISPLAY_MORE', 'Darstellung des <em>Weiter lesen</em>-Links');
-define('_EXT_NEWS_MORE_NL_LEFT', 'Neuen Zeile - Linksb&uuml;ndig');
-define('_EXT_NEWS_MORE_NL_RIGHT', 'Neuen Zeile - Rechtsb&uuml;ndig');
+define('_EXT_NEWS_MORE_NL_LEFT', 'Neuen Zeile - Linksb&#252;ndig');
+define('_EXT_NEWS_MORE_NL_RIGHT', 'Neuen Zeile - Rechtsb&#252;ndig');
 define('_EXT_NEWS_MORE_NL_DIRECT', 'Gleiche Zeile - Nach dem Text');
 define('_EXT_NEWS_NEWS_SPACING', 'Abstand zwischen den Neuigkeiten');
 define('_EXT_NEWS_USE_GRAVATAR', 'Gravatare der Kommentierenden anzeigen');
 define('_EXT_NEWS_USE_AUTOR', 'Autor anzeigen');
 define('_EXT_NEWS_USE_AUTOR_LINK', 'Autor als Link anzeigen');
-define('_EXT_NEWS_SELECT', 'Bitte w&auml;hlen');
+define('_EXT_NEWS_SELECT', 'Bitte w&#228;hlen');
 define('_EXT_NEWS_DESELECT', 'Kein Bild');
 define('_EXT_NEWS_USE_FEEDS', 'Syndication anbieten');
 define('_EXT_NEWS_USE_RSS091', 'RSS 0.91 verwenden');
@@ -656,34 +656,34 @@ define('_EXT_CFORM_ID', 'ID');
 define('_EXT_CFORM_TITLE', 'Kontaktformular Titel');
 define('_EXT_CFORM_SUBTITLE', 'Kontaktformular Untertitel');
 define('_EXT_CFORM_SHOW_CONTACTEMAIL', 'Kontaktemailadresse anzeigen');
-define('_EXT_BOOK', 'G&auml;stebuch');
+define('_EXT_BOOK', 'G&#228;stebuch');
 define('_EXT_BOOK_ID', 'ID');
-define('_EXT_BOOK_TITLE', 'G&auml;stebuch Titel');
-define('_EXT_BOOK_SUBTITLE', 'G&auml;stebuch Untertitel');
+define('_EXT_BOOK_TITLE', 'G&#228;stebuch Titel');
+define('_EXT_BOOK_SUBTITLE', 'G&#228;stebuch Untertitel');
 define('_EXT_BOOK_ADMINPASS', 'Administrationspasswort');
 define('_EXT_BOOK_ADMINUSER', 'Administrationsbenutzername');
 define('_EXT_BOOK_ADMINCOLOR', 'Farbe Administrationstext');
-define('_EXT_BOOK_ENTRYCOLOR', 'Farbe Eintr&auml;ge');
+define('_EXT_BOOK_ENTRYCOLOR', 'Farbe Eintr&#228;ge');
 define('_EXT_DOWNLOAD', 'Download Manager Konfiguration');
 define('_EXT_DOWNLOAD_ID', 'ID');
 define('_EXT_DOWNLOAD_TITLE', 'Download Manager Titel');
 define('_EXT_DOWNLOAD_SUBTITLE', 'Download Manager Untertitel');
 define('_EXT_DOWNLOAD_TEXT', 'Download Manager Text');
-define('_EXT_NEWS_SYN_USE_RSS091_IMG', 'F&uuml;r den RSS 0.91 Link Standard Bild verwenden?');
+define('_EXT_NEWS_SYN_USE_RSS091_IMG', 'F&#252;r den RSS 0.91 Link Standard Bild verwenden?');
 define('_EXT_NEWS_SYN_RSS091_TEXT', 'RSS 0.91 Link Text');
-define('_EXT_NEWS_SYN_USE_RSS10_IMG', 'F&uuml;r den RSS 1.0 Link Standard Bild verwenden?');
+define('_EXT_NEWS_SYN_USE_RSS10_IMG', 'F&#252;r den RSS 1.0 Link Standard Bild verwenden?');
 define('_EXT_NEWS_SYN_RSS10_TEXT', 'RSS 1.0 Link Text');
-define('_EXT_NEWS_SYN_USE_RSS20_IMG', 'F&uuml;r den RSS 2.0 Link Standard Bild verwenden?');
+define('_EXT_NEWS_SYN_USE_RSS20_IMG', 'F&#252;r den RSS 2.0 Link Standard Bild verwenden?');
 define('_EXT_NEWS_SYN_RSS20_TEXT', 'RSS 2.0 Link Text');
-define('_EXT_NEWS_SYN_USE_ATOM03_IMG', 'F&uuml;r den Atom 0.3 Link Standard Bild verwenden?');
+define('_EXT_NEWS_SYN_USE_ATOM03_IMG', 'F&#252;r den Atom 0.3 Link Standard Bild verwenden?');
 define('_EXT_NEWS_SYN_ATOM03_TEXT', 'Atom 0.3 Link Text');
-define('_EXT_NEWS_SYN_USE_OPML_IMG', 'F&uuml;r den Opml Link Standard Bild verwenden?');
+define('_EXT_NEWS_SYN_USE_OPML_IMG', 'F&#252;r den Opml Link Standard Bild verwenden?');
 define('_EXT_NEWS_SYN_OPML_TEXT', 'Opml Link Text');
-define('_EXT_NEWS_SYN_USE_CFEED', 'Syndication f&uuml;r Kommentare verwenden?');
-define('_EXT_NEWS_SYN_USE_CFEED_IMG', 'F&uuml;r Kommentar Feed Link Standard Bild verwenden?');
+define('_EXT_NEWS_SYN_USE_CFEED', 'Syndication f&#252;r Kommentare verwenden?');
+define('_EXT_NEWS_SYN_USE_CFEED_IMG', 'F&#252;r Kommentar Feed Link Standard Bild verwenden?');
 define('_EXT_NEWS_SYN_CFEED_TEXT', 'Kommentar Feed Link Text');
 define('_EXT_NEWS_SYN_CFEED_AMOUNT', 'Wieviele Kommentare im Kommentar Feed?');
-define('_EXT_NEWS_SYN_CFEED_TYPE', 'Syndication Feed f&uuml;r Kommentare');
+define('_EXT_NEWS_SYN_CFEED_TYPE', 'Syndication Feed f&#252;r Kommentare');
 
 
 // IMAGEGALLERY
@@ -698,24 +698,24 @@ define('_GALLERY_DESCRIPTION', 'Beschreibung');
 define('_GALLERY_TITLE', 'Galerie');
 define('_GALLERY_THISIS', 'Dies ist das');
 define('_GALLERY_THISIS2', 'Album');
-define('_GALLERY_THISIS3', 'Laden Sie hier Bilder hoch, l&ouml;schen Sie Ihre Bilder oder bearbeiten Sie die Beschreibung. Achtung: Bitte speichern Sie immer nur eine Bildbeschreibung gleichzeitig ab.');
+define('_GALLERY_THISIS3', 'Laden Sie hier Bilder hoch, l&#246;schen Sie Ihre Bilder oder bearbeiten Sie die Beschreibung. Achtung: Bitte speichern Sie immer nur eine Bildbeschreibung gleichzeitig ab.');
 define('_GALLERY_IMGTITLE', 'Titel');
-define('_GALLERY_IMGSIZE', 'Gr&ouml;&szlig;e');
-define('_GALLERY_IMGRESOLUTION', 'Aufl&ouml;sung');
+define('_GALLERY_IMGSIZE', 'Gr&#246;&#223;e');
+define('_GALLERY_IMGRESOLUTION', 'Aufl&#246;sung');
 define('_GALLERY_AMOUNT', 'Anzahl');
 define('_GALLERY_IMG_DETAILS', 'Benutze Bilder Details');
-define('_GALLERY_FTP_UPLOAD', 'Alle verf&uuml;gbaren Alben');
-define('_GALLERY_FTP_UPLOAD_TEXT', 'Wenn Sie Ihr Bilderalbum mit einem FTP Client nach "data/images/albums/" hochgeladen haben, k&ouml;nnen Sie es hier in ein toendaCMS Album konvertieren. Bitte w&auml;hlen Sie ein Album aus, das Sie in ein toendaCMS Album konvertieren wollen.');
+define('_GALLERY_FTP_UPLOAD', 'Alle verf&#252;gbaren Alben');
+define('_GALLERY_FTP_UPLOAD_TEXT', 'Wenn Sie Ihr Bilderalbum mit einem FTP Client nach "data/images/albums/" hochgeladen haben, k&#246;nnen Sie es hier in ein toendaCMS Album konvertieren. Bitte w&#228;hlen Sie ein Album aus, das Sie in ein toendaCMS Album konvertieren wollen.');
 define('_GALLERY_UPLOAD', 'Bilder hochladen');
-define('_GALLERY_TEXT', 'Wenn Sie ein gepacktes Album (.zip) haben, k&ouml;nnen Sie es hochladen und danach konvertieren.');
+define('_GALLERY_TEXT', 'Wenn Sie ein gepacktes Album (.zip) haben, k&#246;nnen Sie es hochladen und danach konvertieren.');
 define('_GALLERY_ZTITLE', 'Gepackte Datei hochladen und installieren');
 define('_GALLERY_ZFILE', 'Gepackte Datei (.zip)');
 define('_GALLERY_POSTED', 'Hochgeladen am');
-define('_GALLERY_GRAVATAR', 'Sie k&ouml;nnen hier einige Bildergalerie Einstellungen vornehmen. Aber wenn Sie das Gravatar Icon oder die Smiley Icon Unterst&uuml;tzung ein- / ausschalten m&ouml;chten, k&ouml;nnen Sie es in den <a href="admin.php?id_user='.$id_user.'&amp;site=mod_news&amp;todo=config">Neuigkeitenmanager Einstellungen</a> tun.');
+define('_GALLERY_GRAVATAR', 'Sie k&#246;nnen hier einige Bildergalerie Einstellungen vornehmen. Aber wenn Sie das Gravatar Icon oder die Smiley Icon Unterst&#252;tzung ein- / ausschalten m&#246;chten, k&#246;nnen Sie es in den <a href="admin.php?id_user='.$id_user.'&amp;site=mod_news&amp;todo=config">Neuigkeitenmanager Einstellungen</a> tun.');
 define('_GALLERY_LAST_SHOW', 'Neue Bilder in der Seitenleiste anzeigen');
 define('_GALLERY_LAST_SHOW_TITLE', 'Neue Bilder Titel anzeigen');
 define('_GALLERY_LAST_MAX_IMG', 'Wieviele Bilder anzeigen');
-define('_GALLERY_LAST_SIZE', 'Gr&ouml;&szlig;e der Bilder');
+define('_GALLERY_LAST_SIZE', 'Gr&#246;&#223;e der Bilder');
 define('_GALLERY_LAST_TEXT', 'Text der neusten Bilder');
 define('_GALLERY_LAST_ALIGN', 'Ausrichtung der neusten Bilder');
 define('_GALLERY_LIST_NORMAL', 'Normale Auflistung (untereinander, mit Informationen)');
@@ -751,7 +751,7 @@ define('_PERSON_MSN', 'MSN Messenger');
 define('_PERSON_SKYPE', 'Skype');
 define('_PERSON_BIRTHDAY', 'Geburtstag');
 define('_PERSON_SEX', 'Geschlecht');
-define('_PERSON_SEX_MAN', 'm&auml;nnlich');
+define('_PERSON_SEX_MAN', 'm&#228;nnlich');
 define('_PERSON_SEX_WOMAN', 'weiblich');
 define('_PERSON_SEX_KA', 'Keine Angaben');
 define('_PERSON_TCMS_ENABLED', 'toendaScript aktiviert');
@@ -769,10 +769,10 @@ define('_SIDEEXT_SIDEBAR', 'Seitenleiste');
 define('_SIDEEXT_SIDEBAR_SHOW_TITLE', 'Seitenleisten Titel anzeigen');
 define('_SIDEEXT_SIDEBAR_TITLE', 'Seitenleisten Titel');
 define('_SIDEEXT_SIDEBAR_SHOW', 'Seitenleiste anzeigen');
-define('_SIDEEXT_TC', 'Vorlagenw&auml;hler');
-define('_SIDEEXT_TC_SHOW_TITLE', 'Titel Vorlagenw&auml;hler anzeigen');
-define('_SIDEEXT_TC_TITLE', 'Vorlagenw&auml;hler Titel');
-define('_SIDEEXT_TC_SHOW', 'Vorlagenw&auml;hler anzeigen');
+define('_SIDEEXT_TC', 'Vorlagenw&#228;hler');
+define('_SIDEEXT_TC_SHOW_TITLE', 'Titel Vorlagenw&#228;hler anzeigen');
+define('_SIDEEXT_TC_TITLE', 'Vorlagenw&#228;hler Titel');
+define('_SIDEEXT_TC_SHOW', 'Vorlagenw&#228;hler anzeigen');
 define('_SIDEEXT_SEARCH', 'Suchfunktion');
 define('_SIDEEXT_SEARCH_TITLE', 'Suche Titel');
 define('_SIDEEXT_SEARCH_SHOW_TITLE', 'Suche Titel zeigen');
@@ -788,7 +788,7 @@ define('_SIDEEXT_USERM_TITLE', 'Benutzermenu Titel');
 define('_SIDEEXT_LOGIN_SHOW', 'Login anzeigen');
 define('_SIDEEXT_LOGIN_USER', 'Login Feld Benutzername');
 define('_SIDEEXT_LOGIN_PASS', 'Login Feld Passwort');
-define('_SIDEEXT_LOGIN_ACCOUNT', 'Text f&uuml;r Benutzer ohne Account');
+define('_SIDEEXT_LOGIN_ACCOUNT', 'Text f&#252;r Benutzer ohne Account');
 define('_SIDEEXT_LOGIN_REG', 'Registrationslink');
 define('_SIDEEXT_LOGIN_MENU', 'Benutze Benutzermenu');
 define('_SIDEEXT_LOGIN_ALLOW', 'Erlaube Registrierung');
@@ -799,7 +799,7 @@ define('_SIDEEXT_NEWS_CATEGORIES_SHOW', 'Neuigkeiten Kategorien anzeigen');
 define('_SIDEEXT_NEWS_ARCHIVES_SHOW', 'Neuigkeiten Archiv anzeigen');
 define('_SIDEEXT_NEWS_CATEGORIES_AMOUNT_SHOW', 'Anzahl Neuigkeiten in Kategorien anzeigen');
 define('_SIDEEXT_MODUL', 'Module');
-define('_SIDEEXT_LANGUAGE_SELECTOR', 'Sprach W&auml;hler');
+define('_SIDEEXT_LANGUAGE_SELECTOR', 'Sprach W&#228;hler');
 
 
 // NEWSLETTER
@@ -823,7 +823,7 @@ define('_NL_CHECKFORUNSUBSCRIBE', 'eMails nach Abmelde-eMails abfragen');
 define('_NL_CHECK', 'Abfragen');
 define('_NL_MAILSCHECKED', 'eMails abgefragt ...');
 define('_NL_CHECKTITLE', 'eMails abfragen nach eMail mit dem Abmeldecode');
-define('_NL_CHECKTEXT', 'Wir fragen jetzt die eMails von Ihrem eMailaccount ab und testen sie nach dem Abmeldestring. Wenn eMails mit dem Code vorgefunden werden, testen wir ob dieser Newsletter-Benutzer existiert und l&ouml;schen ihn dann.');
+define('_NL_CHECKTEXT', 'Wir fragen jetzt die eMails von Ihrem eMailaccount ab und testen sie nach dem Abmeldestring. Wenn eMails mit dem Code vorgefunden werden, testen wir ob dieser Newsletter-Benutzer existiert und l&#246;schen ihn dann.');
 define('_NL_NEWSLETTER', 'Newsletter');
 
 
@@ -868,14 +868,14 @@ define('_GLOBAL_WYSIWYG', 'WYSIWYG-Editor benutzen');
 define('_GLOBAL_SITE_NAVI', 'Navigation');
 define('_GLOBAL_SITE_NAVI_TOP', 'Top Menu');
 define('_GLOBAL_SITE_NAVI_SIDE', 'Seiten Menu');
-define('_GLOBAL_META', 'Metadaten f&uuml;r den HTML Kopf');
+define('_GLOBAL_META', 'Metadaten f&#252;r den HTML Kopf');
 define('_GLOBAL_METATAGS', 'Metadaten');
 define('_GLOBAL_DESCRIPTION', 'Beschreibung');
-define('_GLOBAL_CURRENCY', 'W&auml;hrung');
+define('_GLOBAL_CURRENCY', 'W&#228;hrung');
 define('_GLOBAL_LEGAL_LINK_IN_FOOTER', 'Impressum Link im Footer anzeigen');
 define('_GLOBAL_ADMIN_LINK_IN_FOOTER', 'Administrationslink im Footer anzeigen');
-define('_GLOBAL_DEFAULT_FOOTER', 'toendaCMS Standardseitenfu&szlig; anzeigen');
-define('_GLOBAL_ACTIVE_TOPMENU_LINKS', 'CSS Klassen f&uuml;r aktive Topmenulinks benutzen');
+define('_GLOBAL_DEFAULT_FOOTER', 'toendaCMS Standardseitenfu&#223; anzeigen');
+define('_GLOBAL_ACTIVE_TOPMENU_LINKS', 'CSS Klassen f&#252;r aktive Topmenulinks benutzen');
 define('_GLOBAL_FOOTER_TEXT', 'Eigener Text im Webseitenfu&szlig');
 define('_GLOBAL_MAIL_SETTINGS', 'eMail');
 define('_GLOBAL_MAIL_WITH_SMTP', 'eMails per SMTP versenden');
@@ -896,16 +896,16 @@ define('_GLOBAL_SEO_NEWS_TITLE', 'Auch Neuigeiten-URL zu Titel konvertieren');
 define('_GLOBAL_SEO_CONTENT_TITLE', 'Auch Dokument-URL zu Titel konvertieren');
 define('_GLOBAL_SITE_OFFLINE', 'Seite Offline schalten');
 define('_GLOBAL_SITE_OFFLINE_TEXT', 'Offline Text');
-define('_GLOBAL_PASTE_FOOTER_TEXT', 'Beispieltext einf&uuml;gen');
+define('_GLOBAL_PASTE_FOOTER_TEXT', 'Beispieltext einf&#252;gen');
 define('_GLOBAL_SHOW_TOP_PAGES', 'Zeige die Seiten eines Dokuments an dessen Kopf an');
-define('_GLOBAL_CIPHER_EMAIL', 'eMailadressen immer verschl&uuml;sseln');
+define('_GLOBAL_CIPHER_EMAIL', 'eMailadressen immer verschl&#252;sseln');
 define('_GLOBAL_JS_BROWSER_DETECTION', 'Browser des Benutzers mit JavaScript ermitteln');
 define('_GLOBAL_USE_CS', 'toendaCMS Komponenten System benutzen');
 define('_GLOBAL_SECURITY', 'Sicherheit');
-define('_GLOBAL_FOOTER', 'Fu&szlig;leiste');
+define('_GLOBAL_FOOTER', 'Fu&#223;leiste');
 define('_GLOBAL_SHOW_BOOKMARK_LINKS', 'Zeige Bookmark Links');
-define('_GLOBAL_CAPTCHA', 'Captcha f&uuml;r die Kommentare benutzen');
-define('_GLOBAL_CAPTCHA_CLEAN', 'Gr&ouml;&szlig;e des Captcha Zwischenspeichers bei dem er geleert werden soll');
+define('_GLOBAL_CAPTCHA', 'Captcha f&#252;r die Kommentare benutzen');
+define('_GLOBAL_CAPTCHA_CLEAN', 'Gr&#246;&#223;e des Captcha Zwischenspeichers bei dem er geleert werden soll');
 define('_GLOBAL_SHOW_DOC_AUTOR', 'Zeige den Autor eines Dokuments an');
 define('_GLOBAL_PATHWAY_CHAR', 'Trennzeichen in der Pfadangabe');
 define('_GLOBAL_ANTI_FRAME', 'Frame-Killer (toendaCMS kann nicht in einem Frame geladen werden)');
@@ -915,8 +915,8 @@ define('_GLOBAL_PDFLINK_IN_FOOTER', 'PDF Link im Footer anzeigen');
 define('_GLOBAL_CACHE_CONTROL', 'Suchmaschinen-Chache Einstellungen');
 define('_GLOBAL_PRAGMA', 'Suchmaschinen Pragma');
 define('_GLOBAL_EXPIRES', 'Webseite kann ablaufen?');
-define('_GLOBAL_ROBOTSSETTINGS', 'Einstellungen f&uuml;r den Webseiten Bot');
-define('_GLOBAL_LAST_CHANGES', 'Letzte &Auml;nderung an der Webseite');
+define('_GLOBAL_ROBOTSSETTINGS', 'Einstellungen f&#252;r den Webseiten Bot');
+define('_GLOBAL_LAST_CHANGES', 'Letzte &#196;nderung an der Webseite');
 define('_GLOBAL_USE_CONTENT_LANG', 'Multible Sprachen verwenden');
 define('_GLOBAL_VALIDLINKS', 'WebStandards Links anzeigen');
 define('_GLOBAL_MM_VIEW_LIST', 'Listenansicht');
@@ -959,7 +959,7 @@ define('_PATH_CONTACTFORM', 'Kontaktformular');
 
 
 // LAYOUT
-define('_LAYOUT_SELECT', 'W&auml;hle');
+define('_LAYOUT_SELECT', 'W&#228;hle');
 define('_LAYOUT_NO', 'Nr.');
 define('_LAYOUT_PATH', 'Pfad');
 define('_LAYOUT_NAME', 'Name');
@@ -974,7 +974,7 @@ define('_LAYOUT_BACKEND', 'Administrator Templates');
 
 
 // LAYOUT UPLOAD
-define('_LU_TEXT', 'Wenn Sie eine .zip Datei haben, benutzen Sie den Installationsdialog f&uuml;r gepackte Dateien. Ansonsten kopieren Sie das komplette Template (index.php, Bilder und CSS-Stylesheets) in den Theme Ordner. Wenn Sie keine Beschreibungsdatei haben, klicken Sie den NEU Button.');
+define('_LU_TEXT', 'Wenn Sie eine .zip Datei haben, benutzen Sie den Installationsdialog f&#252;r gepackte Dateien. Ansonsten kopieren Sie das komplette Template (index.php, Bilder und CSS-Stylesheets) in den Theme Ordner. Wenn Sie keine Beschreibungsdatei haben, klicken Sie den NEU Button.');
 define('_LU_DIR', 'Name des Template Ordners');
 define('_LU_FILE', 'Datei');
 define('_LU_ZTITLE', 'Gepackte Datei hochladen und installieren');
@@ -983,7 +983,7 @@ define('_LU_UPLOAD_TEMPLATE', 'Template Dateien in ein Verzeichnis hochladen');
 define('_LU_UPLOAD_IMAGE', 'Template Bilder');
 define('_LU_DESCRIPTION', 'Eine Beschreibung MUSS vorhanden sein.<br />Wenn Sie keine haben, klicken sie auf NEU.');
 define('_LU_THUMB', 'Screenshot mit Breite');
-define('_LU_DES_TEXT', 'Bitte alle Felder mit einem gef&uuml;llten Punkt ausf&uuml;llen.');
+define('_LU_DES_TEXT', 'Bitte alle Felder mit einem gef&#252;llten Punkt ausf&#252;llen.');
 define('_LU_DES_DIR', 'Ordner Name, um die Datei zu speichern');
 define('_LU_DES_NAME', 'Template Name');
 define('_LU_DES_AUTOR', 'Name des Autors');
@@ -993,7 +993,7 @@ define('_LU_DES_VERSION', 'Version des Templates');
 
 // CREDITS
 define('_CREDITS_SYSTEM', 'System');
-define('_CREDITS_RELEVANT', 'Relevant f&uuml;r das Content Management System');
+define('_CREDITS_RELEVANT', 'Relevant f&#252;r das Content Management System');
 define('_CREDITS_VERSION', 'toendaCMS Version');
 define('_CREDITS_PLATFORM', 'Plattform');
 define('_CREDITS_PHP_VERSION', 'PHP Version');
@@ -1014,14 +1014,14 @@ define('_ABOUTMOD_DESCRIPTION', 'Beschreibung');
 // ABOUT
 define('_ABOUT_TITLE', 'toendaCMS - Your ideas ahead! - Open Source Content Management Framework');
 define('_ABOUT_TEXT', 'toendaCMS ist ein freies Open Source Content Management Framework basierend auf PHP4, PHP5, XML und verschiedenen Datenbank Servern.');
-define('_ABOUT_TEXT2', 'Lesen Sie sich f&uuml;r n&auml;here Informationen <a class="tcms_about" href="http://www.toenda.com/">http://www.toenda.com/</a> an. toendaCMS wird mit ABSOLUT KEINER GARANTIE ver&ouml;ffentlicht. Dies ist freie Software und Sie haben die Freiheit es unter bestimmten Bedingungen zu verteilen. Diese Nachricht darf nicht entfernt werden, dies ist per Gesetz verboten.');
+define('_ABOUT_TEXT2', 'Lesen Sie sich f&#252;r n&#228;here Informationen <a class="tcms_about" href="http://www.toenda.com/">http://www.toenda.com/</a> an. toendaCMS wird mit ABSOLUT KEINER GARANTIE ver&#246;ffentlicht. Dies ist freie Software und Sie haben die Freiheit es unter bestimmten Bedingungen zu verteilen. Diese Nachricht darf nicht entfernt werden, dies ist per Gesetz verboten.');
 define('_ABOUT_EMAIL_INFO', 'Information und Technischer Support');
 define('_ABOUT_EMAIL_BUG', 'Bugs melden');
 define('_ABOUT_URL_DEVELOPMENT', 'toendaCMS Entwicklung');
 define('_ABOUT_URL', 'Die offizielle Demonstrationsseite');
 define('_ABOUT_URL_DOWNLOAD', 'Downloads und Patches');
 define('_ABOUT_SVN_REPO', 'SVN Repository');
-define('_ABOUT_FREE_SOFTWARE', 'ist Freie Software und wurde unter der GNU/GPL Lizenz ver&ouml;ffentlicht.');
+define('_ABOUT_FREE_SOFTWARE', 'ist Freie Software und wurde unter der GNU/GPL Lizenz ver&#246;ffentlicht.');
 define('_ABOUT_CODE_IS_POESIE', '<strong>Immer daran denken:</strong> Programmieren ist Poesie.');
 define('_ABOUT_POWERED_BY', 'Site is proudly powered by');
 
@@ -1043,22 +1043,22 @@ define('_FORM_FOLLOWMSG', 'Folgende Nachricht wurde ueber unser Kontaktformular 
 define('_FORM_YOUR', 'Ihr');
 define('_FORM_CFORM', 'Kontaktformular');
 define('_FORM_SYSTEM', 'Diese Nachricht wurde von unserem System generiert. Bitte antworten Sie nicht darauf.');
-define('_FORM_GREETS', 'Mit freundlichem Gru&szlig;?');
+define('_FORM_GREETS', 'Mit freundlichem Gru&#223;?');
 define('_FORM_FROM', 'Dies ist ein Newsletter von ');
 define('_FORM_GO', 'Anzeigen');
 
 
 // GUESTBOOK
 define('_BOOK_SEND', 'Absenden');
-define('_BOOK_ENTRYS', 'G&auml;stebuch Eintr&auml;ge');
-define('_BOOK_ENTRY1', 'Eintr&auml;ge');
+define('_BOOK_ENTRYS', 'G&#228;stebuch Eintr&#228;ge');
+define('_BOOK_ENTRY1', 'Eintr&#228;ge');
 define('_BOOK_ENTRY2', 'Eintrag');
 define('_BOOK_E_NO', 'Nr.');
 define('_BOOK_E_NAME', 'Name');
 define('_BOOK_E_DATE', 'Datum');
 define('_BOOK_E_EMAIL', 'eMail');
 define('_BOOK_PAGE', 'Seite');
-define('_BOOK_ADD', 'Eintrag hinzuf&uuml;gen');
+define('_BOOK_ADD', 'Eintrag hinzuf&#252;gen');
 define('_BOOK_FILTER_LINKS', 'Links (Internetlinks, eMailadressen)');
 define('_BOOK_FILTER_SCRIPT', 'Scripte (Javascript, PHP)');
 define('_BOOK_FILTER_MAIL', 'eMailadresse anzeigen');
@@ -1067,8 +1067,8 @@ define('_BOOK_WIDTH_NAME', 'Breite des Namenfeldes (in Pixel)');
 define('_BOOK_WIDTH_TEXT', 'Breite des Textfeldes (in Pixel)');
 define('_BOOK_COLOR_ROW_1', 'Farbe der 1. Zeile');
 define('_BOOK_COLOR_ROW_2', 'Farbe der 2. Zeile');
-define('_BOOK_TITLE', 'G&auml;stebuch Eintr&auml;ge');
-define('_BOOK_TEXT', 'Hier k&ouml;nnen sie die Eintr&auml;ge in ihrem G&auml;stebuch verwalten. Sie k&ouml;nnen sie bearbeiten oder auch l&ouml;schen.');
+define('_BOOK_TITLE', 'G&#228;stebuch Eintr&#228;ge');
+define('_BOOK_TEXT', 'Hier k&#246;nnen sie die Eintr&#228;ge in ihrem G&#228;stebuch verwalten. Sie k&#246;nnen sie bearbeiten oder auch l&#246;schen.');
 
 
 // DOWNLOADS
@@ -1076,9 +1076,9 @@ define('_DOWNLOADS_TITLE', 'Downloads');
 define('_DOWNLOADS_TEXT', 'Kontrollieren und verwalten Sie ihre Downloads.');
 define('_DOWNLOADS_NEW', 'Erstelle einen neuen Download.');
 define('_DOWNLOADS_EDIT', 'Bearbeiten Sie Ihre Downloadeintraege in der Kategorie');
-define('_DOWNLOADS_HELP', 'Wenn Sie kein eigenes Bild hochladen m&ouml;chten, k&ouml;nnen sie das Feld einfach leer lassen. In diesem Fall wird f&uuml;r den Dateityp ein Mimetyp Icon erstellt.');
+define('_DOWNLOADS_HELP', 'Wenn Sie kein eigenes Bild hochladen m&#246;chten, k&#246;nnen sie das Feld einfach leer lassen. In diesem Fall wird f&#252;r den Dateityp ein Mimetyp Icon erstellt.');
 define('_DOWNLOADS_NEW_CAT', 'Erstelle eine neue Download Kategorie. Damit koennen Sie Ihre Downloads ganz nach Belieben sortieren.');
-define('_DOWNLOADS_SUBMIT_ON', 'Ver&ouml;ffentlicht am');
+define('_DOWNLOADS_SUBMIT_ON', 'Ver&#246;ffentlicht am');
 define('_DOWNLOADS_SAVE_AS_MIMITYPE', 'Bild durch Mimetype Icon ersetzen');
 
 
@@ -1090,11 +1090,11 @@ define('_PRODUCTS_SITESUBTITLE', 'Produktseiten Untertitel');
 define('_PRODUCTS_SITETEXT', 'Produktseiten Text');
 define('_PRODUCTS_MAINCATEGORY', 'Produkt Hauptkategorie');
 define('_PRODUCTS_TEXT', 'Kontrollieren und verwalten Sie Ihre Produkte.');
-define('_PRODUCTS_NEW', 'Erstelle ein neues Produkt f&uuml; die Kategorie');
+define('_PRODUCTS_NEW', 'Erstelle ein neues Produkt f&#252; die Kategorie');
 define('_PRODUCTS_EDIT', 'Bearbeiten Sie Ihre Produkteintraege in der Kategorie');
-define('_PRODUCTS_HELP', 'Wenn Sie das Feld zum Thumbnail (Preview) hochladen leer lassen, wird f&uuml;r dieses Produkt ein Platzhalter erstellt.');
+define('_PRODUCTS_HELP', 'Wenn Sie das Feld zum Thumbnail (Preview) hochladen leer lassen, wird f&#252;r dieses Produkt ein Platzhalter erstellt.');
 define('_PRODUCTS_NEW_CAT', 'Erstellen Sie eine neue Produkt Kategorie. Damit koennen Sie Ihre Produkte ganz nach Belieben sortieren.');
-define('_PRODUCTS_SUBMIT_ON', 'Ver&ouml;ffentlicht am');
+define('_PRODUCTS_SUBMIT_ON', 'Ver&#246;ffentlicht am');
 define('_PRODUCTS_INC_TAX', 'inkl. Mwst.');
 define('_PRODUCTS_EX_TAX', 'exkl. Mwst.');
 define('_PRODUCTS_CATEGORY_TITLE', 'Kategorien Titel in der Seitenleiste');
@@ -1115,7 +1115,7 @@ define('_PRODUCTS_ADD_TO_CART', 'In den Einkaufswagen');
 define('_NEWS_WRITTEN', 'Geschrieben von');
 define('_NEWS_CATEGORIE_IN', 'Kategorisiert');
 define('_NEWS_TITLE', 'Zeige alle Neuigkeiten');
-define('_NEWS_TEXT', 'Hier sind Ihre Neuigkeiten aufgelistet. Sie k&ouml;nnen diese bearbeiten oder auch neue erstellen.');
+define('_NEWS_TEXT', 'Hier sind Ihre Neuigkeiten aufgelistet. Sie k&#246;nnen diese bearbeiten oder auch neue erstellen.');
 define('_NEWS_EDIT_CURRENT', 'Bearbeite diese Neuigkeit.');
 define('_NEWS_NEW_CURRENT', 'Erstelle eine neue Neuigkeit.');
 define('_NEWS_ID', 'News ID');
@@ -1123,7 +1123,7 @@ define('_NEWS_DATE', 'Datum');
 define('_NEWS_TIME', 'Uhrzeit');
 define('_NEWS_SAMPLE', 'Bsp.');
 define('_NEWS_MAINTEXT', 'Neuigkeit');
-define('_NEWS_IMAGE_HELP', 'Um Bilder in Neuigkeiten einzuf&uuml;gen, markieren Sie die gew&uuml;nschte Stelle in der Nachricht und klicken Sie auf den <em>Button Bilder suchen</em> und dann, nachdem Sie das Bild gefunden haben, auf <em>&Uuml;bernehmen</em>.');
+define('_NEWS_IMAGE_HELP', 'Um Bilder in Neuigkeiten einzuf&#252;gen, markieren Sie die gew&#252;nschte Stelle in der Nachricht und klicken Sie auf den <em>Button Bilder suchen</em> und dann, nachdem Sie das Bild gefunden haben, auf <em>&#220;bernehmen</em>.');
 define('_NEWS_TCMS_HELP', 'Kopieren Sie diese Markierung an die Stellen im Text, an der sie erscheinen sollen.');
 define('_NEWS_IMAGES', 'Neuigkeiten Bild');
 define('_NEWS_IMAGE', 'Bild');
@@ -1135,10 +1135,10 @@ define('_NEWS_ORDER_BY_TIME', 'Chronologisch sortiert');
 define('_NEWS_ORDER_BY_CAT', 'Kategorisch sortiert');
 define('_NEWS_CATEGORIES_TITLE', 'News Kategorien');
 define('_NEWS_ARCHIVES_TITLE', 'Neuigkeiten Archiv');
-define('_NEWS_CATEGORIES_TEXT', 'Hier k&ouml;nnen Sie ihre Neuigkeiten Kategorien erstellen und bearbeiten.');
+define('_NEWS_CATEGORIES_TEXT', 'Hier k&#246;nnen Sie ihre Neuigkeiten Kategorien erstellen und bearbeiten.');
 define('_NEWS_IN', 'in');
-define('_NEWS_CATEGORY_ARCHIV', 'Archiv f&uuml;r die Kategorie');
-define('_NEWS_ARCHIV_FOR', 'Archiv f&uuml;r');
+define('_NEWS_CATEGORY_ARCHIV', 'Archiv f&#252;r die Kategorie');
+define('_NEWS_ARCHIV_FOR', 'Archiv f&#252;r');
 define('_NEWS_SYNDICATION', 'Syndication');
 define('_NEWS_TRACKBACK', 'Trackback');
 define('_NEWS_SHOW_ON_FRONTPAGE', 'News auf der Startseite anzeigen');
@@ -1181,7 +1181,7 @@ define('_FRONT_CAPTCHA', 'Bitte geben sie folgenden Code ein');
 
 // DOCUMENTATION
 define('_DOCU_TITLE', 'Dokumentation');
-define('_DOCU_TEXT', 'Wollen auch Sie Ihren Beitrag f&uuml;er diese freie Software leisten? Schreiben Sie eine Dokumentation um auch anderen Benutzern den Einstieg zu erleichtern.');
+define('_DOCU_TEXT', 'Wollen auch Sie Ihren Beitrag f&#252;er diese freie Software leisten? Schreiben Sie eine Dokumentation um auch anderen Benutzern den Einstieg zu erleichtern.');
 
 
 // SEARCH
@@ -1189,7 +1189,7 @@ define('_SEARCH_TITLE', 'Suche');
 define('_SEARCH_SUBMIT', 'Suchen');
 define('_SEARCH_BOX', 'Suchwort');
 define('_SEARCH_TEXT_FOUND', 'Suchergebnis:');
-define('_SEARCH_EMPTY', 'Sie k&ouml;nnen nicht nach &quot;nichts&quot; suchen. Bitte geben Sie Ihren Suchbegriff ein.');
+define('_SEARCH_EMPTY', 'Sie k&#246;nnen nicht nach &quot;nichts&quot; suchen. Bitte geben Sie Ihren Suchbegriff ein.');
 define('_SEARCH_START', 'Bitte geben Sie Ihren Suchbegriff ein.');
 define('_SEARCH_NOTFOUND_1', 'Es konnte kein passender Eintrag zu Ihrem Suchwort');
 define('_SEARCH_NOTFOUND_2', 'gefunden werden.');
@@ -1209,12 +1209,12 @@ define('_FOLDER_VID', 'Video');
 
 
 // FILESYSTEMS
-define('_DB_CHOOSE', 'Datenbanktreiber f&uuml;r toendaCMS');
+define('_DB_CHOOSE', 'Datenbanktreiber f&#252;r toendaCMS');
 define('_DB_USER', 'SQL Server Benutzername');
 define('_DB_PASSWORD', 'SQL Server Passwort');
 define('_DB_HOST', 'SQL Server Host');
 define('_DB_DATABASE', 'SQL Server Datenbank');
-define('_DB_PORT', 'SQL Server Port (Wichtig f&uuml;r den PostgreSQL Server)');
+define('_DB_PORT', 'SQL Server Port (Wichtig f&#252;r den PostgreSQL Server)');
 define('_DB_PREFIX', 'SQL Server Datenbank Prefix');
 define('_DB_XML', 'XML Datenbank');
 define('_DB_MYSQL', 'MySQL Datenbank');
@@ -1237,21 +1237,21 @@ define('_DB_BACKUP_AS_STRUCTURE', 'Nur die Datenbankstruktur?');
 // LINKS
 define('_LINK_MODULE', 'Link Manager Einstellungen');
 define('_LINK_MODULE_TITLE', 'Link Manager');
-define('_LINK_MODULE_DESC', 'Hier k&ouml;nnen Sie Links und Linkkategorien erstellen. Bitte beachten Sie, dass jeder Link zu einer bestimmten Kategorie geh&ouml;ren muss.');
+define('_LINK_MODULE_DESC', 'Hier k&#246;nnen Sie Links und Linkkategorien erstellen. Bitte beachten Sie, dass jeder Link zu einer bestimmten Kategorie geh&#246;ren muss.');
 define('_LINK_USE_SIDELINKS', 'Links in der Seitenleiste anzeigen');
-define('_LINK_USE_SIDELINKS_DESC', 'Beschreibung f&uuml;r die Links in der Seitenleiste anzeigen');
-define('_LINK_USE_SIDELINKS_TITLE', 'Titel f&uuml;r die Links in der Seitenleiste anzeigen');
-define('_LINK_SIDELINKS_TITLE', 'Titel f&uuml;r die Links in der Seitenleiste');
-define('_LINK_MAINLINKS_TITLE', 'Titel f&uuml;r die Hauptseite');
-define('_LINK_MAINLINKS_SUBTITLE', 'Untertitel f&uuml;r die Hauptseite');
-define('_LINK_MAINLINKS_TEXT', 'Text f&uuml;r die Hauptseite');
-define('_LINK_USE_MAINLINKS_DESC', 'Beschreibung f&uuml;r die Links in der Hauptseite anzeigen');
+define('_LINK_USE_SIDELINKS_DESC', 'Beschreibung f&#252;r die Links in der Seitenleiste anzeigen');
+define('_LINK_USE_SIDELINKS_TITLE', 'Titel f&#252;r die Links in der Seitenleiste anzeigen');
+define('_LINK_SIDELINKS_TITLE', 'Titel f&#252;r die Links in der Seitenleiste');
+define('_LINK_MAINLINKS_TITLE', 'Titel f&#252;r die Hauptseite');
+define('_LINK_MAINLINKS_SUBTITLE', 'Untertitel f&#252;r die Hauptseite');
+define('_LINK_MAINLINKS_TEXT', 'Text f&#252;r die Hauptseite');
+define('_LINK_USE_MAINLINKS_DESC', 'Beschreibung f&#252;r die Links in der Hauptseite anzeigen');
 define('_LINK_WICH_MODULE', 'Zeige Link in diesem Modul');
 
 
 // COMMENTS
 define('_COMMENTS_TITLE', 'Kommentare verwalten');
-define('_COMMENTS_TEXT', 'Hier k&ouml;nnen Sie die Kommentare zu ihren Neuigkeiten und Bildern verwalten. Sie k&ouml;nnen sie bei Bedarf bearbeiten oder auch l&ouml;schen. Zudem werden hier die eMail-Adressen, IP-Adressen und die jeweiligen Herkunftsdomains der Kommentierenden aufgelistet.');
+define('_COMMENTS_TEXT', 'Hier k&#246;nnen Sie die Kommentare zu ihren Neuigkeiten und Bildern verwalten. Sie k&#246;nnen sie bei Bedarf bearbeiten oder auch l&#246;schen. Zudem werden hier die eMail-Adressen, IP-Adressen und die jeweiligen Herkunftsdomains der Kommentierenden aufgelistet.');
 
 
 // STATS
@@ -1266,15 +1266,15 @@ define('_STATS_BROWSER_OS', 'Browser, Betriebssysteme');
 define('_STATS_HITS', 'Hits, Klicks,  Referrers');
 define('_STATS_BROWSER', 'Browser');
 define('_STATS_OS', 'Betriebssystem');
-define('_STATS_RESET', 'Zur&uuml;cksetzen');
-define('_STATS_RESET_TEXT', 'Hier k&ouml;nnen sie ihre Statistiken zur&uuml;cksetzen. <strong>WARNUNG!</strong> Nach dem Reset k&ouml;nnen Sie die Statistiken nicht wiederherstellen.');
+define('_STATS_RESET', 'Zur&#252;cksetzen');
+define('_STATS_RESET_TEXT', 'Hier k&#246;nnen sie ihre Statistiken zur&#252;cksetzen. <strong>WARNUNG!</strong> Nach dem Reset k&#246;nnen Sie die Statistiken nicht wiederherstellen.');
 define('_STATS_RESET_SUCCESS', 'Ihre Statistiken wurden erfolgreich zurueckgesetzt.');
 define('_STATS_RESET_FAILED', 'Ihre Statistiken konnten nicht zurueckgesetzt werden.');
 
 
 // FAQ's
 define('_FAQ_TITLE', 'Alle FAQ\'s und Artikel anzeigen');
-define('_FAQ_TEXT', 'Hier sind alle ihre FAQ\'s und Artikel aufgelistet. Sie k&ouml;nnen sie hier bearbeiten und/oder neue Eintr&auml;ge und Kategorien erstellen.');
+define('_FAQ_TEXT', 'Hier sind alle ihre FAQ\'s und Artikel aufgelistet. Sie k&#246;nnen sie hier bearbeiten und/oder neue Eintr&#228;ge und Kategorien erstellen.');
 define('_FAQ_BASE_CATEGORY', 'Grundkategorie');
 define('_FAQ_CFG_TITLE', 'Konfigurieren sie die Wissensdatenbank');
 
@@ -1287,7 +1287,7 @@ define('_IMPORT_OOO2_DOCBOOK_XML_DESC', 'Importiert Dokumente mit dem OpenDocume
 
 
 // COMPONENTS UPLOAD
-define('_CS_UPLOAD_TEXT', 'Wenn Sie eine .zip Datei haben, benutzen Sie den Installationsdialog f&uuml;r gepackte Dateien. Ansonsten kopieren Sie die komplette Komponente (Ordner mit allen ben&ouml;tigten Dateien) in den Komponenten Ordner (data/components).');
+define('_CS_UPLOAD_TEXT', 'Wenn Sie eine .zip Datei haben, benutzen Sie den Installationsdialog f&#252;r gepackte Dateien. Ansonsten kopieren Sie die komplette Komponente (Ordner mit allen ben&#246;tigten Dateien) in den Komponenten Ordner (data/components).');
 define('_CS_UPLOAD_ZTITLE', 'Gepackte Datei hochladen und installieren');
 define('_CS_UPLOAD_ZFILE', 'Gepackte Datei (.zip)');
 
@@ -1296,25 +1296,25 @@ define('_CS_UPLOAD_ZFILE', 'Gepackte Datei (.zip)');
 define('_LANG_GERMAN', 'Deutsch');
 define('_LANG_ENGLISH', 'Englisch');
 define('_LANG_BULGARIAN', 'Bulgarisch');
-define('_LANG_DUTCH', 'Niederl&auml;ndisch');
+define('_LANG_DUTCH', 'Niederl&#228;ndisch');
 define('_LANG_FINNISH', 'Finisch');
 define('_LANG_ITALY', 'Italienisch');
 define('_LANG_KOREAN', 'Koreanisch');
 define('_LANG_NORWEGIAN', 'Norwegisch');
 define('_LANG_PORTUGUES', 'Portugisisch');
-define('_LANG_ROMANIAN', 'Rum&auml;nisch');
+define('_LANG_ROMANIAN', 'Rum&#228;nisch');
 define('_LANG_SLOVAK', 'Slovenisch');
 define('_LANG_SPANISH', 'Spanisch');
 define('_LANG_SWEDISH', 'Swedisch');
 
 
 // FOOTER
-define('_FOOTER_VALID_TITLE', 'Diese Website erf&uuml;llt die folgenden Standards');
+define('_FOOTER_VALID_TITLE', 'Diese Website erf&#252;llt die folgenden Standards');
 define('_FOOTER_VALID_US_805', 'Diese toendaCMS-Website entspricht den Section-508-Barrierefreiheitsrichtlinien der US-Regierung.');
 define('_FOOTER_VALID_W3C_WAI', 'Diese toendaCMS-Website entspricht den W3C-WAI-Richtlinien zur Barrierefreiheit von Websites.');
-define('_FOOTER_VALID_XHTML', 'Diese toendaCMS-Website enth&auml;lt valides XHTML.');
-define('_FOOTER_VALID_CSS', 'Diese toendaCMS-Website wurde mit g&uuml;ltigem CSS erstellt.');
-define('_FOOTER_VALID_ANY_BROWSER', 'Diese toendaCMS-Website unterst&uuml;zt jeden Web Browser.');
+define('_FOOTER_VALID_XHTML', 'Diese toendaCMS-Website enth&#228;lt valides XHTML.');
+define('_FOOTER_VALID_CSS', 'Diese toendaCMS-Website wurde mit g&#252;ltigem CSS erstellt.');
+define('_FOOTER_VALID_ANY_BROWSER', 'Diese toendaCMS-Website unterst&#252;zt jeden Web Browser.');
 
 
 // COUNTRY LIST
@@ -1331,9 +1331,9 @@ define('_COUNTRY_ARGENTINA', 'Argentinien');
 define('_COUNTRY_ARMENIA', 'Armenien');
 define('_COUNTRY_ARUBA', 'Aruba');
 define('_COUNTRY_AZERBAIJAN', 'Aserbeidschan');
-define('_COUNTRY_EGYPT', '&Auml;gypten');
-define('_COUNTRY_EQUATORIALGUINEA', '&Auml;quatorialguinea');
-define('_COUNTRY_ETHIOPIA', '&Auml;thiopien');
+define('_COUNTRY_EGYPT', '&#196;gypten');
+define('_COUNTRY_EQUATORIALGUINEA', '&#196;quatorialguinea');
+define('_COUNTRY_ETHIOPIA', '&#196;thiopien');
 define('_COUNTRY_AUSTRALIA', 'Australien');
 define('_COUNTRY_BAHAMAS', 'Bahamas');
 define('_COUNTRY_BAHRAIN', 'Bahrein');
@@ -1364,9 +1364,9 @@ define('_COUNTRY_GERMANY', 'Deutschland');
 define('_COUNTRY_DJIBOUTI', 'Djibouti');
 define('_COUNTRY_DOMINICA', 'Dominica');
 define('_COUNTRY_DOMINICANREPUPLIC', 'Dominikanische Republik');
-define('_COUNTRY_DENMARK', 'D&auml;nemark');
+define('_COUNTRY_DENMARK', 'D&#228;nemark');
 define('_COUNTRY_ELSALVADOR', 'El Salvador');
-define('_COUNTRY_IVORYCOAST', 'Elfenbeink&uuml;ste');
+define('_COUNTRY_IVORYCOAST', 'Elfenbeink&#252;ste');
 define('_COUNTRY_ECUADOR', 'Equador');
 define('_COUNTRY_ERITREA', 'Eritrea');
 define('_COUNTRY_ESTONIA', 'Estland');
@@ -1374,10 +1374,10 @@ define('_COUNTRY_FALKLANDISLANDS', 'Falkland Inseln (Malvinen)');
 define('_COUNTRY_FIJI', 'Fiji');
 define('_COUNTRY_FINLAND', 'Finnland');
 define('_COUNTRY_FRANCE', 'Frankreich');
-define('_COUNTRY_FRENCHGUIANA', 'Franz&ouml;sisch Guayna');
-define('_COUNTRY_FRENCHPOLINESIA', 'Franz&ouml;sisch Polynesien');
-define('_COUNTRY_FRENCHSOUNTHTERITORIES', 'Franz&ouml;sische S&uuml;dliche Territorien');
-define('_COUNTRY_FAROEISLANDS', 'F&auml;r&ouml;er Inseln');
+define('_COUNTRY_FRENCHGUIANA', 'Franz&#246;sisch Guayna');
+define('_COUNTRY_FRENCHPOLINESIA', 'Franz&#246;sisch Polynesien');
+define('_COUNTRY_FRENCHSOUNTHTERITORIES', 'Franz&#246;sische S&#252;dliche Territorien');
+define('_COUNTRY_FAROEISLANDS', 'F&#228;r&#246;er Inseln');
 define('_COUNTRY_GABUN', 'Gabun');
 define('_COUNTRY_GAMBIA', 'Gambia');
 define('_COUNTRY_GEORGIA', 'Georgien');
@@ -1385,8 +1385,8 @@ define('_COUNTRY_GHANA', 'Ghana');
 define('_COUNTRY_GIBRALTAR', 'Gibraltar');
 define('_COUNTRY_GRENADA', 'Grenada');
 define('_COUNTRY_GREECE', 'Griechenland');
-define('_COUNTRY_BRITANY', 'Gro&szlig;britannien');
-define('_COUNTRY_GREENLAND', 'Gr&ouml;nland');
+define('_COUNTRY_BRITANY', 'Gro&#223;britannien');
+define('_COUNTRY_GREENLAND', 'Gr&#246;nland');
 define('_COUNTRY_GUADELOUPE', 'Guadeloupe');
 define('_COUNTRY_GUAM', 'Guam');
 define('_COUNTRY_GUATEMALA', 'Guatemala');
@@ -1429,7 +1429,18 @@ define('_COUNTRY_CUBA', 'Kuba');
 define('_COUNTRY_KUWAIT', 'Kuwait');
 define('_COUNTRY_LAOS', 'Laos');
 define('_COUNTRY_LESOTHO', 'Lesotho');
-
+define('_COUNTRY_LATVIA', 'Lettland');
+define('_COUNTRY_LEBANON', 'Libanon');
+define('_COUNTRY_LIBERIA', 'Liberia');
+define('_COUNTRY_LIBYA', 'Libyen');
+define('_COUNTRY_LIECHTENSTEIN', 'Liechtenstein');
+define('_COUNTRY_LITHUANIA', 'Litauen');
+define('_COUNTRY_LUXEMBOURG', 'Luxemburg');
+define('_COUNTRY_MACAO', 'Macao');
+define('_COUNTRY_MADAGASCAR', 'Madagaskar');
+define('_COUNTRY_MALAWI', 'Malawi');
+define('_COUNTRY_MALAYSIA', 'Malaysia');
+define('_COUNTRY_MALDIVEISLANDS', 'Malediven');
 define('_COUNTRY_MALI', 'Mali');
 define('_COUNTRY_MALTA', 'Malta');
 define('_COUNTRY_MAROCCO', 'Marokko');
@@ -1437,6 +1448,18 @@ define('_COUNTRY_MARSHALLISLANDS', 'Marshall Inseln');
 
 define('_COUNTRY_SUDAN', 'Sudan');
 define('_COUNTRY_SURINAME', 'Surinam');
+define('_COUNTRY_SVALBARD', 'Svalbard und Jan Mayen (Spitzbergen)');
+define('_COUNTRY_SWAZILAND', 'Swasiland');
+define('_COUNTRY_SWEDEN', 'Schweden');
+define('_COUNTRY_SOUTHAFRICA', 'S&#252;dafrika');
+define('_COUNTRY_SOUTHKOREA', 'S&#252;dkorea');
+define('_COUNTRY_SYRIA', 'Syrien');
+define('_COUNTRY_TADZHIKISTAN', 'Tadschikistan');
+define('_COUNTRY_TAIWAN', 'Taiwan');
+define('_COUNTRY_TANZANIA', 'Tansania');
+
+define('_COUNTRY_TURKEY', 'T&#252;rkei');
+define('_COUNTRY_USMINOROUTLYINGISLANDS', 'U.S. Minor Outlying Islands');
 
 define('_COUNTRY_BELARUS', 'Wei&#223;ru&#223;land');
 define('_COUNTRY_WESTERNSAHARA', 'Westsahahra');
@@ -1444,6 +1467,22 @@ define('_COUNTRY_ZAIRE', 'Zaire');
 define('_COUNTRY_ZAMBIA', 'Zambia');
 define('_COUNTRY_CENTRALAFRICANREPUBLIC', 'Zentralafrikanische Republik');
 define('_COUNTRY_CYPRUS', 'Zypern');
+
+
+/*
+
+UTF-8 HTML Entities
+--------------------
+
+&Auml; = &#196;
+&Ouml; = &#214;
+&Uuml; = &#220;
+&szlig; = &#223;
+&auml; = &#228;
+&ouml; = &#246;
+&uuml; = &#252;
+
+*/
 
 
 // SOME FORMATS

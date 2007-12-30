@@ -196,8 +196,9 @@ if($id_group == 'Developer'
 		$captcha            = $xml->captcha;
 		$captcha_clean      = $xml->captcha_clean_size;
 		$anti_frame         = $xml->anti_frame;
+		$old_show_top_pages = $xml->show_top_pages;
 		
-		/*$this->m_showTopPages          = $xml->show_top_pages;
+		/*
 		$this->m_siteOffline           = $xml->site_offline;
 		$this->m_siteOfflineText       = $xml->site_offline_text;
 		$this->m_currency              = $xml->currency;
@@ -222,7 +223,8 @@ if($id_group == 'Developer'
 		$this->m_last_changes          = $xml->last_changes;
 		$this->m_useContentLang        = $xml->use_content_language;
 		$this->m_validLinks            = $xml->valid_links;
-		$this->m_mediaman_view         = $xml->mediaman_view;*/
+		$this->m_mediaman_view         = $xml->mediaman_view;
+		*/
 		
 		unset($xml);
 	}
@@ -252,7 +254,7 @@ if($id_group == 'Developer'
 	//$old_seo_c_title    = $globals_xml->readSection('global', 'seo_content_title');
 	$old_site_offline   = $globals_xml->readSection('global', 'site_offline');
 	$old_site_off_text  = $globals_xml->readSection('global', 'site_offline_text');
-	$old_show_top_pages = $globals_xml->readSection('global', 'show_top_pages');
+	//$old_show_top_pages = $globals_xml->readSection('global', 'show_top_pages');
 	//$cipher_email       = $globals_xml->readSection('global', 'cipher_email');
 	//$js_browser_detect  = $globals_xml->readSection('global', 'js_browser_detect');
 	//$use_cs             = $globals_xml->readSection('global', 'use_cs');
