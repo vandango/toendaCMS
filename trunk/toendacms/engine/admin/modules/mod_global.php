@@ -197,87 +197,84 @@ if($id_group == 'Developer'
 		$captcha_clean      = $xml->captcha_clean_size;
 		$anti_frame         = $xml->anti_frame;
 		$old_show_top_pages = $xml->show_top_pages;
-		
-		/*
-		$this->m_siteOffline           = $xml->site_offline;
-		$this->m_siteOfflineText       = $xml->site_offline_text;
-		$this->m_currency              = $xml->currency;
-		$this->m_wysiwygEditor         = $xml->wysiwyg;
-		$this->m_pathwayChar           = $xml->pathway_char;
-		$this->m_showDocAutor          = $xml->show_doc_autor;
-		$this->m_defaultCat            = $xml->default_category;
-		$this->m_tcmsinst              = $xml->toendacms_in_sitetitle;
-		$this->m_keywords              = $xml->meta;
-		$this->m_description           = $xml->description;
-		$this->m_activeTopmenu         = $xml->topmenu_active;
-		$this->m_sidemenu              = $xml->menu;
-		$this->m_topmenu               = $xml->second_menu;
-		$this->m_adminTopmenu          = $xml->admin_topmenu;
-		$this->m_revisit_after         = $xml->revisit_after;
-		$this->m_robotsfile            = $xml->robotsfile;
-		$this->m_pdflink               = $xml->pdflink;
-		$this->m_cachecontrol          = $xml->cachecontrol;
-		$this->m_pragma                = $xml->pragma;
-		$this->m_expires               = $xml->expires;
-		$this->m_robots                = $xml->robots;
-		$this->m_last_changes          = $xml->last_changes;
-		$this->m_useContentLang        = $xml->use_content_language;
-		$this->m_validLinks            = $xml->valid_links;
-		$this->m_mediaman_view         = $xml->mediaman_view;
-		*/
+		$old_site_offline   = $xml->site_offline;
+		$old_site_off_text  = $xml->site_offline_text;
+		$old_currency       = $xml->currency;
+		$old_use_wysiwyg    = $xml->wysiwyg;
+		$old_pathchar       = $xml->pathway_char;
+		$old_doc_autor      = $xml->show_doc_autor;
+		$old_default_cat    = $xml->default_category;
+		$old_tcmsinst       = $xml->toendacms_in_sitetitle;
+		$old_keywords       = $xml->meta;
+		$old_description    = $xml->description;
+		$old_topmenu_active = $xml->topmenu_active;
+		$old_menu           = $xml->menu;
+		$old_second_menu    = $xml->second_menu;
+		$old_admin_topmenu  = $xml->admin_topmenu;
+		$old_revisit_after  = $xml->revisit_after;
+		$old_robotsfile     = $xml->robotsfile;
+		$old_pdflink        = $xml->pdflink;
+		$old_cache_control  = $xml->cachecontrol;
+		$old_pragma         = $xml->pragma;
+		$old_expires        = $xml->expires;
+		$old_robots         = $xml->robots;
+		$old_last_changes   = $xml->last_changes;
+		$old_use_content_l  = $xml->use_content_language;
+		$old_valid_links    = $xml->valid_links;
+		$old_mediaman_view  = $xml->mediaman_view;
 		
 		unset($xml);
 	}
 	
-	$globals_xml = new xmlparser(
-		'../../'.$tcms_administer_site.'/tcms_global/var.xml', 
-		'r'
-	);
+	//$globals_xml = new xmlparser(
+	//	'../../'.$tcms_administer_site.'/tcms_global/var.xml', 
+	//	'r'
+	//);
 	
-	$old_menu           = $globals_xml->readSection('global', 'menu');
-	$old_second_menu    = $globals_xml->readSection('global', 'second_menu');
+	//$old_menu           = $globals_xml->readSection('global', 'menu');
+	//$old_second_menu    = $globals_xml->readSection('global', 'second_menu');
 	//$old_charset        = $globals_xml->readSection('global', 'charset');
-	$old_use_wysiwyg    = $globals_xml->readSection('global', 'wysiwyg');
+	//$old_use_wysiwyg    = $globals_xml->readSection('global', 'wysiwyg');
 	//$old_lang           = $globals_xml->readSection('global', 'lang');
-	$old_currency       = $globals_xml->readSection('global', 'currency');
+	//$old_currency       = $globals_xml->readSection('global', 'currency');
 	//$old_front_lang     = $globals_xml->readSection('global', 'front_lang');
-	$old_keywords       = $globals_xml->readSection('global', 'meta');
-	$old_description    = $globals_xml->readSection('global', 'description');
-	$old_tcmsinst       = $globals_xml->readSection('global', 'toendacms_in_sitetitle');
-	$old_default_cat    = $globals_xml->readSection('global', 'default_category');
-	$old_topmenu_active = $globals_xml->readSection('global', 'topmenu_active');
+	//$old_keywords       = $globals_xml->readSection('global', 'meta');
+	//$old_description    = $globals_xml->readSection('global', 'description');
+	//$old_tcmsinst       = $globals_xml->readSection('global', 'toendacms_in_sitetitle');
+	//$old_default_cat    = $globals_xml->readSection('global', 'default_category');
+	//$old_topmenu_active = $globals_xml->readSection('global', 'topmenu_active');
 	//$old_statistics     = $globals_xml->readSection('global', 'statistics');
 	//$old_seo_enabled    = $globals_xml->readSection('global', 'seo_enabled');
 	//$old_seo_folder     = $globals_xml->readSection('global', 'server_folder');
 	//$old_seo_format     = $globals_xml->readSection('global', 'seo_format');
 	//$old_seo_news_title = $globals_xml->readSection('global', 'seo_news_title');
 	//$old_seo_c_title    = $globals_xml->readSection('global', 'seo_content_title');
-	$old_site_offline   = $globals_xml->readSection('global', 'site_offline');
-	$old_site_off_text  = $globals_xml->readSection('global', 'site_offline_text');
+	//$old_site_offline   = $globals_xml->readSection('global', 'site_offline');
+	//$old_site_off_text  = $globals_xml->readSection('global', 'site_offline_text');
 	//$old_show_top_pages = $globals_xml->readSection('global', 'show_top_pages');
 	//$cipher_email       = $globals_xml->readSection('global', 'cipher_email');
 	//$js_browser_detect  = $globals_xml->readSection('global', 'js_browser_detect');
 	//$use_cs             = $globals_xml->readSection('global', 'use_cs');
 	//$captcha            = $globals_xml->readSection('global', 'captcha');
 	//$captcha_clean      = $globals_xml->readSection('global', 'captcha_clean_size');
-	$old_doc_autor      = $globals_xml->readSection('global', 'show_doc_autor');
-	$old_admin_topmenu  = $globals_xml->readSection('global', 'admin_topmenu');
-	$old_pathchar       = $globals_xml->readSection('global', 'pathway_char');
+	//$old_doc_autor      = $globals_xml->readSection('global', 'show_doc_autor');
+	//$old_admin_topmenu  = $globals_xml->readSection('global', 'admin_topmenu');
+	//$old_pathchar       = $globals_xml->readSection('global', 'pathway_char');
 	//$anti_frame         = $globals_xml->readSection('global', 'anti_frame');
-	$old_revisit_after  = $globals_xml->readSection('global', 'revisit_after');
-	$old_robotsfile     = $globals_xml->readSection('global', 'robotsfile');
-	$old_pdflink        = $globals_xml->readSection('global', 'pdflink');
-	$old_cache_control  = $globals_xml->readSection('global', 'cachecontrol');
-	$old_pragma         = $globals_xml->readSection('global', 'pragma');
-	$old_expires        = $globals_xml->readSection('global', 'expires');
-	$old_robots         = $globals_xml->readSection('global', 'robots');
-	$old_last_changes   = $globals_xml->readSection('global', 'last_changes');
-	$old_use_content_l  = $globals_xml->readSection('global', 'use_content_language');
-	$old_valid_links    = $globals_xml->readSection('global', 'valid_links');
-	$old_mediaman_view  = $globals_xml->readSection('global', 'mediaman_view');
+	//$old_revisit_after  = $globals_xml->readSection('global', 'revisit_after');
+	//$old_robotsfile     = $globals_xml->readSection('global', 'robotsfile');
+	//$old_pdflink        = $globals_xml->readSection('global', 'pdflink');
+	//$old_cache_control  = $globals_xml->readSection('global', 'cachecontrol');
+	//$old_pragma         = $globals_xml->readSection('global', 'pragma');
+	//$old_expires        = $globals_xml->readSection('global', 'expires');
+	//$old_robots         = $globals_xml->readSection('global', 'robots');
+	//$old_last_changes   = $globals_xml->readSection('global', 'last_changes');
+	//$old_use_content_l  = $globals_xml->readSection('global', 'use_content_language');
+	//$old_valid_links    = $globals_xml->readSection('global', 'valid_links');
+	//$old_mediaman_view  = $globals_xml->readSection('global', 'mediaman_view');
 	
-	$globals_xml->flush();
-	unset($globals_xml);
+	//$globals_xml->flush();
+	//unset($globals_xml);
 	
 	
 	// userpage
@@ -319,8 +316,6 @@ if($id_group == 'Developer'
 		$sqlAL->freeResult($sqlQR);
 		unset($sqlAL);
 	}
-	
-	
 	
 	
 	
@@ -368,16 +363,15 @@ if($id_group == 'Developer'
 	
 	
 	
-	
-	
-	if($todo != 'optimize' && $todo != 'backup') {
+	if($todo != 'optimize' 
+	&& $todo != 'backup') {
 		echo '<script type="text/javascript" src="../js/tabs/tabpane.js"></script>
 		<link type="text/css" rel="StyleSheet" href="../js/tabs/css/luna/tab.css" />
-		<!--<link type="text/css" rel="StyleSheet" href="../js/tabs/tabpane.css" />-->
-		<script language="Javascript">
-		var _tcmsVALUE = "Site is proudly powered by toendaCMS &#169; 2003 - 2008 Toenda Software Development. All rights reserved.<br />toendaCMS is Free Software released under the GNU/GPL License.<br />";
-		var _tcmsOFFLINE = "This site is down for maintenance.<br />Please check back again soon.";
-		</script>';
+		<!--<link type="text/css" rel="StyleSheet" href="../js/tabs/tabpane.css" />-->';
+		//<script language="Javascript">
+		//var _tcmsVALUE = "Site is proudly powered by toendaCMS &#169; 2003 - 2008 Toenda Software Development. All rights reserved.<br />toendaCMS is Free Software released under the GNU/GPL License.<br />";
+		//var _tcmsOFFLINE = "This site is down for maintenance.<br />Please check back again soon.";
+		//</script>';
 		
 		
 		
@@ -400,7 +394,7 @@ if($id_group == 'Developer'
 		
 		echo '<div class="tab-page" id="tab-page-site">'
 		.'<h2 class="tab">'._GLOBAL.'</h2>'
-		.'<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
+		.$tcms_html->tableHeadNoBorder();
 		
 		
 		echo '<tr>'
@@ -414,17 +408,16 @@ if($id_group == 'Developer'
 		.'</td></tr>';
 		
 		
-		echo '<tr style="background: '.$arr_color[1].';">'
-		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25" valign="top">'
-		._GLOBAL_SITE_OFFLINE_TEXT.'</td>'
-		.'<td valign="top">'
-		.'<textarea id="new_site_off_text" name="new_site_off_text" class="tcms_textarea_big">'
-		.$old_site_off_text.'</textarea>'
-		.'<br />'
-		.'<img src="../images/px.png" width="9" height="9" border="0" style="margin: 5px 2px 0 0 !important;" align="left" />'
-		.'<input type="button" name="_paste_tcmsOFFLINE" value="'._GLOBAL_PASTE_FOOTER_TEXT.'"'
-		.' onclick="document.getElementById(\'new_site_off_text\').value = document.getElementById(\'new_site_off_text\').value + _tcmsOFFLINE" />'
-		.'</td></tr>';
+		echo $tcms_html->tableRow(
+			1, 
+			2, 
+			_GLOBAL_SITE_OFFLINE_TEXT, 
+			$old_site_off_text, 
+			'new_site_off_text', 
+			true, 
+			$arr_color[1], 
+			2
+		);
 		
 		
 		echo '<tr>'
@@ -627,7 +620,7 @@ if($id_group == 'Developer'
 		echo '</select></td></tr>';
 		
 		
-		echo '</table>'
+		echo $tcms_html->tableEnd()
 		.'</div>';
 		
 		
@@ -704,7 +697,7 @@ if($id_group == 'Developer'
 		.'</td></tr>';
 		
 		
-		echo '</table>'
+		echo $tcms_html->tableEnd()
 		.'</div>';
 		
 		

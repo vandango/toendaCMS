@@ -1443,8 +1443,8 @@ if(!defined('_COUNTRY_MALI'))                  define('_COUNTRY_MALI', 'Mali');
 if(!defined('_COUNTRY_MALTA'))                 define('_COUNTRY_MALTA', 'Malta');
 if(!defined('_COUNTRY_MAROCCO'))               define('_COUNTRY_MAROCCO', 'Marocco');
 if(!defined('_COUNTRY_MARSHALLISLANDS'))       define('_COUNTRY_MARSHALLISLANDS', 'Marshall Islands');
+if(!defined('_COUNTRY_MARTINIQUE'))            define('_COUNTRY_MARTINIQUE', 'Martinique');
 
-$arrCountry['mq'] = 'Martinique';
 $arrCountry['mr'] = 'Mauretanien';
 $arrCountry['mu'] = 'Mauritius';
 $arrCountry['yt'] = 'Mayotte';
@@ -1524,36 +1524,32 @@ if(!defined('_COUNTRY_SYRIA'))                 define('_COUNTRY_SYRIA', 'Syria')
 if(!defined('_COUNTRY_TADZHIKISTAN'))          define('_COUNTRY_TADZHIKISTAN', 'Tadzhikistan');
 if(!defined('_COUNTRY_TAIWAN'))                define('_COUNTRY_TAIWAN', 'Taiwan');
 if(!defined('_COUNTRY_TANZANIA'))              define('_COUNTRY_TANZANIA', 'Tanzania');
-
-$arrCountry['th'] = 'Thailand';
-$arrCountry['tg'] = 'Togo';
-$arrCountry['tk'] = 'Tokelau';
-$arrCountry['to'] = 'Tonga';
-$arrCountry['tt'] = 'Trinidad und Tobago';
-$arrCountry['td'] = 'Tschad';
-$arrCountry['cz'] = 'Tschechien';
-$arrCountry['tn'] = 'Tunesien';
-$arrCountry['tc'] = 'Turk u. Caicos-Inseln';
-$arrCountry['tm'] = 'Turkmenistan';
-$arrCountry['tv'] = 'Tuvalu';
-
+if(!defined('_COUNTRY_THAILAND'))              define('_COUNTRY_THAILAND', 'Thailand');
+if(!defined('_COUNTRY_TOGO'))                  define('_COUNTRY_TOGO', 'Togo');
+if(!defined('_COUNTRY_TOKELAU'))               define('_COUNTRY_TOKELAU', 'Tokelau');
+if(!defined('_COUNTRY_TONGA'))                 define('_COUNTRY_TONGA', 'Tonga');
+if(!defined('_COUNTRY_TRINIDATANDTOBAGO'))     define('_COUNTRY_TRINIDATANDTOBAGO', 'Trinidad und Tobago');
+if(!defined('_COUNTRY_CHAD'))                  define('_COUNTRY_CHAD', 'Chad');
+if(!defined('_COUNTRY_CZECHREPUBLIC'))         define('_COUNTRY_CZECHREPUBLIC', 'Czech Republic');
+if(!defined('_COUNTRY_TUNISIA'))               define('_COUNTRY_TUNISIA', 'Tunisia');
+if(!defined('_COUNTRY_TURKSANDCAICOSISLANDS')) define('_COUNTRY_TURKSANDCAICOSISLANDS', 'Turks and Caicos Islands');
+if(!defined('_COUNTRY_TURKMENISTAN'))          define('_COUNTRY_TURKMENISTAN', 'Turkmenistan');
+if(!defined('_COUNTRY_TUVALU'))                define('_COUNTRY_TUVALU', 'Tuvalu');
 if(!defined('_COUNTRY_TURKEY'))                define('_COUNTRY_TURKEY', 'Turkey');
 if(!defined('_COUNTRY_USMINOROUTLYINGISLANDS'))define('_COUNTRY_USMINOROUTLYINGISLANDS', 'U.S. Minor Outlying Islands');
-
-$arrCountry['ug'] = 'Uganda';
-$arrCountry['ua'] = 'Ukraine';
-$arrCountry['hu'] = 'Ungarn';
-$arrCountry['uy'] = 'Uruguay';
-$arrCountry['uz'] = 'Usbekistan';
-$arrCountry['us'] = 'USA';
-$arrCountry['vu'] = 'Vanuatu';
-$arrCountry['va'] = 'Vatikanstadt';
-$arrCountry['ve'] = 'Venezuela';
-$arrCountry['ae'] = 'Vereinigte Arabische Emirate';
-$arrCountry['vn'] = 'Vietnam';
-$arrCountry['wf'] = 'Wallis und Futuna-Inseln';
-$arrCountry['cx'] = 'Weihnachtsinsel';
-
+if(!defined('_COUNTRY_UGANDA'))                define('_COUNTRY_UGANDA', 'Uganda');
+if(!defined('_COUNTRY_UKRAINA'))               define('_COUNTRY_UKRAINA', 'Ukraina');
+if(!defined('_COUNTRY_HUNGARY'))               define('_COUNTRY_HUNGARY', 'Hungary');
+if(!defined('_COUNTRY_URUGUAY'))               define('_COUNTRY_URUGUAY', 'Uruguay');
+if(!defined('_COUNTRY_UZBEKISTAN'))            define('_COUNTRY_UZBEKISTAN', 'Uzbekistan');
+if(!defined('_COUNTRY_USA'))                   define('_COUNTRY_USA', 'United States of America');
+if(!defined('_COUNTRY_VANUATA'))               define('_COUNTRY_VANUATA', 'Vanuatu');
+if(!defined('_COUNTRY_VATICANCITY'))           define('_COUNTRY_VATICANCITY', 'Vatican City');
+if(!defined('_COUNTRY_VENEZUELA'))             define('_COUNTRY_VENEZUELA', 'Venezuela');
+if(!defined('_COUNTRY_UAE'))                   define('_COUNTRY_UAE', 'United Arab Emirates');
+if(!defined('_COUNTRY_VIETNAM'))               define('_COUNTRY_VIETNAM', 'Vietnam');
+if(!defined('_COUNTRY_VALAISANDFUTUNAISLANDS'))define('_COUNTRY_VALAISANDFUTUNAISLANDS', 'Valais and Futuna Islands');
+if(!defined('_COUNTRY_CHRISTMASISLANDS'))      define('_COUNTRY_CHRISTMASISLANDS', 'Christmas Island');
 if(!defined('_COUNTRY_BELARUS'))               define('_COUNTRY_BELARUS', 'Belarus');
 if(!defined('_COUNTRY_WESTERNSAHARA'))         define('_COUNTRY_WESTERNSAHARA', 'Western Sahahra');
 if(!defined('_COUNTRY_ZAIRE'))                 define('_COUNTRY_ZAIRE', 'Zaire');
@@ -1563,21 +1559,33 @@ if(!defined('_COUNTRY_CYPRUS'))                define('_COUNTRY_CYPRUS', 'Cyprus
 
 
 // SOME FORMATS
-if(!function_exists(lang_date) && !function_exists('lang_date')){
-	function lang_date($day, $month, $year, $hour, $min, $sec){
-		if(trim($day) != '' && trim($month) != '' && trim($year) != ''){
+if(!function_exists(lang_date) && !function_exists('lang_date')) {
+	function lang_date($day, $month, $year, $hour, $min, $sec) {
+		if(trim($day) != '' && trim($month) != '' && trim($year) != '') {
 			$str1 = $day.'.'.$month.'.'.$year;
 		}
-		else{ $str1 = ''; }
-		
-		if(trim($hour) != '' && trim($min) != ''){
-			if(trim($str1) != ''){ $str3 = ' - '.$hour.':'.$min; }
-			else{ $str3 = $hour.':'.$min; }
+		else {
+			$str1 = '';
 		}
-		else{ $str3 = ''; }
 		
-		if(trim($sec) != ''){ $str2 = ':'.$sec; }
-		else{ $str2 = ''; }
+		if(trim($hour) != '' && trim($min) != '') {
+			if(trim($str1) != '') {
+				$str3 = ' - '.$hour.':'.$min;
+			}
+			else {
+				$str3 = $hour.':'.$min;
+			}
+		}
+		else {
+			$str3 = '';
+		}
+		
+		if(trim($sec) != '') {
+			$str2 = ':'.$sec;
+		}
+		else {
+			$str2 = '';
+		}
 		
 		return $str1.$str3.$str2.( trim($str3) != '' ? ' h' : '');
 	}

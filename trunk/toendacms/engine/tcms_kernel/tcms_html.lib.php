@@ -362,15 +362,16 @@ class tcms_html {
 	 * Display a table row
 	 *
 	 * @param Integer $rowType = 1 (1 = Admin Global-Setting Row)
-	 * @param Integer $rowContentType = 1 (1 = Checkbox)
+	 * @param Integer $rowContentType = 1 (1 = Checkbox, 2 = Textarea with Example Button)
 	 * @param String $title = ''
 	 * @param String $inVariable = ''
 	 * @param String $outVariableName = ''
 	 * @param Boolean $rowIsOdd = false
 	 * @param String $rowOddColor = ''
+	 * @param Integer $exampleButtonType = 1 (1 = Footer Text, 2 = Offline Text)
 	 * @return String
 	 */
-	public function tableRow($rowType = 1, $rowContentType = 1, $title = '', $inVariable = '', $outVariableName = '', $rowIsOdd = false, $rowOddColor = '') {
+	public function tableRow($rowType = 1, $rowContentType = 1, $title = '', $inVariable = '', $outVariableName = '', $rowIsOdd = false, $rowOddColor = '', $exampleButtonType = 1) {
 		$row = '';
 		
 		switch($rowType) {
@@ -410,11 +411,33 @@ class tcms_html {
 							Textarea
 						*/
 						
-						$row .= '<script language="Javascript">'
-						.'var _tcmsVALUE = "Site is proudly powered by'
-						.' toendaCMS &#169; 2003 - 2008 Toenda Software Development.'
-						.' All rights reserved.<br />toendaCMS is Free Software'
-						.' released under the GNU/GPL License.<br />";'
+						$row .= '<script language="Javascript">';
+						
+						switch($exampleButtonType) {
+							case 1:
+								$row .= 'var _tcmsVALUE = "'
+								.'Site is proudly powered by'
+								.' toendaCMS &#169; 2003 - 2008 Toenda Software Development.'
+								.' All rights reserved.<br />toendaCMS is Free Software'
+								.' released under the GNU/GPL License.<br />';
+								break;
+							
+							case 2:
+								$row .= 'var _tcmsOFFLINETEXT = "'
+								.'This site is down for maintenance.'
+								.'<br />Please check back again soon.';
+								break;
+							
+							default:
+								$row .= 'var _tcmsVALUE = "'
+								.'Site is proudly powered by'
+								.' toendaCMS &#169; 2003 - 2008 Toenda Software Development.'
+								.' All rights reserved.<br />toendaCMS is Free Software'
+								.' released under the GNU/GPL License.<br />';
+								break;
+						}
+						
+						$row .= '";'
 						.'</script>';
 						
 						$row .= '<textarea'
@@ -425,7 +448,23 @@ class tcms_html {
 						.'<br />'
 						//.'<img src="../images/px.png" width="9" height="9" border="0" style="margin: 5px 2px 0 0 !important;" align="left" />'
 						.'<input type="button" name="_paste_tcmsVALUE" value="'._GLOBAL_PASTE_FOOTER_TEXT.'"'
-						.' onclick="document.getElementById(\'new_footer_text\').value = document.getElementById(\'new_footer_text\').value + _tcmsVALUE" />';
+						.' onclick="document.getElementById(\''.$outVariableName.'\').value = document.getElementById(\''.$outVariableName.'\').value + ';
+						
+						switch($exampleButtonType) {
+							case 1:
+								$row .= '_tcmsVALUE';
+								break;
+							
+							case 2:
+								$row .= '_tcmsOFFLINETEXT';
+								break;
+							
+							default:
+								$row .= '_tcmsVALUE';
+								break;
+						}
+						
+						$row .= '" />';
 						break;
 					
 					default:
