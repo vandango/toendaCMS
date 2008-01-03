@@ -20,7 +20,7 @@
  *
  * This module is used as a image viewer.
  *
- * @version 0.7.5
+ * @version 0.7.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -395,19 +395,23 @@ if($tcms_main->isArray($arr_tc['time'])){
 			
 			echo '<div style="display: block; height: 90px;">';
 			
-			if(!empty($arr_tc['file'][$iKey - 1])){
+			if(!empty($arr_tc['file'][$iKey - 1])) {
 				echo '<a href="?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'album='.$album.'&amp;key='.($arr_tc['file'][$iKey - 1]).'">'
 				.'<img style="border: 1px solid #ccc; margin-right: 3px; background: #eee;" src="'.$tcms_administer_site.'/thumbnails/'.$album.'/thumb_'.$arr_tc['file'][$iKey - 1].'" border="0" />'
 				.'</a>';
 			}
-			else{ echo '<img style="border: 1px solid #ccc; margin-right: 3px; background: #eee; width: 100px; height: 75px;" src="engine/images/no_picture.gif" border="0" />'; }
+			else {
+				echo '<img style="border: 1px solid #ccc; margin-right: 3px; background: #eee; width: 100px; height: 75px;" src="engine/images/no_picture.gif" border="0" />';
+			}
 			
-			if(!empty($arr_tc['file'][$iKey + 1])){
+			if(!empty($arr_tc['file'][$iKey + 1])) {
 				echo '<a href="?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'album='.$album.'&amp;key='.($arr_tc['file'][$iKey + 1]).'">'
 				.'<img style="border: 1px solid #ccc; background: #eee;" src="'.$tcms_administer_site.'/thumbnails/'.$album.'/thumb_'.$arr_tc['file'][$iKey + 1].'" border="0" />'
 				.'</a>';
 			}
-			else{ echo '<img style="border: 1px solid #ccc; background: #eee; width: 100px; height: 75px;" src="engine/images/no_picture.gif" border="0" />'; }
+			else {
+				echo '<img style="border: 1px solid #ccc; background: #eee; width: 100px; height: 75px;" src="engine/images/no_picture.gif" border="0" />';
+			}
 			
 			echo '</div>';
 			
@@ -430,7 +434,7 @@ if($tcms_main->isArray($arr_tc['time'])){
 			else{ echo '<img style="width: 16px; height: 16px;" alt="" src="engine/images/px.png" border="0" />'; }
 			
 			
-			echo '<div align="left" style="margin: 10px 0 0 10px;">'
+			echo '<div align="left" style="margin: 40px 0 0 10px;">'
 			.'<span class="text">'
 			.( $image_details == 1 ? '<strong>'._TABLE_ALBUM.':</strong> '.$album_title.'<br />' : '' )
 			.( $image_details == 1 ? '<strong>'._GALLERY_IMGTITLE.':</strong> '.$arr_tc['file'][$iKey].'<br />' : '' )
