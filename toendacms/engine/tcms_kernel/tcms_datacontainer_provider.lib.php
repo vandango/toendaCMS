@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.3.4
+ * @version 1.3.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -977,6 +977,7 @@ class tcms_datacontainer_provider extends tcms_main {
 		$wsowner_mail = $this->decodeText($cfgObj->getWebpageOwnerMail(), '2', $this->m_CHARSET);
 		
 		$rss = new UniversalFeedCreator();
+		$rss->encoding = $this->m_CHARSET;
 		$rss->_setFormat($defaultFormat);
 		$rss->useCached();
 		$rss->title = $wsname;
@@ -1003,6 +1004,8 @@ class tcms_datacontainer_provider extends tcms_main {
 			$imagePath = '/';
 		}
 		
+		$wstitle = '';
+		
 		$arrNewsDC = $this->getNewsDCList($language, 'Guest', $amount, '1', true);
 		
 		if($this->isArray($arrNewsDC)) {
@@ -1023,7 +1026,7 @@ class tcms_datacontainer_provider extends tcms_main {
 				
 				$item = new FeedItem();
 				
-				$item->title = $dcNews->getTitle();
+				$item->title = html_entity_decode($dcNews->getTitle());
 				$item->link = $wsowner_url.$seoFolder.'/?id=newsmanager&news='.$dcNews->getID();
 				
 				$toendaScript = new toendaScript();
@@ -1112,6 +1115,7 @@ class tcms_datacontainer_provider extends tcms_main {
 		
 		$rss = new UniversalFeedCreator();
 		$rss->_setFormat($defaultFormat);
+		$rss->encoding = $this->m_CHARSET;
 		$rss->useCached();
 		$rss->title = $wsname;
 		$rss->description = $wskey;
@@ -1156,6 +1160,8 @@ class tcms_datacontainer_provider extends tcms_main {
 					$dcComment->getID(), 
 					$language
 				);
+				
+				$wsTitle = html_entity_decode($wsTitle);
 				
 				$item->title = $commentForText.' '.$wsTitle.' '.strtolower($postedByText).' '.$dcComment->getName();
 				$item->link = $wsowner_url.$seoFolder.'/?id=newsmanager&amp;news='.$dcComment->getID();

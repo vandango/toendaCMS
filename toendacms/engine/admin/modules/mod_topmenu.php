@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the topmenu items.
  *
- * @version 0.5.8
+ * @version 0.6.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -345,6 +345,10 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		.'<input name="todo" type="hidden" value="'.$odot.'" />'
 		.'<input name="maintag" type="hidden" value="'.$maintag.'" />';
 		
+		if(!$tcms_config->useContentLanguage()) {
+			echo '<input name="language" type="hidden" value="'.$tm_lang.'" />';
+		}
+		
 		
 		// table title
 		echo '<table width="100%" cellpadding="0" cellspacing="0" class="noborder"><tr class="tcms_bg_blue_01">';
@@ -357,26 +361,30 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		
 		
 		// row
-		echo '<tr><td valign="top" width="'.$width.'">'
-		.'<strong class="tcms_bold">'._TCMS_LANGUAGE.'</strong>'
-		.'</td><td>'
-		.'<select class="tcms_select" id="language" name="language">';
-		
-		foreach($languages['code'] as $key => $value) {
-			if($value != $tcms_config->getLanguageCode(true)) {
-				if($tm_lang == $value)
-					$dl = ' selected="selected"';
-				else
-					$dl = '';
-				
-				echo '<option value="'.$value.'"'.$dl.'>'
-				.$languages['name'][$key]
-				.'</option>';
+		if($tcms_config->useContentLanguage()) {
+			echo '<tr><td valign="top" width="'.$width.'">'
+			.'<strong class="tcms_bold">'._TCMS_LANGUAGE.'</strong>'
+			.'</td><td>'
+			.'<select class="tcms_select" id="language" name="language">';
+			
+			foreach($languages['code'] as $key => $value) {
+				if($value != $tcms_config->getLanguageCode(true)) {
+					if($tm_lang == $value) {
+						$dl = ' selected="selected"';
+					}
+					else {
+						$dl = '';
+					}
+					
+					echo '<option value="'.$value.'"'.$dl.'>'
+					.$languages['name'][$key]
+					.'</option>';
+				}
 			}
+			
+			echo '</select>'
+			.'</td></tr>';
 		}
-		
-		echo '</select>'
-		.'</td></tr>';
 		
 		
 		// row

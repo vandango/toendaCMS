@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * This module is for the global configuration settings.
  * 
- * @version 1.4.0
+ * @version 1.4.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Admin Backend
@@ -420,12 +420,25 @@ if($id_group == 'Developer'
 		);
 		
 		
-		echo '<tr>'
+		echo $tcms_html->tableRow(
+			1, 
+			3, 
+			_GLOBAL_TITLE, 
+			$sitetitle, 
+			'title', 
+			false, 
+			'', 
+			0, 
+			'tcms_input_normal'
+		);
+		
+		
+		/*echo '<tr>'
 		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" height="25" valign="top">'
 		._GLOBAL_TITLE.'</td>'
 		.'<td>'
 		.'<input name="title" class="tcms_input_normal" value="'.$sitetitle.'" />'
-		.'</td></tr>';
+		.'</td></tr>';*/
 		
 		
 		echo '<tr style="background: '.$arr_color[1].';">'

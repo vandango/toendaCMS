@@ -23,15 +23,15 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the search form.
  *
- * @version 0.2.2
+ * @version 0.2.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
  */
 
 
-if($use_search == 1){
-	if($choosenDB == 'xml'){
+if($use_search == 1) {
+	if($choosenDB == 'xml') {
 		$search_xml    = new xmlparser($tcms_administer_site.'/tcms_global/sidebar.xml','r');
 		$show_st       = $search_xml->readSection('side', 'show_search_title');
 		$sb_align      = $search_xml->readSection('side', 'search_alignment');
@@ -66,8 +66,9 @@ if($use_search == 1){
 	}
 	
 
-	if($show_st == 1)
-		echo $tcms_html->subTitle(_SEARCH_TITLE).'<br />';
+	if($show_st == 1) {
+		echo $tcms_html->subTitle(_SEARCH_TITLE);
+	}
 	
 	echo '<div align="'.$sb_align.'">'
 	.'<form action="'.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?" method="post" style="margin: 0px !important; padding: 0px !important;">'
@@ -78,11 +79,13 @@ if($use_search == 1){
 	
 	// style="width: 100px;"
 	
-	if($sb_withbr == 1)
+	if($sb_withbr == 1) {
 		echo '<br />';
+	}
 	
-	if($sb_withbutton == 1)
+	if($sb_withbutton == 1) {
 		echo '<input type="submit" value="'._SEARCH_SUBMIT.'" class="inputbutton" />';
+	}
 	
 	echo '<input type="hidden" name="id" value="search" />'
 	.'<input type="hidden" name="s" value="'.$s.'" />'
@@ -93,8 +96,9 @@ if($use_search == 1){
 	echo '</form>'
 	.'</div>';
 	
-	if($sb_withbr == 1)
+	if($sb_withbr == 1) {
 		echo '<br /><br />';
+	}
 }
 
 

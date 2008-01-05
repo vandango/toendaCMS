@@ -587,13 +587,14 @@ if($id_group == 'Developer'
 				$mail->Subject  =  $owner.' - '._NL_NEWSLETTER.' - '.$date.' -  '.$subject;
 				
 				// text message
-				$mail_body_text = $msg_form_content." ".$date."
- ----------------------------------------------------------------------
- "._FORM_SUBJECT.": $subject
- "._FORM_DEAR.": $send_name
- $mail_message
- ----------------------------------------------------------------------
- $nlmailmsg $owner_email";
+				$mail_body_text = $msg_form_content." ".$date."\n"
+				."----------------------------------------------------------------------\n\n"
+				._FORM_SUBJECT.": ".$subject."\n"
+				._FORM_DEAR.": ".$send_name."\n"
+				."\n\n".$mail_message."\n"
+				."----------------------------------------------------------------------\n"
+				.$nlmailmsg." ".$owner_email."\n"
+				."----------------------------------------------------------------------";
 				
 				// html message
 				$mail_body_html = $msg_form_content.' '.$date.'<hr />'
@@ -602,12 +603,12 @@ if($id_group == 'Developer'
 				.$content.'<br /><br />'
 				.'<hr />'.$nlmailmsg.' '.$owner_email;
 				
-				if($mail_as_html == '1'){
+				if($mail_as_html == '1') {
 					$mail->IsHTML(true);
 					$mail->Body     =  $mail_body_html;
 					$mail->AltBody  =  $mail_body_text;
 				}
-				else{
+				else {
 					$mail->IsHTML(false);
 					//$mail->IsMail();
 					//$mail->Body     =  $mail_body_text;
@@ -616,7 +617,7 @@ if($id_group == 'Developer'
 					$mail->AltBody  =  $mail_body_text;
 				}
 				
-				if(!$mail->Send()){
+				if(!$mail->Send()) {
 					echo '<script>'
 					.'history.back();'
 					.'alert(\''._MSG_SEND_FAILED.'\n\nMailer Error: '.$mail->ErrorInfo.'\');'
@@ -624,7 +625,7 @@ if($id_group == 'Developer'
 					break;
 				}
 			}
-			else{
+			else {
 				$header = "From: ".$tcms_config->getWebpageOwner()." <".$tcms_config->getWebpageOwnerMail().">\n";
 				$header .= "Content-Type: text/plain";
 				mail($send_mail_to, $owner.' - '._NL_NEWSLETTER.' - '.$date.' -  '.$subject, _FORM_FROM.$owner."

@@ -971,6 +971,7 @@ class RSSCreator091 extends FeedCreator {
 		for ($i=0;$i<count($this->items);$i++) {
 			$feed.= "        <item>\n";
 			$feed.= "            <title>".FeedCreator::iTrunc(htmlspecialchars(strip_tags($this->items[$i]->title)),100)."</title>\n";
+			//$feed.= "            <title>".FeedCreator::iTrunc(strip_tags($this->items[$i]->title),100)."</title>\n";
 			$feed.= "            <link>".htmlspecialchars($this->items[$i]->link)."</link>\n";
 			$feed.= "            <description>".$this->items[$i]->getDescription()."</description>\n";
 			

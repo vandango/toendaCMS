@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Content footer with links for the "top of page", "print" 
  * and "pdf" functions.
  *
- * @version 0.5.5
+ * @version 0.5.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -94,26 +94,33 @@ if($id == 'register'
 		
 		if($seoFormat == 0) {
 			$print_url = str_replace('/template:'.$s, '', $print_url);
+			$print_url = substr($print_url, strpos($print_url, 'index.php'));
 			$modulSEO = 'seo0';
 		}
-		else {
+		else if($seoFormat == 1) {
 			$print_url = str_replace('/template/'.$s, '', $print_url);
+			$print_url = substr($print_url, strpos($print_url, 'index.php'));
 			$modulSEO = 'seo1';
 		}
-		
-		$print_url = substr($print_url, strpos($print_url, 'index.php'));
+		else {
+			$modulSEO = 'seo2';
+		}
 	}
-	else{
+	else {
 		$print_url = str_replace('&s='.$s, '', $_SERVER['QUERY_STRING']);
 		$print_url = str_replace('&amp;s='.$s, '', $print_url);
 		
 		$modulSEO = 'modul';
 	}
 	
-	echo '<a href="javascript:printWindow(\''.$print_url.'\', \''.$modulSEO.'\', \'\', \'\', \''.$imagePath.'\');">';
+	echo '<a'
+	.' href="javascript:printWindow(\''.$print_url.'\', \''.$modulSEO.'\', \'\', \'\', \''.$imagePath.'\');"'
+	.'>';
 }
-else{
-	echo '<a href="javascript:printWindow(\''.$s.'\', \''.$id.'\', \''.$_GET['news'].'\', \''.$session.'\', \''.$imagePath.'\');">';
+else {
+	echo '<a'
+	.' href="javascript:printWindow(\''.$s.'\', \''.$id.'\', \''.$_GET['news'].'\', \''.$session.'\', \''.$imagePath.'\');"'
+	.'>';
 }
 
 if($tcms_config->getBrowserDetection()){

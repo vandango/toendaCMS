@@ -20,7 +20,7 @@
  *
  * This file provides some favaScript functions.
  *
- * @version 0.4.5
+ * @version 0.5.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -311,26 +311,48 @@ function printWindow(s, id, news, session, imagePath){
 			break;
 		
 		case 'seo0':
-			if(s == imagePath) path = '/index.php/template:printer';
-			else path = s + '/template:printer';
+			if(s == imagePath) {
+				path = '/index.php/template:printer';
+			}
+			else {
+				path = s + '/template:printer';
+			}
 			break;
 		
 		case 'seo1':
-			if(s == imagePath) path = '/index.php/template/printer';
-			else path = s + '/template/printer';
+			if(s == imagePath) {
+				path = '/index.php/template/printer';
+			}
+			else {
+				path = s + '/template/printer';
+			}
+			break;
+		
+		case 'seo2':
+			path = s + '&s=printer';
 			break;
 		
 		default:
-		path = 'print.php?id=' + id + '&s=' + s;
-		if(news != ''){ path = path + '&news=' + news; }
-		if(session != ''){ path = path + '&session=' + session; }
+			path = 'print.php?id=' + id + '&s=' + s;
+			
+			if(news != '') {
+				path = path + '&news=' + news;
+			}
+			
+			if(session != '') {
+				path = path + '&session=' + session;
+			}
 			break;
 	}
 	
-	win = window.open(imagePath + path, 'Window', 'width=700,height=500,scrollbars=1,resizable=1');
+	win = window.open(
+		( id == 'seo2' ? path : imagePath + path ), 
+		'Window', 
+		'width=700, height=500, scrollbars=1, resizable=1'
+	);
 	
-	if(win != null){
-		if(win.opener == null){
+	if(win != null) {
+		if(win.opener == null) {
 			mpic.opener = self;
 		}
 	}

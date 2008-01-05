@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used for the products configuration
  * and the administration of all the products.
  *
- * @version 0.7.7
+ * @version 0.7.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -1137,6 +1137,10 @@ if($todo == 'edit') {
 		.'<input type="hidden" name="new_pricetax" value="'.$wsTax.'" />'
 		.'<input type="hidden" name="new_quantity" value="'.$wsQuantity.'" />';
 		
+		if(!$tcms_config->useContentLanguage()) {
+			echo '<input name="new_lang" type="hidden" value="'.$wsLang.'" />';
+		}
+		
 		// head
 		echo $tcms_html->tableHeadNoBorder('0', '0', '0', '100%')
 		.'<tr class="tcms_bg_blue_01">'
@@ -1169,24 +1173,28 @@ if($todo == 'edit') {
 		
 		
 		// table row
-		echo '<tr><td width="300" valign="top">'
-		.'<strong class="tcms_bold">'._TCMS_LANGUAGE.'</strong>'
-		.'</td><td>'
-		.'<select class="tcms_select" id="new_lang" name="new_lang">';
-		
-		foreach($languages['code'] as $key => $value) {
-			if($wsLang == $languages['code'][$key])
-				$dl = ' selected="selected"';
-			else
-				$dl = '';
+		if($tcms_config->useContentLanguage()) {
+			echo '<tr><td width="300" valign="top">'
+			.'<strong class="tcms_bold">'._TCMS_LANGUAGE.'</strong>'
+			.'</td><td>'
+			.'<select class="tcms_select" id="new_lang" name="new_lang">';
 			
-			echo '<option value="'.$value.'"'.$dl.'>'
-			.$languages['name'][$key]
-			.'</option>';
+			foreach($languages['code'] as $key => $value) {
+				if($wsLang == $languages['code'][$key]) {
+					$dl = ' selected="selected"';
+				}
+				else {
+					$dl = '';
+				}
+				
+				echo '<option value="'.$value.'"'.$dl.'>'
+				.$languages['name'][$key]
+				.'</option>';
+			}
+			
+			echo '</select>'
+			.'</td></tr>';
 		}
-		
-		echo '</select>'
-		.'</td></tr>';
 		
 		
 		// table row
@@ -1241,6 +1249,10 @@ if($todo == 'edit') {
 		/*
 			tabpane start
 		*/
+		if(!$tcms_config->useContentLanguage()) {
+			echo '<input name="new_lang" type="hidden" value="'.$wsLang.'" />';
+		}
+		
 		echo '<div class="tab-pane" id="tab-pane-1">';
 		
 		
@@ -1275,24 +1287,28 @@ if($todo == 'edit') {
 		
 		
 		// table row
-		echo '<tr><td width="300" valign="top">'
-		.'<strong class="tcms_bold">'._TCMS_LANGUAGE.'</strong>'
-		.'</td><td>'
-		.'<select class="tcms_select" id="new_lang" name="new_lang">';
-		
-		foreach($languages['code'] as $key => $value) {
-			if($wsLang == $languages['code'][$key])
-				$dl = ' selected="selected"';
-			else
-				$dl = '';
+		if($tcms_config->useContentLanguage()) {
+			echo '<tr><td width="300" valign="top">'
+			.'<strong class="tcms_bold">'._TCMS_LANGUAGE.'</strong>'
+			.'</td><td>'
+			.'<select class="tcms_select" id="new_lang" name="new_lang">';
 			
-			echo '<option value="'.$value.'"'.$dl.'>'
-			.$languages['name'][$key]
-			.'</option>';
+			foreach($languages['code'] as $key => $value) {
+				if($wsLang == $languages['code'][$key]) {
+					$dl = ' selected="selected"';
+				}
+				else {
+					$dl = '';
+				}
+				
+				echo '<option value="'.$value.'"'.$dl.'>'
+				.$languages['name'][$key]
+				.'</option>';
+			}
+			
+			echo '</select>'
+			.'</td></tr>';
 		}
-		
-		echo '</select>'
-		.'</td></tr>';
 		
 		
 		// table row
