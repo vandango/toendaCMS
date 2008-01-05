@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for global values
  *
- * @version 0.6.7
+ * @version 0.6.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -444,7 +444,7 @@ if($use_syndication == 1) {
 	.' href="'.$wsUrlBase.$wsUrl.'" />'.chr(13);
 	*/
 	
-	$wsUrl = '/'.$imagePath.'/cache/'.$def_feed.'.xml';
+	$wsUrl = '/'.$imagePath.'/cache/'.$def_feed.'.'.$lang.'.xml';
 	$wsUrl = str_replace('//', '/', $wsUrl);
 	
 	$strMetaData .= '<link rel="alternate" type="application/rss+xml"'

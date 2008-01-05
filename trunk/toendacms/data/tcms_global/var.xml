@@ -37,7 +37,7 @@
 	<expires>0</expires>
 	<robots>index, follow</robots>
 	<last_changes>2007-11-17 15:00:06</last_changes>
-	<use_content_language>1</use_content_language>
+	<use_content_language>0</use_content_language>
 	<valid_links></valid_links>
 	<mediaman_view>list</mediaman_view>
 </global>

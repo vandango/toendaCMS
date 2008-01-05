@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide some often used html
  * codes.
  *
- * @version 0.5.0
+ * @version 0.5.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -361,17 +361,96 @@ class tcms_html {
 	/**
 	 * Display a table row
 	 *
+	 * @param Integer $cells = 1
+	 * @param Integer $contentArray = array('') (Array with the contents per cell)
+	 * @param String $isHeaderRow = false
+	 * @param String $rowAttributeArray = array('width' => '100%') (Array with row settings)
+	 * @param String $cellAttributeArray = array('valign' => 'top') (Array with cell settings)
+	 * @return String
+	 */
+	public function tableRowContent(
+		$cells = 1, 
+		$contentArray = array(''), 
+		$isHeaderRow = false, 
+		$rowAttributeArray = array('width' => '100%'), 
+		$cellAttributeArray = array('valign' => 'top')
+		) {
+		// row
+		$row = '
+		
+		
+		<tr';
+		
+		foreach($rowAttributeArray as $key => $value) {
+			$row .= ' '.$key.'="'.$value.'"';
+		}
+		
+		$row .= '>';
+		
+		// content
+		for($i = 0; $i < $cells; $i++) {
+			if($isHeaderRow) {
+				$row .= '<th';
+			}
+			else {
+				$row .= '<td';
+			}
+			
+			foreach($cellAttributeArray as $key => $value) {
+				$row .= ' '.$key.'="'.$value.'"';
+			}
+			
+			$row .= '>';
+			
+			try {
+				$row .= $contentArray[$i];
+			}
+			catch(Exception $ex) {
+				$row .= '';
+			}
+			
+			if($isHeaderRow) {
+				$row .= '</th>';
+			}
+			else {
+				$row .= '</td>';
+			}
+		}
+		
+		$row .= '</tr>
+		
+		';
+		
+		return $row;
+	}
+	
+	
+	
+	/**
+	 * Display a table row
+	 *
 	 * @param Integer $rowType = 1 (1 = Admin Global-Setting Row)
-	 * @param Integer $rowContentType = 1 (1 = Checkbox, 2 = Textarea with Example Button)
+	 * @param Integer $rowContentType = 1 (1 = Checkbox, 2 = Textarea with Example Button, 3 = Textbox)
 	 * @param String $title = ''
 	 * @param String $inVariable = ''
 	 * @param String $outVariableName = ''
 	 * @param Boolean $rowIsOdd = false
 	 * @param String $rowOddColor = ''
 	 * @param Integer $exampleButtonType = 1 (1 = Footer Text, 2 = Offline Text)
+	 * @param String $textBoxStyleClass = 'tcms_input_normal'
 	 * @return String
 	 */
-	public function tableRow($rowType = 1, $rowContentType = 1, $title = '', $inVariable = '', $outVariableName = '', $rowIsOdd = false, $rowOddColor = '', $exampleButtonType = 1) {
+	public function tableRow(
+		$rowType = 1, 
+		$rowContentType = 1, 
+		$title = '', 
+		$inVariable = '', 
+		$outVariableName = '', 
+		$rowIsOdd = false, 
+		$rowOddColor = '', 
+		$exampleButtonType = 1, 
+		$textBoxStyleClass = 'tcms_input_normal'
+		) {
 		$row = '';
 		
 		switch($rowType) {
@@ -465,6 +544,21 @@ class tcms_html {
 						}
 						
 						$row .= '" />';
+						break;
+					
+					case 3:
+						/*
+							Checkbox
+						*/
+						
+						$row .= '<input'
+						.' type="text"'
+						.' id="'.$outVariableName.'"'
+						.' name="'.$outVariableName.'"'
+						.' class="'.$textBoxStyleClass.'"'
+						.($inVariable == 1 ? ' checked="checked"' : '' )
+						.' value="1"'
+						.' />';
 						break;
 					
 					default:

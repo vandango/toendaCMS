@@ -1981,6 +1981,9 @@ class tcms_main {
 			}
 			else {
 				//echo '<span style="color:#fff;">url-vorher:'.$text.'</span><br>';
+				
+				$text = $this->encodeUtf8Uri($text);
+				
 				$text = $this->urlConvertToHTMLFormat($text);
 				//echo '<span style="color:#fff;">url-nachher:'.$text.'</span><br><br>';
 			}
