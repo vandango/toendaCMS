@@ -395,7 +395,7 @@ define('_MSG_NOSUBJECT', 'Bitte geben sie den Betreff ein');
 define('_MSG_NOMSG', 'Bitte geben sie die Nachricht ein');
 define('_MSG_NEWSLETTER', 'Sie haben sich erfolgreich zum Newsletter angemeldet');
 define('_MSG_POLL', 'Vielen Dank das sie an dieser Umfrage teilgenommen haben.');
-define('_MSG_UPLOAD', 'Die Datei wurde erfolgreich hochgeladen, nach');
+define('_MSG_UPLOAD', 'Die Datei wurde erfolgreich hochgeladen, nach ');
 define('_MSG_NOUPLOAD', 'Die Datei konnte nicht hochgeladen werden.');
 define('_MSG_NOUPLOAD_PHP', 'Die Datei konnte nicht hochgeladen werden. Entweder ist die <upload_max_size> oder die <post_max_size> Einstellung in der <php.ini> zu klein.');
 define('_MSG_ERROR', 'Fehler');
@@ -838,7 +838,7 @@ define('_USER_ALL', 'Alle Benutzer');
 define('_CONTACT_TITLE', 'Kontakte anzeigen');
 define('_CONTACT_TEXT', 'Hier sehen Sie Ihre eingetragenen Kontaktadressen. Einige von ihnen sind auf der Kontaktseite einsehbar.');
 define('_CONTACT_ADRESS_BOOK', 'Adressbuch');
-define('_CONTACT_ADRESS_EMAIL', 'Kontakt eMailadresse');
+define('_CONTACT_ADRESS_EMAIL', 'Kontakt Mailadresse');
 define('_CONTACT_SEND_A_EMAIL', 'Eine eMail senden');
 define('_CONTACT_DETAIL', 'Kontakt Informationen');
 define('_CONTACT_VCARD', 'vCard');
@@ -904,7 +904,7 @@ define('_GLOBAL_USE_CS', 'toendaCMS Komponenten System benutzen');
 define('_GLOBAL_SECURITY', 'Sicherheit');
 define('_GLOBAL_FOOTER', 'Fu&#223;leiste');
 define('_GLOBAL_SHOW_BOOKMARK_LINKS', 'Zeige Bookmark Links');
-define('_GLOBAL_CAPTCHA', 'Captcha f&#252;r die Kommentare benutzen');
+define('_GLOBAL_CAPTCHA', 'Captcha f&#252;r Kommentare benutzen');
 define('_GLOBAL_CAPTCHA_CLEAN', 'Gr&#246;&#223;e des Captcha Zwischenspeichers bei dem er geleert werden soll');
 define('_GLOBAL_SHOW_DOC_AUTOR', 'Zeige den Autor eines Dokuments an');
 define('_GLOBAL_PATHWAY_CHAR', 'Trennzeichen in der Pfadangabe');
@@ -912,13 +912,13 @@ define('_GLOBAL_ANTI_FRAME', 'Frame-Killer (toendaCMS kann nicht in einem Frame 
 define('_GLOBAL_REVISIT_AFTER', 'Tage bis die Suchmaschinen neu indizieren');
 define('_GLOBAL_ROBOTSFILE', 'URL zur "robots.txt" Datei');
 define('_GLOBAL_PDFLINK_IN_FOOTER', 'PDF Link im Footer anzeigen');
-define('_GLOBAL_CACHE_CONTROL', 'Suchmaschinen-Chache Einstellungen');
+define('_GLOBAL_CACHE_CONTROL', 'Suchmaschinen-Cache Einstellungen');
 define('_GLOBAL_PRAGMA', 'Suchmaschinen Pragma');
 define('_GLOBAL_EXPIRES', 'Webseite kann ablaufen?');
 define('_GLOBAL_ROBOTSSETTINGS', 'Einstellungen f&#252;r den Webseiten Bot');
 define('_GLOBAL_LAST_CHANGES', 'Letzte &#196;nderung an der Webseite');
 define('_GLOBAL_USE_CONTENT_LANG', 'Multible Sprachen verwenden');
-define('_GLOBAL_VALIDLINKS', 'WebStandards Links anzeigen');
+define('_GLOBAL_VALIDLINKS', 'Webstandards-Links anzeigen');
 define('_GLOBAL_MM_VIEW_LIST', 'Listenansicht');
 define('_GLOBAL_MM_VIEW_ICON', 'Symbolansicht');
 define('_GLOBAL_MM_VIEW', 'Mediamanager Item Ansicht');
@@ -1014,7 +1014,7 @@ define('_ABOUTMOD_DESCRIPTION', 'Beschreibung');
 // ABOUT
 define('_ABOUT_TITLE', 'toendaCMS - Your ideas ahead! - Open Source Content Management Framework');
 define('_ABOUT_TEXT', 'toendaCMS ist ein freies Open Source Content Management Framework basierend auf PHP4, PHP5, XML und verschiedenen Datenbank Servern.');
-define('_ABOUT_TEXT2', 'Lesen Sie sich f&#252;r n&#228;here Informationen <a class="tcms_about" href="http://www.toenda.com/">http://www.toenda.com/</a> an. toendaCMS wird mit ABSOLUT KEINER GARANTIE ver&#246;ffentlicht. Dies ist freie Software und Sie haben die Freiheit es unter bestimmten Bedingungen zu verteilen. Diese Nachricht darf nicht entfernt werden, dies ist per Gesetz verboten.');
+define('_ABOUT_TEXT2', 'Lesen Sie sich f&#252;r n&#228;here Informationen <a class="tcms_about" href="http://www.toendacms.com/">http://www.toendacms.com/</a> an. toendaCMS wird mit ABSOLUT KEINER GARANTIE ver&#246;ffentlicht. Dies ist freie Software und Sie haben die Freiheit es unter bestimmten Bedingungen zu verteilen. Diese Nachricht darf nicht entfernt werden, dies ist per Gesetz verboten.');
 define('_ABOUT_EMAIL_INFO', 'Information und Technischer Support');
 define('_ABOUT_EMAIL_BUG', 'Bugs melden');
 define('_ABOUT_URL_DEVELOPMENT', 'toendaCMS Entwicklung');
@@ -1034,7 +1034,7 @@ define('_FORM_URL', 'Webseite');
 define('_FORM_SUBJECT', 'Betreff');
 define('_FORM_MSG', 'Nachricht');
 define('_FORM_COPY', 'Mir bitte eine Kopie zusenden');
-define('_FORM_SEND', 'Abschicken');
+define('_FORM_SEND', 'Absenden');
 define('_FORM_SUBMIT', 'Eintragen');
 define('_FORM_MSG_CONTENT', 'Folgende Nachricht wurde ueber unser Kontaktformular versendet um');
 define('_FORM_DEAR', 'Sehr geehrte(r) Herr/Frau ');
@@ -1042,8 +1042,8 @@ define('_FORM_THANKYOU', 'Wir danken fuer Ihren Besuch auf unserer Webseite!');
 define('_FORM_FOLLOWMSG', 'Folgende Nachricht wurde ueber unser Kontaktformular an uns versendet:');
 define('_FORM_YOUR', 'Ihr');
 define('_FORM_CFORM', 'Kontaktformular');
-define('_FORM_SYSTEM', 'Diese Nachricht wurde von unserem System generiert. Bitte antworten Sie nicht darauf.');
-define('_FORM_GREETS', 'Mit freundlichem Gru&#223;?');
+define('_FORM_SYSTEM', 'Diese Nachricht wurde automatisch von unserem System generiert. Bitte antworten Sie nicht auf diese eMail.');
+define('_FORM_GREETS', 'Mit freundlichem Gruss ');
 define('_FORM_FROM', 'Dies ist ein Newsletter von ');
 define('_FORM_GO', 'Anzeigen');
 
@@ -1093,7 +1093,7 @@ define('_PRODUCTS_TEXT', 'Kontrollieren und verwalten Sie Ihre Produkte.');
 define('_PRODUCTS_NEW', 'Erstelle ein neues Produkt f&#252; die Kategorie');
 define('_PRODUCTS_EDIT', 'Bearbeiten Sie Ihre Produkteintraege in der Kategorie');
 define('_PRODUCTS_HELP', 'Wenn Sie das Feld zum Thumbnail (Preview) hochladen leer lassen, wird f&#252;r dieses Produkt ein Platzhalter erstellt.');
-define('_PRODUCTS_NEW_CAT', 'Erstellen Sie eine neue Produkt Kategorie. Damit koennen Sie Ihre Produkte ganz nach Belieben sortieren.');
+define('_PRODUCTS_NEW_CAT', 'Erstellen Sie eine neue Produkt-Kategorie. Damit koennen Sie Ihre Produkte ganz nach Belieben sortieren.');
 define('_PRODUCTS_SUBMIT_ON', 'Ver&#246;ffentlicht am');
 define('_PRODUCTS_INC_TAX', 'inkl. Mwst.');
 define('_PRODUCTS_EX_TAX', 'exkl. Mwst.');
@@ -1274,9 +1274,9 @@ define('_STATS_RESET_FAILED', 'Ihre Statistiken konnten nicht zurueckgesetzt wer
 
 // FAQ's
 define('_FAQ_TITLE', 'Alle FAQ\'s und Artikel anzeigen');
-define('_FAQ_TEXT', 'Hier sind alle ihre FAQ\'s und Artikel aufgelistet. Sie k&#246;nnen sie hier bearbeiten und/oder neue Eintr&#228;ge und Kategorien erstellen.');
+define('_FAQ_TEXT', 'Hier sind Ihre FAQ\'s und Artikel aufgelistet. Sie k&#246;nnen sie hier bearbeiten und/oder neue Eintr&#228;ge und Kategorien erstellen.');
 define('_FAQ_BASE_CATEGORY', 'Grundkategorie');
-define('_FAQ_CFG_TITLE', 'Konfigurieren sie die Wissensdatenbank');
+define('_FAQ_CFG_TITLE', 'Konfigurieren Sie die Wissensdatenbank');
 
 
 // IMPORT
@@ -1309,7 +1309,7 @@ define('_LANG_SWEDISH', 'Swedisch');
 
 
 // FOOTER
-define('_FOOTER_VALID_TITLE', 'Diese Website erf&#252;llt die folgenden Standards');
+define('_FOOTER_VALID_TITLE', 'Diese Website erf&#252;llt folgende Standards');
 define('_FOOTER_VALID_US_805', 'Diese toendaCMS-Website entspricht den Section-508-Barrierefreiheitsrichtlinien der US-Regierung.');
 define('_FOOTER_VALID_W3C_WAI', 'Diese toendaCMS-Website entspricht den W3C-WAI-Richtlinien zur Barrierefreiheit von Websites.');
 define('_FOOTER_VALID_XHTML', 'Diese toendaCMS-Website enth&#228;lt valides XHTML.');
