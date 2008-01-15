@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * comment items.
  *
- * @version 0.0.7
+ * @version 0.0.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -47,15 +47,7 @@ class tcms_dc_comment {
 	 * PHP5 Constructor
 	 *
 	 */
-	function __construct() {
-	}
-	
-	/**
-	 * PHP4 Constructor
-	 *
-	 */
-	function tcms_dc_comment(){
-		$this->__construct();
+	public function __construct() {
 	}
 	
 	/**
@@ -64,7 +56,7 @@ class tcms_dc_comment {
 	 * @param String $value
 	 * @return String
 	 */
-	function setID($value){
+	public function setID($value){
 		$this->m_id = $value;
 	}
 	
@@ -73,7 +65,7 @@ class tcms_dc_comment {
 	 * 
 	 * @return String
 	 */
-	function getID(){
+	public function getID(){
 		return $this->m_id;
 	}
 	
@@ -83,7 +75,7 @@ class tcms_dc_comment {
 	 * @param String $value
 	 * @return String
 	 */
-	function setName($value){
+	public function setName($value){
 		$this->m_name = $value;
 	}
 	
@@ -92,7 +84,7 @@ class tcms_dc_comment {
 	 * 
 	 * @return String
 	 */
-	function getName(){
+	public function getName(){
 		return $this->m_name;
 	}
 	
@@ -102,7 +94,7 @@ class tcms_dc_comment {
 	 * @param String $value
 	 * @return String
 	 */
-	function setEmail($value){
+	public function setEmail($value){
 		$this->m_email = $value;
 	}
 	
@@ -111,7 +103,7 @@ class tcms_dc_comment {
 	 * 
 	 * @return String
 	 */
-	function getEmail(){
+	public function getEmail(){
 		return $this->m_email;
 	}
 	
@@ -121,7 +113,7 @@ class tcms_dc_comment {
 	 * @param String $value
 	 * @return String
 	 */
-	function setTimestamp($value){
+	public function setTimestamp($value){
 		$this->m_timestamp = $value;
 	}
 	
@@ -130,7 +122,7 @@ class tcms_dc_comment {
 	 * 
 	 * @return String
 	 */
-	function getTimestamp(){
+	public function getTimestamp(){
 		return $this->m_timestamp;
 	}
 	
@@ -140,7 +132,7 @@ class tcms_dc_comment {
 	 * @param String $value
 	 * @return String
 	 */
-	function setText($value){
+	public function setText($value){
 		$this->m_text = $value;
 	}
 	
@@ -149,7 +141,7 @@ class tcms_dc_comment {
 	 * 
 	 * @return String
 	 */
-	function getText(){
+	public function getText(){
 		return $this->m_text;
 	}
 	
@@ -159,7 +151,7 @@ class tcms_dc_comment {
 	 * @param String $value
 	 * @return String
 	 */
-	function setURL($value){
+	public function setURL($value){
 		$this->m_url = $value;
 	}
 	
@@ -168,7 +160,7 @@ class tcms_dc_comment {
 	 * 
 	 * @return String
 	 */
-	function getURL(){
+	public function getURL(){
 		return $this->m_url;
 	}
 	
@@ -178,7 +170,7 @@ class tcms_dc_comment {
 	 * @param String $value
 	 * @return String
 	 */
-	function setTime($value){
+	public function setTime($value){
 		$this->m_time = $value;
 	}
 	
@@ -187,7 +179,7 @@ class tcms_dc_comment {
 	 * 
 	 * @return String
 	 */
-	function getTime(){
+	public function getTime(){
 		return $this->m_time;
 	}
 	
@@ -197,7 +189,7 @@ class tcms_dc_comment {
 	 * @param String $value
 	 * @return String
 	 */
-	function setIP($value){
+	public function setIP($value){
 		$this->m_ip = $value;
 	}
 	
@@ -206,7 +198,7 @@ class tcms_dc_comment {
 	 * 
 	 * @return String
 	 */
-	function getIP(){
+	public function getIP(){
 		return $this->m_ip;
 	}
 	
@@ -216,7 +208,7 @@ class tcms_dc_comment {
 	 * @param String $value
 	 * @return String
 	 */
-	function setDomain($value){
+	public function setDomain($value){
 		$this->m_domain = $value;
 	}
 	
@@ -225,7 +217,7 @@ class tcms_dc_comment {
 	 * 
 	 * @return String
 	 */
-	function getDomain(){
+	public function getDomain(){
 		return $this->m_domain;
 	}
 	
@@ -235,7 +227,7 @@ class tcms_dc_comment {
 	 * @param String $value
 	 * @return String
 	 */
-	function setModule($value){
+	public function setModule($value){
 		$this->m_module = $value;
 	}
 	
@@ -244,7 +236,7 @@ class tcms_dc_comment {
 	 * 
 	 * @return String
 	 */
-	function getModule(){
+	public function getModule(){
 		return $this->m_module;
 	}
 }

@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * the newsmanager.
  *
- * @version 0.1.2
+ * @version 0.1.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -83,14 +83,6 @@ class tcms_dc_newsmanager {
 	 *
 	 */
 	public function __construct() {
-	}
-	
-	/**
-	 * PHP4 Constructor
-	 *
-	 */
-	public function tcms_dc_newsmanager() {
-		$this->__construct();
 	}
 	
 	// ---------------------------------------

@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * products manager.
  *
- * @version 0.0.7
+ * @version 0.0.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -54,14 +54,6 @@ class tcms_dc_products {
 	 *
 	 */
 	function __construct() {
-	}
-	
-	/**
-	 * PHP4 Constructor
-	 *
-	 */
-	function tcms_dc_products(){
-		$this->__construct();
 	}
 	
 	// ---------------------------------------

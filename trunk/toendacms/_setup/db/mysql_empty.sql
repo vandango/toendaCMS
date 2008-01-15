@@ -320,7 +320,8 @@ CREATE TABLE `#####imagegallery_config` (
   `align_image` varchar(6) default NULL,
   `size_image` int(3) default NULL,
   `image_sort` varchar(4) NOT NULL default 'desc',
-  `list_option` int(1) NOT NULL default '0'
+  `list_option` int(1) NOT NULL default '0',
+  `list_option_amount` tinyint(4) NOT NULL default '4'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --

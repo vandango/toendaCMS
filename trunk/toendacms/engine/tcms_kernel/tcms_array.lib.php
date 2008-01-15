@@ -245,7 +245,7 @@ $arrDB['name'][3] = _DB_MSSQL;
 	LANGUAGES
 */
 
-$arr_language = $tcms_main->getPathContent('../language/');
+$arr_language = $tcms_file->getPathContent('../language/');
 
 foreach($arr_language as $key => $value){
 	if($value != 'index.html' && $value != 'lang_admin.php' && ( substr($value, 0, 1) != '.' )){

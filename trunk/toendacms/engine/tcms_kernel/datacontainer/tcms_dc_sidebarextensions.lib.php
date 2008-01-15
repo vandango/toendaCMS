@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * sidebar extension settings.
  *
- * @version 0.0.5
+ * @version 0.0.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -42,15 +42,7 @@ class tcms_dc_sidebarextensions {
 	 * PHP5 Constructor
 	 *
 	 */
-	function __construct() {
-	}
-	
-	/**
-	 * PHP4 Constructor
-	 *
-	 */
-	function tcms_dc_sidebarextensions(){
-		$this->__construct();
+	public function __construct() {
 	}
 	
 	/**
@@ -59,7 +51,7 @@ class tcms_dc_sidebarextensions {
 	 * @param String $value
 	 * @return String
 	 */
-	function setID($value){
+	public function setID($value){
 		$this->m_id = $value;
 	}
 	
@@ -68,7 +60,7 @@ class tcms_dc_sidebarextensions {
 	 * 
 	 * @return String
 	 */
-	function getID(){
+	public function getID(){
 		return $this->m_id;
 	}
 	
@@ -78,7 +70,7 @@ class tcms_dc_sidebarextensions {
 	 * @param String $value
 	 * @return String
 	 */
-	function setLanguages($value){
+	public function setLanguages($value){
 		$this->m_lang = $value;
 	}
 	
@@ -87,7 +79,7 @@ class tcms_dc_sidebarextensions {
 	 * 
 	 * @return String
 	 */
-	function getLanguages(){
+	public function getLanguages(){
 		return $this->m_lang;
 	}
 	
@@ -97,7 +89,7 @@ class tcms_dc_sidebarextensions {
 	 * @param String $value
 	 * @return String
 	 */
-	function setSidemenuTitle($value){
+	public function setSidemenuTitle($value){
 		$this->m_sidemenu_title = $value;
 	}
 	
@@ -106,7 +98,7 @@ class tcms_dc_sidebarextensions {
 	 * 
 	 * @return String
 	 */
-	function getSidemenuTitle(){
+	public function getSidemenuTitle(){
 		return $this->m_sidemenu_title;
 	}
 	
@@ -116,7 +108,7 @@ class tcms_dc_sidebarextensions {
 	 * @param String $value
 	 * @return String
 	 */
-	function setShowLayoutChooserTitle($value){
+	public function setShowLayoutChooserTitle($value){
 		$this->m_show_chooser_title = $value;
 	}
 	
@@ -125,7 +117,7 @@ class tcms_dc_sidebarextensions {
 	 * 
 	 * @return String
 	 */
-	function getShowLayoutChooserTitle(){
+	public function getShowLayoutChooserTitle(){
 		return ( $this->m_show_chooser_title == 1 ? true : false );
 	}
 	
@@ -135,7 +127,7 @@ class tcms_dc_sidebarextensions {
 	 * @param String $value
 	 * @return String
 	 */
-	function setLayoutChooserTitle($value){
+	public function setLayoutChooserTitle($value){
 		$this->m_chooser_title = $value;
 	}
 	
@@ -144,7 +136,7 @@ class tcms_dc_sidebarextensions {
 	 * 
 	 * @return String
 	 */
-	function getLayoutChooserTitle(){
+	public function getLayoutChooserTitle(){
 		return $this->m_chooser_title;
 	}
 }

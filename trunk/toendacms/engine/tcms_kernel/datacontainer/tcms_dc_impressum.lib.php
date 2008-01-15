@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * publishing form items.
  *
- * @version 0.0.5
+ * @version 0.0.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -49,14 +49,7 @@ class tcms_dc_impressum {
 	 * PHP5 Constructor
 	 *
 	 */
-	function __construct() {
-	}
-	
-	/**
-	 * PHP4 Constructor
-	 *
-	 */
-	function tcms_dc_impressum(){
+	public function __construct() {
 	}
 	
 	// ---------------------------------------
@@ -69,7 +62,7 @@ class tcms_dc_impressum {
 	 * @param String $value
 	 * @return String
 	 */
-	function setID($value){
+	public function setID($value){
 		$this->m_id = $value;
 	}
 	
@@ -78,7 +71,7 @@ class tcms_dc_impressum {
 	 * 
 	 * @return String
 	 */
-	function getID(){
+	public function getID(){
 		return $this->m_id;
 	}
 	
@@ -88,7 +81,7 @@ class tcms_dc_impressum {
 	 * @param String $value
 	 * @return String
 	 */
-	function setLanguage($value){
+	public function setLanguage($value){
 		$this->m_lang = $value;
 	}
 	
@@ -97,7 +90,7 @@ class tcms_dc_impressum {
 	 * 
 	 * @return String
 	 */
-	function getLanguage(){
+	public function getLanguage(){
 		return $this->m_lang;
 	}
 	
@@ -107,7 +100,7 @@ class tcms_dc_impressum {
 	 * @param String $value
 	 * @return String
 	 */
-	function setTitle($value){
+	public function setTitle($value){
 		$this->m_title = $value;
 	}
 	
@@ -116,7 +109,7 @@ class tcms_dc_impressum {
 	 * 
 	 * @return String
 	 */
-	function getTitle(){
+	public function getTitle(){
 		return $this->m_title;
 	}
 	
@@ -125,7 +118,7 @@ class tcms_dc_impressum {
 	 * 
 	 * @param String $value
 	 */
-	function setSubtitle($value){
+	public function setSubtitle($value){
 		$this->m_key = $value;
 	}
 	
@@ -134,7 +127,7 @@ class tcms_dc_impressum {
 	 * 
 	 * @return String
 	 */
-	function getSubtitle(){
+	public function getSubtitle(){
 		return $this->m_key;
 	}
 	
@@ -144,7 +137,7 @@ class tcms_dc_impressum {
 	 * @param String $value
 	 * @return String
 	 */
-	function setText($value){
+	public function setText($value){
 		$this->m_legal = $value;
 	}
 	
@@ -153,7 +146,7 @@ class tcms_dc_impressum {
 	 * 
 	 * @return String
 	 */
-	function getText(){
+	public function getText(){
 		return $this->m_legal;
 	}
 	
@@ -163,7 +156,7 @@ class tcms_dc_impressum {
 	 * @param String $value
 	 * @return String
 	 */
-	function setContact($value){
+	public function setContact($value){
 		$this->m_contact = $value;
 	}
 	
@@ -172,7 +165,7 @@ class tcms_dc_impressum {
 	 * 
 	 * @return String
 	 */
-	function getContact(){
+	public function getContact(){
 		return $this->m_contact;
 	}
 	
@@ -182,7 +175,7 @@ class tcms_dc_impressum {
 	 * @param String $value
 	 * @return String
 	 */
-	function setTaxNumber($value){
+	public function setTaxNumber($value){
 		$this->m_taxno = $value;
 	}
 	
@@ -191,7 +184,7 @@ class tcms_dc_impressum {
 	 * 
 	 * @return String
 	 */
-	function getTaxNumber(){
+	public function getTaxNumber(){
 		return $this->m_taxno;
 	}
 	
@@ -201,7 +194,7 @@ class tcms_dc_impressum {
 	 * @param String $value
 	 * @return String
 	 */
-	function setUstID($value){
+	public function setUstID($value){
 		$this->m_ustid = $value;
 	}
 	
@@ -210,7 +203,7 @@ class tcms_dc_impressum {
 	 * 
 	 * @return String
 	 */
-	function getUstID(){
+	public function getUstID(){
 		return $this->m_ustid;
 	}
 }

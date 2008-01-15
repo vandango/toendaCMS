@@ -53,15 +53,7 @@ class tcms_dc_contactform {
 	 * PHP5 Constructor
 	 *
 	 */
-	function __construct() {
-	}
-	
-	/**
-	 * PHP4 Constructor
-	 *
-	 */
-	function tcms_dc_contactform(){
-		$this->__construct();
+	public function __construct() {
 	}
 	
 	// ---------------------------------------
@@ -74,7 +66,7 @@ class tcms_dc_contactform {
 	 * @param String $value
 	 * @return String
 	*/
-	function setID($value){
+	public function setID($value){
 		$this->m_id = $value;
 	}
 	
@@ -83,7 +75,7 @@ class tcms_dc_contactform {
 	 * 
 	 * @return String
 	 */
-	function getID(){
+	public function getID(){
 		return $this->m_id;
 	}
 	
@@ -93,7 +85,7 @@ class tcms_dc_contactform {
 	 * @param String $value
 	 * @return String
 	 */
-	function setLanguage($value){
+	public function setLanguage($value){
 		$this->m_lang = $value;
 	}
 	
@@ -102,7 +94,7 @@ class tcms_dc_contactform {
 	 * 
 	 * @return String
 	 */
-	function getLanguage(){
+	public function getLanguage(){
 		return $this->m_lang;
 	}
 	
@@ -112,7 +104,7 @@ class tcms_dc_contactform {
 	 * @param String $value
 	 * @return String
 	*/
-	function setTitle($value){
+	public function setTitle($value){
 		$this->m_title = $value;
 	}
 	
@@ -121,7 +113,7 @@ class tcms_dc_contactform {
 	 * 
 	 * @return String
 	 */
-	function getTitle(){
+	public function getTitle(){
 		return $this->m_title;
 	}
 	
@@ -130,7 +122,7 @@ class tcms_dc_contactform {
 	 * 
 	 * @param String $value
 	 */
-	function setSubtitle($value){
+	public function setSubtitle($value){
 		$this->m_key = $value;
 	}
 	
@@ -139,7 +131,7 @@ class tcms_dc_contactform {
 	 * 
 	 * @return String
 	 */
-	function getSubtitle(){
+	public function getSubtitle(){
 		return $this->m_key;
 	}
 	
@@ -149,7 +141,7 @@ class tcms_dc_contactform {
 	 * @param String $value
 	 * @return String
 	*/
-	function setText($value){
+	public function setText($value){
 		$this->m_text = $value;
 	}
 	
@@ -158,7 +150,7 @@ class tcms_dc_contactform {
 	 * 
 	 * @return String
 	 */
-	function getText(){
+	public function getText(){
 		return $this->m_text;
 	}
 	
@@ -168,7 +160,7 @@ class tcms_dc_contactform {
 	 * @param String $value
 	 * @return String
 	*/
-	function setContact($value){
+	public function setContact($value){
 		$this->m_contact = $value;
 	}
 	
@@ -177,7 +169,7 @@ class tcms_dc_contactform {
 	 * 
 	 * @return String
 	 */
-	function getContact(){
+	public function getContact(){
 		return $this->m_contact;
 	}
 	
@@ -187,7 +179,7 @@ class tcms_dc_contactform {
 	 * @param String $value
 	 * @return String
 	*/
-	function setShowContactsInSidebar($value){
+	public function setShowContactsInSidebar($value){
 		$this->m_show_contacts_in_sidebar = $value;
 	}
 	
@@ -196,7 +188,7 @@ class tcms_dc_contactform {
 	 * 
 	 * @return String
 	 */
-	function getShowContactsInSidebar(){
+	public function getShowContactsInSidebar(){
 		return $this->m_show_contacts_in_sidebar;
 	}
 	
@@ -206,7 +198,7 @@ class tcms_dc_contactform {
 	 * @param String $value
 	 * @return String
 	*/
-	function setAccess($value){
+	public function setAccess($value){
 		$this->m_access = $value;
 	}
 	
@@ -215,7 +207,7 @@ class tcms_dc_contactform {
 	 * 
 	 * @return String
 	 */
-	function getAccess(){
+	public function getAccess(){
 		return $this->m_access;
 	}
 	
@@ -225,7 +217,7 @@ class tcms_dc_contactform {
 	 * @param String $value
 	 * @return String
 	*/
-	function setEnabled($value){
+	public function setEnabled($value){
 		$this->m_enabled = $value;
 	}
 	
@@ -234,7 +226,7 @@ class tcms_dc_contactform {
 	 * 
 	 * @return String
 	 */
-	function getEnabled(){
+	public function getEnabled(){
 		return $this->m_enabled;
 	}
 	
@@ -244,7 +236,7 @@ class tcms_dc_contactform {
 	 * @param String $value
 	 * @return String
 	*/
-	function setUseAdressbook($value){
+	public function setUseAdressbook($value){
 		$this->m_use_adressbook = $value;
 	}
 	
@@ -253,7 +245,7 @@ class tcms_dc_contactform {
 	 * 
 	 * @return String
 	 */
-	function getUseAdressbook(){
+	public function getUseAdressbook(){
 		return $this->m_use_adressbook;
 	}
 	
@@ -263,7 +255,7 @@ class tcms_dc_contactform {
 	 * @param String $value
 	 * @return String
 	*/
-	function setUseContact($value){
+	public function setUseContact($value){
 		$this->m_use_contact = $value;
 	}
 	
@@ -272,7 +264,7 @@ class tcms_dc_contactform {
 	 * 
 	 * @return String
 	 */
-	function getUseContact(){
+	public function getUseContact(){
 		return $this->m_use_contact;
 	}
 	
@@ -282,7 +274,7 @@ class tcms_dc_contactform {
 	 * @param String $value
 	 * @return String
 	*/
-	function setShowContactemail($value){
+	public function setShowContactemail($value){
 		$this->m_show_contactemail = $value;
 	}
 	
@@ -291,7 +283,7 @@ class tcms_dc_contactform {
 	 * 
 	 * @return String
 	 */
-	function getShowContactemail(){
+	public function getShowContactemail(){
 		return $this->m_show_contactemail;
 	}
 }
