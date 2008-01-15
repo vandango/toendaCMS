@@ -20,7 +20,7 @@
  *
  * This file is used for the check actions.
  *
- * @version 0.2.1
+ * @version 0.2.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -35,6 +35,9 @@
 $tmpAgent = explode(';', $_SERVER['HTTP_USER_AGENT']);
 
 $width = 150;
+
+$arrPHPSetting = $tcms_setup_cfg->getRequiredPHPSettings();
+$arrWritableFilesystem = $tcms_setup_cfg->getWritableFilesystem();
 
 
 
@@ -149,40 +152,23 @@ echo '<br />';
 echo '<h3>'._TCMS_IMPORTENT_SETTINGS.'</h3>';
 
 
-echo '<div style="display: block; float: left; width: '.$width.'px;">'
-.'Register Globals'
-.'</div>';
-
-echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-.( $tcms_main->getPHPSetting('register_globals') ? 'on' : 'off' )
-.'</div>';
-
-echo '<div style="display: block; margin: 0 0 0 560px;">'
-.( $tcms_main->getPHPSetting('register_globals')
-	? '<img src="images/no.png" border="0" />'
-	: '<img src="images/yes.png" border="0" />' )
-.'</div>';
-
-
-echo '<br />';
-
-
-echo '<div style="display: block; float: left; width: '.$width.'px;">'
-.'Save Mode (optional)'
-.'</div>';
-
-echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-.$tcms_main->get_php_setting('safe_mode')
-.'</div>';
-
-echo '<div style="display: block; margin: 0 0 0 560px;">'
-.( $tcms_main->get_php_setting('safe_mode') == 'off'
-	? '<img src="images/yes.png" border="0" />'
-	: '<img src="images/no.png" border="0" />' )
-.'</div>';
-
-
-echo '<br />';
+foreach($arrPHPSetting['code'] as $key => $value) {
+	echo '<div style="display: block; float: left; width: '.$width.'px;">'
+	.$arrPHPSetting['name'][$key]
+	.'</div>';
+	
+	echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
+	.( $tcms_main->getPHPSetting($value) ? 'on' : 'off' )
+	.'</div>';
+	
+	echo '<div style="display: block; margin: 0 0 0 560px;">'
+	.( $tcms_main->getPHPSetting($value)
+		? '<img src="images/no.png" border="0" />'
+		: '<img src="images/yes.png" border="0" />' )
+	.'</div>';
+	
+	echo '<br />';
+}
 
 
 echo '<div style="display: block; float: left; width: '.$width.'px;">'
@@ -231,184 +217,29 @@ echo '<br />';
 echo '<h3>'._TCMS_WRITE_RIGHTS.'</h3>';
 
 
-echo '<div style="display: block; float: left; width: '.$width.'px;">'
-.'/data'
-.'</div>';
-
-echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-.( is_writeable('../data')
-	? '<span style="font-weight: bold; color: green;">'._TCMS_WRITEABLE.'</span>'
-	: '<span style="font-weight: bold; color: red; text-decoration: underline;">'._TCMS_NOT_WRITEABLE.'</span>')
-.'</div>';
-
-echo '<div style="display: block; margin: 0 0 0 560px;">'
-.( is_writeable('../data')
-	? '<img src="images/yes.png" border="0" />'
-	: '<img src="images/no.png" border="0" />' )
-.'</div>';
-
-
-echo '<br />';
-
-
-echo '<div style="display: block; float: left; width: '.$width.'px;">'
-.'/data/images/albums'
-.'</div>';
-
-echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-.( is_writeable('../data/images/albums')
-	? '<span style="font-weight: bold; color: green;">'._TCMS_WRITEABLE.'</span>'
-	: '<span style="font-weight: bold; color: red; text-decoration: underline;">'._TCMS_NOT_WRITEABLE.'</span>')
-.'</div>';
-
-echo '<div style="display: block; margin: 0 0 0 560px;">'
-.( is_writeable('../data/images/albums')
-	? '<img src="images/yes.png" border="0" />'
-	: '<img src="images/no.png" border="0" />' )
-.'</div>';
+foreach($arrWritableFilesystem['path'] as $key => $value) {
+	echo '<div style="display: block; float: left; width: '.$width.'px;">'
+	.( strlen($arrWritableFilesystem['name'][$key]) > 22 
+		? substr($arrWritableFilesystem['name'][$key], 0, 22).'...'
+		: $arrWritableFilesystem['name'][$key]
+	).'</div>';
+	
+	echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
+	.( is_writeable($value)
+		? '<span style="font-weight: bold; color: green;">'._TCMS_WRITEABLE.'</span>'
+		: '<span style="font-weight: bold; color: red; text-decoration: underline;">'._TCMS_NOT_WRITEABLE.'</span>')
+	.'</div>';
+	
+	echo '<div style="display: block; margin: 0 0 0 560px;">'
+	.( is_writeable($value)
+		? '<img src="images/yes.png" border="0" />'
+		: '<img src="images/no.png" border="0" />' )
+	.'</div>';
+	
+	echo '<br />';
+}
 
 
-echo '<br />';
-
-
-echo '<div style="display: block; float: left; width: '.$width.'px;">'
-.'/data/images/knowledge...'
-.'</div>';
-
-echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-.( is_writeable('../data/images/knowledgebase')
-	? '<span style="font-weight: bold; color: green;">'._TCMS_WRITEABLE.'</span>'
-	: '<span style="font-weight: bold; color: red; text-decoration: underline;">'._TCMS_NOT_WRITEABLE.'</span>')
-.'</div>';
-
-echo '<div style="display: block; margin: 0 0 0 560px;">'
-.( is_writeable('../data/images/knowledgebase')
-	? '<img src="images/yes.png" border="0" />'
-	: '<img src="images/no.png" border="0" />' )
-.'</div>';
-
-
-echo '<br />';
-
-
-echo '<div style="display: block; float: left; width: '.$width.'px;">'
-.'/data/images/upload_thumb'
-.'</div>';
-
-echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-.( is_writeable('../data/images/upload_thumb')
-	? '<span style="font-weight: bold; color: green;">'._TCMS_WRITEABLE.'</span>'
-	: '<span style="font-weight: bold; color: red; text-decoration: underline;">'._TCMS_NOT_WRITEABLE.'</span>')
-.'</div>';
-
-echo '<div style="display: block; margin: 0 0 0 560px;">'
-.( is_writeable('../data/images/upload_thumb')
-	? '<img src="images/yes.png" border="0" />'
-	: '<img src="images/no.png" border="0" />' )
-.'</div>';
-
-
-echo '<br />';
-
-
-echo '<div style="display: block; float: left; width: '.$width.'px;">'
-.'/data/images/Image'
-.'</div>';
-
-echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-.( is_writeable('../data/images/Image')
-	? '<span style="font-weight: bold; color: green;">'._TCMS_WRITEABLE.'</span>'
-	: '<span style="font-weight: bold; color: red; text-decoration: underline;">'._TCMS_NOT_WRITEABLE.'</span>')
-.'</div>';
-
-echo '<div style="display: block; margin: 0 0 0 560px;">'
-.( is_writeable('../data/images/Image')
-	? '<img src="images/yes.png" border="0" />'
-	: '<img src="images/no.png" border="0" />' )
-.'</div>';
-
-
-echo '<br />';
-
-
-echo '<div style="display: block; float: left; width: '.$width.'px;">'
-.'/cache'
-.'</div>';
-
-echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-.( is_writeable('../cache')
-	? '<span style="font-weight: bold; color: green;">'._TCMS_WRITEABLE.'</span>'
-	: '<span style="font-weight: bold; color: red; text-decoration: underline;">'._TCMS_NOT_WRITEABLE.'</span>')
-.'</div>';
-
-echo '<div style="display: block; margin: 0 0 0 560px;">'
-.( is_writeable('../cache')
-	? '<img src="images/yes.png" border="0" />'
-	: '<img src="images/no.png" border="0" />' )
-.'</div>';
-
-
-echo '<br />';
-
-
-echo '<div style="display: block; float: left; width: '.$width.'px;">'
-.'/cache/captcha'
-.'</div>';
-
-echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-.( is_writeable('../cache/captcha')
-	? '<span style="font-weight: bold; color: green;">'._TCMS_WRITEABLE.'</span>'
-	: '<span style="font-weight: bold; color: red; text-decoration: underline;">'._TCMS_NOT_WRITEABLE.'</span>')
-.'</div>';
-
-echo '<div style="display: block; margin: 0 0 0 560px;">'
-.( is_writeable('../cache/captcha')
-	? '<img src="images/yes.png" border="0" />'
-	: '<img src="images/no.png" border="0" />' )
-.'</div>';
-
-
-echo '<br />';
-
-
-echo '<div style="display: block; float: left; width: '.$width.'px;">'
-.'/data/tcms_global'
-.'</div>';
-
-echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-.( is_writeable('../data/tcms_global')
-	? '<span style="font-weight: bold; color: green;">'._TCMS_WRITEABLE.'</span>'
-	: '<span style="font-weight: bold; color: red; text-decoration: underline;">'._TCMS_NOT_WRITEABLE.'</span>')
-.'</div>';
-
-echo '<div style="display: block; margin: 0 0 0 560px;">'
-.( is_writeable('../data/tcms_global')
-	? '<img src="images/yes.png" border="0" />'
-	: '<img src="images/no.png" border="0" />' )
-.'</div>';
-
-
-echo '<br />';
-
-
-echo '<div style="display: block; float: left; width: '.$width.'px;">'
-.'/engine/admin/session'
-.'</div>';
-
-echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-.( is_writeable('../engine/admin/session')
-	? '<span style="font-weight: bold; color: green;">'._TCMS_WRITEABLE.'</span>'
-	: '<span style="font-weight: bold; color: red; text-decoration: underline;">'._TCMS_NOT_WRITEABLE.'</span>')
-.'</div>';
-
-echo '<div style="display: block; margin: 0 0 0 560px;">'
-.( is_writeable('../engine/admin/session')
-	? '<img src="images/yes.png" border="0" />'
-	: '<img src="images/no.png" border="0" />' )
-.'</div>';
-
-
-echo '<br />';
 echo '<hr />';
 echo '<br />';
 
@@ -429,14 +260,14 @@ echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;
 if(phpversion() >= $tcms_setup_cfg->getRequiredPHPVersion()
 && extension_loaded('zlib') 
 && extension_loaded('gd') 
-&& is_writeable('../data') 
-&& is_writeable('../data/images/albums') 
-&& is_writeable('../data/images/knowledgebase') 
-&& is_writeable('../data/images/upload_thumb') 
-&& is_writeable('../data/images/Image') 
-&& is_writeable('../cache') 
-&& is_writeable('../cache/captcha') 
-&& is_writeable('../data/tcms_global')) {
+&& is_writeable($arrWritableFilesystem['path'][0]) 
+&& is_writeable($arrWritableFilesystem['path'][1]) 
+&& is_writeable($arrWritableFilesystem['path'][2]) 
+&& is_writeable($arrWritableFilesystem['path'][3]) 
+&& is_writeable($arrWritableFilesystem['path'][4]) 
+&& is_writeable($arrWritableFilesystem['path'][5]) 
+&& is_writeable($arrWritableFilesystem['path'][6]) 
+&& is_writeable($arrWritableFilesystem['path'][7])) {
 	echo '<div style="display: block; margin: 0 0 0 560px;">'
 	.'<a class="tcms_main" href="index.php?site=license&amp;lang='.$lang.'">'
 	._TCMS_NEXT.' &rarr;'
