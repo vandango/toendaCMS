@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 18. Dezember 2007 um 01:11
+-- Erstellungszeit: 15. Januar 2008 um 09:01
 -- Server Version: 5.0.45
 -- PHP-Version: 5.2.4
 
@@ -579,7 +579,6 @@ CREATE TABLE `blog_newsletter_items` (
 --
 
 INSERT INTO `blog_newsletter_items` (`uid`, `user`, `email`) VALUES
-('223594', 'Mr. Toenda', 'info@toenda.com'),
 ('f574da', 'Jonathan Naumann', 'info@toenda.com');
 
 -- --------------------------------------------------------
@@ -863,8 +862,8 @@ CREATE TABLE `blog_products_config` (
 --
 
 INSERT INTO `blog_products_config` (`uid`, `language`, `products_id`, `products_title`, `products_stamp`, `products_text`, `category_state`, `category_title`, `use_category_title`, `show_price_only_users`, `startpagetitle`, `use_sidebar_categories`, `max_latest_products`) VALUES
-('products', 'germany_DE', 'products', 'Products', 'Lorem ipsum dolor', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer tellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam feugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio mauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris dolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\r\n', '', 'Product Categories', 1, 0, 'Aktuelle Angebot', 1, 15),
-('f225076a', 'english_EN', 'products', 'sdfsdfsdf', 'sdfsdf', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer\r\ntellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam\r\nfeugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio\r\nmauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris\r\ndolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque\r\nhabitant morbi tristique senectus et netus et malesuada fames ac turpis\r\negestas.\r\n', '', 'sdfsdf', 1, 0, 'Current offers', 1, 15);
+('f225076a', 'english_EN', 'products', 'sdfsdfsdf', 'sdfsdf', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer\r\ntellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam\r\nfeugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio\r\nmauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris\r\ndolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque\r\nhabitant morbi tristique senectus et netus et malesuada fames ac turpis\r\negestas.\r\n', '', 'sdfsdf', 1, 0, 'Current offers', 1, 15),
+('products', 'germany_DE', 'products', 'Products', 'Lorem ipsum dolor', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer tellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam feugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio mauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris dolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\r\n', '', 'Product Categories', 1, 0, 'Aktuelle Angebot', 1, 15);
 
 -- --------------------------------------------------------
 
@@ -884,7 +883,7 @@ CREATE TABLE `blog_session` (
 --
 
 INSERT INTO `blog_session` (`uid`, `date`, `user`, `user_id`) VALUES
-('5201b3154320a470ec7dce43a028dfda', '1197936030', 'root', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff');
+('59ca432b2204d5dc159e0a9723a4f263', '1200384072', 'root', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff');
 
 -- --------------------------------------------------------
 
@@ -1081,7 +1080,7 @@ INSERT INTO `blog_topmenu` (`uid`, `language`, `name`, `id`, `type`, `link`, `pu
 ('f39c7', 'germany_DE', 'Downloads', 9, 'link', 'download', 1, 'Public', ''),
 ('ac64b', 'germany_DE', 'Gallery', 10, 'link', 'imagegallery', 1, 'Public', ''),
 ('87f51', 'germany_DE', 'Produkte', 11, 'link', 'products', 1, 'Public', ''),
-('fb2ee', 'germany_DE', 'FAQ', 12, 'link', 'knowledgebase', 1, 'Public', '');
+('fb2ee', 'germany_DE', 'Links', 12, 'link', 'links', 1, 'Public', '');
 
 -- --------------------------------------------------------
 
@@ -1120,7 +1119,7 @@ CREATE TABLE `blog_user` (
 --
 
 INSERT INTO `blog_user` (`uid`, `name`, `username`, `password`, `email`, `group`, `join_date`, `last_login`, `birthday`, `gender`, `occupation`, `homepage`, `icq`, `aim`, `yim`, `msn`, `skype`, `enabled`, `tcms_enabled`, `static_value`, `signature`, `location`, `hobby`) VALUES
-('ccdc5cfffaf3cd9342e40dd9dcb3a3ff', 'Dolly', 'root', '5473e3f141e0328ce87dac9366e0aace', 'info@toenda.com', 'Administrator', '2006.01.22-22:26:44', '2007.12.18-01:00:30', '26.11.1982', '-', '', 'http://www.vandango.org', '', '', '', '', '', 1, 1, 1, '', '', ''),
+('ccdc5cfffaf3cd9342e40dd9dcb3a3ff', 'Dolly', 'root', '5473e3f141e0328ce87dac9366e0aace', 'info@toenda.com', 'Administrator', '2006.01.22-22:26:44', '2008.01.15-09:01:12', '26.11.1982', '-', '', 'http://www.vandango.org', '', '', '', '', '', 1, 1, 1, '', '', ''),
 ('9e07ddbe2eb87663511e4716cb94eef2', 'writer', 'writer', 'a82feee3cc1af8bcabda979e8775ef0f', 'info@toenda.com', 'Writer', '2006.08.21-23:09:14', '2006.10.06-20:43:46', '01.1.', '-', '', '', '', '', '', '', '', 1, 1, 0, '', '', '');
 
 -- --------------------------------------------------------
@@ -1169,4 +1168,4 @@ CREATE TABLE `blog_userpage` (
 --
 
 INSERT INTO `blog_userpage` (`uid`, `text_width`, `input_width`, `news_publish`, `image_publish`, `album_publish`, `cat_publish`, `pic_publish`) VALUES
-('userpage', '150', '150', 1, 1, 1, 1, '1');
+('userpage', '150', '150', 0, 0, 0, 0, '0');

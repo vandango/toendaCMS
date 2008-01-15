@@ -65,7 +65,7 @@ class tcms_error {
 	 * @param String $errorInformation
 	 * @param String $imagePath
 	 */
-	function __construct($errorFile, $errorCode, $errorInformation, $imagePath){
+	public function __construct($errorFile, $errorCode, $errorInformation, $imagePath){
 		$this->_file = $errorFile;
 		$this->_errorCode = $errorCode;
 		$this->_errorInformation = $errorInformation;
@@ -82,7 +82,7 @@ class tcms_error {
 	 * @param String $errorInformation
 	 * @param String $imagePath
 	*/
-	function tcms_error($errorFile, $errorCode, $errorInformation, $imagePath){
+	public function tcms_error($errorFile, $errorCode, $errorInformation, $imagePath){
 		$this->__construct($errorFile, $errorCode, $errorInformation, $imagePath);
 	}
 	
@@ -91,7 +91,7 @@ class tcms_error {
 	/**
 	 * PHP5 Destructor
 	 */
-	function __destruct(){
+	public function __destruct(){
 	}
 	
 	
@@ -99,7 +99,7 @@ class tcms_error {
 	/**
 	 * PHP4 Destructor
 	 */
-	function _tcms_error(){
+	public function _tcms_error(){
 		$this->__destruct();
 	}
 	
@@ -112,7 +112,7 @@ class tcms_error {
 	 * @param String $toendaCMSimage
 	 * @param Boolean $bShowMessageBox = true
 	 */
-	function showMessage($toendaCMSimage, $bShowMessageBox = true){
+	public function showMessage($toendaCMSimage, $bShowMessageBox = true){
 		if($bShowMessageBox){
 			$this->errorCodeTable();
 			
@@ -139,7 +139,7 @@ class tcms_error {
 	/**
 	 * A table with all error codes for toendaCMS
 	 */
-	function errorCodeTable(){
+	public function errorCodeTable(){
 		switch($this->_errorCode){
 			case 0:
 				$this->_errorMsg = $this->_errorInformation.' Connection Error';
