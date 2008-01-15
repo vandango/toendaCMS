@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * contact items.
  *
- * @version 0.0.6
+ * @version 0.0.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -53,15 +53,7 @@ class tcms_dc_contact {
 	 * PHP5 Constructor
 	 *
 	 */
-	function __construct() {
-	}
-	
-	/**
-	 * PHP4 Constructor
-	 *
-	 */
-	function tcms_dc_contact(){
-		$this->__construct();
+	public function __construct() {
 	}
 	
 	/**
@@ -70,7 +62,7 @@ class tcms_dc_contact {
 	 * @param String $value
 	 * @return String
 	 */
-	function setID($value){
+	public function setID($value){
 		$this->m_uid = $value;
 	}
 	
@@ -79,7 +71,7 @@ class tcms_dc_contact {
 	 * 
 	 * @return String
 	 */
-	function getID(){
+	public function getID(){
 		return $this->m_uid;
 	}
 	
@@ -89,7 +81,7 @@ class tcms_dc_contact {
 	 * @param String $value
 	 * @return String
 	 */
-	function setDefaultContact($value){
+	public function setDefaultContact($value){
 		$this->m_default_con = $value;
 	}
 	
@@ -98,7 +90,7 @@ class tcms_dc_contact {
 	 * 
 	 * @return String
 	 */
-	function getDefaultContact(){
+	public function getDefaultContact(){
 		return $this->m_default_con;
 	}
 	
@@ -108,7 +100,7 @@ class tcms_dc_contact {
 	 * @param String $value
 	 * @return String
 	 */
-	function setPublished($value){
+	public function setPublished($value){
 		$this->m_published = $value;
 	}
 	
@@ -117,7 +109,7 @@ class tcms_dc_contact {
 	 * 
 	 * @return String
 	 */
-	function getPublished(){
+	public function getPublished(){
 		return $this->m_published;
 	}
 	
@@ -127,7 +119,7 @@ class tcms_dc_contact {
 	 * @param String $value
 	 * @return String
 	 */
-	function setName($value){
+	public function setName($value){
 		$this->m_name = $value;
 	}
 	
@@ -136,7 +128,7 @@ class tcms_dc_contact {
 	 * 
 	 * @return String
 	 */
-	function getName(){
+	public function getName(){
 		return $this->m_name;
 	}
 	
@@ -146,7 +138,7 @@ class tcms_dc_contact {
 	 * @param String $value
 	 * @return String
 	 */
-	function setFirstname($value){
+	public function setFirstname($value){
 		$this->m_firstname = $value;
 	}
 	
@@ -155,7 +147,7 @@ class tcms_dc_contact {
 	 * 
 	 * @return String
 	 */
-	function getFirstname(){
+	public function getFirstname(){
 		return $this->m_firstname;
 	}
 	
@@ -165,7 +157,7 @@ class tcms_dc_contact {
 	 * @param String $value
 	 * @return String
 	 */
-	function setLastname($value){
+	public function setLastname($value){
 		$this->m_lastname = $value;
 	}
 	
@@ -174,7 +166,7 @@ class tcms_dc_contact {
 	 * 
 	 * @return String
 	 */
-	function getLastname(){
+	public function getLastname(){
 		return $this->m_lastname;
 	}
 	
@@ -184,7 +176,7 @@ class tcms_dc_contact {
 	 * @param String $value
 	 * @return String
 	 */
-	function setNameAdd($value){
+	public function setNameAdd($value){
 		$this->m_nameadd = $value;
 	}
 	
@@ -193,7 +185,7 @@ class tcms_dc_contact {
 	 * 
 	 * @return String
 	 */
-	function getNameAdd(){
+	public function getNameAdd(){
 		return $this->m_nameadd;
 	}
 	
@@ -203,7 +195,7 @@ class tcms_dc_contact {
 	 * @param String $value
 	 * @return String
 	 */
-	function setEmail($value){
+	public function setEmail($value){
 		$this->m_email = $value;
 	}
 	
@@ -212,7 +204,7 @@ class tcms_dc_contact {
 	 * 
 	 * @return String
 	 */
-	function getEmail(){
+	public function getEmail(){
 		return $this->m_email;
 	}
 	
@@ -222,7 +214,7 @@ class tcms_dc_contact {
 	 * @param String $value
 	 * @return String
 	 */
-	function setPosition($value){
+	public function setPosition($value){
 		$this->m_position = $value;
 	}
 	
@@ -231,7 +223,7 @@ class tcms_dc_contact {
 	 * 
 	 * @return String
 	 */
-	function getPosition(){
+	public function getPosition(){
 		return $this->m_position;
 	}
 	
@@ -241,7 +233,7 @@ class tcms_dc_contact {
 	 * @param String $value
 	 * @return String
 	 */
-	function setStreet($value){
+	public function setStreet($value){
 		$this->m_street = $value;
 	}
 	
@@ -250,7 +242,7 @@ class tcms_dc_contact {
 	 * 
 	 * @return String
 	 */
-	function getStreet(){
+	public function getStreet(){
 		return $this->m_street;
 	}
 	
@@ -260,7 +252,7 @@ class tcms_dc_contact {
 	 * @param String $value
 	 * @return String
 	 */
-	function setCountry($value){
+	public function setCountry($value){
 		$this->m_country = $value;
 	}
 	
@@ -269,7 +261,7 @@ class tcms_dc_contact {
 	 * 
 	 * @return String
 	 */
-	function getCountry(){
+	public function getCountry(){
 		return $this->m_country;
 	}
 	
@@ -279,7 +271,7 @@ class tcms_dc_contact {
 	 * @param String $value
 	 * @return String
 	 */
-	function setState($value){
+	public function setState($value){
 		$this->m_state = $value;
 	}
 	
@@ -288,7 +280,7 @@ class tcms_dc_contact {
 	 * 
 	 * @return String
 	 */
-	function getState(){
+	public function getState(){
 		return $this->m_state;
 	}
 	
@@ -298,7 +290,7 @@ class tcms_dc_contact {
 	 * @param String $value
 	 * @return String
 	 */
-	function setCity($value){
+	public function setCity($value){
 		$this->m_town = $value;
 	}
 	
@@ -307,7 +299,7 @@ class tcms_dc_contact {
 	 * 
 	 * @return String
 	 */
-	function getCity(){
+	public function getCity(){
 		return $this->m_town;
 	}
 	
@@ -317,7 +309,7 @@ class tcms_dc_contact {
 	 * @param String $value
 	 * @return String
 	 */
-	function setZipcode($value){
+	public function setZipcode($value){
 		$this->m_postal = $value;
 	}
 	
@@ -326,7 +318,7 @@ class tcms_dc_contact {
 	 * 
 	 * @return String
 	 */
-	function getZipcode(){
+	public function getZipcode(){
 		return $this->m_postal;
 	}
 	
@@ -336,7 +328,7 @@ class tcms_dc_contact {
 	 * @param String $value
 	 * @return String
 	 */
-	function setPhone($value){
+	public function setPhone($value){
 		$this->m_phone = $value;
 	}
 	
@@ -345,7 +337,7 @@ class tcms_dc_contact {
 	 * 
 	 * @return String
 	 */
-	function getPhone(){
+	public function getPhone(){
 		return $this->m_phone;
 	}
 	
@@ -355,7 +347,7 @@ class tcms_dc_contact {
 	 * @param String $value
 	 * @return String
 	 */
-	function setFax($value){
+	public function setFax($value){
 		$this->m_fax = $value;
 	}
 	
@@ -364,7 +356,7 @@ class tcms_dc_contact {
 	 * 
 	 * @return String
 	 */
-	function getFax(){
+	public function getFax(){
 		return $this->m_fax;
 	}
 }

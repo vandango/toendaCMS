@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide a small error handler
  * for the CMS framework engine.
  *
- * @version 0.1.1
+ * @version 0.1.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -34,10 +34,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * Methods
  *
- * __construct                 -> PHP5 Constructor
- * tcms_error                  -> PHP4 Constructor
- * __destruct                  -> PHP5 Destructor
- * _tcms_error                 -> PHP4 Destructor
+ * __construct                 -> Constructor
+ * __destruct                  -> Destructor
  *
  * showMessage()               -> Show the error message. If param is true display it as a javascript messagebox.
  * errorCodeTable()            -> A table with all error codes for toendaCMS
@@ -58,7 +56,7 @@ class tcms_error {
 	
 	
 	/**
-	 * PHP5 Default constructor
+	 * Default constructor
 	 * 
 	 * @param String $errorFile
 	 * @param Integer $errorCode
@@ -75,21 +73,7 @@ class tcms_error {
 	
 	
 	/**
-	 * PHP4 Default constructor
-	 * 
-	 * @param String $errorFile
-	 * @param Integer $errorCode
-	 * @param String $errorInformation
-	 * @param String $imagePath
-	*/
-	public function tcms_error($errorFile, $errorCode, $errorInformation, $imagePath){
-		$this->__construct($errorFile, $errorCode, $errorInformation, $imagePath);
-	}
-	
-	
-	
-	/**
-	 * PHP5 Destructor
+	 * Destructor
 	 */
 	public function __destruct(){
 	}

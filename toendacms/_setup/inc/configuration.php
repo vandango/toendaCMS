@@ -30,7 +30,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide the global
  * setup configuration data.
  *
- * @version 0.0.3
+ * @version 0.0.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -63,7 +63,7 @@ class tcms_setup_configuration {
 	 * PHP5 Constructor
 	 */
 	public function __construct() {
-		$this->_requiredPHPVersion = '5.0.0';
+		$this->_requiredPHPVersion = '5.2.0';
 		
 		/*
 			PHP Setting

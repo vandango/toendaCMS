@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic public functions.
  *
- * @version 2.8.4
+ * @version 2.8.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -36,10 +36,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * CONSTRUCTOR AND DESTRUCTOR
  * --------------------------------------------------------
  *
- * __construct                       -> PHP5 Constructor
- * tcms_main                         -> PHP4 Constructor
- * __destruct                        -> PHP5 Destructor
- * _tcms_main                        -> PHP4 Destructor
+ * __construct                       -> Constructor
+ * __destruct                        -> Destructor
  *
  * --------------------------------------------------------
  * MAIN public functionS

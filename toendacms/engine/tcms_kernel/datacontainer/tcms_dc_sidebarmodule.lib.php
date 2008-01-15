@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * sidemenu items.
  *
- * @version 0.0.5
+ * @version 0.0.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -48,15 +48,7 @@ class tcms_dc_sidebarmodule {
 	 * PHP5 Constructor
 	 *
 	 */
-	function __construct() {
-	}
-	
-	/**
-	 * PHP4 Constructor
-	 *
-	 */
-	function tcms_dc_sidebarmodule(){
-		$this->__construct();
+	public function __construct() {
 	}
 	
 	/**
@@ -65,7 +57,7 @@ class tcms_dc_sidebarmodule {
 	 * @param String $value
 	 * @return String
 	 */
-	function setSideGallery($value){
+	public function setSideGallery($value){
 		$this->m_side_gallery = $value;
 	}
 	
@@ -74,7 +66,7 @@ class tcms_dc_sidebarmodule {
 	 * 
 	 * @return String
 	 */
-	function getSideGallery(){
+	public function getSideGallery(){
 		return $this->m_side_gallery;
 	}
 	
@@ -84,7 +76,7 @@ class tcms_dc_sidebarmodule {
 	 * @param String $value
 	 * @return String
 	 */
-	function setSideCategory($value){
+	public function setSideCategory($value){
 		$this->m_side_category = $value;
 	}
 	
@@ -93,7 +85,7 @@ class tcms_dc_sidebarmodule {
 	 * 
 	 * @return String
 	 */
-	function getSideCategory(){
+	public function getSideCategory(){
 		return $this->m_side_category;
 	}
 	
@@ -103,7 +95,7 @@ class tcms_dc_sidebarmodule {
 	 * @param String $value
 	 * @return String
 	 */
-	function setSideArchive($value){
+	public function setSideArchive($value){
 		$this->m_side_archives = $value;
 	}
 	
@@ -112,7 +104,7 @@ class tcms_dc_sidebarmodule {
 	 * 
 	 * @return String
 	 */
-	function getSideArchive(){
+	public function getSideArchive(){
 		return $this->m_side_archives;
 	}
 	
@@ -122,7 +114,7 @@ class tcms_dc_sidebarmodule {
 	 * @param String $value
 	 * @return String
 	 */
-	function setSideLinks($value){
+	public function setSideLinks($value){
 		$this->m_side_links = $value;
 	}
 	
@@ -131,7 +123,7 @@ class tcms_dc_sidebarmodule {
 	 * 
 	 * @return String
 	 */
-	function getSideLinks(){
+	public function getSideLinks(){
 		return $this->m_side_links;
 	}
 	
@@ -141,7 +133,7 @@ class tcms_dc_sidebarmodule {
 	 * @param String $value
 	 * @return String
 	 */
-	function setLayoutChooser($value){
+	public function setLayoutChooser($value){
 		$this->m_layout_chooser = $value;
 	}
 	
@@ -150,7 +142,7 @@ class tcms_dc_sidebarmodule {
 	 * 
 	 * @return String
 	 */
-	function getLayoutChooser(){
+	public function getLayoutChooser(){
 		return $this->m_layout_chooser;
 	}
 	
@@ -160,7 +152,7 @@ class tcms_dc_sidebarmodule {
 	 * @param String $value
 	 * @return String
 	 */
-	function setLogin($value){
+	public function setLogin($value){
 		$this->m_login = $value;
 	}
 	
@@ -169,7 +161,7 @@ class tcms_dc_sidebarmodule {
 	 * 
 	 * @return String
 	 */
-	function getLogin(){
+	public function getLogin(){
 		return $this->m_login;
 	}
 	
@@ -179,7 +171,7 @@ class tcms_dc_sidebarmodule {
 	 * @param String $value
 	 * @return String
 	 */
-	function setSyndication($value){
+	public function setSyndication($value){
 		$this->m_syndication = $value;
 	}
 	
@@ -188,7 +180,7 @@ class tcms_dc_sidebarmodule {
 	 * 
 	 * @return String
 	 */
-	function getSyndication(){
+	public function getSyndication(){
 		return $this->m_syndication;
 	}
 	
@@ -198,7 +190,7 @@ class tcms_dc_sidebarmodule {
 	 * @param String $value
 	 * @return String
 	 */
-	function setNewsletter($value){
+	public function setNewsletter($value){
 		$this->m_newsletter = $value;
 	}
 	
@@ -207,7 +199,7 @@ class tcms_dc_sidebarmodule {
 	 * 
 	 * @return String
 	 */
-	function getNewsletter(){
+	public function getNewsletter(){
 		return $this->m_newsletter;
 	}
 	
@@ -217,7 +209,7 @@ class tcms_dc_sidebarmodule {
 	 * @param String $value
 	 * @return String
 	 */
-	function setSearch($value){
+	public function setSearch($value){
 		$this->m_search = $value;
 	}
 	
@@ -226,7 +218,7 @@ class tcms_dc_sidebarmodule {
 	 * 
 	 * @return String
 	 */
-	function getSearch(){
+	public function getSearch(){
 		return $this->m_search;
 	}
 	
@@ -236,7 +228,7 @@ class tcms_dc_sidebarmodule {
 	 * @param String $value
 	 * @return String
 	 */
-	function setSidebar($value){
+	public function setSidebar($value){
 		$this->m_sidebar = $value;
 	}
 	
@@ -245,7 +237,7 @@ class tcms_dc_sidebarmodule {
 	 * 
 	 * @return String
 	 */
-	function getSidebar(){
+	public function getSidebar(){
 		return $this->m_sidebar;
 	}
 	
@@ -255,7 +247,7 @@ class tcms_dc_sidebarmodule {
 	 * @param String $value
 	 * @return String
 	 */
-	function setPoll($value){
+	public function setPoll($value){
 		$this->m_poll = $value;
 	}
 	
@@ -264,7 +256,7 @@ class tcms_dc_sidebarmodule {
 	 * 
 	 * @return String
 	 */
-	function getPoll(){
+	public function getPoll(){
 		return $this->m_poll;
 	}
 }

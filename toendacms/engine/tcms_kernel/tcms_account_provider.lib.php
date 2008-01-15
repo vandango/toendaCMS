@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide methods to get and
  * save user accounts and also contacts.
  * 
- * @version 0.3.2
+ * @version 0.3.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -33,10 +33,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * Methods
  *
- * __construct                 -> PHP5 Constructor
- * tcms_account_provider       -> PHP4 Constructor
- * __destruct                  -> PHP5 Destructor
- * _tcms_account_provider      -> PHP4 Destructor
+ * __construct                 -> Constructor
+ * __destruct                  -> Destructor
  * 
  * setTcmsTimeObj              -> Set the tcms_time object
  *
@@ -72,12 +70,12 @@ class tcms_account_provider extends tcms_main {
 	
 	
 	/**
-	 * PHP5 Constructor
+	 * Constructor
 	 *
 	 * @param String $administer
 	 * @param String $charset
 	 */
-	function __construct($administer, $charset, $tcmsTimeObj = null){
+	public function __construct($administer, $charset, $tcmsTimeObj = null){
 		$this->m_administer = $administer;
 		$this->m_charset = $charset;
 		$this->_tcmsTime = $tcmsTimeObj;
@@ -100,30 +98,9 @@ class tcms_account_provider extends tcms_main {
 	
 	
 	/**
-	 * PHP4 Constructor
-	 *
-	 * @param String $administer
-	 * @param String $charset
+	 * Destructor
 	 */
-	function tcms_account_provider($administer, $charset, $tcmsTimeObj = null){
-		$this->__construct($administer, $charset, $tcmsTimeObj);
-	}
-	
-	
-	
-	/**
-	 * PHP5 Destructor
-	 */
-	function __destruct(){
-	}
-	
-	
-	
-	/**
-	 * PHP4 Destructor
-	 */
-	function _tcms_account_provider(){
-		$this->__destruct();
+	public function __destruct(){
 	}
 	
 	
@@ -133,7 +110,7 @@ class tcms_account_provider extends tcms_main {
 	 *
 	 * @param Object $value
 	 */
-	function setTcmsTimeObj($value) {
+	public function setTcmsTimeObj($value) {
 		$this->_tcmsTime = $value;
 	}
 	
@@ -145,7 +122,7 @@ class tcms_account_provider extends tcms_main {
 	 * @param String $userID
 	 * @return String
 	 */
-	function getUsername($userID) {
+	public function getUsername($userID) {
 		if($this->db_choosenDB == 'xml') {
 			if(file_exists($this->m_administer.'/tcms_user/'.$userID.'.xml')) {
 				$xmlUser = new xmlparser($this->m_administer.'/tcms_user/'.$userID.'.xml', 'r');
@@ -197,7 +174,7 @@ class tcms_account_provider extends tcms_main {
 	 * @param String $realOrNick
 	 * @return String
 	 */
-	function getUserID($realOrNick) {
+	public function getUserID($realOrNick) {
 		if($this->db_choosenDB == 'xml') {
 			$arrUserXML = $this->getPathContent($this->m_administer.'/tcms_user');
 			
@@ -279,7 +256,7 @@ class tcms_account_provider extends tcms_main {
 	 * @param Boolean $forBackend = false
 	 * @return Array
 	 */
-	function getUserInfo($session, $forBackend = false){
+	public function getUserInfo($session, $forBackend = false){
 		if($this->db_choosenDB == 'xml') {
 			if($forBackend) {
 				$ws_path = 'session/'.$session;
@@ -375,7 +352,7 @@ class tcms_account_provider extends tcms_main {
 	 * @param String $id
 	 * @return tcms_dc_account
 	 */
-	function getAccount($id){
+	public function getAccount($id){
 		if($this->db_choosenDB == 'xml'){
 			$xml = new xmlparser($this->m_administer.'/tcms_user/'.$id.'.xml', 'r');
 			
@@ -543,7 +520,7 @@ class tcms_account_provider extends tcms_main {
 	 * @param String $username
 	 * @return tcms_dc_account
 	 */
-	function getAccountByUsername($username){
+	public function getAccountByUsername($username){
 		$accDC = new tcms_dc_account();
 		
 		$id = $this->getUserID($username);
@@ -560,7 +537,7 @@ class tcms_account_provider extends tcms_main {
 	 * @param String $id
 	 * @return Boolean
 	 */
-	function checkUserExists($id) {
+	public function checkUserExists($id) {
 		if($this->db_choosenDB == 'xml'){
 			if(file_exists($this->m_administer.'/tcms_user/'.$id.'.xml')) {
 				return true;
@@ -598,7 +575,7 @@ class tcms_account_provider extends tcms_main {
 	 *
 	 * @param tcms_dc_account $acc
 	 */
-	function createNewUser($acc) {
+	public function createNewUser($acc) {
 		$this->saveAccount($acc, false);
 	}
 	
@@ -609,7 +586,7 @@ class tcms_account_provider extends tcms_main {
 	 * @param tcms_dc_account $acc
 	 * @param Boolean $saveAsUpdate = true
 	 */
-	function saveAccount($acc, $saveAsUpdate = true) {
+	public function saveAccount($acc, $saveAsUpdate = true) {
 		$new_name      = $this->encodeText($acc->getName(), '2', $this->m_charset);
 		$new_username  = $this->encodeText($acc->getUsername(), '2', $this->m_charset);
 		$new_occ       = $this->encodeText($acc->getOccupation(), '2', $this->m_charset);
@@ -781,7 +758,7 @@ class tcms_account_provider extends tcms_main {
 	 * @param String $id
 	 * @return tcms_dc_contact
 	 */
-	function getContact($id){
+	public function getContact($id){
 		if($this->db_choosenDB == 'xml'){
 			$xml = new xmlparser($this->m_administer.'/tcms_contacts/'.$id.'.xml','r');
 			$tc_defcon   = $xml->readSection('contact', 'default_con');

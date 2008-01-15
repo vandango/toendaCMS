@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * sidemenu items.
  *
- * @version 0.0.8
+ * @version 0.0.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -52,15 +52,7 @@ class tcms_dc_sidemenuitem {
 	 * PHP5 Constructor
 	 *
 	 */
-	function __construct() {
-	}
-	
-	/**
-	 * PHP4 Constructor
-	 *
-	 */
-	function tcms_dc_sidemenuitem(){
-		$this->__construct();
+	public function __construct() {
 	}
 	
 	// ---------------------------------------
@@ -73,7 +65,7 @@ class tcms_dc_sidemenuitem {
 	 * @param String $value
 	 * @return String
 	 */
-	function setID($value){
+	public function setID($value){
 		$this->m_uid = $value;
 	}
 	
@@ -82,7 +74,7 @@ class tcms_dc_sidemenuitem {
 	 * 
 	 * @return String
 	 */
-	function getID(){
+	public function getID(){
 		return $this->m_uid;
 	}
 	
@@ -92,7 +84,7 @@ class tcms_dc_sidemenuitem {
 	 * @param String $value
 	 * @return String
 	 */
-	function setRoot($value){
+	public function setRoot($value){
 		$this->m_root = $value;
 	}
 	
@@ -101,7 +93,7 @@ class tcms_dc_sidemenuitem {
 	 * 
 	 * @return String
 	 */
-	function getRoot(){
+	public function getRoot(){
 		return $this->m_root;
 	}
 	
@@ -111,7 +103,7 @@ class tcms_dc_sidemenuitem {
 	 * @param String $value
 	 * @return String
 	 */
-	function setTitle($value){
+	public function setTitle($value){
 		$this->m_title = $value;
 	}
 	
@@ -120,7 +112,7 @@ class tcms_dc_sidemenuitem {
 	 * 
 	 * @return String
 	 */
-	function getTitle(){
+	public function getTitle(){
 		return $this->m_title;
 	}
 	
@@ -130,7 +122,7 @@ class tcms_dc_sidemenuitem {
 	 * @param String $value
 	 * @return String
 	 */
-	function setPosition($value){
+	public function setPosition($value){
 		$this->m_order = $value;
 	}
 	
@@ -139,7 +131,7 @@ class tcms_dc_sidemenuitem {
 	 * 
 	 * @return String
 	 */
-	function getPosition(){
+	public function getPosition(){
 		return $this->m_order;
 	}
 	
@@ -149,7 +141,7 @@ class tcms_dc_sidemenuitem {
 	 * @param String $value
 	 * @return String
 	 */
-	function setSubmenuPosition($value){
+	public function setSubmenuPosition($value){
 		$this->m_suborder = $value;
 	}
 	
@@ -158,7 +150,7 @@ class tcms_dc_sidemenuitem {
 	 * 
 	 * @return String
 	 */
-	function getSubmenuPosition(){
+	public function getSubmenuPosition(){
 		return $this->m_suborder;
 	}
 	
@@ -168,7 +160,7 @@ class tcms_dc_sidemenuitem {
 	 * @param String $value
 	 * @return String
 	 */
-	function setType($value){
+	public function setType($value){
 		$this->m_type = $value;
 	}
 	
@@ -177,7 +169,7 @@ class tcms_dc_sidemenuitem {
 	 * 
 	 * @return String
 	 */
-	function getType(){
+	public function getType(){
 		return $this->m_type;
 	}
 	
@@ -187,7 +179,7 @@ class tcms_dc_sidemenuitem {
 	 * @param String $value
 	 * @return String
 	 */
-	function setParent($value){
+	public function setParent($value){
 		$this->m_parent = $value;
 	}
 	
@@ -196,7 +188,7 @@ class tcms_dc_sidemenuitem {
 	 * 
 	 * @return String
 	 */
-	function getParent(){
+	public function getParent(){
 		return $this->m_parent;
 	}
 	
@@ -206,7 +198,7 @@ class tcms_dc_sidemenuitem {
 	 * @param String $value
 	 * @return String
 	 */
-	function setLink($value){
+	public function setLink($value){
 		$this->m_link = $value;
 	}
 	
@@ -215,7 +207,7 @@ class tcms_dc_sidemenuitem {
 	 * 
 	 * @return String
 	 */
-	function getLink(){
+	public function getLink(){
 		return $this->m_link;
 	}
 	
@@ -225,7 +217,7 @@ class tcms_dc_sidemenuitem {
 	 * @param String $value
 	 * @return String
 	 */
-	function setPublished($value){
+	public function setPublished($value){
 		$this->m_pub = $value;
 	}
 	
@@ -234,7 +226,7 @@ class tcms_dc_sidemenuitem {
 	 * 
 	 * @return String
 	 */
-	function getPublished(){
+	public function getPublished(){
 		return $this->m_pub;
 	}
 	
@@ -244,7 +236,7 @@ class tcms_dc_sidemenuitem {
 	 * @param String $value
 	 * @return String
 	 */
-	function setAccess($value){
+	public function setAccess($value){
 		$this->m_acs = $value;
 	}
 	
@@ -253,7 +245,7 @@ class tcms_dc_sidemenuitem {
 	 * 
 	 * @return String
 	 */
-	function getAccess(){
+	public function getAccess(){
 		return $this->m_acs;
 	}
 	
@@ -263,7 +255,7 @@ class tcms_dc_sidemenuitem {
 	 * @param String $value
 	 * @return String
 	 */
-	function setTarget($value){
+	public function setTarget($value){
 		$this->m_target = $value;
 	}
 	
@@ -272,7 +264,7 @@ class tcms_dc_sidemenuitem {
 	 * 
 	 * @return String
 	 */
-	function getTarget(){
+	public function getTarget(){
 		return $this->m_target;
 	}
 }

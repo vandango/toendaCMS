@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * content items.
  *
- * @version 0.0.
+ * @version 0.0.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -53,15 +53,7 @@ class tcms_dc_content {
 	 * PHP5 Constructor
 	 *
 	 */
-	function __construct() {
-	}
-	
-	/**
-	 * PHP4 Constructor
-	 *
-	 */
-	function tcms_dc_content(){
-		$this->__construct();
+	public function __construct() {
 	}
 	
 	// ---------------------------------------
@@ -73,7 +65,7 @@ class tcms_dc_content {
 	 * 
 	 * @param String $value
 	 */
-	function setID($value){
+	public function setID($value){
 		$this->m_id = $value;
 	}
 	
@@ -82,7 +74,7 @@ class tcms_dc_content {
 	 * 
 	 * @return String
 	 */
-	function getID(){
+	public function getID(){
 		return $this->m_id;
 	}
 	
@@ -91,7 +83,7 @@ class tcms_dc_content {
 	 * 
 	 * @param String $value
 	 */
-	function setTitle($value){
+	public function setTitle($value){
 		$this->m_title = $value;
 	}
 	
@@ -100,7 +92,7 @@ class tcms_dc_content {
 	 * 
 	 * @return String
 	 */
-	function getTitle(){
+	public function getTitle(){
 		return $this->m_title;
 	}
 	
@@ -109,7 +101,7 @@ class tcms_dc_content {
 	 * 
 	 * @param String $value
 	 */
-	function setKeynote($value){
+	public function setKeynote($value){
 		$this->m_key = $value;
 	}
 	
@@ -118,7 +110,7 @@ class tcms_dc_content {
 	 * 
 	 * @return String
 	 */
-	function getKeynote(){
+	public function getKeynote(){
 		return $this->m_key;
 	}
 	
@@ -127,7 +119,7 @@ class tcms_dc_content {
 	 * 
 	 * @param String $value
 	 */
-	function setText($value){
+	public function setText($value){
 		$this->m_content00 = $value;
 	}
 	
@@ -136,7 +128,7 @@ class tcms_dc_content {
 	 * 
 	 * @return String
 	 */
-	function getText(){
+	public function getText(){
 		return $this->m_content00;
 	}
 	
@@ -145,7 +137,7 @@ class tcms_dc_content {
 	 * 
 	 * @param String $value
 	 */
-	function setSecondContent($value){
+	public function setSecondContent($value){
 		$this->m_content01 = $value;
 	}
 	
@@ -154,7 +146,7 @@ class tcms_dc_content {
 	 * 
 	 * @return String
 	 */
-	function getSecondContent(){
+	public function getSecondContent(){
 		return $this->m_content01;
 	}
 	
@@ -163,7 +155,7 @@ class tcms_dc_content {
 	 * 
 	 * @param String $value
 	 */
-	function setFootText($value){
+	public function setFootText($value){
 		$this->m_foot = $value;
 	}
 	
@@ -172,7 +164,7 @@ class tcms_dc_content {
 	 * 
 	 * @return String
 	 */
-	function getFootText(){
+	public function getFootText(){
 		return $this->m_foot;
 	}
 	
@@ -181,7 +173,7 @@ class tcms_dc_content {
 	 * 
 	 * @param String $value
 	 */
-	function setTextLayout($value){
+	public function setTextLayout($value){
 		$this->m_text_layout = $value;
 	}
 	
@@ -190,7 +182,7 @@ class tcms_dc_content {
 	 * 
 	 * @return String
 	 */
-	function getTextLayout(){
+	public function getTextLayout(){
 		return $this->m_text_layout;
 	}
 	
@@ -199,7 +191,7 @@ class tcms_dc_content {
 	 * 
 	 * @param String $value
 	 */
-	function setAccess($value){
+	public function setAccess($value){
 		$this->m_acs = $value;
 	}
 	
@@ -208,7 +200,7 @@ class tcms_dc_content {
 	 * 
 	 * @return String
 	 */
-	function getAccess(){
+	public function getAccess(){
 		return $this->m_acs;
 	}
 	
@@ -217,7 +209,7 @@ class tcms_dc_content {
 	 * 
 	 * @param String $value
 	 */
-	function setAutor($value){
+	public function setAutor($value){
 		$this->m_autor = $value;
 	}
 	
@@ -226,7 +218,7 @@ class tcms_dc_content {
 	 * 
 	 * @return String
 	 */
-	function getAutor(){
+	public function getAutor(){
 		return $this->m_autor;
 	}
 	
@@ -235,7 +227,7 @@ class tcms_dc_content {
 	 * 
 	 * @param Boolean $value
 	 */
-	function setPublished($value){
+	public function setPublished($value){
 		$this->m_pub = $value;
 	}
 	
@@ -244,7 +236,7 @@ class tcms_dc_content {
 	 * 
 	 * @return Boolean
 	 */
-	function getPublished() {
+	public function getPublished() {
 		return ( $this->m_pub == '1' || $this->m_pub == 1 ? true : false );
 	}
 	
@@ -253,7 +245,7 @@ class tcms_dc_content {
 	 * 
 	 * @param Boolean $value
 	 */
-	function setInWorkState($value){
+	public function setInWorkState($value){
 		$this->m_in_work = $value;
 	}
 	
@@ -262,7 +254,7 @@ class tcms_dc_content {
 	 * 
 	 * @return Boolean
 	 */
-	function getInWorkState() {
+	public function getInWorkState() {
 		return ( $this->m_in_work == '1' || $this->m_in_work == 1 ? true : false );
 	}
 	
@@ -271,7 +263,7 @@ class tcms_dc_content {
 	 * 
 	 * @param String $value
 	 */
-	function setLanguage($value){
+	public function setLanguage($value){
 		$this->m_language = $value;
 	}
 	
@@ -280,7 +272,7 @@ class tcms_dc_content {
 	 * 
 	 * @return String
 	 */
-	function getLanguage(){
+	public function getLanguage(){
 		return $this->m_language;
 	}
 }

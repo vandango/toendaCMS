@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used as a datacontainer for the news.
  *
- * @version 0.1.6
+ * @version 0.1.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -55,15 +55,7 @@ class tcms_dc_news {
 	 * PHP5 Constructor
 	 *
 	 */
-	function __construct() {
-	}
-	
-	/**
-	 * PHP4 Constructor
-	 *
-	 */
-	function tcms_dc_news(){
-		$this->__construct();
+	public function __construct() {
 	}
 	
 	// ---------------------------------------
@@ -76,7 +68,7 @@ class tcms_dc_news {
 	 * @param String $value
 	 * @return String
 	 */
-	function setID($value){
+	public function setID($value){
 		$this->m_order = $value;
 	}
 	
@@ -85,7 +77,7 @@ class tcms_dc_news {
 	 * 
 	 * @return String
 	 */
-	function getID(){
+	public function getID(){
 		return $this->m_order;
 	}
 	
@@ -95,7 +87,7 @@ class tcms_dc_news {
 	 * @param String $value
 	 * @return String
 	 */
-	function setTitle($value){
+	public function setTitle($value){
 		$this->m_title = $value;
 	}
 	
@@ -104,7 +96,7 @@ class tcms_dc_news {
 	 * 
 	 * @return String
 	 */
-	function getTitle(){
+	public function getTitle(){
 		return $this->m_title;
 	}
 	
@@ -114,7 +106,7 @@ class tcms_dc_news {
 	 * @param String $value
 	 * @return String
 	 */
-	function setAutor($value){
+	public function setAutor($value){
 		$this->m_autor = $value;
 	}
 	
@@ -123,7 +115,7 @@ class tcms_dc_news {
 	 * 
 	 * @return String
 	 */
-	function getAutor(){
+	public function getAutor(){
 		return $this->m_autor;
 	}
 	
@@ -133,7 +125,7 @@ class tcms_dc_news {
 	 * @param String $value
 	 * @return String
 	 */
-	function setDate($value){
+	public function setDate($value){
 		$this->m_date = $value;
 	}
 	
@@ -142,7 +134,7 @@ class tcms_dc_news {
 	 * 
 	 * @return String
 	 */
-	function getDate(){
+	public function getDate(){
 		return $this->m_date;
 	}
 	
@@ -152,7 +144,7 @@ class tcms_dc_news {
 	 * @param String $value
 	 * @return String
 	 */
-	function setTime($value){
+	public function setTime($value){
 		$this->m_time = $value;
 	}
 	
@@ -161,7 +153,7 @@ class tcms_dc_news {
 	 * 
 	 * @return String
 	 */
-	function getTime(){
+	public function getTime(){
 		return $this->m_time;
 	}
 	
@@ -171,7 +163,7 @@ class tcms_dc_news {
 	 * @param String $value
 	 * @return String
 	 */
-	function setText($value){
+	public function setText($value){
 		$this->m_newstext = $value;
 	}
 	
@@ -180,7 +172,7 @@ class tcms_dc_news {
 	 * 
 	 * @return String
 	 */
-	function getText(){
+	public function getText(){
 		return $this->m_newstext;
 	}
 	
@@ -190,7 +182,7 @@ class tcms_dc_news {
 	 * @param String $value
 	 * @return String
 	 */
-	function setTimestamp($value){
+	public function setTimestamp($value){
 		$this->m_stamp = $value;
 	}
 	
@@ -199,7 +191,7 @@ class tcms_dc_news {
 	 * 
 	 * @return String
 	 */
-	function getTimestamp(){
+	public function getTimestamp(){
 		return $this->m_stamp;
 	}
 	
@@ -209,7 +201,7 @@ class tcms_dc_news {
 	 * @param String $value
 	 * @return String
 	 */
-	function setPublished($value){
+	public function setPublished($value){
 		$this->m_pub = $value;
 	}
 	
@@ -218,7 +210,7 @@ class tcms_dc_news {
 	 * 
 	 * @return String
 	 */
-	function getPublished(){
+	public function getPublished(){
 		return $this->m_pub;
 	}
 	
@@ -228,7 +220,7 @@ class tcms_dc_news {
 	 * @param String $value
 	 * @return String
 	 */
-	function setPublishDate($value){
+	public function setPublishDate($value){
 		$this->m_pub_date = $value;
 	}
 	
@@ -237,7 +229,7 @@ class tcms_dc_news {
 	 * 
 	 * @return String
 	 */
-	function getPublishDate(){
+	public function getPublishDate(){
 		return $this->m_pub_date;
 	}
 	
@@ -247,7 +239,7 @@ class tcms_dc_news {
 	 * @param String $value
 	 * @return String
 	 */
-	function setCommentsEnabled($value){
+	public function setCommentsEnabled($value){
 		$this->m_cmt = $value;
 	}
 	
@@ -256,7 +248,7 @@ class tcms_dc_news {
 	 * 
 	 * @return String
 	 */
-	function getCommentsEnabled(){
+	public function getCommentsEnabled(){
 		return $this->m_cmt;
 	}
 	
@@ -266,7 +258,7 @@ class tcms_dc_news {
 	 * @param String $value
 	 * @return String
 	 */
-	function setImage($value){
+	public function setImage($value){
 		$this->m_img = $value;
 	}
 	
@@ -275,7 +267,7 @@ class tcms_dc_news {
 	 * 
 	 * @return String
 	 */
-	function getImage(){
+	public function getImage(){
 		return $this->m_img;
 	}
 	
@@ -285,7 +277,7 @@ class tcms_dc_news {
 	 * @param String $value
 	 * @return String
 	 */
-	function setCategories($value){
+	public function setCategories($value){
 		$this->m_cat = $value;
 	}
 	
@@ -294,7 +286,7 @@ class tcms_dc_news {
 	 * 
 	 * @return String
 	 */
-	function getCategories(){
+	public function getCategories(){
 		return $this->m_cat;
 	}
 	
@@ -304,7 +296,7 @@ class tcms_dc_news {
 	 * @param String $value
 	 * @return String
 	 */
-	function setAccess($value){
+	public function setAccess($value){
 		$this->m_acs = $value;
 	}
 	
@@ -313,7 +305,7 @@ class tcms_dc_news {
 	 * 
 	 * @return String
 	 */
-	function getAccess(){
+	public function getAccess(){
 		return $this->m_acs;
 	}
 	
@@ -323,7 +315,7 @@ class tcms_dc_news {
 	 * @param String $value
 	 * @return String
 	 */
-	function setShowOnFrontpage($value){
+	public function setShowOnFrontpage($value){
 		$this->m_frontpage = $value;
 	}
 	
@@ -332,7 +324,7 @@ class tcms_dc_news {
 	 * 
 	 * @return String
 	 */
-	function getShowOnFrontpage(){
+	public function getShowOnFrontpage(){
 		return $this->m_frontpage;
 	}
 	
@@ -341,7 +333,7 @@ class tcms_dc_news {
 	 * 
 	 * @param String $value
 	 */
-	function setLanguage($value){
+	public function setLanguage($value){
 		$this->m_language = $value;
 	}
 	
@@ -350,7 +342,7 @@ class tcms_dc_news {
 	 * 
 	 * @return String
 	 */
-	function getLanguage(){
+	public function getLanguage(){
 		return $this->m_language;
 	}
 }

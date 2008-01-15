@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * user accounts items.
  *
- * @version 0.1.3
+ * @version 0.1.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -60,15 +60,7 @@ class tcms_dc_account {
 	 * PHP5 Constructor
 	 *
 	 */
-	function __construct() {
-	}
-	
-	/**
-	 * PHP4 Constructor
-	 *
-	 */
-	function tcms_dc_account(){
-		$this->__construct();
+	public function __construct() {
 	}
 	
 	/**
@@ -77,7 +69,7 @@ class tcms_dc_account {
 	 * @param String $value
 	 * @return String
 	 */
-	function setID($value){
+	public function setID($value){
 		$this->m_uid = $value;
 	}
 	
@@ -86,7 +78,7 @@ class tcms_dc_account {
 	 * 
 	 * @return String
 	 */
-	function getID(){
+	public function getID(){
 		return $this->m_uid;
 	}
 	
@@ -96,7 +88,7 @@ class tcms_dc_account {
 	 * @param String $value
 	 * @return String
 	 */
-	function setUsername($value){
+	public function setUsername($value){
 		$this->m_username = $value;
 	}
 	
@@ -105,7 +97,7 @@ class tcms_dc_account {
 	 * 
 	 * @return String
 	 */
-	function getUsername(){
+	public function getUsername(){
 		return $this->m_username;
 	}
 	
@@ -115,7 +107,7 @@ class tcms_dc_account {
 	 * @param String $value
 	 * @return String
 	 */
-	function setPassword($value){
+	public function setPassword($value){
 		$this->m_password = $value;
 	}
 	
@@ -124,7 +116,7 @@ class tcms_dc_account {
 	 * 
 	 * @return String
 	 */
-	function getPassword(){
+	public function getPassword(){
 		return $this->m_password;
 	}
 	
@@ -134,7 +126,7 @@ class tcms_dc_account {
 	 * @param String $value
 	 * @return String
 	 */
-	function setEmail($value){
+	public function setEmail($value){
 		$this->m_email = $value;
 	}
 	
@@ -143,7 +135,7 @@ class tcms_dc_account {
 	 * 
 	 * @return String
 	 */
-	function getEmail(){
+	public function getEmail(){
 		return $this->m_email;
 	}
 	
@@ -153,7 +145,7 @@ class tcms_dc_account {
 	 * @param String $value
 	 * @return String
 	 */
-	function setName($value){
+	public function setName($value){
 		$this->m_name = $value;
 	}
 	
@@ -162,7 +154,7 @@ class tcms_dc_account {
 	 * 
 	 * @return String
 	 */
-	function getName(){
+	public function getName(){
 		return $this->m_name;
 	}
 	
@@ -172,7 +164,7 @@ class tcms_dc_account {
 	 * @param String $value
 	 * @return String
 	 */
-	function setGroup($value){
+	public function setGroup($value){
 		$this->m_group = $value;
 	}
 	
@@ -181,7 +173,7 @@ class tcms_dc_account {
 	 * 
 	 * @return String
 	 */
-	function getGroup(){
+	public function getGroup(){
 		return $this->m_group;
 	}
 	
@@ -191,7 +183,7 @@ class tcms_dc_account {
 	 * @param String $value
 	 * @return String
 	 */
-	function setJoinDate($value){
+	public function setJoinDate($value){
 		$this->m_joindate = $value;
 	}
 	
@@ -200,7 +192,7 @@ class tcms_dc_account {
 	 * 
 	 * @return String
 	 */
-	function getJoinDate(){
+	public function getJoinDate(){
 		return $this->m_joindate;
 	}
 	
@@ -210,7 +202,7 @@ class tcms_dc_account {
 	 * @param String $value
 	 * @return String
 	 */
-	function setLastLogin($value){
+	public function setLastLogin($value){
 		$this->m_lastlogin = $value;
 	}
 	
@@ -219,7 +211,7 @@ class tcms_dc_account {
 	 * 
 	 * @return String
 	 */
-	function getLastLogin(){
+	public function getLastLogin(){
 		return $this->m_lastlogin;
 	}
 	
@@ -229,7 +221,7 @@ class tcms_dc_account {
 	 * @param String $value
 	 * @return String
 	 */
-	function setBirthday($value){
+	public function setBirthday($value){
 		$this->m_birthday = $value;
 	}
 	
@@ -238,7 +230,7 @@ class tcms_dc_account {
 	 * 
 	 * @return String
 	 */
-	function getBirthday(){
+	public function getBirthday(){
 		return $this->m_birthday;
 	}
 	
@@ -248,7 +240,7 @@ class tcms_dc_account {
 	 * @param String $value
 	 * @return String
 	 */
-	function setGender($value){
+	public function setGender($value){
 		$this->m_gender = $value;
 	}
 	
@@ -257,7 +249,7 @@ class tcms_dc_account {
 	 * 
 	 * @return String
 	 */
-	function getGender(){
+	public function getGender(){
 		return $this->m_gender;
 	}
 	
@@ -267,7 +259,7 @@ class tcms_dc_account {
 	 * @param String $value
 	 * @return String
 	 */
-	function setOccupation($value){
+	public function setOccupation($value){
 		$this->m_occupation = $value;
 	}
 	
@@ -276,7 +268,7 @@ class tcms_dc_account {
 	 * 
 	 * @return String
 	 */
-	function getOccupation(){
+	public function getOccupation(){
 		return $this->m_occupation;
 	}
 	
@@ -286,7 +278,7 @@ class tcms_dc_account {
 	 * @param String $value
 	 * @return String
 	 */
-	function setHomepage($value){
+	public function setHomepage($value){
 		$this->m_homepage = $value;
 	}
 	
@@ -295,7 +287,7 @@ class tcms_dc_account {
 	 * 
 	 * @return String
 	 */
-	function getHomepage(){
+	public function getHomepage(){
 		return $this->m_homepage;
 	}
 	
@@ -305,7 +297,7 @@ class tcms_dc_account {
 	 * @param String $value
 	 * @return String
 	 */
-	function setICQ($value){
+	public function setICQ($value){
 		$this->m_icq = $value;
 	}
 	
@@ -314,7 +306,7 @@ class tcms_dc_account {
 	 * 
 	 * @return String
 	 */
-	function getICQ(){
+	public function getICQ(){
 		return $this->m_icq;
 	}
 	
@@ -324,7 +316,7 @@ class tcms_dc_account {
 	 * @param String $value
 	 * @return String
 	 */
-	function setAIM($value){
+	public function setAIM($value){
 		$this->m_aim = $value;
 	}
 	
@@ -333,7 +325,7 @@ class tcms_dc_account {
 	 * 
 	 * @return String
 	 */
-	function getAIM(){
+	public function getAIM(){
 		return $this->m_aim;
 	}
 	
@@ -343,7 +335,7 @@ class tcms_dc_account {
 	 * @param String $value
 	 * @return String
 	 */
-	function setYIM($value){
+	public function setYIM($value){
 		$this->m_yim = $value;
 	}
 	
@@ -352,7 +344,7 @@ class tcms_dc_account {
 	 * 
 	 * @return String
 	 */
-	function getYIM(){
+	public function getYIM(){
 		return $this->m_yim;
 	}
 	
@@ -362,7 +354,7 @@ class tcms_dc_account {
 	 * @param String $value
 	 * @return String
 	 */
-	function setMSN($value){
+	public function setMSN($value){
 		$this->m_msn = $value;
 	}
 	
@@ -371,7 +363,7 @@ class tcms_dc_account {
 	 * 
 	 * @return String
 	 */
-	function getMSN(){
+	public function getMSN(){
 		return $this->m_msn;
 	}
 	
@@ -381,7 +373,7 @@ class tcms_dc_account {
 	 * @param String $value
 	 * @return String
 	 */
-	function setSkype($value){
+	public function setSkype($value){
 		$this->m_skype = $value;
 	}
 	
@@ -390,7 +382,7 @@ class tcms_dc_account {
 	 * 
 	 * @return String
 	 */
-	function getSkype(){
+	public function getSkype(){
 		return $this->m_skype;
 	}
 	
@@ -400,7 +392,7 @@ class tcms_dc_account {
 	 * @param String $value
 	 * @return String
 	 */
-	function setEnabled($value){
+	public function setEnabled($value){
 		$this->m_enabled = $value;
 	}
 	
@@ -409,7 +401,7 @@ class tcms_dc_account {
 	 * 
 	 * @return String
 	 */
-	function getEnabled(){
+	public function getEnabled(){
 		return $this->m_enabled;
 	}
 	
@@ -419,7 +411,7 @@ class tcms_dc_account {
 	 * @param String $value
 	 * @return String
 	 */
-	function setTCMSScriptEnabled($value){
+	public function setTCMSScriptEnabled($value){
 		$this->m_tcms_enabled = $value;
 	}
 	
@@ -428,7 +420,7 @@ class tcms_dc_account {
 	 * 
 	 * @return String
 	 */
-	function getTCMSScriptEnabled(){
+	public function getTCMSScriptEnabled(){
 		return $this->m_tcms_enabled;
 	}
 	
@@ -438,7 +430,7 @@ class tcms_dc_account {
 	 * @param String $value
 	 * @return String
 	 */
-	function setStaticValue($value){
+	public function setStaticValue($value){
 		$this->m_static_value = $value;
 	}
 	
@@ -447,7 +439,7 @@ class tcms_dc_account {
 	 * 
 	 * @return String
 	 */
-	function getStaticValue(){
+	public function getStaticValue(){
 		return $this->m_static_value;
 	}
 	
@@ -457,7 +449,7 @@ class tcms_dc_account {
 	 * @param String $value
 	 * @return String
 	 */
-	function setSignature($value){
+	public function setSignature($value){
 		$this->m_signature = $value;
 	}
 	
@@ -466,7 +458,7 @@ class tcms_dc_account {
 	 * 
 	 * @return String
 	 */
-	function getSignature(){
+	public function getSignature(){
 		return $this->m_signature;
 	}
 	
@@ -476,7 +468,7 @@ class tcms_dc_account {
 	 * @param String $value
 	 * @return String
 	 */
-	function setLocation($value){
+	public function setLocation($value){
 		$this->m_location = $value;
 	}
 	
@@ -485,7 +477,7 @@ class tcms_dc_account {
 	 * 
 	 * @return String
 	 */
-	function getLocation(){
+	public function getLocation(){
 		return $this->m_location;
 	}
 	
@@ -495,7 +487,7 @@ class tcms_dc_account {
 	 * @param String $value
 	 * @return String
 	 */
-	function setHobby($value){
+	public function setHobby($value){
 		$this->m_hobby = $value;
 	}
 	
@@ -504,7 +496,7 @@ class tcms_dc_account {
 	 * 
 	 * @return String
 	 */
-	function getHobby(){
+	public function getHobby(){
 		return $this->m_hobby;
 	}
 }

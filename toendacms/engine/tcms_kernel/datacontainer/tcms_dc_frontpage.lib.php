@@ -54,15 +54,7 @@ class tcms_dc_frontpage {
 	 * PHP5 Constructor
 	 *
 	 */
-	function __construct() {
-	}
-	
-	/**
-	 * PHP4 Constructor
-	 *
-	 */
-	function tcms_dc_frontpage(){
-		$this->__construct();
+	public function __construct() {
 	}
 	
 	// ---------------------------------------
@@ -75,7 +67,7 @@ class tcms_dc_frontpage {
 	 * @param String $value
 	 * @return String
 	*/
-	function setID($value){
+	public function setID($value){
 		$this->m_id = $value;
 	}
 	
@@ -84,7 +76,7 @@ class tcms_dc_frontpage {
 	 * 
 	 * @return String
 	 */
-	function getID(){
+	public function getID(){
 		return $this->m_id;
 	}
 	
@@ -94,7 +86,7 @@ class tcms_dc_frontpage {
 	 * @param String $value
 	 * @return String
 	 */
-	function setLanguage($value){
+	public function setLanguage($value){
 		$this->m_lang = $value;
 	}
 	
@@ -103,7 +95,7 @@ class tcms_dc_frontpage {
 	 * 
 	 * @return String
 	 */
-	function getLanguage(){
+	public function getLanguage(){
 		return $this->m_lang;
 	}
 	
@@ -113,7 +105,7 @@ class tcms_dc_frontpage {
 	 * @param String $value
 	 * @return String
 	*/
-	function setTitle($value){
+	public function setTitle($value){
 		$this->m_title = $value;
 	}
 	
@@ -122,7 +114,7 @@ class tcms_dc_frontpage {
 	 * 
 	 * @return String
 	 */
-	function getTitle(){
+	public function getTitle(){
 		return $this->m_title;
 	}
 	
@@ -131,7 +123,7 @@ class tcms_dc_frontpage {
 	 * 
 	 * @param String $value
 	 */
-	function setSubtitle($value){
+	public function setSubtitle($value){
 		$this->m_key = $value;
 	}
 	
@@ -140,7 +132,7 @@ class tcms_dc_frontpage {
 	 * 
 	 * @return String
 	 */
-	function getSubtitle(){
+	public function getSubtitle(){
 		return $this->m_key;
 	}
 	
@@ -150,7 +142,7 @@ class tcms_dc_frontpage {
 	 * @param String $value
 	 * @return String
 	*/
-	function setText($value){
+	public function setText($value){
 		$this->m_text = $value;
 	}
 	
@@ -159,7 +151,7 @@ class tcms_dc_frontpage {
 	 * 
 	 * @return String
 	 */
-	function getText(){
+	public function getText(){
 		return $this->m_text;
 	}
 	
@@ -169,7 +161,7 @@ class tcms_dc_frontpage {
 	 * @param String $value
 	 * @return String
 	*/
-	function setNewsTitle($value){
+	public function setNewsTitle($value){
 		$this->m_newstitle = $value;
 	}
 	
@@ -178,7 +170,7 @@ class tcms_dc_frontpage {
 	 * 
 	 * @return String
 	 */
-	function getNewsTitle(){
+	public function getNewsTitle(){
 		return $this->m_newstitle;
 	}
 	
@@ -188,7 +180,7 @@ class tcms_dc_frontpage {
 	 * @param String $value
 	 * @return String
 	*/
-	function setNewsChars($value){
+	public function setNewsChars($value){
 		$this->m_newschars = $value;
 	}
 	
@@ -197,7 +189,7 @@ class tcms_dc_frontpage {
 	 * 
 	 * @return String
 	 */
-	function getNewsChars(){
+	public function getNewsChars(){
 		return $this->m_newschars;
 	}
 	
@@ -207,7 +199,7 @@ class tcms_dc_frontpage {
 	 * @param String $value
 	 * @return String
 	*/
-	function setNewsAmount($value){
+	public function setNewsAmount($value){
 		$this->m_newsamount = $value;
 	}
 	
@@ -216,7 +208,7 @@ class tcms_dc_frontpage {
 	 * 
 	 * @return String
 	 */
-	function getNewsAmount(){
+	public function getNewsAmount(){
 		return $this->m_newsamount;
 	}
 	
@@ -226,7 +218,7 @@ class tcms_dc_frontpage {
 	 * @param String $value
 	 * @return String
 	*/
-	function setSidebarNewsTitle($value){
+	public function setSidebarNewsTitle($value){
 		$this->m_sbnewstitle = $value;
 	}
 	
@@ -235,7 +227,7 @@ class tcms_dc_frontpage {
 	 * 
 	 * @return String
 	 */
-	function getSidebarNewsTitle(){
+	public function getSidebarNewsTitle(){
 		return $this->m_sbnewstitle;
 	}
 	
@@ -245,7 +237,7 @@ class tcms_dc_frontpage {
 	 * @param String $value
 	 * @return String
 	*/
-	function setSidebarNewsAmount($value){
+	public function setSidebarNewsAmount($value){
 		$this->m_sbnewsamount = $value;
 	}
 	
@@ -254,7 +246,7 @@ class tcms_dc_frontpage {
 	 * 
 	 * @return String
 	 */
-	function getSidebarNewsAmount(){
+	public function getSidebarNewsAmount(){
 		return $this->m_sbnewsamount;
 	}
 	
@@ -264,7 +256,7 @@ class tcms_dc_frontpage {
 	 * @param String $value
 	 * @return String
 	*/
-	function setSidebarNewsChars($value){
+	public function setSidebarNewsChars($value){
 		$this->m_sbnewscut = $value;
 	}
 	
@@ -273,7 +265,7 @@ class tcms_dc_frontpage {
 	 * 
 	 * @return String
 	 */
-	function getSidebarNewsChars(){
+	public function getSidebarNewsChars(){
 		return $this->m_sbnewscut;
 	}
 	
@@ -283,7 +275,7 @@ class tcms_dc_frontpage {
 	 * @param String $value
 	 * @return String
 	*/
-	function setSidebarNewsEnabled($value){
+	public function setSidebarNewsEnabled($value){
 		$this->m_sbnewsenabled = $value;
 	}
 	
@@ -292,7 +284,7 @@ class tcms_dc_frontpage {
 	 * 
 	 * @return String
 	 */
-	function getSidebarNewsEnabled(){
+	public function getSidebarNewsEnabled(){
 		return $this->m_sbnewsenabled;
 	}
 	
@@ -302,7 +294,7 @@ class tcms_dc_frontpage {
 	 * @param String $value
 	 * @return String
 	*/
-	function setSidebarNewsDisplay($value){
+	public function setSidebarNewsDisplay($value){
 		$this->m_sbnewsdisplay = $value;
 	}
 	
@@ -311,7 +303,7 @@ class tcms_dc_frontpage {
 	 * 
 	 * @return String
 	 */
-	function getSidebarNewsDisplay(){
+	public function getSidebarNewsDisplay(){
 		return $this->m_sbnewsdisplay;
 	}
 }
