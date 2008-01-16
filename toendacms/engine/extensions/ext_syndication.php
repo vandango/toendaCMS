@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the syndication.
  *
- * @version 0.1.7
+ * @version 0.1.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -38,7 +38,7 @@ if($use_syndication == 1) {
 	echo '<br />';
 	
 	if($use_rss091 == 1) {
-		$link = '?id=frontpage'
+		$link = '?id=frontpage&amp;s='.$s
 		.( isset($lang) ? '&amp;lang='.$lang : '' )
 		.'&amp;feed=RSS0.91&amp;save=true';
 		$link = $tcms_main->urlConvertToSEO($link);
@@ -77,7 +77,7 @@ if($use_syndication == 1) {
 	}
 	
 	if($use_rss10 == 1) {
-		$link = '?id=frontpage'
+		$link = '?id=frontpage&amp;s='.$s
 		.( isset($lang) ? '&amp;lang='.$lang : '' )
 		.'&amp;feed=RSS1.0&amp;save=true';
 		$link = $tcms_main->urlConvertToSEO($link);
@@ -116,7 +116,7 @@ if($use_syndication == 1) {
 	}
 	
 	if($use_rss20 == 1) {
-		$link = '?id=frontpage'
+		$link = '?id=frontpage&amp;s='.$s
 		.( isset($lang) ? '&amp;lang='.$lang : '' )
 		.'&amp;feed=RSS2.0&amp;save=true';
 		$link = $tcms_main->urlConvertToSEO($link);
@@ -155,7 +155,7 @@ if($use_syndication == 1) {
 	}
 	
 	if($use_atom03 == 1) {
-		$link = '?id=frontpage'
+		$link = '?id=frontpage&amp;s='.$s
 		.( isset($lang) ? '&amp;lang='.$lang : '' )
 		.'&amp;feed=ATOM0.3&amp;save=true';
 		$link = $tcms_main->urlConvertToSEO($link);
@@ -194,7 +194,7 @@ if($use_syndication == 1) {
 	}
 	
 	if($use_opml == 1) {
-		$link = '?id=frontpage'
+		$link = '?id=frontpage&amp;s='.$s
 		.( isset($lang) ? '&amp;lang='.$lang : '' )
 		.'&amp;feed=OPML&amp;save=true';
 		$link = $tcms_main->urlConvertToSEO($link);
@@ -233,7 +233,7 @@ if($use_syndication == 1) {
 	}
 	
 	if($use_cfeed == 1) {
-		$link = '?id=frontpage'
+		$link = '?id=frontpage&amp;s='.$s
 		.( isset($lang) ? '&amp;lang='.$lang : '' )
 		.'&amp;feed='.$cfeed_type.'&amp;item=comments&amp;save=true';
 		$link = $tcms_main->urlConvertToSEO($link);

@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.8.8
+ * @version 2.9.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -173,10 +173,15 @@ if($tcms_file->checkFileExist($tcms_administer_site.'/tcms_global/var.xml')) {
 			$arrSEO = $tcms_seo->explodeUrlSlashFormat();
 		}
 		else {
-			$arrSEO = $tcms_seo->explodeHTMLFormat();
+			$arrSEO = $tcms_seo->explodeHTMLFormat(
+				$tcms_main, 
+				$tcms_time, 
+				$tcms_config, 
+				$tcms_file
+			);
 		}
 		
-		$tcms_seo->_tcms_seo();
+		unset($tcms_seo);
 		
 		if(isset($id)) {
 			$noSEOFolder = true;
@@ -398,15 +403,11 @@ if($wsShowSite) {
 		*/
 		
 		// global
-		using('toendacms.kernel.main');
 		using('toendacms.kernel.script');
 		using('toendacms.kernel.gd');
-		using('toendacms.kernel.sql');
 		using('toendacms.kernel.modconfig');
 		using('toendacms.kernel.error');
-		//using('toendacms.kernel.file');
 		using('toendacms.kernel.menu_provider');
-		using('toendacms.kernel.modconfig');
 		//using('toendacms.kernel.globals');
 		include_once('engine/tcms_kernel/tcms_globals.lib.php');
 		

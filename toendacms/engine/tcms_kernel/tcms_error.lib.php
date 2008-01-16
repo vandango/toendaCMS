@@ -81,15 +81,6 @@ class tcms_error {
 	
 	
 	/**
-	 * PHP4 Destructor
-	 */
-	public function _tcms_error(){
-		$this->__destruct();
-	}
-	
-	
-	
-	/**
 	 * Show the error message. If param is true
 	 * display it as a javascript messagebox.
 	 * 

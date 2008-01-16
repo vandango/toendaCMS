@@ -25,7 +25,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Adapted from original code by Natalie Downe: 
  * http://blog.natbat.co.uk/archive/2003/Jun/14/time_since
  *
- * @version 0.1.7
+ * @version 0.1.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -34,10 +34,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * Methods
  *
- * __construct                -> PHP5 Constructor
- * tcms_blogfeatures          -> PHP4 Constructor
- * __destruct                 -> PHP5 Destructor
- * _tcms_blogfeatures         -> PHP4 Destructor
+ * __construct                -> Constructor
+ * __destruct                 -> Destructor
  * 
  * timeSince                  -> Return timesince string
  * timeOfDay                  -> Get the time of day
@@ -53,35 +51,17 @@ class tcms_blogfeatures {
 	
 	
 	/**
-	 * PHP5: Default constructor
+	 * Default constructor
 	 */
-	function __construct(){
+	public function __construct(){
 	}
 	
 	
 	
 	/**
-	 * PHP4: Default constructor
+	 * Destructor
 	 */
-	function tcms_blogfeatures(){
-		$this->__construct();
-	}
-	
-	
-	
-	/**
-	 * PHP5 Destructor
-	 */
-	function __destruct(){
-	}
-	
-	
-	
-	/**
-	 * PHP4 Destructor
-	 */
-	function _tcms_blogfeatures(){
-		$this->__destruct();
+	public function __destruct(){
 	}
 	
 	
@@ -94,7 +74,7 @@ class tcms_blogfeatures {
 	 * @param String $lang = 'en'
 	 * @return String
 	 */
-	function timeSince($older_date, $newer_date = false, $lang = 'en'){
+	public function timeSince($older_date, $newer_date = false, $lang = 'en'){
 		global $tcms_main;
 		
 		switch(trim($lang)) {
@@ -217,7 +197,7 @@ class tcms_blogfeatures {
 	 * @param String $lang = 'en'
 	 * @return String
 	*/
-	function timeOfDay($hour, $lang = 'en'){
+	public function timeOfDay($hour, $lang = 'en'){
 		switch($hour){
 			case 00:
 			case 01:

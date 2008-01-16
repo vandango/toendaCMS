@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a parser and a base class
  * for the toendaScript.
  * 
- * @version 0.6.0
+ * @version 0.6.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -32,10 +32,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * <code>
  * Methods
  *
- * __construct                   -> PHP5 Constructor
- * toendaScript                  -> PHP4 Constructor
- * __destruct                    -> PHP5 Destructor
- * _toendaScript                 -> PHP4 Destructor
+ * __construct                   -> Constructor
+ * __destruct                    -> Destructor
  *
  *
  * ------- toendaScript default methods -------
@@ -113,40 +111,20 @@ class toendaScript {
 	
 	
 	/**
-	 * PHP5 Constructor
+	 * Constructor
 	 *
 	 * @param String $content
 	 */
-	function __construct($content = ''){
+	public function __construct($content = ''){
 		$this->content = $content;
 	}
 	
 	
 	
 	/**
-	 * PHP4 Constructor
-	 *
-	 * @param String $content
+	 * Destructor
 	 */
-	function toendaScript($content = ''){
-		$this->__construct($content);
-	}
-	
-	
-	
-	/**
-	 * PHP5 Destructor
-	 */
-	function __destruct(){
-	}
-	
-	
-	
-	/**
-	 * PHP4 Destructor
-	 */
-	function _toendaScript(){
-		$this->__destruct();
+	public function __destruct(){
 	}
 	
 	
@@ -156,7 +134,7 @@ class toendaScript {
 	 * 
 	 * @param String $newsContent
 	 */
-	function cutAtTcmsMoreTag($newsContent){
+	public function cutAtTcmsMoreTag($newsContent){
 		if(strpos($newsContent, '{tcms_more}')) {
 			return substr($newsContent, 0, strpos($newsContent, '{tcms_more}'));
 		}
@@ -172,7 +150,7 @@ class toendaScript {
 	 * 
 	 * @param String $newsContent
 	 */
-	function getTcmsMoreTagPos($newsContent){
+	public function getTcmsMoreTagPos($newsContent){
 		return strpos($newsContent, '{tcms_more}');
 	}
 	
@@ -183,7 +161,7 @@ class toendaScript {
 	 * 
 	 * @param String $newsContent
 	 */
-	function removeTcmsMoreTag($newsContent){
+	public function removeTcmsMoreTag($newsContent){
 		return str_replace('{tcms_more}', '', $newsContent);
 	}
 	
@@ -194,7 +172,7 @@ class toendaScript {
 	 * 
 	 * @param String $newsContent
 	 */
-	function hasTcmsMoreTag($newsContent){
+	public function hasTcmsMoreTag($newsContent){
 		return ( strpos($newsContent, '{tcms_more}') ? true : false );
 	}
 	
@@ -206,7 +184,7 @@ class toendaScript {
 	 * @param String $text
 	 * @param String $seoImageFolder
 	 */
-	function checkSEO($text, $seoImageFolder){
+	public function checkSEO($text, $seoImageFolder){
 		global $session;
 		global $seoEnabled;
 		global $seoPath;
@@ -262,7 +240,7 @@ class toendaScript {
 	 * 
 	 * @return String
 	 */
-	function doParse(){
+	public function doParse(){
 		$this->content = $this->_parseImages($this->content);
 		$this->content = $this->_parseLinebreaks($this->content);
 		$this->content = $this->_parseRules($this->content);
@@ -296,7 +274,7 @@ class toendaScript {
 	 * @param Boolean $onlyClear = false
 	 * @return String
 	 */
-	function doParsePHP($text, $onlyClear = false) {
+	public function doParsePHP($text, $onlyClear = false) {
 		$out1 = '';
 		$out = '';
 		
@@ -442,7 +420,7 @@ class toendaScript {
 	 * @param String $wordToCount
 	 * @return String
 	 */
-	function _countWords($text, $wordToCount = '') {
+	public function _countWords($text, $wordToCount = '') {
 		if($wordToCount == '') {
 			return str_word_count($text);
 		}
@@ -469,7 +447,7 @@ class toendaScript {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseImages($newsContent){
+	public function _parseImages($newsContent){
 		$output = str_replace('{img#', '<img src="', $newsContent);
 		$output = str_replace('#border=', '" border="', $output);
 		$output = str_replace('#align=', '" align="', $output);
@@ -488,7 +466,7 @@ class toendaScript {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseLinebreaks($newsContent){
+	public function _parseLinebreaks($newsContent){
 		return str_replace('{br}', '<br />', $newsContent);
 	}
 	
@@ -500,7 +478,7 @@ class toendaScript {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseRules($newsContent){
+	public function _parseRules($newsContent){
 		return str_replace('{hr}', '<hr />', $newsContent);
 	}
 	
@@ -512,7 +490,7 @@ class toendaScript {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseBold($newsContent){
+	public function _parseBold($newsContent){
 		$output = str_replace('{b:}', '<strong>', $newsContent);
 		$output = str_replace('{:b}', '</strong>', $output);
 		
@@ -527,7 +505,7 @@ class toendaScript {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseItalize($newsContent){
+	public function _parseItalize($newsContent){
 		$output = str_replace('{i:}', '<em>', $newsContent);
 		$output = str_replace('{:i}', '</em>', $output);
 		
@@ -542,7 +520,7 @@ class toendaScript {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseCenter($newsContent){
+	public function _parseCenter($newsContent){
 		$output = str_replace('{center:}', '<div align="center">', $newsContent);
 		$output = str_replace('{:center}', '</div>', $output);
 		
@@ -557,7 +535,7 @@ class toendaScript {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseLeft($newsContent){
+	public function _parseLeft($newsContent){
 		$output = str_replace('{left:}', '<div align="left">', $newsContent);
 		$output = str_replace('{:left}', '</div>', $output);
 		
@@ -572,7 +550,7 @@ class toendaScript {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseRight($newsContent){
+	public function _parseRight($newsContent){
 		$output = str_replace('{right:}', '<div align="right">', $newsContent);
 		$output = str_replace('{:right}', '</div>', $output);
 		
@@ -587,7 +565,7 @@ class toendaScript {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseUnderline($newsContent){
+	public function _parseUnderline($newsContent){
 		$output = str_replace('{u:}', '<u>', $newsContent);
 		$output = str_replace('{:u}', '</u>', $output);
 		
@@ -602,7 +580,7 @@ class toendaScript {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseHeader($newsContent){
+	public function _parseHeader($newsContent){
 		$output = str_replace('{h1:}', '<h1>', $newsContent);
 		$output = str_replace('{h2:}', '<h2>', $output);
 		$output = str_replace('{h3:}', '<h3>', $output);
@@ -627,7 +605,7 @@ class toendaScript {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseBlockquote($newsContent){
+	public function _parseBlockquote($newsContent){
 		$output = str_replace('{cite:}', '<blockquote>', $newsContent);
 		$output = str_replace('{:cite}', '</blockquote>', $output);
 		
@@ -642,7 +620,7 @@ class toendaScript {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseTeletyper($newsContent){
+	public function _parseTeletyper($newsContent){
 		$output = str_replace('{tt:}', '<tt>', $newsContent);
 		$output = str_replace('{:tt}', '</tt>', $output);
 		
@@ -657,7 +635,7 @@ class toendaScript {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseUl($newsContent){
+	public function _parseUl($newsContent){
 		$output = str_replace('{ul:}', '<ul>', $newsContent);
 		$output = str_replace('{:ul}', '</ul>', $output);
 		
@@ -672,7 +650,7 @@ class toendaScript {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseOl($newsContent){
+	public function _parseOl($newsContent){
 		$output = str_replace('{ol:}', '<ol>', $newsContent);
 		$output = str_replace('{:ol}', '</ol>', $output);
 		
@@ -687,7 +665,7 @@ class toendaScript {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseLi($newsContent){
+	public function _parseLi($newsContent){
 		$output = str_replace('{li:}', '<li>', $newsContent);
 		$output = str_replace('{:li}', '</li>', $output);
 		
@@ -702,7 +680,7 @@ class toendaScript {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseFontColor($newsContent){
+	public function _parseFontColor($newsContent){
 		$color = substr(
 			$newsContent, 
 			strpos($newsContent, '{fc#') + 4, 
@@ -749,7 +727,7 @@ class toendaScript {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseUrl($newsContent){
+	public function _parseUrl($newsContent){
 		$output = str_replace('{url#', '<a href="', $newsContent);
 		$output = str_replace('#:}', '">', $output);
 		$output = str_replace('#_blank:}', '" target="_blank">', $output);
@@ -766,7 +744,7 @@ class toendaScript {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseExt($newsContent){
+	public function _parseExt($newsContent){
 		$output = str_replace('{ext#url=', '<iframe src="', $newsContent);
 		
 		$output = str_replace('#width=', '" width="', $output);
@@ -790,7 +768,7 @@ class toendaScript {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseIfThenElse($newsContent){
+	public function _parseIfThenElse($newsContent){
 		//$output = str_replace('{li:}', '<li>', $newsContent);
 		//$output = str_replace('{:li}', '</li>', $output);
 		
@@ -811,7 +789,7 @@ class toendaScript {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseFilter($newsContent){
+	public function _parseFilter($newsContent){
 		$newsContent = $this->_filter_Toenda($newsContent);
 		$newsContent = $this->_filter_SessionLinks($newsContent);
 		return $newsContent;
@@ -825,7 +803,7 @@ class toendaScript {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function __filter_SessionLinks($newsContent){
+	public function __filter_SessionLinks($newsContent){
 		//global $session;
 		
 		//$text = preg_replace('/<a href="/i', '<a href="?session='.$session, $text);
@@ -841,7 +819,7 @@ class toendaScript {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function __filter_Toenda($newsContent){
+	public function __filter_Toenda($newsContent){
 		$text = $newsContent;
 		//$text = preg_replace('/toendacms/i', '<a href="http://www.toendacms.com" target="_blank">toendaCMS</a>', $text);
 		/*
@@ -877,7 +855,7 @@ class toendaScript {
 	 * 
 	 * @return String
 	 */
-	function toendaScript_trigger(){
+	public function toendaScript_trigger(){
 		$this->content = $this->toendaScript_img($this->content);
 		$this->content = $this->toendaScript_br($this->content);
 		$this->content = $this->toendaScript_hr($this->content);
@@ -912,7 +890,7 @@ class toendaScript {
 	 * @param String $news_content
 	 * @return String
 	 */
-	function toendaScript_img($news_content){
+	public function toendaScript_img($news_content){
 		$output = str_replace('{img#', '<img src="', $news_content);
 		$output = str_replace('#border=', '" border="', $output);
 		$output = str_replace('#align=', '" align="', $output);
@@ -935,7 +913,7 @@ class toendaScript {
 	*                 'text' = text without tcmsScript tag
 	*                 'pos'  = position of the tag
 	*/
-	function toendaScript_more($news_content, $text_or_bool = 'bool'){
+	public function toendaScript_more($news_content, $text_or_bool = 'bool'){
 		$output = ( strpos($news_content, '{tcms_more}') ? true : false );
 		
 		if($text_or_bool == 'text'){ return str_replace('{tcms_more}', '', $news_content); }
@@ -950,7 +928,7 @@ class toendaScript {
 	* @desc Gives content back, that are with tcms_script and br's
 	* news_content -> News Content
 	*/
-	function toendaScript_br($news_content){
+	public function toendaScript_br($news_content){
 		$output = str_replace('{br}', '<br />', $news_content);
 		
 		return $output;
@@ -963,7 +941,7 @@ class toendaScript {
 	* @desc Gives content back, that are with tcms_script and br's
 	* news_content -> News Content
 	*/
-	function toendaScript_hr($news_content){
+	public function toendaScript_hr($news_content){
 		$output = str_replace('{hr}', '<hr />', $news_content);
 		
 		return $output;
@@ -976,7 +954,7 @@ class toendaScript {
 	* @desc Set text to bold
 	* news_content -> News Content
 	*/
-	function toendaScript_bold($news_content){
+	public function toendaScript_bold($news_content){
 		$output = str_replace('{b:}', '<strong>', $news_content);
 		$output = str_replace('{:b}', '</strong>', $output);
 		
@@ -990,7 +968,7 @@ class toendaScript {
 	* @desc Set text to bold
 	* news_content -> News Content
 	*/
-	function toendaScript_italize($news_content){
+	public function toendaScript_italize($news_content){
 		$output = str_replace('{i:}', '<em>', $news_content);
 		$output = str_replace('{:i}', '</em>', $output);
 		
@@ -1004,7 +982,7 @@ class toendaScript {
 	* @desc Set text to bold
 	* news_content -> News Content
 	*/
-	function toendaScript_center($news_content){
+	public function toendaScript_center($news_content){
 		$output = str_replace('{center:}', '<div align="center">', $news_content);
 		$output = str_replace('{:center}', '</div>', $output);
 		
@@ -1018,7 +996,7 @@ class toendaScript {
 	* @desc Set text to bold
 	* news_content -> News Content
 	*/
-	function toendaScript_left($news_content){
+	public function toendaScript_left($news_content){
 		$output = str_replace('{left:}', '<div align="left">', $news_content);
 		$output = str_replace('{:left}', '</div>', $output);
 		
@@ -1032,7 +1010,7 @@ class toendaScript {
 	* @desc Set text to bold
 	* news_content -> News Content
 	*/
-	function toendaScript_right($news_content){
+	public function toendaScript_right($news_content){
 		$output = str_replace('{right:}', '<div align="right">', $news_content);
 		$output = str_replace('{:right}', '</div>', $output);
 		
@@ -1046,7 +1024,7 @@ class toendaScript {
 	* @desc Set text to bold
 	* news_content -> News Content
 	*/
-	function toendaScript_underline($news_content){
+	public function toendaScript_underline($news_content){
 		$output = str_replace('{u:}', '<u>', $news_content);
 		$output = str_replace('{:u}', '</u>', $output);
 		
@@ -1060,7 +1038,7 @@ class toendaScript {
 	* @desc Set text to bold
 	* news_content -> News Content
 	*/
-	function toendaScript_header($news_content){
+	public function toendaScript_header($news_content){
 		$output = str_replace('{h1:}', '<h1>', $news_content);
 		$output = str_replace('{h2:}', '<h2>', $output);
 		$output = str_replace('{h3:}', '<h3>', $output);
@@ -1084,7 +1062,7 @@ class toendaScript {
 	* @desc List item
 	* news_content -> News Content
 	*/
-	function toendaScript_blockquote($news_content){
+	public function toendaScript_blockquote($news_content){
 		$output = str_replace('{cite:}', '<blockquote>', $news_content);
 		$output = str_replace('{:cite}', '</blockquote>', $output);
 		
@@ -1098,7 +1076,7 @@ class toendaScript {
 	* @desc Set text to bold
 	* news_content -> News Content
 	*/
-	function toendaScript_teletyper($news_content){
+	public function toendaScript_teletyper($news_content){
 		$output = str_replace('{tt:}', '<tt>', $news_content);
 		$output = str_replace('{:tt}', '</tt>', $output);
 		
@@ -1112,7 +1090,7 @@ class toendaScript {
 	* @desc Create list
 	* news_content -> News Content
 	*/
-	function toendaScript_ul($news_content){
+	public function toendaScript_ul($news_content){
 		$output = str_replace('{ul:}', '<ul>', $news_content);
 		$output = str_replace('{:ul}', '</ul>', $output);
 		
@@ -1126,7 +1104,7 @@ class toendaScript {
 	* @desc Create numbered list
 	* news_content -> News Content
 	*/
-	function toendaScript_ol($news_content){
+	public function toendaScript_ol($news_content){
 		$output = str_replace('{ol:}', '<ol>', $news_content);
 		$output = str_replace('{:ol}', '</ol>', $output);
 		
@@ -1140,7 +1118,7 @@ class toendaScript {
 	* @desc List item
 	* news_content -> News Content
 	*/
-	function toendaScript_li($news_content){
+	public function toendaScript_li($news_content){
 		$output = str_replace('{li:}', '<li>', $news_content);
 		$output = str_replace('{:li}', '</li>', $output);
 		
@@ -1154,7 +1132,7 @@ class toendaScript {
 	* @desc Set fontcolor
 	* news_content -> News Content
 	*/
-	function toendaScript_fontcolor($news_content){
+	public function toendaScript_fontcolor($news_content){
 		$output = str_replace('{fc#', '<span style="color: #', $news_content);
 		$output = str_replace('#:}', '">', $output);
 		$output = str_replace('{:fc}', '</span>', $output);
@@ -1169,7 +1147,7 @@ class toendaScript {
 	* @desc Set url to a link
 	* news_content -> News Content
 	*/
-	function toendaScript_url($news_content){
+	public function toendaScript_url($news_content){
 		$output = str_replace('{url#', '<a href="', $news_content);
 		$output = str_replace('#:}', '">', $output);
 		$output = str_replace('#_blank:}', '" target="_blank">', $output);
@@ -1185,7 +1163,7 @@ class toendaScript {
 	* @desc Set php tag into newscontent
 	* news_content -> News Content
 	*/
-	function toendaScript_php($news_content){
+	public function toendaScript_php($news_content){
 		$output = str_replace('{php:}', '<?php ', $news_content);
 		$output = str_replace('{:php}', ' ?>', $output);
 		
@@ -1199,7 +1177,7 @@ class toendaScript {
 	* @desc Include extern php file
 	* news_content -> News Content
 	*/
-	function toendaScript_ext($news_content){
+	public function toendaScript_ext($news_content){
 		$output = str_replace('{ext#url=', '<iframe src="', $news_content);
 		
 		$output = str_replace('#width=', '" width="', $output);
@@ -1221,7 +1199,7 @@ class toendaScript {
 	* @return string
 	* @desc Computer filter
 	*/
-	function toendaScript_filter($text){
+	public function toendaScript_filter($text){
 		$text = $this->_filter_Toenda($text);
 		$text = $this->_filter_SessionLinks($text);
 		return $text;
@@ -1233,7 +1211,7 @@ class toendaScript {
 	* @return string
 	* @desc Text with Session links
 	*/
-	function _filter_SessionLinks($text){
+	public function _filter_SessionLinks($text){
 		//global $session;
 		
 		//$text = preg_replace('/<a href="/i', '<a href="?session='.$session, $text);
@@ -1247,7 +1225,7 @@ class toendaScript {
 	* @return string
 	* @desc Text with SEO image folder
 	*/
-	function _filter_Toenda($text){
+	public function _filter_Toenda($text){
 		//$text = preg_replace('/toendacms/i', '<a href="http://www.toendacms.com" target="_blank">toendaCMS</a>', $text);
 		/*
 		$text = preg_replace('/<p>toendacms/i', '<p><a href="http://www.toendacms.com" target="_blank">toendaCMS</a>', $text);

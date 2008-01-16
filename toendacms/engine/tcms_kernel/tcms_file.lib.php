@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide all file and directory
  * related methods und public functions.
  *
- * @version 0.4.1
+ * @version 0.4.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -37,10 +37,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * CONSTRUCTOR AND DESTRUCTOR
  * --------------------------------------------------------
  *
- * __construct                       -> PHP5 Constructor
- * tcms_file                         -> PHP4 Constructor
- * __destruct                        -> PHP5 Destructor
- * _tcms_file                        -> PHP4 Destructor
+ * __construct                       -> Constructor
+ * __destruct                        -> Destructor
  *
  * --------------------------------------------------------
  * PUBLIC METHODS
@@ -112,30 +110,9 @@ class tcms_file {
 	
 	
 	/**
-	 * PHP4: Default constructor<br>OpenMode:<br>r  - open file for reading<br>r+ - open file for reading and writing<br>w  - open file for reading, reduce content to 0, if it not exist, create it<br>w+ - open file for reading and writing, reduce content to 0, if it not exist, create it<br>a  - open file for reading, char pointer at the end<br>a+ - open file for reading and writing, char pointer at the end
-	 * 
-	 * @param String $openFile
-	 * @param String $openMode
-	 */
-	public function tcms_file($openFile = '', $openMode = '') {
-		$this->__construct($openFile, $openMode);
-	}
-	
-	
-	
-	/**
 	 * PHP5 Destructor
 	 */
 	public function __destruct() {
-	}
-	
-	
-	
-	/**
-	 * PHP4 Destructor
-	 */
-	public function _tcms_file() {
-		$this->__destruct();
 	}
 	
 	

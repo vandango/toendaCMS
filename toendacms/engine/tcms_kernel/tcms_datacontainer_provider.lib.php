@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.3.5
+ * @version 1.4.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -34,8 +34,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * TCMS Data Container methods
  * ---------------------------------------------
  * 
- * __construct                               -> PHP5 Constructor
- * tcms_datacontainer_provider               -> PHP4 Constructor
+ * __construct                               -> Constructor
  * 
  * setTcmsTimeObj                            -> Set the tcms_time object
  *
@@ -89,13 +88,13 @@ class tcms_datacontainer_provider extends tcms_main {
 	
 	
 	/**
-	 * PHP5 Constructor
+	 * Constructor
 	 *
 	 * @param String $tcms_administer_path = 'data'
 	 * @param String $charset
 	 * @param Object $tcmsTimeObj = null
 	 */
-	function __construct($tcms_administer_path = 'data', $charset, $tcmsTimeObj = null){
+	public function __construct($tcms_administer_path = 'data', $charset, $tcmsTimeObj = null){
 		$this->m_CHARSET = $charset;
 		$this->m_path = $tcms_administer_path;
 		$this->_tcmsTime = $tcmsTimeObj;
@@ -123,33 +122,10 @@ class tcms_datacontainer_provider extends tcms_main {
 	
 	
 	/**
-	 * PHP4 Constructor
-	 *
-	 * @param String $tcms_administer_path = 'data'
-	 * @param String $charset
-	 * @param Object $tcmsTimeObj = null
-	 */
-	function tcms_datacontainer_provider($tcms_administer_path = 'data', $charset, $tcmsTimeObj = null){
-		$this->__construct($tcms_administer_path, $charset, $tcmsTimeObj);
-	}
-	
-	
-	
-	/**
-	 * PHP5 Constructor
+	 * Constructor
 	 *
 	 */
-	function __destruct(){
-	}
-	
-	
-	
-	/**
-	 * PHP4 Constructor
-	 *
-	 */
-	function _tcms_datacontainer_provider(){
-		$this->__destruct();
+	public function __destruct(){
 	}
 	
 	
@@ -159,7 +135,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 *
 	 * @param Object $value
 	 */
-	function setTcmsTimeObj($value) {
+	public function setTcmsTimeObj($value) {
 		$this->_tcmsTime = $value;
 	}
 	
@@ -173,7 +149,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param String $usergroup = ''
 	 * @return tcms_news_dc Object
 	 */
-	function getNewsDC($language, $newsID, $usergroup){
+	public function getNewsDC($language, $newsID, $usergroup){
 		$newsDC = new tcms_dc_news();
 		
 		if($this->m_choosenDB == 'xml'){
@@ -323,7 +299,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param Boolean $withShowOnFrontpage = false
 	 * @return tcms_news_dc Object Array
 	 */
-	function getNewsDCList($language, $usergroup = '', $amount, $published = '1', $withShowOnFrontpage = false){
+	public function getNewsDCList($language, $usergroup = '', $amount, $published = '1', $withShowOnFrontpage = false){
 		$doFill = false;
 		
 		if($this->m_choosenDB == 'xml') {
@@ -646,7 +622,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param String $language
 	 * @return String
 	 */
-	function getNewsTitle($id, $language) {
+	public function getNewsTitle($id, $language) {
 		if($this->db_choosenDB == 'xml') {
 			$xml = new xmlparser(
 				$this->m_path.'/tcms_news/'.$id.'.xml', 'r'
@@ -695,7 +671,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param String $language
 	 * @return String
 	 */
-	function getNewsIdByTitle($title, $language) {
+	public function getNewsIdByTitle($title, $language) {
 		if($this->db_choosenDB == 'xml'){
 			/*$wsCUid = $this->getXmlIdFromContentLanguage(
 				$id, 
@@ -903,7 +879,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param String $lang
 	 * @return String
 	 */
-	function getXmlIdFromNewsLanguage($id, $language) {
+	public function getXmlIdFromNewsLanguage($id, $language) {
 		if($this->m_choosenDB == 'xml'){
 			$arr_docs = $this->getPathContent(
 				$this->m_path.'/tcms_news/'
@@ -948,7 +924,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param Integer $amount = 5
 	 * @param Boolean $show_autor = false
 	 */
-	function generateFeed($language, $defaultFormat = 'RSS2.0', $seoFolder = '', $admin = false, $amount = 5, $show_autor = false) {
+	public function generateFeed($language, $defaultFormat = 'RSS2.0', $seoFolder = '', $admin = false, $amount = 5, $show_autor = false) {
 		if($admin) {
 			using('toendacms.tools.feedcreator.feedcreator_class', false, true);
 			using('toendacms.kernel.script', false, true);
@@ -1085,7 +1061,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param Integer $amount = 5
 	 * @param Boolean $show_autor = false
 	 */
-	function generateCommentsFeed($commentForText, $postedByText, $language, $defaultFormat = 'RSS2.0', $seoFolder = '', $admin = false, $amount = 5, $show_autor = false) {
+	public function generateCommentsFeed($commentForText, $postedByText, $language, $defaultFormat = 'RSS2.0', $seoFolder = '', $admin = false, $amount = 5, $show_autor = false) {
 		if($admin) {
 			using('toendacms.tools.feedcreator.feedcreator_class', false, true);
 			using('toendacms.kernel.script', false, true);
@@ -1203,7 +1179,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param Integer $amount = -1
 	 * @return tcms_dc_comment Object Array
 	 */
-	function getCommentDCList($newsID, $module = 'news', $load = true, $language = '', $amount = -1) {			
+	public function getCommentDCList($newsID, $module = 'news', $load = true, $language = '', $amount = -1) {			
 		if($this->m_choosenDB == 'xml') {
 			if($module == 'news') {
 				if(trim($newsID) == '__ALL_NEWS__') {
@@ -1490,7 +1466,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param String $language = ''
 	 * @return tcms_content_dc Object
 	 */
-	function getContentDC($contentID, $withLanguages = false, $language = ''){
+	public function getContentDC($contentID, $withLanguages = false, $language = ''){
 		$contentDC = new tcms_dc_content();
 		
 		$no = 0;
@@ -1682,7 +1658,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param String $id
 	 * @return Array
 	 */
-	function getContentAccess($id) {
+	public function getContentAccess($id) {
 		switch($id) {
 			case 'profile':
 			case 'polls':
@@ -1810,7 +1786,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param String $id
 	 * @return Array
 	 */
-	function getContentLanguages($id) {
+	public function getContentLanguages($id) {
 		$count = 0;
 		
 		if($this->m_choosenDB == 'xml'){
@@ -1877,7 +1853,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param String $language
 	 * @return String
 	 */
-	function getXmlIdFromContentLanguage($id, $language) {
+	public function getXmlIdFromContentLanguage($id, $language) {
 		if($this->m_choosenDB == 'xml') {
 			$arr_docs = $this->getPathContent(
 				$this->m_path.'/tcms_content_languages/'
@@ -1920,7 +1896,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param String $language
 	 * @return String
 	 */
-	function getContentTitle($id, $language) {
+	public function getContentTitle($id, $language) {
 		if($this->db_choosenDB == 'xml'){
 			$wsCUid = $this->getXmlIdFromContentLanguage(
 				$id, 
@@ -1982,7 +1958,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param String $language
 	 * @return String
 	 */
-	function getContentIdByTitle($title, $language) {
+	public function getContentIdByTitle($title, $language) {
 		if($this->db_choosenDB == 'xml'){
 			$wsCUid = $this->getXmlIdFromContentLanguage(
 				$id, 
@@ -2101,7 +2077,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * 
 	 * @return tcms_dc_impressum Object
 	 */
-	function getImpressumDC($language){
+	public function getImpressumDC($language){
 		$impDC = new tcms_dc_impressum();
 		
 		if($this->m_choosenDB == 'xml'){
@@ -2207,7 +2183,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param String $language
 	 * @return tcms_dc_frontpage Object
 	 */
-	function getFrontpageDC($language){
+	public function getFrontpageDC($language){
 		$frontDC = new tcms_dc_frontpage();
 		
 		if($this->m_choosenDB == 'xml'){
@@ -2333,7 +2309,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param String $language
 	 * @return tcms_dc_newsmanager Object
 	 */
-	function getNewsmanagerDC($language) {
+	public function getNewsmanagerDC($language) {
 		$newsDC = new tcms_dc_newsmanager();
 		
 		if($this->m_choosenDB == 'xml'){
@@ -2543,7 +2519,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * 
 	 * @return tcms_dc_contactform Object
 	 */
-	function getContactformDC($language){
+	public function getContactformDC($language){
 		$cfDC = new tcms_dc_contactform();
 		
 		if($this->m_choosenDB == 'xml'){
@@ -2667,7 +2643,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * 
 	 * @return tcms_dc_products Object
 	 */
-	function getProductsDC($language){
+	public function getProductsDC($language){
 		$pDC = new tcms_dc_products();
 		
 		if($this->m_choosenDB == 'xml'){
@@ -2793,7 +2769,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * 
 	 * @return tcms_dc_imagegallery Object
 	 */
-	function getImagegalleryDC() {
+	public function getImagegalleryDC() {
 		$iDC = new tcms_dc_imagegallery();
 		
 		if($this->m_choosenDB == 'xml') {
@@ -2913,7 +2889,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * 
 	 * @return tcms_dc_sidebarmodule Object
 	 */
-	function getSidebarModuleDC(){
+	public function getSidebarModuleDC(){
 		$sbmDC = new tcms_dc_sidebarmodule();
 		
 		$xmlActive = new xmlparser(''.$this->m_path.'/tcms_global/modules.xml','r');
@@ -2968,7 +2944,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * 
 	 * @return String
 	 */
-	function getSidebarExtensionSettings() {
+	public function getSidebarExtensionSettings() {
 		$se = new tcms_dc_sidebarextensions();
 		
 		if($this->m_choosenDB == 'xml'){

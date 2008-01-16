@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to have a internal domain
  * checker class.
  *
- * @version 0.0.4
+ * @version 0.0.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -33,10 +33,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * Methods
  *
- * __construct                 -> PHP5 Constructor
- * tcms_domaincheck            -> PHP4 Constructor
- * __destruct                  -> PHP5 Destructor
- * _tcms_domaincheck           -> PHP4 Destructor
+ * __construct                 -> Constructor
+ * __destruct                  -> Destructor
  * 
  * getWhoisServer              -> Get a list of whois server
  * getDomainCheckForm          -> This is a domain checker formular
@@ -50,7 +48,7 @@ class tcms_domaincheck {
 	private $_arrWhoisServers;
 	
 	/**
-	 * PHP5 Constructor
+	 * Constructor
 	 *
 	 */
 	function __construct() {
@@ -106,28 +104,9 @@ class tcms_domaincheck {
 	
 	
 	/**
-	 * PHP4 Constructor
-	 *
-	 */
-	function tcms_domaincheck() {
-		$this->__construct();
-	}
-	
-	
-	
-	/**
-	 * PHP5 Destructor
+	 * Destructor
 	 */
 	function __destruct() {
-	}
-	
-	
-	
-	/**
-	 * PHP4 Destructor
-	 */
-	function _tcms_domaincheck() {
-		$this->__destruct();
 	}
 	
 	

@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide the global
  * configuration data.
  *
- * @version 0.6.0
+ * @version 0.6.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -34,8 +34,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * Methods
  *
- * __construct                 -> PHP5 Constructor
- * __destruct                  -> PHP5 Destructor
+ * __construct                 -> Constructor
+ * __destruct                  -> Destructor
  *
  * getLanguageFrontend         -> Get the language used for the frontend
  * getLanguageBackend          -> Get the language used for the backend
@@ -179,7 +179,7 @@ class tcms_configuration {
 	
 	
 	/**
-	 * PHP5 Constructor
+	 * Constructor
 	 *
 	 * @param String $administer
 	 */
@@ -305,29 +305,9 @@ class tcms_configuration {
 	
 	
 	/**
-	 * PHP4 Constructor
-	 *
-	 * @param String $administer
-	 */
-	public function tcms_configuration($administer){
-		$this->__construct($administer);
-	}
-	
-	
-	
-	/**
-	 * PHP5 Destructor
+	 * Destructor
 	 */
 	public function __destruct() {
-	}
-	
-	
-	
-	/**
-	 * PHP4 Destructor
-	 */
-	public function _tcms_configuration() {
-		$this->__destruct();
 	}
 	
 	
