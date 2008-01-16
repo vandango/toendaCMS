@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for all graphic actions.
  *
- * @version 0.3.3
+ * @version 0.3.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -32,8 +32,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * Methods
  * 
- * __construct                       -> PHP5 Constructor
- * tcms_gd                           -> PHP4 Constructor
+ * __construct                       -> Constructor
+ * __destruct                        -> Destructor
  * 
  * getImageWidth                     -> Get the width of the image (loaded by readImageInformation)
  * getImageHeight                    -> Get the height of the image (loaded by readImageInformation)
@@ -68,18 +68,17 @@ class tcms_gd {
 	
 	
 	/**
-	 * PHP5: Default constructor
+	 * Default constructor
 	 */
-	function __construct(){
+	public function __construct(){
 	}
 	
 	
 	
 	/**
-	 * PHP4: Default constructor
+	 * Destructor
 	 */
-	function tcms_gd(){
-		$this->__construct();
+	public function __destruct() {
 	}
 	
 	
@@ -89,7 +88,7 @@ class tcms_gd {
 	 *
 	 * @return String
 	 */
-	function getImageWidth(){
+	public function getImageWidth(){
 		return $this->m_width;
 	}
 	
@@ -100,7 +99,7 @@ class tcms_gd {
 	 *
 	 * @return String
 	 */
-	function getImageHeight(){
+	public function getImageHeight(){
 		return $this->m_height;
 	}
 	
@@ -111,7 +110,7 @@ class tcms_gd {
 	 *
 	 * @return String
 	 */
-	function getImageMimetyp(){
+	public function getImageMimetyp(){
 		return $this->m_mimetype;
 	}
 	
@@ -122,7 +121,7 @@ class tcms_gd {
 	 *
 	 * @return String
 	 */
-	function readImageInformation($filename){
+	public function readImageInformation($filename){
 		$arrImageSize = getimagesize($filename);
 		
 		$this->m_width      = $arrImageSize[0];
@@ -164,7 +163,7 @@ class tcms_gd {
 	 * @param Boolean $sizeInName = false
 	 * @return Boolean
 	 */
-	function createThumbnail($path, $targetPath, $image, $size, $withTransparency = false, $sizeInName = false){
+	public function createThumbnail($path, $targetPath, $image, $size, $withTransparency = false, $sizeInName = false){
 		global $tcms_main;
 		
 		$isImage = true;
@@ -291,7 +290,7 @@ class tcms_gd {
 	 * 
 	 * @return String
 	 */
-	function createCaptchaImage($path, $cacheCleanSize){
+	public function createCaptchaImage($path, $cacheCleanSize){
 		global $tcms_main;
 		
 		mt_srand((double)microtime()*1000000);
@@ -334,7 +333,7 @@ class tcms_gd {
 	 * @param String $targetPath
 	 * @param String $choosenDB = 'xml'
 	 */
-	function generateFTPImageData($path, $targetPath, $choosenDB = 'xml'){
+	public function generateFTPImageData($path, $targetPath, $choosenDB = 'xml'){
 		global $tcms_main;
 		global $tcms_time;
 		
@@ -419,7 +418,7 @@ class tcms_gd {
 	 * @deprecated 
 	 * @return String
 	 */
-	function gd_imginfo($filename){
+	public function gd_imginfo($filename){
 		//$this->readImageInformation($filename);
 		
 		$fp  = fopen($filename,"rb");
@@ -455,7 +454,7 @@ class tcms_gd {
 	 * @param String $image
 	 * @param Integer $size
 	 */
-	function gd_thumbnail($path, $target_path, $image, $size, $w_or_h){
+	public function gd_thumbnail($path, $target_path, $image, $size, $w_or_h){
 		//$this->createThumbnail($path, $target_path, $image, $size);
 		$targetPath = $target_path;
 		
@@ -505,7 +504,7 @@ class tcms_gd {
 	 * @param String $image
 	 * @param Integer $size
 	 */
-	function gd_thumbnail_with_transparency($path, $target_path, $image, $size, $w_or_h){
+	public function gd_thumbnail_with_transparency($path, $target_path, $image, $size, $w_or_h){
 		if( strpos($image, '.jpg') != false || 
 			strpos($image, '.jpeg') != false || 
 			strpos($image, '.jpe') != false || 
@@ -561,7 +560,7 @@ class tcms_gd {
 	 * @param String $path
 	 * @param String $targetPath
 	 */
-	function createftp($path, $target_path){
+	public function createftp($path, $target_path){
 		$dir = opendir($path);
 		
 		while($entry = readdir($dir)){
@@ -598,7 +597,7 @@ class tcms_gd {
 	 * @param String $path
 	 * @param String $targetPath
 	 */
-	function createftp_sql($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $path, $image_folder){
+	public function createftp_sql($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $path, $image_folder){
 		$dir = opendir($path);
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
 		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);

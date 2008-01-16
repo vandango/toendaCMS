@@ -2007,6 +2007,7 @@ class tcms_main {
 		$text = '';
 		$ret = '';
 		$lang = '';
+		$template = '';
 		$add = '';
 		$encodeMore = false;
 		
@@ -2211,6 +2212,17 @@ class tcms_main {
 				}
 			}
 			/*
+				template
+			*/
+			else if(substr($val, 0, 2) == 's=') {
+				if($encodeMore) {
+					$template = substr($val, strpos($val, 's=') + 2).'/';
+				}
+				else {
+					$add .= '&amp;'.$val;
+				}
+			}
+			/*
 				session
 			*/
 			else if(substr($val, 0, 7) == 'session') {
@@ -2277,7 +2289,7 @@ class tcms_main {
 		//echo '<span style="color:#fff;"><b>url:'.$text.'</b></span><br>';
 		
 		if(trim($text) != '') {
-			$ret = $ret.$lang.$text.$add;
+			$ret = $ret.$lang.$template.$text.$add;
 		}
 		else {
 			$ret = str_replace('?', $this->globalFolder.'/index.php?', $text_copy);

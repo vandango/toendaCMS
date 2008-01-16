@@ -24,10 +24,26 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used for the search engine
  * optimization.
  *
- * @version 0.5.5
+ * @version 0.5.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
+ * 
+ * <code>
+ * 
+ * Methods
+ *
+ * __construct                   -> Constructor
+ * __destruct                    -> Destructor
+ *
+ *
+ * ------- toendaScript default methods -------
+ *
+ * explodeUrlColonFormat         -> Explode the url in colon format
+ * explodeUrlSlashFormat         -> Explode the url in slash format
+ * explodeHTMLFormat             -> Explode the url in slash format
+ * 
+ * </code>
  */
 
 
@@ -39,7 +55,7 @@ class tcms_seo {
 	
 	
 	/**
-	 * PHP5 Constructor
+	 * Constructor
 	 */
 	function __construct(){
 		$this->m_urlArray = explode('/', $_SERVER['REQUEST_URI']);
@@ -51,27 +67,9 @@ class tcms_seo {
 	
 	
 	/**
-	 * PHP4 Constructor
-	 */
-	function tcms_seo(){
-		$this->__construct();
-	}
-	
-	
-	
-	/**
-	 * PHP5 Destructor
+	 * Destructor
 	 */
 	function __destruct(){
-	}
-	
-	
-	
-	/**
-	 * PHP4 Destructor
-	 */
-	function _tcms_seo(){
-		$this->__destruct();
 	}
 	
 	
@@ -338,11 +336,21 @@ class tcms_seo {
 	
 	/**
 	 * Explode the url in slash format
+	 * 
+	 * @param Object &$tcmsMainObj = null
+	 * @param Object &$tcmsTimeObj = null
+	 * @param Object &$tcmsConfigObj = null
+	 * @param Object &$tcmsFileObj = null
 	 */
-	function explodeHTMLFormat(){
-		global $tcms_main;
-		global $tcms_time;
-		global $tcms_config;
+	function explodeHTMLFormat(&$tcmsMainObj = null, &$tcmsTimeObj = null, &$tcmsConfigObj = null, &$tcmsFileObj = null) {
+		//global $tcms_main;
+		//global $tcms_time;
+		//global $tcms_config;
+		
+		$tcms_main = $tcmsMainObj;
+		$tcms_time = $tcmsTimeObj;
+		$tcms_config = $tcmsConfigObj;
+		$tcms_file = $tcmsFileObj;
 		
 		$dcp = new tcms_datacontainer_provider(
 			$tcms_main->getAdministerSite(), 
@@ -489,6 +497,12 @@ class tcms_seo {
 						if(trim($chk_val) != '') {
 							$arrSEO['news'] = $chk_val;
 						}
+					}
+					/*
+						template
+					*/
+					else if($tcms_file->checkDirExist('theme/'.$val.'/')) {
+						$arrSEO['s'] = $val;
 					}
 					/*
 						content

@@ -26,7 +26,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * a complete API with toendaCMS constants and can load the
  * component itself.
  *
- * @version 0.3.2
+ * @version 0.3.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_cs
@@ -35,10 +35,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * Methods
  *
- * __construct()             -> PHP5 Constructor
- * tcms_cs()                 -> PHP4 Constructor
- * __destruct()              -> PHP5 Destructor
- * _tcms_cs                  -> PHP4 Destructor
+ * __construct()             -> Constructor
+ * __destruct()              -> Destructor
  * 
  * getSettings               -> Loads the current settings from component
  * getSpecialSettings        -> Loads the special settingsfile
@@ -58,13 +56,13 @@ class tcms_cs extends tcms_main {
 	
 	
 	/**
-	 * PHP5 Constructor
+	 * Constructor
 	 *
 	 * @param String $administer
 	 * @param String $imagePath
 	 * @param Boolean $forAdmin = false
 	 */
-	function __construct($administer, $imagePath, $forAdmin = false) {
+	public function __construct($administer, $imagePath, $forAdmin = false) {
 		//global $tcms_main;
 		
 		$this->tcms_main_path = $administer;
@@ -85,31 +83,9 @@ class tcms_cs extends tcms_main {
 	
 	
 	/**
-	 * PHP4 Constructor
-	 *
-	 * @param String $administer
-	 * @param String $imagePath
-	 * @param Boolean $forAdmin = false
+	 * Destructor
 	 */
-	function tcms_cs($administer, $imagePath, $forAdmin = false) {
-		$this->__construct($administer, $imagePath, $forAdmin);
-	}
-	
-	
-	
-	/**
-	 * PHP5 Destructor
-	 */
-	function __destruct() {
-	}
-	
-	
-	
-	/**
-	 * PHP4 Destructor
-	 */
-	function _tcms_main() {
-		$this->__destruct();
+	public function __destruct() {
 	}
 	
 	
@@ -120,7 +96,7 @@ class tcms_cs extends tcms_main {
 	 * @param String $item
 	 * @return Array
 	 */
-	function getSettings($item) {
+	public function getSettings($item) {
 		if(file_exists($this->tcms_main_path.'/components/'.$item.'/component.xml')){
 			$csXML = new xmlparser($this->tcms_main_path.'/components/'.$item.'/component.xml','r');
 			
@@ -176,7 +152,7 @@ class tcms_cs extends tcms_main {
 	 * @param String $current_cs_id
 	 * @return Array
 	 */
-	function getSpecialSettings($item, $settingsfile, $current_cs_id) {
+	public function getSpecialSettings($item, $settingsfile, $current_cs_id) {
 		if(file_exists($this->tcms_admin_path.$this->tcms_main_path.'/components/'.$item.'/'.$settingsfile)){
 			$csXML = new xmlparser($this->tcms_admin_path.$this->tcms_main_path.'/components/'.$item.'/'.$settingsfile, 'r');
 			
@@ -206,7 +182,7 @@ class tcms_cs extends tcms_main {
 	 * @param Integer $isAdmin
 	 * @return Array
 	 */
-	function getAllSideCS($isAdmin) {
+	public function getAllSideCS($isAdmin) {
 		$i = 0;
 		$arrCSFiles = $this->getPathContent($this->tcms_main_path.'/components/');
 		
@@ -274,7 +250,7 @@ class tcms_cs extends tcms_main {
 	 * @param Integer $isAdmin
 	 * @return Array
 	 */
-	function getMainCS($item, $isAdmin) {
+	public function getMainCS($item, $isAdmin) {
 		$arrCSFiles = $this->getPathContent($this->tcms_main_path.'/components/');
 		
 		if(is_array($arrCSFiles)){

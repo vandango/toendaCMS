@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to authenticate a login user.
  *
- * @version 0.3.4
+ * @version 0.3.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -32,10 +32,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * Methods
  *
- * __construct                       -> PHP5 Constructor
- * tcms_authentication               -> PHP4 Constructor
- * __destruct                        -> PHP5 Destructor
- * _tcms_authentication              -> PHP4 Destructor
+ * __construct                       -> Constructor
+ * __destruct                        -> Destructor
  * 
  * setTcmsTimeObj                    -> Set the tcms_time object
  *
@@ -71,13 +69,13 @@ class tcms_authentication extends tcms_main {
 	
 	
 	/**
-	 * PHP5 Constructor
+	 * Constructor
 	 *
 	 * @param String $administer
 	 * @param String $charset
 	 * @param String $imagePath
 	 */
-	function __construct($administer, $charset, $imagePath, $tcmsTimeObj = null) {
+	public function __construct($administer, $charset, $imagePath, $tcmsTimeObj = null) {
 		$this->m_administer = $administer;
 		$this->m_imagePath = $imagePath;
 		$this->m_charset = $charset;
@@ -101,31 +99,9 @@ class tcms_authentication extends tcms_main {
 	
 	
 	/**
-	 * PHP4 Constructor
-	 *
-	 * @param String $administer
-	 * @param String $charset
-	 * @param String $imagePath
+	 *HP5 Destructor
 	 */
-	function tcms_authentication($administer, $charset, $imagePath, $tcmsTimeObj = null) {
-		$this->__construct($administer, $charset, $imagePath, $tcmsTimeObj);
-	}
-	
-	
-	
-	/**
-	 * PHP5 Destructor
-	 */
-	function __destruct() {
-	}
-	
-	
-	
-	/**
-	 * PHP4 Destructor
-	 */
-	function _tcms_authentication() {
-		$this->__destruct();
+	public function __destruct() {
 	}
 	
 	
@@ -135,7 +111,7 @@ class tcms_authentication extends tcms_main {
 	 *
 	 * @param Object $value
 	 */
-	function setTcmsTimeObj($value) {
+	public function setTcmsTimeObj($value) {
 		$this->_tcmsTime = $value;
 	}
 	
@@ -149,7 +125,7 @@ class tcms_authentication extends tcms_main {
 	 * @param Boolean $forBackend = false
 	 * @return Boolean
 	 */
-	function createSession($username, $id, $forBackend = false) {
+	public function createSession($username, $id, $forBackend = false) {
 		if($this->db_choosenDB == 'xml') {
 			if($forBackend) {
 				$ws_path = '';
@@ -248,7 +224,7 @@ class tcms_authentication extends tcms_main {
 	 * @param Boolean $forBackend = false
 	 * @return Boolean
 	 */
-	function checkSessionExist($session, $forBackend = false) {
+	public function checkSessionExist($session, $forBackend = false) {
 		if($this->db_choosenDB == 'xml') {
 			if($forBackend) {
 				include_once('..//tcms_kernel/tcms_file.lib.php');
@@ -313,7 +289,7 @@ class tcms_authentication extends tcms_main {
 	 * @param String $session
 	 * @param Boolean $forBackend
 	 */
-	function cleanupOutdatedSessions($session, $forBackend = false) {
+	public function cleanupOutdatedSessions($session, $forBackend = false) {
 		if($this->db_choosenDB == 'xml') {
 			if($forBackend) {
 				$ws_path = 'session/';
@@ -379,7 +355,7 @@ class tcms_authentication extends tcms_main {
 	 *
 	 * @param String $tcmsUserID
 	 */
-	function updateLoginTime($tcmsUserID) {
+	public function updateLoginTime($tcmsUserID) {
 		if($this->db_choosenDB == 'xml') {
 			$arrUserXML = $this->getPathContent($this->m_administer.'/tcms_user');
 			
@@ -473,7 +449,7 @@ class tcms_authentication extends tcms_main {
 	 * @param Boolean $backend = false
 	 * @return String
 	 */
-	function doLogin($username, $password, $backend = false) {
+	public function doLogin($username, $password, $backend = false) {
 		if($this->db_choosenDB == 'xml') {
 			$arr_files = $this->getPathContent($this->m_administer.'/tcms_user/');
 			
@@ -605,7 +581,7 @@ class tcms_authentication extends tcms_main {
 	 * @param Boolean $backend = false
 	 * @return Boolean
 	 */
-	function doLogout($session, $backend = false) {
+	public function doLogout($session, $backend = false) {
 		if($this->db_choosenDB == 'xml') {
 			if($backend) {
 				if('session/'.$session)
@@ -649,7 +625,7 @@ class tcms_authentication extends tcms_main {
 	 * @param String $email
 	 * @return Boolean
 	 */
-	function doRetrieve($username, $email) {
+	public function doRetrieve($username, $email) {
 		if($this->db_choosenDB == 'xml') {
 			$arr_files = $this->getPathContent($this->m_administer.'/tcms_user/');
 			
@@ -759,7 +735,7 @@ class tcms_authentication extends tcms_main {
 	 * @param String $newPassword
 	 * @return Boolean
 	 */
-	function doValidateNewPassword($id, $newPassword) {
+	public function doValidateNewPassword($id, $newPassword) {
 		$save_password = md5($newPassword);
 		
 		if($this->db_choosenDB == 'xml') {
@@ -821,7 +797,7 @@ class tcms_authentication extends tcms_main {
 	 * @param String $new_password
 	 * @return Boolean
 	 */
-	function sendRetrievementMail($id, $username, $email, $new_password) {
+	public function sendRetrievementMail($id, $username, $email, $new_password) {
 		// cfg
 		$path = '';
 		$isBackend = false;

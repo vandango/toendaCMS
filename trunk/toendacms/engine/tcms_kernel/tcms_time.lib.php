@@ -22,7 +22,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to have some often used time tools.
  *
- * @version 0.1.3
+ * @version 0.1.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -36,10 +36,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * CONSTRUCTOR AND DESTRUCTOR
  *--------------------------------------------------------
  *
- * __construct()                       -> PHP5 Default constructor
- * tcms_time()                         -> PHP4 Default constructor
- * __destruct()                        -> PHP5 Default destructor
- * _tcms_time()                        -> PHP4 Default destructor
+ * __construct()                       -> Default constructor
+ * __destruct()                        -> Default destructor
  *
  *--------------------------------------------------------
  * MAIN FUNCTIONS
@@ -82,32 +80,16 @@ class tcms_time {
 	
 	
 	/**
-	 * PHP5 Default constructor
+	 * Default constructor
 	 */
 	function __construct(){
 	}
 	
 	
 	/**
-	 * PHP4 Default constructor
-	 */
-	function tcms_time(){
-		$this->__construct();
-	}
-	
-	
-	/**
-	 * PHP5 Default destructor
+	 * Default destructor
 	 */
 	function __destruct(){
-	}
-	
-	
-	/**
-	 * PHP4 Default destructor
-	 */
-	function _tcms_time(){
-		$this->__destruct();
 	}
 	
 	

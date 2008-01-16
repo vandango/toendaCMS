@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide some often used html
  * codes.
  *
- * @version 0.5.2
+ * @version 0.5.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -32,7 +32,7 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 class tcms_html {
 	/**
-	 * PHP5 Constructor
+	 * Constructor
 	 */
 	public function __construct() {
 	}
@@ -40,7 +40,7 @@ class tcms_html {
 	
 	
 	/**
-	 * PHP5 Destructor
+	 * Destructor
 	 */
 	public function __destruct() {
 	}
@@ -548,7 +548,7 @@ class tcms_html {
 					
 					case 3:
 						/*
-							Checkbox
+							Textbox
 						*/
 						
 						$row .= '<input'
@@ -556,8 +556,7 @@ class tcms_html {
 						.' id="'.$outVariableName.'"'
 						.' name="'.$outVariableName.'"'
 						.' class="'.$textBoxStyleClass.'"'
-						.($inVariable == 1 ? ' checked="checked"' : '' )
-						.' value="1"'
+						.' value="'.$inVariable.'"'
 						.' />';
 						break;
 					
