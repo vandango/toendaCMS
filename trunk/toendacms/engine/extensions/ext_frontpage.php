@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides a frontpage with news and a text.
  *
- * @version 1.5.5
+ * @version 1.5.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -267,7 +267,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 									$catXML = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$catVal.'.xml','r');
 									
 									$catLink['link'][$count] = $catVal;
-									$catLink['name'][$count] = $catXML->read_section('cat', 'name');
+									$catLink['name'][$count] = $catXML->readSection('cat', 'name');
 									
 									$catLink['name'][$count] = $tcms_main->decodeText($catLink['name'][$count], '2', $c_charset);
 									
@@ -278,7 +278,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 						else {
 							$catXML = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$dcNews->GetCategories().'.xml','r');
 							
-							$catLink['name'][0] = $catXML->read_section('cat', 'name');
+							$catLink['name'][0] = $catXML->readSection('cat', 'name');
 							
 							$catLink['name'][0] = $tcms_main->decodeText($catLink['name'][0], '2', $c_charset);
 							
@@ -288,7 +288,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 					else {
 						$catXML = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$defaultCat.'.xml','r');
 						
-						$catLink['name'][0] = $catXML->read_section('cat', 'name');
+						$catLink['name'][0] = $catXML->readSection('cat', 'name');
 						
 						$catLink['name'][0] = $tcms_main->decodeText($catLink['name'][0], '2', $c_charset);
 						

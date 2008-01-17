@@ -21,7 +21,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a complete database backup dump.
  *
- * @version 0.0.5
+ * @version 0.0.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -35,13 +35,11 @@ defined('_TCMS_VALID') or die('Restricted access');
  * CONSTRUCTOR AND DESTRUCTOR
  *--------------------------------------------------------
  *
- * __construct()                       -> PHP5 Default constructor
- * tcms_sql_dump()                     -> PHP4 Default constructor
- * __destruct()                        -> PHP5 Default destructor
- * _tcms_sql_dump()                    -> PHP4 Default destructor
+ * __construct()                       -> Default constructor
+ * __destruct()                        -> Default destructor
  *
  *--------------------------------------------------------
- * MAIN FUNCTIONS
+ * MAIN public functionS
  *--------------------------------------------------------
  *
  * MySQLBackup()                       -> Creates an backup dump of a database
@@ -56,9 +54,9 @@ class tcms_sql_dump {
 	
 	
 	/**
-	 * PHP5 Default constructor
+	 * Default constructor
 	 */
-	function __construct(){
+	public function __construct(){
 		include_once('../tcms_kernel/tcms_xml.lib.php');
 		
 		$xml = new xmlparser('../tcms_kernel/tcms_version.xml','r');
@@ -69,27 +67,9 @@ class tcms_sql_dump {
 	
 	
 	/**
-	 * PHP4 Default constructor
+	 * Default destructor
 	 */
-	function tcms_sql_dump(){
-		$this->__construct();
-	}
-	
-	
-	
-	/**
-	 * PHP5 Default destructor
-	 */
-	function __destruct(){
-	}
-	
-	
-	
-	/**
-	 * PHP4 Default destructor
-	 */
-	function _tcms_sql_dump(){
-		$this->__destruct();
+	public function __destruct(){
 	}
 	
 	
@@ -103,7 +83,7 @@ class tcms_sql_dump {
 	 * @param String $pwd
 	 * @param Boolean $structure_only
 	 */
-	function MySQLBackup($host, $dbname, $uid, $pwd, $structure_only = false){
+	public function MySQLBackup($host, $dbname, $uid, $pwd, $structure_only = false){
 		$crlf = "\r\n";
 		
 		$con = @mysql_connect($host, $uid, $pwd) or die("Could not connect");

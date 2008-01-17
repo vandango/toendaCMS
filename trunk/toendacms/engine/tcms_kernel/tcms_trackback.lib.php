@@ -27,7 +27,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Originaly coded by Ran Aroussi (http://www.blogish.org)
  * License GNU GPL
  *
- * @version 0.0.7
+ * @version 0.0.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -37,10 +37,8 @@ defined('_TCMS_VALID') or die('Restricted access');
 /**
  * Methods
  *
- * __construct                -> PHP5 Constructor
- * tcms_trackback             -> PHP4 Constructor
- * __destruct                 -> PHP5 Destructor
- * _tcms_trackback            -> PHP4 Destructor
+ * __construct                -> Constructor
+ * __destruct                 -> Destructor
  *
  * ping                       -> Sends a ping to a specified url and allows clients to
  *                               auto-discover the ping url.
@@ -69,7 +67,7 @@ class tcms_trackback{
 	
 	
 	/**
-	 * PHP5: Default constructor
+	 * Default constructor
 	 * blog_name is the blog name to ping
 	 * author is the post author
 	 * encoding, must be UTF-8
@@ -78,7 +76,7 @@ class tcms_trackback{
 	 * @param String $author
 	 * @param String $encoding = 'UTF-8'
 	 */
-	function __construct($blog_name, $author, $encoding = 'UTF-8'){
+	public function __construct($blog_name, $author, $encoding = 'UTF-8'){
 		$this->m_blog_name = $blog_name;
 		$this->m_author = $author;
 		$this->m_encoding = $encoding; 
@@ -94,27 +92,9 @@ class tcms_trackback{
 	
 	
 	/**
-	 * PHP4: Default constructor
+	 * Destructor
 	 */
-	function tcms_trackback($blog_name, $author, $encoding = 'UTF-8'){
-		$this->__construct($blog_name, $author, $encoding);
-	}
-	
-	
-	
-	/**
-	 * PHP5 Destructor
-	 */
-	function __destruct(){
-	}
-	
-	
-	
-	/**
-	 * PHP4 Destructor
-	 */
-	function _tcms_file(){
-		$this->__destruct();
+	public function __destruct(){
 	}
 	
 	
@@ -128,7 +108,7 @@ class tcms_trackback{
 	 * @param String $title = ''
 	 * @param String $excerpt = ''
 	 */
-	function ping($tb, $url, $title = '', $excerpt = ''){
+	public function ping($tb, $url, $title = '', $excerpt = ''){
 		$response = '';
 		$reason = '';
 		
@@ -215,7 +195,7 @@ class tcms_trackback{
      * @param string $err_response 
      * @return boolean 
      */
-	function recieve($success = false, $err_response = ''){
+	public function recieve($success = false, $err_response = ''){
 		// Default error response in case of problems...
 		if(!$success && empty($err_response))
 			$err_response = 'An error occured while tring to log your trackback...';
@@ -274,7 +254,7 @@ class tcms_trackback{
      * @param string $response 
      * @return string XML response to the caller
      */
-    function fetch($success = false, $response = ''){
+    public function fetch($success = false, $response = ''){
     	if(!$success && empty($response))
     		$response = 'An error occured while tring to retreive trackback information...';
     	
@@ -335,7 +315,7 @@ class tcms_trackback{
      * @param string $author 
      * @return string 
      */
-    function rdf_autodiscover($RFC822_date, $title, $expert, $permalink, $trackback, $author = ''){
+    public function rdf_autodiscover($RFC822_date, $title, $expert, $permalink, $trackback, $author = ''){
     	if(!$author){ $author = $this->m_author; }
     	
     	$return = "<!-- \n";
@@ -388,7 +368,7 @@ class tcms_trackback{
      * @param string $text 
      * @return array Trackback URLs.
      */
-    function auto_discovery($text){
+    public function auto_discovery($text){
     	// Get a list of UNIQUE links from text...
     	// ---------------------------------------
     	// RegExp to look for (0=>link, 4=>host in 'replace')
@@ -449,7 +429,7 @@ class tcms_trackback{
 	 * 
 	 * @return string $datetime
 	 */
-	function RFC822_from_datetime($datetime){
+	public function RFC822_from_datetime($datetime){
 		$timestamp = mktime(
 			substr($datetime, 8, 2), substr($datetime, 10, 2), substr($datetime, 12, 2),
 			substr($datetime, 4, 2), substr($datetime, 6, 2), substr($datetime, 0, 4)
@@ -465,7 +445,7 @@ class tcms_trackback{
 	 * 
 	 * @return string $string 
 	 */
-	function xml_safe($string){
+	public function xml_safe($string){
 		return htmlspecialchars($string, ENT_QUOTES);
 	}
 	
@@ -476,7 +456,7 @@ class tcms_trackback{
 	 * 
 	 * @return string $string 
 	 */
-	function cut_short($string, $max_length = 255){
+	public function cut_short($string, $max_length = 255){
 		if(strlen($string) > $max_length){
 			$string = substr($string, 0, $max_length).'...';
 		}

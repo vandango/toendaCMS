@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used for the search engine
  * optimization.
  *
- * @version 0.5.6
+ * @version 0.5.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -57,7 +57,7 @@ class tcms_seo {
 	/**
 	 * Constructor
 	 */
-	function __construct(){
+	public function __construct(){
 		$this->m_urlArray = explode('/', $_SERVER['REQUEST_URI']);
 		$this->m_RequestUri = $_SERVER['REQUEST_URI'];
 		
@@ -69,7 +69,7 @@ class tcms_seo {
 	/**
 	 * Destructor
 	 */
-	function __destruct(){
+	public function __destruct(){
 	}
 	
 	
@@ -77,7 +77,7 @@ class tcms_seo {
 	/**
 	 * Explode the url in colon format
 	 */
-	function explodeUrlColonFormat(){
+	public function explodeUrlColonFormat(){
 		$arrSEO = '';
 		
 		foreach($this->m_urlArray as $urlKey => $urlValue){
@@ -205,7 +205,7 @@ class tcms_seo {
 	/**
 	 * Explode the url in slash format
 	 */
-	function explodeUrlSlashFormat(){
+	public function explodeUrlSlashFormat(){
 		$arrSEO = '';
 		
 		foreach($this->m_urlArray as $urlKey => $urlValue){
@@ -342,7 +342,7 @@ class tcms_seo {
 	 * @param Object &$tcmsConfigObj = null
 	 * @param Object &$tcmsFileObj = null
 	 */
-	function explodeHTMLFormat(&$tcmsMainObj = null, &$tcmsTimeObj = null, &$tcmsConfigObj = null, &$tcmsFileObj = null) {
+	public function explodeHTMLFormat(&$tcmsMainObj = null, &$tcmsTimeObj = null, &$tcmsConfigObj = null, &$tcmsFileObj = null) {
 		//global $tcms_main;
 		//global $tcms_time;
 		//global $tcms_config;

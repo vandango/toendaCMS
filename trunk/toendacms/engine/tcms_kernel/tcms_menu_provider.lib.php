@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a provider for sidemenu datacontainer
  * objects.
  *
- * @version 0.2.4
+ * @version 0.2.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -33,8 +33,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * TCMS Menu methods
  *
- * __construct()                           -> PHP5 Constructor
- * tcms_menu_provider()                    -> PHP4 Constructor
+ * __construct()                           -> Constructor
  * 
  * setTcmsTimeObj                          -> Set the tcms_time object
  *
@@ -77,7 +76,7 @@ class tcms_menu_provider extends tcms_main {
 	 * @param String $isAdmin
 	 * @param Object $tcmsTimeObj = null
 	 */
-	function __construct($tcms_administer_path = 'data', $charset, $isAdmin, $tcmsTimeObj = null){
+	public function __construct($tcms_administer_path = 'data', $charset, $isAdmin, $tcmsTimeObj = null){
 		$this->m_CHARSET = $charset;
 		$this->m_path = $tcms_administer_path;
 		$this->m_IsAdmin = $isAdmin;
@@ -108,26 +107,11 @@ class tcms_menu_provider extends tcms_main {
 	
 	
 	/**
-	 * PHP4 Constructor
-	 *
-	 * @param String $tcms_administer_path = 'data'
-	 * @param String $charset
-	 * @param String $isAdmin
-	 * @param Object $tcmsTimeObj = null
-	 *
-	 */
-	function tcms_menu_provider($tcms_administer_path = 'data', $charset, $isAdmin, $tcmsTimeObj = null){
-		$this->__construct($tcms_administer_path, $charset, $isAdmin, $tcmsTimeObj);
-	}
-	
-	
-	
-	/**
 	 * Set the tcms_time object
 	 *
 	 * @param Object $value
 	 */
-	function setTcmsTimeObj($value) {
+	public function setTcmsTimeObj($value) {
 		$this->_tcmsTime = $value;
 	}
 	
@@ -143,7 +127,7 @@ class tcms_menu_provider extends tcms_main {
 	 * @param Integer $item_id
 	 * @return String
 	 */
-	function _checkIDByLink($lang, $id, $root, $level = 0, $item_id){
+	public function _checkIDByLink($lang, $id, $root, $level = 0, $item_id){
 		//$menuItem = new tcms_dc_sidemenuitem();
 		
 		//$menuItem->SetLink('_NOTHING_');
@@ -264,7 +248,7 @@ class tcms_menu_provider extends tcms_main {
 	 * @param Integer $level = 0
 	 * @return String
 	 */
-	function _getDByLink($lang, $id, $root, $level = 0){
+	public function _getDByLink($lang, $id, $root, $level = 0){
 		$result = '0';
 		
 		if($this->m_choosenDB == 'xml'){
@@ -353,7 +337,7 @@ class tcms_menu_provider extends tcms_main {
 	 * @param String $lang
 	 * @return Array
 	 */
-	function getBasemenu($lang) {
+	public function getBasemenu($lang) {
 		if($this->m_choosenDB == 'xml') {
 			/*foreach($arr_file as $key => $value){
 				if($value != 'index.html'){
@@ -477,7 +461,7 @@ class tcms_menu_provider extends tcms_main {
 	 * @param String $currentPageItem
 	 * @return Array
 	 */
-	function getSubmenu($lang, $level = 1, $subMenuOf, $currentPage, $currentPageItem) {
+	public function getSubmenu($lang, $level = 1, $subMenuOf, $currentPage, $currentPageItem) {
 		if($this->m_choosenDB == 'xml') {
 			//
 		}
@@ -607,7 +591,7 @@ class tcms_menu_provider extends tcms_main {
 	 * @param String $root = ''
 	 * @return Array
 	 */
-	function getSidemenu($lang, $item_id = '', $level = 0, $id = '', $item = '', $root = ''){
+	public function getSidemenu($lang, $item_id = '', $level = 0, $id = '', $item = '', $root = ''){
 		if($this->m_choosenDB == 'xml'){
 			/*$arr_filename = $this->readdir_ext($this->m_path.'/tcms_menu/');
 			
@@ -841,7 +825,7 @@ class tcms_menu_provider extends tcms_main {
 	 * @param String $language
 	 * @return Array
 	 */
-	function generateLinkWay($session, $template, $language) {
+	public function generateLinkWay($session, $template, $language) {
 		if($this->m_choosenDB == 'xml') {
 			
 		}

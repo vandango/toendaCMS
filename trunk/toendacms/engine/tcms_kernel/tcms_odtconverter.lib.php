@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to convert documents from
  * the opendocument format into html.
  *
- * @version 0.1.5
+ * @version 0.1.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -92,7 +92,7 @@ class tcms_odtconverter {
 	 * 
 	 * @param String
 	 */
-	function __construct($root, $frontend, $file) {
+	public function __construct($root, $frontend, $file) {
 		$this->dir['odf'] = $root.$frontend;
 		$this->dir['odf_tmp'] = $this->dir['odf'].'/tmp';
 		$this->dir['img'] = $this->dir['odf'].'/img';
@@ -110,7 +110,7 @@ class tcms_odtconverter {
 	/**
 	 * Destructor
 	 */
-	function __destruct() {
+	public function __destruct() {
 	}
 	
 	
@@ -134,7 +134,7 @@ class tcms_odtconverter {
 	 * @param Object $tcms_file
 	 * @return String
 	 */
-	function unzipFile($filename, &$tcms_file) {
+	public function unzipFile($filename, &$tcms_file) {
 		//if(!function_exists('zip_open')) {
 		//	throw new Exception('NO ZIP FUNCTIONS DETECTED. Do you have the PECL ZIP extensions loaded?');
 		//}

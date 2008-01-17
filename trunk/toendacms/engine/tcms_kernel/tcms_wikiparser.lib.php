@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a parser and a base class
  * for the toendaScript.
  * 
- * @version 0.0.1
+ * @version 0.0.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -32,10 +32,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * <code>
  * Methods
  *
- * __construct                   -> PHP5 Constructor
- * tcms_wikiparser               -> PHP4 Constructor
- * __destruct                    -> PHP5 Destructor
- * _tcms_wikiparser              -> PHP4 Destructor
+ * __construct                   -> Constructor
+ * __destruct                    -> Destructor
  *
  *
  * ------- toendaScript Parser -------
@@ -76,40 +74,20 @@ class tcms_wikiparser {
 	
 	
 	/**
-	 * PHP5 Constructor
+	 * Constructor
 	 *
 	 * @param String $content
 	 */
-	function __construct($content = ''){
+	public function __construct($content = ''){
 		$this->content = $content;
 	}
 	
 	
 	
 	/**
-	 * PHP4 Constructor
-	 *
-	 * @param String $content
+	 * Destructor
 	 */
-	function tcms_wikiparser($content = ''){
-		$this->__construct($content);
-	}
-	
-	
-	
-	/**
-	 * PHP5 Destructor
-	 */
-	function __destruct(){
-	}
-	
-	
-	
-	/**
-	 * PHP4 Destructor
-	 */
-	function _tcms_wikiparser(){
-		$this->__destruct();
+	public function __destruct(){
 	}
 	
 	
@@ -119,7 +97,7 @@ class tcms_wikiparser {
 	 * 
 	 * @return String
 	 */
-	function doParse(){
+	public function doParse(){
 		$this->content = $this->_parseImages($this->content);
 		$this->content = $this->_parseLinebreaks($this->content);
 		$this->content = $this->_parseRules($this->content);
@@ -152,7 +130,7 @@ class tcms_wikiparser {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseImages($newsContent){
+	public function _parseImages($newsContent){
 		$output = str_replace('{img#', '<img src="', $newsContent);
 		$output = str_replace('#border=', '" border="', $output);
 		$output = str_replace('#align=', '" align="', $output);
@@ -171,7 +149,7 @@ class tcms_wikiparser {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseLinebreaks($newsContent){
+	public function _parseLinebreaks($newsContent){
 		return str_replace('{br}', '<br />', $newsContent);
 	}
 	
@@ -183,7 +161,7 @@ class tcms_wikiparser {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseRules($newsContent){
+	public function _parseRules($newsContent){
 		return str_replace('{hr}', '<hr />', $newsContent);
 	}
 	
@@ -195,7 +173,7 @@ class tcms_wikiparser {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseBold($newsContent){
+	public function _parseBold($newsContent){
 		$output = str_replace('{b:}', '<strong>', $newsContent);
 		$output = str_replace('{:b}', '</strong>', $output);
 		
@@ -210,7 +188,7 @@ class tcms_wikiparser {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseItalize($newsContent){
+	public function _parseItalize($newsContent){
 		$output = str_replace('{i:}', '<em>', $newsContent);
 		$output = str_replace('{:i}', '</em>', $output);
 		
@@ -225,7 +203,7 @@ class tcms_wikiparser {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseCenter($newsContent){
+	public function _parseCenter($newsContent){
 		$output = str_replace('{center:}', '<div align="center">', $newsContent);
 		$output = str_replace('{:center}', '</div>', $output);
 		
@@ -240,7 +218,7 @@ class tcms_wikiparser {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseLeft($newsContent){
+	public function _parseLeft($newsContent){
 		$output = str_replace('{left:}', '<div align="left">', $newsContent);
 		$output = str_replace('{:left}', '</div>', $output);
 		
@@ -255,7 +233,7 @@ class tcms_wikiparser {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseRight($newsContent){
+	public function _parseRight($newsContent){
 		$output = str_replace('{right:}', '<div align="right">', $newsContent);
 		$output = str_replace('{:right}', '</div>', $output);
 		
@@ -270,7 +248,7 @@ class tcms_wikiparser {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseUnderline($newsContent){
+	public function _parseUnderline($newsContent){
 		$output = str_replace('{u:}', '<u>', $newsContent);
 		$output = str_replace('{:u}', '</u>', $output);
 		
@@ -285,7 +263,7 @@ class tcms_wikiparser {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseHeader($newsContent){
+	public function _parseHeader($newsContent){
 		$output = str_replace('{h1:}', '<h1>', $newsContent);
 		$output = str_replace('{h2:}', '<h2>', $output);
 		$output = str_replace('{h3:}', '<h3>', $output);
@@ -310,7 +288,7 @@ class tcms_wikiparser {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseBlockquote($newsContent){
+	public function _parseBlockquote($newsContent){
 		$output = str_replace('{cite:}', '<blockquote>', $newsContent);
 		$output = str_replace('{:cite}', '</blockquote>', $output);
 		
@@ -325,7 +303,7 @@ class tcms_wikiparser {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseTeletyper($newsContent){
+	public function _parseTeletyper($newsContent){
 		$output = str_replace('{tt:}', '<tt>', $newsContent);
 		$output = str_replace('{:tt}', '</tt>', $output);
 		
@@ -340,7 +318,7 @@ class tcms_wikiparser {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseUl($newsContent){
+	public function _parseUl($newsContent){
 		$output = str_replace('{ul:}', '<ul>', $newsContent);
 		$output = str_replace('{:ul}', '</ul>', $output);
 		
@@ -355,7 +333,7 @@ class tcms_wikiparser {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseOl($newsContent){
+	public function _parseOl($newsContent){
 		$output = str_replace('{ol:}', '<ol>', $newsContent);
 		$output = str_replace('{:ol}', '</ol>', $output);
 		
@@ -370,7 +348,7 @@ class tcms_wikiparser {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseLi($newsContent){
+	public function _parseLi($newsContent){
 		$output = str_replace('{li:}', '<li>', $newsContent);
 		$output = str_replace('{:li}', '</li>', $output);
 		
@@ -385,7 +363,7 @@ class tcms_wikiparser {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseFontColor($newsContent){
+	public function _parseFontColor($newsContent){
 		$color = substr(
 			$newsContent, 
 			strpos($newsContent, '{fc#') + 4, 
@@ -432,7 +410,7 @@ class tcms_wikiparser {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseUrl($newsContent){
+	public function _parseUrl($newsContent){
 		$output = str_replace('{url#', '<a href="', $newsContent);
 		$output = str_replace('#:}', '">', $output);
 		$output = str_replace('#_blank:}', '" target="_blank">', $output);
@@ -449,7 +427,7 @@ class tcms_wikiparser {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseExt($newsContent){
+	public function _parseExt($newsContent){
 		$output = str_replace('{ext#url=', '<iframe src="', $newsContent);
 		
 		$output = str_replace('#width=', '" width="', $output);
@@ -473,7 +451,7 @@ class tcms_wikiparser {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseIfThenElse($newsContent){
+	public function _parseIfThenElse($newsContent){
 		//$output = str_replace('{li:}', '<li>', $newsContent);
 		//$output = str_replace('{:li}', '</li>', $output);
 		
@@ -494,7 +472,7 @@ class tcms_wikiparser {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function _parseFilter($newsContent){
+	public function _parseFilter($newsContent){
 		$newsContent = $this->_filter_Toenda($newsContent);
 		$newsContent = $this->_filter_SessionLinks($newsContent);
 		return $newsContent;
@@ -508,7 +486,7 @@ class tcms_wikiparser {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function __filter_SessionLinks($newsContent){
+	public function __filter_SessionLinks($newsContent){
 		//global $session;
 		
 		//$text = preg_replace('/<a href="/i', '<a href="?session='.$session, $text);
@@ -524,7 +502,7 @@ class tcms_wikiparser {
 	 * @param String $newsContent
 	 * @return String
 	 */
-	function __filter_Toenda($newsContent){
+	public function __filter_Toenda($newsContent){
 		$text = $newsContent;
 		//$text = preg_replace('/toendacms/i', '<a href="http://www.toendacms.com" target="_blank">toendaCMS</a>', $text);
 		/*

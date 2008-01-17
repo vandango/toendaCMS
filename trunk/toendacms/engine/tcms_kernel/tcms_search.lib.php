@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide a dynamic
  * search class.
  *
- * @version 0.1.7
+ * @version 0.2.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -33,10 +33,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * Methods
  *
- * __construct                 -> PHP5 Constructor
- * tcms_search                 -> PHP4 Constructor
- * __destruct                  -> PHP5 Destructor
- * _tcms_search                -> PHP4 Destructor
+ * __construct                 -> Constructor
+ * __destruct                  -> Destructor
  * 
  * setTcmsTimeObj              -> Set the tcms_time object
  * setTcmsHtmlObj              -> Set the tcms_html object
@@ -69,14 +67,14 @@ class tcms_search extends tcms_main {
 	
 	
 	/**
-	 * PHP5 Constructor
+	 * Constructor
 	 *
 	 * @param String $charset
 	 * @param String $skin
 	 * @param String $tcms_administer_path = 'data'
 	 * @param String $usergroup
 	 */
-	function __construct($charset, $skin, $tcms_administer_path = 'data', $usergroup, $tcmsTimeObj = null, $tcmsHtmlObj = null){
+	public function __construct($charset, $skin, $tcms_administer_path = 'data', $usergroup, $tcmsTimeObj = null, $tcmsHtmlObj = null){
 		$this->m_CHARSET = $charset;
 		$this->m_path = $tcms_administer_path;
 		$this->m_skin = $skin;
@@ -106,32 +104,9 @@ class tcms_search extends tcms_main {
 	
 	
 	/**
-	 * PHP4 Constructor
-	 *
-	 * @param String $charset
-	 * @param String $skin
-	 * @param String $tcms_administer_path = 'data'
-	 * @param String $usergroup
+	 * Destructor
 	 */
-	function tcms_search($charset, $skin, $tcms_administer_path = 'data', $usergroup, $tcmsTimeObj = null, $tcmsHtmlObj = null){
-		$this->__construct($charset, $skin, $tcms_administer_path = 'data', $usergroup, $tcmsTimeObj, $tcmsHtmlObj);
-	}
-	
-	
-	
-	/**
-	 * PHP5 Destructor
-	 */
-	function __destruct(){
-	}
-	
-	
-	
-	/**
-	 * PHP4 Destructor
-	 */
-	function _tcms_search(){
-		$this->__destruct();
+	public function __destruct(){
 	}
 	
 	
@@ -141,7 +116,7 @@ class tcms_search extends tcms_main {
 	 *
 	 * @param Object $value
 	 */
-	function setTcmsTimeObj($value) {
+	public function setTcmsTimeObj($value) {
 		$this->_tcmsTime = $value;
 	}
 	
@@ -152,7 +127,7 @@ class tcms_search extends tcms_main {
 	 *
 	 * @param Object $value
 	 */
-	function setTcmsHtmlObj($value) {
+	public function setTcmsHtmlObj($value) {
 		$this->_tcmsHtml = $value;
 	}
 	
@@ -164,7 +139,7 @@ class tcms_search extends tcms_main {
 	 * @param String $searchword
 	 * @return Integer
 	 */
-	function searchDocuments($searchword){
+	public function searchDocuments($searchword){
 		if($this->m_choosenDB == 'xml'){
 			$arr_searchfiles = $this->load_xml_files($this->m_path.'/tcms_content/', 'files');
 			

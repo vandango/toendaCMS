@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to provide a import class.
  *
- * @version 0.1.0
+ * @version 0.1.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -32,10 +32,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * Methods
  * 
- * __construct                 -> PHP5 Constructor
- * tcms_import                 -> PHP4 Constructor
- * __destruct                  -> PHP5 Destructor
- * _tcms_import                -> PHP4 Destructor
+ * __construct                 -> Constructor
+ * __destruct                  -> Destructor
  * 
  * setTcmsTimeObj              -> Set the tcms_time object
  *
@@ -69,7 +67,7 @@ class tcms_import extends tcms_main {
 	 * @param String $charset
 	 * @param Object $tcmsTimeObj = null
 	 */
-	function __construct($administer, $charset, $tcmsTimeObj = null){
+	public function __construct($administer, $charset, $tcmsTimeObj = null){
 		$this->m_administer = $administer;
 		$this->administer = $administer;
 		$this->m_charset = $charset;
@@ -89,31 +87,9 @@ class tcms_import extends tcms_main {
 	
 	
 	/**
-	 * PHP4: Default constructor
-	 *
-	 * @param String $administer
-	 * @param String $charset
-	 * @param Object $tcmsTimeObj = null
-	 */
-	function tcms_import($administer, $charset, $tcmsTimeObj = null){
-		$this->__construct($administer, $charset, $tcmsTimeObj);
-	}
-	
-	
-	
-	/**
 	 * PHP5 Destructor
 	 */
-	function __destruct(){
-	}
-	
-	
-	
-	/**
-	 * PHP4 Destructor
-	 */
-	function _tcms_import(){
-		$this->__destruct();
+	public function __destruct(){
 	}
 	
 	
@@ -123,7 +99,7 @@ class tcms_import extends tcms_main {
 	 *
 	 * @param Object $value
 	 */
-	function setTcmsTimeObj($value) {
+	public function setTcmsTimeObj($value) {
 		$this->_tcmsTime = $value;
 	}
 	
@@ -132,7 +108,7 @@ class tcms_import extends tcms_main {
 	/**
 	 * Import a vcard
 	 */
-	function importVCard() {
+	public function importVCard() {
 		if(substr($this->m_administer, 0, 6) == '../../') {
 			$pathadd = '../../cache/__vcard.vcf';
 		}

@@ -22,7 +22,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to write all the website statistics.
  *
- * @version 0.3.1
+ * @version 0.3.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -32,10 +32,8 @@ defined('_TCMS_VALID') or die('Restricted access');
 /**
  * Methods
  *
- * __construct                 -> PHP5 Constructor
- * tcms_statistics             -> PHP4 Constructor
- * __destruct                  -> PHP5 Destructor
- * _tcms_statistics            -> PHP4 Destructor
+ * __construct                 -> Constructor
+ * __destruct                  -> Destructor
  * 
  * setTcmsTimeObj              -> Set the tcms_time object
  *
@@ -66,12 +64,12 @@ class tcms_statistics extends tcms_main {
 	
 	
 	/**
-	 * PHP5: Default constructor
+	 * Default constructor
 	 * 
 	 * @param String $charset
 	 * @param String $tcms_administer_path = 'data'
 	 */
-	function __construct($charset, $tcms_administer_path = 'data', $tcmsTimeObj = null){
+	public function __construct($charset, $tcms_administer_path = 'data', $tcmsTimeObj = null){
 		$this->m_CHARSET = $charset;
 		$this->_tcmsPath = $tcms_administer_path;
 		$this->_tcmsTime = $tcmsTimeObj;
@@ -104,30 +102,9 @@ class tcms_statistics extends tcms_main {
 	
 	
 	/**
-	 * PHP4: Default constructor
-	 * 
-	 * @param String $charset
-	 * @param String $tcms_administer_path = 'data'
+	 * Destructor
 	 */
-	function tcms_statistics($charset, $tcms_administer_path = 'data', $tcmsTimeObj = null){
-		$this->__construct($charset, $tcms_administer_path, $tcmsTimeObj);
-	}
-	
-	
-	
-	/**
-	 * PHP5 Destructor
-	 */
-	function __destruct(){
-	}
-	
-	
-	
-	/**
-	 * PHP4 Destructor
-	 */
-	function _tcms_statistics(){
-		$this->__destruct();
+	public function __destruct(){
 	}
 	
 	
@@ -137,7 +114,7 @@ class tcms_statistics extends tcms_main {
 	 *
 	 * @param Object $value
 	 */
-	function setTcmsTimeObj($value) {
+	public function setTcmsTimeObj($value) {
 		$this->_tcmsTime = $value;
 	}
 	
@@ -148,7 +125,7 @@ class tcms_statistics extends tcms_main {
 	 * 
 	 * @param String $s
 	 */
-	function countSiteURL($s){
+	public function countSiteURL($s){
 		$stats_ip   = getenv('REMOTE_ADDR');
 		$stats_host = $_SERVER['SERVER_NAME'];
 		$stats_url  = $_SERVER['REQUEST_URI'];
@@ -479,7 +456,7 @@ class tcms_statistics extends tcms_main {
 	/**
 	 * Saves the browser informations
 	 */
-	function countBrowserInfo(){
+	public function countBrowserInfo(){
 		$tmpAgent = $_SERVER['HTTP_USER_AGENT'];
 		$stats_browser = $this->getBrowser($tmpAgent);
 		
@@ -642,7 +619,7 @@ class tcms_statistics extends tcms_main {
 	 * 
 	 * @return String
 	 */
-	function getBrowser($browserString){
+	public function getBrowser($browserString){
 		$agent = $browserString;
 		
 		require('tcms_browserlist.lib.php');
@@ -686,7 +663,7 @@ class tcms_statistics extends tcms_main {
 	 * 
 	 * @return String
 	 */
-	function getOS($osString){
+	public function getOS($osString){
 		$osString = trim(strtolower($osString));
 		
 		require('tcms_oslist.lib.php');

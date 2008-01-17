@@ -32,10 +32,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * Methods
  *
- * __construct                -> PHP5 Constructor
- * tcms_xmlrpc                -> PHP4 Constructor
- * __destruct                 -> PHP5 Destructor
- * _tcms_xmlrpc               -> PHP4 Destructor
+ * __construct                -> Constructor
+ * __destruct                 -> Destructor
  * 
  * xx                         -> Checks if the end of the file is reched
  * 
@@ -50,7 +48,7 @@ class tcms_xmlrpc {
 	
 	
 	/**
-	 * PHP5: Default constructor
+	 * Default constructor
 	 */
 	function __construct(){
 	}
@@ -58,27 +56,9 @@ class tcms_xmlrpc {
 	
 	
 	/**
-	 * PHP4: Default constructor
-	 */
-	function tcms_file(){
-		$this->__construct();
-	}
-	
-	
-	
-	/**
-	 * PHP5 Destructor
+	 * Destructor
 	 */
 	function __destruct(){
-	}
-	
-	
-	
-	/**
-	 * PHP4 Destructor
-	 */
-	function _tcms_file(){
-		$this->__destruct();
 	}
 	
 	
@@ -88,7 +68,7 @@ class tcms_xmlrpc {
 	 * 
 	 * @return String
 	 */
-	function xx(){
+	public function xx(){
 		return '';
 	}
 }

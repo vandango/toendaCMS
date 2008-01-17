@@ -22,7 +22,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to have some often used time tools.
  *
- * @version 0.1.4
+ * @version 0.1.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -40,7 +40,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * __destruct()                        -> Default destructor
  *
  *--------------------------------------------------------
- * MAIN FUNCTIONS
+ * MAIN public functionS
  *--------------------------------------------------------
  * 
  * getMicrotime                        -> Get a microtime
@@ -82,14 +82,14 @@ class tcms_time {
 	/**
 	 * Default constructor
 	 */
-	function __construct(){
+	public function __construct(){
 	}
 	
 	
 	/**
 	 * Default destructor
 	 */
-	function __destruct(){
+	public function __destruct(){
 	}
 	
 	
@@ -101,7 +101,7 @@ class tcms_time {
 	/**
 	 * Get a microtime
 	 */
-	function getMicrotime(){
+	public function getMicrotime(){
 		list($usec, $sec) = explode(' ', microtime());
 		return ((float)$usec + (float)$sec);
 	}
@@ -110,7 +110,7 @@ class tcms_time {
 	/**
 	 * Get the current time
 	 */
-	function getCurrentTime(){
+	public function getCurrentTime(){
 		return date('H:i');
 	}
 	
@@ -118,7 +118,7 @@ class tcms_time {
 	/**
 	 *  Get the current date
 	 */
-	function getCurrentDate(){
+	public function getCurrentDate(){
 		return date('d.m.Y');
 	}
 	
@@ -126,7 +126,7 @@ class tcms_time {
 	/**
 	 * Start the timer
 	 */
-	function startTimer(){
+	public function startTimer(){
 		$this->_starttime = $this->getMicrotime();
 	}
 	
@@ -134,7 +134,7 @@ class tcms_time {
 	/**
 	 * Stop the timer
 	 */
-	function stopTimer(){
+	public function stopTimer(){
 		$this->_endtime = $this->getMicrotime();
 		//return $this->displayTimerValue();
 	}
@@ -143,7 +143,7 @@ class tcms_time {
 	/**
 	 * Return a string with the current timer value
 	 */
-	function getCurrentTimerValue(){
+	public function getCurrentTimerValue(){
 		$this->_endtime = $this->getMicrotime();
 		$time = $this->_endtime - $this->_starttime;
 		
@@ -154,7 +154,7 @@ class tcms_time {
 	/**
 	 * Return a string with the timer value
 	 */
-	function getTimerValue(){
+	public function getTimerValue(){
 		$time = $this->_endtime - $this->_starttime;
 		
 		return round($time, 4);
@@ -164,7 +164,7 @@ class tcms_time {
 	/**
 	 * Starts the sql query counter
 	 */
-	function startSqlQueryCounter(){
+	public function startSqlQueryCounter(){
 		$this->_sqlQuerys = 0;
 	}
 	
@@ -172,7 +172,7 @@ class tcms_time {
 	/**
 	 * Increment the sql query counter
 	 */
-	function incrmentSqlQueryCounter(){
+	public function incrmentSqlQueryCounter(){
 		$this->_sqlQuerys++;
 	}
 	
@@ -180,7 +180,7 @@ class tcms_time {
 	/**
 	 * Return the sql query count sum
 	 */
-	function getSqlQueryCountValue(){
+	public function getSqlQueryCountValue(){
 		return ( $this->_sqlQuerys == 1 ? $this->_sqlQuerys.' Database Query' : $this->_sqlQuerys.' Database Querys.' );
 	}
 	
@@ -197,7 +197,7 @@ class tcms_time {
 	 * @return Starts the loadtime counter
 	 * @desc 
 	 */
-	function tcms_load_start(){
+	public function tcms_load_start(){
 		global $starttime;
 		$starttime = tcms_time::get_microtime();
 	}
@@ -208,7 +208,7 @@ class tcms_time {
 	 * @return microtime
 	 * @desc 
 	 */
-	function get_microtime(){
+	public function get_microtime(){
 		list($usec, $sec) = explode(' ', microtime());
 		return ((float)$usec + (float)$sec);
 	}
@@ -219,7 +219,7 @@ class tcms_time {
 	 * @return the current time
 	 * @desc 
 	 */
-	function current_time(){
+	public function current_time(){
 		$time = date('H:i');
 		return $time;
 	}
@@ -230,7 +230,7 @@ class tcms_time {
 	 * @return the current date
 	 * @desc 
 	 */
-	function current_date(){
+	public function current_date(){
 		$date = date('d.m.Y');
 		return $date;
 	}
@@ -241,7 +241,7 @@ class tcms_time {
 	 * @return Stop the loadtime counter
 	 * @desc 
 	 */
-	function tcms_load_end(){
+	public function tcms_load_end(){
 		global $endtime;
 		$endtime = tcms_time::get_microtime();
 		return tcms_time::loadtime_output();
@@ -253,7 +253,7 @@ class tcms_time {
 	 * @return Return a string with the loadtime
 	 * @desc 
 	 */
-	function loadtime_output(){
+	public function loadtime_output(){
 		global $starttime;
 		global $endtime;
 		
@@ -268,7 +268,7 @@ class tcms_time {
 	 * @return Starts the sql query counter
 	 * @desc 
 	 */
-	function tcms_query_count_start(){
+	public function tcms_query_count_start(){
 		global $sqlQuery;
 		$sqlQuery = 0;
 	}
@@ -279,7 +279,7 @@ class tcms_time {
 	 * @return Count the sql query counter
 	 * @desc 
 	 */
-	function tcms_query_counter(){
+	public function tcms_query_counter(){
 		global $sqlQuery;
 		$sqlQuery++;
 		//echo '<h2>'.$sqlQuery.'</h2><br>';
@@ -291,7 +291,7 @@ class tcms_time {
 	 * @return Return the sql query count sum
 	 * @desc 
 	 */
-	function tcms_query_count_end_out(){
+	public function tcms_query_count_end_out(){
 		global $sqlQuery;
 		return ( $sqlQuery == 1 ? $sqlQuery.' Database Query' : $sqlQuery.' Database Querys.' );
 	}

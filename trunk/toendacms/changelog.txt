@@ -28,7 +28,7 @@ Version 2.0
 Developer Version
 	- 1.9.0 Development
 
-Building Steps: 3924
+Building Steps: 3935
 
 
 
@@ -42,6 +42,7 @@ Building Steps: 3924
  - bug fixed: 
 
  - changed: DataContainer Classes changed to the correct PHP5-Class-Design.
+ - changed: Deleted all PHP4 constuctors iun all classes.
  - changed: 
 
  - added: SEO format 3 (.html-format) has now the template variable.
