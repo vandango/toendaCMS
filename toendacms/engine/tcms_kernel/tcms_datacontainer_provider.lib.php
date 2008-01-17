@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.4.0
+ * @version 1.4.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -35,6 +35,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * ---------------------------------------------
  * 
  * __construct                               -> Constructor
+ * __destruct                                -> Destructor
  * 
  * setTcmsTimeObj                            -> Set the tcms_time object
  *
@@ -122,7 +123,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	
 	
 	/**
-	 * Constructor
+	 * Destructor
 	 *
 	 */
 	public function __destruct(){

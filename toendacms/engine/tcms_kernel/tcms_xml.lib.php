@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is the toendaCMS internal xml parser.
  *
- * @version 0.3.7
+ * @version 0.4.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -37,8 +37,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * CONSTRUCTOR AND DESTRUCTOR
  * --------------------------------------------------------
  * 
- * __construct                -> PHP5 Constructor
- * __destruct                 -> PHP5 Destructor
+ * __construct                -> Constructor
+ * __destruct                 -> Destructor
  *
  * --------------------------------------------------------
  * PUBLIC METHODS
@@ -114,9 +114,9 @@ class xmlparser {
 	
 	
 	/**
-	 * PHP5: Default constructor
+	 * Default constructor
 	 */
-	function __construct($xml_file, $mode){
+	public function __construct($xml_file, $mode){
 		// For Remote (only read-only)
 		//
 		
@@ -189,21 +189,11 @@ class xmlparser {
 	
 	
 	/**
-	 * PHP5: Default destructor
+	 * Default destructor
 	 */
-	function __destruct() {
+	public function __destruct() {
 		clearstatcache();
 		@fclose($this->file_handle);
-	}
-	
-	
-	
-	/**
-	 * PHP4 Destructor
-	 *
-	 */
-	function _xmlparser($pos = '') {
-		$this->__destruct();
 	}
 	
 	
@@ -219,7 +209,7 @@ class xmlparser {
 	 * 
 	 * @return Array
 	 */
-	function xmlToArray(){
+	public function xmlToArray(){
 		$strInputXML = $this->content;
 		
 		xml_set_object($this->resXML, $this);
@@ -249,7 +239,7 @@ class xmlparser {
 	 * @param String $name
 	 * @param Unknown $attrs
 	 */
-	function openTag($parser, $name, $attrs){
+	public function openTag($parser, $name, $attrs){
 		$tag = array('name' => $name, 'attribute' => $attrs);
 		array_push($this->arrOutput, $tag);
 	}
@@ -263,7 +253,7 @@ class xmlparser {
 	 * @param Unknown $tagData
 	 * @return Unknown
 	 */
-	function readData($parser, $tagData){
+	public function readData($parser, $tagData){
 		if(trim($tagData)){
 			if(isset($this->arrOutput[count($this->arrOutput) - 1]['data'])){
 				$this->arrOutput[count($this->arrOutput) - 1]['data'] .= $tagData;
@@ -282,7 +272,7 @@ class xmlparser {
 	 * @param Unknown $parser
 	 * @param String $name
 	 */
-	function closeTag($parser, $name){
+	public function closeTag($parser, $name){
 		$this->arrOutput[count($this->arrOutput) - 2]['children'][] = $this->arrOutput[count($this->arrOutput) - 1];
 		array_pop($this->arrOutput);
 	}
@@ -297,7 +287,7 @@ class xmlparser {
 	 * @param String $string
 	 * @return Boolean
 	 */
-	function checkTagsExist($starttag, $endtag, $string){
+	public function checkTagsExist($starttag, $endtag, $string){
 		$tagsOk = true;
 		
 		if(!ereg($starttag, $string)) {
@@ -319,7 +309,7 @@ class xmlparser {
 	 * Disposes all values
 	 *
 	 */
-	function flush(){
+	public function flush(){
 		$this->sections = '';
 		$this->content = '';
 	}
@@ -332,7 +322,7 @@ class xmlparser {
 	 * @param String $tag
 	 * @return String
 	 */
-	function readValue($tag) {
+	public function readValue($tag) {
 		if(ereg($tag, $this->content)){
 			$starttag = "<$tag>";
 			$endtag = "</$tag>";
@@ -362,7 +352,7 @@ class xmlparser {
 	 * @param String $tag
 	 * @return String
 	 */
-	function readSection($section, $tag){
+	public function readSection($section, $tag){
 		$this->choose_section($section);
 		
 		if(ereg($tag, $this->sections)){
@@ -393,7 +383,7 @@ class xmlparser {
 	 * @param String $tag
 	 * @param String $value
 	 */
-	function writeValue($tag, $value){
+	public function writeValue($tag, $value){
 		$this->sections .= "\t<".$tag.">".$value."</".$tag.">\n";
 	}
 	
@@ -407,7 +397,7 @@ class xmlparser {
 	 * @param String $attribute
 	 * @param String $attribute_value
 	 */
-	function writeValueWithAttribute($tag, $value, $attribute, $attribute_value) {
+	public function writeValueWithAttribute($tag, $value, $attribute, $attribute_value) {
 		$this->sections .= "\t<".$tag." ".$attribute."=\"".$attribute_value."\">".$value."</".$tag.">\n";
 	}
 	
@@ -416,7 +406,7 @@ class xmlparser {
 	/**
 	 * Write the XML declaration
 	 */
-	function xmlDeclaration(){
+	public function xmlDeclaration(){
 		fwrite ($this->file_handle, '<?xml version="1.0" encoding="utf-8"?>'.chr(13));
 	}
 	
@@ -427,7 +417,7 @@ class xmlparser {
 	 *
 	 * @param String $charset = 'ISO-8859-1'
 	 */
-	function xmlDeclarationWithCharset($charset = 'ISO-8859-1') {
+	public function xmlDeclarationWithCharset($charset = 'ISO-8859-1') {
 		fwrite ($this->file_handle, '<?xml version="1.0" encoding="'.$charset.'"?>'.chr(13));
 	}
 	
@@ -436,7 +426,7 @@ class xmlparser {
 	/**
 	 * Write the section buffer
 	 */
-	function xmlSectionBuffer(){
+	public function xmlSectionBuffer(){
 		fwrite($this->file_handle, $this->sections);
 	}
 	
@@ -447,7 +437,7 @@ class xmlparser {
 	 *
 	 * @param String $section
 	 */
-	function xmlSection($section){
+	public function xmlSection($section){
 		fwrite($this->file_handle, "<".$section.">\n");
 	}
 	
@@ -458,7 +448,7 @@ class xmlparser {
 	 *
 	 * @param String $section
 	 */
-	function xmlSectionEnd($section){
+	public function xmlSectionEnd($section){
 		fwrite($this->file_handle, "</".$section.">\n");
 	}
 	
@@ -489,14 +479,14 @@ class xmlparser {
 	/*
 	*
 	* toenda XML Parser:
-	* write to xml file functions
+	* write to xml file public functions
 	*
 	*/
 	
 	/*
 		write section content in buffer
 	*/
-	function choose_section($section){
+	public function choose_section($section){
 		if(ereg($section, $this->content)){
 			$starttag = "<$section>";
 			$endtag = "</$section>";
@@ -517,7 +507,7 @@ class xmlparser {
 	/*
 		replace value in section
 	*/
-	function edit_value($file_with_path, $tag, $old_value, $new_value){
+	public function edit_value($file_with_path, $tag, $old_value, $new_value){
 		//echo "Before replace:<br>";
 		//echo $this->sections;
 		
@@ -544,7 +534,7 @@ class xmlparser {
 	/*
 		write on value to one section
 	*/
-	function write_one_value($file_with_path, $tag, $new_value){
+	public function write_one_value($file_with_path, $tag, $new_value){
 		//echo "Before replace:<br>";
 		//echo $this->sections;
 		
@@ -571,7 +561,7 @@ class xmlparser {
 	/*
 		add on value to one section
 	*/
-	function add_one_value($file_with_path, $roottag, $tag, $new_value){
+	public function add_one_value($file_with_path, $roottag, $tag, $new_value){
 		$old_content = '</'.$roottag.'>';
 		$new_content = '<'.$tag.'>'.$new_value.'</'.$tag.'>'.$old_content;
 		
@@ -596,14 +586,14 @@ class xmlparser {
 	/*
 	*
 	* toenda XML Parser:
-	* search functions
+	* search public functions
 	*
 	*/
 	
 	/*
 		replace value in section
 	*/
-	function search_value_front($section, $tag, $search_word){
+	public function search_value_front($section, $tag, $search_word){
 		$this->choose_section($section);
 		$tcms_main = new tcms_main('data');
 		
@@ -657,7 +647,7 @@ class xmlparser {
 	 * 
 	 * @return Array
 	 */
-	function xml_to_array(){
+	public function xml_to_array(){
 		//echo $this->domXML->document_element();
 		
 		$strInputXML = $this->content;
@@ -686,7 +676,7 @@ class xmlparser {
 	 * @deprecated 
 	 * Open a tag
 	 */
-	function open_tag($parser, $name, $attrs){
+	public function open_tag($parser, $name, $attrs){
 		$tag = array('name' => $name, 'attribute' => $attrs);
 		array_push($this->arrOutput, $tag);
 	}
@@ -695,7 +685,7 @@ class xmlparser {
 	 * @deprecated 
 	 * Open a tag
 	 */
-	function read_data($parser, $tagData){
+	public function read_data($parser, $tagData){
 		if(trim($tagData)){
 			if(isset($this->arrOutput[count($this->arrOutput) - 1]['data'])){
 				$this->arrOutput[count($this->arrOutput) - 1]['data'] .= $tagData;
@@ -711,7 +701,7 @@ class xmlparser {
 	 * @deprecated 
 	 * Open a tag
 	 */
-	function close_tag($parser, $name){
+	public function close_tag($parser, $name){
 		$this->arrOutput[count($this->arrOutput) - 2]['children'][] = $this->arrOutput[count($this->arrOutput) - 1];
 		array_pop($this->arrOutput);
 	}
@@ -722,7 +712,7 @@ class xmlparser {
 	 * @deprecated 
 	 * read value from tag
 	 */
-	function read_value($tag){
+	public function read_value($tag){
 		return $this->readValue($tag);
 	}
 	
@@ -736,7 +726,7 @@ class xmlparser {
 	 * @param String $tag
 	 * @return String
 	 */
-	function read_section($section, $tag){
+	public function read_section($section, $tag){
 		return $this->readSection($section, $tag);
 	}
 	
@@ -750,7 +740,7 @@ class xmlparser {
 	 * @param String
 	 * @param String
 	 */
-	function xml_test_tags($starttag, $endtag, $string){
+	public function xml_test_tags($starttag, $endtag, $string){
 		if(!ereg($starttag, $string)) {
 			echo 'Error in starttag '.$starttag.' in file '.$this->filename;
 		}
@@ -769,7 +759,7 @@ class xmlparser {
 	 * @param unknown_type $tag
 	 * @param unknown_type $value
 	 */
-	function write_value($tag, $value){
+	public function write_value($tag, $value){
 		$this->sections .= "\t<".$tag.">".$value."</".$tag.">\n";
 	}
 	
@@ -782,7 +772,7 @@ class xmlparser {
 	 * @param unknown_type $tag
 	 * @param unknown_type $value
 	 */
-	function write_value_with_attribute($tag, $value, $attribute, $attribute_value){
+	public function write_value_with_attribute($tag, $value, $attribute, $attribute_value){
 		$this->sections .= "\t<".$tag." ".$attribute."=\"".$attribute_value."\">".$value."</".$tag.">\n";
 	}
 	
@@ -793,7 +783,7 @@ class xmlparser {
 	 * xml declaration
 	 *
 	 */
-	function xml_declaration(){
+	public function xml_declaration(){
 		fwrite ($this->file_handle, '<?xml version="1.0" encoding="utf-8"?>'.chr(13));
 	}
 	
@@ -805,7 +795,7 @@ class xmlparser {
 	 *
 	 * @param unknown_type $charset
 	 */
-	function xml_c_declaration($charset){
+	public function xml_c_declaration($charset){
 		if(!isset($charset)){ $charset = 'ISO-8859-1'; }
 		fwrite ($this->file_handle, '<?xml version="1.0" encoding="'.$charset.'"?>'.chr(13));
 	}
@@ -818,7 +808,7 @@ class xmlparser {
 	 *
 	 * @param unknown_type $charset
 	 */
-	function xml_section_buffer(){
+	public function xml_section_buffer(){
 		fwrite ($this->file_handle, $this->sections);
 	}
 	
@@ -830,7 +820,7 @@ class xmlparser {
 	 *
 	 * @param unknown_type $charset
 	 */
-	function xml_section($section){
+	public function xml_section($section){
 		fwrite ($this->file_handle, "<".$section.">\n");
 	}
 	
@@ -842,7 +832,7 @@ class xmlparser {
 	 *
 	 * @param unknown_type $charset
 	 */
-	function xml_section_end($section){
+	public function xml_section_end($section){
 		fwrite ($this->file_handle, "</".$section.">\n");
 	}
 }

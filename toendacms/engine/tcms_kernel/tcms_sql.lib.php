@@ -40,7 +40,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Untested Database Server:
  * - SQLite        -> sqlite
  *
- * @version 0.7.0
+ * @version 0.7.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -54,10 +54,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * CONSTRUCTOR AND DESTRUCTOR
  *--------------------------------------------------------
  *
- * __construct($sqlInterface)                        -> PHP5 Default constructor
- * sqlAbstractionLayer($sqlInterface)                -> PHP4 Default constructor
- * __destruct()                                      -> PHP5 Default destructor
- * _sqlAbstractionLayer()                            -> PHP4 Default destructor
+ * __construct($sqlInterface)                        -> Default constructor
+ * __destruct()                                      -> Default destructor
  * 
  *--------------------------------------------------------
  * PROPERTIES
@@ -95,7 +93,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getStats                                          -> Get sql server state
  *
  *--------------------------------------------------------
- * MAIN FUNCTIONS
+ * MAIN public functionS
  *--------------------------------------------------------
  *
  * sqlError($sqlErrorNumber)
@@ -118,10 +116,10 @@ defined('_TCMS_VALID') or die('Restricted access');
  * sqlCreateDB($sqlConnectionID)                     -> Create DB, needed for installation
  *
  *--------------------------------------------------------
- * COMMON FUNCTIONS
+ * COMMON public functionS
  *--------------------------------------------------------
  *
- * sqlQuery($sqlQueryString)                         -> Sql query function with SQL language
+ * sqlQuery($sqlQueryString)                         -> Sql query public function with SQL language
  * sqlFetchArray($sqlQueryResult)                    -> Array with result from query
  * sqlFetchObject($sqlQueryResult)                   -> Object with result from query
  * sqlFreeResult($sqlQueryResult)                    -> Free the saveplace for data
@@ -179,12 +177,12 @@ class sqlAbstractionLayer {
 	//--------------------------------------------------------
 	
 	/**
-	 * PHP5 Default constructor
+	 * Default constructor
 	 * 
 	 * @param String $sqlInterface
 	 * @param Object $tcmsTimeObj = null (optional)
 	 */
-	function __construct($sqlInterface, $tcmsTimeObj = null){
+	public function __construct($sqlInterface, $tcmsTimeObj = null){
 		$this->_sqlInterface = $sqlInterface;
 		
 		if($tcmsTimeObj != null) {
@@ -195,30 +193,9 @@ class sqlAbstractionLayer {
 	
 	
 	/**
-	 * PHP4 Default constructor
-	 * 
-	 * @param String $sqlInterface
-	 * @param Object $tcmsTimeObj = null (optional)
+	 * Default destructor
 	 */
-	function sqlAbstractionLayer($sqlInterface, $tcmsTimeObj = null){
-		$this->__construct($sqlInterface, $tcmsTimeObj);
-	}
-	
-	
-	
-	/**
-	 * PHP5 Default destructor
-	 */
-	function __destruct(){
-	}
-	
-	
-	
-	/**
-	 * PHP4 Default destructor
-	 */
-	function _sqlAbstractionLayer(){
-		$this->__destruct();
+	public function __destruct(){
 	}
 	
 	
@@ -232,7 +209,7 @@ class sqlAbstractionLayer {
 	 *
 	 * @param Object $value
 	 */
-	function setTcmsTimeObj($value) {
+	public function setTcmsTimeObj($value) {
 		$this->_tcmsTime = $value;
 	}
 	
@@ -252,7 +229,7 @@ class sqlAbstractionLayer {
 	 * @param integer $sqlErrorNumber
 	 * @return Array SQL Error Message in an Array with fields:
 	 */
-	function error($sqlErrorNumber) {
+	public function error($sqlErrorNumber) {
 		return $this->sqlError($sqlErrorNumber);
 	}
 	
@@ -268,7 +245,7 @@ class sqlAbstractionLayer {
 	 * @param Integer $sqlPort
 	 * @return Integer MySql Connection ID
 	 */
-	function connect($sqlUser, $sqlPassword, $sqlHost, $sqlDB, $sqlPort) {
+	public function connect($sqlUser, $sqlPassword, $sqlHost, $sqlDB, $sqlPort) {
 		return $this->sqlConnect($sqlUser, $sqlPassword, $sqlHost, $sqlDB, $sqlPort);
 	}
 	
@@ -284,7 +261,7 @@ class sqlAbstractionLayer {
 	 * @param Integer $sqlPort
 	 * @return Integer MySql Connection ID
 	 */
-	function connectWithoutDB($sqlUser, $sqlPassword, $sqlHost, $sqlPort) {
+	public function connectWithoutDB($sqlUser, $sqlPassword, $sqlHost, $sqlPort) {
 		return $this->sqlConnectWithoutDB($sqlUser, $sqlPassword, $sqlHost, $sqlPort);
 	}
 	
@@ -300,7 +277,7 @@ class sqlAbstractionLayer {
 	 * @param Integer $sqlPort
 	 * @return Integer MySql Connection ID
 	 */
-	function persistConnect($sqlUser, $sqlPassword, $sqlHost, $sqlDB, $sqlPort) {
+	public function persistConnect($sqlUser, $sqlPassword, $sqlHost, $sqlDB, $sqlPort) {
 		return $this->sqlPersistConnect($sqlUser, $sqlPassword, $sqlHost, $sqlDB, $sqlPort);
 	}
 	
@@ -312,7 +289,7 @@ class sqlAbstractionLayer {
 	 * @param Integer $sqlConnectionID
 	 * @return Boolean
 	 */
-	function disconnect($sqlConnectionID) {
+	public function disconnect($sqlConnectionID) {
 		return $this->sqlDisconnect($sqlConnectionID);
 	}
 	
@@ -324,7 +301,7 @@ class sqlAbstractionLayer {
 	 * @param String $sqlNewDBTitle
 	 * @return Boolean
 	 */
-	function createDB($sqlNewDBTitle) {
+	public function createDB($sqlNewDBTitle) {
 		return $this->sqlCreateDB($sqlNewDBTitle);
 	}
 	
@@ -337,7 +314,7 @@ class sqlAbstractionLayer {
 	 * @param Boolean $withDebug = false
 	 * @return Boolean
 	 */
-	function query($sqlQueryString, $withDebug = false){
+	public function query($sqlQueryString, $withDebug = false){
 		return $this->sqlQuery($sqlQueryString, $withDebug);
 	}
 	
@@ -349,7 +326,7 @@ class sqlAbstractionLayer {
 	 * @param Resource $sqlQueryResult
 	 * @return Array
 	 */
-	function fetchArray($sqlQueryResult) {
+	public function fetchArray($sqlQueryResult) {
 		return $this->sqlFetchArray($sqlQueryResult);
 	}
 	
@@ -361,7 +338,7 @@ class sqlAbstractionLayer {
 	 * @param Resource $sqlQueryResult
 	 * @return Object
 	 */
-	function fetchObject($sqlQueryResult) {
+	public function fetchObject($sqlQueryResult) {
 		return $this->sqlFetchObject($sqlQueryResult);
 	}
 	
@@ -372,7 +349,7 @@ class sqlAbstractionLayer {
 	 *
 	 * @param resource $sqlQueryResult
 	 */
-	function freeResult($sqlQueryResult) {
+	public function freeResult($sqlQueryResult) {
 		$this->sqlFreeResult($sqlQueryResult);
 	}
 	
@@ -384,7 +361,7 @@ class sqlAbstractionLayer {
 	 * @param String $sqlTable
 	 * @return Fetchable Result
 	 */
-	function getAll($sqlTable) {
+	public function getAll($sqlTable) {
 		return $this->sqlGetAll($sqlTable);
 	}
 	
@@ -397,7 +374,7 @@ class sqlAbstractionLayer {
 	 * @param String $sqlUID
 	 * @return Fetchable Result
 	 */
-	function getOne($sqlTable, $sqlUID) {
+	public function getOne($sqlTable, $sqlUID) {
 		return $this->sqlGetOne($sqlTable, $sqlUID);
 	}
 	
@@ -412,7 +389,7 @@ class sqlAbstractionLayer {
 	 * @param String $withDebug = false
 	 * @return Integer
 	 */
-	function updateOne($sqlTable, $newDataString, $sqlUID, $withDebug = false) {
+	public function updateOne($sqlTable, $newDataString, $sqlUID, $withDebug = false) {
 		return $this->sqlUpdateOne($sqlTable, $newDataString, $sqlUID, $withDebug);
 	}
 	
@@ -428,7 +405,7 @@ class sqlAbstractionLayer {
 	 * @param String $withDebug = false
 	 * @return Integer
 	 */
-	function updateField($sqlTable, $newDataString, $sqlField, $sqlUID, $withDebug = false) {
+	public function updateField($sqlTable, $newDataString, $sqlField, $sqlUID, $withDebug = false) {
 		return $this->sqlUpdateField($sqlTable, $newDataString, $sqlField, $sqlUID, $withDebug);
 	}
 	
@@ -444,7 +421,7 @@ class sqlAbstractionLayer {
 	 * @param String $withDebug = false
 	 * @return Integer
 	 */
-	function createOne($sqlTable, $sqlColumns, $newDataString, $sqlUID, $withDebug = false) {
+	public function createOne($sqlTable, $sqlColumns, $newDataString, $sqlUID, $withDebug = false) {
 		return $this->sqlCreateOne($sqlTable, $sqlColumns, $newDataString, $sqlUID, $withDebug);
 	}
 	
@@ -458,7 +435,7 @@ class sqlAbstractionLayer {
 	 * @param String $withDebug = false
 	 * @return Integer
 	 */
-	function deleteOne($sqlTable, $sqlUID, $withDebug = false) {
+	public function deleteOne($sqlTable, $sqlUID, $withDebug = false) {
 		return $this->sqlDeleteOne($sqlTable, $sqlUID, $withDebug);
 	}
 	
@@ -473,7 +450,7 @@ class sqlAbstractionLayer {
 	 * @param String $withDebug = false
 	 * @return Integer
 	 */
-	function deleteIndividual($sqlTable, $sqlIndividual, $sqlValue, $withDebug = false) {
+	public function deleteIndividual($sqlTable, $sqlIndividual, $sqlValue, $withDebug = false) {
 		return $this->sqlDeleteIdv($sqlTable, $sqlIndividual, $sqlValue, $withDebug);
 	}
 	
@@ -486,7 +463,7 @@ class sqlAbstractionLayer {
 	 * @param String $withDebug = false
 	 * @return Integer
 	 */
-	function deleteAll($sqlTable, $withDebug = false) {
+	public function deleteAll($sqlTable, $withDebug = false) {
 		return $this->sqlDeleteAll($sqlTable, $withDebug);
 	}
 	
@@ -499,7 +476,7 @@ class sqlAbstractionLayer {
 	 * @param Boolean $withDebug = false
 	 * @return Boolean
 	 */
-	function deleteTable($tableName, $withDebug = false) {
+	public function deleteTable($tableName, $withDebug = false) {
 		return $this->sqlDeleteTable($tableName, $withDebug);
 	}
 	
@@ -511,7 +488,7 @@ class sqlAbstractionLayer {
 	 * @param String $sqlQueryResult
 	 * @return Integer
 	 */
-	function getNumber($sqlQueryResult) {
+	public function getNumber($sqlQueryResult) {
 		return $this->sqlGetNumber($sqlQueryResult);
 	}
 	
@@ -526,7 +503,7 @@ class sqlAbstractionLayer {
 	 * @param String $withDebug = false
 	 * @return Integer
 	 */
-	function search($sqlTable, $sqlSearchColumn, $sqlSearchWord, $withDebug = false) {
+	public function search($sqlTable, $sqlSearchColumn, $sqlSearchWord, $withDebug = false) {
 		return $this->sqlSearch($sqlTable, $sqlSearchColumn, $sqlSearchWord, $withDebug);
 	}
 	
@@ -538,7 +515,7 @@ class sqlAbstractionLayer {
 	 * @param Boolean $with_output
 	 * @param Boolean $structure_only
 	 */
-	function createBackup($with_output, $structure_only) {
+	public function createBackup($with_output, $structure_only) {
 		return $this->sqlCreateBackup($with_output, $structure_only);
 	}
 	
@@ -551,7 +528,7 @@ class sqlAbstractionLayer {
 	 * @param String $sqlNumber
 	 * @return String
 	 */
-	function createUID($sqlTable, $sqlNumber) {
+	public function createUID($sqlTable, $sqlNumber) {
 		return $this->sqlCreateUID($sqlTable, $sqlNumber);
 	}
 	
@@ -562,14 +539,14 @@ class sqlAbstractionLayer {
 	 * 
 	 * @return String
 	 */
-	function getStats() {
+	public function getStats() {
 		return $this->sqlGetStats();
 	}
 	
 	
 	
 	//--------------------------------------------------------
-	// MAIN FUNCTIONS
+	// MAIN public functionS
 	//--------------------------------------------------------
 	
 	/**
@@ -582,7 +559,7 @@ class sqlAbstractionLayer {
 	 * @param UnknownType $sqlErrorNumber
 	 * @return Array SQL Error Message in an Array with fields:
 	 */
-	function sqlError($sqlErrorNumber){
+	public function sqlError($sqlErrorNumber){
 		$arr_sqlErrorMSG['num'][0] = 0;
 		$arr_sqlErrorMSG['msg'][0] = $this->_sqlInterface.' Database Connection failed!';
 		
@@ -614,7 +591,7 @@ class sqlAbstractionLayer {
 	 * @param Integer $sqlPort
 	 * @return Integer MySql Connection ID
 	 */
-	function sqlConnect($sqlUser, $sqlPassword, $sqlHost, $sqlDB, $sqlPort){
+	public function sqlConnect($sqlUser, $sqlPassword, $sqlHost, $sqlDB, $sqlPort){
 		if(isset($this->_sqlInterface) && !empty($this->_sqlInterface) && $this->_sqlInterface != ''){
 			$this->_sqlUsername = $sqlUser;
 			$this->_sqlPassword = $sqlPassword;
@@ -674,7 +651,7 @@ class sqlAbstractionLayer {
 	 * @param Integer $sqlPort
 	 * @return Integer MySql Connection ID
 	 */
-	function sqlConnectWithoutDB($sqlUser, $sqlPassword, $sqlHost, $sqlPort){
+	public function sqlConnectWithoutDB($sqlUser, $sqlPassword, $sqlHost, $sqlPort){
 		if(isset($this->_sqlInterface) && !empty($this->_sqlInterface) && $this->_sqlInterface != ''){
 			
 			$this->_sqlUsername = $sqlUser;
@@ -730,7 +707,7 @@ class sqlAbstractionLayer {
 	 * @param Integer $sqlPort
 	 * @return Integer MySql Connection ID
 	 */
-	function sqlPersistConnect($sqlUser, $sqlPassword, $sqlHost, $sqlDB, $sqlPort){
+	public function sqlPersistConnect($sqlUser, $sqlPassword, $sqlHost, $sqlDB, $sqlPort){
 		if(isset($this->_sqlInterface) && !empty($this->_sqlInterface) && $this->_sqlInterface != ''){
 			
 			$this->_sqlUsername = $sqlUser;
@@ -783,7 +760,7 @@ class sqlAbstractionLayer {
 	 * @param Integer $sqlConnectionID
 	 * @return Boolean
 	 */
-	function sqlDisconnect($sqlConnectionID){
+	public function sqlDisconnect($sqlConnectionID){
 		switch($this->_sqlInterface){
 			case 'mysql':
 				$bClose = @mysql_close($sqlConnectionID);
@@ -813,7 +790,7 @@ class sqlAbstractionLayer {
 	 * @param String $sqlNewDBTitle
 	 * @return Boolean
 	 */
-	function sqlCreateDB($sqlNewDBTitle){
+	public function sqlCreateDB($sqlNewDBTitle){
 		switch($this->_sqlInterface){
 			case 'mysql':
 				$bCreate = @mysql_create_db($sqlNewDBTitle);
@@ -839,7 +816,7 @@ class sqlAbstractionLayer {
 	
 	
 	//--------------------------------------------------------
-	// COMMON FUNCTIONS
+	// COMMON public functionS
 	//--------------------------------------------------------
 	
 	/**
@@ -849,7 +826,7 @@ class sqlAbstractionLayer {
 	 * @param Boolean $withDebug = false
 	 * @return Boolean
 	 */
-	function sqlQuery($sqlQueryString, $withDebug = false){
+	public function sqlQuery($sqlQueryString, $withDebug = false){
 		global $tcms_time;
 		
 		switch($this->_sqlInterface){
@@ -920,7 +897,7 @@ class sqlAbstractionLayer {
 	 * @param Resource $sqlQueryResult
 	 * @return Array
 	 */
-	function sqlFetchArray($sqlQueryResult){
+	public function sqlFetchArray($sqlQueryResult){
 		switch($this->_sqlInterface){
 			case 'mysql':
 				$fetchArray = @mysql_fetch_array($sqlQueryResult);
@@ -950,7 +927,7 @@ class sqlAbstractionLayer {
 	 * @param Resource $sqlQueryResult
 	 * @return Object
 	 */
-	function sqlFetchObject($sqlQueryResult){
+	public function sqlFetchObject($sqlQueryResult){
 		switch($this->_sqlInterface){
 			case 'mysql':
 				$fetchObject = @mysql_fetch_object($sqlQueryResult);
@@ -979,7 +956,7 @@ class sqlAbstractionLayer {
 	 *
 	 * @param resource $sqlQueryResult
 	 */
-	function sqlFreeResult($sqlQueryResult){
+	public function sqlFreeResult($sqlQueryResult){
 		switch($this->_sqlInterface){
 			case 'mysql':
 				@mysql_free_result($sqlQueryResult);
@@ -1007,7 +984,7 @@ class sqlAbstractionLayer {
 	 * @param String $sqlTable
 	 * @return Fetchable Result
 	 */
-	function sqlGetAll($sqlTable){
+	public function sqlGetAll($sqlTable){
 		global $tcms_time;
 		
 		switch($this->_sqlInterface){
@@ -1057,7 +1034,7 @@ class sqlAbstractionLayer {
 	 * @param String $sqlUID
 	 * @return Fetchable Result
 	 */
-	function sqlGetOne($sqlTable, $sqlUID){
+	public function sqlGetOne($sqlTable, $sqlUID){
 		global $tcms_time;
 		
 		switch($this->_sqlInterface){
@@ -1115,7 +1092,7 @@ class sqlAbstractionLayer {
 	 * @param String $withDebug = false
 	 * @return Integer
 	 */
-	function sqlUpdateOne($sqlTable, $newDataString, $sqlUID, $withDebug = false){
+	public function sqlUpdateOne($sqlTable, $newDataString, $sqlUID, $withDebug = false){
 		global $tcms_time;
 		
 		switch($this->_sqlInterface){
@@ -1201,7 +1178,7 @@ class sqlAbstractionLayer {
 	 * @param String $withDebug = false
 	 * @return Integer
 	 */
-	function sqlUpdateField($sqlTable, $newDataString, $sqlField, $sqlUID, $withDebug = false){
+	public function sqlUpdateField($sqlTable, $newDataString, $sqlField, $sqlUID, $withDebug = false){
 		global $tcms_time;
 		
 		switch($this->_sqlInterface){
@@ -1280,7 +1257,7 @@ class sqlAbstractionLayer {
 	 * @param String $withDebug = false
 	 * @return Integer
 	 */
-	function sqlCreateOne($sqlTable, $sqlColumns, $newDataString, $sqlUID, $withDebug = false){
+	public function sqlCreateOne($sqlTable, $sqlColumns, $newDataString, $sqlUID, $withDebug = false){
 		global $tcms_time;
 		
 		switch($this->_sqlInterface){
@@ -1349,7 +1326,7 @@ class sqlAbstractionLayer {
 	 * @param String $withDebug = false
 	 * @return Integer
 	 */
-	function sqlDeleteOne($sqlTable, $sqlUID, $withDebug = false){
+	public function sqlDeleteOne($sqlTable, $sqlUID, $withDebug = false){
 		global $tcms_time;
 		
 		switch($this->_sqlInterface){
@@ -1413,7 +1390,7 @@ class sqlAbstractionLayer {
 	 * @param String $withDebug = false
 	 * @return Integer
 	 */
-	function sqlDeleteIdv($sqlTable, $sqlIndividual, $sqlValue, $withDebug = false){
+	public function sqlDeleteIdv($sqlTable, $sqlIndividual, $sqlValue, $withDebug = false){
 		global $tcms_time;
 		
 		switch($this->_sqlInterface){
@@ -1475,7 +1452,7 @@ class sqlAbstractionLayer {
 	 * @param String $withDebug = false
 	 * @return Integer
 	 */
-	function sqlDeleteAll($sqlTable, $withDebug = false){
+	public function sqlDeleteAll($sqlTable, $withDebug = false){
 		global $tcms_time;
 		
 		switch($this->_sqlInterface){
@@ -1536,7 +1513,7 @@ class sqlAbstractionLayer {
 	 * @param String $sqlQueryResult
 	 * @return Integer
 	 */
-	function sqlGetNumber($sqlQueryResult){
+	public function sqlGetNumber($sqlQueryResult){
 		switch($this->_sqlInterface){
 			case 'mysql':
 				$sqlResult = @mysql_num_rows($sqlQueryResult);
@@ -1569,7 +1546,7 @@ class sqlAbstractionLayer {
 	 * @param String $withDebug = false
 	 * @return Integer
 	 */
-	function sqlSearch($sqlTable, $sqlSearchColumn, $sqlSearchWord, $withDebug = false){
+	public function sqlSearch($sqlTable, $sqlSearchColumn, $sqlSearchWord, $withDebug = false){
 		global $tcms_time;
 		
 		switch($this->_sqlInterface){
@@ -1624,7 +1601,7 @@ class sqlAbstractionLayer {
 	 * @param Boolean $with_output
 	 * @param Boolean $structure_only
 	 */
-	function sqlCreateBackup($with_output, $structure_only){
+	public function sqlCreateBackup($with_output, $structure_only){
 		include_once('../tcms_kernel/tcms_sql_dump.lib.php');
 		
 		$sqlDump = new tcms_sql_dump();
@@ -1681,7 +1658,7 @@ class sqlAbstractionLayer {
 	 * @param String $sqlNumber
 	 * @return String
 	 */
-	function sqlCreateUID($sqlTable, $sqlNumber){
+	public function sqlCreateUID($sqlTable, $sqlNumber){
 		$uidExists = true;
 		
 		while($uidExists){
@@ -1733,7 +1710,7 @@ class sqlAbstractionLayer {
 	 * 
 	 * @return String
 	 */
-	function sqlGetStats(){
+	public function sqlGetStats(){
 		switch($this->_sqlInterface){
 			case 'mysql':
 				$sqlStats = mysql_stat();
@@ -1760,7 +1737,7 @@ class sqlAbstractionLayer {
 	 * @param Boolean $withDebug = false
 	 * @return Boolean
 	 */
-	function sqlDeleteTable($tableName, $withDebug = false){
+	public function sqlDeleteTable($tableName, $withDebug = false){
 		global $tcms_time;
 		
 		switch($this->_sqlInterface){

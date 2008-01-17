@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to implement the tinyMCE editor.
  *
- * @version 0.1.7
+ * @version 0.1.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -42,7 +42,7 @@ class tcms_tinyMCE {
 	 * @param String $seoPath
 	 * @param Boolean $seoEnabled
 	 */
-	function __construct($seoPath, $seoEnabled){
+	public function __construct($seoPath, $seoEnabled){
 		$this->m_seoPath = $seoPath;
 		$this->m_seoEnabled = $seoEnabled;
 	}
@@ -52,7 +52,7 @@ class tcms_tinyMCE {
 	/**
 	 * PHP5 Destructor
 	 */
-	function __destruct(){
+	public function __destruct(){
 	}
 	
 	
@@ -65,7 +65,7 @@ class tcms_tinyMCE {
 	 * @param Boolean $withAjaxSaveLoad = false
 	 * @param String $textareaForAjaxSaveLoad = ''
 	 */
-	function initTinyMCE($initAdvanced = true, $language = 'en', $withAjaxSaveLoad = false, $textareaForAjaxSaveLoad = '') {
+	public function initTinyMCE($initAdvanced = true, $language = 'en', $withAjaxSaveLoad = false, $textareaForAjaxSaveLoad = '') {
 		if(trim($language) != 'en' 
 		&& trim($language) != 'de') {
 			$language = 'en';

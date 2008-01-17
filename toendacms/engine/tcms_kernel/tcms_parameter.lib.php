@@ -7,7 +7,7 @@
 | Author: Jonathan Naumann                                               |
 +------------------------------------------------------------------------+
 |
-| toendaCMS Parameter Functions
+| toendaCMS Parameter public functions
 |
 | File:	tcms_parameter.lib.php
 |
@@ -19,11 +19,11 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 /**
- * toendaCMS Parameter Functions
+ * toendaCMS Parameter public functions
  *
  * This class is used for base checkings.
  *
- * @version 0.0.7
+ * @version 0.0.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -33,10 +33,8 @@ defined('_TCMS_VALID') or die('Restricted access');
 /**
  * Methods
  * 
- * __construct                 -> PHP5 Constructor
- * toendaScript                -> PHP4 Constructor
- * __destruct                  -> PHP5 Destructor
- * _toendaScript               -> PHP4 Destructor
+ * __construct                 -> Constructor
+ * __destruct                  -> Destructor
  * 
  * checkInstallDir               -> Check if a the installation dir almost exists
  * checkInstallExist             -> Check if CMS is installed
@@ -48,35 +46,17 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 class tcms_parameter {
 	/**
-	 * PHP5 Constructor
+	 * Constructor
 	 */
-	function __construct(){
+	public function __construct(){
 	}
 	
 	
 	
 	/**
-	 * PHP4 Constructor
+	 * Destructor
 	 */
-	function tcms_parameter(){
-		$this->__construct();
-	}
-	
-	
-	
-	/**
-	 * PHP5 Destructor
-	 */
-	function __destruct(){
-	}
-	
-	
-	
-	/**
-	 * PHP4 Destructor
-	 */
-	function _tcms_parameter(){
-		$this->__destruct();
+	public function __destruct(){
 	}
 	
 	
@@ -85,7 +65,7 @@ class tcms_parameter {
 	 * 
 	 * @param String $tcms_administer_path
 	 */
-	function checkInstallDir($tcms_administer_path){
+	public function checkInstallDir($tcms_administer_path){
 		if(!file_exists($tcms_administer_path.'/tcms_global/namen.xml')) return false;
 		if(!file_exists($tcms_administer_path.'/tcms_global/var.xml')) return false;
 		if(!file_exists($tcms_administer_path.'/tcms_global/footer.xml')) return false;
@@ -99,7 +79,7 @@ class tcms_parameter {
 	 * 
 	 * @return check for exiting installation
 	 */
-	function checkInstallExist(){
+	public function checkInstallExist(){
 		return ( file_exists('setup/index.php') ? false : true );
 	}
 	
@@ -109,7 +89,7 @@ class tcms_parameter {
 	 * 
 	 * @param String $tcms_administer_path
 	 */
-	function checkWriteableData($tcms_administer_path){
+	public function checkWriteableData($tcms_administer_path){
 		return ( !is_writable($tcms_administer_path.'/') ? false : true );
 	}
 	
@@ -119,7 +99,7 @@ class tcms_parameter {
 	 * 
 	 * @param String $tcms_administer_path
 	 */
-	function checkWriteableSession($tcms_administer_path){
+	public function checkWriteableSession($tcms_administer_path){
 		return ( !is_writable($tcms_administer_path.'/tcms_session/') ? false : true );
 	}
 }
