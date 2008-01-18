@@ -95,8 +95,6 @@ class tcms_modconfig {
 			$arrDW['download_stamp'] = $sqlARR['download_stamp'];
 			$arrDW['download_text']  = $sqlARR['download_text'];
 			
-			$sqlAL->_sqlAbstractionLayer();
-			
 			if($arrDW['download_id']    == NULL){ $arrDW['download_id']    = ''; }
 			if($arrDW['download_title'] == NULL){ $arrDW['download_title'] = ''; }
 			if($arrDW['download_stamp'] == NULL){ $arrDW['download_stamp'] = ''; }
@@ -152,8 +150,6 @@ class tcms_modconfig {
 			$arrGB['bookstamp'] = $sqlARR['bookstamp'];
 			$arrGB['access']    = $sqlARR['access'];
 			$arrGB['enabled']   = $sqlARR['enabled'];
-			
-			$sqlAL->_sqlAbstractionLayer();
 			
 			if($arrGB['guest_id']  == NULL){ $arrGB['guest_id']  = ''; }
 			if($arrGB['booktitle'] == NULL){ $arrGB['booktitle'] = ''; }
@@ -212,8 +208,6 @@ class tcms_modconfig {
 			$arrL['link_text']     = $sqlARR['link_main_text'];
 			$arrL['link_use_desc'] = $sqlARR['link_use_main_desc'];
 			$arrL['access']        = $sqlARR['link_main_access'];
-			
-			$sqlAL->_sqlAbstractionLayer();
 			
 			if($arrL['link_title']    == NULL){ $arrL['link_title']    = ''; }
 			if($arrL['link_subtitle'] == NULL){ $arrL['link_subtitle'] = ''; }
@@ -278,8 +272,6 @@ class tcms_modconfig {
 			$arrFAQ['faq_enabled']   = $sqlARR['enabled'];
 			$arrFAQ['faq_a_enabled'] = $sqlARR['autor_enabled'];
 			$arrFAQ['access']        = $sqlARR['access'];
-			
-			$sqlAL->_sqlAbstractionLayer();
 			
 			if($arrFAQ['faq_uid']       == NULL){ $arrFAQ['faq_uid']       = ''; }
 			if($arrFAQ['faq_title']     == NULL){ $arrFAQ['faq_title']     = ''; }

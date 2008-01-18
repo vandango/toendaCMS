@@ -619,7 +619,6 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 							
 							$xmluser->xml_section_buffer();
 							$xmluser->xml_section_end('user');
-							$xmluser->_xmlparser();
 						}
 						else{
 							$validate_md5 = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'user', 32);
@@ -894,7 +893,6 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 						
 						$xmluser->xml_section_buffer();
 						$xmluser->xml_section_end('note');
-						$xmluser->_xmlparser();
 						
 						// MESSAGE
 						echo '<span class="text_normal">'._REG_VALIDATE.'</span>';

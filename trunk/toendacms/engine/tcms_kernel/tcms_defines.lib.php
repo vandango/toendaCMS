@@ -182,7 +182,7 @@ $dayName['short']['sun'] = _TCMS_DAY_SUNDAY_XS;
 /*_SIDE_MENU*/     if(!defined('_SIDE_MENU'))      define('_SIDE_MENU', 'engine/extensions/ext_sidemenu.php');
 /*_USER_MENU*/     if(!defined('_USER_MENU'))      define('_USER_MENU', 'engine/extensions/ext_usermenu.php');
 /*_CONTENT*/       if(!defined('_CONTENT'))        define('_CONTENT','engine/extensions/ext_content.php');
-/*_SIDE*/          if(!defined('_SIDE'))           define('_SIDE','engine/extensions/ext_sidecontent.php');
+/*_SIDE*/          if(!defined('_SIDE'))           define('_SIDE','engine/extensions/ext_sidebar_content.php');
 /*_FOOTER*/        if(!defined('_FOOTER'))         define('_FOOTER', 'engine/extensions/ext_footer.php');
 
 

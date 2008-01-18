@@ -77,7 +77,6 @@ if(trim($faq_enabled) == 1) {
 				$displayDownload = $tcms_main->checkAccess($checkAcc, $is_admin);
 				
 				$xml->flush();
-				$xml->_xmlparser();
 				unset($xml);
 			}
 			

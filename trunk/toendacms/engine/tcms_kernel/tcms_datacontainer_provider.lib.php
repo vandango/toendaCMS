@@ -1461,7 +1461,7 @@ class tcms_datacontainer_provider extends tcms_main {
 		
 		$no = 0;
 		
-		if($this->m_choosenDB == 'xml'){
+		if($this->m_choosenDB == 'xml') {
 			if($withLanguages) {
 				/*$wsCUid = $this->getXmlIdFromContentLanguage(
 					$contentID, 

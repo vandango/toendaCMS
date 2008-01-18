@@ -1051,7 +1051,7 @@ if($wsShowSite) {
 						}
 						
 						$xml->flush();
-						$xml->_xmlparser();
+						unset($xml);
 					}
 					else {
 						$sqlCN = $tcms_dal->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);

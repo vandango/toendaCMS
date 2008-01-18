@@ -367,7 +367,6 @@ class tcms_gd {
 					$xml->xml_section_end('image');
 					
 					$xml->flush();
-					$xml->_xmlparser();
 					unset($xml);
 				}
 				else{
@@ -398,8 +397,9 @@ class tcms_gd {
 		
 		closedir($dir);
 		
-		if($choosenDB != 'xml')
+		if($choosenDB != 'xml') {
 			unset($sqlAL);
+		}
 		
 		return $targetPath;
 	}
@@ -572,7 +572,7 @@ class tcms_gd {
 				$xmluser->write_value('timecode', date('YmdHis'));
 				$xmluser->xml_section_buffer();
 				$xmluser->xml_section_end('image');
-				$xmluser->_xmlparser();
+				unset($xmluser);
 			}
 		}
 		

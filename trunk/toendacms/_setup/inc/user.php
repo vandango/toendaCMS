@@ -234,7 +234,6 @@ if($todo == 'save'){
 			
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('user');
-			$xmluser->_xmlparser();
 			
 			
 			
@@ -251,7 +250,6 @@ if($todo == 'save'){
 			
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('note');
-			$xmluser->_xmlparser();
 			
 			
 			
@@ -280,7 +278,6 @@ if($todo == 'save'){
 			
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('contact');
-			$xmluser->_xmlparser();
 			
 			
 			

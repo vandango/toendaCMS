@@ -57,7 +57,6 @@ if($use_side_gallery == 1) {
 				$use = $aXML->readSection('album', 'use');
 				
 				$aXML->flush();
-				$aXML->_xmlparser();
 				unset($aXML);
 				
 				if($use == 1){
@@ -73,7 +72,6 @@ if($use_side_gallery == 1) {
 						$arr_images['album'][$countImg] = $dir;
 						
 						$imgXML->flush();
-						$imgXML->_xmlparser();
 						unset($imgXML);
 						
 						$countImg++;

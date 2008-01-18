@@ -61,7 +61,6 @@ if($use_side_archives == 1){
 				$sideDates['stamp'][$cKey] = $xmlP->readValue('stamp');
 				$sideDates['date'][$cKey]  = $xmlP->readValue('date');
 				$xmlP->flush();
-				$xmlP->_xmlparser();
 				unset($xmlP);
 			}
 			

@@ -82,7 +82,6 @@ $cms_name     = $version_xml->read_section('version', 'name');
 $cms_tagline  = $version_xml->read_section('version', 'tagline');
 $toenda_copyr = $version_xml->read_section('version', 'toenda_copyright');
 $version_xml->flush();
-$version_xml->_xmlparser();
 unset($version_xml);
 
 

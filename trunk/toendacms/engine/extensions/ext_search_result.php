@@ -42,7 +42,6 @@ if($choosenDB == 'xml'){
 	$search_title = $tcms_main->decodeText($search_title, '2', $c_charset);
 	
 	$search_xml->flush();
-	$search_xml->_xmlparser();
 	unset($search_xml);
 }
 else{
@@ -55,7 +54,6 @@ else{
 	$search_title = $sqlObj->search_title;
 	
 	$sqlAL->freeResult($sqlQR);
-	$sqlAL->_sqlAbstractionLayer();
 	unset($sqlAL);
 	
 	$search_title = $tcms_main->decodeText($search_title, '2', $c_charset);
@@ -704,7 +702,6 @@ function search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost,
 					}
 					
 					$xml->flush();
-					$xml->_xmlparser();
 					unset($xml);
 				}
 			}

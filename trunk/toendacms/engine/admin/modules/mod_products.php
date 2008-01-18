@@ -1702,7 +1702,6 @@ if($todo == 'save_config') {
 		
 		$xmluser->xmlSectionBuffer();
 		$xmluser->xmlSectionEnd('config');
-		$xmluser->_xmlparser();
 	}
 	else{
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -1841,8 +1840,7 @@ if($todo == 'save_item') {
 		$xmluser->writeValue('sort', $new_sort);
 		
 		$xmluser->xmlSectionBuffer();
-		$xmluser->xmlSectionEnd('info');
-		$xmluser->_xmlparser();*/
+		$xmluser->xmlSectionEnd('info');*/
 	}
 	else{
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -2112,8 +2110,7 @@ if($todo == 'save') {
 		$xmluser->writeValue('sort', $new_sort);
 		
 		$xmluser->xmlSectionBuffer();
-		$xmluser->xmlSectionEnd('info');
-		$xmluser->_xmlparser();*/
+		$xmluser->xmlSectionEnd('info');*/
 	}
 	else{
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);

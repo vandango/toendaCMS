@@ -323,8 +323,6 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 			
 			if($tcms_menu == $tcms_db_prefix.'topmenu'){ $xmluser->xml_section_end('top'); }
 			else{ $xmluser->xml_section_end('menu'); }
-			
-			$xmluser->_xmlparser();
 		}
 		else{
 			if($tcms_menu == $tcms_db_prefix.'menu'){ $tcms_menu = $tcms_db_prefix.'sidemenu'; }
@@ -415,7 +413,6 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 				
 				$xmluser->xml_section_buffer();
 				$xmluser->xml_section_end('main');
-				$xmluser->_xmlparser();
 			}
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);

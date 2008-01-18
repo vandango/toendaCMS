@@ -84,7 +84,6 @@ if($action == 'showall') {
 			
 			
 			$xml->flush();
-			$xml->_xmlparser();
 			unset($xml);
 		}
 		
@@ -149,7 +148,6 @@ if($action == 'showall') {
 						
 						
 						$xml->flush();
-						$xml->_xmlparser();
 						unset($xml);
 					}
 					
@@ -317,7 +315,6 @@ if($action == 'showall') {
 					$wsType = $xml->readSection('info', 'type');
 					
 					$xml->flush();
-					$xml->_xmlparser();
 					unset($xml);
 					
 					$sqlNR2 = 1;
@@ -703,14 +700,12 @@ if($action == 'start'){
 		$access_cat = $xml->readSection('info', 'access');
 		$down_main  = $xml->readSection('info', 'cat');
 		$xml->flush();
-		$xml->_xmlparser();
 		
 		if($down_main != ''){
 			$xml        = new xmlparser($tcms_administer_site.'/files/'.$down_main.'/info.xml', 'r');
 			$down_cat   = $xml->readSection('info', 'name');
 			$down_main  = $xml->readSection('info', 'cat');
 			$xml->flush();
-			$xml->_xmlparser();
 		}
 		else{
 			$down_cat = _TCMS_MENU_DOWN;

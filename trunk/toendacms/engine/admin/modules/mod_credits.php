@@ -44,7 +44,6 @@ $lxml = new xmlparser('../../engine/tcms_kernel/tcms_copyright.xml','r');
 $credits = $lxml->read_value('credits');
 $copy    = $lxml->read_value('copy');
 $lxml->flush();
-$lxml->_xmlparser();
 unset($lxml);
 
 $cs_version = ''

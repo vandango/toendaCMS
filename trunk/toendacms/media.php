@@ -851,7 +851,6 @@ if($cmd == 'comment_save' && $show_comments == 1){
 				
 				$xmluser->xml_section_buffer();
 				$xmluser->xml_section_end('comment');
-				$xmluser->_xmlparser();
 			}
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);

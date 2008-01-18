@@ -293,7 +293,6 @@ if($todo == 'save'){
 		
 		$xmluser->xml_section_buffer();
 		$xmluser->xml_section_end('cat');
-		$xmluser->_xmlparser();
 	}
 	else{
 		$sqlAL = new sqlAbstractionLayer($choosenDB);

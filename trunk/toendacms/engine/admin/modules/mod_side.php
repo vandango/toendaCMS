@@ -58,8 +58,15 @@ if($id_group == 'Developer'
 	$bgkey = 0;
 	
 	// link-to
-	if($choosenDB == 'xml'){
-		$arr_activepages = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_content/');
+	if($choosenDB == 'xml') {
+		$arr_activepages = $tcms_file->getPathContent(
+			'../../'.$tcms_administer_site.'/tcms_content/'
+		);
+		
+		foreach($languages['code'] as $key => $value) {
+			//
+		}
+		
 		$arr_modules['xml'][0]  = 'newsmanager.xml';
 		$arr_modules['name'][0] = _TCMS_MENU_NEWS;
 		$arr_modules['xml'][1]  = 'download.xml';
@@ -102,7 +109,7 @@ if($id_group == 'Developer'
 			}
 		}
 	}
-	else{
+	else {
 		$arr_activefiles['xml'][0]  = 'newsmanager';
 		$arr_activefiles['name'][0] = _TCMS_MENU_NEWS;
 		$arr_activefiles['xml'][1]  = 'download';
@@ -343,6 +350,8 @@ if($id_group == 'Developer'
 		
 		
 		// table row
+		$chk = $key / $tcms_main->countArrayValues($languages['fine']);
+		
 		echo '<tr><td valign="top" width="'.$width.'">'
 		.'<strong class="tcms_bold">'._TABLE_LINKTO.'</strong>'
 		.'</td><td valign="top">'
@@ -352,11 +361,18 @@ if($id_group == 'Developer'
 			echo '<option selected value="'.$sb_id.'"> &bull; '.$sb_id.' &bull; </option>';
 		}
 		
-		foreach($arr_activefiles['xml'] as $key => $value){
+		/*echo '<optgroup label="'.$tcms_main->getLanguageNameByTCMSLanguageCode(
+			$languages, 
+			$tcms_config->getLanguageFrontend()
+		).'">';*/
+		
+		foreach($arr_activefiles['xml'] as $key => $value) {
 			echo '<option value="'.$value.'"'.( $sb_id == $value ? ' selected' : '' ).'>'
 			.$arr_activefiles['name'][$key]
 			.'</option>';
 		}
+		
+		//echo '</optgroup>';
 		
 		echo '</select>'
 		.'</td></tr>';
@@ -440,7 +456,6 @@ if($id_group == 'Developer'
 			
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('side');
-			$xmluser->_xmlparser();
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -487,7 +502,6 @@ if($id_group == 'Developer'
 			
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('side');
-			$xmluser->_xmlparser();
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);

@@ -684,7 +684,6 @@ if($id_group == 'Developer'
 				
 				$xmluser->xml_section_buffer();
 				$xmluser->xml_section_end('newsletter');
-				$xmluser->_xmlparser();
 			}
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -732,7 +731,6 @@ if($id_group == 'Developer'
 				
 				$xmluser->xml_section_buffer();
 				$xmluser->xml_section_end($var_conf);
-				$xmluser->_xmlparser();
 			}
 			else{
 				$new_nl_name = $tcms_main->encodeText($new_nl_name, '2', $c_charset);

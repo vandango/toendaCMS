@@ -1196,7 +1196,6 @@ if($todo == 'save_config'){
 		
 		$xmluser->xml_section_buffer();
 		$xmluser->xml_section_end('config');
-		$xmluser->_xmlparser();
 	}
 	else{
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -1279,7 +1278,6 @@ if($todo == 'save'){
 		
 		$xmluser->xml_section_buffer();
 		$xmluser->xml_section_end('faq');
-		$xmluser->_xmlparser();
 	}
 	else{
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -1374,7 +1372,6 @@ if($todo == 'next'){
 		
 		$xmluser->xml_section_buffer();
 		$xmluser->xml_section_end('faq');
-		$xmluser->_xmlparser();
 	}
 	else{
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -1458,8 +1455,6 @@ if($todo == 'delete'){
 		);
 		
 		$sqlAL->deleteOne($tcms_db_prefix.'knowledgebase', $maintag);
-		
-		$sqlAL->_sqlAbstractionLayer();
 	}
 	
 	echo '<script>'

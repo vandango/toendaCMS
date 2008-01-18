@@ -377,7 +377,6 @@ if($id_group == 'Developer'
 		
 		$xmluser->xmlSectionBuffer();
 		$xmluser->xmlSectionEnd('template');
-		$xmluser->_xmlparser();
 		
 		echo '<script>'
 		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_upload_layout\';'

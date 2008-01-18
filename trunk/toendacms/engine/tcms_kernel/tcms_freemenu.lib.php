@@ -22,7 +22,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for globar backend values.
  *
- * @version 0.5.3
+ * @version 0.5.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -349,7 +349,6 @@ if($site == 'mod_newpage' || $site == 'mod_sidemenu'){
 		}
 		
 		$sqlAL->freeResult($sqlQR);
-		$sqlAL->_sqlAbstractionLayer();
 		unset($sqlAL);
 	}
 }
@@ -535,7 +534,6 @@ if($site == 'mod_topmenu'){
 		}
 		
 		$sqlAL->freeResult($sqlQR);
-		$sqlAL->_sqlAbstractionLayer();
 		unset($sqlAL);
 	}
 }
@@ -657,7 +655,6 @@ else{
 	}
 	
 	$sqlAL->freeResult($sqlQR);
-	$sqlAL->_sqlAbstractionLayer();
 	unset($sqlAL);
 }
 
@@ -749,7 +746,6 @@ if($site == 'mod_knowledgebase'){
 		}
 		
 		$sqlAL->freeResult($sqlQR);
-		$sqlAL->_sqlAbstractionLayer();
 		unset($sqlAL);
 	}
 }
@@ -826,7 +822,6 @@ if($site == 'mod_download'){
 					}
 					
 					$xml->flush();
-					$xml->_xmlparser();
 				}
 			}
 		}
@@ -881,7 +876,6 @@ if($site == 'mod_download'){
 		}
 		
 		$sqlAL->freeResult($sqlQR);
-		$sqlAL->_sqlAbstractionLayer();
 		unset($sqlAL);
 	}
 }
@@ -956,7 +950,6 @@ if($site == 'mod_products'){
 					}
 					
 					$xml->flush();
-					$xml->_xmlparser();
 				}
 			}
 		}
@@ -1011,7 +1004,6 @@ if($site == 'mod_products'){
 		}
 		
 		$sqlAL->freeResult($sqlQR);
-		$sqlAL->_sqlAbstractionLayer();
 		unset($sqlAL);
 	}
 }

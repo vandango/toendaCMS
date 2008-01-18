@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic public functions.
  *
- * @version 2.8.5
+ * @version 2.8.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -109,6 +109,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * convertNewlineToHTML              -> Replaces all newlines in a string with <br /> tags
  * cutStringToLength                 -> Cut a string and append a string
  * cutLongStringToShortString        -> Cut a long strong to a short string
+ * countArrayValues                  -> Count values in an array
  *
  * xml_readdir_content         -> return id saved in xml file
  * xml_readdir_content_without -> return id saved in xml file
@@ -442,7 +443,6 @@ class tcms_main {
 			}
 			while($uid_exists > 0);
 			
-			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 		}
 		
@@ -663,7 +663,7 @@ class tcms_main {
 	public function isElementInArray($element, $array) {
 		//in_array
 		foreach($array as $key => $value) {
-			if($value == $element) {
+			if(trim($value) == trim($element)) {
 				return true;
 			}
 		}
@@ -2469,6 +2469,24 @@ class tcms_main {
 	
 	
 	/**
+	 * Count values in an array
+	 * 
+	 * @param Array $array
+	 * @return Integer
+	 */
+	public function countArrayValues($array) {
+		$count = 0;
+		
+		foreach($array as $key => $val) {
+			$count++;
+		}
+		
+		return $count - 1;
+	}
+	
+	
+	
+	/**
 	 * Replaces all newlines in a stzring with <br /> tags
 	 * 
 	 * @param String $text
@@ -2912,8 +2930,6 @@ class tcms_main {
 			}
 		}
 		
-		$sqlAL->_sqlAbstractionLayer();
-		
 		return $returnME;
 	}
 	
@@ -2976,8 +2992,6 @@ class tcms_main {
 			}
 		}
 		
-		$sqlAL->_sqlAbstractionLayer();
-		
 		return $returnME;
 	}
 	
@@ -3017,7 +3031,6 @@ class tcms_main {
 					}
 					
 					$link_xml->flush();
-					$link_xml->_xmlparser();
 					unset($link_xml);
 				}
 			}
@@ -3065,7 +3078,6 @@ class tcms_main {
 					}
 					
 					$link_xml->flush();
-					$link_xml->_xmlparser();
 					unset($link_xml);
 				}
 			}
@@ -3304,7 +3316,6 @@ class tcms_main {
 					}
 					
 					$side_xml->flush();
-					$side_xml->_xmlparser();
 					unset($side_xml);
 				}
 			}
@@ -3403,7 +3414,6 @@ class tcms_main {
 					}
 					
 					$all_xml->flush();
-					$all_xml->_xmlparser();
 					unset($all_xml);
 				}
 			}
@@ -4014,7 +4024,6 @@ class tcms_main {
 			$arr_ws['name']  = $authXML->readSection('user', 'name');
 			
 			$authXML->flush();
-			$authXML->_xmlparser();
 			unset($authXML);
 		}
 		else{
@@ -4061,7 +4070,6 @@ class tcms_main {
 			$arr_ws['group'] = $sqlObj->group;
 			//$arr_ws['right'] = $sqlObj->right;
 			
-			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 		}
 		
@@ -4218,7 +4226,6 @@ class tcms_main {
 		
 		$sqlAL->sqlDeleteOne($this->db_prefix.'session', $session);
 		
-		$sqlAL->_sqlAbstractionLayer();
 		return true;
 	}
 	
@@ -4339,8 +4346,6 @@ class tcms_main {
 		$newSQLData = "'".date('U')."', '".$tcmsUser."', '".$tcmsUserID."'";
 		
 		$sqlQR = $sqlAL->sqlCreateOne($this->db_prefix.'session', $newSQLColumns, $newSQLData, $session);
-		
-		$sqlAL->_sqlAbstractionLayer();
 		
 		return $session;
 	}
@@ -4611,7 +4616,6 @@ class tcms_main {
 			$sqlQR = $sqlAL->getOne($this->db_prefix.'session', $session);
 			$session_exists = $sqlAL->getNumber($sqlQR);
 			
-			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 			
 			if($session_exists != 0) {
@@ -4685,7 +4689,6 @@ class tcms_main {
 				}
 			}
 			
-			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 		}
 	}
@@ -4757,7 +4760,6 @@ class tcms_main {
 				}
 			}
 			
-			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 		}
 	}
@@ -5022,7 +5024,6 @@ class tcms_main {
 					);
 					
 					$xml->flush();
-					$xml->_xmlparser();
 					unset($xml);
 					
 					$count++;

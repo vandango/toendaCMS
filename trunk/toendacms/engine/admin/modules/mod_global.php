@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * This module is for the global configuration settings.
  * 
- * @version 1.4.3
+ * @version 1.4.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Admin Backend
@@ -1349,7 +1349,7 @@ $tcms_mail_password    = \''.$new_mail_password.'\';
 				
 				$xmluser->xmlSectionBuffer();
 				$xmluser->xmlSectionEnd('userpage');
-				$xmluser->_xmlparser();
+				unset($xmluser);
 			}
 			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB);
@@ -1503,7 +1503,7 @@ $tcms_mail_password    = \''.$new_mail_password.'\';
 			
 			$xmluser->xmlSectionBuffer();
 			$xmluser->xmlSectionEnd('namen');
-			$xmluser->_xmlparser();
+			unset($xmluser);
 			
 			//***************************************
 			
@@ -1525,7 +1525,7 @@ $tcms_mail_password    = \''.$new_mail_password.'\';
 			
 			$xmluser->xmlSectionBuffer();
 			$xmluser->xmlSectionEnd('footer');
-			$xmluser->_xmlparser();
+			unset($xmluser);
 			
 			// ---------------------------
 			
@@ -1577,7 +1577,7 @@ $tcms_mail_password    = \''.$new_mail_password.'\';
 			
 			$xmluser->xmlSectionBuffer();
 			$xmluser->xmlSectionEnd('global');
-			$xmluser->_xmlparser();
+			unset($xmluser);
 			
 			
 			//***************************************

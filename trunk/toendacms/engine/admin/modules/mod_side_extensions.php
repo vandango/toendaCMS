@@ -629,7 +629,6 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		
 		$xmluser->xml_section_buffer();
 		$xmluser->xml_section_end('config');
-		$xmluser->_xmlparser();
 		
 		
 		if($new_sidemenu_title == ''){ $new_sidemenu_title = '[TYPE TITLE]'; }
@@ -707,7 +706,6 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 			
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('side');
-			$xmluser->_xmlparser();
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB);

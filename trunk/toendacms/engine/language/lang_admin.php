@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used as a base language loader.
  *
- * @version 0.1.4
+ * @version 0.1.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -37,7 +37,6 @@ switch($language_stage){
 		$xml = new xmlparser('../../data/tcms_global/var.xml', 'r');
 		$tcms_lang = $xml->read_section('global', 'lang');
 		$xml->flush();
-		$xml->_xmlparser();
 		unset($xml);
 		
 		include_once('../language/'.$tcms_lang.'/lang_'.$tcms_lang.'.php');
@@ -61,7 +60,6 @@ switch($language_stage){
 			/*$xml = new xmlparser('data/tcms_global/var.xml', 'r');
 			$tcms_lang = $xml->read_section('global', 'front_lang');
 			$xml->flush();
-			$xml->_xmlparser();
 			unset($xml);*/
 			$tcms_lang = $tcms_config->getLanguageFrontend();
 			
@@ -76,8 +74,9 @@ switch($language_stage){
 		&& $lang != NULL) {
 			$tcms_lang = $tcms_config->getLanguageCodeForTCMS($lang);
 			
-			if(!file_exists('engine/language/'.$tcms_lang.'/lang_'.$tcms_lang.'.php'))
+			if(!file_exists('engine/language/'.$tcms_lang.'/lang_'.$tcms_lang.'.php')) {
 				$tcms_lang = $tcms_config->getLanguageFrontend();
+			}
 			
 			include_once('engine/language/'.$tcms_lang.'/lang_'.$tcms_lang.'.php');
 		}
@@ -85,7 +84,6 @@ switch($language_stage){
 			/*$xml = new xmlparser('data/tcms_global/var.xml', 'r');
 			$tcms_lang = $xml->read_section('global', 'front_lang');
 			$xml->flush();
-			$xml->_xmlparser();
 			unset($xml);*/
 			$tcms_lang = $tcms_config->getLanguageFrontend();
 			

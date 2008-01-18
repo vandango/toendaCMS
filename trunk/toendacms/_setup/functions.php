@@ -158,11 +158,9 @@ function updateLanguageForXML($tcms_path) {
 		
 		$xmluser->xml_section_buffer();
 		$xmluser->xml_section_end('news');
-		$xmluser->_xmlparser();
 		unset($xmluser);
 		
 		$xml->flush();
-		$xml->_xmlparser();
 		unset($xml);
 		
 		// delete sourcefile and rename temp file
@@ -199,11 +197,9 @@ function updateLanguageForXML($tcms_path) {
 		
 		$xmluser->xml_section_buffer();
 		$xmluser->xml_section_end('menu');
-		$xmluser->_xmlparser();
 		unset($xmluser);
 		
 		$xml->flush();
-		$xml->_xmlparser();
 		unset($xml);
 		
 		// delete sourcefile and rename temp file
@@ -238,11 +234,9 @@ function updateLanguageForXML($tcms_path) {
 		
 		$xmluser->xml_section_buffer();
 		$xmluser->xml_section_end('menu');
-		$xmluser->_xmlparser();
 		unset($xmluser);
 		
 		$xml->flush();
-		$xml->_xmlparser();
 		unset($xml);
 		
 		// delete sourcefile and rename temp file

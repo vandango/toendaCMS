@@ -89,7 +89,6 @@ switch($id){
 						$checkCat = $xml->readSection('info', 'cat');
 						
 						$xml->flush();
-						$xml->_xmlparser();
 						
 						$count++;
 					}
@@ -114,7 +113,6 @@ switch($id){
 							$arrFAQparent['uid'][$count]    = substr($arrFAQparent['parent'][$count - 1], 0, 10);
 							
 							$xml->flush();
-							$xml->_xmlparser();
 							
 							// CHARSETS
 							$arrFAQparent['title'][$count] = $tcms_main->decodeText($arrFAQparent['title'][$count], '2', $c_charset);
