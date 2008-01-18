@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a provider for sidemenu datacontainer
  * objects.
  *
- * @version 0.2.5
+ * @version 0.2.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -322,7 +322,6 @@ class tcms_menu_provider extends tcms_main {
 			$result = $sqlObj->id;
 			
 			$sqlAL->freeResult($sqlQR);
-			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 		}
 		
@@ -442,7 +441,6 @@ class tcms_menu_provider extends tcms_main {
 			}
 			
 			$sqlAL->freeResult($sqlQR);
-			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 		}
 		
@@ -570,7 +568,6 @@ class tcms_menu_provider extends tcms_main {
 				}
 				
 				$sqlAL->freeResult($sqlQR);
-				$sqlAL->_sqlAbstractionLayer();
 				unset($sqlAL);
 			}
 		}
@@ -662,7 +659,6 @@ class tcms_menu_provider extends tcms_main {
 					}
 					
 					$xml->flush();
-					$xml->_xmlparser();
 					unset($xml);
 				}
 			}
@@ -808,7 +804,6 @@ class tcms_menu_provider extends tcms_main {
 			}
 			
 			$sqlAL->freeResult($sqlQR);
-			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 		}
 		
