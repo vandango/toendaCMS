@@ -911,7 +911,6 @@ if($param_save_mode == 'off') {
 				
 				$xmluser->xmlSectionBuffer();
 				$xmluser->xmlSectionEnd('album');
-				$xmluser->_xmlparser();
 				
 				$tcms_file->createDir('../../'.$tcms_administer_site.'/tcms_imagegallery/'.$fake_folder, 0777);
 			}
@@ -1120,7 +1119,6 @@ if($param_save_mode == 'off') {
 			
 			$xmluser->xmlSectionBuffer();
 			$xmluser->xmlSectionEnd('config');
-			$xmluser->_xmlparser();
 		}
 		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -1177,7 +1175,6 @@ if($param_save_mode == 'off') {
 			
 			$xmluser->xmlSectionBuffer();
 			$xmluser->xmlSectionEnd('album');
-			$xmluser->_xmlparser();
 			
 			$tcms_file->createDir('../../'.$tcms_administer_site.'/tcms_imagegallery/'.$album_path, 0777);
 		}
@@ -1279,7 +1276,6 @@ if($param_save_mode == 'off') {
 				
 				$xmluser->xmlSectionBuffer();
 				$xmluser->xmlSectionEnd('album');
-				$xmluser->_xmlparser();
 			}
 			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -1354,7 +1350,6 @@ if($param_save_mode == 'off') {
 				
 				$xmluser->xmlSectionBuffer();
 				$xmluser->xmlSectionEnd('image');
-				$xmluser->_xmlparser();
 			}
 			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -1427,7 +1422,6 @@ if($param_save_mode == 'off') {
 				
 				$xmluser->xmlSectionBuffer();
 				$xmluser->xmlSectionEnd('image');
-				$xmluser->_xmlparser();
 			}
 			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);

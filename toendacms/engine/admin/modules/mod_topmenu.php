@@ -494,7 +494,6 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				
 				$xmluser->xml_section_buffer();
 				$xmluser->xml_section_end('main');
-				$xmluser->_xmlparser();
 			}
 			else{
 				$new_tm_link = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'content', 5);
@@ -539,7 +538,6 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('top');
-			$xmluser->_xmlparser();
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
@@ -609,7 +607,6 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 					
 					$xmluser->xml_section_buffer();
 					$xmluser->xml_section_end('main');
-					$xmluser->_xmlparser();
 				}
 				else {
 					$xmluser = new xmlparser(
@@ -630,7 +627,6 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 					
 					$xmluser->xml_section_buffer();
 					$xmluser->xml_section_end('main');
-					$xmluser->_xmlparser();
 				}
 			}
 			else{
@@ -705,7 +701,6 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('top');
-			$xmluser->_xmlparser();
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB);

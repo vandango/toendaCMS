@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide methods to get and
  * save user accounts and also contacts.
  * 
- * @version 0.3.3
+ * @version 0.3.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -275,7 +275,6 @@ class tcms_account_provider extends tcms_main {
 			$arr_user = $file->read();
 			$file->close();
 			
-			$file->_tcms_file();
 			unset($file);
 			
 			$arr_username = explode('##', $arr_user);
@@ -290,7 +289,6 @@ class tcms_account_provider extends tcms_main {
 			$arr_ws['name']  = $this->decodeText($authXML->readSection('user', 'name'), '2', $this->m_charset);
 			
 			$authXML->flush();
-			$authXML->_xmlparser();
 			unset($authXML);
 		}
 		else {
@@ -337,7 +335,6 @@ class tcms_account_provider extends tcms_main {
 			$arr_ws['group'] = $sqlObj->group;
 			//$arr_ws['right'] = $sqlObj->right;
 			
-			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 		}
 		
@@ -381,7 +378,6 @@ class tcms_account_provider extends tcms_main {
 			$wsHobby      = $xml->readSection('user', 'hobby');
 			
 			$xml->flush();
-			$xml->_xmlparser();
 			unset($xml);
 			
 			if($wsID         == false) $wsID         = '';
@@ -449,7 +445,6 @@ class tcms_account_provider extends tcms_main {
 			$wsHobby      = $sqlObj->hobby;
 			
 			$sqlAL->freeResult;($sqlQR);
-			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 			
 			if($wsID         == NULL) $wsID         = '';
@@ -596,48 +591,47 @@ class tcms_account_provider extends tcms_main {
 		
 		if($this->db_choosenDB == 'xml'){
 			$xmluser = new xmlparser($this->m_administer.'/tcms_user/'.$acc->GetID().'.xml', 'w');
-			$xmluser->xml_declaration();
-			$xmluser->xml_section('user');
+			$xmluser->xmlDeclaration();
+			$xmluser->xmlSection('user');
 			
-			$xmluser->write_value('name', $new_name);
-			$xmluser->write_value('username', $new_username);
-			$xmluser->write_value('password', $acc->getPassword());
-			$xmluser->write_value('email', $acc->getEmail());
-			$xmluser->write_value('group', $acc->getGroup());
-			$xmluser->write_value('last_login', $acc->getLastLogin());
-			$xmluser->write_value('join_date', $acc->getJoinDate());
-			$xmluser->write_value('homepage', $acc->getHomepage());
-			$xmluser->write_value('icq', $acc->getICQ());
-			$xmluser->write_value('aim', $acc->getAIM());
-			$xmluser->write_value('yim', $acc->getYIM());
-			$xmluser->write_value('msn', $acc->getMSN());
-			$xmluser->write_value('skype', $acc->getSkype());
-			$xmluser->write_value('birthday', $acc->getBirthday());
-			$xmluser->write_value('gender', $acc->getGender());
-			$xmluser->write_value('occupation', $new_occ);
-			$xmluser->write_value('enabled', $acc->getEnabled());
-			$xmluser->write_value('tcms_enabled', $acc->getTCMSScriptEnabled());
-			$xmluser->write_value('static_value', $acc->getStaticValue());
-			$xmluser->write_value('signature', $new_signature);
-			$xmluser->write_value('location', $new_location);
-			$xmluser->write_value('hobby', $new_hobby);
+			$xmluser->writeValue('name', $new_name);
+			$xmluser->writeValue('username', $new_username);
+			$xmluser->writeValue('password', $acc->getPassword());
+			$xmluser->writeValue('email', $acc->getEmail());
+			$xmluser->writeValue('group', $acc->getGroup());
+			$xmluser->writeValue('last_login', $acc->getLastLogin());
+			$xmluser->writeValue('join_date', $acc->getJoinDate());
+			$xmluser->writeValue('homepage', $acc->getHomepage());
+			$xmluser->writeValue('icq', $acc->getICQ());
+			$xmluser->writeValue('aim', $acc->getAIM());
+			$xmluser->writeValue('yim', $acc->getYIM());
+			$xmluser->writeValue('msn', $acc->getMSN());
+			$xmluser->writeValue('skype', $acc->getSkype());
+			$xmluser->writeValue('birthday', $acc->getBirthday());
+			$xmluser->writeValue('gender', $acc->getGender());
+			$xmluser->writeValue('occupation', $new_occ);
+			$xmluser->writeValue('enabled', $acc->getEnabled());
+			$xmluser->writeValue('tcms_enabled', $acc->getTCMSScriptEnabled());
+			$xmluser->writeValue('static_value', $acc->getStaticValue());
+			$xmluser->writeValue('signature', $new_signature);
+			$xmluser->writeValue('location', $new_location);
+			$xmluser->writeValue('hobby', $new_hobby);
 			
-			$xmluser->xml_section_buffer();
-			$xmluser->xml_section_end('user');
-			$xmluser->_xmlparser();
+			$xmluser->xmlSectionBuffer();
+			$xmluser->xmlSectionEnd('user');
+			unset($xmluser);
 			
 			if(!$saveAsUpdate) {
 				// notebook
 				$xmluser = new xmlparser($this->m_administer.'/tcms_notepad/'.$acc->GetID().'.xml', 'w');
-				$xmluser->xml_declaration();
-				$xmluser->xml_section('note');
+				$xmluser->xmlDeclaration();
+				$xmluser->xmlSection('note');
 				
-				$xmluser->write_value('name', $new_username);
-				$xmluser->write_value('text', '');
+				$xmluser->writeValue('name', $new_username);
+				$xmluser->writeValue('text', '');
 				
-				$xmluser->xml_section_buffer();
-				$xmluser->xml_section_end('note');
-				$xmluser->_xmlparser();
+				$xmluser->xmlSectionBuffer();
+				$xmluser->xmlSectionEnd('note');
 			}
 			
 			unset($xmluser);
@@ -774,7 +768,6 @@ class tcms_account_provider extends tcms_main {
 			$tc_phone    = $xml->readSection('contact', 'phone');
 			$tc_fax      = $xml->readSection('contact', 'fax');
 			$xml->flush();
-			$xml->_xmlparser();
 			unset($xml);
 			
 			//if($tc_defcon   == false){ $tc_defcon   = ''; }
@@ -790,7 +783,7 @@ class tcms_account_provider extends tcms_main {
 			if($tc_phone    == false){ $tc_phone    = ''; }
 			if($tc_fax      == false){ $tc_fax      = ''; }
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
 			$sqlCN = $sqlAL->connect(
 				$this->db_user, 
@@ -817,7 +810,6 @@ class tcms_account_provider extends tcms_main {
 			$tc_fax      = $sqlObj->fax;
 			
 			$sqlAL->freeResult($sqlQR);
-			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 			
 			//if($tc_defcon   == NULL){ $tc_defcon   = ''; }

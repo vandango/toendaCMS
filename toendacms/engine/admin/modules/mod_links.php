@@ -837,7 +837,6 @@ if($todo == 'save_config'){
 		
 		$xmluser->xml_section_buffer();
 		$xmluser->xml_section_end('config');
-		$xmluser->_xmlparser();
 	}
 	else{
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
@@ -929,7 +928,6 @@ if($todo == 'save') {
 		
 		$xmluser->xml_section_buffer();
 		$xmluser->xml_section_end('link');
-		$xmluser->_xmlparser();
 	}
 	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB);

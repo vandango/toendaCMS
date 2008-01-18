@@ -236,7 +236,6 @@ class tcms_import extends tcms_main {
 			$xmlcon->xml_section_buffer();
 			$xmlcon->xml_section_end('contact');
 			$xmlcon->flush();
-			$xmlcon->_xmlparser();
 			unset($xmlcon);
 		}
 		else {

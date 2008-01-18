@@ -218,7 +218,6 @@ class tcms_statistics extends tcms_main {
 				
 				$xmluser->xml_section_buffer();
 				$xmluser->xml_section_end('stat_ip');
-				$xmluser->_xmlparser();
 			}
 			else{
 				switch($this->_choosenDB){
@@ -262,7 +261,6 @@ class tcms_statistics extends tcms_main {
 				
 				$xmluser->xml_section_buffer();
 				$xmluser->xml_section_end('stat');
-				$xmluser->_xmlparser();
 			}
 			else{
 				switch($this->_choosenDB){
@@ -332,7 +330,6 @@ class tcms_statistics extends tcms_main {
 					
 					$xmluser->xml_section_buffer();
 					$xmluser->xml_section_end('stat_ip');
-					$xmluser->_xmlparser();
 				}
 				else{
 					$statXML = new xmlparser(''.$this->_tcmsPath.'/tcms_statistics_ip/'.$oldIPValue.'.xml', 'r');
@@ -413,7 +410,6 @@ class tcms_statistics extends tcms_main {
 				
 				$xmluser->xml_section_buffer();
 				$xmluser->xml_section_end('stat');
-				$xmluser->_xmlparser();
 			}
 			else{
 				switch($this->_choosenDB){
@@ -543,7 +539,6 @@ class tcms_statistics extends tcms_main {
 				
 				$xmluser->xml_section_buffer();
 				$xmluser->xml_section_end('stat_os');
-				$xmluser->_xmlparser();
 			}
 			else{
 				switch($this->_choosenDB){

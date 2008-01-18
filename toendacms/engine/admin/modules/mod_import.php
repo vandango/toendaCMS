@@ -241,7 +241,6 @@ if($todo == 'bloggerftp') {
 						
 						$xml->xml_section_buffer();
 						$xml->xml_section_end('news');
-						$xml->_xmlparser();
 						
 						$old_umask = umask(0);
 						mkdir('../../'.$tcms_administer_site.'/tcms_news/comments_'.$order.'/', 0777);
@@ -298,7 +297,6 @@ if($todo == 'bloggerftp') {
 							
 							$xml->xml_section_buffer();
 							$xml->xml_section_end('comment');
-							$xml->_xmlparser();
 						}
 						else{
 						}

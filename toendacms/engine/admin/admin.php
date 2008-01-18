@@ -68,7 +68,7 @@ $tcms_file = new tcms_file();
 	show site
 	if the global var file exist
 */
-if($tcms_file->checkFileExist($tcms_administer_path.'/tcms_global/var.xml')){
+if($tcms_file->checkFileExist($tcms_administer_path.'/tcms_global/var.xml')) {
 	$language_stage = 'admin';
 	include_once('../language/lang_admin.php');
 	

@@ -1026,7 +1026,6 @@ if($id_group == 'Developer'
 			
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('main');
-			$xmluser->_xmlparser();
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -1156,7 +1155,6 @@ if($id_group == 'Developer'
 			
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('main');
-			$xmluser->_xmlparser();
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);

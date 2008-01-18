@@ -613,7 +613,6 @@ if($book_enabled == 1){
 				
 				$xmluser->xml_section_buffer();
 				$xmluser->xml_section_end('entry');
-				$xmluser->_xmlparser();
 			}
 			else{
 				$maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'guestbook_items', 32);

@@ -154,7 +154,6 @@ if($todo == 'save') {
 		
 		$xmluser->xml_section_buffer();
 		$xmluser->xml_section_end('note');
-		$xmluser->_xmlparser();
 	}
 	else{
 		$sqlAL = new sqlAbstractionLayer($choosenDB);

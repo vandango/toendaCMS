@@ -595,7 +595,6 @@ if($id_group == 'Developer'
 		
 		$xmluser->xml_section_buffer();
 		$xmluser->xml_section_end('cs');
-		$xmluser->_xmlparser();
 		
 		
 		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_components\'</script>';

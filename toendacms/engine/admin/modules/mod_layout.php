@@ -226,7 +226,6 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 			
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('layout');
-			$xmluser->_xmlparser();
 			*/
 			echo '</form>';
 		}
@@ -264,7 +263,6 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 					
 					$xmluser->xml_section_buffer();
 					$xmluser->xml_section_end('layout');
-					$xmluser->_xmlparser();
 					
 					echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_layout\';</script>';
 					break;

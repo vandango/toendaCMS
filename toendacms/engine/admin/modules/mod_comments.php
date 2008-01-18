@@ -126,7 +126,6 @@ if($id_group == 'Developer'
 										$main_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_news/'.substr($value, 9, 10).'.xml','r');
 										$_title_  = $main_xml->read_section('news', 'title');
 										$main_xml->flush();
-										$main_xml->_xmlparser();
 										
 										$_title_ = $tcms_main->decodeText($_title_, '2', $c_charset);
 									}
@@ -182,7 +181,6 @@ if($id_group == 'Developer'
 									$arrCat['time'][$count]   = $menu_xml->read_section('comment', 'time');
 									
 									$menu_xml->flush();
-									$menu_xml->_xmlparser();
 									
 									
 									if(!$arrCat['tag'][$count])   { $arrCat['tag'][$count]     = '&nbsp;'; }
@@ -610,7 +608,6 @@ if($id_group == 'Developer'
 			
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('comment');
-			$xmluser->_xmlparser();
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB);

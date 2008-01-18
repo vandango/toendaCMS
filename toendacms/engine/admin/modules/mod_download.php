@@ -104,7 +104,6 @@ if($param_save_mode == 'off'){
 				$old_download_stamp = $down_xml->readSection('config', 'download_stamp');
 				$old_download_text  = $down_xml->readSection('config', 'download_text');
 				$down_xml->flush();
-				$down_xml->_xmlparser();
 			}
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -227,7 +226,6 @@ if($param_save_mode == 'off'){
 							$checkCat = $xml->readSection('info', 'cat');
 							
 							$xml->flush();
-							$xml->_xmlparser();
 							
 							$count++;
 						}
@@ -252,7 +250,6 @@ if($param_save_mode == 'off'){
 								$arrDownParent['uid'][$count]    = substr($arrDownParent['parent'][$count - 1], 0, 10);
 								
 								$xml->flush();
-								$xml->_xmlparser();
 								
 								// CHARSETS
 								$arrDownParent['title'][$count] = $tcms_main->decodeText($arrDownParent['title'][$count], '2', $c_charset);
@@ -448,7 +445,6 @@ if($param_save_mode == 'off'){
 							$checkDownAmount = $count;
 							
 							$xml->flush();
-							$xml->_xmlparser();
 						}
 					}
 				}
@@ -1079,7 +1075,6 @@ if($param_save_mode == 'off'){
 				$xmluser->xml_section_buffer();
 				$xmluser->xml_section_end('config');
 				$xmluser->flush();
-				$xmluser->_xmlparser();
 			}
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -1192,7 +1187,6 @@ if($param_save_mode == 'off'){
 				
 				$xmluser->xml_section_buffer();
 				$xmluser->xml_section_end('info');
-				$xmluser->_xmlparser();
 			}
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -1511,7 +1505,6 @@ if($param_save_mode == 'off'){
 					
 					$xmluser->xml_section_buffer();
 					$xmluser->xml_section_end('info');
-					$xmluser->_xmlparser();
 				}
 				else{
 					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -1609,8 +1602,6 @@ if($param_save_mode == 'off'){
 							//$new_maintag = $sqlARR['uid'];
 						}
 					//}
-					
-					$sqlAL->_sqlAbstractionLayer();
 				}
 				
 				if(is_dir('../../'.$tcms_administer_site.'/files/'.$maintag.'/'))

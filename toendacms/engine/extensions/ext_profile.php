@@ -942,7 +942,6 @@ if($is_admin == 'Administrator'
 			
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('news');
-			$xmluser->_xmlparser();
 			
 			$old_umask = umask(0);
 			mkdir($tcms_administer_site.'/tcms_news/comments_'.$maintag.'/', 0777);
@@ -1016,7 +1015,6 @@ if($is_admin == 'Administrator'
 				
 				$xmluser->xml_section_buffer();
 				$xmluser->xml_section_end('image');
-				$xmluser->_xmlparser();
 			}
 			else{
 				//$new_image_id = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, 'tcms_imagegallery', 10);
@@ -1091,7 +1089,6 @@ if($is_admin == 'Administrator'
 			
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('album');
-			$xmluser->_xmlparser();
 			
 			mkdir($tcms_administer_site.'/images/albums/'.$maintag, 0777);
 			mkdir($tcms_administer_site.'/tcms_imagegallery/'.$maintag, 0777);
@@ -1160,7 +1157,6 @@ if($is_admin == 'Administrator'
 			
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('cat');
-			$xmluser->_xmlparser();
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);

@@ -449,7 +449,6 @@ if($todo == 'save'){
 	
 	$xmluser->xmlSectionBuffer();
 	$xmluser->xmlSectionEnd($var_conf);
-	$xmluser->_xmlparser();
 	
 	//***************************************
 	
@@ -476,7 +475,6 @@ if($todo == 'save'){
 	
 	$xmluser->xmlSectionBuffer();
 	$xmluser->xmlSectionEnd($var_conf);
-	$xmluser->_xmlparser();
 	
 	//***************************************
 	
@@ -529,7 +527,6 @@ if($todo == 'save'){
 	
 	$xmluser->xmlSectionBuffer();
 	$xmluser->xmlSectionEnd($var_conf);
-	$xmluser->_xmlparser();
 	
 	//***************************************
 	
@@ -551,7 +548,6 @@ if($todo == 'save'){
 	
 	$xmluser->xmlSectionBuffer();
 	$xmluser->xmlSectionEnd('config');
-	$xmluser->_xmlparser();
 	
 	//***************************************
 	

@@ -699,7 +699,6 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 					
 					$xmluser->xml_section_buffer();
 					$xmluser->xml_section_end('main');
-					$xmluser->_xmlparser();
 				}
 				else {
 					$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_content/'.$new_sm_link.'.xml', 'w');
@@ -717,7 +716,6 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 					
 					$xmluser->xml_section_buffer();
 					$xmluser->xml_section_end('main');
-					$xmluser->_xmlparser();
 				}
 			}
 			else {
@@ -796,7 +794,6 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('menu');
-			$xmluser->_xmlparser();
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -924,7 +921,6 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 					
 					$xmluser->xml_section_buffer();
 					$xmluser->xml_section_end('main');
-					$xmluser->_xmlparser();
 				}
 				else {
 					$xmluser = new xmlparser(
@@ -945,7 +941,6 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 					
 					$xmluser->xml_section_buffer();
 					$xmluser->xml_section_end('main');
-					$xmluser->_xmlparser();
 				}
 			}
 			else {
@@ -1021,7 +1016,6 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('menu');
-			$xmluser->_xmlparser();
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);

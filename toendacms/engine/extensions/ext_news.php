@@ -879,7 +879,6 @@ if($use_news_comments == 1){
 				
 				$xmluser->xmlSectionBuffer();
 				$xmluser->xmlSectionEnd('comment');
-				$xmluser->_xmlparser();
 			}
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -1075,8 +1074,8 @@ if($action == 'archive'
 		$catName = $tcms_main->decodeText($catName, '2', $c_charset);
 		$catDesc = $tcms_main->decodeText($catDesc, '2', $c_charset);
 		
-		if($catName != ''){ echo tcms_html::contentheading(_NEWS_CATEGORY_ARCHIV.' \''.$catName.'\'').'<br />'; }
-		if($catDesc != ''){ echo tcms_html::contentmain($catDesc).'<br /><br />'; }
+		if($catName != ''){ echo $tcms_html->contentTitle(_NEWS_CATEGORY_ARCHIV.' \''.$catName.'\'').'<br />'; }
+		if($catDesc != ''){ echo $tcms_html->contentText($catDesc).'<br /><br />'; }
 		
 		
 		if($choosenDB != 'xml'){

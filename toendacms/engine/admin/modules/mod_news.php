@@ -1753,7 +1753,7 @@ if($todo == 'save_config') {
 		
 		$xmluser->xmlSectionBuffer();
 		$xmluser->xmlSectionEnd('config');
-		$xmluser->_xmlparser();
+		
 	}
 	else{
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -2057,7 +2057,6 @@ if($todo == 'save'){
 		
 		$xmluser->xmlSectionBuffer();
 		$xmluser->xmlSectionEnd('news');
-		$xmluser->_xmlparser();
 	}
 	else{
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -2092,7 +2091,6 @@ if($todo == 'save'){
 		$synAmount   = $xml->readSection('config', 'syn_amount');
 		$showAutor   = $xml->readSection('config', 'show_autor');
 		$xml->flush();
-		$xml->_xmlparser();
 		unset($xml);
 	}
 	else{
@@ -2248,7 +2246,6 @@ if($todo == 'next'){
 		
 		$xmluser->xmlSectionBuffer();
 		$xmluser->xmlSectionEnd('news');
-		$xmluser->_xmlparser();
 		
 		$old_umask = umask(0);
 		mkdir('../../'.$tcms_administer_site.'/tcms_news/comments_'.$maintag.'/', 0777);
@@ -2289,7 +2286,6 @@ if($todo == 'next'){
 		$synAmount   = $xml->readSection('config', 'syn_amount');
 		$showAutor   = $xml->readSection('config', 'show_autor');
 		$xml->flush();
-		$xml->_xmlparser();
 		unset($xml);
 	}
 	else{
@@ -2526,7 +2522,6 @@ if($todo == 'delete'){
 		$synAmount   = $xml->readSection('config', 'syn_amount');
 		$showAutor   = $xml->readSection('config', 'show_autor');
 		$xml->flush();
-		$xml->_xmlparser();
 		unset($xml);
 	}
 	else{

@@ -541,7 +541,6 @@ if($id_group == 'Developer'
 			
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('imp');
-			$xmluser->_xmlparser();
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB);

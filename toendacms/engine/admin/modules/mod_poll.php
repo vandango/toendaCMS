@@ -456,7 +456,6 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				
 				$xmluser->xml_section_buffer();
 				$xmluser->xml_section_end('poll');
-				$xmluser->_xmlparser();
 			}
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB);
@@ -579,7 +578,6 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('poll');
-			$xmluser->_xmlparser();
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB);

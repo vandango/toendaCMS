@@ -60,7 +60,6 @@ if($use_layout_chooser == 1) {
 			$layout_name = $xml->readSection('template', 'name');
 			
 			$xml->flush();
-			$xml->_xmlparser();
 			unset($xml);
 			
 			echo '<option'.( $lc_value == $s ? ' selected' : '' ).' value="'.$lc_value.'">'

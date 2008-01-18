@@ -176,7 +176,6 @@ class tcms_search extends tcms_main {
 						$sc++;
 						
 						$xml->flush();
-						$xml->_xmlparser();
 						unset($xml);
 					}
 					else{
@@ -205,7 +204,6 @@ class tcms_search extends tcms_main {
 							$sc++;
 							
 							$xml->flush();
-							$xml->_xmlparser();
 							unset($xml);
 						}
 						else{
@@ -234,7 +232,6 @@ class tcms_search extends tcms_main {
 								$sc++;
 								
 								$xml->flush();
-								$xml->_xmlparser();
 								unset($xml);
 							}
 						}

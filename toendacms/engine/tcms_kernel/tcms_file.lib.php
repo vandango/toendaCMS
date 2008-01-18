@@ -525,7 +525,6 @@ class tcms_file {
 					);
 					
 					$xml->flush();
-					$xml->_xmlparser();
 					unset($xml);
 					
 					$count++;

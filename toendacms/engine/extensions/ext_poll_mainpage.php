@@ -427,7 +427,6 @@ if($a_make == 'vote'){
 			$xmluser->write_value('answer', $answer);
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('vote');
-			$xmluser->_xmlparser();
 		}
 		else{
 			$maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'poll_items', 8);
