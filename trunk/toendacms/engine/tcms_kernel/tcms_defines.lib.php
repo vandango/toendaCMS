@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for global values
  *
- * @version 0.6.8
+ * @version 0.7.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -365,7 +365,6 @@ if(!in_array($id, $arrTCMSModules)){
 			$id_meta_ad = $xml->readSection('main', 'title');
 			$id_meta_ad = $tcms_main->decodeText($id_meta_ad, '2', $c_charset);
 			$xml->flush();
-			$xml->_xmlparser();
 			unset($xml);
 		}
 	}
@@ -376,7 +375,6 @@ if(!in_array($id, $arrTCMSModules)){
 		$sqlObj = $sqlAL->fetchObject($sqlQR);
 		$doc_Autor = $sqlObj->autor;
 		$sqlAL->freeResult($sqlQR);
-		$sqlAL->_sqlAbstractionLayer();
 		unset($sqlAL);
 	}
 	

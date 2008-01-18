@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.4.1
+ * @version 1.4.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -175,7 +175,6 @@ class tcms_datacontainer_provider extends tcms_main {
 				$wsSOF   = $xml->readSection('news', 'show_on_frontpage');
 				
 				$xml->flush();
-				$xml->_xmlparser();
 				unset($xml);
 				
 				if($wsTitle == false) $wsTitle = '';
@@ -247,7 +246,6 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsSOF   = $sqlObj->show_on_frontpage;
 			
 			$sqlAL->freeResult($sqlQR);
-			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 			
 			if($wsTitle == NULL) $wsTitle = '';
@@ -357,7 +355,6 @@ class tcms_datacontainer_provider extends tcms_main {
 									$arr_news['sof'][$count]   = $is_sof;
 									
 									$xml->flush();
-									$xml->_xmlparser();
 									
 									if($arr_news['title'][$count] == false) $arr_news['title'][$count] = '';
 									if($arr_news['autor'][$count] == false) $arr_news['autor'][$count] = '';
@@ -385,7 +382,6 @@ class tcms_datacontainer_provider extends tcms_main {
 					}
 					
 					$xml->flush();
-					$xml->_xmlparser();
 					unset($xml);
 				}
 			}
@@ -607,7 +603,6 @@ class tcms_datacontainer_provider extends tcms_main {
 			}
 			
 			$sqlAL->freeResult($sqlQR);
-			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 		}
 		
@@ -632,7 +627,6 @@ class tcms_datacontainer_provider extends tcms_main {
 			$ret = $this->decodeText($xml->readSection('news', 'title'), '2', $c_charset);
 			
 			$xml->flush();
-			$xml->_xmlparser();
 			unset($xml);
 		}
 		else {
@@ -721,7 +715,6 @@ class tcms_datacontainer_provider extends tcms_main {
 					}
 					
 					$xml->flush();
-					$xml->_xmlparser();
 					unset($xml);
 				}
 			}
@@ -901,7 +894,6 @@ class tcms_datacontainer_provider extends tcms_main {
 					}
 					
 					$xml->flush();
-					$xml->_xmlparser();
 					unset($xml);
 				}
 			}
@@ -1243,7 +1235,6 @@ class tcms_datacontainer_provider extends tcms_main {
 										$arr_news['id'][$count]     = $nvalue;
 										
 										$xml->flush();
-										$xml->_xmlparser();
 										unset($xml);
 										
 										if($arr_news['name'][$count]   == false) $arr_news['name'][$count]   = '';
@@ -1281,7 +1272,6 @@ class tcms_datacontainer_provider extends tcms_main {
 							$arr_news['id'][$count]     = $newsID;
 							
 							$xml->flush();
-							$xml->_xmlparser();
 							unset($xml);
 							
 							if($arr_news['name'][$count]   == false) $arr_news['name'][$count]   = '';
@@ -1450,7 +1440,6 @@ class tcms_datacontainer_provider extends tcms_main {
 			}
 			
 			$sqlAL->freeResult($sqlQR);
-			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 		}
 		
@@ -1530,7 +1519,6 @@ class tcms_datacontainer_provider extends tcms_main {
 			}
 			
 			$xml->flush();
-			$xml->_xmlparser();
 			unset($xml);
 			
 			if($wsTitle      == false) $wsTitle      = '';
@@ -1610,7 +1598,6 @@ class tcms_datacontainer_provider extends tcms_main {
 			}
 			
 			$sqlAL->freeResult($sqlQR);
-			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 			
 			if($wsTitle      == NULL) $wsTitle      = '';
@@ -1737,7 +1724,6 @@ class tcms_datacontainer_provider extends tcms_main {
 						$content_published = $xml->readSection('main', 'published');
 						
 						$xml->flush();
-						$xml->_xmlparser();
 						unset($xml);
 					}
 					else if(file_exists($this->m_path.'/tcms_content_languages/'.$id.'.xml')) {
@@ -1747,7 +1733,6 @@ class tcms_datacontainer_provider extends tcms_main {
 						$content_published = $xml->readSection('main', 'published');
 						
 						$xml->flush();
-						$xml->_xmlparser();
 						unset($xml);
 					}
 				}
@@ -1838,7 +1823,6 @@ class tcms_datacontainer_provider extends tcms_main {
 			
 			// finish
 			$sqlAL->freeResult($sqlQR);
-			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 		}
 		
@@ -1876,7 +1860,6 @@ class tcms_datacontainer_provider extends tcms_main {
 					}
 					
 					$xml->flush();
-					$xml->_xmlparser();
 					unset($xml);
 				}
 			}
@@ -2092,7 +2075,6 @@ class tcms_datacontainer_provider extends tcms_main {
 				$xml = new xmlparser($this->m_path.'/tcms_global/var.xml','r');
 				$language = $xml->readValue('front_lang');
 				$xml->flush();
-				$xml->_xmlparser();
 				unset($xml);
 				
 				$xml = new xmlparser(
@@ -2110,7 +2092,6 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsText    = $xml->readSection('imp', 'legal');
 			
 			$xml->flush();
-			$xml->_xmlparser();
 			unset($xml);
 			
 			if($wsTitle   == false) $wsTitle   = '';
@@ -2147,7 +2128,6 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsUstID   = $sqlObj->ustid;
 			
 			$sqlAL->freeResult($sqlQR);
-			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 			
 			if($wsID      == NULL) $wsID      = '';
@@ -2198,7 +2178,6 @@ class tcms_datacontainer_provider extends tcms_main {
 				$xml = new xmlparser($this->m_path.'/tcms_global/var.xml','r');
 				$language = $xml->readValue('front_lang');
 				$xml->flush();
-				$xml->_xmlparser();
 				unset($xml);
 				
 				$xml = new xmlparser(
@@ -2222,7 +2201,6 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsSBNewsDisplay = $xml->readSection('front', 'sb_news_display');
 			
 			$xml->flush();
-			$xml->_xmlparser();
 			unset($xml);
 			
 			if($wsTitle   == false) $wsTitle   = '';
@@ -2261,7 +2239,6 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsSBNewsDisplay = $sqlObj->sb_news_display;
 			
 			$sqlAL->freeResult($sqlQR);
-			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 			
 			if($wsID            == NULL) $wsID            = '';
@@ -2324,7 +2301,6 @@ class tcms_datacontainer_provider extends tcms_main {
 				$xml = new xmlparser($this->m_path.'/tcms_global/var.xml','r');
 				$language = $xml->readValue('front_lang');
 				$xml->flush();
-				$xml->_xmlparser();
 				unset($xml);
 				
 				$xml = new xmlparser(
@@ -2376,7 +2352,6 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsSynCFeedAmount  = $xml->readSection('config', 'comments_feed_amount');
 			
 			$xml->flush();
-			$xml->_xmlparser();
 			unset($xml);
 			
 			if($wsTitle   == false) $wsTitle   = '';
@@ -2448,7 +2423,6 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsSynCFeedAmount  = $sqlObj->comments_feed_amount;
 			
 			$sqlAL->freeResult($sqlQR);
-			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 			
 			if($wsID            == NULL) $wsID            = '';
@@ -2534,7 +2508,6 @@ class tcms_datacontainer_provider extends tcms_main {
 				$xml = new xmlparser($this->m_path.'/tcms_global/var.xml','r');
 				$language = $xml->readValue('front_lang');
 				$xml->flush();
-				$xml->_xmlparser();
 				unset($xml);
 				
 				$xml = new xmlparser(
@@ -2556,7 +2529,6 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsSC      = $xml->readSection('email', 'show_contactemail');
 			
 			$xml->flush();
-			$xml->_xmlparser();
 			unset($xml);
 			
 			if($wsID      == false) $wsID      = '';
@@ -2601,7 +2573,6 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsSC      = $sqlObj->show_contactemail;
 			
 			$sqlAL->freeResult($sqlQR);
-			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 			
 			if($wsID      == NULL) $wsID      = '';
@@ -2658,7 +2629,6 @@ class tcms_datacontainer_provider extends tcms_main {
 				$xml = new xmlparser($this->m_path.'/tcms_global/var.xml','r');
 				$language = $xml->readValue('front_lang');
 				$xml->flush();
-				$xml->_xmlparser();
 				unset($xml);
 				
 				$xml = new xmlparser(
@@ -2680,7 +2650,6 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsMLP      = $xml->readSection('config', 'max_latest_products');
 			
 			$xml->flush();
-			$xml->_xmlparser();
 			unset($xml);
 			
 			if($wsID       == false) $wsID       = '';
@@ -2727,7 +2696,6 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsMLP      = $sqlObj->max_latest_products;
 			
 			$sqlAL->freeResult($sqlQR);
-			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 			
 			if($wsID       == NULL) $wsID       = '';
@@ -2795,7 +2763,6 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsOptionAm = $xml->readSection('config', 'list_option_amount');
 			
 			$xml->flush();
-			$xml->_xmlparser();
 			unset($xml);
 			
 			if($wsID       == false) $wsID       = '';
@@ -2842,7 +2809,6 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsOptionAm = $sqlObj->list_option_amount;
 			
 			$sqlAL->freeResult($sqlQR);
-			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 			
 			if($wsID       == NULL) $wsID       = '';
@@ -2908,7 +2874,6 @@ class tcms_datacontainer_provider extends tcms_main {
 		$arrASM['use_poll']           = $xmlActive->readSection('config', 'poll');
 		
 		$xmlActive->flush();
-		$xmlActive->_xmlparser();
 		unset($xmlActive);
 		
 		if($arrASM['use_side_gallery']   == false) $arrASM['use_side_gallery']   = '';
@@ -2957,7 +2922,6 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsChooserTitle  = $xml->readSection('side', 'chooser_title');
 			
 			$xml->flush();
-			$xml->_xmlparser();
 			unset($xml);
 			
 			if($wsLang          == false) $wsLang          = '';
@@ -2984,7 +2948,6 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsChooserTitle  = $sqlObj->chooser_title;
 			
 			$sqlAL->freeResult($sqlQR);
-			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 			
 			if($wsLang          == NULL) $wsLang          = '';

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to authenticate a login user.
  *
- * @version 0.3.5
+ * @version 0.3.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -207,7 +207,7 @@ class tcms_authentication extends tcms_main {
 			
 			$sqlQR = $sqlAL->createOne($this->db_prefix.'session', $newSQLColumns, $newSQLData, $session_id);
 			
-			$sqlAL->_sqlAbstractionLayer();
+			unset($sqlAL);
 			
 			$ws_return = $session_id;
 		}
@@ -267,8 +267,6 @@ class tcms_authentication extends tcms_main {
 			
 			$sqlQR = $sqlAL->getOne($this->db_prefix.'session', $session);
 			$session_exists = $sqlAL->getNumber($sqlQR);
-			
-			$sqlAL->_sqlAbstractionLayer();
 			
 			unset($sqlAL);
 			
@@ -343,7 +341,6 @@ class tcms_authentication extends tcms_main {
 				}
 			}
 			
-			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 		}
 	}
@@ -386,7 +383,6 @@ class tcms_authentication extends tcms_main {
 							}
 							
 							$xmlUser->flush();
-							$xmlUser->_xmlparser();
 							unset($xmlUser);
 						}
 					}
@@ -407,7 +403,6 @@ class tcms_authentication extends tcms_main {
 			
 			$sqlQR = $sqlAL->updateOne($this->db_prefix.'user', $newSQLData, $tcmsUserID);
 			
-			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 		}
 		
@@ -435,7 +430,6 @@ class tcms_authentication extends tcms_main {
 		}
 		
 		$xml->flush();
-		$xml->_xmlparser();
 		unset($xml);
 	}
 	
@@ -474,7 +468,6 @@ class tcms_authentication extends tcms_main {
 								$ws_group = $xml->readSection('user', 'group');
 								
 								$xml->flush();
-								$xml->_xmlparser();
 								unset($xml);
 								
 								if($ws_group == 'Administrator' || 
@@ -608,7 +601,6 @@ class tcms_authentication extends tcms_main {
 			
 			$sqlAL->deleteOne($this->db_prefix.'session', $session);
 			
-			$sqlAL->_sqlAbstractionLayer();
 			unset($sqlAL);
 		}
 		
@@ -658,7 +650,6 @@ class tcms_authentication extends tcms_main {
 								$this->sendRetrievementMail($value, $ws_username, $ws_email, $new_password);
 								
 								$xml->flush();
-								$xml->_xmlparser();
 								unset($xml);
 								
 								return true;
