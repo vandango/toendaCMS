@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to authenticate a login user.
  *
- * @version 0.3.7
+ * @version 0.4.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -354,7 +354,11 @@ class tcms_authentication extends tcms_main {
 	 */
 	public function updateLoginTime($tcmsUserID) {
 		if($this->db_choosenDB == 'xml') {
-			$arrUserXML = $this->getPathContent($this->m_administer.'/tcms_user');
+			include_once($this->m_administer.'/../engine/tcms_kernel/tcms_file.lib.php');
+			
+			$tcms_file = new tcms_file();
+			
+			$arrUserXML = $tcms_file->getPathContent($this->m_administer.'/tcms_user');
 			
 			if($this->isArray($arrUserXML)) {
 				foreach($arrUserXML as $key => $XMLUserFile) {
@@ -445,7 +449,11 @@ class tcms_authentication extends tcms_main {
 	 */
 	public function doLogin($username, $password, $backend = false) {
 		if($this->db_choosenDB == 'xml') {
-			$arr_files = $this->getPathContent($this->m_administer.'/tcms_user/');
+			include_once($this->m_administer.'/../engine/tcms_kernel/tcms_file.lib.php');
+			
+			$tcms_file = new tcms_file();
+			
+			$arr_files = $tcms_file->getPathContent($this->m_administer.'/tcms_user/');
 			
 			if($this->isReal($arr_files)) {
 				foreach($arr_files as $key => $value) {
@@ -619,7 +627,11 @@ class tcms_authentication extends tcms_main {
 	 */
 	public function doRetrieve($username, $email) {
 		if($this->db_choosenDB == 'xml') {
-			$arr_files = $this->getPathContent($this->m_administer.'/tcms_user/');
+			include_once($this->m_administer.'/../engine/tcms_kernel/tcms_file.lib.php');
+			
+			$tcms_file = new tcms_file();
+			
+			$arr_files = $tcms_file->getPathContent($this->m_administer.'/tcms_user/');
 			
 			if($this->isReal($arr_files)) {
 				foreach($arr_files as $key => $value) {

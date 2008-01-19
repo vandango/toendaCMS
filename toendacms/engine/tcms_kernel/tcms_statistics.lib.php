@@ -23,26 +23,45 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to write all the website statistics.
  *
- * @version 0.3.2
+ * @version 0.3.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
- */
-
-
-/**
+ * 
+ * <code>
+ * 
  * Methods
  *
+ * --------------------------------------------------------
+ * CONSTRUCTOR AND DESTRUCTOR
+ * --------------------------------------------------------
+ * 
  * __construct                 -> Constructor
  * __destruct                  -> Destructor
  * 
+ * --------------------------------------------------------
+ * PROPERTIES
+ * --------------------------------------------------------
+ * 
  * setTcmsTimeObj              -> Set the tcms_time object
- *
+ * 
+ * --------------------------------------------------------
+ * PRIVATE MEMBERS
+ * --------------------------------------------------------
+ * 
+ * _getPathContent                           -> Get the content of a path
+ * 
+ * --------------------------------------------------------
+ * PUBLIC MEMBERS
+ * --------------------------------------------------------
+ * 
  * countSiteURL                -> Count a click and remove the template string from the url
  * countBrowserInfo            -> Saves the browser information data
  * getBrowser                  -> Returns the Browser Software
  * getOS                       -> Returns the Operating System
- *
+ * 
+ * </code>
+ * 
  */
 
 
@@ -61,6 +80,12 @@ class tcms_statistics extends tcms_main {
 	private $_sqlDB;
 	private $_sqlPort;
 	private $_db_prefix;
+	
+	
+	
+	// -------------------------------------------------
+	// CONSTRUCTORS
+	// -------------------------------------------------
 	
 	
 	
@@ -110,6 +135,12 @@ class tcms_statistics extends tcms_main {
 	
 	
 	
+	// -------------------------------------------------
+	// PROPERTIES
+	// -------------------------------------------------
+	
+	
+	
 	/**
 	 * Set the tcms_time object
 	 *
@@ -118,6 +149,33 @@ class tcms_statistics extends tcms_main {
 	public function setTcmsTimeObj($value) {
 		$this->_tcmsTime = $value;
 	}
+	
+	
+	
+	// -------------------------------------------------
+	// PRIVATE MEMBERS
+	// -------------------------------------------------
+	
+	
+	
+	/**
+	 * Get the content of a path
+	 *
+	 * @param Array $value
+	 */
+	private function _getPathContent($path) {
+		include_once('tcms_file.lib.php');
+		
+		$tcms_file = new tcms_file();
+		
+		return $tcms_file->getPathContent($path);
+	}
+	
+	
+	
+	// -------------------------------------------------
+	// PUBLIC MEMBERS
+	// -------------------------------------------------
 	
 	
 	
@@ -168,7 +226,7 @@ class tcms_statistics extends tcms_main {
 			search for value
 		*/
 		if($this->_choosenDB == 'xml'){
-			$arr_statfiles = $this->getPathContent($this->_tcmsPath.'/tcms_statistics/');
+			$arr_statfiles = $this->_getPathContent($this->_tcmsPath.'/tcms_statistics/');
 			
 			if(!empty($arr_statfiles) && $arr_statfiles != '' && isset($arr_statfiles)){
 				foreach($arr_statfiles as $key => $value){
@@ -486,7 +544,7 @@ class tcms_statistics extends tcms_main {
 			software counter
 		*/
 		if($this->_choosenDB == 'xml'){
-			$arr_statfiles = $this->getPathContent(''.$this->_tcmsPath.'/tcms_statistics_os/');
+			$arr_statfiles = $this->_getPathContent(''.$this->_tcmsPath.'/tcms_statistics_os/');
 			
 			if(!empty($arr_statfiles) && $arr_statfiles != '' && isset($arr_statfiles)){
 				foreach($arr_statfiles as $key => $value){
