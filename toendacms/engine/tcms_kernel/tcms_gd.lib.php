@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for all graphic actions.
  *
- * @version 0.3.4
+ * @version 0.3.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -298,7 +298,7 @@ class tcms_gd {
 		
 		if(file_exists($path.'captcha.txt')){
 			if(filesize($path.'captcha.txt') > $cacheCleanSize){
-				$tcms_main->deleteDirContent($path);
+				$tcms_file->deleteDirContent($path);
 				
 				//mkdir($path, 0777);
 				

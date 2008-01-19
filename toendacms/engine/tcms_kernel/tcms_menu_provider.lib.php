@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a provider for sidemenu datacontainer
  * objects.
  *
- * @version 0.2.7
+ * @version 0.2.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -907,7 +907,7 @@ class tcms_menu_provider extends tcms_main {
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id='.$value.'&amp;s='.$s
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
-						$link = $this->urlAmpReplace($link);
+						$link = $this->urlConvertToSEO($link);
 						
 						$arr_pathT[$value] = '<a class="pathway" href="'.$link.'">'.$arr_link['name'][$key].'</a>';
 						$titlewayT[$value] = $arr_link['name'][$key];

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the guestbook entrys.
  *
- * @version 0.2.0
+ * @version 0.2.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -382,15 +382,15 @@ if($id_group == 'Developer'
 		if($new_guest_time == '' || !isset($new_guest_time)){ $new_guest_time = date('H:i'); }
 		
 		
-		$new_guest_text = $tcms_main->nl2br($new_guest_text);
+		$new_guest_text = $tcms_main->convertNewlineToHTML($new_guest_text);
 		
 		
 		$new_guest_date = substr($new_guest_date, 6, 4).substr($new_guest_date, 3, 2).substr($new_guest_date, 0, 2);
 		
 		
-		$new_guest_name = $tcms_main->decode_text($new_guest_name, '2', $c_charset);
-		$new_guest_mail = $tcms_main->decode_text($new_guest_mail, '2', $c_charset);
-		$new_guest_text = $tcms_main->decode_text($new_guest_text, '2', $c_charset);
+		$new_guest_name = $tcms_main->encodeText($new_guest_name, '2', $c_charset);
+		$new_guest_mail = $tcms_main->encodeText($new_guest_mail, '2', $c_charset);
+		$new_guest_text = $tcms_main->encodeText($new_guest_text, '2', $c_charset);
 		
 		
 		if($choosenDB == 'xml'){
@@ -482,7 +482,7 @@ if($id_group == 'Developer'
 	
 	if($todo == 'deleteall'){
 		if($choosenDB == 'xml') {
-			$tcms_main->deleteDirContent(_TCMS_PATH.'/tcms_guestbook/');
+			$tcms_file->deleteDirContent(_TCMS_PATH.'/tcms_guestbook/');
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB);

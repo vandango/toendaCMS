@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the register functions.
  *
- * @version 0.6.4
+ * @version 0.6.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -589,8 +589,8 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 						if($choosenDB == 'xml'){
 							while(($validate_md5 = md5(microtime())) && file_exists(_TCMS_PATH.'/tcms_user/'.$validate_md5.'.xml')){}
 							
-							$fullname = $tcms_main->decode_text($fullname, '2', $c_charset);
-							$fulluser2 = $tcms_main->decode_text($fulluser, '2', $c_charset);
+							$fullname = $tcms_main->encodeText($fullname, '2', $c_charset);
+							$fulluser2 = $tcms_main->encodeText($fulluser, '2', $c_charset);
 							
 							$xmluser = new xmlparser('cache/'.$validate_md5.'.xml', 'w');
 							$xmluser->xml_declaration();
@@ -623,8 +623,8 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 						else{
 							$validate_md5 = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'user', 32);
 							
-							$fullname = $tcms_main->decode_text($fullname, '2', $c_charset);
-							$fulluser2 = $tcms_main->decode_text($fulluser, '2', $c_charset);
+							$fullname = $tcms_main->encodeText($fullname, '2', $c_charset);
+							$fulluser2 = $tcms_main->encodeText($fulluser, '2', $c_charset);
 							
 							$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 							$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);

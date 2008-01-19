@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a statistics provider.
  *
- * @version 0.3.0
+ * @version 0.3.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -59,7 +59,7 @@ if($id_group == 'Developer'
 	if($choosenDB == 'xml'){
 		echo '<strong>'._DB_XML.'</strong>: XML database is online<br />';
 		echo '<strong>'._DB_XML.' '._GALLERY_IMGSIZE.'</strong>: '
-		.$tcms_main->getDirectorySizeString(_TCMS_PATH).'<br /><br />';
+		.$tcms_file->getDirectorySizeString(_TCMS_PATH).'<br /><br />';
 	}
 	else{
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
@@ -88,7 +88,7 @@ if($id_group == 'Developer'
 		
 		
 		echo '<strong>'._DB_XML.' '._GALLERY_IMGSIZE.'</strong>: '
-		.$tcms_main->getDirectorySizeString(_TCMS_PATH).'<br /><br />';
+		.$tcms_file->getDirectorySizeString(_TCMS_PATH).'<br /><br />';
 	}
 	
 	
@@ -102,7 +102,7 @@ if($id_group == 'Developer'
 		if($choosenDB == 'xml'){
 			//echo '<strong>'._DB_XML.'</strong>: XML database is online<br />';
 			//echo '<strong>'._DB_XML.' '._GALLERY_IMGSIZE.'</strong>: '
-			//.$tcms_main->getDirectorySizeString(_TCMS_PATH).'<br /><br />';
+			//.$tcms_file->getDirectorySizeString(_TCMS_PATH).'<br /><br />';
 			
 			$statsum = 0;
 			
@@ -293,7 +293,7 @@ if($id_group == 'Developer'
 			
 			if($reset == 1){
 				// delete hit stats
-				$tcms_main->rmdirr(_TCMS_PATH.'/tcms_statistics/');
+				$tcms_file->deleteDir(_TCMS_PATH.'/tcms_statistics/');
 				mkdir(_TCMS_PATH.'/tcms_statistics/', 0777);
 				chmod(_TCMS_PATH.'/tcms_statistics/', 0777);
 				$hitStats = 0;
@@ -301,7 +301,7 @@ if($id_group == 'Developer'
 				
 				
 				// delete ip stats
-				$tcms_main->rmdirr(_TCMS_PATH.'/tcms_statistics_ip/');
+				$tcms_file->deleteDir(_TCMS_PATH.'/tcms_statistics_ip/');
 				mkdir(_TCMS_PATH.'/tcms_statistics_ip/', 0777);
 				chmod(_TCMS_PATH.'/tcms_statistics_ip/', 0777);
 				$ipStats = 0;
@@ -309,7 +309,7 @@ if($id_group == 'Developer'
 				
 				
 				// delete software stats
-				$tcms_main->rmdirr(_TCMS_PATH.'/tcms_statistics_os/');
+				$tcms_file->deleteDir(_TCMS_PATH.'/tcms_statistics_os/');
 				mkdir(_TCMS_PATH.'/tcms_statistics_os/', 0777);
 				chmod(_TCMS_PATH.'/tcms_statistics_os/', 0777);
 				$osStats = 0;

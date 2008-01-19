@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for a wizard to create a new page.
  *
- * @version 0.3.0
+ * @version 0.3.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -295,7 +295,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		$maintag = $tcms_main->getNewUID(5, 'sidemenu');
 		
 		
-		$np_title = $tcms_main->decode_text($np_title, '2', $c_charset);
+		$np_title = $tcms_main->encodeText($np_title, '2', $c_charset);
 		
 		if(empty($new_published) || !isset($new_published)){ $new_published = 0; }
 		

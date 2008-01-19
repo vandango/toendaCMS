@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a guestbook.
  *
- * @version 0.4.7
+ * @version 0.5.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -353,7 +353,7 @@ if($book_enabled == 1){
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id=guestbook&amp;s='.$s.'&amp;page=1'
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
 				echo '<a href="'.$link.'" style="font-size: 14px;"><u>&laquo;</u></a>'
 				.'&nbsp;&nbsp;';
@@ -362,7 +362,7 @@ if($book_enabled == 1){
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id=guestbook&amp;s='.$s.'&amp;page='.( $page - 1 )
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
 				echo '<a href="'.$link.'" style="font-size: 14px;"><u>&#8249;</u></a>'
 				.'&nbsp;&nbsp;';
@@ -398,7 +398,7 @@ if($book_enabled == 1){
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id=guestbook&amp;s='.$s.'&amp;page='.$thisPage
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
 				
 				if($thisPage != $page){
@@ -421,7 +421,7 @@ if($book_enabled == 1){
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id=guestbook&amp;s='.$s.'&amp;page='.( $page + 1 )
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
 				echo '<a href="'.$link.'" style="font-size: 14px;"><u>&#8250;</u></a>';
 				
@@ -432,7 +432,7 @@ if($book_enabled == 1){
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id=guestbook&amp;s='.$s.'&amp;page='.$pageAmount
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
 				echo '<a href="'.$link.'" style="font-size: 14px;"><u>&raquo;</u></a>';
 			}
@@ -535,7 +535,7 @@ if($book_enabled == 1){
 			if(!$save_entry){
 				$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id=guestbook&s='.$s
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
 				$error_msg = $captcha_msg;
 				$save_now = false;
@@ -545,7 +545,7 @@ if($book_enabled == 1){
 		if($guest_name == '' && $save_now){
 			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id=guestbook&s='.$s
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			$error_msg = _MSG_NONAME;
 			$save_now = false;
@@ -554,7 +554,7 @@ if($book_enabled == 1){
 		if($guest_msg == '' && $save_now){
 			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id=guestbook&s='.$s
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			$error_msg = _MSG_NOMSG;
 			$save_now = false;
@@ -584,13 +584,13 @@ if($book_enabled == 1){
 			
 			$guest_msg  = ereg_replace ('<', '&lt;', $guest_msg);
 			$guest_msg  = ereg_replace ('>', '&gt;', $guest_msg);
-			$guest_msg  = $tcms_main->nl2br($guest_msg);
+			$guest_msg  = $tcms_main->convertNewlineToHTML($guest_msg);
 			
 			
 			// CHARSETS
-			$guest_name = $tcms_main->decode_text($guest_name, '2', $c_charset);
-			$guest_mail = $tcms_main->decode_text($guest_mail, '2', $c_charset);
-			$guest_msg  = $tcms_main->decode_text($guest_msg, '2', $c_charset);
+			$guest_name = $tcms_main->encodeText($guest_name, '2', $c_charset);
+			$guest_mail = $tcms_main->encodeText($guest_mail, '2', $c_charset);
+			$guest_msg  = $tcms_main->encodeText($guest_msg, '2', $c_charset);
 			
 			
 			$guest_date = date('Ymd');
@@ -645,7 +645,7 @@ if($book_enabled == 1){
 			
 			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id=guestbook&s='.$s
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			if($seoEnabled == 1) $link = $tcms_main->urlAmpReplace($link);
+			if($seoEnabled == 1) $link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<script>'
 			.'alert(\''._MSG_SAVED.'\');'

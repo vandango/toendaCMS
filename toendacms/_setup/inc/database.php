@@ -753,8 +753,8 @@ $tcms_db_port     = \''.$set_port.'\';
 		else {
 			$file = 'db/'.$new_engine.'_empty.sql';
 			
-			//$tcms_main->rmdirr('../'.$tcms_administer_site.'/images/albums/625106/');
-			//$tcms_main->rmdirr('../'.$tcms_administer_site.'/thumbnails/625106/');
+			//$tcms_file->deleteDir('../'.$tcms_administer_site.'/images/albums/625106/');
+			//$tcms_file->deleteDir('../'.$tcms_administer_site.'/thumbnails/625106/');
 		}
 		
 		$fp = fopen($file, 'r');

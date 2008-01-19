@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a documents manager.
  *
- * @version 1.2.0
+ * @version 1.2.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -942,7 +942,7 @@ if($id_group == 'Developer'
 			$content = str_replace('../../../../', '', $content);
 		}
 		else {
-			$content = $tcms_main->nl2br($content);
+			$content = $tcms_main->convertNewlineToHTML($content);
 		}
 		
 		
@@ -1088,7 +1088,7 @@ if($id_group == 'Developer'
 			$content = str_replace('../../../../', '', $content);
 		}
 		else{
-			$content = $tcms_main->nl2br($content);
+			$content = $tcms_main->convertNewlineToHTML($content);
 		}
 		
 		if($seoEnabled == 0 && $show_wysiwyg == 'tinymce'){
@@ -1096,11 +1096,11 @@ if($id_group == 'Developer'
 		}
 		
 		// CHARSETS
-		$titel      = $tcms_main->decode_text($titel, '2', $c_charset);
-		$key        = $tcms_main->decode_text($key, '2', $c_charset);
-		$content    = $tcms_main->decode_text($content, '2', $c_charset);
-		$content01  = $tcms_main->decode_text($content01, '2', $c_charset);
-		$foot       = $tcms_main->decode_text($foot, '2', $c_charset);
+		$titel      = $tcms_main->encodeText($titel, '2', $c_charset);
+		$key        = $tcms_main->encodeText($key, '2', $c_charset);
+		$content    = $tcms_main->encodeText($content, '2', $c_charset);
+		$content01  = $tcms_main->encodeText($content01, '2', $c_charset);
+		$foot       = $tcms_main->encodeText($foot, '2', $c_charset);
 		
 		
 		if($new_published == '' || empty($new_published) || !isset($new_published)){ $new_published = 0; }

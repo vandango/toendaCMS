@@ -387,7 +387,7 @@ if($todo == 'global') {
 */
 
 if($todo == 'save'){
-	if(!$tcms_main->checkDirExist('../data/tcms_global')) {
+	if(!$tcms_file->checkDirExist('../data/tcms_global')) {
 		chmod('../data/tcms_global/', 0777);
 	}
 	
@@ -556,9 +556,9 @@ if($todo == 'save'){
 		updateLanguageForXML($tcms_administer_site);
 	}
 	
-	if($tcms_main->checkFileExist('../data/tcms_global/namen.xml') 
-	&& $tcms_main->checkFileExist('../data/tcms_global/footer.xml') 
-	&& $tcms_main->checkFileExist('../data/tcms_global/var.xml')) {
+	if($tcms_file->checkFileExist('../data/tcms_global/namen.xml') 
+	&& $tcms_file->checkFileExist('../data/tcms_global/footer.xml') 
+	&& $tcms_file->checkFileExist('../data/tcms_global/var.xml')) {
 		echo '<script>'
 		.'document.location.href=\'index.php?site=user&lang='.$lang.'&db='.$db.'\';'
 		.'</script>';

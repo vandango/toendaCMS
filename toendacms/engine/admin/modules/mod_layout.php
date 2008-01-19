@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the template manager.
  *
- * @version 0.4.0
+ * @version 0.4.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -273,13 +273,13 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 					while($entry = readdir($dir)){
 						if($entry != '.' && $entry != '..' && $entry != 'index.php' && $entry != 'index.xml' && $entry != 'thumbnail.jpg'){
 							$sec_path = $entry;
-							$tcms_main->rmdirr('../../theme/'.$path.'/'.$sec_path.'/');
+							$tcms_file->deleteDir('../../theme/'.$path.'/'.$sec_path.'/');
 						}
 					}
 					closedir($dir);
 					
 					// remove theme folder
-					$tcms_main->rmdirr('../../theme/'.$path.'/');
+					$tcms_file->deleteDir('../../theme/'.$path.'/');
 					
 					echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_layout\';</script>';
 					break;
@@ -289,13 +289,13 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 					while($entry = readdir($dir)){
 						if($entry != '.' && $entry != '..' && $entry != 'index.php' && $entry != 'index.xml' && $entry != 'thumbnail.jpg'){
 							$sec_path = $entry;
-							$tcms_main->rmdirr('theme/'.$path.'/'.$sec_path.'/');
+							$tcms_file->deleteDir('theme/'.$path.'/'.$sec_path.'/');
 						}
 					}
 					closedir($dir);
 					
 					// remove theme folder
-					$tcms_main->rmdirr('theme/'.$path.'/');
+					$tcms_file->deleteDir('theme/'.$path.'/');
 					
 					echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_layout\';</script>';
 					break;
@@ -307,7 +307,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	else {
 		echo '<strong>'
 		._TABLE_FILE
-		.': ../../'.$tcms_administer_site.'/tcms_global/layout.xml '
+		.': '._TCMS_PATH.'/tcms_global/layout.xml '
 		._MSG_NOTWRITABLE
 		.'</strong>';
 	}

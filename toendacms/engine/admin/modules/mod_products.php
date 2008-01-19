@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used for the products configuration
  * and the administration of all the products.
  *
- * @version 0.8.0
+ * @version 0.8.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -1660,7 +1660,7 @@ if($todo == 'save_config') {
 		$content = str_replace('../../../../', '', $content);
 	}
 	else{
-		$content = $tcms_main->nl2br($content);
+		$content = $tcms_main->convertNewlineToHTML($content);
 	}
 	
 	if($seoEnabled == 0 && $show_wysiwyg == 'tinymce'){
@@ -2079,7 +2079,7 @@ if($todo == 'save') {
 		$content = str_replace('../../../../', '', $content);
 	}
 	else{
-		$content = $tcms_main->nl2br($content);
+		$content = $tcms_main->convertNewlineToHTML($content);
 	}
 	
 	$new_name = $tcms_main->encodeText($new_name, '2', $c_charset);
@@ -2376,13 +2376,13 @@ if($todo == 'enableMainpage') {
 if($todo == 'delete'){
 	if($choosenDB == 'xml') {
 		if($type == 'c') {
-			/*$tcms_main->deleteDir(
+			/*$tcms_file->deleteDir(
 				_TCMS_PATH.'/tcms_products/'.$maintag.'/'
 			);*/
 			$tcms_file->deleteFile(_TCMS_PATH.'/tcms_products/'.$maintag);
 		}
 		else {
-			/*$tcms_main->deleteDir(
+			/*$tcms_file->deleteDir(
 				_TCMS_PATH.'/tcms_products/'.$maintag.'/'
 			);*/
 			/*

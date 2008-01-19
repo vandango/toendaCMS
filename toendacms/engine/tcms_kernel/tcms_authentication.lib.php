@@ -23,20 +23,38 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to authenticate a login user.
  *
- * @version 0.4.0
+ * @version 0.4.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
  *
  * <code>
- *
+ * 
  * Methods
- *
+ * 
+ * --------------------------------------------------------
+ * CONSTRUCTOR AND DESTRUCTOR
+ * --------------------------------------------------------
+ * 
  * __construct                       -> Constructor
  * __destruct                        -> Destructor
  * 
+ * --------------------------------------------------------
+ * PROPERTIES
+ * --------------------------------------------------------
+ * 
  * setTcmsTimeObj                    -> Set the tcms_time object
+ * 
+ * --------------------------------------------------------
+ * PRIVATE MEMBERS
+ * --------------------------------------------------------
+ * 
+ * _checkFileExist                   -> Checks if a file exist
  *
+ * --------------------------------------------------------
+ * PUBLIC MEMBERS
+ * --------------------------------------------------------
+ * 
  * createSession                     -> Create a session
  * checkSessionExist                 -> Check if a session exist
  * cleanupOutdatedSessions           -> Cleanup the outdated sessions
@@ -65,6 +83,12 @@ class tcms_authentication extends tcms_main {
 	private $db_database;
 	private $db_port;
 	private $db_prefix;
+	
+	
+	
+	// -------------------------------------------------
+	// CONSTRUCTORS
+	// -------------------------------------------------
 	
 	
 	
@@ -99,10 +123,16 @@ class tcms_authentication extends tcms_main {
 	
 	
 	/**
-	 *HP5 Destructor
+	 * Destructor
 	 */
 	public function __destruct() {
 	}
+	
+	
+	
+	// -------------------------------------------------
+	// PROPERTIES
+	// -------------------------------------------------
 	
 	
 	
@@ -114,6 +144,34 @@ class tcms_authentication extends tcms_main {
 	public function setTcmsTimeObj($value) {
 		$this->_tcmsTime = $value;
 	}
+	
+	
+	
+	// -------------------------------------------------
+	// PRIVATE MEMBERS
+	// -------------------------------------------------
+	
+	
+	
+	/**
+	 * Checks if a file exist
+	 *
+	 * @param String $filename
+	 * @return Boolean
+	 */
+	private function _checkFileExist($filename) {
+		include_once('tcms_file.lib.php');
+		
+		$tcms_file = new tcms_file();
+		
+		return $tcms_file->checkFileExist($filename);
+	}
+	
+	
+	
+	// -------------------------------------------------
+	// PUBLIC MEMBERS
+	// -------------------------------------------------
 	
 	
 	
@@ -742,7 +800,7 @@ class tcms_authentication extends tcms_main {
 		$save_password = md5($newPassword);
 		
 		if($this->db_choosenDB == 'xml') {
-			if($this->checkFileExist($this->m_administer.'/tcms_user/'.$id)) {
+			if($this->_checkFileExist($this->m_administer.'/tcms_user/'.$id)) {
 				$xml = new xmlparser($this->m_administer.'/tcms_user/'.$id,'r');
 				$ws_password = $xml->readSection('user', 'password');
 				

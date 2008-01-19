@@ -20,7 +20,7 @@
  *
  * This module is used as a image viewer.
  *
- * @version 0.7.6
+ * @version 0.7.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -787,7 +787,7 @@ if($cmd == 'comment_save' && $show_comments == 1){
 		if(!$save_entry){
 			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id=guestbook&s='.$s
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			$error_msg = $captcha_msg;
 			$save_now = false;
@@ -812,9 +812,9 @@ if($cmd == 'comment_save' && $show_comments == 1){
 		if($comment_text == ''){ echo _MSG_NOMSG.'<br />'; $save_comment = false; }   else{ $save_comment = true; }
 		if($comment_web != ''){ if(substr($comment_web, 0, 7) != 'http://'){ $comment_web = 'http://'.$comment_web; } }
 		
-		if($save_comment == true){
+		if($save_comment == true) {
 			// linebreak
-			$comment_text = $tcms_main->nl2br($comment_text);
+			$comment_text = $tcms_main->convertNewlineToHTML($comment_text);
 			
 			
 			$comment_name = strip_tags($comment_name);
@@ -823,7 +823,7 @@ if($cmd == 'comment_save' && $show_comments == 1){
 			
 			
 			// CHARSETS
-			$comment_text = $tcms_main->decode_text($comment_text, '2', $c_charset);
+			$comment_text = $tcms_main->encodeText($comment_text, '2', $c_charset);
 			
 			
 			$comment_ip = getenv('REMOTE_ADDR');

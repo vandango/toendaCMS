@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the publishing form.
  *
- * @version 0.6.7
+ * @version 0.6.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -475,7 +475,7 @@ if($id_group == 'Developer'
 	
 	if($todo == 'save'){
 		if($show_wysiwyg != 'tinymce' && $show_wysiwyg != 'fckeditor'){
-			$legal = $tcms_main->nl2br($legal);
+			$legal = $tcms_main->convertNewlineToHTML($legal);
 		}
 		
 		if($imp_id      == ''){ $imp_id      = ''; }
@@ -496,7 +496,7 @@ if($id_group == 'Developer'
 			$content = str_replace('../../../../', '', $content);
 		}
 		else{
-			$content = $tcms_main->nl2br($content);
+			$content = $tcms_main->convertNewlineToHTML($content);
 		}
 		
 		
@@ -506,11 +506,11 @@ if($id_group == 'Developer'
 		
 		
 		// CHARSETS
-		$imp_title   = $tcms_main->decode_text($imp_title, '2', $c_charset);
-		$imp_stamp   = $tcms_main->decode_text($imp_stamp, '2', $c_charset);
-		$taxno       = $tcms_main->decode_text($taxno, '2', $c_charset);
-		$ustid       = $tcms_main->decode_text($ustid, '2', $c_charset);
-		$content     = $tcms_main->decode_text($content, '2', $c_charset);
+		$imp_title   = $tcms_main->encodeText($imp_title, '2', $c_charset);
+		$imp_stamp   = $tcms_main->encodeText($imp_stamp, '2', $c_charset);
+		$taxno       = $tcms_main->encodeText($taxno, '2', $c_charset);
+		$ustid       = $tcms_main->encodeText($ustid, '2', $c_charset);
+		$content     = $tcms_main->encodeText($content, '2', $c_charset);
 		
 		
 		if($tcms_main->isReal($new_imp_lang)) {

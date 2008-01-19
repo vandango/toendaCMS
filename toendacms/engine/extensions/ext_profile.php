@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a base module fpr user operations.
  *
- * @version 1.0.5
+ * @version 1.0.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -1144,8 +1144,8 @@ if($is_admin == 'Administrator'
 		if($pubDesc == '' || !isset($pubDesc)){ $pubDesc = ''; }
 		
 		// CHARSETS
-		$new_cat = $tcms_main->decode_text($new_cat, '2', $c_charset);
-		$pubDesc = $tcms_main->decode_text($pubDesc, '2', $c_charset);
+		$new_cat = $tcms_main->encodeText($new_cat, '2', $c_charset);
+		$pubDesc = $tcms_main->encodeText($pubDesc, '2', $c_charset);
 		
 		if($choosenDB == 'xml'){
 			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$maintag.'.xml', 'w');

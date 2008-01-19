@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a news manager with a news,
  * a news view and a archive with different formats.
  *
- * @version 1.5.7
+ * @version 1.6.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -150,7 +150,7 @@ if($action == 'start' && !isset($cat)){
 			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 			.'id=newsmanager&amp;s='.$s.'&amp;news='.$dcNews->getID()
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<td valign="top">'
 			.
@@ -174,7 +174,7 @@ if($action == 'start' && !isset($cat)){
 	$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
 	.'id=newsmanager&s='.$s
 	.( isset($lang) ? '&amp;lang='.$lang : '' );
-	$link = $tcms_main->urlAmpReplace($link);
+	$link = $tcms_main->urlConvertToSEO($link);
 	echo '<input class="inputbutton" type="button" onclick="document.location=\''.$link.'\';"'
 	.' value="'._NEWS_ARCHIVE.' ('._NEWS_LAST.' '.$news_amount.')" />';
 	echo '</div>';
@@ -184,7 +184,7 @@ if($action == 'start' && !isset($cat)){
 	$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
 	.'id=newsmanager&s='.$s.'&action=archive'
 	.( isset($lang) ? '&amp;lang='.$lang : '' );
-	$link = $tcms_main->urlAmpReplace($link);
+	$link = $tcms_main->urlConvertToSEO($link);
 	echo '<input class="inputbutton" type="button" onclick="document.location=\''.$link.'\';"'
 	.' value="'._NEWS_ARCHIVE.' ('._NEWS_ORDER_BY_TIME.')" />';
 	echo '</div>';
@@ -193,7 +193,7 @@ if($action == 'start' && !isset($cat)){
 	$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
 	.'id=newsmanager&s='.$s.'&action=archive&cmd=category'
 	.( isset($lang) ? '&amp;lang='.$lang : '' );
-	$link = $tcms_main->urlAmpReplace($link);
+	$link = $tcms_main->urlConvertToSEO($link);
 	echo '<input class="inputbutton" type="button" onclick="document.location=\''.$link.'\';"'
 	.' value="'._NEWS_ARCHIVE.' ('._NEWS_ORDER_BY_CAT.')" />';
 	
@@ -444,7 +444,7 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id=newsmanager&amp;s='.$s.'&amp;cat='.$catVal
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
 				echo '&nbsp;<a href="'.$link.'">'
 				.$catLink['name'][$catKey]
@@ -467,7 +467,7 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id=profile&amp;s='.$s.'&amp;u='.$userID
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
-						$link = $tcms_main->urlAmpReplace($link);
+						$link = $tcms_main->urlConvertToSEO($link);
 						
 						echo '<a href="'.$link.'">'.$dcNews->getAutor().'</a>';
 					}
@@ -526,7 +526,7 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=newsmanager&amp;s='.$s.'&amp;news='.$dcNews->getID().'&amp;cmd=trackback'
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $tcms_main->urlAmpReplace($link);
+					$link = $tcms_main->urlConvertToSEO($link);
 					
 					echo '&nbsp;(&nbsp;<a href="'.$link.'">'._NEWS_TRACKBACK.'</a>&nbsp;)';
 				}
@@ -697,7 +697,7 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 									.'id='.$id.'&amp;s='.$s.'&amp;cmd=delete&amp;XMLplace='.$commentDC->getID()
 									.'&amp;XMLfile='.$commentDC->getTimestamp()
 									.( isset($lang) ? '&amp;lang='.$lang : '' );
-									$link = $tcms_main->urlAmpReplace($link);
+									$link = $tcms_main->urlConvertToSEO($link);
 									
 									echo '<a class="main" href="'.$link.'">'
 									.'<strong>'._TCMS_ADMIN_DELETE.'</strong>'
@@ -849,11 +849,11 @@ if($use_news_comments == 1){
 			
 			
 			// linebreak
-			$comment_text = $tcms_main->nl2br($comment_text);
+			$comment_text = $tcms_main->convertNewlineToHTML($comment_text);
 			
 			
 			// CHARSETS
-			$comment_text = $tcms_main->decode_text($comment_text, '2', $c_charset);
+			$comment_text = $tcms_main->encodeText($comment_text, '2', $c_charset);
 			
 			
 			$comment_ip = getenv('REMOTE_ADDR');
@@ -933,7 +933,7 @@ if($use_news_comments == 1){
 			.'id='.$id.'&s='.$s.'&news='.$news
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			if($seoEnabled == 1)
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<script>'
 			.'document.location=\''.$link.'\';'
@@ -943,7 +943,7 @@ if($use_news_comments == 1){
 			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 			.'id='.$id.'&amp;s='.$s.'&amp;news='.$news
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<a href="'.$link.'">'._TCMS_ADMIN_BACK.'</a>';
 		}
@@ -1314,7 +1314,7 @@ if($action == 'archive'
 			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 			.'id=newsmanager&amp;s='.$s.'&amp;news='.$arr_newsItems['order'][$key]
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<div style="width: 100%;" class="news_title_bg">'
 			//.'<strong class="text_huge">'
@@ -1548,7 +1548,7 @@ if($action == 'archive'
 							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 							.'id=profile&amp;s='.$s.'&amp;u='.$userID
 							.( isset($lang) ? '&amp;lang='.$lang : '' );
-							$link = $tcms_main->urlAmpReplace($link);
+							$link = $tcms_main->urlConvertToSEO($link);
 							
 							echo '<a href="'.$link.'">'.$arr_newsItems['autor'][$key].'</a>';
 						}
@@ -1569,7 +1569,7 @@ if($action == 'archive'
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=newsmanager&amp;s='.$s.'&amp;cat='.$catVal
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $tcms_main->urlAmpReplace($link);
+					$link = $tcms_main->urlConvertToSEO($link);
 					
 					if($catKey != 0){ echo ','; }
 					echo '&nbsp;<a href="'.$link.'">'
@@ -1582,7 +1582,7 @@ if($action == 'archive'
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id=newsmanager&amp;s='.$s.'&amp;news='.$arr_newsItems['order'][$key].'&amp;cmd=trackback'
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
 				echo '&nbsp;|&nbsp;<a href="'.$link.'">'._NEWS_TRACKBACK.'</a>';
 			}
@@ -1592,7 +1592,7 @@ if($action == 'archive'
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=newsmanager&amp;s='.$s.'&amp;news='.$arr_newsItems['order'][$key]
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $tcms_main->urlAmpReplace($link);
+					$link = $tcms_main->urlConvertToSEO($link);
 					
 					echo '&nbsp;|&nbsp;<a href="'.$link.'#comments">'.$nw_amount.' '.( $nw_amount == 1 ? _FRONT_COMMENT : _FRONT_COMMENTS ).'</a>';
 				}
@@ -1711,7 +1711,7 @@ if($action == 'archive'
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id=newsmanager&amp;s='.$s.'&amp;news='.$arr_newsItems['order'][$key]
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
 				switch($readmore_link){
 					case 0: //--> new line - left align
@@ -1821,7 +1821,7 @@ if($action == 'archive'
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id='.$id.'&amp;s='.$s.'&amp;news='.$dcNews->getID()
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
 				echo '<td valign="top">&nbsp;'
 				.( $dcNews->getTitle() == '' 
@@ -2033,7 +2033,7 @@ if($action == 'archive'
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id='.$id.'&amp;s='.$s.'&amp;news='.$arr_newsItems['order'][$key]
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
 				echo '<td valign="top">&nbsp;'
 				.( empty($arr_newsItems['title'][$key]) 
@@ -2057,7 +2057,7 @@ if($action == 'archive'
 	$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
 	.'id=newsmanager&s='.$s
 	.( isset($lang) ? '&amp;lang='.$lang : '' );
-	$link = $tcms_main->urlAmpReplace($link);
+	$link = $tcms_main->urlConvertToSEO($link);
 	echo '<input class="inputbutton" type="button" onclick="document.location=\''.$link.'\';" value="'._NEWS_ARCHIVE.' ('._NEWS_LAST.' '.$news_amount.')" />';
 	echo '</div>';
 	
@@ -2066,7 +2066,7 @@ if($action == 'archive'
 	$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
 	.'id=newsmanager&s='.$s.'&action=archive'
 	.( isset($lang) ? '&amp;lang='.$lang : '' );
-	$link = $tcms_main->urlAmpReplace($link);
+	$link = $tcms_main->urlConvertToSEO($link);
 	echo '<input class="inputbutton" type="button" onclick="document.location=\''.$link.'\';" value="'._NEWS_ARCHIVE.' ('._NEWS_ORDER_BY_TIME.')" />';
 	echo '</div>';
 	
@@ -2074,7 +2074,7 @@ if($action == 'archive'
 	$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
 	.'id=newsmanager&s='.$s.'&action=archive&cmd=category'
 	.( isset($lang) ? '&amp;lang='.$lang : '' );
-	$link = $tcms_main->urlAmpReplace($link);
+	$link = $tcms_main->urlConvertToSEO($link);
 	echo '<input class="inputbutton" type="button" onclick="document.location=\''.$link.'\';" value="'._NEWS_ARCHIVE.' ('._NEWS_ORDER_BY_CAT.')" />';
 }
 
@@ -2111,7 +2111,7 @@ if($check_session){
 			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
 			.'id='.$id.'&s='.$s.'&news='.$XMLplace
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			/*echo '<script>
 			document.location=\''.$link.'\';

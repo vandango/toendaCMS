@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used to manage the comments.
  *
- * @version 0.2.7
+ * @version 0.2.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -93,11 +93,11 @@ if($id_group == 'Developer'
 		
 		if($choosenDB == 'xml') {
 			if($action == 'news') {
-				$arr_filename = $tcms_main->readdir_comment('../../'.$tcms_administer_site.'/tcms_news/');
+				$arr_filename = $tcms_main->readdir_comment(_TCMS_PATH.'/tcms_news/');
 			}
 			else {
-				$arr_filename = $tcms_main->readdir_image_comment('../../'.$tcms_administer_site.'/tcms_imagegallery/', 'image');
-				$arr_album    = $tcms_main->readdir_image_comment('../../'.$tcms_administer_site.'/tcms_imagegallery/', 'album');
+				$arr_filename = $tcms_main->readdir_image_comment(_TCMS_PATH.'/tcms_imagegallery/', 'image');
+				$arr_album    = $tcms_main->readdir_image_comment(_TCMS_PATH.'/tcms_imagegallery/', 'album');
 			}
 			
 			$count = 0;
@@ -107,12 +107,12 @@ if($id_group == 'Developer'
 					if($value != 'index.html') {
 						if($action == 'news') {
 							$arrComments = $tcms_file->getPathContent(
-								'../../'.$tcms_administer_site.'/tcms_news/'.$value.'/'
+								_TCMS_PATH.'/tcms_news/'.$value.'/'
 							);
 						}
 						else {
 							$arrComments = $tcms_file->getPathContent(
-								'../../'.$tcms_administer_site.'/tcms_imagegallery/'.$arr_album[$key].'/'.$value.'/'
+								_TCMS_PATH.'/tcms_imagegallery/'.$arr_album[$key].'/'.$value.'/'
 							);
 						}
 						
@@ -123,7 +123,7 @@ if($id_group == 'Developer'
 										news
 									*/
 									if($action == 'news'){
-										$main_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_news/'.substr($value, 9, 10).'.xml','r');
+										$main_xml = new xmlparser(_TCMS_PATH.'/tcms_news/'.substr($value, 9, 10).'.xml','r');
 										$_title_  = $main_xml->read_section('news', 'title');
 										$main_xml->flush();
 										
@@ -141,13 +141,13 @@ if($id_group == 'Developer'
 									*/
 									if($action == 'news') {
 										$menu_xml = new xmlparser(
-											'../../'.$tcms_administer_site.'/tcms_news/'.$value.'/'.$Cvalue,
+											_TCMS_PATH.'/tcms_news/'.$value.'/'.$Cvalue,
 											'r'
 										);
 									}
 									else {
 										$menu_xml = new xmlparser(
-											'../../'.$tcms_administer_site.'/tcms_imagegallery/'.$arr_album[$key].'/'.$value.'/'.$Cvalue,
+											_TCMS_PATH.'/tcms_imagegallery/'.$arr_album[$key].'/'.$value.'/'.$Cvalue,
 											'r'
 										);
 									}
@@ -425,10 +425,10 @@ if($id_group == 'Developer'
 	if($todo == 'edit'){
 		if($choosenDB == 'xml'){
 			if($action == 'news'){
-				$menu_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_news/comments_'.$val.'/'.$maintag.'.xml', 'r');
+				$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_news/comments_'.$val.'/'.$maintag.'.xml', 'r');
 			}
 			else{
-				$menu_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_imagegallery/'.$album.'/comments_'.$val.'/'.$maintag.'.xml', 'r');
+				$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_imagegallery/'.$album.'/comments_'.$val.'/'.$maintag.'.xml', 'r');
 			}
 			
 			
@@ -580,19 +580,19 @@ if($id_group == 'Developer'
 		if($new_comment_time   == '' || !isset($new_comment_time))  { $new_comment_time   = date('YmdHis'); }
 		
 		
-		$new_comment_desc = $tcms_main->nl2br($new_comment_desc);
+		$new_comment_desc = $tcms_main->convertNewlineToHTML($new_comment_desc);
 		
 		
 		// CHARSETS
-		$new_comment_desc = $tcms_main->decode_text($new_comment_desc, '2', $c_charset);
+		$new_comment_desc = $tcms_main->encodeText($new_comment_desc, '2', $c_charset);
 		
 		
-		if($choosenDB == 'xml'){
-			if($action == 'news'){
-				$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_news/comments_'.$val.'/'.$maintag.'.xml', 'w');
+		if($choosenDB == 'xml') {
+			if($action == 'news') {
+				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_news/comments_'.$val.'/'.$maintag.'.xml', 'w');
 			}
 			else{
-				$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_imagegallery/'.$album.'/comments_'.$val.'/'.$maintag.'.xml', 'w');
+				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_imagegallery/'.$album.'/comments_'.$val.'/'.$maintag.'.xml', 'w');
 			}
 			
 			$xmluser->xml_declaration();
@@ -654,10 +654,10 @@ if($id_group == 'Developer'
 	if($todo == 'delete'){
 		if($choosenDB == 'xml'){
 			if($action == 'news'){
-				unlink('../../'.$tcms_administer_site.'/tcms_news/comments_'.$val.'/'.$maintag.'.xml');
+				unlink(_TCMS_PATH.'/tcms_news/comments_'.$val.'/'.$maintag.'.xml');
 			}
 			elseif($action == 'image'){
-				unlink('../../'.$tcms_administer_site.'/tcms_imagegallery/'.$album.'/comments_'.$val.'/'.$maintag.'.xml');
+				unlink(_TCMS_PATH.'/tcms_imagegallery/'.$album.'/comments_'.$val.'/'.$maintag.'.xml');
 			}
 		}
 		else{

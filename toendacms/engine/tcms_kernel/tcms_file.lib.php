@@ -834,12 +834,14 @@ class tcms_file {
 				&& $obj != '_svn'
 				&& $obj != '_SVN') {
 					if(is_dir($dir.$obj)) {
-						if(!$this->deleteDir($dir.$obj))
+						if(!$this->deleteDir($dir.$obj)) {
 							return false;
+						}
 					}
 					elseif(is_file($dir.$obj)) {
-						if(!unlink($dir.$obj))
+						if(!unlink($dir.$obj)) {
 							return false;
+						}
 					}
 				}
 			}

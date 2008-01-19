@@ -22,7 +22,7 @@ define('_TCMS_VALID', 1);
  *
  * This file is used as the installer central.
  *
- * @version 0.5.2
+ * @version 0.5.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -131,6 +131,7 @@ if(!isset($lang)){ $lang = 'en'; }
 include_once('inc/configuration.php');
 include_once('../engine/tcms_kernel/tcms_time.lib.php');
 include_once('../engine/tcms_kernel/tcms_xml.lib.php');
+include_once('../engine/tcms_kernel/tcms_file.lib.php');
 include_once('../engine/tcms_kernel/tcms_configuration.lib.php');
 include_once('../engine/tcms_kernel/tcms_version.lib.php');
 include_once('../engine/tcms_kernel/tcms_html.lib.php');
@@ -140,6 +141,7 @@ include_once('../engine/tcms_kernel/pclzip/pclzip.lib.php');
 include_once('functions.php');
 
 $tcms_main = new tcms_main('../data');
+$tcms_file = new tcms_file();
 
 $tcms_administer_site = 'data';
 

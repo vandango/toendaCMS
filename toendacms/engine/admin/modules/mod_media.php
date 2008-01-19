@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a media manager.
  *
- * @version 0.6.0
+ * @version 0.6.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -69,10 +69,10 @@ echo '<div class="tcms_tabPage"><br />';
 if(!isset($path)) $path = '';
 
 if(trim($action) == 'image') {
-	$arr_dir = $tcms_file->getPathContent('../../'.$tcms_administer_site.'/images/Image/'.$path);
+	$arr_dir = $tcms_file->getPathContent(_TCMS_PATH.'/images/Image/'.$path);
 }
 else {
-	$arr_dir = $tcms_file->getPathContent('../../'.$tcms_administer_site.'/images/knowledgebase/');
+	$arr_dir = $tcms_file->getPathContent(_TCMS_PATH.'/images/knowledgebase/');
 }
 
 $maxVal = count($arr_dir);
@@ -121,7 +121,7 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 	.'<option value="'.( $path == '' ? '__DEFAULT__' : $path ).'">'.( $path == '' ? _TCMS_BASE_DIRECTORY : $path ).'</option>';
 	
 	$arr_path = $tcms_file->getPathContent(
-		'../../'.$tcms_administer_site.'/images/'.( trim($action) == 'image' ? 'Image' : 'knowledgebase' ).'/'.$path, 
+		_TCMS_PATH.'/images/'.( trim($action) == 'image' ? 'Image' : 'knowledgebase' ).'/'.$path, 
 		true
 	);
 	
@@ -188,14 +188,14 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 		// date
 		echo '<td class="tcms_db_2">'
 		//.$tcms_file->getFileCreateTime(
-		//	'../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue
+		//	_TCMS_PATH.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue
 		//)
 		.'</td>';
 		
 		// size
 		echo '<td class="tcms_db_2">'
 		//.$tcms_file->getDirectorySizeString(
-		//	'../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue
+		//	_TCMS_PATH.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue
 		//)
 		.'</td>';
 		
@@ -219,7 +219,7 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 	if($tcms_main->isArray($arr_dir)) {
 		// folder
 		foreach($arr_dir as $dkey => $dvalue) {
-			$chkPath = '../../'.$tcms_administer_site.'/images/'
+			$chkPath = _TCMS_PATH.'/images/'
 			.( trim($action) == 'image' ? 'Image' : 'knowledgebase' )
 			.'/'.( $path == '' ? '' : $path.'/' ).$dvalue;
 			
@@ -267,14 +267,14 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 					// date
 					echo '<td class="tcms_db_2">'
 					.$tcms_file->getFileCreateTime(
-						'../../'.$tcms_administer_site.'/images/'.( trim($action) == 'image' ? 'Image' : 'knowledgebase' ).'/'.( $path == '' ? '' : $path.'/' ).$dvalue
+						_TCMS_PATH.'/images/'.( trim($action) == 'image' ? 'Image' : 'knowledgebase' ).'/'.( $path == '' ? '' : $path.'/' ).$dvalue
 					)
 					.'</td>';
 					
 					// size
 					echo '<td class="tcms_db_2">'
 					.$tcms_file->getDirectorySizeString(
-						'../../'.$tcms_administer_site.'/images/'.( trim($action) == 'image' ? 'Image' : 'knowledgebase' ).'/'.( $path == '' ? '' : $path.'/' ).$dvalue
+						_TCMS_PATH.'/images/'.( trim($action) == 'image' ? 'Image' : 'knowledgebase' ).'/'.( $path == '' ? '' : $path.'/' ).$dvalue
 					)
 					.'</td>';
 					
@@ -389,20 +389,20 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 			|| $tcms_main->isMultimedia($dvalue, false)) {
 				if(!preg_match('/.mp3/i', strtolower($dvalue))) {
 					if(trim($action) == 'image'){
-						if(!file_exists('../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue)) {
+						if(!file_exists(_TCMS_PATH.'/images/upload_thumb/thumb_'.$dvalue)) {
 							$tcms_gd->createThumbnail(
-								'../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ), 
-								'../../'.$tcms_administer_site.'/images/upload_thumb/', 
+								_TCMS_PATH.'/images/Image/'.( $path == '' ? '' : $path.'/' ), 
+								_TCMS_PATH.'/images/upload_thumb/', 
 								$dvalue, 
 								100
 							);
 						}
 					}
 					else{
-						if(!file_exists('../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue)) {
+						if(!file_exists(_TCMS_PATH.'/images/upload_thumb/thumb_'.$dvalue)) {
 							$tcms_gd->createThumbnail(
-								'../../'.$tcms_administer_site.'/images/knowledgebase/', 
-								'../../'.$tcms_administer_site.'/images/upload_thumb/', 
+								_TCMS_PATH.'/images/knowledgebase/', 
+								_TCMS_PATH.'/images/upload_thumb/', 
 								$dvalue, 
 								100
 							);
@@ -424,9 +424,9 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 				$boxImgH = 0;
 				
 				if($tcms_main->isImage($dvalue, false)) {
-					if($tcms_file->checkFileExist('../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue)) {
+					if($tcms_file->checkFileExist(_TCMS_PATH.'/images/upload_thumb/thumb_'.$dvalue)) {
 						$tcms_gd->readImageInformation(
-							'../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue
+							_TCMS_PATH.'/images/upload_thumb/thumb_'.$dvalue
 						);
 						
 						if($tcms_gd->getImageHeight() > 85) {
@@ -451,34 +451,34 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 				// get image info
 				if(!preg_match('/.mp3/i', strtolower($dvalue))){
 					if(trim($action) == 'image'){
-						if(file_exists('../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue)) {
+						if(file_exists(_TCMS_PATH.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue)) {
 							$tcms_gd->readImageInformation(
-								'../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue
+								_TCMS_PATH.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue
 							);
 						}
 					}
 					else {
-						if(file_exists('../../'.$tcms_administer_site.'/images/knowledgebase/'.$dvalue)) {
+						if(file_exists(_TCMS_PATH.'/images/knowledgebase/'.$dvalue)) {
 							$tcms_gd->readImageInformation(
-								'../../'.$tcms_administer_site.'/images/knowledgebase/'.$dvalue
+								_TCMS_PATH.'/images/knowledgebase/'.$dvalue
 							);
 						}
 					}
 				}
 				
 				if(trim($action) == 'image') {
-					if($tcms_file->checkFileExist('../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue)) {
-						//$size = filesize('../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue) / 1024;
+					if($tcms_file->checkFileExist(_TCMS_PATH.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue)) {
+						//$size = filesize(_TCMS_PATH.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue) / 1024;
 						$size = $tcms_file->getFilesize(
-							'../../'.$tcms_administer_site.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue
+							_TCMS_PATH.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue
 						) / 1024;
 					}
 				}
 				else {
-					if($tcms_file->checkFileExist('../../'.$tcms_administer_site.'/images/knowledgebase/'.$dvalue)) {
-						//$size = filesize('../../'.$tcms_administer_site.'/images/knowledgebase/'.$dvalue) / 1024;
+					if($tcms_file->checkFileExist(_TCMS_PATH.'/images/knowledgebase/'.$dvalue)) {
+						//$size = filesize(_TCMS_PATH.'/images/knowledgebase/'.$dvalue) / 1024;
 						$size = $tcms_file->getFilesize(
-							'../../'.$tcms_administer_site.'/images/knowledgebase/'.$dvalue
+							_TCMS_PATH.'/images/knowledgebase/'.$dvalue
 						) / 1024;
 					}
 				}
@@ -561,7 +561,7 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 						$checkType = false;
 					}
 					else if($checkType){
-						if($tcms_file->checkFileExist('../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue)) {
+						if($tcms_file->checkFileExist(_TCMS_PATH.'/images/upload_thumb/thumb_'.$dvalue)) {
 							$imgAdd = '<img'.(
 								$img_o_height > $img_o_width
 								? ( $img_o_height > 100 ? ' height=100' : '' )
@@ -732,7 +732,7 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 						$checkType = false;
 					}
 					else if($checkType){
-						if($tcms_file->checkFileExist('../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue)) {
+						if($tcms_file->checkFileExist(_TCMS_PATH.'/images/upload_thumb/thumb_'.$dvalue)) {
 							echo '<img'.(
 								$img_o_height > $img_o_width
 								? ( $img_o_height > 100 ? ' height="100"' : '' )
@@ -803,10 +803,10 @@ if($todo == 'upload') {
 			$fileName = $tcms_main->cleanFilename($fileName);
 			
 			if(trim($action) == 'image') {
-				$imgDir = '../../'.$tcms_administer_site.'/images/Image/';
+				$imgDir = _TCMS_PATH.'/images/Image/';
 			}
 			else {
-				$imgDir = '../../'.$tcms_administer_site.'/images/knowledgebase/';
+				$imgDir = _TCMS_PATH.'/images/knowledgebase/';
 			}
 			
 			if($directory != '__DEFAULT__') {
@@ -841,23 +841,23 @@ if($todo == 'upload') {
 
 if($todo == 'deleteImage') {
 	if(trim($action) == 'image') {
-		if(is_dir('../../'.$tcms_administer_site.'/images/Image/'.$delimg) == 1){
-			$tcms_main->deleteDir('../../'.$tcms_administer_site.'/images/Image/'.$delimg);
+		if(is_dir(_TCMS_PATH.'/images/Image/'.$delimg) == 1){
+			$tcms_file->deleteDir(_TCMS_PATH.'/images/Image/'.$delimg);
 		}
 		else {
-			unlink('../../'.$tcms_administer_site.'/images/Image/'.$delimg);
+			unlink(_TCMS_PATH.'/images/Image/'.$delimg);
 		}
 	}
 	else {
-		if(is_dir('../../'.$tcms_administer_site.'/images/knowledgebase/'.$delimg) == 1){
-			$tcms_main->deleteDir('../../'.$tcms_administer_site.'/images/knowledgebase/'.$delimg);
+		if(is_dir(_TCMS_PATH.'/images/knowledgebase/'.$delimg) == 1){
+			$tcms_file->deleteDir(_TCMS_PATH.'/images/knowledgebase/'.$delimg);
 		}
 		else {
-			unlink('../../'.$tcms_administer_site.'/images/knowledgebase/'.$delimg);
+			unlink(_TCMS_PATH.'/images/knowledgebase/'.$delimg);
 		}
 	}
 	
-	unlink('../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$delimg);
+	unlink(_TCMS_PATH.'/images/upload_thumb/thumb_'.$delimg);
 	
 	echo '<script>'
 	//.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_media&action='.trim($action).'\';'
@@ -873,10 +873,10 @@ if($todo == 'deleteImage') {
 
 if($todo == 'deleteFolder') {
 	if(trim($action) == 'image') {
-		$tcms_main->deleteDir('../../'.$tcms_administer_site.'/images/Image/'.$delimg);
+		$tcms_file->deleteDir(_TCMS_PATH.'/images/Image/'.$delimg);
 	}
 	else {
-		$tcms_main->deleteDir('../../'.$tcms_administer_site.'/images/knowledgebase/'.$delimg);
+		$tcms_file->deleteDir(_TCMS_PATH.'/images/knowledgebase/'.$delimg);
 	}
 	
 	echo '<script>'
@@ -893,15 +893,15 @@ if($todo == 'deleteFolder') {
 
 if($todo == 'createDir') {
 	if(trim($action) == 'image') {
-		if(!is_dir('../../'.$tcms_administer_site.'/images/Image/'.$directory)) {
-			@mkdir('../../'.$tcms_administer_site.'/images/Image/'.$directory, 0777);
-			@chmod('../../'.$tcms_administer_site.'/images/Image/'.$directory, 0777);
+		if(!is_dir(_TCMS_PATH.'/images/Image/'.$directory)) {
+			@mkdir(_TCMS_PATH.'/images/Image/'.$directory, 0777);
+			@chmod(_TCMS_PATH.'/images/Image/'.$directory, 0777);
 		}
 	}
 	else {
-		if(!is_dir('../../'.$tcms_administer_site.'/images/knowledgebase/'.$directory)) {
-			@mkdir('../../'.$tcms_administer_site.'/images/knowledgebase/'.$directory, 0777);
-			@chmod('../../'.$tcms_administer_site.'/images/knowledgebase/'.$directory, 0777);
+		if(!is_dir(_TCMS_PATH.'/images/knowledgebase/'.$directory)) {
+			@mkdir(_TCMS_PATH.'/images/knowledgebase/'.$directory, 0777);
+			@chmod(_TCMS_PATH.'/images/knowledgebase/'.$directory, 0777);
 		}
 	}
 	

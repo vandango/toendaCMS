@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the newsletter functionality.
  *
- * @version 0.3.1
+ * @version 0.3.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -106,7 +106,7 @@ if($use_newsletter == 1) {
 		|| strpos($nl_email, '@') == false) {
 			$link = '?session='.$session.'&id='.$id.'&s='.$s
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<script>'
 			.'document.location=\''.$link.'\';'
@@ -116,7 +116,7 @@ if($use_newsletter == 1) {
 		elseif($nl_user == '' || $nl_user == _NL_USERNAME) {
 			$link = '?session='.$session.'&id='.$id.'&s='.$s
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<script>'
 			.'document.location=\''.$link.'\';'
@@ -129,7 +129,7 @@ if($use_newsletter == 1) {
 				
 				$var_conf = 'nl_user';
 				
-				$nl_user = $tcms_main->decode_text($nl_user, '2', $c_charset);
+				$nl_user = $tcms_main->encodeText($nl_user, '2', $c_charset);
 				
 				$xmluser = new xmlparser($tcms_administer_site.'/tcms_newsletter/'.$tmp_md5.'.xml', 'w');
 				$xmluser->xml_declaration();
@@ -144,7 +144,7 @@ if($use_newsletter == 1) {
 			else{
 				$maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'newsletter_items', 6);
 				
-				$nl_user = $tcms_main->decode_text($nl_user, '2', $c_charset);
+				$nl_user = $tcms_main->encodeText($nl_user, '2', $c_charset);
 				
 				$sqlAL = new sqlAbstractionLayer($choosenDB);
 				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
@@ -170,7 +170,7 @@ if($use_newsletter == 1) {
 			
 			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id='.$id.'&s='.$s
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<script>'
 			.'document.location=\''.$link.'\';'

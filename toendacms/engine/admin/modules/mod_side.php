@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the sidebar content.
  *
- * @version 0.5.2
+ * @version 0.5.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -435,13 +435,13 @@ if($id_group == 'Developer'
 	*/
 	
 	if($todo == 'save'){
-		$content = $tcms_main->nl2br($content);
+		$content = $tcms_main->convertNewlineToHTML($content);
 		
 		// CHARSETS
-		$new_sb_title = $tcms_main->decode_text($new_sb_title, '2', $c_charset);
-		$new_sb_key   = $tcms_main->decode_text($new_sb_key, '2', $c_charset);
-		$content  = $tcms_main->decode_text($content, '2', $c_charset);
-		$new_sb_foot  = $tcms_main->decode_text($new_sb_foot, '2', $c_charset);
+		$new_sb_title = $tcms_main->encodeText($new_sb_title, '2', $c_charset);
+		$new_sb_key   = $tcms_main->encodeText($new_sb_key, '2', $c_charset);
+		$content  = $tcms_main->encodeText($content, '2', $c_charset);
+		$new_sb_foot  = $tcms_main->encodeText($new_sb_foot, '2', $c_charset);
 		
 		if($choosenDB == 'xml'){
 			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_sidebar/'.$new_sb_id.'.xml', 'w');
@@ -481,13 +481,13 @@ if($id_group == 'Developer'
 	*/
 	
 	if($todo == 'next'){
-		$content = $tcms_main->nl2br($content);
+		$content = $tcms_main->convertNewlineToHTML($content);
 		
 		// CHARSETS
-		$new_sb_title = $tcms_main->decode_text($new_sb_title, '2', $c_charset);
-		$new_sb_key   = $tcms_main->decode_text($new_sb_key, '2', $c_charset);
-		$content  = $tcms_main->decode_text($content, '2', $c_charset);
-		$new_sb_foot  = $tcms_main->decode_text($new_sb_foot, '2', $c_charset);
+		$new_sb_title = $tcms_main->encodeText($new_sb_title, '2', $c_charset);
+		$new_sb_key   = $tcms_main->encodeText($new_sb_key, '2', $c_charset);
+		$content  = $tcms_main->encodeText($content, '2', $c_charset);
+		$new_sb_foot  = $tcms_main->encodeText($new_sb_foot, '2', $c_charset);
 		
 		if($choosenDB == 'xml'){
 			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_sidebar/'.$new_sb_id.'.xml', 'w');

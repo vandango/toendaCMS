@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a imagegallery.
  *
- * @version 0.7.8
+ * @version 0.7.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -406,7 +406,10 @@ if($albums != 'start'){
 												if(!is_dir(_TCMS_PATH.'/tcms_imagegallery/'.$a_value.'/comments_'.$dvalue.'/')){
 													mkdir(_TCMS_PATH.'/tcms_imagegallery/'.$a_value.'/comments_'.$dvalue.'/', 0777);
 												}
-												$ic_amount = $tcms_main->readdir_count(_TCMS_PATH.'/tcms_imagegallery/'.$a_value.'/comments_'.$dvalue.'/');
+												
+												$ic_amount = $tcms_file->getPathContentAmount(
+													_TCMS_PATH.'/tcms_imagegallery/'.$a_value.'/comments_'.$dvalue.'/'
+												);
 											}
 											else{
 												$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
