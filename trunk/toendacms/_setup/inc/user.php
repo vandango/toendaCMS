@@ -20,7 +20,7 @@
  *
  * This file is used to create a user.
  *
- * @version 0.2.0
+ * @version 0.2.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -191,8 +191,8 @@ if($todo == 'save'){
 	
 	
 	
-	$fullc_name    = $tcms_main->decode_text($fullc_name, '2', $c_charset);
-	$fullc_webname = $tcms_main->decode_text($fullc_webname, '2', $c_charset);
+	$fullc_name    = $tcms_main->encodeText($fullc_name, '2', $c_charset);
+	$fullc_webname = $tcms_main->encodeText($fullc_webname, '2', $c_charset);
 	
 	
 	

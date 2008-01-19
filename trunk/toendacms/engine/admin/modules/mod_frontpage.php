@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the frontpage.
  *
- * @version 0.7.8
+ * @version 0.8.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -475,23 +475,23 @@ if($id_group == 'Developer'
 				$content = str_replace('../../../../', '', $content);
 			}
 			else{
-				$content = $tcms_main->nl2br($content);
+				$content = $tcms_main->convertNewlineToHTML($content);
 			}
 			
 			if($seoEnabled == 0 && $show_wysiwyg == 'tinymce'){
 				//$content = str_replace('src="../../', 'src="', $content);
 			}
 			
-			$front_title       = $tcms_main->decode_text($front_title, '2', $c_charset);
-			$front_stamp       = $tcms_main->decode_text($front_stamp, '2', $c_charset);
-			$content           = $tcms_main->decode_text($content, '2', $c_charset);
+			$front_title       = $tcms_main->encodeText($front_title, '2', $c_charset);
+			$front_stamp       = $tcms_main->encodeText($front_stamp, '2', $c_charset);
+			$content           = $tcms_main->encodeText($content, '2', $c_charset);
 		}
 		else{
 			//$content = $tcms_main->decodeBase64($content);
 		}
 		
-		$new_news_title    = $tcms_main->decode_text($new_news_title, '2', $c_charset);
-		$new_sb_news_title = $tcms_main->decode_text($new_sb_news_title, '2', $c_charset);
+		$new_news_title    = $tcms_main->encodeText($new_news_title, '2', $c_charset);
+		$new_sb_news_title = $tcms_main->encodeText($new_sb_news_title, '2', $c_charset);
 		
 		
 		if($tcms_main->isReal($new_front_lang)) {

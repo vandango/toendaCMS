@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a base content loader.
  *
- * @version 0.8.0
+ * @version 0.8.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -150,14 +150,14 @@ if($content_published == 1) {
 									$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 									.'id='.$id.'&amp;s='.$s.'&amp;page=1'
 									.( isset($lang) ? '&amp;lang='.$lang : '' );
-									$link = $tcms_main->urlAmpReplace($link);
+									$link = $tcms_main->urlConvertToSEO($link);
 									
 									echo '<a href="'.$link.'" title="'._CONTENT_FIRST_PAGE.'"><u>&laquo;</u></a>&nbsp;&nbsp;';
 									
 									$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 									.'id='.$id.'&amp;s='.$s.'&amp;page='.( $page - 1 )
 									.( isset($lang) ? '&amp;lang='.$lang : '' );
-									$link = $tcms_main->urlAmpReplace($link);
+									$link = $tcms_main->urlConvertToSEO($link);
 									
 									echo '<a href="'.$link.'" title="'._CONTENT_BACK_PAGE.'"><u>&#8249;</u></a>&nbsp;&nbsp;';
 								}
@@ -187,7 +187,7 @@ if($content_published == 1) {
 									$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 									.'id='.$id.'&amp;s='.$s.'&amp;page='.$thisPage
 									.( isset($lang) ? '&amp;lang='.$lang : '' );
-									$link = $tcms_main->urlAmpReplace($link);
+									$link = $tcms_main->urlConvertToSEO($link);
 									
 									if($thisPage != $page) echo '<a href="'.$link.'"><u>'.$thisPage.'</u></a>';
 									else echo '<span style="font-weight: bold !important;">'.$thisPage.'</span>';
@@ -203,7 +203,7 @@ if($content_published == 1) {
 									$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 									.'id='.$id.'&amp;s='.$s.'&amp;page='.( $page + 1 )
 									.( isset($lang) ? '&amp;lang='.$lang : '' );
-									$link = $tcms_main->urlAmpReplace($link);
+									$link = $tcms_main->urlConvertToSEO($link);
 									
 									echo '<a href="'.$link.'" title="'._CONTENT_NEXT_PAGE.'"><u>&#8250;</u></a>'
 									.'&nbsp;&nbsp;';
@@ -211,7 +211,7 @@ if($content_published == 1) {
 									$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 									.'id='.$id.'&amp;s='.$s.'&amp;page='.$pageAmount
 									.( isset($lang) ? '&amp;lang='.$lang : '' );
-									$link = $tcms_main->urlAmpReplace($link);
+									$link = $tcms_main->urlConvertToSEO($link);
 									
 									echo '<a href="'.$link.'" title="'._CONTENT_LAST_PAGE.'"><u>&raquo;</u></a>';
 								}
@@ -274,14 +274,14 @@ if($content_published == 1) {
 								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 								.'id='.$id.'&amp;s='.$s.'&amp;page=1'
 								.( isset($lang) ? '&amp;lang='.$lang : '' );
-								$link = $tcms_main->urlAmpReplace($link);
+								$link = $tcms_main->urlConvertToSEO($link);
 								
 								echo '<a href="'.$link.'" title="'._CONTENT_FIRST_PAGE.'"><u>&laquo;</u></a>&nbsp;&nbsp;';
 								
 								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 								.'id='.$id.'&amp;s='.$s.'&amp;page='.( $page - 1 )
 								.( isset($lang) ? '&amp;lang='.$lang : '' );
-								$link = $tcms_main->urlAmpReplace($link);
+								$link = $tcms_main->urlConvertToSEO($link);
 								
 								echo '<a href="'.$link.'" title="'._CONTENT_BACK_PAGE.'"><u>&#8249;</u></a>&nbsp;&nbsp;';
 							}
@@ -311,7 +311,7 @@ if($content_published == 1) {
 								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 								.'id='.$id.'&amp;s='.$s.'&amp;page='.$thisPage
 								.( isset($lang) ? '&amp;lang='.$lang : '' );
-								$link = $tcms_main->urlAmpReplace($link);
+								$link = $tcms_main->urlConvertToSEO($link);
 								
 								if($thisPage != $page) echo '<a href="'.$link.'"><u>'.$thisPage.'</u></a>';
 								else echo '<span style="font-weight: bold !important;">'.$thisPage.'</span>';
@@ -327,7 +327,7 @@ if($content_published == 1) {
 								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 								.'id='.$id.'&amp;s='.$s.'&amp;page='.( $page + 1 )
 								.( isset($lang) ? '&amp;lang='.$lang : '' );
-								$link = $tcms_main->urlAmpReplace($link);
+								$link = $tcms_main->urlConvertToSEO($link);
 								
 								echo '<a href="'.$link.'" title="'._CONTENT_NEXT_PAGE.'"><u>&#8250;</u></a>'
 								.'&nbsp;&nbsp;';
@@ -335,7 +335,7 @@ if($content_published == 1) {
 								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 								.'id='.$id.'&amp;s='.$s.'&amp;page='.$pageAmount
 								.( isset($lang) ? '&amp;lang='.$lang : '' );
-								$link = $tcms_main->urlAmpReplace($link);
+								$link = $tcms_main->urlConvertToSEO($link);
 								
 								echo '<a href="'.$link.'" title="'._CONTENT_LAST_PAGE.'"><u>&raquo;</u></a>';
 							}

@@ -135,7 +135,7 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 	$seoEnabled     = $tcms_config->getSEOEnabled();
 	$seoFormat      = $tcms_config->getSEOFormat();
 	$cipher_email   = $tcms_config->getEmailCiphering();
-	$detect_browser = ( $tcms_config->getBrowserDetection() ? 1 : 0 );
+	$detect_browser = $tcms_config->getBrowserDetection();
 	$statistics     = $tcms_config->getStatistics();
 	$use_components = $tcms_config->getComponentsSystemEnabled();
 	$use_captcha    = $tcms_config->getCaptchaEnabled();

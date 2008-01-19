@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a contacts manager.
  *
- * @version 0.4.5
+ * @version 0.4.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -457,16 +457,16 @@ if($id_group == 'Developer'
 		if($new_pub    == ''){ $new_pub    = 0; }
 		
 		// CHARSETS
-		$full_name    = $tcms_main->decode_text($full_name, '2', $c_charset);
-		$new_position = $tcms_main->decode_text($new_position, '2', $c_charset);
-		$new_email    = $tcms_main->decode_text($new_email, '2', $c_charset);
-		$new_street   = $tcms_main->decode_text($new_street, '2', $c_charset);
-		$new_country  = $tcms_main->decode_text($new_country, '2', $c_charset);
-		$new_state    = $tcms_main->decode_text($new_state, '2', $c_charset);
-		$new_town     = $tcms_main->decode_text($new_town, '2', $c_charset);
-		$new_postal   = $tcms_main->decode_text($new_postal, '2', $c_charset);
-		$new_phone    = $tcms_main->decode_text($new_phone, '2', $c_charset);
-		$new_fax      = $tcms_main->decode_text($new_fax, '2', $c_charset);
+		$full_name    = $tcms_main->encodeText($full_name, '2', $c_charset);
+		$new_position = $tcms_main->encodeText($new_position, '2', $c_charset);
+		$new_email    = $tcms_main->encodeText($new_email, '2', $c_charset);
+		$new_street   = $tcms_main->encodeText($new_street, '2', $c_charset);
+		$new_country  = $tcms_main->encodeText($new_country, '2', $c_charset);
+		$new_state    = $tcms_main->encodeText($new_state, '2', $c_charset);
+		$new_town     = $tcms_main->encodeText($new_town, '2', $c_charset);
+		$new_postal   = $tcms_main->encodeText($new_postal, '2', $c_charset);
+		$new_phone    = $tcms_main->encodeText($new_phone, '2', $c_charset);
+		$new_fax      = $tcms_main->encodeText($new_fax, '2', $c_charset);
 		
 		if($choosenDB == 'xml'){
 			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_contacts/'.$maintag.'.xml', 'w');
@@ -528,16 +528,16 @@ if($id_group == 'Developer'
 		if($new_pub    == '' || empty($new_pub))   { $new_pub    = 0; }
 		
 		// CHARSETS
-		$full_name    = $tcms_main->decode_text($full_name, '2', $c_charset);
-		$new_position = $tcms_main->decode_text($new_position, '2', $c_charset);
-		$new_email    = $tcms_main->decode_text($new_email, '2', $c_charset);
-		$new_street   = $tcms_main->decode_text($new_street, '2', $c_charset);
-		$new_country  = $tcms_main->decode_text($new_country, '2', $c_charset);
-		$new_state    = $tcms_main->decode_text($new_state, '2', $c_charset);
-		$new_town     = $tcms_main->decode_text($new_town, '2', $c_charset);
-		$new_phone    = $tcms_main->decode_text($new_phone, '2', $c_charset);
-		$new_postal   = $tcms_main->decode_text($new_postal, '2', $c_charset);
-		$new_fax      = $tcms_main->decode_text($new_fax, '2', $c_charset);
+		$full_name    = $tcms_main->encodeText($full_name, '2', $c_charset);
+		$new_position = $tcms_main->encodeText($new_position, '2', $c_charset);
+		$new_email    = $tcms_main->encodeText($new_email, '2', $c_charset);
+		$new_street   = $tcms_main->encodeText($new_street, '2', $c_charset);
+		$new_country  = $tcms_main->encodeText($new_country, '2', $c_charset);
+		$new_state    = $tcms_main->encodeText($new_state, '2', $c_charset);
+		$new_town     = $tcms_main->encodeText($new_town, '2', $c_charset);
+		$new_phone    = $tcms_main->encodeText($new_phone, '2', $c_charset);
+		$new_postal   = $tcms_main->encodeText($new_postal, '2', $c_charset);
+		$new_fax      = $tcms_main->encodeText($new_fax, '2', $c_charset);
 		
 		if($choosenDB == 'xml'){
 			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_contacts/'.$maintag.'.xml', 'w');

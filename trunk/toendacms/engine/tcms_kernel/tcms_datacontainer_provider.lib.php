@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.4.5
+ * @version 1.4.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -47,7 +47,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * PRIVATE MEMBERS
  * --------------------------------------------------------
  * 
- * _getPathContent                           -> Get the content of a path
+ * _getPathContent                           -> Return a array of all files or directory's inside a path
  *
  * --------------------------------------------------------
  * PUBLIC MEMBERS
@@ -115,12 +115,12 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param String $charset
 	 * @param Object $tcmsTimeObj = null
 	 */
-	public function __construct($tcms_administer_path = 'data', $charset, $tcmsTimeObj = null){
+	public function __construct($tcms_administer_path = 'data', $charset, $tcmsTimeObj = null) {
 		$this->m_CHARSET = $charset;
 		$this->m_path = $tcms_administer_path;
 		$this->_tcmsTime = $tcmsTimeObj;
 		
-		if(file_exists($this->m_path.'/tcms_global/database.php')){
+		if(file_exists($this->m_path.'/tcms_global/database.php')) {
 			require($this->m_path.'/tcms_global/database.php');
 			
 			$this->m_choosenDB = $tcms_db_engine;
@@ -146,7 +146,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * Destructor
 	 *
 	 */
-	public function __destruct(){
+	public function __destruct() {
 	}
 	
 	
@@ -175,16 +175,25 @@ class tcms_datacontainer_provider extends tcms_main {
 	
 	
 	/**
-	 * Get the content of a path
+	 * Return a array of all files or directory's inside a path
 	 *
-	 * @param Array $value
+	 * @param String $path
+	 * @param Boolean $onlyFolders
+	 * @param String $fileType = ''
+	 * @param Boolean $commentFolders = false
+	 * @return Array
 	 */
-	private function _getPathContent($path) {
+	private function _getPathContent($path, $onlyFolders = false, $fileType = '', $commentFolders = false) {
 		include_once('tcms_file.lib.php');
 		
 		$tcms_file = new tcms_file();
 		
-		return $tcms_file->getPathContent($path);
+		return $tcms_file->getPathContent(
+			$path, 
+			$onlyFolders, 
+			$fileType, 
+			$commentFolders
+		);
 	}
 	
 	
@@ -1162,7 +1171,7 @@ class tcms_datacontainer_provider extends tcms_main {
 		else{
 			$imagePath = '/';
 		}
-		echo '1';
+		
 		$arrCommentsDC = $this->getCommentDCList(
 			'__ALL_NEWS__', 
 			'news', 
@@ -1170,7 +1179,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$language, 
 			$amount
 		);
-		echo '2';
+		
 		if($this->isArray($arrCommentsDC)) {
 			foreach($arrCommentsDC as $n_key => $n_value) {
 				$dcComment = new tcms_dc_comment();

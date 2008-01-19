@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the links.
  *
- * @version 0.6.0
+ * @version 0.6.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -805,7 +805,7 @@ if($todo == 'save_config'){
 		$content = str_replace('../../../../', '', $content);
 	}
 	else{
-		$content = $tcms_main->nl2br($content);
+		$content = $tcms_main->convertNewlineToHTML($content);
 	}
 	
 	

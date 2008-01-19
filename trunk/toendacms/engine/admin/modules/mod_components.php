@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used to manage the components.
  *
- * @version 0.3.1
+ * @version 0.3.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -569,9 +569,9 @@ if($id_group == 'Developer'
 		
 		
 		// CHARSETS
-		$new_csTitle    = $tcms_main->decode_text_without_crypt($new_csTitle, '2', $c_charset);
-		$new_csSubTitle = $tcms_main->decode_text_without_crypt($new_csSubTitle, '2', $c_charset);
-		$new_csDesc     = $tcms_main->decode_text_without_crypt($new_csDesc, '2', $c_charset);
+		$new_csTitle    = $tcms_main->encodeText($new_csTitle, '2', $c_charset, true);
+		$new_csSubTitle = $tcms_main->encodeText($new_csSubTitle, '2', $c_charset, true);
+		$new_csDesc     = $tcms_main->encodeText($new_csDesc, '2', $c_charset, true);
 		
 		
 		$xmluser = new xmlparser(_TCMS_PATH.'/components/'.$maintag.'/component.xml', 'w');
@@ -597,20 +597,10 @@ if($id_group == 'Developer'
 		$xmluser->xml_section_end('cs');
 		
 		
-		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_components\'</script>';
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_components\';'
+		.'</script>';
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -619,9 +609,11 @@ if($id_group == 'Developer'
 	* DELETE CS
 	*/
 	if($todo == 'delete'){
-		$tcms_main->deleteDir(_TCMS_PATH.'/components/'.$maintag.'/');
+		$tcms_file->deleteDir(_TCMS_PATH.'/components/'.$maintag.'/');
 		
-		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_components\'</script>';
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_components\';'
+		.'</script>';
 	}
 }
 else{

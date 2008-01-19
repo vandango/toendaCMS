@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the contactform configuration.
  *
- * @version 0.4.7
+ * @version 0.4.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -388,7 +388,7 @@ if($id_group == 'Developer'
 			$content = str_replace('../../../../', '', $content);
 		}
 		else{
-			$content = $tcms_main->nl2br($content);
+			$content = $tcms_main->convertNewlineToHTML($content);
 		}
 		
 		if($seoEnabled == 0 && $show_wysiwyg == 'tinymce'){

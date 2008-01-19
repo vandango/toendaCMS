@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the topmenu items.
  *
- * @version 0.6.2
+ * @version 0.6.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -472,7 +472,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		if($new_tm_pub == '' || !isset($new_tm_pub)){ $new_tm_pub = '0'; }
 		
 		// CHARSETS
-		$new_tm_name    = $tcms_main->decode_text($new_tm_name, '2', $c_charset);
+		$new_tm_name    = $tcms_main->encodeText($new_tm_name, '2', $c_charset);
 		
 		
 		if(trim($new_tm_link) == 'new_page'){

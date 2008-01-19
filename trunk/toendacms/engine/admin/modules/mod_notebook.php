@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a personal notebook.
  *
- * @version 0.2.0
+ * @version 0.2.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -139,10 +139,10 @@ echo '</table></form><br />';
 if($todo == 'save') {
 	if($new_note == ''){ $new_note = _NOTEBOOK_MSG.' ...'; }
 	
-	$new_note = $tcms_main->nl2br($new_note);
+	$new_note = $tcms_main->convertNewlineToHTML($new_note);
 	
-	$new_note = $tcms_main->decode_text($new_note, '2', $c_charset);
-	$new_name = $tcms_main->decode_text($new_name, '2', $c_charset);
+	$new_note = $tcms_main->encodeText($new_note, '2', $c_charset);
+	$new_name = $tcms_main->encodeText($new_name, '2', $c_charset);
 	
 	if($choosenDB == 'xml'){
 		$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_notepad/'.$maintag.'.xml','w');

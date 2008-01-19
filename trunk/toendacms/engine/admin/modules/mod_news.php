@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the news.
  *
- * @version 1.8.5
+ * @version 1.8.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -1675,7 +1675,7 @@ if($todo == 'save_config') {
 			$content = str_replace('../../../../', '', $content);
 		}
 		else{
-			$content = $tcms_main->nl2br($content);
+			$content = $tcms_main->convertNewlineToHTML($content);
 		}
 		
 		if($seoEnabled == 0 && $show_wysiwyg == 'tinymce'){
@@ -2013,7 +2013,7 @@ if($todo == 'save'){
 		$content = str_replace('../../../../', '', $content);
 	}
 	else{
-		$content = $tcms_main->nl2br($content);
+		$content = $tcms_main->convertNewlineToHTML($content);
 	}
 	
 	
@@ -2206,7 +2206,7 @@ if($todo == 'next'){
 		$content = str_replace('../../../../', '', $content);
 	}
 	else{
-		$content = $tcms_main->nl2br($content);
+		$content = $tcms_main->convertNewlineToHTML($content);
 	}
 	
 	if($seoEnabled == 0 && $show_wysiwyg == 'tinymce'){
@@ -2215,9 +2215,9 @@ if($todo == 'next'){
 	
 	
 	// CHARSETS
-	$titel   = $tcms_main->decode_text($titel, '2', $c_charset);
-	$autor   = $tcms_main->decode_text($autor, '2', $c_charset);
-	$content = $tcms_main->decode_text($content, '2', $c_charset);
+	$titel   = $tcms_main->encodeText($titel, '2', $c_charset);
+	$autor   = $tcms_main->encodeText($autor, '2', $c_charset);
+	$content = $tcms_main->encodeText($content, '2', $c_charset);
 	
 	$stamp = substr($new_publish_date, 6, 4).substr($new_publish_date, 3, 2).substr($new_publish_date, 0, 2).substr($new_publish_date, 11, 2).substr($new_publish_date, 14, 2);
 	
@@ -2504,7 +2504,7 @@ if($todo == 'delete'){
 		
 		
 		*/
-		$tcms_main->rmdirr(_TCMS_PATH.'/tcms_news/comments_'.$maintag.'/');
+		$tcms_file->deleteDir(_TCMS_PATH.'/tcms_news/comments_'.$maintag.'/');
 	}
 	else{
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);

@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used for the download configuration
  * and the administration of all the downloads.
  *
- * @version 0.7.7
+ * @version 0.8.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -1056,11 +1056,11 @@ if($param_save_mode == 'off'){
 			if(empty($download_stamp)) { $download_stamp  = $old_download_stamp; }
 			if(empty($download_text))  { $download_text   = $old_download_text; }
 			
-			$download_title = $tcms_main->decode_text($download_title, '2', $c_charset);
-			$download_stamp = $tcms_main->decode_text($download_stamp, '2', $c_charset);
-			$download_text  = $tcms_main->decode_text($download_text, '2', $c_charset);
+			$download_title = $tcms_main->encodeText($download_title, '2', $c_charset);
+			$download_stamp = $tcms_main->encodeText($download_stamp, '2', $c_charset);
+			$download_text  = $tcms_main->encodeText($download_text, '2', $c_charset);
 			
-			$download_text = $tcms_main->nl2br($download_text);
+			$download_text = $tcms_main->convertNewlineToHTML($download_text);
 			
 			if($choosenDB == 'xml'){
 				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/download.xml', 'w');
@@ -1134,7 +1134,7 @@ if($param_save_mode == 'off'){
 			if($new_name == '' || empty($new_name) || !isset($new_name)){ $new_name = ''; }
 			if($new_desc == '' || empty($new_desc) || !isset($new_desc)){ $new_desc = ''; }
 			
-			//$download_text = $tcms_main->nl2br($download_text);
+			//$download_text = $tcms_main->convertNewlineToHTML($download_text);
 			
 			
 			// UID
@@ -1143,8 +1143,8 @@ if($param_save_mode == 'off'){
 			
 			
 			// CHARSETS
-			$new_name = $tcms_main->decode_text($new_name, '2', $c_charset);
-			$new_desc = $tcms_main->decode_text($new_desc, '2', $c_charset);
+			$new_name = $tcms_main->encodeText($new_name, '2', $c_charset);
+			$new_desc = $tcms_main->encodeText($new_desc, '2', $c_charset);
 			
 			
 			if($createMe){
@@ -1316,15 +1316,15 @@ if($param_save_mode == 'off'){
 				if($new_name == '' || empty($new_name) || !isset($new_name)){ $new_name = ''; }
 				if($new_desc == '' || empty($new_desc) || !isset($new_desc)){ $new_desc = ''; }
 				
-				//$download_text = $tcms_main->nl2br($download_text);
+				//$download_text = $tcms_main->convertNewlineToHTML($download_text);
 				
 				
 				
 				/*
 					CHARSETS
 				*/
-				$new_name = $tcms_main->decode_text($new_name, '2', $c_charset);
-				$new_desc = $tcms_main->decode_text($new_desc, '2', $c_charset);
+				$new_name = $tcms_main->encodeText($new_name, '2', $c_charset);
+				$new_desc = $tcms_main->encodeText($new_desc, '2', $c_charset);
 				
 				
 				
@@ -1590,8 +1590,9 @@ if($param_save_mode == 'off'){
 						while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 							$new_maintag = $sqlARR['uid'];
 							
-							if(is_dir(_TCMS_PATH.'/files/'.$maintag.'/'))
-								$tcms_main->rmdirr(_TCMS_PATH.'/files/'.$new_maintag.'/');
+							if(is_dir(_TCMS_PATH.'/files/'.$maintag.'/')) {
+								$tcms_file->deleteDir(_TCMS_PATH.'/files/'.$new_maintag.'/');
+							}
 							
 							$sqlQR = $sqlAL->sqlQuery("DELETE FROM ".$tcms_db_prefix."downloads WHERE cat='".$new_maintag."'");
 							
@@ -1604,8 +1605,9 @@ if($param_save_mode == 'off'){
 					//}
 				}
 				
-				if(is_dir(_TCMS_PATH.'/files/'.$maintag.'/'))
-					$tcms_main->rmdirr(_TCMS_PATH.'/files/'.$maintag.'/');
+				if(is_dir(_TCMS_PATH.'/files/'.$maintag.'/')) {
+					$tcms_file->deleteDir(_TCMS_PATH.'/files/'.$maintag.'/');
+				}
 				
 				echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_download'.( $category == '' || !isset($category) ? '' : '&category='.$category ).'\';</script>';
 			}

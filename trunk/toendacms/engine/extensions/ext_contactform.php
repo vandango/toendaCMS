@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a contactform with a internal
  * adressbook with vcard export.
  *
- * @version 0.9.0
+ * @version 0.9.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -64,7 +64,7 @@ if($cform_enabled == 1){
 			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 			.'id=contactform&amp;s='.$s
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<form id="adress_back" action="'
 			.$link
@@ -123,7 +123,7 @@ if($cform_enabled == 1){
 						.'id=contactform&amp;s='.$s.'&amp;contact_email='
 						.$tcms_main->encodeBase64($csb_email)
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
-						$link = $tcms_main->urlAmpReplace($link);
+						$link = $tcms_main->urlConvertToSEO($link);
 						
 						echo '<a href="#" class="main" onclick="document.location=\''.$link.'\';" value="'._CONTACT_SEND_A_EMAIL.'" />';
 						
@@ -150,7 +150,7 @@ if($cform_enabled == 1){
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id=contactform&amp;s='.$s.'&amp;action=vcard&amp;c='.$csb_id
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
-						$link = $tcms_main->urlAmpReplace($link);
+						$link = $tcms_main->urlConvertToSEO($link);
 						
 						echo '<form name="vcard" action="'
 						.( $seoEnabled == 1 ? $seoFolder.'/' : '' )
@@ -244,7 +244,7 @@ if($cform_enabled == 1){
 					.'id=contactform&amp;s='.$s.'&amp;contact_email='
 					.$tcms_main->encodeBase64($csb_email)
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $tcms_main->urlAmpReplace($link);
+					$link = $tcms_main->urlConvertToSEO($link);
 					
 					echo '<a href="#" class="main" onclick="document.location=\''.$link.'\';" />';
 					
@@ -272,7 +272,7 @@ if($cform_enabled == 1){
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=contactform&amp;s='.$s.'&amp;action=vcard&amp;c='.$csb_id
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $tcms_main->urlAmpReplace($link);
+					$link = $tcms_main->urlConvertToSEO($link);
 					
 					echo '<form name="vcard_'.$csb_id.'" action="'
 					.( $seoEnabled == 1 ? $seoFolder.'/' : '' )
@@ -447,7 +447,7 @@ if($cform_enabled == 1){
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=contactform&amp;s='.$s
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $tcms_main->urlAmpReplace($link);
+					$link = $tcms_main->urlConvertToSEO($link);
 					
 					echo '<form id="adress" action="'
 					.$link
@@ -590,7 +590,7 @@ if($cform_enabled == 1){
 		*/
 		if($send_form == 1) {
 			$mail_message = stripslashes($mail_message);
-			$mail_message = $tcms_main->nl2br($mail_message);
+			$mail_message = $tcms_main->convertNewlineToHTML($mail_message);
 			//$mail_messagehtml = ereg_replace("\n", "<br />", $mail_message);
 			$mail_subject = stripslashes($mail_subject);
 			$mail_website = stripslashes($mail_website);
@@ -807,7 +807,7 @@ $mail_message
 			
 			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
 			.'id='.$id.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<script>'
 			.'document.location=\''.$link.'\';'

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic public functions.
  *
- * @version 2.9.3
+ * @version 3.0.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -122,7 +122,6 @@ defined('_TCMS_VALID') or die('Restricted access');
  * count_submenu_xml           -> return a numer of files
  * readdir_comment             -> return all comment folders from the news folder
  * readdir_image_comment       -> return all comment folders from the image folder
- * readdir_count               -> return the amount of datasets
  * count_subid                 -> count all xml files in an dir ( files or numbers files )
  * count_answers               -> count answers in poll
  * count_answers_sql           -> count answers in poll from sql
@@ -152,43 +151,20 @@ defined('_TCMS_VALID') or die('Restricted access');
  * DEPRECATED getUserFromSQL              -> getUser
  * DEPRECATED create_username             -> getUserInfo
  * DEPRECATED create_sql_username         -> getUserInfo
- * DEPRECATED rmdirr                      -> deleteDir
  * DEPRECATED getUserIDFromSQL            -> getUserID
- * DEPRECATED log_login                   -> see tcms_authentication
  * DEPRECATED delete_sql_session          -> see tcms_authentication
- * DEPRECATED decode_text                 -> encodeText
- * DEPRECATED encode_text                 -> decodeText
- * DEPRECATED decode_text_without_crypt   -> encodeText (with true)
- * DEPRECATED encode_text_without_crypt   -> decodeText (with true)
- * DEPRECATED decode_text_without_db      -> encodeText (with true, true)
- * DEPRECATED encode_text_without_db      -> decodeText (with true, true)
  * DEPRECATED create_session              -> see tcms_authentication
  * DEPRECATED create_sql_session          -> see tcms_authentication
  * DEPRECATED load_xml_files              -> getPathContent
- * DEPRECATED canCHMOD                    -> isCHMODable
  * DEPRECATED mainmenuSQL                 -> see tcms_menu_provider
  * DEPRECATED load_css_files              -> getPathContentCSSFilesRecursivly
- * DEPRECATED tcms_strrpos                -> lastIndexOf
- * DEPRECATED nl2br                       -> convertNewlineToHTML
- * DEPRECATED ampReplace                  -> replaceAmp
- * DEPRECATED urlAmpReplace               -> urlConvertToSEO
  * DEPRECATED check_session_exists        -> check if sql session exists
  * DEPRECATED check_session               -> checks the session files for the mtime
  * DEPRECATED check_sql_session           -> check session time in sql
  * DEPRECATED create_admin                -> get the admin session uid
- * DEPRECATED checkDirExist               -> Moved to tcms_file: Checks if a directory exist
- * DEPRECATED checkFileExist              -> Moved to tcms_file: Checks if a file exist
- * DEPRECATED reCHMOD                     -> Moved to tcms_file: Chmods files and directories recursivel to given permissions
- * DEPRECATED getDirectorySize            -> Moved to tcms_file: Get the complete filesize of a directory
- * DEPRECATED getDirectorySizeString      -> Moved to tcms_file: Get the complete filesize of a directory as a string
- * DEPRECATED isCHMODable                 -> Moved to tcms_file: Checks if a file is CHMODable
  * DEPRECATED getAllDocuments             -> Get all documents
- * DEPRECATED getPathContentAmount        -> Get the amount of related files in a path (without directorys)
- * DEPRECATED getPathContentCSSFilesRecursivly  -> Return a array with the files in "path"
  * DEPRECATED getXMLFiles                 -> Return a array of all xml files inside a path
  * DEPRECATED getMimeType                 -> Get the mimetype of a filename
- * DEPRECATED deleteDir                   -> Remove dir with all files and directorys inside
- * DEPRECATED deleteDirContent            -> Remove all files and directorys inside a directory
  * 
  * </code>
  *
@@ -996,7 +972,7 @@ class tcms_main {
 				$trans = array_flip($trans);
 				$text = str_replace('=', '__________', $text);
 				//$text = strtr($text, $trans);
-				$text = $this->ampReplace($text);
+				$text = $this->replaceAmp($text);
 				$text = htmlentities($text, ENT_QUOTES, $charset);
 				
 				if(extension_loaded('mbstring')) {
@@ -3082,7 +3058,7 @@ class tcms_main {
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id='.$value.'&amp;s='.$s
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
-						$link = $this->urlAmpReplace($link);
+						$link = $this->urlConvertToSEO($link);
 						
 						$arr_path[$value] = '<a class="pathway" href="'.$link.'">'.$arr_link['name'][$key].'</a>';
 						$titleway[$value] = $arr_link['name'][$key];
@@ -3129,7 +3105,7 @@ class tcms_main {
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id='.$value.'&amp;s='.$s
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
-						$link = $this->urlAmpReplace($link);
+						$link = $this->urlConvertToSEO($link);
 						
 						$arr_pathT[$value] = '<a class="pathway" href="'.$link.'">'.$arr_link['name'][$key].'</a>';
 						$titlewayT[$value] = $arr_link['name'][$key];
@@ -3221,7 +3197,7 @@ class tcms_main {
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id='.$value.'&amp;s='.$s
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $this->urlAmpReplace($link);
+					$link = $this->urlConvertToSEO($link);
 					
 					$arr_path[$value] = '<a class="pathway" href="'.$link.'">'.$arr_link['name'][$key].'</a>';
 					$titleway[$value] = $arr_link['name'][$key];
@@ -3271,7 +3247,7 @@ class tcms_main {
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id='.$value.'&amp;s='.$s
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $this->urlAmpReplace($link);
+					$link = $this->urlConvertToSEO($link);
 					
 					$arr_pathT[$value] = '<a class="pathway" href="'.$link.'">'.$arr_link['name'][$key].'</a>';
 					$titlewayT[$value] = $arr_link['name'][$key];
@@ -3381,7 +3357,7 @@ class tcms_main {
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id='.$arr_menu['link'][$mkey].'&amp;s='.$s
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
-						$link = $this->urlAmpReplace($link);
+						$link = $this->urlConvertToSEO($link);
 						
 						$arr_mainmenu['link'][$mkey] = '<a'.$ltarget.' class="mainlevel" href="'.$link.'">'.$arr_menu['name'][$mkey].'</a>';
 					}
@@ -3402,7 +3378,7 @@ class tcms_main {
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id='.$arr_menu['link'][$mkey].'&amp;s='.$s
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
-						$link = $this->urlAmpReplace($link);
+						$link = $this->urlConvertToSEO($link);
 						
 						$arr_mainmenu['submenu'][$mvalue][$mkey] = '<a'.$ltarget.' class="submenu" href="'.$link.'">'.$arr_menu['name'][$mkey].'</a>';
 					}
@@ -3478,7 +3454,7 @@ class tcms_main {
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id='.trim($arr_top['link'][$key]).'&amp;s='.$s
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
-						$link = $this->urlAmpReplace($link);
+						$link = $this->urlConvertToSEO($link);
 						
 						$arr_top_navi['link'][$key] = '<a'.$ltarget.' class="toplevel" href="'.$link.'">'.trim($arr_top['name'][$key]).'</a>';
 					}
@@ -3571,7 +3547,7 @@ class tcms_main {
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id='.trim($arr_top['link'][$key]).'&amp;s='.$s
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $this->urlAmpReplace($link);
+					$link = $this->urlConvertToSEO($link);
 					
 					$arr_top_navi['link'][$key] = '<a'.$ltarget.' class="toplevel" href="'.$link.'">'.trim($arr_top['name'][$key]).'</a>';
 				}
@@ -4114,19 +4090,6 @@ class tcms_main {
 	
 	
 	/**
-	 * DEPRECATED: Get the amount of related files in a path (without directorys)
-	 * 
-	 * @deprecated Deprecated since version 1.6
-	 * @param String $path
-	 * @return Integer
-	 */
-	public function readdir_count($path) {
-		return $this->_getPathContentAmount($path);
-	}
-	
-	
-	
-	/**
 	 * @deprecated Deprecated since version 1.6
 	 * @return Checks the session files for his old
 	 * @desc 
@@ -4173,33 +4136,11 @@ class tcms_main {
 	
 	/**
 	 * @deprecated Deprecated since version 1.6
-	 * @return With charset convert text
-	 * @desc converts text with charset
-	 */
-	public function rmdirr($path) {
-		return $this->deleteDir($path);
-	}
-	
-	
-	
-	/**
-	 * @deprecated Deprecated since version 1.6
 	 * @return return XML ID for username or realname
 	 * @desc returns false, if nothing found
 	 */
 	public function getUserIDfromSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $realOrNick) {
 		return $this->getUserID($realOrNick);
-	}
-	
-	
-	
-	/**
-	 * @deprecated Deprecated since version 1.6
-	 * @return boolean
-	 * @desc Log the login
-	 */
-	public function log_login($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcmsUserID) {
-		//$this->updateLoginTime($tcmsUserID);
 	}
 	
 	
@@ -4216,75 +4157,6 @@ class tcms_main {
 		$sqlAL->sqlDeleteOne($this->db_prefix.'session', $session);
 		
 		return true;
-	}
-	
-	
-	
-	/**
-	 * @deprecated Deprecated since version 1.6
-	 * DECODING TO CHARSETS
-	 * --
-	 * INPUT 2 SAVE
-	 *
-	 * @return With charset convert text
-	 * @desc converts text with charset
-	 */
-	public function decode_text($text, $quote, $charset) {
-		return $this->encodeText($text, $quote, $charset);
-	}
-	
-	
-	
-	/**
-	 * @deprecated Deprecated since version 1.6
-	 * @return With charset convert text
-	 * @desc converts text with charset
-	 */
-	public function encode_text($text, $quote, $charset) {
-		return $this->decodeText($text, $quote, $charset);
-	}
-	
-	
-	
-	/**
-	 * @deprecated Deprecated since version 1.6
-	 * @return With charset convert text
-	 * @desc converts text with charset
-	 */
-	public function decode_text_without_crypt($text, $quote, $charset) {
-		return $this->encodeText($text, $quote, $charset, true);
-	}
-	
-	
-	
-	/**
-	 * @deprecated Deprecated since version 1.6
-	 * @return With charset convert text
-	 * @desc converts text with charset
-	 */
-	public function encode_text_without_crypt($text, $quote, $charset) {
-		return $this->decodeText($text, $quote, $charset, true);
-	}
-	
-	
-	/**
-	 * @deprecated Deprecated since version 1.6
-	 * @return With charset convert text
-	 * @desc converts text with charset
-	 */
-	public function decode_text_without_db($text, $quote, $charset) {
-		return $this->encodeText($text, $quote, $charset, false, true);
-	}
-	
-	
-	
-	/**
-	 * @deprecated Deprecated since version 1.6
-	 * @return With charset convert text
-	 * @desc converts text with charset
-	 */
-	public function encode_text_without_db($text, $quote, $charset) {
-		return $this->decodeText($text, $quote, $charset, false, true);
 	}
 	
 	
@@ -4373,27 +4245,6 @@ class tcms_main {
 	
 	
 	/**
-	 * Checks if a file is CHMODable
-	 * 
-	 * @deprecated Deprecated since version 1.6
-	 * @return Boolean
-	 */
-	public function canCHMOD($file) {
-		$perms = fileperms($file);
-		
-		if($perms !== false) {
-			if(@chmod($file, $perms ^ 0001)) {
-				@chmod($file, $perms);
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	
-	
-	/**
 	 * @deprecated Deprecated since version 1.6
 	 * @return Mainmenu links (for SQL DB)
 	 * @desc returns an multi array with all mainmenulinks as array, the follow idizies exists
@@ -4476,7 +4327,7 @@ class tcms_main {
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id='.$arr_menu['link'][$mkey].'&amp;s='.$s
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $this->urlAmpReplace($link);
+					$link = $this->urlConvertToSEO($link);
 					
 					$arr_mainmenu['link'][$mkey] = '<a'.$ltarget.' class="mainlevel" href="'.$link.'">'.trim($arr_menu['name'][$mkey]).'</a>';
 				}
@@ -4496,7 +4347,7 @@ class tcms_main {
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id='.trim($arr_menu['link'][$mkey]).'&amp;s='.$s
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $this->urlAmpReplace($link);
+					$link = $this->urlConvertToSEO($link);
 					
 					$arr_mainmenu['submenu'][$mvalue][$mkey] = '<a'.$ltarget.' class="submenu" href="'.$link.'">'.trim($arr_menu['name'][$mkey]).'</a>';
 				}
@@ -4524,51 +4375,6 @@ class tcms_main {
 	
 	
 	/**
-	 * @deprecated Deprecated since version 1.6
-	 * @return return the last index of a expression
-	 */
-	public function tcms_strrpos($findHere, $searchThis, $offset = 0) {
-		return $this->lastIndexOf($findHere, $searchThis, $offset);
-	}
-	
-	
-	
-	/**
-	 * @deprecated Deprecated since version 1.6
-	 * @return A string where all nl replaced with a <br> tag
-	 * @desc
-	 */
-	public function nl2br($msg) {
-		return $this->convertNewlineToHTML($msg);
-	}
-	
-	
-	
-	/**
-	 * @deprecated Deprecated since version 1.6
-	 * @return string
-	 * @desc check unicode problems
-	 */
-	public function ampReplace($text) {
-		return $this->replaceAmp($text);
-	}
-	
-	
-	
-	/**
-	 * Convert a url link into a SEO friendly link
-	 * 
-	 * @deprecated Deprecated since version 1.6
-	 * @param String $text
-	 * @param Boolean $withApmersant = true
-	 */
-	public function urlAmpReplace($text, $withApmersant = true) {
-		return $this->urlConvertToSEO($text, $withApmersant);
-	}
-	
-	
-	
-	/**
 	 * Check if a session exist
 	 *
 	 * @deprecated Deprecated since version 1.6
@@ -4584,7 +4390,7 @@ class tcms_main {
 	public function check_session_exists($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session) {
 		if($this->db_choosenDB == 'xml') {
 			if($this->isReal($session) 
-			&& $this->checkFileExist($tcms_administer_site.'/tcms_session/'.$session) 
+			&& file_exists($tcms_administer_site.'/tcms_session/'.$session) 
 			&& filesize(''.$tcms_administer_site.'/tcms_session/'.$session) != 0) {
 				return true;
 			}
@@ -4779,210 +4585,6 @@ class tcms_main {
 	
 	
 	/**
-	 * Checks if a directory exist
-	 *
-	 * @deprecated Deprecated since version 1.6
-	 * @param string $directoryWithPath
-	 * @return bool
-	 */
-	public function checkDirExist($directoryWithPath) {
-		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
-		
-		$f = new tcms_file();
-		return $f->checkDirExist($directoryWithPath);
-		
-		/*
-		if(is_writable($directoryWithPath)) {
-			return true;
-		}
-		else {
-			return false;
-		}*/
-	}
-	
-	
-	
-	/**
-	 * Checks if a file exist
-	 *
-	 * @deprecated Deprecated since version 1.6
-	 * @param string $fileWithPath
-	 * @return bool
-	 */
-	public function checkFileExist($fileWithPath) {
-		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
-		
-		$f = new tcms_file();
-		return $f->checkFileExist($fileWithPath);
-		
-		/*
-		if(file_exists($fileWithPath)) {
-			return true;
-		}
-		else {
-			return false;
-		}*/
-	}
-	
-	
-	
-	/**
-	 * Get the complete filesize of a directory
-	 *
-	 * @deprecated Deprecated since version 1.6
-	 * @param String $path
-	 * @param Integer $size
-	 * @return Integer
-	 */
-	public function getDirectorySize($path, $size = 0) {
-		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
-		
-		$f = new tcms_file();
-		return $f->getDirectorySize($path, $size);
-		
-		/*
-		if(!is_dir($path)) {
-			$size += filesize($path);
-		}
-		else{
-			$dir = opendir($path);
-			
-			while($file = readdir($dir)) {
-				if(is_file($path."/".$file))
-					$size += filesize($path.'/'.$file);
-				
-				if(is_dir($path.'/'.$file) && $file != '.' && $file != '..')
-					$size = $this->getDirectorySize($path.'/'.$file, $size);
-			}
-		}
-		
-		return($size);*/
-	}
-	
-	
-	
-	/**
-	 * Get the complete filesize of a directory as string
-	 *
-	 * @deprecated Deprecated since version 1.6
-	 * @param String $path
-	 * @return String
-	 */
-	public function getDirectorySizeString($path) {
-		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
-		
-		$f = new tcms_file();
-		return $f->getDirectorySizeString($path);
-		
-		/*
-		$size = $this->getDirectorySize($path, 0);
-		
-		$measure = 'Byte';
-		
-		if($size >= 1024) {
-			$measure = 'KB';
-			$size = $size / 1024;
-		}
-		
-		if($size >= 1024) {
-			$measure = 'MB';
-			$size = $size / 1024;
-		}
-		
-		if($size >= 1024) {
-			$measure = 'GB';
-			$size = $size / 1024;
-		}
-		
-		$size = sprintf("%01.2f", $size);
-		
-		return $size.'&nbsp;'.$measure;*/
-	}
-	
-	
-	
-	/**
-	 * --- public function FROM Joomla! (www.joomla.org) ---
-	 * 
-	 * Chmods files and directories recursivel to given permissions
-	 * 
-	 * @deprecated Deprecated since version 1.6
-	 * @param path The starting file or directory (no trailing slash)
-	 * @param filemode Integer value to chmod files. NULL = dont chmod files.
-	 * @param dirmode Integer value to chmod directories. NULL = dont chmod directories.
-	 * @return TRUE=all succeeded FALSE=one or more chmods failed
-	 */
-	public function reCHMOD($path, $filemode = 0777, $dirmode = 1) {
-		$ret = true;
-		
-		if(is_dir($path)) {
-			$dh = opendir($path);
-			
-			while($file = readdir($dh)) {
-				if($file != '.' && $file != '..') {
-					$fullpath = $path.'/'.$file;
-					
-					if(is_dir($fullpath)) {
-						if(!reCHMOD($fullpath, $filemode, $dirmode)) {
-							$ret = false;
-						}
-					}
-					else{
-						if(isset($filemode)) {
-							if(!@chmod($fullpath, $filemode)) {
-								$ret = false;
-							}
-						}
-					} // if
-				} // if
-			} // while
-			
-			closedir($dh);
-			
-			if(isset($dirmode)) {
-				if(!@chmod($path, $dirmode)) {
-					$ret = false;
-				}
-			}
-		}
-		else {
-			if(isset($filemode)) {
-				$ret = @chmod($path, $filemode);
-			}
-		} // if
-		
-		return $ret;
-	}
-	
-	
-	
-	/**
-	 * Checks if a file is CHMODable
-	 * 
-	 * @deprecated Deprecated since version 1.6
-	 * @return Boolean
-	 */
-	public function isCHMODable($file) {
-		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
-		
-		$f = new tcms_file();
-		return $f->isCHMODable($file);
-		
-		/*
-		$perms = fileperms($file);
-		
-		if($perms !== false)
-			if(@chmod($file, $perms ^ 0001)) {
-				@chmod($file, $perms);
-				return true;
-			}
-		
-		return false;*/
-	}
-	
-	
-	
-	/**
 	 * Get all documents
 	 * 
 	 * @deprecated Deprecated since version 1.6
@@ -4993,39 +4595,6 @@ class tcms_main {
 		
 		$f = new tcms_file();
 		return $f->getAllDocuments($this->_tcmsConfig->getCharset());
-	}
-	
-	
-	
-	/**
-	 * Get the amount of related files in a path (without directorys)
-	 * 
-	 * @deprecated Deprecated since version 1.6
-	 * @param String $path
-	 * @return Integer
-	 */
-	public function getPathContentAmount($path) {
-		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
-		
-		$f = new tcms_file();
-		return $f->getPathContentAmount($path);
-	}
-	
-	
-	
-	/**
-	 * Return a array with the files in "path"
-	 * 
-	 * @deprecated Deprecated since version 1.6
-	 * @param String $path
-	 * @param Unknown $returnOnlyAmount = false
-	 * @return READ A DIR AND RETURN THE CSS FILES
-	 */
-	public function getPathContentCSSFilesRecursivly($path, $returnOnlyAmount = false) {
-		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
-		
-		$f = new tcms_file();
-		return $f->getPathContentCSSFilesRecursivly($path, $returnOnlyAmount);
 	}
 	
 	
@@ -5058,38 +4627,6 @@ class tcms_main {
 		
 		$f = new tcms_file();
 		return $f->getMimeType($filename, $tolower);
-	}
-	
-	
-	
-	/**
-	 * Deletes a directory beginning at the deepest path
-	 * 
-	 * @deprecated Deprecated since version 1.6
-	 * @param String $dir
-	 * @return Boolean
-	 */
-	public function deleteDir($dir) {
-		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
-		
-		$f = new tcms_file();
-		return $f->deleteDir($dir);
-	}
-	
-	
-	
-	/**
-	 * Deletes the content of a directory
-	 * 
-	 * @deprecated Deprecated since version 1.6
-	 * @param String $dir
-	 * @return Boolean
-	 */
-	public function deleteDirContent($dir) {
-		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
-		
-		$f = new tcms_file();
-		return $f->deleteDirContent($dir);
 	}
 }
 

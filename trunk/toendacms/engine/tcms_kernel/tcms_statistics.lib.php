@@ -49,7 +49,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * PRIVATE MEMBERS
  * --------------------------------------------------------
  * 
- * _getPathContent                           -> Get the content of a path
+ * _getPathContent             -> Return a array of all files or directory's inside a path
  * 
  * --------------------------------------------------------
  * PUBLIC MEMBERS
@@ -159,16 +159,25 @@ class tcms_statistics extends tcms_main {
 	
 	
 	/**
-	 * Get the content of a path
+	 * Return a array of all files or directory's inside a path
 	 *
-	 * @param Array $value
+	 * @param String $path
+	 * @param Boolean $onlyFolders
+	 * @param String $fileType = ''
+	 * @param Boolean $commentFolders = false
+	 * @return Array
 	 */
-	private function _getPathContent($path) {
+	private function _getPathContent($path, $onlyFolders = false, $fileType = '', $commentFolders = false) {
 		include_once('tcms_file.lib.php');
 		
 		$tcms_file = new tcms_file();
 		
-		return $tcms_file->getPathContent($path);
+		return $tcms_file->getPathContent(
+			$path, 
+			$onlyFolders, 
+			$fileType, 
+			$commentFolders
+		);
 	}
 	
 	

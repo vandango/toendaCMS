@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the poll functionality.
  *
- * @version 0.3.9
+ * @version 0.4.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -228,7 +228,7 @@ if($use_poll == 1) {
 				
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=polls&amp;s='.$s
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
 				echo '<a href="'.$link.'">'._POLL_ALLPOLLS.'</a>';
 				
@@ -236,7 +236,7 @@ if($use_poll == 1) {
 				$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
 				.'id=polls&s='.$s.'&ps=result&vote='.$current_poll_tag
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
 				echo '&nbsp;&nbsp;<a href="'.$link.'">'._POLL_RESULT.'</a>';
 				echo '</div>';
@@ -339,7 +339,7 @@ if($use_poll == 1) {
 			
 			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id=polls&s='.$s
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
-			$link = $tcms_main->urlAmpReplace($link);
+			$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<br /><a href="'.$link.'">'._POLL_ALLPOLLS.'</a>';
 		}
@@ -404,7 +404,7 @@ if($use_poll == 1) {
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id='.$id.'&amp;s='.$s
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
 				echo '<script>'
 				.'document.location=\''.$link.'\';'
@@ -415,7 +415,7 @@ if($use_poll == 1) {
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id='.$id.'&amp;s='.$s
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlAmpReplace($link);
+				$link = $tcms_main->urlConvertToSEO($link);
 				
 				echo '<script>'
 				.'document.location=\''.$link.'\';'

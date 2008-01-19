@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for the import api.
  *
- * @version 0.2.5
+ * @version 0.2.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -208,17 +208,17 @@ if($todo == 'bloggerftp') {
 					$post_date_time = $blog->post->ItemDateTime;
 					$post_author = $blog->post->ItemAuthor;
 					
-					$post_title = $tcms_main->decode_text_without_crypt($post_title, '2', $c_charset);
-					$post_content = $tcms_main->decode_text_without_crypt($post_content, '2', $c_charset);
+					$post_title = $tcms_main->encodeText($post_title, '2', $c_charset, true);
+					$post_content = $tcms_main->encodeText($post_content, '2', $c_charset, true);
 					
 					post_date_manip($post_date_time);
-					$enc_post_title = $tcms_main->decode_text($post_title, '2', $c_charset);
-					$enc_post_content = $tcms_main->decode_text($post_content, '2', $c_charset);
-					$enc_post_author = $tcms_main->decode_text($post_author, '2', $c_charset);
+					$enc_post_title = $tcms_main->encodeText($post_title, '2', $c_charset);
+					$enc_post_content = $tcms_main->encodeText($post_content, '2', $c_charset);
+					$enc_post_author = $tcms_main->encodeText($post_author, '2', $c_charset);
 					
-					$enc_post_title = $tcms_main->decode_text($post_title, '2', $c_charset);
-					$enc_post_content = $tcms_main->decode_text($post_content, '2', $c_charset);
-					$enc_post_author = $tcms_main->decode_text($post_author, '2', $c_charset);
+					$enc_post_title = $tcms_main->encodeText($post_title, '2', $c_charset);
+					$enc_post_content = $tcms_main->encodeText($post_content, '2', $c_charset);
+					$enc_post_author = $tcms_main->encodeText($post_author, '2', $c_charset);
 					
 					if($choosenDB == 'xml'){
 						$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_news/'.$order.'.xml', 'w');
@@ -280,7 +280,7 @@ if($todo == 'bloggerftp') {
 						$comment_date_time = $comments->CommentDateTime;
 						
 						comment_date_manip($comment_date_time);
-						$enc_comment_content = $tcms_main->decode_text($comment_content, '2', $c_charset);
+						$enc_comment_content = $tcms_main->encodeText($comment_content, '2', $c_charset);
 						
 						if($choosenDB == 'xml'){
 							$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_news/comments_'.$order.'/'.$comment_time.'.xml', 'w');

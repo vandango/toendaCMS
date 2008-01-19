@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used as a Knowledgebase.
  *
- * @version 0.5.6
+ * @version 0.5.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -1167,7 +1167,7 @@ if($todo == 'save_config'){
 		$content = str_replace('../../../../', '', $content);
 	}
 	else{
-		$content = $tcms_main->nl2br($content);
+		$content = $tcms_main->convertNewlineToHTML($content);
 	}
 	
 	
@@ -1177,9 +1177,9 @@ if($todo == 'save_config'){
 	
 	
 	// CHARSETS
-	$new_faq_title    = $tcms_main->decode_text($new_faq_title, '2', $c_charset);
-	$new_faq_subtitle = $tcms_main->decode_text($new_faq_subtitle, '2', $c_charset);
-	$content          = $tcms_main->decode_text($content, '2', $c_charset);
+	$new_faq_title    = $tcms_main->encodeText($new_faq_title, '2', $c_charset);
+	$new_faq_subtitle = $tcms_main->encodeText($new_faq_subtitle, '2', $c_charset);
+	$content          = $tcms_main->encodeText($content, '2', $c_charset);
 	
 	
 	if($choosenDB == 'xml'){
@@ -1238,7 +1238,7 @@ if($todo == 'save'){
 		$content = str_replace('../../../../', '', $content);
 	}
 	else{
-		$content = $tcms_main->nl2br($content);
+		$content = $tcms_main->convertNewlineToHTML($content);
 	}
 	
 	
@@ -1334,7 +1334,7 @@ if($todo == 'next'){
 		$content = str_replace('../../../../', '', $content);
 	}
 	else{
-		$content = $tcms_main->nl2br($content);
+		$content = $tcms_main->convertNewlineToHTML($content);
 	}
 	
 	
@@ -1344,9 +1344,9 @@ if($todo == 'next'){
 	
 	
 	// CHARSETS
-	$new_faq_title = $tcms_main->decode_text($new_faq_title, '2', $c_charset);
-	$new_faq_subt = $tcms_main->decode_text($new_faq_subt, '2', $c_charset);
-	$content = $tcms_main->decode_text($content, '2', $c_charset);
+	$new_faq_title = $tcms_main->encodeText($new_faq_title, '2', $c_charset);
+	$new_faq_subt = $tcms_main->encodeText($new_faq_subt, '2', $c_charset);
+	$content = $tcms_main->encodeText($content, '2', $c_charset);
 	
 	//$content = htmlentities($content);
 	

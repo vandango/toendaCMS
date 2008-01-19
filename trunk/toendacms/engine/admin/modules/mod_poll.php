@@ -9,8 +9,7 @@
 | 
 | Poll Admin
 |
-| File:		mod_poll.php
-| Version:	0.3.2
+| File:	mod_poll.php
 |
 +
 */
@@ -19,6 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * Poll Admin
+ *
+ * This module is used for the polls.
+ *
+ * @version 0.3.4
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 if(isset($_GET['poll'])){ $poll = $_GET['poll']; }
@@ -78,7 +87,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			.'<th valign="middle" class="tcms_db_title" width="20%" align="right">'._TABLE_FUNCTIONS.'</th><tr>';
 		
 		if($choosenDB == 'xml'){
-			$arr_allpolls = $tcms_main->load_xml_files('../../'.$tcms_administer_site.'/tcms_polls/', 'files');
+			$arr_allpolls = $tcms_main->load_xml_files(_TCMS_PATH.'/tcms_polls/', 'files');
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
@@ -105,7 +114,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			
 			foreach($arr_allpolls as $key => $value){
 				if($choosenDB == 'xml'){
-					$ap_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_polls/'.$value, 'r');
+					$ap_xml = new xmlparser(_TCMS_PATH.'/tcms_polls/'.$value, 'r');
 					$poll_subtitle = $ap_xml->read_section('poll', 'title');
 					$value = substr($value, 0, 32);
 				}
@@ -156,7 +165,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		//=====================================================
 		
 		if($choosenDB == 'xml'){
-			$poll_xml              = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/poll.xml','r');
+			$poll_xml              = new xmlparser(_TCMS_PATH.'/tcms_global/poll.xml','r');
 			$old_tmp_poll_title    = $poll_xml->read_section('poll', 'poll_title');
 			$old_tmp_allpoll_title = $poll_xml->read_section('poll', 'allpoll_title');
 			
@@ -268,7 +277,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		$ws_poll = 0;
 		
 		if(!isset($poll) || $poll == '' || empty($poll)){
-			if($choosenDB == 'xml'){ while(($poll = substr(md5(time()), 0, 32)) && file_exists('../../'.$tcms_administer_site.'/tcms_polls/'.$poll.'.xml')){} }
+			if($choosenDB == 'xml'){ while(($poll = substr(md5(time()), 0, 32)) && file_exists(_TCMS_PATH.'/tcms_polls/'.$poll.'.xml')){} }
 			else{ $poll = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'news', 32); }
 			
 			$wr_poll = 'w';
@@ -293,7 +302,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		
 		if($ws_poll == 0){
 			if($choosenDB == 'xml'){
-				$vote_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_polls/'.$poll.'.xml', $wr_poll);
+				$vote_xml = new xmlparser(_TCMS_PATH.'/tcms_polls/'.$poll.'.xml', $wr_poll);
 				$your_poll_title  = $vote_xml->read_section('poll', 'title');
 				
 				$your_poll_title = $tcms_main->decodeText($your_poll_title, '2', $c_charset);
@@ -425,17 +434,17 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		}
 		else{
 			// CHARSETS
-			$your_new_poll_titel = $tcms_main->decode_text($your_new_poll_titel, '2', $c_charset);
+			$your_new_poll_titel = $tcms_main->encodeText($your_new_poll_titel, '2', $c_charset);
 			
 			
 			if($choosenDB == 'xml'){
 				if($cnp == 1){
-					mkdir('../../'.$tcms_administer_site.'/tcms_polls/'.$ynp);
-					chmod('../../'.$tcms_administer_site.'/tcms_polls/'.$ynp, 0777);
+					mkdir(_TCMS_PATH.'/tcms_polls/'.$ynp);
+					chmod(_TCMS_PATH.'/tcms_polls/'.$ynp, 0777);
 				}
 				
 				
-				$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_polls/'.$ynp.'.xml', 'w');
+				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_polls/'.$ynp.'.xml', 'w');
 				$xmluser->xml_c_declaration($c_charset);
 				$xmluser->xml_section('poll');
 				
@@ -446,7 +455,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				for($pppo = 1; $pppo < $on; $pppo++){
 					if(isset($_POST['option'.$pppo]) && $_POST['option'.$pppo] != '' && !empty($_POST['option'.$pppo])){
 						$tmp = $_POST['option'.$pppo];
-						$tmp = $tcms_main->decode_text($tmp, '2', $c_charset);
+						$tmp = $tcms_main->encodeText($tmp, '2', $c_charset);
 						$xmluser->write_value('question'.$cq, $tmp);
 						$cq++;
 					}
@@ -482,7 +491,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 					for($pppo = 1; $pppo < $on; $pppo++){
 						if(isset($_POST['option'.$pppo]) && $_POST['option'.$pppo] != '' && !empty($_POST['option'.$pppo])){
 							$tmp = $_POST['option'.$pppo];
-							$tmp = $tcms_main->decode_text($tmp, '2', $c_charset);
+							$tmp = $tcms_main->encodeText($tmp, '2', $c_charset);
 							
 							switch($choosenDB){
 								case 'mysql':
@@ -513,7 +522,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 					for($pppo = 1; $pppo < $on; $pppo++){
 						if(isset($_POST['option'.$pppo]) && $_POST['option'.$pppo] != '' && !empty($_POST['option'.$pppo])){
 							$tmp = $_POST['option'.$pppo];
-							$tmp = $tcms_main->decode_text($tmp, '2', $c_charset);
+							$tmp = $tcms_main->encodeText($tmp, '2', $c_charset);
 							$newSQLData .= ', '.$tcms_db_prefix.'polls.question'.$cq.'="'.$tmp.'"';
 							$cq++;
 						}
@@ -560,12 +569,12 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		;
 		
 		// CHARSETS
-		$tmp_poll_title    = $tcms_main->decode_text($tmp_poll_title, '2', $c_charset);
-		$tmp_allpoll_title = $tcms_main->decode_text($tmp_allpoll_title, '2', $c_charset);
+		$tmp_poll_title    = $tcms_main->encodeText($tmp_poll_title, '2', $c_charset);
+		$tmp_allpoll_title = $tcms_main->encodeText($tmp_allpoll_title, '2', $c_charset);
 		
 		
 		if($choosenDB == 'xml'){
-			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/poll.xml', 'w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/poll.xml', 'w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('poll');
 			
@@ -618,8 +627,8 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 	if($todo == 'delete'){
 		if($check == 'yes'){
 			if($choosenDB == 'xml'){
-				unlink('../../'.$tcms_administer_site.'/tcms_polls/'.$poll.'.xml');
-				$tcms_main->rmdirr('../../'.$tcms_administer_site.'/tcms_polls/'.$poll.'/');
+				unlink(_TCMS_PATH.'/tcms_polls/'.$poll.'.xml');
+				$tcms_file->deleteDir(_TCMS_PATH.'/tcms_polls/'.$poll.'/');
 			}
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB);

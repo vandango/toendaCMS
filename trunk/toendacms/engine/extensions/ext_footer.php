@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a footer.
  *
- * @version 0.5.1
+ * @version 0.5.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -40,7 +40,7 @@ echo '<div class="legal">';
 
 $link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=impressum&amp;s='.$s
 .( isset($lang) ? '&amp;lang='.$lang : '' );
-$link = $tcms_main->urlAmpReplace($link);
+$link = $tcms_main->urlConvertToSEO($link);
 
 echo '<a class="legal" href="'.$tcms_config->getWebpageOwnerUrl().'" target="_blank">'.$tcms_config->getWebpageOwner().'</a>&nbsp;'
 .'<span class="legal">&copy; '.$tcms_config->getWebpageCopyright().' '._TCMS_ADMIN_RIGHT.'</span>&nbsp;';

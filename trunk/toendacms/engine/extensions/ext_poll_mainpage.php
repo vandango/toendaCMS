@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a poll module.
  *
- * @version 0.4.1
+ * @version 0.4.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -217,7 +217,7 @@ if($paction == 'poll'){
 	$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 	.'id=polls&amp;s='.$s.'&amp;ps=result&amp;vote='.$current_pollall_tag
 	.( isset($lang) ? '&amp;lang='.$lang : '' );
-	$link = $tcms_main->urlAmpReplace($link);
+	$link = $tcms_main->urlConvertToSEO($link);
 	
 	echo '&nbsp;<a href="'.$link.'">'._POLL_RESULT.'</a>';
 	echo '</div>';
@@ -389,7 +389,7 @@ if(is_array($arr_allpolls)){
 		$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 		.'id=polls&amp;s='.$s.'&amp;current_pollall='.substr($value, 0, 32)
 		.( isset($lang) ? '&amp;lang='.$lang : '' );
-		$link = $tcms_main->urlAmpReplace($link);
+		$link = $tcms_main->urlConvertToSEO($link);
 		
 		echo tcms_html::text('<a href="'.$link.'">'.$poll_subtitle.'</a><br />', 'left');
 	}
@@ -456,7 +456,7 @@ if($a_make == 'vote'){
 		$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 		.'id='.$id.'&amp;s='.$s
 		.( isset($lang) ? '&amp;lang='.$lang : '' );
-		$link = $tcms_main->urlAmpReplace($link);
+		$link = $tcms_main->urlConvertToSEO($link);
 		
 		echo '<script>'
 		.'document.location=\''.$link.'\';'
@@ -467,7 +467,7 @@ if($a_make == 'vote'){
 		$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 		.'id='.$id.'&amp;s='.$s
 		.( isset($lang) ? '&amp;lang='.$lang : '' );
-		$link = $tcms_main->urlAmpReplace($link);
+		$link = $tcms_main->urlConvertToSEO($link);
 		
 		echo '<script>'
 		.'document.location=\''.$link.'\';'

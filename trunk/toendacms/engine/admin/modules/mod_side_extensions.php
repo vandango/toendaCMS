@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the sidebar extensions.
  *
- * @version 0.5.1
+ * @version 0.5.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -662,17 +662,17 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		
 		
 		// CHARSETS
-		$new_sidemenu_title = $tcms_main->decode_text($new_sidemenu_title, '2', $c_charset);
-		$sidebar_title      = $tcms_main->decode_text($sidebar_title, '2', $c_charset);
-		$chooser_title      = $tcms_main->decode_text($chooser_title, '2', $c_charset);
-		$search_title       = $tcms_main->decode_text($search_title, '2', $c_charset);
-		$login_title        = $tcms_main->decode_text($login_title, '2', $c_charset);
-		$new_usermenu_title = $tcms_main->decode_text($new_usermenu_title, '2', $c_charset);
-		$nologin            = $tcms_main->decode_text($nologin, '2', $c_charset);
-		$reg_link           = $tcms_main->decode_text($reg_link, '2', $c_charset);
-		$reg_user           = $tcms_main->decode_text($reg_user, '2', $c_charset);
-		$reg_pass           = $tcms_main->decode_text($reg_pass, '2', $c_charset);
-		$search_word        = $tcms_main->decode_text($search_word, '2', $c_charset);
+		$new_sidemenu_title = $tcms_main->encodeText($new_sidemenu_title, '2', $c_charset);
+		$sidebar_title      = $tcms_main->encodeText($sidebar_title, '2', $c_charset);
+		$chooser_title      = $tcms_main->encodeText($chooser_title, '2', $c_charset);
+		$search_title       = $tcms_main->encodeText($search_title, '2', $c_charset);
+		$login_title        = $tcms_main->encodeText($login_title, '2', $c_charset);
+		$new_usermenu_title = $tcms_main->encodeText($new_usermenu_title, '2', $c_charset);
+		$nologin            = $tcms_main->encodeText($nologin, '2', $c_charset);
+		$reg_link           = $tcms_main->encodeText($reg_link, '2', $c_charset);
+		$reg_user           = $tcms_main->encodeText($reg_user, '2', $c_charset);
+		$reg_pass           = $tcms_main->encodeText($reg_pass, '2', $c_charset);
+		$search_word        = $tcms_main->encodeText($search_word, '2', $c_charset);
 		
 		if($choosenDB == 'xml'){
 			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/sidebar.xml', 'w');

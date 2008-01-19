@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the news categories.
  *
- * @version 0.2.7
+ * @version 0.2.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -284,11 +284,11 @@ if($todo == 'save'){
 	if($new_cat_name == '' || !isset($new_cat_name)){ $new_cat_name = 'Uncategorized'; }
 	if($new_cat_desc == '' || !isset($new_cat_desc)){ $new_cat_desc = ''; }
 	
-	$new_cat_desc = $tcms_main->nl2br($new_cat_desc);
+	$new_cat_desc = $tcms_main->convertNewlineToHTML($new_cat_desc);
 	
 	// CHARSETS
-	$new_cat_name = $tcms_main->decode_text($new_cat_name, '2', $c_charset);
-	$new_cat_desc = $tcms_main->decode_text($new_cat_desc, '2', $c_charset);
+	$new_cat_name = $tcms_main->encodeText($new_cat_name, '2', $c_charset);
+	$new_cat_desc = $tcms_main->encodeText($new_cat_desc, '2', $c_charset);
 	
 	if($choosenDB == 'xml'){
 		if(!isset($_POST['CatCount']) || $_POST['CatCount'] == '' || empty($_POST['CatCount'])){ $_POST['CatCount'] = 0; }
