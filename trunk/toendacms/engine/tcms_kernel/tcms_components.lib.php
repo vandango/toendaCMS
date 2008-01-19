@@ -26,7 +26,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * a complete API with toendaCMS constants and can load the
  * component itself.
  *
- * @version 0.3.3
+ * @version 0.3.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_cs
@@ -183,8 +183,12 @@ class tcms_cs extends tcms_main {
 	 * @return Array
 	 */
 	public function getAllSideCS($isAdmin) {
+		include_once($this->tcms_main_path.'/../engine/tcms_kernel/tcms_file.lib.php');
+		
+		$tcms_file = new tcms_file();
+		
 		$i = 0;
-		$arrCSFiles = $this->getPathContent($this->tcms_main_path.'/components/');
+		$arrCSFiles = $tcms_file->getPathContent($this->tcms_main_path.'/components/');
 		
 		if(is_array($arrCSFiles)){
 			foreach($arrCSFiles as $key => $val){
@@ -251,7 +255,11 @@ class tcms_cs extends tcms_main {
 	 * @return Array
 	 */
 	public function getMainCS($item, $isAdmin) {
-		$arrCSFiles = $this->getPathContent($this->tcms_main_path.'/components/');
+		include_once($this->tcms_main_path.'/../engine/tcms_kernel/tcms_file.lib.php');
+		
+		$tcms_file = new tcms_file();
+		
+		$arrCSFiles = $tcms_file->getPathContent($this->tcms_main_path.'/components/');
 		
 		if(is_array($arrCSFiles)){
 			foreach($arrCSFiles as $key => $val){

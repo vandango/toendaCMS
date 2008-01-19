@@ -23,22 +23,36 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.4.2
+ * @version 1.4.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
  *
  * <code>
  * 
- * ---------------------------------------------
- * TCMS Data Container methods
- * ---------------------------------------------
+ * --------------------------------------------------------
+ * CONSTRUCTOR AND DESTRUCTOR
+ * --------------------------------------------------------
  * 
  * __construct                               -> Constructor
  * __destruct                                -> Destructor
  * 
+ * --------------------------------------------------------
+ * PROPERTIES
+ * --------------------------------------------------------
+ * 
  * setTcmsTimeObj                            -> Set the tcms_time object
+ * 
+ * --------------------------------------------------------
+ * PRIVATE MEMBERS
+ * --------------------------------------------------------
+ * 
+ * _getPathContent                           -> Get the content of a path
  *
+ * --------------------------------------------------------
+ * PUBLIC MEMBERS
+ * --------------------------------------------------------
+ * 
  * getNewsDC                                 -> Get a specific news data container
  * getNewsDCList                             -> Get a list of news data container
  * getNewsTitle                              -> Get the title of a news element
@@ -88,6 +102,12 @@ class tcms_datacontainer_provider extends tcms_main {
 	
 	
 	
+	// -------------------------------------------------
+	// CONSTRUCTORS
+	// -------------------------------------------------
+	
+	
+	
 	/**
 	 * Constructor
 	 *
@@ -131,6 +151,12 @@ class tcms_datacontainer_provider extends tcms_main {
 	
 	
 	
+	// -------------------------------------------------
+	// PROPERTIES
+	// -------------------------------------------------
+	
+	
+	
 	/**
 	 * Set the tcms_time object
 	 *
@@ -139,6 +165,33 @@ class tcms_datacontainer_provider extends tcms_main {
 	public function setTcmsTimeObj($value) {
 		$this->_tcmsTime = $value;
 	}
+	
+	
+	
+	// -------------------------------------------------
+	// PRIVATE MEMBERS
+	// -------------------------------------------------
+	
+	
+	
+	/**
+	 * Get the content of a path
+	 *
+	 * @param Array $value
+	 */
+	private function _getPathContent($path) {
+		include_once('tcms_file.lib.php');
+		
+		$tcms_file = new tcms_file();
+		
+		return $tcms_file->getPathContent($path);
+	}
+	
+	
+	
+	// -------------------------------------------------
+	// PUBLIC MEMBERS
+	// -------------------------------------------------
 	
 	
 	
@@ -298,11 +351,11 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param Boolean $withShowOnFrontpage = false
 	 * @return tcms_news_dc Object Array
 	 */
-	public function getNewsDCList($language, $usergroup = '', $amount, $published = '1', $withShowOnFrontpage = false){
+	public function getNewsDCList($language, $usergroup = '', $amount, $published = '1', $withShowOnFrontpage = false) {
 		$doFill = false;
 		
 		if($this->m_choosenDB == 'xml') {
-			$arr_filename = $this->getPathContent($this->m_path.'/tcms_news/');
+			$arr_filename = $this->_getPathContent($this->m_path.'/tcms_news/');
 			
 			$count = 0;
 			
@@ -686,7 +739,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			
 			$ret = $this->decodeText($xml->readSection('main', 'title'), '2', $c_charset);*/
 			
-			$arr_docs = $this->getPathContent(
+			$arr_docs = $this->_getPathContent(
 				$this->m_path.'/tcms_news/'
 			);
 			
@@ -875,7 +928,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 */
 	public function getXmlIdFromNewsLanguage($id, $language) {
 		if($this->m_choosenDB == 'xml'){
-			$arr_docs = $this->getPathContent(
+			$arr_docs = $this->_getPathContent(
 				$this->m_path.'/tcms_news/'
 			);
 			
@@ -1109,7 +1162,7 @@ class tcms_datacontainer_provider extends tcms_main {
 		else{
 			$imagePath = '/';
 		}
-		
+		echo '1';
 		$arrCommentsDC = $this->getCommentDCList(
 			'__ALL_NEWS__', 
 			'news', 
@@ -1117,7 +1170,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$language, 
 			$amount
 		);
-		
+		echo '2';
 		if($this->isArray($arrCommentsDC)) {
 			foreach($arrCommentsDC as $n_key => $n_value) {
 				$dcComment = new tcms_dc_comment();
@@ -1176,7 +1229,7 @@ class tcms_datacontainer_provider extends tcms_main {
 		if($this->m_choosenDB == 'xml') {
 			if($module == 'news') {
 				if(trim($newsID) == '__ALL_NEWS__') {
-					$arr_comments = $this->getPathContent(
+					$arr_comments = $this->_getPathContent(
 						$this->m_path.'/tcms_news/', 
 						true, 
 						'', 
@@ -1184,7 +1237,7 @@ class tcms_datacontainer_provider extends tcms_main {
 					);
 				}
 				else {
-					$arr_comments = $this->getPathContent(
+					$arr_comments = $this->_getPathContent(
 						$this->m_path.'/tcms_news/comments_'.$newsID.'/'
 					);
 				}
@@ -1200,7 +1253,7 @@ class tcms_datacontainer_provider extends tcms_main {
 				if($this->isArray($arr_comments)) {
 					foreach($arr_comments as $nkey => $nvalue) {
 						if(trim($newsID) == '__ALL_NEWS__') {
-							$arrCommentFile = $this->getPathContent(
+							$arrCommentFile = $this->_getPathContent(
 								$this->m_path.'/tcms_news/'.$nvalue.'/'
 							);
 							
@@ -1776,7 +1829,7 @@ class tcms_datacontainer_provider extends tcms_main {
 		$count = 0;
 		
 		if($this->m_choosenDB == 'xml'){
-			$arr_docs = $this->getPathContent(
+			$arr_docs = $this->_getPathContent(
 				$this->m_path.'/tcms_content_languages/'
 			);
 			
@@ -1840,7 +1893,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 */
 	public function getXmlIdFromContentLanguage($id, $language) {
 		if($this->m_choosenDB == 'xml') {
-			$arr_docs = $this->getPathContent(
+			$arr_docs = $this->_getPathContent(
 				$this->m_path.'/tcms_content_languages/'
 			);
 			

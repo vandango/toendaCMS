@@ -4993,55 +4993,6 @@ class tcms_main {
 		
 		$f = new tcms_file();
 		return $f->getAllDocuments($this->_tcmsConfig->getCharset());
-		/*
-		$count = 0;
-		
-		$c_charset = $this->_tcmsConfig->getCharset();
-		
-		if($this->db_choosenDB == 'xml') {
-			$arr_docs = $this->getPathContent($this->administer.'/tcms_content/');
-			
-			if($this->isReal($arr_docs)) {
-				unset($val);
-				
-				foreach($arr_docs as $key => $val) {
-					$xml = new xmlparser($this->administer.'/tcms_content/'.$val,'r');
-					
-					$arrDocuments['id'][$count] = $xml->readSection('main', 'id');
-					$arrDocuments['name'][$count] = $this->decodeText(
-						$xml->readSection('main', 'title'), '2', $c_charset
-					);
-					
-					$xml->flush();
-					unset($xml);
-					
-					$count++;
-				}
-			}
-		}
-		else {
-			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
-			$sqlCN = $sqlAL->connect(
-				$this->db_user, 
-				$this->db_pass, 
-				$this->db_host, 
-				$this->db_database, 
-				$this->db_port
-			);
-			
-			$sqlQR = $sqlAL->getAll($this->db_prefix.'content');
-			
-			while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
-				$arrDocuments['id'][$count] = $sqlObj->uid;
-				$arrDocuments['name'][$count] = $this->decodeText($sqlObj->title, '2', $c_charset);
-				
-				$count++;
-			}
-			
-			$sqlAL->freeResult($sqlQR);
-		}
-		
-		return $arrDocuments;*/
 	}
 	
 	
@@ -5058,25 +5009,6 @@ class tcms_main {
 		
 		$f = new tcms_file();
 		return $f->getPathContentAmount($path);
-		/*
-		$handle = opendir($path);
-		$i = 0;
-		
-		while ($dir = readdir($handle)) {
-			if ($dir != '.' 
-			&& $dir != '..' 
-			&& $dir != 'CVS' 
-			&& $dir != '.svn'
-			&& $dir != '_svn'
-			&& $dir != '.SVN'
-			&& $dir != '_SVN'
-			&& substr($dir, 0, 9) != 'comments_' 
-			&& $dir != 'index.html') {
-				$i++;
-			}
-		}
-		
-		return $i;*/
 	}
 	
 	
@@ -5094,65 +5026,6 @@ class tcms_main {
 		
 		$f = new tcms_file();
 		return $f->getPathContentCSSFilesRecursivly($path, $returnOnlyAmount);
-		/*
-		$handle = opendir($path);
-		$i = 0;
-		$c = 0;
-		
-		while($directories = readdir($handle)) {
-			if($directories != '.' 
-			&& $directories != '..' 
-			&& $directories != 'CVS' 
-			&& $directories != '.svn'
-			&& $directories != '_svn'
-			&& $directories != '.SVN'
-			&& $directories != '_SVN'
-			&& $directories != 'index.html') {
-				if(strpos($directories, '.css')) {
-					$arr_css['files'][$i] = $directories;
-					$i++;
-				}
-				else{
-					if(!is_file($directories) && !strpos($directories, '.')) {
-						$arr_css['dir'][$i] = $directories;
-						$i++;
-					}
-				}
-			}
-		}
-		
-		if(is_array($arr_css['dir'])) {
-			foreach($arr_css['dir'] as $key => $value) {
-				$handle = opendir($path.'/'.$value);
-				while($directories = readdir($handle)) {
-					if($directories != '.' 
-					&& $directories != '..' 
-					&& $directories != 'CVS' 
-					&& $directories != '.svn'
-					&& $directories != '_svn'
-					&& $directories != '.SVN'
-					&& $directories != '_SVN'
-					&& $directories != 'index.html') {
-						if(strpos($directories, '.css')) {
-							$arr_css['files'][$i] = $directories;
-							$i++;
-						}
-					}
-				}
-			}
-		}
-		
-		if($i == 0) {
-			return NULL;
-		}
-		else {
-			if($returnOnlyAmount) {
-				return $i;
-			}
-			else {
-				return $arr_css;
-			}
-		}*/
 	}
 	
 	
@@ -5185,37 +5058,6 @@ class tcms_main {
 		
 		$f = new tcms_file();
 		return $f->getMimeType($filename, $tolower);
-		/*
-		// get the filename from an url
-		if(substr($filename, 0, 7) == 'http://' || substr($filename, 0, 6) == 'ftp://') {
-			$filename = substr(strrchr($filename, "/"), 1);
-			
-			if(strlen($filename) > 6 && strpos($filename, '?')) {
-				$filename = substr($filename, 0, strpos($filename, '?'));
-			}
-		}
-		
-		// tar.gz
-		if(strpos($filename, '.tar.gz')) {
-			$mime = 'tar';
-		}
-		else{
-			$mime = substr(strrchr($filename, '.'), 1);
-			
-			if($filename == '') {
-				$mime = 'empty';
-			}
-			else {
-				$mime = strtolower(str_replace('.', '', $mime));
-			}
-		}
-		
-		if($tolower) {
-			return strtolower($mime);
-		}
-		else {
-			return $mime;
-		}*/
 	}
 	
 	
@@ -5232,42 +5074,6 @@ class tcms_main {
 		
 		$f = new tcms_file();
 		return $f->deleteDir($dir);
-		/*
-		if(substr($dir, strlen($dir) - 1, 1) != '/') {
-			$dir .= '/';
-		}
-		
-		if($handle = opendir($dir)) {
-			while($obj = readdir($handle)) {
-				if($obj != '.' 
-				&& $obj != '..'
-				&& $obj != 'CVS'
-				&& $obj != 'cvs'
-				&& $obj != '.SVN'
-				&& $obj != '.svn'
-				&& $obj != '_svn'
-				&& $obj != '_SVN') {
-					if(is_dir($dir.$obj)) {
-						if(!$this->deleteDir($dir.$obj))
-							return false;
-					}
-					elseif(is_file($dir.$obj)) {
-						if(!unlink($dir.$obj))
-							return false;
-					}
-				}
-			}
-			
-			closedir($handle);
-			
-			if(!@rmdir($dir)) {
-				return false;
-			}
-			
-			return true;
-		}
-		
-		return false;*/
 	}
 	
 	
@@ -5284,38 +5090,6 @@ class tcms_main {
 		
 		$f = new tcms_file();
 		return $f->deleteDirContent($dir);
-		/*
-		if(substr($dir, strlen($dir) - 1, 1) != '/') {
-			$dir .= '/';
-		}
-		
-		if($handle = opendir($dir)) {
-			while($obj = readdir($handle)) {
-				if($obj != '.' 
-				&& $obj != '..'
-				&& $obj != 'CVS'
-				&& $obj != 'cvs'
-				&& $obj != '.SVN'
-				&& $obj != '.svn'
-				&& $obj != '_svn'
-				&& $obj != '_SVN') {
-					if(is_dir($dir.$obj)) {
-						if(!$this->deleteDir($dir.$obj))
-							return false;
-					}
-					elseif(is_file($dir.$obj)) {
-						if(!unlink($dir.$obj))
-							return false;
-					}
-				}
-			}
-			
-			closedir($handle);
-			
-			return true;
-		}
-		
-		return false;*/
 	}
 }
 
