@@ -61,7 +61,7 @@ $arr_char[13] = 'EUC-JP';
 	languages
 */
 
-$arr_language = $tcms_main->getPathContent('../engine/language/');
+$arr_language = $tcms_file->getPathContent('../engine/language/');
 
 $ll = 0;
 while(!empty($arr_language[$ll])){

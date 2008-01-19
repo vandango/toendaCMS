@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides a linklist for the sidebar.
  *
- * @version 0.1.7
+ * @version 0.1.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -32,7 +32,7 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 if($use_side_links == 1) {
 	if($choosenDB == 'xml') {
-		$news_xml = new xmlparser($tcms_administer_site.'/tcms_global/linkmanager.xml','r');
+		$news_xml = new xmlparser(_TCMS_PATH.'/tcms_global/linkmanager.xml','r');
 		
 		$show_linkdesc       = $news_xml->readSection('config', 'link_use_side_desc');
 		$show_sidelinkstitle = $news_xml->readSection('config', 'link_use_side_title');
@@ -64,12 +64,12 @@ if($use_side_links == 1) {
 	
 	
 	if($choosenDB == 'xml'){
-		$arr_filename = $tcms_main->getPathContent($tcms_administer_site.'/tcms_links/');
+		$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_links/');
 		$count = 0;
 		
 		if($tcms_main->isArray($arr_filename)){
 			foreach($arr_filename as $key => $value){
-				$menu_xml = new xmlparser($tcms_administer_site.'/tcms_links/'.$value,'r');
+				$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_links/'.$value,'r');
 				$is_published = $menu_xml->readSection('link', 'published');
 				$is_category  = $menu_xml->readSection('link', 'type');
 				$is_sidebar   = $menu_xml->readSection('link', 'module');
@@ -110,12 +110,12 @@ if($use_side_links == 1) {
 					unset($arrLinkItem);
 					unset($arr_filename);
 					
-					$arr_filename = $tcms_main->getPathContent($tcms_administer_site.'/tcms_links/');
+					$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_links/');
 					$count = 0;
 					
 					if($tcms_main->isArray($arr_filename)){
 						foreach($arr_filename as $key => $value){
-							$menu_xml = new xmlparser($tcms_administer_site.'/tcms_links/'.$value,'r');
+							$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_links/'.$value,'r');
 							$is_published = $menu_xml->readSection('link', 'published');
 							$is_type      = $menu_xml->readSection('link', 'type');
 							$is_category  = $menu_xml->readSection('link', 'category');

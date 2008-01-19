@@ -69,7 +69,7 @@ if($id_group == 'Developer'
 	
 	$bgkey = 0;
 	
-	$arr_filename = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/components/');
+	$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/components/');
 	
 	
 	
@@ -83,7 +83,7 @@ if($id_group == 'Developer'
 		
 		if($tcms_main->isArray($arr_filename)){
 			foreach($arr_filename as $key => $value){
-				$csXML = new xmlparser('../../'.$tcms_administer_site.'/components/'.$value.'/component.xml', 'r');
+				$csXML = new xmlparser(_TCMS_PATH.'/components/'.$value.'/component.xml', 'r');
 				$arrCS['title'][$key]   = $csXML->readValue('title');
 				$arrCS['subtit'][$key]  = $csXML->readValue('subtitle');
 				$arrCS['id'][$key]      = $csXML->readValue('id');
@@ -191,7 +191,7 @@ if($id_group == 'Developer'
 				
 				echo '<td class="tcms_db_2" align="right" valign="middle">'
 				.( trim($arrCS['back'][$key]) != ''
-				&& file_exists('../../'.$tcms_administer_site.'/components/'.$arrCS['tag'][$key].'/'.$arrCS['back'][$key])
+				&& file_exists(_TCMS_PATH.'/components/'.$arrCS['tag'][$key].'/'.$arrCS['back'][$key])
 					? '<a title="'._TABLE_ADMINBUTTON.'" href="admin.php?id_user='.$id_user.'&amp;site=mod_components&amp;todo=admin&amp;component='.$arrCS['tag'][$key].'&amp;backend='.$arrCS['back'][$key].'">'
 					.'<img title="'._TABLE_ADMINBUTTON.'" alt="'._TABLE_ADMINBUTTON.'" style="padding-top: 3px;" border="0" src="../images/a_administer.gif" />'
 					.'</a>&nbsp;'
@@ -229,7 +229,7 @@ if($id_group == 'Developer'
 	*
 	*/
 	if($todo == 'admin'){
-		include('../../'.$tcms_administer_site.'/components/'.$component.'/'.$backend);
+		include(_TCMS_PATH.'/components/'.$component.'/'.$backend);
 	}
 	
 	
@@ -253,7 +253,7 @@ if($id_group == 'Developer'
 		switch($action){
 			// Take it off
 			case 'off':
-				xmlparser::edit_value('../../'.$tcms_administer_site.'/components/'.$maintag.'/component.xml', 'enabled', '1', '0');
+				xmlparser::edit_value(_TCMS_PATH.'/components/'.$maintag.'/component.xml', 'enabled', '1', '0');
 				
 				if($sender == 'desktop'){
 					echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\';</script>';
@@ -265,7 +265,7 @@ if($id_group == 'Developer'
 			
 			// Take it on
 			case 'on':
-				xmlparser::edit_value('../../'.$tcms_administer_site.'/components/'.$maintag.'/component.xml', 'enabled', '0', '1');
+				xmlparser::edit_value(_TCMS_PATH.'/components/'.$maintag.'/component.xml', 'enabled', '0', '1');
 				
 				if($sender == 'desktop'){
 					echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\';</script>';
@@ -298,7 +298,7 @@ if($id_group == 'Developer'
 		switch($action){
 			// Take it off
 			case 'off':
-				xmlparser::edit_value('../../'.$tcms_administer_site.'/components/'.$maintag.'/component.xml', 'sideCS', '1', '0');
+				xmlparser::edit_value(_TCMS_PATH.'/components/'.$maintag.'/component.xml', 'sideCS', '1', '0');
 				
 				if($sender == 'desktop'){
 					echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\';</script>';
@@ -310,7 +310,7 @@ if($id_group == 'Developer'
 			
 			// Take it on
 			case 'on':
-				xmlparser::edit_value('../../'.$tcms_administer_site.'/components/'.$maintag.'/component.xml', 'sideCS', '0', '1');
+				xmlparser::edit_value(_TCMS_PATH.'/components/'.$maintag.'/component.xml', 'sideCS', '0', '1');
 				
 				if($sender == 'desktop'){
 					echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\';</script>';
@@ -343,7 +343,7 @@ if($id_group == 'Developer'
 		switch($action){
 			// Take it off
 			case 'off':
-				xmlparser::edit_value('../../'.$tcms_administer_site.'/components/'.$maintag.'/component.xml', 'mainCS', '1', '0');
+				xmlparser::edit_value(_TCMS_PATH.'/components/'.$maintag.'/component.xml', 'mainCS', '1', '0');
 				
 				if($sender == 'desktop'){
 					echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\';</script>';
@@ -355,7 +355,7 @@ if($id_group == 'Developer'
 			
 			// Take it on
 			case 'on':
-				xmlparser::edit_value('../../'.$tcms_administer_site.'/components/'.$maintag.'/component.xml', 'mainCS', '0', '1');
+				xmlparser::edit_value(_TCMS_PATH.'/components/'.$maintag.'/component.xml', 'mainCS', '0', '1');
 				
 				if($sender == 'desktop'){
 					echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\';</script>';
@@ -385,7 +385,7 @@ if($id_group == 'Developer'
 	*
 	*/
 	if($todo == 'edit'){
-		$csXML = new xmlparser('../../'.$tcms_administer_site.'/components/'.$maintag.'/component.xml','r');
+		$csXML = new xmlparser(_TCMS_PATH.'/components/'.$maintag.'/component.xml','r');
 		
 		$csTitle    = $csXML->readValue('title');
 		$csSubTitle = $csXML->readValue('subtitle');
@@ -574,7 +574,7 @@ if($id_group == 'Developer'
 		$new_csDesc     = $tcms_main->decode_text_without_crypt($new_csDesc, '2', $c_charset);
 		
 		
-		$xmluser = new xmlparser('../../'.$tcms_administer_site.'/components/'.$maintag.'/component.xml', 'w');
+		$xmluser = new xmlparser(_TCMS_PATH.'/components/'.$maintag.'/component.xml', 'w');
 		$xmluser->xml_declaration();
 		$xmluser->xml_section('cs');
 		
@@ -619,7 +619,7 @@ if($id_group == 'Developer'
 	* DELETE CS
 	*/
 	if($todo == 'delete'){
-		$tcms_main->deleteDir('../../'.$tcms_administer_site.'/components/'.$maintag.'/');
+		$tcms_main->deleteDir(_TCMS_PATH.'/components/'.$maintag.'/');
 		
 		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_components\'</script>';
 	}

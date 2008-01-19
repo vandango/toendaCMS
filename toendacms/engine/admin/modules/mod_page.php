@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used as the base for the workflow
  * engine.
  *
- * @version 0.2.5
+ * @version 0.2.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -60,13 +60,13 @@ echo _DESKTOP_TOP_TEXT
 // -----------------------------------------------------
 
 // row one - cell one: content -> list all not published news
-if($choosenDB == 'xml'){
-	$arr_filename = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_news/');
+if($choosenDB == 'xml') {
+	$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_news/');
 	$count = 0;
 	
-	if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
-		foreach($arr_filename as $dkey => $value){
-			$main_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_news/'.$value,'r');
+	if($tcms_main->isArray($arr_filename)) {
+		foreach($arr_filename as $dkey => $value) {
+			$main_xml = new xmlparser(_TCMS_PATH.'/tcms_news/'.$value,'r');
 			$desk_pub = $main_xml->read_value('published');
 			$desk_acc = $main_xml->read_value('access');
 			
@@ -283,12 +283,12 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	if($choosenDB == 'xml'){
 		unset($value);
 		
-		$arr_contentname = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_content/');
+		$arr_contentname = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_content/');
 		$count = 0;
 		
-		if(isset($arr_contentname) && !empty($arr_contentname) && $arr_contentname != ''){
-			foreach($arr_contentname as $key => $value){
-				$deskXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_content/'.$value,'r');
+		if($tcms_main->isArray($arr_contentname)) {
+			foreach($arr_contentname as $key => $value) {
+				$deskXML = new xmlparser(_TCMS_PATH.'/tcms_content/'.$value,'r');
 				$pubVal  = $deskXML->read_value('published');
 				
 				if($pubVal == 0){
@@ -468,12 +468,12 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	if($choosenDB == 'xml'){
 		unset($value);
 		
-		$arr_contentname = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_content/');
+		$arr_contentname = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_content/');
 		$count = 0;
 		
-		if(isset($arr_contentname) && !empty($arr_contentname) && $arr_contentname != ''){
-			foreach($arr_contentname as $key => $value){
-				$deskXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_content/'.$value,'r');
+		if($tcms_main->isArray($arr_contentname)) {
+			foreach($arr_contentname as $key => $value) {
+				$deskXML = new xmlparser(_TCMS_PATH.'/tcms_content/'.$value,'r');
 				$pubVal  = $deskXML->read_value('in_work');
 				
 				if($pubVal == 0){
@@ -649,7 +649,7 @@ if($id_group == 'Developer'
 || $id_group == 'Administrator') {
 	// row one - cell two: content -> note
 	if($choosenDB == 'xml') {
-		$note_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_notepad/'.$m_tag.'.xml','r');
+		$note_xml = new xmlparser(_TCMS_PATH.'/tcms_notepad/'.$m_tag.'.xml','r');
 		$nname = $note_xml->readSection('note', 'name');
 		$nnote = $note_xml->readSection('note', 'text');
 		

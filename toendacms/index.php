@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.9.0
+ * @version 2.9.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -61,16 +61,20 @@ if(isset($_POST['contact_email'])) { $contact_email = $_POST['contact_email']; }
 	INIT GLOBAL
 */
 
+// define system
 define('_TCMS_VALID', 1);
 
+// include import loader
 include_once('engine/tcms_kernel/tcms_loader.lib.php');
 
+// load current active page
 include_once('site.php');
 $tcms_administer_site = $tcms_site[0]['path'];
+define('_TCMS_PATH', $tcms_site[0]['path']);
 
-// database
-if(file_exists($tcms_administer_site.'/tcms_global/database.php')) {
-	require($tcms_administer_site.'/tcms_global/database.php');
+// load database info
+if(file_exists(_TCMS_PATH.'/tcms_global/database.php')) {
+	require(_TCMS_PATH.'/tcms_global/database.php');
 	
 	$choosenDB = $tcms_db_engine;
 	$sqlUser   = $tcms_db_user;
@@ -81,7 +85,7 @@ if(file_exists($tcms_administer_site.'/tcms_global/database.php')) {
 	$sqlPrefix = $tcms_db_prefix;
 }
 
-// page
+// init page variables
 if(!isset($ws_error)) {
 	$ws_error = false;
 }
@@ -90,6 +94,7 @@ $wsShowSite = true;
 $noSEOFolder = false;
 $isTestEnvironment = false;
 
+// import classes
 using('toendacms.kernel.time');
 using('toendacms.kernel.xml');
 using('toendacms.kernel.parameter');
@@ -121,9 +126,9 @@ $tcms_html = new tcms_html();
 $tcms_file = new tcms_file();
 
 // load config
-if($tcms_file->checkFileExist($tcms_administer_site.'/tcms_global/var.xml')) {
+if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 	$tcms_version = new tcms_version();
-	$tcms_config  = new tcms_configuration($tcms_administer_site);
+	$tcms_config  = new tcms_configuration(_TCMS_PATH);
 	
 	$c_charset      = $tcms_config->getCharset();
 	$seoFolder      = $tcms_config->getSEOPath();
@@ -143,7 +148,7 @@ if($tcms_file->checkFileExist($tcms_administer_site.'/tcms_global/var.xml')) {
 	$site_offline   = $tcms_config->getSiteOffline();
 	
 	// create main object
-	$tcms_main = new tcms_main($tcms_administer_site, $tcms_time, $tcms_config);
+	$tcms_main = new tcms_main(_TCMS_PATH, $tcms_time, $tcms_config);
 	$tcms_main->setGlobalFolder($seoFolder, $seoEnabled);
 	$tcms_main->setDatabaseInfo($choosenDB);
 	
@@ -249,10 +254,10 @@ if($tcms_file->checkFileExist($tcms_administer_site.'/tcms_global/var.xml')) {
 	}
 	
 	// authentication
-	$tcms_auth = new tcms_authentication($tcms_administer_site, $c_charset, $imagePath);
+	$tcms_auth = new tcms_authentication(_TCMS_PATH, $c_charset, $imagePath);
 	
 	// account provider
-	$tcms_ap = new tcms_account_provider($tcms_administer_site, $c_charset);
+	$tcms_ap = new tcms_account_provider(_TCMS_PATH, $c_charset);
 	
 	
 	/*
@@ -274,7 +279,7 @@ if($tcms_file->checkFileExist($tcms_administer_site.'/tcms_global/var.xml')) {
 			$arrSEO = $tcms_seo->explodeHTMLFormat();
 		}
 		
-		$tcms_seo->_tcms_seo();*/
+		unset($tcms_seo);*/
 		
 		if(!isset($session)) {
 			$session = trim($arrSEO['session']);
@@ -334,7 +339,7 @@ if($tcms_file->checkFileExist($tcms_administer_site.'/tcms_global/var.xml')) {
 	}
 }
 else {
-	if($tcms_param->checkInstallDir($tcms_administer_site)) {
+	if($tcms_param->checkInstallDir(_TCMS_PATH)) {
 		echo '<div align="center" style=" padding: 100px 10px 100px 10px; border: 1px solid #333; background-color: #f8f8f8; font-family: Georgia, \'Lucida Grande\', \'Lucida Sans\', Serif;">'
 		.'<img src="engine/images/tcms_top.gif" border="0" />'
 		.'<h1>toendaCMS Error 500: Internal Server Error!</h1>'
@@ -451,12 +456,12 @@ if($wsShowSite) {
 			START MAIN PAGE
 		*/
 		if(isset($choosenDB) && $choosenDB == 'xml') {
-			if(!$tcms_param->checkWriteableSession($tcms_administer_site)) {
+			if(!$tcms_param->checkWriteableSession(_TCMS_PATH)) {
 				echo $tcms_html->messageUnwritableSession();
 			}
 		}
 		
-		if(!$tcms_param->checkWriteableData($tcms_administer_site)) {
+		if(!$tcms_param->checkWriteableData(_TCMS_PATH)) {
 			echo $tcms_html->messageUnwritableData();
 		}
 		else {
@@ -464,11 +469,11 @@ if($wsShowSite) {
 				MAIN
 			*/
 			
-			if(!$tcms_param->checkInstallDir($tcms_administer_site)) {
+			if(!$tcms_param->checkInstallDir(_TCMS_PATH)) {
 				echo $tcms_html->messageInstallerLink();
 			}
 			
-			if(!$tcms_param->checkInstallExist() && $tcms_param->checkInstallDir($tcms_administer_site)) {
+			if(!$tcms_param->checkInstallExist() && $tcms_param->checkInstallDir(_TCMS_PATH)) {
 				/*
 				include('setup/functions.php');
 				
@@ -481,7 +486,7 @@ if($wsShowSite) {
 				echo $tcms_html->messageIsInstalled();
 			}
 			
-			if($tcms_param->checkInstallDir($tcms_administer_site) && $tcms_param->checkInstallExist()) {
+			if($tcms_param->checkInstallDir(_TCMS_PATH) && $tcms_param->checkInstallExist()) {
 				/*
 					LOAD toendaCMS ENGINE
 				*/
@@ -497,7 +502,7 @@ if($wsShowSite) {
 				
 					
 				// mail
-				require($tcms_administer_site.'/tcms_global/mail.php');
+				require(_TCMS_PATH.'/tcms_global/mail.php');
 				
 				$mail_with_smtp   = $tcms_mail_with_smtp;
 				$mail_as_html     = $tcms_mail_as_html;
@@ -533,7 +538,7 @@ if($wsShowSite) {
 				*/
 				
 				if(!isset($s) || $s == '') {
-					$layout_xml = new xmlparser(''.$tcms_administer_site.'/tcms_global/layout.xml','r');
+					$layout_xml = new xmlparser(_TCMS_PATH.'/tcms_global/layout.xml','r');
 					$s = $layout_xml->readSection('layout', 'select');
 				}
 				
@@ -589,12 +594,10 @@ if($wsShowSite) {
 						START THE STATISTIC COUNTER
 					*/
 					if($statistics == 1) {
-						$tcms_stats = new tcms_statistics($c_charset, $tcms_administer_site);
+						$tcms_stats = new tcms_statistics($c_charset, _TCMS_PATH);
 						
 						$tcms_stats->countSiteURL($s);
 						$tcms_stats->countBrowserInfo();
-						
-						$tcms_stats->_tcms_statistics();
 						
 						unset($tcms_stats);
 					}
@@ -611,7 +614,7 @@ if($wsShowSite) {
 								$file = new tcms_file('engine/admin/session/'.$session, 'r');
 								$ws_id = $file->read();
 								
-								$file->changeFile($tcms_administer_site.'/tcms_session/'.$session, 'w');
+								$file->changeFile(_TCMS_PATH.'/tcms_session/'.$session, 'w');
 								$file->write($ws_id);
 								$file->close();
 								
@@ -658,17 +661,17 @@ if($wsShowSite) {
 						some objects
 					*/
 					// configuration
-					$tcms_modconfig = new tcms_modconfig($tcms_administer_site, $imagePath);
+					$tcms_modconfig = new tcms_modconfig(_TCMS_PATH, $imagePath);
 					
 					// datacontainer
-					$tcms_dcp = new tcms_datacontainer_provider($tcms_administer_site, $c_charset);
+					$tcms_dcp = new tcms_datacontainer_provider(_TCMS_PATH, $c_charset);
 					
 					// menu object provider
-					$tcms_menu = new tcms_menu_provider($tcms_administer_site, $c_charset, $is_admin);
+					$tcms_menu = new tcms_menu_provider(_TCMS_PATH, $c_charset, $is_admin);
 					
 					// components system
 					if($tcms_config->getComponentsSystemEnabled()) {
-						$tcms_cs = new tcms_cs($tcms_administer_site, $imagePath);
+						$tcms_cs = new tcms_cs(_TCMS_PATH, $imagePath);
 					}
 					
 					// blogfeatures
@@ -699,7 +702,7 @@ if($wsShowSite) {
 					
 					if($logo != '' || !empty($logo)) {
 						$sitelogo = '<img class="sitelogo" align="left"'
-						.' src="'.$imagePath.''.$tcms_administer_site.'/images/Image/'.$logo.'"'
+						.' src="'.$imagePath._TCMS_PATH.'/images/Image/'.$logo.'"'
 						.' border="0" />';
 					}
 					else {
@@ -1030,7 +1033,7 @@ if($wsShowSite) {
 					$second_navigation = $tcms_config->getTopmenuEnabled();
 					
 					if($choosenDB == 'xml') {
-						$xml    = new xmlparser(''.$tcms_administer_site.'/tcms_global/sidebar.xml','r');
+						$xml    = new xmlparser(_TCMS_PATH.'/tcms_global/sidebar.xml','r');
 						$user_navigation = $xml->readSection('side', 'usermenu');
 						
 						if($use_login == 1) {
@@ -1086,17 +1089,17 @@ if($wsShowSite) {
 						SITE MANAGEMENT :: WITH ERRORFILES
 					*/
 					if($choosenDB == 'xml') {
-						//$site_max_id  = $tcms_main->load_xml_files(''.$tcms_administer_site.'/tcms_content/', 'files');
-						//$site_max_id2 = $tcms_main->load_xml_files(''.$tcms_administer_site.'/tcms_content_languages/', 'files');
+						//$site_max_id  = $tcms_main->load_xml_files(_TCMS_PATH.'/tcms_content/', 'files');
+						//$site_max_id2 = $tcms_main->load_xml_files(_TCMS_PATH.'/tcms_content_languages/', 'files');
 						
-						$site_max_id = $tcms_main->getPathContent(
-							$tcms_administer_site.'/tcms_content/', 
+						$site_max_id = $tcms_file->getPathContent(
+							_TCMS_PATH.'/tcms_content/', 
 							false, 
 							'.xml'
 						);
 						
-						$site_max_id2 = $tcms_main->getPathContent(
-							$tcms_administer_site.'/tcms_content_languages/', 
+						$site_max_id2 = $tcms_file->getPathContent(
+							_TCMS_PATH.'/tcms_content_languages/', 
 							false, 
 							'.xml'
 						);
@@ -1147,11 +1150,11 @@ if($wsShowSite) {
 						*/
 						//if(!file_exists('cache/'.)) {
 						if($choosenDB == 'xml') {
-							$arr_files     = $tcms_main->getPathContent(''.$tcms_administer_site.'/tcms_menu/');
-							$arr_filesT    = $tcms_main->getPathContent(''.$tcms_administer_site.'/tcms_topmenu/');
+							$arr_files     = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_menu/');
+							$arr_filesT    = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_topmenu/');
 							$arr_side_navi = $tcms_main->mainmenu($arr_files, $c_charset, ( isset($session) ? $session : NULL ), $s, ( isset($lang) ? $lang : NULL ));
 							
-							$arr_filename = $tcms_main->getPathContent(''.$tcms_administer_site.'/tcms_topmenu/');
+							$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_topmenu/');
 							$arr_top_navi = $tcms_main->topmenu($arr_filename, $c_charset, ( isset($session) ? $session : NULL ), $s, ( isset($lang) ? $lang : NULL ));
 							
 							$arrLinkway = $tcms_main->linkway($arr_files, $arr_filesT, $c_charset, ( isset($session) ? $session : NULL ), $s, ( isset($lang) ? $lang : NULL ));

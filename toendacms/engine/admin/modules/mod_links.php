@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the links.
  *
- * @version 0.5.7
+ * @version 0.6.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -74,7 +74,7 @@ if(!isset($todo)){ $todo = 'show'; }
 if($todo == 'config'){
 	if($id_group == 'Developer' || $id_group == 'Administrator'){
 		if($choosenDB == 'xml'){
-			$news_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/linkmanager.xml','r');
+			$news_xml = new xmlparser(_TCMS_PATH.'/tcms_global/linkmanager.xml','r');
 			
 			$old_link_use_side_desc  = $news_xml->read_section('config', 'link_use_side_desc');
 			$old_link_use_side_title = $news_xml->read_section('config', 'link_use_side_title');
@@ -291,13 +291,13 @@ if($todo == 'show'){
 	echo tcms_html::text(_LINK_MODULE_DESC.'<br /><br />', 'left');
 	
 	if($choosenDB == 'xml'){
-		$arr_filename = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_links/');
+		$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_links/');
 		
 		$count = 0;
 		
 		if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
 			foreach($arr_filename as $key => $value){
-				$menu_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_links/'.$value,'r');
+				$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_links/'.$value,'r');
 				
 				$arrLinkType = $menu_xml->read_section('link', 'type');
 				
@@ -416,13 +416,13 @@ if($todo == 'show'){
 				unset($arrLinkItem);
 				unset($arr_filename);
 				
-				$arr_filename = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_links/');
+				$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_links/');
 				
 				$count = 0;
 				
 				if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
 					foreach($arr_filename as $llkey => $llvalue){
-						$menu_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_links/'.$llvalue,'r');
+						$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_links/'.$llvalue,'r');
 						$arrLinkType = $menu_xml->read_section('link', 'type');
 						$arrLinkCat  = $menu_xml->read_section('link', 'category');
 						
@@ -549,7 +549,7 @@ if($todo == 'edit'){
 	//
 	if(isset($maintag) && !empty($maintag) && $maintag != ''){
 		if($choosenDB == 'xml'){
-			$user_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_links/'.$maintag.'.xml','r');
+			$user_xml = new xmlparser(_TCMS_PATH.'/tcms_links/'.$maintag.'.xml','r');
 			$link_name = $user_xml->read_section('link', 'name');
 			$link_desc = $user_xml->read_section('link', 'desc');
 			$link_pub  = $user_xml->read_section('link', 'published');
@@ -622,7 +622,7 @@ if($todo == 'edit'){
 		$link_acs  = 'Public';
 		$link_type = 'l';
 		
-		if($choosenDB == 'xml'){ while(($maintag=substr(md5(time()),0,32)) && file_exists('../../'.$tcms_administer_site.'/tcms_links/'.$maintag.'.xml')){} }
+		if($choosenDB == 'xml'){ while(($maintag=substr(md5(time()),0,32)) && file_exists(_TCMS_PATH.'/tcms_links/'.$maintag.'.xml')){} }
 		else{ $maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'links', 32); }
 		
 		echo tcms_html::bold(_TABLE_NEW);
@@ -698,13 +698,13 @@ if($todo == 'edit'){
 		<td valign="top"><select name="new_link_cat" class="tcms_select">';
 		
 		if($choosenDB == 'xml'){
-			$arr_filename = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_links/');
+			$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_links/');
 			
 			$count = 0;
 			
 			if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
 				foreach($arr_filename as $skey => $svalue){
-					$user_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_links/'.$svalue,'r');
+					$user_xml = new xmlparser(_TCMS_PATH.'/tcms_links/'.$svalue,'r');
 					$link_cat_type = $user_xml->read_value('type');
 					
 					if($link_cat_type == 'c'){
@@ -822,7 +822,7 @@ if($todo == 'save_config'){
 	
 	
 	if($choosenDB == 'xml'){
-		$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/linkmanager.xml', 'w');
+		$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/linkmanager.xml', 'w');
 		$xmluser->xml_declaration();
 		$xmluser->xml_section('config');
 		
@@ -910,7 +910,7 @@ if($todo == 'save') {
 	
 	
 	if($choosenDB == 'xml') {
-		$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_links/'.$maintag.'.xml', 'w');
+		$xmluser = new xmlparser(_TCMS_PATH.'/tcms_links/'.$maintag.'.xml', 'w');
 		$xmluser->xml_declaration();
 		$xmluser->xml_section('link');
 		
@@ -993,7 +993,7 @@ if($todo == 'publishItem'){
 	switch($action){
 		// Take it off
 		case 'off':
-			if($choosenDB == 'xml'){ xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_links/'.$maintag.'.xml', 'published', '1', '0'); }
+			if($choosenDB == 'xml'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_links/'.$maintag.'.xml', 'published', '1', '0'); }
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB);
 				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
@@ -1005,7 +1005,7 @@ if($todo == 'publishItem'){
 		
 		// Take it on
 		case 'on':
-			if($choosenDB == 'xml'){ xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_links/'.$maintag.'.xml', 'published', '0', '1'); }
+			if($choosenDB == 'xml'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_links/'.$maintag.'.xml', 'published', '0', '1'); }
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB);
 				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
@@ -1026,7 +1026,7 @@ if($todo == 'publishItem'){
 
 if($todo == 'delete'){
 	if($choosenDB == 'xml'){
-		unlink('../../'.$tcms_administer_site.'/tcms_links/'.$maintag.'.xml');
+		unlink(_TCMS_PATH.'/tcms_links/'.$maintag.'.xml');
 	}
 	else{
 		$sqlAL = new sqlAbstractionLayer($choosenDB);

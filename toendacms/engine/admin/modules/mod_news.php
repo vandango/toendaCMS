@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the news.
  *
- * @version 1.8.1
+ * @version 1.8.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -138,9 +138,11 @@ $arr_farbe[1] = $arr_color[1];
 $bgkey     = 0;
 $showAll   = false;
 
-$arr_media['upload'] = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/images/Image');
+$arr_media['upload'] = $tcms_file->getPathContent(_TCMS_PATH.'/images/Image');
 
-if($choosenDB == 'xml'){ $arr_filename = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_news/'); }
+if($choosenDB == 'xml') {
+	$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_news/');
+}
 
 if(!isset($minValue)){ $minValue = 0; }
 if(!isset($maxValue)){ $maxValue = 10; }
@@ -170,7 +172,7 @@ if($todo == 'config') {
 		
 		// check lang
 		if($choosenDB == 'xml') {
-			if($tcms_file->checkFileExist('../../'.$tcms_administer_site.'/tcms_global/newsmanager.'.$getLang.'.xml')) {
+			if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/newsmanager.'.$getLang.'.xml')) {
 				$langExist = 1;
 			}
 			else {
@@ -288,7 +290,7 @@ if($todo == 'config') {
 		}
 		
 		
-		$arr_media = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/images/Image');
+		$arr_media = $tcms_file->getPathContent(_TCMS_PATH.'/images/Image');
 		
 		
 		// begin form
@@ -739,7 +741,7 @@ if($todo == 'show'){
 			$count = 0;
 			
 			foreach($arr_filename as $key => $value) {
-				$main_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_news/'.$value,'r');
+				$main_xml = new xmlparser(_TCMS_PATH.'/tcms_news/'.$value,'r');
 				$chk_autor = $main_xml->read_value('autor');
 				
 				if($id_group == 'Developer' 
@@ -1067,7 +1069,7 @@ if($todo == 'edit'){
 	
 	if(isset($maintag)){
 		if($choosenDB == 'xml'){
-			$main_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_news/'.$maintag.'.xml','r');
+			$main_xml = new xmlparser(_TCMS_PATH.'/tcms_news/'.$maintag.'.xml','r');
 			$nws_autor        = $main_xml->read_value('autor');
 			
 			if($id_group != 'Developer' && $id_group != 'Administrator'){
@@ -1111,7 +1113,7 @@ if($todo == 'edit'){
 					$arr_cat = explode('{###}', $nws_cat);
 				}
 				else{
-					$globals_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/var.xml','r');
+					$globals_xml = new xmlparser(_TCMS_PATH.'/tcms_global/var.xml','r');
 					$old_default_cat = $globals_xml->readSection('global', 'default_category');
 					
 					$arr_cat[0] = $old_default_cat;
@@ -1392,7 +1394,7 @@ if($todo == 'edit'){
 			.'<fieldset><legend><strong class="tcms_bold">'._TABLE_CATEGORY.'</strong></legend>'
 			.'<br />';
 			
-			$globals_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/var.xml','r');
+			$globals_xml = new xmlparser(_TCMS_PATH.'/tcms_global/var.xml','r');
 			$old_default_cat = $globals_xml->readSection('global', 'default_category');
 			
 			foreach($arrNewsCat['tag'] as $key => $value){
@@ -1705,7 +1707,7 @@ if($todo == 'save_config') {
 		$newSynOPMLText = $tcms_main->encodeText($newSynOPMLText, '2', $c_charset);
 		$newSynCFeedText = $tcms_main->encodeText($newSynCFeedText, '2', $c_charset);
 		
-		$xmluser = new xmlparser($tcms_administer_path.'/tcms_global/newsmanager.'.$setLang.'.xml', 'w');
+		$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/newsmanager.'.$setLang.'.xml', 'w');
 		$xmluser->xmlDeclaration();
 		$xmluser->xmlSection('config');
 		
@@ -1947,10 +1949,10 @@ if($todo == 'save'){
 			if(!empty($_POST['new_cat_'.$i]) && isset($_POST['new_cat_'.$i])){
 				$myCat .= $_POST['new_cat_'.$i].'{###}';
 				/*
-				$user_xml  = new xmlparser('../../'.$tcms_administer_site.'/tcms_news_categories/'.$_POST['new_cat_'.$i].'.xml','r');
+				$user_xml  = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$_POST['new_cat_'.$i].'.xml','r');
 				$cat_count = $user_xml->read_value('count');
 				
-				xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_news_categories/'.$_POST['new_cat_'.$i].'.xml', 'count', $cat_count, ($cat_count + 1));*/
+				xmlparser::edit_value(_TCMS_PATH.'/tcms_news_categories/'.$_POST['new_cat_'.$i].'.xml', 'count', $cat_count, ($cat_count + 1));*/
 			}
 			
 			$i++;
@@ -1992,7 +1994,7 @@ if($todo == 'save'){
 		}
 		
 		if($i == 0){
-			$globals_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/var.xml','r');
+			$globals_xml = new xmlparser(_TCMS_PATH.'/tcms_global/var.xml','r');
 			$old_default_cat = $globals_xml->readSection('global', 'default_category');
 			
 			$n2c_maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'news_to_categories', 32);
@@ -2035,7 +2037,7 @@ if($todo == 'save'){
 	
 	
 	if($choosenDB == 'xml'){
-		$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_news/'.$maintag.'.xml', 'w');
+		$xmluser = new xmlparser(_TCMS_PATH.'/tcms_news/'.$maintag.'.xml', 'w');
 		$xmluser->xmlDeclaration();
 		$xmluser->xmlSection('news');
 		
@@ -2086,7 +2088,7 @@ if($todo == 'save'){
 	
 	// regenerate feeds
 	if($choosenDB == 'xml'){
-		$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/newsmanager.'.$language.'.xml','r');
+		$xml = new xmlparser(_TCMS_PATH.'/tcms_global/newsmanager.'.$language.'.xml','r');
 		$defaultFeed = $xml->readSection('config', 'def_feed');
 		$synAmount   = $xml->readSection('config', 'syn_amount');
 		$showAutor   = $xml->readSection('config', 'show_autor');
@@ -2153,10 +2155,10 @@ if($todo == 'next'){
 			if(!empty($_POST['new_cat_'.$i]) && isset($_POST['new_cat_'.$i])){
 				$myCat .= $_POST['new_cat_'.$i].'{###}';
 				/*
-				$user_xml  = new xmlparser('../../'.$tcms_administer_site.'/tcms_news_categories/'.$_POST['new_cat_'.$i].'.xml','r');
+				$user_xml  = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$_POST['new_cat_'.$i].'.xml','r');
 				$cat_count = $user_xml->read_value('count');
 				
-				xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_news_categories/'.$_POST['new_cat_'.$i].'.xml', 'count', $cat_count, ($cat_count + 1));
+				xmlparser::edit_value(_TCMS_PATH.'/tcms_news_categories/'.$_POST['new_cat_'.$i].'.xml', 'count', $cat_count, ($cat_count + 1));
 				*/
 			}
 			
@@ -2224,7 +2226,7 @@ if($todo == 'next'){
 	if($new_publish_date == ''){ $new_publish_date = $date.'-'.$time; }
 	
 	if($choosenDB == 'xml'){
-		$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_news/'.$maintag.'.xml', 'w');
+		$xmluser = new xmlparser(_TCMS_PATH.'/tcms_news/'.$maintag.'.xml', 'w');
 		$xmluser->xmlDeclaration();
 		$xmluser->xmlSection('news');
 		
@@ -2248,7 +2250,7 @@ if($todo == 'next'){
 		$xmluser->xmlSectionEnd('news');
 		
 		$old_umask = umask(0);
-		mkdir('../../'.$tcms_administer_site.'/tcms_news/comments_'.$maintag.'/', 0777);
+		mkdir(_TCMS_PATH.'/tcms_news/comments_'.$maintag.'/', 0777);
 		umask($old_umask);
 	}
 	else{
@@ -2281,7 +2283,7 @@ if($todo == 'next'){
 	
 	// regenerate feeds
 	if($choosenDB == 'xml'){
-		$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/newsmanager.'.$language.'.xml','r');
+		$xml = new xmlparser(_TCMS_PATH.'/tcms_global/newsmanager.'.$language.'.xml','r');
 		$defaultFeed = $xml->readSection('config', 'def_feed');
 		$synAmount   = $xml->readSection('config', 'syn_amount');
 		$showAutor   = $xml->readSection('config', 'show_autor');
@@ -2338,7 +2340,7 @@ if($todo == 'enableComments'){
 		case 'off':
 			if($choosenDB == 'xml'){
 				xmlparser::edit_value(
-					'../../'.$tcms_administer_site.'/tcms_news/'.$maintag.'.xml', 
+					_TCMS_PATH.'/tcms_news/'.$maintag.'.xml', 
 					'comments_enabled', 
 					'1', 
 					'0'
@@ -2365,7 +2367,7 @@ if($todo == 'enableComments'){
 		
 		// Take it on
 		case 'on':
-			if($choosenDB == 'xml'){ xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_news/'.$maintag.'.xml', 'comments_enabled', '0', '1'); }
+			if($choosenDB == 'xml'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_news/'.$maintag.'.xml', 'comments_enabled', '0', '1'); }
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
@@ -2395,7 +2397,7 @@ if($todo == 'publishItem'){
 	switch($action){
 		// Take it off
 		case 'off':
-			if($choosenDB == 'xml'){ xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_news/'.$maintag.'.xml', 'published', '1', '0'); }
+			if($choosenDB == 'xml'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_news/'.$maintag.'.xml', 'published', '1', '0'); }
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
@@ -2413,7 +2415,7 @@ if($todo == 'publishItem'){
 		
 		// Take it on
 		case 'on':
-			if($choosenDB == 'xml'){ xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_news/'.$maintag.'.xml', 'published', '0', '1'); }
+			if($choosenDB == 'xml'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_news/'.$maintag.'.xml', 'published', '0', '1'); }
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
@@ -2444,7 +2446,7 @@ if($todo == 'enableFrontpage'){
 		// Take it off
 		case 'off':
 			if($choosenDB == 'xml') {
-				xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_news/'.$maintag.'.xml', 'show_on_frontpage', '1', '0');
+				xmlparser::edit_value(_TCMS_PATH.'/tcms_news/'.$maintag.'.xml', 'show_on_frontpage', '1', '0');
 			}
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -2464,7 +2466,7 @@ if($todo == 'enableFrontpage'){
 		// Take it on
 		case 'on':
 			if($choosenDB == 'xml') {
-				xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_news/'.$maintag.'.xml', 'show_on_frontpage', '0', '1');
+				xmlparser::edit_value(_TCMS_PATH.'/tcms_news/'.$maintag.'.xml', 'show_on_frontpage', '0', '1');
 			}
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -2493,7 +2495,7 @@ if($todo == 'enableFrontpage'){
 
 if($todo == 'delete'){
 	if($choosenDB == 'xml'){
-		unlink('../../'.$tcms_administer_site.'/tcms_news/'.$maintag.'.xml');
+		unlink(_TCMS_PATH.'/tcms_news/'.$maintag.'.xml');
 		/*
 		
 		
@@ -2502,7 +2504,7 @@ if($todo == 'delete'){
 		
 		
 		*/
-		$tcms_main->rmdirr('../../'.$tcms_administer_site.'/tcms_news/comments_'.$maintag.'/');
+		$tcms_main->rmdirr(_TCMS_PATH.'/tcms_news/comments_'.$maintag.'/');
 	}
 	else{
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -2515,7 +2517,7 @@ if($todo == 'delete'){
 	// regenerate feeds
 	if($choosenDB == 'xml'){
 		$xml = new xmlparser(
-			'../../'.$tcms_administer_site.'/tcms_global/newsmanager.'.$tcms_config->getLanguageFrontend().'.xml',
+			_TCMS_PATH.'/tcms_global/newsmanager.'.$tcms_config->getLanguageFrontend().'.xml',
 			'r'
 		);
 		$defaultFeed = $xml->readSection('config', 'def_feed');

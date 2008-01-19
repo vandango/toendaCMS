@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a base module fpr user operations.
  *
- * @version 1.0.4
+ * @version 1.0.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -101,7 +101,7 @@ using('toendacms.datacontainer.account');
 */
 
 if($choosenDB == 'xml') {
-	if(file_exists($tcms_administer_site.'/tcms_user/'.$ws_id.'.xml')){ $checkUserExists = true; }
+	if(file_exists(_TCMS_PATH.'/tcms_user/'.$ws_id.'.xml')){ $checkUserExists = true; }
 	else{ $checkUserExists = false; }
 }
 else{
@@ -117,10 +117,10 @@ else{
 
 if($checkUserExists) {
 	if($choosenDB == 'xml'){
-		$mtu_xml = new xmlparser($tcms_administer_site.'/tcms_global/sidebar.xml','r');
+		$mtu_xml = new xmlparser(_TCMS_PATH.'/tcms_global/sidebar.xml','r');
 		$menu_title_user = $mtu_xml->readSection('side', 'usermenu_title');
 		
-		$xmlSet = new xmlparser($tcms_administer_site.'/tcms_global/userpage.xml','r');
+		$xmlSet = new xmlparser(_TCMS_PATH.'/tcms_global/userpage.xml','r');
 		$npo = $xmlSet->readSection('userpage', 'news_publish');
 		$ipo = $xmlSet->readSection('userpage', 'image_publish');
 		$apo = $xmlSet->readSection('userpage', 'album_publish');
@@ -181,7 +181,7 @@ if($checkUserExists) {
 			
 			
 			if($choosenDB == 'xml'){
-				$userp_xml = new xmlparser($tcms_administer_site.'/tcms_global/userpage.xml','r');
+				$userp_xml = new xmlparser(_TCMS_PATH.'/tcms_global/userpage.xml','r');
 				$width  = $userp_xml->readSection('userpage', 'text_width');
 				$width2 = $userp_xml->readSection('userpage', 'input_width');
 			}
@@ -198,7 +198,7 @@ if($checkUserExists) {
 			
 			
 			if($choosenDB == 'xml'){
-				$con_xml = new xmlparser($tcms_administer_site.'/tcms_user/'.$ws_id.'.xml','r');
+				$con_xml = new xmlparser(_TCMS_PATH.'/tcms_user/'.$ws_id.'.xml','r');
 				$tu_name     = $con_xml->readSection('user', 'name');
 				$tu_username = $con_xml->readSection('user', 'username');
 				
@@ -231,11 +231,11 @@ if($checkUserExists) {
 			*/
 			
 			if($choosenDB == 'xml'){
-				$arrCatFiles = $tcms_main->getPathContent($tcms_administer_site.'/tcms_news_categories/');
+				$arrCatFiles = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_news_categories/');
 				
 				if($tcms_main->isArray($arrCatFiles)){
 					foreach($arrCatFiles as $key => $value){
-						$menu_xml = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$value,'r');
+						$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$value,'r');
 						$arrNewsCat['tag'][$key]  = substr($value, 0, 5);
 						$arrNewsCat['name'][$key] = $menu_xml->readSection('cat', 'name');
 						$arrNewsCat['desc'][$key] = $menu_xml->readSection('cat', 'desc');
@@ -472,7 +472,7 @@ if($checkUserExists) {
 				$show_wysiwyg = $tcms_config->getWYSIWYGEditor();
 				
 				if($choosenDB == 'xml'){
-					$userp_xml = new xmlparser($tcms_administer_site.'/tcms_global/userpage.xml','r');
+					$userp_xml = new xmlparser(_TCMS_PATH.'/tcms_global/userpage.xml','r');
 					$width  = $userp_xml->readSection('userpage', 'text_width');
 					$width2 = $userp_xml->readSection('userpage', 'input_width');
 				}
@@ -509,11 +509,11 @@ if($checkUserExists) {
 					echo '<select name="pubAlbum">';
 					
 					if($choosenDB == 'xml'){
-						$arrAlbums = $tcms_main->getPathContent($tcms_administer_site.'/tcms_albums/');
+						$arrAlbums = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_albums/');
 						
 						if($arrAlbums){
 							foreach($arrAlbums as $key => $val){
-								$xmlAlbums = new xmlparser($tcms_administer_site.'/tcms_albums/'.$val, 'r');
+								$xmlAlbums = new xmlparser(_TCMS_PATH.'/tcms_albums/'.$val, 'r');
 								$arrAlbum['title'][$key] = $xmlAlbums->readSection('album', 'title');
 								$arrAlbum['path'][$key]  = $xmlAlbums->readSection('album', 'path');
 								
@@ -603,7 +603,7 @@ if($checkUserExists) {
 			$show_wysiwyg = $tcms_config->getWYSIWYGEditor();
 			
 			if($choosenDB == 'xml'){
-				$userp_xml = new xmlparser($tcms_administer_site.'/tcms_global/userpage.xml','r');
+				$userp_xml = new xmlparser(_TCMS_PATH.'/tcms_global/userpage.xml','r');
 				$width  = $userp_xml->readSection('userpage', 'text_width');
 				$width2 = $userp_xml->readSection('userpage', 'input_width');
 			}
@@ -691,11 +691,11 @@ if($checkUserExists) {
 		|| $is_admin == 'Writer' 
 		|| $is_admin == 'Editor') {
 			if($choosenDB == 'xml'){
-				$userp_xml = new xmlparser($tcms_administer_site.'/tcms_global/userpage.xml','r');
+				$userp_xml = new xmlparser(_TCMS_PATH.'/tcms_global/userpage.xml','r');
 				$width  = $userp_xml->readSection('userpage', 'text_width');
 				$width2 = $userp_xml->readSection('userpage', 'input_width');
 				
-				//while(($maintag=substr(md5(time()),0,5)) && file_exists($tcms_administer_site.'/tcms_news_categories/'.$maintag.'.xml')){}
+				//while(($maintag=substr(md5(time()),0,5)) && file_exists(_TCMS_PATH.'/tcms_news_categories/'.$maintag.'.xml')){}
 			}
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -778,7 +778,7 @@ if($checkUserExists) {
 		|| $is_admin == 'Writer' 
 		|| $is_admin == 'Editor') {
 			if($choosenDB == 'xml'){
-				$userp_xml = new xmlparser($tcms_administer_site.'/tcms_global/userpage.xml','r');
+				$userp_xml = new xmlparser(_TCMS_PATH.'/tcms_global/userpage.xml','r');
 				$width  = $userp_xml->readSection('userpage', 'text_width');
 				$width2 = $userp_xml->readSection('userpage', 'input_width');
 			}
@@ -922,7 +922,7 @@ if($is_admin == 'Administrator'
 		
 		
 		if($choosenDB == 'xml'){
-			$xmluser = new xmlparser($tcms_administer_site.'/tcms_news/'.$maintag.'.xml', 'w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_news/'.$maintag.'.xml', 'w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('news');
 			
@@ -944,7 +944,7 @@ if($is_admin == 'Administrator'
 			$xmluser->xml_section_end('news');
 			
 			$old_umask = umask(0);
-			mkdir($tcms_administer_site.'/tcms_news/comments_'.$maintag.'/', 0777);
+			mkdir(_TCMS_PATH.'/tcms_news/comments_'.$maintag.'/', 0777);
 			umask($old_umask);
 		}
 		else{
@@ -998,7 +998,7 @@ if($is_admin == 'Administrator'
 		$_FILES['pubFile']['type'] == 'image/jpeg' || 
 		$_FILES['pubFile']['type'] == 'image/bmp')){
 			$fileName = $_FILES['pubFile']['name'];
-			$imgDir = $tcms_administer_site.'/images/albums/'.$pubAlbum.'/';
+			$imgDir = _TCMS_PATH.'/images/albums/'.$pubAlbum.'/';
 			copy($_FILES['pubFile']['tmp_name'], $imgDir.$fileName);
 			
 			
@@ -1006,7 +1006,7 @@ if($is_admin == 'Administrator'
 			$pubDesc = $tcms_main->decodeText($pubDesc, '2', $c_charset);
 			
 			if($choosenDB == 'xml'){
-				$xmluser = new xmlparser($tcms_administer_site.'/tcms_imagegallery/'.$pubAlbum.'/'.$fileName.'.xml', 'w');
+				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_imagegallery/'.$pubAlbum.'/'.$fileName.'.xml', 'w');
 				$xmluser->xml_declaration();
 				$xmluser->xml_section('image');
 				
@@ -1078,7 +1078,7 @@ if($is_admin == 'Administrator'
 		$pubDesc  = $tcms_main->decodeText($pubDesc, '2', $c_charset);
 		
 		if($choosenDB == 'xml'){
-			$xmluser = new xmlparser($tcms_administer_site.'/tcms_albums/album_'.$maintag.'.xml', 'w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_albums/album_'.$maintag.'.xml', 'w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('album');
 			
@@ -1090,9 +1090,9 @@ if($is_admin == 'Administrator'
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('album');
 			
-			mkdir($tcms_administer_site.'/images/albums/'.$maintag, 0777);
-			mkdir($tcms_administer_site.'/tcms_imagegallery/'.$maintag, 0777);
-			mkdir($tcms_administer_site.'/thumbnails/'.$maintag, 0777);
+			mkdir(_TCMS_PATH.'/images/albums/'.$maintag, 0777);
+			mkdir(_TCMS_PATH.'/tcms_imagegallery/'.$maintag, 0777);
+			mkdir(_TCMS_PATH.'/thumbnails/'.$maintag, 0777);
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -1118,8 +1118,8 @@ if($is_admin == 'Administrator'
 			
 			$sqlQR = $sqlAL->createOne($tcms_db_prefix.'albums', $newSQLColumns, $newSQLData, $maintag);
 			
-			mkdir($tcms_administer_site.'/images/albums/'.$album_path, 0777);
-			mkdir($tcms_administer_site.'/thumbnails/'.$album_path, 0777);
+			mkdir(_TCMS_PATH.'/images/albums/'.$album_path, 0777);
+			mkdir(_TCMS_PATH.'/thumbnails/'.$album_path, 0777);
 		}
 		
 		$link = '?session='.$session.'&id=imagegallery&s='.$s
@@ -1148,7 +1148,7 @@ if($is_admin == 'Administrator'
 		$pubDesc = $tcms_main->decode_text($pubDesc, '2', $c_charset);
 		
 		if($choosenDB == 'xml'){
-			$xmluser = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$maintag.'.xml', 'w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$maintag.'.xml', 'w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('cat');
 			
@@ -1206,7 +1206,7 @@ if($is_admin == 'Administrator'
 		$_FILES['mediaImage']['type'] == 'image/jpeg' || 
 		$_FILES['mediaImage']['type'] == 'image/bmp')){
 			$fileName = $_FILES['mediaImage']['name'];
-			$imgDir = $tcms_administer_site.'/images/Image/';
+			$imgDir = _TCMS_PATH.'/images/Image/';
 			
 			copy($_FILES['mediaImage']['tmp_name'], $imgDir.$fileName);
 			
@@ -1252,7 +1252,7 @@ if($todo != 'submitNews'
 && $todo != 'submitMedia' 
 && $action != 'list'){
 	if($choosenDB == 'xml'){
-		if(file_exists($tcms_administer_site.'/tcms_user/'.$u.'.xml')){ $checkUserExists = true; }
+		if(file_exists(_TCMS_PATH.'/tcms_user/'.$u.'.xml')){ $checkUserExists = true; }
 		else{ $checkUserExists = false; }
 	}
 	else{
@@ -1500,7 +1500,7 @@ if($todo != 'submitNews'
 					
 					
 					if($choosenDB == 'xml'){
-						$userp_xml = new xmlparser($tcms_administer_site.'/tcms_global/userpage.xml','r');
+						$userp_xml = new xmlparser(_TCMS_PATH.'/tcms_global/userpage.xml','r');
 						$width  = $userp_xml->readSection('userpage', 'text_width');
 						$width2 = $userp_xml->readSection('userpage', 'input_width');
 					}
@@ -1804,11 +1804,11 @@ if($action == 'list'){
 		$count = 0;
 		
 		if($choosenDB == 'xml'){
-			$arr_filename = $tcms_main->getPathContent($tcms_administer_site.'/tcms_user/');
+			$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_user/');
 			
 			if($tcms_main->isArray($arr_filename)){
 				foreach($arr_filename as $key => $value){
-					$menu_xml = new xmlparser($tcms_administer_site.'/tcms_user/'.$value,'r');
+					$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_user/'.$value,'r');
 					$user_enable = $menu_xml->readSection('user', 'enabled');
 					
 					if($user_enable == 1){

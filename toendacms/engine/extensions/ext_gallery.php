@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a imagegallery.
  *
- * @version 0.7.7
+ * @version 0.7.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -42,12 +42,12 @@ $hr_line_2 = '<tr style="height: 5px;"><td colspan="2"><hr class="hrule" noshade
 */
 
 if($choosenDB == 'xml'){
-	$arr_albums['count'] = $tcms_file->getPathContent($tcms_administer_site.'/tcms_albums/');
+	$arr_albums['count'] = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_albums/');
 	
 	$ca = 0;
 	if($tcms_main->isReal($arr_albums['count'])){
 		foreach($arr_albums['count'] as $key => $value){
-			$albums_xml = new xmlparser($tcms_administer_site.'/tcms_albums/'.$arr_albums['count'][$ca], 'r');
+			$albums_xml = new xmlparser(_TCMS_PATH.'/tcms_albums/'.$arr_albums['count'][$ca], 'r');
 			$use = $albums_xml->readSection('album', 'use');
 			
 			if($use == 1){
@@ -171,21 +171,21 @@ if($albums == 'start') {
 			.'<a href="'.$link.'">';
 			
 			if($arr_albums['image'][$key] != ''){
-				if(!is_dir($tcms_administer_site.'/thumbnails/'.$value.'/')) {
-					mkdir($tcms_administer_site.'/thumbnails/'.$value.'/', 0777);
+				if(!is_dir(_TCMS_PATH.'/thumbnails/'.$value.'/')) {
+					mkdir(_TCMS_PATH.'/thumbnails/'.$value.'/', 0777);
 				}
 				
-				if(!file_exists($tcms_administer_site.'/thumbnails/'.$value.'/thumb_'.$arr_albums['image'][$key])) {
+				if(!file_exists(_TCMS_PATH.'/thumbnails/'.$value.'/thumb_'.$arr_albums['image'][$key])) {
 					$tcms_gd->createThumbnail(
-						$tcms_administer_site.'/images/albums/'.$value.'/', 
-						$tcms_administer_site.'/thumbnails/'.$value.'/', 
+						_TCMS_PATH.'/images/albums/'.$value.'/', 
+						_TCMS_PATH.'/thumbnails/'.$value.'/', 
 						$arr_albums['image'][$key], 
 						'100'
 					);
 				}
 				
 				echo '<img style="border: 1px solid #333333;" '
-				.'src="'.$imagePath.$tcms_administer_site.'/thumbnails/'.$value.'/thumb_'.$arr_albums['image'][$key].'" '
+				.'src="'.$imagePath._TCMS_PATH.'/thumbnails/'.$value.'/thumb_'.$arr_albums['image'][$key].'" '
 				.'border="0" align="left" />';
 			}
 			else{
@@ -227,7 +227,7 @@ if($albums != 'start'){
 		foreach($arr_albums['path'] as $a_key => $a_value){
 			if($albums == $a_value){
 				if($choosenDB == 'xml'){
-					$album_xml   = new xmlparser($tcms_administer_site.'/tcms_albums/album_'.$a_value.'.xml', 'r');
+					$album_xml   = new xmlparser(_TCMS_PATH.'/tcms_albums/album_'.$a_value.'.xml', 'r');
 					$album_title = $album_xml->readSection('album', 'title');
 					$album_path  = $album_xml->readSection('album', 'path');
 					$album_use   = $album_xml->readSection('album', 'use');
@@ -273,14 +273,14 @@ if($albums != 'start'){
 				echo $tcms_html->tableHeadClass('0', '2', '0', '100%', 'noborder news_content_bg');
 				
 				
-				$arr_dir = $tcms_main->getPathContent($tcms_administer_site.'/images/albums/'.$a_value.'/');
+				$arr_dir = $tcms_file->getPathContent(_TCMS_PATH.'/images/albums/'.$a_value.'/');
 				
 				
 				if($tcms_main->isArray($arr_dir)){
 					if($choosenDB == 'xml'){
 						$timecc = 0;
 						foreach($arr_dir as $ikey => $val){
-							$des_xml = new xmlparser($tcms_administer_site.'/tcms_imagegallery/'.$a_value.'/'.$val.'.xml','r');
+							$des_xml = new xmlparser(_TCMS_PATH.'/tcms_imagegallery/'.$a_value.'/'.$val.'.xml','r');
 							$arr_tc['tc'][$timecc] = $des_xml->readSection('image', 'timecode');
 							$arr_tc['fn'][$timecc] = $val;
 							$timecc++;
@@ -337,20 +337,20 @@ if($albums != 'start'){
 					if($tcms_main->isArray($arr_tc['fn'])){
 						foreach($arr_tc['fn'] as $dkey => $dvalue){
 							if(trim($dvalue) != ''){
-								if(!is_dir($tcms_administer_site.'/thumbnails/'.$a_value.'/')){
-									mkdir($tcms_administer_site.'/thumbnails/'.$a_value.'/', 0777);
+								if(!is_dir(_TCMS_PATH.'/thumbnails/'.$a_value.'/')){
+									mkdir(_TCMS_PATH.'/thumbnails/'.$a_value.'/', 0777);
 								}
 								
-								if(!file_exists($tcms_administer_site.'/thumbnails/'.$a_value.'/thumb_'.$dvalue)){
+								if(!file_exists(_TCMS_PATH.'/thumbnails/'.$a_value.'/thumb_'.$dvalue)){
 									$tcms_gd->createThumbnail(
-										$tcms_administer_site.'/images/albums/'.$a_value.'/',
-										$tcms_administer_site.'/thumbnails/'.$a_value.'/', $dvalue, 
+										_TCMS_PATH.'/images/albums/'.$a_value.'/',
+										_TCMS_PATH.'/thumbnails/'.$a_value.'/', $dvalue, 
 										$arr_albums['image'][$key], 
 										'100'
 									);
 								}
 								
-								$img_size = getimagesize($tcms_administer_site.'/images/albums/'.$a_value.'/'.$dvalue);
+								$img_size = getimagesize(_TCMS_PATH.'/images/albums/'.$a_value.'/'.$dvalue);
 								$img_o_width  = $img_size[0];
 								$img_o_height = $img_size[1];
 								
@@ -358,7 +358,7 @@ if($albums != 'start'){
 								$des_file = $dvalue;
 								
 								if($choosenDB == 'xml') {
-									$des_xml = new xmlparser($tcms_administer_site.'/tcms_imagegallery/'.$a_value.'/'.$des_file.'.xml','r');
+									$des_xml = new xmlparser(_TCMS_PATH.'/tcms_imagegallery/'.$a_value.'/'.$des_file.'.xml','r');
 									$old_des = $des_xml->readSection('image', 'text');
 								}
 								else {
@@ -386,10 +386,10 @@ if($albums != 'start'){
 									case 0:
 										echo '<tr><td width="110" valign="top">'
 										.'<a href="'.$imagePath.'media.php?album='.$a_value.'&amp;key='.$dvalue.'" target="_blank">'
-										.'<img style="border: 1px solid #333333;" src="'.$imagePath.$tcms_administer_site.'/thumbnails/'.$a_value.'/thumb_'.$dvalue.'" border="0" />'
+										.'<img style="border: 1px solid #333333;" src="'.$imagePath._TCMS_PATH.'/thumbnails/'.$a_value.'/thumb_'.$dvalue.'" border="0" />'
 										.'</a>';
 										
-										$size = filesize($tcms_administer_site.'/images/albums/'.$a_value.'/'.$dvalue) / 1024;
+										$size = filesize(_TCMS_PATH.'/images/albums/'.$a_value.'/'.$dvalue) / 1024;
 										$kpos = strpos($size, '.');
 										$img_size = substr($size, 0, $kpos+3);
 										
@@ -403,10 +403,10 @@ if($albums != 'start'){
 										
 										if($use_image_comments == 1){
 											if($choosenDB == 'xml'){
-												if(!is_dir($tcms_administer_site.'/tcms_imagegallery/'.$a_value.'/comments_'.$dvalue.'/')){
-													mkdir($tcms_administer_site.'/tcms_imagegallery/'.$a_value.'/comments_'.$dvalue.'/', 0777);
+												if(!is_dir(_TCMS_PATH.'/tcms_imagegallery/'.$a_value.'/comments_'.$dvalue.'/')){
+													mkdir(_TCMS_PATH.'/tcms_imagegallery/'.$a_value.'/comments_'.$dvalue.'/', 0777);
 												}
-												$ic_amount = $tcms_main->readdir_count($tcms_administer_site.'/tcms_imagegallery/'.$a_value.'/comments_'.$dvalue.'/');
+												$ic_amount = $tcms_main->readdir_count(_TCMS_PATH.'/tcms_imagegallery/'.$a_value.'/comments_'.$dvalue.'/');
 											}
 											else{
 												$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -446,10 +446,10 @@ if($albums != 'start'){
 										// show thumbnail
 										echo '<td width="100">'
 										.'<a href="'.$imagePath.'media.php?album='.$a_value.'&amp;key='.$dvalue.'" target="_blank">'
-										.'<img style="border: 1px solid #333333;" src="'.$imagePath.$tcms_administer_site.'/thumbnails/'.$a_value.'/thumb_'.$dvalue.'" border="0" />'
+										.'<img style="border: 1px solid #333333;" src="'.$imagePath._TCMS_PATH.'/thumbnails/'.$a_value.'/thumb_'.$dvalue.'" border="0" />'
 										.'</a>';
 										
-										$size = filesize($tcms_administer_site.'/images/albums/'.$a_value.'/'.$dvalue) / 1024;
+										$size = filesize(_TCMS_PATH.'/images/albums/'.$a_value.'/'.$dvalue) / 1024;
 										$kpos = strpos($size, '.');
 										$img_size = substr($size, 0, $kpos+3);
 										

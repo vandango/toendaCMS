@@ -21,7 +21,7 @@
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 1.2.3
+ * @version 1.3.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -51,14 +51,19 @@ if(isset($_POST['lang'])){ $lang = $_POST['lang']; }
 	and languages
 */
 
+// define system
 define('_TCMS_VALID', 1);
 
+// include import loader
+include_once('../tcms_kernel/tcms_loader.lib.php');
+
+// load current active page
 include_once('../../site.php');
 $tcms_administer_site = $tcms_site[0]['path'];
 $tcms_administer_path = '../../'.$tcms_site[0]['path'];
+define('_TCMS_PATH', '../../'.$tcms_site[0]['path']);
 
-include_once('../tcms_kernel/tcms_loader.lib.php');
-
+// import filesystem
 using('toendacms.kernel.file', false, true);
 
 $tcms_file = new tcms_file();
@@ -68,17 +73,26 @@ $tcms_file = new tcms_file();
 	show site
 	if the global var file exist
 */
-if($tcms_file->checkFileExist($tcms_administer_path.'/tcms_global/var.xml')) {
+if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
+	// load language loader
 	$language_stage = 'admin';
 	include_once('../language/lang_admin.php');
 	
 	
+	// start now
+	$noSEOFolder = false;
+	
 	if(!isset($site)) {
 		$site = 'mod_start';
+		
+		$noSEOFolder = true;
 	}
 	
-	include_once($tcms_administer_path.'/tcms_global/database.php');
-	include_once($tcms_administer_path.'/tcms_global/mail.php');
+	define('_TCMS_BACKEND_MODULE', $site);
+	
+	// import classes
+	include_once(_TCMS_PATH.'/tcms_global/database.php');
+	include_once(_TCMS_PATH.'/tcms_global/mail.php');
 	
 	using('toendacms.kernel.time', false, true);
 	using('toendacms.kernel.xml', false, true);
@@ -116,7 +130,7 @@ if($tcms_file->checkFileExist($tcms_administer_path.'/tcms_global/var.xml')) {
 	
 	
 	// config
-	$tcms_config = new tcms_configuration($tcms_administer_path);
+	$tcms_config = new tcms_configuration(_TCMS_PATH);
 	$c_charset       = $tcms_config->getCharset();
 	$show_wysiwyg    = $tcms_config->getWYSIWYGEditor();
 	$topmenu_active  = $tcms_config->getTopmenuEnabled();
@@ -129,42 +143,29 @@ if($tcms_file->checkFileExist($tcms_administer_path.'/tcms_global/var.xml')) {
 	$tcms_lang       = $tcms_config->getLanguageBackend();
 	$tcms_front_lang = $tcms_config->getLanguageFrontend();
 	
+	
 	// imagepath
-	if($seoEnabled == 1){
-		if($seoFolder != ''){
-			if($noSEOFolder){
-				$templatePath = '../../theme/'.$s.'/';
-				$imagePath = '../../';
-			}
-			else{
-				$templatePath = '../../'.$seoFolder.'/theme/'.$s.'/';
-				$imagePath = '../../'.$seoFolder.'/';
-			}
-		}
-		else{
-			$templatePath = '../../theme/'.$s.'/';
-			$imagePath = '../../';
-		}
-	}
-	else{
-		$templatePath = '../../theme/'.$s.'/';
+	if($noSEOFolder) {
 		$imagePath = '../../';
+	}
+	else {
+		$imagePath = '../../'.$seoFolder.'/';
 	}
 	
 	// mainclass
-	$tcms_main = new tcms_main($tcms_administer_path, $tcms_time);
+	$tcms_main = new tcms_main(_TCMS_PATH, $tcms_time);
 	
 	// authentication
-	$tcms_auth = new tcms_authentication($tcms_administer_path, $c_charset, $imagePath);
+	$tcms_auth = new tcms_authentication(_TCMS_PATH, $c_charset, $imagePath);
 	
 	// account provider
-	$tcms_ap = new tcms_account_provider($tcms_administer_path, $c_charset, $tcms_time);
+	$tcms_ap = new tcms_account_provider(_TCMS_PATH, $c_charset, $tcms_time);
 	
 	// html
 	$tcms_html = new tcms_html();
 	
 	// datacontainer
-	$tcms_dcp = new tcms_datacontainer_provider($tcms_administer_path, $c_charset, $tcms_time);
+	$tcms_dcp = new tcms_datacontainer_provider(_TCMS_PATH, $c_charset, $tcms_time);
 	
 	// image class
 	$tcms_gd = new tcms_gd();
@@ -187,6 +188,9 @@ if($tcms_file->checkFileExist($tcms_administer_path.'/tcms_global/var.xml')) {
 	// layout
 	$theme      = $tcms_config->getFrontendTheme();
 	$adminTheme = $tcms_config->getAdminTheme();
+	
+	define('_TCMS_THEME', $theme);
+	define('_TCMS_THEME_ADMIN', $adminTheme);
 	
 	
 	// mail
@@ -240,7 +244,7 @@ if($tcms_file->checkFileExist($tcms_administer_path.'/tcms_global/var.xml')) {
 	$copyright    = $tcms_config->getWebpageCopyright();
 	
 	
-	$tcms_cs = new tcms_cs($tcms_administer_path, '../../', true);
+	$tcms_cs = new tcms_cs(_TCMS_PATH, '../../', true);
 	
 	
 	echo '
@@ -269,8 +273,8 @@ if($tcms_file->checkFileExist($tcms_administer_path.'/tcms_global/var.xml')) {
 
 <!-- JSCookMenu -->
 <script language="JavaScript" src="../js/JSCookMenu/JSCookMenu.js"></script>
-<style type="text/css">@import "theme/'.$adminTheme.'/JSCookMenu/theme.css";</style>
-<script language="JavaScript" src="theme/'.$adminTheme.'/JSCookMenu/theme.js" type="text/javascript"></script>
+<style type="text/css">@import "theme/'._TCMS_THEME_ADMIN.'/JSCookMenu/theme.css";</style>
+<script language="JavaScript" src="theme/'._TCMS_THEME_ADMIN.'/JSCookMenu/theme.js" type="text/javascript"></script>
 
 <!-- dTree -->
 <script type="text/javascript" src="../js/dtree/dtree.js"></script>
@@ -281,21 +285,21 @@ if($tcms_file->checkFileExist($tcms_administer_path.'/tcms_global/var.xml')) {
 <link type="text/css" rel="StyleSheet" href="../js/tabs/css/luna/tab.css" />
 
 <!-- toendaCMS Styles -->
-<style type="text/css">@import "theme/'.$adminTheme.'/tcms_main.css";</style>
-<style type="text/css">@import "theme/'.$adminTheme.'/tcms_editor.css";</style>
+<style type="text/css">@import "theme/'._TCMS_THEME_ADMIN.'/tcms_main.css";</style>
+<style type="text/css">@import "theme/'._TCMS_THEME_ADMIN.'/tcms_editor.css";</style>
 <style> html { margin: 0px !important; padding: 0px !important; } </style>
-'.( file_exists('theme/'.$adminTheme.'/tcms_main_ie.css') ?
-'<!--[if lte IE 6]><style type="text/css">@import "theme/'.$adminTheme.'/tcms_main_ie.css";</style><![endif]-->
-<!--[if IE 7]><style type="text/css">@import "theme/'.$adminTheme.'/tcms_main_ie.css";</style><![endif]-->'
+'.( file_exists('theme/'._TCMS_THEME_ADMIN.'/tcms_main_ie.css') ?
+'<!--[if lte IE 6]><style type="text/css">@import "theme/'._TCMS_THEME_ADMIN.'/tcms_main_ie.css";</style><![endif]-->
+<!--[if IE 7]><style type="text/css">@import "theme/'._TCMS_THEME_ADMIN.'/tcms_main_ie.css";</style><![endif]-->'
 : '' ).'
 
 </head>
 ';
 	
-	include_once('theme/'.$adminTheme.'/tcms_color.php');
+	include_once('theme/'._TCMS_THEME_ADMIN.'/tcms_color.php');
 	
 	
-	echo '<body'.( $site == 'mod_upload_layout' ? ' onload="init();"' : '' ).'>'
+	echo '<body'.( _TCMS_BACKEND_MODULE == 'mod_upload_layout' ? ' onload="init();"' : '' ).'>'
 	.'<a name="top"></a>';
 	
 	
@@ -305,15 +309,15 @@ if($tcms_file->checkFileExist($tcms_administer_path.'/tcms_global/var.xml')) {
 	if(isset($id_user)) {
 		if($choosenDB == 'xml') {
 			if($_GET['setXMLSession'] == 1) {
-				if($tcms_file->checkFileExist($tcms_administer_path.'/tcms_session/'.$id_user)){
-					$file = new tcms_file($tcms_administer_path.'/tcms_session/'.$id_user, 'r');
+				if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_session/'.$id_user)){
+					$file = new tcms_file(_TCMS_PATH.'/tcms_session/'.$id_user, 'r');
 					$ws_id = $file->Read();
 					
 					$file->ChangeFile('session/'.$id_user, 'w');
 					$file->Write($ws_id);
 					$file->Close();
 					
-					$file->DeleteCustom($tcms_administer_path.'/tcms_session/'.$id_user);
+					$file->DeleteCustom(_TCMS_PATH.'/tcms_session/'.$id_user);
 				}
 			}
 		}
@@ -339,10 +343,10 @@ if($tcms_file->checkFileExist($tcms_administer_path.'/tcms_global/var.xml')) {
 			if($id_group == 'Administrator'
 			|| $id_group == 'Developer'
 			|| $id_group == 'Editor'
-			|| $id_group == 'Writer'){
+			|| $id_group == 'Writer') {
 				$canEdit = true;
 			}
-			else{
+			else {
 				$canEdit = false;
 			}
 			
@@ -351,9 +355,9 @@ if($tcms_file->checkFileExist($tcms_administer_path.'/tcms_global/var.xml')) {
 			/*
 				Load Layout
 			*/
-			if($canEdit){
-			 	include_once ('../tcms_kernel/tcms_array.lib.php');
-				include_once ('../tcms_kernel/tcms_freemenu.lib.php');
+			if($canEdit) {
+			 	include_once('../tcms_kernel/tcms_array.lib.php');
+				include_once('../tcms_kernel/tcms_freemenu.lib.php');
 				
 				
 				echo '<table cellpadding="0" cellspacing="0" border="0" '
@@ -383,7 +387,7 @@ if($tcms_file->checkFileExist($tcms_administer_path.'/tcms_global/var.xml')) {
 				.'<td valign="top" height="100%" width="100%">'
 				.'<div class="tcms_main_body_padding">';
 				
-				include('modules/'.$site.'.php');
+				include('modules/'._TCMS_BACKEND_MODULE.'.php');
 						
 				echo '</div>'
 				.'</td></tr>';
@@ -454,7 +458,7 @@ else{
 */
 if($todo == 'logout') {
 	// authentication
-	$tcms_auth = new tcms_authentication($tcms_administer_path, $c_charset, '', $tcms_time);
+	$tcms_auth = new tcms_authentication(_TCMS_PATH, $c_charset, '', $tcms_time);
 	
 	$tcms_auth->doLogout($id_user, true);
 	

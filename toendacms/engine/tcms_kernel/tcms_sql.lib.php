@@ -40,7 +40,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Untested Database Server:
  * - SQLite        -> sqlite
  *
- * @version 0.7.5
+ * @version 0.9.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -598,17 +598,20 @@ class sqlAbstractionLayer {
 			$this->_sqlHost = $sqlHost;
 			$this->_sqlDB = $sqlDB;
 			
-			if($sqlPort != '' || !empty($sqlPort))
+			if($sqlPort != '' || !empty($sqlPort)) {
 				$this->_sqlPort = $sqlPort;
+			}
 			
 			switch($this->_sqlInterface){
 				case 'mysql':
 					$sqlConnectionID = @mysql_connect($this->_sqlHost, $this->_sqlUsername, $this->_sqlPassword);
 					
-					if($sqlConnectionID)
+					if($sqlConnectionID) {
 						$sqlConnectionID = mysql_select_db($this->_sqlDB);
-					else
+					}
+					else {
 						$sqlConnectionID = $this->sqlError(0);
+					}
 					break;
 				
 				case 'pgsql':
@@ -616,8 +619,9 @@ class sqlAbstractionLayer {
   					$conn_string .= isset($this->_sqlPort) ? ' port='.$this->_sqlPort : '';
 					$sqlConnectionID = @pg_connect($conn_string);
 					
-					if($sqlConnectionID == False)
+					if($sqlConnectionID == False) {
 						$sqlConnectionID = $this->sqlError(0);
+					}
 					break;
 				
 				case 'sqlite':
@@ -627,14 +631,18 @@ class sqlAbstractionLayer {
 				case 'mssql':
 					$sqlConnectionID = @mssql_connect($this->_sqlHost, $this->_sqlUsername, $this->_sqlPassword);
 					
-					if($sqlConnectionID)
+					if($sqlConnectionID) {
 						$sqlConnectionID = @mssql_select_db($this->_sqlDB);
-					else
+					}
+					else {
 						$sqlConnectionID = $this->sqlError(0);
+					}
 					break;
 			}
 		}
-		else{ $sqlConnectionID = $this->sqlError(1); }
+		else {
+			$sqlConnectionID = $this->sqlError(1);
+		}
 		
 		return $sqlConnectionID;
 	}
@@ -657,16 +665,19 @@ class sqlAbstractionLayer {
 			$this->_sqlUsername = $sqlUser;
 			$this->_sqlPassword = $sqlPassword;
 			$this->_sqlHost = $sqlHost;
-			$this->_sqlDB = $sqlDB;
+			//$this->_sqlDB = $sqlDB;
 			
-			if($sqlPort != '' || !empty($sqlPort)){ $this->_sqlPort = $sqlPort; }
+			if($sqlPort != '' || !empty($sqlPort)) {
+				$this->_sqlPort = $sqlPort;
+			}
 			
-			switch($this->_sqlInterface){
+			switch($this->_sqlInterface) {
 				case 'mysql':
 					$sqlConnectionID = @mysql_connect($this->_sqlHost, $this->_sqlUsername, $this->_sqlPassword);
 					
-					if($sqlConnectionID == false)
+					if($sqlConnectionID == false) {
 						$sqlConnectionID = $this->sqlError(0);
+					}
 					break;
 				
 				case 'pgsql':
@@ -674,8 +685,9 @@ class sqlAbstractionLayer {
   					$conn_string .= isset($this->_sqlPort) ? ' port='.$this->_sqlPort : '';
 					$sqlConnectionID = @pg_connect($conn_string);
 					
-					if($sqlConnectionID == False)
+					if($sqlConnectionID == False) {
 						$sqlConnectionID = $this->sqlError(0);
+					}
 					break;
 				
 				case 'sqlite':
@@ -685,12 +697,15 @@ class sqlAbstractionLayer {
 				case 'mssql':
 					$sqlConnectionID = @mssql_connect($this->_sqlHost, $this->_sqlUsername, $this->_sqlPassword);
 					
-					if($sqlConnectionID == False)
+					if($sqlConnectionID == False) {
 						$sqlConnectionID = $this->sqlError(0);
+					}
 					break;
 			}
 		}
-		else{ $sqlConnectionID = $this->sqlError(1); }
+		else {
+			$sqlConnectionID = $this->sqlError(1);
+		}
 		
 		return $sqlConnectionID;
 	}
@@ -708,29 +723,36 @@ class sqlAbstractionLayer {
 	 * @return Integer MySql Connection ID
 	 */
 	public function sqlPersistConnect($sqlUser, $sqlPassword, $sqlHost, $sqlDB, $sqlPort){
-		if(isset($this->_sqlInterface) && !empty($this->_sqlInterface) && $this->_sqlInterface != ''){
-			
+		if(isset($this->_sqlInterface) 
+		&& !empty($this->_sqlInterface) 
+		&& $this->_sqlInterface != '') {
 			$this->_sqlUsername = $sqlUser;
 			$this->_sqlPassword = $sqlPassword;
 			$this->_sqlHost = $sqlHost;
 			$this->_sqlDB = $sqlDB;
-			if($sqlPort != '' || !empty($sqlPort)){ $this->_sqlPort = $sqlPort; }
 			
-			switch($this->$_sqlInterface){
+			if($sqlPort != '' || !empty($sqlPort)) {
+				$this->_sqlPort = $sqlPort;
+			}
+			
+			switch($this->_sqlInterface){
 				case 'mysql':
 					$sqlConnectionID = @mysql_pconnect($this->_sqlHost, $this->_sqlUsername, $this->_sqlPassword);
 					
-					if($sqlConnectionID)
+					if($sqlConnectionID) {
 						$sqlConnectionID = mysql_select_db($this->_sqlDB);
-					else
+					}
+					else {
 						$sqlConnectionID = $this->sqlError(0);
+					}
 					break;
 				
 				case 'pgsql':
 					$sqlConnectionID = @pg_pconnect('host='.$this->_sqlHost.''.( isset($this->_sqlPort) && !empty($this->_sqlPort) ? ' port='.$this->_sqlPort : '' ).' dbname='.$this->_sqlDB.' user='.$this->_sqlUsername.' password='.$this->_sqlPassword);
 					
-					if($sqlConnectionID == False)
+					if($sqlConnectionID == False) {
 						$sqlConnectionID = $this->sqlError(0);
+					}
 					break;
 				
 				case 'sqlite':
@@ -740,14 +762,18 @@ class sqlAbstractionLayer {
 				case 'mssql':
 					$sqlConnectionID = @mssql_pconnect($this->_sqlHost, $this->_sqlUsername, $this->_sqlPassword);
 					
-					if($sqlConnectionID)
+					if($sqlConnectionID) {
 						$sqlConnectionID = mssql_select_db($this->_sqlDB);
-					else
+					}
+					else {
 						$sqlConnectionID = $this->sqlError(0);
+					}
 					break;
 			}
 		}
-		else{ $sqlConnectionID = $this->sqlError(1); }
+		else {
+			$sqlConnectionID = $this->sqlError(1);
+		}
 		
 		return $sqlConnectionID;
 	}
@@ -761,7 +787,7 @@ class sqlAbstractionLayer {
 	 * @return Boolean
 	 */
 	public function sqlDisconnect($sqlConnectionID){
-		switch($this->_sqlInterface){
+		switch($this->_sqlInterface) {
 			case 'mysql':
 				$bClose = @mysql_close($sqlConnectionID);
 				break;
@@ -797,19 +823,19 @@ class sqlAbstractionLayer {
 				break;
 			
 			case 'pgsql':
-				$bCreate = '';
+				$bCreate = false;
 				break;
 			
 			case 'sqlite':
-				$bCreate = '';
+				$bCreate = false;
 				break;
 			
 			case 'mssql':
-				$bCreate = '';
+				$bCreate = false;
 				break;
 		}
 		
-		return $bClose;
+		return $bCreate;
 	}
 	
 	
@@ -838,7 +864,9 @@ class sqlAbstractionLayer {
 				}
 				
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$sqlResult = mysql_query($sqlQueryString);
 				if(!$sqlResult)
@@ -853,7 +881,9 @@ class sqlAbstractionLayer {
 				}
 				
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$sqlResult = pg_query($sqlQueryString);
 				if(!$sqlResult)
@@ -862,7 +892,9 @@ class sqlAbstractionLayer {
 			
 			case 'sqlite':
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$sqlResult = sqlite_query($sqlQueryString);
 				$sqlError  = sqlite_last_error($this->_sqlDB);
@@ -878,7 +910,9 @@ class sqlAbstractionLayer {
 				}
 				
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$sqlResult = mssql_query($sqlQueryString);
 				if(!$sqlResult)
@@ -990,35 +1024,55 @@ class sqlAbstractionLayer {
 		switch($this->_sqlInterface){
 			case 'mysql':
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$sqlResult = mysql_query('SELECT * FROM '.$sqlTable);
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . mysql_error(); }
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: ' . mysql_error();
+				}
 				break;
 			
 			case 'pgsql':
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$sqlResult = pg_query('SELECT * FROM '.$sqlTable);
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . pg_result_error(); }
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: ' . pg_result_error();
+				}
 				break;
 			
 			case 'sqlite':
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$sqlResult = sqlite_query('SELECT * FROM '.$sqlTable);
 				$sqlError  = sqlite_last_error($this->_sqlDB);
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . sqlite_error_string($sqlError); }
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: ' . sqlite_error_string($sqlError);
+				}
 				break;
 			
 			case 'mssql':
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$sqlResult = mssql_query('SELECT * FROM '.$sqlTable);
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . $sqlQueryString; }
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: "SELECT * FROM '.$sqlTable.'"';
+				}
 				break;
 		}
 		
@@ -1040,28 +1094,43 @@ class sqlAbstractionLayer {
 		switch($this->_sqlInterface){
 			case 'mysql':
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				//echo 'SELECT * FROM '.$sqlTable.' WHERE uid = "'.$sqlUID.'"<br />';
 				$sqlResult = mysql_query('SELECT * FROM '.$sqlTable.' WHERE uid = "'.$sqlUID.'"');
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . mysql_error(); }
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: ' . mysql_error();
+				}
 				break;
 			
 			case 'pgsql':
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$sqlResult = pg_query("SELECT * FROM ".$sqlTable." WHERE uid = '".$sqlUID."'");
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . pg_result_error(); }
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: ' . pg_result_error();
+				}
 				break;
 			
 			case 'sqlite':
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$sqlResult = sqlite_query('SELECT * FROM '.$sqlTable.' WHERE uid = "'.$sqlUID.'"');
 				$sqlError  = sqlite_last_error($this->_sqlDB);
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . sqlite_error_string($sqlError); }
+				
+				if(!$sqlResult){
+					$sqlResult = 'Invalid query: ' . sqlite_error_string($sqlError);
+				}
 				break;
 			
 			case 'mssql':
@@ -1071,10 +1140,15 @@ class sqlAbstractionLayer {
 				fclose($fp);
 				*/
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$sqlResult = mssql_query("SELECT * FROM ".$sqlTable." WHERE [uid] = '".$sqlUID."'");
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . $sqlQueryString; }
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: "SELECT * FROM '.$sqlTable.' WHERE [uid] = "'.$sqlUID.'"';
+				}
 				break;
 		}
 		
@@ -1111,7 +1185,9 @@ class sqlAbstractionLayer {
 				}
 				
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$sqlResult = mysql_query('UPDATE '.$sqlTable.' SET '.$newDataString.' WHERE uid = "'.$sqlUID.'"');
 				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . mysql_error(); }
@@ -1119,7 +1195,9 @@ class sqlAbstractionLayer {
 			
 			case 'pgsql':
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$newDataString = str_replace('"', "'", $newDataString);
 				$newDataString = str_replace($sqlTable.'.', '"', $newDataString);
@@ -1137,7 +1215,9 @@ class sqlAbstractionLayer {
 			
 			case 'sqlite':
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$sqlResult = sqlite_query('UPDATE '.$sqlTable.' SET '.$newDataString.' WHERE uid = "'.$sqlUID.'"');
 				$sqlError  = sqlite_last_error($this->_sqlDB);
@@ -1146,7 +1226,9 @@ class sqlAbstractionLayer {
 			
 			case 'mssql':
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$newDataString = str_replace('"', "'", $newDataString);
 				$newDataString = str_replace($sqlTable.'.', $sqlTable.'.[', $newDataString);
@@ -1159,7 +1241,10 @@ class sqlAbstractionLayer {
 				}
 				
 				$sqlResult = mssql_query("UPDATE ".$sqlTable." SET ".$newDataString."  WHERE [uid] = '".$sqlUID."'");
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . $sqlQueryString; }
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: "UPDATE '.$sqlTable.' SET '.$newDataString.'  WHERE [uid] = "'.$sqlUID.'"';
+				}
 				break;
 		}
 		
@@ -1190,15 +1275,22 @@ class sqlAbstractionLayer {
 				}
 				
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$sqlResult = mysql_query('UPDATE '.$sqlTable.' SET '.$newDataString.' WHERE '.$sqlField.' = "'.$sqlUID.'"');
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . mysql_error(); }
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.mysql_error();
+				}
 				break;
 			
 			case 'pgsql':
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$newDataString = str_replace('"', "'", $newDataString);
 				$newDataString = str_replace($sqlTable.'.', '"', $newDataString);
@@ -1211,21 +1303,31 @@ class sqlAbstractionLayer {
 				}
 				
 				$sqlResult = pg_query("UPDATE ".$sqlTable." SET ".$newDataString."  WHERE ".$sqlField." = '".$sqlUID."'");
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . pg_result_error(); }
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.pg_result_error();
+				}
 				break;
 			
 			case 'sqlite':
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$sqlResult = sqlite_query('UPDATE '.$sqlTable.' SET '.$newDataString.' WHERE '.$sqlField.' = "'.$sqlUID.'"');
 				$sqlError  = sqlite_last_error($this->_sqlDB);
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . sqlite_error_string($sqlError); }
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.sqlite_error_string($sqlError);
+				}
 				break;
 			
 			case 'mssql':
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$newDataString = str_replace('"', "'", $newDataString);
 				$newDataString = str_replace($sqlTable.'.', $sqlTable.'.[', $newDataString);
@@ -1237,8 +1339,13 @@ class sqlAbstractionLayer {
 					fclose($fp);
 				}
 				
-				$sqlResult = mssql_query("UPDATE ".$sqlTable." SET ".$newDataString."  WHERE [".$sqlField."] = '".$sqlUID."'");
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . $sqlQueryString; }
+				$sqlQueryString = "UPDATE ".$sqlTable." SET ".$newDataString."  WHERE [".$sqlField."] = '".$sqlUID."'";
+				
+				$sqlResult = mssql_query($sqlQueryString);
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: ' . $sqlQueryString;
+				}
 				break;
 		}
 		
@@ -1263,7 +1370,9 @@ class sqlAbstractionLayer {
 		switch($this->_sqlInterface){
 			case 'mysql':
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				if($withDebug) {
 					$fp = fopen('log_sqlCreateOne_'.microtime().'.txt', 'w');
@@ -1277,7 +1386,9 @@ class sqlAbstractionLayer {
 			
 			case 'pgsql':
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				if($withDebug) {
 					$fp = fopen('log_sqlCreateOne_'.microtime().'.txt', 'w');
@@ -1291,7 +1402,9 @@ class sqlAbstractionLayer {
 			
 			case 'sqlite':
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$sqlResult = sqlite_query('INSERT INTO '.$sqlTable.' ( '.$sqlColumns.', "uid") VALUES( '.$newDataString.' , '.$sqlUID.' )');
 				$sqlError  = sqlite_last_error($this->_sqlDB);
@@ -1306,10 +1419,17 @@ class sqlAbstractionLayer {
 				}
 				
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
-				$sqlResult = mssql_query("INSERT INTO ".$sqlTable." ( ".$sqlColumns.", [uid]) VALUES( ".$newDataString." , '".$sqlUID."' )");
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . $sqlQueryString; }
+				$sqlQueryString = "INSERT INTO ".$sqlTable." ( ".$sqlColumns.", [uid]) VALUES( ".$newDataString." , '".$sqlUID."' )";
+				
+				$sqlResult = mssql_query($sqlQueryString);
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: ' . $sqlQueryString;
+				}
 				break;
 		}
 		
@@ -1338,10 +1458,15 @@ class sqlAbstractionLayer {
 				}
 				
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$sqlResult = mysql_query('DELETE FROM '.$sqlTable.' WHERE uid = "'.$sqlUID.'"');
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . mysql_error(); }
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.mysql_error();
+				}
 				break;
 			
 			case 'pgsql':
@@ -1352,27 +1477,44 @@ class sqlAbstractionLayer {
 				}
 				
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$sqlResult = pg_query("DELETE FROM ".$sqlTable." WHERE uid = '".$sqlUID."'");
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . pg_result_error(); }
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.pg_result_error();
+				}
 				break;
 			
 			case 'sqlite':
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$sqlResult = sqlite_query('DELETE FROM '.$sqlTable.' WHERE uid = "'.$sqlUID.'"');
 				$sqlError  = sqlite_last_error($this->_sqlDB);
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . sqlite_error_string($sqlError); }
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.sqlite_error_string($sqlError);
+				}
 				break;
 			
 			case 'mssql':
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
-				$sqlResult = mssql_query("DELETE FROM ".$sqlTable." WHERE [uid] = '".$sqlUID."'");
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . $sqlQueryString; }
+				$sqlQueryString = "DELETE FROM ".$sqlTable." WHERE [uid] = '".$sqlUID."'";
+				
+				$sqlResult = mssql_query($sqlQueryString);
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.$sqlQueryString;
+				}
 				break;
 		}
 		
@@ -1402,10 +1544,15 @@ class sqlAbstractionLayer {
 				}
 				
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$sqlResult = mysql_query('DELETE FROM '.$sqlTable.' WHERE '.$sqlIndividual.' = "'.$sqlValue.'"');
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . mysql_error(); }
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.mysql_error();
+				}
 				break;
 			
 			case 'pgsql':
@@ -1416,27 +1563,43 @@ class sqlAbstractionLayer {
 				}
 				
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$sqlResult = pg_query("DELETE FROM ".$sqlTable." WHERE ".$sqlIndividual." = '".$sqlValue."'");
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . pg_result_error(); }
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.pg_result_error();
+				}
 				break;
 			
 			case 'sqlite':
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$sqlResult = sqlite_query('DELETE FROM '.$sqlTable.' WHERE '.$sqlIndividual.' = "'.$sqlValue.'"');
 				$sqlError  = sqlite_last_error($this->_sqlDB);
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . sqlite_error_string($sqlError); }
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.sqlite_error_string($sqlError);
+				}
 				break;
 			
 			case 'mssql':
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
-				$sqlResult = mssql_query("DELETE FROM ".$sqlTable." WHERE ".$sqlIndividual." = '".$sqlValue."'");
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . $sqlQueryString; }
+				$sqlQueryString = "DELETE FROM ".$sqlTable." WHERE ".$sqlIndividual." = '".$sqlValue."'";
+				
+				$sqlResult = mssql_query($sqlQueryString);
+				
+				if(!$sqlResult){ $sqlResult = 'Invalid query: '.$sqlQueryString;
+				}
 				break;
 		}
 		
@@ -1464,10 +1627,15 @@ class sqlAbstractionLayer {
 				}
 				
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$sqlResult = mysql_query('DELETE FROM '.$sqlTable);
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . mysql_error(); }
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.mysql_error();
+				}
 				break;
 			
 			case 'pgsql':
@@ -1478,27 +1646,44 @@ class sqlAbstractionLayer {
 				}
 				
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$sqlResult = pg_query("DELETE FROM ".$sqlTable);
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . pg_result_error(); }
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.pg_result_error();
+				}
 				break;
 			
 			case 'sqlite':
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
 				$sqlResult = sqlite_query('DELETE FROM '.$sqlTable);
 				$sqlError  = sqlite_last_error($this->_sqlDB);
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . sqlite_error_string($sqlError); }
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.sqlite_error_string($sqlError);
+				}
 				break;
 			
 			case 'mssql':
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
-				$sqlResult = mssql_query("DELETE FROM ".$sqlTable);
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . $sqlQueryString; }
+				$sqlQueryString = "DELETE FROM ".$sqlTable;
+				
+				$sqlResult = mssql_query($sqlQueryString);
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.$sqlQueryString;
+				}
 				break;
 		}
 		
@@ -1553,40 +1738,90 @@ class sqlAbstractionLayer {
 			case 'mysql':
 				if($withDebug) {
 					$fp = fopen('log_'.microtime().'.txt', 'w');
-					fwrite($fp, 'SELECT * FROM '.$sqlTable.' WHERE '.$sqlSearchColumn.' REGEXP "'.$sqlSearchWord.'" OR '.$sqlSearchColumn.' LIKE "%'.$sqlSearchWord.'%"');
+					fwrite(
+						$fp, 
+						'SELECT *'
+						.' FROM '.$sqlTable
+						.' WHERE '.$sqlSearchColumn
+						.' REGEXP "'.$sqlSearchWord.'"'
+						.' OR '.$sqlSearchColumn
+						.' LIKE "%'.$sqlSearchWord.'%"'
+					);
 					fclose($fp);
 				}
 				
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
-				$sqlResult = mysql_query('SELECT * FROM '.$sqlTable.' WHERE '.$sqlSearchColumn.' REGEXP "'.$sqlSearchWord.'" OR '.$sqlSearchColumn.' LIKE "%'.$sqlSearchWord.'%"');
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . mysql_error(); }
+				$sqlResult = mysql_query(
+					'SELECT *'
+					.' FROM '.$sqlTable
+					.' WHERE '.$sqlSearchColumn
+					.' REGEXP "'.$sqlSearchWord.'"'
+					.' OR '.$sqlSearchColumn
+					.' LIKE "%'.$sqlSearchWord.'%"'
+				);
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.mysql_error();
+				}
 				break;
 			
 			case 'pgsql':
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
-				$sqlResult = pg_query("SELECT * FROM ".$sqlTable." WHERE ".$sqlSearchColumn." LIKE '%".$sqlSearchWord."%'");
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . pg_result_error(); }
+				$sqlResult = pg_query(
+					"SELECT *"
+					." FROM ".$sqlTable
+					." WHERE ".$sqlSearchColumn
+					." LIKE '%".$sqlSearchWord."%'"
+				);
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.pg_result_error();
+				}
 				break;
 			
 			case 'sqlite':
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
-				$sqlResult = sqlite_query('SELECT * FROM '.$sqlTable.' WHERE '.$sqlSearchColumn.' REGEXP "'.$sqlSearchWord.'"');
+				$sqlResult = sqlite_query(
+					'SELECT *'
+					.' FROM '.$sqlTable
+					.' WHERE '.$sqlSearchColumn
+					.' REGEXP "'.$sqlSearchWord.'"'
+				);
 				$sqlError  = sqlite_last_error($this->_sqlDB);
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . sqlite_error_string($sqlError); }
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.sqlite_error_string($sqlError);
+				}
 				break;
 			
 			case 'mssql':
 				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
-				$sqlResult = mssql_query("SELECT * FROM ".$sqlTable." WHERE ".$sqlSearchColumn." LIKE '%".$sqlSearchWord."%'");
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . $sqlQueryString; }
+				$sqlQueryString = "SELECT *"
+				." FROM ".$sqlTable
+				." WHERE ".$sqlSearchColumn
+				." LIKE '%".$sqlSearchWord."%'";
+				
+				$sqlResult = mssql_query($sqlQueryString);
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.$sqlQueryString;
+				}
 				break;
 		}
 		
@@ -1610,7 +1845,16 @@ class sqlAbstractionLayer {
 			case 'mysql':
 				if($with_output == 1){
 					$fp = fopen('../../cache/mysql_database_backup_['.$this->_sqlDB.'].sql', 'w');
-					fwrite($fp, $sqlDump->MySQLBackup($this->_sqlHost, $this->_sqlDB, $this->_sqlUsername, $this->_sqlPassword, $structure_only));
+					fwrite(
+						$fp, 
+						$sqlDump->MySQLBackup(
+							$this->_sqlHost, 
+							$this->_sqlDB, 
+							$this->_sqlUsername, 
+							$this->_sqlPassword, 
+							$structure_only
+						)
+					);
 					fclose($fp);
 				}
 				else{
@@ -1619,28 +1863,28 @@ class sqlAbstractionLayer {
 				break;
 			
 			case 'pgsql':
-				if($with_output == 1){
-					//$fp = fopen('../../cache/pgsql_database_backup_['.$this->_sqlDB.'].sql', 'w');
-					//fwrite($fp, $sqlDump->MySQLBackup($this->_sqlHost, $this->_sqlDB, $this->_sqlUsername, $this->_sqlPassword, $structure_only));
-					//fclose($fp);
-				}
-				else{
-					//$sqlResult = htmlspecialchars($sqlDump->MySQLBackup($this->_sqlHost, $this->_sqlDB, $this->_sqlUsername, $this->_sqlPassword, $structure_only));
-				}
+				//if($with_output == 1) {
+				//	$fp = fopen('../../cache/pgsql_database_backup_['.$this->_sqlDB.'].sql', 'w');
+				//	fwrite($fp, $sqlDump->MySQLBackup($this->_sqlHost, $this->_sqlDB, $this->_sqlUsername, $this->_sqlPassword, $structure_only));
+				//	fclose($fp);
+				//}
+				//else {
+				//	$sqlResult = htmlspecialchars($sqlDump->MySQLBackup($this->_sqlHost, $this->_sqlDB, $this->_sqlUsername, $this->_sqlPassword, $structure_only));
+				//}
 				break;
 			
 			case 'sqlite':
 				break;
 			
 			case 'mssql':
-				if($with_output == 1){
-					//$fp = fopen('../../cache/mssql_database_backup_['.$this->_sqlDB.'].sql', 'w');
-					//fwrite($fp, $sqlDump->MySQLBackup($this->_sqlHost, $this->_sqlDB, $this->_sqlUsername, $this->_sqlPassword, $structure_only));
-					//fclose($fp);
-				}
-				else{
-					//$sqlResult = htmlspecialchars($sqlDump->MySQLBackup($this->_sqlHost, $this->_sqlDB, $this->_sqlUsername, $this->_sqlPassword, $structure_only));
-				}
+				//if($with_output == 1) {
+				//	$fp = fopen('../../cache/mssql_database_backup_['.$this->_sqlDB.'].sql', 'w');
+				//	fwrite($fp, $sqlDump->MySQLBackup($this->_sqlHost, $this->_sqlDB, $this->_sqlUsername, $this->_sqlPassword, $structure_only));
+				//	fclose($fp);
+				//}
+				//else {
+				//	$sqlResult = htmlspecialchars($sqlDump->MySQLBackup($this->_sqlHost, $this->_sqlDB, $this->_sqlUsername, $this->_sqlPassword, $structure_only));
+				//}
 				break;
 		}
 		
@@ -1668,34 +1912,50 @@ class sqlAbstractionLayer {
 				case 'mysql':
 					$sqlResult = @mysql_query('SELECT * FROM '.$sqlTable.' WHERE uid="'.$sqlUID.'"');
 					
-					if(!$sqlResult)
-						$sqlResult = 'Invalid query: '.mysql_error(); break;
+					if(!$sqlResult) {
+						$sqlResult = 'Invalid query: '.mysql_error();
+						break;
+					}
 					
-					if(mysql_num_rows($sqlResult) == 0)
+					if(mysql_num_rows($sqlResult) == 0) {
 						$uidExists = false;
-					else
+					}
+					else {
 						$uidExists = true;
+					}
 					break;
 				
 				case 'pgsql':
+					$sqlQueryString = "SELECT * FROM ".$sqlTable." WHERE uid = '".$sqlUID."'";
+					
 					$sqlResult = @pg_query($sqlQueryString);
 					
-					if(!$sqlResult)
+					if(!$sqlResult) {
 						$sqlResult = 'Invalid query: '.pg_result_error();
+					}
+					
 					//$uidExists = mysql_num_rows($sqlResult);
 					break;
 				
 				case 'sqlite':
+					$sqlQueryString = 'SELECT * FROM '.$sqlTable.' WHERE uid="'.$sqlUID.'"';
+					
 					$sqlResult = @sqlite_query($sqlQueryString);
 					$sqlError  = @sqlite_last_error($this->_sqlDB);
-					if(!$sqlResult){ $sqlResult = 'Invalid query: '.sqlite_error_string($sqlError); }
+					
+					if(!$sqlResult) {
+						$sqlResult = 'Invalid query: '.sqlite_error_string($sqlError);
+					}
+					
 					//$uidExists = mysql_num_rows($sqlResult);
 					break;
 				
 				case 'mssql':
 					$sqlResult = @mssql_guid_string('');
-					if(!$sqlResult)
+					
+					if(!$sqlResult) {
 						$sqlResult = 'Invalid query: '.$sqlQueryString;
+					}
 					break;
 			}
 		}
@@ -1750,12 +2010,15 @@ class sqlAbstractionLayer {
 					fclose($fp);
 				}
 				
-				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
-				$sqlResult = mysql_query($sqlQueryString);
-				if(!$sqlResult)
-					$sqlResult = 'Invalid query: ' . mysql_error();
+				$sqlResult = mysql_query($sql);
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.mysql_error();
+				}
 				break;
 			
 			case 'pgsql':
@@ -1767,24 +2030,30 @@ class sqlAbstractionLayer {
 					fclose($fp);
 				}
 				
-				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
-				$sqlResult = pg_query($sqlQueryString);
-				if(!$sqlResult)
-					$sqlResult = 'Invalid query: ' . pg_result_error();
+				$sqlResult = pg_query($sql);
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.pg_result_error();
+				}
 				break;
 			
 			case 'sqlite':
 				$sql = 'DROP TABLE '.$tableName;
 				
-				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
-				$sqlResult = sqlite_query($sqlQueryString);
+				$sqlResult = sqlite_query($sql);
 				$sqlError  = sqlite_last_error($this->_sqlDB);
-				if(!$sqlResult)
-					$sqlResult = 'Invalid query: ' . sqlite_error_string($sqlError);
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.sqlite_error_string($sqlError);
+				}
 				break;
 			
 			case 'mssql':
@@ -1796,12 +2065,15 @@ class sqlAbstractionLayer {
 					fclose($fp);
 				}
 				
-				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) $tcms_time->incrmentSqlQueryCounter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
 				
-				$sqlResult = mssql_query($sqlQueryString);
-				if(!$sqlResult)
-					$sqlResult = 'Invalid query: ' . $sqlQueryString;
+				$sqlResult = mssql_query($sql);
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.$sql;
+				}
 				break;
 		}
 		

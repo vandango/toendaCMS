@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for user administration
  *
- * @version 0.5.1
+ * @version 0.5.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -87,11 +87,11 @@ if($todo == 'show') {
 	echo $tcms_html->text(_USER_TEXT.'<br /><br />', 'left');
 	
 	if($choosenDB == 'xml') {
-		$arr_filename = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/tcms_user/');
+		$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_user/');
 		
 		if($tcms_main->isArray($arr_filename)) {
 			foreach($arr_filename as $key => $value) {
-				$menu_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_user/'.$value,'r');
+				$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_user/'.$value,'r');
 				$arr_user['tag'][$key]    = substr($value, 0, 32);
 				$arr_user['name'][$key]   = $menu_xml->read_section('user', 'name');
 				$arr_user['user'][$key]   = $menu_xml->read_section('user', 'username');
@@ -801,7 +801,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		switch($action){
 			// Take it off
 			case 'off':
-				if($choosenDB == 'xml'){ xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_user/'.$maintag.'.xml', 'enabled', '1', '0'); }
+				if($choosenDB == 'xml'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_user/'.$maintag.'.xml', 'enabled', '1', '0'); }
 				else{
 					$sqlAL = new sqlAbstractionLayer($choosenDB);
 					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
@@ -813,7 +813,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 			
 			// Take it on
 			case 'on':
-				if($choosenDB == 'xml'){ xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_user/'.$maintag.'.xml', 'enabled', '0', '1'); }
+				if($choosenDB == 'xml'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_user/'.$maintag.'.xml', 'enabled', '0', '1'); }
 				else{
 					$sqlAL = new sqlAbstractionLayer($choosenDB);
 					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
@@ -837,8 +837,8 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 if($id_group == 'Developer' || $id_group == 'Administrator'){
 	if($todo == 'delete'){
 		if($choosenDB == 'xml'){
-			unlink('../../'.$tcms_administer_site.'/tcms_user/'.$maintag.'.xml');
-			unlink('../../'.$tcms_administer_site.'/tcms_notepad/'.$maintag.'.xml');
+			unlink(_TCMS_PATH.'/tcms_user/'.$maintag.'.xml');
+			unlink(_TCMS_PATH.'/tcms_notepad/'.$maintag.'.xml');
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB);

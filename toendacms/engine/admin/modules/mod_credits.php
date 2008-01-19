@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a info provider.
  *
- * @version 0.2.1
+ * @version 0.2.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -51,13 +51,6 @@ $cs_version = ''
 .' &bull; Version '.$tcms_version->getVersion().' '
 .$tcms_version->getBuild().' ['.$tcms_version->getCodename().'] '.$tcms_version->getState()
 .' &bull; Release date: '.$tcms_version->getReleaseDate().'&nbsp;';
-
-
-// little func.
-function get_php_setting($val) {
-	global $tcms_main;
-	return ( $tcms_main->getPHPSetting($val) == 1 ? 'ON' : 'OFF' );
-}
 
 
 
@@ -129,10 +122,10 @@ echo '<hr noshade="noshade" align="left" style="width: 800px; height: 1px; backg
 echo '<h3 class="tcms_ft_blue_01">'._CREDITS_RELEVANT_SET.'</h3>';
 
 echo '<div class="tcms_placeholder_200"><strong>'._CREDITS_SET_GLOBALS.':</strong></div>'
-.'<div class="tcms_placeholder">'._CREDITS_SET_GLOBALS.': <em>'.get_php_setting('register_globals').'</em></div>';
+.'<div class="tcms_placeholder">'._CREDITS_SET_GLOBALS.': <em>'.$tcms_main->getPHPSetting('register_globals').'</em></div>';
 
 echo '<div class="tcms_placeholder_200"><strong>'._MSG_FILE_UPLOADS.':</strong></div>'
-.'<div class="tcms_placeholder"><em>'.get_php_setting('file_uploads').'</em></div>';
+.'<div class="tcms_placeholder"><em>'.$tcms_main->getPHPSetting('file_uploads').'</em></div>';
 
 echo '<div class="tcms_placeholder_200"><strong>'._MSG_MAX_FILE_SIZE.':</strong></div>'
 .'<div class="tcms_placeholder"><em>'.ini_get('upload_max_filesize').' / '.$upload_max_filesize.' Bytes</em></div>';
@@ -141,7 +134,7 @@ echo '<div class="tcms_placeholder_200"><strong>'._MSG_MAX_POST_SIZE.':</strong>
 .'<div class="tcms_placeholder"><em>'.ini_get('post_max_size').' / '.$post_max_size.' Bytes</em></div>';
 
 echo '<div class="tcms_placeholder_200"><strong>save_mode:</strong></div>'
-.'<div class="tcms_placeholder"><em>'.get_php_setting('save_mode').'</em></div>';
+.'<div class="tcms_placeholder"><em>'.$tcms_main->getPHPSetting('save_mode').'</em></div>';
 
 
 

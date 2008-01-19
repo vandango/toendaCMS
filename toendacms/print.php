@@ -20,7 +20,7 @@
  * 
  * This module is used to generate a pdf document
  * 
- * @version 0.2.2
+ * @version 0.2.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -85,7 +85,7 @@ if(file_exists($tcms_administer_site.'/tcms_global/database.php')
 		else {
 			$arrSEO = $tcms_seo->explodeHTMLFormat();
 		}
-		$tcms_seo->_tcms_seo();
+		unset($tcms_seo);
 		
 		if(!isset($id))             { $id              = trim($arrSEO['id']);            if($id              == ''){ unset($id); } }
 		if(!isset($s))              { $s               = trim($arrSEO['s']);             if($s               == ''){ unset($s); } }

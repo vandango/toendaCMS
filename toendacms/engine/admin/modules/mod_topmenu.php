@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the topmenu items.
  *
- * @version 0.6.0
+ * @version 0.6.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -67,11 +67,11 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		echo tcms_html::text(_TOPMENU_TEXT.'<br /><br />', 'left');
 		
 		if($choosenDB == 'xml'){
-			$arr_filename = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_topmenu/');
+			$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_topmenu/');
 			
 			if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
 				foreach($arr_filename as $key => $value){
-					$menu_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_topmenu/'.$value,'r');
+					$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_topmenu/'.$value,'r');
 					$arr_top_menu['tag'][$key]    = substr($value, 0, 5);
 					$arr_top_menu['name'][$key]   = $menu_xml->read_section('top', 'name');
 					$arr_top_menu['id'][$key]     = $menu_xml->read_section('top', 'id');
@@ -261,7 +261,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		if(isset($maintag) && !empty($maintag) && $maintag != ''){
 			if($choosenDB == 'xml'){
 				if(!isset($newType)){
-					$user_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_topmenu/'.$maintag.'.xml','r');
+					$user_xml = new xmlparser(_TCMS_PATH.'/tcms_topmenu/'.$maintag.'.xml','r');
 					$tm_name   = $user_xml->read_value('name');
 					$tm_id     = $user_xml->read_value('id');
 					$tm_link   = $user_xml->read_value('link');
@@ -477,9 +477,9 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		
 		if(trim($new_tm_link) == 'new_page'){
 			if($choosenDB == 'xml'){
-				while(($new_tm_link=substr(md5(time()),0,5)) && file_exists('../../'.$tcms_administer_site.'/tcms_content/'.$new_tm_link.'.xml')){};
+				while(($new_tm_link=substr(md5(time()),0,5)) && file_exists(_TCMS_PATH.'/tcms_content/'.$new_tm_link.'.xml')){};
 				
-				$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_content/'.$new_tm_link.'.xml', 'w');
+				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_content/'.$new_tm_link.'.xml', 'w');
 				$xmluser->xml_c_declaration($c_charset);
 				$xmluser->xml_section('main');
 				
@@ -523,7 +523,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		
 		
 		if($choosenDB == 'xml'){
-			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_topmenu/'.$maintag.'.xml', 'w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_topmenu/'.$maintag.'.xml', 'w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('top');
 			
@@ -572,7 +572,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		
 		if($new_tm_id == '' || !isset($new_tm_id) || empty($new_tm_id)){
 			if($choosenDB == 'xml'){
-				$max_files = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_topmenu/');
+				$max_files = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_topmenu/');
 				$new_tm_id = count($max_files) + 1;
 			}
 			else{
@@ -589,7 +589,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			if($choosenDB == 'xml'){
 				if($language != $tcms_config->getLanguageFrontend()) {
 					$xmluser = new xmlparser(
-						'../../'.$tcms_administer_site.'/tcms_content_languages/'.$new_tm_link.'.xml', 
+						_TCMS_PATH.'/tcms_content_languages/'.$new_tm_link.'.xml', 
 						'w'
 					);
 					$xmluser->xml_c_declaration($c_charset);
@@ -610,7 +610,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				}
 				else {
 					$xmluser = new xmlparser(
-						'../../'.$tcms_administer_site.'/tcms_content/'.$new_tm_link.'.xml', 
+						_TCMS_PATH.'/tcms_content/'.$new_tm_link.'.xml', 
 						'w'
 					);
 					$xmluser->xml_c_declaration($c_charset);
@@ -686,7 +686,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		
 		
 		if($choosenDB == 'xml'){
-			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_topmenu/'.$maintag.'.xml', 'w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_topmenu/'.$maintag.'.xml', 'w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('top');
 			
@@ -741,7 +741,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		switch($action){
 			// Take it off
 			case 'off':
-				if($choosenDB == 'xml'){ xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_topmenu/'.$maintag.'.xml', 'published', '1', '0'); }
+				if($choosenDB == 'xml'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_topmenu/'.$maintag.'.xml', 'published', '1', '0'); }
 				else{
 					$sqlAL = new sqlAbstractionLayer($choosenDB);
 					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
@@ -753,7 +753,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			
 			// Take it on
 			case 'on':
-				if($choosenDB == 'xml'){ xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_topmenu/'.$maintag.'.xml', 'published', '0', '1'); }
+				if($choosenDB == 'xml'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_topmenu/'.$maintag.'.xml', 'published', '0', '1'); }
 				else{
 					$sqlAL = new sqlAbstractionLayer($choosenDB);
 					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
@@ -778,14 +778,14 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			// MOVE ENTRY + 1
 			case 'up':
 				if($choosenDB == 'xml'){
-					$reorderXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_topmenu/'.$id.'.xml','r');
+					$reorderXML = new xmlparser(_TCMS_PATH.'/tcms_topmenu/'.$id.'.xml','r');
 					$mainorderID = $reorderXML->read_section('top', 'id');
 					
-					$reorderXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_topmenu/'.$re.'.xml','r');
+					$reorderXML = new xmlparser(_TCMS_PATH.'/tcms_topmenu/'.$re.'.xml','r');
 					$reorderID = $reorderXML->read_section('top', 'id');
 					
-					xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_topmenu/'.$id.'.xml', 'id', $mainorderID, $reorderID);
-					xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_topmenu/'.$re.'.xml', 'id', $reorderID, $mainorderID);
+					xmlparser::edit_value(_TCMS_PATH.'/tcms_topmenu/'.$id.'.xml', 'id', $mainorderID, $reorderID);
+					xmlparser::edit_value(_TCMS_PATH.'/tcms_topmenu/'.$re.'.xml', 'id', $reorderID, $mainorderID);
 				}
 				else{
 					$sqlAL = new sqlAbstractionLayer($choosenDB);
@@ -817,14 +817,14 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			// MOVE ENTRY - 1
 			case 'down':
 				if($choosenDB == 'xml'){
-					$reorderXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_topmenu/'.$id.'.xml','r');
+					$reorderXML = new xmlparser(_TCMS_PATH.'/tcms_topmenu/'.$id.'.xml','r');
 					$mainorderID = $reorderXML->read_section('top', 'id');
 					
-					$reorderXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_topmenu/'.$re.'.xml','r');
+					$reorderXML = new xmlparser(_TCMS_PATH.'/tcms_topmenu/'.$re.'.xml','r');
 					$reorderID = $reorderXML->read_section('top', 'id');
 					
-					xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_topmenu/'.$id.'.xml', 'id', $mainorderID, $reorderID);
-					xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_topmenu/'.$re.'.xml', 'id', $reorderID, $mainorderID);
+					xmlparser::edit_value(_TCMS_PATH.'/tcms_topmenu/'.$id.'.xml', 'id', $mainorderID, $reorderID);
+					xmlparser::edit_value(_TCMS_PATH.'/tcms_topmenu/'.$re.'.xml', 'id', $reorderID, $mainorderID);
 				}
 				else{
 					$sqlAL = new sqlAbstractionLayer($choosenDB);
@@ -864,7 +864,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 	//===================================================================================
 	
 	if($todo == 'delete'){
-		if($choosenDB == 'xml'){ unlink('../../'.$tcms_administer_site.'/tcms_topmenu/'.$maintag.'.xml'); }
+		if($choosenDB == 'xml'){ unlink(_TCMS_PATH.'/tcms_topmenu/'.$maintag.'.xml'); }
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);

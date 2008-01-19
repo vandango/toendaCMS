@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a filemanager for all Sites
  *
- * @version 0.5.0
+ * @version 0.5.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -72,12 +72,12 @@ $cs_id     = 'components';
 
 if($sidemenu_active == 1){
 	if($choosenDB == 'xml'){
-		$arr_explore['link'] = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/tcms_menu/');
+		$arr_explore['link'] = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_menu/');
 		// IDS
 		$ii = 0;
 		while(!empty($arr_explore['link'][$ii])){
 			if($arr_explore['link'][$ii] != 'index.html'){
-				$explore_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_menu/'.$arr_explore['link'][$ii], 'r');
+				$explore_xml = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$arr_explore['link'][$ii], 'r');
 				$exp_type[$ii] = $explore_xml->read_value('type');
 				
 				if($exp_type[$ii] == 'link'){
@@ -149,12 +149,12 @@ if($sidemenu_active == 1){
 
 if($topmenu_active == 1){
 	if($choosenDB == 'xml'){
-		$arr_explore['link'] = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/tcms_topmenu/');
+		$arr_explore['link'] = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_topmenu/');
 		// IDS
 		$iiT = 0;
 		while(!empty($arr_explore['link'][$iiT])){
 			if($arr_explore['link'][$iiT] != 'index.html'){
-				$explore_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_topmenu/'.$arr_explore['link'][$iiT], 'r');
+				$explore_xml = new xmlparser(_TCMS_PATH.'/tcms_topmenu/'.$arr_explore['link'][$iiT], 'r');
 				
 				$arr_expT['name'][$iiT] = $explore_xml->read_value('name');
 				$arr_expT['id'][$iiT]   = $explore_xml->read_value('id');
@@ -220,10 +220,10 @@ if($topmenu_active == 1){
 if(!isset($wpC)){ $wpC = 0; }
 
 if($choosenDB == 'xml'){
-	$arr_explore['main'] = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/tcms_content/');
+	$arr_explore['main'] = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_content/');
 	while(!empty($arr_explore['main'][$wpC])){
 		if($arr_explore['main'][$wpC] != 'index.html'){
-			$exploreC_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_content/'.$arr_explore['main'][$wpC], 'r');
+			$exploreC_xml = new xmlparser(_TCMS_PATH.'/tcms_content/'.$arr_explore['main'][$wpC], 'r');
 			$arr_maint['title'][$wpC] = $exploreC_xml->read_value('title');
 			$arr_maint['id'][$wpC]    = $exploreC_xml->read_value('id');
 			$arr_maint['file'][$wpC]  = substr($arr_explore['main'][$wpC], 0, 5);

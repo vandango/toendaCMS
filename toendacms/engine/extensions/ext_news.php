@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a news manager with a news,
  * a news view and a archive with different formats.
  *
- * @version 1.5.4
+ * @version 1.5.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -67,7 +67,9 @@ $hr_line_2 = '<div class="news_seperator" style="margin-bottom: '.$news_spacing.
 $hr_line_3 = '<tr class="hr_line"><td colspan="3"></td></tr>';
 $hr_line_5 = '<hr class="hr_line" noshade="noshade" />';
 
-if($choosenDB == 'xml') $arr_news = $tcms_main->readdir_ext('data/tcms_news/');
+if($choosenDB == 'xml') {
+	$arr_news = $tcms_file->getPathContent('data/tcms_news/');
+}
 
 if(!isset($news) && $action != 'archive'){ $action = 'start'; }
 if(!isset($action)){ $action = 'start'; }
@@ -268,7 +270,7 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 					
 					foreach($catLinkTmp as $catKey => $catVal) {
 						if(trim($catVal) != '') {
-							$catXML = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$catVal.'.xml','r');
+							$catXML = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$catVal.'.xml','r');
 							
 							$catLink['link'][$count] = $catVal;
 							$catLink['name'][$count] = $catXML->readSection('cat', 'name');
@@ -280,7 +282,7 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 					}
 				}
 				else {
-					$catXML = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$arr_news['cat'].'.xml','r');
+					$catXML = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$arr_news['cat'].'.xml','r');
 					
 					$catLink['name'][0] = $catXML->readSection('cat', 'name');
 					
@@ -290,7 +292,7 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 				}
 			}
 			else {
-				$catXML = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$defaultCat.'.xml','r');
+				$catXML = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$defaultCat.'.xml','r');
 				
 				$catLink['name'][0] = $catXML->readSection('cat', 'name');
 				
@@ -865,7 +867,7 @@ if($use_news_comments == 1){
 			
 			
 			if($choosenDB == 'xml'){
-				$xmluser = new xmlparser($tcms_administer_site.'/tcms_news/comments_'.$news.'/'.$cur_c_date.'.xml', 'w');
+				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_news/comments_'.$news.'/'.$cur_c_date.'.xml', 'w');
 				$xmluser->xmlDeclaration();
 				$xmluser->xmlSection('comment');
 				
@@ -1050,7 +1052,7 @@ if($action == 'archive'
 	}
 	else{
 		if($choosenDB == 'xml'){
-			$xmlP = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$cat.'.xml', 'r');
+			$xmlP = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$cat.'.xml', 'r');
 			$catName = $xmlP->readSection('cat', 'name');
 			$catDesc = $xmlP->readSection('cat', 'desc');
 			
@@ -1116,7 +1118,7 @@ if($action == 'archive'
 							the publishing
 							and the access
 						*/
-						$main_xml = new xmlparser($tcms_administer_site.'/tcms_news/'.$cvalue,'r');
+						$main_xml = new xmlparser(_TCMS_PATH.'/tcms_news/'.$cvalue,'r');
 						$is_pub = $main_xml->readSection('news', 'published');
 						$nws_acc  = $main_xml->readSection('news', 'access');
 						$checkDate = $main_xml->readSection('news', 'date');
@@ -1137,7 +1139,7 @@ if($action == 'archive'
 							the publishing
 							and the access
 						*/
-						$main_xml = new xmlparser($tcms_administer_site.'/tcms_news/'.$cvalue,'r');
+						$main_xml = new xmlparser(_TCMS_PATH.'/tcms_news/'.$cvalue,'r');
 						
 						$is_pub = $main_xml->readSection('news', 'published');
 						$nws_acc  = $main_xml->readSection('news', 'access');
@@ -1171,7 +1173,7 @@ if($action == 'archive'
 						the publishing
 						and the access
 					*/
-					$main_xml = new xmlparser($tcms_administer_site.'/tcms_news/'.$cvalue,'r');
+					$main_xml = new xmlparser(_TCMS_PATH.'/tcms_news/'.$cvalue,'r');
 					$is_pub = $main_xml->readSection('news', 'published');
 					$nws_acc  = $main_xml->readSection('news', 'access');
 					$checkCat = $main_xml->readSection('news', 'category');
@@ -1420,8 +1422,8 @@ if($action == 'archive'
 			if($use_news_comments == 1){
 				if($arr_newsItems['cmt'][$key] == 1){
 					if($choosenDB == 'xml'){
-						$nw_amount = $tcms_main->getPathContentAmount(
-							$tcms_administer_site.'/tcms_news/comments_'.$arr_newsItems['order'][$key].'/'
+						$nw_amount = $tcms_file->getPathContentAmount(
+							_TCMS_PATH.'/tcms_news/comments_'.$arr_newsItems['order'][$key].'/'
 						);
 					}
 					else{
@@ -1453,7 +1455,7 @@ if($action == 'archive'
 						
 						foreach($catLinkTmp as $catKey => $catVal){
 							if(trim($catVal) != ''){
-								$catXML = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$catVal.'.xml','r');
+								$catXML = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$catVal.'.xml','r');
 								
 								$catLink['link'][$count] = $catVal;
 								$catLink['name'][$count] = $catXML->readSection('cat', 'name');
@@ -1465,7 +1467,7 @@ if($action == 'archive'
 						}
 					}
 					else{
-						$catXML = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$arr_newsItems['cat'][$key].'.xml','r');
+						$catXML = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$arr_newsItems['cat'][$key].'.xml','r');
 						
 						$catLink['name'][0] = $catXML->readSection('cat', 'name');
 						
@@ -1475,7 +1477,7 @@ if($action == 'archive'
 					}
 				}
 				else{
-					$catXML = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$defaultCat.'.xml','r');
+					$catXML = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$defaultCat.'.xml','r');
 					
 					$catLink['name'][0] = $catXML->readSection('cat', 'name');
 					
@@ -1838,13 +1840,13 @@ if($action == 'archive'
 		
 		if($choosenDB == 'xml') {
 			if($tcms_main->isArray($arr_news)) {
-				$arr_cat_files = $tcms_file->getPathContent($tcms_administer_site.'/tcms_news_categories/');
+				$arr_cat_files = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_news_categories/');
 				
 				$count = 0;
 				
 				if($tcms_main->isArray($arr_cat_files)) {
 					foreach($arr_cat_files as $Ckey => $Cvalue) {
-						$cat_xml = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$Cvalue,'r');
+						$cat_xml = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$Cvalue,'r');
 						
 						$this_cat_name = $cat_xml->readSection('cat', 'name');
 						$this_cat_uid = substr($Cvalue, 0, 5);
@@ -1853,7 +1855,7 @@ if($action == 'archive'
 						
 						
 						foreach($arr_news as $key => $value) {
-							$main_xml = new xmlparser($tcms_administer_site.'/tcms_news/'.$value,'r');
+							$main_xml = new xmlparser(_TCMS_PATH.'/tcms_news/'.$value,'r');
 							$checkCat = $main_xml->readSection('news', 'category');
 							$arrCat = explode('{###}', $checkCat);
 							
@@ -2090,7 +2092,7 @@ if($check_session){
 	|| $is_admin == 'Presenter'){
 		if($cmd == 'delete'){
 			if($choosenDB == 'xml'){
-				unlink($tcms_administer_site.'/tcms_news/comments_'.$XMLplace.'/'.$XMLfile);
+				unlink(_TCMS_PATH.'/tcms_news/comments_'.$XMLplace.'/'.$XMLfile);
 			}
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB);
@@ -2104,7 +2106,7 @@ if($check_session){
 				$sqlAL->sqlQuery($strSQL);
 			}
 			
-			echo $tcms_administer_site.'/tcms_news/comments_'.$XMLplace.'/'.$XMLfile;
+			echo _TCMS_PATH.'/tcms_news/comments_'.$XMLplace.'/'.$XMLfile;
 			
 			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
 			.'id='.$id.'&s='.$s.'&news='.$XMLplace

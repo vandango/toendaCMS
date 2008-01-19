@@ -132,13 +132,13 @@ $tcms_main = new tcms_main('data', $choosenDB);
 
 $tcms_config->decodeConfiguration($tcms_main);
 
-$choosenDB = $tcms_main->secure_password($tcms_db_engine, 'en');
-$sqlUser   = $tcms_main->secure_password($tcms_db_user, 'en');
-$sqlPass   = $tcms_main->secure_password($tcms_db_password, 'en');
-$sqlHost   = $tcms_main->secure_password($tcms_db_host, 'en');
-$sqlDB     = $tcms_main->secure_password($tcms_db_database, 'en');
-$sqlPort   = $tcms_main->secure_password($tcms_db_port, 'en');
-$sqlPrefix = $tcms_main->secure_password($tcms_db_prefix, 'en');
+$choosenDB = $tcms_db_engine;
+$sqlUser   = $tcms_db_user;
+$sqlPass   = $tcms_db_password;
+$sqlHost   = $tcms_db_host;
+$sqlDB     = $tcms_db_database;
+$sqlPort   = $tcms_db_port;
+$sqlPrefix = $tcms_db_prefix;
 $tcms_db_prefix = $sqlPrefix;
 
 $tcms_main->setDatabaseInfo($choosenDB);

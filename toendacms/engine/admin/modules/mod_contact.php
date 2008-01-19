@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a contacts manager.
  *
- * @version 0.4.1
+ * @version 0.4.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -126,11 +126,11 @@ if($id_group == 'Developer'
 		echo tcms_html::text(_CONTACT_TEXT.'<br /><br />', 'left');
 		
 		if($choosenDB == 'xml'){
-			$arr_filename = $tcms_main->readdir_ext($tcms_administer_path.'/tcms_contacts/');
+			$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_contacts/');
 			
 			if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
 				foreach($arr_filename as $key => $value){
-					$menu_xml = new xmlparser($tcms_administer_path.'/tcms_contacts/'.$value,'r');
+					$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_contacts/'.$value,'r');
 					$arr_contacts['tag'][$key]    = substr($value, 0, 10);
 					$arr_contacts['defcon'][$key] = $menu_xml->read_section('contact', 'default_con');
 					$arr_contacts['pub'][$key]    = $menu_xml->read_section('contact', 'published');
@@ -469,7 +469,7 @@ if($id_group == 'Developer'
 		$new_fax      = $tcms_main->decode_text($new_fax, '2', $c_charset);
 		
 		if($choosenDB == 'xml'){
-			$xmluser = new xmlparser($tcms_administer_path.'/tcms_contacts/'.$maintag.'.xml', 'w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_contacts/'.$maintag.'.xml', 'w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('contact');
 			
@@ -540,7 +540,7 @@ if($id_group == 'Developer'
 		$new_fax      = $tcms_main->decode_text($new_fax, '2', $c_charset);
 		
 		if($choosenDB == 'xml'){
-			$xmluser = new xmlparser($tcms_administer_path.'/tcms_contacts/'.$maintag.'.xml', 'w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_contacts/'.$maintag.'.xml', 'w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('contact');
 			
@@ -604,7 +604,7 @@ if($id_group == 'Developer'
 			
 			copy($_FILES['zlib_upload']['tmp_name'], $fileDir.$fileName);
 			
-			$tcms_import = new tcms_import($tcms_administer_path, $c_charset);
+			$tcms_import = new tcms_import(_TCMS_PATH, $c_charset);
 			
 			$tcms_import->importVCard();
 			
@@ -628,7 +628,7 @@ if($id_group == 'Developer'
 		switch($action){
 			// Take it off
 			case 'off':
-				if($choosenDB == 'xml'){ xmlparser::edit_value($tcms_administer_path.'/tcms_contacts/'.$maintag.'.xml', 'published', '1', '0'); }
+				if($choosenDB == 'xml'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_contacts/'.$maintag.'.xml', 'published', '1', '0'); }
 				else{
 					$sqlAL = new sqlAbstractionLayer($choosenDB);
 					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
@@ -643,7 +643,7 @@ if($id_group == 'Developer'
 			
 			// Take it on
 			case 'on':
-				if($choosenDB == 'xml'){ xmlparser::edit_value($tcms_administer_path.'/tcms_contacts/'.$maintag.'.xml', 'published', '0', '1'); }
+				if($choosenDB == 'xml'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_contacts/'.$maintag.'.xml', 'published', '0', '1'); }
 				else{
 					$sqlAL = new sqlAbstractionLayer($choosenDB);
 					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
@@ -667,7 +667,7 @@ if($id_group == 'Developer'
 	//===================================================================================
 	
 	if($todo == 'delete'){
-		if($choosenDB == 'xml'){ unlink($tcms_administer_path.'/tcms_contacts/'.$maintag.'.xml'); }
+		if($choosenDB == 'xml'){ unlink(_TCMS_PATH.'/tcms_contacts/'.$maintag.'.xml'); }
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);

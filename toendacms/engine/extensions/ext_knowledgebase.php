@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a Knowledgebase / FAQ and Article database.
  *
- * @version 0.4.4
+ * @version 0.4.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -57,8 +57,8 @@ if(trim($faq_enabled) == 1) {
 		
 		
 		if($choosenDB == 'xml'){
-			$arr_files = $tcms_main->getPathContent(
-				$tcms_administer_site.'/tcms_knowledgebase/'
+			$arr_files = $tcms_file->getPathContent(
+				_TCMS_PATH.'/tcms_knowledgebase/'
 			);
 			
 			$count = 0;
@@ -68,7 +68,7 @@ if(trim($faq_enabled) == 1) {
 				access
 			*/
 			if($tcms_main->isReal($category)){
-				$xml      = new xmlparser($tcms_administer_site.'/tcms_knowledgebase/'.$category.'.xml','r');
+				$xml      = new xmlparser(_TCMS_PATH.'/tcms_knowledgebase/'.$category.'.xml','r');
 				$checkAcc = $xml->readSection('faq', 'access');
 				
 				/*
@@ -85,7 +85,7 @@ if(trim($faq_enabled) == 1) {
 				if(is_array($arr_files)){
 					foreach($arr_files as $key => $value){
 						if($value != 'index.html'){
-							$menu_xml = new xmlparser($tcms_administer_site.'/tcms_knowledgebase/'.$value,'r');
+							$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_knowledgebase/'.$value,'r');
 							$checkCat = $menu_xml->readSection('faq', 'category');
 							
 							
@@ -345,7 +345,7 @@ if(trim($faq_enabled) == 1) {
 									//.'<img src="'.$imagePath.'engine/images/explore/faq_folder.gif" class="image" border="0" />'
 								}
 								else{
-									echo '<img src="'.$imagePath.$tcms_administer_site.'/images/knowledgebase/'.$arrFAQ['img'][$key].'" class="image" border="0" />';
+									echo '<img src="'.$imagePath._TCMS_PATH.'/images/knowledgebase/'.$arrFAQ['img'][$key].'" class="image" border="0" />';
 								}
 								
 								echo '</a>';
@@ -378,7 +378,7 @@ if(trim($faq_enabled) == 1) {
 									//.'<img src="'.$imagePath.'engine/images/explore/faq_text.gif" class="image" border="0" />'
 								}
 								else{
-									echo '<img src="'.$imagePath.$tcms_administer_site.'/images/knowledgebase/'.$arrFAQ['img'][$key].'" class="image" border="0" />';
+									echo '<img src="'.$imagePath._TCMS_PATH.'/images/knowledgebase/'.$arrFAQ['img'][$key].'" class="image" border="0" />';
 								}
 								
 								echo '</a>';
@@ -440,7 +440,7 @@ if(trim($faq_enabled) == 1) {
 	if($cmd == 'detail'){
 		if($category != ''){
 			if($choosenDB == 'xml'){
-				$down_xml = new xmlparser($tcms_administer_site.'/tcms_knowledgebase/'.$category.'.xml','r');
+				$down_xml = new xmlparser(_TCMS_PATH.'/tcms_knowledgebase/'.$category.'.xml','r');
 				$faq_cat    = $down_xml->readSection('faq', 'title');
 				$access_cat = $down_xml->readSection('faq', 'access');
 				$faq_cat    = $tcms_main->decodeText($faq_cat, '2', $c_charset);
@@ -474,8 +474,8 @@ if(trim($faq_enabled) == 1) {
 		
 		if($show_this_category){
 			if($choosenDB == 'xml'){
-				if(file_exists($tcms_administer_site.'/tcms_knowledgebase/'.$article.'.xml')){
-					$menu_xml = new xmlparser($tcms_administer_site.'/tcms_knowledgebase/'.$article.'.xml','r');
+				if(file_exists(_TCMS_PATH.'/tcms_knowledgebase/'.$article.'.xml')){
+					$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_knowledgebase/'.$article.'.xml','r');
 					
 					$arrFAQ['title']   = $menu_xml->readSection('faq', 'title');
 					$arrFAQ['subt']    = $menu_xml->readSection('faq', 'subtitle');

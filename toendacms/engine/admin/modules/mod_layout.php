@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the template manager.
  *
- * @version 0.3.7
+ * @version 0.4.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -39,14 +39,14 @@ if(isset($_POST['deleteADM'])){ $deleteADM = $_POST['deleteADM']; }
 
 
 if($id_group == 'Developer' || $id_group == 'Administrator'){
-	//if(!is_writeable('../../'.$tcms_administer_site.'/tcms_global/layout.xml')){
-		//chmod('../../'.$tcms_administer_site.'/tcms_global/layout.xml', 0777);
+	//if(!is_writeable(_TCMS_PATH.'/tcms_global/layout.xml')){
+		//chmod(_TCMS_PATH.'/tcms_global/layout.xml', 0777);
 	//}
 	
-	if(is_writeable('../../'.$tcms_administer_site.'/tcms_global/layout.xml')){
+	if(is_writeable(_TCMS_PATH.'/tcms_global/layout.xml')){
 		if(!isset($todo)){ $todo == 'show'; }
 		
-		$layout_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/layout.xml','r');
+		$layout_xml = new xmlparser(_TCMS_PATH.'/tcms_global/layout.xml','r');
 		$sel = $layout_xml->read_section('layout', 'select');
 		$adm = $layout_xml->read_section('layout', 'admin');
 		
@@ -58,8 +58,8 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 			// INIT
 			//=====================================================
 			
-			$arr_theme = $tcms_main->readdir_ext('../../theme/');
-			$arr_admin = $tcms_main->readdir_ext('theme/');
+			$arr_theme = $tcms_file->getPathContent('../../theme/');
+			$arr_admin = $tcms_file->getPathContent('theme/');
 			
 			$arr_farbe[0] = $arr_color[0];
 			$arr_farbe[1] = $arr_color[1];
@@ -96,7 +96,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 				if($value != 'printer' && ( substr($value, 0, 1) != '.' )){
 					$nailer = 0;
 					
-					$arr_index_thumbnails = $tcms_main->readdir_ext('../../theme/'.$value);
+					$arr_index_thumbnails = $tcms_file->getPathContent('../../theme/'.$value);
 					while(substr($arr_index_thumbnails[$nailer], 0, 9) != 'thumbnail'){ $nailer++; }
 					
 					$template_xml = new xmlparser('../../theme/'.$value.'/index.xml','r');
@@ -167,7 +167,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 				if($value != 'printer' && ( substr($value, 0, 1) != '.' )){
 					$nailer = 0;
 					
-					$arr_index_thumbnails = $tcms_main->readdir_ext('theme/'.$value);
+					$arr_index_thumbnails = $tcms_file->getPathContent('theme/'.$value);
 					while(substr($arr_index_thumbnails[$nailer], 0, 9) != 'thumbnail'){ $nailer++; }
 					
 					$template_xml = new xmlparser('theme/'.$value.'/index.xml','r');
@@ -217,7 +217,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 			
 			
 			/*
-			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/'.$var_conf.'.xml', 'w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/'.$var_conf.'.xml', 'w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('layout');
 			
@@ -254,7 +254,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 					if(empty($select))   { $select    = $sel; }
 					if(empty($selectADM)){ $selectADM = $adm; }
 					
-					$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/layout.xml', 'w');
+					$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/layout.xml', 'w');
 					$xmluser->xml_declaration();
 					$xmluser->xml_section('layout');
 					

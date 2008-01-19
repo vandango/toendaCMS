@@ -9,8 +9,7 @@
 | 
 | toendaCMS Load Modules Configuration
 |
-| File:		tcms_modconfig.lib.php
-| Version:	0.6.5
+| File:	tcms_modconfig.lib.php
 |
 +
 */
@@ -19,17 +18,32 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-
-/****************************************
-* Load Modules Configuration Functions
-*
-* tcms_modconfig             -> toendaCMS webpage path
-* getDownloadConfig          -> Return a array with all download configuration data
-* getGuestbookConfig         -> Return a array with all guestbook configuration data
-* getLinkConfig              -> Return a array with all link configuration data
-* getFAQConfig               -> Return a array with all FAQ configuration data
-*
-*/
+/**
+ * toendaCMS Load Modules Configuration
+ *
+ * This class is used to load teh mocule condiguration
+ *
+ * @version 0.7.0
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage tcms_kernel
+ *
+ * <code>
+ *
+ * Methods
+ *
+ * __construct                -> Constructor
+ * __destruct                 -> Destructor
+ * 
+ * tcms_modconfig             -> toendaCMS webpage path
+ * getDownloadConfig          -> Return a array with all download configuration data
+ * getGuestbookConfig         -> Return a array with all guestbook configuration data
+ * getLinkConfig              -> Return a array with all link configuration data
+ * getFAQConfig               -> Return a array with all FAQ configuration data
+ *
+ * </code>
+ *
+ */
 
 
 class tcms_modconfig {
@@ -41,18 +55,20 @@ class tcms_modconfig {
 	
 	
 	
-	/***
-	* @return unknown
-	* @desc Set the global var to front or admin
-	*/
-	function tcms_modconfig($administer, $imagePath){
+	/**
+	 * Ctor
+	 *
+	 * @param unknown_type $administer
+	 * @param unknown_type $imagePath
+	 */
+	function __construct($administer, $imagePath){
 		global $tcms_main;
 		
 		$this->tcms_main_path = $administer;
 		$this->tcms_image_path = $imagePath;
 		
 		require($administer.'/tcms_global/database.php');
-		$this->tcms_db_prefix = $tcms_main->secure_password($tcms_db_prefix, 'en');
+		$this->tcms_db_prefix = $tcms_db_prefix;
 	}
 	
 	

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a newsletter extension.
  *
- * @version 0.6.0
+ * @version 0.6.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -128,7 +128,7 @@ if($id_group == 'Developer'
 		if($id_group == 'Developer' 
 		|| $id_group == 'Administrator') {
 			if($choosenDB == 'xml') {
-				$nl_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/newsletter.xml','r');
+				$nl_xml = new xmlparser(_TCMS_PATH.'/tcms_global/newsletter.xml','r');
 				$old_title_nl = $nl_xml->readSection('newsletter', 'nl_title');
 				$old_show_nlt = $nl_xml->readSection('newsletter', 'nl_show_title');
 				$old_text_nl  = $nl_xml->readSection('newsletter', 'nl_text');
@@ -328,12 +328,12 @@ if($id_group == 'Developer'
 		// ----------------------------------------------------
 		
 		if($choosenDB == 'xml'){
-			$arr_nl_user['files'] = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_newsletter/');
+			$arr_nl_user['files'] = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_newsletter/');
 			
 			$nl = 0;
 			if(isset($arr_nl_user['files']) && !empty($arr_nl_user['files']) && $arr_nl_user['files'] != ''){
 				foreach($arr_nl_user['files'] as $nl => $val){
-					$nl_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_newsletter/'.$arr_nl_user['files'][$nl], 'r');
+					$nl_xml = new xmlparser(_TCMS_PATH.'/tcms_newsletter/'.$arr_nl_user['files'][$nl], 'r');
 					
 					$arr_nl_user['tag'][$nl]   = substr($arr_nl_user['files'][$nl], 0, 6);
 					$arr_nl_user['id'][$nl]    = $nl_xml->readSection('nl_user', 'user');
@@ -431,7 +431,7 @@ if($id_group == 'Developer'
 		
 		if(isset($maintag)){
 			if($choosenDB == 'xml'){
-				$main_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_newsletter/'.$maintag.'.xml','r');
+				$main_xml = new xmlparser(_TCMS_PATH.'/tcms_newsletter/'.$maintag.'.xml','r');
 				$arr_nl['email'] = $main_xml->readSection('nl_user', 'email');
 				$arr_nl['name'] = $main_xml->readSection('nl_user', 'user');
 				
@@ -452,7 +452,7 @@ if($id_group == 'Developer'
 			$arr_nl['name'] = $tcms_main->decodeText($arr_nl['name'], '2', $c_charset);
 		}
 		else{
-			if($choosenDB == 'xml'){ while(($maintag = substr(md5(time()),0,6)) && file_exists('../../'.$tcms_administer_site.'/tcms_newsletter/'.$maintag.'.xml')){} }
+			if($choosenDB == 'xml'){ while(($maintag = substr(md5(time()),0,6)) && file_exists(_TCMS_PATH.'/tcms_newsletter/'.$maintag.'.xml')){} }
 			else{ $maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'newsletter_items', 6); }
 		}
 		
@@ -512,12 +512,12 @@ if($id_group == 'Developer'
 	
 	if($todo == 'send_newsletter') {
 		if($choosenDB == 'xml') {
-			$arr_send_nl['files'] = $tcms_file->getPathContent('../../'.$tcms_administer_site.'/tcms_newsletter/');
+			$arr_send_nl['files'] = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_newsletter/');
 			
 			$nl = 0;
 			
 			foreach($arr_send_nl['files'] as $nl => $val) {
-				$nl_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_newsletter/'.$arr_send_nl['files'][$nl], 'r');
+				$nl_xml = new xmlparser(_TCMS_PATH.'/tcms_newsletter/'.$arr_send_nl['files'][$nl], 'r');
 				
 				$arr_send_nl['email'][$nl] = $nl_xml->readSection('nl_user', 'email');
 				$arr_send_nl['user'][$nl]  = $nl_xml->readSection('nl_user', 'user');
@@ -673,7 +673,7 @@ if($id_group == 'Developer'
 			
 			
 			if($choosenDB == 'xml'){
-				$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/newsletter.xml', 'w');
+				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/newsletter.xml', 'w');
 				$xmluser->xml_declaration();
 				$xmluser->xml_section('newsletter');
 				
@@ -722,7 +722,7 @@ if($id_group == 'Developer'
 				
 				$new_nl_name = $tcms_main->encodeText($new_nl_name, '2', $c_charset);
 				
-				$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_newsletter/'.$maintag.'.xml', 'w');
+				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_newsletter/'.$maintag.'.xml', 'w');
 				$xmluser->xml_declaration();
 				$xmluser->xml_section($var_conf);
 				
@@ -779,7 +779,7 @@ if($id_group == 'Developer'
 	if($todo == 'delete'){
 		if($check == 'yes'){
 			if($choosenDB == 'xml'){
-				unlink('../../'.$tcms_administer_site.'/tcms_newsletter/'.$maintag.'.xml');
+				unlink(_TCMS_PATH.'/tcms_newsletter/'.$maintag.'.xml');
 			}
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);

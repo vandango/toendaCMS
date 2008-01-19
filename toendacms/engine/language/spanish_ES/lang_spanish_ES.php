@@ -9,12 +9,20 @@
 |
 | Spanish Language
 |
-| File:		lang_spanish_ES.php
-| Version:	0.3.5
+| File:	lang_spanish_ES.php
 |
 +
 */
 
+
+/**
+ * Spanish Language
+ * 
+ * @version 0.4.0
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 // ADMIN

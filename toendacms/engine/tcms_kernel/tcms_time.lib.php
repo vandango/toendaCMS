@@ -10,6 +10,7 @@
 | toendaCMS Time methods
 |
 | File:	tcms_time.lib.php
+|
 +
 */
 
@@ -26,10 +27,9 @@ defined('_TCMS_VALID') or die('Restricted access');
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
- */
-
-
-/**
+ *
+ * <code>
+ * 
  * Methods
  *
  *--------------------------------------------------------
@@ -67,6 +67,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * tcms_query_counter         -> Count the sql query counter
  * tcms_query_count_end_out   -> Return the sql query count sum
  * 
+ * </code>
+ *
  */
 
 

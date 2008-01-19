@@ -20,7 +20,7 @@
  *
  * This is used as a linkbrowser
  *
- * @version 0.4.3
+ * @version 0.4.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -41,20 +41,25 @@ if(isset($_POST['id_user'])){ $id_user = $_POST['id_user']; }
 
 
 
-
 // ---------------------------------------------
 // INIT
 // ---------------------------------------------
 
+// define system
 define('_TCMS_VALID', 1);
 
+// include import loader
 include_once('../tcms_kernel/tcms_loader.lib.php');
 
+// load language loader
 $language_stage = 'admin';
 include_once('../language/lang_admin.php');
 
-$tcms_administer_site = '../../data';
+// load current active page
+include_once('../../site.php');
+define('_TCMS_PATH', '../../'.$tcms_site[0]['path']);
 
+// import classes
 using('toendacms.kernel.file', false, true);
 using('toendacms.kernel.time', false, true);
 using('toendacms.kernel.xml', false, true);
@@ -68,14 +73,14 @@ using('toendacms.kernel.account_provider', false, true);
 using('toendacms.kernel.datacontainer_provider', false, true);
 using('toendacms.kernel.version', false, true);
 
-include($tcms_administer_site.'/tcms_global/database.php');
+include(_TCMS_PATH.'/tcms_global/database.php');
 
 
 $tcms_file = new tcms_file();
 $tcms_html = new tcms_html();
-$tcms_main = new tcms_main($tcms_administer_site, $choosenDB);
+$tcms_main = new tcms_main(_TCMS_PATH, $choosenDB);
 $tcms_time = new tcms_time();
-$tcms_config = new tcms_configuration($tcms_administer_site);
+$tcms_config = new tcms_configuration(_TCMS_PATH);
 $tcms_version = new tcms_version('../../');
 
 // database
@@ -91,36 +96,22 @@ $tcms_main->setDatabaseInfo($choosenDB);
 $tcms_config->decodeConfiguration($tcms_main);
 
 // imagepath
-if($seoEnabled == 1){
-	if($seoFolder != ''){
-		if($noSEOFolder){
-			$templatePath = '../../theme/'.$s.'/';
-			$imagePath = '../../';
-		}
-		else{
-			$templatePath = '../../'.$seoFolder.'/theme/'.$s.'/';
-			$imagePath = '../../'.$seoFolder.'/';
-		}
-	}
-	else{
-		$templatePath = '../../theme/'.$s.'/';
-		$imagePath = '../../';
-	}
-}
-else{
-	$templatePath = '../../theme/'.$s.'/';
+if($noSEOFolder) {
 	$imagePath = '../../';
 }
+else {
+	$imagePath = '../../'.$seoFolder.'/';
+}
 
-$tcms_dcp = new tcms_datacontainer_provider($tcms_administer_site, $tcms_config->getCharset(), $tcms_time);
-$tcms_ap = new tcms_account_provider($tcms_administer_site, $tcms_config->getCharset(), $tcms_time);
-$tcms_auth = new tcms_authentication($tcms_administer_site, $tcms_config->getCharset(), $imagePath);
+$tcms_dcp = new tcms_datacontainer_provider(_TCMS_PATH, $tcms_config->getCharset(), $tcms_time);
+$tcms_ap = new tcms_account_provider(_TCMS_PATH, $tcms_config->getCharset(), $tcms_time);
+$tcms_auth = new tcms_authentication(_TCMS_PATH, $tcms_config->getCharset(), $imagePath);
 
 if(isset($faq) && $faq != '') {
-	$arr_dir = $tcms_file->getPathContent($tcms_administer_site.'/images/knowledgebase/');
+	$arr_dir = $tcms_file->getPathContent(_TCMS_PATH.'/images/knowledgebase/');
 }
 else {
-	$arr_dir = $tcms_file->getPathContent($tcms_administer_site.'/images/Image/');
+	$arr_dir = $tcms_file->getPathContent(_TCMS_PATH.'/images/Image/');
 }
 
 $cms_name     = $tcms_version->getName();
@@ -515,12 +506,12 @@ if(isset($id_user)) {
 			echo '</tr>';
 			
 			if($choosenDB == 'xml'){
-				$arrDocuments = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_content/');
+				$arrDocuments = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_content/');
 				
 				if(is_array($arrDocuments)){
 					foreach($arrDocuments as $key => $val){
 						if($val != 'index.html'){
-							$xml = new xmlparser($tcms_administer_site.'/tcms_content/'.$val,'r');
+							$xml = new xmlparser(_TCMS_PATH.'/tcms_content/'.$val,'r');
 							$xmlID = $xml->readSection('main', 'id');
 							$xmlAccess = $xml->readSection('main', 'access');
 							
@@ -626,14 +617,14 @@ if(isset($id_user)) {
 		echo '</tr>';
 		
 		if($choosenDB == 'xml'){
-			$arrAlbums = $tcms_file->getPathContent($tcms_administer_site.'/tcms_imagegallery/');
+			$arrAlbums = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_imagegallery/');
 			
 			if(is_array($arrAlbums)){
 				foreach($arrAlbums as $key => $val){
 					if($val != 'index.html'){
-						$arrImages = $tcms_file->getPathContent($tcms_administer_site.'/tcms_imagegallery/'.$val.'/');
+						$arrImages = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_imagegallery/'.$val.'/');
 						
-						$xml = new xmlparser($tcms_administer_site.'/tcms_albums/album_'.$val.'.xml','r');
+						$xml = new xmlparser(_TCMS_PATH.'/tcms_albums/album_'.$val.'.xml','r');
 						$xmlAlbum = $xml->readSection('album', 'title');
 						$xmlPath = $xml->readSection('album', 'path');
 						
@@ -667,7 +658,7 @@ if(isset($id_user)) {
 						if(is_array($arrImages)){
 							foreach($arrImages as $key2 => $val2){
 								if($val2 != 'index.html'){
-									$xml = new xmlparser($tcms_administer_site.'/tcms_imagegallery/'.$val.'/'.$val2,'r');
+									$xml = new xmlparser(_TCMS_PATH.'/tcms_imagegallery/'.$val.'/'.$val2,'r');
 									$xmlTitle = $xml->readSection('image', 'text');
 									
 									$xmlTitle = $tcms_main->decodeText($xmlTitle, '2', $c_charset);
@@ -686,7 +677,7 @@ if(isset($id_user)) {
 									.'<input type="text" name="lb_title" id="lb_title_'.$iKey.'" class="tcms_input_small" value="'.$xmlTitle.'" />'
 									.'</td>';
 									
-									$cmdImage = $tcms_main->returnInsertCommand($n, $show_wysiwyg, $dvalue, $v, $iKey, $val2, $tcms_administer_site, $val, $url);
+									$cmdImage = $tcms_main->returnInsertCommand($n, $show_wysiwyg, $dvalue, $v, $iKey, $val2, _TCMS_PATH, $val, $url);
 									
 									echo '<td class="tcms_browser_bottom" width="100">'
 									.'<a class="tcms_edit" href="javascript:'.$cmdImage.';">'._TABLE_ACCEPTBUTTON.'</a>'
@@ -758,7 +749,7 @@ if(isset($id_user)) {
 				.'<input type="text" name="lb_title" id="lb_title_'.$iKey.'" class="tcms_input_small" value="'.$xmlTitle.'" />'
 				.'</td>';
 				
-				$cmdImage = $tcms_main->returnInsertCommand($n, $show_wysiwyg, $dvalue, $v, $iKey, $xmlID, $tcms_administer_site, $xmlAlbum, $url);
+				$cmdImage = $tcms_main->returnInsertCommand($n, $show_wysiwyg, $dvalue, $v, $iKey, $xmlID, _TCMS_PATH, $xmlAlbum, $url);
 				
 				echo '<td class="tcms_browser_bottom" width="100">'
 				.'<a class="tcms_edit" href="javascript:'.$cmdImage.';">'._TABLE_ACCEPTBUTTON.'</a>'

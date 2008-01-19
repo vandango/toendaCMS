@@ -1,4 +1,4 @@
-<?php /* _\|/_              vim: set et ts=4 sw=4 sts=4 nowrap fdm=marker:
+<?php /* _\|/_
          (o o)                         
 +-----oOO-{_}-OOo--------------------------------------------------------+
 | toendaCMS - Content Management and Weblogging System with XML and SQL  |
@@ -9,11 +9,20 @@
 | 
 | Finnish Language
 |
-| File:		lang_finnish_FI.php
-| Version:	0.2.0
+| File:	lang_finnish_FI.php
 |
 +
 */
+
+
+/**
+ * Finnish Language
+ * 
+ * @version 0.2.1
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 define('_TCMS_COLOR_CHOOSER', 'V&auml;rivalitsin');

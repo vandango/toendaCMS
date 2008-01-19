@@ -21,7 +21,7 @@
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 0.6.2
+ * @version 0.6.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -77,13 +77,13 @@ $tcms_config = new tcms_configuration($tcms_administer_site);
 $tcms_version = new tcms_version('../../');
 
 // database
-$choosenDB = $tcms_main->securePassword($tcms_db_engine);
-$sqlUser   = $tcms_main->securePassword($tcms_db_user);
-$sqlPass   = $tcms_main->securePassword($tcms_db_password);
-$sqlHost   = $tcms_main->securePassword($tcms_db_host);
-$sqlDB     = $tcms_main->securePassword($tcms_db_database);
-$sqlPort   = $tcms_main->securePassword($tcms_db_port);
-$sqlPrefix = $tcms_main->securePassword($tcms_db_prefix);
+$choosenDB = $tcms_db_engine;
+$sqlUser   = $tcms_db_user;
+$sqlPass   = $tcms_db_password;
+$sqlHost   = $tcms_db_host;
+$sqlDB     = $tcms_db_database;
+$sqlPort   = $tcms_db_port;
+$sqlPrefix = $tcms_db_prefix;
 $tcms_db_prefix = $sqlPrefix;
 
 $tcms_main->setDatabaseInfo($choosenDB);
@@ -93,36 +93,22 @@ $seoEnabled   = $tcms_config->getSEOEnabled();
 $seoFolder    = $tcms_config->getSEOPath();
 
 // imagepath
-if($seoEnabled == 1){
-	if($seoFolder != ''){
-		if($noSEOFolder){
-			$templatePath = '../../theme/'.$s.'/';
-			$imagePath = '../../';
-		}
-		else{
-			$templatePath = '../../'.$seoFolder.'/theme/'.$s.'/';
-			$imagePath = '../../'.$seoFolder.'/';
-		}
-	}
-	else{
-		$templatePath = '../../theme/'.$s.'/';
-		$imagePath = '../../';
-	}
-}
-else{
-	$templatePath = '../../theme/'.$s.'/';
+if($noSEOFolder) {
 	$imagePath = '../../';
+}
+else {
+	$imagePath = '../../'.$seoFolder.'/';
 }
 
 $tcms_auth = new tcms_authentication($tcms_administer_site, $c_charset, $imagePath);
 
 if(isset($faq) && $faq != ''){
-	$arr_dir = $tcms_main->getPathContent(
+	$arr_dir = $tcms_file->getPathContent(
 		$tcms_administer_site.'/images/knowledgebase/'
 	);
 }
 else{
-	$arr_dir = $tcms_main->getPathContent(
+	$arr_dir = $tcms_file->getPathContent(
 		$tcms_administer_site.'/images/Image/'
 		.( isset($folder) ? $folder.'/' : '' )
 	);

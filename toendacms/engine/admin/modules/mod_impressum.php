@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the publishing form.
  *
- * @version 0.6.4
+ * @version 0.6.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -66,8 +66,8 @@ if($id_group == 'Developer'
 			$getLang = $tcms_front_lang;
 		
 		if($choosenDB == 'xml'){
-			if(file_exists('../../'.$tcms_administer_site.'/tcms_global/impressum.'.$getLang.'.xml')) {
-				$imp_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/impressum.'.$getLang.'.xml','r');
+			if(file_exists(_TCMS_PATH.'/tcms_global/impressum.'.$getLang.'.xml')) {
+				$imp_xml = new xmlparser(_TCMS_PATH.'/tcms_global/impressum.'.$getLang.'.xml','r');
 				$old_imp_id       = $imp_xml->read_section('imp', 'imp_id');
 				$old_imp_title    = $imp_xml->read_section('imp', 'imp_title');
 				$old_imp_stamp    = $imp_xml->read_section('imp', 'imp_stamp');
@@ -172,11 +172,11 @@ if($id_group == 'Developer'
 		
 		
 		if($choosenDB == 'xml'){
-			$arr_contacts['all'] = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_contacts/');
+			$arr_contacts['all'] = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_contacts/');
 			
 			if(is_array($arr_contacts['all']) && !empty($arr_contacts['all'])){
 				foreach($arr_contacts['all'] as $key => $val){
-					$contact_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_contacts/'.$val,'r');
+					$contact_xml = new xmlparser(_TCMS_PATH.'/tcms_contacts/'.$val,'r');
 					$cp = $contact_xml->read_value('published');
 					if($cp == 1){
 						$arr_contacts['arr'][$key] = $contact_xml->read_value('name');
@@ -314,8 +314,8 @@ if($id_group == 'Developer'
 		
 		if($tcms_main->isReal($test_imp_contact) && $test_imp_contact != 'no_contact'){
 			if($choosenDB == 'xml'){
-				if(file_exists('../../'.$tcms_administer_site.'/tcms_contacts/'.$test_imp_contact.'.xml')){
-					$con_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_contacts/'.$test_imp_contact.'.xml','r');
+				if(file_exists(_TCMS_PATH.'/tcms_contacts/'.$test_imp_contact.'.xml')){
+					$con_xml = new xmlparser(_TCMS_PATH.'/tcms_contacts/'.$test_imp_contact.'.xml','r');
 					
 					$contact['name']     = $con_xml->read_value('name');
 					$contact['position'] = $con_xml->read_value('position');
@@ -527,7 +527,7 @@ if($id_group == 'Developer'
 		
 		
 		if($choosenDB == 'xml'){
-			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/impressum.'.$setLang.'.xml', 'w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/impressum.'.$setLang.'.xml', 'w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('imp');
 			
