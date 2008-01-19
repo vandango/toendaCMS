@@ -9,11 +9,24 @@
 | 
 | toendaCMS list of all administer pages with the active
 |
-| File:		site.php
-| Version:	0.0.1
+| File:	site.php
 |
 +
 */
+
+
+/**
+ * toendaCMS list of all administer pages with the active
+ * 
+ * This is the global startfile and the page loading
+ * control.
+ * 
+ * @version 0.0.2
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS
+ */
+
 
 $tcms_site[0]['url']    = 'http://localhost/toendacms/';
 $tcms_site[0]['path']   = 'data';

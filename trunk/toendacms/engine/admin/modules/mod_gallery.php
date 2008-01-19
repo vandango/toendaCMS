@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used to manage the galleries.
  *
- * @version 0.9.0
+ * @version 0.9.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -94,14 +94,14 @@ if($param_save_mode == 'off') {
 	*/
 	if($choosenDB == 'xml') {
 		$arr_albums['count'] = $tcms_file->getPathContent(
-			'../../'.$tcms_administer_site.'/tcms_albums/'
+			_TCMS_PATH.'/tcms_albums/'
 		);
 		
 		// Load Use of albums
 		$ii=0;
 		
 		while(!empty($arr_albums['count'][$ii])) {
-			$albums_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_albums/'.$arr_albums['count'][$ii], 'r');
+			$albums_xml = new xmlparser(_TCMS_PATH.'/tcms_albums/'.$arr_albums['count'][$ii], 'r');
 			
 			$arr_albums['title'][$ii]       = $albums_xml->readSection('album', 'title');
 			$arr_albums['path'][$ii]        = $albums_xml->readSection('album', 'path');
@@ -163,7 +163,7 @@ if($param_save_mode == 'off') {
 		if($id_group == 'Developer' 
 		|| $id_group == 'Administrator') {
 			if($choosenDB == 'xml') {
-				$image_xml             = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/imagegallery.xml','r');
+				$image_xml             = new xmlparser(_TCMS_PATH.'/tcms_global/imagegallery.xml','r');
 				$old_image_id          = $image_xml->readSection('config', 'image_id');
 				$old_image_title       = $image_xml->readSection('config', 'image_title');
 				$old_image_stamp       = $image_xml->readSection('config', 'image_stamp');
@@ -535,7 +535,7 @@ if($param_save_mode == 'off') {
 					
 					echo '<td class="tcms_db_2" valign="top">';
 					
-					if($choosenDB == 'xml'){ $arrGImages = $tcms_file->getPathContent('../../'.$tcms_administer_site.'/tcms_imagegallery/'.$tvalue); }
+					if($choosenDB == 'xml'){ $arrGImages = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_imagegallery/'.$tvalue); }
 					else{
 						$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 						$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
@@ -559,18 +559,18 @@ if($param_save_mode == 'off') {
 					$arr_albums['image'][$key] = trim($arr_albums['image'][$key]);
 					
 					if($arr_albums['image'][$key] != ''){
-						if(!is_dir('../../'.$tcms_administer_site.'/thumbnails/'.$tvalue.'/')){
-							$tcms_file->createDir('../../'.$tcms_administer_site.'/thumbnails/'.$tvalue.'/', 0777);
+						if(!is_dir(_TCMS_PATH.'/thumbnails/'.$tvalue.'/')){
+							$tcms_file->createDir(_TCMS_PATH.'/thumbnails/'.$tvalue.'/', 0777);
 						}
 						
-						if(!file_exists('../../'.$tcms_administer_site.'/thumbnails/'.$tvalue.'/thumb_'.$arr_albums['image'][$key])){
-							tcms_gd::gd_thumbnail('../../'.$tcms_administer_site.'/images/albums/'.$tvalue.'/', '../../'.$tcms_administer_site.'/thumbnails/'.$tvalue.'/', $arr_albums['image'][$key], '100', 'create');
+						if(!file_exists(_TCMS_PATH.'/thumbnails/'.$tvalue.'/thumb_'.$arr_albums['image'][$key])){
+							tcms_gd::gd_thumbnail(_TCMS_PATH.'/images/albums/'.$tvalue.'/', _TCMS_PATH.'/thumbnails/'.$tvalue.'/', $arr_albums['image'][$key], '100', 'create');
 						}
 					}
 					
 					echo '<img id="show_thumbnail_'.$key.'" src="../../'.$tcms_administer_site.'/thumbnails/'.$tvalue.'/thumb_'.$arr_albums['image'][$key].'" border="0" alt="Thumbnail" />';
 					echo '<br />';
-					echo '<select name="gImage" onchange="document.getElementById(\'show_thumbnail_'.$key.'\').src=\'../../'.$tcms_administer_site.'/thumbnails/'.$tvalue.'/thumb_\'+this.value;">';
+					echo '<select name="gImage" onchange="document.getElementById(\'show_thumbnail_'.$key.'\').src=\_TCMS_PATH.'/thumbnails/'.$tvalue.'/thumb_\'+this.value;">';
 					
 					if($arrGImages) {
 						foreach($arrGImages as $keyz => $val) {
@@ -694,27 +694,27 @@ if($param_save_mode == 'off') {
 		.'</tr>';
 		
 		
-		$arr_dir = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/images/albums/'.$value.'/');
+		$arr_dir = $tcms_file->getPathContent(_TCMS_PATH.'/images/albums/'.$value.'/');
 		
 		if($tcms_main->isReal($arr_dir)){
 			foreach($arr_dir as $dkey => $dvalue){
 				if($dvalue != 'Thumbs.db' && $dvalue != 'thumbs.db'){
 					$tcms_gd = new tcms_gd();
 					
-					if(!is_dir('../../'.$tcms_administer_site.'/thumbnails/'.$value.'/')){
-						$tcms_file->createDir('../../'.$tcms_administer_site.'/thumbnails/'.$value.'/', 0777);
+					if(!is_dir(_TCMS_PATH.'/thumbnails/'.$value.'/')){
+						$tcms_file->createDir(_TCMS_PATH.'/thumbnails/'.$value.'/', 0777);
 					}
 					
-					if(!file_exists('../../'.$tcms_administer_site.'/thumbnails/'.$value.'/thumb_'.$dvalue)){
+					if(!file_exists(_TCMS_PATH.'/thumbnails/'.$value.'/thumb_'.$dvalue)){
 						$tcms_gd->createThumbnail(
-							'../../'.$tcms_administer_site.'/images/albums/'.$value.'/', 
-							'../../'.$tcms_administer_site.'/thumbnails/'.$value.'/', 
+							_TCMS_PATH.'/images/albums/'.$value.'/', 
+							_TCMS_PATH.'/thumbnails/'.$value.'/', 
 							$dvalue, 
 							'100'
 						);
 					}
 					
-					$tcms_gd->readImageInformation('../../'.$tcms_administer_site.'/images/albums/'.$value.'/'.$dvalue);
+					$tcms_gd->readImageInformation(_TCMS_PATH.'/images/albums/'.$value.'/'.$dvalue);
 					
 					$img_o_width  = $tcms_gd->getImageWidth();
 					$img_o_height = $tcms_gd->getImageHeight();
@@ -722,7 +722,7 @@ if($param_save_mode == 'off') {
 					$des_file = $dvalue;
 					
 					if($choosenDB == 'xml'){
-						$des_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_imagegallery/'.$value.'/'.$des_file.'.xml','r');
+						$des_xml = new xmlparser(_TCMS_PATH.'/tcms_imagegallery/'.$value.'/'.$des_file.'.xml','r');
 						$old_des = $des_xml->readSection('image', 'text');
 						$old_tc  = $des_xml->readSection('image', 'timecode');
 					}
@@ -778,7 +778,7 @@ if($param_save_mode == 'off') {
 					
 					
 					// cell
-					$size = filesize('../../'.$tcms_administer_site.'/images/albums/'.$value.'/'.$dvalue) / 1024;
+					$size = filesize(_TCMS_PATH.'/images/albums/'.$value.'/'.$dvalue) / 1024;
 					$kpos = strpos($size, '.');
 					$img_size = substr($size, 0, $kpos+3);
 					
@@ -824,12 +824,12 @@ if($param_save_mode == 'off') {
 	
 	if($gg_albums == 'createftp') {
 		$arr_ftp_album = $tcms_file->getPathContent(
-			'../../'.$tcms_administer_site.'/images/albums/'
+			_TCMS_PATH.'/images/albums/'
 		);
 		
 		if($choosenDB == 'xml') {
 			$arr_check_album = $tcms_file->getPathContent(
-				'../../'.$tcms_administer_site.'/tcms_albums/'
+				_TCMS_PATH.'/tcms_albums/'
 			);
 		}
 		else {
@@ -897,9 +897,9 @@ if($param_save_mode == 'off') {
 				NEW ALBUM
 			*/
 			if($choosenDB == 'xml') {
-				while(($fake_folder=substr(md5(time()),0,6)) && file_exists('../../'.$tcms_administer_site.'/images/albums/'.$fake_folder)){}
+				while(($fake_folder=substr(md5(time()),0,6)) && file_exists(_TCMS_PATH.'/images/albums/'.$fake_folder)){}
 				
-				$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_albums/album_'.$fake_folder.'.xml', 'w');
+				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_albums/album_'.$fake_folder.'.xml', 'w');
 				$xmluser->xmlDeclaration();
 				$xmluser->xmlSection('album');
 				
@@ -912,7 +912,7 @@ if($param_save_mode == 'off') {
 				$xmluser->xmlSectionBuffer();
 				$xmluser->xmlSectionEnd('album');
 				
-				$tcms_file->createDir('../../'.$tcms_administer_site.'/tcms_imagegallery/'.$fake_folder, 0777);
+				$tcms_file->createDir(_TCMS_PATH.'/tcms_imagegallery/'.$fake_folder, 0777);
 			}
 			else {
 				$new_maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'albums', 12);
@@ -941,19 +941,19 @@ if($param_save_mode == 'off') {
 			}
 			
 			
-			$tcms_file->createDir('../../'.$tcms_administer_site.'/thumbnails/'.$fake_folder, 0777);
+			$tcms_file->createDir(_TCMS_PATH.'/thumbnails/'.$fake_folder, 0777);
 			
-			$start_path  = '../../'.$tcms_administer_site.'/images/albums/'.$folder.'/';
+			$start_path  = _TCMS_PATH.'/images/albums/'.$folder.'/';
 			
 			if($choosenDB == 'xml'){
-				$target_path = '../../'.$tcms_administer_site.'/tcms_imagegallery/'.$fake_folder.'/';
+				$target_path = _TCMS_PATH.'/tcms_imagegallery/'.$fake_folder.'/';
 				tcms_gd::createftp($start_path, $target_path);
 			}
 			else{
 				tcms_gd::createftp_sql($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $start_path, $fake_folder);
 			}
 			
-			rename('../../'.$tcms_administer_site.'/images/albums/'.$folder, '../../'.$tcms_administer_site.'/images/albums/'.$fake_folder);
+			rename(_TCMS_PATH.'/images/albums/'.$folder, _TCMS_PATH.'/images/albums/'.$fake_folder);
 			
 			echo '<script>'
 			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_gallery\';'
@@ -1025,11 +1025,11 @@ if($param_save_mode == 'off') {
 				$gzDirName = substr($gzFileName, 0, $gzEnd);
 				
 				// make theme dir and make theme var name
-				$tcms_file->createDir('../../'.$tcms_administer_site.'/images/albums/'.$gzDirName, 0777);
+				$tcms_file->createDir(_TCMS_PATH.'/images/albums/'.$gzDirName, 0777);
 				
 				// theme paths
-				$themeDir  = '../../'.$tcms_administer_site.'/images/albums/'.$gzDirName.'/';
-				$themePath = '../../'.$tcms_administer_site.'/images/albums';
+				$themeDir  = _TCMS_PATH.'/images/albums/'.$gzDirName.'/';
+				$themePath = _TCMS_PATH.'/images/albums';
 				
 				// copy file to theme directory
 				copy($_FILES['zlib_upload']['tmp_name'], $themeDir.$gzFileName);
@@ -1057,14 +1057,9 @@ if($param_save_mode == 'off') {
 			}
 		}
 		else {
-			function get_php_setting($val){
-				$r = (ini_get($val) == '1' ? 1 : 0);
-				return $r ? 'ON' : 'OFF';
-			}
-			
 			echo '<script>alert(\''
 			._MSG_ERROR.': '._MSG_PHP_UPLOAD_SETTINGS.'\n'
-			._MSG_FILE_UPLOADS.': '.get_php_setting('file_uploads').'\n'
+			._MSG_FILE_UPLOADS.': '.$tcms_main->getPHPSetting('file_uploads').'\n'
 			._MSG_MAX_FILESIZE.': '.ini_get('upload_max_filesize').'\n'
 			.'\');</script>';
 		}
@@ -1098,7 +1093,7 @@ if($param_save_mode == 'off') {
 		$_POST['needleImg'] = $tcms_main->encodeText($_POST['needleImg'], '2', $c_charset);
 		
 		if($choosenDB == 'xml') {
-			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/imagegallery.xml', 'w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/imagegallery.xml', 'w');
 			$xmluser->xmlDeclaration();
 			$xmluser->xmlSection('config');
 			
@@ -1164,7 +1159,7 @@ if($param_save_mode == 'off') {
 		$description = $tcms_main->encodeText($description, '2', $c_charset);
 		
 		if($choosenDB == 'xml') {
-			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_albums/'.$album_id.'.xml', 'w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_albums/'.$album_id.'.xml', 'w');
 			$xmluser->xmlDeclaration();
 			$xmluser->xmlSection('album');
 			
@@ -1176,7 +1171,7 @@ if($param_save_mode == 'off') {
 			$xmluser->xmlSectionBuffer();
 			$xmluser->xmlSectionEnd('album');
 			
-			$tcms_file->createDir('../../'.$tcms_administer_site.'/tcms_imagegallery/'.$album_path, 0777);
+			$tcms_file->createDir(_TCMS_PATH.'/tcms_imagegallery/'.$album_path, 0777);
 		}
 		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -1201,8 +1196,8 @@ if($param_save_mode == 'off') {
 			$sqlQR = $sqlAL->createOne($tcms_db_prefix.'albums', $newSQLColumns, $newSQLData, $album_id);
 		}
 		
-		$tcms_file->createDir('../../'.$tcms_administer_site.'/images/albums/'.$album_path, 0777);
-		$tcms_file->createDir('../../'.$tcms_administer_site.'/thumbnails/'.$album_path, 0777);
+		$tcms_file->createDir(_TCMS_PATH.'/images/albums/'.$album_path, 0777);
+		$tcms_file->createDir(_TCMS_PATH.'/thumbnails/'.$album_path, 0777);
 		
 		echo '<script>'
 		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_gallery\';'
@@ -1224,21 +1219,21 @@ if($param_save_mode == 'off') {
 				DELETE
 			*/
 			if($choosenDB == 'xml') {
-				$tcms_file->CHMOD('../../'.$tcms_administer_site.'/images/albums/'.$path.'/', 0777);
-				$tcms_file->CHMOD('../../'.$tcms_administer_site.'/thumbnails/'.$path.'/', 0777);
+				$tcms_file->CHMOD(_TCMS_PATH.'/images/albums/'.$path.'/', 0777);
+				$tcms_file->CHMOD(_TCMS_PATH.'/thumbnails/'.$path.'/', 0777);
 				
-				$tcms_file->deleteFile('../../'.$tcms_administer_site.'/tcms_albums/album_'.$path.'.xml');
+				$tcms_file->deleteFile(_TCMS_PATH.'/tcms_albums/album_'.$path.'.xml');
 				
-				$tcms_file->deleteDir('../../'.$tcms_administer_site.'/images/albums/'.$path.'/');
-				$tcms_file->deleteDir('../../'.$tcms_administer_site.'/tcms_imagegallery/'.$path.'/');
-				$tcms_file->deleteDir('../../'.$tcms_administer_site.'/thumbnails/'.$path.'/');
+				$tcms_file->deleteDir(_TCMS_PATH.'/images/albums/'.$path.'/');
+				$tcms_file->deleteDir(_TCMS_PATH.'/tcms_imagegallery/'.$path.'/');
+				$tcms_file->deleteDir(_TCMS_PATH.'/thumbnails/'.$path.'/');
 			}
 			else {
-				$tcms_file->CHMOD('../../'.$tcms_administer_site.'/images/albums/'.$path.'/', 0777);
-				$tcms_file->CHMOD('../../'.$tcms_administer_site.'/thumbnails/'.$path.'/', 0777);
+				$tcms_file->CHMOD(_TCMS_PATH.'/images/albums/'.$path.'/', 0777);
+				$tcms_file->CHMOD(_TCMS_PATH.'/thumbnails/'.$path.'/', 0777);
 				
-				$tcms_file->deleteDir('../../'.$tcms_administer_site.'/images/albums/'.$path.'/');
-				$tcms_file->deleteDir('../../'.$tcms_administer_site.'/thumbnails/'.$path.'/');
+				$tcms_file->deleteDir(_TCMS_PATH.'/images/albums/'.$path.'/');
+				$tcms_file->deleteDir(_TCMS_PATH.'/thumbnails/'.$path.'/');
 				
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
@@ -1264,7 +1259,7 @@ if($param_save_mode == 'off') {
 			$description = $tcms_main->encodeText($description, '2', $c_charset);
 			
 			if($choosenDB == 'xml') {
-				$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_albums/album_'.$path.'.xml', 'w');
+				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_albums/album_'.$path.'.xml', 'w');
 				$xmluser->xmlDeclaration();
 				$xmluser->xmlSection('album');
 				
@@ -1311,12 +1306,12 @@ if($param_save_mode == 'off') {
 				DELETE
 			*/
 			if($choosenDB == 'xml') {
-				$tcms_file->deleteFile('../../'.$tcms_administer_site.'/images/albums/'.$dir.'/'.$delimg);
-				$tcms_file->deleteFile('../../'.$tcms_administer_site.'/tcms_imagegallery/'.$dir.'/'.$delimg.'.xml');
-				$tcms_file->deleteFile('../../'.$tcms_administer_site.'/thumbnails/'.$dir.'/thumb_'.$delimg);
-				$tcms_file->deleteFile('../../'.$tcms_administer_site.'/thumbnails/'.$dir.'/medium_thumb_'.$delimg);
+				$tcms_file->deleteFile(_TCMS_PATH.'/images/albums/'.$dir.'/'.$delimg);
+				$tcms_file->deleteFile(_TCMS_PATH.'/tcms_imagegallery/'.$dir.'/'.$delimg.'.xml');
+				$tcms_file->deleteFile(_TCMS_PATH.'/thumbnails/'.$dir.'/thumb_'.$delimg);
+				$tcms_file->deleteFile(_TCMS_PATH.'/thumbnails/'.$dir.'/medium_thumb_'.$delimg);
 				
-				$tcms_file->deleteDir('../../'.$tcms_administer_site.'/tcms_imagegallery/'.$dir.'/comments_'.$delimg);
+				$tcms_file->deleteDir(_TCMS_PATH.'/tcms_imagegallery/'.$dir.'/comments_'.$delimg);
 			}
 			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -1325,9 +1320,9 @@ if($param_save_mode == 'off') {
 					'DELETE FROM '.$tcms_db_prefix.'imagegallery WHERE album="'.$dir.'" AND image="'.$delimg.'"'
 				);
 				
-				$tcms_file->deleteFile('../../'.$tcms_administer_site.'/images/albums/'.$dir.'/'.$delimg);
-				$tcms_file->deleteFile('../../'.$tcms_administer_site.'/thumbnails/'.$dir.'/thumb_'.$delimg);
-				$tcms_file->deleteFile('../../'.$tcms_administer_site.'/thumbnails/'.$dir.'/medium_thumb_'.$delimg);
+				$tcms_file->deleteFile(_TCMS_PATH.'/images/albums/'.$dir.'/'.$delimg);
+				$tcms_file->deleteFile(_TCMS_PATH.'/thumbnails/'.$dir.'/thumb_'.$delimg);
+				$tcms_file->deleteFile(_TCMS_PATH.'/thumbnails/'.$dir.'/medium_thumb_'.$delimg);
 			}
 			
 			echo '<script>'
@@ -1341,7 +1336,7 @@ if($param_save_mode == 'off') {
 			$des = $tcms_main->encodeText($des, '2', $c_charset);
 			
 			if($choosenDB == 'xml') {
-				$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_imagegallery/'.$dir.'/'.$file.'.xml', 'w');
+				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_imagegallery/'.$dir.'/'.$file.'.xml', 'w');
 				$xmluser->xmlDeclaration();
 				$xmluser->xmlSection('image');
 				
@@ -1385,7 +1380,7 @@ if($param_save_mode == 'off') {
 			if($_FILES['event']['size'] <= $upload_max_filesize
 			&& $_FILES['event']['size'] <= $post_max_size) {
 				$fileName = $_FILES['event']['name'];
-				$imgDir = '../../'.$tcms_administer_site.'/images/albums/'.$dir.'/';
+				$imgDir = _TCMS_PATH.'/images/albums/'.$dir.'/';
 				
 				copy($_FILES['event']['tmp_name'], $imgDir.$fileName);
 				
@@ -1413,7 +1408,7 @@ if($param_save_mode == 'off') {
 			
 			// write data
 			if($choosenDB == 'xml') {
-				$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_imagegallery/'.$dir.'/'.$fileName.'.xml', 'w');
+				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_imagegallery/'.$dir.'/'.$fileName.'.xml', 'w');
 				$xmluser->xmlDeclaration();
 				$xmluser->xmlSection('image');
 				

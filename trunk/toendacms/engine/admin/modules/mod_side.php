@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the sidebar content.
  *
- * @version 0.5.1
+ * @version 0.5.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -60,7 +60,7 @@ if($id_group == 'Developer'
 	// link-to
 	if($choosenDB == 'xml') {
 		$arr_activepages = $tcms_file->getPathContent(
-			'../../'.$tcms_administer_site.'/tcms_content/'
+			_TCMS_PATH.'/tcms_content/'
 		);
 		
 		foreach($languages['code'] as $key => $value) {
@@ -158,11 +158,11 @@ if($id_group == 'Developer'
 		echo $tcms_html->text(_SIDE_TEXT.'<br /><br />', 'left');
 		
 		if($choosenDB == 'xml'){
-			$arr_filename = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/tcms_sidebar/');
+			$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_sidebar/');
 			
 			if($tcms_main->isArray($arr_filename)){
 				foreach($arr_filename as $key => $value){
-					$main_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_sidebar/'.$value,'r');
+					$main_xml = new xmlparser(_TCMS_PATH.'/tcms_sidebar/'.$value,'r');
 					$arr_side['tag'][$key]   = substr($value, 0, strpos($value, '.xml'));
 					$arr_side['title'][$key] = $main_xml->readSection('side', 'title');
 					$arr_side['id'][$key]    = $main_xml->readSection('side', 'id');
@@ -251,7 +251,7 @@ if($id_group == 'Developer'
 		// Auslesen
 		if(isset($maintag)){
 			if($choosenDB == 'xml'){
-				$main_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_sidebar/'.$maintag.'.xml','r');
+				$main_xml = new xmlparser(_TCMS_PATH.'/tcms_sidebar/'.$maintag.'.xml','r');
 				$sb_title = $main_xml->readSection('side', 'title');
 				$sb_key   = $main_xml->readSection('side', 'key');
 				$sb_text  = $main_xml->readSection('side', 'content');
@@ -444,7 +444,7 @@ if($id_group == 'Developer'
 		$new_sb_foot  = $tcms_main->decode_text($new_sb_foot, '2', $c_charset);
 		
 		if($choosenDB == 'xml'){
-			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_sidebar/'.$new_sb_id.'.xml', 'w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_sidebar/'.$new_sb_id.'.xml', 'w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('side');
 			
@@ -490,7 +490,7 @@ if($id_group == 'Developer'
 		$new_sb_foot  = $tcms_main->decode_text($new_sb_foot, '2', $c_charset);
 		
 		if($choosenDB == 'xml'){
-			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_sidebar/'.$new_sb_id.'.xml', 'w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_sidebar/'.$new_sb_id.'.xml', 'w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('side');
 			
@@ -537,7 +537,7 @@ if($id_group == 'Developer'
 	
 	if($todo == 'delete'){
 		if($check == 'yes'){
-			if($choosenDB == 'xml'){ unlink('../../'.$tcms_administer_site.'/tcms_sidebar/'.$maintag.'.xml'); }
+			if($choosenDB == 'xml'){ unlink(_TCMS_PATH.'/tcms_sidebar/'.$maintag.'.xml'); }
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);

@@ -9,12 +9,20 @@
 | 
 | Spr&mp;aring;kfil, Svenska
 |
-| File:     lang_swedish_SE.php
-| Version:  0.0.1
+| File: lang_swedish_SE.php
 |
 +
 */
 
+
+/**
+ * Swedish Language
+ * 
+ * @version 0.0.2
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 // ADMIN

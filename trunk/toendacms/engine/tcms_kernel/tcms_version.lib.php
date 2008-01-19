@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide the cms
  * version information.
  *
- * @version 0.1.0
+ * @version 0.1.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -33,10 +33,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * Methods
  *
- * __construct                 -> PHP5 Constructor
- * tcms_version                -> PHP4 Constructor
- * __destruct                  -> PHP5 Destructor
- * _tcms_version               -> PHP4 Destructor
+ * __construct                 -> Constructor
+ * __destruct                  -> Destructor
  *
  * getName                     -> Get the name of toendaCMS
  * getTagline                  -> Get the tagline of toendaCMS
@@ -64,11 +62,11 @@ class tcms_version {
 	
 	
 	/**
-	 * PHP5 Constructor
+	 * Constructor
 	 *
 	 * @param String $relativePath = ''
 	 */
-	function __construct($relativePath = '') {
+	public function __construct($relativePath = '') {
 		$this->o_xml = simplexml_load_file($relativePath.'engine/tcms_kernel/tcms_version.xml');
 		
 		$this->m_name         = $this->o_xml->name;
@@ -84,29 +82,9 @@ class tcms_version {
 	
 	
 	/**
-	 * PHP4 Constructor
-	 *
-	 * @param String $relativePath = ''
+	 * Destructor
 	 */
-	function tcms_version($relativePath = ''){
-		$this->__construct($relativePath);
-	}
-	
-	
-	
-	/**
-	 * PHP5 Destructor
-	 */
-	function __destruct(){
-	}
-	
-	
-	
-	/**
-	 * PHP4 Destructor
-	 */
-	function _tcms_version(){
-		$this->__destruct();
+	public function __destruct(){
 	}
 	
 	
@@ -116,7 +94,7 @@ class tcms_version {
 	 *
 	 * @return String
 	 */
-	function getName(){
+	public function getName(){
 		return $this->m_name;
 	}
 	
@@ -127,7 +105,7 @@ class tcms_version {
 	 *
 	 * @return String
 	 */
-	function getTagline(){
+	public function getTagline(){
 		return $this->m_tagline;
 	}
 	
@@ -138,7 +116,7 @@ class tcms_version {
 	 *
 	 * @return String
 	 */
-	function getCodename(){
+	public function getCodename(){
 		return $this->m_codename;
 	}
 	
@@ -149,7 +127,7 @@ class tcms_version {
 	 *
 	 * @return String
 	 */
-	function getVersion(){
+	public function getVersion(){
 		return $this->m_version;
 	}
 	
@@ -160,7 +138,7 @@ class tcms_version {
 	 *
 	 * @return String
 	 */
-	function getBuild(){
+	public function getBuild(){
 		return $this->m_build;
 	}
 	
@@ -171,7 +149,7 @@ class tcms_version {
 	 *
 	 * @return String
 	 */
-	function getState(){
+	public function getState(){
 		return $this->m_status;
 	}
 	
@@ -182,7 +160,7 @@ class tcms_version {
 	 *
 	 * @return String
 	 */
-	function getReleaseDate(){
+	public function getReleaseDate(){
 		return $this->m_release_date;
 	}
 	
@@ -193,7 +171,7 @@ class tcms_version {
 	 *
 	 * @return String
 	 */
-	function getToendaCopyright(){
+	public function getToendaCopyright(){
 		return $this->m_toenda_copy;
 	}
 }

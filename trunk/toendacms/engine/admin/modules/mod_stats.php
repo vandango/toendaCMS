@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a statistics provider.
  *
- * @version 0.2.7
+ * @version 0.3.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -51,7 +51,7 @@ if($id_group == 'Developer'
 	/*
 		init
 	*/
-	$c_xml      = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/var.xml', 'r');
+	$c_xml      = new xmlparser(_TCMS_PATH.'/tcms_global/var.xml', 'r');
 	$statistics = $c_xml->read_section('global', 'statistics');
 	
 	
@@ -59,7 +59,7 @@ if($id_group == 'Developer'
 	if($choosenDB == 'xml'){
 		echo '<strong>'._DB_XML.'</strong>: XML database is online<br />';
 		echo '<strong>'._DB_XML.' '._GALLERY_IMGSIZE.'</strong>: '
-		.$tcms_main->getDirectorySizeString('../../'.$tcms_administer_site).'<br /><br />';
+		.$tcms_main->getDirectorySizeString(_TCMS_PATH).'<br /><br />';
 	}
 	else{
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
@@ -88,7 +88,7 @@ if($id_group == 'Developer'
 		
 		
 		echo '<strong>'._DB_XML.' '._GALLERY_IMGSIZE.'</strong>: '
-		.$tcms_main->getDirectorySizeString('../../'.$tcms_administer_site).'<br /><br />';
+		.$tcms_main->getDirectorySizeString(_TCMS_PATH).'<br /><br />';
 	}
 	
 	
@@ -102,15 +102,15 @@ if($id_group == 'Developer'
 		if($choosenDB == 'xml'){
 			//echo '<strong>'._DB_XML.'</strong>: XML database is online<br />';
 			//echo '<strong>'._DB_XML.' '._GALLERY_IMGSIZE.'</strong>: '
-			//.$tcms_main->getDirectorySizeString('../../'.$tcms_administer_site).'<br /><br />';
+			//.$tcms_main->getDirectorySizeString(_TCMS_PATH).'<br /><br />';
 			
 			$statsum = 0;
 			
-			$arr_statfiles = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_statistics/');
+			$arr_statfiles = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_statistics/');
 			
 			if(!empty($arr_statfiles) && $arr_statfiles != '' && isset($arr_statfiles)){
 				foreach($arr_statfiles as $key => $value){
-					$statXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_statistics/'.$value, 'r');
+					$statXML = new xmlparser(_TCMS_PATH.'/tcms_statistics/'.$value, 'r');
 					$stat_value = $statXML->read_value('value');
 					$statsum += $stat_value;
 				}
@@ -119,7 +119,7 @@ if($id_group == 'Developer'
 			echo '<strong>'._STATS_SUM_CLICKS.'</strong>: '.( $statsum == '' ? 0 : $statsum ).'<br />';
 			
 			
-			$uniqueVal = $tcms_main->load_xml_files('../../'.$tcms_administer_site.'/tcms_statistics_ip/', 'number');
+			$uniqueVal = $tcms_main->load_xml_files(_TCMS_PATH.'/tcms_statistics_ip/', 'number');
 			echo '<strong>'._STATS_SUM_UNIQUE.'</strong>: '.( $uniqueVal == '' ? 0 : $uniqueVal ).'<br />';
 			
 			
@@ -143,11 +143,11 @@ if($id_group == 'Developer'
 			.'<h2 class="tab">'._STATS_HITS.'</h2>';
 			
 			
-			$arr_statfiles = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_statistics/');
+			$arr_statfiles = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_statistics/');
 			
 			if(!empty($arr_statfiles) && $arr_statfiles != '' && isset($arr_statfiles)){
 				foreach($arr_statfiles as $key => $value){
-					$statXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_statistics/'.$value, 'r');
+					$statXML = new xmlparser(_TCMS_PATH.'/tcms_statistics/'.$value, 'r');
 					
 					$arr_stat['host'][$key]      = $statXML->read_value('host');
 					$arr_stat['url'][$key]       = $statXML->read_value('site_url');
@@ -219,11 +219,11 @@ if($id_group == 'Developer'
 			.'<h2 class="tab">'._STATS_BROWSER_OS.'</h2>';
 			
 			
-			$arr_statfiles = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_statistics_os/');
+			$arr_statfiles = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_statistics_os/');
 			
 			if(!empty($arr_statfiles) && $arr_statfiles != '' && isset($arr_statfiles)){
 				foreach($arr_statfiles as $key => $value){
-					$statXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_statistics_os/'.$value, 'r');
+					$statXML = new xmlparser(_TCMS_PATH.'/tcms_statistics_os/'.$value, 'r');
 					
 					$arr_stat['browser'][$key] = $statXML->read_value('browser');
 					$arr_stat['os'][$key]      = $statXML->read_value('os');
@@ -293,25 +293,25 @@ if($id_group == 'Developer'
 			
 			if($reset == 1){
 				// delete hit stats
-				$tcms_main->rmdirr('../../'.$tcms_administer_site.'/tcms_statistics/');
-				mkdir('../../'.$tcms_administer_site.'/tcms_statistics/', 0777);
-				chmod('../../'.$tcms_administer_site.'/tcms_statistics/', 0777);
+				$tcms_main->rmdirr(_TCMS_PATH.'/tcms_statistics/');
+				mkdir(_TCMS_PATH.'/tcms_statistics/', 0777);
+				chmod(_TCMS_PATH.'/tcms_statistics/', 0777);
 				$hitStats = 0;
 				
 				
 				
 				// delete ip stats
-				$tcms_main->rmdirr('../../'.$tcms_administer_site.'/tcms_statistics_ip/');
-				mkdir('../../'.$tcms_administer_site.'/tcms_statistics_ip/', 0777);
-				chmod('../../'.$tcms_administer_site.'/tcms_statistics_ip/', 0777);
+				$tcms_main->rmdirr(_TCMS_PATH.'/tcms_statistics_ip/');
+				mkdir(_TCMS_PATH.'/tcms_statistics_ip/', 0777);
+				chmod(_TCMS_PATH.'/tcms_statistics_ip/', 0777);
 				$ipStats = 0;
 				
 				
 				
 				// delete software stats
-				$tcms_main->rmdirr('../../'.$tcms_administer_site.'/tcms_statistics_os/');
-				mkdir('../../'.$tcms_administer_site.'/tcms_statistics_os/', 0777);
-				chmod('../../'.$tcms_administer_site.'/tcms_statistics_os/', 0777);
+				$tcms_main->rmdirr(_TCMS_PATH.'/tcms_statistics_os/');
+				mkdir(_TCMS_PATH.'/tcms_statistics_os/', 0777);
+				chmod(_TCMS_PATH.'/tcms_statistics_os/', 0777);
 				$osStats = 0;
 				
 				

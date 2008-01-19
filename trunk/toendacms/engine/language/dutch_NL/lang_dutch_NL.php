@@ -10,11 +10,20 @@
 | 
 | Dutch Language
 |
-| File:		lang_dutch_NL.php
-| Version:	0.1.3
+| File:	lang_dutch_NL.php
 |
 +
 */
+
+
+/**
+ * Dutch Language
+ * 
+ * @version 0.1.5
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 // ADMIN

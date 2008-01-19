@@ -36,7 +36,7 @@ if(isset($_POST['searchword'])){ $searchword = $_POST['searchword']; }
 
 
 if($choosenDB == 'xml'){
-	$search_xml   = new xmlparser($tcms_administer_site.'/tcms_global/sidebar.xml','r');
+	$search_xml   = new xmlparser(_TCMS_PATH.'/tcms_global/sidebar.xml','r');
 	$search_title = $search_xml->readSection('side', 'search_title');
 	
 	$search_title = $tcms_main->decodeText($search_title, '2', $c_charset);
@@ -209,7 +209,7 @@ else {
 	$tcms_search = new tcms_search(
 		$c_charset, 
 		$s, 
-		$tcms_administer_site, 
+		_TCMS_PATH, 
 		$is_admin, 
 		$tcms_time, 
 		$tcms_html
@@ -431,12 +431,12 @@ function search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, 
 	global $tcms_administer_site;
 	
 	if($choosenDB == 'xml'){
-		$arr_searchfiles = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_products/', 'files');
+		$arr_searchfiles = $tcms_file->getPathContent($tcms_administer_site.'/tcms_products/', 'files');
 		
 		if(is_array($arr_searchfiles)){
 			foreach($arr_searchfiles as $skey => $sval){
 				//echo $sval.'<br>';
-				$arr_searchfiles2 = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_products/'.$sval, 'files');
+				$arr_searchfiles2 = $tcms_file->getPathContent($tcms_administer_site.'/tcms_products/'.$sval, 'files');
 				
 				if(is_array($arr_searchfiles2)){
 					foreach($arr_searchfiles2 as $skey2 => $sval2){
@@ -632,7 +632,7 @@ function search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost,
 	global $tcms_administer_site;
 	
 	if($choosenDB == 'xml'){
-		$arr_searchfiles = $tcms_main->readdir_ext($tcms_administer_site.'/files/', 'files');
+		$arr_searchfiles = $tcms_file->getPathContent($tcms_administer_site.'/files/', 'files');
 		
 		if(is_array($arr_searchfiles)){
 			foreach($arr_searchfiles as $skey => $sval){
@@ -821,11 +821,11 @@ function search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $s
 	global $tcms_administer_site;
 	
 	if($choosenDB == 'xml'){
-		$arr_searchfiles = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_imagegallery/', 'files');
+		$arr_searchfiles = $tcms_file->getPathContent($tcms_administer_site.'/tcms_imagegallery/', 'files');
 		
 		if(is_array($arr_searchfiles)){
 			foreach($arr_searchfiles as $skey => $sval){
-				$arr_searchfiles2 = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_imagegallery/'.$sval, 'files');
+				$arr_searchfiles2 = $tcms_file->getPathContent($tcms_administer_site.'/tcms_imagegallery/'.$sval, 'files');
 				//echo $sval;
 				if(is_array($arr_searchfiles2)){
 					foreach($arr_searchfiles2 as $skey2 => $sval2){
@@ -965,7 +965,7 @@ function search_faqs($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 	global $tcms_administer_site;
 	
 	if($choosenDB == 'xml'){
-		$arr_searchfiles = $tcms_main->readdir_ext($tcms_main->getAdministerSite().'/tcms_knowledgebase/', 'files');
+		$arr_searchfiles = $tcms_file->getPathContent($tcms_main->getAdministerSite().'/tcms_knowledgebase/', 'files');
 		
 		if(is_array($arr_searchfiles)){
 			foreach($arr_searchfiles as $skey => $sval){

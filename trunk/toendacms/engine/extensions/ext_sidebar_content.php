@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the sidebar functionality.
  *
- * @version 0.5.5
+ * @version 0.5.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -39,7 +39,7 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 if($use_sidebar == 1){
 	if($choosenDB == 'xml'){
-		$use_side_xml  = new xmlparser($tcms_administer_site.'/tcms_global/sidebar.xml','r');
+		$use_side_xml  = new xmlparser(_TCMS_PATH.'/tcms_global/sidebar.xml','r');
 		$sidebar_title = $use_side_xml->readSection('side', 'sidebar_title');
 		$show_sbt      = $use_side_xml->readSection('side', 'show_sidebar_title');
 	}
@@ -71,10 +71,10 @@ if($cform_enabled == 1) {
 		echo $tcms_html->subTitle(_SIDE_CONTACTS).'<br />';
 		
 		if($choosenDB == 'xml'){
-			$arr_sbc = $tcms_main->getPathContent($tcms_administer_site.'/tcms_contacts/');
+			$arr_sbc = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_contacts/');
 			
 			foreach ($arr_sbc as $key => $value){
-				$contacts_xml = new xmlparser($tcms_administer_site.'/tcms_contacts/'.$value,'r');
+				$contacts_xml = new xmlparser(_TCMS_PATH.'/tcms_contacts/'.$value,'r');
 				$tc_pub = $contacts_xml->readSection('contact', 'published');
 				
 				if($tc_pub == 1){
@@ -167,13 +167,13 @@ if($id != 'register'
 	if($id == $products_id) {
 		if($use_sidebar_categories == 1) {
 			if($choosenDB == 'xml') {
-				$arr_products = $tcms_main->getPathContent($tcms_administer_site.'/tcms_products/');
+				$arr_products = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_products/');
 				
 				$count = 0;
 				
 				/*if($tcms_main->isArray($arr_products)){
 					foreach($arr_products as $key => $value){
-						$menu_xml = new xmlparser($tcms_administer_site.'/tcms_products/'.$value.'/folderinfo.xml','r');
+						$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_products/'.$value.'/folderinfo.xml','r');
 						$chkAcc   = $menu_xml->readSection('folderinfo', 'access');
 						
 						if($is_admin == 'Developer' || $is_admin == 'Administrator'){ $showAll = true; }
@@ -317,7 +317,7 @@ if($id != 'register'
 		if($show_sbt == 1) {
 			if($id != 'contactform') {// && $id != 'products'){
 				if($choosenDB == 'xml') {
-					if(file_exists($tcms_administer_site.'/tcms_sidebar/'.$id.'.xml')) {
+					if(file_exists(_TCMS_PATH.'/tcms_sidebar/'.$id.'.xml')) {
 						$show_sbt_ever = true;
 					}
 					else {
@@ -346,8 +346,8 @@ if($id != 'register'
 		
 		
 		if($choosenDB == 'xml') {
-			if(file_exists($tcms_administer_site.'/tcms_sidebar/'.$id.'.xml')){
-				$sidexml = new xmlparser($tcms_administer_site.'/tcms_sidebar/'.$id.'.xml','r');
+			if(file_exists(_TCMS_PATH.'/tcms_sidebar/'.$id.'.xml')){
+				$sidexml = new xmlparser(_TCMS_PATH.'/tcms_sidebar/'.$id.'.xml','r');
 				$sb_title   = $sidexml->readSection('side', 'title');
 				$sb_key     = $sidexml->readSection('side', 'key');
 				$sb_content = $sidexml->readSection('side', 'content');

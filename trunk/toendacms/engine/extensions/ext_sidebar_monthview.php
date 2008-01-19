@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides news nonthview for
  * the sidebar.
  *
- * @version 0.3.0
+ * @version 0.3.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -51,13 +51,13 @@ if($use_side_archives == 1){
 		}
 		
 		
-		$arrCatFile = $tcms_main->getPathContent(
-			$tcms_administer_site.'/tcms_news/'
+		$arrCatFile = $tcms_file->getPathContent(
+			_TCMS_PATH.'/tcms_news/'
 		);
 		
 		if($tcms_main->isArray($arrCatFile)){
 			foreach($arrCatFile as $cKey => $cVal){
-				$xmlP = new xmlparser($tcms_administer_site.'/tcms_news/'.$cVal, 'r');
+				$xmlP = new xmlparser(_TCMS_PATH.'/tcms_news/'.$cVal, 'r');
 				$sideDates['stamp'][$cKey] = $xmlP->readValue('stamp');
 				$sideDates['date'][$cKey]  = $xmlP->readValue('date');
 				$xmlP->flush();

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides a download manager..
  *
- * @version 0.8.3
+ * @version 0.8.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -62,7 +62,7 @@ if($action == 'showall') {
 	
 	
 	if($choosenDB == 'xml') {
-		$arr_downfiles = $tcms_main->getPathContent($tcms_administer_site.'/files/');
+		$arr_downfiles = $tcms_file->getPathContent(_TCMS_PATH.'/files/');
 		
 		$count = 0;
 		
@@ -70,7 +70,7 @@ if($action == 'showall') {
 			access
 		*/
 		if($tcms_main->isReal($category)) {
-			$xml      = new xmlparser($tcms_administer_site.'/files/'.$category.'/info.xml','r');
+			$xml      = new xmlparser(_TCMS_PATH.'/files/'.$category.'/info.xml','r');
 			$checkAcc = $xml->readSection('info', 'access');
 			$wsCatTit = $xml->readSection('info', 'name');
 			
@@ -92,7 +92,7 @@ if($action == 'showall') {
 			if($tcms_main->isArray($arr_downfiles)) {
 				foreach($arr_downfiles as $key => $value) {
 					if($value != 'index.html'){
-						$xml      = new xmlparser($tcms_administer_site.'/files/'.$value.'/info.xml', 'r');
+						$xml      = new xmlparser(_TCMS_PATH.'/files/'.$value.'/info.xml', 'r');
 						$checkPub = $xml->readSection('info', 'pub');
 						
 						
@@ -310,7 +310,7 @@ if($action == 'showall') {
 				$sqlNR2 = 0;
 				
 				if($category != ''){
-					$xml = new xmlparser($tcms_administer_site.'/files/'.$category.'/info.xml', 'r');
+					$xml = new xmlparser(_TCMS_PATH.'/files/'.$category.'/info.xml', 'r');
 					
 					$wsType = $xml->readSection('info', 'type');
 					
@@ -492,7 +492,7 @@ if($action == 'showall') {
 								}
 							}
 							else{
-								echo '<img src="'.$imagePath.$tcms_administer_site.'/files/'.$arr_dw['uid'][$key].'/'.$arr_dw['img'][$key].'" border="0" />';
+								echo '<img src="'.$imagePath._TCMS_PATH.'/files/'.$arr_dw['uid'][$key].'/'.$arr_dw['img'][$key].'" border="0" />';
 							}
 							
 							echo '</a>';
@@ -504,7 +504,7 @@ if($action == 'showall') {
 								? '<img src="'.$imagePath.'engine/images/mimetypes/'.$arr_dw['type'][$key].'.png" border="0" />'
 								: '<img src="'.$imagePath.'engine/images/mimetypes/empty.png" border="0" />' )
 							:
-							'<img src="'.$imagePath.$tcms_administer_site.'/files/'.$arr_dw['uid'][$key].'/'.$arr_dw['img'][$key].'" border="0" />'
+							'<img src="'.$imagePath._TCMS_PATH.'/files/'.$arr_dw['uid'][$key].'/'.$arr_dw['img'][$key].'" border="0" />'
 							);*/
 						}
 					}
@@ -526,9 +526,9 @@ if($action == 'showall') {
 						}
 					}
 					else {
-						if($tcms_file->checkFileExist($tcms_administer_site.'/files/'.$category.'/'.$arr_dw['file'][$key])){
+						if($tcms_file->checkFileExist(_TCMS_PATH.'/files/'.$category.'/'.$arr_dw['file'][$key])){
 							$size = $tcms_file->getFilesize(
-								$tcms_administer_site.'/files/'.$category.'/'.$arr_dw['file'][$key]
+								_TCMS_PATH.'/files/'.$category.'/'.$arr_dw['file'][$key]
 							) / 1024;
 							$kpos = strpos($size, '.');
 							$file_size = substr($size, 0, $kpos+3);
@@ -696,13 +696,13 @@ if($action == 'showall') {
 */
 if($action == 'start'){
 	if($choosenDB == 'xml'){
-		$xml        = new xmlparser($tcms_administer_site.'/files/'.$category.'/info.xml', 'r');
+		$xml        = new xmlparser(_TCMS_PATH.'/files/'.$category.'/info.xml', 'r');
 		$access_cat = $xml->readSection('info', 'access');
 		$down_main  = $xml->readSection('info', 'cat');
 		$xml->flush();
 		
 		if($down_main != ''){
-			$xml        = new xmlparser($tcms_administer_site.'/files/'.$down_main.'/info.xml', 'r');
+			$xml        = new xmlparser(_TCMS_PATH.'/files/'.$down_main.'/info.xml', 'r');
 			$down_cat   = $xml->readSection('info', 'name');
 			$down_main  = $xml->readSection('info', 'cat');
 			$xml->flush();

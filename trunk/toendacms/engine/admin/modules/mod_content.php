@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a documents manager.
  *
- * @version 1.1.9
+ * @version 1.2.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -97,8 +97,8 @@ if($id_group == 'Developer'
 	*/
 	
 	if($choosenDB == 'xml') {
-		$arr_filename  = $tcms_main->getPathContent(
-			'../../'.$tcms_administer_site.'/tcms_content/'
+		$arr_filename  = $tcms_file->getPathContent(
+			_TCMS_PATH.'/tcms_content/'
 		);
 	}
 	
@@ -121,7 +121,7 @@ if($id_group == 'Developer'
 		if($choosenDB == 'xml'){
 			if($tcms_main->isArray($arr_filename)) {
 				foreach($arr_filename as $key => $value) {
-					$main_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_content/'.$value, 'r');
+					$main_xml = new xmlparser(_TCMS_PATH.'/tcms_content/'.$value, 'r');
 					$arr_content['tag'][$key]    = substr($value, 0, 5);
 					$arr_content['title'][$key]  = $main_xml->readSection('main', 'title');
 					$arr_content['id'][$key]     = $main_xml->readSection('main', 'id');
@@ -143,14 +143,14 @@ if($id_group == 'Developer'
 				}
 			}
 			
-			$arr_filename  = $tcms_main->getPathContent(
-				'../../'.$tcms_administer_site.'/tcms_content_languages/'
+			$arr_filename  = $tcms_file->getPathContent(
+				_TCMS_PATH.'/tcms_content_languages/'
 			);
 			
 			if($tcms_main->isArray($arr_filename)) {
 				foreach($arr_filename as $key => $value) {
 					$main_xml = new xmlparser(
-						'../../'.$tcms_administer_site.'/tcms_content_languages/'.$value, 'r'
+						_TCMS_PATH.'/tcms_content_languages/'.$value, 'r'
 					);
 					
 					$arr_content['title'][$count]  = $main_xml->readSection('main', 'title');
@@ -430,12 +430,12 @@ if($id_group == 'Developer'
 				
 				if($tcms_main->isReal($lang)) {
 					$main_xml = new xmlparser(
-						'../../'.$tcms_administer_site.'/tcms_content_languages/'.$maintag.'.xml','r'
+						_TCMS_PATH.'/tcms_content_languages/'.$maintag.'.xml','r'
 					);
 				}
 				else {
 					$main_xml = new xmlparser(
-						'../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml','r'
+						_TCMS_PATH.'/tcms_content/'.$maintag.'.xml','r'
 					);
 				}
 				
@@ -964,11 +964,11 @@ if($id_group == 'Developer'
 			$_FILES['content01']['type'] == 'image/jpeg' || 
 			$_FILES['content01']['type'] == 'image/bmp')){
 				$fileName = $_FILES['content01']['name'];
-				$imgDir = '../../'.$tcms_administer_site.'/images/Image/';
+				$imgDir = _TCMS_PATH.'/images/Image/';
 				
 				$content01 = $_FILES['content01']['name'];
 				
-				if(!file_exists('../../'.$tcms_administer_site.'/images/Image/'.$_FILES['content01']['name'])){
+				if(!file_exists(_TCMS_PATH.'/images/Image/'.$_FILES['content01']['name'])){
 					copy($_FILES['content01']['tmp_name'], $imgDir.$fileName);
 				}
 				
@@ -998,10 +998,10 @@ if($id_group == 'Developer'
 		
 		if($choosenDB == 'xml'){
 			if($tcms_main->isReal($lang)) {
-				$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_content_languages/'.$maintag.'.xml', 'w');
+				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_content_languages/'.$maintag.'.xml', 'w');
 			}
 			else {
-				$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml', 'w');
+				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_content/'.$maintag.'.xml', 'w');
 			}
 			
 			$xmluser->xml_c_declaration($c_charset);
@@ -1110,11 +1110,11 @@ if($id_group == 'Developer'
 		
 		if($_FILES['content01']['size'] > 0){
 			$fileName = $_FILES['content01']['name'];
-			$imgDir = '../../'.$tcms_administer_site.'/images/Image/';
+			$imgDir = _TCMS_PATH.'/images/Image/';
 			
 			$content01 = $_FILES['content01']['name'];
 			
-			if(!file_exists('../../'.$tcms_administer_site.'/images/Image/'.$_FILES['content01']['name'])){
+			if(!file_exists(_TCMS_PATH.'/images/Image/'.$_FILES['content01']['name'])){
 				copy($_FILES['content01']['tmp_name'], $imgDir.$fileName);
 			}
 			
@@ -1127,10 +1127,10 @@ if($id_group == 'Developer'
 		
 		if($choosenDB == 'xml'){
 			if($tcms_main->isReal($lang)) {
-				$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_content_languages/'.$maintag.'.xml', 'w');
+				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_content_languages/'.$maintag.'.xml', 'w');
 			}
 			else {
-				$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml', 'w');
+				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_content/'.$maintag.'.xml', 'w');
 			}
 			
 			$xmluser->xml_c_declaration($c_charset);
@@ -1237,7 +1237,7 @@ if($id_group == 'Developer'
 				if($choosenDB == 'xml') {
 					if($tcms_main->isReal($lang)) {
 						xmlparser::edit_value(
-							'../../'.$tcms_administer_site.'/tcms_content_languages/'.$maintag.'.xml', 
+							_TCMS_PATH.'/tcms_content_languages/'.$maintag.'.xml', 
 							'in_work', 
 							'1', 
 							'0'
@@ -1245,7 +1245,7 @@ if($id_group == 'Developer'
 					}
 					else {
 						xmlparser::edit_value(
-							'../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml', 
+							_TCMS_PATH.'/tcms_content/'.$maintag.'.xml', 
 							'in_work', 
 							'1', 
 							'0'
@@ -1279,7 +1279,7 @@ if($id_group == 'Developer'
 				if($choosenDB == 'xml') {
 					if($tcms_main->isReal($lang)) {
 						xmlparser::edit_value(
-							'../../'.$tcms_administer_site.'/tcms_content_languages/'.$maintag.'.xml', 
+							_TCMS_PATH.'/tcms_content_languages/'.$maintag.'.xml', 
 							'in_work', 
 							'0', 
 							'1'
@@ -1287,7 +1287,7 @@ if($id_group == 'Developer'
 					}
 					else {
 						xmlparser::edit_value(
-							'../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml', 
+							_TCMS_PATH.'/tcms_content/'.$maintag.'.xml', 
 							'in_work', 
 							'0', 
 							'1'
@@ -1337,7 +1337,7 @@ if($id_group == 'Developer'
 				if($choosenDB == 'xml') {
 					if($tcms_main->isReal($lang)) {
 						xmlparser::edit_value(
-							'../../'.$tcms_administer_site.'/tcms_content_languages/'.$maintag.'.xml', 
+							_TCMS_PATH.'/tcms_content_languages/'.$maintag.'.xml', 
 							'published', 
 							'1', 
 							'0'
@@ -1345,7 +1345,7 @@ if($id_group == 'Developer'
 					}
 					else {
 						xmlparser::edit_value(
-							'../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml', 
+							_TCMS_PATH.'/tcms_content/'.$maintag.'.xml', 
 							'published', 
 							'1', 
 							'0'
@@ -1382,13 +1382,13 @@ if($id_group == 'Developer'
 					if($check == 'no'){
 						if($tcms_main->isReal($lang)) {
 							$news_xml = new xmlparser(
-								'../../'.$tcms_administer_site.'/tcms_content_languages/'.$maintag.'.xml',
+								_TCMS_PATH.'/tcms_content_languages/'.$maintag.'.xml',
 								'r'
 							);
 						}
 						else {
 							$news_xml = new xmlparser(
-								'../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml',
+								_TCMS_PATH.'/tcms_content/'.$maintag.'.xml',
 								'r'
 							);
 						}
@@ -1419,7 +1419,7 @@ if($id_group == 'Developer'
 					if($check == 'yes'){
 						if($tcms_main->isReal($lang)) {
 							xmlparser::edit_value(
-								'../../'.$tcms_administer_site.'/tcms_content_languages/'.$maintag.'.xml', 
+								_TCMS_PATH.'/tcms_content_languages/'.$maintag.'.xml', 
 								'published', 
 								'0', 
 								'1'
@@ -1427,7 +1427,7 @@ if($id_group == 'Developer'
 						}
 						else {
 							xmlparser::edit_value(
-								'../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml', 
+								_TCMS_PATH.'/tcms_content/'.$maintag.'.xml', 
 								'published', 
 								'0', 
 								'1'
@@ -1512,24 +1512,24 @@ if($id_group == 'Developer'
 	
 	if($todo == 'delete'){
 		if($choosenDB == 'xml'){
-			if($tcms_file->checkFileExist('../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml')) {
-				$tcms_file->deleteFile('../../'.$tcms_administer_site.'/tcms_content/'.$maintag.'.xml');
+			if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_content/'.$maintag.'.xml')) {
+				$tcms_file->deleteFile(_TCMS_PATH.'/tcms_content/'.$maintag.'.xml');
 			}
-			else if($tcms_file->checkFileExist('../../'.$tcms_administer_site.'/tcms_content_languages/'.$maintag.'.xml')) {
-				$tcms_file->deleteFile('../../'.$tcms_administer_site.'/tcms_content_languages/'.$maintag.'.xml');
+			else if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_content_languages/'.$maintag.'.xml')) {
+				$tcms_file->deleteFile(_TCMS_PATH.'/tcms_content_languages/'.$maintag.'.xml');
 			}
 			
 			
-			$del_menuitem = $tcms_main->xml_readdir_content($maintag, '../../'.$tcms_administer_site.'/tcms_menu/', 'link', 'menu', 5);
+			$del_menuitem = $tcms_main->xml_readdir_content($maintag, _TCMS_PATH.'/tcms_menu/', 'link', 'menu', 5);
 			
 			if($del_menuitem == '' 
 			|| empty($del_menuitem) 
 			|| !isset($del_menuitem)){
-				$del_menuitem = $tcms_main->xml_readdir_content($maintag, '../../'.$tcms_administer_site.'/tcms_topmenu/', 'link', 'top', 5);
-				$tcms_file->deleteFile('../../'.$tcms_administer_site.'/tcms_topmenu/'.$del_menuitem.'.xml');
+				$del_menuitem = $tcms_main->xml_readdir_content($maintag, _TCMS_PATH.'/tcms_topmenu/', 'link', 'top', 5);
+				$tcms_file->deleteFile(_TCMS_PATH.'/tcms_topmenu/'.$del_menuitem.'.xml');
 			}
 			else {
-				$tcms_file->deleteFile('../../'.$tcms_administer_site.'/tcms_menu/'.$del_menuitem.'.xml');
+				$tcms_file->deleteFile(_TCMS_PATH.'/tcms_menu/'.$del_menuitem.'.xml');
 			}
 		}
 		else{

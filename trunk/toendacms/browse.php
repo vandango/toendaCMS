@@ -9,14 +9,23 @@
 | 
 | Mediabrowser for WYSIWYG Editor (for frontpage)
 |
-| File:		browse.php
-| Version:	0.1.8
+| File:	browse.php
 |
 +
 */
 
 
-
+/**
+ * Mediabrowser for WYSIWYG Editor (for frontpage)
+ * 
+ * This is the global startfile and the page loading
+ * control for the mediabrowser
+ * 
+ * @version 0.2.0
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS
+ */
 
 
 if(isset($_GET['v'])){ $v = $_GET['v']; }
@@ -29,93 +38,78 @@ if(isset($_POST['todo'])){ $todo = $_POST['todo']; }
 if(isset($_POST['session'])){ $session = $_POST['session']; }
 
 
-
-
-
-/*****************
-* INI
+/*
+	INIT GLOBAL
 */
 
+// define system
 define('_TCMS_VALID', 1);
 
+// include import loader
+include_once('engine/tcms_kernel/tcms_loader.lib.php');
+
+// load language loader
 $language_stage = 'index';
 include_once('engine/language/lang_admin.php');
 
-$tcms_administer_site = 'data';
+// load current active page
+include_once('site.php');
+define('_TCMS_PATH', $tcms_site[0]['path']);
 
-include_once('engine/tcms_kernel/tcms_time.lib.php');
-include_once('engine/tcms_kernel/tcms.lib.php');
-include_once('engine/tcms_kernel/tcms_html.lib.php');
-include_once('engine/tcms_kernel/tcms_gd.lib.php');
-include_once ('engine/tcms_kernel/tcms_sql.lib.php');
+// import classes
+using('toendacms.kernel.time');
+using('toendacms.kernel.html');
+using('toendacms.kernel.main');
+using('toendacms.kernel.gd');
+using('toendacms.kernel.sql');
+using('toendacms.kernel.file');
+
+// filehandler
+$tcms_file = new tcms_file();
 
 // tcms main
-$tcms_main = new tcms_main($tcms_administer_site, $choosenDB);
-$arr_dir = $tcms_main->readdir_ext($tcms_administer_site.'/images/Image/');
+$tcms_main = new tcms_main(_TCMS_PATH, $choosenDB);
+$arr_dir = $tcms_file->getPathContent(_TCMS_PATH.'/images/Image/');
 
 // database
-include($tcms_administer_site.'/tcms_global/database.php');
+include(_TCMS_PATH.'/tcms_global/database.php');
 
-$choosenDB = $tcms_main->secure_password($tcms_db_engine, 'en');
-$sqlUser   = $tcms_main->secure_password($tcms_db_user, 'en');
-$sqlPass   = $tcms_main->secure_password($tcms_db_password, 'en');
-$sqlHost   = $tcms_main->secure_password($tcms_db_host, 'en');
-$sqlDB     = $tcms_main->secure_password($tcms_db_database, 'en');
-$sqlPort   = $tcms_main->secure_password($tcms_db_port, 'en');
-$sqlPrefix = $tcms_main->secure_password($tcms_db_prefix, 'en');
+$choosenDB = $tcms_db_engine;
+$sqlUser   = $tcms_db_user;
+$sqlPass   = $tcms_db_password;
+$sqlHost   = $tcms_db_host;
+$sqlDB     = $tcms_db_database;
+$sqlPort   = $tcms_db_port;
+$sqlPrefix = $tcms_db_prefix;
 $tcms_db_prefix = $sqlPrefix;
 
 $tcms_main->setDatabaseInfo($choosenDB);
 
 // global var
-$c_xml = new xmlparser($tcms_administer_site.'/tcms_global/var.xml','r');
-$show_wysiwyg = $c_xml->read_section('global', 'wysiwyg');
+$xml = new xmlparser(_TCMS_PATH.'/tcms_global/var.xml','r');
+$show_wysiwyg = $xml->readSection('global', 'wysiwyg');
+$xml->flush();
+unset($xml);
 
 // language
 $language_stage = 'index';
 include_once('engine/language/lang_admin.php');
 
 
-
-$version_xml  = new xmlparser('engine/tcms_kernel/tcms_version.xml','r');
-$cms_name     = $version_xml->read_section('version', 'name');
-$cms_tagline  = $version_xml->read_section('version', 'tagline');
-$toenda_copyr = $version_xml->read_section('version', 'toenda_copyright');
-$version_xml->flush();
-unset($version_xml);
-
+$xml  = new xmlparser('engine/tcms_kernel/tcms_version.xml','r');
+$cms_name     = $xml->readSection('version', 'name');
+$cms_tagline  = $xml->readSection('version', 'tagline');
+$toenda_copyr = $xml->readSection('version', 'toenda_copyright');
+$xml->flush();
+unset($xml);
 
 
-//***********************************
-// IF NOT LOGED IN
-//
-if(isset($session)){
-	//***********************************************
-	// IF THE FILE TO OLD, UNLINK IT
-	//
-	if($choosenDB == 'xml'){ $tcms_main->check_session($session, 'user'); }
-	else{ $tcms_main->check_sql_session($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session); }
-	
-	
-	
-	
-	
-	
-	
-	
-	if($choosenDB == 'xml'){
-		if(isset($session) && $session != '' && file_exists(''.$tcms_administer_site.'/tcms_session/'.$session) && filesize(''.$tcms_administer_site.'/tcms_session/'.$session) != 0){ $check_session = true; }
-		else{ $check_session = false; }
-	}
-	else{
-		$check_session = $tcms_main->check_session_exists($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session);
-	}
-	
-	
+if(isset($session)) {
+	$check_session = $tcms_auth->checkSessionExist($id_user, true);
 	
 	if($check_session){
 		// layout
-		$c_xml      = new xmlparser($tcms_administer_site.'/tcms_global/layout.xml','r');
+		$c_xml      = new xmlparser(_TCMS_PATH.'/tcms_global/layout.xml','r');
 		$adminTheme = $c_xml->read_section('layout', 'admin');
 		
 		
@@ -185,7 +179,7 @@ if(isset($session)){
 			//*****************************************
 			if($_FILES['mediaImage']['size'] > 0 && $tcms_main->isImage($_FILES['mediaImage']['type'])){
 				$fileName = $_FILES['mediaImage']['name'];
-				$imgDir = $tcms_administer_site.'/images/Image/';
+				$imgDir = _TCMS_PATH.'/images/Image/';
 				
 				copy($_FILES['mediaImage']['tmp_name'], $imgDir.$fileName);
 				
@@ -227,18 +221,18 @@ if(isset($session)){
 				&& trim($dvalue) != 'thumbs.db' 
 				&& trim($dvalue) != 'index.html' 
 				&& substr(trim($dvalue), 0, 1) != '.'){
-					if(!file_exists($tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue)){
-						tcms_gd::gd_thumbnail($tcms_administer_site.'/images/Image/', $tcms_administer_site.'/images/upload_thumb/', $dvalue, '100', 'create');
+					if(!file_exists(_TCMS_PATH.'/images/upload_thumb/thumb_'.$dvalue)){
+						tcms_gd::gd_thumbnail(_TCMS_PATH.'/images/Image/', _TCMS_PATH.'/images/upload_thumb/', $dvalue, '100', 'create');
 					}
 					
-					$img_size = getimagesize($tcms_administer_site.'/images/Image/'.$dvalue);
+					$img_size = getimagesize(_TCMS_PATH.'/images/Image/'.$dvalue);
 					$img_o_width  = $img_size[0];
 					$img_o_height = $img_size[1];
 					
 					echo '<tr><td class="tcms_db_2" width="100" valign="top">
-					<img style="border: 1px solid #333333;" src="'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue.'" border="0" />';
+					<img style="border: 1px solid #333333;" src="'._TCMS_PATH.'/images/upload_thumb/thumb_'.$dvalue.'" border="0" />';
 					
-					$size = filesize($tcms_administer_site.'/images/Image/'.$dvalue) / 1024;
+					$size = filesize(_TCMS_PATH.'/images/Image/'.$dvalue) / 1024;
 					$kpos = strpos($size, '.');
 					$img_size = substr($size, 0, $kpos+3);
 					
@@ -253,8 +247,8 @@ if(isset($session)){
 					}
 					else{
 						if($show_wysiwyg == 'tinymce' && (!isset($n) && $n != 'toendaScript')){
-							//$cmdImage = 'opener.tinyMCE.insertImage(\''.$tcms_administer_site.'/images/Image/'.$dvalue.'\', \'\', \'0\', \'\', \'\', \'\', \'\', \'\', \'\', \'\', \'\');self.close()';
-							$cmdImage = 'opener.tinyMCE.execCommand(\'mceInsertContent\', false, \'&lt;img src=&quot;'.$tcms_administer_site.'/images/Image/'.$dvalue.'&quot; border=&quot;0&quot; alt=&quot;'.$dvalue.'&quot; /&gt;\');self.close()';
+							//$cmdImage = 'opener.tinyMCE.insertImage(\''._TCMS_PATH.'/images/Image/'.$dvalue.'\', \'\', \'0\', \'\', \'\', \'\', \'\', \'\', \'\', \'\', \'\');self.close()';
+							$cmdImage = 'opener.tinyMCE.execCommand(\'mceInsertContent\', false, \'&lt;img src=&quot;'._TCMS_PATH.'/images/Image/'.$dvalue.'&quot; border=&quot;0&quot; alt=&quot;'.$dvalue.'&quot; /&gt;\');self.close()';
 						}
 						else{
 							if($show_wysiwyg == 'toendaScript' || (isset($n) && $n == 'toendaScript')){

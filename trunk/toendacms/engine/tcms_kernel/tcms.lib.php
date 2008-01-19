@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic public functions.
  *
- * @version 2.8.6
+ * @version 2.9.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -40,7 +40,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * __destruct                        -> Destructor
  *
  * --------------------------------------------------------
- * MAIN public functionS
+ * PROPERTIES
  * --------------------------------------------------------
  *
  * setTcmsTimeObj                    -> Set the tcms_time object
@@ -52,9 +52,16 @@ defined('_TCMS_VALID') or die('Restricted access');
  * setAdministerSite                 -> Set the administer-site string
  * getCurrentLang                    -> Get the current lang settings
  * getAdministerSite                 -> Get the administer-site string
- *
+ * 
  * --------------------------------------------------------
- * PUBLIC METHODS
+ * PRIVATE MEMBERS
+ * --------------------------------------------------------
+ * 
+ * _getPathContentAmount             -> Get the amount of related files in a path (without directorys)
+ * _getPathContent                   -> Return a array of all files or directory's inside a path
+ * 
+ * --------------------------------------------------------
+ * PUBLIC MEMBERS
  * --------------------------------------------------------
  *
  * getNewUID                         -> Get a new guid
@@ -81,7 +88,6 @@ defined('_TCMS_VALID') or die('Restricted access');
  * decodeIconV                       -> Decode (decipher) a string using iconv
  * encodeText                        -> Encode (cipher) a text
  * decodeText                        -> Decode (decipher) a text
- * securePassword                    -> Secure or unsecure a password string
  * countWords                        -> Count Words in a phrase
  * countItemsInArray                 -> Count the items in a array
  * checkWebLink                      -> Check if a link is a weblink
@@ -136,7 +142,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * returnInsertCommand         -> return a command for inserting
  *
  * --------------------------------------------------------
- * DEPRECATED public functionS
+ * DEPRECATED FUNCTIONS
  * --------------------------------------------------------
  *
  * DEPRECATED getUser                     -> Return the username
@@ -144,14 +150,10 @@ defined('_TCMS_VALID') or die('Restricted access');
  * DEPRECATED getUserInfo                 -> Get some information about a user
  * DEPRECATED create_uid                  -> getNewUID
  * DEPRECATED getUserFromSQL              -> getUser
- * DEPRECATED readdir_ext                 -> getPathContent
  * DEPRECATED create_username             -> getUserInfo
  * DEPRECATED create_sql_username         -> getUserInfo
  * DEPRECATED rmdirr                      -> deleteDir
  * DEPRECATED getUserIDFromSQL            -> getUserID
- * DEPRECATED get_php_setting             -> getPHPSetting
- * DEPRECATED set_php_setting             -> setPHPSetting
- * DEPRECATED secure_password             -> securePassword
  * DEPRECATED log_login                   -> see tcms_authentication
  * DEPRECATED delete_sql_session          -> see tcms_authentication
  * DEPRECATED decode_text                 -> encodeText
@@ -182,13 +184,11 @@ defined('_TCMS_VALID') or die('Restricted access');
  * DEPRECATED isCHMODable                 -> Moved to tcms_file: Checks if a file is CHMODable
  * DEPRECATED getAllDocuments             -> Get all documents
  * DEPRECATED getPathContentAmount        -> Get the amount of related files in a path (without directorys)
- * DEPRECATED getPathContent              -> Return a array of all files or folders inside a path
  * DEPRECATED getPathContentCSSFilesRecursivly  -> Return a array with the files in "path"
  * DEPRECATED getXMLFiles                 -> Return a array of all xml files inside a path
  * DEPRECATED getMimeType                 -> Get the mimetype of a filename
  * DEPRECATED deleteDir                   -> Remove dir with all files and directorys inside
  * DEPRECATED deleteDirContent            -> Remove all files and directorys inside a directory
- * DEPRECATED deleteFile                  -> Delete a file (if it exist)
  * 
  * </code>
  *
@@ -215,15 +215,14 @@ class tcms_main {
 	
 	
 	
-	/*
-		Constructors
-		Destructors
-	*/
+	// -------------------------------------------------
+	// CONSTRUCTORS
+	// -------------------------------------------------
 	
 	
 	
 	/**
-	 * PHP5 Constructor
+	 * Constructor
 	 *
 	 * @param String $administer = 'data'
 	 * @param Object $tcmsTimeObj = null
@@ -232,6 +231,10 @@ class tcms_main {
 	public function __construct($administer = 'data', $tcmsTimeObj = null, $tcmsConfigObj = null) {
 		$this->administer = $administer;
 		$this->urlSEO = 'colon';
+		
+		if(!defined('_TCMS_PATH')) {
+			define('_TCMS_PATH', $administer);
+		}
 		
 		if($tcmsTimeObj == null) {
 			$this->_tcmsTime = new tcms_time();
@@ -251,31 +254,9 @@ class tcms_main {
 	
 	
 	/**
-	 * PHP4 Constructor
-	 *
-	 * @param String $administer = 'data'
-	 * @param Object $tcmsTimeObj = null
-	 * @param Object $tcmsConfigObj = null
-	 */
-	public function tcms_main($administer = 'data', $tcmsTimeObj = null, $tcmsConfigObj = null) {
-		$this->__construct($administer, $tcmsTimeObj, $tcmsConfigObj);
-	}
-	
-	
-	
-	/**
-	 * PHP5 Destructor
+	 * Destructor
 	 */
 	public function __destruct() {
-	}
-	
-	
-	
-	/**
-	 * PHP4 Destructor
-	 */
-	public function _tcms_main() {
-		$this->__destruct();
 	}
 	
 	
@@ -314,9 +295,9 @@ class tcms_main {
 	 * @param String $choosenDB = ''
 	 */
 	public function setDatabaseInfo($choosenDB = '') {
-		if(file_exists($this->administer.'/tcms_global/database.php')) {
+		if(file_exists(_TCMS_PATH.'/tcms_global/database.php')) {
 			//include($this->administer.'/tcms_global/database.php');
-			require($this->administer.'/tcms_global/database.php');
+			require(_TCMS_PATH.'/tcms_global/database.php');
 			
 			if(trim($choosenDB) == '') {
 				$this->db_choosenDB = $tcms_db_engine;
@@ -408,6 +389,44 @@ class tcms_main {
 	
 	
 	// -------------------------------------------------
+	// PRIVATE MEMBERS
+	// -------------------------------------------------
+	
+	
+	
+	/**
+	 * Get the amount of related files in a path (without directorys)
+	 * 
+	 * @param String $path
+	 * @return Integer
+	 */
+	private function _getPathContentAmount($path) {
+		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
+		
+		$f = new tcms_file();
+		return $f->getPathContentAmount($path);
+	}
+	
+	
+	
+	/**
+	 * Return a array of all files or directory's inside a path
+	 *
+	 * @param String $path
+	 * @param Boolean $onlyFolders
+	 * @param String $fileType = ''
+	 * @return Array
+	 */
+	private function _getPathContent($path, $onlyFolders = false, $fileType = '', $commentFolders = false) {
+		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
+		
+		$f = new tcms_file();
+		return $f->getPathContent($path, $onlyFolders, $fileType, $commentFolders);
+	}
+	
+	
+	
+	// -------------------------------------------------
 	// PUBLIC MEMBERS
 	// -------------------------------------------------
 	
@@ -422,7 +441,9 @@ class tcms_main {
 	 */
 	public function getNewUID($length, $table) {
 		if($this->db_choosenDB == 'xml') {
-			while(($uid = substr(md5(microtime()), 0, $length)) && file_exists($this->administer.'/tcms_'.$table.'/'.$uid.'.xml')) {}
+			while(($uid = substr(md5(microtime()), 0, $length)) 
+			&& file_exists($this->administer.'/tcms_'.$table.'/'.$uid.'.xml')
+			) {}
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
@@ -434,7 +455,7 @@ class tcms_main {
 				$this->db_port
 			);
 			
-			$session_exists = 1;
+			$uid_exists = 1;
 			
 			do{
 				$uid = substr(md5(microtime()), 0, $length);
@@ -463,7 +484,7 @@ class tcms_main {
 	 */
 	public function getAmountOfItems($table, $countField = 'uid', $categoryField = 'category', $category = '') {
 		if($this->db_choosenDB == 'xml') {
-			return $this->getPathContentAmount($table);
+			return $this->_getPathContentAmount($table);
 		}
 		else {
 			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
@@ -479,7 +500,7 @@ class tcms_main {
 			."FROM ".$this->db_prefix.$table." ";
 			
 			if(trim($category) != '') {
-				$sql .= "WHERE ".$field." = '".$category."'";
+				$sql .= "WHERE ".$categoryField." = '".$category."'";
 			}
 			
 			$sqlQR = $sqlAL->query($sql);
@@ -566,16 +587,17 @@ class tcms_main {
 	 * @return String
 	 */
 	public function getLanguageNameByTCMSLanguageCode($array, $code) {
+		$retValue = '&nbsp;';
+		
 		if($this->isReal($code)) {
 			foreach($array['code'] as $key => $value) {
 				if($value == $code) {
-					return $array['name'][$key];
+					$retValue = $array['name'][$key];
 				}
 			}
 		}
-		else {
-			return '&nbsp;';
-		}
+		
+		return $retValue;
 	}
 	
 	
@@ -662,7 +684,8 @@ class tcms_main {
 	 */
 	public function isElementInArray($element, $array) {
 		//in_array
-		foreach($array as $key => $value) {
+		//foreach($array as $key => $value) {
+		foreach($array as $value) {
 			if(trim($value) == trim($element)) {
 				return true;
 			}
@@ -680,10 +703,15 @@ class tcms_main {
 	 * @return Boolean
 	 */
 	public function isArray($variable) {
-		if(is_array($variable) && isset($variable) && !empty($variable) && $variable != NULL)
+		if(is_array($variable) 
+		&& isset($variable) 
+		&& !empty($variable) 
+		&& $variable != NULL) {
 			return true;
-		else
+		}
+		else {
 			return false;
+		}
 	}
 	
 	
@@ -703,22 +731,26 @@ class tcms_main {
 			|| $type == 'image/jpeg'
 			|| $type == 'image/bmp'
 			|| $type == 'image/pjpeg'
-			|| $type == 'image/tiff')
+			|| $type == 'image/tiff') {
 				return true;
-			else
+			}
+			else {
 				return false;
+			}
 		}
-		else{
+		else {
 			if(preg_match('/.jpg/i', strtolower($type))
 			|| preg_match('/.jpeg/i', strtolower($type))
 			|| preg_match('/.jpe/i', strtolower($type))
 			|| preg_match('/.png/i', strtolower($type))
 			|| preg_match('/.gif/i', strtolower($type))
 			|| preg_match('/.bmp/i', strtolower($type))
-			|| preg_match('/.pjpeg/i', strtolower($type)))
+			|| preg_match('/.pjpeg/i', strtolower($type))) {
 				return true;
-			else
+			}
+			else {
 				return false;
+			}
 		}
 	}
 	
@@ -737,20 +769,24 @@ class tcms_main {
 			|| $type == 'audio/x-wav'
 			|| $type == 'audio/x-midi'
 			|| $type == 'audio/mpeg'
-			|| $type == 'audio/wma')
+			|| $type == 'audio/wma') {
 				return true;
-			else
+			}
+			else {
 				return false;
+			}
 		}
-		else{
+		else {
 			if(preg_match('/.mp3/i', strtolower($type))
 			|| preg_match('/.wma/i', strtolower($type))
 			|| preg_match('/.wav/i', strtolower($type))
 			|| preg_match('/.ogg/i', strtolower($type))
-			|| preg_match('/.midi/i', strtolower($type)))
+			|| preg_match('/.midi/i', strtolower($type))) {
 				return true;
-			else
+			}
+			else {
 				return false;
+			}
 		}
 	}
 	
@@ -769,12 +805,14 @@ class tcms_main {
 			|| $type == 'video/x-msvideo'
 			|| $type == 'video/avi'
 			|| $type == 'application/x-shockwave-flash'
-			|| $type == 'video/wmv')
+			|| $type == 'video/wmv') {
 				return true;
-			else
+			}
+			else {
 				return false;
+			}
 		}
-		else{
+		else {
 			if(preg_match('/.avi/i', strtolower($type))
 			|| preg_match('/.mpeg/i', strtolower($type))
 			|| preg_match('/.mpg/i', strtolower($type))
@@ -782,10 +820,12 @@ class tcms_main {
 			|| preg_match('/.swf/i', strtolower($type))
 			|| preg_match('/.cab/i', strtolower($type))
 			|| preg_match('/.qt/i', strtolower($type))
-			|| preg_match('/.mov/i', strtolower($type)))
+			|| preg_match('/.mov/i', strtolower($type))) {
 				return true;
-			else
+			}
+			else {
 				return false;
+			}
 		}
 	}
 	
@@ -799,17 +839,21 @@ class tcms_main {
 	 */
 	public function isMultimedia($type, $checkType = true) {
 		if($checkType) {
-			if($type == 'application/x-shockwave-flash')
+			if($type == 'application/x-shockwave-flash') {
 				return true;
-			else
+			}
+			else {
 				return false;
+			}
 		}
-		else{
+		else {
 			if(preg_match('/.swf/i', strtolower($type))
-			|| preg_match('/.cab/i', strtolower($type)))
+			|| preg_match('/.cab/i', strtolower($type))) {
 				return true;
-			else
+			}
+			else {
 				return false;
+			}
 		}
 	}
 	
@@ -970,7 +1014,7 @@ class tcms_main {
 		
 		if($withoutEncryption == false) {
 			if($withoutDatabase == false) {
-				include($this->administer.'/tcms_global/database.php');
+				include(_TCMS_PATH.'/tcms_global/database.php');
 				
 				if($tcms_db_engine == 'xml') {
 					$encode = true;
@@ -1007,7 +1051,7 @@ class tcms_main {
 	public function decodeText($text, $quote, $charset, $withoutEncryption = false, $withoutDatabase = false) {
 		if($withoutEncryption == false) {
 			if($withoutDatabase == false) {
-				include($this->administer.'/tcms_global/database.php');
+				include(_TCMS_PATH.'/tcms_global/database.php');
 				
 				if($tcms_db_engine == 'xml') {
 					$encode = true;
@@ -1174,10 +1218,9 @@ class tcms_main {
 	 * Convert chars
 	 *
 	 * @param String $content
-	 * @param String $flag
 	 * @return String
 	 */
-	public function convertChars($content, $flag = 'obsolete') {
+	public function convertChars($content) {
 		// Translation of invalid Unicode references range to valid range
 		$htmltranswinuni = array(
 		'&#128;' => '&#8364;', // the Euro sign
@@ -1229,29 +1272,6 @@ class tcms_main {
 		$content = str_replace('<hr>', '<hr />', $content);
 		
 		return $content;
-	}
-	
-	
-	
-	/**
-	 * Secure or unsecure a password string
-	 *
-	 * @param String $password
-	 * @param Boolean $encode = true
-	 * @return String
-	 */
-	public function securePassword($password, $encode = true) {
-		/*
-		if($encode) {
-			$password = unserialize($password);
-			$password = str_rot13($password);
-		}
-		else{
-			$password = str_rot13($password);
-			$password = serialize($password);
-		}
-		*/
-		return $password;
 	}
 	
 	
@@ -2675,14 +2695,15 @@ class tcms_main {
 	public function readdir_comment($path) {
 		$handle = opendir($path);
 		$i = 0;
+		
 		while($dir = readdir($handle)) {
 			if($dir != '.' 
 			&& $dir != '..' 
 			&& $dir != 'CVS' 
-			&& $files != '.svn'
-			&& $files != '_svn'
-			&& $files != '.SVN'
-			&& $files != '_SVN'
+			&& $dir != '.svn'
+			&& $dir != '_svn'
+			&& $dir != '.SVN'
+			&& $dir != '_SVN'
 			&& $dir != 'index.html') {
 				if(substr($dir, 0, 9) == 'comments_') {
 					$arr_dirContent[$i] = $dir;
@@ -2690,7 +2711,12 @@ class tcms_main {
 				}
 			}
 		}
-		return ( isset($arr_dirContent) && $arr_dirContent != '' && !empty($arr_dirContent) ? $arr_dirContent : NULL );
+		
+		return (
+			isset($arr_dirContent) && $arr_dirContent != '' && !empty($arr_dirContent) 
+			? $arr_dirContent 
+			: NULL
+		);
 	}
 	
 	
@@ -2702,14 +2728,15 @@ class tcms_main {
 	public function readdir_image_comment($path, $cmd) {
 		$handle = opendir($path);
 		$i = 0;
+		
 		while($dir = readdir($handle)) {
 			if($dir != '.' 
 			&& $dir != '..' 
 			&& $dir != 'CVS' 
-			&& $files != '.svn'
-			&& $files != '_svn'
-			&& $files != '.SVN'
-			&& $files != '_SVN'
+			&& $dir != '.svn'
+			&& $dir != '_svn'
+			&& $dir != '.SVN'
+			&& $dir != '_SVN'
 			&& $dir != 'index.html') {
 				$arrThis = $this->readdir_comment($path.$dir.'/');
 				
@@ -2725,10 +2752,18 @@ class tcms_main {
 		}
 		
 		if($cmd == 'image') {
-			return ( isset($arr_dirContent) && $arr_dirContent != '' && !empty($arr_dirContent) ? $arr_dirContent : NULL );
+			return (
+				isset($arr_dirContent) && $arr_dirContent != '' && !empty($arr_dirContent) 
+				? $arr_dirContent 
+				: NULL
+			);
 		}
 		else{
-			return ( isset($arr_dirAlbum) && $arr_dirAlbum != '' && !empty($arr_dirAlbum) ? $arr_dirAlbum : NULL );
+			return (
+				isset($arr_dirAlbum) && $arr_dirAlbum != '' && !empty($arr_dirAlbum) 
+				? $arr_dirAlbum 
+				: NULL
+			);
 		}
 	}
 	
@@ -3925,7 +3960,7 @@ class tcms_main {
 			$c_charset = $tcms_config->getCharset();
 			unset($tcms_config);
 			
-			$arrUserXML = $this->getPathContent($this->administer.'/tcms_user');
+			$arrUserXML = $this->_getPathContent($this->administer.'/tcms_user');
 			
 			$userFound = false;
 			
@@ -4086,7 +4121,7 @@ class tcms_main {
 	 * @return Integer
 	 */
 	public function readdir_count($path) {
-		return $this->getPathContentAmount($path);
+		return $this->_getPathContentAmount($path);
 	}
 	
 	
@@ -4110,17 +4145,6 @@ class tcms_main {
 	 */
 	public function getUserFromSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $userID) {
 		return $this->getUser($userID);
-	}
-	
-	
-	
-	/**
-	 * @deprecated Deprecated since version 1.6
-	 * @return Array with files from directory
-	 * @desc Return a array with the files in "path"
-	 */
-	public function readdir_ext($path) {
-		return $this->getPathContent($path);
 	}
 	
 	
@@ -4165,41 +4189,6 @@ class tcms_main {
 	 */
 	public function getUserIDfromSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $realOrNick) {
 		return $this->getUserID($realOrNick);
-	}
-	
-	
-	
-	/**
-	 * @deprecated Deprecated since version 1.6
-	 * @return string
-	 * @desc give a php setting
-	 */
-	public function get_php_setting($val) {
-		$r = $this->getPHPSetting($val, false);
-		return $r ? 'on' : 'off';
-	}
-	
-	
-	
-	/**
-	 * @deprecated Deprecated since version 1.6
-	 * @return boolean
-	 * @desc set a php setting
-	 */
-	public function set_php_setting($setting, $val) {
-		$this->setPHPSetting($setting, $val);
-		return true;
-	}
-	
-	
-	
-	/**
-	 * @deprecated Deprecated since version 1.6
-	 * @return return a decoded or encoded string to secure the database password
-	 * @desc $de_or_encode -> 'de' or $de_or_encode -> 'en'
-	 */
-	public function secure_password($password_string, $de_or_encode) {
-		return $this->securePassword($password_string, ( $de_or_encode == 'en' ? true : false ));
 	}
 	
 	
@@ -5093,60 +5082,6 @@ class tcms_main {
 	
 	
 	/**
-	 * Return a array of all files or directory's inside a path
-	 *
-	 * @deprecated Deprecated since version 1.6
-	 * @param String $path
-	 * @param Boolean $onlyFolders
-	 * @param String $fileType = ''
-	 * @return Array
-	 */
-	public function getPathContent($path, $onlyFolders = false, $fileType = '', $commentFolders = false) {
-		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
-		
-		$f = new tcms_file();
-		return $f->getPathContent($path, $onlyFolders, $fileType, $commentFolders);
-		/*
-		$i = 0;
-		$handle = opendir($path);
-		
-		while($dir = readdir($handle)) {
-			if ($dir != '.'
-			&& $dir != '..'
-			&& $dir != 'CVS'
-			&& $dir != '.svn'
-			&& $dir != '_svn'
-			&& $dir != '.SVN'
-			&& $dir != '_SVN'
-			&& substr($dir, 0, 9) != 'comments_'
-			&& $dir != 'index.html') {
-				if($onlyFolders) {
-					if(is_dir($path.$dir)) {
-						$arr_dirContent[$i] = $dir;
-						$i++;
-					}
-				}
-				else{
-					if($fileType == '') {
-						$arr_dirContent[$i] = $dir;
-						$i++;
-					}
-					else{
-						if(strpos($dir, $fileType)) {
-							$arr_dirContent[$i] = $dir;
-							$i++;
-						}
-					}
-				}
-			}
-		}
-		
-		return ( $this->isReal($arr_dirContent) ? $arr_dirContent : NULL );*/
-	}
-	
-	
-	
-	/**
 	 * Return a array with the files in "path"
 	 * 
 	 * @deprecated Deprecated since version 1.6
@@ -5230,7 +5165,7 @@ class tcms_main {
 	 * @return Array
 	 */
 	public function getXMLFiles($path) {
-		return $this->getPathContent($path, false, '.xml');
+		return $this->_getPathContent($path, false, '.xml');
 	}
 	
 	
@@ -5244,6 +5179,8 @@ class tcms_main {
 	 * @return String
 	 */
 	public function getMimeType($filename, $tolower = false) {
+		echo '<u><strong>DEPRECATED</strong></u><br />';
+		
 		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
 		
 		$f = new tcms_file();
@@ -5379,30 +5316,6 @@ class tcms_main {
 		}
 		
 		return false;*/
-	}
-	
-	
-	
-	/**
-	 * Delete a file (if it exist)
-	 * 
-	 * @deprecated Deprecated since version 1.6
-	 * @param String $file
-	 * @return Boolean
-	 */
-	public function deleteFile($file) {
-		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
-		
-		$f = new tcms_file();
-		return $f->deleteFile($file);
-		/*
-		if(file_exists($file)) {
-			unlink($file);
-			return true;
-		}
-		else {
-			return false;
-		}*/
 	}
 }
 

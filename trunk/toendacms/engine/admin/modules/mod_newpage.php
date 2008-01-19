@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for a wizard to create a new page.
  *
- * @version 0.2.7
+ * @version 0.3.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -58,11 +58,11 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	
 	
 	if($choosenDB == 'xml'){
-		$arr_filename = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_menu/');
+		$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_menu/');
 		$i = $z = 0;
 		while(!empty($arr_filename[$i])){
 			$arr_maintag[$i] = substr($arr_filename[$i],0,5);
-			$all_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_menu/'.$arr_filename[$i],'r');
+			$all_xml = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$arr_filename[$i],'r');
 			
 			$ltype = $all_xml->read_section('menu', 'type');
 			if($ltype == 'link'){
@@ -213,10 +213,10 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 					$id_main = $tmp_order;
 					
 					if($choosenDB == 'xml'){
-						$arr_fn = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_menu/');
+						$arr_fn = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_menu/');
 						$x = 0;
 						foreach($arr_fn as $key => $value){
-							$all_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_menu/'.$value,'r');
+							$all_xml = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$value,'r');
 							$arr_i[$key] = $all_xml->read_value('id');
 							$arr_s[$key] = ( !$all_xml->read_value('subid') ? $all_xml->read_value('subid') : '-' );
 							
@@ -255,7 +255,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		
 		switch($tmp_linkto){
 			case 'new_page':
-				if($choosenDB == 'xml'){ while(($new_linkto=substr(md5(time()),0,5)) && file_exists('../../'.$tcms_administer_site.'/tcms_content/'.$new_linkto.'.xml')){} }
+				if($choosenDB == 'xml'){ while(($new_linkto=substr(md5(time()),0,5)) && file_exists(_TCMS_PATH.'/tcms_content/'.$new_linkto.'.xml')){} }
 				else{ $new_linkto = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'content', 5); }
 				$relocate = 'mod_content';
 				break;
@@ -301,7 +301,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		
 		
 		if($choosenDB == 'xml'){
-			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/'.$tcms_menu.'/'.$maintag.'.xml', 'w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/'.$tcms_menu.'/'.$maintag.'.xml', 'w');
 			$xmluser->xml_declaration();
 			if($tcms_menu == $tcms_db_prefix.'topmenu'){ $xmluser->xml_section('top'); }
 			else{ $xmluser->xml_section('menu'); }
@@ -377,7 +377,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		
 		
 		if($choosenDB == 'xml'){
-			if(!file_exists('../../'.$tcms_administer_site.'/tcms_content/'.$new_linkto.'.xml')){
+			if(!file_exists(_TCMS_PATH.'/tcms_content/'.$new_linkto.'.xml')){
 				$content_not_exists = true;
 			}
 			else{ $content_not_exists = false; }
@@ -397,7 +397,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		
 		if($relocate == 'mod_content' && $content_not_exists){
 			if($choosenDB == 'xml'){
-				$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_content/'.$new_linkto.'.xml', 'w');
+				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_content/'.$new_linkto.'.xml', 'w');
 				
 				$xmluser->xml_c_declaration($c_charset);
 				$xmluser->xml_section('main');

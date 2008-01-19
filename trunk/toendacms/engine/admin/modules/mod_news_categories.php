@@ -9,8 +9,7 @@
 | 
 | News Categories
 |
-| File:		mod_news_categories.php
-| Version:	0.2.5
+| File:	mod_news_categories.php
 |
 +
 */
@@ -19,6 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * News Categories
+ *
+ * This module is used for the news categories.
+ *
+ * @version 0.2.7
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 if(isset($_POST['new_cat_name'])){ $new_cat_name = $_POST['new_cat_name']; }
@@ -41,18 +50,18 @@ if(!isset($todo)){ $todo = 'show'; }
 // SHOW OLD VALUES
 //=====================================================
 
-if($todo == 'show'){
-	echo tcms_html::bold(_NEWS_CATEGORIES_TITLE);
-	echo tcms_html::text(_NEWS_CATEGORIES_TEXT.'<br /><br />', 'left');
+if($todo == 'show') {
+	echo $tcms_html->bold(_NEWS_CATEGORIES_TITLE);
+	echo $tcms_html->text(_NEWS_CATEGORIES_TEXT.'<br /><br />', 'left');
 	
-	if($choosenDB == 'xml'){
-		$arr_filename = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_news_categories/');
+	if($choosenDB == 'xml') {
+		$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_news_categories/');
 		
 		$count = 0;
 		
 		if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
 			foreach($arr_filename as $key => $value){
-				$menu_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_news_categories/'.$value,'r');
+				$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$value,'r');
 				$arrCat['tag'][$key]  = substr($value, 0, 5);
 				$arrCat['name'][$key] = $menu_xml->read_section('cat', 'name');
 				$arrCat['desc'][$key] = $menu_xml->read_section('cat', 'desc');
@@ -157,7 +166,7 @@ if($todo == 'show'){
 if($todo == 'edit'){
 	if(isset($maintag) && !empty($maintag) && $maintag != ''){
 		if($choosenDB == 'xml'){
-			$user_xml  = new xmlparser('../../'.$tcms_administer_site.'/tcms_news_categories/'.$maintag.'.xml','r');
+			$user_xml  = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$maintag.'.xml','r');
 			$cat_name  = $user_xml->read_value('name');
 			$cat_desc  = $user_xml->read_value('desc');
 			$cat_count = $user_xml->read_value('count');
@@ -191,7 +200,7 @@ if($todo == 'edit'){
 		$cat_name = '';
 		$cat_desc = '';
 		
-		//if($choosenDB == 'xml'){ while(($maintag=substr(md5(time()),0,5)) && file_exists('../../'.$tcms_administer_site.'/tcms_news_categories/'.$maintag.'.xml')){} }
+		//if($choosenDB == 'xml'){ while(($maintag=substr(md5(time()),0,5)) && file_exists(_TCMS_PATH.'/tcms_news_categories/'.$maintag.'.xml')){} }
 		//else{ $maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'news_categories', 5); }
 		$maintag = $tcms_main->getNewUID(5, 'news_categories');
 		
@@ -283,7 +292,7 @@ if($todo == 'save'){
 	
 	if($choosenDB == 'xml'){
 		if(!isset($_POST['CatCount']) || $_POST['CatCount'] == '' || empty($_POST['CatCount'])){ $_POST['CatCount'] = 0; }
-		$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_news_categories/'.$maintag.'.xml', 'w');
+		$xmluser = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$maintag.'.xml', 'w');
 		$xmluser->xml_declaration();
 		$xmluser->xml_section('cat');
 		
@@ -340,7 +349,7 @@ if($todo == 'save'){
 
 if($todo == 'delete'){
 	if($choosenDB == 'xml'){
-		unlink('../../'.$tcms_administer_site.'/tcms_news_categories/'.$maintag.'.xml');
+		unlink(_TCMS_PATH.'/tcms_news_categories/'.$maintag.'.xml');
 	}
 	else{
 		$sqlAL = new sqlAbstractionLayer($choosenDB);

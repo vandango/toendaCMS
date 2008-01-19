@@ -484,7 +484,7 @@ if($todo == 'global') {
 	
 	// xml engine relocate
 	if($db == 'xml') {
-		if($tcms_main->get_php_setting('safe_mode') == 'off') {
+		if(getPHPSetting('safe_mode') == 'off') {
 			echo '<script>'
 			.'document.getElementById(\'db_form\').submit();'
 			.'</script>';

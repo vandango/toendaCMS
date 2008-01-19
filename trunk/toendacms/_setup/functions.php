@@ -20,7 +20,7 @@
  *
  * This file is used for so9me needed functions.
  *
- * @version 0.0.7
+ * @version 0.0.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -38,20 +38,7 @@ function getVersion(){
 	return $xml->read_section('version', 'release');
 }
 
-function securePassword($password, $encode = true){
-  if($encode){
-    $password = unserialize($password);
-    $password = str_rot13($password);
-  }
-  else{
-    //$password = str_rot13($password);
-    //$password = serialize($password);
-  }
-  
-  return $password;
-}
-
-function get_php_setting($val){
+function getPHPSetting($val){
 	$r = (ini_get($val) == '1' ? 1 : 0);
 	return $r ? '<span style="font-weight: bold; color: red; text-decoration: underline;">ON</span>' : '<span style="font-weight: bold; color: green;">OFF</span>';
 }
@@ -130,7 +117,7 @@ function updateLanguageForXML($tcms_path) {
 	
 	// update news
 	unset($arr_news);
-	$arr_news = $tcms_main->getPathContent('../'.$tcms_administer_site.'/tcms_news/');
+	$arr_news = $tcms_file->getPathContent('../'.$tcms_administer_site.'/tcms_news/');
 	
 	foreach($arr_news as $key => $val) {
 		$xml = new xmlparser('../'.$tcms_administer_site.'/tcms_news/'.$val, 'r');
@@ -174,7 +161,7 @@ function updateLanguageForXML($tcms_path) {
 	
 	// update sidemenu items
 	unset($arr_news);
-	$arr_news = $tcms_main->getPathContent('../'.$tcms_administer_site.'/tcms_menu/');
+	$arr_news = $tcms_file->getPathContent('../'.$tcms_administer_site.'/tcms_menu/');
 	
 	foreach($arr_news as $key => $val) {
 		$xml = new xmlparser('../'.$tcms_administer_site.'/tcms_menu/'.$val, 'r');
@@ -213,7 +200,7 @@ function updateLanguageForXML($tcms_path) {
 	
 	// update topmenu items
 	unset($arr_news);
-	$arr_news = $tcms_main->getPathContent('../'.$tcms_administer_site.'/tcms_topmenu/');
+	$arr_news = $tcms_file->getPathContent('../'.$tcms_administer_site.'/tcms_topmenu/');
 	
 	foreach($arr_news as $key => $val) {
 		$xml = new xmlparser('../'.$tcms_administer_site.'/tcms_topmenu/'.$val, 'r');

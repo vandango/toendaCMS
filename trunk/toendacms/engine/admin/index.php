@@ -35,7 +35,7 @@ if(isset($_GET['conduct'])){ $conduct = $_GET['conduct']; }
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 0.7.0
+ * @version 0.7.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -48,7 +48,9 @@ if(isset($_GET['conduct'])){ $conduct = $_GET['conduct']; }
 define('_TCMS_VALID', 1);
 
 $language_stage = 'admin';
-$tcms_administer_site = 'data';
+
+include_once('../../site.php');
+define('_TCMS_PATH', '../../'.$tcms_site[0]['path']);
 
 
 include_once('../language/lang_admin.php');
@@ -57,22 +59,22 @@ include_once('../tcms_kernel/tcms_time.lib.php');
 include_once('../tcms_kernel/tcms_file.lib.php');
 include_once('../tcms_kernel/tcms_sql.lib.php');
 include_once('../tcms_kernel/tcms_xml.lib.php');
-include_once('../../'.$tcms_administer_site.'/tcms_global/database.php');
+include_once(_TCMS_PATH.'/tcms_global/database.php');
 include_once('../tcms_kernel/tcms_authentication.lib.php');
 include_once('../tcms_kernel/tcms_configuration.lib.php');
 include_once('../tcms_kernel/tcms_version.lib.php');
 include_once('../tcms_kernel/phpmailer/class.phpmailer.php');
 
 
-$c_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/layout.xml','r');
+$c_xml = new xmlparser(_TCMS_PATH.'/tcms_global/layout.xml','r');
 $adminTheme = $c_xml->readSection('layout', 'admin');
 
-$tcms_config = new tcms_configuration('../../'.$tcms_administer_site);
+$tcms_config = new tcms_configuration(_TCMS_PATH);
 $c_charset = $tcms_config->getCharset();
 
-$tcms_auth = new tcms_authentication('../../'.$tcms_administer_site, $c_charset, '');
+$tcms_auth = new tcms_authentication(_TCMS_PATH, $c_charset, '');
 
-$tcms_main = new tcms_main('../../'.$tcms_administer_site);
+$tcms_main = new tcms_main(_TCMS_PATH);
 
 $tcms_version = new tcms_version('../../');
 

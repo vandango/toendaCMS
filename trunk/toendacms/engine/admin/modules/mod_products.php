@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used for the products configuration
  * and the administration of all the products.
  *
- * @version 0.7.8
+ * @version 0.8.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -131,8 +131,8 @@ if($todo == 'config'){
 		
 		
 		if($choosenDB == 'xml'){
-			if(file_exists('../../'.$tcms_administer_site.'/tcms_global/contactform.'.$getLang.'.xml')) {
-				$pXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/products.xml','r');
+			if(file_exists(_TCMS_PATH.'/tcms_global/contactform.'.$getLang.'.xml')) {
+				$pXML = new xmlparser(_TCMS_PATH.'/tcms_global/products.xml','r');
 				
 				$old_lang   = $pXML->readSection('config', 'language');
 				$old_pid    = $pXML->readSection('config', 'products_id');
@@ -470,7 +470,7 @@ if($todo == 'show'){
 		if($choosenDB == 'xml') {
 			/*$count = 0;
 			
-			$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$category.'.xml','r');
+			$xml = new xmlparser(_TCMS_PATH.'/tcms_knowledgebase/'.$category.'.xml','r');
 			
 			//$access_cat = $down_xml->readSection('faq', 'access');
 			
@@ -490,7 +490,7 @@ if($todo == 'show'){
 				$count++;
 				
 				while($checkCat != ""){
-					$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$arrFAQparent['parent'][$count - 1].'.xml','r');
+					$xml = new xmlparser(_TCMS_PATH.'/tcms_knowledgebase/'.$arrFAQparent['parent'][$count - 1].'.xml','r');
 					
 					$checkCat = $xml->readSection('faq', 'category');
 					$arrFAQparent['type'][$count]   = $xml->readSection('faq', 'type');
@@ -611,11 +611,11 @@ if($todo == 'show'){
 	$checkCatAmount = 0;
 	
 	if($choosenDB == 'xml'){
-		$arr_products = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/tcms_products/');
+		$arr_products = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_products/');
 		
 		if(isset($arr_products) && !empty($arr_products) && $arr_products != ''){
 			foreach($arr_products as $key => $value){
-				$menu_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_products/'.$value.'/folderinfo.xml','r');
+				$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_products/'.$value.'/folderinfo.xml','r');
 				$chkAcc   = $menu_xml->readSection('folderinfo', 'access');
 				
 				if($id_group == 'Developer' || $id_group == 'Administrator'){ $showAll = true; }
@@ -1528,7 +1528,7 @@ if($todo == 'edit') {
 		.( 
 			trim($wsImage1) == '_empty_' || trim($wsImage1) == '' ? 
 			'<img id="tmp_image_file1" src="../images/no_picture.gif" border="0" />' : 
-			( file_exists('../../'.$tcms_administer_site.'/images/products/'.$wsImage1) ?
+			( file_exists(_TCMS_PATH.'/images/products/'.$wsImage1) ?
 				'<img id="tmp_image_file1" src="../../'.$tcms_administer_site.'/images/products/'.$wsImage1.'" border="0" />' :
 				'<img id="tmp_image_file1" src="../images/no_picture.gif" border="0" />'
 			)
@@ -1551,7 +1551,7 @@ if($todo == 'edit') {
 		.( 
 			trim($wsImage2) == '_empty_' || trim($wsImage2) == '' ? 
 			'<img id="tmp_image_file2" src="../images/no_picture.gif" border="0" />' : 
-			( file_exists('../../'.$tcms_administer_site.'/images/products/'.$wsImage2) ?
+			( file_exists(_TCMS_PATH.'/images/products/'.$wsImage2) ?
 				'<img id="tmp_image_file2" src="../../'.$tcms_administer_site.'/images/products/'.$wsImage2.'" border="0" />' :
 				'<img id="tmp_image_file2" src="../images/no_picture.gif" border="0" />'
 			)
@@ -1574,7 +1574,7 @@ if($todo == 'edit') {
 		.( 
 			trim($wsImage3) == '_empty_' || trim($wsImage3) == '' ? 
 			'<img id="tmp_image_file3" src="../images/no_picture.gif" border="0" />' : 
-			( file_exists('../../'.$tcms_administer_site.'/images/products/'.$wsImage3) ?
+			( file_exists(_TCMS_PATH.'/images/products/'.$wsImage3) ?
 				'<img id="tmp_image_file3" src="../../'.$tcms_administer_site.'/images/products/'.$wsImage3.'" border="0" />' :
 				'<img id="tmp_image_file3" src="../images/no_picture.gif" border="0" />'
 			)
@@ -1597,7 +1597,7 @@ if($todo == 'edit') {
 		.( 
 			trim($wsImage4) == '_empty_' || trim($wsImage4) == '' ? 
 			'<img id="tmp_image_file4" src="../images/no_picture.gif" border="0" />' : 
-			( file_exists('../../'.$tcms_administer_site.'/images/products/'.$wsImage4) ?
+			( file_exists(_TCMS_PATH.'/images/products/'.$wsImage4) ?
 				'<img id="tmp_image_file4" src="../../'.$tcms_administer_site.'/images/products/'.$wsImage4.'" border="0" />' :
 				'<img id="tmp_image_file4" src="../images/no_picture.gif" border="0" />'
 			)
@@ -1683,7 +1683,7 @@ if($todo == 'save_config') {
 	
 	
 	if($choosenDB == 'xml'){
-		$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/products.'.$setLang.'.xml', 'w');
+		$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/products.'.$setLang.'.xml', 'w');
 		$xmluser->xmlDeclaration($c_charset);
 		$xmluser->xmlSection('config');
 		
@@ -1820,7 +1820,7 @@ if($todo == 'save_item') {
 	
 	// save
 	if($choosenDB == 'xml') {
-		/*$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_products/'.$category.'/'.$article.'.xml', 'w');
+		/*$xmluser = new xmlparser(_TCMS_PATH.'/tcms_products/'.$category.'/'.$article.'.xml', 'w');
 		$xmluser->xmlDeclaration();
 		$xmluser->xmlSection('info');
 		
@@ -1891,7 +1891,7 @@ if($todo == 'save') {
 	if($_FILES['new_image1']['size'] > 0 
 	&& $tcms_main->isImage($_FILES['new_image1']['type'], true)){
 		$fileName = $_FILES['new_image1']['name'];
-		$imgDir = '../../'.$tcms_administer_site.'/images/products/';
+		$imgDir = _TCMS_PATH.'/images/products/';
 		
 		copy($_FILES['new_image1']['tmp_name'], $imgDir.$fileName);
 		
@@ -1905,19 +1905,19 @@ if($todo == 'save') {
 	
 	if($tcms_main->isReal($tmp_image1)) {
 		if($tcms_main->isReal($new_image1) && $new_image1 != ''){
-			if(file_exists('../../'.$tcms_administer_site.'/images/products/'.$tmp_image1)) {
-				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$tmp_image1);
-				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$tmp_image1);
-				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$tmp_image1);
+			if(file_exists(_TCMS_PATH.'/images/products/'.$tmp_image1)) {
+				$tcms_file->deleteFile(_TCMS_PATH.'/images/products/'.$tmp_image1);
+				$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_150_'.$tmp_image1);
+				$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_240_'.$tmp_image1);
 			}
 			
 			$new_image1 = $new_image1;
 		}
 		elseif(trim($tmp_image1) == ''){
-			if(file_exists('../../'.$tcms_administer_site.'/images/products/'.$old_image1)) {
-				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$old_image1);
-				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$old_image1);
-				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$old_image1);
+			if(file_exists(_TCMS_PATH.'/images/products/'.$old_image1)) {
+				$tcms_file->deleteFile(_TCMS_PATH.'/images/products/'.$old_image1);
+				$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_150_'.$old_image1);
+				$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_240_'.$old_image1);
 			}
 		}
 		else{
@@ -1929,7 +1929,7 @@ if($todo == 'save') {
 	if($_FILES['new_image2']['size'] > 0 
 	&& $tcms_main->isImage($_FILES['new_image2']['type'], true)){
 		$fileName = $_FILES['new_image2']['name'];
-		$imgDir = '../../'.$tcms_administer_site.'/images/products/';
+		$imgDir = _TCMS_PATH.'/images/products/';
 		
 		copy($_FILES['new_image2']['tmp_name'], $imgDir.$fileName);
 		
@@ -1943,19 +1943,19 @@ if($todo == 'save') {
 	
 	if($tcms_main->isReal($tmp_image2)){
 		if($tcms_main->isReal($new_image2) && $new_image2 != ''){
-			if(file_exists('../../'.$tcms_administer_site.'/images/products/'.$tmp_image2)) {
-				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$tmp_image2);
-				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$tmp_image2);
-				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$tmp_image2);
+			if(file_exists(_TCMS_PATH.'/images/products/'.$tmp_image2)) {
+				$tcms_file->deleteFile(_TCMS_PATH.'/images/products/'.$tmp_image2);
+				$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_150_'.$tmp_image2);
+				$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_240_'.$tmp_image2);
 			}
 			
 			$new_image2 = $new_image2;
 		}
 		elseif(trim($tmp_image2) == ''){
-			if(file_exists('../../'.$tcms_administer_site.'/images/products/'.$old_image2)) {
-				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$old_image2);
-				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$old_image2);
-				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$old_image2);
+			if(file_exists(_TCMS_PATH.'/images/products/'.$old_image2)) {
+				$tcms_file->deleteFile(_TCMS_PATH.'/images/products/'.$old_image2);
+				$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_150_'.$old_image2);
+				$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_240_'.$old_image2);
 			}
 		}
 		else{
@@ -1967,7 +1967,7 @@ if($todo == 'save') {
 	if($_FILES['new_image3']['size'] > 0 
 	&& $tcms_main->isImage($_FILES['new_image3']['type'], true)){
 		$fileName = $_FILES['new_image3']['name'];
-		$imgDir = '../../'.$tcms_administer_site.'/images/products/';
+		$imgDir = _TCMS_PATH.'/images/products/';
 		
 		copy($_FILES['new_image3']['tmp_name'], $imgDir.$fileName);
 		
@@ -1981,19 +1981,19 @@ if($todo == 'save') {
 	
 	if($tcms_main->isReal($tmp_image3)){
 		if($tcms_main->isReal($new_image3) && $new_image3 != ''){
-			if(file_exists('../../'.$tcms_administer_site.'/images/products/'.$tmp_image3)) {
-				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$tmp_image3);
-				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$tmp_image3);
-				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$tmp_image3);
+			if(file_exists(_TCMS_PATH.'/images/products/'.$tmp_image3)) {
+				$tcms_file->deleteFile(_TCMS_PATH.'/images/products/'.$tmp_image3);
+				$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_150_'.$tmp_image3);
+				$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_240_'.$tmp_image3);
 			}
 			
 			$new_image3 = $new_image3;
 		}
 		elseif(trim($tmp_image3) == ''){
-			if(file_exists('../../'.$tcms_administer_site.'/images/products/'.$old_image3)) {
-				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$old_image3);
-				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$old_image3);
-				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$old_image3);
+			if(file_exists(_TCMS_PATH.'/images/products/'.$old_image3)) {
+				$tcms_file->deleteFile(_TCMS_PATH.'/images/products/'.$old_image3);
+				$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_150_'.$old_image3);
+				$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_240_'.$old_image3);
 			}
 		}
 		else{
@@ -2005,7 +2005,7 @@ if($todo == 'save') {
 	if($_FILES['new_image4']['size'] > 0 
 	&& $tcms_main->isImage($_FILES['new_image4']['type'], true)){
 		$fileName = $_FILES['new_image4']['name'];
-		$imgDir = '../../'.$tcms_administer_site.'/images/products/';
+		$imgDir = _TCMS_PATH.'/images/products/';
 		
 		copy($_FILES['new_image4']['tmp_name'], $imgDir.$fileName);
 		
@@ -2019,19 +2019,19 @@ if($todo == 'save') {
 	
 	if($tcms_main->isReal($tmp_image4)){
 		if($tcms_main->isReal($new_image4) && $new_image4 != ''){
-			if(file_exists('../../'.$tcms_administer_site.'/images/products/'.$tmp_image4)) {
-				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$tmp_image4);
-				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$tmp_image4);
-				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$tmp_image4);
+			if(file_exists(_TCMS_PATH.'/images/products/'.$tmp_image4)) {
+				$tcms_file->deleteFile(_TCMS_PATH.'/images/products/'.$tmp_image4);
+				$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_150_'.$tmp_image4);
+				$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_240_'.$tmp_image4);
 			}
 			
 			$new_image4 = $new_image4;
 		}
 		elseif(trim($tmp_image4) == ''){
-			if(file_exists('../../'.$tcms_administer_site.'/images/products/'.$old_image4)) {
-				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$old_image4);
-				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$old_image4);
-				$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$old_image4);
+			if(file_exists(_TCMS_PATH.'/images/products/'.$old_image4)) {
+				$tcms_file->deleteFile(_TCMS_PATH.'/images/products/'.$old_image4);
+				$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_150_'.$old_image4);
+				$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_240_'.$old_image4);
 			}
 		}
 		else{
@@ -2090,7 +2090,7 @@ if($todo == 'save') {
 	
 	// save
 	if($choosenDB == 'xml') {
-		/*$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_products/'.$category.'/'.$article.'.xml', 'w');
+		/*$xmluser = new xmlparser(_TCMS_PATH.'/tcms_products/'.$category.'/'.$article.'.xml', 'w');
 		$xmluser->xmlDeclaration();
 		$xmluser->xmlSection('info');
 		
@@ -2211,7 +2211,7 @@ if($todo == 'changePublish'){
 		case 'off':
 			if($choosenDB == 'xml') {
 				xmlparser::edit_value(
-					'../../'.$tcms_administer_site.'/tcms_products/'.$maintag.'.xml',
+					_TCMS_PATH.'/tcms_products/'.$maintag.'.xml',
 					'publish_state',
 					'1',
 					'0'
@@ -2247,7 +2247,7 @@ if($todo == 'changePublish'){
 		case 'on':
 			if($choosenDB == 'xml') {
 				xmlparser::edit_value(
-					'../../'.$tcms_administer_site.'/tcms_products/'.$maintag.'.xml',
+					_TCMS_PATH.'/tcms_products/'.$maintag.'.xml',
 					'publish_state',
 					'0',
 					'1'
@@ -2295,7 +2295,7 @@ if($todo == 'enableMainpage') {
 		case 'off':
 			if($choosenDB == 'xml') {
 				xmlparser::edit_value(
-					'../../'.$tcms_administer_site.'/tcms_products/'.$maintag.'.xml',
+					_TCMS_PATH.'/tcms_products/'.$maintag.'.xml',
 					'show_on_startpage',
 					'1',
 					'0'
@@ -2331,7 +2331,7 @@ if($todo == 'enableMainpage') {
 		case 'on':
 			if($choosenDB == 'xml') {
 				xmlparser::edit_value(
-					'../../'.$tcms_administer_site.'/tcms_products/'.$maintag.'.xml',
+					_TCMS_PATH.'/tcms_products/'.$maintag.'.xml',
 					'show_on_startpage',
 					'0',
 					'1'
@@ -2377,36 +2377,36 @@ if($todo == 'delete'){
 	if($choosenDB == 'xml') {
 		if($type == 'c') {
 			/*$tcms_main->deleteDir(
-				'../../'.$tcms_administer_site.'/tcms_products/'.$maintag.'/'
+				_TCMS_PATH.'/tcms_products/'.$maintag.'/'
 			);*/
-			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/tcms_products/'.$maintag);
+			$tcms_file->deleteFile(_TCMS_PATH.'/tcms_products/'.$maintag);
 		}
 		else {
 			/*$tcms_main->deleteDir(
-				'../../'.$tcms_administer_site.'/tcms_products/'.$maintag.'/'
+				_TCMS_PATH.'/tcms_products/'.$maintag.'/'
 			);*/
 			/*
 			// delete image 1
-			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$sqlObj->image1);
-			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$sqlObj->image1);
-			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$sqlObj->image1);
+			$tcms_file->deleteFile(_TCMS_PATH.'/images/products/'.$sqlObj->image1);
+			$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_150_'.$sqlObj->image1);
+			$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_240_'.$sqlObj->image1);
 			
 			// delete image 2
-			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$sqlObj->image2);
-			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$sqlObj->image2);
-			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$sqlObj->image2);
+			$tcms_file->deleteFile(_TCMS_PATH.'/images/products/'.$sqlObj->image2);
+			$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_150_'.$sqlObj->image2);
+			$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_240_'.$sqlObj->image2);
 			
 			// delete image 3
-			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$sqlObj->image3);
-			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$sqlObj->image3);
-			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$sqlObj->image3);
+			$tcms_file->deleteFile(_TCMS_PATH.'/images/products/'.$sqlObj->image3);
+			$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_150_'.$sqlObj->image3);
+			$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_240_'.$sqlObj->image3);
 			
 			// delete image 4
-			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$sqlObj->image4);
-			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$sqlObj->image4);
-			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$sqlObj->image4);
+			$tcms_file->deleteFile(_TCMS_PATH.'/images/products/'.$sqlObj->image4);
+			$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_150_'.$sqlObj->image4);
+			$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_240_'.$sqlObj->image4);
 			*/
-			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/tcms_products/'.$maintag);
+			$tcms_file->deleteFile(_TCMS_PATH.'/tcms_products/'.$maintag);
 		}
 	}
 	else {
@@ -2447,24 +2447,24 @@ if($todo == 'delete'){
 			$sqlObj = $sqlAL->fetchObject($sqlQR);
 			
 			// delete image 1
-			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$sqlObj->image1);
-			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$sqlObj->image1);
-			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$sqlObj->image1);
+			$tcms_file->deleteFile(_TCMS_PATH.'/images/products/'.$sqlObj->image1);
+			$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_150_'.$sqlObj->image1);
+			$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_240_'.$sqlObj->image1);
 			
 			// delete image 2
-			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$sqlObj->image2);
-			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$sqlObj->image2);
-			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$sqlObj->image2);
+			$tcms_file->deleteFile(_TCMS_PATH.'/images/products/'.$sqlObj->image2);
+			$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_150_'.$sqlObj->image2);
+			$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_240_'.$sqlObj->image2);
 			
 			// delete image 3
-			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$sqlObj->image3);
-			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$sqlObj->image3);
-			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$sqlObj->image3);
+			$tcms_file->deleteFile(_TCMS_PATH.'/images/products/'.$sqlObj->image3);
+			$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_150_'.$sqlObj->image3);
+			$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_240_'.$sqlObj->image3);
 			
 			// delete image 4
-			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products/'.$sqlObj->image4);
-			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$sqlObj->image4);
-			$tcms_main->deleteFile('../../'.$tcms_administer_site.'/images/products_thumb/thumb_240_'.$sqlObj->image4);
+			$tcms_file->deleteFile(_TCMS_PATH.'/images/products/'.$sqlObj->image4);
+			$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_150_'.$sqlObj->image4);
+			$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_240_'.$sqlObj->image4);
 			
 			$sqlRes = $sqlAL->query(
 				"DELETE FROM ".$tcms_db_prefix."products WHERE uid = '".$maintag."'"

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the register functions.
  *
- * @version 0.6.3
+ * @version 0.6.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -135,10 +135,10 @@ if($cmd == 'retrieve') {
 	}
 	else {
 		if($choosenDB == 'xml') {
-			$arr_filename = $tcms_main->getPathContent($tcms_administer_site.'/tcms_user/');
+			$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_user/');
 			
 			foreach($arr_filename as $key => $value) {
-				$user_login_xml = new xmlparser($tcms_administer_site.'/tcms_user/'.$value,'r');
+				$user_login_xml = new xmlparser(_TCMS_PATH.'/tcms_user/'.$value,'r');
 				
 				$arr_maintag[$key] = substr($value, 0, 32);
 				$ws_username       = $user_login_xml->readSection('user', 'username');
@@ -205,7 +205,7 @@ if($cmd == 'retrieve') {
 				$old_value = $arr_login['password'][$fulluser2];
 				
 				if($choosenDB == 'xml'){
-					xmlparser::edit_value($tcms_administer_site.'/tcms_user/'.$user_file.'.xml', 'password', $old_value, $savepass2);
+					xmlparser::edit_value(_TCMS_PATH.'/tcms_user/'.$user_file.'.xml', 'password', $old_value, $savepass2);
 				}
 				else{
 					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -285,7 +285,7 @@ if($cmd == 'retrieve') {
 
 if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 	if($choosenDB == 'xml'){
-		$side_ext_xml = new xmlparser($tcms_administer_site.'/tcms_global/sidebar.xml','r');
+		$side_ext_xml = new xmlparser(_TCMS_PATH.'/tcms_global/sidebar.xml','r');
 		$show_login = $use_login;
 		$login_user = $side_ext_xml->readSection('side', 'login_user');
 	}
@@ -560,9 +560,9 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 					$checkUsername = true;
 					
 					if($choosenDB == 'xml'){
-						$arr_filename = $tcms_main->getPathContent($tcms_administer_site.'/tcms_user/');
+						$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_user/');
 						foreach($arr_filename as $keyz => $value){
-							$login_xml = new xmlparser($tcms_administer_site.'/tcms_user/'.$value, 'r');
+							$login_xml = new xmlparser(_TCMS_PATH.'/tcms_user/'.$value, 'r');
 							$ws_username = $login_xml->readSection('user', 'username');
 							
 							if($ws_username == $fulluser){ $checkUsername = false; }
@@ -587,7 +587,7 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 						$pass2 = md5($pass_md5);
 						
 						if($choosenDB == 'xml'){
-							while(($validate_md5 = md5(microtime())) && file_exists($tcms_administer_site.'/tcms_user/'.$validate_md5.'.xml')){}
+							while(($validate_md5 = md5(microtime())) && file_exists(_TCMS_PATH.'/tcms_user/'.$validate_md5.'.xml')){}
 							
 							$fullname = $tcms_main->decode_text($fullname, '2', $c_charset);
 							$fulluser2 = $tcms_main->decode_text($fulluser, '2', $c_charset);
@@ -880,11 +880,11 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 						$username    = $tcms_main->decodeText($username, '2', $c_charset);
 						
 						// COPY AND DELETE TMP
-						copy('cache/'.$validation.'.xml', $imagePath.$tcms_administer_site.'/tcms_user/'.$ws_agree.'.xml');
+						copy('cache/'.$validation.'.xml', $imagePath._TCMS_PATH.'/tcms_user/'.$ws_agree.'.xml');
 						unlink('cache/'.$validation.'.xml');
 						
 						// NOTEBOOK
-						$xmluser = new xmlparser($tcms_administer_site.'/tcms_notepad/'.$ws_agree.'.xml','w');
+						$xmluser = new xmlparser(_TCMS_PATH.'/tcms_notepad/'.$ws_agree.'.xml','w');
 						$xmluser->xml_declaration();
 						$xmluser->xml_section('note');
 						

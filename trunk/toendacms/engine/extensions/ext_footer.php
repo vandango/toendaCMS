@@ -23,13 +23,11 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a footer.
  *
- * @version 0.5.0
+ * @version 0.5.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
  */
-
-include_once(_VERSION);
 
 
 echo '<div class="legal">';

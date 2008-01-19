@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a contactform with a internal
  * adressbook with vcard export.
  *
- * @version 0.8.8
+ * @version 0.9.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -91,10 +91,10 @@ if($cform_enabled == 1){
 			.'</form><br />';
 		}
 		
-		if($choosenDB == 'xml'){
-			$arr_sbc = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_contacts/');
+		if($choosenDB == 'xml') {
+			$arr_sbc = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_contacts/');
 			foreach ($arr_sbc as $key => $value){
-				$contacts_xml = new xmlparser($tcms_administer_site.'/tcms_contacts/'.$value,'r');
+				$contacts_xml = new xmlparser(_TCMS_PATH.'/tcms_contacts/'.$value,'r');
 				$tc_pub = $contacts_xml->read_section('contact', 'published');
 				
 				if($tc_pub == 1){

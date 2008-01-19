@@ -20,7 +20,7 @@
  *
  * This file is used to create a user.
  *
- * @version 0.1.9
+ * @version 0.2.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -174,13 +174,13 @@ if($todo == 'save'){
 	//***************************************
 	require('../'.$tcms_administer_site.'/tcms_global/database.php');
 	
-	$new_engine   = $tcms_main->secure_password($tcms_db_engine, 'en');
-	$new_user     = $tcms_main->secure_password($tcms_db_user, 'en');
-	$new_password = $tcms_main->secure_password($tcms_db_password, 'en');
-	$new_host     = $tcms_main->secure_password($tcms_db_host, 'en');
-	$new_database = $tcms_main->secure_password($tcms_db_database, 'en');
-	$new_port     = $tcms_main->secure_password($tcms_db_port, 'en');
-	$new_prefix   = $tcms_main->secure_password($tcms_db_prefix, 'en');
+	$new_engine   = $tcms_db_engine;
+	$new_user     = $tcms_db_user;
+	$new_password = $tcms_db_password;
+	$new_host     = $tcms_db_host;
+	$new_database = $tcms_db_database;
+	$new_port     = $tcms_db_port;
+	$new_prefix   = $tcms_db_prefix;
 	
 	
 	

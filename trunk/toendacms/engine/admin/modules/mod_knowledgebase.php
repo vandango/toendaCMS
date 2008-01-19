@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used as a Knowledgebase.
  *
- * @version 0.5.5
+ * @version 0.5.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -85,7 +85,7 @@ if($show_wysiwyg == 'tinymce'){
 if($todo == 'config'){
 	if($id_group == 'Developer' || $id_group == 'Administrator'){
 		if($choosenDB == 'xml'){
-			$knowledgebase_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/knowledgebase.xml','r');
+			$knowledgebase_xml = new xmlparser(_TCMS_PATH.'/tcms_global/knowledgebase.xml','r');
 			
 			$faq_title         = $knowledgebase_xml->readSection('config', 'title');
 			$faq_subtitle      = $knowledgebase_xml->readSection('config', 'subtitle');
@@ -160,7 +160,7 @@ if($todo == 'config'){
 		//*********************************************************************************
 		// MEDIACENTER CONFIG
 		
-		$arr_media = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/images/Image');
+		$arr_media = $tcms_file->getPathContent(_TCMS_PATH.'/images/Image');
 		
 		
 		
@@ -276,7 +276,7 @@ if($todo == 'show'){
 		if($choosenDB == 'xml') {
 			$count = 0;
 			
-			$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$category.'.xml','r');
+			$xml = new xmlparser(_TCMS_PATH.'/tcms_knowledgebase/'.$category.'.xml','r');
 			
 			//$access_cat = $down_xml->readSection('faq', 'access');
 			
@@ -296,7 +296,7 @@ if($todo == 'show'){
 				$count++;
 				
 				while($checkCat != ""){
-					$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$arrFAQparent['parent'][$count - 1].'.xml','r');
+					$xml = new xmlparser(_TCMS_PATH.'/tcms_knowledgebase/'.$arrFAQparent['parent'][$count - 1].'.xml','r');
 					
 					$checkCat = $xml->readSection('faq', 'category');
 					$arrFAQparent['type'][$count]   = $xml->readSection('faq', 'type');
@@ -415,14 +415,14 @@ if($todo == 'show'){
 	
 	$arrFAQ = '';
 	
-	if($choosenDB == 'xml'){
-		$arr_filename = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/tcms_knowledgebase/');
+	if($choosenDB == 'xml') {
+		$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_knowledgebase/');
 		
 		$count = 0;
 		
-		if(is_array($arr_filename)){
-			foreach($arr_filename as $key => $value){
-				$menu_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$value,'r');
+		if(is_array($arr_filename)) {
+			foreach($arr_filename as $key => $value) {
+				$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_knowledgebase/'.$value,'r');
 				$checkCat = $menu_xml->readSection('faq', 'category');
 				
 				
@@ -695,7 +695,7 @@ if($todo == 'show'){
 if($todo == 'edit') {
 	if($tcms_main->isReal($maintag)) {
 		if($choosenDB == 'xml') {
-			$menu_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$maintag.'.xml','r');
+			$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_knowledgebase/'.$maintag.'.xml','r');
 			$arrFAQ_title   = $menu_xml->readSection('faq', 'title');
 			$arrFAQ_subt    = $menu_xml->readSection('faq', 'subtitle');
 			$arrFAQ_content = $menu_xml->readSection('faq', 'content');
@@ -1050,7 +1050,7 @@ if($todo == 'changePublish'){
 		// Take it off
 		case 'off':
 			if($choosenDB == 'xml') {
-				xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$maintag.'.xml', 'publish_state', '2', '0');
+				xmlparser::edit_value(_TCMS_PATH.'/tcms_knowledgebase/'.$maintag.'.xml', 'publish_state', '2', '0');
 			}
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -1081,7 +1081,7 @@ if($todo == 'changePublish'){
 		// Take it on
 		case 'on':
 			if($choosenDB == 'xml'){
-				xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$maintag.'.xml', 'publish_state', '1', '2');
+				xmlparser::edit_value(_TCMS_PATH.'/tcms_knowledgebase/'.$maintag.'.xml', 'publish_state', '1', '2');
 			}
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -1112,7 +1112,7 @@ if($todo == 'changePublish'){
 		// Take it on
 		case 'st':
 			if($choosenDB == 'xml'){
-				xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$maintag.'.xml', 'publish_state', '0', '1');
+				xmlparser::edit_value(_TCMS_PATH.'/tcms_knowledgebase/'.$maintag.'.xml', 'publish_state', '0', '1');
 			}
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -1183,7 +1183,7 @@ if($todo == 'save_config'){
 	
 	
 	if($choosenDB == 'xml'){
-		$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/knowledgebase.xml', 'w');
+		$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/knowledgebase.xml', 'w');
 		$xmluser->xml_declaration();
 		$xmluser->xml_section('config');
 		
@@ -1258,7 +1258,7 @@ if($todo == 'save'){
 			$_POST['CatCount'] = 0;
 		}
 		
-		$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$maintag.'.xml', 'w');
+		$xmluser = new xmlparser(_TCMS_PATH.'/tcms_knowledgebase/'.$maintag.'.xml', 'w');
 		$xmluser->xml_declaration();
 		$xmluser->xml_section('faq');
 		
@@ -1352,7 +1352,7 @@ if($todo == 'next'){
 	
 	
 	if($choosenDB == 'xml'){
-		$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$maintag.'.xml', 'w');
+		$xmluser = new xmlparser(_TCMS_PATH.'/tcms_knowledgebase/'.$maintag.'.xml', 'w');
 		$xmluser->xml_declaration();
 		$xmluser->xml_section('faq');
 		
@@ -1423,7 +1423,7 @@ if($todo == 'next'){
 
 if($todo == 'delete'){
 	if($choosenDB == 'xml'){
-		unlink('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$maintag.'.xml');
+		unlink(_TCMS_PATH.'/tcms_knowledgebase/'.$maintag.'.xml');
 	}
 	else{
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);

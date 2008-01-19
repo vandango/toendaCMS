@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the guestbook entrys.
  *
- * @version 0.1.6
+ * @version 0.2.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -65,13 +65,13 @@ if($id_group == 'Developer'
 		echo tcms_html::text(_BOOK_TEXT.'<br /><br />', 'left');
 		
 		if($choosenDB == 'xml'){
-			$arr_filename = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_guestbook/');
+			$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_guestbook/');
 			
 			$count = 0;
 			
 			if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
 				foreach($arr_filename as $key => $value){
-					$menu_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_guestbook/'.$value,'r');
+					$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_guestbook/'.$value,'r');
 					
 					$arrCat['uid'][$count]  = substr($value, 0, 32);
 					$arrCat['name'][$count] = $menu_xml->read_section('entry', 'name');
@@ -211,7 +211,7 @@ if($id_group == 'Developer'
 	if($todo == 'edit') {
 		if(isset($maintag) && !empty($maintag) && $maintag != ''){
 			if($choosenDB == 'xml'){
-				$user_xml  = new xmlparser('../../'.$tcms_administer_site.'/tcms_guestbook/'.$maintag.'.xml','r');
+				$user_xml  = new xmlparser(_TCMS_PATH.'/tcms_guestbook/'.$maintag.'.xml','r');
 				
 				$guest_name =  $user_xml->read_value('name');
 				$guest_mail =  $user_xml->read_value('email');
@@ -282,7 +282,7 @@ if($id_group == 'Developer'
 			$guest_date = date('d.m.Y');
 			$guest_time = date('H:i');
 			
-			if($choosenDB == 'xml'){ while(($maintag=substr(md5(time()),0,32)) && file_exists('../../'.$tcms_administer_site.'/tcms_guestbook/'.$maintag.'.xml')){} }
+			if($choosenDB == 'xml'){ while(($maintag=substr(md5(time()),0,32)) && file_exists(_TCMS_PATH.'/tcms_guestbook/'.$maintag.'.xml')){} }
 			else{ $maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'guestbook_items', 32); }
 			
 			echo tcms_html::bold(_TABLE_NEW);
@@ -394,7 +394,7 @@ if($id_group == 'Developer'
 		
 		
 		if($choosenDB == 'xml'){
-			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_guestbook/'.$maintag.'.xml', 'w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_guestbook/'.$maintag.'.xml', 'w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('entry');
 			
@@ -459,7 +459,7 @@ if($id_group == 'Developer'
 	
 	if($todo == 'delete'){
 		if($choosenDB == 'xml') {
-			unlink('../../'.$tcms_administer_site.'/tcms_guestbook/'.$maintag.'.xml');
+			unlink(_TCMS_PATH.'/tcms_guestbook/'.$maintag.'.xml');
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
@@ -482,7 +482,7 @@ if($id_group == 'Developer'
 	
 	if($todo == 'deleteall'){
 		if($choosenDB == 'xml') {
-			$tcms_main->deleteDirContent('../../'.$tcms_administer_site.'/tcms_guestbook/');
+			$tcms_main->deleteDirContent(_TCMS_PATH.'/tcms_guestbook/');
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB);

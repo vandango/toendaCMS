@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used for the download configuration
  * and the administration of all the downloads.
  *
- * @version 0.7.4
+ * @version 0.7.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -83,7 +83,7 @@ $arr_farbe[0] = $arr_color[0];
 $arr_farbe[1] = $arr_color[1];
 $bgkey     = 0;
 
-$arr_downfiles = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/files/');
+$arr_downfiles = $tcms_file->getPathContent(_TCMS_PATH.'/files/');
 
 
 
@@ -98,7 +98,7 @@ if($param_save_mode == 'off'){
 		
 		if($todo == 'config'){
 			if($choosenDB == 'xml'){
-				$down_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/download.xml','r');
+				$down_xml = new xmlparser(_TCMS_PATH.'/tcms_global/download.xml','r');
 				$old_download_id    = $down_xml->readSection('config', 'download_id');
 				$old_download_title = $down_xml->readSection('config', 'download_title');
 				$old_download_stamp = $down_xml->readSection('config', 'download_stamp');
@@ -202,7 +202,7 @@ if($param_save_mode == 'off'){
 					$count = 0;
 					
 					if($category != ''){
-						$xml = new xmlparser('../../'.$tcms_administer_site.'/files/'.$category.'/info.xml', 'r');
+						$xml = new xmlparser(_TCMS_PATH.'/files/'.$category.'/info.xml', 'r');
 						
 						//$access_cat = $down_xml->readSection('faq', 'access');
 						
@@ -238,7 +238,7 @@ if($param_save_mode == 'off'){
 						}
 						
 						while($checkCat != ''){
-							$xml = new xmlparser('../../'.$tcms_administer_site.'/files/'.$arrDownParent['parent'][$count - 1].'/info.xml', 'r');
+							$xml = new xmlparser(_TCMS_PATH.'/files/'.$arrDownParent['parent'][$count - 1].'/info.xml', 'r');
 							
 							$checkCat = $xml->readSection('info', 'cat');
 							$arrDownParent['type'][$count]   = $xml->readSection('info', 'sql_type');
@@ -355,7 +355,7 @@ if($param_save_mode == 'off'){
 				if(isset($arr_downfiles) && !empty($arr_downfiles) && $arr_downfiles != ''){
 					foreach($arr_downfiles as $key => $value){
 						if($value != 'index.html'){
-							$xml      = new xmlparser('../../'.$tcms_administer_site.'/files/'.$value.'/info.xml','r');
+							$xml      = new xmlparser(_TCMS_PATH.'/files/'.$value.'/info.xml','r');
 							$checkPub = $xml->readSection('info', 'pub');
 							
 							
@@ -1063,7 +1063,7 @@ if($param_save_mode == 'off'){
 			$download_text = $tcms_main->nl2br($download_text);
 			
 			if($choosenDB == 'xml'){
-				$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/download.xml', 'w');
+				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/download.xml', 'w');
 				$xmluser->xml_declaration();
 				$xmluser->xml_section('config');
 				
@@ -1111,7 +1111,7 @@ if($param_save_mode == 'off'){
 				
 			if($new_sort == ''){
 				if($choosenDB == 'xml'){
-					$max_files = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/files/');
+					$max_files = $tcms_file->getPathContent(_TCMS_PATH.'/files/');
 					$new_sort = count($max_files) + 1;
 				}
 				else{
@@ -1149,14 +1149,14 @@ if($param_save_mode == 'off'){
 			
 			if($createMe){
 				$old_umask = umask(0);
-				mkdir('../../'.$tcms_administer_site.'/files/'.$maintag, 0777);
+				mkdir(_TCMS_PATH.'/files/'.$maintag, 0777);
 				umask($old_umask);
 				
 				
 				/*
 					toendaCMS 403 Error page
 				*/
-				$fp = fopen('../../'.$tcms_administer_site.'/files/'.$maintag.'/index.html', 'w');
+				$fp = fopen(_TCMS_PATH.'/files/'.$maintag.'/index.html', 'w');
 				fwrite($fp, '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'
 				.'<html xmlns="http://www.w3.org/1999/xhtml">'
 				.'<head><title>toendaCMS Error 403: Forbidden!</title><meta name="generator" content="'.$cms_name.' - '.$cms_tagline.' | Copyright '.$toenda_copy.' Toenda Software Development. '._TCMS_ADMIN_RIGHT.'" /></head>'
@@ -1167,7 +1167,7 @@ if($param_save_mode == 'off'){
 			
 			
 			if($choosenDB == 'xml'){
-				$xmluser = new xmlparser('../../'.$tcms_administer_site.'/files/'.$maintag.'/info.xml', 'w');
+				$xmluser = new xmlparser(_TCMS_PATH.'/files/'.$maintag.'/info.xml', 'w');
 				$xmluser->xml_declaration();
 				$xmluser->xml_section('info');
 				
@@ -1343,7 +1343,7 @@ if($param_save_mode == 'off'){
 				*/
 				if(!isset($new_sort) || $new_sort == '' || empty($new_sort)){
 					if($choosenDB == 'xml'){
-						$max_files = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/files/');
+						$max_files = $tcms_file->getPathContent(_TCMS_PATH.'/files/');
 						$down_sort = count($max_files) + 1;
 					}
 					else{
@@ -1385,15 +1385,15 @@ if($param_save_mode == 'off'){
 					CREATE FOLDER
 				*/
 				if($createMe){
-					if(!is_dir('../../'.$tcms_administer_site.'/files/'.$maintag)){
+					if(!is_dir(_TCMS_PATH.'/files/'.$maintag)){
 						$old_umask = umask(0);
-						mkdir('../../'.$tcms_administer_site.'/files/'.$maintag, 0777);
+						mkdir(_TCMS_PATH.'/files/'.$maintag, 0777);
 						umask($old_umask);
 						
 						/*
 							toendaCMS 403 Error page
 						*/
-						$fp = fopen('../../'.$tcms_administer_site.'/files/'.$maintag.'/index.html', 'w');
+						$fp = fopen(_TCMS_PATH.'/files/'.$maintag.'/index.html', 'w');
 						fwrite($fp, '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'
 						.'<html xmlns="http://www.w3.org/1999/xhtml">'
 						.'<head><title>toendaCMS Error 403: Forbidden!</title><meta name="generator" content="'.$cms_name.' - '.$cms_tagline.' | Copyright '.$toenda_copy.' Toenda Software Development. '._TCMS_ADMIN_RIGHT.'" /></head>'
@@ -1409,7 +1409,7 @@ if($param_save_mode == 'off'){
 					UPLOAD FILE
 				*/
 				if($file_up == true){
-					$down_dir = '../../'.$tcms_administer_site.'/files/'.$maintag.'/';
+					$down_dir = _TCMS_PATH.'/files/'.$maintag.'/';
 					
 					$down_file = str_replace(' ', '_', $down_file);
 					$down_file = str_replace('Ü', 'Ue', $down_file);
@@ -1428,8 +1428,8 @@ if($param_save_mode == 'off'){
 				}
 				
 				if($fileplace == 2){
-					$down_dir = '../../'.$tcms_administer_site.'/files/';
-					$new_dir = '../../'.$tcms_administer_site.'/files/'.$maintag.'/';
+					$down_dir = _TCMS_PATH.'/files/';
+					$new_dir = _TCMS_PATH.'/files/'.$maintag.'/';
 					
 					copy($down_dir.$down_file, $new_dir.$down_file);
 					
@@ -1450,7 +1450,7 @@ if($param_save_mode == 'off'){
 					$_FILES['down_image']['type'] == 'image/bmp')){
 						$image_up = true;
 						
-						$down_dir = '../../'.$tcms_administer_site.'/files/'.$maintag.'/';
+						$down_dir = _TCMS_PATH.'/files/'.$maintag.'/';
 						$down_image = $_FILES['down_image']['name'];
 						
 						copy($_FILES['down_image']['tmp_name'], $down_dir.$down_image);
@@ -1467,8 +1467,8 @@ if($param_save_mode == 'off'){
 						if($img_as_mime == '1'){
 							$down_image = '_mimetypes_';
 							
-							if(file_exists('../../'.$tcms_administer_site.'/files/'.$maintag.'/'.$new_image))
-								unlink('../../'.$tcms_administer_site.'/files/'.$maintag.'/'.$new_image);
+							if(file_exists(_TCMS_PATH.'/files/'.$maintag.'/'.$new_image))
+								unlink(_TCMS_PATH.'/files/'.$maintag.'/'.$new_image);
 						}
 						else{
 							$down_image = $new_image;
@@ -1485,7 +1485,7 @@ if($param_save_mode == 'off'){
 					and now: save
 				*/
 				if($choosenDB == 'xml'){
-					$xmluser = new xmlparser('../../'.$tcms_administer_site.'/files/'.$maintag.'/info.xml', 'w');
+					$xmluser = new xmlparser(_TCMS_PATH.'/files/'.$maintag.'/info.xml', 'w');
 					$xmluser->xml_declaration();
 					$xmluser->xml_section('info');
 					
@@ -1590,8 +1590,8 @@ if($param_save_mode == 'off'){
 						while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 							$new_maintag = $sqlARR['uid'];
 							
-							if(is_dir('../../'.$tcms_administer_site.'/files/'.$maintag.'/'))
-								$tcms_main->rmdirr('../../'.$tcms_administer_site.'/files/'.$new_maintag.'/');
+							if(is_dir(_TCMS_PATH.'/files/'.$maintag.'/'))
+								$tcms_main->rmdirr(_TCMS_PATH.'/files/'.$new_maintag.'/');
 							
 							$sqlQR = $sqlAL->sqlQuery("DELETE FROM ".$tcms_db_prefix."downloads WHERE cat='".$new_maintag."'");
 							
@@ -1604,8 +1604,8 @@ if($param_save_mode == 'off'){
 					//}
 				}
 				
-				if(is_dir('../../'.$tcms_administer_site.'/files/'.$maintag.'/'))
-					$tcms_main->rmdirr('../../'.$tcms_administer_site.'/files/'.$maintag.'/');
+				if(is_dir(_TCMS_PATH.'/files/'.$maintag.'/'))
+					$tcms_main->rmdirr(_TCMS_PATH.'/files/'.$maintag.'/');
 				
 				echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_download'.( $category == '' || !isset($category) ? '' : '&category='.$category ).'\';</script>';
 			}

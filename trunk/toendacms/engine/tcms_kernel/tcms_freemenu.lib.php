@@ -10,6 +10,7 @@
 | Free Menu Entrys
 |
 | File:	tcms_freemenu.lib.php
+|
 +
 */
 
@@ -22,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for globar backend values.
  *
- * @version 0.5.4
+ * @version 0.5.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -179,10 +180,10 @@ $mod_title['show']['mod_about'] = '';
 //
 if($site == 'mod_newpage' || $site == 'mod_sidemenu'){
 	/*if($choosenDB == 'xml'){
-		$arrMenuItems = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_menu/');
+		$arrMenuItems = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_menu/');
 		foreach($arrMenuItems as $key => $val){
 			if($val != 'index.html'){
-				$xmlFileList = new xmlparser('../../'.$tcms_administer_site.'/tcms_menu/'.$val,'r');
+				$xmlFileList = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$val,'r');
 				$arrXMLID[$key] = $xmlFileList->read_section('menu', 'link');
 			}
 		}
@@ -276,12 +277,12 @@ if($site == 'mod_newpage' || $site == 'mod_sidemenu'){
 	
 	unset($arrDocuments);
 	
-	$arrDocuments = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/components/');
+	$arrDocuments = $tcms_file->getPathContent(_TCMS_PATH.'/components/');
 	
 	if($tcms_main->isArray($arrDocuments)){
 		foreach($arrDocuments as $key => $val){
 			if($val != 'index.html'){
-				$csXML = new xmlparser('../../'.$tcms_administer_site.'/components/'.$val.'/component.xml', 'r');
+				$csXML = new xmlparser(_TCMS_PATH.'/components/'.$val.'/component.xml', 'r');
 				$chkXML = $csXML->readValue('mainCS');
 				
 				if($chkXML == 1){
@@ -304,12 +305,12 @@ if($site == 'mod_newpage' || $site == 'mod_sidemenu'){
 	
 	
 	if($choosenDB == 'xml'){
-		$arrDocuments = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/tcms_content/');
+		$arrDocuments = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_content/');
 		
 		if($tcms_main->isArray($arrDocuments)){
 			foreach($arrDocuments as $key => $val){
 				if($val != 'index.html'){
-					$xmlFileList    = new xmlparser('../../'.$tcms_administer_site.'/tcms_content/'.$val,'r');
+					$xmlFileList    = new xmlparser(_TCMS_PATH.'/tcms_content/'.$val,'r');
 					$xmlID    = $xmlFileList->readSection('main', 'id');
 					
 					//if(!in_array($xmlID, $arrXMLID)){
@@ -365,10 +366,10 @@ if($site == 'mod_newpage' || $site == 'mod_sidemenu'){
 
 if($site == 'mod_topmenu'){
 	/*if($choosenDB == 'xml'){
-		$arrMenuItems = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_topmenu/');
+		$arrMenuItems = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_topmenu/');
 		foreach($arrMenuItems as $key => $val){
 			if($val != 'index.html'){
-				$xmlFileList = new xmlparser('../../'.$tcms_administer_site.'/tcms_topmenu/'.$val,'r');
+				$xmlFileList = new xmlparser(_TCMS_PATH.'/tcms_topmenu/'.$val,'r');
 				$arrXMLID[$key] = $xmlFileList->read_section('top', 'link');
 			}
 		}
@@ -462,12 +463,12 @@ if($site == 'mod_topmenu'){
 	
 	unset($arrDocuments);
 	
-	$arrDocuments = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/components/');
+	$arrDocuments = $tcms_file->getPathContent(_TCMS_PATH.'/components/');
 	
 	if($tcms_main->isArray($arrDocuments)){
 		foreach($arrDocuments as $key => $val){
 			if($val != 'index.html'){
-				$csXML = new xmlparser('../../'.$tcms_administer_site.'/components/'.$val.'/component.xml', 'r');
+				$csXML = new xmlparser(_TCMS_PATH.'/components/'.$val.'/component.xml', 'r');
 				$chkXML = $csXML->readValue('mainCS');
 				
 				if($chkXML == 1){
@@ -491,12 +492,12 @@ if($site == 'mod_topmenu'){
 	
 	
 	if($choosenDB == 'xml'){
-		$arrDocuments = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/tcms_content/');
+		$arrDocuments = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_content/');
 		
 		if($tcms_main->isArray($arrDocuments)){
 			foreach($arrDocuments as $key => $val){
 				if($val != 'index.html'){
-					$xmlFileList    = new xmlparser('../../'.$tcms_administer_site.'/tcms_content/'.$val,'r');
+					$xmlFileList    = new xmlparser(_TCMS_PATH.'/tcms_content/'.$val,'r');
 					$xmlID    = $xmlFileList->readSection('main', 'id');
 					
 					//if(!in_array($xmlID, $arrXMLID)){
@@ -551,12 +552,12 @@ if($site == 'mod_topmenu'){
 // NEWS CATEGORIES
 //
 if($choosenDB == 'xml'){
-	$arrCatFiles = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/tcms_news_categories/');
+	$arrCatFiles = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_news_categories/');
 	
 	if($tcms_main->isArray($arrCatFiles)){
 		foreach($arrCatFiles as $key => $value){
 			if($value != 'index.html'){
-				$menu_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_news_categories/'.$value,'r');
+				$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$value,'r');
 				$arrNewsCat['tag'][$key]  = substr($value, 0, 5);
 				$arrNewsCat['name'][$key] = $menu_xml->readSection('cat', 'name');
 				$arrNewsCat['desc'][$key] = $menu_xml->readSection('cat', 'desc');
@@ -607,13 +608,13 @@ else{
 // USER
 //
 if($choosenDB == 'xml'){
-	$arr_userfiles = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/tcms_user/');
+	$arr_userfiles = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_user/');
 	
 	$count = 0;
 	
 	if($tcms_main->isArray($arr_userfiles)){
 		foreach($arr_userfiles as $key => $value){
-			$menu_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_user/'.$value,'r');
+			$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_user/'.$value,'r');
 			$isEnabled = $menu_xml->readSection('user', 'enabled');
 			
 			if($isEnabled == 1){
@@ -674,12 +675,12 @@ if($site == 'mod_knowledgebase'){
 	if($choosenDB == 'xml'){
 		$count = 0;
 		
-		$arr_files = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/tcms_knowledgebase/');
+		$arr_files = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_knowledgebase/');
 		
 		if($tcms_main->isArray($arr_files)){
 			foreach($arr_files as $key => $value){
 				if($value != 'index.html'){
-					$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_knowledgebase/'.$value,'r');
+					$xml = new xmlparser(_TCMS_PATH.'/tcms_knowledgebase/'.$value,'r');
 					
 					$checkType = $xml->readSection('faq', 'type');
 					
@@ -766,12 +767,12 @@ if($site == 'mod_download'){
 	if($choosenDB == 'xml'){
 		$count = 0;
 		
-		$arr_files = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/files/');
+		$arr_files = $tcms_file->getPathContent(_TCMS_PATH.'/files/');
 		
 		if($tcms_main->isArray($arr_files)){
 			foreach($arr_files as $key => $value){
 				if($value != 'index.html'){
-					$xml = new xmlparser('../../'.$tcms_administer_site.'/files/'.$value.'/info.xml', 'r');
+					$xml = new xmlparser(_TCMS_PATH.'/files/'.$value.'/info.xml', 'r');
 					
 					$checkType = $xml->readSection('info', 'sql_type');
 					
@@ -896,12 +897,12 @@ if($site == 'mod_products'){
 	if($choosenDB == 'xml'){
 		/*$count = 0;
 		
-		$arr_files = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/files/');
+		$arr_files = $tcms_file->getPathContent(_TCMS_PATH.'/files/');
 		
 		if($tcms_main->isArray($arr_files)){
 			foreach($arr_files as $key => $value){
 				if($value != 'index.html'){
-					$xml = new xmlparser('../../'.$tcms_administer_site.'/files/'.$value.'/info.xml', 'r');
+					$xml = new xmlparser(_TCMS_PATH.'/files/'.$value.'/info.xml', 'r');
 					
 					$checkType = $xml->readSection('info', 'sql_type');
 					

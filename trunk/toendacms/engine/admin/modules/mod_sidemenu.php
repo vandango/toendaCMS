@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the sidemenu items.
  *
- * @version 0.7.0
+ * @version 0.7.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -77,20 +77,20 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		echo $tcms_html->text(_SIDEMENU_TEXT.'<br /><br />', 'left');
 		
 		if($choosenDB == 'xml'){
-			$arr_filename = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/tcms_menu/');
+			$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_menu/');
 			
 			if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
 				foreach($arr_filename as $key => $value){
-					$menu_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_menu/'.$value,'r');
+					$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$value,'r');
 					$arr_top_menu['tag'][$key]   = substr($value, 0, 5);
-					$arr_top_menu['name'][$key]  = $menu_xml->read_section('menu', 'name');
-					$arr_top_menu['id'][$key]    = $menu_xml->read_section('menu', 'id');
-					$arr_top_menu['subid'][$key] = $menu_xml->read_section('menu', 'subid');
-					$arr_top_menu['type'][$key]  = $menu_xml->read_section('menu', 'type');
-					$arr_top_menu['link'][$key]  = $menu_xml->read_section('menu', 'link');
-					$arr_top_menu['pub'][$key]   = $menu_xml->read_section('menu', 'published');
-					$arr_top_menu['access'][$key]= $menu_xml->read_section('menu', 'access');
-					$arr_top_menu['lang'][$key]  = $menu_xml->read_section('menu', 'language');
+					$arr_top_menu['name'][$key]  = $menu_xml->readSection('menu', 'name');
+					$arr_top_menu['id'][$key]    = $menu_xml->readSection('menu', 'id');
+					$arr_top_menu['subid'][$key] = $menu_xml->readSection('menu', 'subid');
+					$arr_top_menu['type'][$key]  = $menu_xml->readSection('menu', 'type');
+					$arr_top_menu['link'][$key]  = $menu_xml->readSection('menu', 'link');
+					$arr_top_menu['pub'][$key]   = $menu_xml->readSection('menu', 'published');
+					$arr_top_menu['access'][$key]= $menu_xml->readSection('menu', 'access');
+					$arr_top_menu['lang'][$key]  = $menu_xml->readSection('menu', 'language');
 					
 					if(!$arr_top_menu['name'][$key])   { $arr_top_menu['name'][$key]  = ''; }
 					//if(!$arr_top_menu['id'][$key])     { $arr_top_menu['id'][$key]    = 0; }
@@ -212,7 +212,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				$check_mover = 0;
 				
 				
-				/*$this_link = $tcms_main->count_submenu_xml($arr_top_menu['id'][$key], '-', '../../'.$tcms_administer_site.'/tcms_menu/', 'id', 'subid', 'menu', 5);
+				/*$this_link = $tcms_main->count_submenu_xml($arr_top_menu['id'][$key], '-', _TCMS_PATH.'/tcms_menu/', 'id', 'subid', 'menu', 5);
 				$this_link = ( $this_link == 0 ? 1 : $this_link + $this_link );
 				echo $this_link;
 				*/
@@ -325,17 +325,17 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		
 		if(isset($maintag) && !empty($maintag) && $maintag != ''){
 			if($choosenDB == 'xml'){
-				$user_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_menu/'.$maintag.'.xml','r');
-				$sm_name     = $user_xml->read_section('menu', 'name');
-				$sm_id       = $user_xml->read_section('menu', 'id');
-				$sm_subid    = $user_xml->read_section('menu', 'subid');
-				$sm_type     = $user_xml->read_section('menu', 'type');
-				$sm_parent   = $user_xml->read_section('menu', 'parent');
-				$sm_link     = $user_xml->read_section('menu', 'link');
-				$sm_pub      = $user_xml->read_section('menu', 'published');
-				$sm_access   = $user_xml->read_section('menu', 'access');
-				$sm_target   = $user_xml->read_section('menu', 'target');
-				$sm_lang     = $user_xml->read_section('menu', 'language');
+				$user_xml = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$maintag.'.xml','r');
+				$sm_name     = $user_xml->readSection('menu', 'name');
+				$sm_id       = $user_xml->readSection('menu', 'id');
+				$sm_subid    = $user_xml->readSection('menu', 'subid');
+				$sm_type     = $user_xml->readSection('menu', 'type');
+				$sm_parent   = $user_xml->readSection('menu', 'parent');
+				$sm_link     = $user_xml->readSection('menu', 'link');
+				$sm_pub      = $user_xml->readSection('menu', 'published');
+				$sm_access   = $user_xml->readSection('menu', 'access');
+				$sm_target   = $user_xml->readSection('menu', 'target');
+				$sm_lang     = $user_xml->readSection('menu', 'language');
 				
 				if(!$sm_name)     { $sm_name     = ''; }
 				//if(!$sm_id)       { $sm_id       = ''; }
@@ -398,10 +398,10 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			$sm_lang   = $tcms_config->getLanguageFrontend();
 			
 			if($choosenDB == 'xml'){
-				$arr_fn = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_menu/');
+				$arr_fn = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_menu/');
 				$x = 0;
 				foreach($arr_fn as $key => $value){
-					$all_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_menu/'.$value,'r');
+					$all_xml = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$value,'r');
 					$arr_i[$key] = $all_xml->read_value('id');
 				}
 				$sm_id = max($arr_i) + 1;
@@ -422,14 +422,14 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			
 			//***************************************************************
 			if($choosenDB == 'xml'){
-				$arr_filename = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_menu/');
+				$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_menu/');
 				$i = $z = 0;
 				while(!empty($arr_filename[$i])){
 					$arr_maintag[$i] = substr($arr_filename[$i],0,5);
-					$all_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_menu/'.$arr_filename[$i],'r');
+					$all_xml = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$arr_filename[$i],'r');
 					
-					$ltype  = $all_xml->read_section('menu', 'type');
-					$lsubid = $all_xml->read_section('menu', 'subid');
+					$ltype  = $all_xml->readSection('menu', 'type');
+					$lsubid = $all_xml->readSection('menu', 'subid');
 					
 					if($ltype == 'link' && $lsubid == '-'){
 						$arr_parent['id'][$z]     = $all_xml->read_value('id');
@@ -681,7 +681,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			if($choosenDB == 'xml') {
 				if($language != $tcms_config->getLanguageFrontend()) {
 					$xmluser = new xmlparser(
-						'../../'.$tcms_administer_site.'/tcms_content_languages/'.$new_sm_link.'.xml', 
+						_TCMS_PATH.'/tcms_content_languages/'.$new_sm_link.'.xml', 
 						'w'
 					);
 					$xmluser->xml_c_declaration($c_charset);
@@ -701,7 +701,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 					$xmluser->xml_section_end('main');
 				}
 				else {
-					$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_content/'.$new_sm_link.'.xml', 'w');
+					$xmluser = new xmlparser(_TCMS_PATH.'/tcms_content/'.$new_sm_link.'.xml', 'w');
 					$xmluser->xml_c_declaration($c_charset);
 					$xmluser->xml_section('main');
 					
@@ -777,7 +777,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		
 		
 		if($choosenDB == 'xml') {
-			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_menu/'.$maintag.'.xml','w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$maintag.'.xml','w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('menu');
 			
@@ -832,10 +832,10 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			if($new_sm_parent == '-' || $new_sm_parent == $maxID){ $new_sm_subid = '-'; }
 			else{
 				if($choosenDB == 'xml'){
-					$arr_fn = $tcms_main->getPathContent('../../'.$tcms_administer_site.'/tcms_menu/');
+					$arr_fn = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_menu/');
 					$x = 0;
 					foreach($arr_fn as $key => $value){
-						$all_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_menu/'.$value,'r');
+						$all_xml = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$value,'r');
 						$arr_i[$key] = $all_xml->read_value('id');
 						$arr_s[$key] = ( !$all_xml->read_value('subid') ? $all_xml->read_value('subid') : '-' );
 						
@@ -903,7 +903,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			if($choosenDB == 'xml') {
 				if($language != $tcms_config->getLanguageFrontend()) {
 					$xmluser = new xmlparser(
-						'../../'.$tcms_administer_site.'/tcms_content_languages/'.$new_sm_link.'.xml', 
+						_TCMS_PATH.'/tcms_content_languages/'.$new_sm_link.'.xml', 
 						'w'
 					);
 					$xmluser->xml_c_declaration($c_charset);
@@ -924,7 +924,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				}
 				else {
 					$xmluser = new xmlparser(
-						'../../'.$tcms_administer_site.'/tcms_content/'.$new_sm_link.'.xml', 
+						_TCMS_PATH.'/tcms_content/'.$new_sm_link.'.xml', 
 						'w'
 					);
 					$xmluser->xml_c_declaration($c_charset);
@@ -999,7 +999,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		}
 		
 		if($choosenDB == 'xml'){
-			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_menu/'.$maintag.'.xml', 'w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$maintag.'.xml', 'w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('menu');
 			
@@ -1063,7 +1063,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		switch($action){
 			// Take it off
 			case 'off':
-				if($choosenDB == 'xml'){ xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_menu/'.$maintag.'.xml', 'published', '1', '0'); }
+				if($choosenDB == 'xml'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_menu/'.$maintag.'.xml', 'published', '1', '0'); }
 				else{
 					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
@@ -1075,7 +1075,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			
 			// Take it on
 			case 'on':
-				if($choosenDB == 'xml'){ xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_menu/'.$maintag.'.xml', 'published', '0', '1'); }
+				if($choosenDB == 'xml'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_menu/'.$maintag.'.xml', 'published', '0', '1'); }
 				else{
 					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
@@ -1100,12 +1100,12 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			// MOVE ENTRY + 1
 			case 'up':
 				if($choosenDB == 'xml'){
-					$arr_reorderfiles = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_menu/');
+					$arr_reorderfiles = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_menu/');
 					$i = 0;
 					
 					foreach($arr_reorderfiles as $key => $value){
-						$reorderXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_menu/'.$value,'r');
-						$reorderID = $reorderXML->read_section('menu', 'id');
+						$reorderXML = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$value,'r');
+						$reorderID = $reorderXML->readSection('menu', 'id');
 						if($reorderID == $id){ $arr_reorderMe['minus'][$i] = $value; $i++; }
 					}
 				}
@@ -1133,8 +1133,8 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 					$i = 0;
 				
 					foreach($arr_reorderfiles as $key => $value){
-						$reorderXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_menu/'.$value,'r');
-						$reorderID = $reorderXML->read_section('menu', 'id');
+						$reorderXML = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$value,'r');
+						$reorderID = $reorderXML->readSection('menu', 'id');
 						if($reorderID == ($id - 1)){ $arr_reorderMe['plus'][$i] = $value; $i++; }
 					}
 				}
@@ -1160,10 +1160,10 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				
 				foreach($arr_reorderMe['minus'] as $key => $value){
 					if($choosenDB == 'xml'){
-						$reorderXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_menu/'.$value,'r');
-						$reorderParent = $reorderXML->read_section('menu', 'parent');
-						if($reorderParent != '-'){ xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_menu/'.$value, 'parent', $id, ($id - 1)); }
-						xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_menu/'.$value, 'id', $id, ($id - 1));
+						$reorderXML = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$value,'r');
+						$reorderParent = $reorderXML->readSection('menu', 'parent');
+						if($reorderParent != '-'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_menu/'.$value, 'parent', $id, ($id - 1)); }
+						xmlparser::edit_value(_TCMS_PATH.'/tcms_menu/'.$value, 'id', $id, ($id - 1));
 					}
 					else{
 						$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -1188,10 +1188,10 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				
 				foreach($arr_reorderMe['plus'] as $key => $value){
 					if($choosenDB == 'xml'){
-						$reorderXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_menu/'.$value,'r');
-						$reorderParent = $reorderXML->read_section('menu', 'parent');
-						if($reorderParent != '-'){ xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_menu/'.$value, 'parent', ($id - 1), $id); }
-						xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_menu/'.$value, 'id', ($id - 1), $id);
+						$reorderXML = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$value,'r');
+						$reorderParent = $reorderXML->readSection('menu', 'parent');
+						if($reorderParent != '-'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_menu/'.$value, 'parent', ($id - 1), $id); }
+						xmlparser::edit_value(_TCMS_PATH.'/tcms_menu/'.$value, 'id', ($id - 1), $id);
 					}
 					else{
 						$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -1220,13 +1220,13 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			
 			// MOVE ENTRY - 1
 			case 'down':
-				if($choosenDB == 'xml'){
-					$arr_reorderfiles = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_menu/');
+				if($choosenDB == 'xml') {
+					$arr_reorderfiles = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_menu/');
 					$i = 0;
 					
 					foreach($arr_reorderfiles as $key => $value){
-						$reorderXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_menu/'.$value,'r');
-						$reorderID = $reorderXML->read_section('menu', 'id');
+						$reorderXML = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$value,'r');
+						$reorderID = $reorderXML->readSection('menu', 'id');
 						if($reorderID == $id){ $arr_reorderMe['minus'][$i] = $value; $i++; }
 					}
 				}
@@ -1254,8 +1254,8 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 					$i = 0;
 					
 					foreach($arr_reorderfiles as $key => $value){
-						$reorderXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_menu/'.$value,'r');
-						$reorderID = $reorderXML->read_section('menu', 'id');
+						$reorderXML = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$value,'r');
+						$reorderID = $reorderXML->readSection('menu', 'id');
 						if($reorderID == ($id + 1)){ $arr_reorderMe['plus'][$i] = $value; $i++; }
 					}
 				}
@@ -1281,10 +1281,10 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				
 				foreach($arr_reorderMe['minus'] as $key => $value){
 					if($choosenDB == 'xml'){
-						$reorderXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_menu/'.$value,'r');
-						$reorderParent = $reorderXML->read_section('menu', 'parent');
-						if($reorderParent != '-'){ xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_menu/'.$value, 'parent', $id, ($id + 1)); }
-						xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_menu/'.$value, 'id', $id, ($id + 1));
+						$reorderXML = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$value,'r');
+						$reorderParent = $reorderXML->readSection('menu', 'parent');
+						if($reorderParent != '-'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_menu/'.$value, 'parent', $id, ($id + 1)); }
+						xmlparser::edit_value(_TCMS_PATH.'/tcms_menu/'.$value, 'id', $id, ($id + 1));
 					}
 					else{
 						$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -1309,10 +1309,10 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				
 				foreach($arr_reorderMe['plus'] as $key => $value){
 					if($choosenDB == 'xml'){
-						$reorderXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_menu/'.$value,'r');
-						$reorderParent = $reorderXML->read_section('menu', 'parent');
-						if($reorderParent != '-'){ xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_menu/'.$value, 'parent', ($id + 1), $id); }
-						xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_menu/'.$value, 'id', ($id + 1), $id);
+						$reorderXML = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$value,'r');
+						$reorderParent = $reorderXML->readSection('menu', 'parent');
+						if($reorderParent != '-'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_menu/'.$value, 'parent', ($id + 1), $id); }
+						xmlparser::edit_value(_TCMS_PATH.'/tcms_menu/'.$value, 'id', ($id + 1), $id);
 					}
 					else{
 						$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -1354,14 +1354,14 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			// MOVE ENTRY + 1
 			case 'up':
 				if($choosenDB == 'xml'){
-					$reorderXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_menu/'.$id.'.xml','r');
-					$mainorderID = $reorderXML->read_section('menu', 'subid');
+					$reorderXML = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$id.'.xml','r');
+					$mainorderID = $reorderXML->readSection('menu', 'subid');
 					
-					$reorderXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_menu/'.$re.'.xml','r');
-					$reorderID = $reorderXML->read_section('menu', 'subid');
+					$reorderXML = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$re.'.xml','r');
+					$reorderID = $reorderXML->readSection('menu', 'subid');
 					
-					xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_menu/'.$id.'.xml', 'subid', $mainorderID, $reorderID);
-					xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_menu/'.$re.'.xml', 'subid', $reorderID, $mainorderID);
+					xmlparser::edit_value(_TCMS_PATH.'/tcms_menu/'.$id.'.xml', 'subid', $mainorderID, $reorderID);
+					xmlparser::edit_value(_TCMS_PATH.'/tcms_menu/'.$re.'.xml', 'subid', $reorderID, $mainorderID);
 				}
 				else{
 					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -1393,14 +1393,14 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			// MOVE ENTRY - 1
 			case 'down':
 				if($choosenDB == 'xml'){
-					$reorderXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_menu/'.$id.'.xml','r');
-					$mainorderID = $reorderXML->read_section('menu', 'subid');
+					$reorderXML = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$id.'.xml','r');
+					$mainorderID = $reorderXML->readSection('menu', 'subid');
 					
-					$reorderXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_menu/'.$re.'.xml','r');
-					$reorderID = $reorderXML->read_section('menu', 'subid');
+					$reorderXML = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$re.'.xml','r');
+					$reorderID = $reorderXML->readSection('menu', 'subid');
 					
-					xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_menu/'.$id.'.xml', 'subid', $mainorderID, $reorderID);
-					xmlparser::edit_value('../../'.$tcms_administer_site.'/tcms_menu/'.$re.'.xml', 'subid', $reorderID, $mainorderID);
+					xmlparser::edit_value(_TCMS_PATH.'/tcms_menu/'.$id.'.xml', 'subid', $mainorderID, $reorderID);
+					xmlparser::edit_value(_TCMS_PATH.'/tcms_menu/'.$re.'.xml', 'subid', $reorderID, $mainorderID);
 				}
 				else{
 					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -1425,7 +1425,9 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 					$sqlAL->sqlFreeResult($sqlQR);
 				}
 				
-				echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_sidemenu\';</script>';
+				echo '<script type="text/javascript">'
+				.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_sidemenu\';'
+				.'</script>';
 				
 				break;
 		}
@@ -1441,8 +1443,8 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 	
 	if($todo == 'delete'){
 		if(isset($subItem)){
-			if($choosenDB == 'xml'){
-				unlink('../../'.$tcms_administer_site.'/tcms_menu/'.$subItem.'.xml');
+			if($choosenDB == 'xml') {
+				unlink(_TCMS_PATH.'/tcms_menu/'.$subItem.'.xml');
 			}
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -1451,12 +1453,13 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			}
 		}
 		else{
-			if($choosenDB == 'xml'){
-				$arr_delFiles = $tcms_main->readdir_ext('../../'.$tcms_administer_site.'/tcms_menu/');
+			if($choosenDB == 'xml') {
+				$arr_delFiles = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_menu/');
+				
 				foreach($arr_delFiles as $key => $value){
-					$delXML = new xmlparser('../../'.$tcms_administer_site.'/tcms_menu/'.$value, 'r');
-					$delID = $delXML->read_section('menu', 'id');
-					if($delID == $maintag){ unlink('../../'.$tcms_administer_site.'/tcms_menu/'.$value); }
+					$delXML = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$value, 'r');
+					$delID = $delXML->readSection('menu', 'id');
+					if($delID == $maintag){ unlink(_TCMS_PATH.'/tcms_menu/'.$value); }
 				}
 			}
 			else{

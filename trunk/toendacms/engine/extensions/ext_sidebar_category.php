@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides the news categories for
  * the sidebar.
  *
- * @version 0.4.1
+ * @version 0.4.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -33,7 +33,7 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 if($use_side_category == 1) {
 	if($choosenDB == 'xml') {
-		$side_ext_xml  = new xmlparser($tcms_administer_site.'/tcms_global/sidebar.xml','r');
+		$side_ext_xml  = new xmlparser(_TCMS_PATH.'/tcms_global/sidebar.xml','r');
 		$show_nacat = $side_ext_xml->readSection('side', 'show_news_cat_amount');
 	}
 	else{
@@ -53,15 +53,15 @@ if($use_side_category == 1) {
 	
 	
 	if($choosenDB == 'xml'){
-		$arrCatFile = $tcms_main->getPathContent(
-			$tcms_administer_site.'/tcms_news_categories/'
+		$arrCatFile = $tcms_file->getPathContent(
+			_TCMS_PATH.'/tcms_news_categories/'
 		);
 		
 		if($tcms_main->isArray($arrCatFile)) {
 			sort($arrCatFile);
 			
 			foreach($arrCatFile as $cKey => $cVal) {
-				$xmlP = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$cVal, 'r');
+				$xmlP = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$cVal, 'r');
 				
 				$catSideName = $xmlP->readSection('cat', 'name');
 				

@@ -11,11 +11,20 @@
 | 
 | Italian Language
 |
-| File:		lang_italy_IT.php
-| Version:	Beta3 1.0
+| File: lang_italy_IT.php
 |
 +
 */
+
+
+/**
+ * Italian Language
+ * 
+ * @version 0.1.0
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS Backend
+ */
 
 
 // ADMIN

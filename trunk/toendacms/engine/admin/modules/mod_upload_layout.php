@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used as a upload and edit page for the
  * templates.
  *
- * @version 0.3.6
+ * @version 0.4.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -103,7 +103,7 @@ if($id_group == 'Developer'
 		edit index.php files
 	*/
 	if($todo != 'edit') {
-		$layout_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/layout.xml', 'r');
+		$layout_xml = new xmlparser(_TCMS_PATH.'/tcms_global/layout.xml', 'r');
 		$s = $layout_xml->readSection('layout', 'select');
 		
 		
@@ -126,7 +126,7 @@ if($id_group == 'Developer'
 		echo '<div style="display: block; width: 100%; border-bottom: 1px solid #ccc; padding-bottom: 2px;">'
 		.'<div style="display: block; width: 30px; float: left;">&nbsp;</div>';
 		
-		$arrFiles = $tcms_main->getPathContent('../../theme/'.$s.'/');
+		$arrFiles = $tcms_file->getPathContent('../../theme/'.$s.'/');
 		
 		foreach($arrFiles as $key => $val){
 			if(!is_dir($val)){
@@ -145,7 +145,7 @@ if($id_group == 'Developer'
 			
 			//if(is_dir($val)){
 			if(!strpos($val, '.')){
-				$arrFiles = $tcms_main->readdir_ext('../../theme/'.$s.'/'.$val.'/');
+				$arrFiles = $tcms_file->getPathContent('../../theme/'.$s.'/'.$val.'/');
 				
 				foreach($arrFiles as $key2 => $val2){
 					if(!is_dir($val2)){

@@ -25,7 +25,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Adapted from original code by Natalie Downe: 
  * http://blog.natbat.co.uk/archive/2003/Jun/14/time_since
  *
- * @version 0.1.8
+ * @version 0.2.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -114,7 +114,7 @@ class tcms_blogfeatures {
 		
 		$newer_date = ( 
 			$newer_date == false 
-			? time() + ( 3600 * $tcms_main->get_php_setting("gmt_offset") ) 
+			? time() + ( 3600 * $tcms_main->getPHPSetting("gmt_offset") ) 
 			: $newer_date 
 		);
 		

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a guestbook.
  *
- * @version 0.4.5
+ * @version 0.4.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -78,7 +78,7 @@ if($book_enabled == 1){
 	*/
 	
 	if($choosenDB == 'xml'){
-		$gbxml = new xmlparser($tcms_administer_site.'/tcms_global/guestbook.xml', 'r');
+		$gbxml = new xmlparser(_TCMS_PATH.'/tcms_global/guestbook.xml', 'r');
 		
 		$gb_clean_link   = $gbxml->read_section('config', 'clean_link');
 		$gb_clean_script = $gbxml->read_section('config', 'clean_script');
@@ -146,13 +146,13 @@ if($book_enabled == 1){
 		
 		
 		if($choosenDB == 'xml'){
-			$arr_guestsfiles = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_guestbook/');
+			$arr_guestsfiles = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_guestbook/');
 			
 			$count = 0;
 			
 			if(isset($arr_guestsfiles) && !empty($arr_guestsfiles) && $arr_guestsfiles != ''){
 				foreach($arr_guestsfiles as $key => $value){
-					$aXML = new xmlparser($tcms_administer_site.'/tcms_guestbook/'.$value, 'r');
+					$aXML = new xmlparser(_TCMS_PATH.'/tcms_guestbook/'.$value, 'r');
 					
 					$arr_guests['uid'][$count]  = substr($value, 0, 32);
 					$arr_guests['name'][$count] = $aXML->read_section('entry', 'name');
@@ -598,10 +598,10 @@ if($book_enabled == 1){
 			
 			
 			if($choosenDB == 'xml'){
-				while(($maintag = substr(md5(microtime()), 0, 32)) && file_exists($tcms_administer_site.'/tcms_guestbook/'.$maintag.'.xml')){}
+				while(($maintag = substr(md5(microtime()), 0, 32)) && file_exists(_TCMS_PATH.'/tcms_guestbook/'.$maintag.'.xml')){}
 				
 				
-				$xmluser = new xmlparser($tcms_administer_site.'/tcms_guestbook/'.$maintag.'.xml', 'w');
+				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_guestbook/'.$maintag.'.xml', 'w');
 				$xmluser->xml_declaration();
 				$xmluser->xml_section('entry');
 				
