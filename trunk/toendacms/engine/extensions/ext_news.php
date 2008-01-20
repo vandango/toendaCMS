@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a news manager with a news,
  * a news view and a archive with different formats.
  *
- * @version 1.6.0
+ * @version 1.6.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -249,7 +249,7 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 			
 		
 		if($show_autor_as_link == 1){
-			$userID = $tcms_main->getUserID($dcNews->GetAutor());
+			$userID = $tcms_ap->getUserID($dcNews->GetAutor());
 		}
 		
 		
@@ -1063,7 +1063,7 @@ if($action == 'archive'
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
 			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'news_categories', $cat);
+			$sqlQR = $sqlAL->getOne($tcms_db_prefix.'news_categories', $cat);
 			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
 			
 			$catName = $sqlARR['name'];
@@ -1266,7 +1266,7 @@ if($action == 'archive'
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$sqlQR = $sqlAL->sqlQuery($sqlStr);
+		$sqlQR = $sqlAL->query($sqlStr);
 		
 		$count = 0;
 		
@@ -1430,9 +1430,9 @@ if($action == 'archive'
 						$sqlAL = new sqlAbstractionLayer($choosenDB);
 						$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 						
-						$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'comments', $arr_newsItems['order'][$key]);
+						$sqlQR = $sqlAL->getOne($tcms_db_prefix.'comments', $arr_newsItems['order'][$key]);
 						
-						$nw_amount = $sqlAL->sqlGetNumber($sqlQR);
+						$nw_amount = $sqlAL->getNumber($sqlQR);
 					}
 				}
 			}
@@ -1442,19 +1442,19 @@ if($action == 'archive'
 				get user id
 				and the categories
 			*/
-			if($choosenDB == 'xml'){
-				if($show_autor_as_link == 1){
-					$userID = $tcms_main->getUserID($arr_newsItems['autor'][$key]);
+			if($choosenDB == 'xml') {
+				if($show_autor_as_link == 1) {
+					$userID = $tcms_ap->getUserID($arr_newsItems['autor'][$key]);
 				}
 				
-				if($arr_newsItems['cat'][$key] != ''){
-					if(strpos($arr_newsItems['cat'][$key], '{###}')){
+				if($arr_newsItems['cat'][$key] != '') {
+					if(strpos($arr_newsItems['cat'][$key], '{###}')) {
 						$catLinkTmp = explode('{###}', $arr_newsItems['cat'][$key]);
 						
 						$count = 0;
 						
-						foreach($catLinkTmp as $catKey => $catVal){
-							if(trim($catVal) != ''){
+						foreach($catLinkTmp as $catKey => $catVal) {
+							if(trim($catVal) != '') {
 								$catXML = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$catVal.'.xml','r');
 								
 								$catLink['link'][$count] = $catVal;
@@ -1466,7 +1466,7 @@ if($action == 'archive'
 							}
 						}
 					}
-					else{
+					else {
 						$catXML = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$arr_newsItems['cat'][$key].'.xml','r');
 						
 						$catLink['name'][0] = $catXML->readSection('cat', 'name');
@@ -1476,7 +1476,7 @@ if($action == 'archive'
 						$catLink['link'][0] = $arr_newsItems['cat'][$key];
 					}
 				}
-				else{
+				else {
 					$catXML = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$defaultCat.'.xml','r');
 					
 					$catLink['name'][0] = $catXML->readSection('cat', 'name');
@@ -1487,12 +1487,11 @@ if($action == 'archive'
 				}
 			}
 			else{
-				if($show_autor_as_link == 1){
-					$userID = $tcms_main->getUserIDfromSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $arr_newsItems['autor'][$n_key]);
+				if($show_autor_as_link == 1) {
+					$userID = $tcms_ap->getUserID($arr_newsItems['autor'][$n_key]);
 				}
 				
-				
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				
@@ -1501,27 +1500,27 @@ if($action == 'archive'
 				."INNER JOIN ".$tcms_db_prefix."news_categories ON (".$tcms_db_prefix."news_to_categories.cat_uid = ".$tcms_db_prefix."news_categories.uid) "
 				."WHERE (".$tcms_db_prefix."news_to_categories.news_uid = '".$arr_newsItems['order'][$key]."')";
 				
-				$sqlQR = $sqlAL->sqlQuery($strSQL);
-				$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+				$sqlQR = $sqlAL->query($strSQL);
+				$sqlNR = $sqlAL->getNumber($sqlQR);
 				
 				
-				if($sqlNR == 0){
-					$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'news_categories', $defaultCat);
-					$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+				if($sqlNR == 0) {
+					$sqlQR = $sqlAL->getOne($tcms_db_prefix.'news_categories', $defaultCat);
+					$sqlObj = $sqlAL->fetchObject($sqlQR);
 					
-					$catLink['name'][0] = $sqlARR['name'];
+					$catLink['name'][0] = $sqlObj->name;
 					$catLink['link'][0] = $defaultCat;
 					
 					if($catLink['name'][0] == NULL){ $catLink['name'][0] = ''; }
 					
 					$catLink['name'][0] = $tcms_main->decodeText($catLink['name'][0], '2', $c_charset);
 				}
-				else{
+				else {
 					$count = 0;
 					
-					while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
-						$catLink['link'][$count] = $sqlARR['cat_uid'];
-						$catLink['name'][$count] = $sqlARR['name'];
+					while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
+						$catLink['link'][$count] = $sqlObj->cat_uid;
+						$catLink['name'][$count] = $sqlObj->name;
 						
 						$catLink['name'][$count] = $tcms_main->decodeText($catLink['name'][$count], '2', $c_charset);
 						
@@ -1539,12 +1538,12 @@ if($action == 'archive'
 				show categories
 				show comments, if enabled
 			*/
-			if($show_autor == 1){
-				if($show_autor_as_link == 1){
-					if($arr_newsItems['autor'][$key] != ''){
+			if($show_autor == 1) {
+				if($show_autor_as_link == 1) {
+					if($arr_newsItems['autor'][$key] != '') {
 						echo '&nbsp;'._NEWS_WRITTEN.'&nbsp;';
 						
-						if($userID != false){
+						if($userID != false) {
 							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 							.'id=profile&amp;s='.$s.'&amp;u='.$userID
 							.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -1552,7 +1551,7 @@ if($action == 'archive'
 							
 							echo '<a href="'.$link.'">'.$arr_newsItems['autor'][$key].'</a>';
 						}
-						else{
+						else {
 							echo $arr_news['autor'];
 						}
 					}
@@ -1923,8 +1922,8 @@ if($action == 'archive'
 			."FROM ".$tcms_db_prefix."news_categories "
 			."ORDER BY name";
 			
-			$sqlQR = $sqlAL->sqlQuery($strSQL);
-			$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+			$sqlQR = $sqlAL->query($strSQL);
+			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
 			$count = 0;
 			
@@ -1939,8 +1938,8 @@ if($action == 'archive'
 					."AND ".$tcms_db_prefix."news.access = 'Public' ".$authSQL
 					."ORDER BY ".$tcms_db_prefix."news.stamp DESC, ".$tcms_db_prefix."news.date DESC, ".$tcms_db_prefix."news.time DESC";
 					
-					$sqlQR2 = $sqlAL->sqlQuery($sqlStr);
-					$sqlNR2 = $sqlAL->sqlGetNumber($sqlQR2);
+					$sqlQR2 = $sqlAL->query($sqlStr);
+					$sqlNR2 = $sqlAL->getNumber($sqlQR2);
 					
 					if($sqlNR2 != 0) {
 						while($sqlARR = $sqlAL->sqlFetchArray($sqlQR2)) {
@@ -2103,7 +2102,7 @@ if($check_session){
 				." AND uid = '".$XMLplace."'"
 				." AND timestamp = '".$XMLfile."'";
 				
-				$sqlAL->sqlQuery($strSQL);
+				$sqlAL->query($strSQL);
 			}
 			
 			echo _TCMS_PATH.'/tcms_news/comments_'.$XMLplace.'/'.$XMLfile;

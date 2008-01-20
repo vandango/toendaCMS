@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide methods to get and
  * save user accounts and also contacts.
  * 
- * @version 0.3.5
+ * @version 0.3.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -150,7 +150,7 @@ class tcms_account_provider extends tcms_main {
 				$this->db_port
 			);
 			
-			$sqlQR = $sqlAL->query("SELECT * FROM ".$this->db_prefix."user WHERE uid = '".$userID."'");
+			$sqlQR = $sqlAL->query("SELECT username FROM ".$this->db_prefix."user WHERE uid = '".$userID."'");
 			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
 			if($sqlNR > 0) {
@@ -185,27 +185,27 @@ class tcms_account_provider extends tcms_main {
 			$userFound = false;
 			
 			foreach($arrUserXML as $key => $XMLUserFile) {
-				if($XMLUserFile != 'index.html'){
+				if($XMLUserFile != 'index.html') {
 					$xmlUser = new xmlparser($this->m_administer.'/tcms_user/'.$XMLUserFile, 'r');
 					
 					$tmpNickXML = $xmlUser->readSection('user', 'name');
 					$nickXML = $this->decodeText($tmpNickXML, '2', $this->m_charset);
 					
-					if($realOrNick == $nickXML){
+					if($realOrNick == $nickXML) {
 						return substr($XMLUserFile, 0, 32);
 						$userFound = true;
 						break;
 					}
-					else{
+					else {
 						$tmpRealXML = $xmlUser->readSection('user', 'username');
 						$arrRealXML = $this->decodeText($tmpRealXML, '2', $this->m_charset);
 						
-						if($realOrNick == $arrRealXML){
+						if($realOrNick == $arrRealXML) {
 							return substr($XMLUserFile, 0, 32);
 							$userFound = true;
 							break;
 						}
-						else{
+						else {
 							$userFound = false;
 						}
 					}
@@ -215,7 +215,7 @@ class tcms_account_provider extends tcms_main {
 				}
 			}
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
 			$sqlCN = $sqlAL->connect(
 				$this->db_user, 
@@ -225,22 +225,22 @@ class tcms_account_provider extends tcms_main {
 				$this->db_port
 			);
 			
-			$sqlQR = $sqlAL->query("SELECT * FROM ".$this->db_prefix."user WHERE username = '".$realOrNick."'");
+			$sqlQR = $sqlAL->query("SELECT uid FROM ".$this->db_prefix."user WHERE username = '".$realOrNick."'");
 			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
-			if($sqlNR != 0){
+			if($sqlNR != 0) {
 				$sqlObj = $sqlAL->fetchObject($sqlQR);
 				$userID = $sqlObj->uid;
 			}
-			else{
-				$sqlQR = $sqlAL->query("SELECT * FROM ".$this->db_prefix."user WHERE name = '".$realOrNick."'");
+			else {
+				$sqlQR = $sqlAL->query("SELECT uid FROM ".$this->db_prefix."user WHERE name = '".$realOrNick."'");
 				$sqlNR = $sqlAL->getNumber($sqlQR);
 				
-				if($sqlNR != 0){
+				if($sqlNR != 0) {
 					$sqlARR = $sqlAL->fetchObject($sqlQR);
 					$userID = $sqlObj->uid;
 				}
-				else{
+				else {
 					$userID = false;
 				}
 			}

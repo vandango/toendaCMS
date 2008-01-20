@@ -20,7 +20,7 @@
  * 
  * This module is used to generate a pdf document
  * 
- * @version 0.2.3
+ * @version 0.2.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -41,7 +41,10 @@ define('_TCMS_VALID', 1);
 
 include_once('engine/tcms_kernel/tcms_loader.lib.php');
 
-$tcms_administer_site = 'data';
+// load current active page
+include_once('site.php');
+$tcms_administer_site = $tcms_site[0]['path'];
+define('_TCMS_PATH', $tcms_site[0]['path']);
 
 //include_once ('engine/tcms_kernel/tcms_xml.lib.php');
 
@@ -55,6 +58,8 @@ using('toendacms.kernel.modconfig');
 using('toendacms.kernel.gd');
 using('toendacms.kernel.version');
 using('toendacms.kernel.html');
+using('toendacms.kernel.authentication');
+using('toendacms.kernel.account_provider');
 
 
 if(file_exists($tcms_administer_site.'/tcms_global/database.php')
@@ -155,11 +160,31 @@ if(file_exists($tcms_administer_site.'/tcms_global/database.php')
 	$sqlPrefix = $tcms_db_prefix;
 	
 	$tcms_main->setDatabaseInfo($choosenDB);
+	$tcms_config->decodeConfiguration($tcms_main);
 	
 	
+	$charset    = $tcms_config->getCharset();
+	$seoEnabled = $tcms_config->getSEOEnabled();
 	
-	$char_xml   = new xmlparser($tcms_administer_site.'/tcms_global/var.xml','r');
-	$charset    = $char_xml->readSection('global', 'charset');
+	if($seoEnabled) {
+		$seoFolder = $tcms_config->getSEOPath();
+		
+		if($seoFolder != '') {
+			$seoFolder = '/'.$seoFolder.'/';
+		}
+		else {
+			$seoFolder = '/';
+		}
+	}
+	else {
+		$seoFolder = '/';
+	}
+	
+	// authentication
+	$tcms_auth = new tcms_authentication(_TCMS_PATH, $charset, $seoFolder);
+	
+	// account provider
+	$tcms_ap = new tcms_account_provider(_TCMS_PATH, $charset);
 	
 	
 	
@@ -252,40 +277,18 @@ if(file_exists($tcms_administer_site.'/tcms_global/database.php')
 	
 	
 	
-	/*******************
-	* CHECK FOR PUBLIC
-	* ACCESS
-	**/
+	/*
+		CHECK FOR PUBLIC ACCESS
+	*/
 	
-	if($choosenDB == 'xml'){
-		if(isset($session) && $session != '' && file_exists($tcms_administer_site.'/tcms_session/'.$session) && filesize($tcms_administer_site.'/tcms_session/'.$session) != 0){ $check_session = true; }
-		else{ $check_session = false; }
-	}
-	else{ $check_session = $tcms_main->check_session_exists($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session); }
+	$check_session = $tcms_auth->checkSessionExist($session);
 	
 	if($check_session){
-		if($choosenDB == 'xml'){
-			$arr_ws = $tcms_main->create_username($session);
-			
-			$ws_user = $arr_ws['user'];
-			$ws_id   = $arr_ws['id'];
-			
-			$authXML  = new xmlparser($tcms_administer_site.'/tcms_user/'.$ws_id.'.xml', 'r');
-			$is_admin = $authXML->readSection('user', 'group');
-		}
-		else{
-			$arr_ws = $tcms_main->create_sql_username($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session);
-			
-			$ws_user = $arr_ws['user'];
-			$ws_id   = $arr_ws['id'];
-			
-			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-			$sqlQR = $sqlAL->getOne($tcms_db_prefix.'user', $ws_id);
-			$sqlARR = $sqlAL->fetchArray($sqlQR);
-			$is_admin = $sqlARR['group'];
-			if($is_admin == NULL){ $is_admin = ''; }
-		}
+		$arr_ws = $tcms_ap->getUserInfo($session);
+		
+		$ws_user  = $arr_ws['user'];
+		$ws_id    = $arr_ws['id'];
+		$is_admin = $arr_ws['group'];
 	}
 	
 	if($authorized == 'Public'){ $ws_auth = 1; }

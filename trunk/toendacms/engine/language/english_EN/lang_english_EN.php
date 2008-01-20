@@ -154,7 +154,6 @@ if(!defined('_TCMS_MENU_IMP'))                 define('_TCMS_MENU_IMP', 'Publish
 if(!defined('_TCMS_MENU_CONTACT'))             define('_TCMS_MENU_CONTACT', 'Contact Manager');
 if(!defined('_TCMS_MENU_USER'))                define('_TCMS_MENU_USER', 'User Manager');
 if(!defined('_TCMS_MENU_USERPAGE'))            define('_TCMS_MENU_USERPAGE', 'Editorpages');
-if(!defined('_TCMS_MENU_CFORM'))               define('_TCMS_MENU_CFORM', 'Contact form');
 if(!defined('_TCMS_MENU_QBOOK'))               define('_TCMS_MENU_QBOOK', 'Guestbook');
 if(!defined('_TCMS_MENU_CS'))                  define('_TCMS_MENU_CS', 'Components System');
 if(!defined('_TCMS_MENU_CS_UPLOAD'))           define('_TCMS_MENU_CS_UPLOAD', 'Components install&amp;edit');
@@ -1138,7 +1137,6 @@ define('_NEWS_IN', 'in');
 define('_NEWS_CATEGORY_ARCHIV', 'Archive for the Category');
 define('_NEWS_ARCHIV_FOR', 'Archive for');
 define('_NEWS_SYNDICATION', 'Syndication');
-define('_NEWS_TRACKBACK', 'Trackback');
 if(!defined('_NEWS_TRACKBACK'))                define('_NEWS_TRACKBACK', 'Trackback');
 if(!defined('_NEWS_SHOW_ON_FRONTPAGE'))        define('_NEWS_SHOW_ON_FRONTPAGE', 'Show News on frontpage');
 
@@ -1408,7 +1406,6 @@ if(!defined('_COUNTRY_JAPAN'))                 define('_COUNTRY_JAPAN', 'Japan')
 if(!defined('_COUNTRY_YEMEN'))                 define('_COUNTRY_YEMEN', 'Yemen');
 if(!defined('_COUNTRY_JORDAN'))                define('_COUNTRY_JORDAN', 'Jordan');
 if(!defined('_COUNTRY_YUGOSLAVIA'))            define('_COUNTRY_YUGOSLAVIA', 'Yugoslavia (alumni)');
-if(!defined('_COUNTRY_VIRGINISLANDS'))         define('_COUNTRY_VIRGINISLANDS', 'Virgin Islands');
 if(!defined('_COUNTRY_CAMBODIA'))              define('_COUNTRY_CAMBODIA', 'Cambodia');
 if(!defined('_COUNTRY_CAMEROON'))              define('_COUNTRY_CAMEROON', 'Cameroon');
 if(!defined('_COUNTRY_CANADA'))                define('_COUNTRY_CANADA', 'Canada');

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the poll functionality.
  *
- * @version 0.4.0
+ * @version 0.4.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -74,8 +74,8 @@ if($use_poll == 1) {
 	$stitle_ext_poll = $tcms_main->decodeText($stitle_ext_poll, '2', $c_charset);
 	
 	/* LOAD POLL       */
-	if($choosenDB == 'xml'){
-		$arr_polls = $tcms_main->getXMLFiles($tcms_administer_site.'/tcms_polls/');
+	if($choosenDB == 'xml') {
+		$arr_polls = $tcms_file->getXMLFiles($tcms_administer_site.'/tcms_polls/');
 	}
 	else{
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);

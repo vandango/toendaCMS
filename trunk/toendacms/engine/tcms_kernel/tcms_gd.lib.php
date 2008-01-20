@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for all graphic actions.
  *
- * @version 0.3.5
+ * @version 0.3.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -164,11 +164,11 @@ class tcms_gd {
 	 * @return Boolean
 	 */
 	public function createThumbnail($path, $targetPath, $image, $size, $withTransparency = false, $sizeInName = false){
-		global $tcms_main;
+		global $tcms_file;
 		
 		$isImage = true;
 		
-		switch($tcms_main->getMimeType($path.$image, true)) {
+		switch($tcms_file->getMimeType($path.$image, true)) {
 			case 'jpg':
 			case 'jpeg':
 			case 'jpe':
@@ -251,7 +251,7 @@ class tcms_gd {
 				//imagecolortransparent($img_file);
 				//@imagepng($img_file, $img_path);
 				
-				switch($tcms_main->getMimeType($image)){
+				switch($tcms_file->getMimeType($image)){
 					case 'jpg':
 					case 'jpeg':
 					case 'jpe':
