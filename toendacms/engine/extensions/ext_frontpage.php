@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides a frontpage with news and a text.
  *
- * @version 1.5.7
+ * @version 1.5.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -249,7 +249,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 					and the categories
 				*/
 				if($show_autor_as_link == 1) {
-					$userID = $tcms_auth->getUserID($dcNews->GetAutor());
+					$userID = $tcms_ap->getUserID($dcNews->GetAutor());
 				}
 				
 				if($choosenDB == 'xml') {

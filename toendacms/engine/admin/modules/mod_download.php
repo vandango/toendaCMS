@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used for the download configuration
  * and the administration of all the downloads.
  *
- * @version 0.8.0
+ * @version 0.8.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -1369,7 +1369,7 @@ if($param_save_mode == 'off'){
 				/*
 					MIMETYPES
 				*/
-				$down_filetype = $tcms_main->getMimeType($down_file);
+				$down_filetype = $tcms_file->getMimeType($down_file);
 				
 				
 				

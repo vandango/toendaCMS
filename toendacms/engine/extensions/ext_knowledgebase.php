@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a Knowledgebase / FAQ and Article database.
  *
- * @version 0.4.5
+ * @version 0.4.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -619,12 +619,7 @@ if(trim($faq_enabled) == 1) {
 						$link = $tcms_main->urlConvertToSEO($link);
 					}
 					
-					if($choosenDB == 'xml'){
-						$strAutor = $tcms_main->getUser($arrFAQ['autor']);
-					}
-					else{
-						$strAutor = $arrFAQ['autor'];
-					}
+					$strAutor = $tcms_ap->getUser($arrFAQ['autor']);
 					
 					// class="main"
 					echo _NEWS_WRITTEN.': '

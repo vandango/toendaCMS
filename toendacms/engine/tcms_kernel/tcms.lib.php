@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic public functions.
  *
- * @version 3.0.0
+ * @version 3.0.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -144,14 +144,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * DEPRECATED FUNCTIONS
  * --------------------------------------------------------
  *
- * DEPRECATED getUser                     -> Return the username
- * DEPRECATED getUserID                   -> Return ID for username or realname
- * DEPRECATED getUserInfo                 -> Get some information about a user
  * DEPRECATED create_uid                  -> getNewUID
- * DEPRECATED getUserFromSQL              -> getUser
- * DEPRECATED create_username             -> getUserInfo
- * DEPRECATED create_sql_username         -> getUserInfo
- * DEPRECATED getUserIDFromSQL            -> getUserID
  * DEPRECATED delete_sql_session          -> see tcms_authentication
  * DEPRECATED create_session              -> see tcms_authentication
  * DEPRECATED create_sql_session          -> see tcms_authentication
@@ -162,9 +155,6 @@ defined('_TCMS_VALID') or die('Restricted access');
  * DEPRECATED check_session               -> checks the session files for the mtime
  * DEPRECATED check_sql_session           -> check session time in sql
  * DEPRECATED create_admin                -> get the admin session uid
- * DEPRECATED getAllDocuments             -> Get all documents
- * DEPRECATED getXMLFiles                 -> Return a array of all xml files inside a path
- * DEPRECATED getMimeType                 -> Get the mimetype of a filename
  * 
  * </code>
  *
@@ -3868,228 +3858,6 @@ class tcms_main {
 	
 	
 	/**
-	 * Get the username of a user id
-	 *
-	 * @deprecated Deprecated since version 1.6
-	 * @param String $userID
-	 * @return String
-	 */
-	public function getUser($userID) {
-		if($this->db_choosenDB == 'xml') {
-			$tcms_config = new tcms_configuration($this->administer);
-			$c_charset = $tcms_config->getCharset();
-			unset($tcms_config);
-			
-			if(file_exists($this->administer.'/tcms_user/'.$userID.'.xml')) {
-				$xmlUser = new xmlparser($this->administer.'/tcms_user/'.$userID.'.xml', 'r');
-				
-				$tmpNickXML = $xmlUser->readSection('user', 'username');
-			}
-			else{
-				$tmpNickXML = '';
-			}
-			
-			if($tmpNickXML == '') {
-				$nickXML = false;
-			}
-			else{
-				$nickXML = $this->decodeText($tmpNickXML, '2', $c_charset);
-			}
-		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
-			$sqlCN = $sqlAL->connect(
-				$this->db_user, 
-				$this->db_pass, 
-				$this->db_host, 
-				$this->db_database, 
-				$this->db_port
-			);
-			
-			$sqlQR = $sqlAL->query("SELECT * FROM ".$this->db_prefix."user WHERE uid = '".$userID."'");
-			$sqlNR = $sqlAL->getNumber($sqlQR);
-			
-			if($sqlNR > 0) {
-				$sqlObj = $sqlAL->fetchObject($sqlQR);
-				$nickXML = $sqlObj->username;
-			}
-			else{
-				$nickXML = false;
-			}
-		}
-		
-		return $nickXML;
-	}
-	
-	
-	
-	/**
-	 * Get the id for a user
-	 *
-	 * @deprecated Deprecated since version 1.6
-	 * @param String $realOrNick
-	 * @return String
-	 */
-	public function getUserID($realOrNick) {
-		if($this->db_choosenDB == 'xml') {
-			$tcms_config = new tcms_configuration($this->administer);
-			$c_charset = $tcms_config->getCharset();
-			unset($tcms_config);
-			
-			$arrUserXML = $this->_getPathContent($this->administer.'/tcms_user');
-			
-			$userFound = false;
-			
-			foreach($arrUserXML as $key => $XMLUserFile) {
-				if($XMLUserFile != 'index.html') {
-					$xmlUser = new xmlparser($this->administer.'/tcms_user/'.$XMLUserFile, 'r');
-					
-					$tmpNickXML = $xmlUser->readSection('user', 'name');
-					$nickXML = $this->decodeText($tmpNickXML, '2', $c_charset);
-					
-					if($realOrNick == $nickXML) {
-						return substr($XMLUserFile, 0, 32);
-						$userFound = true;
-						break;
-					}
-					else{
-						$tmpRealXML = $xmlUser->readSection('user', 'username');
-						$arrRealXML = $this->decodeText($tmpRealXML, '2', $c_charset);
-						
-						if($realOrNick == $arrRealXML) {
-							return substr($XMLUserFile, 0, 32);
-							$userFound = true;
-							break;
-						}
-						else{
-							$userFound = false;
-						}
-					}
-					
-					$nickXML = '';
-					$arrRealXML = '';
-				}
-			}
-		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
-			$sqlCN = $sqlAL->connect(
-				$this->db_user, 
-				$this->db_pass, 
-				$this->db_host, 
-				$this->db_database, 
-				$this->db_port
-			);
-			
-			$sqlQR = $sqlAL->query("SELECT * FROM ".$this->db_prefix."user WHERE username = '".$realOrNick."'");
-			$sqlNR = $sqlAL->getNumber($sqlQR);
-			
-			if($sqlNR != 0) {
-				$sqlObj = $sqlAL->fetchObject($sqlQR);
-				$userID = $sqlObj->uid;
-			}
-			else{
-				$sqlQR = $sqlAL->query("SELECT * FROM ".$this->db_prefix."user WHERE name = '".$realOrNick."'");
-				$sqlNR = $sqlAL->getNumber($sqlQR);
-				
-				if($sqlNR != 0) {
-					$sqlARR = $sqlAL->fetchObject($sqlQR);
-					$userID = $sqlObj->uid;
-				}
-				else{
-					$userID = false;
-				}
-			}
-			
-			return $userID;
-		}
-		
-		if(!$userFound) { return false; }
-	}
-	
-	
-	
-	/**
-	 * Get some information about the current user
-	 *
-	 * @deprecated Deprecated since version 1.6
-	 * @param String $session
-	 * @return Array
-	 */
-	public function getUserInfo($session) {
-		if($this->db_choosenDB == 'xml') {
-			$fileopen = fopen($this->administer.'/tcms_session/'.$session, 'r');
-			$arr_user = fread($fileopen, filesize($this->administer.'/tcms_session/'.$session));
-			
-			$arr_username = explode('##', $arr_user);
-			$ws_user = $arr_username[0];
-			$ws_id   = $arr_username[1];
-			
-			fclose($fileopen);
-			
-			$authXML = new xmlparser($this->administer.'/tcms_user/'.$ws_id.'.xml', 'r');
-			
-			$arr_ws['user']  = $ws_user;
-			$arr_ws['id']    = $ws_id;
-			$arr_ws['group'] = $authXML->readSection('user', 'group');
-			$arr_ws['name']  = $authXML->readSection('user', 'name');
-			
-			$authXML->flush();
-			unset($authXML);
-		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
-			$sqlCN = $sqlAL->connect(
-				$this->db_user, 
-				$this->db_pass, 
-				$this->db_host, 
-				$this->db_database, 
-				$this->db_port
-			);
-			
-			if($this->db_choosenDB == 'mssql') {
-				$strSQL = "SELECT "
-				.$this->db_prefix."session.[user_id], "
-				.$this->db_prefix."user.[name], "
-				.$this->db_prefix."user.username, "
-				.$this->db_prefix."user.[group]"
-				//.$this->db_prefix."usergroup.right"
-				." FROM ".$this->db_prefix."session"
-				." INNER JOIN ".$this->db_prefix."user ON (".$this->db_prefix."session.[user_id] = ".$this->db_prefix."user.uid)"
-				//." INNER JOIN ".$this->db_prefix."usergroup ON (".$this->db_prefix."user.group = ".$this->db_prefix."usergroup.uid)"
-				." WHERE (".$this->db_prefix."session.uid = '".$session."')";
-			}
-			else{
-				$strSQL = "SELECT "
-				.$this->db_prefix."session.user_id, "
-				.$this->db_prefix."user.name, "
-				.$this->db_prefix."user.username, "
-				.$this->db_prefix."user.group"
-				//.$this->db_prefix."usergroup.right"
-				." FROM ".$this->db_prefix."session"
-				." INNER JOIN ".$this->db_prefix."user ON (".$this->db_prefix."session.user_id = ".$this->db_prefix."user.uid)"
-				//." INNER JOIN ".$this->db_prefix."usergroup ON (".$this->db_prefix."user.group = ".$this->db_prefix."usergroup.uid)"
-				." WHERE (".$this->db_prefix."session.uid = '".$session."')";
-			}
-			
-			$sqlQR = $sqlAL->query($strSQL);
-			$sqlObj = $sqlAL->fetchObject($sqlQR);
-			
-			$arr_ws['name']  = $sqlObj->name;
-			$arr_ws['user']  = $sqlObj->username;
-			$arr_ws['id']    = $sqlObj->user_id;
-			$arr_ws['group'] = $sqlObj->group;
-			//$arr_ws['right'] = $sqlObj->right;
-			
-			unset($sqlAL);
-		}
-		
-		return $arr_ws;
-	}
-	
-	
-	
-	/**
 	 * @deprecated Deprecated since version 1.6
 	 * @return Checks the session files for his old
 	 * @desc 
@@ -4097,50 +3865,6 @@ class tcms_main {
 	public function create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $sqlTable, $sqlNumber) {
 		$sqlTable = substr($sqlTable, strlen($this->db_prefix), strlen($sqlTable));
 		return $this->getNewUID($sqlNumber, $sqlTable);
-	}
-	
-	
-	
-	/**
-	 * @deprecated Deprecated since version 1.6
-	 * @return return XML ID for username or realname
-	 * @desc returns false, if nothing found
-	 */
-	public function getUserFromSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $userID) {
-		return $this->getUser($userID);
-	}
-	
-	
-	
-	/**
-	 * @deprecated Deprecated since version 1.6
-	 * @return return username and id
-	 * @desc 
-	 */
-	public function create_username($session) {
-		return $this->getUserInfo($session);
-	}
-	
-	
-	
-	/**
-	 * @deprecated Deprecated since version 1.6
-	 * @return return username and id (SQL)
-	 * @desc 
-	 */
-	public function create_sql_username($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session) {
-		return $this->getUserInfo($session);
-	}
-	
-	
-	
-	/**
-	 * @deprecated Deprecated since version 1.6
-	 * @return return XML ID for username or realname
-	 * @desc returns false, if nothing found
-	 */
-	public function getUserIDfromSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $realOrNick) {
-		return $this->getUserID($realOrNick);
 	}
 	
 	
@@ -4580,53 +4304,6 @@ class tcms_main {
 		
 		if($rt == 'user') { return $ws_user; }
 		if($rt == 'id')  { return $ws_id; }
-	}
-	
-	
-	
-	/**
-	 * Get all documents
-	 * 
-	 * @deprecated Deprecated since version 1.6
-	 * @return Array
-	 */
-	public function getAllDocuments() {
-		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
-		
-		$f = new tcms_file();
-		return $f->getAllDocuments($this->_tcmsConfig->getCharset());
-	}
-	
-	
-	
-	/**
-	 * Return a array of all xml files inside a path
-	 * 
-	 * @deprecated Deprecated since version 1.6
-	 * @param String $path
-	 * @return Array
-	 */
-	public function getXMLFiles($path) {
-		return $this->_getPathContent($path, false, '.xml');
-	}
-	
-	
-	
-	/**
-	 * Get the mimetype of an filename
-	 *
-	 * @deprecated Deprecated since version 1.6
-	 * @param String $filename
-	 * @param Boolean $tolower = false
-	 * @return String
-	 */
-	public function getMimeType($filename, $tolower = false) {
-		echo '<u><strong>DEPRECATED</strong></u><br />';
-		
-		include_once($this->administer.'/../engine/tcms_kernel/tcms_file.lib.php');
-		
-		$f = new tcms_file();
-		return $f->getMimeType($filename, $tolower);
 	}
 }
 

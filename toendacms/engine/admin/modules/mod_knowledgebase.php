@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used as a Knowledgebase.
  *
- * @version 0.5.8
+ * @version 0.5.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -620,12 +620,7 @@ if($todo == 'show'){
 			echo '<td class="tcms_db_2" '.$strLocation.'>'.$arrFAQ['date'][$key].'&nbsp;</td>';
 			
 			
-			if($choosenDB == 'xml'){
-				$strAutor = $tcms_main->getUser($arrFAQ['autor'][$key]);
-			}
-			else{
-				$strAutor = $tcms_main->getUserFromSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $arrFAQ['autor'][$key]);
-			}
+			$strAutor = $tcms_ap->getUser($arrFAQ['autor'][$key]);
 			
 			echo '<td class="tcms_db_2" '.$strLocation.'>'.$strAutor.'&nbsp;</td>';
 			
@@ -982,8 +977,9 @@ if($todo == 'edit') {
 	echo '<strong class="tcms_bold">'._TABLE_AUTOR.'</strong>'
 	.'<select class="tcms_select" name="new_faq_autor">';
 	
-	if($id_group == 'Developer' || $id_group == 'Administrator'){
-		$strAutor = $tcms_main->getUserFromSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $id_uid);
+	if($id_group == 'Developer' 
+	|| $id_group == 'Administrator'){
+		$strAutor = $tcms_ap->getUser($id_uid);
 		
 		echo '<optgroup label="'._USER_SELF.'">'
 		.'<option value="'.$id_uid.'"'.( $arrFAQ_autor == $id_uid ? ' selected="selected"' : '').'>'.$strAutor.'</option>'
@@ -997,11 +993,11 @@ if($todo == 'edit') {
 		echo '</optgroup>';
 	}
 	else{
-		$strAutor = $tcms_main->getUserFromSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $id_uid);
+		$strAutor = $tcms_ap->getUser($id_uid);
 		
 		echo '<option value="'.$id_uid.'"'.( $arrFAQ_autor == $id_uid ? ' selected="selected"' : '').'>'.$strAutor.'</option>';
 		
-		$strAutor = $tcms_main->getUserFromSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $arrFAQ_autor);
+		$strAutor = $tcms_ap->getUser($arrFAQ_autor);
 		
 		if(isset($arrFAQ_autor) && $arrFAQ_autor != '' && ($arrFAQ_autor != $id_username && $arrFAQ_autor != $id_name)){
 			echo '<option value="'.$arrFAQ_autor.'" selected="selected">'.$strAutor.'</option>';
