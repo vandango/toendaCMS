@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a base components loader.
  *
- * @version 0.1.4
+ * @version 0.1.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -32,7 +32,7 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 //if component system is enabled
 if($tcms_config->getComponentsSystemEnabled()){
-	if($tcms_file->checkFileExist($tcms_administer_site.'/components/'.$item.'/component.xml')){
+	if($tcms_file->checkFileExist(_TCMS_PATH.'/components/'.$item.'/component.xml')){
 		// get the component information about the choosen component
 		$arrMainCS = $tcms_cs->getMainCS($item, $is_admin);
 		
@@ -51,7 +51,7 @@ if($tcms_config->getComponentsSystemEnabled()){
 			);
 			
 			// finally include the mainsite file
-			include_once($tcms_administer_site.'/components/'.$arrMainCS['folder'].'/'.$arrMainCS['file']);
+			include_once(_TCMS_PATH.'/components/'.$arrMainCS['folder'].'/'.$arrMainCS['file']);
 		}
 		else{
 			echo '<strong>'._MSG_DISABLED_MODUL.'</strong>';

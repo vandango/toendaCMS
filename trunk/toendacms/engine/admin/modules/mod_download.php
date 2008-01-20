@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used for the download configuration
  * and the administration of all the downloads.
  *
- * @version 0.8.1
+ * @version 0.8.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -717,7 +717,7 @@ if($param_save_mode == 'off'){
 							: '<img src="../images/mimetypes/empty.png" border="0" />' )
 							.'<input name="img_as_mime" value="1" type="hidden" />'
 						:
-							'<img src="../../'.$tcms_administer_site.'/files/'.$arr_dw['uid'][$key].'/'.$arr_dw['img'][$key].'" border="0" />'
+							'<img src="'._TCMS_PATH.'/files/'.$arr_dw['uid'][$key].'/'.$arr_dw['img'][$key].'" border="0" />'
 							.'<br />'
 							.'<input name="img_as_mime" id="img_as_mime_id_'.$key.'" value="1" type="checkbox" />'
 							.'<label for="img_as_mime_id_'.$key.'">'._DOWNLOADS_SAVE_AS_MIMITYPE.'</label>'

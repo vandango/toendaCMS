@@ -20,7 +20,7 @@
  *
  * This module is used as a image viewer.
  *
- * @version 0.7.8
+ * @version 0.7.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -99,8 +99,11 @@ if(isset($choosenDB) && $choosenDB != 'xml') {
 }
 	
 
-$tcms_administer_site = 'data';
-require($tcms_administer_site.'/tcms_global/database.php');
+// load current active page
+include_once('site.php');
+define('_TCMS_PATH', $tcms_site[0]['path']);
+
+require(_TCMS_PATH.'/tcms_global/database.php');
 
 // html class
 $tcms_html = new tcms_html();
@@ -116,7 +119,7 @@ $toenda_copy  = $tcms_version->getToendaCopyright();
 
 
 // config
-$tcms_config  = new tcms_configuration($tcms_administer_site);
+$tcms_config  = new tcms_configuration(_TCMS_PATH);
 
 $use_captcha  = $tcms_config->getCaptchaEnabled();
 $tcmsinst     = $tcms_config->getToendaCMSInSitetitle();
@@ -145,7 +148,7 @@ $tcms_main->setDatabaseInfo($choosenDB);
 
 
 if($choosenDB == 'xml'){
-	$album_xml   = new xmlparser($tcms_administer_site.'/tcms_albums/album_'.$album.'.xml', 'r');
+	$album_xml   = new xmlparser(_TCMS_PATH.'/tcms_albums/album_'.$album.'.xml', 'r');
 	$album_title = $album_xml->read_section('album', 'title');
 	
 	$album_title  = $tcms_main->decodeText($album_title, '2', $c_charset);
@@ -168,7 +171,7 @@ if(!isset($s)){
 }
 
 // cfg
-$tcms_dcp = new tcms_datacontainer_provider($tcms_administer_site, $c_charset);
+$tcms_dcp = new tcms_datacontainer_provider(_TCMS_PATH, $c_charset);
 
 include_once('engine/tcms_kernel/datacontainer/tcms_dc_imagegallery.lib.php');
 
@@ -274,13 +277,13 @@ a.media:hover { text-decoration: underline; }
 // LOAD ALBUMS
 //=====================================================
 
-$arr_dir = $tcms_file->getPathContent($tcms_administer_site.'/images/albums/'.$album.'/');
+$arr_dir = $tcms_file->getPathContent(_TCMS_PATH.'/images/albums/'.$album.'/');
 
 if($tcms_main->isArray($arr_dir)){
 	if($choosenDB == 'xml'){
 		$timecc = 0;
 		foreach($arr_dir as $akey => $aval){
-			$des_xml = new xmlparser($tcms_administer_site.'/tcms_imagegallery/'.$album.'/'.$aval.'.xml','r');
+			$des_xml = new xmlparser(_TCMS_PATH.'/tcms_imagegallery/'.$album.'/'.$aval.'.xml','r');
 			$arr_tc['time'][$timecc] = $des_xml->read_section('image', 'timecode');
 			$arr_tc['desc'][$timecc] = $des_xml->read_section('image', 'text');
 			$arr_tc['file'][$timecc] = $aval;
@@ -338,7 +341,7 @@ if($tcms_main->isArray($arr_tc['time'])){
 		if($key == $arr_tc['file'][$iKey]){
 			echo '<div align="center">';
 			
-			$img_size = getimagesize($tcms_administer_site.'/images/albums/'.$album.'/'.$arr_tc['file'][$iKey]);
+			$img_size = getimagesize(_TCMS_PATH.'/images/albums/'.$album.'/'.$arr_tc['file'][$iKey]);
 			$img_o_width  = $img_size[0];
 			$img_o_height = $img_size[1];
 			
@@ -367,19 +370,19 @@ if($tcms_main->isArray($arr_tc['time'])){
 			echo '<td align="center" width="'.( $defaultSizeX ).'">';
 			
 			if($img_o_width > $defaultSizeX){
-				if(!is_dir($tcms_administer_site.'/thumbnails/'.$album.'/')){
-					mkdir($tcms_administer_site.'/thumbnails/'.$album.'/', 0777);
+				if(!is_dir(_TCMS_PATH.'/thumbnails/'.$album.'/')){
+					mkdir(_TCMS_PATH.'/thumbnails/'.$album.'/', 0777);
 				}
 				
-				if(!$tcms_file->checkFileExist($tcms_administer_site.'/thumbnails/'.$album.'/medium_thumb_'.$arr_tc['file'][$iKey])){
-					tcms_gd::gd_thumbnail($tcms_administer_site.'/images/albums/'.$album.'/', $tcms_administer_site.'/thumbnails/'.$album.'/medium_', $arr_tc['file'][$iKey], $defaultSizeX, 'create');
+				if(!$tcms_file->checkFileExist(_TCMS_PATH.'/thumbnails/'.$album.'/medium_thumb_'.$arr_tc['file'][$iKey])){
+					tcms_gd::gd_thumbnail(_TCMS_PATH.'/images/albums/'.$album.'/', _TCMS_PATH.'/thumbnails/'.$album.'/medium_', $arr_tc['file'][$iKey], $defaultSizeX, 'create');
 				}
 				
-				echo '<img alt="" style="border: 1px solid #333; background: #eee; margin: 0 0 10px 0;" src="'.$tcms_administer_site.'/thumbnails/'.$album.'/medium_thumb_'.$arr_tc['file'][$iKey].'" border="0" /><br />'
+				echo '<img alt="" style="border: 1px solid #333; background: #eee; margin: 0 0 10px 0;" src="'._TCMS_PATH.'/thumbnails/'.$album.'/medium_thumb_'.$arr_tc['file'][$iKey].'" border="0" /><br />'
 				.'</span>';
 			}
 			else{
-				echo '<img alt="" style="border: 1px solid #333; background: #eee; margin: 0 0 10px 0;" src="'.$tcms_administer_site.'/images/albums/'.$album.'/'.$arr_tc['file'][$iKey].'" border="0" /><br />'
+				echo '<img alt="" style="border: 1px solid #333; background: #eee; margin: 0 0 10px 0;" src="'._TCMS_PATH.'/images/albums/'.$album.'/'.$arr_tc['file'][$iKey].'" border="0" /><br />'
 				.'</span>';
 			}
 			echo '</td>';
@@ -397,7 +400,7 @@ if($tcms_main->isArray($arr_tc['time'])){
 			
 			if(!empty($arr_tc['file'][$iKey - 1])) {
 				echo '<a href="?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'album='.$album.'&amp;key='.($arr_tc['file'][$iKey - 1]).'">'
-				.'<img style="border: 1px solid #ccc; margin-right: 3px; background: #eee;" src="'.$tcms_administer_site.'/thumbnails/'.$album.'/thumb_'.$arr_tc['file'][$iKey - 1].'" border="0" />'
+				.'<img style="border: 1px solid #ccc; margin-right: 3px; background: #eee;" src="'._TCMS_PATH.'/thumbnails/'.$album.'/thumb_'.$arr_tc['file'][$iKey - 1].'" border="0" />'
 				.'</a>';
 			}
 			else {
@@ -406,7 +409,7 @@ if($tcms_main->isArray($arr_tc['time'])){
 			
 			if(!empty($arr_tc['file'][$iKey + 1])) {
 				echo '<a href="?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'album='.$album.'&amp;key='.($arr_tc['file'][$iKey + 1]).'">'
-				.'<img style="border: 1px solid #ccc; background: #eee;" src="'.$tcms_administer_site.'/thumbnails/'.$album.'/thumb_'.$arr_tc['file'][$iKey + 1].'" border="0" />'
+				.'<img style="border: 1px solid #ccc; background: #eee;" src="'._TCMS_PATH.'/thumbnails/'.$album.'/thumb_'.$arr_tc['file'][$iKey + 1].'" border="0" />'
 				.'</a>';
 			}
 			else {
@@ -472,7 +475,7 @@ if($tcms_main->isArray($arr_tc['time'])){
 //=====================================================
 
 if($choosenDB == 'xml'){
-	$pro_xml = new xmlparser($tcms_administer_site.'/tcms_global/imagegallery.xml','r');
+	$pro_xml = new xmlparser(_TCMS_PATH.'/tcms_global/imagegallery.xml','r');
 	$show_comments = $pro_xml->read_section('config', 'image_comments');
 }
 else{
@@ -489,7 +492,7 @@ else{
 
 
 if($choosenDB == 'xml'){
-	$news_xml = new xmlparser($tcms_administer_site.'/tcms_global/newsmanager.'.$tcms_config->getLanguageFrontend().'.xml','r');
+	$news_xml = new xmlparser(_TCMS_PATH.'/tcms_global/newsmanager.'.$tcms_config->getLanguageFrontend().'.xml','r');
 	$use_gravatar  = $news_xml->read_section('config', 'use_gravatar');
 	$use_emoticons = $news_xml->read_section('config', 'use_emoticons');
 }
@@ -510,7 +513,7 @@ else{
 if($show_comments == 1) {
 	/* Create userrights */
 	// authentication
-	$tcms_auth = new tcms_authentication($tcms_administer_site, $tcms_config->getCharset(), $imagePath);
+	$tcms_auth = new tcms_authentication(_TCMS_PATH, $tcms_config->getCharset(), $imagePath);
 	
 	$check_session = false;
 	$check_session = $tcms_auth->checkSessionExist($session);
@@ -585,7 +588,7 @@ if($show_comments == 1) {
 		//$comments_folder = str_replace($tcms_file->getMimeType($key), '', $key);
 		//$comments_folder = substr($comments_folder, 0, strlen($comments_folder) - 1);
 		$comments_folder = $key;
-		$comments_folder = $tcms_administer_site.'/tcms_imagegallery/'.$album.'/comments_'.$comments_folder.'/';
+		$comments_folder = _TCMS_PATH.'/tcms_imagegallery/'.$album.'/comments_'.$comments_folder.'/';
 		
 		if(!$tcms_file->checkDirExist($comments_folder)) {
 			$tcms_file->createDir($comments_folder);
@@ -595,7 +598,7 @@ if($show_comments == 1) {
 		
 		if($tcms_main->isArray($arr_comments)){
 			foreach($arr_comments as $ackey => $acvalue){
-				$c_xml = new xmlparser($tcms_administer_site.'/tcms_imagegallery/'.$album.'/comments_'.$key.'/'.$acvalue,'r');
+				$c_xml = new xmlparser(_TCMS_PATH.'/tcms_imagegallery/'.$album.'/comments_'.$key.'/'.$acvalue,'r');
 				$arr_c['value'][$ackey] = $acvalue;
 				$arr_c['name'][$ackey]  = $c_xml->read_section('comment', 'name');
 				$arr_c['email'][$ackey] = $c_xml->read_section('comment', 'email');
@@ -837,7 +840,7 @@ if($cmd == 'comment_save' && $show_comments == 1){
 			
 			
 			if($choosenDB == 'xml'){
-				$xmluser = new xmlparser($tcms_administer_site.'/tcms_imagegallery/'.$album.'/comments_'.$key.'/'.$cur_c_date.'.xml', 'w');
+				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_imagegallery/'.$album.'/comments_'.$key.'/'.$cur_c_date.'.xml', 'w');
 				$xmluser->xml_declaration();
 				$xmluser->xml_section('comment');
 				
@@ -964,7 +967,7 @@ echo '
 //=====================================================
 
 if($choosenDB == 'xml'){
-	if(isset($session) && $session != '' && file_exists($tcms_administer_site.'/tcms_session/'.$session) && filesize($tcms_administer_site.'/tcms_session/'.$session) != 0){ $check_session = true; }
+	if(isset($session) && $session != '' && file_exists(_TCMS_PATH.'/tcms_session/'.$session) && filesize(_TCMS_PATH.'/tcms_session/'.$session) != 0){ $check_session = true; }
 	else{ $check_session = false; }
 }
 else{ $check_session = $tcms_main->check_session_exists($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session); }
@@ -972,7 +975,7 @@ else{ $check_session = $tcms_main->check_session_exists($choosenDB, $sqlUser, $s
 if($check_session){
 	if($is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Presenter'){
 		if($cmd == 'delete'){
-			if($choosenDB == 'xml'){ unlink($tcms_administer_site.'/tcms_imagegallery/'.$album.'/comments_'.$key.'/'.$XMLfile); }
+			if($choosenDB == 'xml'){ unlink(_TCMS_PATH.'/tcms_imagegallery/'.$album.'/comments_'.$key.'/'.$XMLfile); }
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);

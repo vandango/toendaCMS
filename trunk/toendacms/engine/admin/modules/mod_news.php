@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the news.
  *
- * @version 1.8.8
+ * @version 1.8.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -424,7 +424,7 @@ if($todo == 'config') {
 		
 		if(isset($new_news_mm_image)){ $old_news_mm_image = $new_news_mm_image; }
 		
-		echo '<img width="100"'.( $old_news_mm_image == '' ? ' style="visibility:hidden;"' : '' ).' id="news_mm_image" src="../../'.$tcms_administer_site.'/images/Image/'.$old_news_mm_image.'" border="0" />'
+		echo '<img width="100"'.( $old_news_mm_image == '' ? ' style="visibility:hidden;"' : '' ).' id="news_mm_image" src="'._TCMS_PATH.'/images/Image/'.$old_news_mm_image.'" border="0" />'
 		.'<input name="news_mm_image" id="news_tt_image" value="'.$old_news_mm_image.'" type="hidden" />'
 		.'</td></tr>';
 		

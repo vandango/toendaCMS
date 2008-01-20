@@ -20,7 +20,7 @@
  *
  * This file is used for the database actions.
  *
- * @version 0.7.0
+ * @version 0.7.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -508,7 +508,7 @@ if($todo == 'global') {
 */
 
 if($todo == 'save_update') {
-	include_once('../'.$tcms_administer_site.'/tcms_global/database.php');
+	include_once(_TCMS_PATH.'/tcms_global/database.php');
 	
 	$new_user     = $tcms_db_user;
 	$new_password = $tcms_db_password;
@@ -537,11 +537,11 @@ if($todo == 'save_update') {
 		
 		
 		// update to new multi-language
-		$layout_xml = new xmlparser('../'.$tcms_administer_site.'/tcms_global/var.xml','r');
+		$layout_xml = new xmlparser(_TCMS_PATH.'/tcms_global/var.xml','r');
 		$plang = $layout_xml->read_value('front_lang');
 		
 		// update now
-		updateLanguageForXML($tcms_administer_site);
+		updateLanguageForXML();
 	}
 	else {
 		if(file_exists('db/'.$new_engine.'_update_'.$new_update.'.sql')) {
@@ -569,7 +569,7 @@ if($todo == 'save_update') {
 			
 			if($new_update != '160') {
 				// update to new multi-language
-				$layout_xml = new xmlparser('../'.$tcms_administer_site.'/tcms_global/var.xml','r');
+				$layout_xml = new xmlparser(_TCMS_PATH.'/tcms_global/var.xml','r');
 				$plang = $layout_xml->read_value('front_lang');
 				
 				if(file_exists('db/'.$new_engine.'_ext_updateml.sql')){
@@ -599,9 +599,9 @@ if($todo == 'save_update') {
 	
 	
 	// create components folder
-	if(!is_dir('../'.$tcms_administer_site.'/components/')) {
-		mkdir('../'.$tcms_administer_site.'/components/');
-		copy('db/index.html', '../'.$tcms_administer_site.'/components/index.html');
+	if(!is_dir(_TCMS_PATH.'/components/')) {
+		mkdir(_TCMS_PATH.'/components/');
+		copy('db/index.html', _TCMS_PATH.'/components/index.html');
 	}
 	
 	
@@ -612,7 +612,7 @@ if($todo == 'save_update') {
 	}
 	
 	
-	if(file_exists('../'.$tcms_administer_site.'/tcms_global/database.php')) {
+	if(file_exists(_TCMS_PATH.'/tcms_global/database.php')) {
 		echo '<script>'
 		.'document.location.href=\'index.php?site=finish&db='.$new_engine.'\';'
 		.'</script>';
@@ -691,7 +691,7 @@ $tcms_db_port     = \''.$set_port.'\';
 ?>
 ';
 	
-	$fp = fopen('../'.$tcms_administer_site.'/tcms_global/database.php', 'w');
+	$fp = fopen(_TCMS_PATH.'/tcms_global/database.php', 'w');
 	fwrite($fp, $fp_header);
 	fclose($fp);
 	
@@ -753,8 +753,8 @@ $tcms_db_port     = \''.$set_port.'\';
 		else {
 			$file = 'db/'.$new_engine.'_empty.sql';
 			
-			//$tcms_file->deleteDir('../'.$tcms_administer_site.'/images/albums/625106/');
-			//$tcms_file->deleteDir('../'.$tcms_administer_site.'/thumbnails/625106/');
+			//$tcms_file->deleteDir(_TCMS_PATH.'/images/albums/625106/');
+			//$tcms_file->deleteDir(_TCMS_PATH.'/thumbnails/625106/');
 		}
 		
 		$fp = fopen($file, 'r');
@@ -862,7 +862,7 @@ $tcms_db_port     = \''.$set_port.'\';
 	*/
 	
 	
-	if(file_exists('../'.$tcms_administer_site.'/tcms_global/database.php')) {
+	if(file_exists(_TCMS_PATH.'/tcms_global/database.php')) {
 		echo '<script>'
 		.'document.location.href=\'index.php?site=site&lang='.$lang.'&db='.$new_engine.'\';'
 		.'</script>';

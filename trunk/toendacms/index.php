@@ -69,7 +69,6 @@ include_once('engine/tcms_kernel/tcms_loader.lib.php');
 
 // load current active page
 include_once('site.php');
-$tcms_administer_site = $tcms_site[0]['path'];
 define('_TCMS_PATH', $tcms_site[0]['path']);
 
 // load database info

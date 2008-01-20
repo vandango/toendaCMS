@@ -22,7 +22,7 @@ define('_TCMS_VALID', 1);
  *
  * This file is used as the installer central.
  *
- * @version 0.5.3
+ * @version 0.5.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -125,6 +125,10 @@ if(isset($_POST['fullc_email'])){ $fullc_email = $_POST['fullc_email']; }
 	init
 */
 
+// load current active page
+include_once('../site.php');
+define('_TCMS_PATH', '../'.$tcms_site[0]['path']);
+
 if(!isset($site)){ $site = 'language'; }
 if(!isset($lang)){ $lang = 'en'; }
 
@@ -140,14 +144,12 @@ include_once('../engine/tcms_kernel/tcms_sql.lib.php');
 include_once('../engine/tcms_kernel/pclzip/pclzip.lib.php');
 include_once('functions.php');
 
-$tcms_main = new tcms_main('../data');
+$tcms_main = new tcms_main(_TCMS_PATH);
 $tcms_file = new tcms_file();
-
-$tcms_administer_site = 'data';
 
 $tcms_setup_cfg = new tcms_setup_configuration();
 
-$tcms_version = new tcms_version('../');
+$tcms_version = new tcms_version(str_replace($tcms_site[0]['path'], '', _TCMS_PATH));
 
 $param_save_mode = $tcms_main->getPHPSetting('safe_mode');
 if($param_save_mode == 'on') {

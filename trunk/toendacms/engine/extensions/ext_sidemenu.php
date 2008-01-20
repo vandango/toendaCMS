@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a side menu.
  *
- * @version 0.5.2
+ * @version 0.5.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -35,7 +35,7 @@ $getLang = $tcms_config->getLanguageCodeForTCMS($lang);
 
 if($navigation == 1){
 	if($choosenDB == 'xml'){
-		$layout_xml = new xmlparser($tcms_administer_site.'/tcms_global/sidebar.xml','r');
+		$layout_xml = new xmlparser(_TCMS_PATH.'/tcms_global/sidebar.xml','r');
 		$menu_title = $layout_xml->readSection('side', 'sidemenu_title');
 		$show_title = $layout_xml->readSection('side', 'sidemenu');
 		
@@ -213,7 +213,7 @@ if($navigation == 1){
 	}
 	else {
 		if($choosenDB == 'xml'){
-			$poll_xml      = new xmlparser($tcms_administer_site.'/tcms_global/poll.xml','r');
+			$poll_xml      = new xmlparser(_TCMS_PATH.'/tcms_global/poll.xml','r');
 			$show_sm_poll  = $poll_xml->readSection('poll', 'use_poll_sidemenu');
 			$sm_poll_id    = $poll_xml->readSection('poll', 'poll_sidemenu_id');
 			$sm_poll_title = $poll_xml->readSection('poll', 'poll_sm_title');
@@ -244,11 +244,11 @@ if($navigation == 1){
 				if($id == 'components'){ $tempID = ($id.'&item='.$item); }
 				else{ $tempID = $id; }
 				
-				$this_link = $tcms_main->xml_readdir_content($tempID, $tcms_administer_site.'/tcms_menu/', 'link', 'menu', 5);
+				$this_link = $tcms_main->xml_readdir_content($tempID, _TCMS_PATH.'/tcms_menu/', 'link', 'menu', 5);
 				
-				if(file_exists($tcms_administer_site.'/tcms_menu/'.$this_link.'.xml')){
+				if(file_exists(_TCMS_PATH.'/tcms_menu/'.$this_link.'.xml')){
 					if($this_link != 'index.html'){
-						$xml       = new xmlparser($tcms_administer_site.'/tcms_menu/'.$this_link.'.xml','r');
+						$xml       = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$this_link.'.xml','r');
 						$subParent = $xml->readSection('menu', 'id');
 					}
 				}

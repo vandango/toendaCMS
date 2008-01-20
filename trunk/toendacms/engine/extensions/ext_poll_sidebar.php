@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the poll functionality.
  *
- * @version 0.4.1
+ * @version 0.4.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -51,7 +51,7 @@ if($use_poll == 1) {
 		init
 	*/
 	if($choosenDB == 'xml'){
-		$poll_xml = new xmlparser($tcms_administer_site.'/tcms_global/poll.xml','r');
+		$poll_xml = new xmlparser(_TCMS_PATH.'/tcms_global/poll.xml','r');
 		$show_pt         = $poll_xml->read_section('poll', 'show_poll_title');
 		$stitle_ext_poll = $poll_xml->read_section('poll', 'poll_title');
 		$sw_poll         = $poll_xml->read_section('poll', 'poll_side_width');
@@ -75,7 +75,7 @@ if($use_poll == 1) {
 	
 	/* LOAD POLL       */
 	if($choosenDB == 'xml') {
-		$arr_polls = $tcms_file->getXMLFiles($tcms_administer_site.'/tcms_polls/');
+		$arr_polls = $tcms_file->getXMLFiles(_TCMS_PATH.'/tcms_polls/');
 	}
 	else{
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -110,7 +110,7 @@ if($use_poll == 1) {
 		
 		// HAVE YOU VOTE?
 		if($choosenDB == 'xml'){
-			$arr_polls = $tcms_main->getXMLFiles($tcms_administer_site.'/tcms_polls/'.$current_poll_tag);
+			$arr_polls = $tcms_main->getXMLFiles(_TCMS_PATH.'/tcms_polls/'.$current_poll_tag);
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -174,7 +174,7 @@ if($use_poll == 1) {
 			//if($show_ext_poll == 1){
 			if($use_poll == 1){
 				if($choosenDB == 'xml'){
-					$vote_xml = new xmlparser($tcms_administer_site.'/tcms_polls/'.$current_poll, 'r');
+					$vote_xml = new xmlparser(_TCMS_PATH.'/tcms_polls/'.$current_poll, 'r');
 					$poll_subtitle  = $vote_xml->read_section('poll', 'title');
 				}
 				else{
@@ -259,17 +259,17 @@ if($use_poll == 1) {
 		
 		if($paction == 'result'){
 			if($choosenDB == 'xml'){
-				$vote_xml = new xmlparser($tcms_administer_site.'/tcms_polls/'.$current_poll_tag.'.xml', 'r');
+				$vote_xml = new xmlparser(_TCMS_PATH.'/tcms_polls/'.$current_poll_tag.'.xml', 'r');
 				$poll_subtitle = $vote_xml->read_section('poll', 'title');
 				
 				$poll_subtitle = $tcms_main->decodeText($poll_subtitle, '2', $c_charset);
 				echo tcms_html::text($poll_subtitle, 'left');
 				echo '<br />';
 				
-				$number    = $tcms_main->load_xml_files($tcms_administer_site.'/tcms_polls/'.$current_poll_tag, 'number');
+				$number    = $tcms_main->load_xml_files(_TCMS_PATH.'/tcms_polls/'.$current_poll_tag, 'number');
 				
 				
-				$arrPollCalc       = $tcms_main->count_answers($tcms_administer_site.'/tcms_polls/'.$current_poll_tag);
+				$arrPollCalc       = $tcms_main->count_answers(_TCMS_PATH.'/tcms_polls/'.$current_poll_tag);
 				
 				$arr_count_answers = $arrPollCalc['answers'];
 				$arr_question      = $arrPollCalc['question'];
@@ -367,7 +367,7 @@ if($use_poll == 1) {
 				else{ $remote = getHostByAddr($ip); }
 				
 				if($choosenDB == 'xml'){
-					$xmluser = new xmlparser($tcms_administer_site.'/tcms_polls/'.$poll.'/'.$ip.'.xml', 'w');
+					$xmluser = new xmlparser(_TCMS_PATH.'/tcms_polls/'.$poll.'/'.$ip.'.xml', 'w');
 					$xmluser->xml_c_declaration($c_charset);
 					$xmluser->xml_section('vote');
 					$xmluser->write_value('ip', $ip);

@@ -972,7 +972,7 @@ if($id_group == 'Developer'
 					copy($_FILES['content01']['tmp_name'], $imgDir.$fileName);
 				}
 				
-				$msg = _MSG_IMAGE.' "../../'.$tcms_administer_site.'/images/Image/'.$_FILES['content01']['name'].'".';
+				$msg = _MSG_IMAGE.' "'._TCMS_PATH.'/images/Image/'.$_FILES['content01']['name'].'".';
 			}
 			else{
 				$content01 = $tmp_content01;

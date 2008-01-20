@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a personal notebook.
  *
- * @version 0.2.2
+ * @version 0.2.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -49,7 +49,7 @@ if(isset($_POST['sender'])){ $sender = $_POST['sender']; }
 // ----------------------------------------------------
 
 if($choosenDB == 'xml'){
-	$note_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_notepad/'.$m_tag.'.xml','r');
+	$note_xml = new xmlparser(_TCMS_PATH.'/tcms_notepad/'.$m_tag.'.xml','r');
 	$nname = $note_xml->read_section('note', 'name');
 	$nnote = $note_xml->read_section('note', 'text');
 	
@@ -145,7 +145,7 @@ if($todo == 'save') {
 	$new_name = $tcms_main->encodeText($new_name, '2', $c_charset);
 	
 	if($choosenDB == 'xml'){
-		$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_notepad/'.$maintag.'.xml','w');
+		$xmluser = new xmlparser(_TCMS_PATH.'/tcms_notepad/'.$maintag.'.xml','w');
 		$xmluser->xml_declaration();
 		$xmluser->xml_section('note');
 		

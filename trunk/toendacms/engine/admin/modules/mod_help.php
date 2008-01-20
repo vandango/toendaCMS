@@ -23,11 +23,15 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for help and as a documents wiki wrapper.
  *
- * @version 0.1.3
+ * @version 0.1.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
  */
+
+
+include_once('../../site.php');
+define('_TCMS_PATH', '../../'.$tcms_site[0]['path']);
 
 
 echo '<script type="text/javascript" src="../js/tabs/tabpane.js"></script>
@@ -56,7 +60,7 @@ echo '<br /><br />';
 
 echo '<iframe src="http://wiki.toendacms.com/index.php/Main_Page" class="tcms_help_frame" frameborder="1" />';
 
-$lang_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/var.xml', 'r');
+$lang_xml = new xmlparser(_TCMS_PATH.'/tcms_global/var.xml', 'r');
 $tcms_lang = $lang_xml->read_section('global', 'lang');
 
 if(file_exists('documentation/documentation_'.$tcms_lang.'.html')) {

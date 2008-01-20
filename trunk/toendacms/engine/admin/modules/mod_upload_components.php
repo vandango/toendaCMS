@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used as a upload and edit page for the
  * components.
  *
- * @version 0.0.3
+ * @version 0.0.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -111,11 +111,11 @@ if($id_group == 'Developer'
 			$gzDirName = substr($gzFileName, 0, $gzEnd);
 			
 			// make theme dir and make theme var name
-			mkdir('../../'.$tcms_administer_site.'/components/'.$gzDirName, 0777);
+			mkdir(_TCMS_PATH.'/components/'.$gzDirName, 0777);
 			
 			// theme paths
-			$themeDir  = '../../'.$tcms_administer_site.'/components/'.$gzDirName.'/';
-			$themePath = '../../'.$tcms_administer_site.'/components/';
+			$themeDir  = _TCMS_PATH.'/components/'.$gzDirName.'/';
+			$themePath = _TCMS_PATH.'/components/';
 			
 			// copy file to theme directory
 			copy($_FILES['zlib_upload']['tmp_name'], $themeDir.$gzFileName);

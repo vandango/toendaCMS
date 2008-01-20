@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a topmenu.
  *
- * @version 0.3.1
+ * @version 0.3.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -32,7 +32,7 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 if($tcms_config->getTopmenuEnabled()) {
 	if($choosenDB == 'xml') {
-		$poll_xml      = new xmlparser($tcms_administer_site.'/tcms_global/poll.xml','r');
+		$poll_xml      = new xmlparser(_TCMS_PATH.'/tcms_global/poll.xml','r');
 		$show_tm_poll  = $poll_xml->readSection('poll', 'use_poll_topmenu');
 		$tm_poll_id    = $poll_xml->readSection('poll', 'poll_topmenu_id');
 		$tm_poll_title = $poll_xml->readSection('poll', 'poll_tm_title');

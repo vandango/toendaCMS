@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a base components loader.
  *
- * @version 0.1.6
+ * @version 0.1.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -48,7 +48,7 @@ if($tcms_config->getComponentsSystemEnabled()){
 			);
 			
 			
-			include_once($tcms_administer_site.'/components/'.$arrSideCS['folder'][$key].'/'.$arrSideCS['file'][$key]);
+			include_once(_TCMS_PATH.'/components/'.$arrSideCS['folder'][$key].'/'.$arrSideCS['file'][$key]);
 			
 			
 			//echo '<br /><br />';

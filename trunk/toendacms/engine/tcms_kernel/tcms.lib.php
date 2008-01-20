@@ -4114,8 +4114,8 @@ class tcms_main {
 	public function check_session_exists($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session) {
 		if($this->db_choosenDB == 'xml') {
 			if($this->isReal($session) 
-			&& file_exists($tcms_administer_site.'/tcms_session/'.$session) 
-			&& filesize(''.$tcms_administer_site.'/tcms_session/'.$session) != 0) {
+			&& file_exists(_TCMS_PATH.'/tcms_session/'.$session) 
+			&& filesize(''._TCMS_PATH.'/tcms_session/'.$session) != 0) {
 				return true;
 			}
 			else {

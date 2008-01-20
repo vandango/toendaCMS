@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a search module.
  *
- * @version 0.6.0
+ * @version 0.6.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -204,7 +204,8 @@ elseif($searchword == $nothing_search) {
 	echo $tcms_html->contentText(_SEARCH_EMPTY);
 }
 else {
-	include_once('engine/tcms_kernel/tcms_search.lib.php');
+	//include_once('engine/tcms_kernel/tcms_search.lib.php');
+	using('toendacms.kernel.search');
 	
 	$tcms_search = new tcms_search(
 		$c_charset, 
@@ -212,37 +213,167 @@ else {
 		_TCMS_PATH, 
 		$is_admin, 
 		$tcms_time, 
-		$tcms_html
+		$tcms_html, 
+		$tcms_config
 	);
 	
 	switch($option){
-		case 'con': $sc = $tcms_search->searchDocuments($searchword); break;
+		case 'con':
+			// documents
+			echo $tcms_html->contentUnderlinedTitle(
+				_TCMS_MENU_CONTENT
+			);
+			
+			$sc = $tcms_search->searchDocuments(
+				$searchword, 
+				$tcms_config->getLanguageFrontend()
+			);
+			break;
+		
 		case 'news':
-			$sc = search_news($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s);
+			// news
+			echo '<div id="news_sr">'
+			.$tcms_html->contentUnderlinedTitle(
+				_TCMS_MENU_NEWS
+			).'</div>';
+			
+			$sc = $tcms_search->searchNews(
+				$searchword, 
+				$tcms_config->getLanguageFrontend()
+			);
+			
+			if($sc > 0) {
+				echo '<script>'
+				.'showXP(\'news_sr\');'
+				.'</script>';
+			}
+			else {
+				echo '<script>'
+				.'hideXP(\'news_sr\');'
+				.'</script>';
+			}
 			break;
 		
 		case 'pro':
+			// products
+			echo $tcms_html->contentUnderlinedTitle(
+				_TCMS_MENU_PRODUCTS
+			);
+			
 			$sc = search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s);
 			break;
 		
 		case 'down':
+			// downloads
+			echo '<div id="down_sr">'
+			.$tcms_html->contentUnderlinedTitle(
+				_TCMS_MENU_DOWN
+			).'</div>';
+			
 			$sc = search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s);
+			
+			if($sc > 0) {
+				echo '<script>'
+				.'showXP(\'down_sr\');'
+				.'</script>';
+			}
+			else {
+				echo '<script>'
+				.'hideXP(\'down_sr\');'
+				.'</script>';
+			}
 			break;
 		
 		case 'img':
+			// images
+			echo $tcms_html->contentUnderlinedTitle(
+				_TCMS_MENU_GALLERY
+			);
+			
 			$sc = search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s);
 			break;
 		
 		case 'faq':
+			// faq
+			echo $tcms_html->contentUnderlinedTitle(
+				_TCMS_MENU_FAQ
+			);
+			
 			$sc = search_faqs($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s);
 			break;
 		
 		case 'all':
-			$sc = $tcms_search->searchDocuments($searchword);
-			$sc = search_news($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s);
+			// documents
+			echo $tcms_html->contentUnderlinedTitle(
+				_TCMS_MENU_CONTENT
+			);
+			
+			$sc = $tcms_search->searchDocuments(
+				$searchword, 
+				$tcms_config->getLanguageFrontend()
+			);
+			
+			// news
+			echo '<div id="news_sr">'
+			.$tcms_html->contentUnderlinedTitle(
+				_TCMS_MENU_NEWS
+			).'</div>';
+			
+			$sc = $tcms_search->searchNews(
+				$searchword, 
+				$tcms_config->getLanguageFrontend()
+			);
+			
+			if($sc > 0) {
+				echo '<script>'
+				.'showXP(\'news_sr\');'
+				.'</script>';
+			}
+			else {
+				echo '<script>'
+				.'hideXP(\'news_sr\');'
+				.'</script>';
+			}
+			
+			// products
+			echo $tcms_html->contentUnderlinedTitle(
+				_TCMS_MENU_PRODUCTS
+			);
+			
 			$sc = search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s);
+			
+			// downloads
+			echo '<div id="down_sr">'
+			.$tcms_html->contentUnderlinedTitle(
+				_TCMS_MENU_DOWN
+			).'</div>';
+			
+			
 			$sc = search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s);
+			
+			if($sc > 0) {
+				echo '<script>'
+				.'showXP(\'down_sr\');'
+				.'</script>';
+			}
+			else {
+				echo '<script>'
+				.'hideXP(\'down_sr\');'
+				.'</script>';
+			}
+			
+			// images
+			echo $tcms_html->contentUnderlinedTitle(
+				_TCMS_MENU_GALLERY
+			);
+			
 			$sc = search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s);
+			
+			// faq
+			echo $tcms_html->contentUnderlinedTitle(
+				_TCMS_MENU_FAQ
+			);
+			
 			$sc = search_faqs($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s);
 			$sc = 1;
 			break;
@@ -272,18 +403,17 @@ else {
 
 
 function search_news($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s){
-	//$tcms_main = new tcms_main($tcms_administer_site);
-	//$tcms_main->setGlobalFolder($seoFolder, $seoEnabled);
 	global $tcms_db_prefix;
 	global $tcms_main;
 	global $tcms_administer_site;
+	global $tcms_config;
 	
-	if($choosenDB == 'xml'){
-		$arr_searchfiles = $tcms_main->load_xml_files($tcms_administer_site.'/tcms_news/', 'files');
+	if($choosenDB == 'xml') {
+		$arr_searchfiles = $tcms_main->load_xml_files(_TCMS_PATH.'/tcms_news/', 'files');
 		
 		foreach($arr_searchfiles as $skey => $sval){
 			//echo $sval.'<br>';
-			$search_xml = new xmlparser($tcms_administer_site.'/tcms_news/'.$sval,'r');
+			$search_xml = new xmlparser(_TCMS_PATH.'/tcms_news/'.$sval,'r');
 			
 			$acs = $search_xml->readSection('news', 'access');
 			
@@ -334,7 +464,7 @@ function search_news($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 			}
 		}
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
@@ -361,8 +491,9 @@ function search_news($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 				." FROM ".$tcms_db_prefix."news"
 				." WHERE ( `access` = 'Public' "
 				.$strAdd
-				." AND ( `newstext` REGEXP '".$searchword."' OR `newstext` LIKE '%".$searchword."%' )"
-				." OR ( `title` REGEXP '".$searchword."' OR `title` LIKE '%".$searchword."%' )";
+				." AND (( `newstext` REGEXP '".$searchword."' OR `newstext` LIKE '%".$searchword."%' )"
+				." OR ( `title` REGEXP '".$searchword."' OR `title` LIKE '%".$searchword."%' ))"
+				." AND `language` = '".$tcms_config->getLanguageFrontend()."'";
 				break;
 			
 			case 'pgsql':
@@ -370,8 +501,9 @@ function search_news($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 				." FROM ".$tcms_db_prefix."news"
 				." WHERE ( access = 'Public' "
 				.$strAdd
-				." AND ( newstext LIKE '%".$searchword."%' )"
-				." OR ( title LIKE '%".$searchword."%' )";
+				." AND (( newstext LIKE '%".$searchword."%' )"
+				." OR ( title LIKE '%".$searchword."%' ))"
+				." AND language = '".$tcms_config->getLanguageFrontend()."'";
 				break;
 			
 			case 'mssql':
@@ -379,8 +511,9 @@ function search_news($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 				." FROM ".$tcms_db_prefix."news"
 				." WHERE ( [access] = 'Public' "
 				.$strAdd
-				." AND ( [newstext] LIKE '%".$searchword."%' )"
-				." OR ( [title] LIKE '%".$searchword."%' )";
+				." AND (( [newstext] LIKE '%".$searchword."%' )"
+				." OR ( [title] LIKE '%".$searchword."%' ))"
+				." AND [language] = '".$tcms_config->getLanguageFrontend()."'";
 				break;
 		}
 		
@@ -424,24 +557,22 @@ function search_news($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 
 
 function search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s){
-	//$tcms_main = new tcms_main($tcms_administer_site);
-	//$tcms_main->setGlobalFolder($seoFolder, $seoEnabled);
 	global $tcms_db_prefix;
 	global $tcms_main;
 	global $tcms_administer_site;
 	
 	if($choosenDB == 'xml'){
-		$arr_searchfiles = $tcms_file->getPathContent($tcms_administer_site.'/tcms_products/', 'files');
+		$arr_searchfiles = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_products/', 'files');
 		
 		if(is_array($arr_searchfiles)){
 			foreach($arr_searchfiles as $skey => $sval){
 				//echo $sval.'<br>';
-				$arr_searchfiles2 = $tcms_file->getPathContent($tcms_administer_site.'/tcms_products/'.$sval, 'files');
+				$arr_searchfiles2 = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_products/'.$sval, 'files');
 				
 				if(is_array($arr_searchfiles2)){
 					foreach($arr_searchfiles2 as $skey2 => $sval2){
 						if($sval2 != 'folderinfo.xml'){
-							$search_xml = new xmlparser($tcms_administer_site.'/tcms_products/'.$sval.'/'.$sval2,'r');
+							$search_xml = new xmlparser(_TCMS_PATH.'/tcms_products/'.$sval.'/'.$sval2,'r');
 							
 							$acs = $xml->readSection('main', 'access');
 							
@@ -632,12 +763,12 @@ function search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost,
 	global $tcms_administer_site;
 	
 	if($choosenDB == 'xml'){
-		$arr_searchfiles = $tcms_file->getPathContent($tcms_administer_site.'/files/', 'files');
+		$arr_searchfiles = $tcms_file->getPathContent(_TCMS_PATH.'/files/', 'files');
 		
 		if(is_array($arr_searchfiles)){
 			foreach($arr_searchfiles as $skey => $sval){
 				if($sval != 'index.html'){
-					$xml = new xmlparser($tcms_administer_site.'/files/'.$sval.'/info.xml','r');
+					$xml = new xmlparser(_TCMS_PATH.'/files/'.$sval.'/info.xml','r');
 					$type = $xml->readSection('info', 'sql_type');
 					
 					$acs = $xml->readSection('info', 'access');
@@ -821,15 +952,15 @@ function search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $s
 	global $tcms_administer_site;
 	
 	if($choosenDB == 'xml'){
-		$arr_searchfiles = $tcms_file->getPathContent($tcms_administer_site.'/tcms_imagegallery/', 'files');
+		$arr_searchfiles = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_imagegallery/', 'files');
 		
 		if(is_array($arr_searchfiles)){
 			foreach($arr_searchfiles as $skey => $sval){
-				$arr_searchfiles2 = $tcms_file->getPathContent($tcms_administer_site.'/tcms_imagegallery/'.$sval, 'files');
+				$arr_searchfiles2 = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_imagegallery/'.$sval, 'files');
 				//echo $sval;
 				if(is_array($arr_searchfiles2)){
 					foreach($arr_searchfiles2 as $skey2 => $sval2){
-						$search_xml = new xmlparser($tcms_administer_site.'/tcms_imagegallery/'.$sval.'/'.$sval2,'r');
+						$search_xml = new xmlparser(_TCMS_PATH.'/tcms_imagegallery/'.$sval.'/'.$sval2,'r');
 						
 						$tit = substr($sval2, 0, strpos($sval2, '.xml'));
 						

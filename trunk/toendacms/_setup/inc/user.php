@@ -20,7 +20,7 @@
  *
  * This file is used to create a user.
  *
- * @version 0.2.1
+ * @version 0.2.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -172,7 +172,7 @@ if($todo == 'global'){
 
 if($todo == 'save'){
 	//***************************************
-	require('../'.$tcms_administer_site.'/tcms_global/database.php');
+	require(_TCMS_PATH.'/tcms_global/database.php');
 	
 	$new_engine   = $tcms_db_engine;
 	$new_user     = $tcms_db_user;
@@ -207,7 +207,7 @@ if($todo == 'save'){
 			/*
 				user
 			*/
-			$xmluser = new xmlparser('../'.$tcms_administer_site.'/tcms_user/'.$var_conf.'.xml', 'w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_user/'.$var_conf.'.xml', 'w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('user');
 			
@@ -241,7 +241,7 @@ if($todo == 'save'){
 			/*
 				note
 			*/
-			$xmluser = new xmlparser('../'.$tcms_administer_site.'/tcms_notepad/'.$var_conf.'.xml','w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_notepad/'.$var_conf.'.xml','w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('note');
 			
@@ -259,7 +259,7 @@ if($todo == 'save'){
 			*/
 			$tmp_maintag = substr(md5(microtime()), 0, 10);
 			
-			$xmluser = new xmlparser('../'.$tcms_administer_site.'/tcms_contacts/'.$tmp_maintag.'.xml', 'w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_contacts/'.$tmp_maintag.'.xml', 'w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('contact');
 			
@@ -281,7 +281,7 @@ if($todo == 'save'){
 			
 			
 			
-			if(file_exists('../'.$tcms_administer_site.'/tcms_user/'.$var_conf.'.xml')){ $ccNext = true; }
+			if(file_exists(_TCMS_PATH.'/tcms_user/'.$var_conf.'.xml')){ $ccNext = true; }
 			else{ $ccNext = false; }
 		}
 		else{

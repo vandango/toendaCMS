@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a user menu.
  *
- * @version 0.3.0
+ * @version 0.3.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -32,10 +32,10 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 if($user_navigation == 1){
 	if($choosenDB == 'xml'){
-		$mtu_xml = new xmlparser($tcms_administer_site.'/tcms_global/sidebar.xml','r');
+		$mtu_xml = new xmlparser(_TCMS_PATH.'/tcms_global/sidebar.xml','r');
 		$menu_title_user = $mtu_xml->readSection('side', 'usermenu_title');
 		
-		$xmlSet = new xmlparser($tcms_administer_site.'/tcms_global/userpage.xml','r');
+		$xmlSet = new xmlparser(_TCMS_PATH.'/tcms_global/userpage.xml','r');
 		$npo = $xmlSet->readSection('userpage', 'news_publish');
 		$ipo = $xmlSet->readSection('userpage', 'image_publish');
 		$apo = $xmlSet->readSection('userpage', 'album_publish');
