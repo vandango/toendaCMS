@@ -21,7 +21,7 @@
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 0.6.5
+ * @version 0.6.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -55,7 +55,9 @@ include_once('../tcms_kernel/tcms_loader.lib.php');
 $language_stage = 'admin';
 include_once('../language/lang_admin.php');
 
-$tcms_administer_site = '../../data';
+// load current active page
+include_once('../../site.php');
+define('_TCMS_PATH', '../../'.$tcms_site[0]['path']);
 
 using('toendacms.kernel.file', false, true);
 using('toendacms.kernel.time', false, true);
@@ -68,12 +70,12 @@ using('toendacms.kernel.authentication', false, true);
 using('toendacms.kernel.configuration', false, true);
 using('toendacms.kernel.version', false, true);
 
-include($tcms_administer_site.'/tcms_global/database.php');
+include(_TCMS_PATH.'/tcms_global/database.php');
 
 $tcms_file = new tcms_file();
-$tcms_main = new tcms_main($tcms_administer_site, $choosenDB);
+$tcms_main = new tcms_main(_TCMS_PATH, $choosenDB);
 $tcms_html = new tcms_html();
-$tcms_config = new tcms_configuration($tcms_administer_site);
+$tcms_config = new tcms_configuration(_TCMS_PATH);
 $tcms_version = new tcms_version('../../');
 
 // database
@@ -100,16 +102,16 @@ else {
 	$imagePath = '../../'.$seoFolder.'/';
 }
 
-$tcms_auth = new tcms_authentication($tcms_administer_site, $c_charset, $imagePath);
+$tcms_auth = new tcms_authentication(_TCMS_PATH, $c_charset, $imagePath);
 
 if(isset($faq) && $faq != ''){
 	$arr_dir = $tcms_file->getPathContent(
-		$tcms_administer_site.'/images/knowledgebase/'
+		_TCMS_PATH.'/images/knowledgebase/'
 	);
 }
 else{
 	$arr_dir = $tcms_file->getPathContent(
-		$tcms_administer_site.'/images/Image/'
+		_TCMS_PATH.'/images/Image/'
 		.( isset($folder) ? $folder.'/' : '' )
 	);
 }
@@ -238,10 +240,10 @@ if(isset($id_user)){
 					$fileName = $tcms_main->cleanFilename($fileName);
 					
 					if(isset($faq) && $faq != '') {
-						$imgDir = $tcms_administer_site.'/images/knowledgebase/';
+						$imgDir = _TCMS_PATH.'/images/knowledgebase/';
 					}
 					else {
-						$imgDir = $tcms_administer_site.'/images/Image/';
+						$imgDir = _TCMS_PATH.'/images/Image/';
 					}
 					
 					copy($_FILES['mediaImage']['tmp_name'], $imgDir.$fileName);
@@ -300,7 +302,7 @@ if(isset($id_user)){
 				$dvalue2 = ( isset($folder) ? $folder.'/' : '' ).$dvalue;
 				$dvalue3 = $dvalue;
 				
-				if(is_dir(trim($tcms_administer_site.'/images/Image/'.$dvalue2))) {
+				if(is_dir(trim(_TCMS_PATH.'/images/Image/'.$dvalue2))) {
 					$addurl = '';
 					
 					if(isset($v)){
@@ -346,40 +348,40 @@ if(isset($id_user)){
 					if(!preg_match('/.mp3/i', strtolower($dvalue))){
 						$tcms_gd = new tcms_gd();
 						
-						if(!$tcms_file->checkFileExist($tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue)){
+						if(!$tcms_file->checkFileExist(_TCMS_PATH.'/images/upload_thumb/thumb_'.$dvalue)){
 							if(isset($faq) && $faq != '') {
-								//tcms_gd::gd_thumbnail($tcms_administer_site.'/images/knowledgebase/', $tcms_administer_site.'/images/upload_thumb/', $dvalue, '100', 'create');
+								//tcms_gd::gd_thumbnail(_TCMS_PATH.'/images/knowledgebase/', _TCMS_PATH.'/images/upload_thumb/', $dvalue, '100', 'create');
 								
 								$tcms_gd->createThumbnail(
-									$tcms_administer_site.'/images/knowledgebase/', 
-									$tcms_administer_site.'/images/upload_thumb/', 
+									_TCMS_PATH.'/images/knowledgebase/', 
+									_TCMS_PATH.'/images/upload_thumb/', 
 									$dvalue, 
 									100
 								);
 							}
 							else {
-								//tcms_gd::gd_thumbnail($tcms_administer_site.'/images/Image/', $tcms_administer_site.'/images/upload_thumb/', $dvalue, '100', 'create');
+								//tcms_gd::gd_thumbnail(_TCMS_PATH.'/images/Image/', _TCMS_PATH.'/images/upload_thumb/', $dvalue, '100', 'create');
 								
 								$tcms_gd->createThumbnail(
-									$tcms_administer_site.'/images/Image/', 
-									$tcms_administer_site.'/images/upload_thumb/', 
+									_TCMS_PATH.'/images/Image/', 
+									_TCMS_PATH.'/images/upload_thumb/', 
 									$dvalue, 
 									100
 								);
 							}
 						}
 						
-						//$img_size = getimagesize($tcms_administer_site.'/images/knowledgebase/'.$dvalue);
-						//$img_size = getimagesize($tcms_administer_site.'/images/Image/'.$dvalue);
+						//$img_size = getimagesize(_TCMS_PATH.'/images/knowledgebase/'.$dvalue);
+						//$img_size = getimagesize(_TCMS_PATH.'/images/Image/'.$dvalue);
 						
 						if(isset($faq) && $faq != '') {
 							$tcms_gd->readImageInformation(
-								$tcms_administer_site.'/images/knowledgebase/'.$dvalue2
+								_TCMS_PATH.'/images/knowledgebase/'.$dvalue2
 							);
 						}
 						else {
 							$tcms_gd->readImageInformation(
-								$tcms_administer_site.'/images/Image/'.$dvalue2
+								_TCMS_PATH.'/images/Image/'.$dvalue2
 							);
 						}
 						
@@ -421,15 +423,15 @@ if(isset($id_user)){
 						$checkType = false;
 					}
 					elseif($checkType){
-						echo '<img style="border: 1px solid #333333;" src="'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue.'" border="0" />';
+						echo '<img style="border: 1px solid #333333;" src="'._TCMS_PATH.'/images/upload_thumb/thumb_'.$dvalue.'" border="0" />';
 					}
 					
 					
 					if(isset($faq) && $faq != '') {
-						$size = filesize($tcms_administer_site.'/images/knowledgebase/'.$dvalue2) / 1024;
+						$size = filesize(_TCMS_PATH.'/images/knowledgebase/'.$dvalue2) / 1024;
 					}
 					else {
-						$size = filesize($tcms_administer_site.'/images/Image/'.$dvalue2) / 1024;
+						$size = filesize(_TCMS_PATH.'/images/Image/'.$dvalue2) / 1024;
 					}
 					
 					$kpos = strpos($size, '.');
@@ -448,20 +450,20 @@ if(isset($id_user)){
 					
 					
 					if($seoEnabled) {
-						$seo_path = str_replace('../../', '', $tcms_administer_site);
+						$seo_path = str_replace('../../', '', _TCMS_PATH);
 						$seo_path = '/'.$seoFolder.'/'.$seo_path;
 						
-						$img_path = $seo_path;//str_replace('../../', '', $tcms_administer_site);
+						$img_path = $seo_path;//str_replace('../../', '', _TCMS_PATH);
 					}
 					else {
-						//$seo_path = $tcms_administer_site;
-						//$img_path = $tcms_administer_site;
+						//$seo_path = _TCMS_PATH;
+						//$img_path = _TCMS_PATH;
 						
 						
-						$seo_path = str_replace('../../', '', $tcms_administer_site);
+						$seo_path = str_replace('../../', '', _TCMS_PATH);
 						$seo_path = '/'.$seoFolder.'/'.$seo_path;
 						
-						$img_path = $seo_path;//str_replace('../../', '', $tcms_administer_site);
+						$img_path = $seo_path;//str_replace('../../', '', _TCMS_PATH);
 					}
 					
 					

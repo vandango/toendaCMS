@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides a frontpage with news and a text.
  *
- * @version 1.5.8
+ * @version 1.5.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -263,8 +263,8 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 							$count = 0;
 							
 							foreach($catLinkTmp as $catKey => $catVal) {
-								if(trim($catVal) != ''){
-									$catXML = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$catVal.'.xml','r');
+								if(trim($catVal) != '') {
+									$catXML = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$catVal.'.xml','r');
 									
 									$catLink['link'][$count] = $catVal;
 									$catLink['name'][$count] = $catXML->readSection('cat', 'name');
@@ -276,7 +276,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 							}
 						}
 						else {
-							$catXML = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$dcNews->GetCategories().'.xml','r');
+							$catXML = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$dcNews->GetCategories().'.xml','r');
 							
 							$catLink['name'][0] = $catXML->readSection('cat', 'name');
 							
@@ -286,7 +286,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 						}
 					}
 					else {
-						$catXML = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$defaultCat.'.xml','r');
+						$catXML = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$defaultCat.'.xml','r');
 						
 						$catLink['name'][0] = $catXML->readSection('cat', 'name');
 						

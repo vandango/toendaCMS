@@ -20,7 +20,7 @@
  *
  * This is used as a help window.
  *
- * @version 0.0.7
+ * @version 0.0.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -41,9 +41,11 @@ if(isset($_GET['helpText'])){ $helpText = $_GET['helpText']; }
 include_once('../tcms_kernel/tcms_xml.lib.php');
 include_once('../tcms_kernel/tcms_configuration.lib.php');
 
-$tcms_administer_site = '../../data';
+// load current active page
+include_once('../../site.php');
+define('_TCMS_PATH', '../../'.$tcms_site[0]['path']);
 
-$tcms_config = new tcms_configuration($tcms_administer_site);
+$tcms_config = new tcms_configuration(_TCMS_PATH);
 $tcms_version = new tcms_version('../../');
 
 $adminTheme = $tcms_config->getAdminTheme();

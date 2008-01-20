@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.4.7
+ * @version 1.4.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -1044,7 +1044,7 @@ class tcms_datacontainer_provider extends tcms_main {
 				$dcNews = new tcms_dc_news();
 				$dcNews = $arrNewsDC[$n_key];
 				
-				$userID = $_tcms_auth->getUserID($dcNews->GetAutor());
+				$userID = $_tcms_ap->getUserID($dcNews->GetAutor());
 				
 				if($userID != false) {
 					$dcAcc = new tcms_dc_account();

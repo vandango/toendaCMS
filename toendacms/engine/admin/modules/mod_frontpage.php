@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the frontpage.
  *
- * @version 0.8.0
+ * @version 0.8.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -64,7 +64,7 @@ if($id_group == 'Developer'
 		
 		echo '<script language="JavaScript" src="../js/dhtml.js"></script>';
 		
-		$c_xml      = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/var.xml','r');
+		$c_xml      = new xmlparser(_TCMS_PATH.'/tcms_global/var.xml','r');
 		$c_charset  = $c_xml->read_section('global', 'charset');
 		
 		
@@ -80,8 +80,8 @@ if($id_group == 'Developer'
 			$getLang = $tcms_front_lang;
 		
 		if($choosenDB == 'xml'){
-			if(file_exists('../../'.$tcms_administer_site.'/tcms_global/frontpage.'.$getLang.'.xml')) {
-				$front_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/frontpage.'.$getLang.'.xml', 'r');
+			if(file_exists(_TCMS_PATH.'/tcms_global/frontpage.'.$getLang.'.xml')) {
+				$front_xml = new xmlparser(_TCMS_PATH.'/tcms_global/frontpage.'.$getLang.'.xml', 'r');
 				$old_front_id        = $front_xml->read_section('front', 'front_id');
 				$old_front_title     = $front_xml->read_section('front', 'front_title');
 				$old_front_stamp     = $front_xml->read_section('front', 'front_stamp');
@@ -503,7 +503,7 @@ if($id_group == 'Developer'
 		
 		
 		if($choosenDB == 'xml') {
-			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/frontpage.'.$setLang.'.xml', 'w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/frontpage.'.$setLang.'.xml', 'w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('front');
 			

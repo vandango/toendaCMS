@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the contactform configuration.
  *
- * @version 0.4.8
+ * @version 0.4.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -92,8 +92,8 @@ if($id_group == 'Developer'
 		
 		
 		if($choosenDB == 'xml'){
-			if(file_exists('../../'.$tcms_administer_site.'/tcms_global/contactform.'.$getLang.'.xml')) {
-				$contactform_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/contactform.'.$getLang.'.xml','r');
+			if(file_exists(_TCMS_PATH.'/tcms_global/contactform.'.$getLang.'.xml')) {
+				$contactform_xml = new xmlparser(_TCMS_PATH.'/tcms_global/contactform.'.$getLang.'.xml','r');
 				$old_show_cisb      = $contactform_xml->read_section('email', 'show_contacts_in_sidebar');
 				$old_email          = $contactform_xml->read_section('email', 'contact');
 				$old_contact_title  = $contactform_xml->read_section('email', 'contacttitle');
@@ -423,7 +423,7 @@ if($id_group == 'Developer'
 		
 		
 		if($choosenDB == 'xml'){
-			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/contactform.'.$setLang.'.xml', 'w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/contactform.'.$setLang.'.xml', 'w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('email');
 			

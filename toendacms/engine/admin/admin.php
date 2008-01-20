@@ -59,8 +59,6 @@ include_once('../tcms_kernel/tcms_loader.lib.php');
 
 // load current active page
 include_once('../../site.php');
-$tcms_administer_site = $tcms_site[0]['path'];
-$tcms_administer_path = '../../'.$tcms_site[0]['path'];
 define('_TCMS_PATH', '../../'.$tcms_site[0]['path']);
 
 // import filesystem

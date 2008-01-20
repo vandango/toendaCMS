@@ -20,7 +20,7 @@
  *
  * This file is used for the dite settings.
  *
- * @version 0.2.5
+ * @version 0.2.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -438,7 +438,7 @@ if($todo == 'save'){
 	if($m_name    == ''){ $m_name    = '-'; }
 	if($new_key   == ''){ $new_key   = '-'; }
 	
-	$xmluser = new xmlparser('../'.$tcms_administer_site.'/tcms_global/namen.xml', 'w');
+	$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/namen.xml', 'w');
 	$xmluser->xmlDeclaration();
 	$xmluser->xmlSection($var_conf);
 	
@@ -458,7 +458,7 @@ if($todo == 'save'){
 	if($new_owner_url    == ''){ $new_owner_url    = '-'; }
 	if($new_copyright    == ''){ $new_copyright    = '-'; }
 	
-	$xmluser = new xmlparser('../'.$tcms_administer_site.'/tcms_global/footer.xml', 'w');
+	$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/footer.xml', 'w');
 	$xmluser->xmlDeclaration();
 	$xmluser->xmlSection($var_conf);
 	
@@ -483,7 +483,7 @@ if($todo == 'save'){
 	if(empty($keywords))   { $keywords    = '-'; }
 	if(empty($description)){ $description = '-'; }
 	
-	$xmluser = new xmlparser('../'.$tcms_administer_site.'/tcms_global/var.xml', 'w');
+	$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/var.xml', 'w');
 	$xmluser->xmlDeclaration();
 	$xmluser->xmlSection($var_conf);
 	
@@ -553,7 +553,7 @@ if($todo == 'save'){
 	
 	// update now the settings
 	if($db == 'xml') {
-		updateLanguageForXML($tcms_administer_site);
+		updateLanguageForXML();
 	}
 	
 	if($tcms_file->checkFileExist('../data/tcms_global/namen.xml') 

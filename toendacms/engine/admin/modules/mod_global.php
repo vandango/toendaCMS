@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * This module is for the global configuration settings.
  * 
- * @version 1.4.5
+ * @version 1.4.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Admin Backend
@@ -227,7 +227,7 @@ if($id_group == 'Developer'
 	}
 	
 	//$globals_xml = new xmlparser(
-	//	'../../'.$tcms_administer_site.'/tcms_global/var.xml', 
+	//	_TCMS_PATH.'/tcms_global/var.xml', 
 	//	'r'
 	//);
 	
@@ -279,7 +279,7 @@ if($id_group == 'Developer'
 	
 	// userpage
 	if($choosenDB == 'xml') {
-		$contactform_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/userpage.xml','r');
+		$contactform_xml = new xmlparser(_TCMS_PATH.'/tcms_global/userpage.xml','r');
 		
 		$old_text_width   = $contactform_xml->readSection('userpage', 'text_width');
 		$old_input_width  = $contactform_xml->readSection('userpage', 'input_width');
@@ -1320,7 +1320,7 @@ $tcms_mail_password    = \''.$new_mail_password.'\';
 
 ?>';
 			
-			$fp = fopen('../../'.$tcms_administer_site.'/tcms_global/mail.php', 'w');
+			$fp = fopen(_TCMS_PATH.'/tcms_global/mail.php', 'w');
 			fwrite($fp, $fp_header);
 			fclose($fp);
 			
@@ -1335,7 +1335,7 @@ $tcms_mail_password    = \''.$new_mail_password.'\';
 			if(empty($new_pic_publish)  || $new_pic_publish  == '') { $new_pic_publish  = 0; }
 			
 			if($choosenDB == 'xml') {
-				$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/userpage.xml', 'w');
+				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/userpage.xml', 'w');
 				$xmluser->xmlDeclaration();
 				$xmluser->xmlSection('userpage');
 				
@@ -1379,13 +1379,13 @@ $tcms_mail_password    = \''.$new_mail_password.'\';
 			$_FILES['logo']['type'] == 'image/jpeg' || 
 			$_FILES['logo']['type'] == 'image/bmp')) {
 				$fileName = $_FILES['logo']['name'];
-				$imgDir = '../../'.$tcms_administer_site.'/images/Image/';
+				$imgDir = _TCMS_PATH.'/images/Image/';
 				
 				$logo = $_FILES['logo']['name'];
 				
 				//$fileName = $tcms_main->encodeText_without_crypt($fileName, '2', $c_charset);
 				
-				if(!file_exists('../../'.$tcms_administer_site.'/images/Image/'.$_FILES['logo']['name'])) {
+				if(!file_exists(_TCMS_PATH.'/images/Image/'.$_FILES['logo']['name'])) {
 					copy($_FILES['logo']['tmp_name'], $imgDir.$fileName);
 				}
 				
@@ -1492,7 +1492,7 @@ $tcms_mail_password    = \''.$new_mail_password.'\';
 			
 			//***************************************
 			
-			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/namen.xml', 'w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/namen.xml', 'w');
 			$xmluser->xmlDeclaration();
 			$xmluser->xmlSection('namen');
 			
@@ -1507,7 +1507,7 @@ $tcms_mail_password    = \''.$new_mail_password.'\';
 			
 			//***************************************
 			
-			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/footer.xml', 'w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/footer.xml', 'w');
 			$xmluser->xmlDeclaration();
 			$xmluser->xmlSection('footer');
 			
@@ -1529,7 +1529,7 @@ $tcms_mail_password    = \''.$new_mail_password.'\';
 			
 			// ---------------------------
 			
-			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/var.xml', 'w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/var.xml', 'w');
 			$xmluser->xmlDeclaration();
 			$xmluser->xmlSection('global');
 			
@@ -1610,7 +1610,7 @@ $tcms_db_prefix   = \''.$new_prefix.'\';
 
 ?>';
 				
-			$fp = fopen('../../'.$tcms_administer_site.'/tcms_global/database.php', 'w');
+			$fp = fopen(_TCMS_PATH.'/tcms_global/database.php', 'w');
 			fwrite($fp, $fp_header);
 			fclose($fp);
 			
@@ -1644,7 +1644,7 @@ $tcms_db_prefix   = \''.$new_prefix.'\';
 	if($todo == 'backup') {
 		if($choosenDB == 'xml') {
 			$archive = new PclZip('../../cache/xml_database_backup_'.date('dmYHi').'.zip');
-  			$v_list = $archive->create('../../'.$tcms_administer_site);
+  			$v_list = $archive->create(_TCMS_PATH);
   			
   			if($v_list == 0) {
   				die('Error : '.$archive->errorInfo(true));

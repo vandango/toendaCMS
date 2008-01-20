@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used for the products configuration
  * and the administration of all the products.
  *
- * @version 0.8.2
+ * @version 0.8.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -1529,7 +1529,7 @@ if($todo == 'edit') {
 			trim($wsImage1) == '_empty_' || trim($wsImage1) == '' ? 
 			'<img id="tmp_image_file1" src="../images/no_picture.gif" border="0" />' : 
 			( file_exists(_TCMS_PATH.'/images/products/'.$wsImage1) ?
-				'<img id="tmp_image_file1" src="../../'.$tcms_administer_site.'/images/products/'.$wsImage1.'" border="0" />' :
+				'<img id="tmp_image_file1" src="'._TCMS_PATH.'/images/products/'.$wsImage1.'" border="0" />' :
 				'<img id="tmp_image_file1" src="../images/no_picture.gif" border="0" />'
 			)
 		)
@@ -1552,7 +1552,7 @@ if($todo == 'edit') {
 			trim($wsImage2) == '_empty_' || trim($wsImage2) == '' ? 
 			'<img id="tmp_image_file2" src="../images/no_picture.gif" border="0" />' : 
 			( file_exists(_TCMS_PATH.'/images/products/'.$wsImage2) ?
-				'<img id="tmp_image_file2" src="../../'.$tcms_administer_site.'/images/products/'.$wsImage2.'" border="0" />' :
+				'<img id="tmp_image_file2" src="'._TCMS_PATH.'/images/products/'.$wsImage2.'" border="0" />' :
 				'<img id="tmp_image_file2" src="../images/no_picture.gif" border="0" />'
 			)
 		)
@@ -1575,7 +1575,7 @@ if($todo == 'edit') {
 			trim($wsImage3) == '_empty_' || trim($wsImage3) == '' ? 
 			'<img id="tmp_image_file3" src="../images/no_picture.gif" border="0" />' : 
 			( file_exists(_TCMS_PATH.'/images/products/'.$wsImage3) ?
-				'<img id="tmp_image_file3" src="../../'.$tcms_administer_site.'/images/products/'.$wsImage3.'" border="0" />' :
+				'<img id="tmp_image_file3" src="'._TCMS_PATH.'/images/products/'.$wsImage3.'" border="0" />' :
 				'<img id="tmp_image_file3" src="../images/no_picture.gif" border="0" />'
 			)
 		)
@@ -1598,7 +1598,7 @@ if($todo == 'edit') {
 			trim($wsImage4) == '_empty_' || trim($wsImage4) == '' ? 
 			'<img id="tmp_image_file4" src="../images/no_picture.gif" border="0" />' : 
 			( file_exists(_TCMS_PATH.'/images/products/'.$wsImage4) ?
-				'<img id="tmp_image_file4" src="../../'.$tcms_administer_site.'/images/products/'.$wsImage4.'" border="0" />' :
+				'<img id="tmp_image_file4" src="'._TCMS_PATH.'/images/products/'.$wsImage4.'" border="0" />' :
 				'<img id="tmp_image_file4" src="../images/no_picture.gif" border="0" />'
 			)
 		)

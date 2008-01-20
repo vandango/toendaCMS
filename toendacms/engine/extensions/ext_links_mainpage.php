@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the links for the content.
  *
- * @version 0.1.8
+ * @version 0.1.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -45,12 +45,12 @@ echo $tcms_html->contentModuleHeader(
 
 
 if($choosenDB == 'xml') {
-	$arr_filename = $tcms_file->getPathContent($tcms_administer_site.'/tcms_links/');
+	$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_links/');
 	$count = 0;
 	
 	if($tcms_main->isArray($arr_filename)) {
 		foreach($arr_filename as $key => $value) {
-			$menu_xml = new xmlparser($tcms_administer_site.'/tcms_links/'.$value,'r');
+			$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_links/'.$value,'r');
 			$is_published = $menu_xml->read_section('link', 'published');
 			$is_category  = $menu_xml->read_section('link', 'type');
 			$is_main      = $menu_xml->read_section('link', 'module');
@@ -96,12 +96,12 @@ if($choosenDB == 'xml') {
 				unset($arr_filename);
 				
 				
-				$arr_filename = $tcms_file->getPathContent($tcms_administer_site.'/tcms_links/');
+				$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_links/');
 				$count = 0;
 				
 				if($tcms_main->isArray($arr_filename)) {
 					foreach($arr_filename as $key => $value) {
-						$menu_xml = new xmlparser($tcms_administer_site.'/tcms_links/'.$value,'r');
+						$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_links/'.$value,'r');
 						$is_published = $menu_xml->read_section('link', 'published');
 						$is_type      = $menu_xml->read_section('link', 'type');
 						$is_category  = $menu_xml->read_section('link', 'category');

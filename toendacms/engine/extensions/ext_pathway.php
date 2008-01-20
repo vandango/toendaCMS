@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a pathway.
  *
- * @version 0.5.6
+ * @version 0.5.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -75,7 +75,7 @@ switch($id){
 				$count = 0;
 				
 				if($category != ''){
-					$xml = new xmlparser($tcms_administer_site.'/files/'.$category.'/info.xml', 'r');
+					$xml = new xmlparser(_TCMS_PATH.'/files/'.$category.'/info.xml', 'r');
 					
 					//$access_cat = $down_xml->readSection('faq', 'access');
 					
@@ -111,7 +111,7 @@ switch($id){
 					}
 					
 					while($checkCat != ''){
-						$xml = new xmlparser($tcms_administer_site.'/files/'.$arrFAQparent['parent'][$count - 1].'/info.xml', 'r');
+						$xml = new xmlparser(_TCMS_PATH.'/files/'.$arrFAQparent['parent'][$count - 1].'/info.xml', 'r');
 						
 						$checkCat = $xml->readSection('info', 'cat');
 						$arrFAQparent['type'][$count]   = $xml->readSection('info', 'sql_type');
@@ -268,7 +268,7 @@ switch($id){
 			
 			if($news != 'archive'){
 				if($choosenDB == 'xml'){
-					$news_detail_xml = new xmlparser($tcms_administer_site.'/tcms_news/'.$news.'.xml','r');
+					$news_detail_xml = new xmlparser(_TCMS_PATH.'/tcms_news/'.$news.'.xml','r');
 					$arr_news['title'] = $news_detail_xml->readSection('news', 'title');
 					$arr_news['order'] = $news_detail_xml->readSection('news', 'order');
 					
@@ -320,7 +320,7 @@ switch($id){
 			echo $_HOMEPATH.'&nbsp;'.$pathwayChar.'&nbsp;'.$arr_path[$id];
 			
 			if($choosenDB == 'xml'){
-				$xmlP = new xmlparser($tcms_administer_site.'/tcms_news_categories/'.$cat.'.xml', 'r');
+				$xmlP = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$cat.'.xml', 'r');
 				$catName = $xmlP->readSection('cat', 'name');
 				
 				$catName = $tcms_main->decodeText($catName, '2', $c_charset);
@@ -351,7 +351,7 @@ switch($id){
 		
 		if(isset($albums)){
 			if($choosenDB == 'xml'){
-				$album_xml   = new xmlparser($tcms_administer_site.'/tcms_albums/album_'.$albums.'.xml', 'r');
+				$album_xml   = new xmlparser(_TCMS_PATH.'/tcms_albums/album_'.$albums.'.xml', 'r');
 				$album_title = $album_xml->readSection('album', 'title');
 				
 				$album_title = $tcms_main->decodeText($album_title, '2', $c_charset);
@@ -387,7 +387,7 @@ switch($id){
 		if(isset($category) || isset($article)) {
 			if(isset($article)) {
 				if($choosenDB == 'xml') {
-					/*$xml = new xmlparser($tcms_administer_site.'/tcms_knowledgebase/'.$article.'.xml','r');
+					/*$xml = new xmlparser(_TCMS_PATH.'/tcms_knowledgebase/'.$article.'.xml','r');
 					
 					//$access_cat = $down_xml->readSection('faq', 'access');
 					
@@ -448,7 +448,7 @@ switch($id){
 				/*$count = 0;
 				
 				if($category != ''){
-					$xml = new xmlparser($tcms_administer_site.'/tcms_knowledgebase/'.$category.'.xml','r');
+					$xml = new xmlparser(_TCMS_PATH.'/tcms_knowledgebase/'.$category.'.xml','r');
 					
 					//$access_cat = $down_xml->readSection('faq', 'access');
 					
@@ -482,7 +482,7 @@ switch($id){
 					}
 					
 					while($checkCat != ''){
-						$xml = new xmlparser($tcms_administer_site.'/tcms_knowledgebase/'.$arrFAQparent['parent'][$count - 1].'.xml','r');
+						$xml = new xmlparser(_TCMS_PATH.'/tcms_knowledgebase/'.$arrFAQparent['parent'][$count - 1].'.xml','r');
 						
 						$checkCat = $xml->readSection('faq', 'category');
 						$arrFAQparent['type'][$count]   = $xml->readSection('faq', 'type');
@@ -622,7 +622,7 @@ switch($id){
 		
 		if(isset($article)) {
 			if($choosenDB == 'xml') {
-				/*$xml = new xmlparser($tcms_administer_site.'/tcms_knowledgebase/'.$article.'.xml','r');
+				/*$xml = new xmlparser(_TCMS_PATH.'/tcms_knowledgebase/'.$article.'.xml','r');
 				
 				//$access_cat = $down_xml->readSection('faq', 'access');
 				
@@ -708,7 +708,7 @@ switch($id){
 				$count = 0;
 				
 				if($category != ''){
-					$xml = new xmlparser($tcms_administer_site.'/tcms_knowledgebase/'.$category.'.xml','r');
+					$xml = new xmlparser(_TCMS_PATH.'/tcms_knowledgebase/'.$category.'.xml','r');
 					
 					//$access_cat = $down_xml->readSection('faq', 'access');
 					
@@ -742,7 +742,7 @@ switch($id){
 					}
 					
 					while($checkCat != ''){
-						$xml = new xmlparser($tcms_administer_site.'/tcms_knowledgebase/'.$arrFAQparent['parent'][$count - 1].'.xml','r');
+						$xml = new xmlparser(_TCMS_PATH.'/tcms_knowledgebase/'.$arrFAQparent['parent'][$count - 1].'.xml','r');
 						
 						$checkCat = $xml->readSection('faq', 'category');
 						$arrFAQparent['type'][$count]   = $xml->readSection('faq', 'type');
@@ -877,7 +877,7 @@ switch($id){
 		
 		if(isset($article)){
 			if($choosenDB == 'xml'){
-				$xml = new xmlparser($tcms_administer_site.'/tcms_knowledgebase/'.$article.'.xml','r');
+				$xml = new xmlparser(_TCMS_PATH.'/tcms_knowledgebase/'.$article.'.xml','r');
 				
 				//$access_cat = $down_xml->readSection('faq', 'access');
 				
@@ -1004,8 +1004,8 @@ switch($id){
 			COMPONENTS
 		*/
 		
-		if(file_exists($tcms_administer_site.'/components/'.$item.'/component.xml')){
-			$csXML = new xmlparser($tcms_administer_site.'/components/'.$item.'/component.xml', 'r');
+		if(file_exists(_TCMS_PATH.'/components/'.$item.'/component.xml')){
+			$csXML = new xmlparser(_TCMS_PATH.'/components/'.$item.'/component.xml', 'r');
 			$pathName = $csXML->read_value('title');
 		}
 		else{

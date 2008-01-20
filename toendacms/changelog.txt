@@ -28,7 +28,7 @@ Version 2.0
 Developer Version
 	- 1.9.0 Development
 
-Building Steps: 4017
+Building Steps: 4033
 
 
 
@@ -45,6 +45,7 @@ Building Steps: 4017
  - changed: Deleted all PHP4 constuctors iun all classes.
  - changed: Massive cleanup of the source code, removed many deprecated functions,
             cleanup many PHP4 specific code.
+ - changed: Better search page.
  - changed: 
 
  - added: SEO format 3 (.html-format) has now the template variable.

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a media manager.
  *
- * @version 0.6.2
+ * @version 0.6.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -566,7 +566,7 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 								$img_o_height > $img_o_width
 								? ( $img_o_height > 100 ? ' height=100' : '' )
 								: ( $img_o_width > 100 ? ' width=100' : '' )
-							).' src=../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue.''
+							).' src='._TCMS_PATH.'/images/upload_thumb/thumb_'.$dvalue.''
 							.' border=0 />';
 							
 							$fileType = 'image';
@@ -738,7 +738,7 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 								? ( $img_o_height > 100 ? ' height="100"' : '' )
 								: ( $img_o_width > 100 ? ' width="100"' : '' )
 							).' style="border: 1px solid #ccc;"'
-							.' src="../../'.$tcms_administer_site.'/images/upload_thumb/thumb_'.$dvalue.'"'
+							.' src="'._TCMS_PATH.'/images/upload_thumb/thumb_'.$dvalue.'"'
 							.' border="0" />';
 						}
 						else {

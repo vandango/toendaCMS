@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used as a law-concurring
  * publishing form.
  *
- * @version 0.3.5
+ * @version 0.3.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -48,7 +48,7 @@ echo '<span class="contentmain">';
 
 if($imp_contact != 'no_contact') {
 	if($choosenDB == 'xml') {
-		$impressum_xml = new xmlparser($tcms_administer_site.'/tcms_contacts/'.$imp_contact.'.xml','r');
+		$impressum_xml = new xmlparser(_TCMS_PATH.'/tcms_contacts/'.$imp_contact.'.xml','r');
 		$con_published = $impressum_xml->readValue('published');
 		
 		if($con_published == 1){

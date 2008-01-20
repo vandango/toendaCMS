@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used to manage the galleries.
  *
- * @version 0.9.1
+ * @version 0.9.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -568,9 +568,10 @@ if($param_save_mode == 'off') {
 						}
 					}
 					
-					echo '<img id="show_thumbnail_'.$key.'" src="../../'.$tcms_administer_site.'/thumbnails/'.$tvalue.'/thumb_'.$arr_albums['image'][$key].'" border="0" alt="Thumbnail" />';
+					echo '<img id="show_thumbnail_'.$key.'" src="'._TCMS_PATH.'/thumbnails/'.$tvalue.'/thumb_'.$arr_albums['image'][$key].'" border="0" alt="Thumbnail" />';
 					echo '<br />';
-					echo '<select name="gImage" onchange="document.getElementById(\'show_thumbnail_'.$key.'\').src=\_TCMS_PATH.'/thumbnails/'.$tvalue.'/thumb_\'+this.value;">';
+					echo '<select name="gImage" onchange="'
+					.'document.getElementById(\'show_thumbnail_'.$key.'\').src=\''._TCMS_PATH.'/thumbnails/'.$tvalue.'/thumb_\'+this.value;">';
 					
 					if($arrGImages) {
 						foreach($arrGImages as $keyz => $val) {
@@ -769,7 +770,7 @@ if($param_save_mode == 'off') {
 					
 					// cell
 					echo '<td class="tcms_db_2" width="100" valign="top">'
-					.'<img style="border: 1px solid #333333;" src="../../'.$tcms_administer_site.'/thumbnails/'.$value.'/thumb_'.$dvalue.'" border="0" />'
+					.'<img style="border: 1px solid #333333;" src="'._TCMS_PATH.'/thumbnails/'.$value.'/thumb_'.$dvalue.'" border="0" />'
 					.'</td>';
 					
 					

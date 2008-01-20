@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a product manager.
  *
- * @version 0.7.2
+ * @version 0.7.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -330,8 +330,8 @@ if($action == 'showall'){
 						
 						// image
 						if($arr_pro['image1'][$key] != '' && file_exists('data/images/products/'.$arr_pro['image1'][$key])) {
-							if(!is_dir($tcms_administer_site.'/images/products_thumb/')) {
-								mkdir($tcms_administer_site.'/images/products_thumb/', 0777);
+							if(!is_dir(_TCMS_PATH.'/images/products_thumb/')) {
+								mkdir(_TCMS_PATH.'/images/products_thumb/', 0777);
 							}
 							
 							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
@@ -345,10 +345,10 @@ if($action == 'showall'){
 							$img_o_height = $img_size[1];
 							
 							if($img_o_width > 235) {
-								if(!file_exists($tcms_administer_site.'/images/products_thumb/'.$arr_pro['image1'][$key])) {
+								if(!file_exists(_TCMS_PATH.'/images/products_thumb/'.$arr_pro['image1'][$key])) {
 									$tcms_gd->createThumbnail(
-										$tcms_administer_site.'/images/products/', 
-										$tcms_administer_site.'/images/products_thumb/', 
+										_TCMS_PATH.'/images/products/', 
+										_TCMS_PATH.'/images/products_thumb/', 
 										$arr_pro['image1'][$key], 
 										'150', 
 										false, 
@@ -357,14 +357,14 @@ if($action == 'showall'){
 								}
 								
 								echo '<a href="'.$link.'">'
-								.'<img src="'.$imagePath.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$arr_pro['image1'][$key].'"'
+								.'<img src="'.$imagePath._TCMS_PATH.'/images/products_thumb/thumb_150_'.$arr_pro['image1'][$key].'"'
 								.' border="0" />'
 								.'</a>'
 								.'<br />';
 							}
 							else {
 								echo '<a href="'.$link.'">'
-								.'<img src="'.$imagePath.$tcms_administer_site.'/images/products/'.$arr_pro['image1'][$key].'"'
+								.'<img src="'.$imagePath._TCMS_PATH.'/images/products/'.$arr_pro['image1'][$key].'"'
 								.' border="0" />'
 								.'</a>'
 								.'<br />';
@@ -648,8 +648,8 @@ if($action == 'showall'){
 				// image
 				if($arr_pro['image1'][$key] != '' 
 				&& file_exists('data/images/products/'.$arr_pro['image1'][$key])) {
-					if(!is_dir($tcms_administer_site.'/images/products_thumb/')) {
-						mkdir($tcms_administer_site.'/images/products_thumb/', 0777);
+					if(!is_dir(_TCMS_PATH.'/images/products_thumb/')) {
+						mkdir(_TCMS_PATH.'/images/products_thumb/', 0777);
 					}
 					
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
@@ -663,10 +663,10 @@ if($action == 'showall'){
 					$img_o_height = $img_size[1];
 					
 					if($img_o_width > 235) {
-						if(!file_exists($tcms_administer_site.'/images/products_thumb/'.$arr_pro['image1'][$key])) {
+						if(!file_exists(_TCMS_PATH.'/images/products_thumb/'.$arr_pro['image1'][$key])) {
 							$tcms_gd->createThumbnail(
-								$tcms_administer_site.'/images/products/', 
-								$tcms_administer_site.'/images/products_thumb/', 
+								_TCMS_PATH.'/images/products/', 
+								_TCMS_PATH.'/images/products_thumb/', 
 								$arr_pro['image1'][$key], 
 								'150', 
 								false, 
@@ -675,14 +675,14 @@ if($action == 'showall'){
 						}
 						
 						echo '<a href="'.$link.'">'
-						.'<img src="'.$imagePath.$tcms_administer_site.'/images/products_thumb/thumb_150_'.$arr_pro['image1'][$key].'"'
+						.'<img src="'.$imagePath._TCMS_PATH.'/images/products_thumb/thumb_150_'.$arr_pro['image1'][$key].'"'
 						.' border="0" />'
 						.'</a>'
 						.'<br />';
 					}
 					else {
 						echo '<a href="'.$link.'">'
-						.'<img src="'.$imagePath.$tcms_administer_site.'/images/products/'.$arr_pro['image1'][$key].'"'
+						.'<img src="'.$imagePath._TCMS_PATH.'/images/products/'.$arr_pro['image1'][$key].'"'
 						.' border="0" />'
 						.'</a>'
 						.'<br />';
@@ -1038,8 +1038,8 @@ if($action == 'showone') {
 		// image 1
 		if($arr_image1 != '' 
 		&& file_exists('data/images/products/'.$arr_image1)) {
-			if(!is_dir($tcms_administer_site.'/images/products_thumb/')) {
-				mkdir($tcms_administer_site.'/images/products_thumb/', 0777);
+			if(!is_dir(_TCMS_PATH.'/images/products_thumb/')) {
+				mkdir(_TCMS_PATH.'/images/products_thumb/', 0777);
 			}
 			
 			$img_size_1 = getimagesize('data/images/products/'.$arr_image1);
@@ -1049,10 +1049,10 @@ if($action == 'showone') {
 			echo '<div class="product_view_image">';
 			
 			if($img_o_width_1 > 235) {
-				if(!file_exists($tcms_administer_site.'/images/products_thumb/'.$arr_image1)) {
+				if(!file_exists(_TCMS_PATH.'/images/products_thumb/'.$arr_image1)) {
 					$tcms_gd->createThumbnail(
-						$tcms_administer_site.'/images/products/', 
-						$tcms_administer_site.'/images/products_thumb/', 
+						_TCMS_PATH.'/images/products/', 
+						_TCMS_PATH.'/images/products_thumb/', 
 						$arr_image1, 
 						'235', 
 						false, 
@@ -1061,13 +1061,13 @@ if($action == 'showone') {
 				}
 				
 				echo '<a href="'.$imagePath.'data/images/products/'.$arr_image1.'" rel="lightbox['.$lb_name.']">'
-				.'<img src="'.$imagePath.$tcms_administer_site.'/images/products_thumb/thumb_235_'.$arr_image1.'"'
+				.'<img src="'.$imagePath._TCMS_PATH.'/images/products_thumb/thumb_235_'.$arr_image1.'"'
 				.' border="0" />'
 				.'</a>';
 			}
 			else {
 				echo '<a href="'.$imagePath.'data/images/products/'.$arr_image1.'" rel="lightbox['.$lb_name.']">'
-				.'<img src="'.$imagePath.$tcms_administer_site.'/images/products/'.$arr_image1.'"'
+				.'<img src="'.$imagePath._TCMS_PATH.'/images/products/'.$arr_image1.'"'
 				.' border="0" />'
 				.'</a>';
 			}
@@ -1078,8 +1078,8 @@ if($action == 'showone') {
 		// image 2
 		if($arr_image2 != '' 
 		&& file_exists('data/images/products/'.$arr_image2)) {
-			if(!is_dir($tcms_administer_site.'/images/products_thumb/')) {
-				mkdir($tcms_administer_site.'/images/products_thumb/', 0777);
+			if(!is_dir(_TCMS_PATH.'/images/products_thumb/')) {
+				mkdir(_TCMS_PATH.'/images/products_thumb/', 0777);
 			}
 			
 			$img_size_2 = getimagesize('data/images/products/'.$arr_image2);
@@ -1089,10 +1089,10 @@ if($action == 'showone') {
 			echo '<div class="product_view_image">';
 			
 			if($img_o_width_2 > 235) {
-				if(!file_exists($tcms_administer_site.'/images/products_thumb/'.$arr_image2)) {
+				if(!file_exists(_TCMS_PATH.'/images/products_thumb/'.$arr_image2)) {
 					$tcms_gd->createThumbnail(
-						$tcms_administer_site.'/images/products/', 
-						$tcms_administer_site.'/images/products_thumb/', 
+						_TCMS_PATH.'/images/products/', 
+						_TCMS_PATH.'/images/products_thumb/', 
 						$arr_image2, 
 						'235', 
 						false, 
@@ -1101,13 +1101,13 @@ if($action == 'showone') {
 				}
 				
 				echo '<a href="'.$imagePath.'data/images/products/'.$arr_image2.'" rel="lightbox['.$lb_name.']">'
-				.'<img src="'.$imagePath.$tcms_administer_site.'/images/products_thumb/thumb_235_'.$arr_image2.'"'
+				.'<img src="'.$imagePath._TCMS_PATH.'/images/products_thumb/thumb_235_'.$arr_image2.'"'
 				.' border="0" />'
 				.'</a>';
 			}
 			else {
 				echo '<a href="'.$imagePath.'data/images/products/'.$arr_image2.'" rel="lightbox['.$lb_name.']">'
-				.'<img src="'.$imagePath.$tcms_administer_site.'/images/products/'.$arr_image2.'"'
+				.'<img src="'.$imagePath._TCMS_PATH.'/images/products/'.$arr_image2.'"'
 				.' border="0" />'
 				.'</a>';
 			}
@@ -1120,8 +1120,8 @@ if($action == 'showone') {
 		// image 3
 		if($arr_image3 != '' 
 		&& file_exists('data/images/products/'.$arr_image3)) {
-			if(!is_dir($tcms_administer_site.'/images/products_thumb/')) {
-				mkdir($tcms_administer_site.'/images/products_thumb/', 0777);
+			if(!is_dir(_TCMS_PATH.'/images/products_thumb/')) {
+				mkdir(_TCMS_PATH.'/images/products_thumb/', 0777);
 			}
 			
 			$img_size_3 = getimagesize('data/images/products/'.$arr_image3);
@@ -1131,10 +1131,10 @@ if($action == 'showone') {
 			echo '<div class="product_view_image">';
 			
 			if($img_o_width_3 > 235) {
-				if(!file_exists($tcms_administer_site.'/images/products_thumb/'.$arr_image3)) {
+				if(!file_exists(_TCMS_PATH.'/images/products_thumb/'.$arr_image3)) {
 					$tcms_gd->createThumbnail(
-						$tcms_administer_site.'/images/products/', 
-						$tcms_administer_site.'/images/products_thumb/', 
+						_TCMS_PATH.'/images/products/', 
+						_TCMS_PATH.'/images/products_thumb/', 
 						$arr_image3, 
 						'235', 
 						false, 
@@ -1143,13 +1143,13 @@ if($action == 'showone') {
 				}
 				
 				echo '<a href="'.$imagePath.'data/images/products/'.$arr_image3.'" rel="lightbox['.$lb_name.']">'
-				.'<img src="'.$imagePath.$tcms_administer_site.'/images/products_thumb/thumb_235_'.$arr_image3.'"'
+				.'<img src="'.$imagePath._TCMS_PATH.'/images/products_thumb/thumb_235_'.$arr_image3.'"'
 				.' border="0" />'
 				.'</a>';
 			}
 			else {
 				echo '<a href="'.$imagePath.'data/images/products/'.$arr_image3.'" rel="lightbox['.$lb_name.']">'
-				.'<img src="'.$imagePath.$tcms_administer_site.'/images/products/'.$arr_image3.'"'
+				.'<img src="'.$imagePath._TCMS_PATH.'/images/products/'.$arr_image3.'"'
 				.' border="0" />'
 				.'</a>';
 			}
@@ -1160,8 +1160,8 @@ if($action == 'showone') {
 		// image 4
 		if($arr_image4 != '' 
 		&& file_exists('data/images/products/'.$arr_image4)) {
-			if(!is_dir($tcms_administer_site.'/images/products_thumb/')) {
-				mkdir($tcms_administer_site.'/images/products_thumb/', 0777);
+			if(!is_dir(_TCMS_PATH.'/images/products_thumb/')) {
+				mkdir(_TCMS_PATH.'/images/products_thumb/', 0777);
 			}
 			
 			$img_size_4 = getimagesize('data/images/products/'.$arr_image4);
@@ -1171,10 +1171,10 @@ if($action == 'showone') {
 			echo '<div class="product_view_image">';
 			
 			if($img_o_width_4 > 235) {
-				if(!file_exists($tcms_administer_site.'/images/products_thumb/'.$arr_image4)) {
+				if(!file_exists(_TCMS_PATH.'/images/products_thumb/'.$arr_image4)) {
 					$tcms_gd->createThumbnail(
-						$tcms_administer_site.'/images/products/', 
-						$tcms_administer_site.'/images/products_thumb/', 
+						_TCMS_PATH.'/images/products/', 
+						_TCMS_PATH.'/images/products_thumb/', 
 						$arr_image4, 
 						'235', 
 						false, 
@@ -1183,13 +1183,13 @@ if($action == 'showone') {
 				}
 				
 				echo '<a href="'.$imagePath.'data/images/products/'.$arr_image4.'" rel="lightbox['.$lb_name.']">'
-				.'<img src="'.$imagePath.$tcms_administer_site.'/images/products_thumb/thumb_235_'.$arr_image4.'"'
+				.'<img src="'.$imagePath._TCMS_PATH.'/images/products_thumb/thumb_235_'.$arr_image4.'"'
 				.' border="0" />'
 				.'</a>';
 			}
 			else {
 				echo '<a href="'.$imagePath.'data/images/products/'.$arr_image4.'" rel="lightbox['.$lb_name.']">'
-				.'<img src="'.$imagePath.$tcms_administer_site.'/images/products/'.$arr_image4.'"'
+				.'<img src="'.$imagePath._TCMS_PATH.'/images/products/'.$arr_image4.'"'
 				.' border="0" />'
 				.'</a>';
 			}

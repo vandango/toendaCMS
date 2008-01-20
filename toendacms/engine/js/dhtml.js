@@ -192,6 +192,16 @@ function hide(id){
 }
 
 
+function showXP(id){
+	document.getElementById(id).style.display='absolute';
+}
+
+
+function hideXP(id){
+	document.getElementById(id).style.display='none';
+}
+
+
 
 
 

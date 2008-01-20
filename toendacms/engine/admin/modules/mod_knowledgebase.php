@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used as a Knowledgebase.
  *
- * @version 0.5.9
+ * @version 0.6.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -1017,7 +1017,7 @@ if($todo == 'edit') {
 	
 	if(isset($new_faq_img)){ $arrFAQ_img = $new_faq_img; }
 	
-	echo '<img width="100"'.( $arrFAQ_img == '' ? ' style="display:block;"' : '' ).' id="faq_img" src="../../'.$tcms_administer_site.'/images/knowledgebase/'.$arrFAQ_img.'" border="0" />'
+	echo '<img width="100"'.( $arrFAQ_img == '' ? ' style="display:block;"' : '' ).' id="faq_img" src="'._TCMS_PATH.'/images/knowledgebase/'.$arrFAQ_img.'" border="0" />'
 	.'<input name="new_faq_img" id="new_faq_img" value="'.$arrFAQ_img.'" type="hidden" />';
 	
 	echo '<br />';

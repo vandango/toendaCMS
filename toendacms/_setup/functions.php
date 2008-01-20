@@ -20,7 +20,7 @@
  *
  * This file is used for so9me needed functions.
  *
- * @version 0.0.8
+ * @version 0.1.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -86,44 +86,43 @@ function getOS($osString){
  * Update the xml files for the selected language
  *
  */
-function updateLanguageForXML($tcms_path) {
+function updateLanguageForXML() {
 	global $tcms_main;
-	global $tcms_administer_site;
 	
 	// update to new multi-language
-	$layout_xml = new xmlparser('../'.$tcms_administer_site.'/tcms_global/var.xml','r');
+	$layout_xml = new xmlparser(_TCMS_PATH.'/tcms_global/var.xml','r');
 	$plang = $layout_xml->read_value('front_lang');
 	
 	// update setting files
 	rename(
-		'../'.$tcms_administer_site.'/tcms_global/frontpage.xml', 
-		'../'.$tcms_administer_site.'/tcms_global/frontpage.'.$plang.'.xml'
+		_TCMS_PATH.'/tcms_global/frontpage.xml', 
+		_TCMS_PATH.'/tcms_global/frontpage.'.$plang.'.xml'
 	);
 	
 	rename(
-		'../'.$tcms_administer_site.'/tcms_global/newsmanager.xml', 
-		'../'.$tcms_administer_site.'/tcms_global/newsmanager.'.$plang.'.xml'
+		_TCMS_PATH.'/tcms_global/newsmanager.xml', 
+		_TCMS_PATH.'/tcms_global/newsmanager.'.$plang.'.xml'
 	);
 	
 	rename(
-		'../'.$tcms_administer_site.'/tcms_global/contactform.xml', 
-		'../'.$tcms_administer_site.'/tcms_global/contactform.'.$plang.'.xml'
+		_TCMS_PATH.'/tcms_global/contactform.xml', 
+		_TCMS_PATH.'/tcms_global/contactform.'.$plang.'.xml'
 	);
 	
 	rename(
-		'../'.$tcms_administer_site.'/tcms_global/impressum.xml', 
-		'../'.$tcms_administer_site.'/tcms_global/impressum.'.$plang.'.xml'
+		_TCMS_PATH.'/tcms_global/impressum.xml', 
+		_TCMS_PATH.'/tcms_global/impressum.'.$plang.'.xml'
 	);
 	
 	// update news
 	unset($arr_news);
-	$arr_news = $tcms_file->getPathContent('../'.$tcms_administer_site.'/tcms_news/');
+	$arr_news = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_news/');
 	
 	foreach($arr_news as $key => $val) {
-		$xml = new xmlparser('../'.$tcms_administer_site.'/tcms_news/'.$val, 'r');
+		$xml = new xmlparser(_TCMS_PATH.'/tcms_news/'.$val, 'r');
 		
 		// save news with language
-		$xmluser = new xmlparser('../'.$tcms_administer_site.'/tcms_news/tmp_'.$val, 'w');
+		$xmluser = new xmlparser(_TCMS_PATH.'/tcms_news/tmp_'.$val, 'w');
 		$xmluser->xml_declaration();
 		$xmluser->xml_section('news');
 		
@@ -151,23 +150,23 @@ function updateLanguageForXML($tcms_path) {
 		unset($xml);
 		
 		// delete sourcefile and rename temp file
-		unlink('../'.$tcms_administer_site.'/tcms_news/'.$val);
+		unlink(_TCMS_PATH.'/tcms_news/'.$val);
 		
 		rename(
-			'../'.$tcms_administer_site.'/tcms_news/tmp_'.$val, 
-			'../'.$tcms_administer_site.'/tcms_news/'.$val
+			_TCMS_PATH.'/tcms_news/tmp_'.$val, 
+			_TCMS_PATH.'/tcms_news/'.$val
 		);
 	}
 	
 	// update sidemenu items
 	unset($arr_news);
-	$arr_news = $tcms_file->getPathContent('../'.$tcms_administer_site.'/tcms_menu/');
+	$arr_news = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_menu/');
 	
 	foreach($arr_news as $key => $val) {
-		$xml = new xmlparser('../'.$tcms_administer_site.'/tcms_menu/'.$val, 'r');
+		$xml = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$val, 'r');
 		
 		// save sidemenu item with language
-		$xmluser = new xmlparser('../'.$tcms_administer_site.'/tcms_menu/tmp_'.$val, 'w');
+		$xmluser = new xmlparser(_TCMS_PATH.'/tcms_menu/tmp_'.$val, 'w');
 		$xmluser->xml_declaration();
 		$xmluser->xml_section('menu');
 		
@@ -190,23 +189,23 @@ function updateLanguageForXML($tcms_path) {
 		unset($xml);
 		
 		// delete sourcefile and rename temp file
-		unlink('../'.$tcms_administer_site.'/tcms_menu/'.$val);
+		unlink(_TCMS_PATH.'/tcms_menu/'.$val);
 		
 		rename(
-			'../'.$tcms_administer_site.'/tcms_menu/tmp_'.$val, 
-			'../'.$tcms_administer_site.'/tcms_menu/'.$val
+			_TCMS_PATH.'/tcms_menu/tmp_'.$val, 
+			_TCMS_PATH.'/tcms_menu/'.$val
 		);
 	}
 	
 	// update topmenu items
 	unset($arr_news);
-	$arr_news = $tcms_file->getPathContent('../'.$tcms_administer_site.'/tcms_topmenu/');
+	$arr_news = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_topmenu/');
 	
 	foreach($arr_news as $key => $val) {
-		$xml = new xmlparser('../'.$tcms_administer_site.'/tcms_topmenu/'.$val, 'r');
+		$xml = new xmlparser(_TCMS_PATH.'/tcms_topmenu/'.$val, 'r');
 		
 		// save sidemenu item with language
-		$xmluser = new xmlparser('../'.$tcms_administer_site.'/tcms_topmenu/tmp_'.$val, 'w');
+		$xmluser = new xmlparser(_TCMS_PATH.'/tcms_topmenu/tmp_'.$val, 'w');
 		$xmluser->xml_declaration();
 		$xmluser->xml_section('menu');
 		
@@ -227,11 +226,11 @@ function updateLanguageForXML($tcms_path) {
 		unset($xml);
 		
 		// delete sourcefile and rename temp file
-		unlink('../'.$tcms_administer_site.'/tcms_topmenu/'.$val);
+		unlink(_TCMS_PATH.'/tcms_topmenu/'.$val);
 		
 		rename(
-			'../'.$tcms_administer_site.'/tcms_topmenu/tmp_'.$val, 
-			'../'.$tcms_administer_site.'/tcms_topmenu/'.$val
+			_TCMS_PATH.'/tcms_topmenu/tmp_'.$val, 
+			_TCMS_PATH.'/tcms_topmenu/'.$val
 		);
 	}
 }

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a poll module.
  *
- * @version 0.4.2
+ * @version 0.4.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -51,7 +51,7 @@ if(!isset($a_make)){ $a_make = ''; }
 
 
 if($choosenDB == 'xml'){
-	$poll_xml = new xmlparser($tcms_administer_site.'/tcms_global/poll.xml','r');
+	$poll_xml = new xmlparser(_TCMS_PATH.'/tcms_global/poll.xml','r');
 	$title_ext_poll = $poll_xml->read_section('poll', 'poll_title');
 	$title_ext_allpoll = $poll_xml->read_section('poll', 'allpoll_title');
 	$mw_poll           = $poll_xml->read_section('poll', 'poll_main_width');
@@ -82,7 +82,7 @@ $title_ext_poll = $tcms_main->decodeText($title_ext_poll, '2', $c_charset);
 
 
 /* LOAD POLL      */
-if($choosenDB == 'xml'){ $arr_apolls = $tcms_main->load_xml_files($tcms_administer_site.'/tcms_polls/', 'files'); }
+if($choosenDB == 'xml'){ $arr_apolls = $tcms_main->load_xml_files(_TCMS_PATH.'/tcms_polls/', 'files'); }
 else{
 	$sqlAL = new sqlAbstractionLayer($choosenDB);
 	$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
@@ -109,7 +109,7 @@ if(is_array($arr_apolls)){
 	/* YOU IP         */ $a_your_ip = getenv('REMOTE_ADDR');
 	
 	/* HAVE YOU VOTE? */
-	if($choosenDB == 'xml'){ $arr_voteall = $tcms_main->load_xml_files($tcms_administer_site.'/tcms_polls/'.$current_pollall_tag, 'files'); }
+	if($choosenDB == 'xml'){ $arr_voteall = $tcms_main->load_xml_files(_TCMS_PATH.'/tcms_polls/'.$current_pollall_tag, 'files'); }
 	else{
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
 		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
@@ -168,7 +168,7 @@ if($paction == 'poll'){
 			$tmp_current_pollall = $current_pollall.'.xml';
 		}
 		
-		$vote_xml = new xmlparser($tcms_administer_site.'/tcms_polls/'.$tmp_current_pollall, 'r');
+		$vote_xml = new xmlparser(_TCMS_PATH.'/tcms_polls/'.$tmp_current_pollall, 'r');
 		$poll_subtitle  = $vote_xml->read_section('poll', 'title');
 	}
 	else{
@@ -240,16 +240,16 @@ if($paction == 'poll'){
 
 if($paction == 'result'){
 	if($choosenDB == 'xml'){
-		$vote_xml = new xmlparser($tcms_administer_site.'/tcms_polls/'.$current_pollall_tag.'.xml', 'r');
+		$vote_xml = new xmlparser(_TCMS_PATH.'/tcms_polls/'.$current_pollall_tag.'.xml', 'r');
 		$poll_subtitle = $vote_xml->read_section('poll', 'title');
 		
 		$poll_subtitle = $tcms_main->decodeText($poll_subtitle, '2', $c_charset);
 		echo $tcms_html->text($poll_subtitle);
 		
-		$a_number = $tcms_main->load_xml_files($tcms_administer_site.'/tcms_polls/'.$current_pollall_tag, 'number');
+		$a_number = $tcms_main->load_xml_files(_TCMS_PATH.'/tcms_polls/'.$current_pollall_tag, 'number');
 		
 		
-		$arrPollCalc       = $tcms_main->count_answers($tcms_administer_site.'/tcms_polls/'.$current_pollall_tag);
+		$arrPollCalc       = $tcms_main->count_answers(_TCMS_PATH.'/tcms_polls/'.$current_pollall_tag);
 		
 		$arr_count_answers = $arrPollCalc['answers'];
 		$arr_question      = $arrPollCalc['question'];
@@ -373,7 +373,7 @@ if(is_array($arr_allpolls)){
 		//$arr_vote = $tcms_main->load_xml_files('data/polls/'.substr($current_poll, 0, 8), 'files');
 		//echo $value;
 		if($choosenDB == 'xml'){
-			$ap_xml = new xmlparser($tcms_administer_site.'/tcms_polls/'.$value, 'r');
+			$ap_xml = new xmlparser(_TCMS_PATH.'/tcms_polls/'.$value, 'r');
 			$poll_subtitle = $ap_xml->read_section('poll', 'title');
 		}
 		else{
@@ -419,7 +419,7 @@ if($a_make == 'vote'){
 		else{ $remote = getHostByAddr($a_ip); }
 		
 		if($choosenDB == 'xml'){
-			$xmluser = new xmlparser($tcms_administer_site.'/tcms_polls/'.$a_poll.'/'.$a_ip.'.xml', 'w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_polls/'.$a_poll.'/'.$a_ip.'.xml', 'w');
 			$xmluser->xml_c_declaration($c_charset);
 			$xmluser->xml_section('vote');
 			$xmluser->write_value('ip', $a_ip);

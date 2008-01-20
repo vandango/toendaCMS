@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for the import api.
  *
- * @version 0.2.6
+ * @version 0.2.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -160,7 +160,7 @@ if($todo == 'bloggerftp') {
 			
 			
 			if($choosenDB == 'xml'){
-				$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/var.xml','r');
+				$xml = new xmlparser(_TCMS_PATH.'/tcms_global/var.xml','r');
 				$default_cat = $xml->read_section('global', 'default_category');
 			}
 			
@@ -221,7 +221,7 @@ if($todo == 'bloggerftp') {
 					$enc_post_author = $tcms_main->encodeText($post_author, '2', $c_charset);
 					
 					if($choosenDB == 'xml'){
-						$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_news/'.$order.'.xml', 'w');
+						$xml = new xmlparser(_TCMS_PATH.'/tcms_news/'.$order.'.xml', 'w');
 						$xml->xml_declaration();
 						$xml->xml_section('news');
 						
@@ -243,7 +243,7 @@ if($todo == 'bloggerftp') {
 						$xml->xml_section_end('news');
 						
 						$old_umask = umask(0);
-						mkdir('../../'.$tcms_administer_site.'/tcms_news/comments_'.$order.'/', 0777);
+						mkdir(_TCMS_PATH.'/tcms_news/comments_'.$order.'/', 0777);
 						umask($old_umask);
 					}
 					else{
@@ -283,7 +283,7 @@ if($todo == 'bloggerftp') {
 						$enc_comment_content = $tcms_main->encodeText($comment_content, '2', $c_charset);
 						
 						if($choosenDB == 'xml'){
-							$xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_news/comments_'.$order.'/'.$comment_time.'.xml', 'w');
+							$xml = new xmlparser(_TCMS_PATH.'/tcms_news/comments_'.$order.'/'.$comment_time.'.xml', 'w');
 							$xml->xml_declaration();
 							$xml->xml_section('comment');
 							

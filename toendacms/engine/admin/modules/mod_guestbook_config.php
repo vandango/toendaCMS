@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the guestbook configuration.
  *
- * @version 0.4.1
+ * @version 0.4.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -80,9 +80,9 @@ if($id_group == 'Developer'
 		echo '<form action="admin.php?id_user='.$id_user.'&amp;site=mod_guestbook_config" method="post">';
 		
 		
-		if($choosenDB == 'xml'){
+		if($choosenDB == 'xml') {
 			// Main Guestbook Config
-			$guestbook_xml = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/guestbook.xml','r');
+			$guestbook_xml = new xmlparser(_TCMS_PATH.'/tcms_global/guestbook.xml','r');
 			$old_guest_id         = $guestbook_xml->read_section('config', 'guest_id');
 			$old_booktitle        = $guestbook_xml->read_section('config', 'booktitle');
 			$old_bookstamp        = $guestbook_xml->read_section('config', 'bookstamp');
@@ -294,7 +294,7 @@ if($id_group == 'Developer'
 		
 		
 		if($choosenDB == 'xml'){
-			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/guestbook.xml', 'w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/guestbook.xml', 'w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('config');
 			

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for global values
  *
- * @version 0.7.0
+ * @version 0.7.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -356,12 +356,12 @@ if(!defined('_SITE_METATAG_DESCRIPTION')) define('_SITE_METATAG_DESCRIPTION', $d
 /* _SITE_METATAG_AUTOR */
 if(!in_array($id, $arrTCMSModules)){
 	if($choosenDB == 'xml'){
-		if(file_exists($tcms_administer_site.'/tcms_content/'.$id.'.xml')) {
-			$content_xml = new xmlparser($tcms_administer_site.'/tcms_content/'.$id.'.xml','r');
+		if(file_exists(_TCMS_PATH.'/tcms_content/'.$id.'.xml')) {
+			$content_xml = new xmlparser(_TCMS_PATH.'/tcms_content/'.$id.'.xml','r');
 			$doc_Autor = $content_xml->readSection('main', 'autor');
 		}
-		else if(file_exists($tcms_administer_site.'/tcms_content_languages/'.$id.'.xml')) {
-			$xml = new xmlparser($tcms_administer_site.'/tcms_content_languages/'.$id.'.xml','r');
+		else if(file_exists(_TCMS_PATH.'/tcms_content_languages/'.$id.'.xml')) {
+			$xml = new xmlparser(_TCMS_PATH.'/tcms_content_languages/'.$id.'.xml','r');
 			$id_meta_ad = $xml->readSection('main', 'title');
 			$id_meta_ad = $tcms_main->decodeText($id_meta_ad, '2', $c_charset);
 			$xml->flush();
@@ -476,7 +476,9 @@ if(!defined('_SITE_META_DATA')) define('_SITE_META_DATA', $strMetaData);
 if(trim($s) != 'printer') {
 	if($tcms_file->checkFileExist('theme/'.$s.'/index.php')) {
 		/*_LAYOUT*/
-		if(!defined('_LAYOUT')) define('_LAYOUT', 'theme/'.$s.'/index.php');
+		if(!defined('_LAYOUT')) {
+			define('_LAYOUT', 'theme/'.$s.'/index.php');
+		}
 	}
 	else {
 		$tcms_error = new tcms_error('tcms_defines.lib.php', 2, $s, $imagePath);

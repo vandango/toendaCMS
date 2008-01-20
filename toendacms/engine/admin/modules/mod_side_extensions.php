@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the sidebar extensions.
  *
- * @version 0.5.2
+ * @version 0.5.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -91,7 +91,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		LOAD DATA
 	*/
 	
-	$xmlActive = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/modules.xml','r');
+	$xmlActive = new xmlparser(_TCMS_PATH.'/tcms_global/modules.xml','r');
 	
 	$arrASM['use_side_gallery']   = $xmlActive->read_section('config', 'side_gallery');
 	$arrASM['use_layout_chooser'] = $xmlActive->read_section('config', 'layout_chooser');
@@ -107,7 +107,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	
 	
 	if($choosenDB == 'xml'){
-		$layout_xml         = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/sidebar.xml','r');
+		$layout_xml         = new xmlparser(_TCMS_PATH.'/tcms_global/sidebar.xml','r');
 		$tmp_sidemenu_title = $layout_xml->read_section('side', 'sidemenu_title');
 		$tmp_sidemenu       = $layout_xml->read_section('side', 'sidemenu');
 		$tmp_sidebar_title  = $layout_xml->read_section('side', 'sidebar_title');
@@ -611,7 +611,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		if(empty($sidebar))              { $sidebar               = 0; }
 		
 		
-		$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/modules.xml', 'w');
+		$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/modules.xml', 'w');
 		$xmluser->xml_declaration();
 		$xmluser->xml_section('config');
 		
@@ -675,7 +675,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		$search_word        = $tcms_main->encodeText($search_word, '2', $c_charset);
 		
 		if($choosenDB == 'xml'){
-			$xmluser = new xmlparser('../../'.$tcms_administer_site.'/tcms_global/sidebar.xml', 'w');
+			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/sidebar.xml', 'w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('side');
 			

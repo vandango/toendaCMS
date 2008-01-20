@@ -20,7 +20,7 @@
  * 
  * This module is used to generate a pdf document
  * 
- * @version 0.2.8
+ * @version 0.2.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -63,16 +63,15 @@ $arr_currency['html']['USD'] = '$';
 
 // load current active page
 include_once('site.php');
-$tcms_administer_site = $tcms_site[0]['path'];
 define('_TCMS_PATH', $tcms_site[0]['path']);
 
 
-require($tcms_administer_site.'/tcms_global/database.php');
+require(_TCMS_PATH.'/tcms_global/database.php');
 
-$tcms_main      = new tcms_main($tcms_administer_site, $choosenDB);
-$tcms_modconfig = new tcms_modconfig($tcms_administer_site, '');
+$tcms_main      = new tcms_main(_TCMS_PATH, $choosenDB);
+$tcms_modconfig = new tcms_modconfig(_TCMS_PATH, '');
 $tcms_version   = new tcms_version();
-$tcms_config    = new tcms_configuration($tcms_administer_site);
+$tcms_config    = new tcms_configuration(_TCMS_PATH);
 
 
 $language_stage = 'print';
@@ -139,7 +138,7 @@ switch($id){
 	case 'products': $authorized = 'Public'; break;
 	default:
 		if($choosenDB == 'xml'){
-			$cl_xml = new xmlparser($tcms_administer_site.'/tcms_content/'.$id.'.xml','r');
+			$cl_xml = new xmlparser(_TCMS_PATH.'/tcms_content/'.$id.'.xml','r');
 			$authorized = $cl_xml->readSection('main', 'access');
 		}
 		else{
@@ -195,7 +194,7 @@ if($ws_auth == 1){
 	switch($id){
 		case 'newsmanager':
 			if($choosenDB == 'xml'){
-				$main_xml = new xmlparser($tcms_administer_site.'/tcms_news/'.$news.'.xml','r');
+				$main_xml = new xmlparser(_TCMS_PATH.'/tcms_news/'.$news.'.xml','r');
 				$arr_news['title'] = $main_xml->readSection('news', 'title');
 				$arr_news['autor'] = $main_xml->readSection('news', 'autor');
 				$arr_news['date']  = $main_xml->readSection('news', 'date');
@@ -263,7 +262,7 @@ if($ws_auth == 1){
 		
 		case 'products':
 			if($choosenDB == 'xml'){
-				$menu_xml = new xmlparser($tcms_administer_site.'/tcms_products/'.$category.'/'.$article.'.xml','r');
+				$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_products/'.$category.'/'.$article.'.xml','r');
 				$arr_product     = $menu_xml->readSection('info', 'product');
 				$arr_product_no  = $menu_xml->readSection('info', 'product_number');
 				$arr_factory     = $menu_xml->readSection('info', 'factory');
@@ -392,7 +391,7 @@ if($ws_auth == 1){
 			
 			
 			
-			$articleImage = ( trim($arr_image) == '_empty_' ? '' : '<img src="'.$imagePath.$tcms_administer_site.'/images/products/'.$arr_image.'" border="0" />' );
+			$articleImage = ( trim($arr_image) == '_empty_' ? '' : '<img src="'.$imagePath._TCMS_PATH.'/images/products/'.$arr_image.'" border="0" />' );
 			
 			
 			
@@ -424,7 +423,7 @@ if($ws_auth == 1){
 			// CONTENTS
 			//===================================
 			if($choosenDB == 'xml'){
-				$content_xml = new xmlparser($tcms_administer_site.'/tcms_content/'.$id.'.xml','r');
+				$content_xml = new xmlparser(_TCMS_PATH.'/tcms_content/'.$id.'.xml','r');
 				$title     = $content_xml->readSection('main', 'title');
 				$key       = $content_xml->readSection('main', 'key');
 				$content00 = $content_xml->readSection('main', 'content00');
