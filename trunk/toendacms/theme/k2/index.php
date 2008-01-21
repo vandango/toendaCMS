@@ -26,39 +26,39 @@ switch($k2CSS){
 	case 1:
 		echo '
 		<style type="text/css">@import "'.$skinPath.'k2_moz.css";</style>
-		<!--[if lt IE 5.5000]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
-		<!--[if IE 5.5000]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
-		<!--[if IE 6]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
-		<!--[if IE 7]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
+		<!--[if lt IE 5.5000]><style type="text/css">@import "'.$skinPath.'adds/k2_ie.css";</style><![endif]-->
+		<!--[if IE 5.5000]><style type="text/css">@import "'.$skinPath.'adds/k2_ie.css";</style><![endif]-->
+		<!--[if IE 6]><style type="text/css">@import "'.$skinPath.'adds/k2_ie.css";</style><![endif]-->
+		<!--[if IE 7]><style type="text/css">@import "'.$skinPath.'adds/k2_ie.css";</style><![endif]-->
 		';
 		break;
 	
 	case 2:
-		echo '<style type="text/css">@import "'.$skinPath.'k2_big.css";</style>';
+		echo '<style type="text/css">@import "'.$skinPath.'adds/k2_big.css";</style>';
 		break;
 	
 	case 3:
-		echo '<style type="text/css">@import "'.$skinPath.'vader.css";</style>';
+		echo '<style type="text/css">@import "'.$skinPath.'adds/vader.css";</style>';
 		break;
 	
 	case 4:
 		echo '
 		<style type="text/css">@import "'.$skinPath.'k2_moz.css";</style>
-		<!--[if lt IE 5.5000]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
-		<!--[if IE 5.5000]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
-		<!--[if IE 6]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
-		<!--[if IE 7]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->'
-		.'<style type="text/css">@import "'.$skinPath.'k2_garciasolar.css";</style>
+		<!--[if lt IE 5.5000]><style type="text/css">@import "'.$skinPath.'adds/k2_ie.css";</style><![endif]-->
+		<!--[if IE 5.5000]><style type="text/css">@import "'.$skinPath.'adds/k2_ie.css";</style><![endif]-->
+		<!--[if IE 6]><style type="text/css">@import "'.$skinPath.'adds/k2_ie.css";</style><![endif]-->
+		<!--[if IE 7]><style type="text/css">@import "'.$skinPath.'adds/k2_ie.css";</style><![endif]-->'
+		.'<style type="text/css">@import "'.$skinPath.'adds/k2_garciasolar.css";</style>
 		';
 		break;
 	
 	default:
 		echo '
 		<style type="text/css">@import "'.$skinPath.'k2_moz.css";</style>
-		<!--[if lt IE 5.5000]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
-		<!--[if IE 5.5000]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
-		<!--[if IE 6]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
-		<!--[if IE 7]><style type="text/css">@import "'.$skinPath.'k2_ie.css";</style><![endif]-->
+		<!--[if lt IE 5.5000]><style type="text/css">@import "'.$skinPath.'adds/k2_ie.css";</style><![endif]-->
+		<!--[if IE 5.5000]><style type="text/css">@import "'.$skinPath.'adds/k2_ie.css";</style><![endif]-->
+		<!--[if IE 6]><style type="text/css">@import "'.$skinPath.'adds/k2_ie.css";</style><![endif]-->
+		<!--[if IE 7]><style type="text/css">@import "'.$skinPath.'adds/k2_ie.css";</style><![endif]-->
 		';
 		break;
 }

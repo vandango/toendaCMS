@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for all graphic actions.
  *
- * @version 0.3.6
+ * @version 0.3.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -291,7 +291,7 @@ class tcms_gd {
 	 * @return String
 	 */
 	public function createCaptchaImage($path, $cacheCleanSize){
-		global $tcms_main;
+		global $tcms_file;
 		
 		mt_srand((double)microtime()*1000000);
 		$captcha = mt_rand(10000, 99999);
