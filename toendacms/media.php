@@ -20,7 +20,7 @@
  *
  * This module is used as a image viewer.
  *
- * @version 0.7.9
+ * @version 0.8.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -201,7 +201,7 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www
 <!-- CSS files from current theme -->';
 
 if($tcms_main->isArray($arrCSS)) {
-	foreach($arrCSS['files'] as $cssKey => $cssVal){
+	foreach($arrCSS['files'] as $cssKey => $cssVal) {
 		echo '
 <link href="theme/'.$s.'/'.$arrCSS['dir'][0].'/'.$arrCSS['files'][$cssKey].'" rel="stylesheet" type="text/css" />
 		';
@@ -745,10 +745,25 @@ if($show_comments == 1) {
 		echo '<br /><br />';
 	}
 	
-	echo '<strong>'._FRONT_COMMENT_NAME.'</strong><br /><input name="comment_name" id="comment_name" class="inputtext" value="" /><br />';
-	echo '<strong>'._FRONT_COMMENT_EMAIL.'</strong><br /><input name="comment_email" id="comment_email" class="inputtext" /><br />';
-	echo '<strong>'._FRONT_COMMENT_WEB.'</strong><br /><input name="comment_web" id="comment_web" class="inputtext" /><br />';
-	echo '<strong>'._FRONT_COMMENT_TEXT.'</strong><br /><textarea name="comment_text" id="comment_text" class="inputtextarea"></textarea><br />';
+	echo '<strong>'._FRONT_COMMENT_NAME.'</strong>'
+	.'<br />'
+	.'<input name="comment_name" id="comment_name" class="inputtext" type="text" value="" />'
+	.'<br />';
+	
+	echo '<strong>'._FRONT_COMMENT_EMAIL.'</strong>'
+	.'<br />'
+	.'<input name="comment_email" id="comment_email" class="inputtext" type="text" />'
+	.'<br />';
+	
+	echo '<strong>'._FRONT_COMMENT_WEB.'</strong>'
+	.'<br />'
+	.'<input name="comment_web" id="comment_web" class="inputtext" type="text" />'
+	.'<br />';
+	
+	echo '<strong>'._FRONT_COMMENT_TEXT.'</strong>'
+	.'<br />'
+	.'<textarea name="comment_text" id="comment_text" class="inputtextarea"></textarea>'
+	.'<br />';
 	
 	echo '<input type="hidden" name="cmd" value="comment_save" />';
 	echo '<input type="hidden" name="uid" value="'.$arr_tc['uid'][$takeME].'" />';
