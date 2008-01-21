@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide all file and directory
  * related methods und public functions.
  *
- * @version 0.4.2
+ * @version 0.4.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -864,9 +864,10 @@ class tcms_file {
 	 * Deletes the content of a directory
 	 * 
 	 * @param String $dir
+	 * @param Boolean $withoutIndexHtml = false
 	 * @return Boolean
 	 */
-	public function deleteDirContent($dir) {
+	public function deleteDirContent($dir, $withoutIndexHtml = false) {
 		if(substr($dir, strlen($dir) - 1, 1) != '/') {
 			$dir .= '/';
 		}
@@ -881,13 +882,31 @@ class tcms_file {
 				&& $obj != '.svn'
 				&& $obj != '_svn'
 				&& $obj != '_SVN') {
-					if(is_dir($dir.$obj)) {
-						if(!$this->deleteDir($dir.$obj))
-							return false;
+					if($withoutIndexHtml) {
+						if($obj != 'index.html') {
+							if(is_dir($dir.$obj)) {
+								if(!$this->deleteDir($dir.$obj)) {
+									return false;
+								}
+							}
+							elseif(is_file($dir.$obj)) {
+								if(!unlink($dir.$obj)) {
+									return false;
+								}
+							}
+						}
 					}
-					elseif(is_file($dir.$obj)) {
-						if(!unlink($dir.$obj))
-							return false;
+					else {
+						if(is_dir($dir.$obj)) {
+							if(!$this->deleteDir($dir.$obj)) {
+								return false;
+							}
+						}
+						elseif(is_file($dir.$obj)) {
+							if(!unlink($dir.$obj)) {
+								return false;
+							}
+						}
 					}
 				}
 			}
