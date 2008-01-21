@@ -5,7 +5,8 @@
 - Seitentitel überarbeiten, optimiert für Suchmaschinen (Bsp. von Jo)
 - Metatag Description aus Backend plus ersten 200 Zeichen (?) aus dem Content, falls vorhanden (Bsp. von Jo)
 - Metatag Tagliste aus Backend plus generierte Tagliste aus dem Content, falls vorhanden (Bsp. von Jo)
-
+- Gästebucheinträge erst aktivieren
+- Buttons für Textbausteine generieren
 
 
 
