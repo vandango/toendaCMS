@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the topmenu items.
  *
- * @version 0.6.3
+ * @version 0.6.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -475,10 +475,10 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		$new_tm_name    = $tcms_main->encodeText($new_tm_name, '2', $c_charset);
 		
 		
-		if(trim($new_tm_link) == 'new_page'){
-			if($choosenDB == 'xml'){
-				while(($new_tm_link=substr(md5(time()),0,5)) && file_exists(_TCMS_PATH.'/tcms_content/'.$new_tm_link.'.xml')){};
-				
+		$new_tm_link = $tcms_main->getNewUID(5, 'content');
+		
+		if(trim($new_tm_link) == 'new_page') {
+			if($choosenDB == 'xml') {
 				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_content/'.$new_tm_link.'.xml', 'w');
 				$xmluser->xml_c_declaration($c_charset);
 				$xmluser->xml_section('main');
@@ -495,9 +495,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				$xmluser->xml_section_buffer();
 				$xmluser->xml_section_end('main');
 			}
-			else{
-				$new_tm_link = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'content', 5);
-				
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB);
 				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
@@ -522,7 +520,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		}
 		
 		
-		if($choosenDB == 'xml'){
+		if($choosenDB == 'xml') {
 			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_topmenu/'.$maintag.'.xml', 'w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('top');
@@ -539,7 +537,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('top');
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the register functions.
  *
- * @version 0.6.5
+ * @version 0.6.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -556,10 +556,12 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 				}
 				
 				
-				if($finishRegister){
-					$checkUsername = true;
+				if($finishRegister) {
+					$checkUsername = $tcms_ap->checkUsernameExists(
+						$fulluser
+					);
 					
-					if($choosenDB == 'xml'){
+					/*if($choosenDB == 'xml'){
 						$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_user/');
 						foreach($arr_filename as $keyz => $value){
 							$login_xml = new xmlparser(_TCMS_PATH.'/tcms_user/'.$value, 'r');
@@ -578,17 +580,18 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 						
 						if($user_exists == 0){ $checkUsername = true; }
 						else{ $checkUsername = false; }
+					}*/
+					
+					if(substr($new_www, 0, 7) != 'http://') {
+						$new_www = 'http://'.$new_www;
 					}
 					
-					if(substr($new_www, 0, 7) != 'http://')
-						$new_www = 'http://'.$new_www;
-					
-					if($checkUsername){
+					if($checkUsername) {
 						$pass2 = md5($pass_md5);
 						
-						if($choosenDB == 'xml'){
-							while(($validate_md5 = md5(microtime())) && file_exists(_TCMS_PATH.'/tcms_user/'.$validate_md5.'.xml')){}
-							
+						$validate_md5 = $tcms_main->getNewUID(32, 'user');
+						
+						if($choosenDB == 'xml') {
 							$fullname = $tcms_main->encodeText($fullname, '2', $c_charset);
 							$fulluser2 = $tcms_main->encodeText($fulluser, '2', $c_charset);
 							
@@ -620,9 +623,7 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 							$xmluser->xml_section_buffer();
 							$xmluser->xml_section_end('user');
 						}
-						else{
-							$validate_md5 = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'user', 32);
-							
+						else {
 							$fullname = $tcms_main->encodeText($fullname, '2', $c_charset);
 							$fulluser2 = $tcms_main->encodeText($fulluser, '2', $c_charset);
 							

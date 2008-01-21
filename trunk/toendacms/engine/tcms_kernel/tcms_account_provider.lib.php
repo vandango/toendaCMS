@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide methods to get and
  * save user accounts and also contacts.
  * 
- * @version 0.3.6
+ * @version 0.4.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -32,18 +32,37 @@ defined('_TCMS_VALID') or die('Restricted access');
  * <code>
  * 
  * Methods
- *
+ * 
+ * --------------------------------------------------------
+ * CONSTRUCTOR AND DESTRUCTOR
+ * --------------------------------------------------------
+ * 
  * __construct                 -> Constructor
  * __destruct                  -> Destructor
  * 
+ * --------------------------------------------------------
+ * PROPERTIES
+ * --------------------------------------------------------
+ * 
  * setTcmsTimeObj              -> Set the tcms_time object
+ * 
+ * --------------------------------------------------------
+ * PRIVATE MEMBERS
+ * --------------------------------------------------------
+ * 
+ * _getPathContent             -> Return a array of all files or directory's inside a path
  *
+ * --------------------------------------------------------
+ * PUBLIC MEMBERS
+ * --------------------------------------------------------
+ * 
  * getUsername                 -> Get the username of a user id
  * getUserID                   -> Return ID for username or realname
  * getUserInfo                 -> Get some information about a user
  * getAccount                  -> Get a user account
  * getAccountByUsername        -> Get a user account by username
  * checkUserExists             -> Check if a user exist
+ * checkUsernameExists         -> Check if a username exist
  * createNewUser               -> Create a new user
  * saveAccount                 -> Save a account
  * getContact                  -> Get a contact item
@@ -66,6 +85,12 @@ class tcms_account_provider extends tcms_main {
 	private $db_database;
 	private $db_port;
 	private $db_prefix;
+	
+	
+	
+	// -------------------------------------------------
+	// CONSTRUCTORS
+	// -------------------------------------------------
 	
 	
 	
@@ -99,9 +124,16 @@ class tcms_account_provider extends tcms_main {
 	
 	/**
 	 * Destructor
+	 * 
 	 */
 	public function __destruct(){
 	}
+	
+	
+	
+	// -------------------------------------------------
+	// PROPERTIES
+	// -------------------------------------------------
 	
 	
 	
@@ -113,6 +145,42 @@ class tcms_account_provider extends tcms_main {
 	public function setTcmsTimeObj($value) {
 		$this->_tcmsTime = $value;
 	}
+	
+	
+	
+	// -------------------------------------------------
+	// PRIVATE MEMBERS
+	// -------------------------------------------------
+	
+	
+	
+	/**
+	 * Return a array of all files or directory's inside a path
+	 *
+	 * @param String $path
+	 * @param Boolean $onlyFolders
+	 * @param String $fileType = ''
+	 * @param Boolean $commentFolders = false
+	 * @return Array
+	 */
+	private function _getPathContent($path, $onlyFolders = false, $fileType = '', $commentFolders = false) {
+		include_once('tcms_file.lib.php');
+		
+		$tcms_file = new tcms_file();
+		
+		return $tcms_file->getPathContent(
+			$path, 
+			$onlyFolders, 
+			$fileType, 
+			$commentFolders
+		);
+	}
+	
+	
+	
+	// -------------------------------------------------
+	// PUBLIC MEMBERS
+	// -------------------------------------------------
 	
 	
 	
@@ -537,7 +605,7 @@ class tcms_account_provider extends tcms_main {
 	 * @return Boolean
 	 */
 	public function checkUserExists($id) {
-		if($this->db_choosenDB == 'xml'){
+		if($this->db_choosenDB == 'xml') {
 			if(file_exists($this->m_administer.'/tcms_user/'.$id.'.xml')) {
 				return true;
 			}
@@ -545,8 +613,12 @@ class tcms_account_provider extends tcms_main {
 				return false;
 			}
 		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
+		else {
+			$sqlAL = new sqlAbstractionLayer(
+				$this->db_choosenDB, 
+				$this->_tcmsTime
+			);
+			
 			$sqlCN = $sqlAL->connect(
 				$this->db_user, 
 				$this->db_pass, 
@@ -561,7 +633,78 @@ class tcms_account_provider extends tcms_main {
 			if($sqlNR > 0) {
 				return true;
 			}
-			else{
+			else {
+				return false;
+			}
+		}
+	}
+	
+	
+	
+	/**
+	 * Check if a username exist
+	 *
+	 * @param String $username
+	 * @return Boolean
+	 */
+	public function checkUsernameExists($username) {
+		if($this->db_choosenDB == 'xml'){
+			$arr_userFiles = $this->_getPathContent(
+				$this->m_administer.'/tcms_user/'
+			);
+			
+			if($this->isArray($arr_userFiles)) {
+				foreach($arr_userFiles as $key => $value) {
+					$xml = new xmlparser(
+						$this->m_administer.'/tcms_user/'.$value, 
+						'r'
+					);
+					
+					$ws_username = $xml->readSection('user', 'username');
+					
+					if($ws_username == $username) {
+						$xml->flush();
+						unset($xml);
+						
+						return true;
+					}
+					else {
+						$xml->flush();
+						unset($xml);
+					}
+				}
+				
+				return false;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			$sqlAL = new sqlAbstractionLayer(
+				$this->db_choosenDB, 
+				$this->_tcmsTime
+			);
+			
+			$sqlCN = $sqlAL->connect(
+				$this->db_user, 
+				$this->db_pass, 
+				$this->db_host, 
+				$this->db_database, 
+				$this->db_port
+			);
+			
+			$sqlQR = $sqlAL->query(
+				"SELECT username"
+				." FROM ".$this->db_prefix."user"
+				." WHERE username='".$username."'"
+			);
+			$sqlNR = $sqlAL->getNumber($sqlQR);
+			
+			if($sqlNR > 0) {
+				return true;
+			}
+			else {
 				return false;
 			}
 		}

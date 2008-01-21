@@ -40,7 +40,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Untested Database Server:
  * - SQLite        -> sqlite
  *
- * @version 0.9.0
+ * @version 0.9.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -148,11 +148,6 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * sqlSearch($sqlTable, $sqlSearchColumn, $sqlSearchWord)
  * -> Search for $sqlSearchWord in $sqlSearchColumn in table $sqlTable
- * 
- * sqlCreateBackup($sqlTable, $outfile)              -> Create a backup file of the selected table
- * sqlCreateUID($sqlTable, $sqlNumber)               -> Create a uid for a $sqlTable with length $sqlNumber
- * sqlGetStats()                                     -> Get sql server state
- * sqlDeleteTable($tableName, $withDebug = false)    -> Delete Table
  * </code>
  *
  */
@@ -477,7 +472,86 @@ class sqlAbstractionLayer {
 	 * @return Boolean
 	 */
 	public function deleteTable($tableName, $withDebug = false) {
-		return $this->sqlDeleteTable($tableName, $withDebug);
+		global $tcms_time;
+		
+		switch($this->_sqlInterface){
+			case 'mysql':
+				$sql = 'DROP TABLE '.$tableName;
+				
+				if($withDebug) {
+					$fp = fopen('log_deleteTable_'.microtime().'.txt', 'w');
+					fwrite($fp, $sql);
+					fclose($fp);
+				}
+				
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
+				
+				$sqlResult = mysql_query($sql);
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.mysql_error();
+				}
+				break;
+			
+			case 'pgsql':
+				$sql = 'DROP TABLE '.$tableName;
+				
+				if($withDebug) {
+					$fp = fopen('log_deleteTable_'.microtime().'.txt', 'w');
+					fwrite($fp, $sql);
+					fclose($fp);
+				}
+				
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
+				
+				$sqlResult = pg_query($sql);
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.pg_result_error();
+				}
+				break;
+			
+			case 'sqlite':
+				$sql = 'DROP TABLE '.$tableName;
+				
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
+				
+				$sqlResult = sqlite_query($sql);
+				$sqlError  = sqlite_last_error($this->_sqlDB);
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.sqlite_error_string($sqlError);
+				}
+				break;
+			
+			case 'mssql':
+				$sql = 'DROP TABLE ['.$tableName.']';
+				
+				if($withDebug) {
+					$fp = fopen('log_deleteTable_'.microtime().'.txt', 'w');
+					fwrite($fp, $sql);
+					fclose($fp);
+				}
+				
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
+				
+				$sqlResult = mssql_query($sql);
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.$sql;
+				}
+				break;
+		}
+		
+		return $sqlResult;
 	}
 	
 	
@@ -516,7 +590,60 @@ class sqlAbstractionLayer {
 	 * @param Boolean $structure_only
 	 */
 	public function createBackup($with_output, $structure_only) {
-		return $this->sqlCreateBackup($with_output, $structure_only);
+		include_once('../tcms_kernel/tcms_sql_dump.lib.php');
+		
+		$sqlDump = new tcms_sql_dump();
+		
+		switch($this->_sqlInterface){
+			case 'mysql':
+				if($with_output == 1){
+					$fp = fopen('../../cache/mysql_database_backup_['.$this->_sqlDB.'].sql', 'w');
+					fwrite(
+						$fp, 
+						$sqlDump->MySQLBackup(
+							$this->_sqlHost, 
+							$this->_sqlDB, 
+							$this->_sqlUsername, 
+							$this->_sqlPassword, 
+							$structure_only
+						)
+					);
+					fclose($fp);
+				}
+				else{
+					$sqlResult = htmlspecialchars($sqlDump->MySQLBackup($this->_sqlHost, $this->_sqlDB, $this->_sqlUsername, $this->_sqlPassword, $structure_only));
+				}
+				break;
+			
+			case 'pgsql':
+				//if($with_output == 1) {
+				//	$fp = fopen('../../cache/pgsql_database_backup_['.$this->_sqlDB.'].sql', 'w');
+				//	fwrite($fp, $sqlDump->MySQLBackup($this->_sqlHost, $this->_sqlDB, $this->_sqlUsername, $this->_sqlPassword, $structure_only));
+				//	fclose($fp);
+				//}
+				//else {
+				//	$sqlResult = htmlspecialchars($sqlDump->MySQLBackup($this->_sqlHost, $this->_sqlDB, $this->_sqlUsername, $this->_sqlPassword, $structure_only));
+				//}
+				break;
+			
+			case 'sqlite':
+				break;
+			
+			case 'mssql':
+				//if($with_output == 1) {
+				//	$fp = fopen('../../cache/mssql_database_backup_['.$this->_sqlDB.'].sql', 'w');
+				//	fwrite($fp, $sqlDump->MySQLBackup($this->_sqlHost, $this->_sqlDB, $this->_sqlUsername, $this->_sqlPassword, $structure_only));
+				//	fclose($fp);
+				//}
+				//else {
+				//	$sqlResult = htmlspecialchars($sqlDump->MySQLBackup($this->_sqlHost, $this->_sqlDB, $this->_sqlUsername, $this->_sqlPassword, $structure_only));
+				//}
+				break;
+		}
+		
+		unset($sqlDump);
+		
+		return $sqlResult;
 	}
 	
 	
@@ -529,7 +656,64 @@ class sqlAbstractionLayer {
 	 * @return String
 	 */
 	public function createUID($sqlTable, $sqlNumber) {
-		return $this->sqlCreateUID($sqlTable, $sqlNumber);
+		$uidExists = true;
+		
+		while($uidExists){
+			$sqlUID = substr(md5(microtime()), 0, $sqlNumber);
+			
+			switch($this->_sqlInterface){
+				case 'mysql':
+					$sqlResult = @mysql_query('SELECT * FROM '.$sqlTable.' WHERE uid="'.$sqlUID.'"');
+					
+					if(!$sqlResult) {
+						$sqlResult = 'Invalid query: '.mysql_error();
+						break;
+					}
+					
+					if(mysql_num_rows($sqlResult) == 0) {
+						$uidExists = false;
+					}
+					else {
+						$uidExists = true;
+					}
+					break;
+				
+				case 'pgsql':
+					$sqlQueryString = "SELECT * FROM ".$sqlTable." WHERE uid = '".$sqlUID."'";
+					
+					$sqlResult = @pg_query($sqlQueryString);
+					
+					if(!$sqlResult) {
+						$sqlResult = 'Invalid query: '.pg_result_error();
+					}
+					
+					//$uidExists = mysql_num_rows($sqlResult);
+					break;
+				
+				case 'sqlite':
+					$sqlQueryString = 'SELECT * FROM '.$sqlTable.' WHERE uid="'.$sqlUID.'"';
+					
+					$sqlResult = @sqlite_query($sqlQueryString);
+					$sqlError  = @sqlite_last_error($this->_sqlDB);
+					
+					if(!$sqlResult) {
+						$sqlResult = 'Invalid query: '.sqlite_error_string($sqlError);
+					}
+					
+					//$uidExists = mysql_num_rows($sqlResult);
+					break;
+				
+				case 'mssql':
+					$sqlResult = @mssql_guid_string('');
+					
+					if(!$sqlResult) {
+						$sqlResult = 'Invalid query: '.$sqlQueryString;
+					}
+					break;
+			}
+		}
+		
+		return $sqlUID;
 	}
 	
 	
@@ -540,7 +724,21 @@ class sqlAbstractionLayer {
 	 * @return String
 	 */
 	public function getStats() {
-		return $this->sqlGetStats();
+		switch($this->_sqlInterface){
+			case 'mysql':
+				$sqlStats = mysql_stat();
+				break;
+			
+			case 'pgsql':
+				$sqlStats = 'NOT YET IMPLEMENTED!';
+				break;
+			
+			case 'mssql':
+				$sqlStats = 'NOT YET IMPLEMENTED!';
+				break;
+		}
+		
+		return $sqlStats;
 	}
 	
 	
@@ -1821,258 +2019,6 @@ class sqlAbstractionLayer {
 				
 				if(!$sqlResult) {
 					$sqlResult = 'Invalid query: '.$sqlQueryString;
-				}
-				break;
-		}
-		
-		return $sqlResult;
-	}
-	
-	
-	
-	/**
-	 * Create a backup file of the selected table
-	 * 
-	 * @param Boolean $with_output
-	 * @param Boolean $structure_only
-	 */
-	public function sqlCreateBackup($with_output, $structure_only){
-		include_once('../tcms_kernel/tcms_sql_dump.lib.php');
-		
-		$sqlDump = new tcms_sql_dump();
-		
-		switch($this->_sqlInterface){
-			case 'mysql':
-				if($with_output == 1){
-					$fp = fopen('../../cache/mysql_database_backup_['.$this->_sqlDB.'].sql', 'w');
-					fwrite(
-						$fp, 
-						$sqlDump->MySQLBackup(
-							$this->_sqlHost, 
-							$this->_sqlDB, 
-							$this->_sqlUsername, 
-							$this->_sqlPassword, 
-							$structure_only
-						)
-					);
-					fclose($fp);
-				}
-				else{
-					$sqlResult = htmlspecialchars($sqlDump->MySQLBackup($this->_sqlHost, $this->_sqlDB, $this->_sqlUsername, $this->_sqlPassword, $structure_only));
-				}
-				break;
-			
-			case 'pgsql':
-				//if($with_output == 1) {
-				//	$fp = fopen('../../cache/pgsql_database_backup_['.$this->_sqlDB.'].sql', 'w');
-				//	fwrite($fp, $sqlDump->MySQLBackup($this->_sqlHost, $this->_sqlDB, $this->_sqlUsername, $this->_sqlPassword, $structure_only));
-				//	fclose($fp);
-				//}
-				//else {
-				//	$sqlResult = htmlspecialchars($sqlDump->MySQLBackup($this->_sqlHost, $this->_sqlDB, $this->_sqlUsername, $this->_sqlPassword, $structure_only));
-				//}
-				break;
-			
-			case 'sqlite':
-				break;
-			
-			case 'mssql':
-				//if($with_output == 1) {
-				//	$fp = fopen('../../cache/mssql_database_backup_['.$this->_sqlDB.'].sql', 'w');
-				//	fwrite($fp, $sqlDump->MySQLBackup($this->_sqlHost, $this->_sqlDB, $this->_sqlUsername, $this->_sqlPassword, $structure_only));
-				//	fclose($fp);
-				//}
-				//else {
-				//	$sqlResult = htmlspecialchars($sqlDump->MySQLBackup($this->_sqlHost, $this->_sqlDB, $this->_sqlUsername, $this->_sqlPassword, $structure_only));
-				//}
-				break;
-		}
-		
-		unset($sqlDump);
-		
-		return $sqlResult;
-	}
-	
-	
-	
-	/**
-	 * Create a uid for a $sqlTable with length $sqlNumber
-	 * 
-	 * @param String $sqlTable
-	 * @param String $sqlNumber
-	 * @return String
-	 */
-	public function sqlCreateUID($sqlTable, $sqlNumber){
-		$uidExists = true;
-		
-		while($uidExists){
-			$sqlUID = substr(md5(microtime()), 0, $sqlNumber);
-			
-			switch($this->_sqlInterface){
-				case 'mysql':
-					$sqlResult = @mysql_query('SELECT * FROM '.$sqlTable.' WHERE uid="'.$sqlUID.'"');
-					
-					if(!$sqlResult) {
-						$sqlResult = 'Invalid query: '.mysql_error();
-						break;
-					}
-					
-					if(mysql_num_rows($sqlResult) == 0) {
-						$uidExists = false;
-					}
-					else {
-						$uidExists = true;
-					}
-					break;
-				
-				case 'pgsql':
-					$sqlQueryString = "SELECT * FROM ".$sqlTable." WHERE uid = '".$sqlUID."'";
-					
-					$sqlResult = @pg_query($sqlQueryString);
-					
-					if(!$sqlResult) {
-						$sqlResult = 'Invalid query: '.pg_result_error();
-					}
-					
-					//$uidExists = mysql_num_rows($sqlResult);
-					break;
-				
-				case 'sqlite':
-					$sqlQueryString = 'SELECT * FROM '.$sqlTable.' WHERE uid="'.$sqlUID.'"';
-					
-					$sqlResult = @sqlite_query($sqlQueryString);
-					$sqlError  = @sqlite_last_error($this->_sqlDB);
-					
-					if(!$sqlResult) {
-						$sqlResult = 'Invalid query: '.sqlite_error_string($sqlError);
-					}
-					
-					//$uidExists = mysql_num_rows($sqlResult);
-					break;
-				
-				case 'mssql':
-					$sqlResult = @mssql_guid_string('');
-					
-					if(!$sqlResult) {
-						$sqlResult = 'Invalid query: '.$sqlQueryString;
-					}
-					break;
-			}
-		}
-		
-		return $sqlUID;
-	}
-	
-	
-	
-	/**
-	 * Get sql server state
-	 * 
-	 * @return String
-	 */
-	public function sqlGetStats(){
-		switch($this->_sqlInterface){
-			case 'mysql':
-				$sqlStats = mysql_stat();
-				break;
-			
-			case 'pgsql':
-				$sqlStats = 'NOT YET IMPLEMENTED!';
-				break;
-			
-			case 'mssql':
-				$sqlStats = 'NOT YET IMPLEMENTED!';
-				break;
-		}
-		
-		return $sqlStats;
-	}
-	
-	
-	
-	/**
-	 * Delete Table
-	 * 
-	 * @param String $tableName
-	 * @param Boolean $withDebug = false
-	 * @return Boolean
-	 */
-	public function sqlDeleteTable($tableName, $withDebug = false){
-		global $tcms_time;
-		
-		switch($this->_sqlInterface){
-			case 'mysql':
-				$sql = 'DROP TABLE '.$tableName;
-				
-				if($withDebug) {
-					$fp = fopen('log_deleteTable_'.microtime().'.txt', 'w');
-					fwrite($fp, $sql);
-					fclose($fp);
-				}
-				
-				if($tcms_time != null) {
-					$tcms_time->incrmentSqlQueryCounter();
-				}
-				
-				$sqlResult = mysql_query($sql);
-				
-				if(!$sqlResult) {
-					$sqlResult = 'Invalid query: '.mysql_error();
-				}
-				break;
-			
-			case 'pgsql':
-				$sql = 'DROP TABLE '.$tableName;
-				
-				if($withDebug) {
-					$fp = fopen('log_deleteTable_'.microtime().'.txt', 'w');
-					fwrite($fp, $sql);
-					fclose($fp);
-				}
-				
-				if($tcms_time != null) {
-					$tcms_time->incrmentSqlQueryCounter();
-				}
-				
-				$sqlResult = pg_query($sql);
-				
-				if(!$sqlResult) {
-					$sqlResult = 'Invalid query: '.pg_result_error();
-				}
-				break;
-			
-			case 'sqlite':
-				$sql = 'DROP TABLE '.$tableName;
-				
-				if($tcms_time != null) {
-					$tcms_time->incrmentSqlQueryCounter();
-				}
-				
-				$sqlResult = sqlite_query($sql);
-				$sqlError  = sqlite_last_error($this->_sqlDB);
-				
-				if(!$sqlResult) {
-					$sqlResult = 'Invalid query: '.sqlite_error_string($sqlError);
-				}
-				break;
-			
-			case 'mssql':
-				$sql = 'DROP TABLE ['.$tableName.']';
-				
-				if($withDebug) {
-					$fp = fopen('log_deleteTable_'.microtime().'.txt', 'w');
-					fwrite($fp, $sql);
-					fclose($fp);
-				}
-				
-				if($tcms_time != null) {
-					$tcms_time->incrmentSqlQueryCounter();
-				}
-				
-				$sqlResult = mssql_query($sql);
-				
-				if(!$sqlResult) {
-					$sqlResult = 'Invalid query: '.$sql;
 				}
 				break;
 		}

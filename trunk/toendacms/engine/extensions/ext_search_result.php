@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a search module.
  *
- * @version 0.6.5
+ * @version 0.6.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -163,7 +163,7 @@ else {
 
 if($choosenDB == 'xml') {
 	if(in_array('knowledgebase', $arr_side_navi['url']) || in_array('knowledgebase', $arr_top_navi['id'])){
-		echo '<div style="display:block; width:120px; float:left;">'
+		echo '<div style="display:block; width:130px; float:left;">'
 		.'<label for="faq"><input type="radio" style="border: 0px !important;" id="faq" name="option" value="faq"'.( $option == 'faq' ? ' checked="checked"' : '' ).' />'
 		.'&nbsp;'._TCMS_MENU_FAQ
 		.'</label>'
@@ -171,7 +171,7 @@ if($choosenDB == 'xml') {
 	}
 }
 else {
-	echo '<div style="display:block; width:120px; float:left;">'
+	echo '<div style="display:block; width:130px; float:left;">'
 	.'<label for="faq"><input type="radio" style="border: 0px !important;" id="faq" name="option" value="faq"'.( $option == 'faq' ? ' checked="checked"' : '' ).' />'
 	.'&nbsp;'._TCMS_MENU_FAQ
 	.'</label>'
@@ -193,7 +193,10 @@ echo '<br />';
 echo $tcms_html->searchResultTitle(_SEARCH_TEXT_FOUND)
 .'<br />';
 
-if(!isset($option)) $option = 'con';
+if(!isset($option)) {
+	$option = 'con';
+}
+
 $nothing_search = _SEARCH_BOX;
 $sc = 0;
 
@@ -204,7 +207,6 @@ elseif($searchword == $nothing_search) {
 	echo $tcms_html->contentText(_SEARCH_EMPTY);
 }
 else {
-	//include_once('engine/tcms_kernel/tcms_search.lib.php');
 	using('toendacms.kernel.search');
 	
 	$tcms_search = new tcms_search(
@@ -220,14 +222,27 @@ else {
 	switch($option){
 		case 'con':
 			// documents
-			echo $tcms_html->contentUnderlinedTitle(
+			echo '<div id="document_sr">'
+			.$tcms_html->contentUnderlinedTitle(
 				_TCMS_MENU_CONTENT
-			);
+			).'</div>';
 			
 			$sc = $tcms_search->searchDocuments(
 				$searchword, 
 				$tcms_config->getLanguageFrontend()
 			);
+			
+			if($sc > 0) {
+				echo '<script type="text/javascript" language="JavaScript">'
+				.'showXP(\'document_sr\');'
+				.'</script>'
+				.'<br />';
+			}
+			else {
+				echo '<script type="text/javascript" language="JavaScript">'
+				.'hideXP(\'document_sr\');'
+				.'</script>';
+			}
 			break;
 		
 		case 'news':
@@ -243,12 +258,13 @@ else {
 			);
 			
 			if($sc > 0) {
-				echo '<script>'
+				echo '<script type="text/javascript" language="JavaScript">'
 				.'showXP(\'news_sr\');'
-				.'</script>';
+				.'</script>'
+				.'<br />';
 			}
 			else {
-				echo '<script>'
+				echo '<script type="text/javascript" language="JavaScript">'
 				.'hideXP(\'news_sr\');'
 				.'</script>';
 			}
@@ -256,11 +272,24 @@ else {
 		
 		case 'pro':
 			// products
-			echo $tcms_html->contentUnderlinedTitle(
+			echo '<div id="products_sr">'
+			.$tcms_html->contentUnderlinedTitle(
 				_TCMS_MENU_PRODUCTS
-			);
+			).'</div>';
 			
 			$sc = search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s);
+			
+			if($sc > 0) {
+				echo '<script type="text/javascript" language="JavaScript">'
+				.'showXP(\'products_sr\');'
+				.'</script>'
+				.'<br />';
+			}
+			else {
+				echo '<script type="text/javascript" language="JavaScript">'
+				.'hideXP(\'products_sr\');'
+				.'</script>';
+			}
 			break;
 		
 		case 'down':
@@ -273,12 +302,13 @@ else {
 			$sc = search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s);
 			
 			if($sc > 0) {
-				echo '<script>'
+				echo '<script type="text/javascript" language="JavaScript">'
 				.'showXP(\'down_sr\');'
-				.'</script>';
+				.'</script>'
+				.'<br />';
 			}
 			else {
-				echo '<script>'
+				echo '<script type="text/javascript" language="JavaScript">'
 				.'hideXP(\'down_sr\');'
 				.'</script>';
 			}
@@ -286,32 +316,73 @@ else {
 		
 		case 'img':
 			// images
-			echo $tcms_html->contentUnderlinedTitle(
+			echo '<div id="img_sr">'
+			.$tcms_html->contentUnderlinedTitle(
 				_TCMS_MENU_GALLERY
-			);
+			).'</div>';
 			
 			$sc = search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s);
+			
+			if($sc > 0) {
+				echo '<script type="text/javascript" language="JavaScript">'
+				.'showXP(\'img_sr\');'
+				.'</script>'
+				.'<br />';
+			}
+			else {
+				echo '<script type="text/javascript" language="JavaScript">'
+				.'hideXP(\'img_sr\');'
+				.'</script>';
+			}
 			break;
 		
 		case 'faq':
 			// faq
-			echo $tcms_html->contentUnderlinedTitle(
+			echo '<div id="faq_sr">'
+			.$tcms_html->contentUnderlinedTitle(
 				_TCMS_MENU_FAQ
-			);
+			).'</div>';
 			
 			$sc = search_faqs($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s);
+			
+			if($sc > 0) {
+				echo '<script type="text/javascript" language="JavaScript">'
+				.'showXP(\'faq_sr\');'
+				.'</script>'
+				.'<br />';
+			}
+			else {
+				echo '<script type="text/javascript" language="JavaScript">'
+				.'hideXP(\'faq_sr\');'
+				.'</script>';
+			}
 			break;
 		
 		case 'all':
 			// documents
-			echo $tcms_html->contentUnderlinedTitle(
+			echo '<div id="document_sr">'
+			.$tcms_html->contentUnderlinedTitle(
 				_TCMS_MENU_CONTENT
-			);
+			).'</div>';
 			
-			$sc = $tcms_search->searchDocuments(
+			$sc_all = $tcms_search->searchDocuments(
 				$searchword, 
 				$tcms_config->getLanguageFrontend()
 			);
+			
+			if($sc_all > 0) {
+				$sc++;
+				
+				echo '<script type="text/javascript" language="JavaScript">'
+				.'showXP(\'document_sr\');'
+				.'</script>'
+				.'<br />';
+			}
+			else {
+				echo '<script type="text/javascript" language="JavaScript">'
+				.'hideXP(\'document_sr\');'
+				.'</script>';
+			}
 			
 			// news
 			echo '<div id="news_sr">'
@@ -319,28 +390,46 @@ else {
 				_TCMS_MENU_NEWS
 			).'</div>';
 			
-			$sc = $tcms_search->searchNews(
+			$sc_all = $tcms_search->searchNews(
 				$searchword, 
 				$tcms_config->getLanguageFrontend()
 			);
 			
-			if($sc > 0) {
-				echo '<script>'
+			if($sc_all > 0) {
+				$sc++;
+				
+				echo '<script type="text/javascript" language="JavaScript">'
 				.'showXP(\'news_sr\');'
-				.'</script>';
+				.'</script>'
+				.'<br />';
 			}
 			else {
-				echo '<script>'
+				echo '<script type="text/javascript" language="JavaScript">'
 				.'hideXP(\'news_sr\');'
 				.'</script>';
 			}
 			
 			// products
-			echo $tcms_html->contentUnderlinedTitle(
+			echo '<div id="products_sr">'
+			.$tcms_html->contentUnderlinedTitle(
 				_TCMS_MENU_PRODUCTS
-			);
+			).'</div>';
 			
-			$sc = search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s);
+			$sc_all = search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s);
+			
+			if($sc_all > 0) {
+				$sc++;
+				
+				echo '<script type="text/javascript" language="JavaScript">'
+				.'showXP(\'products_sr\');'
+				.'</script>'
+				.'<br />';
+			}
+			else {
+				echo '<script type="text/javascript" language="JavaScript">'
+				.'hideXP(\'products_sr\');'
+				.'</script>';
+			}
 			
 			// downloads
 			echo '<div id="down_sr">'
@@ -349,206 +438,91 @@ else {
 			).'</div>';
 			
 			
-			$sc = search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s);
+			$sc_all = search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s);
 			
-			if($sc > 0) {
-				echo '<script>'
+			if($sc_all > 0) {
+				$sc++;
+				
+				echo '<script type="text/javascript" language="JavaScript">'
 				.'showXP(\'down_sr\');'
-				.'</script>';
+				.'</script>'
+				.'<br />';
 			}
 			else {
-				echo '<script>'
+				echo '<script type="text/javascript" language="JavaScript">'
 				.'hideXP(\'down_sr\');'
 				.'</script>';
 			}
 			
 			// images
-			echo $tcms_html->contentUnderlinedTitle(
+			echo '<div id="img_sr">'
+			.$tcms_html->contentUnderlinedTitle(
 				_TCMS_MENU_GALLERY
-			);
+			).'</div>';
 			
-			$sc = search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s);
+			$sc_all = search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s);
+			
+			if($sc_all > 0) {
+				$sc++;
+				
+				echo '<script type="text/javascript" language="JavaScript">'
+				.'showXP(\'img_sr\');'
+				.'</script>'
+				.'<br />';
+			}
+			else {
+				echo '<script type="text/javascript" language="JavaScript">'
+				.'hideXP(\'img_sr\');'
+				.'</script>';
+			}
 			
 			// faq
-			echo $tcms_html->contentUnderlinedTitle(
+			echo '<div id="faq_sr">'
+			.$tcms_html->contentUnderlinedTitle(
 				_TCMS_MENU_FAQ
-			);
+			).'</div>';
 			
-			$sc = search_faqs($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s);
-			$sc = 1;
+			$sc_all = search_faqs($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s);
+			
+			if($sc_all > 0) {
+				$sc++;
+				
+				echo '<script type="text/javascript" language="JavaScript">'
+				.'showXP(\'faq_sr\');'
+				.'</script>'
+				.'<br />';
+			}
+			else {
+				echo '<script type="text/javascript" language="JavaScript">'
+				.'hideXP(\'faq_sr\');'
+				.'</script>';
+			}
+			
+			//$sc = 1;
 			break;
 	}
 	
-	if($sc == 0)
-		echo $tcms_html->contentText(_SEARCH_NOTFOUND_1.'&nbsp;'.$searchword.'&nbsp;'._SEARCH_NOTFOUND_2);
+	if($sc == 0) {
+		echo $tcms_html->contentText(
+			_SEARCH_NOTFOUND_1.'&nbsp;'.$searchword.'&nbsp;'._SEARCH_NOTFOUND_2
+		);
+	}
 	
 	echo '<br />'
+	.$tcms_html->contentUnderlinedTitle(
+		_SEARCH_WEBSEARCH
+	)
 	.$tcms_html->searchPanel(
 		_SEARCH_WITH_GOOGLE, 
 		'http://www.google.com/search?q='.$searchword, 
 		$imagePath.'engine/images/logos/google.png'
-	);
-	
-	echo '<br />'
+	)
+	.'<br />'
 	.$tcms_html->searchPanel(
 		_SEARCH_WITH_GOOGLE, 
 		'http://search.yahoo.com/search?p='.$searchword, 
 		$imagePath.'engine/images/logos/yahoo.png'
 	);
-}
-
-
-
-
-
-
-function search_news($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s){
-	global $tcms_db_prefix;
-	global $tcms_main;
-	global $tcms_administer_site;
-	global $tcms_config;
-	
-	if($choosenDB == 'xml') {
-		$arr_searchfiles = $tcms_main->load_xml_files(_TCMS_PATH.'/tcms_news/', 'files');
-		
-		foreach($arr_searchfiles as $skey => $sval){
-			//echo $sval.'<br>';
-			$search_xml = new xmlparser(_TCMS_PATH.'/tcms_news/'.$sval,'r');
-			
-			$acs = $search_xml->readSection('news', 'access');
-			
-			$canRead = $tcms_main->checkAccess($acs, $is_admin);
-			
-			if($canRead){
-				$out = $search_xml->search_value_front('news', 'newstext', $searchword);
-				
-				if($out != false){
-					$tit = $search_xml->readSection('news', 'title');
-					$date = $search_xml->readSection('news', 'date');
-					$time = $search_xml->readSection('news', 'time');
-					
-					$tit = $tcms_main->decodeText($tit, '2', $c_charset);
-					
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-					.'id=newsmanager&amp;news='.substr($sval, 0, 10).'&amp;s='.$s
-					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $tcms_main->urlConvertToSEO($link);
-					
-					echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
-					echo '<div class="search_result"><span class="text_small">'.$date.' - '.$time.'</span></div>';
-					echo '<br />';
-					
-					$sc++;
-				}
-				else{
-					$out = $search_xml->search_value_front('news', 'title', $searchword);
-					if($out != false){
-						$tit = $search_xml->readSection('news', 'title');
-						$date = $search_xml->readSection('news', 'date');
-						$time = $search_xml->readSection('news', 'time');
-						
-						$tit = $tcms_main->decodeText($tit, '2', $c_charset);
-						
-						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-						.'id=newsmanager&amp;news='.substr($sval, 0, 10).'&amp;s='.$s
-						.( isset($lang) ? '&amp;lang='.$lang : '' );
-						$link = $tcms_main->urlConvertToSEO($link);
-						
-						echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
-						echo '<div class="search_result"><span class="text_small">'.$date.' - '.$time.'</span></div>';
-						echo '<br />';
-						
-						$sc++;
-					}
-				}
-			}
-		}
-	}
-	else {
-		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-		
-		switch($is_admin){
-			case 'Developer':
-			case 'Administrator':
-				$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
-				break;
-			
-			case 'User':
-			case 'Editor':
-			case 'Presenter':
-				$strAdd = " OR access = 'Protected' ) ";
-				break;
-			
-			default:
-				$strAdd = ' ) ';
-				break;
-		}
-		
-		switch($choosenDB){
-			case 'mysql':
-				$strSQL = "SELECT *"
-				." FROM ".$tcms_db_prefix."news"
-				." WHERE ( `access` = 'Public' "
-				.$strAdd
-				." AND (( `newstext` REGEXP '".$searchword."' OR `newstext` LIKE '%".$searchword."%' )"
-				." OR ( `title` REGEXP '".$searchword."' OR `title` LIKE '%".$searchword."%' ))"
-				." AND `language` = '".$tcms_config->getLanguageFrontend()."'";
-				break;
-			
-			case 'pgsql':
-				$strSQL = "SELECT *"
-				." FROM ".$tcms_db_prefix."news"
-				." WHERE ( access = 'Public' "
-				.$strAdd
-				." AND (( newstext LIKE '%".$searchword."%' )"
-				." OR ( title LIKE '%".$searchword."%' ))"
-				." AND language = '".$tcms_config->getLanguageFrontend()."'";
-				break;
-			
-			case 'mssql':
-				$strSQL = "SELECT *"
-				." FROM ".$tcms_db_prefix."news"
-				." WHERE ( [access] = 'Public' "
-				.$strAdd
-				." AND (( [newstext] LIKE '%".$searchword."%' )"
-				." OR ( [title] LIKE '%".$searchword."%' ))"
-				." AND [language] = '".$tcms_config->getLanguageFrontend()."'";
-				break;
-		}
-		
-		$sqlQR = $sqlAL->query($strSQL);
-		$sqlNR = $sqlAL->getNumber($sqlQR);
-		
-		if($sqlNR != 0){
-			while($sqlARR = $sqlAL->fetchArray($sqlQR)){
-				$tit = $sqlARR['title'];
-				$date = $sqlARR['date'];
-				$time = $sqlARR['time'];
-				$uid = $sqlARR['uid'];
-				
-				if($tit  == NULL){ $tit  = ''; }
-				if($date == NULL){ $date = ''; }
-				if($time == NULL){ $time = ''; }
-				if($uid  == NULL){ $uid  = ''; }
-				
-				$tit = $tcms_main->decodeText($tit, '2', $c_charset);
-				
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-				.'id=newsmanager&amp;news='.$uid.'&amp;s='.$s
-				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlConvertToSEO($link);
-				
-				echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
-				echo '<div class="search_result"><span class="text_small">'.$date.' - '.$time.'</span></div>';
-				echo '<br />';
-				
-				$sc++;
-			}
-		}
-	}
-	
-	return $sc;
 }
 
 

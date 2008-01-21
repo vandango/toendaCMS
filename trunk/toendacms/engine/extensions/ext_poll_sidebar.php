@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the poll functionality.
  *
- * @version 0.4.2
+ * @version 0.4.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -356,31 +356,56 @@ if($use_poll == 1) {
 		*
 		*/
 		
-		if($make == 'vote'){
-			if($tcms_main->isReal($answer)){
-				echo '<br />';
-				echo tcms_html::text($poll_lang_votetext, 'left');
+		if($make == 'vote') {
+			if($tcms_main->isReal($answer)) {
+				echo '<br />'
+				.$tcms_html->text($poll_lang_votetext, 'left');
 				
 				$poll  = substr($poll, 0, 32);
 				$ip    = getenv('REMOTE_ADDR');
-				if($ip == ''){ $remote = 'localhost'; $ip = '127.0.0.1'; }
-				else{ $remote = getHostByAddr($ip); }
 				
-				if($choosenDB == 'xml'){
-					$xmluser = new xmlparser(_TCMS_PATH.'/tcms_polls/'.$poll.'/'.$ip.'.xml', 'w');
-					$xmluser->xml_c_declaration($c_charset);
-					$xmluser->xml_section('vote');
-					$xmluser->write_value('ip', $ip);
-					$xmluser->write_value('domain', $remote);
-					$xmluser->write_value('answer', $answer);
-					$xmluser->xml_section_buffer();
-					$xmluser->xml_section_end('vote');
+				if($ip == '') {
+					$remote = 'localhost';
+					$ip = '127.0.0.1';
 				}
-				else{
-					$maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'poll_items', 8);
+				else {
+					$remote = getHostByAddr($ip);
+				}
+				
+				if($choosenDB == 'xml') {
+					$xmluser = new xmlparser(
+						_TCMS_PATH.'/tcms_polls/'.$poll.'/'.$ip.'.xml', 
+						'w'
+					);
 					
-					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+					$xmluser->xmlDeclarationWithCharset($c_charset);
+					$xmluser->xmlSection('vote');
+					
+					$xmluser->writeValue('ip', $a_ip);
+					$xmluser->writeValue('domain', $remote);
+					$xmluser->writeValue('answer', $answer);
+					
+					$xmluser->xmlSectionBuffer();
+					$xmluser->xmlSectionEnd('vote');
+					
+					$xmluser->flush();
+					unset($xmluser);
+				}
+				else {
+					$maintag = $tcms_main->getNewUID(8, 'poll_items');
+					
+					$sqlAL = new sqlAbstractionLayer(
+						$choosenDB, 
+						$tcms_time
+					);
+					
+					$sqlCN = $sqlAL->connect(
+						$sqlUser, 
+						$sqlPass, 
+						$sqlHost, 
+						$sqlDB, 
+						$sqlPort
+					);
 					
 					switch($choosenDB){
 						case 'mysql':

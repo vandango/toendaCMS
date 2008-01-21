@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used as toolbar for the content manager.
  *
- * @version 0.0.5
+ * @version 0.0.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -66,6 +66,25 @@ switch($todo){
 			.' alt="'._TCMS_ADMIN_SAVE.'"'
 			.' src="../images/admin_menu/save.png"'
 			.' border="0" />'
+			.'</a>';
+		}
+		
+		if($show_wysiwyg == 'tinymce' && $todo != 'config'){
+			echo '<a'
+			.' style="padding: 3px 3px 0 3px;"'
+			.' href="javascript:'
+			.'gebi(\'draft\').value=\'0\';'
+			//.'ajaxSave();'
+			.'tinyMCE.triggerSave();'
+			.'tinyMCE.updateContent(\'content\');'
+			.'save();'
+			.'">'
+			.'<img title="'._TCMS_ADMIN_APPLY.'" alt="'._TCMS_ADMIN_APPLY.'" src="../images/admin_menu/apply.png" border="0" />'
+			.'</a>';
+		}
+		else {
+			echo '<a style="padding: 3px 3px 0 3px;" href="javascript:apply();">'
+			.'<img title="'._TCMS_ADMIN_APPLY.'" alt="'._TCMS_ADMIN_APPLY.'" src="../images/admin_menu/apply.png" border="0" />'
 			.'</a>';
 		}
 		break;

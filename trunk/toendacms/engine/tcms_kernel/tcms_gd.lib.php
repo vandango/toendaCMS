@@ -604,7 +604,6 @@ class tcms_gd {
 		
 		while($entry = readdir($dir)){
 			if($entry != '.' && $entry != '..' && $entry != 'CVS'){
-				//$new_image_id = $this->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, 'tcms_imagegallery', 10);
 				$new_image_id = substr(md5(microtime()), 0, 10);
 				
 				$newSQLColumns = 'album, image, date';

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used to manage the comments.
  *
- * @version 0.2.9
+ * @version 0.3.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -221,8 +221,8 @@ if($id_group == 'Developer'
 			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			if($action == 'news'){
 				$strSQL = "SELECT * "
@@ -239,12 +239,12 @@ if($id_group == 'Developer'
 				."ORDER BY ".$tcms_db_prefix."comments.timestamp DESC";
 			}
 			
-			$sqlQR = $sqlAL->sqlQuery($strSQL);
+			$sqlQR = $sqlAL->query($strSQL);
 			
 			$count = 0;
 			
-			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
-				$_msg_ = str_replace('<br />', ' - ', $sqlARR['msg']);
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+				$_msg_ = str_replace('<br />', ' - ', $sqlObj->msg);
 				$_msg_ = str_replace('<br/>', ' - ', $_msg_);
 				$_msg_ = str_replace('<br>', ' - ', $_msg_);
 				$_msg_ = str_replace('<BR />', ' - ', $_msg_);
@@ -255,21 +255,21 @@ if($id_group == 'Developer'
 				$_msg_ = strip_tags($_msg_);
 				
 				$arrCat['cnt'][$count]    = $count;
-				$arrCat['uid'][$count]    = $sqlARR['uid'];
-				$arrCat['name'][$count]   = $sqlARR['name'];
+				$arrCat['uid'][$count]    = $sqlObj->uid;
+				$arrCat['name'][$count]   = $sqlObj->name;
 				$arrCat['desc'][$count]   = ( strlen($_msg_) > 150 ? substr($_msg_, 0, 150).' ...' : $_msg_ );
-				$arrCat['ip'][$count]     = $sqlARR['ip'];
-				$arrCat['domain'][$count] = $sqlARR['domain'];
-				$arrCat['email'][$count]  = $sqlARR['email'];
-				$arrCat['www'][$count]    = $sqlARR['web'];
-				$arrCat['tag'][$count]    = $sqlARR['timestamp'];
+				$arrCat['ip'][$count]     = $sqlObj->ip;
+				$arrCat['domain'][$count] = $sqlObj->domain;
+				$arrCat['email'][$count]  = $sqlObj->email;
+				$arrCat['www'][$count]    = $sqlObj->web;
+				$arrCat['tag'][$count]    = $sqlObj->timestamp;
 				
-				if($action == 'news'){
-					$arrCat['title'][$count]  = $sqlARR['title'];
+				if($action == 'news') {
+					$arrCat['title'][$count]  = $sqlObj->title;
 				}
-				else{
-					$arrCat['title'][$count]  = $sqlARR['image'];
-					$arrCat['album'][$count]  = $sqlARR['album'];
+				else {
+					$arrCat['title'][$count]  = $sqlObj->image;
+					$arrCat['album'][$count]  = $sqlObj->album;
 					
 					if($arrCat['album'][$count] == NULL){ $arrCat['album'][$count] = ''; }
 				}
@@ -452,7 +452,7 @@ if($id_group == 'Developer'
 			if(!$comment_time)  { $comment_time   = ''; }
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$sqlSTR = "SELECT * "
@@ -461,18 +461,18 @@ if($id_group == 'Developer'
 			."AND timestamp = '".$maintag."' "
 			."AND uid = '".$val."'";
 			
-			$sqlQR = $sqlAL->sqlQuery($sqlSTR);
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+			$sqlQR = $sqlAL->query($sqlSTR);
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
 			
 			
-			$comment_name   = $sqlARR['name'];
-			$comment_desc   = $sqlARR['msg'];
-			$comment_ip     = $sqlARR['ip'];
-			$comment_domain = $sqlARR['domain'];
-			$comment_email  = $sqlARR['email'];
-			$comment_www    = $sqlARR['web'];
-			$comment_time   = $sqlARR['time'];
-			$comment_tag    = $sqlARR['timestamp'];
+			$comment_name   = $sqlObj->name;
+			$comment_desc   = $sqlObj->msg;
+			$comment_ip     = $sqlObj->ip;
+			$comment_domain = $sqlObj->domain;
+			$comment_email  = $sqlObj->email;
+			$comment_www    = $sqlObj->web;
+			$comment_time   = $sqlObj->time;
+			$comment_tag    = $sqlObj->timestamp;
 			
 			
 			if($comment_name   == NULL){ $comment_name   = ''; }
@@ -610,8 +610,8 @@ if($id_group == 'Developer'
 			$xmluser->xml_section_end('comment');
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			
 			$newSQLData = ''
@@ -636,10 +636,12 @@ if($id_group == 'Developer'
 			}
 			
 			
-			$sqlQR = $sqlAL->sqlQuery($newSQLStr);
+			$sqlQR = $sqlAL->query($newSQLStr);
 		}
 		
-		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_comments&action='.$action.'\'</script>';
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_comments&action='.$action.'\';'
+		.'</script>';
 	}
 	
 	
@@ -651,25 +653,27 @@ if($id_group == 'Developer'
 	/*
 		delete comment
 	*/
-	if($todo == 'delete'){
-		if($choosenDB == 'xml'){
-			if($action == 'news'){
+	if($todo == 'delete') {
+		if($choosenDB == 'xml') {
+			if($action == 'news') {
 				unlink(_TCMS_PATH.'/tcms_news/comments_'.$val.'/'.$maintag.'.xml');
 			}
-			elseif($action == 'image'){
+			elseif($action == 'image') {
 				unlink(_TCMS_PATH.'/tcms_imagegallery/'.$album.'/comments_'.$val.'/'.$maintag.'.xml');
 			}
 		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		else {
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$strSQL = "DELETE FROM ".$tcms_db_prefix."comments WHERE module='".$action."' AND uid = '".$val."' AND timestamp = '".$maintag."'";
 			
-			$sqlAL->sqlQuery($strSQL);
+			$sqlAL->query($strSQL);
 		}
 		
-		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_comments\';</script>';
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_comments\';'
+		.'</script>';
 	}
 }
 else{

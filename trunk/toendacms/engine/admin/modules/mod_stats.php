@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a statistics provider.
  *
- * @version 0.3.2
+ * @version 0.3.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -62,8 +62,8 @@ if($id_group == 'Developer'
 		.$tcms_file->getDirectorySizeString(_TCMS_PATH).'<br /><br />';
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		
 		/*
@@ -72,12 +72,12 @@ if($id_group == 'Developer'
 		switch($choosenDB){
 			case 'mysql':
 				//$sqlQR = $sqlAL->sqlQuery('show status');
-				echo '<strong>'._DB_MYSQL.'</strong>: '.$sqlAL->sqlGetStats().'<br />';
+				echo '<strong>'._DB_MYSQL.'</strong>: '.$sqlAL->getStats().'<br />';
 				break;
 			
 			case 'pgsql':
-				$sqlQR = $sqlAL->sqlQuery('SHOW SERVER_VERSION');
-				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+				$sqlQR = $sqlAL->query('SHOW SERVER_VERSION');
+				$sqlARR = $sqlAL->fetchArray($sqlQR);
 				echo '<strong>'._DB_PGSQL.'</strong>: Server version '.$sqlARR[0].' ( More state information not yet implemented )<br />';
 				break;
 			

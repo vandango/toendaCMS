@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a documents manager.
  *
- * @version 1.2.3
+ * @version 1.2.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -36,6 +36,7 @@ if(isset($_GET['check'])){ $check = $_GET['check']; }
 if(isset($_GET['val'])){ $val = $_GET['val']; }
 if(isset($_GET['sender'])){ $sender = $_GET['sender']; }
 
+if(isset($_POST['draft'])){ $draft = $_POST['draft']; }
 if(isset($_POST['titel'])){ $titel = $_POST['titel']; }
 if(isset($_POST['key'])){ $key = $_POST['key']; }
 if(isset($_POST['content'])){ $content = $_POST['content']; }
@@ -314,22 +315,22 @@ if($id_group == 'Developer'
 				$count++;
 			}
 			
-			$sqlAL->sqlDeleteTable('tmp_c');
+			$sqlAL->deleteTable('tmp_c');
 			$sqlAL->sqlFreeResult($sqlQR);
 			*/
 		}
 		
 		echo '<table cellpadding="3" cellspacing="0" border="0" class="noborder">';
 		echo '<tr class="tcms_bg_blue_01">'
-			.'<th valign="middle" class="tcms_db_title" width="2%" colspan="2">&nbsp;</th>'
-			.'<th valign="middle" class="tcms_db_title" width="58%" align="left">'._TABLE_TITLE.'</th>'
-			.'<th valign="middle" class="tcms_db_title" width="5%" align="left">'._TABLE_ORDER.'</th>'
-			.'<th valign="middle" class="tcms_db_title" width="10%" align="left">'._TABLE_AUTOR.'</th>'
-			.'<th valign="middle" class="tcms_db_title" width="5%" align="center">'._TABLE_PUBLISHED.'</th>'
-			.'<th valign="middle" class="tcms_db_title" width="5%" align="center">'._TABLE_IN_WORK.'</th>'
-			.'<th valign="middle" class="tcms_db_title" width="10%" align="center">'._TABLE_ACCESS.'</th>'
-			.'<th valign="middle" class="tcms_db_title" width="10%" align="right">'._TABLE_FUNCTIONS.'</th>'
-			.'</tr>';
+		.'<th valign="middle" class="tcms_db_title" width="2%" colspan="2">&nbsp;</th>'
+		.'<th valign="middle" class="tcms_db_title" width="58%" align="left">'._TABLE_TITLE.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="5%" align="left">'._TABLE_ORDER.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="10%" align="left">'._TABLE_AUTOR.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="5%" align="center">'._TABLE_PUBLISHED.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="5%" align="center">'._TABLE_IN_WORK.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="10%" align="center">'._TABLE_ACCESS.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="10%" align="right">'._TABLE_FUNCTIONS.'</th>'
+		.'</tr>';
 		
 		if(isset($arr_content['id']) && !empty($arr_content['id']) && $arr_content['id'] != ''){
 			foreach($arr_content['id'] as $key => $value){
@@ -421,11 +422,11 @@ if($id_group == 'Developer'
 	// FORM
 	//=====================================================
 	
-	if($todo == 'edit'){
+	if($todo == 'edit') {
 		$bFileless = false;
 		
 		if(isset($maintag)) {
-			if($choosenDB == 'xml'){
+			if($choosenDB == 'xml') {
 				$val = 0;
 				
 				if($tcms_main->isReal($lang)) {
@@ -647,7 +648,8 @@ if($id_group == 'Developer'
 		echo '<form action="admin.php?id_user='.$id_user.'&amp;site=mod_content" method="post" enctype="multipart/form-data" id="contentPage">'
 		.'<input name="todo" type="hidden" value="'.$make.'" />'
 		.'<input name="maintag" type="hidden" value="'.$maintag.'" />'
-		.'<input name="new_id" type="hidden" value="'.$arr_content['id'][$val].'" />';
+		.'<input name="new_id" type="hidden" value="'.$arr_content['id'][$val].'" />'
+		.'<input name="draft" id="draft" type="hidden" value="1" />';
 		
 		if($tcms_main->isReal($lang)) {
 			echo '<input name="lang" type="hidden" value="'.$lang.'" />';
@@ -1066,9 +1068,16 @@ if($id_group == 'Developer'
 			);
 		}
 		
-		echo '<script>'
-		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_content\''
-		.'</script>';
+		if($draft == '1') {
+			echo '<script>'
+			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_content\''
+			.'</script>';
+		}
+		else {
+			echo '<script>'
+			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_content&todo=edit&maintag='.$maintag.'\''
+			.'</script>';
+		}
 	}
 	
 	
@@ -1217,9 +1226,16 @@ if($id_group == 'Developer'
 			);
 		}
 		
-		echo '<script>'
-		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_content\''
-		.'</script>';
+		if($draft == '1') {
+			echo '<script>'
+			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_content\''
+			.'</script>';
+		}
+		else {
+			echo '<script>'
+			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_content&todo=edit&maintag='.$maintag.'\''
+			.'</script>';
+		}
 	}
 	
 	

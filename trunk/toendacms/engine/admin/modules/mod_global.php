@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * This module is for the global configuration settings.
  * 
- * @version 1.4.6
+ * @version 1.4.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Admin Backend
@@ -1659,10 +1659,10 @@ $tcms_db_prefix   = \''.$new_prefix.'\';
 			if(empty($with_output))   { $with_output    = 0; };
 			if(empty($structure_only)) { $structure_only = 0; };
 			
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			$sqlResult = $sqlAL->sqlCreateBackup($with_output, $structure_only);
+			$sqlResult = $sqlAL->createBackup($with_output, $structure_only);
 			
 			//$affectedTables = $sqlAL->sqlGetNumber($sqlQR);
 			
@@ -1692,7 +1692,7 @@ $tcms_db_prefix   = \''.$new_prefix.'\';
 	
 	if($todo == 'optimize') {
 		if($this_engine == 'mysql') {
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$strOptimize = 'OPTIMIZE TABLE ';
@@ -1700,15 +1700,17 @@ $tcms_db_prefix   = \''.$new_prefix.'\';
 			$tic = count($arrTables) - 1;
 			
 			foreach($arrTables as $key => $val) {
-				if($key < $tic)
+				if($key < $tic) {
 					$strOptimize .= '`'.$tcms_db_prefix.$arrTables[$key].'` , ';
-				else
+				}
+				else {
 					$strOptimize .= '`'.$tcms_db_prefix.$arrTables[$key].'`';
+				}
 			}
 			
 			//echo $strOptimize;
 			
-			$sqlResult = $sqlAL->sqlQuery($strOptimize);
+			$sqlResult = $sqlAL->query($strOptimize);
 		}
 		
 		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_global&action='.$action.'\'</script>';

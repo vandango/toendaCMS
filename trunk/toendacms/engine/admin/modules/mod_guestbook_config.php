@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the guestbook configuration.
  *
- * @version 0.4.2
+ * @version 0.4.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -99,26 +99,26 @@ if($id_group == 'Developer'
 			$arr_color[1]     = $guestbook_xml->read_section('config', 'color_row_2');
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'guestbook', 'guestbook');
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+			$sqlQR = $sqlAL->getOne($tcms_db_prefix.'guestbook', 'guestbook');
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
 			
-			$old_guest_id         = $sqlARR['guest_id'];
-			$old_booktitle        = $sqlARR['booktitle'];
-			$old_bookstamp        = $sqlARR['bookstamp'];
-			$old_guestbook_access = $sqlARR['access'];
-			$old_enabled          = $sqlARR['enabled'];
+			$old_guest_id         = $sqlObj->guest_id;
+			$old_booktitle        = $sqlObj->booktitle;
+			$old_bookstamp        = $sqlObj->bookstamp;
+			$old_guestbook_access = $sqlObj->access;
+			$old_enabled          = $sqlObj->enabled;
 			
-			$old_clean_link       = $sqlARR['clean_link'];
-			$old_clean_script     = $sqlARR['clean_script'];
-			$old_convert_at       = $sqlARR['convert_at'];
-			$old_show_email       = $sqlARR['show_email'];
-			$old_name_width       = $sqlARR['name_width'];
-			$old_text_width       = $sqlARR['text_width'];
-			$arr_color[0]         = $sqlARR['color_row_1'];
-			$arr_color[1]         = $sqlARR['color_row_2'];
+			$old_clean_link       = $sqlObj->clean_link;
+			$old_clean_script     = $sqlObj->clean_script;
+			$old_convert_at       = $sqlObj->convert_at;
+			$old_show_email       = $sqlObj->show_email;
+			$old_name_width       = $sqlObj->name_width;
+			$old_text_width       = $sqlObj->text_width;
+			$arr_color[0]         = $sqlObj->color_row_1;
+			$arr_color[1]         = $sqlObj->color_row_2;
 			
 			if($old_clean_link   == NULL){ $old_clean_link   = ''; }
 			if($old_clean_script == NULL){ $old_clean_script = ''; }

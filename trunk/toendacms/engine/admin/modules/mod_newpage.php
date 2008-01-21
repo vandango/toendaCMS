@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for a wizard to create a new page.
  *
- * @version 0.3.1
+ * @version 0.3.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -255,8 +255,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		
 		switch($tmp_linkto){
 			case 'new_page':
-				if($choosenDB == 'xml'){ while(($new_linkto=substr(md5(time()),0,5)) && file_exists(_TCMS_PATH.'/tcms_content/'.$new_linkto.'.xml')){} }
-				else{ $new_linkto = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'content', 5); }
+				$new_linkto = $tcms_main->getNewUID(5, 'content');
 				$relocate = 'mod_content';
 				break;
 			

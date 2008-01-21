@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the polls.
  *
- * @version 0.3.4
+ * @version 0.3.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -277,8 +277,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		$ws_poll = 0;
 		
 		if(!isset($poll) || $poll == '' || empty($poll)){
-			if($choosenDB == 'xml'){ while(($poll = substr(md5(time()), 0, 32)) && file_exists(_TCMS_PATH.'/tcms_polls/'.$poll.'.xml')){} }
-			else{ $poll = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'news', 32); }
+			$poll = $tcms_main->getNewUID(32, 'polls');
 			
 			$wr_poll = 'w';
 			$ws_poll = 1;

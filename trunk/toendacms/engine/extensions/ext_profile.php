@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a base module fpr user operations.
  *
- * @version 1.0.6
+ * @version 1.0.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -706,8 +706,6 @@ if($checkUserExists) {
 				
 				$width  = $sqlARR['text_width'];
 				$width2 = $sqlARR['input_width'];
-				
-				//$n2c_maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'news_categories', 5);
 			}
 			
 			
@@ -876,7 +874,6 @@ if($is_admin == 'Administrator'
 			
 			for($i = 0; $i <= count($arrNewsCat['tag']); $i++){
 				if(!empty($_POST['new_cat_'.$i]) && isset($_POST['new_cat_'.$i])){
-					//$n2c_maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'news_to_categories', 5);
 					$n2c_maintag = $tcms_main->getNewUID(5, 'news_to_categories');
 					
 					$newSQLData = "'".$maintag."', '".$_POST['new_cat_'.$i]."'";
@@ -1005,7 +1002,7 @@ if($is_admin == 'Administrator'
 			// CHARSETS
 			$pubDesc = $tcms_main->decodeText($pubDesc, '2', $c_charset);
 			
-			if($choosenDB == 'xml'){
+			if($choosenDB == 'xml') {
 				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_imagegallery/'.$pubAlbum.'/'.$fileName.'.xml', 'w');
 				$xmluser->xml_declaration();
 				$xmluser->xml_section('image');
@@ -1016,8 +1013,7 @@ if($is_admin == 'Administrator'
 				$xmluser->xml_section_buffer();
 				$xmluser->xml_section_end('image');
 			}
-			else{
-				//$new_image_id = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, 'tcms_imagegallery', 10);
+			else {
 				$new_image_id = $tcms_main->getNewUID(10, 'imagegallery');
 				
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
