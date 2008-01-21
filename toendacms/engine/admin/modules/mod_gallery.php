@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used to manage the galleries.
  *
- * @version 0.9.2
+ * @version 0.9.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -453,7 +453,6 @@ if($param_save_mode == 'off') {
 			.'<td align="left">'._TABLE_IMAGE.'</td>';
 			
 			if($choosenDB != 'xml'){
-				//$new_image_id = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'imagegallery', 10);
 				$new_image_id = $tcms_main->getNewUID(10, 'imagegallery');
 				echo '<input type="hidden" name="id" value="'.$new_image_id.'" />';
 			}
@@ -897,9 +896,10 @@ if($param_save_mode == 'off') {
 			/*
 				NEW ALBUM
 			*/
+			$new_maintag = $tcms_main->getNewUID(12, 'albums');
+			$fake_folder = substr($new_maintag, 0, 6);
+			
 			if($choosenDB == 'xml') {
-				while(($fake_folder=substr(md5(time()),0,6)) && file_exists(_TCMS_PATH.'/images/albums/'.$fake_folder)){}
-				
 				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_albums/album_'.$fake_folder.'.xml', 'w');
 				$xmluser->xmlDeclaration();
 				$xmluser->xmlSection('album');
@@ -913,12 +913,12 @@ if($param_save_mode == 'off') {
 				$xmluser->xmlSectionBuffer();
 				$xmluser->xmlSectionEnd('album');
 				
+				$xmluser->flush();
+				unset($xmluser);
+				
 				$tcms_file->createDir(_TCMS_PATH.'/tcms_imagegallery/'.$fake_folder, 0777);
 			}
 			else {
-				$new_maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'albums', 12);
-				$fake_folder = substr($new_maintag, 0, 6);
-				
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				

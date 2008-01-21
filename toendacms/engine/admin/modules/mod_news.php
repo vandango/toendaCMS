@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the news.
  *
- * @version 1.8.9
+ * @version 1.9.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -1985,7 +1985,7 @@ if($todo == 'save'){
 		
 		for($i = 0; $i <= count($arrNewsCat['tag']); $i++){
 			if(!empty($_POST['new_cat_'.$i]) && isset($_POST['new_cat_'.$i])){
-				$n2c_maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'news_to_categories', 32);
+				$n2c_maintag = $tcms_main->getNewUID(32, 'news_to_categories');
 				
 				$newSQLData = "'".$maintag."', '".$_POST['new_cat_'.$i]."'";
 				
@@ -1997,7 +1997,7 @@ if($todo == 'save'){
 			$globals_xml = new xmlparser(_TCMS_PATH.'/tcms_global/var.xml','r');
 			$old_default_cat = $globals_xml->readSection('global', 'default_category');
 			
-			$n2c_maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'news_to_categories', 32);
+			$n2c_maintag = $tcms_main->getNewUID(32, 'news_to_categories');
 			
 			$newSQLData = "'".$maintag."', '".$old_default_cat."'";
 			

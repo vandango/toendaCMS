@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the news categories.
  *
- * @version 0.2.9
+ * @version 0.3.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -193,18 +193,16 @@ if($todo == 'edit'){
 		$cat_name = $tcms_main->decodeText($cat_name, '2', $c_charset);
 		$cat_desc = $tcms_main->decodeText($cat_desc, '2', $c_charset);
 		
-		echo tcms_html::bold(_TABLE_EDIT);
+		echo $tcms_html->bold(_TABLE_EDIT);
 		$odot = 'save';
 	}
 	else{
 		$cat_name = '';
 		$cat_desc = '';
 		
-		//if($choosenDB == 'xml'){ while(($maintag=substr(md5(time()),0,5)) && file_exists(_TCMS_PATH.'/tcms_news_categories/'.$maintag.'.xml')){} }
-		//else{ $maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'news_categories', 5); }
 		$maintag = $tcms_main->getNewUID(5, 'news_categories');
 		
-		echo tcms_html::bold(_TABLE_NEW);
+		echo $tcms_html->bold(_TABLE_NEW);
 		$odot = 'save';
 		if($choosenDB != 'xml'){ $dbDo = 'next'; }
 	}
@@ -231,7 +229,7 @@ if($todo == 'edit'){
 	
 	$width = '200';
 	
-	echo tcms_html::text(_NEWS_CATEGORIES_TEXT.'<br /><br />', 'left');
+	echo $tcms_html->text(_NEWS_CATEGORIES_TEXT.'<br /><br />', 'left');
 	
 	
 	echo '<form action="admin.php?id_user='.$id_user.'&amp;site=mod_news_categories" method="post">'

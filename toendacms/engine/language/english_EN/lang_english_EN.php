@@ -18,7 +18,7 @@
 /**
  * English Language
  * 
- * @version 0.5.0
+ * @version 0.6.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -235,24 +235,24 @@ if(!defined('_TABLE_PUBLISHED'))               define('_TABLE_PUBLISHED', 'Publi
 if(!defined('_TABLE_NOT_PUBLISHED'))           define('_TABLE_NOT_PUBLISHED', 'Not Published');
 if(!defined('_TABLE_PUBLISHING'))              define('_TABLE_PUBLISHING', 'Publishing');
 if(!defined('_TABLE_RSS'))                     define('_TABLE_RSS', 'RSS Feed Link');
-define('_TABLE_ENABLED', 'Enabled');
-define('_TABLE_NAME', 'Name');
-define('_TABLE_USERNAME', 'Username');
-define('_TABLE_GROUP', 'Usergroup');
-define('_TABLE_PERSON', 'Personal Information');
-define('_TABLE_SUBID', 'SUB ID');
-define('_TABLE_ORDER', 'ID');
-define('_TABLE_TARGET', 'Target');
-define('_TABLE_POS', 'Position');
-define('_TABLE_IN_WORK', 'Finalised');
-define('_TABLE_IS_IN_WORK', 'In Work');
-define('_TABLE_FUNCTIONS', 'Functions');
-define('_TABLE_PARENT', 'Parent Element for Submenu');
-define('_TABLE_PARENTC', 'Please choose');
-define('_TABLE_PARENTN', 'No submenu');
-define('_TABLE_PARENTITEM', 'Parent Item');
-define('_TABLE_MENUINFO', 'You can only create submenus in the sidemenu.');
-define('_TABLE_AUTOR', 'Author');
+if(!defined('_TABLE_ENABLED'))                 define('_TABLE_ENABLED', 'Enabled');
+if(!defined('_TABLE_NAME'))                    define('_TABLE_NAME', 'Name');
+if(!defined('_TABLE_USERNAME'))                define('_TABLE_USERNAME', 'Username');
+if(!defined('_TABLE_GROUP'))                   define('_TABLE_GROUP', 'Usergroup');
+if(!defined('_TABLE_PERSON'))                  define('_TABLE_PERSON', 'Personal Information');
+if(!defined('_TABLE_SUBID'))                   define('_TABLE_SUBID', 'SUB ID');
+if(!defined('_TABLE_ORDER'))                   define('_TABLE_ORDER', 'ID');
+if(!defined('_TABLE_TARGET'))                  define('_TABLE_TARGET', 'Target');
+if(!defined('_TABLE_POS'))                     define('_TABLE_POS', 'Position');
+if(!defined('_TABLE_IN_WORK'))                 define('_TABLE_IN_WORK', 'Finalised');
+if(!defined('_TABLE_IS_IN_WORK'))              define('_TABLE_IS_IN_WORK', 'In Work');
+if(!defined('_TABLE_FUNCTIONS'))               define('_TABLE_FUNCTIONS', 'Functions');
+if(!defined('_TABLE_PARENT'))                  define('_TABLE_PARENT', 'Parent Element for Submenu');
+if(!defined('_TABLE_PARENTC'))                 define('_TABLE_PARENTC', 'Please choose');
+if(!defined('_TABLE_PARENTN'))                 define('_TABLE_PARENTN', 'No submenu');
+if(!defined('_TABLE_PARENTITEM'))              define('_TABLE_PARENTITEM', 'Parent Item');
+if(!defined('_TABLE_MENUINFO'))                define('_TABLE_MENUINFO', 'You can only create submenus in the sidemenu.');
+if(!defined('_TABLE_AUTOR'))                   define('_TABLE_AUTOR', 'Author');
 if(!defined('_TABLE_CATEGORY'))                define('_TABLE_CATEGORY', 'Category');
 if(!defined('_TABLE_PRODUCT'))                 define('_TABLE_PRODUCT', 'Product');
 define('_TABLE_FILE', 'File');
@@ -482,25 +482,25 @@ if(!defined('_PROFILE_EDIT'))                  define('_PROFILE_EDIT', 'Edit Use
 
 
 // USERPAGES
-define('_USERPAGE', 'Editorpages');
-define('_USERPAGE_TEXT', 'You can set up some settings for the userpages like profile in the Editorpage configuration. Also you can set the possibility to publish news, images and gallery albums.');
-define('_USERPAGE_TEXT_WIDTH', 'Textfield width');
-define('_USERPAGE_INPUT_WIDTH', 'Inputfield width');
-define('_USERPAGE_PUBLISH_NEWS', 'User can publish news from frontpage');
-define('_USERPAGE_PUBLISH_IMAGES', 'User can publish images from frontpage');
-define('_USERPAGE_PUBLISH_ALBUMS', 'User can publish albums from frontpage');
-define('_USERPAGE_CREATE_CATEGORIES', 'User can create news categories from frontpage');
-define('_USERPAGE_PUBLISH_PICTURE', 'User can publish images to media manager from frontpage');
+if(!defined('_USERPAGE'))                      define('_USERPAGE', 'Editorpages');
+if(!defined('_USERPAGE_TEXT'))                 define('_USERPAGE_TEXT', 'You can set up some settings for the userpages like profile in the Editorpage configuration. Also you can set the possibility to publish news, images and gallery albums.');
+if(!defined('_USERPAGE_TEXT_WIDTH'))           define('_USERPAGE_TEXT_WIDTH', 'Textfield width');
+if(!defined('_USERPAGE_INPUT_WIDTH'))          define('_USERPAGE_INPUT_WIDTH', 'Inputfield width');
+if(!defined('_USERPAGE_PUBLISH_NEWS'))         define('_USERPAGE_PUBLISH_NEWS', 'User can publish news from frontpage');
+if(!defined('_USERPAGE_PUBLISH_IMAGES'))       define('_USERPAGE_PUBLISH_IMAGES', 'User can publish images from frontpage');
+if(!defined('_USERPAGE_PUBLISH_ALBUMS'))       define('_USERPAGE_PUBLISH_ALBUMS', 'User can publish albums from frontpage');
+if(!defined('_USERPAGE_CREATE_CATEGORIES'))    define('_USERPAGE_CREATE_CATEGORIES', 'User can create news categories from frontpage');
+if(!defined('_USERPAGE_PUBLISH_PICTURE'))      define('_USERPAGE_PUBLISH_PICTURE', 'User can publish images to media manager from frontpage');
 
 
 // START
-define('_START_MSG', 'Welcome');
-define('_START_QUESTION', 'What would you do today?');
-define('_START_TEXT_0', '<strong>Take a look at your Desktop.</strong> You can find on your Desktop all open tasks, notes and a overview of all documents and news that must be worked on.');
-define('_START_TEXT_1', '<strong>Create a page.</strong> To do this, create a menu entry and edit in the follow the static content page and the sidebar content.');
-define('_START_TEXT_2', '<strong>Edit your System Settings.</strong> You can change the name and title of your website of you can edit the metatags.');
-define('_START_TEXT_3', '<strong>Write a news.</strong> Got to the Newsmanager and write the current news of your or your company.');
-define('_START_TEXT_4', '<strong>Load an picture up to your imagegallery.</strong> And show all people your newest opinion or funniest situations.');
+if(!defined('_START_MSG'))                     define('_START_MSG', 'Welcome');
+if(!defined('_START_QUESTION'))                define('_START_QUESTION', 'What would you do today?');
+if(!defined('_START_TEXT_0'))                  define('_START_TEXT_0', '<strong>Take a look at your Desktop.</strong> You can find on your Desktop all open tasks, notes and a overview of all documents and news that must be worked on.');
+if(!defined('_START_TEXT_1'))                  define('_START_TEXT_1', '<strong>Create a page.</strong> To do this, create a menu entry and edit in the follow the static content page and the sidebar content.');
+if(!defined('_START_TEXT_2'))                  define('_START_TEXT_2', '<strong>Edit your System Settings.</strong> You can change the name and title of your website of you can edit the metatags.');
+if(!defined('_START_TEXT_3'))                  define('_START_TEXT_3', '<strong>Write a news.</strong> Got to the Newsmanager and write the current news of your or your company.');
+if(!defined('_START_TEXT_4'))                  define('_START_TEXT_4', '<strong>Load an picture up to your imagegallery.</strong> And show all people your newest opinion or funniest situations.');
 
 
 // DESKTOP
@@ -1191,6 +1191,7 @@ if(!defined('_SEARCH_START'))                  define('_SEARCH_START', 'Enter yo
 if(!defined('_SEARCH_NOTFOUND_1'))             define('_SEARCH_NOTFOUND_1', 'Your Searchword');
 if(!defined('_SEARCH_NOTFOUND_2'))             define('_SEARCH_NOTFOUND_2', 'was not found.');
 if(!defined('_SEARCH_WITH_GOOGLE'))            define('_SEARCH_WITH_GOOGLE', 'Websearch with');
+if(!defined('_SEARCH_WITH_GOOGLE'))            define('_SEARCH_WEBSEARCH', 'Websearch');
 
 
 // FILESYSTEMS

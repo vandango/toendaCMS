@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the guestbook entrys.
  *
- * @version 0.2.3
+ * @version 0.2.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -270,7 +270,7 @@ if($id_group == 'Developer'
 			$guest_text = ereg_replace('<br>', chr(13), $guest_text);
 			
 			
-			echo tcms_html::bold(_TABLE_EDIT);
+			echo $tcms_html->bold(_TABLE_EDIT);
 			$odot = 'save';
 			
 			$guest_date = substr($guest_date, 6, 2).'.'.substr($guest_date, 4, 2).'.'.substr($guest_date, 0, 4);
@@ -282,19 +282,27 @@ if($id_group == 'Developer'
 			$guest_date = date('d.m.Y');
 			$guest_time = date('H:i');
 			
-			if($choosenDB == 'xml'){ while(($maintag=substr(md5(time()),0,32)) && file_exists(_TCMS_PATH.'/tcms_guestbook/'.$maintag.'.xml')){} }
-			else{ $maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'guestbook_items', 32); }
+			if($choosenDB == 'xml') {
+				$maintag = $tcms_main->getNewUID(32, 'guestbook');
+			}
+			else {
+				$maintag = $tcms_main->getNewUID(32, 'guestbook_items');
+			}
 			
-			echo tcms_html::bold(_TABLE_NEW);
+			echo $tcms_html->bold(_TABLE_NEW);
+			
 			$odot = 'save';
-			if($choosenDB != 'xml'){ $dbDo = 'next'; }
+			
+			if($choosenDB != 'xml') {
+				$dbDo = 'next';
+			}
 		}
 		
 		
 		
 		$width = '200';
 		
-		echo tcms_html::text(_NEWS_CATEGORIES_TEXT.'<br /><br />', 'left');
+		echo $tcms_html->text(_NEWS_CATEGORIES_TEXT.'<br /><br />', 'left');
 		
 		
 		// form

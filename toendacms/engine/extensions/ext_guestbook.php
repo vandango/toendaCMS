@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a guestbook.
  *
- * @version 0.5.0
+ * @version 0.5.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -597,9 +597,8 @@ if($book_enabled == 1){
 			$guest_time = date('H:i');
 			
 			
-			if($choosenDB == 'xml'){
-				while(($maintag = substr(md5(microtime()), 0, 32)) && file_exists(_TCMS_PATH.'/tcms_guestbook/'.$maintag.'.xml')){}
-				
+			if($choosenDB == 'xml') {
+				$maintag = $tcms_main->getNewUID(32, 'guestbook');
 				
 				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_guestbook/'.$maintag.'.xml', 'w');
 				$xmluser->xml_declaration();
@@ -614,9 +613,8 @@ if($book_enabled == 1){
 				$xmluser->xml_section_buffer();
 				$xmluser->xml_section_end('entry');
 			}
-			else{
-				$maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'guestbook_items', 32);
-				
+			else {
+				$maintag = $tcms_main->getNewUID(32, 'guestbook_items');
 				
 				$sqlAL = new sqlAbstractionLayer($choosenDB);
 				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);

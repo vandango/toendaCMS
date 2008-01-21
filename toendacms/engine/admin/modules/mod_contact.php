@@ -146,18 +146,18 @@ if($id_group == 'Developer'
 			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix.'contacts');
+			$sqlQR = $sqlAL->getAll($tcms_db_prefix.'contacts');
 			
 			$count = 0;
 			
-			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
-				$arr_contacts['tag'][$count]    = $sqlARR['uid'];
-				$arr_contacts['defcon'][$count] = $sqlARR['default_con'];
-				$arr_contacts['pub'][$count]    = $sqlARR['published'];
-				$arr_contacts['name'][$count]   = $sqlARR['name'];
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+				$arr_contacts['tag'][$count]    = $sqlObj->uid;
+				$arr_contacts['defcon'][$count] = $sqlObj->default_con;
+				$arr_contacts['pub'][$count]    = $sqlObj->published;
+				$arr_contacts['name'][$count]   = $sqlObj->name;
 				
 				if($arr_contacts['defcon'][$count] == NULL){ $arr_contacts['defcon'][$count] = ''; }
 				if($arr_contacts['pub'][$count]    == NULL){ $arr_contacts['pub'][$count]    = ''; }

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a poll module.
  *
- * @version 0.4.3
+ * @version 0.4.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -363,13 +363,13 @@ if($paction == 'result'){
 */
 $arr_allpolls = $arr_apolls;
 
-if(is_array($arr_allpolls)){
+if(is_array($arr_allpolls)) {
 	array_multisort($arr_allpolls, SORT_DESC, SORT_NUMERIC);
 	
 	
 	echo '<br /><br />'.tcms_html::contentheading($title_ext_allpoll, 'left').'<br />';
 	
-	foreach($arr_allpolls as $key => $value){
+	foreach($arr_allpolls as $key => $value) {
 		//$arr_vote = $tcms_main->load_xml_files('data/polls/'.substr($current_poll, 0, 8), 'files');
 		//echo $value;
 		if($choosenDB == 'xml'){
@@ -377,11 +377,25 @@ if(is_array($arr_allpolls)){
 			$poll_subtitle = $ap_xml->read_section('poll', 'title');
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-			$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'polls', $value);
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
-			$poll_subtitle  = $sqlARR['title'];
+			$sqlAL = new sqlAbstractionLayer(
+				$choosenDB, 
+				$tcms_time
+			);
+			
+			$sqlCN = $sqlAL->connect(
+				$sqlUser, 
+				$sqlPass, 
+				$sqlHost, 
+				$sqlDB, 
+				$sqlPort
+			);
+			
+			$sqlQR = $sqlAL->getOne($tcms_db_prefix.'polls', $value);
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
+			$poll_subtitle  = $sqlObj->title;
+			
+			$sqlAL->freeResult($sqlQR);
+			unset($sqlAL);
 		}
 		
 		$poll_subtitle = $tcms_main->decodeText($poll_subtitle, '2', $c_charset);
@@ -391,7 +405,7 @@ if(is_array($arr_allpolls)){
 		.( isset($lang) ? '&amp;lang='.$lang : '' );
 		$link = $tcms_main->urlConvertToSEO($link);
 		
-		echo tcms_html::text('<a href="'.$link.'">'.$poll_subtitle.'</a><br />', 'left');
+		echo $tcms_html->text('<a href="'.$link.'">'.$poll_subtitle.'</a><br />', 'left');
 	}
 }
 
@@ -408,31 +422,56 @@ if(is_array($arr_allpolls)){
 *
 */
 
-if($a_make == 'vote'){
-	if($tcms_main->isReal($answer)){
-		echo '<br />';
-		echo tcms_html::text($poll_lang_votetext, 'left');
+if($a_make == 'vote') {
+	if($tcms_main->isReal($answer)) {
+		echo '<br />'
+		.$tcms_html->text($poll_lang_votetext, 'left');
 		
 		$a_poll  = substr($a_poll, 0, 32);
 		$a_ip    = getenv('REMOTE_ADDR');
-		if($a_ip == ''){ $remote = 'localhost'; $a_ip = '127.0.0.1'; }
-		else{ $remote = getHostByAddr($a_ip); }
 		
-		if($choosenDB == 'xml'){
-			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_polls/'.$a_poll.'/'.$a_ip.'.xml', 'w');
-			$xmluser->xml_c_declaration($c_charset);
-			$xmluser->xml_section('vote');
-			$xmluser->write_value('ip', $a_ip);
-			$xmluser->write_value('domain', $remote);
-			$xmluser->write_value('answer', $answer);
-			$xmluser->xml_section_buffer();
-			$xmluser->xml_section_end('vote');
+		if($a_ip == '') {
+			$remote = 'localhost';
+			$a_ip = '127.0.0.1';
 		}
-		else{
-			$maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'poll_items', 8);
+		else {
+			$remote = getHostByAddr($a_ip);
+		}
+		
+		if($choosenDB == 'xml') {
+			$xmluser = new xmlparser(
+				_TCMS_PATH.'/tcms_polls/'.$a_poll.'/'.$a_ip.'.xml', 
+				'w'
+			);
 			
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$xmluser->xmlDeclarationWithCharset($c_charset);
+			$xmluser->xmlSection('vote');
+			
+			$xmluser->writeValue('ip', $a_ip);
+			$xmluser->writeValue('domain', $remote);
+			$xmluser->writeValue('answer', $answer);
+			
+			$xmluser->xmlSectionBuffer();
+			$xmluser->xmlSectionEnd('vote');
+			
+			$xmluser->flush();
+			unset($xmluser);
+		}
+		else {
+			$maintag = $tcms_main->getNewUID(8, 'poll_items');
+			
+			$sqlAL = new sqlAbstractionLayer(
+				$choosenDB, 
+				$tcms_time
+			);
+			
+			$sqlCN = $sqlAL->connect(
+				$sqlUser, 
+				$sqlPass, 
+				$sqlHost, 
+				$sqlDB, 
+				$sqlPort
+			);
 			
 			switch($choosenDB){
 				case 'mysql':
@@ -450,7 +489,12 @@ if($a_make == 'vote'){
 			
 			$newSQLData = "'".$a_poll."', '".$a_ip."', '".$remote."', '".$answer."'";
 			
-			$sqlQR = $sqlAL->sqlCreateOne($tcms_db_prefix.'poll_items', $newSQLColumns, $newSQLData, $maintag);
+			$sqlQR = $sqlAL->createOne(
+				$tcms_db_prefix.'poll_items', 
+				$newSQLColumns, 
+				$newSQLData, 
+				$maintag
+			);
 		}
 		
 		$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
@@ -463,7 +507,7 @@ if($a_make == 'vote'){
 		.'alert(\''._MSG_POLL.'\');'
 		.'</script>';
 	}
-	else{
+	else {
 		$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 		.'id='.$id.'&amp;s='.$s
 		.( isset($lang) ? '&amp;lang='.$lang : '' );

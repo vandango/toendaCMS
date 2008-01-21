@@ -9,7 +9,7 @@
 | 
 | Extension Newsletter
 |
-| File:		ext_newsletter.php
+| File:	ext_newsletter.php
 |
 +
 */
@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the newsletter functionality.
  *
- * @version 0.3.4
+ * @version 0.3.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -36,29 +36,51 @@ if(isset($_POST['nl_user'])){ $nl_user = $_POST['nl_user']; }
 
 
 
-if(!isset($newsletter)){ $newsletter = ''; }
+if(!isset($newsletter)) {
+	$newsletter = '';
+}
 
 
 
-if($use_newsletter == 1){
-	if($choosenDB == 'xml'){
-		$nl_xml = new xmlparser(_TCMS_PATH.'/tcms_global/newsletter.xml','r');
-		$show_ext_nl_title    = $nl_xml->read_section('newsletter', 'nl_show_title');
-		$text_ext_newsletter  = $nl_xml->read_section('newsletter', 'nl_text');
-		$title_ext_newsletter = $nl_xml->read_section('newsletter', 'nl_title');
-		$link_ext_newsletter  = $nl_xml->read_section('newsletter', 'nl_link');
+if($use_newsletter == 1) {
+	if($choosenDB == 'xml') {
+		$xml = new xmlparser(
+			_TCMS_PATH.'/tcms_global/newsletter.xml', 
+			'r'
+		);
+		
+		$show_ext_nl_title    = $xml->read_section('newsletter', 'nl_show_title');
+		$text_ext_newsletter  = $xml->read_section('newsletter', 'nl_text');
+		$title_ext_newsletter = $xml->read_section('newsletter', 'nl_title');
+		$link_ext_newsletter  = $xml->read_section('newsletter', 'nl_link');
+		
+		$xml->flush();
+		unset($xml);
 	}
-	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+	else {
+		$sqlAL = new sqlAbstractionLayer(
+			$choosenDB, 
+			$tcms_time
+		);
 		
-		$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'newsletter', 'newsletter');
-		$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+		$sqlCN = $sqlAL->connect(
+			$sqlUser, 
+			$sqlPass, 
+			$sqlHost, 
+			$sqlDB, 
+			$sqlPort
+		);
 		
-		$show_ext_nl_title    = $sqlARR['nl_show_title'];
-		$text_ext_newsletter  = $sqlARR['nl_text'];
-		$title_ext_newsletter = $sqlARR['nl_title'];
-		$link_ext_newsletter  = $sqlARR['nl_link'];
+		$sqlQR = $sqlAL->getOne($tcms_db_prefix.'newsletter', 'newsletter');
+		$sqlObj = $sqlAL->fetchObject($sqlQR);
+		
+		$show_ext_nl_title    = $sqlObj->nl_show_title;
+		$text_ext_newsletter  = $sqlObj->nl_text;
+		$title_ext_newsletter = $sqlObj->nl_title;
+		$link_ext_newsletter  = $sqlObj->nl_link;
+		
+		$sqlAL->freeResult($sqlQR);
+		unset($sqlAL);
 	}
 	
 	
@@ -123,31 +145,41 @@ if($use_newsletter == 1) {
 			.'alert(\''._MSG_NONAME.' ...\');'
 			.'</script>';
 		}
-		else{
-			if($choosenDB == 'xml'){
-				while(($tmp_md5 = substr(md5(time()),0,6)) && file_exists(_TCMS_PATH.'/tcms_newsletter/'.$tmp_md5.'.xml')){}
+		else {
+			if($choosenDB == 'xml') {
+				$maintag = $tcms_main->getNewUID(6, 'newsletter');
 				
 				$var_conf = 'nl_user';
 				
 				$nl_user = $tcms_main->encodeText($nl_user, '2', $c_charset);
 				
 				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_newsletter/'.$tmp_md5.'.xml', 'w');
-				$xmluser->xml_declaration();
-				$xmluser->xml_section($var_conf);
+				$xmluser->xmlDeclaration();
+				$xmluser->xmlSection($var_conf);
 				
-				$xmluser->write_value('user', $nl_user);
-				$xmluser->write_value('email', $nl_email);
+				$xmluser->writeValue('user', $nl_user);
+				$xmluser->writeValue('email', $nl_email);
 				
-				$xmluser->xml_section_buffer();
-				$xmluser->xml_section_end($var_conf);
+				$xmluser->xmlSectionBuffer();
+				$xmluser->xmlSectionEnd($var_conf);
 			}
-			else{
-				$maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'newsletter_items', 6);
+			else {
+				$maintag = $tcms_main->getNewUID(6, 'newsletter_items');
 				
 				$nl_user = $tcms_main->encodeText($nl_user, '2', $c_charset);
 				
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer(
+					$choosenDB, 
+					$tcms_time
+				);
+				
+				$sqlCN = $sqlAL->connect(
+					$sqlUser, 
+					$sqlPass, 
+					$sqlHost, 
+					$sqlDB, 
+					$sqlPort
+				);
 				
 				switch($choosenDB){
 					case 'mysql':
@@ -165,7 +197,7 @@ if($use_newsletter == 1) {
 				
 				$newSQLData = "'".$nl_user."', '".$nl_email."'";
 				
-				$sqlQR = $sqlAL->sqlCreateOne($tcms_db_prefix.'newsletter_items', $newSQLColumns, $newSQLData, $maintag);
+				$sqlQR = $sqlAL->createOne($tcms_db_prefix.'newsletter_items', $newSQLColumns, $newSQLData, $maintag);
 			}
 			
 			$link = '?'.( isset($session) ? 'session='.$session.'&' : '' ).'id='.$id.'&s='.$s

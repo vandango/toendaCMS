@@ -18,7 +18,7 @@
 /**
  * German Language
  * 
- * @version 0.5.0
+ * @version 0.6.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -1194,6 +1194,7 @@ define('_SEARCH_START', 'Bitte geben Sie Ihren Suchbegriff ein.');
 define('_SEARCH_NOTFOUND_1', 'Es konnte kein passender Eintrag zu Ihrem Suchwort');
 define('_SEARCH_NOTFOUND_2', 'gefunden werden.');
 define('_SEARCH_WITH_GOOGLE', 'Internetsuche mit');
+define('_SEARCH_WEBSEARCH', 'Internetsuche');
 
 
 // FILESYSTEMS

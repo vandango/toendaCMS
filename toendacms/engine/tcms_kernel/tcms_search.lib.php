@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide a dynamic
  * search class.
  *
- * @version 0.2.7
+ * @version 0.3.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -225,7 +225,71 @@ class tcms_search extends tcms_main {
 		parent::setCurrentLang($language);
 		
 		if($this->m_choosenDB == 'xml') {
-			//
+			$arr_searchfiles = $this->_getPathContent(
+				$this->m_path.'/tcms_news/', 
+				false, 
+				'.xml'
+			);
+			
+			if($this->isArray($arr_searchfiles)) {
+				foreach($arr_searchfiles as $skey => $sval) {
+					//echo $sval.'<br>';
+					$search_xml = new xmlparser($this->m_path.'/tcms_news/'.$sval,'r');
+					
+					$acs = $search_xml->readSection('news', 'access');
+					
+					$canRead = $this->checkAccess($acs, $is_admin);
+					
+					if($canRead) {
+						$out = $search_xml->search_value_front('news', 'newstext', $searchword);
+						
+						if($out != false) {
+							$tit = $search_xml->readSection('news', 'title');
+							$date = $search_xml->readSection('news', 'date');
+							$time = $search_xml->readSection('news', 'time');
+							
+							$tit = $this->decodeText($tit, '2', $c_charset);
+							
+							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+							.'id=newsmanager&amp;news='.substr($sval, 0, 10).'&amp;s='.$this->m_skin
+							.( isset($lang) ? '&amp;lang='.$lang : '' );
+							$link = $tcms_main->urlConvertToSEO($link);
+							
+							echo '<a class="main" href="'.$link.'">'.$tit.'</a>'
+							.'<div class="search_result">'
+							.'<span class="text_small">'.$date.' - '.$time.'</span>'
+							.'</div>'
+							.'<br />';
+							
+							$sc++;
+						}
+						else {
+							$out = $search_xml->search_value_front('news', 'title', $searchword);
+							
+							if($out != false) {
+								$tit = $search_xml->readSection('news', 'title');
+								$date = $search_xml->readSection('news', 'date');
+								$time = $search_xml->readSection('news', 'time');
+								
+								$tit = $this->decodeText($tit, '2', $c_charset);
+								
+								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+								.'id=newsmanager&amp;news='.substr($sval, 0, 10).'&amp;s='.$this->m_skin
+								.( isset($lang) ? '&amp;lang='.$lang : '' );
+								$link = $tcms_main->urlConvertToSEO($link);
+								
+								echo '<a class="main" href="'.$link.'">'.$tit.'</a>'
+								.'<div class="search_result">'
+								.'<span class="text_small">'.$date.' - '.$time.'</span>'
+								.'</div>'
+								.'<br />';
+								
+								$sc++;
+							}
+						}
+					}
+				}
+			}
 		}
 		else {
 			$sqlAL = new sqlAbstractionLayer(
@@ -349,43 +413,16 @@ class tcms_search extends tcms_main {
 				'.xml'
 			);
 			
-			foreach($arr_searchfiles as $skey => $sval) {
-				$xml = new xmlparser($this->m_path.'/tcms_content/'.$sval,'r');
-				
-				$acs = $xml->read_section('main', 'access');
-				
-				$canRead = $this->checkAccess($acs, $this->m_admin);
-				
-				if($canRead) {
-					$out = $xml->search_value_front('main', 'content00', $searchWord);
+			if($this->isArray($arr_searchfiles)) {
+				foreach($arr_searchfiles as $skey => $sval) {
+					$xml = new xmlparser($this->m_path.'/tcms_content/'.$sval,'r');
 					
-					if($out != false) {
-						$tit = $xml->readSection('main', 'title');
-						$key = $xml->readSection('main', 'key');
-						
-						$toendaScript = new toendaScript($key);
-						$key = $toendaScript->toendaScript_trigger();
-						$key = $toendaScript->checkSEO($key, $imagePath);
-						
-						$tit = $this->decodeText($tit, '2', $this->m_CHARSET);
-						$key = $this->decodeText($key, '2', $this->m_CHARSET);
-						
-						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-						.'id='.substr($sval, 0, 5).'&amp;s='.$this->m_skin
-						.( isset($lang) ? '&amp;lang='.$lang : '' );
-						$link = $this->urlConvertToSEO($link);
-						
-						echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
-						echo $this->_tcmsHtml->searchResultPanel($key);
-						echo '<br />';
-						
-						$sc++;
-						
-						$xml->flush();
-						unset($xml);
-					}
-					else {
-						$out = $xml->search_value_front('main', 'key', $searchWord);
+					$acs = $xml->read_section('main', 'access');
+					
+					$canRead = $this->checkAccess($acs, $this->m_admin);
+					
+					if($canRead) {
+						$out = $xml->search_value_front('main', 'content00', $searchWord);
 						
 						if($out != false) {
 							$tit = $xml->readSection('main', 'title');
@@ -413,7 +450,7 @@ class tcms_search extends tcms_main {
 							unset($xml);
 						}
 						else {
-							$out = $xml->search_value_front('main', 'title', $searchWord);
+							$out = $xml->search_value_front('main', 'key', $searchWord);
 							
 							if($out != false) {
 								$tit = $xml->readSection('main', 'title');
@@ -439,6 +476,35 @@ class tcms_search extends tcms_main {
 								
 								$xml->flush();
 								unset($xml);
+							}
+							else {
+								$out = $xml->search_value_front('main', 'title', $searchWord);
+								
+								if($out != false) {
+									$tit = $xml->readSection('main', 'title');
+									$key = $xml->readSection('main', 'key');
+									
+									$toendaScript = new toendaScript($key);
+									$key = $toendaScript->toendaScript_trigger();
+									$key = $toendaScript->checkSEO($key, $imagePath);
+									
+									$tit = $this->decodeText($tit, '2', $this->m_CHARSET);
+									$key = $this->decodeText($key, '2', $this->m_CHARSET);
+									
+									$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+									.'id='.substr($sval, 0, 5).'&amp;s='.$this->m_skin
+									.( isset($lang) ? '&amp;lang='.$lang : '' );
+									$link = $this->urlConvertToSEO($link);
+									
+									echo '<a class="main" href="'.$link.'">'.$tit.'</a>';
+									echo $this->_tcmsHtml->searchResultPanel($key);
+									echo '<br />';
+									
+									$sc++;
+									
+									$xml->flush();
+									unset($xml);
+								}
 							}
 						}
 					}

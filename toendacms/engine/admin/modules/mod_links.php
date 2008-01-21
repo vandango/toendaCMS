@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the links.
  *
- * @version 0.6.1
+ * @version 0.6.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -611,7 +611,7 @@ if($todo == 'edit'){
 		$link_name = $tcms_main->decodeText($link_name, '2', $c_charset);
 		$link_desc = $tcms_main->decodeText($link_desc, '2', $c_charset);
 		
-		echo tcms_html::bold(_TABLE_EDIT);
+		echo $tcms_html->bold(_TABLE_EDIT);
 		$odot = 'save';
 		$dbDo = 'save';
 	}
@@ -622,10 +622,9 @@ if($todo == 'edit'){
 		$link_acs  = 'Public';
 		$link_type = 'l';
 		
-		if($choosenDB == 'xml'){ while(($maintag=substr(md5(time()),0,32)) && file_exists(_TCMS_PATH.'/tcms_links/'.$maintag.'.xml')){} }
-		else{ $maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'links', 32); }
+		$maintag = $tcms_main->getNewUID(32, 'links');
 		
-		echo tcms_html::bold(_TABLE_NEW);
+		echo $tcms_html->bold(_TABLE_NEW);
 		$odot = 'save';
 		$dbDo = 'next';
 	}
@@ -635,7 +634,7 @@ if($todo == 'edit'){
 	
 	$width = '200';
 	
-	echo tcms_html::text(_TOPMENU_TEXT.'<br /><br />', 'left');
+	echo $tcms_html->text(_TOPMENU_TEXT.'<br /><br />', 'left');
 	
 	echo '<form action="admin.php?id_user='.$id_user.'&amp;site=mod_links" method="post">'
 	.'<input name="todo" type="hidden" value="'.$odot.'" />'

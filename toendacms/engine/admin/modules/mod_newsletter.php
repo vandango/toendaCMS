@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a newsletter extension.
  *
- * @version 0.6.1
+ * @version 0.6.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -451,20 +451,24 @@ if($id_group == 'Developer'
 			
 			$arr_nl['name'] = $tcms_main->decodeText($arr_nl['name'], '2', $c_charset);
 		}
-		else{
-			if($choosenDB == 'xml'){ while(($maintag = substr(md5(time()),0,6)) && file_exists(_TCMS_PATH.'/tcms_newsletter/'.$maintag.'.xml')){} }
-			else{ $maintag = $tcms_main->create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'newsletter_items', 6); }
+		else {
+			if($choosenDB == 'xml') {
+				$maintag = $tcms_main->getNewUID(6, 'newsletter');
+			}
+			else {
+				$maintag = $tcms_main->getNewUID(6, 'newsletter_items');
+			}
 		}
 		
 		
 		// HTML
 		if($arr_nl['email'] == ''){
-			echo tcms_html::bold(_TABLE_NEW);
+			echo $tcms_html->bold(_TABLE_NEW);
 			$edit_add_news = _NL_NEWUSER;
 			$createAct = true;
 		}
 		else{
-			echo tcms_html::bold(_TABLE_EDIT);
+			echo $tcms_html->bold(_TABLE_EDIT);
 			$edit_add_news = _NL_EDITUSER;
 			$createAct = false;
 		}
@@ -473,7 +477,7 @@ if($id_group == 'Developer'
 		$width = '150';
 		
 		
-		echo tcms_html::text($edit_add_news.'<br /><br />', 'left');
+		echo $tcms_html->text($edit_add_news.'<br /><br />', 'left');
 		
 		
 		// begin form

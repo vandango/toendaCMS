@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic public functions.
  *
- * @version 3.0.3
+ * @version 3.0.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -31,18 +31,18 @@ defined('_TCMS_VALID') or die('Restricted access');
  * <code>
  * 
  * Methods
- *
+ * 
  * --------------------------------------------------------
  * CONSTRUCTOR AND DESTRUCTOR
  * --------------------------------------------------------
- *
+ * 
  * __construct                       -> Constructor
  * __destruct                        -> Destructor
- *
+ * 
  * --------------------------------------------------------
  * PROPERTIES
  * --------------------------------------------------------
- *
+ * 
  * setTcmsTimeObj                    -> Set the tcms_time object
  * setTcmsConfigObj                  -> Set the tcms_config object
  * setDatabaseInfo                   -> Setter for the databse information
@@ -63,7 +63,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * --------------------------------------------------------
  * PUBLIC MEMBERS
  * --------------------------------------------------------
- *
+ * 
  * getNewUID                         -> Get a new guid
  * getAmountOfItems                  -> Get the amount of items from a table.
  * getPHPSetting                     -> Get a PHP setting
@@ -116,7 +116,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * cutStringToLength                 -> Cut a string and append a string
  * cutLongStringToShortString        -> Cut a long strong to a short string
  * countArrayValues                  -> Count values in an array
- *
+ * 
  * xml_readdir_content         -> return id saved in xml file
  * xml_readdir_content_without -> return id saved in xml file
  * count_submenu_xml           -> return a numer of files
@@ -139,12 +139,11 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getNewsCatAmount            -> return the amount of news in cat with the given cat uid
  * chkDefaultContact           -> return a boolean if a default contact exists
  * returnInsertCommand         -> return a command for inserting
- *
+ * 
  * --------------------------------------------------------
  * DEPRECATED FUNCTIONS
  * --------------------------------------------------------
- *
- * DEPRECATED create_uid                  -> getNewUID
+ * 
  * DEPRECATED delete_sql_session          -> see tcms_authentication
  * DEPRECATED create_session              -> see tcms_authentication
  * DEPRECATED create_sql_session          -> see tcms_authentication
@@ -155,6 +154,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * DEPRECATED check_session               -> checks the session files for the mtime
  * DEPRECATED check_sql_session           -> check session time in sql
  * DEPRECATED create_admin                -> get the admin session uid
+ * 
+ * $sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
  * 
  * </code>
  *
@@ -411,8 +412,12 @@ class tcms_main {
 			&& file_exists($this->administer.'/tcms_'.$table.'/'.$uid.'.xml')
 			) {}
 		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
+		else {
+			$sqlAL = new sqlAbstractionLayer(
+				$this->db_choosenDB, 
+				$this->_tcmsTime
+			);
+			
 			$sqlCN = $sqlAL->connect(
 				$this->db_user, 
 				$this->db_pass, 
@@ -423,7 +428,7 @@ class tcms_main {
 			
 			$uid_exists = 1;
 			
-			do{
+			do {
 				$uid = substr(md5(microtime()), 0, $length);
 				$sqlQR = $sqlAL->getOne($this->db_prefix.$table, $uid);
 				$uid_exists = $sqlAL->getNumber($sqlQR);
@@ -1343,17 +1348,21 @@ class tcms_main {
 			|| $usergroup == 'Administrator'
 			|| $usergroup == 'Developer'
 			|| $usergroup == 'Editor'
-			|| $usergroup == 'Presenter')
+			|| $usergroup == 'Presenter') {
 				$show_this = true;
-			else
+			}
+			else {
 				$show_this = false;
+			}
 		}
 		elseif($access == 'Private') {
 			if($usergroup == 'Administrator'
-			|| $usergroup == 'Developer')
+			|| $usergroup == 'Developer') {
 				$show_this = true;
-			else
+			}
+			else {
 				$show_this = false;
+			}
 		}
 		
 		return $show_this;
@@ -3854,18 +3863,6 @@ class tcms_main {
 	// - COMPATIBILITY LAYER -
 	// Deprecated members
 	// -------------------------------------------------
-	
-	
-	
-	/**
-	 * @deprecated Deprecated since version 1.6
-	 * @return Checks the session files for his old
-	 * @desc 
-	 */
-	public function create_uid($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $sqlTable, $sqlNumber) {
-		$sqlTable = substr($sqlTable, strlen($this->db_prefix), strlen($sqlTable));
-		return $this->getNewUID($sqlNumber, $sqlTable);
-	}
 	
 	
 	

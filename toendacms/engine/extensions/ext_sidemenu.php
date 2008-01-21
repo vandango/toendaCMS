@@ -82,7 +82,9 @@ if($navigation == 1){
 					
 					switch($menuItem->GetType()){
 						case 'web':
-							echo '<a class="mainlevel" href="'.$menuItem->GetLink().'"'.$target.'>'.$menuItem->GetTitle().'</a>';
+							echo '<a class="mainlevel" href="'.$menuItem->GetLink().'"'.$target.'>'
+							.$menuItem->GetTitle()
+							.'</a>';
 							break;
 						
 						case 'title':
