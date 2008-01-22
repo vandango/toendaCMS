@@ -7,10 +7,9 @@
 | Author: Jonathan Naumann                                               |
 +------------------------------------------------------------------------+
 | 
-| Toolbar for Knowledgebase
+| Toolbar for the components
 |
-| File:		tb_components.php
-| Version:	0.0.2
+| File:	tb_components.php
 |
 +
 */
@@ -19,7 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-
+/**
+ * Toolbar for the components
+ *
+ * This is used as toolbar for the components
+ *
+ * @version 0.0.3
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS-Backend
+ */
 
 
 switch($todo){

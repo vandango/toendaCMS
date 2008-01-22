@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a guestbook.
  *
- * @version 0.5.1
+ * @version 0.5.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -454,8 +454,11 @@ if($book_enabled == 1){
 		
 		
 		//captcha
-		if($use_captcha == 1){
-			$captchaImage = tcms_gd::createCaptchaImage('cache/captcha/', $captcha_clean);
+		if($use_captcha == 1) {
+			$captchaImage = $tcms_gd->createCaptchaImage(
+				'cache/captcha/', 
+				$captcha_clean
+			);
 			
 			echo '<div id="captcha"><strong>'._FRONT_CAPTCHA.'</strong>'
 			.'</div><br />';

@@ -265,7 +265,7 @@ class tcms_main {
 			$this->db_port     = $tcms_db_port;
 			$this->db_prefix   = $tcms_db_prefix;
 		}
-		else{
+		else {
 			$this->db_prefix = 'tcms_';
 		}
 	}
@@ -479,7 +479,7 @@ class tcms_main {
 		if($asString) {
 			return ini_get($value);
 		}
-		else{
+		else {
 			$r = (ini_get($value) == '1' || ini_get($value) == 'on' ? true : false);
 			return $r;
 		}
@@ -1275,7 +1275,7 @@ class tcms_main {
 		if($this->isArray($array)) {
 			foreach($array as $key => $value) {
 				if($checkForDir) {
-					if(is_dir(trim($this->administer.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$value))){
+					if(is_dir(trim($this->administer.'/images/Image/'.( $path == '' ? '' : $path.'/' ).$value))) {
 						$count++;
 					}
 				}
@@ -2471,7 +2471,7 @@ class tcms_main {
 	 * 
 	 * @param String $findHere
 	 * @param  String $searchThis
-	 * @package Integer $offset
+	 * @param Integer $offset
 	 * @return Integer (The index of the last position of a expression)
 	 */
 	public function lastIndexOf($findHere, $searchThis, $offset = 0) {
@@ -2775,7 +2775,7 @@ class tcms_main {
 				: NULL
 			);
 		}
-		else{
+		else {
 			return (
 				isset($arr_dirAlbum) && $arr_dirAlbum != '' && !empty($arr_dirAlbum) 
 				? $arr_dirAlbum 
@@ -2873,7 +2873,7 @@ class tcms_main {
 	*/
 	public function count_answers_sql($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $ac_poll, $command) {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		if($command == 'nothing') {
 			$qc = 1;
@@ -2891,8 +2891,8 @@ class tcms_main {
 			}while($arr_question[$qc-1] != NULL);
 			
 			
-			$sqlQR = $sqlAL->sqlGetAll($this->db_prefix."poll_items WHERE  poll_uid='".$ac_poll."'");
-			$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+			$sqlQR = $sqlAL->getAll($this->db_prefix."poll_items WHERE  poll_uid='".$ac_poll."'");
+			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
 			if($sqlNR != 0) {
 				while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)) {
@@ -2915,8 +2915,8 @@ class tcms_main {
 		}
 		
 		if($command == 'poll_answers') {
-			$sqlQR = $sqlAL->sqlGetAll($this->db_prefix."poll_items WHERE  poll_uid='".$ac_poll."'");
-			$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+			$sqlQR = $sqlAL->getAll($this->db_prefix."poll_items WHERE  poll_uid='".$ac_poll."'");
+			$sqlNR = $sqlAL->getNumber($sqlQR);
 			return $sqlNR;
 		}
 	}
@@ -2931,9 +2931,9 @@ class tcms_main {
 		if($choosenDB == 'xml') {
 			$returnME = 1;
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			$session_exists = 1;
 			
 			if($forDownload == false) {
@@ -2943,7 +2943,7 @@ class tcms_main {
 					case 'mssql': $sqlStr = 'SELECT MAX('.$sqlField.') AS newMax FROM '.$sqlTable; break;
 				}
 				
-				$sqlQR  = $sqlAL->sqlQuery($sqlStr);
+				$sqlQR  = $sqlAL->query($sqlStr);
 				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
 				
 				switch($choosenDB) {
@@ -2952,7 +2952,7 @@ class tcms_main {
 					case 'mssql': $returnME = ($sqlARR['newMax'] + 1); break;
 				}
 			}
-			else{
+			else {
 				switch($choosenDB) {
 					case 'mysql':
 						$sqlStr = 'SELECT CASE WHEN ( MAX(`'.$sqlTable.'`.`'.$sqlField.'`) IS NULL ) THEN 0'
@@ -2971,7 +2971,7 @@ class tcms_main {
 						break;
 				}
 				
-				$sqlQR  = $sqlAL->sqlQuery($sqlStr);
+				$sqlQR  = $sqlAL->query($sqlStr);
 				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
 				
 				switch($choosenDB) {
@@ -3023,9 +3023,9 @@ class tcms_main {
 			
 			$returnME = $i;
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			$session_exists = 1;
 			
 			switch($choosenDB) {
@@ -3034,7 +3034,7 @@ class tcms_main {
 				case 'mssql': $sqlStr = 'SELECT MAX('.$sqlField.') AS newMax FROM '.$sqlTable.( $sqlFromField != '' ? ' WHERE ['.$sqlFromField.']='.$sqlFromValue : '' ); break;
 			}
 			
-			$sqlQR  = $sqlAL->sqlQuery($sqlStr);
+			$sqlQR  = $sqlAL->query($sqlStr);
 			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
 			
 			switch($choosenDB) {
@@ -3195,15 +3195,15 @@ class tcms_main {
 		global $tcms_config;
 		
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		$sqlStr = "SELECT * "
 		."FROM ".$this->db_prefix."sidemenu "
 		."WHERE language = '".$tcms_config->getLanguageCodeForTCMS($lang)."' "
 		."ORDER BY id ASC, name ASC, link ASC";
 		
-		//$sqlQR = $sqlAL->sqlGetAll($this->db_prefix.'sidemenu');
-		$sqlQR = $sqlAL->sqlQuery($sqlStr);
+		//$sqlQR = $sqlAL->getAll($this->db_prefix.'sidemenu');
+		$sqlQR = $sqlAL->query($sqlStr);
 		
 		$count = 0;
 		
@@ -3252,10 +3252,10 @@ class tcms_main {
 		."WHERE language = '".$tcms_config->getLanguageCodeForTCMS($lang)."' "
 		."ORDER BY id ASC, name ASC, link ASC";
 		
-		//$sqlQR = $sqlAL->sqlGetAll($this->db_prefix.'sidemenu');
-		$sqlQR = $sqlAL->sqlQuery($sqlStr);
+		//$sqlQR = $sqlAL->getAll($this->db_prefix.'sidemenu');
+		$sqlQR = $sqlAL->query($sqlStr);
 		
-		//$sqlQR = $sqlAL->sqlGetAll($this->db_prefix.'topmenu');
+		//$sqlQR = $sqlAL->getAll($this->db_prefix.'topmenu');
 		$count = 0;
 		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)) {
 			$arr_link['name'][$count] = $sqlARR['name'];
@@ -3394,7 +3394,7 @@ class tcms_main {
 					if($arr_menu['type'][$mkey] == 'web') {
 						$arr_mainmenu['link'][$mkey] = '<a'.$ltarget.' class="mainlevel" href="'.$arr_menu['link'][$mkey].'">'.$arr_menu['name'][$mkey].'</a>';
 					}
-					else{
+					else {
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id='.$arr_menu['link'][$mkey].'&amp;s='.$s
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -3415,7 +3415,7 @@ class tcms_main {
 					if($arr_menu['type'][$mkey] == 'web') {
 						$arr_mainmenu['submenu'][$mvalue][$mkey] = '<a'.$ltarget.' class="submenu" href="'.$arr_menu['link'][$mkey].'">'.$arr_menu['name'][$mkey].'</a>';
 					}
-					else{
+					else {
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id='.$arr_menu['link'][$mkey].'&amp;s='.$s
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -3428,7 +3428,7 @@ class tcms_main {
 			
 			return $arr_mainmenu;
 		}
-		else{ return ''; }
+		else { return ''; }
 	}
 	
 	
@@ -3491,7 +3491,7 @@ class tcms_main {
 					if(trim($arr_top['type'][$key]) == 'web') {
 						$arr_top_navi['link'][$key] = '<a'.$ltarget.' class="toplevel" href="'.trim($arr_top['link'][$key]).'">'.trim($arr_top['name'][$key]).'</a>';
 					}
-					else{
+					else {
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id='.trim($arr_top['link'][$key]).'&amp;s='.$s
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -3509,7 +3509,7 @@ class tcms_main {
 			
 			return $arr_top_navi;
 		}
-		else{ return ''; }
+		else { return ''; }
 	}
 	
 	
@@ -3522,17 +3522,17 @@ class tcms_main {
 		global $tcms_config;
 		
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		$sqlStr = "SELECT * "
 		."FROM ".$this->db_prefix."topmenu "
 		."WHERE language = '".$tcms_config->getLanguageCodeForTCMS($lang)."' "
 		."ORDER BY id ASC, name ASC";
 		
-		//$sqlQR = $sqlAL->sqlGetAll($this->db_prefix.'sidemenu');
-		$sqlQR = $sqlAL->sqlQuery($sqlStr);
+		//$sqlQR = $sqlAL->getAll($this->db_prefix.'sidemenu');
+		$sqlQR = $sqlAL->query($sqlStr);
 		
-		//$sqlQR = $sqlAL->sqlGetAll($this->db_prefix.'topmenu');
+		//$sqlQR = $sqlAL->getAll($this->db_prefix.'topmenu');
 		
 		$count = 0;
 		
@@ -3584,7 +3584,7 @@ class tcms_main {
 				if(trim($arr_top['type'][$key]) == 'web') {
 					$arr_top_navi['link'][$key] = '<a'.$ltarget.' class="toplevel" href="'.trim($arr_top['link'][$key]).'">'.trim($arr_top['name'][$key]).'</a>';
 				}
-				else{
+				else {
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id='.trim($arr_top['link'][$key]).'&amp;s='.$s
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -3602,7 +3602,7 @@ class tcms_main {
 			
 			return $arr_top_navi;
 		}
-		else{ return ''; }
+		else { return ''; }
 	}
 	
 	
@@ -3698,9 +3698,9 @@ class tcms_main {
 	*/
 	public function get_default_sql_contact($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort) {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$sqlQR = $sqlAL->sqlQuery('SELECT * FROM '.$this->db_prefix.'contacts WHERE default_con = 1 AND published = 1');
+		$sqlQR = $sqlAL->query('SELECT * FROM '.$this->db_prefix.'contacts WHERE default_con = 1 AND published = 1');
 		
 		$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
 		$def_con = $sqlARR['uid'];
@@ -3835,7 +3835,7 @@ class tcms_main {
 		if($chkACScount > 0) {
 			$return = true;
 		}
-		else{
+		else {
 			$return = false;
 		}
 		

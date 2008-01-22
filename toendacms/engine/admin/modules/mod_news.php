@@ -26,7 +26,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * @version 1.9.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
- * @subpackage toendaCMS Backend
+ * @subpackage toendaCMS-Backend
  */
 
 

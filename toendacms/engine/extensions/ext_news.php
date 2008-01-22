@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a news manager with a news,
  * a news view and a archive with different formats.
  *
- * @version 1.6.2
+ * @version 1.6.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -732,7 +732,10 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 				.'" method="post">';
 				
 				if($use_captcha == 1) {
-					$captchaImage = tcms_gd::createCaptchaImage('cache/captcha/', $captcha_clean);
+					$captchaImage = $tcms_gd->createCaptchaImage(
+						'cache/captcha/', 
+						$captcha_clean
+					);
 					
 					echo '<strong class="text_normal">'._FRONT_CAPTCHA.'</strong>'
 					.'<br />';

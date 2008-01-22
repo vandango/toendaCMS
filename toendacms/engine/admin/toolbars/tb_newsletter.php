@@ -9,8 +9,7 @@
 | 
 | Toolbar for the newsletter
 |
-| File:		tb_newsletter.php
-| Version:	0.0.2
+| File:	tb_newsletter.php
 |
 +
 */
@@ -19,7 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-
+/**
+ * Toolbar for the newsletter
+ *
+ * This is used for the newsletter
+ *
+ * @version 0.0.1
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS-Backend
+ */
 
 
 switch($todo){
