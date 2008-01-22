@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.9.3
+ * @version 2.9.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -754,6 +754,76 @@ if($wsShowSite) {
 					unset($dcSidebarModule);
 					
 					
+					// Sidebar extension settings
+					
+					
+					/*
+					
+					tcms_dc_sidebarextension!!!!!!!!!!!!!!!!!!!!!!!
+					
+					*/
+					
+					$navigation        = $tcms_config->getSidemenuEnabled();
+					$second_navigation = $tcms_config->getTopmenuEnabled();
+					
+					if($choosenDB == 'xml') {
+						$xml    = new xmlparser(_TCMS_PATH.'/tcms_global/sidebar.xml','r');
+						$user_navigation = $xml->readSection('side', 'usermenu');
+						
+						if($use_login == 1) {
+							$login_title  = $xml->readSection('side', 'login_title');
+							$no_login     = $xml->readSection('side', 'nologin');
+							$reg_link     = $xml->readSection('side', 'reg_link');
+							$reg_username = $xml->readSection('side', 'reg_user');
+							$reg_password = $xml->readSection('side', 'reg_pass');
+							$login_user   = $xml->readSection('side', 'login_user');
+							$show_lt      = $xml->readSection('side', 'show_login_title');
+							$show_ml      = $xml->readSection('side', 'show_memberlist');
+							
+							$login_title  = $tcms_main->decodeText($login_title, '2', $c_charset);
+							$no_login     = $tcms_main->decodeText($no_login, '2', $c_charset);
+							$reg_link     = $tcms_main->decodeText($reg_link, '2', $c_charset);
+							$reg_username = $tcms_main->decodeText($reg_username, '2', $c_charset);
+							$reg_password = $tcms_main->decodeText($reg_password, '2', $c_charset);
+						}
+						
+						$show_nacat   = $xml->readSection('side', 'show_news_cat_amount');
+						
+						$xml->flush();
+						unset($xml);
+					}
+					else {
+						$sqlCN = $tcms_dal->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+						
+						$sqlQR = $tcms_dal->getOne($tcms_db_prefix.'sidebar_extensions', 'sidebar_extensions');
+						$sqlObj = $tcms_dal->fetchObject($sqlQR);
+						
+						$user_navigation = $sqlObj->usermenu;
+						
+						if($use_login == 1) {
+							$login_title  = $sqlObj->login_title;
+							$no_login     = $sqlObj->nologin;
+							$reg_link     = $sqlObj->reg_link;
+							$reg_username = $sqlObj->reg_user;
+							$reg_password = $sqlObj->reg_pass;
+							$login_user   = $sqlObj->login_user;
+							$show_lt      = $sqlObj->show_login_title;
+							$show_ml      = $sqlObj->show_memberlist;
+							
+							$login_title  = $tcms_main->decodeText($login_title, '2', $c_charset);
+							$no_login     = $tcms_main->decodeText($no_login, '2', $c_charset);
+							$reg_link     = $tcms_main->decodeText($reg_link, '2', $c_charset);
+							$reg_username = $tcms_main->decodeText($reg_username, '2', $c_charset);
+							$reg_password = $tcms_main->decodeText($reg_password, '2', $c_charset);
+							$login_user   = $tcms_main->decodeText($login_user, '2', $c_charset);
+						}
+						
+						$show_nacat   = $sqlObj->show_news_cat_amount;
+						
+						$tcms_dal->freeResult($sqlQR);
+					}
+					
+					
 					
 					// Syndication
 					if($use_syndication == 1) {
@@ -1026,71 +1096,9 @@ if($wsShowSite) {
 					
 					
 					/*
-						Top or Side Menu
-					*/
-					$navigation        = $tcms_config->getSidemenuEnabled();
-					$second_navigation = $tcms_config->getTopmenuEnabled();
-					
-					if($choosenDB == 'xml') {
-						$xml    = new xmlparser(_TCMS_PATH.'/tcms_global/sidebar.xml','r');
-						$user_navigation = $xml->readSection('side', 'usermenu');
-						
-						if($use_login == 1) {
-							$login_title  = $xml->readSection('side', 'login_title');
-							$no_login     = $xml->readSection('side', 'nologin');
-							$reg_link     = $xml->readSection('side', 'reg_link');
-							$reg_username = $xml->readSection('side', 'reg_user');
-							$reg_password = $xml->readSection('side', 'reg_pass');
-							$login_user   = $xml->readSection('side', 'login_user');
-							$show_lt      = $xml->readSection('side', 'show_login_title');
-							$show_ml      = $xml->readSection('side', 'show_memberlist');
-							
-							$login_title  = $tcms_main->decodeText($login_title, '2', $c_charset);
-							$no_login     = $tcms_main->decodeText($no_login, '2', $c_charset);
-							$reg_link     = $tcms_main->decodeText($reg_link, '2', $c_charset);
-							$reg_username = $tcms_main->decodeText($reg_username, '2', $c_charset);
-							$reg_password = $tcms_main->decodeText($reg_password, '2', $c_charset);
-						}
-						
-						$xml->flush();
-						unset($xml);
-					}
-					else {
-						$sqlCN = $tcms_dal->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-						
-						$sqlQR = $tcms_dal->getOne($tcms_db_prefix.'sidebar_extensions', 'sidebar_extensions');
-						$sqlARR = $tcms_dal->fetchArray($sqlQR);
-						
-						$user_navigation = $sqlARR['usermenu'];
-						
-						if($use_login == 1) {
-							$login_title  = $sqlARR['login_title'];
-							$no_login     = $sqlARR['nologin'];
-							$reg_link     = $sqlARR['reg_link'];
-							$reg_username = $sqlARR['reg_user'];
-							$reg_password = $sqlARR['reg_pass'];
-							$login_user   = $sqlARR['login_user'];
-							$show_lt      = $sqlARR['show_login_title'];
-							$show_ml      = $sqlARR['show_memberlist'];
-							
-							$login_title  = $tcms_main->decodeText($login_title, '2', $c_charset);
-							$no_login     = $tcms_main->decodeText($no_login, '2', $c_charset);
-							$reg_link     = $tcms_main->decodeText($reg_link, '2', $c_charset);
-							$reg_username = $tcms_main->decodeText($reg_username, '2', $c_charset);
-							$reg_password = $tcms_main->decodeText($reg_password, '2', $c_charset);
-							$login_user   = $tcms_main->decodeText($login_user, '2', $c_charset);
-						}
-					}
-					
-					
-					
-					/*
 						SITE MANAGEMENT :: WITH ERRORFILES
 					*/
 					if($choosenDB == 'xml') {
-						//$site_max_id  = $tcms_main->load_xml_files(_TCMS_PATH.'/tcms_content/', 'files');
-						//$site_max_id2 = $tcms_main->load_xml_files(_TCMS_PATH.'/tcms_content_languages/', 'files');
-						
 						$site_max_id = $tcms_file->getPathContent(
 							_TCMS_PATH.'/tcms_content/', 
 							false, 
@@ -1122,6 +1130,8 @@ if($wsShowSite) {
 						if($site_max_id == 0) {
 							$ws_error = true;
 						}
+						
+						$tcms_dal->freeResult($sqlQR);
 					}
 					
 					if(in_array($id, $arrTCMSModules)) {
@@ -1151,19 +1161,60 @@ if($wsShowSite) {
 						if($choosenDB == 'xml') {
 							$arr_files     = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_menu/');
 							$arr_filesT    = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_topmenu/');
-							$arr_side_navi = $tcms_main->mainmenu($arr_files, $c_charset, ( isset($session) ? $session : NULL ), $s, ( isset($lang) ? $lang : NULL ));
+							
+							$arr_side_navi = $tcms_main->mainmenu(
+								$arr_files, 
+								$c_charset, 
+								( isset($session) ? $session : NULL ), 
+								$s, 
+								( isset($lang) ? $lang : NULL )
+							);
 							
 							$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_topmenu/');
-							$arr_top_navi = $tcms_main->topmenu($arr_filename, $c_charset, ( isset($session) ? $session : NULL ), $s, ( isset($lang) ? $lang : NULL ));
 							
-							$arrLinkway = $tcms_main->linkway($arr_files, $arr_filesT, $c_charset, ( isset($session) ? $session : NULL ), $s, ( isset($lang) ? $lang : NULL ));
+							$arr_top_navi = $tcms_main->topmenu(
+								$arr_filename, 
+								$c_charset, 
+								( isset($session) ? $session : NULL ), 
+								$s, 
+								( isset($lang) ? $lang : NULL )
+							);
+							
+							$arrLinkway = $tcms_main->linkway(
+								$arr_files, 
+								$arr_filesT, 
+								$c_charset, 
+								( isset($session) ? $session : NULL ), 
+								$s, 
+								( isset($lang) ? $lang : NULL )
+							);
 						}
 						else {
-							//$arr_side_navi = $tcms_main->mainmenuSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, ( isset($session) ? $session : NULL ), $s, ( isset($lang) ? $lang : NULL ));
+							$arr_top_navi = $tcms_main->topmenuSQL(
+								$choosenDB, 
+								$sqlUser, 
+								$sqlPass, 
+								$sqlHost, 
+								$sqlDB, 
+								$sqlPort, 
+								$c_charset, 
+								( isset($session) ? $session : NULL ), 
+								$s, 
+								( isset($lang) ? $lang : NULL )
+							);
 							
-							$arr_top_navi = $tcms_main->topmenuSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, ( isset($session) ? $session : NULL ), $s, ( isset($lang) ? $lang : NULL ));
-							
-							$arrLinkway = $tcms_main->linkwaySQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, ( isset($session) ? $session : NULL ), $s, ( isset($lang) ? $lang : NULL ));
+							$arrLinkway = $tcms_main->linkwaySQL(
+								$choosenDB, 
+								$sqlUser, 
+								$sqlPass, 
+								$sqlHost, 
+								$sqlDB, 
+								$sqlPort, 
+								$c_charset, 
+								( isset($session) ? $session : NULL ), 
+								$s, 
+								( isset($lang) ? $lang : NULL )
+							);
 						}
 						
 						

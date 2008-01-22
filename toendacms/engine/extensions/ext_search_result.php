@@ -9,7 +9,7 @@
 | 
 | Search Result Page
 |
-| File:		ext_search_result.php
+| File:	ext_search_result.php
 |
 +
 */
@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a search module.
  *
- * @version 0.6.8
+ * @version 0.6.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -1024,7 +1024,7 @@ function search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $s
 			}
 		}
 		else{
-			$sqlQR = $sqlAL->sqlSearch($tcms_db_prefix.'imagegallery', 'text', $searchword);
+			$sqlQR = $sqlAL->search($tcms_db_prefix.'imagegallery', 'text', $searchword);
 			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
 			if($sqlNR != 0){
@@ -1207,7 +1207,7 @@ function search_faqs($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 		}
 		
 		$sqlQR = $sqlAL->query($strSQL);
-		$sqlQR = $sqlAL->sqlSearch($tcms_db_prefix.'knowledgebase', 'content', $searchword);
+		$sqlQR = $sqlAL->search($tcms_db_prefix.'knowledgebase', 'content', $searchword);
 		$sqlNR = $sqlAL->getNumber($sqlQR);
 		
 		if($sqlNR != 0){

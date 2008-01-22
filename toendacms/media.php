@@ -20,7 +20,7 @@
  *
  * This module is used as a image viewer.
  *
- * @version 0.8.0
+ * @version 0.8.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -179,6 +179,8 @@ $dcIG = new tcms_dc_imagegallery();
 $dcIG = $tcms_dcp->getImagegalleryDC();
 
 $image_details = $dcIG->getUseImageDetails();
+
+$tcms_auth = new tcms_authentication(_TCMS_PATH, $tcms_config->getCharset(), $imagePath);
 
 
 
@@ -513,7 +515,6 @@ else{
 if($show_comments == 1) {
 	/* Create userrights */
 	// authentication
-	$tcms_auth = new tcms_authentication(_TCMS_PATH, $tcms_config->getCharset(), $imagePath);
 	
 	$check_session = false;
 	$check_session = $tcms_auth->checkSessionExist($session);
@@ -981,11 +982,7 @@ echo '
 // DELETE COMMENT
 //=====================================================
 
-if($choosenDB == 'xml'){
-	if(isset($session) && $session != '' && file_exists(_TCMS_PATH.'/tcms_session/'.$session) && filesize(_TCMS_PATH.'/tcms_session/'.$session) != 0){ $check_session = true; }
-	else{ $check_session = false; }
-}
-else{ $check_session = $tcms_main->check_session_exists($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session); }
+$check_session = $tcms_auth->checkSessionExist($session);
 
 if($check_session){
 	if($is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Presenter'){

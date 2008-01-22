@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a side menu.
  *
- * @version 0.5.3
+ * @version 0.5.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -214,67 +214,33 @@ if($navigation == 1){
 		unset($arrMenuItem);
 	}
 	else {
-		if($choosenDB == 'xml'){
-			$poll_xml      = new xmlparser(_TCMS_PATH.'/tcms_global/poll.xml','r');
-			$show_sm_poll  = $poll_xml->readSection('poll', 'use_poll_sidemenu');
-			$sm_poll_id    = $poll_xml->readSection('poll', 'poll_sidemenu_id');
-			$sm_poll_title = $poll_xml->readSection('poll', 'poll_sm_title');
-			
-			$sm_poll_title = $tcms_main->decodeText($sm_poll_title, '2', $c_charset);
-		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-			
-			$sqlQR = $sqlAL->getOne($tcms_db_prefix.'poll_config', 'poll');
-			$sqlARR = $sqlAL->fetchArray($sqlQR);
-			
-			$show_sm_poll  = $sqlARR['use_poll_sidemenu'];
-			$sm_poll_id    = $sqlARR['poll_sidemenu_id'];
-			$sm_poll_title = $sqlARR['poll_sm_title'];
-			
-			$sm_poll_title = $tcms_main->decodeText($sm_poll_title, '2', $c_charset);
-		}
+		$poll_xml      = new xmlparser(_TCMS_PATH.'/tcms_global/poll.xml','r');
+		$show_sm_poll  = $poll_xml->readSection('poll', 'use_poll_sidemenu');
+		$sm_poll_id    = $poll_xml->readSection('poll', 'poll_sidemenu_id');
+		$sm_poll_title = $poll_xml->readSection('poll', 'poll_sm_title');
+		
+		$sm_poll_title = $tcms_main->decodeText($sm_poll_title, '2', $c_charset);
 		
 		
 		$authorizeNav = 0;
 		
-		if($choosenDB == 'xml'){
-			$arr_menuauth = $tcms_main->mainmenu($arr_files, $c_charset, ( isset($session) ? $session : NULL ), $s, 'auth');
+		$arr_menuauth = $tcms_main->mainmenu($arr_files, $c_charset, ( isset($session) ? $session : NULL ), $s, 'auth');
+		
+		if($id != 'polls' && $id != 'register' && $id != 'profile' && $id != 'search'){
+			if($id == 'components'){ $tempID = ($id.'&item='.$item); }
+			else{ $tempID = $id; }
 			
-			if($id != 'polls' && $id != 'register' && $id != 'profile' && $id != 'search'){
-				if($id == 'components'){ $tempID = ($id.'&item='.$item); }
-				else{ $tempID = $id; }
-				
-				$this_link = $tcms_main->xml_readdir_content($tempID, _TCMS_PATH.'/tcms_menu/', 'link', 'menu', 5);
-				
-				if(file_exists(_TCMS_PATH.'/tcms_menu/'.$this_link.'.xml')){
-					if($this_link != 'index.html'){
-						$xml       = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$this_link.'.xml','r');
-						$subParent = $xml->readSection('menu', 'id');
-					}
+			$this_link = $tcms_main->xml_readdir_content($tempID, _TCMS_PATH.'/tcms_menu/', 'link', 'menu', 5);
+			
+			if(file_exists(_TCMS_PATH.'/tcms_menu/'.$this_link.'.xml')){
+				if($this_link != 'index.html'){
+					$xml       = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$this_link.'.xml','r');
+					$subParent = $xml->readSection('menu', 'id');
 				}
-				else{ $subParent =  ''; }
 			}
 			else{ $subParent =  ''; }
 		}
-		else{
-			$arr_menuauth = $tcms_main->mainmenuSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, ( isset($session) ? $session : NULL ), $s);
-			
-			if($id != 'polls' && $id != 'register' && $id != 'profile' && $id != 'search'){
-				if($id == 'components'){ $tempID = ($id.'&item='.$item); }
-				else{ $tempID = $id; }
-				
-				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-				
-				$sqlQR = $sqlAL->query("SELECT * FROM ".$tcms_db_prefix."sidemenu WHERE link='".$tempID."'");
-				$sqlARR = $sqlAL->fetchArray($sqlQR);
-				
-				$subParent = $sqlARR['id'];
-			}
-			else{ $subParent =  ''; }
-		}
+		else{ $subParent =  ''; }
 		
 		//$tcms_main->paf($arr_side_navi);
 		

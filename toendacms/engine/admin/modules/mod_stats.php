@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a statistics provider.
  *
- * @version 0.3.3
+ * @version 0.3.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -119,7 +119,16 @@ if($id_group == 'Developer'
 			echo '<strong>'._STATS_SUM_CLICKS.'</strong>: '.( $statsum == '' ? 0 : $statsum ).'<br />';
 			
 			
-			$uniqueVal = $tcms_main->load_xml_files(_TCMS_PATH.'/tcms_statistics_ip/', 'number');
+			//$uniqueVal = $tcms_main->l-o-a-d-_-x-m-l-_-f-i-l-e-s(
+			//_TCMS_PATH.'/tcms_statistics_ip/', 'number');
+			
+			$files = $tcms_file->getPathContent(
+				_TCMS_PATH.'/tcms_statistics_ip/', 
+				false, 
+				'.xml'
+			);
+			$uniqueVal = $tcms_main->countArrayValues($files);
+			
 			echo '<strong>'._STATS_SUM_UNIQUE.'</strong>: '.( $uniqueVal == '' ? 0 : $uniqueVal ).'<br />';
 			
 			

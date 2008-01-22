@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the polls.
  *
- * @version 0.3.5
+ * @version 0.3.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -87,10 +87,14 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			.'<th valign="middle" class="tcms_db_title" width="20%" align="right">'._TABLE_FUNCTIONS.'</th><tr>';
 		
 		if($choosenDB == 'xml'){
-			$arr_allpolls = $tcms_main->load_xml_files(_TCMS_PATH.'/tcms_polls/', 'files');
+			$arr_allpolls = $tcms_file->getPathContent(
+				_TCMS_PATH.'/tcms_polls/', 
+				false, 
+				'.xml'
+			);
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix.'polls');
@@ -174,7 +178,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			$old_tmp_poll_m_width  = $poll_xml->read_section('poll', 'poll_main_width');
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'poll_config', 'poll');
@@ -307,7 +311,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				$your_poll_title = $tcms_main->decodeText($your_poll_title, '2', $c_charset);
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'polls', $poll);
@@ -466,7 +470,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				$xmluser->xml_section_end('poll');
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				if($extra == 'new'){
@@ -588,7 +592,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			$xmluser->xml_section_end('poll');
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$newSQLData = ''
@@ -630,7 +634,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				$tcms_file->deleteDir(_TCMS_PATH.'/tcms_polls/'.$poll.'/');
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				$sqlAL->sqlDeleteOne($tcms_db_prefix.'polls', $poll);
 				$sqlAL->sqlQuery("DELETE FROM ".$tcms_db_password."poll_items WHERE poll_uid='".$poll."'");
