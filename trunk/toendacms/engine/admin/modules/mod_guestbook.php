@@ -23,19 +23,19 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the guestbook entrys.
  *
- * @version 0.2.4
+ * @version 0.2.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
- * @subpackage toendaCMS Backend
+ * @subpackage toendaCMS-Backend
  */
 
 
-if(isset($_POST['new_guest_name'])){ $new_guest_name = $_POST['new_guest_name']; }
-if(isset($_POST['new_guest_mail'])){ $new_guest_mail = $_POST['new_guest_mail']; }
-if(isset($_POST['new_guest_text'])){ $new_guest_text = $_POST['new_guest_text']; }
-if(isset($_POST['new_guest_date'])){ $new_guest_date = $_POST['new_guest_date']; }
-if(isset($_POST['new_guest_time'])){ $new_guest_time = $_POST['new_guest_time']; }
-if(isset($_POST['dbAction'])){ $dbAction = $_POST['dbAction']; }
+if(isset($_POST['new_guest_name'])) { $new_guest_name = $_POST['new_guest_name']; }
+if(isset($_POST['new_guest_mail'])) { $new_guest_mail = $_POST['new_guest_mail']; }
+if(isset($_POST['new_guest_text'])) { $new_guest_text = $_POST['new_guest_text']; }
+if(isset($_POST['new_guest_date'])) { $new_guest_date = $_POST['new_guest_date']; }
+if(isset($_POST['new_guest_time'])) { $new_guest_time = $_POST['new_guest_time']; }
+if(isset($_POST['dbAction'])) { $dbAction = $_POST['dbAction']; }
 
 
 
@@ -44,7 +44,7 @@ if(isset($_POST['dbAction'])){ $dbAction = $_POST['dbAction']; }
 // INIT
 //=====================================================
 
-if(!isset($todo)){ $todo = 'show'; }
+if(!isset($todo)) { $todo = 'show'; }
 
 echo '<script language="JavaScript" src="../js/jscalendar/calendar.js"></script>';
 echo '<script language="Javascript" src="../js/jscalendar/lang/calendar-en.js"></script>';
@@ -55,36 +55,36 @@ echo '<link rel="stylesheet" type="text/css" media="all" href="../js/jscalendar/
 
 
 if($id_group == 'Developer' 
-|| $id_group == 'Administrator'){
+|| $id_group == 'Administrator') {
 	//=====================================================
 	// SHOW OLD VALUES
 	//=====================================================
 	
-	if($todo == 'show'){
+	if($todo == 'show') {
 		echo tcms_html::bold(_BOOK_TITLE);
 		echo tcms_html::text(_BOOK_TEXT.'<br /><br />', 'left');
 		
-		if($choosenDB == 'xml'){
+		if($choosenDB == 'xml') {
 			$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_guestbook/');
 			
 			$count = 0;
 			
-			if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
-				foreach($arr_filename as $key => $value){
+			if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != '') {
+				foreach($arr_filename as $key => $value) {
 					$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_guestbook/'.$value,'r');
 					
 					$arrCat['uid'][$count]  = substr($value, 0, 32);
-					$arrCat['name'][$count] = $menu_xml->read_section('entry', 'name');
-					$arrCat['text'][$count] = $menu_xml->read_section('entry', 'text');
-					$arrCat['mail'][$count] = $menu_xml->read_section('entry', 'email');
-					$arrCat['date'][$count] = $menu_xml->read_section('entry', 'date');
-					$arrCat['time'][$count] = $menu_xml->read_section('entry', 'time');
+					$arrCat['name'][$count] = $menu_xml->readSection('entry', 'name');
+					$arrCat['text'][$count] = $menu_xml->readSection('entry', 'text');
+					$arrCat['mail'][$count] = $menu_xml->readSection('entry', 'email');
+					$arrCat['date'][$count] = $menu_xml->readSection('entry', 'date');
+					$arrCat['time'][$count] = $menu_xml->readSection('entry', 'time');
 					
-					if($arrCat['name'][$count] == false){ $arrCat['name'][$count] = ''; }
-					if($arrCat['text'][$count] == false){ $arrCat['text'][$count] = ''; }
-					if($arrCat['mail'][$count] == false){ $arrCat['mail'][$count] = ''; }
-					if($arrCat['date'][$count] == false){ $arrCat['date'][$count] = ''; }
-					if($arrCat['time'][$count] == false){ $arrCat['time'][$count] = ''; }
+					if($arrCat['name'][$count] == false) { $arrCat['name'][$count] = ''; }
+					if($arrCat['text'][$count] == false) { $arrCat['text'][$count] = ''; }
+					if($arrCat['mail'][$count] == false) { $arrCat['mail'][$count] = ''; }
+					if($arrCat['date'][$count] == false) { $arrCat['date'][$count] = ''; }
+					if($arrCat['time'][$count] == false) { $arrCat['time'][$count] = ''; }
 					
 					// CHARSETS
 					$arrCat['name'][$count] = $tcms_main->decodeText($arrCat['name'][$count], '2', $c_charset);
@@ -105,15 +105,15 @@ if($id_group == 'Developer'
 				);
 			}
 		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		else {
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix.'guestbook_items ORDER BY date DESC, time DESC');
 			
 			$count = 0;
 			
-			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)) {
 				$arrCat['uid'][$count]  = $sqlARR['uid'];
 				$arrCat['name'][$count] = $sqlARR['name'];
 				$arrCat['mail'][$count] = $sqlARR['email'];
@@ -121,11 +121,11 @@ if($id_group == 'Developer'
 				$arrCat['date'][$count] = $sqlARR['date'];
 				$arrCat['time'][$count] = $sqlARR['time'];
 				
-				if($arrCat['name'][$count] == NULL){ $arrCat['name'][$count] = ''; }
-				if($arrCat['text'][$count] == NULL){ $arrCat['text'][$count] = ''; }
-				if($arrCat['mail'][$count] == NULL){ $arrCat['mail'][$count] = ''; }
-				if($arrCat['date'][$count] == NULL){ $arrCat['date'][$count] = ''; }
-				if($arrCat['time'][$count] == NULL){ $arrCat['time'][$count] = ''; }
+				if($arrCat['name'][$count] == NULL) { $arrCat['name'][$count] = ''; }
+				if($arrCat['text'][$count] == NULL) { $arrCat['text'][$count] = ''; }
+				if($arrCat['mail'][$count] == NULL) { $arrCat['mail'][$count] = ''; }
+				if($arrCat['date'][$count] == NULL) { $arrCat['date'][$count] = ''; }
+				if($arrCat['time'][$count] == NULL) { $arrCat['time'][$count] = ''; }
 					
 				
 				// CHARSETS
@@ -149,10 +149,10 @@ if($id_group == 'Developer'
 			.'<th valign="middle" class="tcms_db_title" width="80%" align="left">'._TABLE_DESCRIPTION.'</th>'
 			.'<th valign="middle" class="tcms_db_title" width="20%" align="right">'._TABLE_FUNCTIONS.'</th></tr>';
 		
-		if(isset($arrCat['name']) && !empty($arrCat['name']) && $arrCat['name'] != ''){
-			foreach($arrCat['name'] as $key => $value){
-				if(is_integer($key/2)){ $wsc = 0; }
-				else{ $wsc = 1; }
+		if(isset($arrCat['name']) && !empty($arrCat['name']) && $arrCat['name'] != '') {
+			foreach($arrCat['name'] as $key => $value) {
+				if(is_integer($key/2)) { $wsc = 0; }
+				else { $wsc = 1; }
 				
 				
 				$arrCat['name'][$key] = $tcms_main->cleanGBLink($arrCat['name'][$key]);
@@ -209,8 +209,8 @@ if($id_group == 'Developer'
 	//=====================================================
 	
 	if($todo == 'edit') {
-		if(isset($maintag) && !empty($maintag) && $maintag != ''){
-			if($choosenDB == 'xml'){
+		if(isset($maintag) && !empty($maintag) && $maintag != '') {
+			if($choosenDB == 'xml') {
 				$user_xml  = new xmlparser(_TCMS_PATH.'/tcms_guestbook/'.$maintag.'.xml','r');
 				
 				$guest_name =  $user_xml->read_value('name');
@@ -219,17 +219,17 @@ if($id_group == 'Developer'
 				$guest_date =  $user_xml->read_value('date');
 				$guest_time =  $user_xml->read_value('time');
 				
-				if($guest_name == false){ $guest_name = ''; }
-				if($guest_mail == false){ $guest_mail = ''; }
-				if($guest_text == false){ $guest_text = ''; }
-				if($guest_date == false){ $guest_date = ''; }
-				if($guest_time == false){ $guest_time = ''; }
+				if($guest_name == false) { $guest_name = ''; }
+				if($guest_mail == false) { $guest_mail = ''; }
+				if($guest_text == false) { $guest_text = ''; }
+				if($guest_date == false) { $guest_date = ''; }
+				if($guest_time == false) { $guest_time = ''; }
 			}
-			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			else {
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
-				$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'guestbook_items', $maintag);
+				$sqlQR = $sqlAL->getOne($tcms_db_prefix.'guestbook_items', $maintag);
 				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
 				
 				$guest_name = $sqlARR['name'];
@@ -238,11 +238,11 @@ if($id_group == 'Developer'
 				$guest_date = $sqlARR['date'];
 				$guest_time = $sqlARR['time'];
 				
-				if($guest_name == NULL){ $guest_name = ''; }
-				if($guest_mail == NULL){ $guest_mail = ''; }
-				if($guest_text == NULL){ $guest_text = ''; }
-				if($guest_date == NULL){ $guest_date = ''; }
-				if($guest_time == NULL){ $guest_time = ''; }
+				if($guest_name == NULL) { $guest_name = ''; }
+				if($guest_mail == NULL) { $guest_mail = ''; }
+				if($guest_text == NULL) { $guest_text = ''; }
+				if($guest_date == NULL) { $guest_date = ''; }
+				if($guest_time == NULL) { $guest_time = ''; }
 				
 				$dbDo = 'save';
 			}
@@ -275,7 +275,7 @@ if($id_group == 'Developer'
 			
 			$guest_date = substr($guest_date, 6, 2).'.'.substr($guest_date, 4, 2).'.'.substr($guest_date, 0, 4);
 		}
-		else{
+		else {
 			$guest_name = '';
 			$guest_mail = '';
 			$guest_text = '';
@@ -310,10 +310,10 @@ if($id_group == 'Developer'
 		.'<input name="todo" type="hidden" value="'.$odot.'" />'
 		.'<input name="maintag" type="hidden" value="'.$maintag.'" />';
 		
-		if($choosenDB != 'xml'){
+		if($choosenDB != 'xml') {
 			echo '<input name="dbAction" type="hidden" value="'.$dbDo.'" />';
 		}
-		else{
+		else {
 			echo '<input name="CatCount" type="hidden" value="'.$cat_count.'" />';
 		}
 		
@@ -386,8 +386,8 @@ if($id_group == 'Developer'
 	//=====================================================
 	
 	if($todo == 'save') {
-		if($new_guest_date == '' || !isset($new_guest_date)){ $new_guest_date = date('d.m.Y'); }
-		if($new_guest_time == '' || !isset($new_guest_time)){ $new_guest_time = date('H:i'); }
+		if($new_guest_date == '' || !isset($new_guest_date)) { $new_guest_date = date('d.m.Y'); }
+		if($new_guest_time == '' || !isset($new_guest_time)) { $new_guest_time = date('H:i'); }
 		
 		
 		$new_guest_text = $tcms_main->convertNewlineToHTML($new_guest_text);
@@ -401,25 +401,25 @@ if($id_group == 'Developer'
 		$new_guest_text = $tcms_main->encodeText($new_guest_text, '2', $c_charset);
 		
 		
-		if($choosenDB == 'xml'){
+		if($choosenDB == 'xml') {
 			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_guestbook/'.$maintag.'.xml', 'w');
-			$xmluser->xml_declaration();
-			$xmluser->xml_section('entry');
+			$xmluser->xmlDeclaration();
+			$xmluser->xmlSection('entry');
 			
-			$xmluser->write_value('name', $new_guest_name);
-			$xmluser->write_value('email', $new_guest_mail);
-			$xmluser->write_value('text', $new_guest_text);
-			$xmluser->write_value('date', $new_guest_date);
-			$xmluser->write_value('time', $new_guest_time);
+			$xmluser->writeValue('name', $new_guest_name);
+			$xmluser->writeValue('email', $new_guest_mail);
+			$xmluser->writeValue('text', $new_guest_text);
+			$xmluser->writeValue('date', $new_guest_date);
+			$xmluser->writeValue('time', $new_guest_time);
 			
-			$xmluser->xml_section_buffer();
-			$xmluser->xml_section_end('entry');
+			$xmluser->xmlSectionBuffer();
+			$xmluser->xmlSectionEnd('entry');
 		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		else {
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			switch($dbAction){
+			switch($dbAction) {
 				case 'save':
 					$newSQLData = ''
 					.$tcms_db_prefix.'guestbook_items.name="'.$new_guest_name.'", '
@@ -432,7 +432,7 @@ if($id_group == 'Developer'
 					break;
 				
 				case 'next':
-					switch($choosenDB){
+					switch($choosenDB) {
 						case 'mysql':
 							$newSQLColumns = '`name`, `email`, `text`, `date`, `time`';
 							break;
@@ -447,7 +447,7 @@ if($id_group == 'Developer'
 					}
 					$newSQLData = "'".$new_guest_name."', '".$new_guest_mail."', '".$new_guest_text."', '".$new_guest_date."', '".$new_guest_time."'";
 					
-					$sqlQR = $sqlAL->sqlCreateOne($tcms_db_prefix.'guestbook_items', $newSQLColumns, $newSQLData, $maintag);
+					$sqlQR = $sqlAL->createOne($tcms_db_prefix.'guestbook_items', $newSQLColumns, $newSQLData, $maintag);
 					break;
 			}
 		}
@@ -465,45 +465,43 @@ if($id_group == 'Developer'
 	// DELETE
 	//=====================================================
 	
-	if($todo == 'delete'){
+	if($todo == 'delete') {
 		if($choosenDB == 'xml') {
 			unlink(_TCMS_PATH.'/tcms_guestbook/'.$maintag.'.xml');
 		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		else {
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			$sqlAL->sqlDeleteOne($tcms_db_prefix.'guestbook_items', $maintag);
 		}
 		
 		echo '<script>'
-		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_guestbook\''
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_guestbook\';'
 		.'</script>';
 	}
 	
 	
 	
-	
-	
-	//=====================================================
+	// ----------------------------------------------------
 	// DELETE ALL
-	//=====================================================
+	// ----------------------------------------------------
 	
-	if($todo == 'deleteall'){
+	if($todo == 'deleteall') {
 		if($choosenDB == 'xml') {
 			$tcms_file->deleteDirContent(_TCMS_PATH.'/tcms_guestbook/');
 		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-			$sqlAL->sqlDeleteAll($tcms_db_prefix.'guestbook_items');
+		else {
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL->deleteAll($tcms_db_prefix.'guestbook_items');
 		}
 		
 		echo '<script>'
-		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_guestbook\''
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_guestbook\';'
 		.'</script>';
 	}
 }
-else{
+else {
 	echo '<strong>'._MSG_NOTENOUGH_USERRIGHTS.'</strong>';
 }
 

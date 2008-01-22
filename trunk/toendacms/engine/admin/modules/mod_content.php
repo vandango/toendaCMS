@@ -23,10 +23,10 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a documents manager.
  *
- * @version 1.2.5
+ * @version 1.2.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
- * @subpackage toendaCMS Backend
+ * @subpackage toendaCMS-Backend
  */
 
 
@@ -195,7 +195,7 @@ if($id_group == 'Developer'
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			// get docs
 			$sqlSTR = "SELECT * "
@@ -203,9 +203,9 @@ if($id_group == 'Developer'
 			."WHERE NOT (uid IS NULL) "
 			."ORDER BY title ASC, uid ASC";
 			
-			$sqlQR = $sqlAL->sqlQuery($sqlSTR);
+			$sqlQR = $sqlAL->query($sqlSTR);
 			
-			while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)){
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)){
 				$arr_content['tag'][$count]    = $sqlObj->uid;
 				$arr_content['title'][$count]  = $sqlObj->title;
 				$arr_content['id'][$count]     = $sqlObj->uid;
@@ -236,7 +236,7 @@ if($id_group == 'Developer'
 			."WHERE NOT (uid IS NULL) "
 			."ORDER BY title ASC, uid ASC";
 			
-			$sqlQR = $sqlAL->sqlQuery($sqlSTR);
+			$sqlQR = $sqlAL->query($sqlSTR);
 			
 			while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)) {
 				$arr_content['tag'][$count]    = $sqlObj->uid.$sqlObj->language;
@@ -288,7 +288,7 @@ if($id_group == 'Developer'
 			."FROM ".$tcms_db_prefix."content_languages AS cl; "
 			."SELECT * FROM tmp_c ORDER by title ASC;";
 			
-			$sqlQR = $sqlAL->sqlQuery($sqlSTR);
+			$sqlQR = $sqlAL->query($sqlSTR);
 			
 			$count = 0;
 			
@@ -483,13 +483,13 @@ if($id_group == 'Developer'
 				$val = 0;
 				
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				if($tcms_main->isReal($lang)) {
-					$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'content_languages', $maintag);
+					$sqlQR = $sqlAL->getOne($tcms_db_prefix.'content_languages', $maintag);
 				}
 				else {
-					$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'content', $maintag);
+					$sqlQR = $sqlAL->getOne($tcms_db_prefix.'content', $maintag);
 				}
 				
 				$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
@@ -1031,7 +1031,7 @@ if($id_group == 'Developer'
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			if($tcms_main->isReal($lang)) {
 				$tmp = 'content_languages';
@@ -1167,7 +1167,7 @@ if($id_group == 'Developer'
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			switch($choosenDB){
 				case 'mysql':
@@ -1270,7 +1270,7 @@ if($id_group == 'Developer'
 				}
 				else{
 					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					
 					if($tcms_main->isReal($lang)) {
 						$newSQLData = $tcms_db_prefix.'content_languages.in_work=0';
@@ -1312,7 +1312,7 @@ if($id_group == 'Developer'
 				}
 				else{
 					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					
 					if($tcms_main->isReal($lang)) {
 						$newSQLData = $tcms_db_prefix.'content_languages.in_work=1';
@@ -1370,7 +1370,7 @@ if($id_group == 'Developer'
 				}
 				else{
 					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					
 					if($tcms_main->isReal($lang)) {
 						$newSQLData = $tcms_db_prefix.'content_languages.published=0';
@@ -1456,13 +1456,13 @@ if($id_group == 'Developer'
 					
 					if($check == 'no'){
 						$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-						$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+						$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 						
 						if($tcms_main->isReal($lang)) {
-							$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'content_languages', $maintag);
+							$sqlQR = $sqlAL->getOne($tcms_db_prefix.'content_languages', $maintag);
 						}
 						else {
-							$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'content', $maintag);
+							$sqlQR = $sqlAL->getOne($tcms_db_prefix.'content', $maintag);
 						}
 						
 						$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
@@ -1491,7 +1491,7 @@ if($id_group == 'Developer'
 					
 					if($check == 'yes'){
 						$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-						$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+						$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 						
 						if($tcms_main->isReal($lang)) {
 							$newSQLData = $tcms_db_prefix.'content_languages.published=1';
@@ -1550,17 +1550,17 @@ if($id_group == 'Developer'
 		}
 		else{
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-			$sqlAL->sqlDeleteOne($tcms_db_prefix.'content', $maintag);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL->deleteOne($tcms_db_prefix.'content', $maintag);
 			
-			$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix."sidemenu WHERE link='".$maintag."'");
-			$del_menuitem = $sqlAL->sqlGetNumber($sqlQR);
+			$sqlQR = $sqlAL->getAll($tcms_db_prefix."sidemenu WHERE link='".$maintag."'");
+			$del_menuitem = $sqlAL->getNumber($sqlQR);
 			
 			if($del_menuitem != 0){
-				$sqlAL->sqlDeleteIdv($tcms_db_prefix.'sidemenu', 'link', $maintag);
+				$sqlAL->deleteIdv($tcms_db_prefix.'sidemenu', 'link', $maintag);
 			}
 			else{
-				$sqlAL->sqlDeleteIdv($tcms_db_prefix.'topmenu', 'link', $maintag);
+				$sqlAL->deleteIdv($tcms_db_prefix.'topmenu', 'link', $maintag);
 			}
 		}
 		

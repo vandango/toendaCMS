@@ -7,10 +7,9 @@
 | Author: Jonathan Naumann                                               |
 +------------------------------------------------------------------------+
 | 
-| News Manager
+| Backend Theme color
 |
-| File:		tcms_color.php
-| Version:	0.0.1
+| File:	tcms_color.php
 |
 +
 */
@@ -19,6 +18,17 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * Backend Theme color
+ *
+ * This is used as Backend Theme color
+ *
+ * @version 0.0.1
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS-Backend
+ */
+ 
 
 /*
 	table row color

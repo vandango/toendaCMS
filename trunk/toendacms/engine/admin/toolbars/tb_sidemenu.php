@@ -9,8 +9,7 @@
 | 
 | Toolbar for the sidemenu
 |
-| File:		tb_sidemenu.php
-| Version:	0.0.1
+| File:	tb_sidemenu.php
 |
 +
 */
@@ -19,7 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-
+/**
+ * Toolbar for the sidemenu
+ *
+ * This is used as toolbar for the sidemenu
+ *
+ * @version 0.0.2
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS-Backend
+ */
 
 
 switch($todo){

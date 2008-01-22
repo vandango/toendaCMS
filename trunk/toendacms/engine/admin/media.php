@@ -24,7 +24,7 @@
  * @version 0.6.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
- * @subpackage toendaCMS Backend
+ * @subpackage toendaCMS-Backend
  */
 
 

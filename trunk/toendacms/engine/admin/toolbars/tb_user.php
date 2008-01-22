@@ -7,10 +7,9 @@
 | Author: Jonathan Naumann                                               |
 +------------------------------------------------------------------------+
 | 
-| Toolbar for user manager
+| Toolbar for the user manager
 |
-| File:		tb_user.php
-| Version:	0.0.1
+| File:	tb_user.php
 |
 +
 */
@@ -19,7 +18,16 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-
+/**
+ * Toolbar for the user manager
+ *
+ * This is used for the user manager
+ *
+ * @version 0.0.2
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS-Backend
+ */
 
 
 switch($todo){

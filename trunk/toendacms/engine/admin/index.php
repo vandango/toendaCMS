@@ -15,6 +15,19 @@
 */
 
 
+/**
+ * Index Admin (Login interface)
+ *
+ * This is used as global startpage for the
+ * administraion backend.
+ *
+ * @version 0.7.5
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage toendaCMS-Backend
+ */
+
+
 if(isset($_POST['username'])){ $username = $_POST['username']; }
 if(isset($_POST['password'])){ $password = $_POST['password']; }
 if(isset($_POST['email'])){ $email = $_POST['email']; }
@@ -27,19 +40,6 @@ if(isset($_GET['todo'])){ $todo = $_GET['todo']; }
 if(isset($_GET['id_user'])){ $id_user = $_GET['id_user']; }
 if(isset($_GET['code'])){ $code = $_GET['code']; }
 if(isset($_GET['conduct'])){ $conduct = $_GET['conduct']; }
-
-
-/**
- * Index Admin (Login interface)
- *
- * This is used as global startpage for the
- * administraion backend.
- *
- * @version 0.7.5
- * @author	Jonathan Naumann <jonathan@toenda.com>
- * @package toendaCMS
- * @subpackage toendaCMS Backend
- */
 
 
 /*

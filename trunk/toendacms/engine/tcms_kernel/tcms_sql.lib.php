@@ -40,7 +40,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Untested Database Server:
  * - SQLite        -> sqlite
  *
- * @version 0.9.2
+ * @version 0.9.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -54,69 +54,54 @@ defined('_TCMS_VALID') or die('Restricted access');
  * CONSTRUCTOR AND DESTRUCTOR
  *--------------------------------------------------------
  *
- * __construct($sqlInterface)                        -> Default constructor
- * __destruct()                                      -> Default destructor
+ * __construct($sqlInterface)              -> Default constructor
+ * __destruct()                            -> Default destructor
  * 
  *--------------------------------------------------------
  * PROPERTIES
  *--------------------------------------------------------
  * 
- * setTcmsTimeObj                                    -> Set the tcms_time object
+ * setTcmsTimeObj                          -> Set the tcms_time object
  *
  *--------------------------------------------------------
- * SIMPLE LAYER
+ * PUBLIC MEMBERS
  *--------------------------------------------------------
  *
- * error                                             -> sqlError
- * connect                                           -> sqlConnect
- * connectWithoutDB                                  -> sqlConnectWithoutDB
- * persistConnect                                    -> sqlPersistConnect
- * disconnect                                        -> sqlDisconnect
- * createDB                                          -> sqlCreateDB
- * query                                             -> sqlQuery
- * fetchArray                                        -> sqlFetchArray
- * fetchObject                                       -> sqlFetchObject
- * freeResult                                        -> sqlFreeResult
- * getAll                                            -> sqlGetAll
- * getOne                                            -> sqlGetOne
- * updateOne                                         -> sqlUpdateOne
- * updateField                                       -> sqlUpdateField
- * createOne                                         -> sqlCreateOne
+ * error                                   -> sqlError
+ * connect                                           -> DB Connector
+ * connectWithoutDB                        -> DB Connector (without database)
+ * persistConnect                          -> DB Connector (persist)
+ * disconnect                              -> DB Disconnector
+ * createDB                                -> Create database
+ * query                                             -> SQL Query
+ * fetchArray                                        -> SQL Fetch Array
+ * fetchObject                                       -> SQL Fetch Object
+ * freeResult                                        -> Free the saveplace for data
+ * getAll                                            -> Return all data from a table
+ * getOne                                            -> Return all from a table where UID = ?
+ * updateOne                                         -> Update one from a Table where UID = ?
+ * updateField                                       -> Update one from a Table where UID = ?
+ * createOne                                         -> Create a entry in a Table where UID = ?
  * deleteOne                                         -> Delete one from a Table where UID = ?
- * deleteIndividual                                  -> Delete one from a Table where "individual" = ?
- * deleteAll                                         -> Delete all from a Table
- * deleteTable                                       -> Delete Table
- * getNumber                                         -> Return the number of affected rows of a query
- * search                                            -> Search
- * createBackup                                      -> Create a backup file of the selected table
- * createUID                                         -> Create a uid for a $sqlTable with length $sqlNumber
- * getStats                                          -> Get sql server state
+ * deleteIndividual                        -> Delete one from a Table where "individual" = ?
+ * deleteAll                               -> Delete all from a Table
+ * deleteTable                             -> Delete Table
+ * getNumber                               -> Return the number of affected rows of a query
+ * search                                  -> Search
+ * createBackup                            -> Create a backup file of the selected table
+ * createUID                               -> Create a uid for a $sqlTable with length $sqlNumber
+ * getStats                                -> Get sql server state
  *
  *--------------------------------------------------------
- * MAIN public functionS
+ * MAIN PUBLIC MEMBERS
  *--------------------------------------------------------
- *
- * sqlError($sqlErrorNumber)
- * -> SQL Error Messenger
- *    (returns: DB Connection Error Message)
  * 
  * sqlConnect($sqlUser, $sqlPassword, $sqlHost, $sqlDB, $sqlPort)
  * -> Connect to your server and open your database
  *    (Returns: DB Connection ID ($sqlConnectionID))
  *
- * sqlConnectWithoutDB($sqlUser, $sqlPassword, $sqlHost, $sqlPort)
- * -> Connect to your server
- * -> Returns: DB Connection ID ($sqlConnectionID)
- *
- * sqlPersistConnect($sqlUser, $sqlPassword, $sqlHost, $sqlDB, $sqlPort)
- * -> Persist connect to DB
- * -> Returns: DB Connection ID ($sqlConnectionID)
- *
- * sqlDisconnect($sqlConnectionID)                   -> Disconnect from your DB, if needed
- * sqlCreateDB($sqlConnectionID)                     -> Create DB, needed for installation
- *
  *--------------------------------------------------------
- * COMMON public functionS
+ * COMMON PUBLIC MEMBERS
  *--------------------------------------------------------
  *
  * sqlQuery($sqlQueryString)                         -> Sql query public function with SQL language
@@ -139,11 +124,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *    ($newDataString = [name_of_column="new value", name_of_column="new value"])
  * 
  * sqlDeleteOne($sqlTable, $sqlUID)                  -> Delete one row from $sqlTable where uid = $sqlUID
- *
- * sqlDeleteIdv($sqlTable, $sqlIndividual, $sqlValue, $withDebug = false)
- * -> Delete all from $sqlTable where $sqlIndividual = $sqlValue
  * 
- * sqlDeleteAll($sqlTable, $withDebug = false)       -> Delete all from a table
  * sqlGetNumber($sqlQueryResult)                     -> Get number of rows of a query
  * 
  * </code>
@@ -169,13 +150,15 @@ class sqlAbstractionLayer {
 	// CONSTRUCTOR AND DESTRUCTOR
 	//--------------------------------------------------------
 	
+	
+	
 	/**
 	 * Default constructor
 	 * 
 	 * @param String $sqlInterface
 	 * @param Object $tcmsTimeObj = null (optional)
 	 */
-	public function __construct($sqlInterface, $tcmsTimeObj = null){
+	public function __construct($sqlInterface, $tcmsTimeObj = null) {
 		$this->_sqlInterface = $sqlInterface;
 		
 		if($tcmsTimeObj != null) {
@@ -188,7 +171,7 @@ class sqlAbstractionLayer {
 	/**
 	 * Default destructor
 	 */
-	public function __destruct(){
+	public function __destruct() {
 	}
 	
 	
@@ -196,6 +179,8 @@ class sqlAbstractionLayer {
 	//--------------------------------------------------------
 	// PROPERTIES
 	//--------------------------------------------------------
+	
+	
 	
 	/**
 	 * Set the tcms_time object
@@ -212,6 +197,8 @@ class sqlAbstractionLayer {
 	// SIMPLE LAYER
 	//--------------------------------------------------------
 	
+	
+	
 	/**
 	 * sqlError
 	 * 
@@ -223,7 +210,23 @@ class sqlAbstractionLayer {
 	 * @return Array SQL Error Message in an Array with fields:
 	 */
 	public function error($sqlErrorNumber) {
-		return $this->sqlError($sqlErrorNumber);
+		$arr_sqlErrorMSG['num'][0] = 0;
+		$arr_sqlErrorMSG['msg'][0] = $this->_sqlInterface.' Database Connection failed!';
+		
+		$arr_sqlErrorMSG['num'][1] = 1;
+		$arr_sqlErrorMSG['msg'][1] = 'No <strong>sqlAbstractionLayer</strong> Object initialized!';
+		
+		
+		$returnError['num'] = $arr_sqlErrorMSG['num'][$sqlErrorNumber];
+		$returnError['msg'] = $arr_sqlErrorMSG['msg'][$sqlErrorNumber];
+		
+		/*
+		$fp = fopen('log.txt', 'w');
+		fwrite($fp, $returnError['num'].' --- '.$returnError['msg']);
+		fclose($fp);
+		*/
+		
+		return $returnError;
 	}
 	
 	
@@ -255,7 +258,55 @@ class sqlAbstractionLayer {
 	 * @return Integer MySql Connection ID
 	 */
 	public function connectWithoutDB($sqlUser, $sqlPassword, $sqlHost, $sqlPort) {
-		return $this->sqlConnectWithoutDB($sqlUser, $sqlPassword, $sqlHost, $sqlPort);
+		if(isset($this->_sqlInterface) 
+		&& !empty($this->_sqlInterface) 
+		&& $this->_sqlInterface != '') {
+			$this->_sqlUsername = $sqlUser;
+			$this->_sqlPassword = $sqlPassword;
+			$this->_sqlHost = $sqlHost;
+			//$this->_sqlDB = $sqlDB;
+			
+			if($sqlPort != '' || !empty($sqlPort)) {
+				$this->_sqlPort = $sqlPort;
+			}
+			
+			switch($this->_sqlInterface) {
+				case 'mysql':
+					$sqlConnectionID = @mysql_connect($this->_sqlHost, $this->_sqlUsername, $this->_sqlPassword);
+					
+					if($sqlConnectionID == false) {
+						$sqlConnectionID = $this->error(0);
+					}
+					break;
+				
+				case 'pgsql':
+					$conn_string = ' user='.$this->_sqlUsername.' password='.$this->_sqlPassword.' host='.$this->_sqlHost;
+  					$conn_string .= isset($this->_sqlPort) ? ' port='.$this->_sqlPort : '';
+					$sqlConnectionID = @pg_connect($conn_string);
+					
+					if($sqlConnectionID == False) {
+						$sqlConnectionID = $this->error(0);
+					}
+					break;
+				
+				case 'sqlite':
+					$sqlConnectionID = @sqlite_open($this->_sqlDB);
+					break;
+				
+				case 'mssql':
+					$sqlConnectionID = @mssql_connect($this->_sqlHost, $this->_sqlUsername, $this->_sqlPassword);
+					
+					if($sqlConnectionID == False) {
+						$sqlConnectionID = $this->error(0);
+					}
+					break;
+			}
+		}
+		else {
+			$sqlConnectionID = $this->error(1);
+		}
+		
+		return $sqlConnectionID;
 	}
 	
 	
@@ -271,7 +322,59 @@ class sqlAbstractionLayer {
 	 * @return Integer MySql Connection ID
 	 */
 	public function persistConnect($sqlUser, $sqlPassword, $sqlHost, $sqlDB, $sqlPort) {
-		return $this->sqlPersistConnect($sqlUser, $sqlPassword, $sqlHost, $sqlDB, $sqlPort);
+		if(isset($this->_sqlInterface) 
+		&& !empty($this->_sqlInterface) 
+		&& $this->_sqlInterface != '') {
+			$this->_sqlUsername = $sqlUser;
+			$this->_sqlPassword = $sqlPassword;
+			$this->_sqlHost = $sqlHost;
+			$this->_sqlDB = $sqlDB;
+			
+			if($sqlPort != '' || !empty($sqlPort)) {
+				$this->_sqlPort = $sqlPort;
+			}
+			
+			switch($this->_sqlInterface) {
+				case 'mysql':
+					$sqlConnectionID = @mysql_pconnect($this->_sqlHost, $this->_sqlUsername, $this->_sqlPassword);
+					
+					if($sqlConnectionID) {
+						$sqlConnectionID = mysql_select_db($this->_sqlDB);
+					}
+					else {
+						$sqlConnectionID = $this->error(0);
+					}
+					break;
+				
+				case 'pgsql':
+					$sqlConnectionID = @pg_pconnect('host='.$this->_sqlHost.''.( isset($this->_sqlPort) && !empty($this->_sqlPort) ? ' port='.$this->_sqlPort : '' ).' dbname='.$this->_sqlDB.' user='.$this->_sqlUsername.' password='.$this->_sqlPassword);
+					
+					if($sqlConnectionID == False) {
+						$sqlConnectionID = $this->error(0);
+					}
+					break;
+				
+				case 'sqlite':
+					$sqlConnectionID = @sqlite_popen($this->_sqlDB);
+					break;
+				
+				case 'mssql':
+					$sqlConnectionID = @mssql_pconnect($this->_sqlHost, $this->_sqlUsername, $this->_sqlPassword);
+					
+					if($sqlConnectionID) {
+						$sqlConnectionID = mssql_select_db($this->_sqlDB);
+					}
+					else {
+						$sqlConnectionID = $this->error(0);
+					}
+					break;
+			}
+		}
+		else {
+			$sqlConnectionID = $this->error(1);
+		}
+		
+		return $sqlConnectionID;
 	}
 	
 	
@@ -283,7 +386,25 @@ class sqlAbstractionLayer {
 	 * @return Boolean
 	 */
 	public function disconnect($sqlConnectionID) {
-		return $this->sqlDisconnect($sqlConnectionID);
+		switch($this->_sqlInterface) {
+			case 'mysql':
+				$bClose = @mysql_close($sqlConnectionID);
+				break;
+			
+			case 'pgsql':
+				$bClose = @pg_close($sqlConnectionID);
+				break;
+			
+			case 'sqlite':
+				$bClose = @sqlite_close($sqlConnectionID);
+				break;
+			
+			case 'mssql':
+				$bClose = @mssql_close($sqlConnectionID);
+				break;
+		}
+		
+		return $bClose;
 	}
 	
 	
@@ -295,7 +416,25 @@ class sqlAbstractionLayer {
 	 * @return Boolean
 	 */
 	public function createDB($sqlNewDBTitle) {
-		return $this->sqlCreateDB($sqlNewDBTitle);
+		switch($this->_sqlInterface) {
+			case 'mysql':
+				$bCreate = @mysql_create_db($sqlNewDBTitle);
+				break;
+			
+			case 'pgsql':
+				$bCreate = false;
+				break;
+			
+			case 'sqlite':
+				$bCreate = false;
+				break;
+			
+			case 'mssql':
+				$bCreate = false;
+				break;
+		}
+		
+		return $bCreate;
 	}
 	
 	
@@ -307,7 +446,7 @@ class sqlAbstractionLayer {
 	 * @param Boolean $withDebug = false
 	 * @return Boolean
 	 */
-	public function query($sqlQueryString, $withDebug = false){
+	public function query($sqlQueryString, $withDebug = false) {
 		return $this->sqlQuery($sqlQueryString, $withDebug);
 	}
 	
@@ -444,7 +583,77 @@ class sqlAbstractionLayer {
 	 * @return Integer
 	 */
 	public function deleteIndividual($sqlTable, $sqlIndividual, $sqlValue, $withDebug = false) {
-		return $this->sqlDeleteIdv($sqlTable, $sqlIndividual, $sqlValue, $withDebug);
+		global $tcms_time;
+		
+		switch($this->_sqlInterface) {
+			case 'mysql':
+				if($withDebug) {
+					$fp = fopen('log_sqlDeleteIdv_'.microtime().'.txt', 'w');
+					fwrite($fp, 'DELETE FROM '.$sqlTable.' WHERE '.$sqlIndividual.' = "'.$sqlValue.'"');
+					fclose($fp);
+				}
+				
+				//tcms_time::tcms_query_counter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
+				
+				$sqlResult = mysql_query('DELETE FROM '.$sqlTable.' WHERE '.$sqlIndividual.' = "'.$sqlValue.'"');
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.mysql_error();
+				}
+				break;
+			
+			case 'pgsql':
+				if($withDebug) {
+					$fp = fopen('log_sqlDeleteIdv_'.microtime().'.txt', 'w');
+					fwrite($fp, "DELETE FROM ".$sqlTable." WHERE ".$sqlIndividual." = '".$sqlValue."'");
+					fclose($fp);
+				}
+				
+				//tcms_time::tcms_query_counter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
+				
+				$sqlResult = pg_query("DELETE FROM ".$sqlTable." WHERE ".$sqlIndividual." = '".$sqlValue."'");
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.pg_result_error();
+				}
+				break;
+			
+			case 'sqlite':
+				//tcms_time::tcms_query_counter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
+				
+				$sqlResult = sqlite_query('DELETE FROM '.$sqlTable.' WHERE '.$sqlIndividual.' = "'.$sqlValue.'"');
+				$sqlError  = sqlite_last_error($this->_sqlDB);
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.sqlite_error_string($sqlError);
+				}
+				break;
+			
+			case 'mssql':
+				//tcms_time::tcms_query_counter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
+				
+				$sqlQueryString = "DELETE FROM ".$sqlTable." WHERE ".$sqlIndividual." = '".$sqlValue."'";
+				
+				$sqlResult = mssql_query($sqlQueryString);
+				
+				if(!$sqlResult) { $sqlResult = 'Invalid query: '.$sqlQueryString;
+				}
+				break;
+		}
+		
+		return $sqlResult;
 	}
 	
 	
@@ -457,7 +666,78 @@ class sqlAbstractionLayer {
 	 * @return Integer
 	 */
 	public function deleteAll($sqlTable, $withDebug = false) {
-		return $this->sqlDeleteAll($sqlTable, $withDebug);
+		global $tcms_time;
+		
+		switch($this->_sqlInterface) {
+			case 'mysql':
+				if($withDebug) {
+					$fp = fopen('log_sqlDeleteAll_'.microtime().'.txt', 'w');
+					fwrite($fp, 'DELETE FROM '.$sqlTable);
+					fclose($fp);
+				}
+				
+				//tcms_time::tcms_query_counter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
+				
+				$sqlResult = mysql_query('DELETE FROM '.$sqlTable);
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.mysql_error();
+				}
+				break;
+			
+			case 'pgsql':
+				if($withDebug) {
+					$fp = fopen('log_sqlDeleteAll_'.microtime().'.txt', 'w');
+					fwrite($fp, "DELETE FROM ".$sqlTable);
+					fclose($fp);
+				}
+				
+				//tcms_time::tcms_query_counter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
+				
+				$sqlResult = pg_query("DELETE FROM ".$sqlTable);
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.pg_result_error();
+				}
+				break;
+			
+			case 'sqlite':
+				//tcms_time::tcms_query_counter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
+				
+				$sqlResult = sqlite_query('DELETE FROM '.$sqlTable);
+				$sqlError  = sqlite_last_error($this->_sqlDB);
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.sqlite_error_string($sqlError);
+				}
+				break;
+			
+			case 'mssql':
+				//tcms_time::tcms_query_counter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
+				
+				$sqlQueryString = "DELETE FROM ".$sqlTable;
+				
+				$sqlResult = mssql_query($sqlQueryString);
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.$sqlQueryString;
+				}
+				break;
+		}
+		
+		return $sqlResult;
 	}
 	
 	
@@ -472,7 +752,7 @@ class sqlAbstractionLayer {
 	public function deleteTable($tableName, $withDebug = false) {
 		global $tcms_time;
 		
-		switch($this->_sqlInterface){
+		switch($this->_sqlInterface) {
 			case 'mysql':
 				$sql = 'DROP TABLE '.$tableName;
 				
@@ -578,7 +858,7 @@ class sqlAbstractionLayer {
 	public function search($sqlTable, $sqlSearchColumn, $sqlSearchWord, $withDebug = false) {
 		global $tcms_time;
 		
-		switch($this->_sqlInterface){
+		switch($this->_sqlInterface) {
 			case 'mysql':
 				if($withDebug) {
 					$fp = fopen('log_'.microtime().'.txt', 'w');
@@ -685,9 +965,9 @@ class sqlAbstractionLayer {
 		
 		$sqlDump = new tcms_sql_dump();
 		
-		switch($this->_sqlInterface){
+		switch($this->_sqlInterface) {
 			case 'mysql':
-				if($with_output == 1){
+				if($with_output == 1) {
 					$fp = fopen('../../cache/mysql_database_backup_['.$this->_sqlDB.'].sql', 'w');
 					fwrite(
 						$fp, 
@@ -701,7 +981,7 @@ class sqlAbstractionLayer {
 					);
 					fclose($fp);
 				}
-				else{
+				else {
 					$sqlResult = htmlspecialchars($sqlDump->MySQLBackup($this->_sqlHost, $this->_sqlDB, $this->_sqlUsername, $this->_sqlPassword, $structure_only));
 				}
 				break;
@@ -749,10 +1029,10 @@ class sqlAbstractionLayer {
 	public function createUID($sqlTable, $sqlNumber) {
 		$uidExists = true;
 		
-		while($uidExists){
+		while($uidExists) {
 			$sqlUID = substr(md5(microtime()), 0, $sqlNumber);
 			
-			switch($this->_sqlInterface){
+			switch($this->_sqlInterface) {
 				case 'mysql':
 					$sqlResult = @mysql_query('SELECT * FROM '.$sqlTable.' WHERE uid="'.$sqlUID.'"');
 					
@@ -815,7 +1095,7 @@ class sqlAbstractionLayer {
 	 * @return String
 	 */
 	public function getStats() {
-		switch($this->_sqlInterface){
+		switch($this->_sqlInterface) {
 			case 'mysql':
 				$sqlStats = mysql_stat();
 				break;
@@ -838,36 +1118,6 @@ class sqlAbstractionLayer {
 	// MAIN public functionS
 	//--------------------------------------------------------
 	
-	/**
-	 * sqlError
-	 * 
-	 * Array:
-	 * -> num - Error Number
-	 * -> msg - Message
-	 * 
-	 * @param UnknownType $sqlErrorNumber
-	 * @return Array SQL Error Message in an Array with fields:
-	 */
-	public function sqlError($sqlErrorNumber){
-		$arr_sqlErrorMSG['num'][0] = 0;
-		$arr_sqlErrorMSG['msg'][0] = $this->_sqlInterface.' Database Connection failed!';
-		
-		$arr_sqlErrorMSG['num'][1] = 1;
-		$arr_sqlErrorMSG['msg'][1] = 'No <strong>sqlAbstractionLayer</strong> Object initialized!';
-		
-		
-		$returnError['num'] = $arr_sqlErrorMSG['num'][$sqlErrorNumber];
-		$returnError['msg'] = $arr_sqlErrorMSG['msg'][$sqlErrorNumber];
-		
-		/*
-		$fp = fopen('log.txt', 'w');
-		fwrite($fp, $returnError['num'].' --- '.$returnError['msg']);
-		fclose($fp);
-		*/
-		
-		return $returnError;
-	}
-	
 	
 	
 	/**
@@ -880,8 +1130,8 @@ class sqlAbstractionLayer {
 	 * @param Integer $sqlPort
 	 * @return Integer MySql Connection ID
 	 */
-	public function sqlConnect($sqlUser, $sqlPassword, $sqlHost, $sqlDB, $sqlPort){
-		if(isset($this->_sqlInterface) && !empty($this->_sqlInterface) && $this->_sqlInterface != ''){
+	public function sqlConnect($sqlUser, $sqlPassword, $sqlHost, $sqlDB, $sqlPort) {
+		if(isset($this->_sqlInterface) && !empty($this->_sqlInterface) && $this->_sqlInterface != '') {
 			$this->_sqlUsername = $sqlUser;
 			$this->_sqlPassword = $sqlPassword;
 			$this->_sqlHost = $sqlHost;
@@ -891,7 +1141,7 @@ class sqlAbstractionLayer {
 				$this->_sqlPort = $sqlPort;
 			}
 			
-			switch($this->_sqlInterface){
+			switch($this->_sqlInterface) {
 				case 'mysql':
 					$sqlConnectionID = @mysql_connect($this->_sqlHost, $this->_sqlUsername, $this->_sqlPassword);
 					
@@ -899,7 +1149,7 @@ class sqlAbstractionLayer {
 						$sqlConnectionID = mysql_select_db($this->_sqlDB);
 					}
 					else {
-						$sqlConnectionID = $this->sqlError(0);
+						$sqlConnectionID = $this->error(0);
 					}
 					break;
 				
@@ -909,7 +1159,7 @@ class sqlAbstractionLayer {
 					$sqlConnectionID = @pg_connect($conn_string);
 					
 					if($sqlConnectionID == False) {
-						$sqlConnectionID = $this->sqlError(0);
+						$sqlConnectionID = $this->error(0);
 					}
 					break;
 				
@@ -924,207 +1174,16 @@ class sqlAbstractionLayer {
 						$sqlConnectionID = @mssql_select_db($this->_sqlDB);
 					}
 					else {
-						$sqlConnectionID = $this->sqlError(0);
+						$sqlConnectionID = $this->error(0);
 					}
 					break;
 			}
 		}
 		else {
-			$sqlConnectionID = $this->sqlError(1);
+			$sqlConnectionID = $this->error(1);
 		}
 		
 		return $sqlConnectionID;
-	}
-	
-	
-	
-	/**
-	 * DB Connector (without database)
-	 * 
-	 * @param String $sqlUser
-	 * @param String $sqlPassword
-	 * @param String $sqlHost
-	 * @param String $sqlDB
-	 * @param Integer $sqlPort
-	 * @return Integer MySql Connection ID
-	 */
-	public function sqlConnectWithoutDB($sqlUser, $sqlPassword, $sqlHost, $sqlPort){
-		if(isset($this->_sqlInterface) && !empty($this->_sqlInterface) && $this->_sqlInterface != ''){
-			
-			$this->_sqlUsername = $sqlUser;
-			$this->_sqlPassword = $sqlPassword;
-			$this->_sqlHost = $sqlHost;
-			//$this->_sqlDB = $sqlDB;
-			
-			if($sqlPort != '' || !empty($sqlPort)) {
-				$this->_sqlPort = $sqlPort;
-			}
-			
-			switch($this->_sqlInterface) {
-				case 'mysql':
-					$sqlConnectionID = @mysql_connect($this->_sqlHost, $this->_sqlUsername, $this->_sqlPassword);
-					
-					if($sqlConnectionID == false) {
-						$sqlConnectionID = $this->sqlError(0);
-					}
-					break;
-				
-				case 'pgsql':
-					$conn_string = ' user='.$this->_sqlUsername.' password='.$this->_sqlPassword.' host='.$this->_sqlHost;
-  					$conn_string .= isset($this->_sqlPort) ? ' port='.$this->_sqlPort : '';
-					$sqlConnectionID = @pg_connect($conn_string);
-					
-					if($sqlConnectionID == False) {
-						$sqlConnectionID = $this->sqlError(0);
-					}
-					break;
-				
-				case 'sqlite':
-					$sqlConnectionID = @sqlite_open($this->_sqlDB);
-					break;
-				
-				case 'mssql':
-					$sqlConnectionID = @mssql_connect($this->_sqlHost, $this->_sqlUsername, $this->_sqlPassword);
-					
-					if($sqlConnectionID == False) {
-						$sqlConnectionID = $this->sqlError(0);
-					}
-					break;
-			}
-		}
-		else {
-			$sqlConnectionID = $this->sqlError(1);
-		}
-		
-		return $sqlConnectionID;
-	}
-	
-	
-	
-	/**
-	 * DB Connector (persist)
-	 * 
-	 * @param String $sqlUser
-	 * @param String $sqlPassword
-	 * @param String $sqlHost
-	 * @param String $sqlDB
-	 * @param Integer $sqlPort
-	 * @return Integer MySql Connection ID
-	 */
-	public function sqlPersistConnect($sqlUser, $sqlPassword, $sqlHost, $sqlDB, $sqlPort){
-		if(isset($this->_sqlInterface) 
-		&& !empty($this->_sqlInterface) 
-		&& $this->_sqlInterface != '') {
-			$this->_sqlUsername = $sqlUser;
-			$this->_sqlPassword = $sqlPassword;
-			$this->_sqlHost = $sqlHost;
-			$this->_sqlDB = $sqlDB;
-			
-			if($sqlPort != '' || !empty($sqlPort)) {
-				$this->_sqlPort = $sqlPort;
-			}
-			
-			switch($this->_sqlInterface){
-				case 'mysql':
-					$sqlConnectionID = @mysql_pconnect($this->_sqlHost, $this->_sqlUsername, $this->_sqlPassword);
-					
-					if($sqlConnectionID) {
-						$sqlConnectionID = mysql_select_db($this->_sqlDB);
-					}
-					else {
-						$sqlConnectionID = $this->sqlError(0);
-					}
-					break;
-				
-				case 'pgsql':
-					$sqlConnectionID = @pg_pconnect('host='.$this->_sqlHost.''.( isset($this->_sqlPort) && !empty($this->_sqlPort) ? ' port='.$this->_sqlPort : '' ).' dbname='.$this->_sqlDB.' user='.$this->_sqlUsername.' password='.$this->_sqlPassword);
-					
-					if($sqlConnectionID == False) {
-						$sqlConnectionID = $this->sqlError(0);
-					}
-					break;
-				
-				case 'sqlite':
-					$sqlConnectionID = @sqlite_popen($this->_sqlDB);
-					break;
-				
-				case 'mssql':
-					$sqlConnectionID = @mssql_pconnect($this->_sqlHost, $this->_sqlUsername, $this->_sqlPassword);
-					
-					if($sqlConnectionID) {
-						$sqlConnectionID = mssql_select_db($this->_sqlDB);
-					}
-					else {
-						$sqlConnectionID = $this->sqlError(0);
-					}
-					break;
-			}
-		}
-		else {
-			$sqlConnectionID = $this->sqlError(1);
-		}
-		
-		return $sqlConnectionID;
-	}
-	
-	
-	
-	/**
-	 * DB Disconnector
-	 * 
-	 * @param Integer $sqlConnectionID
-	 * @return Boolean
-	 */
-	public function sqlDisconnect($sqlConnectionID){
-		switch($this->_sqlInterface) {
-			case 'mysql':
-				$bClose = @mysql_close($sqlConnectionID);
-				break;
-			
-			case 'pgsql':
-				$bClose = @pg_close($sqlConnectionID);
-				break;
-			
-			case 'sqlite':
-				$bClose = @sqlite_close($sqlConnectionID);
-				break;
-			
-			case 'mssql':
-				$bClose = @mssql_close($sqlConnectionID);
-				break;
-		}
-		
-		return $bClose;
-	}
-	
-	
-	
-	/**
-	 * Create database
-	 * 
-	 * @param String $sqlNewDBTitle
-	 * @return Boolean
-	 */
-	public function sqlCreateDB($sqlNewDBTitle){
-		switch($this->_sqlInterface){
-			case 'mysql':
-				$bCreate = @mysql_create_db($sqlNewDBTitle);
-				break;
-			
-			case 'pgsql':
-				$bCreate = false;
-				break;
-			
-			case 'sqlite':
-				$bCreate = false;
-				break;
-			
-			case 'mssql':
-				$bCreate = false;
-				break;
-		}
-		
-		return $bCreate;
 	}
 	
 	
@@ -1141,10 +1200,10 @@ class sqlAbstractionLayer {
 	 * @param Boolean $withDebug = false
 	 * @return Boolean
 	 */
-	public function sqlQuery($sqlQueryString, $withDebug = false){
+	public function sqlQuery($sqlQueryString, $withDebug = false) {
 		global $tcms_time;
 		
-		switch($this->_sqlInterface){
+		switch($this->_sqlInterface) {
 			case 'mysql':
 				if($withDebug) {
 					$fp = fopen('log_sqlQuery_'.microtime().'.txt', 'w');
@@ -1220,8 +1279,8 @@ class sqlAbstractionLayer {
 	 * @param Resource $sqlQueryResult
 	 * @return Array
 	 */
-	public function sqlFetchArray($sqlQueryResult){
-		switch($this->_sqlInterface){
+	public function sqlFetchArray($sqlQueryResult) {
+		switch($this->_sqlInterface) {
 			case 'mysql':
 				$fetchArray = @mysql_fetch_array($sqlQueryResult);
 				break;
@@ -1250,8 +1309,8 @@ class sqlAbstractionLayer {
 	 * @param Resource $sqlQueryResult
 	 * @return Object
 	 */
-	public function sqlFetchObject($sqlQueryResult){
-		switch($this->_sqlInterface){
+	public function sqlFetchObject($sqlQueryResult) {
+		switch($this->_sqlInterface) {
 			case 'mysql':
 				$fetchObject = @mysql_fetch_object($sqlQueryResult);
 				break;
@@ -1279,8 +1338,8 @@ class sqlAbstractionLayer {
 	 *
 	 * @param resource $sqlQueryResult
 	 */
-	public function sqlFreeResult($sqlQueryResult){
-		switch($this->_sqlInterface){
+	public function sqlFreeResult($sqlQueryResult) {
+		switch($this->_sqlInterface) {
 			case 'mysql':
 				@mysql_free_result($sqlQueryResult);
 				break;
@@ -1307,10 +1366,10 @@ class sqlAbstractionLayer {
 	 * @param String $sqlTable
 	 * @return Fetchable Result
 	 */
-	public function sqlGetAll($sqlTable){
+	public function sqlGetAll($sqlTable) {
 		global $tcms_time;
 		
-		switch($this->_sqlInterface){
+		switch($this->_sqlInterface) {
 			case 'mysql':
 				//tcms_time::tcms_query_counter();
 				if($tcms_time != null) {
@@ -1320,7 +1379,7 @@ class sqlAbstractionLayer {
 				$sqlResult = mysql_query('SELECT * FROM '.$sqlTable);
 				
 				if(!$sqlResult) {
-					$sqlResult = 'Invalid query: ' . mysql_error();
+					$sqlResult = 'Invalid query: '.mysql_error();
 				}
 				break;
 			
@@ -1333,7 +1392,7 @@ class sqlAbstractionLayer {
 				$sqlResult = pg_query('SELECT * FROM '.$sqlTable);
 				
 				if(!$sqlResult) {
-					$sqlResult = 'Invalid query: ' . pg_result_error();
+					$sqlResult = 'Invalid query: '.pg_result_error();
 				}
 				break;
 			
@@ -1347,7 +1406,7 @@ class sqlAbstractionLayer {
 				$sqlError  = sqlite_last_error($this->_sqlDB);
 				
 				if(!$sqlResult) {
-					$sqlResult = 'Invalid query: ' . sqlite_error_string($sqlError);
+					$sqlResult = 'Invalid query: '.sqlite_error_string($sqlError);
 				}
 				break;
 			
@@ -1377,10 +1436,10 @@ class sqlAbstractionLayer {
 	 * @param String $sqlUID
 	 * @return Fetchable Result
 	 */
-	public function sqlGetOne($sqlTable, $sqlUID){
+	public function sqlGetOne($sqlTable, $sqlUID) {
 		global $tcms_time;
 		
-		switch($this->_sqlInterface){
+		switch($this->_sqlInterface) {
 			case 'mysql':
 				//tcms_time::tcms_query_counter();
 				if($tcms_time != null) {
@@ -1417,7 +1476,7 @@ class sqlAbstractionLayer {
 				$sqlResult = sqlite_query('SELECT * FROM '.$sqlTable.' WHERE uid = "'.$sqlUID.'"');
 				$sqlError  = sqlite_last_error($this->_sqlDB);
 				
-				if(!$sqlResult){
+				if(!$sqlResult) {
 					$sqlResult = 'Invalid query: ' . sqlite_error_string($sqlError);
 				}
 				break;
@@ -1455,10 +1514,10 @@ class sqlAbstractionLayer {
 	 * @param String $withDebug = false
 	 * @return Integer
 	 */
-	public function sqlUpdateOne($sqlTable, $newDataString, $sqlUID, $withDebug = false){
+	public function sqlUpdateOne($sqlTable, $newDataString, $sqlUID, $withDebug = false) {
 		global $tcms_time;
 		
-		switch($this->_sqlInterface){
+		switch($this->_sqlInterface) {
 			case 'mysql':
 				if($withDebug) {
 					//echo 'UPDATE '.$sqlTable.' SET '.$newDataString.' WHERE uid = "'.$sqlUID.'"';
@@ -1479,7 +1538,7 @@ class sqlAbstractionLayer {
 				}
 				
 				$sqlResult = mysql_query('UPDATE '.$sqlTable.' SET '.$newDataString.' WHERE uid = "'.$sqlUID.'"');
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . mysql_error(); }
+				if(!$sqlResult) { $sqlResult = 'Invalid query: ' . mysql_error(); }
 				break;
 			
 			case 'pgsql':
@@ -1499,7 +1558,7 @@ class sqlAbstractionLayer {
 				}
 				
 				$sqlResult = pg_query("UPDATE ".$sqlTable." SET ".$newDataString."  WHERE uid = '".$sqlUID."'");
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . pg_result_error(); }
+				if(!$sqlResult) { $sqlResult = 'Invalid query: ' . pg_result_error(); }
 				break;
 			
 			case 'sqlite':
@@ -1510,7 +1569,7 @@ class sqlAbstractionLayer {
 				
 				$sqlResult = sqlite_query('UPDATE '.$sqlTable.' SET '.$newDataString.' WHERE uid = "'.$sqlUID.'"');
 				$sqlError  = sqlite_last_error($this->_sqlDB);
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . sqlite_error_string($sqlError); }
+				if(!$sqlResult) { $sqlResult = 'Invalid query: ' . sqlite_error_string($sqlError); }
 				break;
 			
 			case 'mssql':
@@ -1552,10 +1611,10 @@ class sqlAbstractionLayer {
 	 * @param String $withDebug = false
 	 * @return Integer
 	 */
-	public function sqlUpdateField($sqlTable, $newDataString, $sqlField, $sqlUID, $withDebug = false){
+	public function sqlUpdateField($sqlTable, $newDataString, $sqlField, $sqlUID, $withDebug = false) {
 		global $tcms_time;
 		
-		switch($this->_sqlInterface){
+		switch($this->_sqlInterface) {
 			case 'mysql':
 				if($withDebug) {
 					$fp = fopen('log_sqlUpdateOne_'.microtime().'.txt', 'w');
@@ -1653,10 +1712,10 @@ class sqlAbstractionLayer {
 	 * @param String $withDebug = false
 	 * @return Integer
 	 */
-	public function sqlCreateOne($sqlTable, $sqlColumns, $newDataString, $sqlUID, $withDebug = false){
+	public function sqlCreateOne($sqlTable, $sqlColumns, $newDataString, $sqlUID, $withDebug = false) {
 		global $tcms_time;
 		
-		switch($this->_sqlInterface){
+		switch($this->_sqlInterface) {
 			case 'mysql':
 				//tcms_time::tcms_query_counter();
 				if($tcms_time != null) {
@@ -1670,7 +1729,7 @@ class sqlAbstractionLayer {
 				}
 				
 				$sqlResult = mysql_query("INSERT INTO ".$sqlTable." ( ".$sqlColumns.", `uid`) VALUES( ".$newDataString." , '".$sqlUID."' )");
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . mysql_error(); }
+				if(!$sqlResult) { $sqlResult = 'Invalid query: ' . mysql_error(); }
 				break;
 			
 			case 'pgsql':
@@ -1686,7 +1745,7 @@ class sqlAbstractionLayer {
 				}
 				
 				$sqlResult = pg_query("INSERT INTO ".$sqlTable." ( ".$sqlColumns.", uid) VALUES( ".$newDataString." , '".$sqlUID."' )");
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . pg_result_error(); }
+				if(!$sqlResult) { $sqlResult = 'Invalid query: ' . pg_result_error(); }
 				break;
 			
 			case 'sqlite':
@@ -1697,7 +1756,7 @@ class sqlAbstractionLayer {
 				
 				$sqlResult = sqlite_query('INSERT INTO '.$sqlTable.' ( '.$sqlColumns.', "uid") VALUES( '.$newDataString.' , '.$sqlUID.' )');
 				$sqlError  = sqlite_last_error($this->_sqlDB);
-				if(!$sqlResult){ $sqlResult = 'Invalid query: ' . sqlite_error_string($sqlError); }
+				if(!$sqlResult) { $sqlResult = 'Invalid query: ' . sqlite_error_string($sqlError); }
 				break;
 			
 			case 'mssql':
@@ -1735,10 +1794,10 @@ class sqlAbstractionLayer {
 	 * @param String $withDebug = false
 	 * @return Integer
 	 */
-	public function sqlDeleteOne($sqlTable, $sqlUID, $withDebug = false){
+	public function sqlDeleteOne($sqlTable, $sqlUID, $withDebug = false) {
 		global $tcms_time;
 		
-		switch($this->_sqlInterface){
+		switch($this->_sqlInterface) {
 			case 'mysql':
 				if($withDebug) {
 					$fp = fopen('log_sqlDeleteOne_'.microtime().'.txt', 'w');
@@ -1813,182 +1872,13 @@ class sqlAbstractionLayer {
 	
 	
 	/**
-	 * Delete one from a Table where "individual" = ?
-	 * 
-	 * @param String $sqlTable
-	 * @param String $sqlIndividual
-	 * @param String $sqlValue
-	 * @param String $withDebug = false
-	 * @return Integer
-	 */
-	public function sqlDeleteIdv($sqlTable, $sqlIndividual, $sqlValue, $withDebug = false){
-		global $tcms_time;
-		
-		switch($this->_sqlInterface){
-			case 'mysql':
-				if($withDebug) {
-					$fp = fopen('log_sqlDeleteIdv_'.microtime().'.txt', 'w');
-					fwrite($fp, 'DELETE FROM '.$sqlTable.' WHERE '.$sqlIndividual.' = "'.$sqlValue.'"');
-					fclose($fp);
-				}
-				
-				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) {
-					$tcms_time->incrmentSqlQueryCounter();
-				}
-				
-				$sqlResult = mysql_query('DELETE FROM '.$sqlTable.' WHERE '.$sqlIndividual.' = "'.$sqlValue.'"');
-				
-				if(!$sqlResult) {
-					$sqlResult = 'Invalid query: '.mysql_error();
-				}
-				break;
-			
-			case 'pgsql':
-				if($withDebug) {
-					$fp = fopen('log_sqlDeleteIdv_'.microtime().'.txt', 'w');
-					fwrite($fp, "DELETE FROM ".$sqlTable." WHERE ".$sqlIndividual." = '".$sqlValue."'");
-					fclose($fp);
-				}
-				
-				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) {
-					$tcms_time->incrmentSqlQueryCounter();
-				}
-				
-				$sqlResult = pg_query("DELETE FROM ".$sqlTable." WHERE ".$sqlIndividual." = '".$sqlValue."'");
-				
-				if(!$sqlResult) {
-					$sqlResult = 'Invalid query: '.pg_result_error();
-				}
-				break;
-			
-			case 'sqlite':
-				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) {
-					$tcms_time->incrmentSqlQueryCounter();
-				}
-				
-				$sqlResult = sqlite_query('DELETE FROM '.$sqlTable.' WHERE '.$sqlIndividual.' = "'.$sqlValue.'"');
-				$sqlError  = sqlite_last_error($this->_sqlDB);
-				
-				if(!$sqlResult) {
-					$sqlResult = 'Invalid query: '.sqlite_error_string($sqlError);
-				}
-				break;
-			
-			case 'mssql':
-				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) {
-					$tcms_time->incrmentSqlQueryCounter();
-				}
-				
-				$sqlQueryString = "DELETE FROM ".$sqlTable." WHERE ".$sqlIndividual." = '".$sqlValue."'";
-				
-				$sqlResult = mssql_query($sqlQueryString);
-				
-				if(!$sqlResult){ $sqlResult = 'Invalid query: '.$sqlQueryString;
-				}
-				break;
-		}
-		
-		return $sqlResult;
-	}
-	
-	
-	
-	/**
-	 * Delete all from a Table
-	 * 
-	 * @param String $sqlTable
-	 * @param String $withDebug = false
-	 * @return Integer
-	 */
-	public function sqlDeleteAll($sqlTable, $withDebug = false){
-		global $tcms_time;
-		
-		switch($this->_sqlInterface){
-			case 'mysql':
-				if($withDebug) {
-					$fp = fopen('log_sqlDeleteAll_'.microtime().'.txt', 'w');
-					fwrite($fp, 'DELETE FROM '.$sqlTable);
-					fclose($fp);
-				}
-				
-				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) {
-					$tcms_time->incrmentSqlQueryCounter();
-				}
-				
-				$sqlResult = mysql_query('DELETE FROM '.$sqlTable);
-				
-				if(!$sqlResult) {
-					$sqlResult = 'Invalid query: '.mysql_error();
-				}
-				break;
-			
-			case 'pgsql':
-				if($withDebug) {
-					$fp = fopen('log_sqlDeleteAll_'.microtime().'.txt', 'w');
-					fwrite($fp, "DELETE FROM ".$sqlTable);
-					fclose($fp);
-				}
-				
-				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) {
-					$tcms_time->incrmentSqlQueryCounter();
-				}
-				
-				$sqlResult = pg_query("DELETE FROM ".$sqlTable);
-				
-				if(!$sqlResult) {
-					$sqlResult = 'Invalid query: '.pg_result_error();
-				}
-				break;
-			
-			case 'sqlite':
-				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) {
-					$tcms_time->incrmentSqlQueryCounter();
-				}
-				
-				$sqlResult = sqlite_query('DELETE FROM '.$sqlTable);
-				$sqlError  = sqlite_last_error($this->_sqlDB);
-				
-				if(!$sqlResult) {
-					$sqlResult = 'Invalid query: '.sqlite_error_string($sqlError);
-				}
-				break;
-			
-			case 'mssql':
-				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) {
-					$tcms_time->incrmentSqlQueryCounter();
-				}
-				
-				$sqlQueryString = "DELETE FROM ".$sqlTable;
-				
-				$sqlResult = mssql_query($sqlQueryString);
-				
-				if(!$sqlResult) {
-					$sqlResult = 'Invalid query: '.$sqlQueryString;
-				}
-				break;
-		}
-		
-		return $sqlResult;
-	}
-	
-	
-	
-	/**
 	 * Return the number of affected rows of a query
 	 * 
 	 * @param String $sqlQueryResult
 	 * @return Integer
 	 */
-	public function sqlGetNumber($sqlQueryResult){
-		switch($this->_sqlInterface){
+	public function sqlGetNumber($sqlQueryResult) {
+		switch($this->_sqlInterface) {
 			case 'mysql':
 				$sqlResult = @mysql_num_rows($sqlQueryResult);
 				break;

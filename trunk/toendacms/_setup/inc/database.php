@@ -20,7 +20,7 @@
  *
  * This file is used for the database actions.
  *
- * @version 0.7.2
+ * @version 0.7.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -701,7 +701,7 @@ $tcms_db_port     = \''.$set_port.'\';
 	
 	if($new_drop == 1) {
 		$sqlAL = new sqlAbstractionLayer($new_engine);
-		$sqlCN = $sqlAL->sqlConnectWithoutDB($new_user, $new_password, $new_host, $new_port);
+		$sqlCN = $sqlAL->connectWithoutDB($new_user, $new_password, $new_host, $new_port);
 		
 		switch($new_engine){
 			case 'mysql':
@@ -770,7 +770,7 @@ $tcms_db_port     = \''.$set_port.'\';
 					// Create Database
 					//
 					
-					$sqlCN = $sqlAL->sqlConnectWithoutDB($new_user, $new_password, $new_host, $new_port);
+					$sqlCN = $sqlAL->connectWithoutDB($new_user, $new_password, $new_host, $new_port);
 					
 					if(isset($sqlCN['num']) && $sqlCN['num'] == 0){
 						echo '<script>'
@@ -792,7 +792,7 @@ $tcms_db_port     = \''.$set_port.'\';
 					// Create Database
 					//
 					
-					$sqlCN = $sqlAL->sqlConnectWithoutDB($new_user, $new_password, $new_host, $new_port);
+					$sqlCN = $sqlAL->connectWithoutDB($new_user, $new_password, $new_host, $new_port);
 					
 					if(isset($sqlCN['num']) && $sqlCN['num'] == 0){
 						echo '<script>'
