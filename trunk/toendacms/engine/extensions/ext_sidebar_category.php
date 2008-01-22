@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides the news categories for
  * the sidebar.
  *
- * @version 0.4.2
+ * @version 0.4.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -32,23 +32,6 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 if($use_side_category == 1) {
-	if($choosenDB == 'xml') {
-		$side_ext_xml  = new xmlparser(_TCMS_PATH.'/tcms_global/sidebar.xml','r');
-		$show_nacat = $side_ext_xml->readSection('side', 'show_news_cat_amount');
-	}
-	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-		
-		$sqlQR = $sqlAL->getOne($tcms_db_prefix.'sidebar_extensions', 'sidebar_extensions');
-		$sqlARR = $sqlAL->fetchArray($sqlQR);
-		
-		$show_nacat = $sqlARR['show_news_cat_amount'];
-		
-		if($show_nacat == NULL){ $show_nacat = 1; }
-	}
-	
-	
 	echo $tcms_html->subTitle(_NEWS_CATEGORIES_TITLE);
 	
 	
@@ -69,7 +52,7 @@ if($use_side_category == 1) {
 				
 				$catSideName = $tcms_main->decodeText($catSideName, '2', $c_charset);
 				
-				if($show_nacat == 1){
+				if($show_nacat == 1) {
 					$catSideNO = $tcms_main->getNewsCatAmount(substr($cVal, 0, 5), $authSQL1, $authSQL2);
 				}
 				

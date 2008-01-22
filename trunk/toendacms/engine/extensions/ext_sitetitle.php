@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used fore the site title.
  *
- * @version 0.5.3
+ * @version 0.5.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -898,9 +898,22 @@ switch($id){
 						$getLang
 					);
 					
+					$docTitle = $dcContent->getTitle();
+					$docSubtitle = $dcContent->getKeynote();
+					$docContent = $dcContent->getText();
+					$docFooter = $dcContent->getFootText();
+					$docAutor = $dcContent->getAutor();
+					
 					//echo _PATH_HOME;
 					//echo '&nbsp;/&nbsp;';
-					$sitetitleAdditional .= $dcContent->getTitle();
+					$sitetitleAdditional .= $docTitle;
+					
+					if($docTitle != ''
+					&& $docSubtitle != '') {
+						$sitetitleAdditional .= ' - ';
+					}
+					
+					$sitetitleAdditional .= $docSubtitle;
 				}
 				else {
 					$sitetitleAdditional .= $pathway[$id];

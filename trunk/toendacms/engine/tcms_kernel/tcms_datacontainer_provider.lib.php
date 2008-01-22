@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.4.8
+ * @version 1.4.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -1681,17 +1681,17 @@ class tcms_datacontainer_provider extends tcms_main {
 		$wsSecondText = $this->decodeText($wsSecondText, '2', $this->m_CHARSET);
 		$wsFootText   = $this->decodeText($wsFootText, '2', $this->m_CHARSET);
 		
-		$contentDC->setTitle($wsTitle);
-		$contentDC->setKeynote($wsKeynote);
-		$contentDC->setText($wsText);
-		$contentDC->setSecondContent($wsSecondText);
-		$contentDC->setFootText($wsFootText);
-		$contentDC->setAutor($wsAutor);
-		//$contentDC->setTextLayout($wsLayout);
-		$contentDC->setID($wsID);
-		$contentDC->setInWorkState($wsInWork);
-		$contentDC->setPublished($wsPub);
-		$contentDC->setAccess($wsAcs);
+		$contentDC->setTitle(trim($wsTitle));
+		$contentDC->setKeynote(trim($wsKeynote));
+		$contentDC->setText(trim($wsText));
+		$contentDC->setSecondContent(trim($wsSecondText));
+		$contentDC->setFootText(trim($wsFootText));
+		$contentDC->setAutor(trim($wsAutor));
+		//$contentDC->setTextLayout(trim($wsLayout));
+		$contentDC->setID(trim($wsID));
+		$contentDC->setInWorkState(trim($wsInWork));
+		$contentDC->setPublished(trim($wsPub));
+		$contentDC->setAccess(trim($wsAcs));
 		
 		if($withLanguages && $no > 0) {
 			$contentDC->setLanguage($wsLang);

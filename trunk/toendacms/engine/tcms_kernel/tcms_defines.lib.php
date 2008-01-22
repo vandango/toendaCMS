@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for global values
  *
- * @version 0.7.1
+ * @version 0.7.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -354,31 +354,35 @@ if(!defined('_SITE_METATAG_DESCRIPTION')) define('_SITE_METATAG_DESCRIPTION', $d
 
 
 /* _SITE_METATAG_AUTOR */
-if(!in_array($id, $arrTCMSModules)){
-	if($choosenDB == 'xml'){
-		if(file_exists(_TCMS_PATH.'/tcms_content/'.$id.'.xml')) {
-			$content_xml = new xmlparser(_TCMS_PATH.'/tcms_content/'.$id.'.xml','r');
-			$doc_Autor = $content_xml->readSection('main', 'autor');
+$dynamicDescription = '';
+$dynamicKeywords = '';
+
+if(!in_array($id, $arrTCMSModules)) {
+	$arrContentAccess = $tcms_dcp->getContentAccess($id);
+	$authorized = $arrContentAccess['authorized'];
+	$content_published = $arrContentAccess['content_published'];
+	
+	if($content_published == 1) {
+		$ws_auth = $tcms_main->checkAccess($authorized, $is_admin);
+		
+		if($ws_auth) {
+			using('toendacms.datacontainer.content');
+			
+			$dcContent = new tcms_dc_content();
+			$dcContent = $tcms_dcp->getContentDC($id, true, $getLang);
+			
+			$docTitle = $dcContent->getTitle();
+			$docSubtitle = $dcContent->getKeynote();
+			$docContent = $dcContent->getText();
+			$docFooter = $dcContent->getFootText();
+			$docAutor = $dcContent->getAutor();
+			
+			$dynamicDescription = $tcms_main->getDocumentMetatagDescription($docContent);
+			$dynamicKeywords = $tcms_main->getDocumentMetatagKeywords($docContent);
 		}
-		else if(file_exists(_TCMS_PATH.'/tcms_content_languages/'.$id.'.xml')) {
-			$xml = new xmlparser(_TCMS_PATH.'/tcms_content_languages/'.$id.'.xml','r');
-			$id_meta_ad = $xml->readSection('main', 'title');
-			$id_meta_ad = $tcms_main->decodeText($id_meta_ad, '2', $c_charset);
-			$xml->flush();
-			unset($xml);
-		}
-	}
-	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-		$sqlQR = $sqlAL->getOne($tcms_db_prefix.'content', $id);
-		$sqlObj = $sqlAL->fetchObject($sqlQR);
-		$doc_Autor = $sqlObj->autor;
-		$sqlAL->freeResult($sqlQR);
-		unset($sqlAL);
 	}
 	
-	$websiteownerMETA = $websiteowner.' ('._TABLE_AUTOR.': '.$doc_Autor.')';
+	$websiteownerMETA = $websiteowner.' ('._TABLE_AUTOR.': '.$docAutor.')';
 }
 else {
 	$websiteownerMETA = $websiteowner;
@@ -400,9 +404,9 @@ if(!defined('_SITE_LOGO')) define('_SITE_LOGO', $sitelogo);
 /* METADATA */
 $strMetaData = '<meta http-equiv="Content-Type" content="text/html; charset='.$c_charset.'" />
 <meta name="generator" content="'.$tcms_version->getName().' - '.$tcms_version->getTagline().'! - Version '.$tcms_version->getVersion().' '.$tcms_version->getBuild().' | Copyright '.$tcms_version->getToendaCopyright().' Toenda Software Development. '._TCMS_ADMIN_RIGHT.'" />
-<meta name="description" content="'._SITE_METATAG_DESCRIPTION.'" />
-<meta name="keywords" content="'._SITE_METATAG_KEYWORDS.'" />
-<meta name="Page-topic" content="'._SITE_METATAG_KEYWORDS.'" />
+<meta name="description" content="'._SITE_METATAG_DESCRIPTION.$dynamicDescription.'" />
+<meta name="keywords" content="'._SITE_METATAG_KEYWORDS.$dynamicKeywords.'" />
+<meta name="page-topic" content="'._SITE_METATAG_KEYWORDS.$dynamicKeywords.'" />
 <meta name="copyright" content="'._SITE_METATAG_AUTOR.' (c) '.$tcms_config->getWebpageCopyright().'" />
 <meta name="publisher" content="'._SITE_METATAG_AUTOR.'" />
 <meta name="author" content="'._SITE_METATAG_AUTOR.'" />

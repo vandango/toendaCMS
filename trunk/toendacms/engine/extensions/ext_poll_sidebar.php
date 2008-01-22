@@ -52,9 +52,9 @@ if($use_poll == 1) {
 	*/
 	if($choosenDB == 'xml'){
 		$poll_xml = new xmlparser(_TCMS_PATH.'/tcms_global/poll.xml','r');
-		$show_pt         = $poll_xml->read_section('poll', 'show_poll_title');
-		$stitle_ext_poll = $poll_xml->read_section('poll', 'poll_title');
-		$sw_poll         = $poll_xml->read_section('poll', 'poll_side_width');
+		$show_pt         = $poll_xml->readSection('poll', 'show_poll_title');
+		$stitle_ext_poll = $poll_xml->readSection('poll', 'poll_title');
+		$sw_poll         = $poll_xml->readSection('poll', 'poll_side_width');
 	}
 	else{
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -175,7 +175,7 @@ if($use_poll == 1) {
 			if($use_poll == 1){
 				if($choosenDB == 'xml'){
 					$vote_xml = new xmlparser(_TCMS_PATH.'/tcms_polls/'.$current_poll, 'r');
-					$poll_subtitle  = $vote_xml->read_section('poll', 'title');
+					$poll_subtitle  = $vote_xml->readSection('poll', 'title');
 				}
 				else{
 					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -195,7 +195,7 @@ if($use_poll == 1) {
 				$qc = 1;
 				if($choosenDB == 'xml'){
 					do{
-						$question = $vote_xml->read_section('poll', 'question'.$qc);
+						$question = $vote_xml->readSection('poll', 'question'.$qc);
 						if($question != '__END_POLL_QUESTION__'){
 							$question = $tcms_main->decodeText($question, '2', $c_charset);
 							
@@ -260,14 +260,21 @@ if($use_poll == 1) {
 		if($paction == 'result'){
 			if($choosenDB == 'xml'){
 				$vote_xml = new xmlparser(_TCMS_PATH.'/tcms_polls/'.$current_poll_tag.'.xml', 'r');
-				$poll_subtitle = $vote_xml->read_section('poll', 'title');
+				$poll_subtitle = $vote_xml->readSection('poll', 'title');
 				
 				$poll_subtitle = $tcms_main->decodeText($poll_subtitle, '2', $c_charset);
-				echo tcms_html::text($poll_subtitle, 'left');
-				echo '<br />';
 				
-				$number    = $tcms_main->load_xml_files(_TCMS_PATH.'/tcms_polls/'.$current_poll_tag, 'number');
+				echo $tcms_html->text($poll_subtitle, 'left')
+				.'<br />';
 				
+				//$number    = $tcms_main->l-o-a-d-_-x-m-l-_-f-i-l-e-s(
+				//_TCMS_PATH.'/tcms_polls/'.$current_poll_tag, 'number');
+				$files = $tcms_file->getPathContent(
+					_TCMS_PATH.'/tcms_polls/'.$current_poll_tag, 
+					false, 
+					'.xml'
+				);
+				$number = $tcms_main->countArrayValues($files);
 				
 				$arrPollCalc       = $tcms_main->count_answers(_TCMS_PATH.'/tcms_polls/'.$current_poll_tag);
 				

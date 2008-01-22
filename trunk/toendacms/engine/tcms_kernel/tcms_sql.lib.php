@@ -40,7 +40,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Untested Database Server:
  * - SQLite        -> sqlite
  *
- * @version 0.9.1
+ * @version 0.9.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -146,8 +146,6 @@ defined('_TCMS_VALID') or die('Restricted access');
  * sqlDeleteAll($sqlTable, $withDebug = false)       -> Delete all from a table
  * sqlGetNumber($sqlQueryResult)                     -> Get number of rows of a query
  * 
- * sqlSearch($sqlTable, $sqlSearchColumn, $sqlSearchWord)
- * -> Search for $sqlSearchWord in $sqlSearchColumn in table $sqlTable
  * </code>
  *
  */
@@ -578,7 +576,100 @@ class sqlAbstractionLayer {
 	 * @return Integer
 	 */
 	public function search($sqlTable, $sqlSearchColumn, $sqlSearchWord, $withDebug = false) {
-		return $this->sqlSearch($sqlTable, $sqlSearchColumn, $sqlSearchWord, $withDebug);
+		global $tcms_time;
+		
+		switch($this->_sqlInterface){
+			case 'mysql':
+				if($withDebug) {
+					$fp = fopen('log_'.microtime().'.txt', 'w');
+					fwrite(
+						$fp, 
+						'SELECT *'
+						.' FROM '.$sqlTable
+						.' WHERE '.$sqlSearchColumn
+						.' REGEXP "'.$sqlSearchWord.'"'
+						.' OR '.$sqlSearchColumn
+						.' LIKE "%'.$sqlSearchWord.'%"'
+					);
+					fclose($fp);
+				}
+				
+				//tcms_time::tcms_query_counter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
+				
+				$sqlResult = mysql_query(
+					'SELECT *'
+					.' FROM '.$sqlTable
+					.' WHERE '.$sqlSearchColumn
+					.' REGEXP "'.$sqlSearchWord.'"'
+					.' OR '.$sqlSearchColumn
+					.' LIKE "%'.$sqlSearchWord.'%"'
+				);
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.mysql_error();
+				}
+				break;
+			
+			case 'pgsql':
+				//tcms_time::tcms_query_counter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
+				
+				$sqlResult = pg_query(
+					"SELECT *"
+					." FROM ".$sqlTable
+					." WHERE ".$sqlSearchColumn
+					." LIKE '%".$sqlSearchWord."%'"
+				);
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.pg_result_error();
+				}
+				break;
+			
+			case 'sqlite':
+				//tcms_time::tcms_query_counter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
+				
+				$sqlResult = sqlite_query(
+					'SELECT *'
+					.' FROM '.$sqlTable
+					.' WHERE '.$sqlSearchColumn
+					.' REGEXP "'.$sqlSearchWord.'"'
+				);
+				$sqlError  = sqlite_last_error($this->_sqlDB);
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.sqlite_error_string($sqlError);
+				}
+				break;
+			
+			case 'mssql':
+				//tcms_time::tcms_query_counter();
+				if($tcms_time != null) {
+					$tcms_time->incrmentSqlQueryCounter();
+				}
+				
+				$sqlQueryString = "SELECT *"
+				." FROM ".$sqlTable
+				." WHERE ".$sqlSearchColumn
+				." LIKE '%".$sqlSearchWord."%'";
+				
+				$sqlResult = mssql_query($sqlQueryString);
+				
+				if(!$sqlResult) {
+					$sqlResult = 'Invalid query: '.$sqlQueryString;
+				}
+				break;
+		}
+		
+		return $sqlResult;
 	}
 	
 	
@@ -1912,114 +2003,6 @@ class sqlAbstractionLayer {
 			
 			case 'mssql':
 				$sqlResult = @mssql_num_rows($sqlQueryResult);
-				break;
-		}
-		
-		return $sqlResult;
-	}
-	
-	
-	
-	/**
-	 * Search
-	 * 
-	 * @param String $sqlTable
-	 * @param String $sqlSearchColumn
-	 * @param String $sqlSearchWord
-	 * @param String $withDebug = false
-	 * @return Integer
-	 */
-	public function sqlSearch($sqlTable, $sqlSearchColumn, $sqlSearchWord, $withDebug = false){
-		global $tcms_time;
-		
-		switch($this->_sqlInterface){
-			case 'mysql':
-				if($withDebug) {
-					$fp = fopen('log_'.microtime().'.txt', 'w');
-					fwrite(
-						$fp, 
-						'SELECT *'
-						.' FROM '.$sqlTable
-						.' WHERE '.$sqlSearchColumn
-						.' REGEXP "'.$sqlSearchWord.'"'
-						.' OR '.$sqlSearchColumn
-						.' LIKE "%'.$sqlSearchWord.'%"'
-					);
-					fclose($fp);
-				}
-				
-				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) {
-					$tcms_time->incrmentSqlQueryCounter();
-				}
-				
-				$sqlResult = mysql_query(
-					'SELECT *'
-					.' FROM '.$sqlTable
-					.' WHERE '.$sqlSearchColumn
-					.' REGEXP "'.$sqlSearchWord.'"'
-					.' OR '.$sqlSearchColumn
-					.' LIKE "%'.$sqlSearchWord.'%"'
-				);
-				
-				if(!$sqlResult) {
-					$sqlResult = 'Invalid query: '.mysql_error();
-				}
-				break;
-			
-			case 'pgsql':
-				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) {
-					$tcms_time->incrmentSqlQueryCounter();
-				}
-				
-				$sqlResult = pg_query(
-					"SELECT *"
-					." FROM ".$sqlTable
-					." WHERE ".$sqlSearchColumn
-					." LIKE '%".$sqlSearchWord."%'"
-				);
-				
-				if(!$sqlResult) {
-					$sqlResult = 'Invalid query: '.pg_result_error();
-				}
-				break;
-			
-			case 'sqlite':
-				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) {
-					$tcms_time->incrmentSqlQueryCounter();
-				}
-				
-				$sqlResult = sqlite_query(
-					'SELECT *'
-					.' FROM '.$sqlTable
-					.' WHERE '.$sqlSearchColumn
-					.' REGEXP "'.$sqlSearchWord.'"'
-				);
-				$sqlError  = sqlite_last_error($this->_sqlDB);
-				
-				if(!$sqlResult) {
-					$sqlResult = 'Invalid query: '.sqlite_error_string($sqlError);
-				}
-				break;
-			
-			case 'mssql':
-				//tcms_time::tcms_query_counter();
-				if($tcms_time != null) {
-					$tcms_time->incrmentSqlQueryCounter();
-				}
-				
-				$sqlQueryString = "SELECT *"
-				." FROM ".$sqlTable
-				." WHERE ".$sqlSearchColumn
-				." LIKE '%".$sqlSearchWord."%'";
-				
-				$sqlResult = mssql_query($sqlQueryString);
-				
-				if(!$sqlResult) {
-					$sqlResult = 'Invalid query: '.$sqlQueryString;
-				}
 				break;
 		}
 		

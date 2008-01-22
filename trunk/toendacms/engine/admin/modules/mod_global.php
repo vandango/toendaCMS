@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * This module is for the global configuration settings.
  * 
- * @version 1.4.7
+ * @version 1.5.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Admin Backend
@@ -141,8 +141,8 @@ if(isset($_POST['new_valid_links'])) { $new_valid_links = $_POST['new_valid_link
 if($id_group == 'Developer' 
 || $id_group == 'Administrator') {
 	// title
-	if($tcms_file->checkFileExist($tcms_administer_path.'/tcms_global/namen.xml')) {
-		$xml = simplexml_load_file($tcms_administer_path.'/tcms_global/namen.xml');
+	if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/namen.xml')) {
+		$xml = simplexml_load_file(_TCMS_PATH.'/tcms_global/namen.xml');
 		
 		$sitetitle = $xml->title;
 		$sitename  = $xml->name;
@@ -154,8 +154,8 @@ if($id_group == 'Developer'
 	
 	
 	// footer
-	if($tcms_file->checkFileExist($tcms_administer_path.'/tcms_global/footer.xml')) {
-		$xml = simplexml_load_file($tcms_administer_path.'/tcms_global/footer.xml');
+	if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/footer.xml')) {
+		$xml = simplexml_load_file(_TCMS_PATH.'/tcms_global/footer.xml');
 		
 		$old_websiteowner   = $xml->websiteowner;
 		$old_copyright      = $xml->copyright;
@@ -178,8 +178,8 @@ if($id_group == 'Developer'
 	
 	
 	// var
-	if(file_exists($tcms_administer_path.'/tcms_global/var.xml')) {
-		$xml = simplexml_load_file($tcms_administer_path.'/tcms_global/var.xml');
+	if(file_exists(_TCMS_PATH.'/tcms_global/var.xml')) {
+		$xml = simplexml_load_file(_TCMS_PATH.'/tcms_global/var.xml');
 		
 		$old_charset        = $xml->charset;
 		$old_front_lang     = $xml->front_lang;
@@ -225,56 +225,6 @@ if($id_group == 'Developer'
 		
 		unset($xml);
 	}
-	
-	//$globals_xml = new xmlparser(
-	//	_TCMS_PATH.'/tcms_global/var.xml', 
-	//	'r'
-	//);
-	
-	//$old_menu           = $globals_xml->readSection('global', 'menu');
-	//$old_second_menu    = $globals_xml->readSection('global', 'second_menu');
-	//$old_charset        = $globals_xml->readSection('global', 'charset');
-	//$old_use_wysiwyg    = $globals_xml->readSection('global', 'wysiwyg');
-	//$old_lang           = $globals_xml->readSection('global', 'lang');
-	//$old_currency       = $globals_xml->readSection('global', 'currency');
-	//$old_front_lang     = $globals_xml->readSection('global', 'front_lang');
-	//$old_keywords       = $globals_xml->readSection('global', 'meta');
-	//$old_description    = $globals_xml->readSection('global', 'description');
-	//$old_tcmsinst       = $globals_xml->readSection('global', 'toendacms_in_sitetitle');
-	//$old_default_cat    = $globals_xml->readSection('global', 'default_category');
-	//$old_topmenu_active = $globals_xml->readSection('global', 'topmenu_active');
-	//$old_statistics     = $globals_xml->readSection('global', 'statistics');
-	//$old_seo_enabled    = $globals_xml->readSection('global', 'seo_enabled');
-	//$old_seo_folder     = $globals_xml->readSection('global', 'server_folder');
-	//$old_seo_format     = $globals_xml->readSection('global', 'seo_format');
-	//$old_seo_news_title = $globals_xml->readSection('global', 'seo_news_title');
-	//$old_seo_c_title    = $globals_xml->readSection('global', 'seo_content_title');
-	//$old_site_offline   = $globals_xml->readSection('global', 'site_offline');
-	//$old_site_off_text  = $globals_xml->readSection('global', 'site_offline_text');
-	//$old_show_top_pages = $globals_xml->readSection('global', 'show_top_pages');
-	//$cipher_email       = $globals_xml->readSection('global', 'cipher_email');
-	//$js_browser_detect  = $globals_xml->readSection('global', 'js_browser_detect');
-	//$use_cs             = $globals_xml->readSection('global', 'use_cs');
-	//$captcha            = $globals_xml->readSection('global', 'captcha');
-	//$captcha_clean      = $globals_xml->readSection('global', 'captcha_clean_size');
-	//$old_doc_autor      = $globals_xml->readSection('global', 'show_doc_autor');
-	//$old_admin_topmenu  = $globals_xml->readSection('global', 'admin_topmenu');
-	//$old_pathchar       = $globals_xml->readSection('global', 'pathway_char');
-	//$anti_frame         = $globals_xml->readSection('global', 'anti_frame');
-	//$old_revisit_after  = $globals_xml->readSection('global', 'revisit_after');
-	//$old_robotsfile     = $globals_xml->readSection('global', 'robotsfile');
-	//$old_pdflink        = $globals_xml->readSection('global', 'pdflink');
-	//$old_cache_control  = $globals_xml->readSection('global', 'cachecontrol');
-	//$old_pragma         = $globals_xml->readSection('global', 'pragma');
-	//$old_expires        = $globals_xml->readSection('global', 'expires');
-	//$old_robots         = $globals_xml->readSection('global', 'robots');
-	//$old_last_changes   = $globals_xml->readSection('global', 'last_changes');
-	//$old_use_content_l  = $globals_xml->readSection('global', 'use_content_language');
-	//$old_valid_links    = $globals_xml->readSection('global', 'valid_links');
-	//$old_mediaman_view  = $globals_xml->readSection('global', 'mediaman_view');
-	
-	//$globals_xml->flush();
-	//unset($globals_xml);
 	
 	
 	// userpage

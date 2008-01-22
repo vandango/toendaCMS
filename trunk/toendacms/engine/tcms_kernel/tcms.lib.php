@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic public functions.
  *
- * @version 3.0.4
+ * @version 3.1.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -90,6 +90,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * decodeText                        -> Decode (decipher) a text
  * countWords                        -> Count Words in a phrase
  * countItemsInArray                 -> Count the items in a array
+ * getDocumentMetatagDescription     -> Get the description of a document for the metatags
+ * getDocumentMetatagKeywords        -> Get generated keywords from a content document
  * checkWebLink                      -> Check if a link is a weblink
  * checkAccess                       -> Check if a usergroup can read a access level
  * cleanUrlString                    -> Clean a text from javascript code
@@ -139,23 +141,6 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getNewsCatAmount            -> return the amount of news in cat with the given cat uid
  * chkDefaultContact           -> return a boolean if a default contact exists
  * returnInsertCommand         -> return a command for inserting
- * 
- * --------------------------------------------------------
- * DEPRECATED FUNCTIONS
- * --------------------------------------------------------
- * 
- * DEPRECATED delete_sql_session          -> see tcms_authentication
- * DEPRECATED create_session              -> see tcms_authentication
- * DEPRECATED create_sql_session          -> see tcms_authentication
- * DEPRECATED load_xml_files              -> getPathContent
- * DEPRECATED mainmenuSQL                 -> see tcms_menu_provider
- * DEPRECATED load_css_files              -> getPathContentCSSFilesRecursivly
- * DEPRECATED check_session_exists        -> check if sql session exists
- * DEPRECATED check_session               -> checks the session files for the mtime
- * DEPRECATED check_sql_session           -> check session time in sql
- * DEPRECATED create_admin                -> get the admin session uid
- * 
- * $sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
  * 
  * </code>
  *
@@ -1314,6 +1299,62 @@ class tcms_main {
 	
 	
 	/**
+	 * Get the description of a document for the metatags
+	 * 
+	 * @param String $text
+	 * @return String
+	 */
+	public function getDocumentMetatagDescription($text) {
+		$text = strip_tags(' - '.trim(substr($text, 0, 240)));
+		$text = str_replace(chr(10), ' ', $text);
+		$text = str_replace(chr(13), ' ', $text);
+		
+		return $text;
+	}
+	
+	
+	
+	/**
+	 * Get generated keywords from a content document
+	 * 
+	 * @param String $text
+	 * @return String
+	 */
+	public function getDocumentMetatagKeywords($text) {
+		// only words longer 5 letters
+		// and min. existing of 2 times
+		
+		$words = str_word_count(strip_tags($text), 1);
+		$wordarray = array();
+		$countMe = array_count_values($words);
+		
+		while(list($key, $val) = each($countMe)) {
+			if(strlen($key) >= 5 
+			&& $val >= 2) {
+				array_push($wordarray, $val.'.'.$key);
+			}
+		}
+		
+		arsort($wordarray);
+		
+		for($x = 0; $x < 9; $x++) {
+			$word = split('[.]', $wordarray[$x]);
+			
+			if(strlen($word[1]) >= 5) {
+				$test = preg_match('/^[A-ZÄÖÜ]*$/', trim(substr($word[1], 0, 1)));
+				
+				if($test == 1) {
+					$dynamicKeywords = $dynamicKeywords.', '.$word[1];
+				}
+			}
+		}
+		
+		return ' - '.substr($dynamicKeywords, 2);
+	}
+	
+	
+	
+	/**
 	 * Check if a link is a weblink
 	 *
 	 * @param String $link
@@ -1552,7 +1593,8 @@ class tcms_main {
 		}
 		
 		for($i = 160; $i < 256; $i++) {
-			$text = str_replace('&#'.$i.';', '', $text);
+			//$text = str_replace('&#'.$i.';', '', $text);
+			$text = str_replace('&#'.$i.';', ' ', $text);
 		}
 		
 	    $text = str_replace('&#034;', '-', $text); // ??? \'
@@ -2785,7 +2827,7 @@ class tcms_main {
 	* @desc 
 	*/
 	public function count_answers($ca_path) {
-		$arr_cpoll = $this->load_xml_files($ca_path, 'files');
+		$arr_cpoll = $this->_getPathContent($ca_path);
 		$all_answers = 0;
 		
 		$vote_xml = new xmlparser($ca_path.'.xml', 'r');
@@ -2830,7 +2872,7 @@ class tcms_main {
 	* @desc 
 	*/
 	public function count_answers_sql($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $ac_poll, $command) {
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		if($command == 'nothing') {
@@ -2890,7 +2932,7 @@ class tcms_main {
 			$returnME = 1;
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			$session_exists = 1;
 			
@@ -2982,7 +3024,7 @@ class tcms_main {
 			$returnME = $i;
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			$session_exists = 1;
 			
@@ -3152,7 +3194,7 @@ class tcms_main {
 	public function linkwaySQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, $session, $s, $lang) {
 		global $tcms_config;
 		
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		$sqlStr = "SELECT * "
@@ -3479,7 +3521,7 @@ class tcms_main {
 	public function topmenuSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, $session, $s, $lang) {
 		global $tcms_config;
 		
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		$sqlStr = "SELECT * "
@@ -3655,7 +3697,7 @@ class tcms_main {
 	* @desc the default contact for the contactform
 	*/
 	public function get_default_sql_contact($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort) {
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		$sqlQR = $sqlAL->sqlQuery('SELECT * FROM '.$this->db_prefix.'contacts WHERE default_con = 1 AND published = 1');
@@ -3856,455 +3898,6 @@ class tcms_main {
 		
 		return $cmdImage;
 	}
-	
-	
-	
-	// -------------------------------------------------
-	// - COMPATIBILITY LAYER -
-	// Deprecated members
-	// -------------------------------------------------
-	
-	
-	
-	/**
-	 * @deprecated Deprecated since version 1.6
-	 * @return Checks the session files for his old
-	 * @desc 
-	 */
-	public function delete_sql_session($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session) {
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-		
-		$sqlAL->sqlDeleteOne($this->db_prefix.'session', $session);
-		
-		return true;
-	}
-	
-	
-	
-	/**
-	 * @deprecated Deprecated since version 1.6
-	 * @return Checks the session files for his old
-	 * @desc 
-	 */
-	public function create_session($webend) {
-		if($webend == 'user') { $pp = $this->administer.'/tcms_'; }
-		if($webend == 'admin') { $pp = ''; }
-		
-		while(($session = md5(microtime())) && file_exists($pp.'session/'.$session)) {}
-		
-		$session_save = fopen($pp.'session/'.$session, 'w');
-		fclose($session_save);
-		
-		chmod($pp.'session/'.$session, 0777);
-		
-		return $session;
-	}
-	
-	
-	
-	/**
-	 * @deprecated Deprecated since version 1.6
-	 * @return Checks the session files for his old
-	 * @desc 
-	 */
-	public function create_sql_session($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcmsUser, $tcmsUserID) {
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-		$session_exists = 1;
-		
-		do{
-			$session = md5(microtime());
-			$sqlQR = $sqlAL->sqlGetOne($this->db_prefix.'session', $session);
-			$session_exists = $sqlAL->sqlGetNumber($sqlQR);
-		}
-		while($session_exists > 0);
-		
-		switch($choosenDB) {
-			case 'mysql': $newSQLColumns = 'date, user, user_id'; break;
-			case 'pgsql': $newSQLColumns = 'date, "user", user_id'; break;
-			case 'mssql': $newSQLColumns = '[date], [user], [user_id]'; break;
-		}
-		$newSQLData = "'".date('U')."', '".$tcmsUser."', '".$tcmsUserID."'";
-		
-		$sqlQR = $sqlAL->sqlCreateOne($this->db_prefix.'session', $newSQLColumns, $newSQLData, $session);
-		
-		return $session;
-	}
-	
-	
-	
-	/**
-	 * @deprecated Deprecated since version 1.6
-	 * @return Array
-	 * @desc Return a array with the files in "path" (only .xml)
-	 */
-	public function load_xml_files($path, $file_or_number) {
-		$handle = opendir($path);
-		$i = 0;
-		while ($directories = readdir ($handle)) {
-			if ($directories != '.' 
-			&& $directories != '..' 
-			&& $directories != 'CVS' 
-			&& $directories != '.svn'
-			&& $directories != '_svn'
-			&& $directories != '.SVN'
-			&& $directories != '_SVN'
-			&& $directories != 'index.html') {
-				
-				if(strpos($directories, '.xml')) {
-					$arr_xml['files'][$i] = $directories;
-					$i++;
-				}
-			}
-		}
-		
-		if($file_or_number == 'files') { return $arr_xml['files']; }
-		if($file_or_number == 'number') { return $i; }
-	}
-	
-	
-	
-	/**
-	 * @deprecated Deprecated since version 1.6
-	 * @return Mainmenu links (for SQL DB)
-	 * @desc returns an multi array with all mainmenulinks as array, the follow idizies exists
-	 *   array -> 'link'		-> complete link
-	 *   array -> 'auth'		-> access level
-	 *   array -> 'id'		-> position
-	 *   array -> 'subid'	-> position in submenu
-	 *   array -> 'type'		-> type of menuetry
-	 *   array -> 'parent'	-> which parent item
-	 *   array -> 'pub'      -> is item published or not
-	 *   array -> 'submenu'	-> complete submenu link
-	 *   array -> 'name'		-> simple link name
-	 */
-	public function mainmenuSQL($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $c_charset, $session, $s, $lang) {
-		global $tcms_config;
-		
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-		
-		$sqlStr = "SELECT * "
-		."FROM ".$this->db_prefix."sidemenu "
-		."WHERE language = '".$tcms_config->getLanguageCodeForTCMS($lang)."' "
-		."ORDER BY id ASC, subid ASC, name ASC";
-		
-		//$sqlQR = $sqlAL->sqlGetAll($this->db_prefix.'sidemenu');
-		$sqlQR = $sqlAL->sqlQuery($sqlStr);
-		//$sqlQR = $sqlAL->sqlGetAll($this->db_prefix.'sidemenu');
-		
-		$count = 0;
-		
-		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)) {
-			$arr_menu['tag'][$count]  = $sqlARR['uid'];
-			$arr_menu['name'][$count] = $sqlARR['name'];
-			$arr_menu['id'][$count]   = $sqlARR['id'];
-			$arr_menu['sub'][$count]  = $sqlARR['subid'];
-			$arr_menu['type'][$count] = $sqlARR['type'];
-			$arr_menu['link'][$count] = $sqlARR['link'];
-			$arr_menu['par'][$count]  = $sqlARR['parent'];
-			$arr_menu['pub'][$count]  = $sqlARR['published'];
-			$arr_menu['auth'][$count] = $sqlARR['access'];
-			$arr_menu['tar'][$count]  = $sqlARR['target'];
-			
-			if($arr_menu['name'][$count] == NULL) { $arr_menu['name'][$count] = ''; }
-			if($arr_menu['id'][$count]   == NULL) { $arr_menu['id'][$count]   = ''; }
-			if($arr_menu['auth'][$count] == NULL) { $arr_menu['auth'][$count] = ''; }
-			if($arr_menu['link'][$count] == NULL) { $arr_menu['link'][$count] = ''; }
-			if($arr_menu['pub'][$count]  == NULL) { $arr_menu['pub'][$count]  = ''; }
-			if($arr_menu['tar'][$count]  == NULL) { $arr_menu['tar'][$count]  = ''; }
-			
-			// CHARSETS
-			$arr_menu['name'][$count] = $this->decodeText($arr_menu['name'][$count], '2', $c_charset);
-			
-			$checkReorder = $count;
-			$count++;
-		}
-		
-		if(is_array($arr_menu)) {
-			/*array_multisort(
-				$arr_menu['id'], SORT_ASC, 
-				$arr_menu['sub'], SORT_ASC, 
-				$arr_menu['name'], SORT_ASC, 
-				$arr_menu['type'], SORT_ASC, 
-				$arr_menu['link'], SORT_ASC, 
-				$arr_menu['auth'], SORT_ASC, 
-				$arr_menu['pub'], SORT_ASC, 
-				$arr_menu['par'], SORT_ASC, 
-				$arr_menu['tar'], SORT_ASC
-			);*/
-			
-			foreach($arr_menu['id'] as $mkey => $mvalue) {
-				if($arr_menu['tar'][$mkey] != '')
-					$ltarget = ' target="'.$arr_menu['tar'][$mkey].'"';
-				else
-					$ltarget = '';
-				
-				if($arr_menu['type'][$mkey] == 'web') {
-					$arr_mainmenu['link'][$mkey] = '<a'.$ltarget.' class="mainlevel" href="'.trim($arr_menu['link'][$mkey]).'">'.trim($arr_menu['name'][$mkey]).'</a>';
-				}
-				else{
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-					.'id='.$arr_menu['link'][$mkey].'&amp;s='.$s
-					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $this->urlConvertToSEO($link);
-					
-					$arr_mainmenu['link'][$mkey] = '<a'.$ltarget.' class="mainlevel" href="'.$link.'">'.trim($arr_menu['name'][$mkey]).'</a>';
-				}
-				$arr_mainmenu['auth'][$mkey] = trim($arr_menu['auth'][$mkey]);
-				$arr_mainmenu['id'][$mkey] = trim($arr_menu['id'][$mkey]);
-				$arr_mainmenu['type'][$mkey] = trim($arr_menu['type'][$mkey]);
-				$arr_mainmenu['subid'][$mkey] = trim($arr_menu['sub'][$mkey]);
-				$arr_mainmenu['parent'][$mkey] = trim($arr_menu['par'][$mkey]);
-				$arr_mainmenu['name'][$mkey] = trim($arr_menu['name'][$mkey]);
-				$arr_mainmenu['pub'][$mkey] = trim($arr_menu['pub'][$mkey]);
-				$arr_mainmenu['url'][$mkey] = trim($arr_menu['link'][$mkey]);
-				
-				if($arr_menu['type'][$mkey] == 'web') {
-					$arr_mainmenu['submenu'][$mvalue][$mkey] = '<a'.$ltarget.' class="submenu" href="'.trim($arr_menu['link'][$mkey]).'">'.trim($arr_menu['name'][$mkey]).'</a>';
-				}
-				else{
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-					.'id='.trim($arr_menu['link'][$mkey]).'&amp;s='.$s
-					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $this->urlConvertToSEO($link);
-					
-					$arr_mainmenu['submenu'][$mvalue][$mkey] = '<a'.$ltarget.' class="submenu" href="'.$link.'">'.trim($arr_menu['name'][$mkey]).'</a>';
-				}
-			}
-			
-			return $arr_mainmenu;
-		}
-		else{ return ''; }
-	}
-	
-	
-	
-	/**
-	 * @deprecated Deprecated since version 1.6
-	 */
-	public function load_css_files($path, $file_or_number) {
-		if($file_or_number == 'files') {
-			return $this->getPathCSSFilesRecursivly($path);
-		}
-		else if($file_or_number == 'number') {
-			return $this->getPathCSSFilesRecursivly($path, true);
-		}
-	}
-	
-	
-	
-	/**
-	 * Check if a session exist
-	 *
-	 * @deprecated Deprecated since version 1.6
-	 * @param String $choosenDB
-	 * @param String $sqlUser
-	 * @param String $sqlPass
-	 * @param String $sqlHost
-	 * @param String $sqlDB
-	 * @param String $sqlPort
-	 * @param String $session
-	 * @return Boolean
-	 */
-	public function check_session_exists($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session) {
-		if($this->db_choosenDB == 'xml') {
-			if($this->isReal($session) 
-			&& file_exists(_TCMS_PATH.'/tcms_session/'.$session) 
-			&& filesize(''._TCMS_PATH.'/tcms_session/'.$session) != 0) {
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
-		else {
-			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
-			$sqlCN = $sqlAL->connect(
-				$this->db_user, 
-				$this->db_pass, 
-				$this->db_host, 
-				$this->db_database, 
-				$this->db_port
-			);
-			
-			$sqlQR = $sqlAL->getOne($this->db_prefix.'session', $session);
-			$session_exists = $sqlAL->getNumber($sqlQR);
-			
-			unset($sqlAL);
-			
-			if($session_exists != 0) {
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
-	}
-	
-	
-	
-	/**
-	 * Check session timeouts
-	 *
-	 * @deprecated Deprecated since version 1.6
-	 * @param unknown_type $session
-	 * @param unknown_type $webend
-	 */
-	public function check_session($session, $webend) {
-		if($this->db_choosenDB == 'xml') {
-			if($webend == 0) {
-				$pp = $this->administer.'/tcms_';
-			}
-			elseif($webend == 1) {
-				$pp = '';
-			}
-			
-			$handle = opendir($pp.'session/');
-			
-			while($file = readdir($handle)) {
-				if($file != '.' 
-				&& $file != '..' 
-				&& $file != $session 
-				&& $file != 'CVS' 
-				&& $file != '.svn'
-				&& $file != '_svn'
-				&& $file != '.SVN'
-				&& $file != '_SVN'
-				&& $file != 'index.html') {
-					if(date('U') - date('U', filemtime($pp.'session/'.$file)) > 36000) {
-						unlink($pp.'session/'.$file);
-					}
-				}
-			}
-			
-			closedir($handle);
-		}
-		else {
-			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB);
-			$sqlCN = $sqlAL->connect(
-				$this->db_user, 
-				$this->db_pass, 
-				$this->db_host, 
-				$this->db_database, 
-				$this->db_port
-			);
-			
-			$sqlQR = $sqlAL->getALL($this->db_prefix.'session');
-			
-			while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
-				$checkSessionUID = $sqlObj->uid;
-				
-				if($session != $checkSessionUID) {
-					$checkSessionTime = $sqlObj->date;
-					
-					if(date('U') - $checkSessionTime > 36000 || $checkSessionTime == NULL) {
-						$sqlAL->deleteOne($this->db_prefix.'session', $checkSessionUID);
-					}
-				}
-			}
-			
-			unset($sqlAL);
-		}
-	}
-	
-	
-	
-	/**
-	 * Check session timeouts
-	 *
-	 * @deprecated Deprecated since version 1.6
-	 * @param unknown_type $choosenDB
-	 * @param unknown_type $sqlUser
-	 * @param unknown_type $sqlPass
-	 * @param unknown_type $sqlHost
-	 * @param unknown_type $sqlDB
-	 * @param unknown_type $sqlPort
-	 * @param unknown_type $session
-	 */
-	public function check_sql_session($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session) {
-		if($this->db_choosenDB == 'xml') {
-			if($webend == 0) {
-				$pp = $this->administer.'/tcms_';
-			}
-			elseif($webend == 1) {
-				$pp = '';
-			}
-			
-			$handle = opendir($pp.'session/');
-			
-			while($file = readdir($handle)) {
-				if($file != '.' 
-				&& $file != '..' 
-				&& $file != $session 
-				&& $file != 'CVS' 
-				&& $file != '.svn'
-				&& $file != '_svn'
-				&& $file != '.SVN'
-				&& $file != '_SVN'
-				&& $file != 'index.html') {
-					if(date('U') - date('U', filemtime($pp.'session/'.$file)) > 36000) {
-						unlink($pp.'session/'.$file);
-					}
-				}
-			}
-			
-			closedir($handle);
-		}
-		else {
-			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB);
-			$sqlCN = $sqlAL->connect(
-				$this->db_user, 
-				$this->db_pass, 
-				$this->db_host, 
-				$this->db_database, 
-				$this->db_port
-			);
-			
-			$sqlQR = $sqlAL->getALL($this->db_prefix.'session');
-			
-			while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
-				$checkSessionUID = $sqlObj->uid;
-				
-				if($session != $checkSessionUID) {
-					$checkSessionTime = $sqlObj->date;
-					
-					if(date('U') - $checkSessionTime > 36000 || $checkSessionTime == NULL) {
-						$sqlAL->deleteOne($this->db_prefix.'session', $checkSessionUID);
-					}
-				}
-			}
-			
-			unset($sqlAL);
-		}
-	}
-	
-	
-	
-	/**
-	 * Get admin user info
-	 *
-	 * @deprecated Deprecated since version 1.6
-	 * @param unknown_type $session
-	 * @param unknown_type $rt
-	 * @return unknown
-	 */
-	public function create_admin($session, $rt = 'id') {
-		$sp = fopen('session/'.$session, 'r');
-		$m_tag = fread($sp, filesize('session/'.$session));
-		fclose($sp);
-		
-		$m_tag = explode('##', $m_tag);
-		$ws_user = $m_tag[0];
-		$ws_id   = $m_tag[1];
-		
-		if($rt == 'user') { return $ws_user; }
-		if($rt == 'id')  { return $ws_id; }
-	}
 }
-
-
-
 
 ?>
