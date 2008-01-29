@@ -49,6 +49,7 @@ class tcms_dc_sidebarextensions {
 	private $m_show_memberlist;
 	private $m_usermenu;
 	private $m_usermenu_title;
+	private $m_show_news_cat_amount;
 	
 	/**
 	 * PHP5 Constructor
@@ -378,6 +379,25 @@ class tcms_dc_sidebarextensions {
 	 */
 	public function getUsermenuTitle() {
 		return $this->m_usermenu_title;
+	}
+	
+	/**
+	 * Set the ShowNewsCategoryAmount flag
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	public function setShowNewsCategoryAmount($value) {
+		$this->m_show_news_cat_amount = $value;
+	}
+	
+	/**
+	 * Get the ShowNewsCategoryAmount flag
+	 * 
+	 * @return String
+	 */
+	public function getShowNewsCategoryAmount() {
+		return ( $this->m_show_news_cat_amount == 1 ? true : false );
 	}
 }
 

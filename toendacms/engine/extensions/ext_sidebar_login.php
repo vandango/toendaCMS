@@ -9,7 +9,7 @@
 | 
 | Login Module
 |
-| File:	ext_login.php
+| File:	ext_sidebar_login.php
 |
 +
 */

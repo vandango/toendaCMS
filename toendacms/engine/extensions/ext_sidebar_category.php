@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides the news categories for
  * the sidebar.
  *
- * @version 0.4.3
+ * @version 0.4.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -32,6 +32,10 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 if($use_side_category == 1) {
+	$dcSE = new tcms_dc_sidebarextensions();
+	$dcSE = $tcms_dcp->getSidebarExtensionSettings();
+	
+	
 	echo $tcms_html->subTitle(_NEWS_CATEGORIES_TITLE);
 	
 	
@@ -52,7 +56,7 @@ if($use_side_category == 1) {
 				
 				$catSideName = $tcms_main->decodeText($catSideName, '2', $c_charset);
 				
-				if($show_nacat == 1) {
+				if($dcSE->getShowNewsCategoryAmount()) {
 					$catSideNO = $tcms_main->getNewsCatAmount(substr($cVal, 0, 5), $authSQL1, $authSQL2);
 				}
 				
@@ -111,7 +115,7 @@ if($use_side_category == 1) {
 			." GROUP BY ".$tcms_db_prefix."news_categories.[name], ".$tcms_db_prefix."news_categories.[uid] "
 			." ORDER BY tncName";
 		}
-		else{
+		else {
 			$strSQL = "SELECT COUNT(".$tcms_db_prefix."news_to_categories.news_uid) AS countNC"
 			." , ".$tcms_db_prefix."news_categories.name AS tncName"
 			." , ".$tcms_db_prefix."news_categories.uid AS tncUID "
@@ -162,6 +166,10 @@ if($use_side_category == 1) {
 	}
 	
 	echo '<br />';
+	
+	
+	// cleanup
+	unset($dcSE);
 }
 
 ?>

@@ -9,7 +9,7 @@
 | 
 | Extension Newsletter
 |
-| File:	ext_newsletter.php
+| File:	ext_sidebar_newsletter.php
 |
 +
 */
