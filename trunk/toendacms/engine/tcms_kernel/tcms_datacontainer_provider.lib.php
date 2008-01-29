@@ -3129,26 +3129,28 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsShowML        = $xml->readSection('side', 'show_memberlist');
 			$wsUsermenu      = $xml->readSection('side', 'usermenu');
 			$wsUsermenuTitle = $xml->readSection('side', 'usermenu_title');
+			$wsShowNCA       = $xml->readSection('side', 'show_news_cat_amount');
 			
 			$xml->flush();
 			unset($xml);
 			
 			if($wsLang          == false) $wsLang          = '';
 			if($wsSidemenuTitle == false) $wsSidemenuTitle = '';
-			if($wsShowCT        == false) $wsShowCT        = '';
+			//if($wsShowCT        == false) $wsShowCT        = '';
 			if($wsChooserTitle  == false) $wsChooserTitle  = '';
-			if($wsShowST        == false) $wsShowST        = '';
+			//if($wsShowST        == false) $wsShowST        = '';
 			if($wsSidebarTitle  == false) $wsSidebarTitle  = '';
-			if($wsShowLT        == false) $wsShowLT        = '';
+			//if($wsShowLT        == false) $wsShowLT        = '';
 			if($wsLoginTitle    == false) $wsLoginTitle    = '';
 			if($wsLoginUser     == false) $wsLoginUser     = '';
-			if($wsShowML        == false) $wsShowML        = '';
+			//if($wsShowML        == false) $wsShowML        = '';
 			if($wsNoLoginText   == false) $wsNoLoginText   = '';
 			if($wsRegLinkText   == false) $wsRegLinkText   = '';
 			if($wsRegUserText   == false) $wsRegUserText   = '';
 			if($wsRegPassText   == false) $wsRegPassText   = '';
 			if($wsUsermenu      == false) $wsUsermenu      = '';
 			if($wsUsermenuTitle == false) $wsUsermenuTitle = '';
+			//if($wsShowNCA       == false) $wsShowNCA       = '';
 		}
 		else {
 			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
@@ -3179,6 +3181,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsShowML        = $sqlObj->show_memberlist;
 			$wsUsermenu      = $sqlObj->usermenu;
 			$wsUsermenuTitle = $sqlObj->usermenu_title;
+			$wsShowNCA       = $sqlObj->show_news_cat_amount;
 			
 			$sqlAL->freeResult($sqlQR);
 			unset($sqlAL);
@@ -3199,6 +3202,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			if($wsRegPassText   == NULL) $wsRegPassText   = '';
 			if($wsUsermenu      == NULL) $wsUsermenu      = '';
 			if($wsUsermenuTitle == NULL) $wsUsermenuTitle = '';
+			//if($wsShowNCA       == NULL) $wsShowNCA       = '';
 		}
 		
 		$wsSidemenuTitle = $this->decodeText($wsSidemenuTitle, '2', $this->m_CHARSET);
@@ -3228,6 +3232,7 @@ class tcms_datacontainer_provider extends tcms_main {
 		$se->setRegisterPasswordText($wsRegPassText);
 		$se->setUsermenu($wsUsermenu);
 		$se->setUsermenuTitle($wsUsermenuTitle);
+		$se->setShowNewsCategoryAmount($wsShowNCA);
 		
 		return $se;
 	}
