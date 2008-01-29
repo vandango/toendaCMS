@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 3.0.1
+ * @version 3.0.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -412,6 +412,7 @@ if($wsShowSite) {
 		using('toendacms.kernel.modconfig');
 		using('toendacms.kernel.error');
 		using('toendacms.kernel.menu_provider');
+		
 		//using('toendacms.kernel.globals');
 		include_once('engine/tcms_kernel/tcms_globals.lib.php');
 		
@@ -448,6 +449,17 @@ if($wsShowSite) {
 			default:
 				break;
 		}
+		
+		// include datacontainer
+		using('toendacms.datacontainer.sidebarmodule');
+		using('toendacms.datacontainer.sidebarextensions');
+		using('toendacms.datacontainer.contactform');
+		using('toendacms.datacontainer.guestbook');
+		using('toendacms.datacontainer.newsmanager');
+		using('toendacms.datacontainer.frontpage');
+		using('toendacms.datacontainer.imagegallery');
+		using('toendacms.datacontainer.products');
+		using('toendacms.datacontainer.download');
 		
 		
 		
@@ -733,17 +745,6 @@ if($wsShowSite) {
 					$tcms_main->setCurrentLang($getLang);
 					
 					
-					// include datacontainer
-					using('toendacms.datacontainer.sidebarmodule');
-					using('toendacms.datacontainer.sidebarextensions');
-					using('toendacms.datacontainer.contactform');
-					using('toendacms.datacontainer.guestbook');
-					using('toendacms.datacontainer.newsmanager');
-					using('toendacms.datacontainer.frontpage');
-					using('toendacms.datacontainer.imagegallery');
-					using('toendacms.datacontainer.products');
-					
-					
 					// Sidebar modules
 					$dcSidebarModule = new tcms_dc_sidebarmodule();
 					$dcSidebarModule = $tcms_dcp->getSidebarModuleDC();
@@ -819,6 +820,7 @@ if($wsShowSite) {
 						case 'impressum':
 						case 'products':
 						case 'imagegallery':
+						case 'download':
 							break;
 						
 						case 'frontpage':
@@ -888,15 +890,6 @@ if($wsShowSite) {
 							if($use_trackback == 1) {
 								using('toendacms.kernel.trackback');
 							}
-							break;
-						
-						case 'download':
-							$arrDW = $tcms_modconfig->getDownloadConfig($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-							
-							$download_id    = $arrDW['download_id'];
-							$download_title = $arrDW['download_title'];
-							$download_stamp = $arrDW['download_stamp'];
-							$download_text  = $arrDW['download_text'];
 							break;
 						
 						case 'links':

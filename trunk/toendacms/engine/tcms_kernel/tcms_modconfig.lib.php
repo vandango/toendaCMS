@@ -34,7 +34,6 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * __construct                -> Constructor
  * 
- * getDownloadConfig          -> Return a array with all download configuration data
  * getLinkConfig              -> Return a array with all link configuration data
  * getFAQConfig               -> Return a array with all FAQ configuration data
  *
@@ -66,59 +65,6 @@ class tcms_modconfig {
 		
 		require($administer.'/tcms_global/database.php');
 		$this->tcms_db_prefix = $tcms_db_prefix;
-	}
-	
-	
-	
-	
-	
-	/***
-	* @return Return a array with all download configuration data
-	* @desc ...
-	*/
-	function getDownloadConfig($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort){
-		global $tcms_main;
-		
-		if($choosenDB == 'xml'){
-			$down_xml     = new xmlparser(''.$this->tcms_main_path.'/tcms_global/download.xml','r');
-			
-			$arrDW['download_id']    = $down_xml->read_section('config', 'download_id');
-			$arrDW['download_title'] = $down_xml->read_section('config', 'download_title');
-			$arrDW['download_stamp'] = $down_xml->read_section('config', 'download_stamp');
-			$arrDW['download_text']  = $down_xml->read_section('config', 'download_text');
-			
-			if(!$arrDW['download_id'])   { $arrDW['download_id']    = ''; }
-			if(!$arrDW['download_title']){ $arrDW['download_title'] = ''; }
-			if(!$arrDW['download_stamp']){ $arrDW['download_stamp'] = ''; }
-			if(!$arrDW['download_text']) { $arrDW['download_text']  = ''; }
-		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-			
-			$strQuery = "SELECT download_title, download_stamp, download_text "
-			."FROM ".$this->tcms_db_prefix."downloads_config "
-			."WHERE uid = 'download'";
-			
-			$sqlQR = $sqlAL->sqlQuery($strQuery);
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
-			
-			$arrDW['download_id']    = 'download';
-			$arrDW['download_title'] = $sqlARR['download_title'];
-			$arrDW['download_stamp'] = $sqlARR['download_stamp'];
-			$arrDW['download_text']  = $sqlARR['download_text'];
-			
-			if($arrDW['download_id']    == NULL){ $arrDW['download_id']    = ''; }
-			if($arrDW['download_title'] == NULL){ $arrDW['download_title'] = ''; }
-			if($arrDW['download_stamp'] == NULL){ $arrDW['download_stamp'] = ''; }
-			if($arrDW['download_text']  == NULL){ $arrDW['download_text']  = ''; }
-		}
-		
-		$arrDW['download_title'] = $tcms_main->decodeText($arrDW['download_title'], '2', $c_charset);
-		$arrDW['download_stamp'] = $tcms_main->decodeText($arrDW['download_stamp'], '2', $c_charset);
-		$arrDW['download_text']  = $tcms_main->decodeText($arrDW['download_text'], '2', $c_charset);
-		
-		return $arrDW;
 	}
 	
 	
