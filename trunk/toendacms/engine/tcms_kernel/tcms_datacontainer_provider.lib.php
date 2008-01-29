@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.6.0
+ * @version 1.6.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -77,7 +77,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getProductsDC                             -> Get a products data container
  * getImagegalleryDC                         -> Get a imagegallery data container
  * getGuestbookDC                            -> Get a guestbook data container
- * getDownloadDC                             ->Get a download data container
+ * getDownloadDC                             -> Get a download data container
+ * getKnowledgebaseDC                        -> Get a knowledgebase data container
  *
  * getSidebarModuleDC                        -> Get a sidebarmodul data container
  * getSidebarExtensionSettings               -> Get the sidebar extension settings
@@ -1766,7 +1767,13 @@ class tcms_datacontainer_provider extends tcms_main {
 				break;
 			
 			case 'knowledgebase':
-				$authorized = $authorized;
+				$kIG = new tcms_dc_knowledgebase();
+				$kIG = $this->getKnowledgebaseDC($language);
+				
+				$authorized = $kIG->getAccess();
+				
+				unset($kIG);
+				
 				$content_published = 1;
 				break;
 			
@@ -3137,6 +3144,113 @@ class tcms_datacontainer_provider extends tcms_main {
 		$dDC->setText($wsText);
 		
 		return $dDC;
+	}
+	
+	
+	
+	/**
+	 * Get a knowledgebase data container
+	 * 
+	 * @param String $language
+	 * @return tcms_dc_knowledgebase
+	 */
+	function getKnowledgebaseDC($language) {
+		$kDC = new tcms_dc_knowledgebase();
+		
+		if($this->m_choosenDB == 'xml') {
+			/*if(file_exists($this->m_path.'/tcms_global/download.'.$language.'.xml')) {
+				$xml = new xmlparser(
+					$this->m_path.'/tcms_global/download.'.$language.'.xml',
+					'r'
+				);
+			}
+			else {
+				$xml = new xmlparser($this->m_path.'/tcms_global/var.xml','r');
+				$language = $xml->readValue('front_lang');
+				$xml->flush();
+				unset($xml);
+				
+				$xml = new xmlparser(
+					$this->m_path.'/tcms_global/download.'.$language.'.xml',
+					'r'
+				);
+			}*/
+			
+			$xml = new xmlparser(
+				$this->m_path.'/tcms_global/knowledgebase.xml',
+				'r'
+			);
+			
+			$wsID          = 'knowledgebase';
+			$wsTitle       = $xml->readSection('config', 'title');
+			$wsKey         = $xml->readSection('config', 'subtitle');
+			$wsText        = $xml->readSection('config', 'text');
+			$wsEnabled     = $xml->readSection('config', 'enabled');
+			$wsAEnabled    = $xml->readSection('config', 'autor_enabled');
+			$wsAccess      = $xml->readSection('config', 'access');
+			
+			$xml->flush();
+			unset($xml);
+			
+			if($wsID          == false) $wsID          = '';
+			if($wsTitle       == false) $wsTitle       = '';
+			if($wsTitle       == false) $wsTitle       = '';
+			if($wsText        == false) $wsText        = '';
+			if($wsEnabled     == false) $wsEnabled     = '';
+			if($wsAEnabled    == false) $wsAEnabled    = '';
+			if($wsAccess      == false) $wsAccess      = '';
+		}
+		else {
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
+			
+			$strQuery = "SELECT * "
+			."FROM ".$this->m_sqlPrefix."knowledgebase_config "
+			."WHERE uid = 'knowledgebase'";
+			//."WHERE language = '".$language."'";
+			
+			$sqlQR = $sqlAL->query($strQuery);
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
+			
+			$wsID          = 'knowledgebase';
+			$wsTitle       = $sqlObj->title;
+			$wsKey         = $sqlObj->subtitle;
+			$wsText        = $sqlObj->text;
+			$wsEnabled     = $sqlObj->enabled;
+			$wsAEnabled    = $sqlObj->autor_enabled;
+			$wsAccess      = $sqlObj->access;
+			
+			$sqlAL->freeResult($sqlQR);
+			unset($sqlAL);
+			
+			if($wsID          == NULL) $wsID          = '';
+			if($wsTitle       == NULL) $wsTitle       = '';
+			if($wsTitle       == NULL) $wsTitle       = '';
+			if($wsText        == NULL) $wsText        = '';
+			if($wsEnabled     == NULL) $wsEnabled     = '';
+			if($wsAEnabled    == NULL) $wsAEnabled    = '';
+			if($wsAccess      == NULL) $wsAccess      = '';
+		}
+		
+		$wsTitle = $this->decodeText($wsTitle, '2', $this->m_CHARSET);
+		$wsKey   = $this->decodeText($wsKey, '2', $this->m_CHARSET);
+		$wsText  = $this->decodeText($wsText, '2', $this->m_CHARSET);
+		
+		$kDC->setID($wsID);
+		$kDC->setTitle($wsTitle);
+		$kDC->setSubtitle($wsKey);
+		$kDC->setText($wsText);
+		$kDC->setEnabled($wsEnabled);
+		$kDC->setAutorEnabled($wsAEnabled);
+		$kDC->setAccess($wsAccess);
+		
+		return $kDC;
 	}
 	
 	

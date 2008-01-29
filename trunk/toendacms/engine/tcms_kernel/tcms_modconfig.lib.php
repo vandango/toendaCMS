@@ -35,7 +35,6 @@ defined('_TCMS_VALID') or die('Restricted access');
  * __construct                -> Constructor
  * 
  * getLinkConfig              -> Return a array with all link configuration data
- * getFAQConfig               -> Return a array with all FAQ configuration data
  *
  * </code>
  *
@@ -124,72 +123,6 @@ class tcms_modconfig {
 		$arrL['link_text']     = $tcms_main->decodeText($arrL['link_text'], '2', $c_charset);
 		
 		return $arrL;
-	}
-	
-	
-	
-	
-	
-	/***
-	* @return Return a array with all link configuration data
-	* @desc ...
-	*/
-	function getFAQConfig($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort){
-		global $tcms_main;
-		
-		if($choosenDB == 'xml'){
-			$pro_xml = new xmlparser(''.$this->tcms_main_path.'/tcms_global/knowledgebase.xml','r');
-			
-			$arrFAQ['faq_uid']       = 'knowledgebase';
-			$arrFAQ['faq_title']     = $pro_xml->read_section('config', 'title');
-			$arrFAQ['faq_subtitle']  = $pro_xml->read_section('config', 'subtitle');
-			$arrFAQ['faq_text']      = $pro_xml->read_section('config', 'text');
-			$arrFAQ['faq_enabled']   = $pro_xml->read_section('config', 'enabled');
-			$arrFAQ['faq_a_enabled'] = $pro_xml->read_section('config', 'autor_enabled');
-			$arrFAQ['access']        = $pro_xml->read_section('config', 'access');
-			
-			if($arrFAQ['faq_uid']       == false){ $arrFAQ['faq_uid']       = ''; }
-			if($arrFAQ['faq_title']     == false){ $arrFAQ['faq_title']     = ''; }
-			if($arrFAQ['faq_subtitle']  == false){ $arrFAQ['faq_subtitle']  = ''; }
-			if($arrFAQ['faq_text']      == false){ $arrFAQ['faq_text']      = ''; }
-			if($arrFAQ['faq_enabled']   == false){ $arrFAQ['faq_enabled']   = ''; }
-			if($arrFAQ['faq_a_enabled'] == false){ $arrFAQ['faq_a_enabled'] = ''; }
-			if($arrFAQ['access']        == false){ $arrFAQ['access']        = ''; }
-		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-			
-			$strQuery = "SELECT uid, title, subtitle, text, "
-			."enabled, autor_enabled, access "
-			."FROM ".$this->tcms_db_prefix."knowledgebase_config "
-			."WHERE uid = 'knowledgebase'";
-			
-			$sqlQR = $sqlAL->sqlQuery($strQuery);
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
-			
-			$arrFAQ['faq_uid']       = 'knowledgebase';
-			$arrFAQ['faq_title']     = $sqlARR['title'];
-			$arrFAQ['faq_subtitle']  = $sqlARR['subtitle'];
-			$arrFAQ['faq_text']      = $sqlARR['text'];
-			$arrFAQ['faq_enabled']   = $sqlARR['enabled'];
-			$arrFAQ['faq_a_enabled'] = $sqlARR['autor_enabled'];
-			$arrFAQ['access']        = $sqlARR['access'];
-			
-			if($arrFAQ['faq_uid']       == NULL){ $arrFAQ['faq_uid']       = ''; }
-			if($arrFAQ['faq_title']     == NULL){ $arrFAQ['faq_title']     = ''; }
-			if($arrFAQ['faq_subtitle']  == NULL){ $arrFAQ['faq_subtitle']  = ''; }
-			if($arrFAQ['faq_text']      == NULL){ $arrFAQ['faq_text']      = ''; }
-			if($arrFAQ['faq_enabled']   == NULL){ $arrFAQ['faq_enabled']   = ''; }
-			if($arrFAQ['faq_a_enabled'] == NULL){ $arrFAQ['faq_a_enabled'] = ''; }
-			if($arrFAQ['access']        == NULL){ $arrFAQ['access']        = ''; }
-		}
-		
-		$arrFAQ['faq_title']    = $tcms_main->decodeText($arrFAQ['faq_title'], '2', $c_charset);
-		$arrFAQ['faq_subtitle'] = $tcms_main->decodeText($arrFAQ['faq_subtitle'], '2', $c_charset);
-		$arrFAQ['faq_text']     = $tcms_main->decodeText($arrFAQ['faq_text'], '2', $c_charset);
-		
-		return $arrFAQ;
 	}
 }
 

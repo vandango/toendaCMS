@@ -23,40 +23,42 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a Knowledgebase / FAQ and Article database.
  *
- * @version 0.4.6
+ * @version 0.5.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
  */
 
 
-if(isset($_GET['cmd'])){ $cmd = $_GET['cmd']; }
-if(isset($_GET['category'])){ $category = $_GET['category']; }
-if(isset($_GET['article'])){ $article = $_GET['article']; }
+if(isset($_GET['cmd'])) { $cmd = $_GET['cmd']; }
+if(isset($_GET['category'])) { $category = $_GET['category']; }
+if(isset($_GET['article'])) { $article = $_GET['article']; }
 
 
+$kDC = new tcms_dc_knowledgebase();
+$kDC = $tcms_dcp->getKnowledgebaseDC($getLang);
 
 
 // -------------------------------------------------
 // CONTENT
 // -------------------------------------------------
 
-if(trim($faq_enabled) == 1) {
+if($kDC->getEnabled()) {
 	if(!isset($cmd) || $cmd == 'showall') $cmd = 'list';
 	
 	
 	if($cmd == 'list') {
 		echo $tcms_html->contentModuleHeader(
-			$faq_title, 
-			$faq_subtitle, 
-			( trim($category) == '' || !isset($category) ? '' : $faq_text )
+			$kDC->getTitle(), 
+			$kDC->getSubtitle(), 
+			( trim($category) == '' || !isset($category) ? '' : $kDC->getText() )
 		);
 		
 		
 		$displayDownload = true;
 		
 		
-		if($choosenDB == 'xml'){
+		if($choosenDB == 'xml') {
 			$arr_files = $tcms_file->getPathContent(
 				_TCMS_PATH.'/tcms_knowledgebase/'
 			);
@@ -67,7 +69,7 @@ if(trim($faq_enabled) == 1) {
 			/*
 				access
 			*/
-			if($tcms_main->isReal($category)){
+			if($tcms_main->isReal($category)) {
 				$xml      = new xmlparser(_TCMS_PATH.'/tcms_knowledgebase/'.$category.'.xml','r');
 				$checkAcc = $xml->readSection('faq', 'access');
 				
@@ -81,10 +83,10 @@ if(trim($faq_enabled) == 1) {
 			}
 			
 			
-			if($displayDownload){
-				if(is_array($arr_files)){
-					foreach($arr_files as $key => $value){
-						if($value != 'index.html'){
+			if($displayDownload) {
+				if(is_array($arr_files)) {
+					foreach($arr_files as $key => $value) {
+						if($value != 'index.html') {
 							$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_knowledgebase/'.$value,'r');
 							$checkCat = $menu_xml->readSection('faq', 'category');
 							
@@ -92,22 +94,22 @@ if(trim($faq_enabled) == 1) {
 							/*
 								rules
 							*/
-							if(!isset($category) || $category == ''){
+							if(!isset($category) || $category == '') {
 								if($checkCat == '') $countThis = true;
 								else $countThis = false;
 							}
-							else{
+							else {
 								if($checkCat == $category) $countThis = true;
 								else $countThis = false;
 							}
 							
 							
-							if($countThis){
+							if($countThis) {
 								$checkPub = $menu_xml->readSection('faq', 'publish_state');
 								
 								
 								// show pub
-								if($checkPub == 2){
+								if($checkPub == 2) {
 									$checkAcc = $menu_xml->readSection('faq', 'access');
 									
 									
@@ -118,7 +120,7 @@ if(trim($faq_enabled) == 1) {
 									
 									
 									// show access
-									if($showThis){
+									if($showThis) {
 										$arrFAQ['title'][$count]   = $menu_xml->readSection('faq', 'title');
 										$arrFAQ['subt'][$count]    = $menu_xml->readSection('faq', 'subtitle');
 										$arrFAQ['content'][$count] = $menu_xml->readSection('faq', 'content');
@@ -149,7 +151,7 @@ if(trim($faq_enabled) == 1) {
 			
 			unset($arr_files);
 			
-			if(is_array($arrFAQ)){
+			if(is_array($arrFAQ)) {
 				array_multisort(
 					$arrFAQ['sort'], SORT_ASC, 
 					$arrFAQ['date'], SORT_ASC, 
@@ -167,11 +169,11 @@ if(trim($faq_enabled) == 1) {
 				);
 			}
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			switch($is_admin){
+			switch($is_admin) {
 				case 'Developer':
 				case 'Administrator':
 					$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
@@ -188,7 +190,7 @@ if(trim($faq_enabled) == 1) {
 					break;
 			}
 			
-			if(!isset($category)){
+			if(!isset($category)) {
 				$sqlSTR = "SELECT * "
 				."FROM ".$tcms_db_prefix."knowledgebase "
 				."WHERE publish_state = 2 "
@@ -198,11 +200,11 @@ if(trim($faq_enabled) == 1) {
 				.$strAdd
 				."ORDER BY sort ASC, date ASC, title ASC";
 			}
-			else{
+			else {
 				/*
 					access authentication
 				*/
-				switch($is_admin){
+				switch($is_admin) {
 					case 'Developer':
 					case 'Administrator':
 						$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
@@ -231,7 +233,7 @@ if(trim($faq_enabled) == 1) {
 				$sqlQR = $sqlAL->query($sqlSTR);
 				$sqlNR = $sqlAL->getNumber($sqlQR);
 				
-				if($sqlNR > 0){
+				if($sqlNR > 0) {
 					$sqlSTR = "SELECT * "
 					."FROM ".$tcms_db_prefix."knowledgebase "
 					."WHERE category = '".$category."' "
@@ -240,17 +242,17 @@ if(trim($faq_enabled) == 1) {
 					.$strAdd
 					."ORDER BY sort ASC, date ASC, title ASC";
 				}
-				else{
+				else {
 					$displayDownload = false;
 				}
 			}
 			
-			if($displayDownload){
+			if($displayDownload) {
 				$count = 0;
 				
 				$sqlQR = $sqlAL->query($sqlSTR);
 				
-				while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+				while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)) {
 					$arrFAQ['uid'][$count]     = $sqlARR['uid'];
 					$arrFAQ['title'][$count]   = $sqlARR['title'];
 					$arrFAQ['subt'][$count]    = $sqlARR['subtitle'];
@@ -265,18 +267,18 @@ if(trim($faq_enabled) == 1) {
 					$arrFAQ['autor'][$count]   = $sqlARR['autor'];
 					
 					
-					if($arrFAQ['uid'][$count]     == NULL){ $arrFAQ['uid'][$count]     = ''; }
-					if($arrFAQ['title'][$count]   == NULL){ $arrFAQ['title'][$count]   = ''; }
-					if($arrFAQ['subt'][$count]    == NULL){ $arrFAQ['subt'][$count]    = ''; }
-					if($arrFAQ['content'][$count] == NULL){ $arrFAQ['content'][$count] = ''; }
-					if($arrFAQ['date'][$count]    == NULL){ $arrFAQ['date'][$count]    = ''; }
-					if($arrFAQ['type'][$count]    == NULL){ $arrFAQ['type'][$count]    = ''; }
-					if($arrFAQ['sort'][$count]    == NULL){ $arrFAQ['sort'][$count]    = ''; }
-					if($arrFAQ['cat'][$count]     == NULL){ $arrFAQ['cat'][$count]     = ''; }
-					if($arrFAQ['img'][$count]     == NULL){ $arrFAQ['img'][$count]     = ''; }
-					if($arrFAQ['pub'][$count]     == NULL){ $arrFAQ['pub'][$count]     = ''; }
-					if($arrFAQ['access'][$count]  == NULL){ $arrFAQ['access'][$count]  = ''; }
-					if($arrFAQ['autor'][$count]   == NULL){ $arrFAQ['autor'][$count]   = ''; }
+					if($arrFAQ['uid'][$count]     == NULL) { $arrFAQ['uid'][$count]     = ''; }
+					if($arrFAQ['title'][$count]   == NULL) { $arrFAQ['title'][$count]   = ''; }
+					if($arrFAQ['subt'][$count]    == NULL) { $arrFAQ['subt'][$count]    = ''; }
+					if($arrFAQ['content'][$count] == NULL) { $arrFAQ['content'][$count] = ''; }
+					if($arrFAQ['date'][$count]    == NULL) { $arrFAQ['date'][$count]    = ''; }
+					if($arrFAQ['type'][$count]    == NULL) { $arrFAQ['type'][$count]    = ''; }
+					if($arrFAQ['sort'][$count]    == NULL) { $arrFAQ['sort'][$count]    = ''; }
+					if($arrFAQ['cat'][$count]     == NULL) { $arrFAQ['cat'][$count]     = ''; }
+					if($arrFAQ['img'][$count]     == NULL) { $arrFAQ['img'][$count]     = ''; }
+					if($arrFAQ['pub'][$count]     == NULL) { $arrFAQ['pub'][$count]     = ''; }
+					if($arrFAQ['access'][$count]  == NULL) { $arrFAQ['access'][$count]  = ''; }
+					if($arrFAQ['autor'][$count]   == NULL) { $arrFAQ['autor'][$count]   = ''; }
 					
 					
 					// CHARSETS
@@ -291,11 +293,11 @@ if(trim($faq_enabled) == 1) {
 		}
 		
 		
-		if($displayDownload){
+		if($displayDownload) {
 			/***********************
 			* ACCESS AUTHENTICATION
 			*/
-			if($check_session){
+			if($check_session) {
 				if($is_admin == 'User' || $is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor' || $is_admin == 'Presenter')
 					$auth_down = 'Protected';
 				if($is_admin == 'Administrator' || $is_admin == 'Developer')
@@ -309,15 +311,15 @@ if(trim($faq_enabled) == 1) {
 			.'<td valign="top" class="titleBG" style="padding-left: 2px;" align="left" colspan="2">'._TABLE_CATEGORY.'</td><tr>'
 			.'<tr style="height: 7px !important;"><td colspan="2"></td></tr>';
 			
-			if(is_array($arrFAQ)){
-				foreach($arrFAQ['sort'] as $key => $value){
-					if($arrFAQ['pub'][$key] == 2){
+			if(is_array($arrFAQ)) {
+				foreach($arrFAQ['sort'] as $key => $value) {
+					if($arrFAQ['pub'][$key] == 2) {
 						echo '<tr>';
 						
 						
 						echo '<td valign="top" align="center" width="5%" style="padding-right: 5px;">';
 						
-						switch(trim($arrFAQ['type'][$key])){
+						switch(trim($arrFAQ['type'][$key])) {
 							case 'c':
 								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 								.'id=knowledgebase&amp;s='.$s.'&amp;cmd=list&amp;category='.$arrFAQ['uid'][$key]
@@ -326,11 +328,11 @@ if(trim($faq_enabled) == 1) {
 								
 								echo '<a href="'.$link.'">';
 								
-								if(trim($arrFAQ['img'][$key]) == ''){
-									if($detect_browser == 1){
-										echo '<script>if(browser == \'ie\'){
+								if(trim($arrFAQ['img'][$key]) == '') {
+									if($detect_browser == 1) {
+										echo '<script>if(browser == \'ie\') {
 										document.write(\'<img src="'.$imagePath.'engine/images/explore/faq_folder.gif" class="image" border="0" />\');
-										}else{
+										}else {
 										document.write(\'<img src="'.$imagePath.'engine/images/explore/faq_folder.png" class="image" border="0" />\');
 										}</script>';
 										
@@ -338,13 +340,13 @@ if(trim($faq_enabled) == 1) {
 										.'<img src="'.$imagePath.'engine/images/explore/faq_folder.png" class="image" border="0" />'
 										.'</noscript>';
 									}
-									else{
+									else {
 										echo '<img src="'.$imagePath.'engine/images/explore/faq_folder.png" class="image" border="0" />';
 									}
 									
 									//.'<img src="'.$imagePath.'engine/images/explore/faq_folder.gif" class="image" border="0" />'
 								}
-								else{
+								else {
 									echo '<img src="'.$imagePath._TCMS_PATH.'/images/knowledgebase/'.$arrFAQ['img'][$key].'" class="image" border="0" />';
 								}
 								
@@ -359,11 +361,11 @@ if(trim($faq_enabled) == 1) {
 								
 								echo '<a href="'.$link.'">';
 								
-								if(trim($arrFAQ['img'][$key]) == ''){
-									if($detect_browser == 1){
-										echo '<script>if(browser == \'ie\'){
+								if(trim($arrFAQ['img'][$key]) == '') {
+									if($detect_browser == 1) {
+										echo '<script>if(browser == \'ie\') {
 										document.write(\'<img src="'.$imagePath.'engine/images/explore/faq_text.gif" class="image" border="0" />\');
-										}else{
+										}else {
 										document.write(\'<img src="'.$imagePath.'engine/images/explore/faq_text.png" class="image" border="0" />\');
 										}</script>';
 										
@@ -371,13 +373,13 @@ if(trim($faq_enabled) == 1) {
 										.'<img src="'.$imagePath.'engine/images/explore/faq_text.png" class="image" border="0" />'
 										.'</noscript>';
 									}
-									else{
+									else {
 										echo '<img src="'.$imagePath.'engine/images/explore/faq_text.png" class="image" border="0" />';
 									}
 									
 									//.'<img src="'.$imagePath.'engine/images/explore/faq_text.gif" class="image" border="0" />'
 								}
-								else{
+								else {
 									echo '<img src="'.$imagePath._TCMS_PATH.'/images/knowledgebase/'.$arrFAQ['img'][$key].'" class="image" border="0" />';
 								}
 								
@@ -390,7 +392,7 @@ if(trim($faq_enabled) == 1) {
 						
 						echo '<td valign="top" align="left">';
 						
-						switch(trim($arrFAQ['type'][$key])){
+						switch(trim($arrFAQ['type'][$key])) {
 							case 'c':
 								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 								.'id=knowledgebase&amp;s='.$s.'&amp;cmd=list&amp;category='.$arrFAQ['uid'][$key]
@@ -424,7 +426,7 @@ if(trim($faq_enabled) == 1) {
 			
 			echo '</table><br />';
 		}
-		else{
+		else {
 			echo '<strong>'._MSG_NOTENOUGH_USERRIGHTS.'</strong>';
 		}
 	}
@@ -437,15 +439,15 @@ if(trim($faq_enabled) == 1) {
 	/*
 		detail view
 	*/
-	if($cmd == 'detail'){
-		if($category != ''){
-			if($choosenDB == 'xml'){
+	if($cmd == 'detail') {
+		if($category != '') {
+			if($choosenDB == 'xml') {
 				$down_xml = new xmlparser(_TCMS_PATH.'/tcms_knowledgebase/'.$category.'.xml','r');
 				$faq_cat    = $down_xml->readSection('faq', 'title');
 				$access_cat = $down_xml->readSection('faq', 'access');
 				$faq_cat    = $tcms_main->decodeText($faq_cat, '2', $c_charset);
 			}
-			else{
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB);
 				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
@@ -457,7 +459,7 @@ if(trim($faq_enabled) == 1) {
 				$faq_cat    = $tcms_main->decodeText($faq_cat, '2', $c_charset);
 			}
 		}
-		else{
+		else {
 			$faq_cat    = $faq_title;
 			$access_cat = 'Public';
 		}
@@ -472,9 +474,9 @@ if(trim($faq_enabled) == 1) {
 		
 		
 		
-		if($show_this_category){
-			if($choosenDB == 'xml'){
-				if(file_exists(_TCMS_PATH.'/tcms_knowledgebase/'.$article.'.xml')){
+		if($show_this_category) {
+			if($choosenDB == 'xml') {
+				if(file_exists(_TCMS_PATH.'/tcms_knowledgebase/'.$article.'.xml')) {
 					$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_knowledgebase/'.$article.'.xml','r');
 					
 					$arrFAQ['title']   = $menu_xml->readSection('faq', 'title');
@@ -490,18 +492,18 @@ if(trim($faq_enabled) == 1) {
 					$arrFAQ['autor']   = $menu_xml->readSection('faq', 'autor');
 					$arrFAQ['lup']     = $menu_xml->readSection('faq', 'last_update');
 					
-					if($arrFAQ['title']   == false){ $arrFAQ['title']   = ''; }
-					if($arrFAQ['subt']    == false){ $arrFAQ['subt']    = ''; }
-					if($arrFAQ['content'] == false){ $arrFAQ['content'] = ''; }
-					if($arrFAQ['date']    == false){ $arrFAQ['date']    = ''; }
-					if($arrFAQ['type']    == false){ $arrFAQ['type']    = ''; }
-					if($arrFAQ['sort']    == false){ $arrFAQ['sort']    = ''; }
-					if($arrFAQ['img']     == false){ $arrFAQ['img']     = ''; }
-					if($arrFAQ['pub']     == false){ $arrFAQ['pub']     = ''; }
-					if($arrFAQ['access']  == false){ $arrFAQ['access']  = ''; }
-					if($arrFAQ['autor']   == false){ $arrFAQ['autor']   = ''; }
-					if($arrFAQ['cat']     == false){ $arrFAQ['cat']     = ''; }
-					if($arrFAQ['lup']     == false){ $arrFAQ['lup']     = ''; }
+					if($arrFAQ['title']   == false) { $arrFAQ['title']   = ''; }
+					if($arrFAQ['subt']    == false) { $arrFAQ['subt']    = ''; }
+					if($arrFAQ['content'] == false) { $arrFAQ['content'] = ''; }
+					if($arrFAQ['date']    == false) { $arrFAQ['date']    = ''; }
+					if($arrFAQ['type']    == false) { $arrFAQ['type']    = ''; }
+					if($arrFAQ['sort']    == false) { $arrFAQ['sort']    = ''; }
+					if($arrFAQ['img']     == false) { $arrFAQ['img']     = ''; }
+					if($arrFAQ['pub']     == false) { $arrFAQ['pub']     = ''; }
+					if($arrFAQ['access']  == false) { $arrFAQ['access']  = ''; }
+					if($arrFAQ['autor']   == false) { $arrFAQ['autor']   = ''; }
+					if($arrFAQ['cat']     == false) { $arrFAQ['cat']     = ''; }
+					if($arrFAQ['lup']     == false) { $arrFAQ['lup']     = ''; }
 					
 					// CHARSETS
 					$arrFAQ['title']   = $tcms_main->decodeText($arrFAQ['title'], '2', $c_charset);
@@ -509,11 +511,11 @@ if(trim($faq_enabled) == 1) {
 					$arrFAQ['content'] = $tcms_main->decodeText($arrFAQ['content'], '2', $c_charset);
 				}
 			}
-			else{
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB);
 				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
-				switch($is_admin){
+				switch($is_admin) {
 					case 'Developer':
 					case 'Administrator':
 						$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
@@ -560,14 +562,14 @@ if(trim($faq_enabled) == 1) {
 				$arrFAQ['cat']     = $sqlARR['category'];
 				$arrFAQ['access']  = $sqlARR['access'];
 				
-				if($arrFAQ['title']   == NULL){ $arrFAQ['title']   = ''; }
-				if($arrFAQ['subt']    == NULL){ $arrFAQ['subt']    = ''; }
-				if($arrFAQ['content'] == NULL){ $arrFAQ['content'] = ''; }
-				if($arrFAQ['date']    == NULL){ $arrFAQ['date']    = ''; }
-				if($arrFAQ['autor']   == NULL){ $arrFAQ['autor']   = ''; }
-				if($arrFAQ['lup']     == NULL){ $arrFAQ['lup']     = ''; }
-				if($arrFAQ['cat']     == NULL){ $arrFAQ['cat']     = ''; }
-				if($arrFAQ['access']  == NULL){ $arrFAQ['access']  = ''; }
+				if($arrFAQ['title']   == NULL) { $arrFAQ['title']   = ''; }
+				if($arrFAQ['subt']    == NULL) { $arrFAQ['subt']    = ''; }
+				if($arrFAQ['content'] == NULL) { $arrFAQ['content'] = ''; }
+				if($arrFAQ['date']    == NULL) { $arrFAQ['date']    = ''; }
+				if($arrFAQ['autor']   == NULL) { $arrFAQ['autor']   = ''; }
+				if($arrFAQ['lup']     == NULL) { $arrFAQ['lup']     = ''; }
+				if($arrFAQ['cat']     == NULL) { $arrFAQ['cat']     = ''; }
+				if($arrFAQ['access']  == NULL) { $arrFAQ['access']  = ''; }
 				
 				// CHARSETS
 				$arrFAQ['title']   = $tcms_main->decodeText($arrFAQ['title'], '2', $c_charset);
@@ -577,13 +579,13 @@ if(trim($faq_enabled) == 1) {
 			
 			$show_this_category = $tcms_main->checkAccess($arrFAQ['access'], $is_admin);
 			
-			if($show_this_category){
-				if(trim($arrFAQ['cat']) == ''){
+			if($show_this_category) {
+				if(trim($arrFAQ['cat']) == '') {
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=knowledgebase&amp;s='.$s.'&amp;cmd=list'
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
 				}
-				else{
+				else {
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=knowledgebase&amp;s='.$s.'&amp;cmd=list&amp;category='.$arrFAQ['cat']
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -594,7 +596,7 @@ if(trim($faq_enabled) == 1) {
 				echo tcms_html::contentheading($arrFAQ['title']);//.'<br />';
 				//echo tcms_html::contentstamp(_TABLE_CATEGORY.': <a href="'.$link.'">'.$faq_cat.'</a><br />');
 				
-				if(!empty($arrFAQ)){
+				if(!empty($arrFAQ)) {
 					echo '<span class="text_small">';
 					
 					echo _TABLE_CATEGORY.': <a href="'.$link.'">'.$faq_cat.'</a><br />';
@@ -612,7 +614,7 @@ if(trim($faq_enabled) == 1) {
 					.'<br />'
 					.'<span class="text_small">';
 					
-					if($faq_autorlink == 1){
+					if($kDC->getEnabled()) {
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id=profile&amp;s='.$s.'&amp;u='.$arrFAQ['autorid']
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -623,9 +625,9 @@ if(trim($faq_enabled) == 1) {
 					
 					// class="main"
 					echo _NEWS_WRITTEN.': '
-					.( $faq_autorlink == 1 ? '<a href="'.$link.'">' : '' )
+					.( $kDC->getEnabled() ? '<a href="'.$link.'">' : '' )
 					.$strAutor
-					.( $faq_autorlink == 1 ? '</a>' : '' )
+					.( $kDC->getEnabled() ? '</a>' : '' )
 					.'<br />';
 					
 					echo _CONTENT_LAST_UPDATE.': '.lang_date(substr($arrFAQ['lup'], 0, 2), substr($arrFAQ['lup'], 3, 2), substr($arrFAQ['lup'], 6, 4), substr($arrFAQ['lup'], 11, 2), substr($arrFAQ['lup'], 14, 2), '');
@@ -633,19 +635,21 @@ if(trim($faq_enabled) == 1) {
 					echo '</span>';
 				}
 			}
-			else{
+			else {
 				echo _MSG_NOTENOUGH_USERRIGHTS;
 			}
 		}
-		else{
+		else {
 			echo _MSG_NOTENOUGH_USERRIGHTS;
 		}
 	}
 }
-else{
+else {
 	echo '<strong>'._MSG_DISABLED_MODUL.'</strong>';
 }
 
 
+// cleanup
+unset($kDC);
 
 ?>

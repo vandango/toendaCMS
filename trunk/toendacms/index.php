@@ -460,6 +460,7 @@ if($wsShowSite) {
 		using('toendacms.datacontainer.imagegallery');
 		using('toendacms.datacontainer.products');
 		using('toendacms.datacontainer.download');
+		using('toendacms.datacontainer.knowledgebase');
 		
 		
 		
@@ -821,6 +822,7 @@ if($wsShowSite) {
 						case 'products':
 						case 'imagegallery':
 						case 'download':
+						case 'knowledgebase':
 							break;
 						
 						case 'frontpage':
@@ -900,18 +902,6 @@ if($wsShowSite) {
 							$link_text     = $arrL['link_text'];
 							$link_use_desc = $arrL['link_use_desc'];
 							$authorized    = $arrL['access'];
-							break;
-						
-						case 'knowledgebase':
-							$arrFAQConfig = $tcms_modconfig->getFAQConfig($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-							
-							$faq_id        = $arrFAQConfig['faq_uid'];
-							$faq_title     = $arrFAQConfig['faq_title'];
-							$faq_subtitle  = $arrFAQConfig['faq_subtitle'];
-							$faq_text      = $arrFAQConfig['faq_text'];
-							$faq_enabled   = $arrFAQConfig['faq_enabled'];
-							$faq_autorlink = $arrFAQConfig['faq_a_enabled'];
-							$authorized    = $arrFAQConfig['access'];
 							break;
 					}
 					
