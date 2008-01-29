@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for global values
  *
- * @version 0.7.3
+ * @version 0.7.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -194,17 +194,17 @@ $dayName['short']['sun'] = _TCMS_DAY_SUNDAY_XS;
 //
 // --> IN SIDE
 //
-/*_CS*/            if(!defined('_CS'))             define('_CS', 'engine/extensions/ext_components_sidebar.php');
+/*_CS*/            if(!defined('_CS'))             define('_CS', 'engine/extensions/ext_sidebar_components.php');
 /*_CATEGORIES*/    if(!defined('_CATEGORIES'))     define('_CATEGORIES', 'engine/extensions/ext_sidebar_category.php');
 /*_MONTHVIEW*/     if(!defined('_MONTHVIEW'))      define('_MONTHVIEW', 'engine/extensions/ext_sidebar_monthview.php');
 /*_SEARCH*/        if(!defined('_SEARCH'))         define('_SEARCH', 'engine/extensions/ext_search.php');
 /*_SEARCH_RESULT*/ if(!defined('_SEARCH_RESULT'))  define('_SEARCH_RESULT', 'engine/extensions/ext_search_result.php');
-/*_SHOW_LC*/       if(!defined('_SHOW_LC'))        define('_SHOW_LC', 'engine/extensions/ext_layoutchanger.php');
+/*_SHOW_LC*/       if(!defined('_SHOW_LC'))        define('_SHOW_LC', 'engine/extensions/ext_sidebar_layoutchooser.php');
 /*_NEWSLETTER*/    if(!defined('_NEWSLETTER'))     define('_NEWSLETTER', 'engine/extensions/ext_newsletter.php');
 /*_LOGIN*/         if(!defined('_LOGIN'))          define('_LOGIN', 'engine/extensions/ext_login.php');
-/*_POLL*/          if(!defined('_POLL'))           define('_POLL', 'engine/extensions/ext_poll_sidebar.php');
-/*_SIDE_LINKS*/    if(!defined('_SIDE_LINKS'))     define('_SIDE_LINKS', 'engine/extensions/ext_links_sidebar.php');
-/*_LAST_IMAGES*/   if(!defined('_LAST_IMAGES'))    define('_LAST_IMAGES', 'engine/extensions/ext_gallery_sidebar.php');
+/*_POLL*/          if(!defined('_POLL'))           define('_POLL', 'engine/extensions/ext_sidebar_poll.php');
+/*_SIDE_LINKS*/    if(!defined('_SIDE_LINKS'))     define('_SIDE_LINKS', 'engine/extensions/ext_sidebar_links.php');
+/*_LAST_IMAGES*/   if(!defined('_LAST_IMAGES'))    define('_LAST_IMAGES', 'engine/extensions/ext_sidebar_gallery.php');
 /*_SYNDICATION*/   if(!defined('_SYNDICATION'))    define('_SYNDICATION', 'engine/extensions/ext_syndication.php');
 /*_FRONT_NEWS*/    if(!defined('_FRONT_NEWS'))     define('_FRONT_NEWS', 'engine/extensions/ext_sidebar_news.php');
 /*_LANG_SELECTOR*/ if(!defined('_LANG_SELECTOR'))  define('_LANG_SELECTOR', 'engine/extensions/ext_language_selector.php');
@@ -212,7 +212,7 @@ $dayName['short']['sun'] = _TCMS_DAY_SUNDAY_XS;
 //
 // --> IN CONTENT
 //
-/*_COMPONENTS*/    if(!defined('_COMPONENTS'))     define('_COMPONENTS', 'engine/extensions/ext_components_mainpage.php');
+/*_COMPONENTS*/    if(!defined('_COMPONENTS'))     define('_COMPONENTS', 'engine/extensions/ext_components.php');
 /*_PRODUCTS*/      if(!defined('_PRODUCTS'))       define('_PRODUCTS', 'engine/extensions/ext_products.php');
 /*_DOWNLOAD*/      if(!defined('_DOWNLOAD'))       define('_DOWNLOAD', 'engine/extensions/ext_download.php');
 /*_GUESTBOOK*/     if(!defined('_GUESTBOOK'))      define('_GUESTBOOK', 'engine/extensions/ext_guestbook.php');
@@ -224,8 +224,8 @@ $dayName['short']['sun'] = _TCMS_DAY_SUNDAY_XS;
 /*_VERSION*/       if(!defined('_VERSION'))        define('_VERSION', 'engine/extensions/ext_version.php');
 /*_REGISTER*/      if(!defined('_REGISTER'))       define('_REGISTER', 'engine/extensions/ext_register.php');
 /*_PROFILE*/       if(!defined('_PROFILE'))        define('_PROFILE', 'engine/extensions/ext_profile.php');
-/*_ALL_POLLS*/     if(!defined('_ALL_POLLS'))      define('_ALL_POLLS', 'engine/extensions/ext_poll_mainpage.php');
-/*_MAIN_LINKS*/    if(!defined('_MAIN_LINKS'))     define('_MAIN_LINKS', 'engine/extensions/ext_links_mainpage.php');
+/*_ALL_POLLS*/     if(!defined('_ALL_POLLS'))      define('_ALL_POLLS', 'engine/extensions/ext_poll.php');
+/*_MAIN_LINKS*/    if(!defined('_MAIN_LINKS'))     define('_MAIN_LINKS', 'engine/extensions/ext_links.php');
 /*_KNOWLEDGEBASE*/ if(!defined('_KNOWLEDGEBASE'))  define('_KNOWLEDGEBASE', 'engine/extensions/ext_knowledgebase.php');
 
 //
@@ -292,7 +292,7 @@ switch($id){
 	case 'components': $id_meta_ad = _TCMS_MENU_CS; break;
 	
 	default:
-		$arrContentAccess = $tcms_dcp->getContentAccess($id);
+		$arrContentAccess = $tcms_dcp->getContentAccess($id, $getLang, $authorized);
 		$authorized = $arrContentAccess['authorized'];
 		$content_published = $arrContentAccess['content_published'];
 		
@@ -358,7 +358,7 @@ $dynamicDescription = '';
 $dynamicKeywords = '';
 
 if(!in_array($id, $arrTCMSModules)) {
-	$arrContentAccess = $tcms_dcp->getContentAccess($id);
+	$arrContentAccess = $tcms_dcp->getContentAccess($id, $getLang, $authorized);
 	$authorized = $arrContentAccess['authorized'];
 	$content_published = $arrContentAccess['content_published'];
 	

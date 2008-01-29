@@ -2002,8 +2002,8 @@ class tcms_main {
 				//$text = str_replace('&cat=', '&category=', $text);
 				
 				// main replace
-				$text = str_replace('?', 'index.php/', $text);
-				//$text = str_replace('?', $this->globalFolder.'/index.php/', $text);
+				//$text = str_replace('?', 'index.php/', $text);
+				$text = str_replace('?', '/'.$this->globalFolder.'/index.php/', $text);
 				$text = str_replace('&amp;', '/', $text);
 				$text = str_replace('&', '/', $text);
 				

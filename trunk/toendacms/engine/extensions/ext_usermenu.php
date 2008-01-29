@@ -23,18 +23,18 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a user menu.
  *
- * @version 0.3.1
+ * @version 0.3.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
  */
 
 
-if($user_navigation == 1){
-	if($choosenDB == 'xml'){
-		$mtu_xml = new xmlparser(_TCMS_PATH.'/tcms_global/sidebar.xml','r');
-		$menu_title_user = $mtu_xml->readSection('side', 'usermenu_title');
-		
+if($user_navigation == 1) {
+	$dcSE = new tcms_dc_sidebarextensions();
+	$dcSE = $tcms_dcp->getSidebarExtensionSettings();
+	
+	if($choosenDB == 'xml') {
 		$xmlSet = new xmlparser(_TCMS_PATH.'/tcms_global/userpage.xml','r');
 		$npo = $xmlSet->readSection('userpage', 'news_publish');
 		$ipo = $xmlSet->readSection('userpage', 'image_publish');
@@ -42,15 +42,9 @@ if($user_navigation == 1){
 		$cpo = $xmlSet->readSection('userpage', 'cat_publish');
 		$ppo = $xmlSet->readSection('userpage', 'pic_publish');
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-		
-		$sqlQR = $sqlAL->getOne($tcms_db_prefix.'sidebar_extensions', 'sidebar_extensions');
-		$sqlARR = $sqlAL->fetchArray($sqlQR);
-		
-		$menu_title_user = $sqlARR['usermenu_title'];
-		
 		
 		$sqlQR = $sqlAL->getOne($tcms_db_prefix.'userpage', 'userpage');
 		$sqlARR = $sqlAL->fetchArray($sqlQR);
@@ -62,17 +56,13 @@ if($user_navigation == 1){
 		$ppo = $sqlARR['pic_publish'];
 	}
 	
-	$menu_title_user = $tcms_main->decodeText($menu_title_user, '2', $charset);
-	
-	echo $tcms_html->subTitle($menu_title_user);
-	
-	//echo $is_admin.'<--';
+	echo $tcms_html->subTitle($dcSE->getUsermenuTitle());
 	
 	echo '<ul style="list-style-type: none !important;">';
 	
-	if($npo == 1){
+	if($npo == 1) {
 		// Publish News
-		if($canEdit){
+		if($canEdit) {
 			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;todo=submitNews'
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlConvertToSEO($link);
@@ -83,9 +73,9 @@ if($user_navigation == 1){
 	
 	
 	
-	if($cpo == 1){
+	if($cpo == 1) {
 		// Create category
-		if($canEdit){
+		if($canEdit) {
 			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;todo=createCat'
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlConvertToSEO($link);
@@ -96,9 +86,9 @@ if($user_navigation == 1){
 	
 	
 	
-	if($ppo == 1){
+	if($ppo == 1) {
 		// Upload image to mediamanager
-		if($canEdit){
+		if($canEdit) {
 			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;todo=submitMedia'
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlConvertToSEO($link);
@@ -109,9 +99,9 @@ if($user_navigation == 1){
 	
 	
 	
-	if($apo == 1){
+	if($apo == 1) {
 		// Create Album
-		if($canEdit){
+		if($canEdit) {
 			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;todo=createAlbum'
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlConvertToSEO($link);
@@ -122,9 +112,9 @@ if($user_navigation == 1){
 	
 	
 	
-	if($ipo == 1){
+	if($ipo == 1) {
 		// Publish Images
-		if($canEdit){
+		if($canEdit) {
 			$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;todo=submitImages'
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlConvertToSEO($link);
@@ -144,7 +134,7 @@ if($user_navigation == 1){
 	
 	
 	
-	if($show_ml == 1){
+	if($dcSE->getShowMemberlist()) {
 		// Memberlist
 		$link = '?session='.$session.'&amp;id=profile&amp;s='.$s.'&amp;action=list'
 		.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -156,11 +146,11 @@ if($user_navigation == 1){
 	
 	
 	// Administration
-	if($canEdit){
-		if($choosenDB == 'xml'){
+	if($canEdit) {
+		if($choosenDB == 'xml') {
 			echo '<li><a class="mainlevel" href="'.$imagePath.'engine/admin/admin.php?id_user='.$session.'&amp;setXMLSession=1">'._LOGIN_ADMIN.'</a></li>';
 		}
-		else{
+		else {
 			echo '<li><a class="mainlevel" href="'.$imagePath.'engine/admin/admin.php?id_user='.$session.'">'._LOGIN_ADMIN.'</a></li>';
 		}
 	}

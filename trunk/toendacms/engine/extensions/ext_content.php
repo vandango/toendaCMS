@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a base content loader.
  *
- * @version 0.8.1
+ * @version 0.8.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -46,7 +46,7 @@ if(!isset($page)) {
 	ACCESS LEVEL
 */
 
-$arrContentAccess = $tcms_dcp->getContentAccess($id);
+$arrContentAccess = $tcms_dcp->getContentAccess($id, $getLang, $authorized);
 $authorized = $arrContentAccess['authorized'];
 $content_published = $arrContentAccess['content_published'];
 
@@ -67,21 +67,21 @@ if($content_published == 1) {
 	*/
 	if($ws_auth) {
 		switch($id) {
-			case 'register'    : include(_REGISTER); break;
-			case 'profile'     : include(_PROFILE); break;
-			case 'search'      : include(_SEARCH_RESULT); break;
-			case 'polls'       : include(_ALL_POLLS); break;
-			case 'components'  : include(_COMPONENTS); break;
-			case $faq_id       : include(_KNOWLEDGEBASE); break;
-			case $download_id  : include(_DOWNLOAD); break;
-			case $products_id  : include(_PRODUCTS); break;
-			case 'contactform' : include(_SEND); break;
-			case $link_id      : include(_MAIN_LINKS); break;
-			case $book_id      : include(_GUESTBOOK); break;
-			case $image_id     : include(_IMAGEGALLERY); break;
-			case $news_id      : include(_NEWSMANAGER); break;
-			case $front_id     : include(_FRONTPAGE); break;
-			case $imp_id       : include(_IMPRESSUM); break;
+			case 'register'     : include(_REGISTER); break;
+			case 'profile'      : include(_PROFILE); break;
+			case 'search'       : include(_SEARCH_RESULT); break;
+			case 'polls'        : include(_ALL_POLLS); break;
+			case 'components'   : include(_COMPONENTS); break;
+			case 'knowledgebase': include(_KNOWLEDGEBASE); break;
+			case 'download'     : include(_DOWNLOAD); break;
+			case 'products'     : include(_PRODUCTS); break;
+			case 'contactform'  : include(_SEND); break;
+			case 'links'        : include(_MAIN_LINKS); break;
+			case 'guestbook'    : include(_GUESTBOOK); break;
+			case 'imagegallery' : include(_IMAGEGALLERY); break;
+			case 'newsmanager'  : include(_NEWSMANAGER); break;
+			case 'frontpage'    : include(_FRONTPAGE); break;
+			case 'impressum'    : include(_IMPRESSUM); break;
 			default:
 				/*
 					CONTENT

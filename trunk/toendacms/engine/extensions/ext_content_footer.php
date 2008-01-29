@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Content footer with links for the "top of page", "print" 
  * and "pdf" functions.
  *
- * @version 0.5.6
+ * @version 0.5.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -224,24 +224,24 @@ if($tcms_config->usePDFLink()) {
 */
 
 switch($id) {
-	case 'register'      : break;
-	case 'profile'       : break;
-	case 'search'        : break;
-	case 'polls'         : break;
-	case 'knowledgebase' : break;
-	case 'components'    : break;
-	case $download_id    : break;
-	case $products_id    : break;
-	case $send_id        : break;
-	case 'links'         : break;
-	case $book_id        : break;
-	case $image_id       : break;
-	case $news_id        : break;
-	case $front_id       : break;
-	case $imp_id         : break;
+	case 'register'     : break;
+	case 'profile'      : break;
+	case 'search'       : break;
+	case 'polls'        : break;
+	case 'components'   : break;
+	case 'knowledgebase': break;
+	case 'download'     : break;
+	case 'products'     : break;
+	case 'contactform'  : break;
+	case 'links'        : break;
+	case 'guestbook'    : break;
+	case 'imagegallery' : break;
+	case 'newsmanager'  : break;
+	case 'frontpage'    : break;
+	case 'impressum'    : break;
 	
 	default:
-		if($tcms_config->getShowDocAutor()){
+		if($tcms_config->getShowDocAutor()) {
 			echo '&nbsp;&nbsp;'
 			.'<img style="padding-top: 2px;" src="'.$imagePath.'engine/images/v_line.gif" border="0" />'
 			.'&nbsp;&nbsp;';
@@ -322,21 +322,21 @@ switch($id) {
 
 if($tcms_config->useContentLanguage()) {
 	switch($id){
-		case 'register'      : break;
-		case 'profile'       : break;
-		case 'search'        : break;
-		case 'polls'         : break;
-		case 'knowledgebase' : break;
-		case 'components'    : break;
-		case $download_id    : break;
-		case $products_id    : break;
-		case $send_id        : break;
-		case 'links'         : break;
-		case $book_id        : break;
-		case $image_id       : break;
-		case $news_id        : break;
-		case $front_id       : break;
-		case $imp_id         : break;
+		case 'register'     : break;
+		case 'profile'      : break;
+		case 'search'       : break;
+		case 'polls'        : break;
+		case 'components'   : break;
+		case 'knowledgebase': break;
+		case 'download'     : break;
+		case 'products'     : break;
+		case 'contactform'  : break;
+		case 'links'        : break;
+		case 'guestbook'    : break;
+		case 'imagegallery' : break;
+		case 'newsmanager'  : break;
+		case 'frontpage'    : break;
+		case 'impressum'    : break;
 		
 		default:
 			$arr_langs = $tcms_dcp->getContentLanguages($id);

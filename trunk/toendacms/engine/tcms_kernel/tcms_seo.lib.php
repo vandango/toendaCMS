@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used for the search engine
  * optimization.
  *
- * @version 0.5.7
+ * @version 0.5.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -57,11 +57,7 @@ class tcms_seo {
 	/**
 	 * Constructor
 	 */
-	public function __construct(){
-		$this->m_urlArray = explode('/', $_SERVER['REQUEST_URI']);
-		$this->m_RequestUri = $_SERVER['REQUEST_URI'];
-		
-		$this->m_idArray = explode('&', $this->m_urlArray[2]);
+	public function __construct() {
 	}
 	
 	
@@ -78,6 +74,11 @@ class tcms_seo {
 	 * Explode the url in colon format
 	 */
 	public function explodeUrlColonFormat(){
+		$this->m_urlArray = explode('/', $_SERVER['REQUEST_URI']);
+		$this->m_RequestUri = $_SERVER['REQUEST_URI'];
+		
+		$this->m_idArray = explode('&', $this->m_urlArray[2]);
+		
 		$arrSEO = '';
 		
 		foreach($this->m_urlArray as $urlKey => $urlValue){
@@ -206,6 +207,11 @@ class tcms_seo {
 	 * Explode the url in slash format
 	 */
 	public function explodeUrlSlashFormat(){
+		$this->m_urlArray = explode('/', $_SERVER['REQUEST_URI']);
+		$this->m_RequestUri = $_SERVER['REQUEST_URI'];
+		
+		$this->m_idArray = explode('&', $this->m_urlArray[2]);
+		
 		$arrSEO = '';
 		
 		foreach($this->m_urlArray as $urlKey => $urlValue){
@@ -343,14 +349,30 @@ class tcms_seo {
 	 * @param Object &$tcmsFileObj = null
 	 */
 	public function explodeHTMLFormat(&$tcmsMainObj = null, &$tcmsTimeObj = null, &$tcmsConfigObj = null, &$tcmsFileObj = null) {
-		//global $tcms_main;
-		//global $tcms_time;
-		//global $tcms_config;
-		
 		$tcms_main = $tcmsMainObj;
 		$tcms_time = $tcmsTimeObj;
 		$tcms_config = $tcmsConfigObj;
 		$tcms_file = $tcmsFileObj;
+		
+		//echo $_SERVER['REQUEST_URI'].'<br>';
+		
+		$pos = $tcms_main->indexOf($_SERVER['REQUEST_URI'], '?');
+		
+		if($pos > 0) {
+			$part1 = substr($_SERVER['REQUEST_URI'], 0, $pos);
+			$part2 = substr($_SERVER['REQUEST_URI'], $pos);
+		}
+		else {
+			$part1 = $_SERVER['REQUEST_URI'];
+			$part2 = '';
+		}
+		
+		//echo $part1.'<br>';
+		//echo $part2.'<br>';
+		
+		$this->m_RequestUri = $_SERVER['REQUEST_URI'];
+		$this->m_urlArray = explode('/', $part1);
+		$this->m_idArray = explode('&', $part2);
 		
 		$dcp = new tcms_datacontainer_provider(
 			$tcms_main->getAdministerSite(), 
@@ -360,7 +382,7 @@ class tcms_seo {
 		
 		$arrSEO = explode('/', $tcms_config->getSEOPath());
 		
-		foreach($this->m_urlArray as $urlKey => $urlValue){
+		foreach($this->m_urlArray as $urlKey => $urlValue) {
 			//echo '$urlValue:'.$urlValue.'<br>';
 			
 			$val = '';

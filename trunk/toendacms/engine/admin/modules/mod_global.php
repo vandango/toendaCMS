@@ -969,6 +969,7 @@ if($id_group == 'Developer'
 		._GLOBAL_SEO_NEWS_TITLE
     	.'</td><td>'
 		.'<input type="checkbox" name="new_seo_news_title"'.($old_seo_news_title == 1 ? ' checked' : '' ).' value="1" />'
+		.' (not with XML database)'
 		.'</td></tr>';
 		
 		
@@ -977,6 +978,7 @@ if($id_group == 'Developer'
 		._GLOBAL_SEO_CONTENT_TITLE
 	    .'</td><td>'
 		.'<input type="checkbox" name="new_seo_content_title"'.($old_seo_c_title == 1 ? ' checked' : '' ).' value="1" />'
+		.' (not with XML database)'
 		.'</td></tr>';
 		
 		

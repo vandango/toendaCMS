@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the sidebar functionality.
  *
- * @version 0.5.6
+ * @version 0.6.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -37,56 +37,81 @@ defined('_TCMS_VALID') or die('Restricted access');
 // INIT
 // ----------------------------------------
 
-if($use_sidebar == 1){
-	if($choosenDB == 'xml'){
-		$use_side_xml  = new xmlparser(_TCMS_PATH.'/tcms_global/sidebar.xml','r');
-		$sidebar_title = $use_side_xml->readSection('side', 'sidebar_title');
-		$show_sbt      = $use_side_xml->readSection('side', 'show_sidebar_title');
-	}
-	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-		
-		$sqlQR = $sqlAL->getOne($tcms_db_prefix.'sidebar_extensions', 'sidebar_extensions');
-		$sqlObj = $sqlAL->fetchObject($sqlQR);
-		
-		$sidebar_title = $sqlObj->sidebar_title;
-		$show_sbt      = $sqlObj->show_sidebar_title;
-	}
+if($use_sidebar == 1) {
+	$seDC = new tcms_dc_sidebarextensions();
+	$seDC = $tcms_dcp->getSidebarExtensionSettings();
 	
 	
-	$sidebar_title = $tcms_main->decodeText($sidebar_title, '2', $c_charset);
-}
-
-
-
-
-
-// ----------------------------------------
-// SIDEBAR CONTACTS
-// ----------------------------------------
-
-if($cform_enabled == 1) {
-	if($show_cisb == 1 && $id == 'contactform') {
-		echo $tcms_html->subTitle(_SIDE_CONTACTS).'<br />';
-		
-		if($choosenDB == 'xml'){
-			$arr_sbc = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_contacts/');
+	
+	// ----------------------------------------
+	// SIDEBAR CONTACTS
+	// ----------------------------------------
+	
+	using('toendacms.datacontainer.contactform');
+	
+	$dcCF = new tcms_dc_contactform();
+	$dcCF = $tcms_dcp->getContactformDC($getLang);
+	
+	if($dcCF->getEnabled()) {
+		if($dcCF->getShowContactsInSidebar() 
+		&& $id == 'contactform') {
+			echo $tcms_html->subTitle(_SIDE_CONTACTS).'<br />';
 			
-			foreach ($arr_sbc as $key => $value){
-				$contacts_xml = new xmlparser(_TCMS_PATH.'/tcms_contacts/'.$value,'r');
-				$tc_pub = $contacts_xml->readSection('contact', 'published');
+			if($choosenDB == 'xml') {
+				$arr_sbc = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_contacts/');
 				
-				if($tc_pub == 1){
-					$csb_name  = $contacts_xml->readSection('contact', 'name');
-					$csb_job   = $contacts_xml->readSection('contact', 'position');
-					$csb_email = $contacts_xml->readSection('contact', 'email');
-					$csb_phone = $contacts_xml->readSection('contact', 'phone');
+				foreach ($arr_sbc as $key => $value) {
+					$contacts_xml = new xmlparser(_TCMS_PATH.'/tcms_contacts/'.$value,'r');
+					$tc_pub = $contacts_xml->readSection('contact', 'published');
 					
-					if($csb_name  == false){ $csb_name  = ''; }
-					if($csb_job   == false){ $csb_job   = ''; }
-					if($csb_email == false){ $csb_email = ''; }
-					if($csb_phone == false){ $csb_phone = ''; }
+					if($tc_pub == 1) {
+						$csb_name  = $contacts_xml->readSection('contact', 'name');
+						$csb_job   = $contacts_xml->readSection('contact', 'position');
+						$csb_email = $contacts_xml->readSection('contact', 'email');
+						$csb_phone = $contacts_xml->readSection('contact', 'phone');
+						
+						if($csb_name  == false) { $csb_name  = ''; }
+						if($csb_job   == false) { $csb_job   = ''; }
+						if($csb_email == false) { $csb_email = ''; }
+						if($csb_phone == false) { $csb_phone = ''; }
+						
+						$csb_name  = $tcms_main->decodeText($csb_name, '2', $c_charset);
+						$csb_job   = $tcms_main->decodeText($csb_job, '2', $c_charset);
+						$csb_email = $tcms_main->decodeText($csb_email, '2', $c_charset);
+						$csb_phone = $tcms_main->decodeText($csb_phone, '2', $c_charset);
+						
+						echo ( !empty($csb_name)  ? '<strong class="text_normal">'.$csb_name.'</strong><br />' : '' );
+						echo ( !empty($csb_job)   ? '<span class="text_small">'.$csb_job.'</span><br />' : '' );
+						
+						if($cipher_email == 1) {
+							echo ( !empty($csb_email) ? '<span class="text_normal"><script>JSCrypt.displayCryptMail(\''.$tcms_main->encodeBase64($csb_email).'\', \''.$csb_name.'\');</script><br />' : '' );
+						}
+						else {
+							echo ( !empty($csb_email) ? '<span class="text_normal"><a href="mailto:'.$csb_email.'">'.$csb_email.'</a></span><br />' : '' );
+						}
+						
+						echo ( !empty($csb_email) ? '<span class="text_normal"><script>JSCrypt.displayCryptMail(\''.$csb_email.'\', \''.$csb_name.'\');</script><br />' : '' );
+						echo ( !empty($csb_phone) ? '<span class="text_normal">'.$csb_phone.'</span><br />' : '' );
+						echo '<br />';
+					}
+				}
+			}
+			else {
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				
+				$sqlQR = $sqlAL->getAll($tcms_db_prefix.'contacts WHERE published=1');
+				
+				while($sqlARR = $sqlAL->fetchArray($sqlQR)) {
+					$csb_name  = $sqlARR['name'];
+					$csb_job   = $sqlARR['position'];
+					$csb_email = $sqlARR['email'];
+					$csb_phone = $sqlARR['phone'];
+					
+					if($csb_name  == NULL) { $csb_name  = ''; }
+					if($csb_job   == NULL) { $csb_job   = ''; }
+					if($csb_email == NULL) { $csb_email = ''; }
+					if($csb_phone == NULL) { $csb_phone = ''; }
 					
 					$csb_name  = $tcms_main->decodeText($csb_name, '2', $c_charset);
 					$csb_job   = $tcms_main->decodeText($csb_job, '2', $c_charset);
@@ -96,226 +121,189 @@ if($cform_enabled == 1) {
 					echo ( !empty($csb_name)  ? '<strong class="text_normal">'.$csb_name.'</strong><br />' : '' );
 					echo ( !empty($csb_job)   ? '<span class="text_small">'.$csb_job.'</span><br />' : '' );
 					
-					if($cipher_email == 1){
+					if($cipher_email == 1) {
 						echo ( !empty($csb_email) ? '<span class="text_normal"><script>JSCrypt.displayCryptMail(\''.$tcms_main->encodeBase64($csb_email).'\', \''.$csb_name.'\');</script><br />' : '' );
 					}
-					else{
+					else {
 						echo ( !empty($csb_email) ? '<span class="text_normal"><a href="mailto:'.$csb_email.'">'.$csb_email.'</a></span><br />' : '' );
 					}
 					
-					echo ( !empty($csb_email) ? '<span class="text_normal"><script>JSCrypt.displayCryptMail(\''.$csb_email.'\', \''.$csb_name.'\');</script><br />' : '' );
 					echo ( !empty($csb_phone) ? '<span class="text_normal">'.$csb_phone.'</span><br />' : '' );
 					echo '<br />';
 				}
 			}
+			
+			echo '<br /><br />';
 		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-			
-			$sqlQR = $sqlAL->getAll($tcms_db_prefix.'contacts WHERE published=1');
-			
-			while($sqlARR = $sqlAL->fetchArray($sqlQR)){
-				$csb_name  = $sqlARR['name'];
-				$csb_job   = $sqlARR['position'];
-				$csb_email = $sqlARR['email'];
-				$csb_phone = $sqlARR['phone'];
-				
-				if($csb_name  == NULL){ $csb_name  = ''; }
-				if($csb_job   == NULL){ $csb_job   = ''; }
-				if($csb_email == NULL){ $csb_email = ''; }
-				if($csb_phone == NULL){ $csb_phone = ''; }
-				
-				$csb_name  = $tcms_main->decodeText($csb_name, '2', $c_charset);
-				$csb_job   = $tcms_main->decodeText($csb_job, '2', $c_charset);
-				$csb_email = $tcms_main->decodeText($csb_email, '2', $c_charset);
-				$csb_phone = $tcms_main->decodeText($csb_phone, '2', $c_charset);
-				
-				echo ( !empty($csb_name)  ? '<strong class="text_normal">'.$csb_name.'</strong><br />' : '' );
-				echo ( !empty($csb_job)   ? '<span class="text_small">'.$csb_job.'</span><br />' : '' );
-				
-				if($cipher_email == 1){
-					echo ( !empty($csb_email) ? '<span class="text_normal"><script>JSCrypt.displayCryptMail(\''.$tcms_main->encodeBase64($csb_email).'\', \''.$csb_name.'\');</script><br />' : '' );
+	}
+	
+	unset($dcCF);
+	
+	
+	
+	
+	
+	// ----------------------------------------
+	// SIDEBAR CONTENT
+	// ----------------------------------------
+	
+	if($id != 'register' 
+	&& $id != 'profile' 
+	&& $id != 'polls') {
+		/*
+			PRODUCTS
+		*/
+		if($id == $products_id) {
+			if($use_sidebar_categories == 1) {
+				if($choosenDB == 'xml') {
+					$arr_products = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_products/');
+					
+					$count = 0;
+					
+					/*if($tcms_main->isArray($arr_products)) {
+						foreach($arr_products as $key => $value) {
+							$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_products/'.$value.'/folderinfo.xml','r');
+							$chkAcc   = $menu_xml->readSection('folderinfo', 'access');
+							
+							if($is_admin == 'Developer' || $is_admin == 'Administrator') { $showAll = true; }
+							else {
+								if($chkAcc == 'Public' || $chkAcc == 'Protected') { $showAll = true; }
+								else { $showAll = false; }
+							}
+							
+							if($showAll == true) {
+								$arr_art['name'][$count] = $menu_xml->readSection('folderinfo', 'name');
+								$arr_art['date'][$count] = $menu_xml->readSection('folderinfo', 'date');
+								$arr_art['desc'][$count] = $menu_xml->readSection('folderinfo', 'desc');
+								$arr_art['sort'][$count] = $menu_xml->readSection('folderinfo', 'sort');
+								$arr_art['dir'][$count]  = $menu_xml->readSection('folderinfo', 'folder');
+								$arr_art['pub'][$count]  = $menu_xml->readSection('folderinfo', 'pub');
+								$arr_art['ac'][$count]   = $menu_xml->readSection('folderinfo', 'access');
+								
+								$arr_art['name'][$count] = $tcms_main->decodeText($arr_art['name'][$count], '2', $c_charset);
+								$arr_art['desc'][$count] = $tcms_main->decodeText($arr_art['desc'][$count], '2', $c_charset);
+								
+								$check_products_amount = $count;
+								$count++;
+							}
+						}
+						
+						if(is_array($arr_art)) {
+							array_multisort(
+								$arr_art['sort'], SORT_ASC, 
+								$arr_art['name'], SORT_ASC, 
+								$arr_art['date'], SORT_ASC, 
+								$arr_art['desc'], SORT_ASC, 
+								$arr_art['dir'], SORT_ASC, 
+								$arr_art['pub'], SORT_ASC, 
+								$arr_art['ac'], SORT_ASC
+							);
+						}
+					}*/
 				}
-				else{
-					echo ( !empty($csb_email) ? '<span class="text_normal"><a href="mailto:'.$csb_email.'">'.$csb_email.'</a></span><br />' : '' );
+				else {
+					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+					
+					switch($is_admin) {
+						case 'Developer':
+						case 'Administrator':
+							$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
+							break;
+						
+						case 'User':
+						case 'Editor':
+						case 'Presenter':
+							$strAdd = " OR access = 'Protected' ) ";
+							break;
+						
+						default:
+							$strAdd = ' ) ';
+							break;
+					}
+					
+					$sqlSTR = "SELECT uid, name, category "
+					."FROM ".$tcms_db_prefix."products "
+					."WHERE sql_type='c' "
+					."AND ( access = 'Public' "
+					.$strAdd
+					."ORDER BY name ASC, sort ASC";
+					
+					$sqlQR = $sqlAL->query($sqlSTR);
+					
+					$count = 0;
+					
+					while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
+						$arr_art['uid'][$count]  = $sqlObj->uid;
+						$arr_art['name'][$count] = $sqlObj->name;
+						$arr_art['cat'][$count]  = $sqlObj->category;
+						
+						if($arr_art['uid'][$count]  == NULL) { $arr_art['uid'][$count]  = ''; }
+						if($arr_art['name'][$count] == NULL) { $arr_art['name'][$count] = ''; }
+						if($arr_art['cat'][$count]  == NULL) { $arr_art['cat'][$count]  = ''; }
+						
+						$arr_art['name'][$count] = $tcms_main->decodeText($arr_art['name'][$count], '2', $c_charset);
+						
+						$count++;
+						$check_products_amount = $count;
+					}
 				}
 				
-				echo ( !empty($csb_phone) ? '<span class="text_normal">'.$csb_phone.'</span><br />' : '' );
+				if($show_pro_ct == 1) {
+					$category_title = $tcms_main->decodeText($category_title, '2', $c_charset);
+					echo $tcms_html->subTitle($category_title);
+				}
+				
+				echo '<div class="sidemain">';
+				
+				if($check_products_amount > 0) {
+					foreach($arr_art['uid'] as $key => $value) {
+						//if($arr_art['cat'][$key] == '') {
+							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+							.'id=products&amp;s='.$s
+							.'&amp;action=showall&amp;cmd=browse'
+							.'&amp;category='.$arr_art['uid'][$key]
+							.( isset($lang) ? '&amp;lang='.$lang : '' );
+							$link = $tcms_main->urlConvertToSEO($link);
+							
+							//echo '<span class="newsCategories">';
+							
+							echo '<span style="padding-left: 6px;" class="text_normal">&raquo; '
+							.'<a href="'.$link.'">'.$arr_art['name'][$key].'</a>'
+							.'</strong>'
+							.'<br />';
+							
+							/*$subElement = $tcms_main->getArrayElement(
+								$arr_art, 
+								'category', 
+								$arr_art['uid'][$key], 
+								'name'
+							);
+							
+							if($subElement != '') {
+								echo '<span class="text_normal">'
+								.'&nbsp;&nbsp;<a href="'.$link.'">'.$subElement.'</a>'
+								.'</span>'
+								.'<br />';
+							}*/
+						//}
+					}
+				}
+				
+				echo '</div>';
+				
 				echo '<br />';
+				//.'<br />';
 			}
 		}
 		
-		echo '<br /><br />';
-	}
-}
-
-
-
-
-
-// ----------------------------------------
-// SIDEBAR CONTENT
-// ----------------------------------------
-
-if($id != 'register' 
-&& $id != 'profile' 
-&& $id != 'polls'){
-	/*
-		PRODUCTS
-	*/
-	if($id == $products_id) {
-		if($use_sidebar_categories == 1) {
-			if($choosenDB == 'xml') {
-				$arr_products = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_products/');
-				
-				$count = 0;
-				
-				/*if($tcms_main->isArray($arr_products)){
-					foreach($arr_products as $key => $value){
-						$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_products/'.$value.'/folderinfo.xml','r');
-						$chkAcc   = $menu_xml->readSection('folderinfo', 'access');
-						
-						if($is_admin == 'Developer' || $is_admin == 'Administrator'){ $showAll = true; }
-						else{
-							if($chkAcc == 'Public' || $chkAcc == 'Protected'){ $showAll = true; }
-							else{ $showAll = false; }
-						}
-						
-						if($showAll == true){
-							$arr_art['name'][$count] = $menu_xml->readSection('folderinfo', 'name');
-							$arr_art['date'][$count] = $menu_xml->readSection('folderinfo', 'date');
-							$arr_art['desc'][$count] = $menu_xml->readSection('folderinfo', 'desc');
-							$arr_art['sort'][$count] = $menu_xml->readSection('folderinfo', 'sort');
-							$arr_art['dir'][$count]  = $menu_xml->readSection('folderinfo', 'folder');
-							$arr_art['pub'][$count]  = $menu_xml->readSection('folderinfo', 'pub');
-							$arr_art['ac'][$count]   = $menu_xml->readSection('folderinfo', 'access');
-							
-							$arr_art['name'][$count] = $tcms_main->decodeText($arr_art['name'][$count], '2', $c_charset);
-							$arr_art['desc'][$count] = $tcms_main->decodeText($arr_art['desc'][$count], '2', $c_charset);
-							
-							$check_products_amount = $count;
-							$count++;
-						}
-					}
-					
-					if(is_array($arr_art)){
-						array_multisort(
-							$arr_art['sort'], SORT_ASC, 
-							$arr_art['name'], SORT_ASC, 
-							$arr_art['date'], SORT_ASC, 
-							$arr_art['desc'], SORT_ASC, 
-							$arr_art['dir'], SORT_ASC, 
-							$arr_art['pub'], SORT_ASC, 
-							$arr_art['ac'], SORT_ASC
-						);
-					}
-				}*/
-			}
-			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-				
-				switch($is_admin){
-					case 'Developer':
-					case 'Administrator':
-						$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
-						break;
-					
-					case 'User':
-					case 'Editor':
-					case 'Presenter':
-						$strAdd = " OR access = 'Protected' ) ";
-						break;
-					
-					default:
-						$strAdd = ' ) ';
-						break;
-				}
-				
-				$sqlSTR = "SELECT uid, name, category "
-				."FROM ".$tcms_db_prefix."products "
-				."WHERE sql_type='c' "
-				."AND ( access = 'Public' "
-				.$strAdd
-				."ORDER BY name ASC, sort ASC";
-				
-				$sqlQR = $sqlAL->query($sqlSTR);
-				
-				$count = 0;
-				
-				while($sqlObj = $sqlAL->fetchObject($sqlQR)){
-					$arr_art['uid'][$count]  = $sqlObj->uid;
-					$arr_art['name'][$count] = $sqlObj->name;
-					$arr_art['cat'][$count]  = $sqlObj->category;
-					
-					if($arr_art['uid'][$count]  == NULL){ $arr_art['uid'][$count]  = ''; }
-					if($arr_art['name'][$count] == NULL){ $arr_art['name'][$count] = ''; }
-					if($arr_art['cat'][$count]  == NULL){ $arr_art['cat'][$count]  = ''; }
-					
-					$arr_art['name'][$count] = $tcms_main->decodeText($arr_art['name'][$count], '2', $c_charset);
-					
-					$count++;
-					$check_products_amount = $count;
-				}
-			}
-			
-			if($show_pro_ct == 1){
-				$category_title = $tcms_main->decodeText($category_title, '2', $c_charset);
-				echo $tcms_html->subTitle($category_title);
-			}
-			
-			echo '<div class="sidemain">';
-			
-			if($check_products_amount > 0) {
-				foreach($arr_art['uid'] as $key => $value) {
-					//if($arr_art['cat'][$key] == '') {
-						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-						.'id=products&amp;s='.$s
-						.'&amp;action=showall&amp;cmd=browse'
-						.'&amp;category='.$arr_art['uid'][$key]
-						.( isset($lang) ? '&amp;lang='.$lang : '' );
-						$link = $tcms_main->urlConvertToSEO($link);
-						
-						//echo '<span class="newsCategories">';
-						
-						echo '<span style="padding-left: 6px;" class="text_normal">&raquo; '
-						.'<a href="'.$link.'">'.$arr_art['name'][$key].'</a>'
-						.'</strong>'
-						.'<br />';
-						
-						/*$subElement = $tcms_main->getArrayElement(
-							$arr_art, 
-							'category', 
-							$arr_art['uid'][$key], 
-							'name'
-						);
-						
-						if($subElement != '') {
-							echo '<span class="text_normal">'
-							.'&nbsp;&nbsp;<a href="'.$link.'">'.$subElement.'</a>'
-							.'</span>'
-							.'<br />';
-						}*/
-					//}
-				}
-			}
-			
-			echo '</div>';
-			
-			echo '<br />';
-			//.'<br />';
-		}
-	}
-	
-	
-	
-	/*
-		STATIC CONTENT
-	*/
-	if($use_sidebar == 1) {
-		if($show_sbt == 1) {
-			if($id != 'contactform') {// && $id != 'products'){
+		
+		
+		/*
+			STATIC CONTENT
+		*/
+		if($seDC->getShowSidebarTitle()) {
+			if($id != 'contactform') {// && $id != 'products') {
 				if($choosenDB == 'xml') {
 					if(file_exists(_TCMS_PATH.'/tcms_sidebar/'.$id.'.xml')) {
 						$show_sbt_ever = true;
@@ -324,7 +312,7 @@ if($id != 'register'
 						$show_sbt_ever = false;
 					}
 				}
-				else{
+				else {
 					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					$sqlQR = $sqlAL->getAll($tcms_db_prefix."sidebar WHERE uid='".$id."'");
@@ -339,14 +327,14 @@ if($id != 'register'
 				}
 				
 				if($show_sbt_ever == true) {
-					echo $tcms_html->subTitle($sidebar_title);
+					echo $tcms_html->subTitle($seDC->getSidebarTitle());
 				}
 			}
 		}
 		
 		
 		if($choosenDB == 'xml') {
-			if(file_exists(_TCMS_PATH.'/tcms_sidebar/'.$id.'.xml')){
+			if(file_exists(_TCMS_PATH.'/tcms_sidebar/'.$id.'.xml')) {
 				$sidexml = new xmlparser(_TCMS_PATH.'/tcms_sidebar/'.$id.'.xml','r');
 				$sb_title   = $sidexml->readSection('side', 'title');
 				$sb_key     = $sidexml->readSection('side', 'key');
@@ -394,10 +382,10 @@ if($id != 'register'
 			$sb_content = $sqlObj->content;
 			$sb_foot    = $sqlObj->foot;
 			
-			if($sb_title   == NULL){ $sb_title   = ''; }
-			if($sb_key     == NULL){ $sb_key     = ''; }
-			if($sb_content == NULL){ $sb_content = ''; }
-			if($sb_foot    == NULL){ $sb_foot    = ''; }
+			if($sb_title   == NULL) { $sb_title   = ''; }
+			if($sb_key     == NULL) { $sb_key     = ''; }
+			if($sb_content == NULL) { $sb_content = ''; }
+			if($sb_foot    == NULL) { $sb_foot    = ''; }
 			
 			if($sqlNR > 0) {
 				// CHARSETS
@@ -428,6 +416,9 @@ if($id != 'register'
 			}
 		}
 	}
+	
+	// cleanup
+	unset($seDC);
 }
 
 ?>

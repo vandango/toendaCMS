@@ -23,41 +23,41 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the register functions.
  *
- * @version 0.6.7
+ * @version 0.6.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
  */
 
 
-if(isset($_GET['cmd'])){ $cmd = $_GET['cmd']; }
-if(isset($_GET['todo'])){ $todo = $_GET['todo']; }
-if(isset($_GET['code'])){ $code = $_GET['code']; }
-if(isset($_GET['conduct'])){ $conduct = $_GET['conduct']; }
+if(isset($_GET['cmd'])) { $cmd = $_GET['cmd']; }
+if(isset($_GET['todo'])) { $todo = $_GET['todo']; }
+if(isset($_GET['code'])) { $code = $_GET['code']; }
+if(isset($_GET['conduct'])) { $conduct = $_GET['conduct']; }
 
-if(isset($_POST['todo'])){ $todo = $_POST['todo']; }
-if(isset($_POST['fulluser2'])){ $fulluser2 = $_POST['fulluser2']; }
-if(isset($_POST['fullemail2'])){ $fullemail2 = $_POST['fullemail2']; }
-if(isset($_POST['fullname'])){ $fullname = $_POST['fullname']; }
-if(isset($_POST['fullemail'])){ $fullemail = $_POST['fullemail']; }
-if(isset($_POST['fulluser'])){ $fulluser = $_POST['fulluser']; }
-if(isset($_POST['pass_md5'])){ $pass_md5 = $_POST['pass_md5']; }
-if(isset($_POST['v_pass_md5'])){ $v_pass_md5 = $_POST['v_pass_md5']; }
-if(isset($_POST['new_hobby'])){ $new_hobby = $_POST['new_hobby']; }
-if(isset($_POST['check_pass'])){ $check_pass = $_POST['check_pass']; }
-if(isset($_POST['new_icq'])){ $new_icq = $_POST['new_icq']; }
-if(isset($_POST['new_aim'])){ $new_aim = $_POST['new_aim']; }
-if(isset($_POST['new_yim'])){ $new_yim = $_POST['new_yim']; }
-if(isset($_POST['new_msn'])){ $new_msn = $_POST['new_msn']; }
-if(isset($_POST['new_www'])){ $new_www = $_POST['new_www']; }
-if(isset($_POST['new_occ'])){ $new_occ = $_POST['new_occ']; }
-if(isset($_POST['new_location'])){ $new_location = $_POST['new_location']; }
-if(isset($_POST['new_hobby'])){ $new_hobby = $_POST['new_hobby']; }
-
-
+if(isset($_POST['todo'])) { $todo = $_POST['todo']; }
+if(isset($_POST['fulluser2'])) { $fulluser2 = $_POST['fulluser2']; }
+if(isset($_POST['fullemail2'])) { $fullemail2 = $_POST['fullemail2']; }
+if(isset($_POST['fullname'])) { $fullname = $_POST['fullname']; }
+if(isset($_POST['fullemail'])) { $fullemail = $_POST['fullemail']; }
+if(isset($_POST['fulluser'])) { $fulluser = $_POST['fulluser']; }
+if(isset($_POST['pass_md5'])) { $pass_md5 = $_POST['pass_md5']; }
+if(isset($_POST['v_pass_md5'])) { $v_pass_md5 = $_POST['v_pass_md5']; }
+if(isset($_POST['new_hobby'])) { $new_hobby = $_POST['new_hobby']; }
+if(isset($_POST['check_pass'])) { $check_pass = $_POST['check_pass']; }
+if(isset($_POST['new_icq'])) { $new_icq = $_POST['new_icq']; }
+if(isset($_POST['new_aim'])) { $new_aim = $_POST['new_aim']; }
+if(isset($_POST['new_yim'])) { $new_yim = $_POST['new_yim']; }
+if(isset($_POST['new_msn'])) { $new_msn = $_POST['new_msn']; }
+if(isset($_POST['new_www'])) { $new_www = $_POST['new_www']; }
+if(isset($_POST['new_occ'])) { $new_occ = $_POST['new_occ']; }
+if(isset($_POST['new_location'])) { $new_location = $_POST['new_location']; }
+if(isset($_POST['new_hobby'])) { $new_hobby = $_POST['new_hobby']; }
 
 
-if(!isset($cmd)){ $cmd = 'register'; }
+
+
+if(!isset($cmd)) { $cmd = 'register'; }
 
 
 
@@ -173,11 +173,11 @@ if($cmd == 'retrieve') {
 				$arr_login['group'][$fulluser2]    = $sqlARR['group'];
 				$arr_login['email'][$fulluser2]    = $sqlARR['email'];
 				
-				if($arr_login['maintag'][$fulluser2]  == NULL){ $arr_login['maintag'][$fulluser2]  = ''; }
-				if($arr_login['username'][$fulluser2] == NULL){ $arr_login['username'][$fulluser2] = ''; }
-				if($arr_login['password'][$fulluser2] == NULL){ $arr_login['password'][$fulluser2] = ''; }
-				if($arr_login['group'][$fulluser2]    == NULL){ $arr_login['group'][$fulluser2]    = ''; }
-				if($arr_login['email'][$fulluser2]    == NULL){ $arr_login['email'][$fulluser2]    = ''; }
+				if($arr_login['maintag'][$fulluser2]  == NULL) { $arr_login['maintag'][$fulluser2]  = ''; }
+				if($arr_login['username'][$fulluser2] == NULL) { $arr_login['username'][$fulluser2] = ''; }
+				if($arr_login['password'][$fulluser2] == NULL) { $arr_login['password'][$fulluser2] = ''; }
+				if($arr_login['group'][$fulluser2]    == NULL) { $arr_login['group'][$fulluser2]    = ''; }
+				if($arr_login['email'][$fulluser2]    == NULL) { $arr_login['email'][$fulluser2]    = ''; }
 				
 				$arr_login['username'][$fulluser2] = $tcms_main->decodeText($arr_login['username'][$fulluser2], '2', $c_charset);
 			}
@@ -204,10 +204,10 @@ if($cmd == 'retrieve') {
 				$user_file = $arr_login['maintag'][$fulluser2];
 				$old_value = $arr_login['password'][$fulluser2];
 				
-				if($choosenDB == 'xml'){
+				if($choosenDB == 'xml') {
 					xmlparser::edit_value(_TCMS_PATH.'/tcms_user/'.$user_file.'.xml', 'password', $old_value, $savepass2);
 				}
-				else{
+				else {
 					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					$newSQLData = $tcms_db_prefix.'user.password="'.$savepass2.'"';
@@ -283,24 +283,13 @@ if($cmd == 'retrieve') {
 	REGISTER USER
 */
 
-if($cmd != 'lostpassword' && $cmd != 'retrieve'){
-	if($choosenDB == 'xml'){
-		$side_ext_xml = new xmlparser(_TCMS_PATH.'/tcms_global/sidebar.xml','r');
-		$show_login = $use_login;
-		$login_user = $side_ext_xml->readSection('side', 'login_user');
-	}
-	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-		
-		$sqlQR = $sqlAL->getOne($tcms_db_prefix.'sidebar_extensions', 'sidebar_extensions');
-		$sqlARR = $sqlAL->fetchArray($sqlQR);
-		
-		$show_login = $use_login;
-		$login_user = $sqlARR['login_user'];
-	}
+if($cmd != 'lostpassword' && $cmd != 'retrieve') {
+	$dcSE = new tcms_dc_sidebarextensions();
+	$dcSE = $tcms_dcp->getSidebarExtensionSettings();
 	
-	if($login_user == 1){
+	$show_login = $use_login;
+	
+	if($dcSE->getLoginUser()) {
 		switch($cmd) {
 			case 'register':
 				/*
@@ -500,7 +489,7 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 				$finishRegister = true;
 				
 				// check name
-				if($fullname == ''){
+				if($fullname == '') {
 					$finishRegister = false;
 					
 					echo '<script>
@@ -510,7 +499,7 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 				}
 				
 				// check username
-				if($fulluser == ''){
+				if($fulluser == '') {
 					$finishRegister = false;
 					
 					echo '<script>
@@ -520,7 +509,7 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 				}
 				
 				// check email
-				if($fullemail == ''){
+				if($fullemail == '') {
 					$finishRegister = false;
 					
 					echo '<script>
@@ -530,7 +519,7 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 				}
 				
 				// check password
-				if($pass_md5 != $v_pass_md5){
+				if($pass_md5 != $v_pass_md5) {
 					$finishRegister = false;
 					
 					echo '<script>
@@ -538,7 +527,7 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 					history.back();
 					</script>';
 				}
-				if($pass_md5 == ''){
+				if($pass_md5 == '') {
 					$finishRegister = false;
 					
 					echo '<script>
@@ -546,7 +535,7 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 					history.back();
 					</script>';
 				}
-				if($v_pass_md5 == ''){
+				if($v_pass_md5 == '') {
 					$finishRegister = false;
 					
 					echo '<script>
@@ -561,25 +550,25 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 						$fulluser
 					);
 					
-					/*if($choosenDB == 'xml'){
+					/*if($choosenDB == 'xml') {
 						$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_user/');
-						foreach($arr_filename as $keyz => $value){
+						foreach($arr_filename as $keyz => $value) {
 							$login_xml = new xmlparser(_TCMS_PATH.'/tcms_user/'.$value, 'r');
 							$ws_username = $login_xml->readSection('user', 'username');
 							
-							if($ws_username == $fulluser){ $checkUsername = false; }
-							else{ $checkUsername = true; }
+							if($ws_username == $fulluser) { $checkUsername = false; }
+							else { $checkUsername = true; }
 						}
 					}
-					else{
+					else {
 						$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 						$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 						
 						$sqlQR = $sqlAL->query("SELECT * FROM ".$tcms_db_prefix."user WHERE username='".$fulluser."'");
 						$user_exists = $sqlAL->getNumber($sqlQR);
 						
-						if($user_exists == 0){ $checkUsername = true; }
-						else{ $checkUsername = false; }
+						if($user_exists == 0) { $checkUsername = true; }
+						else { $checkUsername = false; }
 					}*/
 					
 					if(substr($new_www, 0, 7) != 'http://') {
@@ -631,7 +620,7 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 							$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 							
 							
-							switch($choosenDB){
+							switch($choosenDB) {
 								case 'mysql':
 									$newSQLColumns = '`name`, `username`, `password`, `email`, `group`, `join_date`, '
 									.'`homepage`, `icq`, `aim`, `yim`, `msn`, `occupation`, `location`, `hobby`, '
@@ -842,7 +831,7 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 							.'document.location=\''.$link.'\';'
 							.'</script>';
 						}
-						else{
+						else {
 							$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
 							.'id=frontpage&s='.$s
 							.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -854,7 +843,7 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 							.'</script>';
 						}
 					}
-					else{
+					else {
 						echo '<script>
 						alert(\''._MSG_USEREXISTS.'.\');
 						history.go(-1);
@@ -870,8 +859,8 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 					registration
 				*/
 				
-				if($choosenDB == 'xml'){
-					if(file_exists('cache/'.$code.'.xml')){
+				if($choosenDB == 'xml') {
+					if(file_exists('cache/'.$code.'.xml')) {
 						// tag
 						$ws_agree = substr($code, 0, 32);
 						
@@ -898,7 +887,7 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 						// MESSAGE
 						echo '<span class="text_normal">'._REG_VALIDATE.'</span>';
 					}
-					else{
+					else {
 						echo '<span class="text_normal">'._REG_NO_VALIDATE.'</span>';
 					}
 				}
@@ -958,7 +947,7 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve'){
 				break;
 		}
 	}
-	else{
+	else {
 		echo '<strong>'._MSG_REGNOTALLOWD.'</strong>';
 	}
 }

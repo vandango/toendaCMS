@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a provider for sidemenu datacontainer
  * objects.
  *
- * @version 0.2.8
+ * @version 0.3.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -56,6 +56,7 @@ class tcms_menu_provider extends tcms_main {
 	private $m_path;
 	private $m_IsAdmin;
 	private $_tcmsTime;
+	private $_tcmsConfig;
 	
 	// database information
 	private $m_choosenDB;
@@ -76,11 +77,12 @@ class tcms_menu_provider extends tcms_main {
 	 * @param String $isAdmin
 	 * @param Object $tcmsTimeObj = null
 	 */
-	public function __construct($tcms_administer_path = 'data', $charset, $isAdmin, $tcmsTimeObj = null){
+	public function __construct($tcms_administer_path = 'data', $charset, $isAdmin, $tcmsTimeObj = null, $tcmsConfigObj = null) {
 		$this->m_CHARSET = $charset;
 		$this->m_path = $tcms_administer_path;
 		$this->m_IsAdmin = $isAdmin;
 		$this->_tcmsTime = $tcmsTimeObj;
+		$this->_tcmsConfig = $tcmsConfigObj;
 		
 		//echo 'pfad: '.$this->m_path.' ---> '.$tcms_administer_path.' ---> '.$this->administer.'<br>';
 		
@@ -100,6 +102,11 @@ class tcms_menu_provider extends tcms_main {
 		}
 		
 		parent::setAdministerSite($tcms_administer_path);
+		parent::setURLSEO($this->_tcmsConfig->getSEOFormat());
+		parent::setGlobalFolder(
+			$this->_tcmsConfig->getSEOPath(), 
+			$this->_tcmsConfig->getSEOEnabled()
+		);
 		//parent::__construct($tcms_administer_path, $tcmsTimeObj);
 		//parent::setDatabaseInfo($this->m_choosenDB);
 	}

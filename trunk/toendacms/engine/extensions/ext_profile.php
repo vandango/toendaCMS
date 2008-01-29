@@ -23,64 +23,64 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a base module fpr user operations.
  *
- * @version 1.0.7
+ * @version 1.0.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
  */
 
 
-if(isset($_GET['todo'])){ $todo = $_GET['todo']; }
-if(isset($_GET['u'])){ $u = $_GET['u']; }
+if(isset($_GET['todo'])) { $todo = $_GET['todo']; }
+if(isset($_GET['u'])) { $u = $_GET['u']; }
 
-if(isset($_POST['todo'])){ $todo = $_POST['todo']; }
-if(isset($_POST['u'])){ $u = $_POST['u']; }
-if(isset($_POST['maintag'])){ $maintag = $_POST['maintag']; }
-if(isset($_POST['new_news_publishing_date'])){ $new_news_publishing_date = $_POST['new_news_publishing_date']; }
-if(isset($_POST['new_news_title'])){ $new_news_title = $_POST['new_news_title']; }
-if(isset($_POST['new_news_autor'])){ $new_news_autor = $_POST['new_news_autor']; }
-if(isset($_POST['new_news_date'])){ $new_news_date = $_POST['new_news_date']; }
-if(isset($_POST['new_news_time'])){ $new_news_time = $_POST['new_news_time']; }
-if(isset($_POST['new_news_published'])){ $new_news_published = $_POST['new_news_published']; }
-if(isset($_POST['new_news_content'])){ $new_news_content = $_POST['new_news_content']; }
-if(isset($_POST['content'])){ $content = $_POST['content']; }
-if(isset($_POST['your_password'])){ $your_password = $_POST['your_password']; }
-if(isset($_POST['your_group'])){ $your_group = $_POST['your_group']; }
-if(isset($_POST['your_joindate'])){ $your_joindate = $_POST['your_joindate']; }
-if(isset($_POST['your_enabled'])){ $your_enabled = $_POST['your_enabled']; }
-if(isset($_POST['new_name'])){ $new_name = $_POST['new_name']; }
-if(isset($_POST['new_username'])){ $new_username = $_POST['new_username']; }
-if(isset($_POST['new_email'])){ $new_email = $_POST['new_email']; }
-if(isset($_POST['new_password'])){ $new_password = $_POST['new_password']; }
-if(isset($_POST['new_pass'])){ $new_pass = $_POST['new_pass']; }
-if(isset($_POST['news_news_access'])){ $news_news_access = $_POST['news_news_access']; }
-if(isset($_POST['new_www'])){ $new_www = $_POST['new_www']; }
-if(isset($_POST['new_icq'])){ $new_icq = $_POST['new_icq']; }
-if(isset($_POST['new_aim'])){ $new_aim = $_POST['new_aim']; }
-if(isset($_POST['new_yim'])){ $new_yim = $_POST['new_yim']; }
-if(isset($_POST['new_msn'])){ $new_msn = $_POST['new_msn']; }
-if(isset($_POST['new_skype'])){ $new_skype = $_POST['new_skype']; }
-if(isset($_POST['new_day'])){ $new_day = $_POST['new_day']; }
-if(isset($_POST['new_month'])){ $new_month = $_POST['new_month']; }
-if(isset($_POST['new_year'])){ $new_year = $_POST['new_year']; }
-if(isset($_POST['new_lastlogin'])){ $new_lastlogin = $_POST['new_lastlogin']; }
-if(isset($_POST['new_sex'])){ $new_sex = $_POST['new_sex']; }
-if(isset($_POST['new_occ'])){ $new_occ = $_POST['new_occ']; }
-if(isset($_POST['new_tcms'])){ $new_tcms = $_POST['new_tcms']; }
-if(isset($_POST['new_signature'])){ $new_signature = $_POST['new_signature']; }
-if(isset($_POST['new_location'])){ $new_location = $_POST['new_location']; }
-if(isset($_POST['new_hobby'])){ $new_hobby = $_POST['new_hobby']; }
-if(isset($_POST['pubTimecode'])){ $pubTimecode = $_POST['pubTimecode']; }
-if(isset($_POST['pubAlbum'])){ $pubAlbum = $_POST['pubAlbum']; }
-if(isset($_POST['pubFile'])){ $pubFile = $_POST['pubFile']; }
-if(isset($_POST['pubDesc'])){ $pubDesc = $_POST['pubDesc']; }
-if(isset($_POST['pubLished'])){ $pubLished = $_POST['pubLished']; }
-if(isset($_POST['new_cat'])){ $new_cat = $_POST['new_cat']; }
-if(isset($_POST['new_static'])){ $new_static = $_POST['new_static']; }
-if(isset($_POST['new_comments_enabled'])){ $new_comments_enabled = $_POST['new_comments_enabled']; }
-if(isset($_POST['mediaImage'])){ $mediaImage = $_POST['mediaImage']; }
-if(isset($_POST['saveMedia'])){ $saveMedia = $_POST['saveMedia']; }
-if(isset($_POST['submitMedia'])){ $submitMedia = $_POST['submitMedia']; }
+if(isset($_POST['todo'])) { $todo = $_POST['todo']; }
+if(isset($_POST['u'])) { $u = $_POST['u']; }
+if(isset($_POST['maintag'])) { $maintag = $_POST['maintag']; }
+if(isset($_POST['new_news_publishing_date'])) { $new_news_publishing_date = $_POST['new_news_publishing_date']; }
+if(isset($_POST['new_news_title'])) { $new_news_title = $_POST['new_news_title']; }
+if(isset($_POST['new_news_autor'])) { $new_news_autor = $_POST['new_news_autor']; }
+if(isset($_POST['new_news_date'])) { $new_news_date = $_POST['new_news_date']; }
+if(isset($_POST['new_news_time'])) { $new_news_time = $_POST['new_news_time']; }
+if(isset($_POST['new_news_published'])) { $new_news_published = $_POST['new_news_published']; }
+if(isset($_POST['new_news_content'])) { $new_news_content = $_POST['new_news_content']; }
+if(isset($_POST['content'])) { $content = $_POST['content']; }
+if(isset($_POST['your_password'])) { $your_password = $_POST['your_password']; }
+if(isset($_POST['your_group'])) { $your_group = $_POST['your_group']; }
+if(isset($_POST['your_joindate'])) { $your_joindate = $_POST['your_joindate']; }
+if(isset($_POST['your_enabled'])) { $your_enabled = $_POST['your_enabled']; }
+if(isset($_POST['new_name'])) { $new_name = $_POST['new_name']; }
+if(isset($_POST['new_username'])) { $new_username = $_POST['new_username']; }
+if(isset($_POST['new_email'])) { $new_email = $_POST['new_email']; }
+if(isset($_POST['new_password'])) { $new_password = $_POST['new_password']; }
+if(isset($_POST['new_pass'])) { $new_pass = $_POST['new_pass']; }
+if(isset($_POST['news_news_access'])) { $news_news_access = $_POST['news_news_access']; }
+if(isset($_POST['new_www'])) { $new_www = $_POST['new_www']; }
+if(isset($_POST['new_icq'])) { $new_icq = $_POST['new_icq']; }
+if(isset($_POST['new_aim'])) { $new_aim = $_POST['new_aim']; }
+if(isset($_POST['new_yim'])) { $new_yim = $_POST['new_yim']; }
+if(isset($_POST['new_msn'])) { $new_msn = $_POST['new_msn']; }
+if(isset($_POST['new_skype'])) { $new_skype = $_POST['new_skype']; }
+if(isset($_POST['new_day'])) { $new_day = $_POST['new_day']; }
+if(isset($_POST['new_month'])) { $new_month = $_POST['new_month']; }
+if(isset($_POST['new_year'])) { $new_year = $_POST['new_year']; }
+if(isset($_POST['new_lastlogin'])) { $new_lastlogin = $_POST['new_lastlogin']; }
+if(isset($_POST['new_sex'])) { $new_sex = $_POST['new_sex']; }
+if(isset($_POST['new_occ'])) { $new_occ = $_POST['new_occ']; }
+if(isset($_POST['new_tcms'])) { $new_tcms = $_POST['new_tcms']; }
+if(isset($_POST['new_signature'])) { $new_signature = $_POST['new_signature']; }
+if(isset($_POST['new_location'])) { $new_location = $_POST['new_location']; }
+if(isset($_POST['new_hobby'])) { $new_hobby = $_POST['new_hobby']; }
+if(isset($_POST['pubTimecode'])) { $pubTimecode = $_POST['pubTimecode']; }
+if(isset($_POST['pubAlbum'])) { $pubAlbum = $_POST['pubAlbum']; }
+if(isset($_POST['pubFile'])) { $pubFile = $_POST['pubFile']; }
+if(isset($_POST['pubDesc'])) { $pubDesc = $_POST['pubDesc']; }
+if(isset($_POST['pubLished'])) { $pubLished = $_POST['pubLished']; }
+if(isset($_POST['new_cat'])) { $new_cat = $_POST['new_cat']; }
+if(isset($_POST['new_static'])) { $new_static = $_POST['new_static']; }
+if(isset($_POST['new_comments_enabled'])) { $new_comments_enabled = $_POST['new_comments_enabled']; }
+if(isset($_POST['mediaImage'])) { $mediaImage = $_POST['mediaImage']; }
+if(isset($_POST['saveMedia'])) { $saveMedia = $_POST['saveMedia']; }
+if(isset($_POST['submitMedia'])) { $submitMedia = $_POST['submitMedia']; }
 
 
 
@@ -89,9 +89,12 @@ if(isset($_POST['submitMedia'])){ $submitMedia = $_POST['submitMedia']; }
 	init
 */
 
-if(!isset($todo)){ $todo = 'show'; }
+if(!isset($todo)) { $todo = 'show'; }
 
 using('toendacms.datacontainer.account');
+
+$dcSE = new tcms_dc_sidebarextensions();
+$dcSE = $tcms_dcp->getSidebarExtensionSettings();
 
 
 
@@ -101,22 +104,22 @@ using('toendacms.datacontainer.account');
 */
 
 if($choosenDB == 'xml') {
-	if(file_exists(_TCMS_PATH.'/tcms_user/'.$ws_id.'.xml')){ $checkUserExists = true; }
-	else{ $checkUserExists = false; }
+	if(file_exists(_TCMS_PATH.'/tcms_user/'.$ws_id.'.xml')) { $checkUserExists = true; }
+	else { $checkUserExists = false; }
 }
-else{
+else {
 	$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 	$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 	
 	$sqlQR = $sqlAL->getOne($tcms_db_prefix.'user', $ws_id);
 	$user_exists = $sqlAL->getNumber($sqlQR);
 	
-	if($user_exists != 0){ $checkUserExists = true; }
-	else{ $checkUserExists = false; }
+	if($user_exists != 0) { $checkUserExists = true; }
+	else { $checkUserExists = false; }
 }
 
 if($checkUserExists) {
-	if($choosenDB == 'xml'){
+	if($choosenDB == 'xml') {
 		$mtu_xml = new xmlparser(_TCMS_PATH.'/tcms_global/sidebar.xml','r');
 		$menu_title_user = $mtu_xml->readSection('side', 'usermenu_title');
 		
@@ -127,7 +130,7 @@ if($checkUserExists) {
 		$cpo = $xmlSet->readSection('userpage', 'cat_publish');
 		$ppo = $xmlSet->readSection('userpage', 'pic_publish');
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
@@ -166,7 +169,7 @@ if($checkUserExists) {
 			.'<link rel="stylesheet" type="text/css" href="'.$imagePath.'engine/js/jscalendar/calendar-toendaCMS.css" title="toendaCMS" />'
 			.'<!-- /jsCalendar -->';
 			
-			if($show_wysiwyg == 'tinymce'){
+			if($show_wysiwyg == 'tinymce') {
 				include('engine/tcms_kernel/tcms_tinyMCE.lib.php');
 				
 				$tcms_tinyMCE = new tcms_tinyMCE($seoFolder, $seoEnabled);
@@ -180,12 +183,12 @@ if($checkUserExists) {
 			echo '<br />';
 			
 			
-			if($choosenDB == 'xml'){
+			if($choosenDB == 'xml') {
 				$userp_xml = new xmlparser(_TCMS_PATH.'/tcms_global/userpage.xml','r');
 				$width  = $userp_xml->readSection('userpage', 'text_width');
 				$width2 = $userp_xml->readSection('userpage', 'input_width');
 			}
-			else{
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
@@ -197,7 +200,7 @@ if($checkUserExists) {
 			}
 			
 			
-			if($choosenDB == 'xml'){
+			if($choosenDB == 'xml') {
 				$con_xml = new xmlparser(_TCMS_PATH.'/tcms_user/'.$ws_id.'.xml','r');
 				$tu_name     = $con_xml->readSection('user', 'name');
 				$tu_username = $con_xml->readSection('user', 'username');
@@ -205,7 +208,7 @@ if($checkUserExists) {
 				$tu_name     = $tcms_main->decodeText($tu_name, '2', $c_charset);
 				$tu_username = $tcms_main->decodeText($tu_username, '2', $c_charset);
 			}
-			else{
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
@@ -218,8 +221,8 @@ if($checkUserExists) {
 				$tu_name     = $tcms_main->decodeText($tu_name, '2', $c_charset);
 				$tu_username = $tcms_main->decodeText($tu_username, '2', $c_charset);
 				
-				if($tu_name      == NULL){ $tu_name      = ''; }
-				if($tu_username  == NULL){ $tu_username  = ''; }
+				if($tu_name      == NULL) { $tu_name      = ''; }
+				if($tu_username  == NULL) { $tu_username  = ''; }
 			}
 			
 			$maintag = $tcms_main->getNewUID(10, 'news');
@@ -230,18 +233,18 @@ if($checkUserExists) {
 				new categories
 			*/
 			
-			if($choosenDB == 'xml'){
+			if($choosenDB == 'xml') {
 				$arrCatFiles = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_news_categories/');
 				
-				if($tcms_main->isArray($arrCatFiles)){
-					foreach($arrCatFiles as $key => $value){
+				if($tcms_main->isArray($arrCatFiles)) {
+					foreach($arrCatFiles as $key => $value) {
 						$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$value,'r');
 						$arrNewsCat['tag'][$key]  = substr($value, 0, 5);
 						$arrNewsCat['name'][$key] = $menu_xml->readSection('cat', 'name');
 						$arrNewsCat['desc'][$key] = $menu_xml->readSection('cat', 'desc');
 						
-						if(!$arrNewsCat['name'][$key]){ $arrNewsCat['name'][$key] = ''; }
-						if(!$arrNewsCat['desc'][$key]){ $arrNewsCat['desc'][$key] = ''; }
+						if(!$arrNewsCat['name'][$key]) { $arrNewsCat['name'][$key] = ''; }
+						if(!$arrNewsCat['desc'][$key]) { $arrNewsCat['desc'][$key] = ''; }
 						
 						// CHARSETS
 						$arrNewsCat['name'][$key] = $tcms_main->decodeText($arrNewsCat['name'][$key], '2', $c_charset);
@@ -249,7 +252,7 @@ if($checkUserExists) {
 					}
 				}
 			}
-			else{
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
@@ -257,13 +260,13 @@ if($checkUserExists) {
 				
 				$key = 0;
 				
-				while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+				while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
 					$arrNewsCat['tag'][$key]  = $sqlObj->uid;
 					$arrNewsCat['name'][$key] = $sqlObj->name;
 					$arrNewsCat['desc'][$key] = $sqlObj->desc;
 					
-					if($arrNewsCat['name'][$key] == NULL){ $arrNewsCat['name'][$key] = ''; }
-					if($arrNewsCat['desc'][$key] == NULL){ $arrNewsCat['desc'][$key] = ''; }
+					if($arrNewsCat['name'][$key] == NULL) { $arrNewsCat['name'][$key] = ''; }
+					if($arrNewsCat['desc'][$key] == NULL) { $arrNewsCat['desc'][$key] = ''; }
 					
 					// CHARSETS
 					$arrNewsCat['name'][$key] = $tcms_main->decodeText($arrNewsCat['name'][$key], '2', $c_charset);
@@ -370,7 +373,7 @@ if($checkUserExists) {
 			// row
 			echo '<tr style="height: 28px;"><td valign="top" width="'.$width.'" colspan="2">'
 			.'<fieldset><legend><strong class="tcms_bold">'._TABLE_CATEGORY.'</strong></legend>';
-				foreach($arrNewsCat['tag'] as $Ckey => $Cvalue){
+				foreach($arrNewsCat['tag'] as $Ckey => $Cvalue) {
 					echo '<div style="margin: 0; padding: 0 0 4px 0;">'
 					.'<label for="new_cat_'.$Ckey.'">'
 					.'<input type="checkbox" style="margin: 0 0 -3px 0 !important;" id="new_cat_'.$Ckey.'" name="new_cat_'.$Ckey.'" value="'.$Cvalue.'"'.( $defaultCat == $Cvalue ? ' checked="checked"' : '' ).' />'
@@ -397,26 +400,26 @@ if($checkUserExists) {
 			echo '<tr><td valign="top">';
 			//.'<script>createToendaToolbar(\'news\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \''.$imagePath.'browse.php?session='.$session.'\', \'\');</script>';
 			
-			if($show_wysiwyg == 'tinymce'){
+			if($show_wysiwyg == 'tinymce') {
 			}
-			elseif($show_wysiwyg == 'fckeditor'){
+			elseif($show_wysiwyg == 'fckeditor') {
 				echo ''._TCMSSCRIPT_MORE.': {tcms_more}';
 			}
-			else{
-				if($show_wysiwyg == 'toendaScript'){
+			else {
+				if($show_wysiwyg == 'toendaScript') {
 					echo '<script>createToolbar(\'news\', \''.$tcms_lang.'\', \'toendaScript\');</script>';
 				}
-				else{
+				else {
 					echo '<script>createToolbar(\'news\', \''.$tcms_lang.'\', \'HTML\');</script>';
 				}
 			}
 			
 			echo '<br /><br />';
 			
-			if($show_wysiwyg == 'tinymce'){
+			if($show_wysiwyg == 'tinymce') {
 				echo '<textarea class="newsSubmit" id="content" name="content" mce_editable="true"></textarea>';
 			}
-			elseif($show_wysiwyg == 'fckeditor'){
+			elseif($show_wysiwyg == 'fckeditor') {
 				if($seoEnabled == 1)
 					$sBasePath = ( $seoFolder == '' ? '' : $seoFolder.'/' ).'engine/js/FCKeditor/';
 				else
@@ -430,7 +433,7 @@ if($checkUserExists) {
 				
 				$oFCKeditor->Create();
 			}
-			else{
+			else {
 				echo '<textarea class="newsSubmit" id="content" name="content"></textarea>';
 			}
 			
@@ -438,13 +441,13 @@ if($checkUserExists) {
 			
 			echo '</table>';
 			
-			if($show_wysiwyg == 'tinymce'){
+			if($show_wysiwyg == 'tinymce') {
 				echo '<br /><input type="submit" class="inputbutton" onclick="javascript:tinyMCE.triggerSave();tinyMCE.updateContent(\'content\');" value="'._TCMS_ADMIN_SAVE.'" />';
 			}
-			elseif($show_wysiwyg == 'fckeditor'){
+			elseif($show_wysiwyg == 'fckeditor') {
 				echo '<br /><input type="submit" class="inputbutton" onclick="javascript:save();" value="'._TCMS_ADMIN_SAVE.'" />';
 			}
-			else{
+			else {
 				echo '<br /><input type="submit" class="inputbutton" onclick="javascript:save();" value="'._TCMS_ADMIN_SAVE.'" />';
 			}
 				
@@ -471,12 +474,12 @@ if($checkUserExists) {
 			|| $is_admin == 'Editor') {
 				$show_wysiwyg = $tcms_config->getWYSIWYGEditor();
 				
-				if($choosenDB == 'xml'){
+				if($choosenDB == 'xml') {
 					$userp_xml = new xmlparser(_TCMS_PATH.'/tcms_global/userpage.xml','r');
 					$width  = $userp_xml->readSection('userpage', 'text_width');
 					$width2 = $userp_xml->readSection('userpage', 'input_width');
 				}
-				else{
+				else {
 					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					
@@ -508,11 +511,11 @@ if($checkUserExists) {
 				</td><td valign="top">';
 					echo '<select name="pubAlbum">';
 					
-					if($choosenDB == 'xml'){
+					if($choosenDB == 'xml') {
 						$arrAlbums = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_albums/');
 						
-						if($arrAlbums){
-							foreach($arrAlbums as $key => $val){
+						if($arrAlbums) {
+							foreach($arrAlbums as $key => $val) {
 								$xmlAlbums = new xmlparser(_TCMS_PATH.'/tcms_albums/'.$val, 'r');
 								$arrAlbum['title'][$key] = $xmlAlbums->readSection('album', 'title');
 								$arrAlbum['path'][$key]  = $xmlAlbums->readSection('album', 'path');
@@ -523,7 +526,7 @@ if($checkUserExists) {
 							}
 						}
 					}
-					else{
+					else {
 						$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 						$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 						
@@ -531,13 +534,13 @@ if($checkUserExists) {
 						
 						$count = 0;
 						
-						while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+						while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
 							$arrAlbum['count'][$count] = $sqlObj->uid;
 							$arrAlbum['title'][$count] = $sqlObj->title;
 							$arrAlbum['path'][$count]  = $sqlObj->album_id;
 							
-							if($arrAlbum['title'][$count] == NULL){ $arrAlbum['title'][$count] = ''; }
-							if($arrAlbum['path'][$count]  == NULL){ $arrAlbum['path'][$count]  = ''; }
+							if($arrAlbum['title'][$count] == NULL) { $arrAlbum['title'][$count] = ''; }
+							if($arrAlbum['path'][$count]  == NULL) { $arrAlbum['path'][$count]  = ''; }
 							
 							// CHARSETS
 							$arrAlbum['title'][$count] = $tcms_main->decodeText($arrAlbum['title'][$count], '2', $c_charset);
@@ -581,7 +584,7 @@ if($checkUserExists) {
 			}
 		}
 	}
-	else{
+	else {
 		echo '<strong>'._MSG_PHP_SAFE_MODE_SETTINGS.'</strong>';
 	}
 	
@@ -602,12 +605,12 @@ if($checkUserExists) {
 		|| $is_admin == 'Editor') {
 			$show_wysiwyg = $tcms_config->getWYSIWYGEditor();
 			
-			if($choosenDB == 'xml'){
+			if($choosenDB == 'xml') {
 				$userp_xml = new xmlparser(_TCMS_PATH.'/tcms_global/userpage.xml','r');
 				$width  = $userp_xml->readSection('userpage', 'text_width');
 				$width2 = $userp_xml->readSection('userpage', 'input_width');
 			}
-			else{
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
@@ -690,14 +693,14 @@ if($checkUserExists) {
 		|| $is_admin == 'Developer' 
 		|| $is_admin == 'Writer' 
 		|| $is_admin == 'Editor') {
-			if($choosenDB == 'xml'){
+			if($choosenDB == 'xml') {
 				$userp_xml = new xmlparser(_TCMS_PATH.'/tcms_global/userpage.xml','r');
 				$width  = $userp_xml->readSection('userpage', 'text_width');
 				$width2 = $userp_xml->readSection('userpage', 'input_width');
 				
-				//while(($maintag=substr(md5(time()),0,5)) && file_exists(_TCMS_PATH.'/tcms_news_categories/'.$maintag.'.xml')){}
+				//while(($maintag=substr(md5(time()),0,5)) && file_exists(_TCMS_PATH.'/tcms_news_categories/'.$maintag.'.xml')) {}
 			}
-			else{
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
@@ -775,12 +778,12 @@ if($checkUserExists) {
 		|| $is_admin == 'Developer' 
 		|| $is_admin == 'Writer' 
 		|| $is_admin == 'Editor') {
-			if($choosenDB == 'xml'){
+			if($choosenDB == 'xml') {
 				$userp_xml = new xmlparser(_TCMS_PATH.'/tcms_global/userpage.xml','r');
 				$width  = $userp_xml->readSection('userpage', 'text_width');
 				$width2 = $userp_xml->readSection('userpage', 'input_width');
 			}
-			else{
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
@@ -835,15 +838,15 @@ if($is_admin == 'Administrator'
 || $is_admin == 'Editor') {
 	if($todo == 'saveNews') {
 		if($new_news_published   == '' || empty($new_news_published)   || !isset($new_news_published))  { $new_news_published   = 0; }
-		if($new_comments_enabled == '' || empty($new_comments_enabled) || !isset($new_comments_enabled)){ $new_comments_enabled = 0; }
+		if($new_comments_enabled == '' || empty($new_comments_enabled) || !isset($new_comments_enabled)) { $new_comments_enabled = 0; }
 		
 		
-		if($choosenDB == 'xml'){
+		if($choosenDB == 'xml') {
 			$myCat = '';
 			$i = 0;
 			
-			while($i <= $_POST['catAmount']){
-				if(!empty($_POST['new_cat_'.$i]) && isset($_POST['new_cat_'.$i])){
+			while($i <= $_POST['catAmount']) {
+				if(!empty($_POST['new_cat_'.$i]) && isset($_POST['new_cat_'.$i])) {
 					$myCat .= $_POST['new_cat_'.$i].'{###}';
 				}
 				
@@ -852,12 +855,12 @@ if($is_admin == 'Administrator'
 			
 			$new_cat = $myCat;
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			
-			switch($choosenDB){
+			switch($choosenDB) {
 				case 'mysql':
 					$newSQLColumns = '`news_uid`, `cat_uid`';
 					break;
@@ -872,8 +875,8 @@ if($is_admin == 'Administrator'
 			}
 			
 			
-			for($i = 0; $i <= count($arrNewsCat['tag']); $i++){
-				if(!empty($_POST['new_cat_'.$i]) && isset($_POST['new_cat_'.$i])){
+			for($i = 0; $i <= count($arrNewsCat['tag']); $i++) {
+				if(!empty($_POST['new_cat_'.$i]) && isset($_POST['new_cat_'.$i])) {
 					$n2c_maintag = $tcms_main->getNewUID(5, 'news_to_categories');
 					
 					$newSQLData = "'".$maintag."', '".$_POST['new_cat_'.$i]."'";
@@ -884,11 +887,11 @@ if($is_admin == 'Administrator'
 		}
 		
 		
-		if($show_wysiwyg == 'fckeditor'){
+		if($show_wysiwyg == 'fckeditor') {
 			$content = str_replace('../../../../../../../../../', '', $content);
 		}
 		
-		if($show_wysiwyg != 'tinymce' && $show_wysiwyg != 'fckeditor'){
+		if($show_wysiwyg != 'tinymce' && $show_wysiwyg != 'fckeditor') {
 			$content = $tcms_main->convertNewlineToHTML($content);
 		}
 		
@@ -903,7 +906,7 @@ if($is_admin == 'Administrator'
 		$time = date('H:i');
 		
 		
-		if($stamp == ''){
+		if($stamp == '') {
 			$tmp_date = substr($date,6,4);
 			$tmp_date .= substr($date,3,2);
 			$tmp_date .= substr($date,0,2);
@@ -918,7 +921,7 @@ if($is_admin == 'Administrator'
 		$new_news_publish_date = $new_news_date.'-'.$new_news_time;
 		
 		
-		if($choosenDB == 'xml'){
+		if($choosenDB == 'xml') {
 			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_news/'.$maintag.'.xml', 'w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('news');
@@ -944,11 +947,11 @@ if($is_admin == 'Administrator'
 			mkdir(_TCMS_PATH.'/tcms_news/comments_'.$maintag.'/', 0777);
 			umask($old_umask);
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			switch($choosenDB){
+			switch($choosenDB) {
 				case 'mysql':
 					$newSQLColumns = '`title`, `autor`, `date`, `time`, `newstext`, `stamp`, '
 					.'`published`, `publish_date`, `comments_enabled`, `access`';
@@ -993,7 +996,7 @@ if($is_admin == 'Administrator'
 		$_FILES['pubFile']['type'] == 'image/png' || 
 		$_FILES['pubFile']['type'] == 'image/jpg' || 
 		$_FILES['pubFile']['type'] == 'image/jpeg' || 
-		$_FILES['pubFile']['type'] == 'image/bmp')){
+		$_FILES['pubFile']['type'] == 'image/bmp')) {
 			$fileName = $_FILES['pubFile']['name'];
 			$imgDir = _TCMS_PATH.'/images/albums/'.$pubAlbum.'/';
 			copy($_FILES['pubFile']['tmp_name'], $imgDir.$fileName);
@@ -1019,7 +1022,7 @@ if($is_admin == 'Administrator'
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
-				switch($choosenDB){
+				switch($choosenDB) {
 					case 'mysql':
 						$newSQLColumns = '`album`, `image`, `text`, `date`';
 						break;
@@ -1044,7 +1047,7 @@ if($is_admin == 'Administrator'
 			
 			echo '<script>document.location=\''.$link.'\'</script>';
 		}
-		else{
+		else {
 			$link = '?session='.$session.'&id=profile&s='.$s.'&todo=submitImages'
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlConvertToSEO($link);
@@ -1065,15 +1068,15 @@ if($is_admin == 'Administrator'
 	// -----------------------------------
 	
 	if($todo == 'saveAlbum') {
-		if($pubAlbum == ''){ $pubAlbum = '[TYPE DESCRIPTION]'; }else{ $pubAlbum = $pubAlbum; }
-		if($pubDesc  == ''){ $pubDesc  = '[TYPE DESCRIPTION]'; }else{ $pubDesc  = $pubDesc; }
-		if(!isset($pubLished) || $pubLished == ''){ $pubLished = 0; }
+		if($pubAlbum == '') { $pubAlbum = '[TYPE DESCRIPTION]'; }else { $pubAlbum = $pubAlbum; }
+		if($pubDesc  == '') { $pubDesc  = '[TYPE DESCRIPTION]'; }else { $pubDesc  = $pubDesc; }
+		if(!isset($pubLished) || $pubLished == '') { $pubLished = 0; }
 		
 		// CHARSETS
 		$pubAlbum = $tcms_main->decodeText($pubAlbum, '2', $c_charset);
 		$pubDesc  = $tcms_main->decodeText($pubDesc, '2', $c_charset);
 		
-		if($choosenDB == 'xml'){
+		if($choosenDB == 'xml') {
 			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_albums/album_'.$maintag.'.xml', 'w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('album');
@@ -1090,13 +1093,13 @@ if($is_admin == 'Administrator'
 			mkdir(_TCMS_PATH.'/tcms_imagegallery/'.$maintag, 0777);
 			mkdir(_TCMS_PATH.'/thumbnails/'.$maintag, 0777);
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$album_path = substr($maintag, 0, 6);
 			
-			switch($choosenDB){
+			switch($choosenDB) {
 				case 'mysql':
 					$newSQLColumns = '`title`, `album_id`, `published`, `desc`';
 					break;
@@ -1136,14 +1139,14 @@ if($is_admin == 'Administrator'
 	// -----------------------------------
 	
 	if($todo == 'saveCat') {
-		if($new_cat == '' || !isset($new_cat)){ $new_cat = ''; }
-		if($pubDesc == '' || !isset($pubDesc)){ $pubDesc = ''; }
+		if($new_cat == '' || !isset($new_cat)) { $new_cat = ''; }
+		if($pubDesc == '' || !isset($pubDesc)) { $pubDesc = ''; }
 		
 		// CHARSETS
 		$new_cat = $tcms_main->encodeText($new_cat, '2', $c_charset);
 		$pubDesc = $tcms_main->encodeText($pubDesc, '2', $c_charset);
 		
-		if($choosenDB == 'xml'){
+		if($choosenDB == 'xml') {
 			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$maintag.'.xml', 'w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('cat');
@@ -1154,11 +1157,11 @@ if($is_admin == 'Administrator'
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('cat');
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			switch($choosenDB){
+			switch($choosenDB) {
 				case 'mysql':
 					$newSQLColumns = '`name`, `desc`';
 					break;
@@ -1200,7 +1203,7 @@ if($is_admin == 'Administrator'
 		$_FILES['mediaImage']['type'] == 'image/png' || 
 		$_FILES['mediaImage']['type'] == 'image/jpg' || 
 		$_FILES['mediaImage']['type'] == 'image/jpeg' || 
-		$_FILES['mediaImage']['type'] == 'image/bmp')){
+		$_FILES['mediaImage']['type'] == 'image/bmp')) {
 			$fileName = $_FILES['mediaImage']['name'];
 			$imgDir = _TCMS_PATH.'/images/Image/';
 			
@@ -1209,19 +1212,19 @@ if($is_admin == 'Administrator'
 			$msg = _MSG_UPLOAD.' '.$imgDir.$_FILES['mediaImage']['name'];
 			$relocate = 1;
 		}
-		else{
+		else {
 			$msg = _MSG_NOUPLOAD;
 			$relocate = 0;
 		}
 		
-		if($relocate == 1){
+		if($relocate == 1) {
 			$link = '?session='.$session.'&id=frontpage&s='.$s
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlConvertToSEO($link);
 			
 			echo '<script>document.location=\''.$link.'\';</script>';
 		}
-		else{
+		else {
 			$link = '?session='.$session.'&id=profile&s='.$s.'&todo=submitMedia'
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlConvertToSEO($link);
@@ -1246,24 +1249,24 @@ if($todo != 'submitNews'
 && $todo != 'createAlbum' 
 && $todo != 'createCat' 
 && $todo != 'submitMedia' 
-&& $action != 'list'){
-	if($choosenDB == 'xml'){
-		if(file_exists(_TCMS_PATH.'/tcms_user/'.$u.'.xml')){ $checkUserExists = true; }
-		else{ $checkUserExists = false; }
+&& $action != 'list') {
+	if($choosenDB == 'xml') {
+		if(file_exists(_TCMS_PATH.'/tcms_user/'.$u.'.xml')) { $checkUserExists = true; }
+		else { $checkUserExists = false; }
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		$sqlQR = $sqlAL->getOne($tcms_db_prefix.'user', $u);
 		$user_exists = $sqlAL->getNumber($sqlQR);
 		
-		if($user_exists != 0){ $checkUserExists = true; }
-		else{ $checkUserExists = false; }
+		if($user_exists != 0) { $checkUserExists = true; }
+		else { $checkUserExists = false; }
 	}
 	
-	if($checkUserExists){
-		if($todo == 'show'){
+	if($checkUserExists) {
+		if($todo == 'show') {
 			//****************************
 			// PROFILE
 			//****************************
@@ -1307,7 +1310,7 @@ if($todo != 'submitNews'
 			//echo tcms_html::table_head_cl('0', '0', '0', '95%', 'text_normal');
 			echo $tcms_html->tableHeadClass('0', '0', '0', '95%', 'text_normal');
 			
-			if(isset($tu_name) && trim($tu_name) != ''){
+			if(isset($tu_name) && trim($tu_name) != '') {
 				echo '<tr height="21"><td valign="top" align="right" width="'.$left_width.'">'._PERSON_NAME.':&nbsp;</td>'
 				.'<td valign="top" width="'.$right_width.'"><strong>'.$tu_name.'</strong></td></tr>';
 			}
@@ -1315,28 +1318,28 @@ if($todo != 'submitNews'
 			echo '<tr height="21"><td valign="top" align="right" width="'.$left_width.'">'._PERSON_JOINDATE.':&nbsp;</td>'
 			.'<td valign="top" width="'.$right_width.'"><strong>'.$tu_join.'</strong></td></tr>';
 			
-			if(isset($tu_username) && trim($tu_username) != ''){
+			if(isset($tu_username) && trim($tu_username) != '') {
 				echo '<tr height="21"><td valign="top" align="right" width="'.$left_width.'">'._PERSON_USERNAME.':&nbsp;</td>'
 				.'<td valign="top" width="'.$right_width.'"><strong>'.$tu_username.'</strong></td></tr>';
 			}
 			
-			if(isset($tu_www) && trim($tu_www) != ''){
-				if(substr($tu_www, 0, 7) != 'http://'){ $tu_www = 'http://'.$tu_www; }
+			if(isset($tu_www) && trim($tu_www) != '') {
+				if(substr($tu_www, 0, 7) != 'http://') { $tu_www = 'http://'.$tu_www; }
 				echo '<tr height="21"><td valign="top" align="right" width="'.$left_width.'">'._PERSON_WWW.':&nbsp;</td>'
 				.'<td valign="top" width="'.$right_width.'"><strong><a href="'.$tu_www.'" target="_blank">'.$tu_www.'</a></strong></td></tr>';
 			}
 			
-			if(isset($tu_location) && trim($tu_location) != ''){
+			if(isset($tu_location) && trim($tu_location) != '') {
 				echo '<tr height="21"><td valign="top" align="right" width="'.$left_width.'">'._PERSON_LOCATION.':&nbsp;</td>'
 				.'<td valign="top" width="'.$right_width.'"><strong>'.$tu_location.'</strong></td></tr>';
 			}
 			
-			if(isset($tu_occ) && trim($tu_occ) != ''){
+			if(isset($tu_occ) && trim($tu_occ) != '') {
 				echo '<tr height="21"><td valign="top" align="right" width="'.$left_width.'">'._PERSON_OCCUPATION.':&nbsp;</td>'
 				.'<td valign="top" width="'.$right_width.'"><strong>'.$tu_occ.'</strong></td></tr>';
 			}
 			
-			if(isset($tu_hobby) && trim($tu_hobby) != ''){
+			if(isset($tu_hobby) && trim($tu_hobby) != '') {
 				echo '<tr height="21"><td valign="top" align="right" width="'.$left_width.'">'._PERSON_HOBBY.':&nbsp;</td>'
 				.'<td valign="top" width="'.$right_width.'"><strong>'.$tu_hobby.'</strong></td></tr>';
 			}
@@ -1360,30 +1363,30 @@ if($todo != 'submitNews'
 			.'<td valign="middle" width="'.$right_width.'">&nbsp;'.$mmm
 			.'<img src="'.$imagePath.'engine/images/forum/icon_email.gif" border="0" /></a></td></tr>';
 			
-			if($tcms_main->isReal($tu_icq)){
+			if($tcms_main->isReal($tu_icq)) {
 				echo '<tr height="21"><td valign="middle" align="right" width="'.$left_width.'">'._PERSON_ICQ.':&nbsp;</td>'
 				.'<td valign="middle" width="'.$right_width.'">&nbsp;'.( $tu_icq != '' ? '<a href="http://wwp.icq.com/scripts/search.dll?to='.$tu_icq.'" target="_blank">'
 				.'<img src="'.$imagePath.'engine/images/forum/icon_icq.gif" border="0" /></a>' : '' ).'</td></tr>';
 			}
 			
-			if($tcms_main->isReal($tu_aim)){
+			if($tcms_main->isReal($tu_aim)) {
 				echo '<tr height="21"><td valign="middle" align="right" width="'.$left_width.'">'._PERSON_AIM.':&nbsp;</td>'
 				.'<td valign="middle" width="'.$right_width.'">&nbsp;<a href="aim:goim?screenname='.$tu_aim.'&message=Hello+Are+you+there?">'
 				.'<img src="'.$imagePath.'engine/images/forum/icon_aim.gif" border="0" /></a></td></tr>';
 			}
 			
-			if($tcms_main->isReal($tu_yim)){
+			if($tcms_main->isReal($tu_yim)) {
 				echo '<tr height="21"><td valign="middle" align="right" width="'.$left_width.'">'._PERSON_YIM.':&nbsp;</td>'
 				.'<td valign="middle" width="'.$right_width.'">&nbsp;<a href="http://edit.yahoo.com/config/send_webmesg?.target='.$tu_yim.'&.src=pg" target="_blank">'
 				.'<img src="'.$imagePath.'engine/images/forum/icon_yim.gif" border="0" /></a></td></tr>';
 			}
 			
-			if($tcms_main->isReal($tu_msn)){
+			if($tcms_main->isReal($tu_msn)) {
 				echo '<tr height="21"><td valign="middle" align="right" width="'.$left_width.'">'._PERSON_MSN.':&nbsp;</td>'
 				.'<td valign="middle" width="'.$right_width.'">&nbsp;<strong>'.$tu_msn.'</strong></td></tr>';
 			}
 			
-			if($tcms_main->isReal($tu_skype)){
+			if($tcms_main->isReal($tu_skype)) {
 				echo '<tr height="21"><td valign="middle" align="right" width="'.$left_width.'">'._PERSON_SKYPE.':&nbsp;</td>'
 				.'<td valign="middle" width="'.$right_width.'">&nbsp;<a href="skype:'.$tu_skype.'?call">'
 				.'<strong>'.$tu_skype.'</strong></a></td></tr>';
@@ -1395,7 +1398,7 @@ if($todo != 'submitNews'
 			
 			if(!(strlen($tu_birthday) < 9)
 			|| ($tcms_main->isReal($tu_sex) && $tu_sex != '-')
-			|| $tu_signature != ''){
+			|| $tu_signature != '') {
 				//echo tcms_html::user_gerneral(_TABLE_PERSON);
 				echo $tcms_html->userProfileTitle(_TABLE_PERSON);
 				echo '<br />';
@@ -1404,18 +1407,18 @@ if($todo != 'submitNews'
 			//echo tcms_html::table_head_cl('0', '0', '0', '95%', 'text_normal');
 			echo $tcms_html->tableHeadClass('0', '0', '0', '95%', 'text_normal');
 			
-			if(!(strlen($tu_birthday) < 9)){
+			if(!(strlen($tu_birthday) < 9)) {
 				echo '<tr height="21"><td valign="top" align="right" width="'.$left_width.'">'._PERSON_BIRTHDAY.':&nbsp;</td>'
 				.'<td valign="top" width="'.$right_width.'"><strong>'.$tu_birthday.'</strong></td></tr>';
 			}
 			
-			if($tcms_main->isReal($tu_sex) && $tu_sex != '-'){
+			if($tcms_main->isReal($tu_sex) && $tu_sex != '-') {
 				echo '<tr height="21"><td valign="top" align="right" width="'.$left_width.'">'._PERSON_SEX.':&nbsp;</td>'
 				.'<td valign="top" width="'.$right_width.'"><strong>'.( $tu_sex == 'man' ? _PERSON_SEX_MAN : _PERSON_SEX_WOMAN ).'</strong></td></tr>';
 			}
 			
-			if(trim($tu_signature) != ''){
-				if($tu_tcms == 1){
+			if(trim($tu_signature) != '') {
+				if($tu_tcms == 1) {
 					$toendaScript = new toendaScript($tu_signature);
 					$tu_signature = $toendaScript->toendaScript_trigger();
 					$tu_signature = $toendaScript->checkSEO($tu_signature, $imagePath);
@@ -1428,8 +1431,8 @@ if($todo != 'submitNews'
 			echo $tcms_html->tableEnd();
 			echo '<br /><br />';
 			
-			if($check_session){
-				if($u == $ws_id){
+			if($check_session) {
+				if($u == $ws_id) {
 					$link = '?'.( isset($session) ? 'session='.$session.'' : '' )
 					.'&amp;id=profile&amp;s='.$s.'&amp;todo=edit&amp;u='.$u
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -1446,9 +1449,9 @@ if($todo != 'submitNews'
 		
 		
 		
-		if($todo == 'edit'){
-			if($check_session){
-				if($u == $ws_id){
+		if($todo == 'edit') {
+			if($check_session) {
+				if($u == $ws_id) {
 					$dcUser = new tcms_dc_account();
 					$dcUser = $tcms_ap->getAccount($u);
 					
@@ -1478,29 +1481,29 @@ if($todo != 'submitNews'
 					//***********************
 					// DATES
 					//
-					for($ic = 0; $ic < 31; $ic ++){
-						if($ic + 1 < 10){ $icd = $ic + 1; $icd = '0'.$icd; }
-						else{ $icd = $ic + 1; }
+					for($ic = 0; $ic < 31; $ic ++) {
+						if($ic + 1 < 10) { $icd = $ic + 1; $icd = '0'.$icd; }
+						else { $icd = $ic + 1; }
 						$arr_day[$ic] = $icd;
 					}
-					for($ic = 0; $ic < 12; $ic ++){
-						if($ic + 1 < 10){ $icm = $ic + 1; $icm = '0'.$icm; }
-						else{ $icm = $ic + 1; }
+					for($ic = 0; $ic < 12; $ic ++) {
+						if($ic + 1 < 10) { $icm = $ic + 1; $icm = '0'.$icm; }
+						else { $icm = $ic + 1; }
 						$arr_month[$ic] = $icm;
 					}
-					for($ic = 0; $ic < 12; $ic ++){
-						if($ic + 1 < 10){ $icm = $ic + 1; }
-						else{ $icm = $ic + 1; }
+					for($ic = 0; $ic < 12; $ic ++) {
+						if($ic + 1 < 10) { $icm = $ic + 1; }
+						else { $icm = $ic + 1; }
 						$arr_month12[$ic] = $icm;
 					}
 					
 					
-					if($choosenDB == 'xml'){
+					if($choosenDB == 'xml') {
 						$userp_xml = new xmlparser(_TCMS_PATH.'/tcms_global/userpage.xml','r');
 						$width  = $userp_xml->readSection('userpage', 'text_width');
 						$width2 = $userp_xml->readSection('userpage', 'input_width');
 					}
-					else{
+					else {
 						$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 						$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 						
@@ -1622,14 +1625,14 @@ if($todo != 'submitNews'
 					.'<td>&nbsp;<img src="'.$imagePath.'engine/images/dot_3.gif" border="0" />&nbsp;'
 					.'<select name="new_day" class="tcms_select_day">';
 					
-					foreach($arr_day as $key => $val){
+					foreach($arr_day as $key => $val) {
 						echo '<option value="'.$val.'"'.( substr($tu_birthday, 0, 2) == $val ? ' selected' : '' ).'>'.$val.'</option>';
 					}
 					
 					echo '</select>'
 					.'<select name="new_month" class="tcms_select_month">';
 					
-					foreach($arr_month12 as $key => $val){
+					foreach($arr_month12 as $key => $val) {
 						echo '<option value="'.$val.'"'.( substr($tu_birthday, 3, 2) == $val ? ' selected' : '' ).'>'.$monthName[$val].'</option>';
 					}
 					
@@ -1708,18 +1711,18 @@ if($todo != 'submitNews'
 		// SEND REGISTRATION
 		//****************************
 		
-		if($todo == 'update'){
-			if($check_session){
-				if($u == $ws_id){
-					if(!isset($new_password) || empty($new_password) || $new_password == ''){ $new_tupwd = $your_password; }
-					else{
+		if($todo == 'update') {
+			if($check_session) {
+				if($u == $ws_id) {
+					if(!isset($new_password) || empty($new_password) || $new_password == '') { $new_tupwd = $your_password; }
+					else {
 						$new_password = md5($new_password);
 						$check_pass   = md5($check_pass);
 						
-						switch($new_password){
+						switch($new_password) {
 							case $new_password != $your_password:
-								if($new_password == $check_pass){ $new_tupwd = $new_password; }
-								else{ echo '<script>alert(\''._MSG_PASSWORDNOTVALID.'\'); go.history(-1);</script>'; }
+								if($new_password == $check_pass) { $new_tupwd = $new_password; }
+								else { echo '<script>alert(\''._MSG_PASSWORDNOTVALID.'\'); go.history(-1);</script>'; }
 								break;
 							
 							case $new_password == $your_password:
@@ -1732,7 +1735,7 @@ if($todo != 'submitNews'
 						}
 					}
 					
-					if(empty($new_tcms) || !isset($new_tcms)){ $new_tcms = 0; }
+					if(empty($new_tcms) || !isset($new_tcms)) { $new_tcms = 0; }
 					
 					$new_signature = $tcms_main->convertNewlineToHTML($new_signature);
 					
@@ -1775,8 +1778,8 @@ if($todo != 'submitNews'
 			}
 		}
 	}
-	else{
-		if($todo != 'submitNews'){
+	else {
+		if($todo != 'submitNews') {
 			echo $tcms_html->bold(_MSG_USERNOTEXISTS);
 		}
 	}
@@ -1789,8 +1792,8 @@ if($todo != 'submitNews'
 	list users
 */
 
-if($action == 'list'){
-	if($show_ml == 1){
+if($action == 'list') {
+	if($dcSE->getShowMemberlist()) {
 		echo $tcms_html->contentModuleHeader(
 			_LOGIN_LIST, 
 			_LOGIN_LIST_TEXT, 
@@ -1799,15 +1802,15 @@ if($action == 'list'){
 		
 		$count = 0;
 		
-		if($choosenDB == 'xml'){
+		if($choosenDB == 'xml') {
 			$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_user/');
 			
-			if($tcms_main->isArray($arr_filename)){
-				foreach($arr_filename as $key => $value){
+			if($tcms_main->isArray($arr_filename)) {
+				foreach($arr_filename as $key => $value) {
 					$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_user/'.$value,'r');
 					$user_enable = $menu_xml->readSection('user', 'enabled');
 					
-					if($user_enable == 1){
+					if($user_enable == 1) {
 						$arr_user['tag'][$count]   = substr($value, 0, 32);
 						$arr_user['name'][$count]  = $menu_xml->readSection('user', 'name');
 						$arr_user['user'][$count]  = $menu_xml->readSection('user', 'username');
@@ -1817,13 +1820,13 @@ if($action == 'list'){
 						$arr_user['jdate'][$count] = $menu_xml->readSection('user', 'join_date');
 						$arr_user['ll'][$count]    = $menu_xml->readSection('user', 'last_login');
 						
-						if($arr_user['name'][$count]  == false){ $arr_user['name'][$count]   = ''; }
-						if($arr_user['user'][$count]  == false){ $arr_user['user'][$count]   = ''; }
-						if($arr_user['group'][$count] == false){ $arr_user['group'][$count]  = ''; }
-						if($arr_user['email'][$count] == false){ $arr_user['email'][$count]  = ''; }
-						if($arr_user['jdate'][$count] == false){ $arr_user['jdate'][$count]  = ''; }
-						if($arr_user['www'][$count]   == false){ $arr_user['www'][$count]    = ''; }
-						if($arr_user['ll'][$count]    == false){ $arr_user['ll'][$count]     = ''; }
+						if($arr_user['name'][$count]  == false) { $arr_user['name'][$count]   = ''; }
+						if($arr_user['user'][$count]  == false) { $arr_user['user'][$count]   = ''; }
+						if($arr_user['group'][$count] == false) { $arr_user['group'][$count]  = ''; }
+						if($arr_user['email'][$count] == false) { $arr_user['email'][$count]  = ''; }
+						if($arr_user['jdate'][$count] == false) { $arr_user['jdate'][$count]  = ''; }
+						if($arr_user['www'][$count]   == false) { $arr_user['www'][$count]    = ''; }
+						if($arr_user['ll'][$count]    == false) { $arr_user['ll'][$count]     = ''; }
 						
 						// CHARSETS
 						$arr_user['name'][$count] = $tcms_main->decodeText($arr_user['name'][$count], '2', $c_charset);
@@ -1834,7 +1837,7 @@ if($action == 'list'){
 				}
 			}
 			
-			if(is_array($arr_user)){
+			if(is_array($arr_user)) {
 				array_multisort(
 					$arr_user['name'], SORT_ASC, 
 					$arr_user['user'], SORT_ASC, 
@@ -1847,7 +1850,7 @@ if($action == 'list'){
 				);
 			}
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
@@ -1860,7 +1863,7 @@ if($action == 'list'){
 			
 			$sqlQR = $sqlAL->query($sqlSTR);
 			
-			while($sqlARR = $sqlAL->fetchArray($sqlQR)){
+			while($sqlARR = $sqlAL->fetchArray($sqlQR)) {
 				$arr_user['tag'][$count]   = $sqlARR['uid'];
 				$arr_user['name'][$count]  = $sqlARR['name'];
 				$arr_user['user'][$count]  = $sqlARR['username'];
@@ -1870,13 +1873,13 @@ if($action == 'list'){
 				$arr_user['jdate'][$count] = $sqlARR['join_date'];
 				$arr_user['ll'][$count]    = $sqlARR['last_login'];
 				
-				if($arr_user['name'][$count]  == NULL){ $arr_user['name'][$count]  = ''; }
-				if($arr_user['user'][$count]  == NULL){ $arr_user['user'][$count]  = ''; }
-				if($arr_user['group'][$count] == NULL){ $arr_user['group'][$count] = ''; }
-				if($arr_user['email'][$count] == NULL){ $arr_user['email'][$count] = ''; }
-				if($arr_user['www'][$count]   == NULL){ $arr_user['www'][$count]   = ''; }
-				if($arr_user['jdate'][$count] == NULL){ $arr_user['jdate'][$count] = ''; }
-				if($arr_user['ll'][$count]    == NULL){ $arr_user['ll'][$count]    = ''; }
+				if($arr_user['name'][$count]  == NULL) { $arr_user['name'][$count]  = ''; }
+				if($arr_user['user'][$count]  == NULL) { $arr_user['user'][$count]  = ''; }
+				if($arr_user['group'][$count] == NULL) { $arr_user['group'][$count] = ''; }
+				if($arr_user['email'][$count] == NULL) { $arr_user['email'][$count] = ''; }
+				if($arr_user['www'][$count]   == NULL) { $arr_user['www'][$count]   = ''; }
+				if($arr_user['jdate'][$count] == NULL) { $arr_user['jdate'][$count] = ''; }
+				if($arr_user['ll'][$count]    == NULL) { $arr_user['ll'][$count]    = ''; }
 				
 				// CHARSETS
 				$arr_user['name'][$count] = $tcms_main->decodeText($arr_user['name'][$count], '2', $c_charset);
@@ -1911,8 +1914,8 @@ if($action == 'list'){
 		//.'<th valign="top" class="titleBG" width="'.$width_7.'" align="left">'._TABLE_GROUP.'</th>'
 		.'<tr>';
 		
-		if(is_array($arr_user)){
-			foreach($arr_user['name'] as $key => $value){
+		if(is_array($arr_user)) {
+			foreach($arr_user['name'] as $key => $value) {
 				echo '<tr height="21">';
 				echo '<td valign="middle" align="left" width="'.$width_1.'"><strong>'.$value.'</strong></td>';
 				
@@ -1942,11 +1945,11 @@ if($action == 'list'){
 				
 				echo '<td valign="middle" width="'.$width_5.'" align="center">';
 				
-				if($cipher_email == 1){
+				if($cipher_email == 1) {
 					echo '<script>JSCrypt.displayCryptMail(\''.$tcms_main->encodeBase64($arr_user['email'][$key]).'\', \'<img src="'.$imagePath.'engine/images/letter.gif" border="0" />\');</script>';
 				}
-				else{
-					if($arr_user['email'][$key] != ''){
+				else {
+					if($arr_user['email'][$key] != '') {
 						echo '<a href="mailto:'.$arr_user['email'][$key].'">'
 						.'<img src="'.$imagePath.'engine/images/letter.gif" border="0" />'
 						.'</a>';
@@ -1958,8 +1961,8 @@ if($action == 'list'){
 				
 				echo '<td valign="middle" width="'.$width_6.'" align="center">';
 				
-				if($arr_user['www'][$key] != ''){
-					if(substr($arr_user['www'][$key], 0, 7) != 'http://'){
+				if($arr_user['www'][$key] != '') {
+					if(substr($arr_user['www'][$key], 0, 7) != 'http://') {
 						$arr_user['www'][$key] = 'http://'.$arr_user['www'][$key];
 					}
 					
@@ -1977,7 +1980,7 @@ if($action == 'list'){
 		
 		echo $tcms_html->tableEnd();
 	}
-	else{
+	else {
 		echo '<strong>'._MSG_DISABLED_MODUL.'</strong>';
 	}
 }

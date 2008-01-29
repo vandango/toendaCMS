@@ -227,7 +227,7 @@ class tcms_dc_contactform {
 	 * @return String
 	 */
 	public function getEnabled(){
-		return $this->m_enabled;
+		return ( $this->m_enabled == 1 || $this->m_enabled == '1' || $this->m_enabled ? true : false );
 	}
 	
 	/***
@@ -246,7 +246,7 @@ class tcms_dc_contactform {
 	 * @return String
 	 */
 	public function getUseAdressbook(){
-		return $this->m_use_adressbook;
+		return ( $this->m_use_adressbook == 1 || $this->m_use_adressbook == '1' || $this->m_use_adressbook ? true : false );
 	}
 	
 	/***
@@ -265,7 +265,7 @@ class tcms_dc_contactform {
 	 * @return String
 	 */
 	public function getUseContact(){
-		return $this->m_use_contact;
+		return ( $this->m_use_contact == 1 || $this->m_use_contact == '1' || $this->m_use_contact ? true : false );
 	}
 	
 	/***
@@ -284,7 +284,7 @@ class tcms_dc_contactform {
 	 * @return String
 	 */
 	public function getShowContactemail(){
-		return $this->m_show_contactemail;
+		return ( $this->m_show_contactemail == 1 || $this->m_show_contactemail == '1' || $this->m_show_contactemail ? true : false );
 	}
 }
 
