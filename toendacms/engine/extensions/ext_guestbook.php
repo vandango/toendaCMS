@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a guestbook.
  *
- * @version 0.5.2
+ * @version 0.5.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -71,72 +71,23 @@ function checkInputs(id) {
 </script>';
 
 
+$dcG = new tcms_dc_guestbook();
+$dcG = $tcms_dcp->getGuestbookDC($getLang);
 
-if($book_enabled == 1) {
+
+if($dcG->getEnabled()) {
 	/*
 		INIT
 	*/
 	
-	if($choosenDB == 'xml') {
-		$gbxml = new xmlparser(_TCMS_PATH.'/tcms_global/guestbook.xml', 'r');
-		
-		$gb_clean_link   = $gbxml->readSection('config', 'clean_link');
-		$gb_clean_script = $gbxml->readSection('config', 'clean_script');
-		$gb_convert_at   = $gbxml->readSection('config', 'convert_at');
-		$gb_show_email   = $gbxml->readSection('config', 'show_email');
-		$gb_name_width   = $gbxml->readSection('config', 'name_width');
-		$gb_text_width   = $gbxml->readSection('config', 'text_width');
-		$arr_color[0]    = $gbxml->readSection('config', 'color_row_1');
-		$arr_color[1]    = $gbxml->readSection('config', 'color_row_2');
-		
-		if($gb_clean_link   == false) { $gb_clean_link   = ''; }
-		if($gb_clean_script == false) { $gb_clean_script = ''; }
-		if($gb_convert_at   == false) { $gb_convert_at   = ''; }
-		if($gb_show_email   == false) { $gb_show_email   = ''; }
-		if($gb_name_width   == false) { $gb_name_width   = '140'; }
-		if($gb_text_width   == false) { $gb_text_width   = '360'; }
-		if($arr_color[0]    == false) { $arr_color[0]    = 'f4f7fd'; }
-		if($arr_color[1]    == false) { $arr_color[1]    = 'ffffff'; }
-	}
-	else {
-		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-		
-		$strQuery = "SELECT clean_link, clean_script, convert_at, show_email, "
-		."name_width, text_width, color_row_1, color_row_2 "
-		."FROM ".$tcms_db_prefix."guestbook "
-		."WHERE uid = 'guestbook'";
-		
-		$sqlQR = $sqlAL->query($strQuery);
-		$sqlObj = $sqlAL->fetchObject($sqlQR);
-		
-		$gb_clean_link   = $sqlObj->clean_link;
-		$gb_clean_script = $sqlObj->clean_script;
-		$gb_convert_at   = $sqlObj->convert_at;
-		$gb_show_email   = $sqlObj->show_email;
-		$gb_name_width   = $sqlObj->name_width;
-		$gb_text_width   = $sqlObj->text_width;
-		$arr_color[0]    = $sqlObj->color_row_1;
-		$arr_color[1]    = $sqlObj->color_row_2;
-		
-		if($gb_clean_link   == NULL) { $gb_clean_link   = '0'; }
-		if($gb_clean_script == NULL) { $gb_clean_script = '0'; }
-		if($gb_convert_at   == NULL) { $gb_convert_at   = '0'; }
-		if($gb_show_email   == NULL) { $gb_show_email   = '0'; }
-		if($gb_name_width   == NULL) { $gb_name_width   = '140'; }
-		if($gb_text_width   == NULL) { $gb_text_width   = '360'; }
-		if($arr_color[0]    == NULL) { $arr_color[0]    = 'f4f7fd'; }
-		if($arr_color[1]    == NULL) { $arr_color[1]    = 'ffffff'; }
-	}
-	
-	$arr_color[0] = '#'.$arr_color[0];
-	$arr_color[1] = '#'.$arr_color[1];
+	$arr_color[0] = '#'.$dcG->getColorRow1();
+	$arr_color[1] = '#'.$dcG->getColorRow2();
 	
 	
 	echo $tcms_html->contentModuleHeader(
-		$book_title, 
-		$book_stamp, 
-		''
+		$dcG->getTitle(), 
+		$dcG->getSubtitle(), 
+		$dcG->getText()
 	);
 	
 	
@@ -150,7 +101,7 @@ if($book_enabled == 1) {
 			
 			$count = 0;
 			
-			if(isset($arr_guestsfiles) && !empty($arr_guestsfiles) && $arr_guestsfiles != '') {
+			if($tcms_main->isReal($arr_guestsfiles)) {
 				foreach($arr_guestsfiles as $key => $value) {
 					$aXML = new xmlparser(_TCMS_PATH.'/tcms_guestbook/'.$value, 'r');
 					
@@ -252,28 +203,28 @@ if($book_enabled == 1) {
 		echo $tcms_html->tableHeadClass('1', '0', '0', '100%', 'book_content');
 		
 		echo '<tr>'
-		.'<th valign="top" class="titleBG" width="'.$gb_name_width.'" align="left">'._TABLE_NAME.'</th>'
-		.'<th valign="top" class="titleBG" width="'.$gb_text_width.'" align="left">'._FRONT_COMMENT.'</th>'
+		.'<th valign="top" class="titleBG" width="'.$dcG->getNameWidth().'" align="left">'._TABLE_NAME.'</th>'
+		.'<th valign="top" class="titleBG" width="'.$dcG->getTextWidth().'" align="left">'._FRONT_COMMENT.'</th>'
 		.'</tr>';
 		
 		if(isset($arr_guests) && !empty($arr_guests) && $arr_guests != '') {
 			foreach($arr_guests['uid'] as $key => $val) {
 				if($key >= ( ($page * 10) - 10 ) && $key < ( $page * 10 )) {
-					if($gb_clean_link == 1) {
+					if($dcG->getCleanLink()) {
 						$arr_guests['name'][$key] = $tcms_main->cleanGBLink($arr_guests['name'][$key]);
 						$arr_guests['text'][$key] = $tcms_main->cleanGBLink($arr_guests['text'][$key]);
 						$arr_guests['mail'][$key] = $tcms_main->cleanGBLink($arr_guests['mail'][$key]);
 					}
 					
 					
-					if($gb_clean_script == 1) {
+					if($dcG->getCleanScript()) {
 						$arr_guests['name'][$key] = $tcms_main->cleanGBScript($arr_guests['name'][$key]);
 						$arr_guests['text'][$key] = $tcms_main->cleanGBScript($arr_guests['text'][$key]);
 						$arr_guests['mail'][$key] = $tcms_main->cleanGBScript($arr_guests['mail'][$key]);
 					}
 					
 					
-					if($gb_convert_at == 1) {
+					if($dcG->getConvertAt()) {
 						$arr_guests['mail'][$key] = str_replace('@', '[at]', $arr_guests['mail'][$key]);
 					}
 					
@@ -286,7 +237,7 @@ if($book_enabled == 1) {
 					}
 					
 					// mailaddress
-					if($cipher_email == 1) {
+					if($tcms_config->getEmailCiphering()) {
 						$mmm = '<script>JSCrypt.displayCryptMailTo(\''.$tcms_main->encodeBase64($arr_guests['mail'][$key]).'\');</script>';
 					}
 					else {
@@ -294,9 +245,9 @@ if($book_enabled == 1) {
 					}
 					
 					// creator
-					$entryCreator = ( $gb_show_email == 1 ? ( $arr_guests['mail'][$key] == '' ? '' : $mmm ) : '' )
+					$entryCreator = ( $dcG->getShowEMail() ? ( $arr_guests['mail'][$key] == '' ? '' : $mmm ) : '' )
 					.$arr_guests['name'][$key]
-					.( $gb_show_email == 1 ? ( $arr_guests['mail'][$key] == '' ? '' : '</a>' ) : '' );
+					.( $dcG->getShowEMail() ? ( $arr_guests['mail'][$key] == '' ? '' : '</a>' ) : '' );
 					
 					// number
 					$entryNumber = ( $sqlNR - $key ).'. '._BOOK_ENTRY2;
@@ -321,11 +272,12 @@ if($book_enabled == 1) {
 						$layoutEntry = $tcms_file->readToEnd(_LAYOUT_GUESTBOOK_ENTRY);
 						
 						$layoutEntry = str_replace('#####TABLE_ROW_BG_COLOR#####', $arr_color[$wsc], $layoutEntry);
-						$layoutEntry = str_replace('#####GUESTBOOK_COLUMN_WIDTH#####', $gb_name_width, $layoutEntry);
+						$layoutEntry = str_replace('#####GUESTBOOK_COLUMN_NAME_WIDTH#####', $dcG->getNameWidth(), $layoutEntry);
 						$layoutEntry = str_replace('#####GUESTBOOK_ENTRY_CREATOR#####', $entryCreator, $layoutEntry);
 						$layoutEntry = str_replace('#####GUESTBOOK_ENTRY_NUMBER#####', $entryNumber, $layoutEntry);
 						$layoutEntry = str_replace('#####GUESTBOOK_ENTRY_DATE#####', $entryDate, $layoutEntry);
 						$layoutEntry = str_replace('#####GUESTBOOK_ENTRY_TEXT#####', $entryText, $layoutEntry);
+						$layoutEntry = str_replace('#####GUESTBOOK_COLUMN_TEXT_WIDTH#####', $dcG->getTextWidth(), $layoutEntry);
 						
 						echo $layoutEntry;
 					}
@@ -336,7 +288,7 @@ if($book_enabled == 1) {
 						
 						echo '<tr bgcolor="'.$arr_color[$wsc].'">';
 						
-						echo '<td valign="top" width="'.$gb_name_width.'" style="padding: 2px;">'
+						echo '<td valign="top" width="'.$dcG->getNameWidth().'" style="padding: 2px;">'
 						.'<strong class="text_big">'
 						.$entryCreator
 						.'</strong><br />'
@@ -345,7 +297,7 @@ if($book_enabled == 1) {
 						.'</td>';
 						
 						
-						echo '<td valign="top" width="'.$gb_text_width.'">'
+						echo '<td valign="top" width="'.$dcG->getTextWidth().'">'
 						.$entryText
 						.'</td>';
 						
@@ -481,6 +433,9 @@ if($book_enabled == 1) {
 		
 		
 		// form
+		$link_guest = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+		.'id=guestbook&amp;s='.$s.'&amp;lang='.$lang;
+		
 		echo '<a name="post"></a>'
 		.'<form name="book" id="book" method="post" action="'.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).$link_guest.'">'
 		.'<input type="hidden" name="action" value="submit" />';
@@ -598,14 +553,14 @@ if($book_enabled == 1) {
 		
 		
 		if($save_now) {
-			if($gb_clean_link == 1) {
+			if($dcG->getCleanLink()) {
 				$guest_name = $tcms_main->cleanGBLink($guest_name);
 				$guest_mail = $tcms_main->cleanGBLink($guest_mail);
 				$guest_msg  = $tcms_main->cleanGBLink($guest_msg);
 			}
 			
 			
-			if($gb_clean_script == 1) {
+			if($dcG->getCleanScript()) {
 				$guest_name = $tcms_main->cleanGBScript($guest_name);
 				$guest_mail = $tcms_main->cleanGBScript($guest_mail);
 				$guest_msg  = $tcms_main->cleanGBScript($guest_msg);

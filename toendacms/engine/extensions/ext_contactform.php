@@ -31,20 +31,32 @@ defined('_TCMS_VALID') or die('Restricted access');
  */
 
 
-if(isset($_POST['mail_name'])){ $mail_name = $_POST['mail_name']; }
-if(isset($_POST['mail_email'])){ $mail_email = $_POST['mail_email']; }
-if(isset($_POST['mail_website'])){ $mail_website = $_POST['mail_website']; }
-if(isset($_POST['mail_subject'])){ $mail_subject = $_POST['mail_subject']; }
-if(isset($_POST['mail_message'])){ $mail_message = $_POST['mail_message']; }
-if(isset($_POST['kopie'])){ $kopie = $_POST['kopie']; }
-if(isset($_POST['send_form'])){ $send_form = $_POST['send_form']; }
+if(isset($_POST['mail_name'])) { $mail_name = $_POST['mail_name']; }
+if(isset($_POST['mail_email'])) { $mail_email = $_POST['mail_email']; }
+if(isset($_POST['mail_website'])) { $mail_website = $_POST['mail_website']; }
+if(isset($_POST['mail_subject'])) { $mail_subject = $_POST['mail_subject']; }
+if(isset($_POST['mail_message'])) { $mail_message = $_POST['mail_message']; }
+if(isset($_POST['kopie'])) { $kopie = $_POST['kopie']; }
+if(isset($_POST['send_form'])) { $send_form = $_POST['send_form']; }
 
 
-if($cform_enabled == 1){
+
+$dcCF = new tcms_dc_contactform();
+$dcCF = $tcms_dcp->getContactformDC($getLang);
+
+if(!isset($contact_email)) {
+	$contact_email = $dcCF->getContact();
+}
+else {
+	$contact_email = $tcms_main->decodeBase64($contact_email);
+}
+
+
+if($dcCF->getEnabled()) {
 	echo $tcms_html->contentModuleHeader(
-		$contact_title, 
-		$contact_stamp, 
-		$contact_text
+		$dcCF->getTitle(), 
+		$dcCF->getSubtitle(), 
+		$dcCF->getText()
 	);
 	
 	
@@ -59,7 +71,7 @@ if($cform_enabled == 1){
 	*/
 	
 	if($item == 'adressbook' 
-	&& $use_adressbook == 1) {
+	&& $dcCF->getUseAdressbook()) {
 		if($seoEnabled && $seoFormat == 2) {
 			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 			.'id=contactform&amp;s='.$s
@@ -93,21 +105,21 @@ if($cform_enabled == 1){
 		
 		if($choosenDB == 'xml') {
 			$arr_sbc = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_contacts/');
-			foreach ($arr_sbc as $key => $value){
+			foreach ($arr_sbc as $key => $value) {
 				$contacts_xml = new xmlparser(_TCMS_PATH.'/tcms_contacts/'.$value,'r');
 				$tc_pub = $contacts_xml->read_section('contact', 'published');
 				
-				if($tc_pub == 1){
+				if($tc_pub == 1) {
 					$csb_id    = substr($value, 0, 10);
 					$csb_name  = $contacts_xml->read_section('contact', 'name');
 					$csb_job   = $contacts_xml->read_section('contact', 'position');
 					$csb_email = $contacts_xml->read_section('contact', 'email');
 					$csb_phone = $contacts_xml->read_section('contact', 'phone');
 					
-					if($csb_name  == false){ $csb_name  = ''; }
-					if($csb_job   == false){ $csb_job   = ''; }
-					if($csb_email == false){ $csb_email = ''; }
-					if($csb_phone == false){ $csb_phone = ''; }
+					if($csb_name  == false) { $csb_name  = ''; }
+					if($csb_job   == false) { $csb_job   = ''; }
+					if($csb_email == false) { $csb_email = ''; }
+					if($csb_phone == false) { $csb_phone = ''; }
 					
 					$csb_name  = $tcms_main->decodeText($csb_name, '2', $c_charset);
 					$csb_job   = $tcms_main->decodeText($csb_job, '2', $c_charset);
@@ -116,7 +128,7 @@ if($cform_enabled == 1){
 					
 					echo '<div style="display: block; width: 400px;">';
 					
-					if(!empty($csb_email)){
+					if(!empty($csb_email)) {
 						echo '<div style="display: block; float: right;">';
 						
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
@@ -127,10 +139,10 @@ if($cform_enabled == 1){
 						
 						echo '<a href="#" class="main" onclick="document.location=\''.$link.'\';" value="'._CONTACT_SEND_A_EMAIL.'" />';
 						
-						if($detect_browser == 1){
-							echo '<script>if(browser == \'ie\'){
+						if($detect_browser == 1) {
+							echo '<script>if(browser == \'ie\') {
 							document.write(\'<img style="margin-bottom: -6px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.gif" border="0" />\');
-							}else{
+							}else {
 							document.write(\'<img style="margin-bottom: -6px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="padding-bottom: 0px; padding-top: 1px;" src="'.$imagePath.'engine/images/email.png" border="0" />\');
 							}</script>';
 							
@@ -138,7 +150,7 @@ if($cform_enabled == 1){
 							.'<img style="margin-bottom: -6px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.gif" border="0" />'
 							.'</noscript>';
 						}
-						else{
+						else {
 							echo '<img style="margin-bottom: -6px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.png" border="0" />';
 						}
 						
@@ -171,10 +183,10 @@ if($cform_enabled == 1){
 					echo ( !empty($csb_name)  ? '<strong class="text_normal">'.$csb_name.'</strong><br />' : '' );
 					echo ( !empty($csb_job)   ? '<span class="text_small">'.$csb_job.'</span><br />' : '' );
 					
-					if($cipher_email == 1){
+					if($cipher_email == 1) {
 						echo ( !empty($csb_email) ? '<span class="text_normal"><script>JSCrypt.displayCryptMail(\''.$tcms_main->encodeBase64($csb_email).'\', \''.$csb_name.'\');</script></span><br />' : '' );
 					}
-					else{
+					else {
 						echo ( !empty($csb_email) ? '<span class="text_normal"><a href="mailto:'.$csb_email.'">'.$csb_email.'</a></span><br />' : '' );
 					}
 					
@@ -185,13 +197,13 @@ if($cform_enabled == 1){
 				}
 			}
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$sqlQR = $sqlAL->sqlGetALL($tcms_db_prefix.'contacts WHERE published=1 ORDER BY name');
 			
-			while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)){
+			while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)) {
 				$csb_id      = $sqlObj->uid;
 				$csb_name    = $sqlObj->name;
 				$csb_job     = $sqlObj->position;
@@ -204,16 +216,16 @@ if($cform_enabled == 1){
 				$csb_state   = $sqlObj->state;
 				$csb_country = $sqlObj->country;
 				
-				if($csb_name    == NULL){ $csb_name    = ''; }
-				if($csb_job     == NULL){ $csb_job     = ''; }
-				if($csb_email   == NULL){ $csb_email   = ''; }
-				if($csb_street  == NULL){ $csb_street  = ''; }
-				if($csb_postal  == NULL){ $csb_postal  = ''; }
-				if($csb_city    == NULL){ $csb_city    = ''; }
-				if($csb_phone   == NULL){ $csb_phone   = ''; }
-				if($csb_fax     == NULL){ $csb_fax     = ''; }
-				if($csb_state   == NULL){ $csb_state   = ''; }
-				if($csb_country == NULL){ $csb_country = ''; }
+				if($csb_name    == NULL) { $csb_name    = ''; }
+				if($csb_job     == NULL) { $csb_job     = ''; }
+				if($csb_email   == NULL) { $csb_email   = ''; }
+				if($csb_street  == NULL) { $csb_street  = ''; }
+				if($csb_postal  == NULL) { $csb_postal  = ''; }
+				if($csb_city    == NULL) { $csb_city    = ''; }
+				if($csb_phone   == NULL) { $csb_phone   = ''; }
+				if($csb_fax     == NULL) { $csb_fax     = ''; }
+				if($csb_state   == NULL) { $csb_state   = ''; }
+				if($csb_country == NULL) { $csb_country = ''; }
 				
 				$csb_name    = $tcms_main->decodeText($csb_name, '2', $c_charset);
 				$csb_job     = $tcms_main->decodeText($csb_job, '2', $c_charset);
@@ -237,7 +249,7 @@ if($cform_enabled == 1){
 				
 				echo '<div style="display: block; width: 400px;">';
 				
-				if(!empty($csb_email)){
+				if(!empty($csb_email)) {
 					echo '<div style="display: block; float: right;">';
 					
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
@@ -248,10 +260,10 @@ if($cform_enabled == 1){
 					
 					echo '<a href="#" class="main" onclick="document.location=\''.$link.'\';" />';
 					
-					if($detect_browser == 1){
-						echo '<script>if(browser == \'ie\'){'
+					if($detect_browser == 1) {
+						echo '<script>if(browser == \'ie\') {'
 						.'document.write(\'<img style="margin-bottom: -6px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.gif" border="0" />\');'
-						.'}else{'
+						.'}else {'
 						.'document.write(\'<img style="margin-bottom: -6px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="padding-bottom: 0px; padding-top: 1px;" src="'.$imagePath.'engine/images/email.png" border="0" />\');'
 						.'}</script>';
 						
@@ -259,7 +271,7 @@ if($cform_enabled == 1){
 						.'<img style="margin-bottom: -6px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.png" border="0" />'
 						.'</noscript>';
 					}
-					else{
+					else {
 						echo '<img style="margin-bottom: -6px;" alt="'._CONTACT_SEND_A_EMAIL.'" title="'._CONTACT_SEND_A_EMAIL.'" style="" src="'.$imagePath.'engine/images/email.png" border="0" />';
 					}
 					
@@ -295,10 +307,10 @@ if($cform_enabled == 1){
 				
 				echo '<span class="text_normal">';
 				
-				if($cipher_email == 1){
+				if($cipher_email == 1) {
 					echo ( !empty($csb_email) ? '<span class="text_normal"><script>JSCrypt.displayCryptMail(\''.$tcms_main->encodeBase64($csb_email).'\', \''.$csb_name.'\');</script></span><br />' : '' );
 				}
-				else{
+				else {
 					echo ( !empty($csb_email) ? '<span class="text_normal"><a href="mailto:'.$csb_email.'">'.$csb_email.'</a></span><br />' : '' );
 				}
 				
@@ -325,15 +337,15 @@ if($cform_enabled == 1){
 		contactform
 	*/
 	
-	if($item != 'adressbook'){
-		if($use_contactad == 1){
+	if($item != 'adressbook') {
+		if($dcCF->getUseContact()) {
 			echo '<span class="contentmain">';
 			
 			
-			if($choosenDB == 'xml'){
+			if($choosenDB == 'xml') {
 				$con_file = $tcms_main->get_default_contact();
 			}
-			else{
+			else {
 				$con_file = $tcms_main->get_default_sql_contact($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			}
 			
@@ -365,10 +377,10 @@ if($cform_enabled == 1){
 				echo ( !empty($name) ? '<strong class="contentheading">'.$name.'</strong>&nbsp;&bull;&nbsp;' :'' );
 				echo ( !empty($position) ? '<span class="contentmain">'.$position.'<br />' :'' );
 				
-				if($cipher_email == 1){
+				if($cipher_email == 1) {
 					echo ( !empty($email) ? '<strong>'._PERSON_EMAIL.':</strong> <script>JSCrypt.displayCryptMail(\''.$tcms_main->encodeBase64($email).'\', \''.$name.'\');</script><br />' : '' );
 				}
-				else{
+				else {
 					echo ( !empty($email) ? '<strong>'._PERSON_EMAIL.':</strong> <a href="mailto:'.$email.'">'.$email.'</a><br />' : '' );
 				}
 				
@@ -389,7 +401,7 @@ if($cform_enabled == 1){
 		
 		
 		?><script language="JavaScript">
-		function checkinputs(id){
+		function checkinputs(id) {
 			var sendOK = false;
 			
 			strName = document.forms[id].mail_name.value;
@@ -399,7 +411,7 @@ if($cform_enabled == 1){
 				document.forms[id].mail_name.focus();
 				return;
 			}
-			else{ sendOK = true; }
+			else { sendOK = true; }
 			
 			strEmail = document.forms[id].mail_email.value;
 			if(strEmail == '') {
@@ -408,7 +420,7 @@ if($cform_enabled == 1){
 				document.forms[id].mail_email.focus();
 				return;
 			}
-			else{ sendOK = true; }
+			else { sendOK = true; }
 			
 			if(strEmail.indexOf('@') == -1) {
 				sendOK = false;
@@ -416,7 +428,7 @@ if($cform_enabled == 1){
 				document.forms[id].Email.focus();
 				return;
 			}
-			else{ sendOK = true; }
+			else { sendOK = true; }
 			
 			strmail_message = document.forms[id].mail_message.value;
 			if(strmail_message == '') {
@@ -425,24 +437,24 @@ if($cform_enabled == 1){
 				document.forms[id].mail_message.focus();
 				return;
 			}
-			else{ sendOK = true; }
+			else { sendOK = true; }
 			
-			if (sendOK){ document.forms[id].submit(); }
+			if (sendOK) { document.forms[id].submit(); }
 		}
 		</script><?
 		
-		if(!empty($HTTP_POST_VARS)){ extract($HTTP_POST_VARS); }
+		if(!empty($HTTP_POST_VARS)) { extract($HTTP_POST_VARS); }
 		
 		$remote = getenv('REMOTE_ADDR');
 		$date = date('m.d.Y H:i:s');
 		
-		if ($remote == ""){ $ip = '<em> no ip </em>'; }
-		else{ $ip = getHostByAddr($remote); }
+		if ($remote == "") { $ip = '<em> no ip </em>'; }
+		else { $ip = getHostByAddr($remote); }
 		
 		
 		if(!isset($send_form) 
 		&& $send_form != 1) {
-			if($use_adressbook == 1) {
+			if($dcCF->getUseAdressbook()) {
 				if($seoEnabled && $seoFormat == 2) {
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=contactform&amp;s='.$s
@@ -486,7 +498,7 @@ if($cform_enabled == 1){
 			.( isset($session) ? '<input type="hidden" name="session" value="'.$session.'" />' : '' )
 			.( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' );
 			
-			if($use_adressbook == 1) {
+			if($dcCF->getUseAdressbook()) {
 				echo '<input type="button" class="inputbutton sendmail" onclick="javascript:checkinputs(\'cform\');" value="'._FORM_SEND.'" />'
 				.'<noscript><input type="submit" class="inputbutton sendmail" value="'._FORM_SEND.'" /></noscript>';
 				
@@ -494,7 +506,7 @@ if($cform_enabled == 1){
 			}
 			
 			
-			if($show_contactemail == 1) {
+			if($dcCF->getShowContactemail()) {
 				// inputs
 				echo '<div style="float: left; width: 140px;">'
 				.'<strong><span class="text_normal">'._CONTACT_ADRESS_EMAIL.':</strong></span></div>';
@@ -556,7 +568,7 @@ if($cform_enabled == 1){
 			.'<span class="text_normal">'._FORM_COPY.'</span></div>';
 			
 			
-			if($use_adressbook == 0){
+			if(!$dcCF->getUseAdressbook()) {
 				echo '<br />';
 				
 				echo '<input type="button" style="float: left;" class="inputbutton sendmail" onclick="javascript:checkinputs(\'cform\');" value="'._FORM_SEND.'" />'
@@ -568,7 +580,7 @@ if($cform_enabled == 1){
 			echo '</form>';
 			
 			/*
-			if($use_adressbook == 1){
+			if($dcCF->getUseAdressbook()) {
 				echo '<form id="adress" action="'.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?" method="get">'
 				.'<input name="id" type="hidden" value="contactform" />'
 				.'<input name="s" type="hidden" value="'.$s.'" />'
@@ -663,12 +675,12 @@ if($cform_enabled == 1){
 				.'<strong>'.$form_message.'</strong>:<br />'.$mail_message.'<br /><br />'
 				.'<hr /><em>'.$ip.'</em><hr />';
 				
-				if($mail_as_html == '1'){
+				if($mail_as_html == '1') {
 					$mail->IsHTML(true);
 					$mail->Body     =  $mail_body_html;
 					$mail->AltBody  =  $mail_body_text;
 				}
-				else{
+				else {
 					$mail->IsHTML(false);
 					//$mail->IsMail();
 					//$mail->Body     =  $mail_body_text;
@@ -677,14 +689,14 @@ if($cform_enabled == 1){
 					$mail->AltBody  =  $mail_body_text;
 				}
 				
-				if(!$mail->Send()){
+				if(!$mail->Send()) {
 					echo '<script>'
 					.'history.back();'
 					.'alert(\''._MSG_SEND_FAILED.'\n\nMailer Error: '.$mail->ErrorInfo.'\');'
 					.'</script>';
 				}
 				
-				if(isset($kopie)){
+				if(isset($kopie)) {
 					// copy
 					$mail->From     = $contact_email;
 					$mail->FromName = $tcms_config->getWebpageOwner();
@@ -717,12 +729,12 @@ if($cform_enabled == 1){
 					.'<strong>'.$form_message.'</strong>:<br />'.$mail_message.'<br /><br />'
 					.'<hr />'.$msg_form_system.'<br /><br />'.$msg_form_regards.'<hr />';
 					
-					if($mail_as_html == '1'){
+					if($mail_as_html == '1') {
 						$mail->IsHTML(true);
 						$mail->Body     =  $mail_body_html;
 						$mail->AltBody  =  $mail_body_text;
 					}
-					else{
+					else {
 						$mail->IsHTML(false);
 						//$mail->IsMail();
 						//$mail->Body     =  $mail_body_text;
@@ -731,7 +743,7 @@ if($cform_enabled == 1){
 						$mail->AltBody  =  $mail_body_text;
 					}
 					
-					if(!$mail->Send()){
+					if(!$mail->Send()) {
 						echo '<script>'
 						.'history.back();'
 						.'alert(\''._MSG_SEND_FAILED.'\n\nMailer Error: '.$mail->ErrorInfo.'\');'
@@ -766,7 +778,7 @@ $mail_message
 ","$header");
 				
 				// mail to sender
-				if(isset($kopie)){
+				if(isset($kopie)) {
 					$msg_form_dear     = _FORM_DEAR;
 					$msg_form_thankyou = _FORM_THANKYOU;
 					$msg_form_follow   = _FORM_FOLLOWMSG;
@@ -818,7 +830,7 @@ $mail_message
 	
 	echo '</span>';
 }
-else{
+else {
 	echo '<strong>'._MSG_DISABLED_MODUL.'</strong>';
 }
 

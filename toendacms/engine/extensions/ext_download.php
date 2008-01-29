@@ -23,18 +23,18 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides a download manager..
  *
- * @version 0.8.4
+ * @version 0.8.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
  */
 
 
-if(isset($_GET['page'])){ $page = $_GET['page']; }
-if(isset($_GET['c'])){ $c = $_GET['c']; }
-if(isset($_GET['file'])){ $file = $_GET['file']; }
-if(isset($_GET['action'])){ $action = $_GET['action']; }
-if(isset($_GET['category'])){ $category = $_GET['category']; }
+if(isset($_GET['page'])) { $page = $_GET['page']; }
+if(isset($_GET['c'])) { $c = $_GET['c']; }
+if(isset($_GET['file'])) { $file = $_GET['file']; }
+if(isset($_GET['action'])) { $action = $_GET['action']; }
+if(isset($_GET['category'])) { $category = $_GET['category']; }
 
 
 if(!isset($action)) {
@@ -91,20 +91,20 @@ if($action == 'showall') {
 		if($displayDownload) {
 			if($tcms_main->isArray($arr_downfiles)) {
 				foreach($arr_downfiles as $key => $value) {
-					if($value != 'index.html'){
+					if($value != 'index.html') {
 						$xml      = new xmlparser(_TCMS_PATH.'/files/'.$value.'/info.xml', 'r');
 						$checkPub = $xml->readSection('info', 'pub');
 						
 						
 						// show pub
-						if($checkPub == 1){
+						if($checkPub == 1) {
 							$checkCat = $xml->readSection('info', 'cat');
 							
 							
 							/*
 								rules
 							*/
-							if(!isset($category) || trim($category) == ''){
+							if(!isset($category) || trim($category) == '') {
 								if($checkCat == '') {
 									$countThis = true;
 								}
@@ -112,7 +112,7 @@ if($action == 'showall') {
 									$countThis = false;
 								}
 							}
-							else{
+							else {
 								if($checkCat == $category) {
 									$countThis = true;
 								}
@@ -123,7 +123,7 @@ if($action == 'showall') {
 							
 							
 							// show cat
-							if($countThis){
+							if($countThis) {
 								$arr_dw['uid'][$count]  = substr($value, 0, 10);
 								$arr_dw['name'][$count] = $xml->readSection('info', 'name');
 								$arr_dw['date'][$count] = $xml->readSection('info', 'date');
@@ -157,7 +157,7 @@ if($action == 'showall') {
 			}
 		}
 		
-		if($tcms_main->isArray($arr_dw)){
+		if($tcms_main->isArray($arr_dw)) {
 			array_multisort(
 				$arr_dw['sort'], SORT_ASC, 
 				$arr_dw['date'], SORT_ASC, 
@@ -174,11 +174,11 @@ if($action == 'showall') {
 			);
 		}
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		if(!isset($category) || trim($category) == ''){
+		if(!isset($category) || trim($category) == '') {
 			$sqlSTR = "SELECT * "
 			."FROM ".$tcms_db_prefix."downloads "
 			."WHERE ( parent IS NULL "
@@ -188,11 +188,11 @@ if($action == 'showall') {
 			//.$strAdd
 			."ORDER BY sort ASC, date ASC, name ASC";
 		}
-		else{
+		else {
 			/*
 				access authentication
 			*/
-			switch($is_admin){
+			switch($is_admin) {
 				case 'Developer':
 				case 'Administrator':
 					$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
@@ -219,7 +219,7 @@ if($action == 'showall') {
 			$sqlQR = $sqlAL->query($sqlSTR);
 			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
-			if($sqlNR > 0){
+			if($sqlNR > 0) {
 				$sqlObj = $sqlAL->fetchObject($sqlQR);
 				$wsCatTit = $sqlObj->name;
 				
@@ -238,7 +238,7 @@ if($action == 'showall') {
 			$sqlQR = $sqlAL->query($sqlSTR);
 			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
-			if($sqlNR > 0){
+			if($sqlNR > 0) {
 				$sqlSTR = "SELECT * "
 				."FROM ".$tcms_db_prefix."downloads "
 				."WHERE cat = '".$category."' "
@@ -249,19 +249,19 @@ if($action == 'showall') {
 				//.$strAdd
 				."ORDER BY sort ASC, date ASC, name ASC";
 			}
-			else{
+			else {
 				//$displayDownload = false;
 			}
 		}
 		
 		
-		if($displayDownload){
+		if($displayDownload) {
 			$sqlQR = $sqlAL->query($sqlSTR);
 			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
 			$count = 0;
 			
-			while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
 				$arr_dw['uid'][$count]   = $sqlObj->uid;
 				$arr_dw['name'][$count]  = $sqlObj->name;
 				$arr_dw['date'][$count]  = $sqlObj->date;
@@ -276,19 +276,19 @@ if($action == 'showall') {
 				$arr_dw['img'][$count]   = $sqlObj->image;
 				$arr_dw['mir'][$count]   = $sqlObj->mirror;
 				
-				if($arr_dw['uid'][$count]  == NULL){ $arr_dw['uid'][$count]  = ''; }
-				if($arr_dw['name'][$count] == NULL){ $arr_dw['name'][$count] = ''; }
-				if($arr_dw['date'][$count] == NULL){ $arr_dw['date'][$count] = ''; }
-				if($arr_dw['desc'][$count] == NULL){ $arr_dw['desc'][$count] = ''; }
-				if($arr_dw['type'][$count] == NULL){ $arr_dw['type'][$count] = ''; }
-				if($arr_dw['sort'][$count] == NULL){ $arr_dw['sort'][$count] = ''; }
-				if($arr_dw['file'][$count] == NULL){ $arr_dw['file'][$count] = ''; }
-				//if($arr_dw['dir'][$count]  == NULL){ $arr_dw['dir'][$count]  = ''; }
-				//if($arr_dw['pub'][$count]  == NULL){ $arr_dw['pub'][$count]  = ''; }
-				if($arr_dw['ac'][$count]   == NULL){ $arr_dw['ac'][$count]   = ''; }
-				if($arr_dw['st'][$count]   == NULL){ $arr_dw['st'][$count]   = ''; }
-				if($arr_dw['img'][$count]  == NULL){ $arr_dw['img'][$count]  = ''; }
-				if($arr_dw['mir'][$count]  == NULL){ $arr_dw['mir'][$count]  = ''; }
+				if($arr_dw['uid'][$count]  == NULL) { $arr_dw['uid'][$count]  = ''; }
+				if($arr_dw['name'][$count] == NULL) { $arr_dw['name'][$count] = ''; }
+				if($arr_dw['date'][$count] == NULL) { $arr_dw['date'][$count] = ''; }
+				if($arr_dw['desc'][$count] == NULL) { $arr_dw['desc'][$count] = ''; }
+				if($arr_dw['type'][$count] == NULL) { $arr_dw['type'][$count] = ''; }
+				if($arr_dw['sort'][$count] == NULL) { $arr_dw['sort'][$count] = ''; }
+				if($arr_dw['file'][$count] == NULL) { $arr_dw['file'][$count] = ''; }
+				//if($arr_dw['dir'][$count]  == NULL) { $arr_dw['dir'][$count]  = ''; }
+				//if($arr_dw['pub'][$count]  == NULL) { $arr_dw['pub'][$count]  = ''; }
+				if($arr_dw['ac'][$count]   == NULL) { $arr_dw['ac'][$count]   = ''; }
+				if($arr_dw['st'][$count]   == NULL) { $arr_dw['st'][$count]   = ''; }
+				if($arr_dw['img'][$count]  == NULL) { $arr_dw['img'][$count]  = ''; }
+				if($arr_dw['mir'][$count]  == NULL) { $arr_dw['mir'][$count]  = ''; }
 				
 				// CHARSETS
 				$arr_dw['name'][$count] = $tcms_main->decodeText($arr_dw['name'][$count], '2', $c_charset);
@@ -302,14 +302,14 @@ if($action == 'showall') {
 	
 	
 	// only info
-	if($displayDownload){
+	if($displayDownload) {
 		$wsCatAdd = '';
 		
-		if($tcms_main->isReal($category)){
-			if($choosenDB == 'xml'){
+		if($tcms_main->isReal($category)) {
+			if($choosenDB == 'xml') {
 				$sqlNR2 = 0;
 				
-				if($category != ''){
+				if($category != '') {
 					$xml = new xmlparser(_TCMS_PATH.'/files/'.$category.'/info.xml', 'r');
 					
 					$wsType = $xml->readSection('info', 'type');
@@ -320,8 +320,8 @@ if($action == 'showall') {
 					$sqlNR2 = 1;
 				}
 			}
-			else{
-				switch($is_admin){
+			else {
+				switch($is_admin) {
 					case 'Developer':
 					case 'Administrator':
 						$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
@@ -348,7 +348,7 @@ if($action == 'showall') {
 				$sqlQR = $sqlAL->query($sqlSTR);
 				$sqlNR2 = $sqlAL->getNumber($sqlQR);
 				
-				if($sqlNR2 > 0){
+				if($sqlNR2 > 0) {
 					$sqlObj = $sqlAL->fetchObject($sqlQR);
 					
 					$wsType = $sqlObj->type;
@@ -357,10 +357,10 @@ if($action == 'showall') {
 				}
 			}
 			
-			if($sqlNR2 > 0){
-				foreach($arr_fs['tag'] as $key => $value){
+			if($sqlNR2 > 0) {
+				foreach($arr_fs['tag'] as $key => $value) {
 					//echo $wsType.'<->'.$value.'<br>';
-					if($wsType == $value){
+					if($wsType == $value) {
 						$wsCatAdd = $arr_fs['des'][$key];
 					}
 				}
@@ -369,13 +369,15 @@ if($action == 'showall') {
 		
 		echo $tcms_html->tableHeadClass('0', '0', '0', '100%', 'noborder');
 		echo '<tr>'
-		.'<td valign="top" class="titleBG" style="padding-left: 2px;" align="left" colspan="2">'._TABLE_CATEGORY.( $wsCatAdd != '' ? ': '.$wsCatTit.' ('.$wsCatAdd.')' : '' ).'</td><tr>'
+		.'<td valign="top" class="titleBG" style="padding-left: 2px;" align="left" colspan="2">'
+		._TABLE_CATEGORY.( $wsCatAdd != '' ? ': '.$wsCatTit.' ('.$wsCatAdd.')' : '' )
+		.'</td></tr>'
 		.'<tr style="height: 2px;"><td colspan="2"></td></tr>'
 		.'<tr><td colspan="2"><br /></td></tr>';
 		
-		if(isset($arr_dw['sort']) && !empty($arr_dw['sort']) && $arr_dw['sort'] != ''){
-			foreach($arr_dw['sort'] as $key => $value){
-				if($key >= ( ($page * 10) - 10 ) && $key < ( $page * 10 )){
+		if(isset($arr_dw['sort']) && !empty($arr_dw['sort']) && $arr_dw['sort'] != '') {
+			foreach($arr_dw['sort'] as $key => $value) {
+				if($key >= ( ($page * 10) - 10 ) && $key < ( $page * 10 )) {
 					echo '<tr>'
 					.'<td valign="top" align="center" width="70" style="padding-right: 5px;">';
 					
@@ -388,7 +390,7 @@ if($action == 'showall') {
 					
 					
 					if($arr_dw['st'][$key] == 'd') {
-						if($showThis){
+						if($showThis) {
 							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 							.'id=download&amp;s='.$s.'&amp;action=showall'
 							.'&amp;category='.$arr_dw['uid'][$key]
@@ -397,10 +399,10 @@ if($action == 'showall') {
 							
 							echo '<a href="'.$link.'">';
 							
-							if($detect_browser == 1){
-								echo '<script>if(browser == \'ie\'){'
+							if($detect_browser == 1) {
+								echo '<script>if(browser == \'ie\') {'
 								.'document.write(\'<img src="'.$imagePath.'engine/images/filesystemGIF/'.$arr_dw['type'][$key].'.gif" border="0" />\');'
-								.'}else{'
+								.'}else {'
 								.'document.write(\'<img src="'.$imagePath.'engine/images/filesystem/'.$arr_dw['type'][$key].'.png" border="0" />\');'
 								.'}</script>';
 								
@@ -408,17 +410,17 @@ if($action == 'showall') {
 								.'<img src="'.$imagePath.'engine/images/filesystem/'.$arr_dw['type'][$key].'.png" border="0" />'
 								.'</noscript>';
 							}
-							else{
+							else {
 								echo '<img src="'.$imagePath.'engine/images/filesystem/'.$arr_dw['type'][$key].'.png" border="0" />';
 							}
 							
 							echo '</a>';
 						}
-						else{
-							if($detect_browser == 1){
-								echo '<script>if(browser == \'ie\'){'
+						else {
+							if($detect_browser == 1) {
+								echo '<script>if(browser == \'ie\') {'
 								.'document.write(\'<img src="'.$imagePath.'engine/images/filesystemGIF/folder_locked.gif" border="0" />\');'
-								.'}else{'
+								.'}else {'
 								.'document.write(\'<img src="'.$imagePath.'engine/images/filesystem/folder_locked.png" border="0" />\');'
 								.'}</script>';
 								
@@ -426,7 +428,7 @@ if($action == 'showall') {
 								.'<img src="'.$imagePath.'engine/images/filesystem/folder_locked.png" border="0" />'
 								.'</noscript>';
 							}
-							else{
+							else {
 								echo '<img src="'.$imagePath.'engine/images/filesystem/folder_locked.png" border="0" />';
 							}
 						}
@@ -460,9 +462,9 @@ if($action == 'showall') {
 							if($arr_dw['img'][$key] == '_mimetypes_') {
 								if($tcms_file->checkFileExist('engine/images/mimetypes/'.$arr_dw['type'][$key].'.png')) {
 									if($detect_browser == 1) {
-										echo '<script>if(browser == \'ie\'){'
+										echo '<script>if(browser == \'ie\') {'
 										.'document.write(\'<img src="'.$imagePath.'engine/images/mimetypesGIF/'.$arr_dw['type'][$key].'.gif" border="0" />\');'
-										.'}else{'
+										.'}else {'
 										.'document.write(\'<img src="'.$imagePath.'engine/images/mimetypes/'.$arr_dw['type'][$key].'.png" border="0" />\');'
 										.'}</script>';
 										
@@ -474,11 +476,11 @@ if($action == 'showall') {
 										echo '<img src="'.$imagePath.'engine/images/mimetypes/'.$arr_dw['type'][$key].'.png" border="0" />';
 									}
 								}
-								else{
-									if($detect_browser == 1){
-										echo '<script>if(browser == \'ie\'){'
+								else {
+									if($detect_browser == 1) {
+										echo '<script>if(browser == \'ie\') {'
 										.'document.write(\'<img src="'.$imagePath.'engine/images/mimetypesGIF/empty.gif" border="0" />\');'
-										.'}else{'
+										.'}else {'
 										.'document.write(\'<img src="'.$imagePath.'engine/images/mimetypes/empty.png" border="0" />\');'
 										.'}</script>';
 										
@@ -486,18 +488,18 @@ if($action == 'showall') {
 										.'<img src="'.$imagePath.'engine/images/mimetypes/empty.png" border="0" />'
 										.'</noscript>';
 									}
-									else{
+									else {
 										echo '<img src="'.$imagePath.'engine/images/mimetypes/empty.png" border="0" />';
 									}
 								}
 							}
-							else{
+							else {
 								echo '<img src="'.$imagePath._TCMS_PATH.'/files/'.$arr_dw['uid'][$key].'/'.$arr_dw['img'][$key].'" border="0" />';
 							}
 							
 							echo '</a>';
 						}
-						else{
+						else {
 							/*echo ( $arr_dw['img'][$key] == '_mimetypes_'
 							?
 								( file_exists('engine/images/mimetypes/'.$arr_dw['type'][$key].'.png')
@@ -526,7 +528,7 @@ if($action == 'showall') {
 						}
 					}
 					else {
-						if($tcms_file->checkFileExist(_TCMS_PATH.'/files/'.$category.'/'.$arr_dw['file'][$key])){
+						if($tcms_file->checkFileExist(_TCMS_PATH.'/files/'.$category.'/'.$arr_dw['file'][$key])) {
 							$size = $tcms_file->getFilesize(
 								_TCMS_PATH.'/files/'.$category.'/'.$arr_dw['file'][$key]
 							) / 1024;
@@ -546,12 +548,12 @@ if($action == 'showall') {
 							.'<br />';
 							
 							
-							if(isset($file_size) && !empty($file_size) && $file_size != ''){
+							if(isset($file_size) && !empty($file_size) && $file_size != '') {
 								echo '<strong>'._GALLERY_IMGSIZE.':</strong>'
 								.$tcms_html->text('&nbsp;'.$file_size.' KB', 'left');
 							}
 						}
-						else{
+						else {
 							/*echo $tcms_html->bold($arr_dw['name'][$key])
 							.$tcms_html->text($arr_dw['desc'][$key], 'left')
 							.'<br />';*/
@@ -574,7 +576,7 @@ if($action == 'showall') {
 		
 		
 		// pagelist
-		if($sqlNR > 10){
+		if($sqlNR > 10) {
 			$pageAmount = ( substr(($sqlNR / 10), 0, strpos(($sqlNR / 10), '.', 1)) + 1 );
 			
 			echo '<div style="font-weight: bold; display: block; float: left;" align="left">';
@@ -587,8 +589,8 @@ if($action == 'showall') {
 			$showME2 = true;
 			$showLink = false;
 			
-			if($page > 1){
-				if($showME1){
+			if($page > 1) {
+				if($showME1) {
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=download&amp;s='.$s.'&action=showall'.( trim($category) != '' ? '&category='.$category : '' )
 					.'&amp;page=1'
@@ -613,29 +615,29 @@ if($action == 'showall') {
 			}
 			
 			
-			for($i = 0; $i < $pageAmount; $i++){
+			for($i = 0; $i < $pageAmount; $i++) {
 				$thisPage = $i + 1;
 				
 				
-				if($page > 0 && $page < 3){
-					if($thisPage < 7){
+				if($page > 0 && $page < 3) {
+					if($thisPage < 7) {
 						$showLink = true;
 					}
 				}
-				else{
+				else {
 					if(( $page - 3 ) == $thisPage 
 					|| ( $page - 2 ) == $thisPage 
 					|| ( $page - 1 ) == $thisPage 
 					|| $page == $thisPage 
 					|| ( $page + 1 ) == $thisPage 
 					|| ( $page + 2 ) == $thisPage 
-					|| ( $page + 3 ) == $thisPage){
+					|| ( $page + 3 ) == $thisPage) {
 						$showLink = true;
 					}
 				}
 				
 				
-				if($showLink){
+				if($showLink) {
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=download&amp;s='.$s.'&action=showall'.( trim($category) != '' ? '&category='.$category : '' ).'&amp;page='.$thisPage
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -645,7 +647,7 @@ if($action == 'showall') {
 					if($thisPage != $page) {
 						echo '<a href="'.$link.'"><u>'.$thisPage.'</u></a>';
 					}
-					else{
+					else {
 						echo '<span style="font-weight: bold !important;">'.$thisPage.'</span>';
 					}
 					
@@ -655,8 +657,8 @@ if($action == 'showall') {
 				$showLink = false;
 			}
 			
-			if($page < $pageAmount){
-				if($showME2){
+			if($page < $pageAmount) {
+				if($showME2) {
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=download&amp;s='.$s.'&action=showall'.( trim($category) != '' ? '&category='.$category : '' ).'&amp;page='.( $page + 1 )
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -682,7 +684,7 @@ if($action == 'showall') {
 			echo '</div>';
 		}
 	}
-	else{
+	else {
 		echo '<strong>'._MSG_NOTENOUGH_USERRIGHTS.'</strong>';
 	}
 }
@@ -694,27 +696,27 @@ if($action == 'showall') {
 /*
 	START TO DOWNLOAD
 */
-if($action == 'start'){
-	if($choosenDB == 'xml'){
+if($action == 'start') {
+	if($choosenDB == 'xml') {
 		$xml        = new xmlparser(_TCMS_PATH.'/files/'.$category.'/info.xml', 'r');
 		$access_cat = $xml->readSection('info', 'access');
 		$down_main  = $xml->readSection('info', 'cat');
 		$xml->flush();
 		
-		if($down_main != ''){
+		if($down_main != '') {
 			$xml        = new xmlparser(_TCMS_PATH.'/files/'.$down_main.'/info.xml', 'r');
 			$down_cat   = $xml->readSection('info', 'name');
 			$down_main  = $xml->readSection('info', 'cat');
 			$xml->flush();
 		}
-		else{
+		else {
 			$down_cat = _TCMS_MENU_DOWN;
 			$down_main = '';
 		}
 		
 		$down_cat = $tcms_main->decodeText($down_cat, '2', $c_charset);
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
@@ -723,7 +725,7 @@ if($action == 'start'){
 		
 		$access_cat = $sqlARR['access'];
 		
-		if($sqlARR['cat'] != NULL){
+		if($sqlARR['cat'] != NULL) {
 			$sqlQR = $sqlAL->getOne($tcms_db_prefix.'downloads', $sqlARR['cat']);
 			$sqlARR = $sqlAL->fetchArray($sqlQR);
 			
@@ -732,7 +734,7 @@ if($action == 'start'){
 			
 			$down_cat = $tcms_main->decodeText($down_cat, '2', $c_charset);
 		}
-		else{
+		else {
 			$down_cat = _TCMS_MENU_DOWN;
 			$down_main = '';
 		}
@@ -750,14 +752,14 @@ if($action == 'start'){
 	/*
 		LOAD DOWNLOAD
 	*/
-	if($show_this_download){
+	if($show_this_download) {
 		$strDown1 = _MSG_IF_DOWNLOAD_DOES_NOT_START;
 		
 		
-		if(isset($c) && $c == '_mirror_'){
+		if(isset($c) && $c == '_mirror_') {
 			$strDown2 = ': <a target="_blank" class="main" href="'.$file.'">'.$file.'</a>';
 		}
-		else{
+		else {
 			$file = str_replace(';', '/', $file);
 			$strDown2 = ': <a target="_blank" class="main" href="'.$imagePath.'data/files/'.$category.'/'.$file.'">'.$file.'</a>';
 		}
@@ -788,7 +790,7 @@ if($action == 'start'){
 		
 		echo '<a class="main" href="'.$link.'">'._TCMS_ADMIN_BACK.'</a>';
 	}
-	else{
+	else {
 		echo '<strong>'._MSG_NOTENOUGH_USERRIGHTS.'</strong>';
 	}
 }

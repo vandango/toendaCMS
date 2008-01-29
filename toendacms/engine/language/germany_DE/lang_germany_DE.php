@@ -855,7 +855,7 @@ define('_GLOBAL_NAME', 'Webseiten Name');
 define('_GLOBAL_SUBTITLE', 'Webseiten Untertitel');
 define('_GLOBAL_LOGO', 'Webseiten Logo (aus dem Mediamanager)');
 define('_GLOBAL_OWNER', 'Webseiten Inhaber');
-define('_GLOBAL_URL', 'Internetadresse');
+define('_GLOBAL_URL', 'Internetadresse (nur die Domain)');
 define('_GLOBAL_TCMSLOGO', 'toendaCMS Logo im Footer anzeigen');
 define('_GLOBAL_TCMSLOGO_IN_SITETITLE', 'toendaCMS Name im Seitentitel anzeigen');
 define('_GLOBAL_PAGELOADINGTIME', 'Seitenladezeit im Footer anzeigen');

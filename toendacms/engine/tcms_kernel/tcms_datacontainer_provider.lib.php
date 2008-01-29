@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.4.9
+ * @version 1.5.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -76,9 +76,10 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getContactformDC                          -> Get a contactform data container
  * getProductsDC                             -> Get a products data container
  * getImagegalleryDC                         -> Get a imagegallery data container
+ * getGuestbookDC                            -> Get a guestbook data container
  *
- * getSidebarModuleDC()                      -> Get a sidebarmodul data container
- * getSidebarExtensionSettings()             -> Get the sidebar extension settings
+ * getSidebarModuleDC                        -> Get a sidebarmodul data container
+ * getSidebarExtensionSettings               -> Get the sidebar extension settings
  * 
  * </code>
  *
@@ -131,7 +132,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$this->m_sqlPort   = $tcms_db_port;
 			$this->m_sqlPrefix = $tcms_db_prefix;
 		}
-		else{
+		else {
 			$this->m_choosenDB = 'xml';
 		}
 		
@@ -212,16 +213,16 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param String $usergroup = ''
 	 * @return tcms_news_dc Object
 	 */
-	public function getNewsDC($language, $newsID, $usergroup){
+	public function getNewsDC($language, $newsID, $usergroup) {
 		$newsDC = new tcms_dc_news();
 		
-		if($this->m_choosenDB == 'xml'){
+		if($this->m_choosenDB == 'xml') {
 			$xml = new xmlparser($this->m_path.'/tcms_news/'.$newsID.'.xml', 'r');
 			$wsAcs = $xml->readSection('news', 'access');
 			
 			$show_this_news = $this->checkAccess($wsAcs, $usergroup);
 			
-			if($show_this_news == true){
+			if($show_this_news == true) {
 				$wsTitle = $xml->readSection('news', 'title');
 				$wsAutor = $xml->readSection('news', 'autor');
 				$wsNews  = $xml->readSection('news', 'newstext');
@@ -255,7 +256,7 @@ class tcms_datacontainer_provider extends tcms_main {
 				if($wsSOF   == false) $wsSOF   = 1;
 			}
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
 			$sqlCN = $sqlAL->connect(
 				$this->m_sqlUser, 
@@ -265,7 +266,7 @@ class tcms_datacontainer_provider extends tcms_main {
 				$this->m_sqlPort
 			);
 			
-			switch($usergroup){
+			switch($usergroup) {
 				case 'Developer':
 				case 'Administrator':
 					$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
@@ -449,7 +450,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			}
 			
 			
-			if(is_array($arr_news['stamp']) && isset($arr_news['stamp'])){
+			if(is_array($arr_news['stamp']) && isset($arr_news['stamp'])) {
 				array_multisort(
 					$arr_news['stamp'], SORT_DESC, 
 					$arr_news['date'], SORT_DESC, 
@@ -469,20 +470,20 @@ class tcms_datacontainer_provider extends tcms_main {
 			}
 			
 			
-			if(is_array($arr_news['stamp']) && isset($arr_news['stamp'])){
+			if(is_array($arr_news['stamp']) && isset($arr_news['stamp'])) {
 				$count = 0;
 				$counting = 0;
 				
 				unset($n_key);
 				
-				foreach($arr_news['stamp'] as $n_key => $n_value){
+				foreach($arr_news['stamp'] as $n_key => $n_value) {
 					$all = false;
 					
 					if($amount == 0) {
 						$all = true;
 					}
 					else {
-						if($counting < $amount){
+						if($counting < $amount) {
 							$all = true;
 						}
 						else {
@@ -517,7 +518,7 @@ class tcms_datacontainer_provider extends tcms_main {
 				}
 			}
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
 			$sqlCN = $sqlAL->connect(
 				$this->m_sqlUser, 
@@ -527,7 +528,7 @@ class tcms_datacontainer_provider extends tcms_main {
 				$this->m_sqlPort
 			);
 			
-			switch($this->m_choosenDB){
+			switch($this->m_choosenDB) {
 				case 'mysql':
 					$dbLimitFront = "";
 					$dbLimitBack = ( $amount == 0 ? "" : "LIMIT 0, ".$amount );
@@ -549,7 +550,7 @@ class tcms_datacontainer_provider extends tcms_main {
 					break;
 			}
 			
-			switch($usergroup){
+			switch($usergroup) {
 				case 'Developer':
 				case 'Administrator':
 					$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
@@ -729,7 +730,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @return String
 	 */
 	public function getNewsIdByTitle($title, $language) {
-		if($this->db_choosenDB == 'xml'){
+		if($this->db_choosenDB == 'xml') {
 			/*$wsCUid = $this->getXmlIdFromContentLanguage(
 				$id, 
 				$language
@@ -885,7 +886,7 @@ class tcms_datacontainer_provider extends tcms_main {
 						$sql .= "AND (title LIKE '%".$title."%') ";
 					}
 					
-					switch($this->m_choosenDB){
+					switch($this->m_choosenDB) {
 						case 'mysql':
 							$sql .= " AND ( NOT LENGTH(title) > ".( strlen($title) + 2 )." )";
 							break;
@@ -936,7 +937,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @return String
 	 */
 	public function getXmlIdFromNewsLanguage($id, $language) {
-		if($this->m_choosenDB == 'xml'){
+		if($this->m_choosenDB == 'xml') {
 			$arr_docs = $this->_getPathContent(
 				$this->m_path.'/tcms_news/'
 			);
@@ -1028,10 +1029,10 @@ class tcms_datacontainer_provider extends tcms_main {
 		$_tcms_ap = new tcms_account_provider($this->m_path, $this->m_CHARSET);
 		$_tcms_auth = new tcms_authentication($this->m_path, $this->m_CHARSET, '', null);
 		
-		if($seoFolder != ''){
+		if($seoFolder != '') {
 			$imagePath = $seoFolder.'/';
 		}
-		else{
+		else {
 			$imagePath = '/';
 		}
 		
@@ -1040,7 +1041,7 @@ class tcms_datacontainer_provider extends tcms_main {
 		$arrNewsDC = $this->getNewsDCList($language, 'Guest', $amount, '1', true);
 		
 		if($this->isArray($arrNewsDC)) {
-			foreach($arrNewsDC as $n_key => $n_value){
+			foreach($arrNewsDC as $n_key => $n_value) {
 				$dcNews = new tcms_dc_news();
 				$dcNews = $arrNewsDC[$n_key];
 				
@@ -1165,10 +1166,10 @@ class tcms_datacontainer_provider extends tcms_main {
 		$_tcms_ap = new tcms_account_provider($this->m_path, $this->m_CHARSET);
 		$_tcms_auth = new tcms_authentication($this->m_path, $this->m_CHARSET, '', null);
 		
-		if($seoFolder != ''){
+		if($seoFolder != '') {
 			$imagePath = $seoFolder.'/';
 		}
-		else{
+		else {
 			$imagePath = '/';
 		}
 		
@@ -1357,7 +1358,7 @@ class tcms_datacontainer_provider extends tcms_main {
 				}
 				
 				
-				if(is_array($arr_news['time']) && isset($arr_news['time'])){
+				if(is_array($arr_news['time']) && isset($arr_news['time'])) {
 					array_multisort(
 						$arr_news['time'], SORT_ASC, 
 						$arr_news['name'], SORT_ASC, 
@@ -1395,11 +1396,11 @@ class tcms_datacontainer_provider extends tcms_main {
 					}
 				}
 			}
-			else{
+			else {
 				$arrReturn = count($arr_comments);
 			}
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
 			$sqlCN = $sqlAL->connect(
 				$this->m_sqlUser, 
@@ -1409,7 +1410,7 @@ class tcms_datacontainer_provider extends tcms_main {
 				$this->m_sqlPort
 			);
 			
-			switch($this->m_choosenDB){
+			switch($this->m_choosenDB) {
 				case 'mysql':
 					$dbLimitFront = "";
 					$dbLimitBack = ( $amount == -1 ? "" : "LIMIT 0, ".$amount );
@@ -1451,10 +1452,10 @@ class tcms_datacontainer_provider extends tcms_main {
 			
 			$sqlQR = $sqlAL->query($sqlStr);
 			
-			if($load){
+			if($load) {
 				$count = 0;
 				
-				while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+				while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
 					$commentDC = new tcms_dc_comment();
 					
 					$wsWeb    = $sqlObj->web;
@@ -1518,7 +1519,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param String $language = ''
 	 * @return tcms_content_dc Object
 	 */
-	public function getContentDC($contentID, $withLanguages = false, $language = ''){
+	public function getContentDC($contentID, $withLanguages = false, $language = '') {
 		$contentDC = new tcms_dc_content();
 		
 		$no = 0;
@@ -1706,13 +1707,21 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * Get the access infos from a content item
 	 *
 	 * @param String $id
+	 * @param String $language
+	 * @param String $authorized = 'Public'
 	 * @return Array
 	 */
-	public function getContentAccess($id) {
+	public function getContentAccess($id, $language, $authorized = 'Public') {
 		switch($id) {
 			case 'profile':
 			case 'polls':
 			case 'register':
+			case 'impressum':
+			case 'frontpage':
+			case 'search':
+			case 'download':
+			case 'products':
+			case 'components':
 				$authorized = 'Public';
 				$content_published = 1;
 				break;
@@ -1723,7 +1732,13 @@ class tcms_datacontainer_provider extends tcms_main {
 				break;
 			
 			case 'guestbook':
-				$authorized = $authorized;
+				$dcG = new tcms_dc_guestbook();
+				$dcG = $this->getGuestbookDC($language);
+				
+				$authorized = $dcG->getAccess();
+				
+				unset($dcG);
+				
 				$content_published = 1;
 				break;
 			
@@ -1733,7 +1748,13 @@ class tcms_datacontainer_provider extends tcms_main {
 				break;
 			
 			case 'contactform':
-				$authorized = $authorized;
+				$dcCF = new tcms_dc_contactform();
+				$dcCF = $this->getContactformDC($language);
+				
+				$authorized = $dcCF->getAccess();
+				
+				unset($dcCF);
+				
 				$content_published = 1;
 				break;
 			
@@ -1742,38 +1763,8 @@ class tcms_datacontainer_provider extends tcms_main {
 				$content_published = 1;
 				break;
 			
-			case 'impressum':
-				$authorized = 'Public';
-				$content_published = 1;
-				break;
-			
-			case 'frontpage':
-				$authorized = 'Public';
-				$content_published = 1;
-				break;
-			
-			case 'search':
-				$authorized = 'Public';
-				$content_published = 1;
-				break;
-			
 			case 'links':
 				$authorized = $authorized;
-				$content_published = 1;
-				break;
-			
-			case 'download':
-				$authorized = 'Public';
-				$content_published = 1;
-				break;
-			
-			case 'products':
-				$authorized = 'Public';
-				$content_published = 1;
-				break;
-			
-			case 'components':
-				$authorized = 'Public';
 				$content_published = 1;
 				break;
 			
@@ -1837,7 +1828,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	public function getContentLanguages($id) {
 		$count = 0;
 		
-		if($this->m_choosenDB == 'xml'){
+		if($this->m_choosenDB == 'xml') {
 			$arr_docs = $this->_getPathContent(
 				$this->m_path.'/tcms_content_languages/'
 			);
@@ -1943,7 +1934,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @return String
 	 */
 	public function getContentTitle($id, $language) {
-		if($this->db_choosenDB == 'xml'){
+		if($this->db_choosenDB == 'xml') {
 			$wsCUid = $this->getXmlIdFromContentLanguage(
 				$id, 
 				$language
@@ -2005,7 +1996,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @return String
 	 */
 	public function getContentIdByTitle($title, $language) {
-		if($this->db_choosenDB == 'xml'){
+		if($this->db_choosenDB == 'xml') {
 			$wsCUid = $this->getXmlIdFromContentLanguage(
 				$id, 
 				$language
@@ -2123,10 +2114,10 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * 
 	 * @return tcms_dc_impressum Object
 	 */
-	public function getImpressumDC($language){
+	public function getImpressumDC($language) {
 		$impDC = new tcms_dc_impressum();
 		
-		if($this->m_choosenDB == 'xml'){
+		if($this->m_choosenDB == 'xml') {
 			if(file_exists($this->m_path.'/tcms_global/impressum.'.$language.'.xml')) {
 				$xml = new xmlparser(
 					$this->m_path.'/tcms_global/impressum.'.$language.'.xml',
@@ -2164,7 +2155,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			if($wsUstID   == false) $wsUstID   = '';
 			if($wsID      == false) $wsID      = '';
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
 			$sqlCN = $sqlAL->connect(
 				$this->m_sqlUser, 
@@ -2226,10 +2217,10 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param String $language
 	 * @return tcms_dc_frontpage Object
 	 */
-	public function getFrontpageDC($language){
+	public function getFrontpageDC($language) {
 		$frontDC = new tcms_dc_frontpage();
 		
-		if($this->m_choosenDB == 'xml'){
+		if($this->m_choosenDB == 'xml') {
 			if(file_exists($this->m_path.'/tcms_global/frontpage.'.$language.'.xml')) {
 				$xml = new xmlparser(
 					$this->m_path.'/tcms_global/frontpage.'.$language.'.xml',
@@ -2267,7 +2258,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			
 			if($wsTitle   == false) $wsTitle   = '';
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
 			$sqlCN = $sqlAL->connect(
 				$this->m_sqlUser, 
@@ -2352,7 +2343,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	public function getNewsmanagerDC($language) {
 		$newsDC = new tcms_dc_newsmanager();
 		
-		if($this->m_choosenDB == 'xml'){
+		if($this->m_choosenDB == 'xml') {
 			if(file_exists($this->m_path.'/tcms_global/newsmanager.'.$language.'.xml')) {
 				$xml = new xmlparser(
 					$this->m_path.'/tcms_global/newsmanager.'.$language.'.xml',
@@ -2418,7 +2409,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			
 			if($wsTitle   == false) $wsTitle   = '';
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
 			$sqlCN = $sqlAL->connect(
 				$this->m_sqlUser, 
@@ -2554,12 +2545,13 @@ class tcms_datacontainer_provider extends tcms_main {
 	/**
 	 * Get a Contactform data container
 	 * 
+	 * @param String $language
 	 * @return tcms_dc_contactform Object
 	 */
-	public function getContactformDC($language){
+	public function getContactformDC($language) {
 		$cfDC = new tcms_dc_contactform();
 		
-		if($this->m_choosenDB == 'xml'){
+		if($this->m_choosenDB == 'xml') {
 			if(file_exists($this->m_path.'/tcms_global/contactform.'.$language.'.xml')) {
 				$xml = new xmlparser(
 					$this->m_path.'/tcms_global/contactform.'.$language.'.xml',
@@ -2605,7 +2597,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			//if($wsUC      == false) $wsUC      = '';
 			//if($wsSC      == false) $wsSC      = '';
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
 			$sqlCN = $sqlAL->connect(
 				$this->m_sqlUser, 
@@ -2675,12 +2667,13 @@ class tcms_datacontainer_provider extends tcms_main {
 	/**
 	 * Get a products data container
 	 * 
+	 * @param String $language
 	 * @return tcms_dc_products Object
 	 */
-	public function getProductsDC($language){
+	public function getProductsDC($language) {
 		$pDC = new tcms_dc_products();
 		
-		if($this->m_choosenDB == 'xml'){
+		if($this->m_choosenDB == 'xml') {
 			if(file_exists($this->m_path.'/tcms_global/products.'.$language.'.xml')) {
 				$xml = new xmlparser(
 					$this->m_path.'/tcms_global/products.'.$language.'.xml',
@@ -2726,7 +2719,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			//if($wsUSC  == false)     $wsUSC     = 0;
 			//if($wsMLP  == false)     $wsMLP     = 0;
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
 			$sqlCN = $sqlAL->connect(
 				$this->m_sqlUser, 
@@ -2838,7 +2831,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			if($wsOption   == false) $wsOption   = '';
 			if($wsOptionAm == false) $wsOptionAm = 4;
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
 			$sqlCN = $sqlAL->connect(
 				$this->m_sqlUser, 
@@ -2914,11 +2907,147 @@ class tcms_datacontainer_provider extends tcms_main {
 	
 	
 	/**
+	 * Get a guestbook data container
+	 * 
+	 * @param String $language
+	 * @return tcms_dc_guestbook
+	 */
+	function getGuestbookDC($language) {
+		$gDC = new tcms_dc_guestbook();
+		
+		if($this->m_choosenDB == 'xml') {
+			if(file_exists($this->m_path.'/tcms_global/guestbook.'.$language.'.xml')) {
+				$xml = new xmlparser(
+					$this->m_path.'/tcms_global/guestbook.'.$language.'.xml',
+					'r'
+				);
+			}
+			else {
+				$xml = new xmlparser($this->m_path.'/tcms_global/var.xml','r');
+				$language = $xml->readValue('front_lang');
+				$xml->flush();
+				unset($xml);
+				
+				$xml = new xmlparser(
+					$this->m_path.'/tcms_global/guestbook.'.$language.'.xml',
+					'r'
+				);
+			}
+			
+			$wsID          = 'imagegallery';
+			$wsTitle       = $xml->readSection('config', 'booktitle');
+			$wsKey         = $xml->readSection('config', 'bookstamp');
+			$wsText        = $xml->readSection('config', 'text');
+			$wsAccess      = $xml->readSection('config', 'access');
+			$wsEnabled     = $xml->readSection('config', 'enabled');
+			$wsCleanLink   = $xml->readSection('config', 'clean_link');
+			$wsCleanScript = $xml->readSection('config', 'clean_script');
+			$wsConvertAt   = $xml->readSection('config', 'convert_at');
+			$wsShowEmail   = $xml->readSection('config', 'show_email');
+			$wsNameWidth   = $xml->readSection('config', 'name_width');
+			$wsTextWidth   = $xml->readSection('config', 'text_width');
+			$wsColor1      = $xml->readSection('config', 'color_row_1');
+			$wsColor2      = $xml->readSection('config', 'color_row_2');
+			
+			$xml->flush();
+			unset($xml);
+			
+			if($wsID          == false) $wsID          = '';
+			if($wsTitle       == false) $wsTitle       = '';
+			if($wsTitle       == false) $wsTitle       = '';
+			if($wsText        == false) $wsText        = '';
+			if($wsAccess      == false) $wsAccess      = '';
+			if($wsEnabled     == false) $wsEnabled     = '';
+			if($wsCleanLink   == false) $wsCleanLink   = '';
+			//if($wsCleanScript == false) $wsCleanScript = 1;
+			//if($wsConvertAt   == false) $wsConvertAt   = 1;
+			//if($wsShowEmail   == false) $wsShowEmail   = 1;
+			//if($wsNameWidth   == false) $wsNameWidth   = '150';
+			//if($wsTextWidth   == false) $wsTextWidth   = '450';
+			if($wsColor1      == false) $wsColor1      = '';
+			if($wsColor2      == false) $wsColor2      = '';
+		}
+		else {
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
+			
+			$strQuery = "SELECT * "
+			."FROM ".$this->m_sqlPrefix."guestbook "
+			."WHERE language = '".$language."'";
+			
+			$sqlQR = $sqlAL->query($strQuery);
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
+			
+			$wsID          = 'guestbook';
+			$wsTitle       = $sqlObj->booktitle;
+			$wsKey         = $sqlObj->bookstamp;
+			$wsText        = $sqlObj->text;
+			$wsAccess      = $sqlObj->access;
+			$wsEnabled     = $sqlObj->enabled;
+			$wsCleanLink   = $sqlObj->clean_link;
+			$wsCleanScript = $sqlObj->clean_script;
+			$wsConvertAt   = $sqlObj->convert_at;
+			$wsShowEmail   = $sqlObj->show_email;
+			$wsNameWidth   = $sqlObj->name_width;
+			$wsTextWidth   = $sqlObj->text_width;
+			$wsColor1      = $sqlObj->color_row_1;
+			$wsColor2      = $sqlObj->color_row_2;
+			
+			$sqlAL->freeResult($sqlQR);
+			unset($sqlAL);
+			
+			if($wsID          == NULL) $wsID          = '';
+			if($wsTitle       == NULL) $wsTitle       = '';
+			if($wsTitle       == NULL) $wsTitle       = '';
+			if($wsText        == NULL) $wsText        = '';
+			if($wsAccess      == NULL) $wsAccess      = '';
+			if($wsEnabled     == NULL) $wsEnabled     = '';
+			if($wsCleanLink   == NULL) $wsCleanLink   = '';
+			if($wsCleanScript == NULL) $wsCleanScript = '';
+			if($wsConvertAt   == NULL) $wsConvertAt   = '';
+			if($wsShowEmail   == NULL) $wsShowEmail   = '';
+			if($wsNameWidth   == NULL) $wsNameWidth   = '';
+			if($wsTextWidth   == NULL) $wsTextWidth   = '';
+			if($wsColor1      == NULL) $wsColor1      = '';
+			if($wsColor2      == NULL) $wsColor2      = '';
+		}
+		
+		$wsTitle = $this->decodeText($wsTitle, '2', $this->m_CHARSET);
+		$wsKey   = $this->decodeText($wsKey, '2', $this->m_CHARSET);
+		$wsText  = $this->decodeText($wsText, '2', $this->m_CHARSET);
+		
+		$gDC->setID($wsID);
+		$gDC->setTitle($wsTitle);
+		$gDC->setSubtitle($wsKey);
+		$gDC->setText($wsText);
+		$gDC->setAccess($wsAccess);
+		$gDC->setEnabled($wsEnabled);
+		$gDC->setCleanLink($wsCleanLink);
+		$gDC->setCleanScript($wsCleanScript);
+		$gDC->setConvertAt($wsConvertAt);
+		$gDC->setShowEMail($wsShowEmail);
+		$gDC->setNameWidth($wsNameWidth);
+		$gDC->setTextWidth($wsTextWidth);
+		$gDC->setColorRow1($wsColor1);
+		$gDC->setColorRow2($wsColor2);
+		
+		return $gDC;
+	}
+	
+	
+	
+	/**
 	 * Get a sidebarmodul data container
 	 * 
 	 * @return tcms_dc_sidebarmodule Object
 	 */
-	public function getSidebarModuleDC(){
+	public function getSidebarModuleDC() {
 		$sbmDC = new tcms_dc_sidebarmodule();
 		
 		$xmlActive = new xmlparser(''.$this->m_path.'/tcms_global/modules.xml','r');
@@ -2975,13 +3104,25 @@ class tcms_datacontainer_provider extends tcms_main {
 	public function getSidebarExtensionSettings() {
 		$se = new tcms_dc_sidebarextensions();
 		
-		if($this->m_choosenDB == 'xml'){
+		if($this->m_choosenDB == 'xml') {
 			$xml = new xmlparser(''.$this->m_path.'/tcms_global/sidebar.xml', 'r');
 			
 			$wsLang          = $xml->readSection('side', 'lang');
 			$wsSidemenuTitle = $xml->readSection('side', 'sidemenu_title');
 			$wsShowCT        = $xml->readSection('side', 'show_chooser_title');
 			$wsChooserTitle  = $xml->readSection('side', 'chooser_title');
+			$wsSidebarTitle  = $xml->readSection('side', 'sidebar_title');
+			$wsShowST        = $xml->readSection('side', 'show_sidebar_title');
+			$wsLoginTitle    = $xml->readSection('side', 'login_title');
+			$wsShowLT        = $xml->readSection('side', 'show_login_title');
+			$wsNoLoginText   = $xml->readSection('side', 'nologin');
+			$wsRegLinkText   = $xml->readSection('side', 'reg_link');
+			$wsRegUserText   = $xml->readSection('side', 'reg_user');
+			$wsRegPassText   = $xml->readSection('side', 'reg_pass');
+			$wsLoginUser     = $xml->readSection('side', 'login_user');
+			$wsShowML        = $xml->readSection('side', 'show_memberlist');
+			$wsUsermenu      = $xml->readSection('side', 'usermenu');
+			$wsUsermenuTitle = $xml->readSection('side', 'usermenu_title');
 			
 			$xml->flush();
 			unset($xml);
@@ -2990,8 +3131,20 @@ class tcms_datacontainer_provider extends tcms_main {
 			if($wsSidemenuTitle == false) $wsSidemenuTitle = '';
 			if($wsShowCT        == false) $wsShowCT        = '';
 			if($wsChooserTitle  == false) $wsChooserTitle  = '';
+			if($wsShowST        == false) $wsShowST        = '';
+			if($wsSidebarTitle  == false) $wsSidebarTitle  = '';
+			if($wsShowLT        == false) $wsShowLT        = '';
+			if($wsLoginTitle    == false) $wsLoginTitle    = '';
+			if($wsLoginUser     == false) $wsLoginUser     = '';
+			if($wsShowML        == false) $wsShowML        = '';
+			if($wsNoLoginText   == false) $wsNoLoginText   = '';
+			if($wsRegLinkText   == false) $wsRegLinkText   = '';
+			if($wsRegUserText   == false) $wsRegUserText   = '';
+			if($wsRegPassText   == false) $wsRegPassText   = '';
+			if($wsUsermenu      == false) $wsUsermenu      = '';
+			if($wsUsermenuTitle == false) $wsUsermenuTitle = '';
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
 			$sqlCN = $sqlAL->connect(
 				$this->m_sqlUser, 
@@ -3008,24 +3161,67 @@ class tcms_datacontainer_provider extends tcms_main {
 			$wsSidemenuTitle = $sqlObj->sidemenu_title;
 			$wsShowCT        = $sqlObj->show_chooser_title;
 			$wsChooserTitle  = $sqlObj->chooser_title;
+			$wsSidebarTitle  = $sqlObj->sidebar_title;
+			$wsShowST        = $sqlObj->show_sidebar_title;
+			$wsLoginTitle    = $sqlObj->login_title;
+			$wsShowLT        = $sqlObj->show_login_title;
+			$wsNoLoginText   = $sqlObj->nologin;
+			$wsRegLinkText   = $sqlObj->reg_link;
+			$wsRegUserText   = $sqlObj->reg_user;
+			$wsRegPassText   = $sqlObj->reg_pass;
+			$wsLoginUser     = $sqlObj->login_user;
+			$wsShowML        = $sqlObj->show_memberlist;
+			$wsUsermenu      = $sqlObj->usermenu;
+			$wsUsermenuTitle = $sqlObj->usermenu_title;
 			
 			$sqlAL->freeResult($sqlQR);
 			unset($sqlAL);
 			
 			if($wsLang          == NULL) $wsLang          = '';
 			if($wsSidemenuTitle == NULL) $wsSidemenuTitle = '';
-			if($wsShowCT        == NULL) $wsShowCT        = '';
+			//if($wsShowCT        == NULL) $wsShowCT        = '';
 			if($wsChooserTitle  == NULL) $wsChooserTitle  = '';
+			//if($wsShowST        == NULL) $wsShowST        = '';
+			if($wsSidebarTitle  == NULL) $wsSidebarTitle  = '';
+			//if($wsShowLT        == NULL) $wsShowLT        = '';
+			if($wsLoginTitle    == NULL) $wsLoginTitle    = '';
+			if($wsLoginUser     == NULL) $wsLoginUser     = '';
+			//if($wsShowML        == NULL) $wsShowML        = '';
+			if($wsNoLoginText   == NULL) $wsNoLoginText   = '';
+			if($wsRegLinkText   == NULL) $wsRegLinkText   = '';
+			if($wsRegUserText   == NULL) $wsRegUserText   = '';
+			if($wsRegPassText   == NULL) $wsRegPassText   = '';
+			if($wsUsermenu      == NULL) $wsUsermenu      = '';
+			if($wsUsermenuTitle == NULL) $wsUsermenuTitle = '';
 		}
 		
 		$wsSidemenuTitle = $this->decodeText($wsSidemenuTitle, '2', $this->m_CHARSET);
 		$wsChooserTitle  = $this->decodeText($wsChooserTitle, '2', $this->m_CHARSET);
+		$wsSidebarTitle  = $this->decodeText($wsSidebarTitle, '2', $this->m_CHARSET);
+		$wsLoginTitle    = $this->decodeText($wsLoginTitle, '2', $this->m_CHARSET);
+		$wsNoLoginText   = $this->decodeText($wsNoLoginText, '2', $this->m_CHARSET);
+		$wsRegLinkText   = $this->decodeText($wsRegLinkText, '2', $this->m_CHARSET);
+		$wsRegUserText   = $this->decodeText($wsRegUserText, '2', $this->m_CHARSET);
+		$wsRegPassText   = $this->decodeText($wsRegPassText, '2', $this->m_CHARSET);
+		$wsUsermenuTitle = $this->decodeText($wsUsermenuTitle, '2', $this->m_CHARSET);
 		
 		$se->setID('sidebar_extensions');
 		$se->setLanguages($wsLang);
 		$se->setSidemenuTitle($wsSidemenuTitle);
 		$se->setShowLayoutChooserTitle($wsShowCT);
 		$se->setLayoutChooserTitle($wsChooserTitle);
+		$se->setSidebarTitle($wsSidebarTitle);
+		$se->setShowSidebarTitle($wsShowST);
+		$se->setLoginTitle($wsLoginTitle);
+		$se->setShowLoginTitle($wsShowLT);
+		$se->setLoginUser($wsLoginUser);
+		$se->setShowMemberlist($wsShowML);
+		$se->setNoLoginText($wsNoLoginText);
+		$se->setRegisterLinkText($wsRegLinkText);
+		$se->setRegisterUserText($wsRegUserText);
+		$se->setRegisterPasswordText($wsRegPassText);
+		$se->setUsermenu($wsUsermenu);
+		$se->setUsermenuTitle($wsUsermenuTitle);
 		
 		return $se;
 	}

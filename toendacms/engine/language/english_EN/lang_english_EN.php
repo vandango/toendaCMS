@@ -850,11 +850,11 @@ if(!defined('_GLOBAL_TITLE'))                  define('_GLOBAL_TITLE', 'Website 
 if(!defined('_GLOBAL_NAME'))                   define('_GLOBAL_NAME', 'Website name');
 if(!defined('_GLOBAL_SUBTITLE'))               define('_GLOBAL_SUBTITLE', 'Website subtitle');
 if(!defined('_GLOBAL_LOGO'))                   define('_GLOBAL_LOGO', 'Website logo (from the media manager)');
-define('_GLOBAL_OWNER', 'Website owner');
-define('_GLOBAL_URL', 'Website URL');
-define('_GLOBAL_TCMSLOGO', 'Show toendaCMS Logo in footer');
-define('_GLOBAL_TCMSLOGO_IN_SITETITLE', 'Show toendaCMS name in sitetitle');
-define('_GLOBAL_PAGELOADINGTIME', 'Show Page loading time in Footer');
+if(!defined('_GLOBAL_OWNER'))                  define('_GLOBAL_OWNER', 'Website owner');
+if(!defined('_GLOBAL_URL'))                    define('_GLOBAL_URL', 'Website URL (only the domain)');
+if(!defined('_GLOBAL_TCMSLOGO'))               define('_GLOBAL_TCMSLOGO', 'Show toendaCMS Logo in footer');
+if(!defined('_GLOBAL_TCMSLOGO_IN_SITETITLE'))  define('_GLOBAL_TCMSLOGO_IN_SITETITLE', 'Show toendaCMS name in sitetitle');
+if(!defined('_GLOBAL_PAGELOADINGTIME'))        define('_GLOBAL_PAGELOADINGTIME', 'Show Page loading time in Footer');
 define('_GLOBAL_EMAIL', 'Default eMail');
 define('_GLOBAL_YEAR', 'Copyright year');
 define('_GLOBAL_CHARSET', 'Charset');

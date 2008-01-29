@@ -33,11 +33,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Methods
  *
  * __construct                -> Constructor
- * __destruct                 -> Destructor
  * 
- * tcms_modconfig             -> toendaCMS webpage path
  * getDownloadConfig          -> Return a array with all download configuration data
- * getGuestbookConfig         -> Return a array with all guestbook configuration data
  * getLinkConfig              -> Return a array with all link configuration data
  * getFAQConfig               -> Return a array with all FAQ configuration data
  *
@@ -122,62 +119,6 @@ class tcms_modconfig {
 		$arrDW['download_text']  = $tcms_main->decodeText($arrDW['download_text'], '2', $c_charset);
 		
 		return $arrDW;
-	}
-	
-	
-	
-	
-	
-	/***
-	* @return Return a array with all newsmanager configuration data
-	* @desc ...
-	*/
-	function getGuestbookConfig($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort){
-		global $tcms_main;
-		
-		if($choosenDB == 'xml'){
-			$gbxml = new xmlparser(''.$this->tcms_main_path.'/tcms_global/guestbook.xml','r');
-			
-			$arrGB['guest_id']  = $gbxml->read_section('config', 'guest_id');
-			$arrGB['booktitle'] = $gbxml->read_section('config', 'booktitle');
-			$arrGB['bookstamp'] = $gbxml->read_section('config', 'bookstamp');
-			$arrGB['access']    = $gbxml->read_section('config', 'access');
-			$arrGB['enabled']   = $gbxml->read_section('config', 'enabled');
-			
-			if(!$arrGB['guest_id']) { $arrGB['guest_id']  = ''; }
-			if(!$arrGB['booktitle']){ $arrGB['booktitle'] = ''; }
-			if(!$arrGB['bookstamp']){ $arrGB['bookstamp'] = ''; }
-			if(!$arrGB['access'])   { $arrGB['access']    = ''; }
-			if(!$arrGB['enabled'])  { $arrGB['enabled']   = ''; }
-		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-			
-			$strQuery = "SELECT booktitle, bookstamp, access, enabled "
-			."FROM ".$this->tcms_db_prefix."guestbook "
-			."WHERE uid = 'guestbook'";
-			
-			$sqlQR = $sqlAL->sqlQuery($strQuery);
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
-			
-			$arrGB['guest_id']  = 'guestbook';
-			$arrGB['booktitle'] = $sqlARR['booktitle'];
-			$arrGB['bookstamp'] = $sqlARR['bookstamp'];
-			$arrGB['access']    = $sqlARR['access'];
-			$arrGB['enabled']   = $sqlARR['enabled'];
-			
-			if($arrGB['guest_id']  == NULL){ $arrGB['guest_id']  = ''; }
-			if($arrGB['booktitle'] == NULL){ $arrGB['booktitle'] = ''; }
-			if($arrGB['bookstamp'] == NULL){ $arrGB['bookstamp'] = ''; }
-			if($arrGB['access']    == NULL){ $arrGB['access']    = ''; }
-			if($arrGB['enabled']   == NULL){ $arrGB['enabled']   = ''; }
-		}
-		
-		$arrGB['booktitle'] = $tcms_main->decodeText($arrGB['booktitle'], '2', $c_charset);
-		$arrGB['bookstamp'] = $tcms_main->decodeText($arrGB['bookstamp'], '2', $c_charset);
-		
-		return $arrGB;
 	}
 	
 	

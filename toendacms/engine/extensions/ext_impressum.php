@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used as a law-concurring
  * publishing form.
  *
- * @version 0.3.6
+ * @version 0.4.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -35,23 +35,33 @@ defined('_TCMS_VALID') or die('Restricted access');
 	INIT
 */
 
+using('toendacms.datacontainer.impressum');
+
+$dcImpressum = new tcms_dc_impressum();
+$dcImpressum = $tcms_dcp->getImpressumDC($getLang);
+
+
 //require_once('engine/tcms_kernel/tcms_countrylist.lib.php');
 
 echo $tcms_html->contentModuleHeader(
-	$imp_title, 
-	$imp_stamp, 
+	$dcImpressum->getTitle(), 
+	$dcImpressum->getSubtitle(), 
 	''
 );
 
 
 echo '<span class="contentmain">';
 
-if($imp_contact != 'no_contact') {
+if($dcImpressum->getContact() != 'no_contact') {
 	if($choosenDB == 'xml') {
-		$impressum_xml = new xmlparser(_TCMS_PATH.'/tcms_contacts/'.$imp_contact.'.xml','r');
+		$impressum_xml = new xmlparser(
+			_TCMS_PATH.'/tcms_contacts/'.$dcImpressum->getContact().'.xml', 
+			'r'
+		);
+		
 		$con_published = $impressum_xml->readValue('published');
 		
-		if($con_published == 1){
+		if($con_published == 1) {
 			$contact['name']     = $impressum_xml->readValue('name');
 			$contact['position'] = $impressum_xml->readValue('position');
 			$contact['email']    = $impressum_xml->readValue('email');
@@ -67,18 +77,18 @@ if($imp_contact != 'no_contact') {
 		$impressum_xml->flush();
 		unset($impressum_xml);
 		
-		if($contact['name']     == false){ $contact['name']     = ''; }
-		if($contact['position'] == false){ $contact['position'] = ''; }
-		if($contact['email']    == false){ $contact['email']    = ''; }
-		if($contact['street']   == false){ $contact['street']   = ''; }
-		if($contact['country']  == false){ $contact['country']  = ''; }
-		if($contact['state']    == false){ $contact['state']    = ''; }
-		if($contact['town']     == false){ $contact['town']     = ''; }
-		if($contact['postal']   == false){ $contact['postal']   = ''; }
-		if($contact['phone']    == false){ $contact['phone']    = ''; }
-		if($contact['fax']      == false){ $contact['fax']      = ''; }
+		if($contact['name']     == false) { $contact['name']     = ''; }
+		if($contact['position'] == false) { $contact['position'] = ''; }
+		if($contact['email']    == false) { $contact['email']    = ''; }
+		if($contact['street']   == false) { $contact['street']   = ''; }
+		if($contact['country']  == false) { $contact['country']  = ''; }
+		if($contact['state']    == false) { $contact['state']    = ''; }
+		if($contact['town']     == false) { $contact['town']     = ''; }
+		if($contact['postal']   == false) { $contact['postal']   = ''; }
+		if($contact['phone']    == false) { $contact['phone']    = ''; }
+		if($contact['fax']      == false) { $contact['fax']      = ''; }
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect(
 			$sqlUser, 
@@ -91,7 +101,7 @@ if($imp_contact != 'no_contact') {
 		$sqlQR = $sqlAL->query(
 			"SELECT *"
 			." FROM ".$tcms_db_prefix."contacts"
-			." WHERE uid = '".$imp_contact."'"
+			." WHERE uid = '".$dcImpressum->getContact()."'"
 			." AND published = 1"
 		);
 		
@@ -115,16 +125,16 @@ if($imp_contact != 'no_contact') {
 		$sqlAL->freeResult($sqlQR);
 		unset($sqlAL);
 		
-		if($contact['name']     == NULL){ $contact['name']     = ''; }
-		if($contact['position'] == NULL){ $contact['position'] = ''; }
-		if($contact['email']    == NULL){ $contact['email']    = ''; }
-		if($contact['street']   == NULL){ $contact['street']   = ''; }
-		if($contact['country']  == NULL){ $contact['country']  = ''; }
-		if($contact['state']    == NULL){ $contact['state']    = ''; }
-		if($contact['town']     == NULL){ $contact['town']     = ''; }
-		if($contact['postal']   == NULL){ $contact['postal']   = ''; }
-		if($contact['phone']    == NULL){ $contact['phone']    = ''; }
-		if($contact['fax']      == NULL){ $contact['fax']      = ''; }
+		if($contact['name']     == NULL) { $contact['name']     = ''; }
+		if($contact['position'] == NULL) { $contact['position'] = ''; }
+		if($contact['email']    == NULL) { $contact['email']    = ''; }
+		if($contact['street']   == NULL) { $contact['street']   = ''; }
+		if($contact['country']  == NULL) { $contact['country']  = ''; }
+		if($contact['state']    == NULL) { $contact['state']    = ''; }
+		if($contact['town']     == NULL) { $contact['town']     = ''; }
+		if($contact['postal']   == NULL) { $contact['postal']   = ''; }
+		if($contact['phone']    == NULL) { $contact['phone']    = ''; }
+		if($contact['fax']      == NULL) { $contact['fax']      = ''; }
 	}
 	
 	// CHARSETS
@@ -209,16 +219,25 @@ if($imp_contact != 'no_contact') {
 	echo '<br /><br />';
 }
 
-echo ( $tcms_main->isReal($taxno) ? '<strong>'._IMPRESSUM_TAX.':</strong> '.$taxno.'<br />' : '' );
-echo ( $tcms_main->isReal($ustid) ? '<strong>'._IMPRESSUM_UST.':</strong> '.$ustid : '' );
+if($tcms_main->isReal($dcImpressum->getTaxNumber())) {
+	echo '<strong>'._IMPRESSUM_TAX.':</strong> '
+	.$dcImpressum->getTaxNumber()
+	.'<br />';
+}
 
-echo '<br /><br />';
+if($tcms_main->isReal($dcImpressum->getUstID())) {
+	echo '<strong>'._IMPRESSUM_UST.':</strong> '
+	.$dcImpressum->getUstID();
+}
+
+echo '<br />'
+.'<br />';
 
 
 echo _IMPRESSUM_SITECOPY.' '.$websiteowner.' &copy; '.$websitecopyright.'. '._IMPRESSUM_COPY.'<br /><br />';
 
 
-$toendaScript = new toendaScript($legal);
+$toendaScript = new toendaScript($dcImpressum->getText());
 $legal = $toendaScript->toendaScript_trigger();
 $legal = $toendaScript->checkSEO($legal, $imagePath);
 echo $legal;
@@ -232,5 +251,8 @@ echo '<br /><br />'.$cms_name.' - '.$cms_tagline.' &copy; '.$toenda_copyright.' 
 
 echo '</span>';
 
+
+// cleanup
+unset($dcImpressum);
 
 ?>

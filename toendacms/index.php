@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 2.9.5
+ * @version 3.0.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -666,7 +666,7 @@ if($wsShowSite) {
 					$tcms_dcp = new tcms_datacontainer_provider(_TCMS_PATH, $c_charset);
 					
 					// menu object provider
-					$tcms_menu = new tcms_menu_provider(_TCMS_PATH, $c_charset, $is_admin);
+					$tcms_menu = new tcms_menu_provider(_TCMS_PATH, $c_charset, $is_admin, $tcms_time, $tcms_config);
 					
 					// components system
 					if($tcms_config->getComponentsSystemEnabled()) {
@@ -729,13 +729,22 @@ if($wsShowSite) {
 					}
 					
 					
-					
 					$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
 					$tcms_main->setCurrentLang($getLang);
 					
-					// Sidebar modules
-					using('toendacms.datacontainer.sidebarmodule');
 					
+					// include datacontainer
+					using('toendacms.datacontainer.sidebarmodule');
+					using('toendacms.datacontainer.sidebarextensions');
+					using('toendacms.datacontainer.contactform');
+					using('toendacms.datacontainer.guestbook');
+					using('toendacms.datacontainer.newsmanager');
+					using('toendacms.datacontainer.frontpage');
+					using('toendacms.datacontainer.imagegallery');
+					using('toendacms.datacontainer.products');
+					
+					
+					// Sidebar modules
 					$dcSidebarModule = new tcms_dc_sidebarmodule();
 					$dcSidebarModule = $tcms_dcp->getSidebarModuleDC();
 					
@@ -755,80 +764,20 @@ if($wsShowSite) {
 					
 					
 					// Sidebar extension settings
-					
-					
-					/*
-					
-					tcms_dc_sidebarextension!!!!!!!!!!!!!!!!!!!!!!!
-					
-					*/
-					
 					$navigation        = $tcms_config->getSidemenuEnabled();
 					$second_navigation = $tcms_config->getTopmenuEnabled();
 					
-					if($choosenDB == 'xml') {
-						$xml    = new xmlparser(_TCMS_PATH.'/tcms_global/sidebar.xml','r');
-						$user_navigation = $xml->readSection('side', 'usermenu');
-						
-						if($use_login == 1) {
-							$login_title  = $xml->readSection('side', 'login_title');
-							$no_login     = $xml->readSection('side', 'nologin');
-							$reg_link     = $xml->readSection('side', 'reg_link');
-							$reg_username = $xml->readSection('side', 'reg_user');
-							$reg_password = $xml->readSection('side', 'reg_pass');
-							$login_user   = $xml->readSection('side', 'login_user');
-							$show_lt      = $xml->readSection('side', 'show_login_title');
-							$show_ml      = $xml->readSection('side', 'show_memberlist');
-							
-							$login_title  = $tcms_main->decodeText($login_title, '2', $c_charset);
-							$no_login     = $tcms_main->decodeText($no_login, '2', $c_charset);
-							$reg_link     = $tcms_main->decodeText($reg_link, '2', $c_charset);
-							$reg_username = $tcms_main->decodeText($reg_username, '2', $c_charset);
-							$reg_password = $tcms_main->decodeText($reg_password, '2', $c_charset);
-						}
-						
-						$show_nacat   = $xml->readSection('side', 'show_news_cat_amount');
-						
-						$xml->flush();
-						unset($xml);
-					}
-					else {
-						$sqlCN = $tcms_dal->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-						
-						$sqlQR = $tcms_dal->getOne($tcms_db_prefix.'sidebar_extensions', 'sidebar_extensions');
-						$sqlObj = $tcms_dal->fetchObject($sqlQR);
-						
-						$user_navigation = $sqlObj->usermenu;
-						
-						if($use_login == 1) {
-							$login_title  = $sqlObj->login_title;
-							$no_login     = $sqlObj->nologin;
-							$reg_link     = $sqlObj->reg_link;
-							$reg_username = $sqlObj->reg_user;
-							$reg_password = $sqlObj->reg_pass;
-							$login_user   = $sqlObj->login_user;
-							$show_lt      = $sqlObj->show_login_title;
-							$show_ml      = $sqlObj->show_memberlist;
-							
-							$login_title  = $tcms_main->decodeText($login_title, '2', $c_charset);
-							$no_login     = $tcms_main->decodeText($no_login, '2', $c_charset);
-							$reg_link     = $tcms_main->decodeText($reg_link, '2', $c_charset);
-							$reg_username = $tcms_main->decodeText($reg_username, '2', $c_charset);
-							$reg_password = $tcms_main->decodeText($reg_password, '2', $c_charset);
-							$login_user   = $tcms_main->decodeText($login_user, '2', $c_charset);
-						}
-						
-						$show_nacat   = $sqlObj->show_news_cat_amount;
-						
-						$tcms_dal->freeResult($sqlQR);
-					}
+					$dcSE = new tcms_dc_sidebarextensions();
+					$dcSE = $tcms_dcp->getSidebarExtensionSettings();
+					
+					$user_navigation = $dcSE->getUsermenu();
+					
+					unset($dcSE);
 					
 					
 					
 					// Syndication
 					if($use_syndication == 1) {
-						using('toendacms.datacontainer.newsmanager');
-						
 						$dcNewsMan = new tcms_dc_newsmanager();
 						$dcNewsMan = $tcms_dcp->getNewsmanagerDC($getLang);
 						
@@ -865,10 +814,12 @@ if($wsShowSite) {
 					*/
 					
 					switch($id) {
+						case 'contactform':
+						case 'guestbook':
+						case 'impressum':
+							break;
+						
 						case 'frontpage':
-							using('toendacms.datacontainer.frontpage');
-							using('toendacms.datacontainer.newsmanager');
-							
 							$dcFront = new tcms_dc_frontpage();
 							$dcFront = $tcms_dcp->getFrontpageDC($getLang);
 							
@@ -905,29 +856,7 @@ if($wsShowSite) {
 							}
 							break;
 						
-						case 'impressum':
-							using('toendacms.datacontainer.impressum');
-							
-							$dcImpressum = new tcms_dc_impressum();
-							$dcImpressum = $tcms_dcp->getImpressumDC($getLang);
-							
-							$imp_id      = $dcImpressum->getID();
-							$imp_title   = $dcImpressum->getTitle();
-							$imp_stamp   = $dcImpressum->getSubtitle();
-							$legal       = $dcImpressum->getText();
-							$imp_contact = $dcImpressum->getContact();
-							$taxno       = $dcImpressum->getTaxNumber();
-							$ustid       = $dcImpressum->getUstID();
-							
-							unset($dcImpressum);
-							
-							$link_imp = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-							.'id='.$imp_id.'&amp;s='.$s.'&amp;lang='.$lang;
-							break;
-						
 						case 'newsmanager':
-							using('toendacms.datacontainer.newsmanager');
-							
 							$dcNewsMan = new tcms_dc_newsmanager();
 							$dcNewsMan = $tcms_dcp->getNewsmanagerDC($getLang);
 							
@@ -959,59 +888,7 @@ if($wsShowSite) {
 							}
 							break;
 						
-						case 'download':
-							$arrDW = $tcms_modconfig->getDownloadConfig($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-							
-							$download_id    = $arrDW['download_id'];
-							$download_title = $arrDW['download_title'];
-							$download_stamp = $arrDW['download_stamp'];
-							$download_text  = $arrDW['download_text'];
-							break;
-						
-						case 'contactform':
-							using('toendacms.datacontainer.contactform');
-							
-							$dcCF = new tcms_dc_contactform();
-							$dcCF = $tcms_dcp->getContactformDC($getLang);
-							
-							if(!isset($contact_email)) {
-								$contact_email = $dcCF->getContact();
-							}
-							else {
-								$contact_email = $tcms_main->decodeBase64($contact_email);
-							}
-							
-							$send_id           = $dcCF->getID();
-							$contact_title     = $dcCF->getTitle();
-							$contact_stamp     = $dcCF->getSubtitle();
-							$contact_text      = $dcCF->getText();
-							$show_cisb         = $dcCF->getShowContactsInSidebar();
-							$authorized        = $dcCF->getAccess();
-							$cform_enabled     = $dcCF->getEnabled();
-							$use_adressbook    = $dcCF->getUseAdressbook();
-							$use_contactad     = $dcCF->getUseContact();
-							$show_contactemail = $dcCF->getShowContactemail();
-							
-							$link_contact = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-							.'id='.$send_id.'&amp;s='.$s.'&amp;lang='.$lang;
-							break;
-						
-						case 'guestbook':
-							$arrGB = $tcms_modconfig->getGuestbookConfig($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-							
-							$book_id      = $arrGB['guest_id'];
-							$book_title   = $arrGB['booktitle'];
-							$book_stamp   = $arrGB['bookstamp'];
-							$authorized   = $arrGB['access'];
-							$book_enabled = $arrGB['enabled'];
-							
-							$link_guest = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-							.'id='.$book_id.'&amp;s='.$s.'&amp;lang='.$lang;
-							break;
-						
 						case 'products':
-							using('toendacms.datacontainer.products');
-							
 							$dcP = new tcms_dc_products();
 							$dcP = $tcms_dcp->getProductsDC($getLang);
 							
@@ -1029,8 +906,6 @@ if($wsShowSite) {
 							break;
 						
 						case 'imagegallery':
-							using('toendacms.datacontainer.imagegallery');
-							
 							$dcIG = new tcms_dc_imagegallery();
 							$dcIG = $tcms_dcp->getImagegalleryDC();
 							
@@ -1051,6 +926,15 @@ if($wsShowSite) {
 							
 							$link_image  = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 							.'id='.$image_id.'&amp;s='.$s.'&amp;lang='.$lang;
+							break;
+						
+						case 'download':
+							$arrDW = $tcms_modconfig->getDownloadConfig($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+							
+							$download_id    = $arrDW['download_id'];
+							$download_title = $arrDW['download_title'];
+							$download_stamp = $arrDW['download_stamp'];
+							$download_text  = $arrDW['download_text'];
 							break;
 						
 						case 'links':

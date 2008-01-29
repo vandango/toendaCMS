@@ -28,7 +28,7 @@ Version 2.0
 Developer Version
 	- 1.9.0 Development
 
-Building Steps: 4117
+Building Steps: 4153
 
 
 
@@ -46,6 +46,8 @@ Building Steps: 4117
  - changed: Massive cleanup of the source code, removed many deprecated functions,
             cleanup many PHP4 specific code.
  - changed: Better search page, replace the search functions into the search class.
+ - changed: Guestbook config now as object and only loaded in the guestbook extension.
+ - changed: Relocated all module configuration settings into the modules
  - changed: 
 
  - added: SEO format 3 (.html-format) has now the template variable.

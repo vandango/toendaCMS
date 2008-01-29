@@ -23,48 +23,48 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used fore the site title.
  *
- * @version 0.5.5
+ * @version 0.5.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
  */
 
 
-if(isset($_GET['albums'])){ $albums = $_GET['albums']; }
-if(isset($_GET['action'])){ $action = $_GET['action']; }
-if(isset($_GET['category'])){ $category = $_GET['category']; }
-if(isset($_GET['article'])){ $article = $_GET['article']; }
-if(isset($_GET['news'])){ $news = $_GET['news']; }
-if(isset($_GET['cat'])){ $cat = $_GET['cat']; }
+if(isset($_GET['albums'])) { $albums = $_GET['albums']; }
+if(isset($_GET['action'])) { $action = $_GET['action']; }
+if(isset($_GET['category'])) { $category = $_GET['category']; }
+if(isset($_GET['article'])) { $article = $_GET['article']; }
+if(isset($_GET['news'])) { $news = $_GET['news']; }
+if(isset($_GET['cat'])) { $cat = $_GET['cat']; }
 
-if(isset($_POST['news'])){ $news = $_POST['news']; }
+if(isset($_POST['news'])) { $news = $_POST['news']; }
 
 
 
-if(!isset($action)){ $action = 'showall'; }
-if(!isset($task)){ $task = 'register'; }
+if(!isset($action)) { $action = 'showall'; }
+if(!isset($task)) { $task = 'register'; }
 
 
 $sitetitleAdditional = '';
 
 
-switch($id){
+switch($id) {
 	case $download_id:
 		/*
 			DOWNLOAD
 		*/
 		
-		echo _PATH_HOME;
+		$sitetitleAdditional .= _PATH_HOME;
 		
-		if((!isset($category) || $category == '') && (!isset($file) || $file == '')){
+		if((!isset($category) || $category == '') && (!isset($file) || $file == '')) {
 			$sitetitleAdditional .= '&nbsp;/&nbsp;'.$download_title;
 		}
 		
-		if(isset($category) || isset($file)){
-			if($choosenDB == 'xml'){
+		if(isset($category) || isset($file)) {
+			if($choosenDB == 'xml') {
 				$count = 0;
 				
-				if($category != ''){
+				if($category != '') {
 					$xml = new xmlparser(_TCMS_PATH.'/files/'.$category.'/info.xml', 'r');
 					
 					//$access_cat = $down_xml->readSection('faq', 'access');
@@ -72,13 +72,13 @@ switch($id){
 					$arrFAQparent['type'][$count] = $xml->readSection('info', 'sql_type');
 					$arrFAQparent['pub'][$count]  = $xml->readSection('info', 'pub');
 				}
-				else{
+				else {
 					$arrFAQparent['type'][$count] = 'd';
 					$arrFAQparent['pub'][$count]  = '1';
 				}
 				
-				if($arrFAQparent['type'][$count] == 'd' && $arrFAQparent['pub'][$count] == '1'){
-					if($category != ''){
+				if($arrFAQparent['type'][$count] == 'd' && $arrFAQparent['pub'][$count] == '1') {
+					if($category != '') {
 						$arrFAQparent['title'][$count]  = $xml->readSection('info', 'name');
 						$arrFAQparent['parent'][$count] = $xml->readSection('info', 'parent');
 						$arrFAQparent['uid'][$count]    = substr($category, 0, 10);
@@ -92,7 +92,7 @@ switch($id){
 						
 						$count++;
 					}
-					else{
+					else {
 						$arrFAQparent['title'][$count]  = '';
 						$arrFAQparent['parent'][$count] = '';
 						$arrFAQparent['uid'][$count]    = '';
@@ -100,14 +100,14 @@ switch($id){
 						$checkCat = '';
 					}
 					
-					while($checkCat != ''){
+					while($checkCat != '') {
 						$xml = new xmlparser(_TCMS_PATH.'/files/'.$arrFAQparent['parent'][$count - 1].'/info.xml', 'r');
 						
 						$checkCat = $xml->readSection('info', 'cat');
 						$arrFAQparent['type'][$count]   = $xml->readSection('info', 'sql_type');
 						$arrFAQparent['pub'][$count]    = $xml->readSection('info', 'pub');
 						
-						if($arrFAQparent['type'][$count] == 'd' && $arrFAQparent['pub'][$count] == '1'){
+						if($arrFAQparent['type'][$count] == 'd' && $arrFAQparent['pub'][$count] == '1') {
 							$arrFAQparent['title'][$count]  = $xml->readSection('info', 'name');
 							$arrFAQparent['parent'][$count] = $xml->readSection('info', 'parent');
 							$arrFAQparent['uid'][$count]    = substr($arrFAQparent['parent'][$count - 1], 0, 10);
@@ -125,8 +125,8 @@ switch($id){
 					}
 				}
 			}
-			else{
-				switch($is_admin){
+			else {
+				switch($is_admin) {
 					case 'Developer':
 					case 'Administrator':
 						$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
@@ -156,7 +156,7 @@ switch($id){
 				
 				//echo '<b>'.$sqlNR.'<br>'.$sqlSTRparent.'</b><br><br>';
 				
-				while($sqlNR > 0){
+				while($sqlNR > 0) {
 					$sqlARR = $tcms_dal->fetchArray($sqlQR);
 					
 					unset($sqlQR);
@@ -165,9 +165,9 @@ switch($id){
 					$arrFAQparent['uid'][$count]    = $sqlARR['uid'];
 					$arrFAQparent['parent'][$count] = $sqlARR['parent'];
 					
-					if($arrFAQparent['title'][$count]  == NULL){ $arrFAQparent['title'][$count]  = ''; }
-					if($arrFAQparent['uid'][$count]    == NULL){ $arrFAQparent['uid'][$count]    = ''; }
-					if($arrFAQparent['parent'][$count] == NULL){ $arrFAQparent['parent'][$count] = ''; }
+					if($arrFAQparent['title'][$count]  == NULL) { $arrFAQparent['title'][$count]  = ''; }
+					if($arrFAQparent['uid'][$count]    == NULL) { $arrFAQparent['uid'][$count]    = ''; }
+					if($arrFAQparent['parent'][$count] == NULL) { $arrFAQparent['parent'][$count] = ''; }
 					
 					// CHARSETS
 					$arrFAQparent['title'][$count] = $tcms_main->decodeText($arrFAQparent['title'][$count], '2', $c_charset);
@@ -199,19 +199,19 @@ switch($id){
 			$sitetitleAdditional .= $download_title;
 			
 			
-			for($i = ($checkFAQTitle - 1); $i >= 0; $i--){
+			for($i = ($checkFAQTitle - 1); $i >= 0; $i--) {
 				$sitetitleAdditional .= '&nbsp;/&nbsp;';
 				
-				if($i != 0){
+				if($i != 0) {
 					$sitetitleAdditional .= $arrFAQparent['title'][$i];
 				}
-				else{
-					if(isset($article)){
+				else {
+					if(isset($article)) {
 						$sitetitleAdditional .= $arrFAQparent['title'][$i];
 						
 						//$sitetitleAdditional .= '&nbsp;/&nbsp;';
 					}
-					else{
+					else {
 						$sitetitleAdditional .= $arrFAQparent['title'][$i];
 					}
 				}
@@ -220,8 +220,8 @@ switch($id){
 		
 		
 		// file
-		/*if(isset($file)){
-			if($arrParent['parent'] != null && $arrParent['parent'] != ''){
+		/*if(isset($file)) {
+			if($arrParent['parent'] != null && $arrParent['parent'] != '') {
 				$sitetitleAdditional .= '&nbsp;/&nbsp;';
 			}
 			
@@ -234,15 +234,15 @@ switch($id){
 			FAQs
 		*/
 		
-		echo _PATH_HOME;
+		$sitetitleAdditional .= _PATH_HOME;
 		
-		if(!isset($category) && !isset($article)){
+		if(!isset($category) && !isset($article)) {
 			$sitetitleAdditional .= '&nbsp;/&nbsp;'.$faq_title;
 		}
 		
-		if(isset($category) || isset($article)){
-			if($choosenDB != 'xml'){
-				switch($is_admin){
+		if(isset($category) || isset($article)) {
+			if($choosenDB != 'xml') {
+				switch($is_admin) {
 					case 'Developer':
 					case 'Administrator':
 						$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
@@ -272,7 +272,7 @@ switch($id){
 				$sqlQR = $tcms_dal->query($sqlSTRparent);
 				$sqlNR = $tcms_dal->getNumber($sqlQR);
 				
-				while($sqlNR > 0){
+				while($sqlNR > 0) {
 					$sqlARR = $tcms_dal->fetchArray($sqlQR);
 					
 					unset($sqlQR);
@@ -281,9 +281,9 @@ switch($id){
 					$arrFAQparent['uid'][$count]    = $sqlARR['uid'];
 					$arrFAQparent['parent'][$count] = $sqlARR['parent'];
 					
-					if($arrFAQparent['title'][$count]  == NULL){ $arrFAQparent['title'][$count]  = ''; }
-					if($arrFAQparent['uid'][$count]    == NULL){ $arrFAQparent['uid'][$count]    = ''; }
-					if($arrFAQparent['parent'][$count] == NULL){ $arrFAQparent['parent'][$count] = ''; }
+					if($arrFAQparent['title'][$count]  == NULL) { $arrFAQparent['title'][$count]  = ''; }
+					if($arrFAQparent['uid'][$count]    == NULL) { $arrFAQparent['uid'][$count]    = ''; }
+					if($arrFAQparent['parent'][$count] == NULL) { $arrFAQparent['parent'][$count] = ''; }
 					
 					// CHARSETS
 					$arrFAQparent['title'][$count] = $tcms_main->decodeText($arrFAQparent['title'][$count], '2', $c_charset);
@@ -305,15 +305,15 @@ switch($id){
 				}
 			}
 			
-			if(!isset($checkFAQTitle)){ $checkFAQTitle = 1; }
+			if(!isset($checkFAQTitle)) { $checkFAQTitle = 1; }
 			
 			
 			$sitetitleAdditional .= '&nbsp;/&nbsp;'
 			.$faq_title;
 			
 			
-			if($choosenDB != 'xml'){
-				for($i = ($checkFAQTitle - 1); $i >= 0; $i--){
+			if($choosenDB != 'xml') {
+				for($i = ($checkFAQTitle - 1); $i >= 0; $i--) {
 					$sitetitleAdditional .= '&nbsp;/&nbsp;';
 					
 					if($i != 0) {
@@ -334,9 +334,9 @@ switch($id){
 			}
 		}
 		
-		if(isset($article)){
-			if($choosenDB != 'xml'){
-				switch($is_admin){
+		if(isset($article)) {
+			if($choosenDB != 'xml') {
+				switch($is_admin) {
 					case 'Developer':
 					case 'Administrator':
 						$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
@@ -370,15 +370,15 @@ switch($id){
 				$arrFAQparent['title']  = $sqlARR['title'];
 				$arrFAQparent['parent'] = $sqlARR['parent'];
 				
-				if($arrFAQparent['title']  == NULL){ $arrFAQparent['title']  = ''; }
-				if($arrFAQparent['parent'] == NULL){ $arrFAQparent['parent'] = ''; }
+				if($arrFAQparent['title']  == NULL) { $arrFAQparent['title']  = ''; }
+				if($arrFAQparent['parent'] == NULL) { $arrFAQparent['parent'] = ''; }
 			}
 			
-			if($choosenDB != 'xml'){
+			if($choosenDB != 'xml') {
 				// CHARSETS
 				$arrFAQparent['title'][$count] = $tcms_main->decodeText($arrFAQparent['title'][$count], '2', $c_charset);
 				
-				if($arrFAQparent['parent'] != null && $arrFAQparent['parent'] != ''){
+				if($arrFAQparent['parent'] != null && $arrFAQparent['parent'] != '') {
 					$sitetitleAdditional .= '&nbsp;/&nbsp;';
 				}
 				
@@ -394,26 +394,26 @@ switch($id){
 			NEWS
 		*/
 		
-		if(!isset($news) && !$cat && !isset($date)){
+		if(!isset($news) && !$cat && !isset($date)) {
 			$sitetitleAdditional .= _PATH_HOME
 			.'&nbsp;/&nbsp;'
 			.$titleway[$id];
 		}
 		
-		if(isset($news)){
+		if(isset($news)) {
 			$sitetitleAdditional .= _PATH_HOME
 			.'&nbsp;/&nbsp;'
 			.$titleway[$id];
 			
-			if($news != 'archive'){
-				if($choosenDB == 'xml'){
+			if($news != 'archive') {
+				if($choosenDB == 'xml') {
 					$news_detail_xml = new xmlparser(_TCMS_PATH.'/tcms_news/'.$news.'.xml','r');
 					$arr_news['title'] = $news_detail_xml->readSection('news', 'title');
 					$arr_news['order'] = $news_detail_xml->readSection('news', 'order');
 					
 					$arr_news['title'] = $tcms_main->decodeText($arr_news['title'], '2', $c_charset);
 				}
-				else{
+				else {
 					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					
@@ -430,7 +430,7 @@ switch($id){
 				.$tcms_main->cleanGBScript($arr_news['title']);
 			}
 			
-			if($news == 'archive'){
+			if($news == 'archive') {
 				$sitetitleAdditional .= '&nbsp;/&nbsp;'._NEWS_ARCHIVE;
 			}
 		}
@@ -478,12 +478,12 @@ switch($id){
 			.'&nbsp;/&nbsp;'
 			.$titleway[$id];
 			
-			if($choosenDB == 'xml'){
+			if($choosenDB == 'xml') {
 				$xmlP = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$cat.'.xml', 'r');
 				$catName = $xmlP->readSection('cat', 'name');
 				$catName = $tcms_main->decodeText($catName, '2', $c_charset);
 			}
-			else{
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
@@ -504,20 +504,20 @@ switch($id){
 			IMAGEGALLERY
 		*/
 		
-		if(!isset($albums)){
+		if(!isset($albums)) {
 			$sitetitleAdditional .= _PATH_HOME
 			.'&nbsp;/&nbsp;'
 			.$titleway[$id];
 		}
 		
-		if(isset($albums)){
-			if($choosenDB == 'xml'){
+		if(isset($albums)) {
+			if($choosenDB == 'xml') {
 				$album_xml   = new xmlparser(_TCMS_PATH.'/tcms_albums/album_'.$albums.'.xml', 'r');
 				$album_title = $album_xml->readSection('album', 'title');
 				
 				$album_title = $tcms_main->decodeText($album_title, '2', $c_charset);
 			}
-			else{
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
@@ -544,7 +544,7 @@ switch($id){
 		
 		$sitetitleAdditional .= _PATH_HOME;
 		
-		if(!isset($category) && !isset($article)){
+		if(!isset($category) && !isset($article)) {
 			$sitetitleAdditional .= '&nbsp;/&nbsp;'.$products_title;
 		}
 		
@@ -558,14 +558,14 @@ switch($id){
 					$arrFAQparent['type'] = $xml->readSection('faq', 'type');
 					$arrFAQparent['pub']  = $xml->readSection('faq', 'publish_state');
 					
-					if($arrFAQparent['type'] == 'a' && $arrFAQparent['pub'] == '2'){
+					if($arrFAQparent['type'] == 'a' && $arrFAQparent['pub'] == '2') {
 						$arrFAQparent['title']  = $xml->readSection('faq', 'title');
 						$arrFAQparent['parent'] = $xml->readSection('faq', 'parent');
 						$arrFAQparent['uid']    = substr($category, 0, 10);
 						
 						$arrFAQparent['title'] = $tcms_main->decodeText($arrFAQparent['title'], '2', $c_charset);
 						
-						if($arrFAQparent['parent'] != false && $arrFAQparent['parent'] != ''){
+						if($arrFAQparent['parent'] != false && $arrFAQparent['parent'] != '') {
 							echo '&nbsp;'.$pathwayChar.'&nbsp;';
 						}
 						
@@ -573,7 +573,7 @@ switch($id){
 					}*/
 				}
 				else {
-					switch($is_admin){
+					switch($is_admin) {
 						case 'Developer':
 						case 'Administrator':
 							$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
@@ -641,7 +641,7 @@ switch($id){
 				$sqlQR = $tcms_dal->query($sqlSTRparent);
 				$sqlNR = $tcms_dal->getNumber($sqlQR);
 				
-				while($sqlNR > 0){
+				while($sqlNR > 0) {
 					$sqlObj = $tcms_dal->fetchObject($sqlQR);
 					
 					unset($sqlQR);
@@ -650,9 +650,9 @@ switch($id){
 					$arrFAQparent['uid'][$count]    = $sqlObj->uid;
 					$arrFAQparent['parent'][$count] = $sqlObj->category;
 					
-					if($arrFAQparent['title'][$count]  == NULL){ $arrFAQparent['title'][$count]  = ''; }
-					if($arrFAQparent['uid'][$count]    == NULL){ $arrFAQparent['uid'][$count]    = ''; }
-					if($arrFAQparent['parent'][$count] == NULL){ $arrFAQparent['parent'][$count] = ''; }
+					if($arrFAQparent['title'][$count]  == NULL) { $arrFAQparent['title'][$count]  = ''; }
+					if($arrFAQparent['uid'][$count]    == NULL) { $arrFAQparent['uid'][$count]    = ''; }
+					if($arrFAQparent['parent'][$count] == NULL) { $arrFAQparent['parent'][$count] = ''; }
 					
 					// CHARSETS
 					$arrFAQparent['title'][$count] = $tcms_main->decodeText($arrFAQparent['title'][$count], '2', $c_charset);
@@ -674,7 +674,7 @@ switch($id){
 				}
 			}
 			
-			if(!isset($checkFAQTitle)){ $checkFAQTitle = 1; }
+			if(!isset($checkFAQTitle)) { $checkFAQTitle = 1; }
 			
 			
 			$sitetitleAdditional .= '&nbsp;/&nbsp;'
@@ -684,18 +684,18 @@ switch($id){
 			if($choosenDB == 'xml') {
 			}
 			else {
-				for($i = ($checkFAQTitle - 1); $i >= 0; $i--){
+				for($i = ($checkFAQTitle - 1); $i >= 0; $i--) {
 					$sitetitleAdditional .= '&nbsp;/&nbsp;';
 					
-					if($i != 0){
+					if($i != 0) {
 						$sitetitleAdditional .= $arrFAQparent['title'][$i];
 					}
-					else{
-						if(isset($article)){
+					else {
+						if(isset($article)) {
 							$sitetitleAdditional .= $arrFAQparent['title'][$i];
 							//.'&nbsp;/&nbsp;';
 						}
-						else{
+						else {
 							$sitetitleAdditional .= $arrFAQparent['title'][$i];
 						}
 					}
@@ -705,11 +705,11 @@ switch($id){
 			}
 		}
 		
-		if(isset($article)){
+		if(isset($article)) {
 			if($choosenDB == 'xml') {
 			}
 			else {
-				switch($is_admin){
+				switch($is_admin) {
 					case 'Developer':
 					case 'Administrator':
 						$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
@@ -743,8 +743,8 @@ switch($id){
 				$arrFAQparent['title']  = $sqlObj->name;
 				$arrFAQparent['parent'] = $sqlObj->category;
 				
-				if($arrFAQparent['title']  == NULL){ $arrFAQparent['title']  = ''; }
-				if($arrFAQparent['parent'] == NULL){ $arrFAQparent['parent'] = ''; }
+				if($arrFAQparent['title']  == NULL) { $arrFAQparent['title']  = ''; }
+				if($arrFAQparent['parent'] == NULL) { $arrFAQparent['parent'] = ''; }
 			}
 			
 			if($choosenDB == 'xml') {
@@ -753,7 +753,7 @@ switch($id){
 				// CHARSETS
 				$arrFAQparent['title'][$count] = $tcms_main->decodeText($arrFAQparent['title'][$count], '2', $c_charset);
 				
-				if($arrFAQparent['parent'] != null && $arrFAQparent['parent'] != ''){
+				if($arrFAQparent['parent'] != null && $arrFAQparent['parent'] != '') {
 					$sitetitleAdditional .= '&nbsp;/&nbsp;';
 				}
 				
@@ -856,11 +856,11 @@ switch($id){
 			COMPONENTS
 		*/
 		
-		if(file_exists(_TCMS_PATH.'/components/'.$item.'/component.xml')){
+		if(file_exists(_TCMS_PATH.'/components/'.$item.'/component.xml')) {
 			$csXML = new xmlparser(_TCMS_PATH.'/components/'.$item.'/component.xml', 'r');
 			$pathName = $csXML->readValue('title');
 		}
-		else{
+		else {
 			$pathName = _MSG_ERROR;
 		}
 		
@@ -878,7 +878,7 @@ switch($id){
 			$sitetitleAdditional .= $pathway[$id];
 		}
 		else {
-			$arrContentAccess = $tcms_dcp->getContentAccess($id);
+			$arrContentAccess = $tcms_dcp->getContentAccess($id, $getLang, $authorized);
 			$authorized = $arrContentAccess['authorized'];
 			$content_published = $arrContentAccess['content_published'];
 			
