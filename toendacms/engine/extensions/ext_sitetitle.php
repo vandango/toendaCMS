@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used fore the site title.
  *
- * @version 0.6.0
+ * @version 0.6.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -234,10 +234,13 @@ switch($id) {
 			FAQs
 		*/
 		
+		$kDC = new tcms_dc_knowledgebase();
+		$kDC = $tcms_dcp->getKnowledgebaseDC($getLang);
+		
 		$sitetitleAdditional .= _PATH_HOME;
 		
 		if(!isset($category) && !isset($article)) {
-			$sitetitleAdditional .= '&nbsp;/&nbsp;'.$faq_title;
+			$sitetitleAdditional .= '&nbsp;/&nbsp;'.$kDC->getTitle();
 		}
 		
 		if(isset($category) || isset($article)) {
@@ -309,7 +312,7 @@ switch($id) {
 			
 			
 			$sitetitleAdditional .= '&nbsp;/&nbsp;'
-			.$faq_title;
+			.$kDC->getTitle();
 			
 			
 			if($choosenDB != 'xml') {

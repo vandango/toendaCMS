@@ -7,9 +7,9 @@
 | Author: Jonathan Naumann                                               |
 +------------------------------------------------------------------------+
 |
-| toendaCMS Download DataContainer
+| toendaCMS knowledgebase DataContainer
 |
-| File:	tcms_dc_download.lib.php
+| File:	tcms_dc_knowledgebase.lib.php
 |
 +
 */
@@ -19,10 +19,10 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 /**
- * toendaCMS Download data container
+ * toendaCMS knowledgebase data container
  *
  * This class is used as a datacontainer object for
- * download items.
+ * knowledgebase items.
  *
  * @version 0.0.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
@@ -31,11 +31,14 @@ defined('_TCMS_VALID') or die('Restricted access');
  */
 
 
-class tcms_dc_download {
+class tcms_dc_knowledgebase {
 	private $_id;
-	private $_download_title;
-	private $_download_stamp;
-	private $_download_text;
+	private $_title;
+	private $_stamp;
+	private $_text;
+	private $_enabled;
+	private $_autor_enabled;
+	private $_access;
 	
 	// ---------------------------------------
 	// Constructors / Destructors
@@ -58,7 +61,7 @@ class tcms_dc_download {
 	 * @param String $value
 	 * @return String
 	 */
-	public function setID($value){
+	public function setID($value) {
 		$this->_uid = $value;
 	}
 	
@@ -67,7 +70,7 @@ class tcms_dc_download {
 	 * 
 	 * @return String
 	 */
-	public function getID(){
+	public function getID() {
 		return $this->_uid;
 	}
 	
@@ -77,7 +80,7 @@ class tcms_dc_download {
 	 * @param String $value
 	 * @return String
 	 */
-	public function setTitle($value){
+	public function setTitle($value) {
 		$this->_download_title = $value;
 	}
 	
@@ -86,7 +89,7 @@ class tcms_dc_download {
 	 * 
 	 * @return String
 	 */
-	public function getTitle(){
+	public function getTitle() {
 		return $this->_download_title;
 	}
 	
@@ -96,7 +99,7 @@ class tcms_dc_download {
 	 * @param String $value
 	 * @return String
 	 */
-	public function setSubtitle($value){
+	public function setSubtitle($value) {
 		$this->_download_stamp = $value;
 	}
 	
@@ -105,7 +108,7 @@ class tcms_dc_download {
 	 * 
 	 * @return String
 	 */
-	public function getSubtitle(){
+	public function getSubtitle() {
 		return $this->_download_stamp;
 	}
 	
@@ -115,7 +118,7 @@ class tcms_dc_download {
 	 * @param String $value
 	 * @return String
 	 */
-	public function setText($value){
+	public function setText($value) {
 		$this->_download_text = $value;
 	}
 	
@@ -124,8 +127,65 @@ class tcms_dc_download {
 	 * 
 	 * @return String
 	 */
-	public function getText(){
+	public function getText() {
 		return $this->_download_text;
+	}
+	
+	/**
+	 * Set the Enabled flag
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	public function setEnabled($value) {
+		$this->_enabled = $value;
+	}
+	
+	/**
+	 * Get the Enabled flag
+	 * 
+	 * @return String
+	 */
+	public function getEnabled() {
+		return ( $this->_enabled == 1 || $this->_enabled == '1' || $this->_enabled ? true : false );
+	}
+	
+	/**
+	 * Set the AutorEnabled flag
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	public function setAutorEnabled($value) {
+		$this->_autor_enabled = $value;
+	}
+	
+	/**
+	 * Get the AutorEnabled flag
+	 * 
+	 * @return String
+	 */
+	public function getAutorEnabled() {
+		return ( $this->_autor_enabled == 1 || $this->_autor_enabled == '1' || $this->_autor_enabled ? true : false );
+	}
+	
+	/**
+	 * Set the Access
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	public function setAccess($value) {
+		$this->_access = $value;
+	}
+	
+	/**
+	 * Get the Access
+	 * 
+	 * @return String
+	 */
+	public function getAccess() {
+		return $this->_access;
 	}
 }
 
