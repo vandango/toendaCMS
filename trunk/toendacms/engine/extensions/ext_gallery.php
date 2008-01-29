@@ -23,14 +23,18 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a imagegallery.
  *
- * @version 0.7.9
+ * @version 0.8.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
  */
 
 
-if(isset($_GET['albums'])){ $albums = $_GET['albums']; }
+if(isset($_GET['albums'])) { $albums = $_GET['albums']; }
+
+
+$dcIG = new tcms_dc_imagegallery();
+$dcIG = $tcms_dcp->getImagegalleryDC();
 
 
 $hr_line_1 = '<tr class="hr_line"><td colspan="2"></td></tr>';
@@ -41,16 +45,16 @@ $hr_line_2 = '<tr style="height: 5px;"><td colspan="2"><hr class="hrule" noshade
 	Load Albums
 */
 
-if($choosenDB == 'xml'){
+if($choosenDB == 'xml') {
 	$arr_albums['count'] = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_albums/');
 	
 	$ca = 0;
-	if($tcms_main->isReal($arr_albums['count'])){
-		foreach($arr_albums['count'] as $key => $value){
+	if($tcms_main->isReal($arr_albums['count'])) {
+		foreach($arr_albums['count'] as $key => $value) {
 			$albums_xml = new xmlparser(_TCMS_PATH.'/tcms_albums/'.$arr_albums['count'][$ca], 'r');
 			$use = $albums_xml->readSection('album', 'use');
 			
-			if($use == 1){
+			if($use == 1) {
 				$arr_albums['title'][$ca]       = $albums_xml->readSection('album', 'title');
 				$arr_albums['path'][$ca]        = $albums_xml->readSection('album', 'path');
 				$arr_albums['description'][$ca] = $albums_xml->readSection('album', 'description');
@@ -60,14 +64,14 @@ if($choosenDB == 'xml'){
 				$arr_albums['title'][$ca]       = $tcms_main->decodeText($arr_albums['title'][$ca], '2', $c_charset);
 				$arr_albums['description'][$ca] = $tcms_main->decodeText($arr_albums['description'][$ca], '2', $c_charset);
 				
-				if(!$arr_albums['image'][$ca]){ $arr_albums['image'][$ca] = ''; }
+				if(!$arr_albums['image'][$ca]) { $arr_albums['image'][$ca] = ''; }
 				
 				$ca++;
 			}
 		}
 	}
 	
-	if(is_array($arr_albums['path']) && !empty($arr_albums['path'])){
+	if(is_array($arr_albums['path']) && !empty($arr_albums['path'])) {
 		array_multisort(
 			$arr_albums['title'], SORT_ASC, SORT_REGULAR, 
 			$arr_albums['path'], SORT_ASC, SORT_REGULAR, 
@@ -76,7 +80,7 @@ if($choosenDB == 'xml'){
 		);
 	}
 }
-else{
+else {
 	$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 	$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 	
@@ -89,17 +93,17 @@ else{
 	
 	$count = 0;
 	
-	while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+	while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
 		$arr_albums['count'][$count]       = $sqlObj->uid;
 		$arr_albums['title'][$count]       = $sqlObj->title;
 		$arr_albums['path'][$count]        = $sqlObj->album_id;
 		$arr_albums['description'][$count] = $sqlObj->desc;
 		$arr_albums['image'][$count]       = $sqlObj->image;
 		
-		if($arr_albums['title'][$count]       == NULL){ $arr_albums['title'][$count]       = ''; }
-		if($arr_albums['path'][$count]        == NULL){ $arr_albums['path'][$count]        = ''; }
-		if($arr_albums['description'][$count] == NULL){ $arr_albums['description'][$count] = ''; }
-		if($arr_albums['image'][$count]       == NULL){ $arr_albums['image'][$count]       = ''; }
+		if($arr_albums['title'][$count]       == NULL) { $arr_albums['title'][$count]       = ''; }
+		if($arr_albums['path'][$count]        == NULL) { $arr_albums['path'][$count]        = ''; }
+		if($arr_albums['description'][$count] == NULL) { $arr_albums['description'][$count] = ''; }
+		if($arr_albums['image'][$count]       == NULL) { $arr_albums['image'][$count]       = ''; }
 		
 		// CHARSETS
 		$arr_albums['title'][$count]       = $tcms_main->decodeText($arr_albums['title'][$count], '2', $c_charset);
@@ -120,12 +124,12 @@ else{
 	Start page
 */
 
-if(!isset($albums)){ $albums = 'start'; }
+if(!isset($albums)) { $albums = 'start'; }
 
 if($albums == 'start') {
 	echo $tcms_html->contentModuleHeader(
-		$image_title, 
-		$image_stamp, 
+		$dcIG->getTitle(), 
+		$dcIG->getSubtitle(), 
 		''
 	);
 	
@@ -139,8 +143,8 @@ if($albums == 'start') {
 	
 	echo '<tr><td valign="top" colspan="2" style="height: 7px;"></td></tr>';
 	
-	if(is_array($arr_albums['path'])){
-		foreach($arr_albums['path'] as $key => $value){
+	if(is_array($arr_albums['path'])) {
+		foreach($arr_albums['path'] as $key => $value) {
 			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 			.'id='.$id.'&amp;s='.$s.'&amp;albums='.$arr_albums['path'][$key]
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -170,7 +174,7 @@ if($albums == 'start') {
 			echo '<td width="20%" valign="top">'
 			.'<a href="'.$link.'">';
 			
-			if($arr_albums['image'][$key] != ''){
+			if($arr_albums['image'][$key] != '') {
 				if(!is_dir(_TCMS_PATH.'/thumbnails/'.$value.'/')) {
 					mkdir(_TCMS_PATH.'/thumbnails/'.$value.'/', 0777);
 				}
@@ -188,7 +192,7 @@ if($albums == 'start') {
 				.'src="'.$imagePath._TCMS_PATH.'/thumbnails/'.$value.'/thumb_'.$arr_albums['image'][$key].'" '
 				.'border="0" align="left" />';
 			}
-			else{
+			else {
 				echo '<img style="border: 1px solid #333333;" '
 				.'src="'.$imagePath.'engine/images/no_picture.gif" '
 				.'border="0" align="left" />';
@@ -222,18 +226,18 @@ if($albums == 'start') {
 	Pictures
 */
 
-if($albums != 'start'){
+if($albums != 'start') {
 	if($tcms_main->isReal($arr_albums['path'])) {
-		foreach($arr_albums['path'] as $a_key => $a_value){
-			if($albums == $a_value){
-				if($choosenDB == 'xml'){
+		foreach($arr_albums['path'] as $a_key => $a_value) {
+			if($albums == $a_value) {
+				if($choosenDB == 'xml') {
 					$album_xml   = new xmlparser(_TCMS_PATH.'/tcms_albums/album_'.$a_value.'.xml', 'r');
 					$album_title = $album_xml->readSection('album', 'title');
 					$album_path  = $album_xml->readSection('album', 'path');
 					$album_use   = $album_xml->readSection('album', 'use');
 					$album_desc  = $album_xml->readSection('album', 'description');
 				}
-				else{
+				else {
 					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					
@@ -245,10 +249,10 @@ if($albums != 'start'){
 					$album_use   = $sqlObj->published;
 					$album_desc  = $sqlObj->desc;
 					
-					if($album_title == NULL){ $album_title = ''; }
-					if($album_path  == NULL){ $album_path  = ''; }
-					if($album_use   == NULL){ $album_use   = ''; }
-					if($album_desc  == NULL){ $album_desc  = ''; }
+					if($album_title == NULL) { $album_title = ''; }
+					if($album_path  == NULL) { $album_path  = ''; }
+					if($album_use   == NULL) { $album_use   = ''; }
+					if($album_desc  == NULL) { $album_desc  = ''; }
 					
 					$sqlAL->sqlFreeResult($sqlQR);
 				}
@@ -263,7 +267,7 @@ if($albums != 'start'){
 				$link = $tcms_main->urlConvertToSEO($link);
 				
 				echo '<div class="contentheading">'._GALLERY_THISIS.' '.$album_title.' '._GALLERY_THISIS2.'</div>'
-				.'(&nbsp;<a href="'.$link.'">'.$image_title.'</a>&nbsp;)'
+				.'(&nbsp;<a href="'.$link.'">'.$dcIG->getTitle().'</a>&nbsp;)'
 				.'<br /><br />';
 				
 				echo '<span class="contentmain">'.$album_desc.'</span>'
@@ -276,17 +280,17 @@ if($albums != 'start'){
 				$arr_dir = $tcms_file->getPathContent(_TCMS_PATH.'/images/albums/'.$a_value.'/');
 				
 				
-				if($tcms_main->isArray($arr_dir)){
-					if($choosenDB == 'xml'){
+				if($tcms_main->isArray($arr_dir)) {
+					if($choosenDB == 'xml') {
 						$timecc = 0;
-						foreach($arr_dir as $ikey => $val){
+						foreach($arr_dir as $ikey => $val) {
 							$des_xml = new xmlparser(_TCMS_PATH.'/tcms_imagegallery/'.$a_value.'/'.$val.'.xml','r');
 							$arr_tc['tc'][$timecc] = $des_xml->readSection('image', 'timecode');
 							$arr_tc['fn'][$timecc] = $val;
 							$timecc++;
 						}
 					}
-					else{
+					else {
 						$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 						$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 						
@@ -294,19 +298,19 @@ if($albums != 'start'){
 						
 						$timecc = 0;
 						
-						while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+						while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
 							$arr_tc['tc'][$timecc]  = $sqlObj->date;
 							$arr_tc['fn'][$timecc]  = $sqlObj->image;
 							
-							if($arr_tc['tc'][$timecc] == NULL){ $arr_tc['tc'][$timecc] = ''; }
-							if($arr_tc['fn'][$timecc] == NULL){ $arr_tc['fn'][$timecc] = ''; }
+							if($arr_tc['tc'][$timecc] == NULL) { $arr_tc['tc'][$timecc] = ''; }
+							if($arr_tc['fn'][$timecc] == NULL) { $arr_tc['fn'][$timecc] = ''; }
 							
 							$timecc++;
 						}
 					}
 					
-					if($tcms_main->isArray($arr_tc['fn'])){
-						switch($gallery_image_sort){
+					if($tcms_main->isArray($arr_tc['fn'])) {
+						switch($dcIG->getImageSort()) {
 							case 'desc':
 								array_multisort(
 									$arr_tc['tc'], SORT_DESC, 
@@ -331,17 +335,17 @@ if($albums != 'start'){
 					}
 					
 					
-					$imagesPerRow = ( $tcms_main->isReal($list_option_amount) ? $list_option_amount : 4 );
+					$imagesPerRow = ( $tcms_main->isReal($dcIG->getListOptionAmount()) ? $dcIG->getListOptionAmount() : 4 );
 					$currentColumn = 0;
 					
-					if($tcms_main->isArray($arr_tc['fn'])){
-						foreach($arr_tc['fn'] as $dkey => $dvalue){
-							if(trim($dvalue) != ''){
-								if(!is_dir(_TCMS_PATH.'/thumbnails/'.$a_value.'/')){
+					if($tcms_main->isArray($arr_tc['fn'])) {
+						foreach($arr_tc['fn'] as $dkey => $dvalue) {
+							if(trim($dvalue) != '') {
+								if(!is_dir(_TCMS_PATH.'/thumbnails/'.$a_value.'/')) {
 									mkdir(_TCMS_PATH.'/thumbnails/'.$a_value.'/', 0777);
 								}
 								
-								if(!file_exists(_TCMS_PATH.'/thumbnails/'.$a_value.'/thumb_'.$dvalue)){
+								if(!file_exists(_TCMS_PATH.'/thumbnails/'.$a_value.'/thumb_'.$dvalue)) {
 									$tcms_gd->createThumbnail(
 										_TCMS_PATH.'/images/albums/'.$a_value.'/',
 										_TCMS_PATH.'/thumbnails/'.$a_value.'/', $dvalue, 
@@ -371,18 +375,20 @@ if($albums != 'start'){
 									$old_des = $sqlObj->text;
 									$old_uid = $sqlObj->uid;
 									
-									if($old_des == NULL){ $old_des = ''; }
+									if($old_des == NULL) { $old_des = ''; }
 								}
 								
-								if($old_des == '' || empty($old_des)){ $old_des == ''; }
+								if($old_des == '' || empty($old_des)) { $old_des == ''; }
 								
 								// CHARSETS
 								$old_des = $tcms_main->decodeText($old_des, '2', $c_charset);
 								
 								
-								if(!isset($list_option)) $list_option = 0;
+								if(!$tcms_main->isReal($dcIG->getListOption())) {
+									$dcIG->setListOption(0);
+								}
 								
-								switch($list_option){
+								switch($dcIG->getListOption()) {
 									case 0:
 										echo '<tr><td width="110" valign="top">'
 										.'<a href="'.$imagePath.'media.php?album='.$a_value.'&amp;key='.$dvalue.'" target="_blank">'
@@ -401,9 +407,9 @@ if($albums != 'start'){
 											echo '<hr class="hr_line" />';
 										}
 										
-										if($use_image_comments == 1){
-											if($choosenDB == 'xml'){
-												if(!is_dir(_TCMS_PATH.'/tcms_imagegallery/'.$a_value.'/comments_'.$dvalue.'/')){
+										if($dcIG->getUseComments()) {
+											if($choosenDB == 'xml') {
+												if(!is_dir(_TCMS_PATH.'/tcms_imagegallery/'.$a_value.'/comments_'.$dvalue.'/')) {
 													mkdir(_TCMS_PATH.'/tcms_imagegallery/'.$a_value.'/comments_'.$dvalue.'/', 0777);
 												}
 												
@@ -411,7 +417,7 @@ if($albums != 'start'){
 													_TCMS_PATH.'/tcms_imagegallery/'.$a_value.'/comments_'.$dvalue.'/'
 												);
 											}
-											else{
+											else {
 												$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 												$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 												
@@ -429,7 +435,7 @@ if($albums != 'start'){
 										.'</em>'
 										.'</span>';
 										
-										if($image_details == 1){
+										if($dcIG->getUseImageDetails()) {
 											echo '<span class="text_normal">'
 											.'<br />'._GALLERY_IMGTITLE.': <em>'.$dvalue.'</em><br />
 											'._GALLERY_IMGSIZE.': <em>'.$img_size.' KB</em><br />
@@ -458,7 +464,7 @@ if($albums != 'start'){
 										
 										echo '</td>';
 										
-										if($currentColumn % $imagesPerRow == $imagesPerRow-1){
+										if($currentColumn % $imagesPerRow == $imagesPerRow-1) {
 											echo '</td>'
 											.'<tr style="height: 15px;"><td colspan="'.$imagesPerRow.'"></td></tr>';
 										}
@@ -470,7 +476,7 @@ if($albums != 'start'){
 						}
 					}
 					
-					if($list_option == 1){
+					if($dcIG->getListOption() == 1) {
 						if($currentColumn % $imagesPerRow != 0) {
 							$columsLeft = $imagesPerRow - ($currentColumn % $imagesPerRow);
 							

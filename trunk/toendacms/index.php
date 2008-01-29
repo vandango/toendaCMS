@@ -817,6 +817,8 @@ if($wsShowSite) {
 						case 'contactform':
 						case 'guestbook':
 						case 'impressum':
+						case 'products':
+						case 'imagegallery':
 							break;
 						
 						case 'frontpage':
@@ -886,46 +888,6 @@ if($wsShowSite) {
 							if($use_trackback == 1) {
 								using('toendacms.kernel.trackback');
 							}
-							break;
-						
-						case 'products':
-							$dcP = new tcms_dc_products();
-							$dcP = $tcms_dcp->getProductsDC($getLang);
-							
-							$products_id            = $dcP->getID();
-							$products_title         = $dcP->getTitle();
-							$products_stamp         = $dcP->getSubtitle();
-							$products_text          = $dcP->getText();
-							$main_category          = $dcP->getProductMainCategory();
-							$category_title         = $dcP->getSidebarCategoryTitle();
-							$show_pro_ct            = $dcP->getUseSideCategory();
-							$show_price_only_users  = $dcP->getShowPriceOnlyUsers();
-							$startpage_title        = $dcP->getStartpageTitle();
-							$use_sidebar_categories = $dcP->getUseSideCategory();
-							$max_latest_products    = $dcP->getMaxLatestProducts();
-							break;
-						
-						case 'imagegallery':
-							$dcIG = new tcms_dc_imagegallery();
-							$dcIG = $tcms_dcp->getImagegalleryDC();
-							
-							$image_id           = $dcIG->getID();
-							$image_title        = $dcIG->getTitle();
-							$image_stamp        = $dcIG->getSubtitle();
-							$image_details      = $dcIG->getUseImageDetails();
-							$gallery_image_sort = $dcIG->getImageSort();
-							$use_image_comments = $dcIG->getUseComments();
-							$authorized         = $dcIG->getAccess();
-							$list_option        = $dcIG->getListOption();
-							$list_option_amount = $dcIG->getListOptionAmount();
-							$maxImg             = $dcIG->getMaxImages();
-							$needleImg          = $dcIG->getNeedleImage();
-							$showTitleImg       = $dcIG->getShowLastImageTitle();
-							$alignImg           = $dcIG->getImageAlignment();
-							$sizeImg            = $dcIG->getImageSize();
-							
-							$link_image  = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-							.'id='.$image_id.'&amp;s='.$s.'&amp;lang='.$lang;
 							break;
 						
 						case 'download':

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the sidebar functionality.
  *
- * @version 0.6.4
+ * @version 0.6.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -40,6 +40,9 @@ defined('_TCMS_VALID') or die('Restricted access');
 if($use_sidebar == 1) {
 	$seDC = new tcms_dc_sidebarextensions();
 	$seDC = $tcms_dcp->getSidebarExtensionSettings();
+	
+	$dcP = new tcms_dc_products();
+	$dcP = $tcms_dcp->getProductsDC($getLang);
 	
 	
 	
@@ -153,8 +156,8 @@ if($use_sidebar == 1) {
 		/*
 			PRODUCTS
 		*/
-		if($id == $products_id) {
-			if($use_sidebar_categories == 1) {
+		if($id == 'products') {
+			if($dcP->getUseSideCategory()) {
 				if($choosenDB == 'xml') {
 					$arr_products = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_products/');
 					
@@ -249,9 +252,8 @@ if($use_sidebar == 1) {
 					}
 				}
 				
-				if($show_pro_ct == 1) {
-					$category_title = $tcms_main->decodeText($category_title, '2', $c_charset);
-					echo $tcms_html->subTitle($category_title);
+				if($dcP->getUseSideCategory()) {
+					echo $tcms_html->subTitle($dcP->getSidebarCategoryTitle());
 				}
 				
 				echo '<div class="sidemain">';
@@ -419,6 +421,7 @@ if($use_sidebar == 1) {
 	
 	// cleanup
 	unset($seDC);
+	unset($dcP);
 }
 
 ?>

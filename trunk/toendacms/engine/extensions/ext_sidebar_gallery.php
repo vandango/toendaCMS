@@ -141,7 +141,7 @@ if($use_side_gallery == 1) {
 		}
 	}
 	
-	echo '<div style="margin: 4px 0 0 0; display: block;" align="'.$alignImg.'">';
+	echo '<div style="margin: 4px 0 0 0; display: block;" align="'.$dcIG->getImageAlignment().'">';
 	
 	$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=imagegallery&amp;s='.$s
 	.( isset($lang) ? '&amp;lang='.$lang : '' );

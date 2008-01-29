@@ -20,7 +20,7 @@
  *
  * This module is used as a image viewer.
  *
- * @version 0.8.5
+ * @version 0.8.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -226,8 +226,6 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 	
 	$dcIG = new tcms_dc_imagegallery();
 	$dcIG = $tcms_dcp->getImagegalleryDC();
-	
-	$image_details = $dcIG->getUseImageDetails();
 	
 	
 	/*
@@ -483,12 +481,12 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 				
 				echo '<div align="left" style="margin: 40px 0 0 10px;">'
 				.'<span class="text">'
-				.( $image_details == 1 ? '<strong>'._TABLE_ALBUM.':</strong> '.$album_title.'<br />' : '' )
-				.( $image_details == 1 ? '<strong>'._GALLERY_IMGTITLE.':</strong> '.$arr_tc['file'][$iKey].'<br />' : '' )
-				.( $image_details == 1 ? '<strong>'._GALLERY_AMOUNT.':</strong> '.( $iKey + 1 ).'/'.$timecc.'<br />' : '' )
+				.( $dcIG->getUseImageDetails() ? '<strong>'._TABLE_ALBUM.':</strong> '.$album_title.'<br />' : '' )
+				.( $dcIG->getUseImageDetails() ? '<strong>'._GALLERY_IMGTITLE.':</strong> '.$arr_tc['file'][$iKey].'<br />' : '' )
+				.( $dcIG->getUseImageDetails() ? '<strong>'._GALLERY_AMOUNT.':</strong> '.( $iKey + 1 ).'/'.$timecc.'<br />' : '' )
 				.'<strong>'._GALLERY_IMGRESOLUTION.':</strong> <a class="media" href="?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'album='.$album.'&amp;key='.$arr_tc['file'][$iKey].'&amp;defaultSizeX='.$img_o_width.'">'.$img_o_width.'x'.$img_o_height.'</a><br />'
-				.( $image_details == 1 ? '<strong>'._GALLERY_POSTED.':</strong> '.lang_date(substr($iVal, 6, 2), substr($iVal, 4, 2), substr($iVal, 0, 4), substr($iVal, 8, 2), substr($iVal, 10, 2), substr($iVal, 12, 2)) : '' )
-				.( $image_details == 1 ? '<br /><br />' : '' )
+				.( $dcIG->getUseImageDetails() ? '<strong>'._GALLERY_POSTED.':</strong> '.lang_date(substr($iVal, 6, 2), substr($iVal, 4, 2), substr($iVal, 0, 4), substr($iVal, 8, 2), substr($iVal, 10, 2), substr($iVal, 12, 2)) : '' )
+				.( $dcIG->getUseImageDetails() ? '<br /><br />' : '' )
 				.'<strong>'._GALLERY_DESCRIPTION.'</strong><br />'
 				.$arr_tc['desc'][$iKey]
 				.'</span></div>';

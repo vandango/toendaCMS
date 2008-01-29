@@ -23,21 +23,31 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a product manager.
  *
- * @version 0.7.5
+ * @version 0.8.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
  */
 
 
-if(isset($_GET['action'])){ $action = $_GET['action']; }
-if(isset($_GET['category'])){ $category = $_GET['category']; }
-if(isset($_GET['article'])){ $article = $_GET['article']; }
-if(isset($_GET['cmd'])){ $cmd = $_GET['cmd']; }
+if(isset($_GET['action'])) { $action = $_GET['action']; }
+if(isset($_GET['category'])) { $category = $_GET['category']; }
+if(isset($_GET['article'])) { $article = $_GET['article']; }
+if(isset($_GET['cmd'])) { $cmd = $_GET['cmd']; }
+
+
+
+
+// -------------------------------------------------
+// INIT
+// -------------------------------------------------
+
+$dcP = new tcms_dc_products();
+$dcP = $tcms_dcp->getProductsDC($getLang);
 
 if(!isset($action)) { $action = 'showall'; }
 
-if(trim($startpage_title) != '') {
+if(trim($dcP->getStartpageTitle()) != '') {
 	if(!isset($cmd)) { $cmd = 'offers'; }
 }
 else {
@@ -63,18 +73,18 @@ else {
 // SHOW ALL / STARTPAGE
 // -------------------------------------------------
 
-if($action == 'showall'){
+if($action == 'showall') {
 	echo $tcms_html->contentModuleHeader(
-		$products_title, 
-		$products_stamp, 
-		( $cmd == 'offers' || $cmd == 'latest' ? $products_text : '' )
-		//( $cmd == 'browse' ? '' : $products_text )
+		$dcP->getTitle(), 
+		$dcP->getSubtitle(), 
+		( $cmd == 'offers' || $cmd == 'latest' ? $dcP->getText() : '' )
+		//( $cmd == 'browse' ? '' : $dcP->getText() )
 	);
 	
 	if($cmd == 'offers' 
 	|| $cmd == 'latest' 
 	|| $cmd == 'browse' 
-	|| trim($startpage_title) == '') {
+	|| trim($dcP->getStartpageTitle()) == '') {
 		$hrLineOneUp = true;
 	}
 	
@@ -89,7 +99,7 @@ if($action == 'showall'){
 		list all startpage products
 	*/
 	
-	if(trim($startpage_title) != '') {
+	if(trim($dcP->getStartpageTitle()) != '') {
 		// offer tab
 		$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 		.'id=products&amp;s='.$s.'&amp;action=showall&amp;cmd=offers'
@@ -97,7 +107,7 @@ if($action == 'showall'){
 		$link = $tcms_main->urlConvertToSEO($link);
 		
 		echo '<a style="margin-left: 8px !important;" class="'.( $cmd == 'offers' ? 'products_active_tab' : 'products_tab' ).'" href="'.$link.'">'
-		.$startpage_title
+		.$dcP->getStartpageTitle()
 		.'</a>';
 	}
 	
@@ -222,16 +232,16 @@ if($action == 'showall'){
 					$arr_pro['taxkey'][$count] = $sqlObj->price_tax;
 					$arr_pro['pronr'][$count]  = $sqlObj->product_number;
 					
-					if($arr_pro['price'][$count]  == NULL){ $arr_pro['price'][$count]  = ''; }
-					if($arr_pro['taxkey'][$count] == NULL){ $arr_pro['taxkey'][$count] = ''; }
-					if($arr_pro['uid'][$count]    == NULL){ $arr_pro['uid'][$count]    = ''; }
-					if($arr_pro['name'][$count]   == NULL){ $arr_pro['name'][$count]   = ''; }
-					if($arr_pro['desc'][$count]   == NULL){ $arr_pro['desc'][$count]   = ''; }
-					if($arr_pro['date'][$count]   == NULL){ $arr_pro['date'][$count]   = ''; }
-					if($arr_pro['image1'][$count] == NULL){ $arr_pro['image1'][$count] = ''; }
-					if($arr_pro['sort'][$count]   == NULL){ $arr_pro['sort'][$count]   = ''; }
-					//if($arr_pro['type'][$count]   == NULL){ $arr_pro['type'][$count]   = ''; }
-					if($arr_pro['pronr'][$count]  == NULL){ $arr_pro['pronr'][$count]  = ''; }
+					if($arr_pro['price'][$count]  == NULL) { $arr_pro['price'][$count]  = ''; }
+					if($arr_pro['taxkey'][$count] == NULL) { $arr_pro['taxkey'][$count] = ''; }
+					if($arr_pro['uid'][$count]    == NULL) { $arr_pro['uid'][$count]    = ''; }
+					if($arr_pro['name'][$count]   == NULL) { $arr_pro['name'][$count]   = ''; }
+					if($arr_pro['desc'][$count]   == NULL) { $arr_pro['desc'][$count]   = ''; }
+					if($arr_pro['date'][$count]   == NULL) { $arr_pro['date'][$count]   = ''; }
+					if($arr_pro['image1'][$count] == NULL) { $arr_pro['image1'][$count] = ''; }
+					if($arr_pro['sort'][$count]   == NULL) { $arr_pro['sort'][$count]   = ''; }
+					//if($arr_pro['type'][$count]   == NULL) { $arr_pro['type'][$count]   = ''; }
+					if($arr_pro['pronr'][$count]  == NULL) { $arr_pro['pronr'][$count]  = ''; }
 					
 					
 					// CHARSETS
@@ -394,7 +404,7 @@ if($action == 'showall'){
 						
 						
 						// price
-						if($show_price_only_users == 1) {
+						if($dcP->getShowPriceOnlyUsers()) {
 							if($check_session) {
 								if($arr_pro['price'][$key] != -1
 								&& trim($arr_pro['price'][$key]) != '') {
@@ -488,10 +498,10 @@ if($action == 'showall'){
 						break;
 				}
 				
-				switch($choosenDB){
-					case 'mysql': $dbLimit = "LIMIT 0, ".$max_latest_products; break;
-					case 'pgsql': $dbLimit = "LIMIT ".$max_latest_products; break;
-					case 'mssql': $dbLimitMS = "TOP ".$max_latest_products; break;
+				switch($choosenDB) {
+					case 'mysql': $dbLimit = "LIMIT 0, ".$dcP->getMaxLatestProducts(); break;
+					case 'pgsql': $dbLimit = "LIMIT ".$dcP->getMaxLatestProducts(); break;
+					case 'mssql': $dbLimitMS = "TOP ".$dcP->getMaxLatestProducts(); break;
 				}
 				
 				$sqlSTR = "SELECT ".$dbLimitMS." * "
@@ -521,16 +531,16 @@ if($action == 'showall'){
 						$arr_pro['taxkey'][$count] = $sqlObj->price_tax;
 						$arr_pro['pronr'][$count]  = $sqlObj->product_number;
 							
-						if($arr_pro['price'][$count]  == NULL){ $arr_pro['price'][$count]  = ''; }
-						if($arr_pro['taxkey'][$count] == NULL){ $arr_pro['taxkey'][$count] = ''; }
-						if($arr_pro['uid'][$count]    == NULL){ $arr_pro['uid'][$count]    = ''; }
-						if($arr_pro['name'][$count]   == NULL){ $arr_pro['name'][$count]   = ''; }
-						if($arr_pro['desc'][$count]   == NULL){ $arr_pro['desc'][$count]   = ''; }
-						if($arr_pro['date'][$count]   == NULL){ $arr_pro['date'][$count]   = ''; }
-						if($arr_pro['image1'][$count] == NULL){ $arr_pro['image1'][$count] = ''; }
-						if($arr_pro['sort'][$count]   == NULL){ $arr_pro['sort'][$count]   = ''; }
-						if($arr_pro['cat'][$count]    == NULL){ $arr_pro['cat'][$count]    = ''; }
-						if($arr_pro['pronr'][$count]  == NULL){ $arr_pro['pronr'][$count]  = ''; }
+						if($arr_pro['price'][$count]  == NULL) { $arr_pro['price'][$count]  = ''; }
+						if($arr_pro['taxkey'][$count] == NULL) { $arr_pro['taxkey'][$count] = ''; }
+						if($arr_pro['uid'][$count]    == NULL) { $arr_pro['uid'][$count]    = ''; }
+						if($arr_pro['name'][$count]   == NULL) { $arr_pro['name'][$count]   = ''; }
+						if($arr_pro['desc'][$count]   == NULL) { $arr_pro['desc'][$count]   = ''; }
+						if($arr_pro['date'][$count]   == NULL) { $arr_pro['date'][$count]   = ''; }
+						if($arr_pro['image1'][$count] == NULL) { $arr_pro['image1'][$count] = ''; }
+						if($arr_pro['sort'][$count]   == NULL) { $arr_pro['sort'][$count]   = ''; }
+						if($arr_pro['cat'][$count]    == NULL) { $arr_pro['cat'][$count]    = ''; }
+						if($arr_pro['pronr'][$count]  == NULL) { $arr_pro['pronr'][$count]  = ''; }
 						
 						
 						// CHARSETS
@@ -602,16 +612,16 @@ if($action == 'showall'){
 						$arr_pro['taxkey'][$count] = $sqlObj->price_tax;
 						$arr_pro['pronr'][$count]  = $sqlObj->product_number;
 							
-						if($arr_pro['price'][$count]  == NULL){ $arr_pro['price'][$count]  = ''; }
-						if($arr_pro['taxkey'][$count] == NULL){ $arr_pro['taxkey'][$count] = ''; }
-						if($arr_pro['uid'][$count]    == NULL){ $arr_pro['uid'][$count]    = ''; }
-						if($arr_pro['name'][$count]   == NULL){ $arr_pro['name'][$count]   = ''; }
-						if($arr_pro['desc'][$count]   == NULL){ $arr_pro['desc'][$count]   = ''; }
-						if($arr_pro['date'][$count]   == NULL){ $arr_pro['date'][$count]   = ''; }
-						if($arr_pro['image1'][$count] == NULL){ $arr_pro['image1'][$count] = ''; }
-						if($arr_pro['sort'][$count]   == NULL){ $arr_pro['sort'][$count]   = ''; }
-						if($arr_pro['cat'][$count]    == NULL){ $arr_pro['cat'][$count]    = ''; }
-						if($arr_pro['pronr'][$count]  == NULL){ $arr_pro['pronr'][$count]  = ''; }
+						if($arr_pro['price'][$count]  == NULL) { $arr_pro['price'][$count]  = ''; }
+						if($arr_pro['taxkey'][$count] == NULL) { $arr_pro['taxkey'][$count] = ''; }
+						if($arr_pro['uid'][$count]    == NULL) { $arr_pro['uid'][$count]    = ''; }
+						if($arr_pro['name'][$count]   == NULL) { $arr_pro['name'][$count]   = ''; }
+						if($arr_pro['desc'][$count]   == NULL) { $arr_pro['desc'][$count]   = ''; }
+						if($arr_pro['date'][$count]   == NULL) { $arr_pro['date'][$count]   = ''; }
+						if($arr_pro['image1'][$count] == NULL) { $arr_pro['image1'][$count] = ''; }
+						if($arr_pro['sort'][$count]   == NULL) { $arr_pro['sort'][$count]   = ''; }
+						if($arr_pro['cat'][$count]    == NULL) { $arr_pro['cat'][$count]    = ''; }
+						if($arr_pro['pronr'][$count]  == NULL) { $arr_pro['pronr'][$count]  = ''; }
 						
 						
 						// CHARSETS
@@ -631,8 +641,8 @@ if($action == 'showall'){
 		
 		echo $tcms_html->tableHeadClass('1', '4', '0', '100%', 'products_text');
 		
-		if($tcms_main->isArray($arr_pro['sort'])){
-			foreach($arr_pro['sort'] as $key => $value){
+		if($tcms_main->isArray($arr_pro['sort'])) {
+			foreach($arr_pro['sort'] as $key => $value) {
 				if($intOdd == 0) {
 					if(is_integer($key / 2)) { $wsColor = '#ffffff'; }
 					else { $wsColor = '#f4f4f4'; }
@@ -713,7 +723,7 @@ if($action == 'showall'){
 				
 				
 				// price
-				if($show_price_only_users == 1) {
+				if($dcP->getShowPriceOnlyUsers()) {
 					if($check_session) {
 						if($arr_pro['price'][$key] != -1
 						&& trim($arr_pro['price'][$key]) != '') {
@@ -794,7 +804,7 @@ if($action == 'showone') {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		switch($is_admin){
+		switch($is_admin) {
 			case 'Developer':
 			case 'Administrator':
 				$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
@@ -845,24 +855,24 @@ if($action == 'showone') {
 			$arr_image3      = $sqlObj->image3;
 			$arr_image4      = $sqlObj->image4;
 			
-			if($arr_name        == NULL){ $arr_name        = ''; }
-			if($arr_product_no  == NULL){ $arr_product_no  = ''; }
-			if($arr_factory     == NULL){ $arr_factory     = ''; }
-			if($arr_factory_url == NULL){ $arr_factory_url = ''; }
-			if($arr_desc        == NULL){ $arr_desc        = ''; }
-			if($arr_category    == NULL){ $arr_category    = ''; }
-			if($arr_date        == NULL){ $arr_date        = ''; }
-			if($arr_price       == NULL){ $arr_price       = ''; }
-			if($arr_pricetax    == NULL){ $arr_pricetax    = ''; }
-			if($arr_status      == NULL){ $arr_status      = ''; }
-			if($arr_quantity    == NULL){ $arr_quantity    = ''; }
-			if($arr_weight      == NULL){ $arr_weight      = ''; }
-			if($arr_sort        == NULL){ $arr_sort        = ''; }
-			if($arr_uid         == NULL){ $arr_uid         = ''; }
-			if($arr_image1      == NULL){ $arr_image1      = ''; }
-			if($arr_image2      == NULL){ $arr_image2      = ''; }
-			if($arr_image3      == NULL){ $arr_image3      = ''; }
-			if($arr_image4      == NULL){ $arr_image4      = ''; }
+			if($arr_name        == NULL) { $arr_name        = ''; }
+			if($arr_product_no  == NULL) { $arr_product_no  = ''; }
+			if($arr_factory     == NULL) { $arr_factory     = ''; }
+			if($arr_factory_url == NULL) { $arr_factory_url = ''; }
+			if($arr_desc        == NULL) { $arr_desc        = ''; }
+			if($arr_category    == NULL) { $arr_category    = ''; }
+			if($arr_date        == NULL) { $arr_date        = ''; }
+			if($arr_price       == NULL) { $arr_price       = ''; }
+			if($arr_pricetax    == NULL) { $arr_pricetax    = ''; }
+			if($arr_status      == NULL) { $arr_status      = ''; }
+			if($arr_quantity    == NULL) { $arr_quantity    = ''; }
+			if($arr_weight      == NULL) { $arr_weight      = ''; }
+			if($arr_sort        == NULL) { $arr_sort        = ''; }
+			if($arr_uid         == NULL) { $arr_uid         = ''; }
+			if($arr_image1      == NULL) { $arr_image1      = ''; }
+			if($arr_image2      == NULL) { $arr_image2      = ''; }
+			if($arr_image3      == NULL) { $arr_image3      = ''; }
+			if($arr_image4      == NULL) { $arr_image4      = ''; }
 			
 			$arr_name = $tcms_main->decodeText($arr_name, '2', $c_charset);
 			$arr_desc = $tcms_main->decodeText($arr_desc, '2', $c_charset);
@@ -871,7 +881,7 @@ if($action == 'showone') {
 			
 			// load cat
 			if(trim($arr_category) != '') {
-				switch($is_admin){
+				switch($is_admin) {
 					case 'Developer':
 					case 'Administrator':
 						$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
@@ -906,8 +916,8 @@ if($action == 'showone') {
 					$wsName = $sqlObj->name;
 					$wsUID  = $sqlObj->uid;
 					
-					if($wsName == NULL){ $wsName = ''; }
-					if($wsUID  == NULL){ $wsUID  = ''; }
+					if($wsName == NULL) { $wsName = ''; }
+					if($wsUID  == NULL) { $wsUID  = ''; }
 					
 					$wsName = $tcms_main->decodeText($wsName, '2', $c_charset);
 				}
@@ -1228,6 +1238,8 @@ if($action == 'showone') {
 	else {
 		echo '<strong>'._MSG_NOTENOUGH_USERRIGHTS.'</strong>';
 	}
-} 
+}
+
+unset($dcP);
 
 ?>
