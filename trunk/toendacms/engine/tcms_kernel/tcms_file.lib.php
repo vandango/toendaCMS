@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide all file and directory
  * related methods und public functions.
  *
- * @version 0.4.3
+ * @version 0.4.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -48,6 +48,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * close                             -> Close
  * isEOF                             -> Checks if the end of the file is reched
  * read                              -> Read
+ * readToEnd                         -> Read the a file
  * readLine                          -> Read a line from the active file
  * write                             -> Write
  * backup                            -> Backup
@@ -174,6 +175,22 @@ class tcms_file {
 	 */
 	public function read() {
 		return fread($this->m_fp, filesize($this->m_file));
+	}
+	
+	
+	
+	/**
+	 * Read the a file
+	 * 
+	 * @param String $filename
+	 * @return String
+	 */
+	public function readToEnd($filename) {
+		$this->open($filename, 'r');
+		$tmp = $this->read();
+		$this->close();
+		
+		return $tmp;
 	}
 	
 	
