@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides the news categories for
  * the sidebar.
  *
- * @version 0.4.4
+ * @version 0.4.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -78,30 +78,20 @@ if($use_side_category == 1) {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		if($check_session) {
-			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-			$sqlQR = $sqlAL->getOne($tcms_db_prefix.'user', $ws_id);
-			$sqlARR = $sqlAL->fetchArray($sqlQR);
-			$is_admin     = $sqlARR['group'];
-			if($is_admin == NULL){ $is_admin = ''; }
-			
-			if($is_admin == 'User' 
-			|| $is_admin == 'Administrator' 
-			|| $is_admin == 'Developer' 
-			|| $is_admin == 'Writer' 
-			|| $is_admin == 'Editor' 
-			|| $is_admin == 'Presenter') {
-				$authSQL = "OR ".$tcms_db_prefix."news.access = 'Protected' ";
-			}
-			
-			if($is_admin == 'Administrator' 
-			|| $is_admin == 'Developer') {
-				$authSQL = "OR ".$tcms_db_prefix."news.access = 'Protected'"
-				." OR ".$tcms_db_prefix."news.access = 'Private' ";
-			}
+		if($is_admin == 'User' 
+		|| $is_admin == 'Administrator' 
+		|| $is_admin == 'Developer' 
+		|| $is_admin == 'Writer' 
+		|| $is_admin == 'Editor' 
+		|| $is_admin == 'Presenter') {
+			$authSQL = "OR ".$tcms_db_prefix."news.access = 'Protected' ";
 		}
 		
+		if($is_admin == 'Administrator' 
+		|| $is_admin == 'Developer') {
+			$authSQL = "OR ".$tcms_db_prefix."news.access = 'Protected'"
+			." OR ".$tcms_db_prefix."news.access = 'Private' ";
+		}
 		
 		if($choosenDB == 'mssql') {
 			$strSQL = "SELECT COUNT(".$tcms_db_prefix."news_to_categories.[news_uid]) AS countNC"
@@ -156,12 +146,13 @@ if($use_side_category == 1) {
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlConvertToSEO($link);
 			
-			echo '<span class="newsCategories" style="padding-left: 6px;">&raquo; ';
-			echo '<a href="'.$link.'">'
+			echo '<span class="newsCategories" style="padding-left: 6px;">&raquo; '
+			.'<a href="'.$link.'">'
 			.$catSideName
-			.'</a>';
-			echo ( $show_nacat == 1 ? ' ('.$catSideNO.')' : '' );
-			echo '</span><br />';
+			.'</a>'
+			.( $dcSE->getShowNewsCategoryAmount() == 1 ? ' ('.$catSideNO.')' : '' )
+			.'</span>'
+			.'<br />';
 		}
 	}
 	

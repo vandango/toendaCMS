@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides a download manager..
  *
- * @version 0.8.5
+ * @version 0.8.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -35,6 +35,10 @@ if(isset($_GET['c'])) { $c = $_GET['c']; }
 if(isset($_GET['file'])) { $file = $_GET['file']; }
 if(isset($_GET['action'])) { $action = $_GET['action']; }
 if(isset($_GET['category'])) { $category = $_GET['category']; }
+
+
+$dDC = new tcms_dc_download();
+$dDC = $tcms_dcp->getDownloadDC($getLang);
 
 
 if(!isset($action)) {
@@ -52,9 +56,9 @@ if(!isset($page)) {
 */
 if($action == 'showall') {
 	echo $tcms_html->contentModuleHeader(
-		$download_title, 
-		$download_stamp, 
-		$download_text
+		$dDC->getTitle(), 
+		$dDC->getSubtitle(), 
+		$dDC->getText()
 	);
 	
 	

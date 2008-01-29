@@ -59,7 +59,7 @@ $_HOMEPATH = '<a class="pathway" href="'.$_link.'">'._PATH_HOME.'</a>';
 
 
 switch($id){
-	case $download_id:
+	case 'download':
 		/*
 			DOWNLOAD
 		*/

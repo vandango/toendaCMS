@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * sidebar extension settings.
  *
- * @version 0.1.1
+ * @version 0.1.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -131,7 +131,7 @@ class tcms_dc_sidebarextensions {
 	 * @return String
 	 */
 	public function getShowLayoutChooserTitle() {
-		return ( $this->m_show_chooser_title == 1 ? true : false );
+		return ( $this->m_show_chooser_title == 1 || $this->m_show_chooser_title == '1' || $this->m_show_chooser_title ? true : false );
 	}
 	
 	/**
@@ -188,7 +188,7 @@ class tcms_dc_sidebarextensions {
 	 * @return String
 	 */
 	public function getShowSidebarTitle() {
-		return ( $this->m_show_sidebar_title == 1 ? true : false );
+		return ( $this->m_show_sidebar_title == 1 || $this->m_show_sidebar_title == '1' || $this->m_show_sidebar_title ? true : false );
 	}
 	
 	/**
@@ -226,7 +226,7 @@ class tcms_dc_sidebarextensions {
 	 * @return String
 	 */
 	public function getShowLoginTitle() {
-		return ( $this->$m_show_login_title == 1 ? true : false );
+		return ( $this->$m_show_login_title == 1 || $this->$m_show_login_title == '1' || $this->$m_show_login_title ? true : false );
 	}
 	
 	/**
@@ -245,7 +245,7 @@ class tcms_dc_sidebarextensions {
 	 * @return String
 	 */
 	public function getShowMemberlist() {
-		return ( $this->m_show_memberlist == 1 ? true : false );
+		return ( $this->m_show_memberlist == 1 || $this->m_show_memberlist == '1' || $this->m_show_memberlist ? true : false );
 	}
 	
 	/**
@@ -264,7 +264,7 @@ class tcms_dc_sidebarextensions {
 	 * @return String
 	 */
 	public function getLoginUser() {
-		return ( $this->m_login_user == 1 ? true : false );
+		return ( $this->m_login_user == 1 || $this->m_login_user == '1' || $this->m_login_user ? true : false );
 	}
 	
 	/**
@@ -397,7 +397,7 @@ class tcms_dc_sidebarextensions {
 	 * @return String
 	 */
 	public function getShowNewsCategoryAmount() {
-		return ( $this->m_show_news_cat_amount == 1 ? true : false );
+		return ( $this->m_show_news_cat_amount == 1 || $this->m_show_news_cat_amount == '1' || $this->m_show_news_cat_amount ? true : false );
 	}
 }
 

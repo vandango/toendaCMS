@@ -49,7 +49,7 @@ $sitetitleAdditional = '';
 
 
 switch($id) {
-	case $download_id:
+	case 'download':
 		/*
 			DOWNLOAD
 		*/

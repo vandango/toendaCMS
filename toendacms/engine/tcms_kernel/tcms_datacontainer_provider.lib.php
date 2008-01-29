@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.5.5
+ * @version 1.6.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -77,6 +77,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getProductsDC                             -> Get a products data container
  * getImagegalleryDC                         -> Get a imagegallery data container
  * getGuestbookDC                            -> Get a guestbook data container
+ * getDownloadDC                             ->Get a download data container
  *
  * getSidebarModuleDC                        -> Get a sidebarmodul data container
  * getSidebarExtensionSettings               -> Get the sidebar extension settings
@@ -3044,6 +3045,98 @@ class tcms_datacontainer_provider extends tcms_main {
 		$gDC->setColorRow2($wsColor2);
 		
 		return $gDC;
+	}
+	
+	
+	
+	/**
+	 * Get a download data container
+	 * 
+	 * @param String $language
+	 * @return tcms_dc_download
+	 */
+	function getDownloadDC($language) {
+		$dDC = new tcms_dc_download();
+		
+		if($this->m_choosenDB == 'xml') {
+			/*if(file_exists($this->m_path.'/tcms_global/download.'.$language.'.xml')) {
+				$xml = new xmlparser(
+					$this->m_path.'/tcms_global/download.'.$language.'.xml',
+					'r'
+				);
+			}
+			else {
+				$xml = new xmlparser($this->m_path.'/tcms_global/var.xml','r');
+				$language = $xml->readValue('front_lang');
+				$xml->flush();
+				unset($xml);
+				
+				$xml = new xmlparser(
+					$this->m_path.'/tcms_global/download.'.$language.'.xml',
+					'r'
+				);
+			}*/
+			
+			$xml = new xmlparser(
+				$this->m_path.'/tcms_global/download.xml',
+				'r'
+			);
+			
+			$wsID          = 'download';
+			$wsTitle       = $xml->readSection('config', 'download_title');
+			$wsKey         = $xml->readSection('config', 'download_stamp');
+			$wsText        = $xml->readSection('config', 'download_text');
+			
+			$xml->flush();
+			unset($xml);
+			
+			if($wsID          == false) $wsID          = '';
+			if($wsTitle       == false) $wsTitle       = '';
+			if($wsTitle       == false) $wsTitle       = '';
+			if($wsText        == false) $wsText        = '';
+		}
+		else {
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
+			
+			$strQuery = "SELECT * "
+			."FROM ".$this->m_sqlPrefix."downloads_config "
+			."WHERE uid = 'download'";
+			//."WHERE language = '".$language."'";
+			
+			$sqlQR = $sqlAL->query($strQuery);
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
+			
+			$wsID          = 'download';
+			$wsTitle       = $sqlObj->download_title;
+			$wsKey         = $sqlObj->download_stamp;
+			$wsText        = $sqlObj->download_text;
+			
+			$sqlAL->freeResult($sqlQR);
+			unset($sqlAL);
+			
+			if($wsID          == NULL) $wsID          = '';
+			if($wsTitle       == NULL) $wsTitle       = '';
+			if($wsTitle       == NULL) $wsTitle       = '';
+			if($wsText        == NULL) $wsText        = '';
+		}
+		
+		$wsTitle = $this->decodeText($wsTitle, '2', $this->m_CHARSET);
+		$wsKey   = $this->decodeText($wsKey, '2', $this->m_CHARSET);
+		$wsText  = $this->decodeText($wsText, '2', $this->m_CHARSET);
+		
+		$dDC->setID($wsID);
+		$dDC->setTitle($wsTitle);
+		$dDC->setSubtitle($wsKey);
+		$dDC->setText($wsText);
+		
+		return $dDC;
 	}
 	
 	
