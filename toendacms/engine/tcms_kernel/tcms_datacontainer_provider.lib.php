@@ -1727,7 +1727,13 @@ class tcms_datacontainer_provider extends tcms_main {
 				break;
 			
 			case 'imagegallery':
-				$authorized = $authorized;
+				$dcIG = new tcms_dc_imagegallery();
+				$dcIG = $this->getImagegalleryDC($language);
+				
+				$authorized = $dcIG->getAccess();
+				
+				unset($dcIG);
+				
 				$content_published = 1;
 				break;
 			

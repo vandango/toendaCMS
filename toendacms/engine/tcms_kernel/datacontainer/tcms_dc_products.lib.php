@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * products manager.
  *
- * @version 0.0.8
+ * @version 0.0.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -66,7 +66,7 @@ class tcms_dc_products {
 	 * @param String $value
 	 * @return String
 	 */
-	function setID($value){
+	function setID($value) {
 		$this->m_uid = $value;
 	}
 	
@@ -75,7 +75,7 @@ class tcms_dc_products {
 	 * 
 	 * @return String
 	 */
-	function getID(){
+	function getID() {
 		return $this->m_uid;
 	}
 	
@@ -85,7 +85,7 @@ class tcms_dc_products {
 	 * @param String $value
 	 * @return String
 	 */
-	function setLanguage($value){
+	function setLanguage($value) {
 		$this->m_lang = $value;
 	}
 	
@@ -94,7 +94,7 @@ class tcms_dc_products {
 	 * 
 	 * @return String
 	 */
-	function getLanguage(){
+	function getLanguage() {
 		return $this->m_lang;
 	}
 	
@@ -104,7 +104,7 @@ class tcms_dc_products {
 	 * @param String $value
 	 * @return String
 	*/
-	function setTitle($value){
+	function setTitle($value) {
 		$this->m_title = $value;
 	}
 	
@@ -113,7 +113,7 @@ class tcms_dc_products {
 	 * 
 	 * @return String
 	 */
-	function getTitle(){
+	function getTitle() {
 		return $this->m_title;
 	}
 	
@@ -122,7 +122,7 @@ class tcms_dc_products {
 	 * 
 	 * @param String $value
 	 */
-	function setSubtitle($value){
+	function setSubtitle($value) {
 		$this->m_key = $value;
 	}
 	
@@ -131,7 +131,7 @@ class tcms_dc_products {
 	 * 
 	 * @return String
 	 */
-	function getSubtitle(){
+	function getSubtitle() {
 		return $this->m_key;
 	}
 	
@@ -141,7 +141,7 @@ class tcms_dc_products {
 	 * @param String $value
 	 * @return String
 	*/
-	function setText($value){
+	function setText($value) {
 		$this->m_text = $value;
 	}
 	
@@ -150,7 +150,7 @@ class tcms_dc_products {
 	 * 
 	 * @return String
 	 */
-	function getText(){
+	function getText() {
 		return $this->m_text;
 	}
 	
@@ -160,7 +160,7 @@ class tcms_dc_products {
 	 * @param String $value
 	 * @return String
 	*/
-	function setProductMainCategory($value){
+	function setProductMainCategory($value) {
 		$this->m_product_main_category = $value;
 	}
 	
@@ -169,7 +169,7 @@ class tcms_dc_products {
 	 * 
 	 * @return String
 	 */
-	function getProductMainCategory(){
+	function getProductMainCategory() {
 		return $this->m_product_main_category;
 	}
 	
@@ -179,7 +179,7 @@ class tcms_dc_products {
 	 * @param String $value
 	 * @return String
 	*/
-	function setSidebarCategoryTitle($value){
+	function setSidebarCategoryTitle($value) {
 		$this->m_side_category_title = $value;
 	}
 	
@@ -188,7 +188,7 @@ class tcms_dc_products {
 	 * 
 	 * @return String
 	 */
-	function getSidebarCategoryTitle(){
+	function getSidebarCategoryTitle() {
 		return $this->m_side_category_title;
 	}
 	
@@ -198,7 +198,7 @@ class tcms_dc_products {
 	 * @param String $value
 	 * @return String
 	*/
-	function setUseSideCategory($value){
+	function setUseSideCategory($value) {
 		$this->m_use_side_category = $value;
 	}
 	
@@ -207,8 +207,8 @@ class tcms_dc_products {
 	 * 
 	 * @return String
 	 */
-	function getUseSideCategory(){
-		return $this->m_use_side_category;
+	function getUseSideCategory() {
+		return ( $this->m_use_side_category == 1 || $this->m_use_side_category == '1' || $this->m_use_side_category ? true : false );
 	}
 	
 	/***
@@ -217,7 +217,7 @@ class tcms_dc_products {
 	 * @param String $value
 	 * @return String
 	*/
-	function setShowPriceOnlyUsers($value){
+	function setShowPriceOnlyUsers($value) {
 		$this->m_show_price_only_user = $value;
 	}
 	
@@ -226,8 +226,8 @@ class tcms_dc_products {
 	 * 
 	 * @return String
 	 */
-	function getShowPriceOnlyUsers(){
-		return $this->m_show_price_only_user;
+	function getShowPriceOnlyUsers() {
+		return ( $this->m_show_price_only_user == 1 || $this->m_show_price_only_user == '1' || $this->m_show_price_only_user ? true : false );
 	}
 	
 	/***
@@ -236,7 +236,7 @@ class tcms_dc_products {
 	 * @param String $value
 	 * @return String
 	*/
-	function setStartpageTitle($value){
+	function setStartpageTitle($value) {
 		$this->m_startpagetitle = $value;
 	}
 	
@@ -245,7 +245,7 @@ class tcms_dc_products {
 	 * 
 	 * @return String
 	 */
-	function getStartpageTitle(){
+	function getStartpageTitle() {
 		return $this->m_startpagetitle;
 	}
 	
@@ -255,7 +255,7 @@ class tcms_dc_products {
 	 * @param String $value
 	 * @return String
 	*/
-	function setUseSidebarCategories($value){
+	function setUseSidebarCategories($value) {
 		$this->m_use_sidebar_categories = $value;
 	}
 	
@@ -264,7 +264,7 @@ class tcms_dc_products {
 	 * 
 	 * @return String
 	 */
-	function getUseSidebarCategories(){
+	function getUseSidebarCategories() {
 		return $this->m_use_sidebar_categories;
 	}
 	
@@ -274,7 +274,7 @@ class tcms_dc_products {
 	 * @param String $value
 	 * @return String
 	*/
-	function setMaxLatestProducts($value){
+	function setMaxLatestProducts($value) {
 		$this->m_max_latest_products = $value;
 	}
 	
@@ -283,7 +283,7 @@ class tcms_dc_products {
 	 * 
 	 * @return String
 	 */
-	function getMaxLatestProducts(){
+	function getMaxLatestProducts() {
 		return $this->m_max_latest_products;
 	}
 }

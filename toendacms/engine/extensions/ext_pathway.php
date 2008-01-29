@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a pathway.
  *
- * @version 0.5.7
+ * @version 0.6.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -372,16 +372,19 @@ switch($id){
 		}
 		break;
 	
-	case $products_id:
+	case 'products':
 		/*
 			PRODUCTS
 		*/
 		
 		echo $_HOMEPATH;
 		
+		$dcP = new tcms_dc_products();
+		$dcP = $tcms_dcp->getProductsDC($getLang);
+		
 		if(!isset($category) && !isset($article)) {
 			echo '&nbsp;'.$pathwayChar.'&nbsp;'
-			.'<span class="pathway">'.$products_title.'</span>';
+			.'<span class="pathway">'.$dcP->getTitle().'</span>';
 		}
 		
 		if(isset($category) || isset($article)) {
@@ -584,7 +587,7 @@ switch($id){
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlConvertToSEO($link);
 			
-			echo '<a class="pathway" href="'.$link.'">'.$products_title.'</a>';
+			echo '<a class="pathway" href="'.$link.'">'.$dcP->getTitle().'</a>';
 			
 			
 			for($i = ($checkFAQTitle - 1); $i >= 0; $i--) {
@@ -691,6 +694,8 @@ switch($id){
 				echo $arrFAQparent['title'];
 			}
 		}
+		
+		unset($dcP);
 		break;
 	
 	case 'knowledgebase':
