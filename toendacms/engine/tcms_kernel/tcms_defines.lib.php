@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for global values
  *
- * @version 0.7.2
+ * @version 0.7.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -483,6 +483,11 @@ if(trim($s) != 'printer') {
 		if(!defined('_LAYOUT')) {
 			define('_LAYOUT', 'theme/'.$s.'/index.php');
 		}
+		
+		/*_LAYOUT_GUESTBOOK_ENTRY*/
+		if(!defined('_LAYOUT_GUESTBOOK_ENTRY')) {
+			define('_LAYOUT_GUESTBOOK_ENTRY', 'theme/'.$s.'/guestbook_entry.php');
+		}
 	}
 	else {
 		$tcms_error = new tcms_error('tcms_defines.lib.php', 2, $s, $imagePath);
@@ -492,13 +497,20 @@ if(trim($s) != 'printer') {
 			define('_LAYOUT', '');
 		}
 		
+		if(!defined('_LAYOUT_GUESTBOOK_ENTRY')) {
+			define('_LAYOUT_GUESTBOOK_ENTRY', '');
+		}
+		
 		unset($tcms_error);
 	}
 }
 else {
-	/*_LAYOUT*/
 	if(!defined('_LAYOUT')) {
 		define('_LAYOUT', 'theme/'.$s.'/index.php');
+	}
+	
+	if(!defined('_LAYOUT_GUESTBOOK_ENTRY')) {
+		define('_LAYOUT_GUESTBOOK_ENTRY', '');
 	}
 }
 
