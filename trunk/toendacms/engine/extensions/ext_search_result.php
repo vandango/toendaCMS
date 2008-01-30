@@ -564,7 +564,7 @@ function search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, 
 									$desc = $tcms_main->decodeText($desc, '2', $c_charset);
 									
 									$toendaScript = new toendaScript($desc);
-									$desc = $toendaScript->toendaScript_trigger();
+									$desc = $toendaScript->doParse();
 									$key = $toendaScript->checkSEO($key, $imagePath);
 									
 									$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
@@ -589,7 +589,7 @@ function search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, 
 										$desc = $tcms_main->decodeText($desc, '2', $c_charset);
 										
 										$toendaScript = new toendaScript($desc);
-										$desc = $toendaScript->toendaScript_trigger();
+										$desc = $toendaScript->doParse();
 										$key = $toendaScript->checkSEO($key, $imagePath);
 										
 										$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )

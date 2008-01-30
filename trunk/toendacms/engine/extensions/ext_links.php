@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the links for the content.
  *
- * @version 0.3.0
+ * @version 0.3.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -35,14 +35,15 @@ $lDC = $tcms_dcp->getLinksDC($language);
 
 
 $toendaScript = new toendaScript($lDC->getText());
-$link_text = $toendaScript->toendaScript_trigger();
-$link_text = $toendaScript->checkSEO($link_text, $imagePath);
+$content = $toendaScript->doParse();
+$content = $toendaScript->removeTcmsMoreTag($content);
+$content = $toendaScript->checkSEO($content, $imagePath);
 
 
 echo $tcms_html->contentModuleHeader(
 	$lDC->getTitle(), 
 	$lDC->getSubtitle(), 
-	$link_text
+	$content
 );
 
 
