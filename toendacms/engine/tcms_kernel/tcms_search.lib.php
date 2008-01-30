@@ -429,8 +429,9 @@ class tcms_search extends tcms_main {
 							$key = $xml->readSection('main', 'key');
 							
 							$toendaScript = new toendaScript($key);
-							$key = $toendaScript->toendaScript_trigger();
+							$key = $toendaScript->doParse();
 							$key = $toendaScript->checkSEO($key, $imagePath);
+							unset($toendaScript);
 							
 							$tit = $this->decodeText($tit, '2', $this->m_CHARSET);
 							$key = $this->decodeText($key, '2', $this->m_CHARSET);
@@ -457,8 +458,9 @@ class tcms_search extends tcms_main {
 								$key = $xml->readSection('main', 'key');
 								
 								$toendaScript = new toendaScript($key);
-								$key = $toendaScript->toendaScript_trigger();
+								$key = $toendaScript->doParse();
 								$key = $toendaScript->checkSEO($key, $imagePath);
+								unset($toendaScript);
 								
 								$tit = $this->decodeText($tit, '2', $this->m_CHARSET);
 								$key = $this->decodeText($key, '2', $this->m_CHARSET);
@@ -485,8 +487,9 @@ class tcms_search extends tcms_main {
 									$key = $xml->readSection('main', 'key');
 									
 									$toendaScript = new toendaScript($key);
-									$key = $toendaScript->toendaScript_trigger();
+									$key = $toendaScript->doParse();
 									$key = $toendaScript->checkSEO($key, $imagePath);
+									unset($toendaScript);
 									
 									$tit = $this->decodeText($tit, '2', $this->m_CHARSET);
 									$key = $this->decodeText($key, '2', $this->m_CHARSET);
@@ -596,8 +599,9 @@ class tcms_search extends tcms_main {
 					if($uid == NULL) { $uid = ''; }
 					
 					$toendaScript = new toendaScript($key);
-					$key = $toendaScript->toendaScript_trigger();
+					$key = $toendaScript->doParse();
 					$key = $toendaScript->checkSEO($key, $imagePath);
+					unset($toendaScript);
 					
 					$tit = $this->decodeText($tit, '2', $this->m_CHARSET);
 					$key = $this->decodeText($key, '2', $this->m_CHARSET);

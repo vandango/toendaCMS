@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the sidebar functionality.
  *
- * @version 0.6.5
+ * @version 0.6.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -352,14 +352,19 @@ if($use_sidebar == 1) {
 				// TCMS SCRIPT
 				
 				$toendaScript = new toendaScript($sb_key);
-				$sb_key = $toendaScript->toendaScript_trigger();
+				$sb_key = $toendaScript->doParse();
+				$sb_key = $toendaScript->checkSEO($sb_key, $imagePath);
+				unset($toendaScript);
 				
 				$toendaScript = new toendaScript($sb_content);
-				$sb_content = $toendaScript->toendaScript_trigger();
+				$sb_content = $toendaScript->doParse();
 				$sb_content = $toendaScript->checkSEO($sb_content, $imagePath);
+				unset($toendaScript);
 				
 				$toendaScript = new toendaScript($sb_foot);
-				$sb_foot = $toendaScript->toendaScript_trigger();
+				$sb_foot = $toendaScript->doParse();
+				$sb_foot = $toendaScript->checkSEO($sb_foot, $imagePath);
+				unset($toendaScript);
 				
 				echo ( $sb_title != '' ? '<strong class="sideheading">'.$sb_title.'</strong><br />' : '' );
 				echo '<div class="sidemain">';
@@ -398,14 +403,19 @@ if($use_sidebar == 1) {
 				
 				// TCMS SCRIPT
 				$toendaScript = new toendaScript($sb_key);
-				$sb_key = $toendaScript->toendaScript_trigger();
+				$sb_key = $toendaScript->doParse();
+				$sb_key = $toendaScript->checkSEO($sb_key, $imagePath);
+				unset($toendaScript);
 				
 				$toendaScript = new toendaScript($sb_content);
-				$sb_content = $toendaScript->toendaScript_trigger();
+				$sb_content = $toendaScript->doParse();
 				$sb_content = $toendaScript->checkSEO($sb_content, $imagePath);
+				unset($toendaScript);
 				
 				$toendaScript = new toendaScript($sb_foot);
-				$sb_foot = $toendaScript->toendaScript_trigger();
+				$sb_foot = $toendaScript->doParse();
+				$sb_foot = $toendaScript->checkSEO($sb_foot, $imagePath);
+				unset($toendaScript);
 				
 				echo ( $sb_title != '' ? '<strong class="sideheading">'.$sb_title.'</strong><br />' : '' );
 				echo '<div class="sidemain">';
