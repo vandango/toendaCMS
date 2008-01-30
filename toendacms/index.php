@@ -412,6 +412,7 @@ if($wsShowSite) {
 		using('toendacms.kernel.modconfig');
 		using('toendacms.kernel.error');
 		using('toendacms.kernel.menu_provider');
+		using('toendacms.kernel.toendaTemplate');
 		
 		//using('toendacms.kernel.globals');
 		include_once('engine/tcms_kernel/tcms_globals.lib.php');

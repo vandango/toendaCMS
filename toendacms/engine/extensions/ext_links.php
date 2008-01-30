@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the links for the content.
  *
- * @version 0.1.9
+ * @version 0.2.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -55,16 +55,16 @@ if($choosenDB == 'xml') {
 			$is_category  = $menu_xml->read_section('link', 'type');
 			$is_main      = $menu_xml->read_section('link', 'module');
 			
-			if($is_main == false || !isset($is_main) || $is_main == '' || empty($is_main)){
+			if($is_main == false || !isset($is_main) || $is_main == '' || empty($is_main)) {
 				$is_main = 3;
 			}
 			
-			if($is_published == 1 && $is_category == 'c' && ($is_main == 2 || $is_main == 3)){
+			if($is_published == 1 && $is_category == 'c' && ($is_main == 2 || $is_main == 3)) {
 				$arrLink['tag'][$count]  = substr($value, 0, 32);
 				$arrLink['name'][$count] = $menu_xml->read_section('link', 'name');
 				$arrLink['sort'][$count] = $menu_xml->read_section('link', 'sort');
 				
-				if(!$arrLink['name'][$count]){ $arrLink['name'][$count] = ''; }
+				if(!$arrLink['name'][$count]) { $arrLink['name'][$count] = ''; }
 				
 				// CHARSETS
 				$arrLink['name'][$count] = $tcms_main->decodeText($arrLink['name'][$count], '2', $c_charset);
@@ -74,7 +74,7 @@ if($choosenDB == 'xml') {
 		}
 		
 		
-		if($arrLink && is_array($arrLink)){
+		if($arrLink && is_array($arrLink)) {
 			array_multisort(
 				$arrLink['sort'], SORT_ASC, 
 				$arrLink['name'], SORT_ASC, 
@@ -82,15 +82,29 @@ if($choosenDB == 'xml') {
 			);
 			
 			
-			foreach($arrLink['name'] as $lKey => $lVal){
-				//echo '<span class="text_big" style="padding-left: 3px;"><strong>'.$lVal.'</strong></span><br />';
-				echo '<div class="headLineLinksMainpage">'
-				.'<br />'
-				.'<span class="text_big" style="padding-left: 3px;">'
-				.'<strong>'.$lVal.'</strong>'
-				.'</span>'
-				.'</div>'
-				.'<br />';
+			foreach($arrLink['name'] as $lKey => $lVal) {
+				/*
+					FOR COMPATIBILITY:
+					OLD AND NEW TEMPLATE ENGINE
+					
+					First the old one:
+				*/
+				$tcms_template = new tcms_toendaTemplate();
+				
+				if($tcms_template->checkTemplateExist(_LAYOUT_LINK_ENTRY)) {
+					$tcms_template->loadTemplate(_LAYOUT_LINK_ENTRY);
+					
+					echo $tcms_template->getLinksCategoryTitle($arrLink['name']);
+				}
+				else {
+					echo '<div class="headLineLinksMainpage">'
+					.'<br />'
+					.'<span class="text_big" style="padding-left: 3px;">'
+					.'<strong>'.$lVal.'</strong>'
+					.'</span>'
+					.'</div>'
+					.'<br />';
+				}
 				
 				unset($arrLinkItem);
 				unset($arr_filename);
@@ -107,21 +121,21 @@ if($choosenDB == 'xml') {
 						$is_category  = $menu_xml->read_section('link', 'category');
 						$is_main      = $menu_xml->read_section('link', 'module');
 						
-						if($is_main == false || !isset($is_main) || $is_main == '' || empty($is_main)){
+						if($is_main == false || !isset($is_main) || $is_main == '' || empty($is_main)) {
 							$is_main = 3;
 						}
 						
-						if($is_published == 1 && $is_type == 'l' && $is_category == $arrLink['tag'][$lKey] && ($is_main == 2 || $is_main == 3)){
+						if($is_published == 1 && $is_type == 'l' && $is_category == $arrLink['tag'][$lKey] && ($is_main == 2 || $is_main == 3)) {
 							$arrLinkItem['name'][$count] = $menu_xml->read_section('link', 'name');
 							$arrLinkItem['sort'][$count] = $menu_xml->read_section('link', 'sort');
 							$arrLinkItem['desc'][$count] = $menu_xml->read_section('link', 'desc');
 							$arrLinkItem['link'][$count] = $menu_xml->read_section('link', 'link_to');
 							$arrLinkItem['trgt'][$count] = $menu_xml->read_section('link', 'target');
 							
-							if(!$arrLinkItem['name'][$count]){ $arrLinkItem['name'][$count] = ''; }
-							if(!$arrLinkItem['desc'][$count]){ $arrLinkItem['desc'][$count] = ''; }
-							if(!$arrLinkItem['link'][$count]){ $arrLinkItem['link'][$count] = ''; }
-							if(!$arrLinkItem['trgt'][$count]){ $arrLinkItem['trgt'][$count] = ''; }
+							if(!$arrLinkItem['name'][$count]) { $arrLinkItem['name'][$count] = ''; }
+							if(!$arrLinkItem['desc'][$count]) { $arrLinkItem['desc'][$count] = ''; }
+							if(!$arrLinkItem['link'][$count]) { $arrLinkItem['link'][$count] = ''; }
+							if(!$arrLinkItem['trgt'][$count]) { $arrLinkItem['trgt'][$count] = ''; }
 							
 							// CHARSETS
 							$arrLinkItem['name'][$count] = $tcms_main->decodeText($arrLinkItem['name'][$count], '2', $c_charset);
@@ -132,7 +146,7 @@ if($choosenDB == 'xml') {
 					}
 					
 					
-					if($arrLinkItem && is_array($arrLinkItem)){
+					if($arrLinkItem && is_array($arrLinkItem)) {
 						array_multisort(
 							$arrLinkItem['sort'], SORT_ASC, 
 							$arrLinkItem['name'], SORT_ASC, 
@@ -142,100 +156,202 @@ if($choosenDB == 'xml') {
 						);
 						
 						
-						foreach($arrLinkItem['name'] as $lKey2 => $lVal2){
-							echo '<span class="text_normal">';
-							
-							echo '<span style="padding-left: 6px;">&raquo; ';
-							echo '<a'.( $arrLinkItem['trgt'][$lKey2] != '' ? ' target="'.$arrLinkItem['trgt'][$lKey2].'"' : '' ).' href="'.$arrLinkItem['link'][$lKey2].'">'.$arrLinkItem['name'][$lKey2].'</a>';
-							if($link_use_desc == 1){
-								if(trim($arrLinkItem['desc'][$lKey2]) != ''){
-									echo '<br />';
-									echo '<span class="text_normal" style="padding-left: 3px;">';
-									echo trim($arrLinkItem['desc'][$lKey2]);
-									echo '</span>';
-								}
+						foreach($arrLinkItem['name'] as $lKey2 => $lVal2) {
+							// target
+							if(trim($arrLinkItem['trgt'][$lKey2]) == '') {
+								$entryTarget = '_self';
 							}
-							echo '</span><br />';
+							else {
+								$entryTarget = trim($arrLinkItem['trgt'][$lKey2]);
+							}
 							
-							echo '</span>';
+							// link
+							$entryLink = $arrLinkItem['link'][$lKey2];
+							
+							// text
+							$entryText = $arrLinkItem['name'][$lKey2];
+							
+							// desc
+							$entryDesc = trim($arrLinkItem['desc'][$lKey2]);
+							
+							
+							/*
+								FOR COMPATIBILITY:
+								OLD AND NEW TEMPLATE ENGINE
+								
+								First the old one:
+							*/
+							if($tcms_template->checkTemplateExist(_LAYOUT_LINK_ENTRY)) {
+								$layoutEntryText = $tcms_template->getLinksEntry(
+									$entryTarget, 
+									$entryLink, 
+									$entryText, 
+									$entryDesc
+								);
+								
+								$tcms_script = new toendaScript();
+								$tcms_script->doParsePHP($layoutEntryText);
+							}
+							else {
+								echo '<span class="text_normal">';
+								
+								echo '<span style="padding-left: 6px;">&raquo; ';
+								echo '<a target="'.$entryTarget.'" href="'.$entryLink.'">'.$entryText.'</a>';
+								
+								if($link_use_desc == 1) {
+									if($entryDesc != '') {
+										echo '<br />';
+										echo '<span class="text_normal" style="padding-left: 3px;">';
+										echo $entryDesc;
+										echo '</span>';
+									}
+								}
+								
+								echo '</span><br />';
+								
+								echo '</span>';
+							}
 						}
 					}
 				}
 				
 				echo '<br />';
+				
+				$tcms_template->unloadTemplate();
+				unset($tcms_template);
 			}
 		}
 	}
 }
-else{
-	$sqlAL = new sqlAbstractionLayer($choosenDB);
-	$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+else {
+	$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+	$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 	
-	$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix."links WHERE type='c' AND published=1 AND (module=3 OR module=2 OR module IS NULL) ORDER BY sort");
+	$sqlQR = $sqlAL->getAll(
+		$tcms_db_prefix."links WHERE type='c' AND published=1 AND (module=3 OR module=2 OR module IS NULL) ORDER BY sort"
+	);
 	
 	$count = 0;
 	
-	while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+	while($sqlARR = $sqlAL->fetchArray($sqlQR)) {
 		$arrLink['name'] = $sqlARR['name'];
 		$arrLink['tag']  = $sqlARR['uid'];
 		
-		if($arrLink['name'] == NULL){ $arrLink['name'] = ''; }
-		if($arrLink['tag']  == NULL){ $arrLink['tag']  = ''; }
+		if($arrLink['name'] == NULL) { $arrLink['name'] = ''; }
+		if($arrLink['tag']  == NULL) { $arrLink['tag']  = ''; }
 		
 		// CHARSETS
 		$arrLink['name'] = $tcms_main->decodeText($arrLink['name'], '2', $c_charset);
 		
-		//echo '<span class="text_big" style="padding-left: 3px;"><strong>'.$arrLink['name'].'</strong></span><br />';
-		echo '<div class="headLineLinksMainpage">'
-		.'<br />'
-		.'<span class="text_big" style="padding-left: 3px;">'
-		.'<strong>'.$arrLink['name'].'</strong>'
-		.'</span>'
-		.'</div>'
-		.'<br />';
+		
+		/*
+			FOR COMPATIBILITY:
+			OLD AND NEW TEMPLATE ENGINE
+			
+			First the old one:
+		*/
+		$tcms_template = new tcms_toendaTemplate();
+		
+		if($tcms_template->checkTemplateExist(_LAYOUT_LINK_ENTRY)) {
+			$tcms_template->loadTemplate(_LAYOUT_LINK_ENTRY);
+			
+			echo $tcms_template->getLinksCategoryTitle($arrLink['name']);
+		}
+		else {
+			//echo '<span class="text_big" style="padding-left: 3px;"><strong>'.$arrLink['name'].'</strong></span><br />';
+			echo '<div class="headLineLinksMainpage">'
+			.'<br />'
+			.'<span class="text_big" style="padding-left: 3px;">'
+			.'<strong>'.$arrLink['name'].'</strong>'
+			.'</span>'
+			.'</div>'
+			.'<br />';
+		}
 		
 		
+		$sqlQR2 = $sqlAL->sqlGetAll(
+			$tcms_db_prefix."links WHERE category='".$arrLink['tag']."' AND type='l' AND published=1 AND (module=3 OR module=2 OR module IS NULL) ORDER BY sort"
+		);
 		
-		$sqlQR2 = $sqlAL->sqlGetAll($tcms_db_prefix."links WHERE category='".$arrLink['tag']."' AND type='l' AND published=1 AND (module=3 OR module=2 OR module IS NULL) ORDER BY sort");
-		
-		while($sqlARR2 = $sqlAL->sqlFetchArray($sqlQR2)){
+		while($sqlARR2 = $sqlAL->sqlFetchArray($sqlQR2)) {
 			$arrLinkItem['name'] = $sqlARR2['name'];
 			$arrLinkItem['desc'] = $sqlARR2['desc'];
 			$arrLinkItem['link'] = $sqlARR2['link'];
 			$arrLinkItem['targ'] = $sqlARR2['target'];
 			
-			if($arrLinkItem['name'] == NULL){ $arrLinkItem['name'] = ''; }
-			if($arrLinkItem['desc'] == NULL){ $arrLinkItem['desc'] = ''; }
-			if($arrLinkItem['link'] == NULL){ $arrLinkItem['link'] = ''; }
-			if($arrLinkItem['targ'] == NULL){ $arrLinkItem['targ'] = ''; }
+			if($arrLinkItem['name'] == NULL) { $arrLinkItem['name'] = ''; }
+			if($arrLinkItem['desc'] == NULL) { $arrLinkItem['desc'] = ''; }
+			if($arrLinkItem['link'] == NULL) { $arrLinkItem['link'] = ''; }
+			if($arrLinkItem['targ'] == NULL) { $arrLinkItem['targ'] = ''; }
 			
 			// CHARSETS
 			$arrLinkItem['name'] = $tcms_main->decodeText($arrLinkItem['name'], '2', $c_charset);
 			$arrLinkItem['desc'] = $tcms_main->decodeText($arrLinkItem['desc'], '2', $c_charset);
 			
-			echo '<span class="text_normal">';
-			
-			echo '<span style="padding-left: 6px;">&raquo; ';
-			echo '<a href="'.$arrLinkItem['link'].'"'.( $arrLinkItem['targ'] == '' ? '' : ' target="'.$arrLinkItem['targ'] ).'">'.$arrLinkItem['name'].'</a>';
-			if($link_use_desc == 1){
-				if(trim($arrLinkItem['desc']) != ''){
-					echo '<br />';
-					echo '<span class="text_normal" style="padding-left: 3px;">';
-					echo trim($arrLinkItem['desc']);
-					echo '</span>';
-				}
+			// target
+			if(trim($arrLinkItem['targ']) == '') {
+				$entryTarget = '_self';
 			}
-			echo '</span><br />';
+			else {
+				$entryTarget = trim($arrLinkItem['targ']);
+			}
 			
-			echo '</span>';
+			// link
+			$entryLink = $arrLinkItem['link'];
+			
+			// text
+			$entryText = $arrLinkItem['name'];
+			
+			// desc
+			$entryDesc = trim($arrLinkItem['desc']);
+			
+			
+			/*
+				FOR COMPATIBILITY:
+				OLD AND NEW TEMPLATE ENGINE
+				
+				First the old one:
+			*/
+			if($tcms_template->checkTemplateExist(_LAYOUT_LINK_ENTRY)) {
+				$layoutEntryText = $tcms_template->getLinksEntry(
+					$entryTarget, 
+					$entryLink, 
+					$entryText, 
+					$entryDesc
+				);
+				
+				$tcms_script = new toendaScript();
+				$tcms_script->doParsePHP($layoutEntryText);
+			}
+			else {
+				echo '<span class="text_normal">';
+				
+				echo '<span style="padding-left: 6px;">&raquo; ';
+				echo '<a href="'.$entryLink.'" target="'.$entryTarget.'">'.$entryText.'</a>';
+				if($link_use_desc == 1) {
+					if($entryDesc != '') {
+						echo '<br />';
+						echo '<span class="text_normal" style="padding-left: 3px;">';
+						echo $entryDesc;
+						echo '</span>';
+					}
+				}
+				echo '</span><br />';
+				
+				echo '</span>';
+			}
 		}
 		
 		echo '<br />';
 		
 		$sqlAL->sqlFreeResult($sqlQR2);
+		
+		$tcms_template->unloadTemplate();
+		unset($tcms_template);
 	}
 	
 	$sqlAL->sqlFreeResult($sqlQR);
+	unset($sqlAL);
 }
 
 ?>
