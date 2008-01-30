@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the links.
  *
- * @version 0.6.2
+ * @version 0.6.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -60,7 +60,9 @@ if(isset($_POST['new_link_doc'])){ $new_link_doc = $_POST['new_link_doc']; }
 // INIT
 //=====================================================
 
-echo '<script language="JavaScript" src="../js/dhtml.js"></script>';
+echo '<script type="text/javascript" src="../js/tabs/tabpane.js"></script>
+<link type="text/css" rel="StyleSheet" href="../js/tabs/css/luna/tab.css" />
+<!--<link type="text/css" rel="StyleSheet" href="../js/tabs/tabpane.css" />-->';
 
 if(!isset($todo)){ $todo = 'show'; }
 
@@ -71,19 +73,20 @@ if(!isset($todo)){ $todo = 'show'; }
 // CONFIG
 //=====================================================
 
-if($todo == 'config'){
-	if($id_group == 'Developer' || $id_group == 'Administrator'){
-		if($choosenDB == 'xml'){
+if($todo == 'config') {
+	if($id_group == 'Developer' 
+	|| $id_group == 'Administrator') {
+		if($choosenDB == 'xml') {
 			$news_xml = new xmlparser(_TCMS_PATH.'/tcms_global/linkmanager.xml','r');
 			
-			$old_link_use_side_desc  = $news_xml->read_section('config', 'link_use_side_desc');
-			$old_link_use_side_title = $news_xml->read_section('config', 'link_use_side_title');
-			$old_link_side_title     = $news_xml->read_section('config', 'link_side_title');
-			$old_link_main_title     = $news_xml->read_section('config', 'link_main_title');
-			$old_link_main_subtitle  = $news_xml->read_section('config', 'link_main_subtitle');
-			$old_link_main_text      = $news_xml->read_section('config', 'link_main_text');
-			$old_link_use_main_desc  = $news_xml->read_section('config', 'link_use_main_desc');
-			$old_link_main_access    = $news_xml->read_section('config', 'link_main_access');
+			$old_link_use_side_desc  = $news_xml->readSection('config', 'link_use_side_desc');
+			$old_link_use_side_title = $news_xml->readSection('config', 'link_use_side_title');
+			$old_link_side_title     = $news_xml->readSection('config', 'link_side_title');
+			$old_link_main_title     = $news_xml->readSection('config', 'link_main_title');
+			$old_link_main_subtitle  = $news_xml->readSection('config', 'link_main_subtitle');
+			$old_link_main_text      = $news_xml->readSection('config', 'link_main_text');
+			$old_link_use_main_desc  = $news_xml->readSection('config', 'link_use_main_desc');
+			$old_link_main_access    = $news_xml->readSection('config', 'link_main_access');
 			
 			$old_link_side_title    = $tcms_main->decodeText($old_link_side_title, '2', $c_charset);
 			$old_link_main_title    = $tcms_main->decodeText($old_link_main_title, '2', $c_charset);
@@ -91,18 +94,18 @@ if($todo == 'config'){
 			$old_link_main_text     = $tcms_main->decodeText($old_link_main_text, '2', $c_charset);
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'links_config', 'links_config_side');
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+			$sqlQR = $sqlAL->getOne($tcms_db_prefix.'links_config', 'links_config_side');
+			$sqlARR = $sqlAL->fetchArray($sqlQR);
 			
 			$old_link_use_side_desc  = $sqlARR['link_use_side_desc'];
 			$old_link_use_side_title = $sqlARR['link_use_side_title'];
 			$old_link_side_title     = $sqlARR['link_side_title'];
 			
-			$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'links_config', 'links_config_main');
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+			$sqlQR = $sqlAL->getOne($tcms_db_prefix.'links_config', 'links_config_main');
+			$sqlARR = $sqlAL->fetchArray($sqlQR);
 			
 			$old_link_main_title     = $sqlARR['link_main_title'];
 			$old_link_main_subtitle  = $sqlARR['link_main_subtitle'];
@@ -174,27 +177,25 @@ if($todo == 'config'){
 		//==================================================
 		// BEGIN FORM
 		//==================================================
+		
 		echo '<form action="admin.php?id_user='.$id_user.'&site=mod_links" method="post" id="links">'
 		.'<input name="todo" type="hidden" value="save_config" />';
 		
 		
-		echo '<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
+		/*
+			tabpane start
+		*/
+		
+		echo '<div class="tab-pane" id="tab-pane-1">';
 		
 		
-		//
-		echo '<tr class="tcms_bg_blue_01"><td colspan="2" class="tcms_db_title tcms_padding_mini"><strong>'._LINK_MODULE.'</strong></td></tr>';
+		/*
+			text tab
+		*/
 		
-		
-		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="300">'._LINK_USE_SIDELINKS_DESC.'</td>'
-		.'<td><input type="checkbox" name="new_link_use_side_desc" '.( $old_link_use_side_desc == 1 ? 'checked="checked"' : '' ).' value="1" />'
-		.'</td></tr>';
-		
-		
-		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="300">'._LINK_USE_SIDELINKS_TITLE.'</td>'
-		.'<td><input type="checkbox" name="new_link_use_side_title" '.( $old_link_use_side_title == 1 ? 'checked="checked"' : '' ).' value="1" />'
-		.'</td></tr>';
+		echo '<div class="tab-page" id="tab-page-text">'
+		.'<h2 class="tab">'._TABLE_DESCRIPTION.'</h2>'
+		.'<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
 		
 		
 		// table rows
@@ -216,39 +217,27 @@ if($todo == 'config'){
 		
 		
 		// table rows
-		echo '<tr><td class="tcms_padding_mini" valign="top">'._LINK_USE_MAINLINKS_DESC.'</td>'
-		.'<td valign="top"><input type="checkbox" name="new_link_use_main_desc" '.( $old_link_use_main_desc == 1 ? 'checked="checked"' : '' ).' value="1" />'
-		.'</td></tr>';
-		
-		
-		// table rows
-		echo '<tr><td class="tcms_padding_mini" valign="top">'._TABLE_ACCESS.'</td>'
-		.'<td valign="top"><select name="new_link_main_access" class="tcms_select">'
-			.'<option value="Public"'.( $old_link_main_access == 'Public' ? ' selected="selected"' : '' ).'>'._TABLE_PUBLIC.'</option>'
-			.'<option value="Protected"'.( $old_link_main_access == 'Protected' ? ' selected="selected"' : '' ).'>'._TABLE_PROTECTED.'</option>'
-			.'<option value="Private"'.( $old_link_main_access == 'Private' ? ' selected="selected"' : '' ).'>'._TABLE_PRIVATE.'</option>'
-		.'</select>'
-		.'</td></tr>';
-		
-		
-		// table rows
 		echo '<tr><td class="tcms_padding_mini" valign="top" colspan="2">&nbsp;</td></tr>';
-		
-		
-		// table rows
-		echo '<tr><td class="tcms_padding_mini" valign="top" colspan="2">'._LINK_MAINLINKS_TEXT.'</td></tr>';
 		
 		
 		// table row
 		echo '<tr><td valign="top" colspan="2">'
-		.'<script>createToendaToolbar(\'links\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');</script>';
+		.'<br />'._LINK_MAINLINKS_TEXT
+		.( $show_wysiwyg != 'fckeditor' ? '<br /><br />'
+		.'<script>'
+		.'createToendaToolbar(\'imp\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');'
+		.'</script>' : '' );
 		
-		if($show_wysiwyg == 'tinymce'){ echo '<br /><br />'; }
-		elseif($show_wysiwyg == 'fckeditor'){ }
-		else{
-			if($show_wysiwyg == 'toendaScript'){ echo '<script>createToolbar(\'links\', \''.$tcms_lang.'\', \'toendaScript\');</script>'; }
-			else{ echo '<script>createToolbar(\'links\', \''.$tcms_lang.'\', \'HTML\');</script>'; }
+		if($show_wysiwyg != 'tinymce' && $show_wysiwyg != 'fckeditor') {
+			if($show_wysiwyg == 'toendaScript') {
+				echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'toendaScript\');</script>';
+			}
+			else {
+				echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'HTML\');</script>';
+			}
 		}
+		
+		echo '<br /><br />';
 		
 		if($show_wysiwyg == 'tinymce'){
 			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" id="content" name="content" mce_editable="true">'.$old_link_main_text.'</textarea>';
@@ -269,8 +258,64 @@ if($todo == 'config'){
 		echo '</td></tr>';
 		
 		
-		// Table end
-		echo '</table><br />';
+		echo '</table>'
+		.'</div>';
+		
+		
+		/*
+			mod tab
+		*/
+		
+		echo '<div class="tab-page" id="tab-page-set">'
+		.'<h2 class="tab">'._TABLE_SETTINGS.'</h2>'
+		.'<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
+		
+		
+		// table rows
+		echo '<tr><td class="tcms_padding_mini" width="300">'._LINK_USE_SIDELINKS_DESC.'</td>'
+		.'<td><input type="checkbox" name="new_link_use_side_desc" '.( $old_link_use_side_desc == 1 ? 'checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		// table rows
+		echo '<tr><td class="tcms_padding_mini" width="300">'._LINK_USE_SIDELINKS_TITLE.'</td>'
+		.'<td><input type="checkbox" name="new_link_use_side_title" '.( $old_link_use_side_title == 1 ? 'checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		// table rows
+		echo '<tr><td class="tcms_padding_mini" valign="top">'._LINK_USE_MAINLINKS_DESC.'</td>'
+		.'<td valign="top"><input type="checkbox" name="new_link_use_main_desc" '.( $old_link_use_main_desc == 1 ? 'checked="checked"' : '' ).' value="1" />'
+		.'</td></tr>';
+		
+		
+		// table rows
+		echo '<tr><td class="tcms_padding_mini" valign="top">'._TABLE_ACCESS.'</td>'
+		.'<td valign="top"><select name="new_link_main_access" class="tcms_select">'
+			.'<option value="Public"'.( $old_link_main_access == 'Public' ? ' selected="selected"' : '' ).'>'._TABLE_PUBLIC.'</option>'
+			.'<option value="Protected"'.( $old_link_main_access == 'Protected' ? ' selected="selected"' : '' ).'>'._TABLE_PROTECTED.'</option>'
+			.'<option value="Private"'.( $old_link_main_access == 'Private' ? ' selected="selected"' : '' ).'>'._TABLE_PRIVATE.'</option>'
+		.'</select>'
+		.'</td></tr>';
+		
+		
+		echo '</table>'
+		.'</div>';
+		
+		
+		/*
+			tabpane end
+		*/
+		
+		echo '</div>'
+		.'<script type="text/javascript">
+		var tabPane1 = new WebFXTabPane(document.getElementById("tab-pane-1"));
+		tabPane1.addTabPage(document.getElementById("tab-page-text"));
+		tabPane1.addTabPage(document.getElementById("tab-page-set"));
+		setupAllTabs();
+		</script>'
+		.'<br />';
+		
 		
 		echo '</form>';
 	}
@@ -299,14 +344,14 @@ if($todo == 'show'){
 			foreach($arr_filename as $key => $value){
 				$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_links/'.$value,'r');
 				
-				$arrLinkType = $menu_xml->read_section('link', 'type');
+				$arrLinkType = $menu_xml->readSection('link', 'type');
 				
 				if($arrLinkType == 'c'){
 				$arrLink['tag'][$count]  = substr($value, 0, 32);
-					$arrLink['name'][$count] = $menu_xml->read_section('link', 'name');
-					$arrLink['desc'][$count] = $menu_xml->read_section('link', 'desc');
-					$arrLink['pub'][$count]  = $menu_xml->read_section('link', 'published');
-					$arrLink['sort'][$count] = $menu_xml->read_section('link', 'sort');
+					$arrLink['name'][$count] = $menu_xml->readSection('link', 'name');
+					$arrLink['desc'][$count] = $menu_xml->readSection('link', 'desc');
+					$arrLink['pub'][$count]  = $menu_xml->readSection('link', 'published');
+					$arrLink['sort'][$count] = $menu_xml->readSection('link', 'sort');
 					
 					if(!$arrLink['name'][$count]){ $arrLink['name'][$count] = ''; }
 					if(!$arrLink['desc'][$count]){ $arrLink['desc'][$count] = ''; }
@@ -323,14 +368,14 @@ if($todo == 'show'){
 		}
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix."links WHERE type='c'");
 		
 		$count = 0;
 		
-		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+		while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 			$arrLink['tag'][$count]  = $sqlARR['uid'];
 			$arrLink['name'][$count] = $sqlARR['name'];
 			$arrLink['desc'][$count] = $sqlARR['desc'];
@@ -423,15 +468,15 @@ if($todo == 'show'){
 				if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
 					foreach($arr_filename as $llkey => $llvalue){
 						$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_links/'.$llvalue,'r');
-						$arrLinkType = $menu_xml->read_section('link', 'type');
-						$arrLinkCat  = $menu_xml->read_section('link', 'category');
+						$arrLinkType = $menu_xml->readSection('link', 'type');
+						$arrLinkCat  = $menu_xml->readSection('link', 'category');
 						
 						if($arrLinkType == 'l' && $arrLinkCat == $arrLink['tag'][$key]){
 							$arrLinkItem['tag'][$count]  = substr($llvalue, 0, 32);
-							$arrLinkItem['name'][$count] = $menu_xml->read_section('link', 'name');
-							$arrLinkItem['desc'][$count] = $menu_xml->read_section('link', 'desc');
-							$arrLinkItem['pub'][$count]  = $menu_xml->read_section('link', 'published');
-							$arrLinkItem['sort'][$count] = $menu_xml->read_section('link', 'sort');
+							$arrLinkItem['name'][$count] = $menu_xml->readSection('link', 'name');
+							$arrLinkItem['desc'][$count] = $menu_xml->readSection('link', 'desc');
+							$arrLinkItem['pub'][$count]  = $menu_xml->readSection('link', 'published');
+							$arrLinkItem['sort'][$count] = $menu_xml->readSection('link', 'sort');
 							
 							if(!$arrLinkItem['name'][$count]){ $arrLinkItem['name'][$count] = ''; }
 							if(!$arrLinkItem['desc'][$count]){ $arrLinkItem['desc'][$count] = ''; }
@@ -448,8 +493,8 @@ if($todo == 'show'){
 				}
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				unset($arrLinkItem);
 				
@@ -457,7 +502,7 @@ if($todo == 'show'){
 				
 				$count = 0;
 				
-				while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+				while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 					$arrLinkItem['tag'][$count]  = $sqlARR['uid'];
 					$arrLinkItem['name'][$count] = $sqlARR['name'];
 					$arrLinkItem['desc'][$count] = $sqlARR['desc'];
@@ -550,17 +595,17 @@ if($todo == 'edit'){
 	if(isset($maintag) && !empty($maintag) && $maintag != ''){
 		if($choosenDB == 'xml'){
 			$user_xml = new xmlparser(_TCMS_PATH.'/tcms_links/'.$maintag.'.xml','r');
-			$link_name = $user_xml->read_section('link', 'name');
-			$link_desc = $user_xml->read_section('link', 'desc');
-			$link_pub  = $user_xml->read_section('link', 'published');
-			$link_cat  = $user_xml->read_section('link', 'category');
-			$link_sort = $user_xml->read_section('link', 'sort');
-			$link_link = $user_xml->read_section('link', 'link_to');
-			$link_targ = $user_xml->read_section('link', 'target');
-			$link_rss  = $user_xml->read_section('link', 'rss');
-			$link_acs  = $user_xml->read_section('link', 'access');
-			$link_type = $user_xml->read_section('link', 'type');
-			$link_doc  = $user_xml->read_section('link', 'module');
+			$link_name = $user_xml->readSection('link', 'name');
+			$link_desc = $user_xml->readSection('link', 'desc');
+			$link_pub  = $user_xml->readSection('link', 'published');
+			$link_cat  = $user_xml->readSection('link', 'category');
+			$link_sort = $user_xml->readSection('link', 'sort');
+			$link_link = $user_xml->readSection('link', 'link_to');
+			$link_targ = $user_xml->readSection('link', 'target');
+			$link_rss  = $user_xml->readSection('link', 'rss');
+			$link_acs  = $user_xml->readSection('link', 'access');
+			$link_type = $user_xml->readSection('link', 'type');
+			$link_doc  = $user_xml->readSection('link', 'module');
 			
 			if(!$link_name){ $link_name = ''; }
 			if(!$link_desc){ $link_desc = ''; }
@@ -575,11 +620,11 @@ if($todo == 'edit'){
 			if(!$link_doc) { $link_doc  = ''; }
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'links', $maintag);
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+			$sqlQR = $sqlAL->getOne($tcms_db_prefix.'links', $maintag);
+			$sqlARR = $sqlAL->fetchArray($sqlQR);
 			
 			$link_type = $sqlARR['type'];
 			$link_name = $sqlARR['name'];
@@ -721,12 +766,12 @@ if($todo == 'edit'){
 			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$sqlQR = $sqlAL->sqlGetALL($tcms_db_prefix."links WHERE type='c'");
 			
-			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+			while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 				$link_cat_name = $sqlARR['name'];
 				$link_cat_uid  = $sqlARR['uid'];
 				
@@ -838,8 +883,8 @@ if($todo == 'save_config'){
 		$xmluser->xml_section_end('config');
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		$newSQLData = ''
 		.$tcms_db_prefix.'links_config.link_use_side_desc='.$new_link_use_side_desc.', '
@@ -929,8 +974,8 @@ if($todo == 'save') {
 		$xmluser->xml_section_end('link');
 	}
 	else {
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		//if($new_link_sort == ''){
 			//$new_link_sort = $tcms_main->create_sort_id($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'links', 'sort');
@@ -994,8 +1039,8 @@ if($todo == 'publishItem'){
 		case 'off':
 			if($choosenDB == 'xml'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_links/'.$maintag.'.xml', 'published', '1', '0'); }
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				$newSQLData = $tcms_db_prefix.'links.published=0';
 				$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'links', $newSQLData, $maintag);
 			}
@@ -1006,8 +1051,8 @@ if($todo == 'publishItem'){
 		case 'on':
 			if($choosenDB == 'xml'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_links/'.$maintag.'.xml', 'published', '0', '1'); }
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				$newSQLData = $tcms_db_prefix.'links.published=1';
 				$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'links', $newSQLData, $maintag);
 			}
@@ -1028,8 +1073,8 @@ if($todo == 'delete'){
 		unlink(_TCMS_PATH.'/tcms_links/'.$maintag.'.xml');
 	}
 	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		$sqlAL->sqlQuery("DELETE FROM ".$tcms_db_prefix."links WHERE uid = '".$maintag."'");
 	}
 	
