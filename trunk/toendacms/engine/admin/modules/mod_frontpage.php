@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the frontpage.
  *
- * @version 0.8.1
+ * @version 0.8.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -241,7 +241,7 @@ if($id_group == 'Developer'
 		
 		$js = ' onchange="document.location=\''.$link.'\' + this.value;"';
 		
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
+		echo '<tr><td class="tcms_padding_mini" width="300" valign="top">'
 		.'<strong class="tcms_bold">'._TCMS_LANGUAGE.'</strong>'
 		.'</td><td>'
 		.'<select class="tcms_select" id="new_front_lang" name="new_front_lang"'.$js.'>';
@@ -260,8 +260,11 @@ if($id_group == 'Developer'
 		echo '</select>'
 		.'</td></tr>';
 		
+		
+		// table end
 		echo '<tr><td class="tcms_padding_mini"><br /></td></tr>'
 		.$tcms_html->tableEnd();
+		
 		
 		
 		/*
@@ -280,16 +283,16 @@ if($id_group == 'Developer'
 		.'<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
 		
 		
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
-		.'<strong class="tcms_bold">'._FRONTPAGE_TITLE.'</strong>'
+		echo '<tr><td class="tcms_padding_mini" width="300" valign="top">'
+		._FRONTPAGE_TITLE
 		.'</td><td valign="top">'
 		.'<input name="front_title" class="tcms_input_normal" value="'.$old_front_title.'" />'
 		.'</td></tr>';
 		
 		
 		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
-		.'<strong class="tcms_bold">'._FRONTPAGE_SUBTITLE.'</strong>'
+		echo '<tr><td class="tcms_padding_mini" width="300" valign="top">'
+		._FRONTPAGE_SUBTITLE
 		.'</td><td valign="top">'
 		.'<input name="front_stamp" class="tcms_input_normal" value="'.$old_front_stamp.'" />'
 		.'</td></tr>';
@@ -348,24 +351,24 @@ if($id_group == 'Developer'
 		
 		
 		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
-		.'<strong class="tcms_bold">'._FRONTPAGE_NEWS_TITLE.'</strong>'
+		echo '<tr><td class="tcms_padding_mini" width="300" valign="top">'
+		._FRONTPAGE_NEWS_TITLE
 		.'</td><td valign="top">'
 		.'<input name="new_news_title" class="tcms_input_normal" value="'.$old_news_title.'" />'
 		.'</td></tr>';
 		
 		
 		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
-		.'<strong class="tcms_bold">'._FRONTPAGE_NEWS_MUCH.'</strong>'
+		echo '<tr><td class="tcms_padding_mini" width="300" valign="top">'
+		._FRONTPAGE_NEWS_MUCH
 		.'</td><td valign="top">'
 		.'<input name="module_use_0" class="tcms_id_box" value="'.$old_module_use_0.'" />'
 		.'</td></tr>';
 		
 		
 		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
-		.'<strong class="tcms_bold">'._FRONTPAGE_NEWS_CHARS.'</strong>'
+		echo '<tr><td class="tcms_padding_mini" width="300" valign="top">'
+		._FRONTPAGE_NEWS_CHARS
 		.'</td><td valign="top">'
 		.'<input name="news_cut" class="tcms_id_box" value="'.$old_news_cut.'" />'
 		.'</td></tr>';
@@ -376,32 +379,32 @@ if($id_group == 'Developer'
 		
 		
 		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
-		.'<strong class="tcms_bold">'._FRONTPAGE_SIDEBAR_NEWS_USE.'</strong>'
+		echo '<tr><td class="tcms_padding_mini" width="300" valign="top">'
+		._FRONTPAGE_SIDEBAR_NEWS_USE
 		.'</td><td valign="top">'
 		.'<input type="checkbox" name="new_sb_enabled" '.( $old_sb_enabled == 1 ? 'checked="checked"' : '' ).' value="1" />'
 		.'</td></tr>';
 		
 		
 		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
-		.'<strong class="tcms_bold">'._FRONTPAGE_SIDEBAR_NEWS_TITLE.'</strong>'
+		echo '<tr><td class="tcms_padding_mini" width="300" valign="top">'
+		._FRONTPAGE_SIDEBAR_NEWS_TITLE
 		.'</td><td valign="top">'
 		.'<input name="new_sb_news_title" class="tcms_input_normal" value="'.$old_sb_news_title.'" />'
 		.'</td></tr>';
 		
 		
 		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
-		.'<strong class="tcms_bold">'._FRONTPAGE_SIDEBAR_NEWS_MUCH.'</strong>'
+		echo '<tr><td class="tcms_padding_mini" width="300" valign="top">'
+		._FRONTPAGE_SIDEBAR_NEWS_MUCH
 		.'</td><td valign="top">'
 		.'<input name="sb_module_use_0" class="tcms_id_box" value="'.$old_sb_module_use_0.'" />'
 		.'</td></tr>';
 		
 		
 		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
-		.'<strong class="tcms_bold">'._FRONTPAGE_NEWS_CHARS.'</strong>'
+		echo '<tr><td class="tcms_padding_mini" width="300" valign="top">'
+		._FRONTPAGE_NEWS_CHARS
 		.'</td><td valign="top">'
 		.'<input name="sb_news_cut" class="tcms_id_box" value="'.$old_sb_news_cut.'" />'
 		.'</td></tr>';
@@ -409,7 +412,7 @@ if($id_group == 'Developer'
 		
 		// table row
 		echo '<tr><td class="tcms_padding_mini">'
-		.'<strong class="tcms_bold">'._FRONTPAGE_NEWS_DISPLAY.'</strong>'
+		._FRONTPAGE_NEWS_DISPLAY
 		.'</td><td>'
 		.'<select name="new_sb_display" class="tcms_select">'
 		.'<option value="1"'.( $old_sb_display == '1' ? ' selected="selected"' : '' ).'>'._FRONTPAGE_TDT.'</option>'

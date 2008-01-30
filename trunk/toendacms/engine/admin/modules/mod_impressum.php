@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the publishing form.
  *
- * @version 0.6.9
+ * @version 0.7.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -43,6 +43,13 @@ if(isset($_POST['vall'])){ $vall = $_POST['vall']; }
 if(isset($_POST['content'])){ $content = $_POST['content']; }
 if(isset($_POST['lang_exist'])){ $lang_exist = $_POST['lang_exist']; }
 if(isset($_POST['new_imp_lang'])){ $new_imp_lang = $_POST['new_imp_lang']; }
+
+
+
+echo '<script type="text/javascript" src="../js/tabs/tabpane.js"></script>
+<link type="text/css" rel="StyleSheet" href="../js/tabs/css/luna/tab.css" />
+<!--<link type="text/css" rel="StyleSheet" href="../js/tabs/tabpane.css" />-->';
+
 
 
 if($id_group == 'Developer' 
@@ -94,8 +101,8 @@ if($id_group == 'Developer'
 			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$strQuery = "SELECT * "
 			."FROM ".$tcms_db_prefix."impressum "
@@ -177,23 +184,23 @@ if($id_group == 'Developer'
 			if(is_array($arr_contacts['all']) && !empty($arr_contacts['all'])){
 				foreach($arr_contacts['all'] as $key => $val){
 					$contact_xml = new xmlparser(_TCMS_PATH.'/tcms_contacts/'.$val,'r');
-					$cp = $contact_xml->read_value('published');
+					$cp = $contact_xml->readValue('published');
 					if($cp == 1){
-						$arr_contacts['arr'][$key] = $contact_xml->read_value('name');
+						$arr_contacts['arr'][$key] = $contact_xml->readValue('name');
 						$arr_contacts['all'][$key] = substr($val, 0, 10);
 					}
 				}
 			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix.'contacts WHERE published=1');
 			
 			$count = 0;
 			
-			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+			while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 				$arr_contacts['arr'][$count] = $sqlARR['name'];
 				$arr_contacts['all'][$count] = $sqlARR['uid'];
 				
@@ -230,7 +237,7 @@ if($id_group == 'Developer'
 		
 		$js = ' onchange="document.location=\''.$link.'\' + this.value;"';
 		
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
+		echo '<tr><td class="tcms_padding_mini" width="300" valign="top">'
 		.'<strong class="tcms_bold">'._TCMS_LANGUAGE.'</strong>'
 		.'</td><td>'
 		.'<select class="tcms_select" id="new_imp_lang" name="new_imp_lang"'.$js.'>';
@@ -253,42 +260,99 @@ if($id_group == 'Developer'
 		.$tcms_html->tableEnd();
 		
 		
-		// frontpage news settings
-		echo '<table width="100%" cellpadding="0" cellspacing="0" class="tcms_noborder">'
-		.'<tr class="tcms_bg_blue_01">'
-		.'<th valign="middle" align="left" class="tcms_db_title tcms_padding_mini">'._IMPRESSUM_CONFIG.'</th>'
-		.'</tr></table>';
+		/*
+			tabpane start
+		*/
 		
-		echo $tcms_html->tableHeadClass('1', '5', '0', '100%', 'tcms_table');
+		echo '<div class="tab-pane" id="tab-pane-1">';
+		
+		
+		/*
+			text tab
+		*/
+		
+		echo '<div class="tab-page" id="tab-page-text">'
+		.'<h2 class="tab">'._TABLE_DESCRIPTION.'</h2>'
+		.'<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
 		
 		
 		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
-		.'<strong class="tcms_bold">'._IMPRESSUM_ID.'</strong>'
+		echo '<tr><td class="tcms_padding_mini" width="300" valign="top">'
+		._IMPRESSUM_ID
 		.'</td><td valign="top">'
 		.'<input readonly name="imp_id" class="tcms_input_small" value="'.$old_imp_id.'" />'
 		.'</td></tr>';
 		
 		
 		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
-		.'<strong class="tcms_bold">'._IMPRESSUM_TITLE.'</strong>'
+		echo '<tr><td class="tcms_padding_mini" width="300" valign="top">'
+		._IMPRESSUM_TITLE
 		.'</td><td valign="top">'
 		.'<input name="imp_title" class="tcms_input_normal" value="'.$old_imp_title.'" />'
 		.'</td></tr>';
 		
 		
 		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
-		.'<strong class="tcms_bold">'._IMPRESSUM_SUBTITLE.'</strong>'
+		echo '<tr><td class="tcms_padding_mini" width="300" valign="top">'
+		._IMPRESSUM_SUBTITLE
 		.'</td><td valign="top">'
 		.'<input name="imp_stamp" class="tcms_input_normal" value="'.$old_imp_stamp.'" />'
 		.'</td></tr>';
 		
 		
+		// table end
+		echo '<tr><td class="tcms_padding_mini"><br /></td></tr>';
+		
+		
 		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
-		.'<strong class="tcms_bold">'._IMPRESSUM_CONTACT.'</strong>'
+		echo '<tr><td valign="top" colspan="2"><br />'._IMPRESSUM_LEGAL
+		.( $show_wysiwyg != 'fckeditor' ? '<br /><br />'
+		.'<script>createToendaToolbar(\'imp\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');</script>'
+		.'<br />' : '' );
+		
+		if($show_wysiwyg == 'tinymce'){ }
+		elseif($show_wysiwyg == 'fckeditor'){ }
+		else{
+			if($show_wysiwyg == 'toendaScript'){ echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'toendaScript\');</script>'; }
+			else{ echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'HTML\');</script>'; }
+		}
+		
+		echo '<br /><br />';
+		
+		if($show_wysiwyg == 'tinymce'){
+			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content" mce_editable="true">'.$old_legal.'</textarea>';
+		}
+		elseif($show_wysiwyg == 'fckeditor'){
+			$sBasePath = '../js/FCKeditor/';
+			
+			$oFCKeditor = new FCKeditor('content') ;
+			$oFCKeditor->BasePath = $sBasePath;
+			$oFCKeditor->Value = $old_legal;
+			$oFCKeditor->Create();
+		}
+		else{
+			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" id="content" name="content">'.$old_legal.'</textarea>';
+		}
+		
+		echo '</td></tr>';
+		
+		
+		echo '</table>'
+		.'</div>';
+		
+		
+		/*
+			mod tab
+		*/
+		
+		echo '<div class="tab-page" id="tab-page-set">'
+		.'<h2 class="tab">'._TABLE_SETTINGS.'</h2>'
+		.'<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
+		
+		
+		// table rows
+		echo '<tr><td class="tcms_padding_mini" width="300" valign="top">'
+		._IMPRESSUM_CONTACT
 		.'</td><td valign="top">'
 		.'<select class="tcms_select" onchange="document.location=\'admin.php?id_user='.$id_user.'&site=mod_impressum&lang='.$tcms_config->getLanguageCodeByTCMSCode($old_imp_lang).'&vall=\'+this.value;">'
 		.'<option value=""> &bull; '._IMPRESSUM_SELECT.' &bull; </option>'
@@ -308,7 +372,7 @@ if($id_group == 'Developer'
 			$test_imp_contact = $vall;
 		}
 		
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">&nbsp;</td>'
+		echo '<tr><td class="tcms_padding_mini" width="300" valign="top">&nbsp;</td>'
 		.'<td valign="top">'
 		.'<textarea name="text" id="text" class="tcms_textarea_big">';
 		
@@ -317,16 +381,16 @@ if($id_group == 'Developer'
 				if(file_exists(_TCMS_PATH.'/tcms_contacts/'.$test_imp_contact.'.xml')){
 					$con_xml = new xmlparser(_TCMS_PATH.'/tcms_contacts/'.$test_imp_contact.'.xml','r');
 					
-					$contact['name']     = $con_xml->read_value('name');
-					$contact['position'] = $con_xml->read_value('position');
-					$contact['email']    = $con_xml->read_value('email');
-					$contact['street']   = $con_xml->read_value('street');
-					$contact['country']  = $con_xml->read_value('country');
-					$contact['state']    = $con_xml->read_value('state');
-					$contact['town']     = $con_xml->read_value('town');
-					$contact['postal']   = $con_xml->read_value('postal');
-					$contact['phone']    = $con_xml->read_value('phone');
-					$contact['fax']      = $con_xml->read_value('fax');
+					$contact['name']     = $con_xml->readValue('name');
+					$contact['position'] = $con_xml->readValue('position');
+					$contact['email']    = $con_xml->readValue('email');
+					$contact['street']   = $con_xml->readValue('street');
+					$contact['country']  = $con_xml->readValue('country');
+					$contact['state']    = $con_xml->readValue('state');
+					$contact['town']     = $con_xml->readValue('town');
+					$contact['postal']   = $con_xml->readValue('postal');
+					$contact['phone']    = $con_xml->readValue('phone');
+					$contact['fax']      = $con_xml->readValue('fax');
 				}
 				
 				if($contact['name']     == false){ $contact['name']     = ''; }
@@ -341,11 +405,11 @@ if($id_group == 'Developer'
 				if($contact['fax']      == false){ $contact['fax']      = ''; }
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
-				$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'contacts', $test_imp_contact);
-				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+				$sqlQR = $sqlAL->getOne($tcms_db_prefix.'contacts', $test_imp_contact);
+				$sqlARR = $sqlAL->fetchArray($sqlQR);
 				
 				$contact['name']     = $sqlARR['name'];
 				$contact['position'] = $sqlARR['position'];
@@ -390,16 +454,12 @@ if($id_group == 'Developer'
 				}
 			}
 			
-			echo $contact['name'].' - '.
-			$contact['position'].' - '.
-			$contact['email'].' - '.
-			$contact['street'].' - '.
-			$contact['country'].' - '.
-			$contact['state'].' - '.
-			$contact['town'].' - '.
-			$contact['postal'].' - '.
-			$contact['phone'].' - '.
-			$contact['fax'];
+			echo $contact['name'].' - '.$contact['position'].chr(13).
+			$contact['email'].chr(13).
+			$contact['street'].chr(13).
+			$contact['state'].', '.$contact['postal'].' '.$contact['town'].chr(13).
+			$contact['country'].chr(13).
+			$contact['phone'].' - '.$contact['fax'];
 		}
 		
 		echo '</textarea>'
@@ -408,61 +468,41 @@ if($id_group == 'Developer'
 		
 		
 		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
-		.'<strong class="tcms_bold">'._IMPRESSUM_TAX.'</strong>'
+		echo '<tr><td class="tcms_padding_mini" width="300" valign="top">'
+		._IMPRESSUM_TAX
 		.'</td><td valign="top">'
 		.'<input name="taxno" class="tcms_input_normal" value="'.$old_taxno.'" />'
 		.'</td></tr>';
 		
 		
 		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="250" valign="top">'
-		.'<strong class="tcms_bold">'._IMPRESSUM_UST.'</strong>'
+		echo '<tr><td class="tcms_padding_mini" width="300" valign="top">'
+		._IMPRESSUM_UST
 		.'</td><td valign="top">'
 		.'<input name="ustid" class="tcms_input_normal" value="'.$old_ustid.'" />'
 		.'</td></tr>';
 		
 		
-		// table end
-		echo '<tr><td class="tcms_padding_mini"><br /></td></tr></table>';
+		echo '</table>'
+		.'</div>';
 		
 		
-		// table rows
-		echo '<table cellpadding="1" cellspacing="5" class="tcms_table" width="100%" border="0">';
-		echo '<tr><td valign="top" colspan="2"><strong class="tcms_bold">'._IMPRESSUM_LEGAL.'</strong>'
-		.( $show_wysiwyg != 'fckeditor' ? '<br /><br />'
-		.'<script>createToendaToolbar(\'imp\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');</script>'
-		.'<br />' : '' );
+		/*
+			tabpane end
+		*/
 		
-		if($show_wysiwyg == 'tinymce'){ }
-		elseif($show_wysiwyg == 'fckeditor'){ }
-		else{
-			if($show_wysiwyg == 'toendaScript'){ echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'toendaScript\');</script>'; }
-			else{ echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'HTML\');</script>'; }
-		}
-		
-		echo '<br /><br />';
-		
-		if($show_wysiwyg == 'tinymce'){
-			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content" mce_editable="true">'.$old_legal.'</textarea>';
-		}
-		elseif($show_wysiwyg == 'fckeditor'){
-			$sBasePath = '../js/FCKeditor/';
-			
-			$oFCKeditor = new FCKeditor('content') ;
-			$oFCKeditor->BasePath = $sBasePath;
-			$oFCKeditor->Value = $old_legal;
-			$oFCKeditor->Create();
-		}
-		else{
-			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" id="content" name="content">'.$old_legal.'</textarea>';
-		}
-		
-		echo '</td></tr>';
+		echo '</div>'
+		.'<script type="text/javascript">
+		var tabPane1 = new WebFXTabPane(document.getElementById("tab-pane-1"));
+		tabPane1.addTabPage(document.getElementById("tab-page-text"));
+		tabPane1.addTabPage(document.getElementById("tab-page-set"));
+		setupAllTabs();
+		</script>'
+		.'<br />';
 		
 		
 		// Table end
-		echo '</table></form><br />';
+		echo '</form><br />';
 	}
 	
 	
@@ -543,8 +583,8 @@ if($id_group == 'Developer'
 			$xmluser->xml_section_end('imp');
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			if($lang_exist > 0) {
 				$newSQLData = ''

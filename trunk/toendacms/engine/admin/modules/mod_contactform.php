@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the contactform configuration.
  *
- * @version 0.4.9
+ * @version 0.5.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -69,7 +69,9 @@ if(isset($_POST['lang_exist'])){ $lang_exist = $_POST['lang_exist']; }
 
 
 
-echo '<script language="JavaScript" src="../js/dhtml.js"></script>';
+echo '<script type="text/javascript" src="../js/tabs/tabpane.js"></script>
+<link type="text/css" rel="StyleSheet" href="../js/tabs/css/luna/tab.css" />
+<!--<link type="text/css" rel="StyleSheet" href="../js/tabs/tabpane.css" />-->';
 
 
 if($id_group == 'Developer' 
@@ -85,10 +87,12 @@ if($id_group == 'Developer'
 		}
 		
 		
-		if($tcms_main->isReal($lang))
+		if($tcms_main->isReal($lang)) {
 			$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
-		else
+		}
+		else {
 			$getLang = $tcms_front_lang;
+		}
 		
 		
 		if($choosenDB == 'xml'){
@@ -206,7 +210,7 @@ if($id_group == 'Developer'
 		.'<th valign="middle" align="left" class="tcms_db_title tcms_padding_mini">'._TCMS_ADMIN_EDIT_LANG.'</th>'
 		.'</tr></table>';
 		
-		echo $tcms_html->tableHeadNoBorder('1', '0', '0', '100%');
+		echo $tcms_html->tableHeadNoBorder('1', '5', '0', '100%');
 		
 		// row
 		$link = 'admin.php?id_user='.$id_user.'&site=mod_contactform'
@@ -240,23 +244,110 @@ if($id_group == 'Developer'
 		
 		
 		
-		//table
-		echo $tcms_html->tableHeadNoBorder('1', '0', '0', '100%');
+		/*
+			tabpane start
+		*/
+		
+		echo '<div class="tab-pane" id="tab-pane-1">';
 		
 		
-		//table head
-		echo '<tr class="tcms_bg_blue_01"><td colspan="3" class="tcms_db_title tcms_padding_mini">'
-		.'<strong>'._EXT_CFORM.'</strong></td></tr>';
+		/*
+			text tab
+		*/
+		
+		echo '<div class="tab-page" id="tab-page-text">'
+		.'<h2 class="tab">'._TABLE_DESCRIPTION.'</h2>'
+		.'<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
+		
+		
+		// table rows
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini" valign="top">'
+		._EXT_CFORM_TITLE
+		.'</td><td valign="top">'
+		.'<input name="tmp_contact_title" class="tcms_input_normal" value="'.$old_contact_title.'" />'
+		.'</td>'
+		.'</tr>';
+		
+		
+		// table rows
+		echo '<tr>'
+		.'<td class="tcms_padding_mini" valign="top">'
+		._EXT_CFORM_SUBTITLE
+		.'</td><td valign="top">'
+		.'<input name="contact_stamp" class="tcms_input_normal" value="'.$old_contact_stamp.'" />'
+		.'</td>'
+		.'</tr>';
+		
+		
+		echo '<tr><td class="tcms_padding_mini" colspan="2" valign="top">'
+		.'<br /></td></tr>';
+		
+		
+		// table rows
+		echo '<tr><td valign="top" colspan="2"><br />'._TABLE_TEXT
+		.( $show_wysiwyg != 'fckeditor' ? '<br /><br />'
+		.'<script>'
+		.'createToendaToolbar(\'imp\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');'
+		.'</script>' : '' );
+		
+		if($show_wysiwyg != 'tinymce' && $show_wysiwyg != 'fckeditor') {
+			if($show_wysiwyg == 'toendaScript') {
+				echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'toendaScript\');</script>';
+			}
+			else {
+				echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'HTML\');</script>';
+			}
+		}
+		
+		echo '<br /><br />';
+		
+		if($show_wysiwyg == 'tinymce'){
+			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content" mce_editable="true">'
+			.$old_contact_text
+			.'</textarea>';
+		}
+		elseif($show_wysiwyg == 'fckeditor'){
+			$sBasePath = '../js/FCKeditor/';
+			
+			$oFCKeditor = new FCKeditor('content') ;
+			$oFCKeditor->BasePath = $sBasePath;
+			$oFCKeditor->Value = $old_contact_text;
+			$oFCKeditor->Create();
+		}
+		else{
+			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" id="content" name="content">'
+			.$old_contact_text
+			.'</textarea>';
+		}
+		
+		echo '<br /></td></tr>';
+		
+		
+		echo '</table>'
+		.'</div>';
+		
+		
+		/*
+			mod tab
+		*/
+		
+		echo '<div class="tab-page" id="tab-page-set">'
+		.'<h2 class="tab">'._TABLE_SETTINGS.'</h2>'
+		.'<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
 		
 		
 		// table row
-		echo '<tr><td width="300" style="width: 300px !important;" class="tcms_padding_mini">'._TABLE_ENABLED.'</td>'
-		.'<td>'
+		echo '<tr>'
+		.'<td width="300" style="width: 300px !important;" class="tcms_padding_mini">'
+		._TABLE_ENABLED
+		.'</td><td>'
 		.'<input type="radio" name="new_enabled" id="config_offline0" value="0"'.($old_enabled == 0 ? ' checked="checked"' : '' ).' />'
 		.'<label for="config_offline0">No</label>'
 		.'<input type="radio" name="new_enabled" id="config_offline1" value="1"'.($old_enabled == 1 ? ' checked="checked"' : '' ).' />'
 		.'<label for="config_offline1">Yes</label>'
-		.'</td></tr>';
+		.'</td>'
+		.'</tr>';
 		
 		
 		// table rows
@@ -305,63 +396,23 @@ if($id_group == 'Developer'
 		.'<input name="email" class="tcms_input_normal" value="'.$old_email.'" /></td></tr>';
 		
 		
-		// table rows
-		echo '<tr><td class="tcms_padding_mini" valign="top">'._EXT_CFORM_TITLE.'</td>'
-		.'<td valign="top" colspan="2">'
-		.'<input name="tmp_contact_title" class="tcms_input_normal" value="'.$old_contact_title.'" /></td></tr>';
+		echo '</table>'
+		.'</div>';
 		
 		
-		// table rows
-		echo '<tr><td class="tcms_padding_mini" valign="top">'._EXT_CFORM_SUBTITLE.'</td>'
-		.'<td valign="top" colspan="2">'
-		.'<input name="contact_stamp" class="tcms_input_normal" value="'.$old_contact_stamp.'" /></td></tr>';
+		/*
+			tabpane end
+		*/
 		
+		echo '</div>'
+		.'<script type="text/javascript">
+		var tabPane1 = new WebFXTabPane(document.getElementById("tab-pane-1"));
+		tabPane1.addTabPage(document.getElementById("tab-page-text"));
+		tabPane1.addTabPage(document.getElementById("tab-page-set"));
+		setupAllTabs();
+		</script>'
+		.'<br />';
 		
-		// table rows
-		echo '<tr><td valign="top" colspan="2"><br />'._TABLE_TEXT
-		.( $show_wysiwyg != 'fckeditor' ? '<br /><br />'
-		.'<script>'
-		.'createToendaToolbar(\'imp\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');'
-		.'</script>' : '' );
-		
-		if($show_wysiwyg != 'tinymce' && $show_wysiwyg != 'fckeditor') {
-			if($show_wysiwyg == 'toendaScript') {
-				echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'toendaScript\');</script>';
-			}
-			else {
-				echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'HTML\');</script>';
-			}
-		}
-		
-		echo '<br /><br />';
-		
-		if($show_wysiwyg == 'tinymce'){
-			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content" mce_editable="true">'
-			.$old_contact_text
-			.'</textarea>';
-		}
-		elseif($show_wysiwyg == 'fckeditor'){
-			$sBasePath = '../js/FCKeditor/';
-			
-			$oFCKeditor = new FCKeditor('content') ;
-			$oFCKeditor->BasePath = $sBasePath;
-			$oFCKeditor->Value = $old_contact_text;
-			$oFCKeditor->Create();
-		}
-		else{
-			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" id="content" name="content">'
-			.$old_contact_text
-			.'</textarea>';
-		}
-		
-		echo '<br /></td></tr>';
-		
-		
-		// table title
-		echo '<tr><td colspan="3"><br /></td></tr>';
-		
-		// Table end
-		echo '</table>';
 		
 		// Table end
 		echo '</form><br />';
