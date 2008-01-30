@@ -238,9 +238,11 @@ echo _IMPRESSUM_SITECOPY.' '.$websiteowner.' &copy; '.$websitecopyright.'. '._IM
 
 
 $toendaScript = new toendaScript($dcImpressum->getText());
-$legal = $toendaScript->toendaScript_trigger();
-$legal = $toendaScript->checkSEO($legal, $imagePath);
-echo $legal;
+$content = $toendaScript->doParse();
+$content = $toendaScript->removeTcmsMoreTag($content);
+$content = $toendaScript->checkSEO($content, $imagePath);
+
+echo $content;
 
 
 echo '<br /><br />'.$cms_name.' - '.$cms_tagline.' &copy; '.$toenda_copyright.' by '

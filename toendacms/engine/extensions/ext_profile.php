@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a base module fpr user operations.
  *
- * @version 1.0.8
+ * @version 1.0.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -1420,7 +1420,7 @@ if($todo != 'submitNews'
 			if(trim($tu_signature) != '') {
 				if($tu_tcms == 1) {
 					$toendaScript = new toendaScript($tu_signature);
-					$tu_signature = $toendaScript->toendaScript_trigger();
+					$tu_signature = $toendaScript->doParse();
 					$tu_signature = $toendaScript->checkSEO($tu_signature, $imagePath);
 				}
 				
