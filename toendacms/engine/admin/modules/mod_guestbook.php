@@ -46,10 +46,10 @@ if(isset($_POST['dbAction'])) { $dbAction = $_POST['dbAction']; }
 
 if(!isset($todo)) { $todo = 'show'; }
 
-echo '<script language="JavaScript" src="../js/jscalendar/calendar.js"></script>';
-echo '<script language="Javascript" src="../js/jscalendar/lang/calendar-en.js"></script>';
-echo '<script language="Javascript" src="../js/jscalendar/calendar-setup.js"></script>';
-echo '<link rel="stylesheet" type="text/css" media="all" href="../js/jscalendar/calendar-toendaCMS.css" title="toendaCMS" />';
+echo '<script language="JavaScript" src="../js/jscalendar/calendar.js"></script>
+<script language="Javascript" src="../js/jscalendar/lang/calendar-en.js"></script>
+<script language="Javascript" src="../js/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" type="text/css" media="all" href="../js/jscalendar/calendar-toendaCMS.css" title="toendaCMS" />';
 
 
 
@@ -61,8 +61,8 @@ if($id_group == 'Developer'
 	//=====================================================
 	
 	if($todo == 'show') {
-		echo tcms_html::bold(_BOOK_TITLE);
-		echo tcms_html::text(_BOOK_TEXT.'<br /><br />', 'left');
+		echo $tcms_html->bold(_BOOK_TITLE);
+		echo $tcms_html->text(_BOOK_TEXT.'<br /><br />', 'left');
 		
 		if($choosenDB == 'xml') {
 			$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_guestbook/');
@@ -109,17 +109,17 @@ if($id_group == 'Developer'
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix.'guestbook_items ORDER BY date DESC, time DESC');
+			$sqlQR = $sqlAL->getAll($tcms_db_prefix.'guestbook_items ORDER BY date DESC, time DESC');
 			
 			$count = 0;
 			
-			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)) {
-				$arrCat['uid'][$count]  = $sqlARR['uid'];
-				$arrCat['name'][$count] = $sqlARR['name'];
-				$arrCat['mail'][$count] = $sqlARR['email'];
-				$arrCat['text'][$count] = $sqlARR['text'];
-				$arrCat['date'][$count] = $sqlARR['date'];
-				$arrCat['time'][$count] = $sqlARR['time'];
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
+				$arrCat['uid'][$count]  = $sqlObj->uid;
+				$arrCat['name'][$count] = $sqlObj->name;
+				$arrCat['mail'][$count] = $sqlObj->email;
+				$arrCat['text'][$count] = $sqlObj->text;
+				$arrCat['date'][$count] = $sqlObj->date;
+				$arrCat['time'][$count] = $sqlObj->time;
 				
 				if($arrCat['name'][$count] == NULL) { $arrCat['name'][$count] = ''; }
 				if($arrCat['text'][$count] == NULL) { $arrCat['text'][$count] = ''; }
@@ -137,19 +137,21 @@ if($id_group == 'Developer'
 				$count++;
 			}
 			
-			$sqlAL->sqlFreeResult($sqlQR);
+			$sqlAL->freeResult($sqlQR);
+			unset($sqlAL);
 		}
 		
 		
 		echo '<table cellpadding="3" cellspacing="0" border="0" class="noborder">';
 		echo '<tr class="tcms_bg_blue_01">'
-			.'<th valign="middle" class="tcms_db_title" width="20%" align="left" colspan="2">'._TABLE_DATE.' - '._TABLE_TIME.'</th>'
-			.'<th valign="middle" class="tcms_db_title" width="10%" align="left">'._TABLE_NAME.'</th>'
-			.'<th valign="middle" class="tcms_db_title" width="10%" align="left">'._TABLE_EMAIL.'</th>'
-			.'<th valign="middle" class="tcms_db_title" width="80%" align="left">'._TABLE_DESCRIPTION.'</th>'
-			.'<th valign="middle" class="tcms_db_title" width="20%" align="right">'._TABLE_FUNCTIONS.'</th></tr>';
+		.'<th valign="middle" class="tcms_db_title" width="20%" align="left" colspan="2">'._TABLE_DATE.' - '._TABLE_TIME.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="10%" align="left">'._TABLE_NAME.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="10%" align="left">'._TABLE_EMAIL.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="80%" align="left">'._TABLE_DESCRIPTION.'</th>'
+		.'<th valign="middle" class="tcms_db_title" width="20%" align="right">'._TABLE_FUNCTIONS.'</th>'
+		.'</tr>';
 		
-		if(isset($arrCat['name']) && !empty($arrCat['name']) && $arrCat['name'] != '') {
+		if($tcms_main->isReal($arrCat['name'])) {
 			foreach($arrCat['name'] as $key => $value) {
 				if(is_integer($key/2)) { $wsc = 0; }
 				else { $wsc = 1; }
