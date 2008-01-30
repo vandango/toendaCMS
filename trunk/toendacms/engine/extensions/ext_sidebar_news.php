@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the sidebar news functionality.
  *
- * @version 0.2.2
+ * @version 0.2.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -107,8 +107,9 @@ if($blah = 1){
 					$sb_news_content = $tcms_main->cleanAllImagesFromString($dcNews->getText());
 					
 					$toendaScript = new toendaScript($sb_news_content);
-					$sb_news_content = $toendaScript->toendaScript_trigger();
+					$sb_news_content = $toendaScript->doParse();
 					$sb_news_content = $toendaScript->checkSEO($sb_news_content, $imagePath);
+					unset($toendaScript);
 					
 					$sb_news_content = str_replace('{tcms_more}', '', $sb_news_content);
 					

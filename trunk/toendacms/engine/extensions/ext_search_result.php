@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a search module.
  *
- * @version 0.6.9
+ * @version 0.7.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -565,7 +565,7 @@ function search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, 
 									
 									$toendaScript = new toendaScript($desc);
 									$desc = $toendaScript->doParse();
-									$key = $toendaScript->checkSEO($key, $imagePath);
+									$desc = $toendaScript->checkSEO($desc, $imagePath);
 									
 									$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 									.'id=products&amp;category='.$category.'&amp;article='.substr($sval, 0, 10).'&amp;s='.$s
@@ -590,7 +590,7 @@ function search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, 
 										
 										$toendaScript = new toendaScript($desc);
 										$desc = $toendaScript->doParse();
-										$key = $toendaScript->checkSEO($key, $imagePath);
+										$desc = $toendaScript->checkSEO($desc, $imagePath);
 										
 										$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 										.'id=products&amp;category='.$category.'&amp;article='.substr($sval, 0, 10).'&amp;s='.$s
@@ -680,7 +680,7 @@ function search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, 
 				$desc = $tcms_main->decodeText($desc, '2', $c_charset);
 				
 				$toendaScript = new toendaScript($desc);
-				$desc = $toendaScript->toendaScript_trigger();
+				$desc = $toendaScript->doParse();
 				$desc = $toendaScript->checkSEO($desc, $imagePath);
 				
 				if($sql_type == 'c') {
@@ -885,8 +885,8 @@ function search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost,
 				$desc = $tcms_main->decodeText($desc, '2', $c_charset);
 				
 				$toendaScript = new toendaScript($desc);
-				$desc = $toendaScript->toendaScript_trigger();
-				$key = $toendaScript->checkSEO($key, $imagePath);
+				$desc = $toendaScript->doParse();
+				$desc = $toendaScript->checkSEO($desc, $imagePath);
 				
 				if($type == 'f'){
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
@@ -945,7 +945,8 @@ function search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $s
 							$desc = $tcms_main->decodeText($desc, '2', $c_charset);
 							
 							$toendaScript = new toendaScript($desc);
-							$desc = $toendaScript->toendaScript_trigger();
+							$desc = $toendaScript->doParse();
+							$desc = $toendaScript->checkSEO($desc, $imagePath);
 							
 							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 							.'id=imagegallery&amp;albums='.$category.'&amp;s='.$s
@@ -1008,7 +1009,7 @@ function search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $s
 				$desc = $tcms_main->decodeText($desc, '2', $c_charset);
 				
 				$toendaScript = new toendaScript($desc);
-				$desc = $toendaScript->toendaScript_trigger();
+				$desc = $toendaScript->doParse();
 				$desc = $toendaScript->checkSEO($desc, $imagePath);
 				
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
@@ -1040,6 +1041,10 @@ function search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $s
 					
 					$tit = $tcms_main->decodeText($tit, '2', $c_charset);
 					$desc = $tcms_main->decodeText($desc, '2', $c_charset);
+					
+					$toendaScript = new toendaScript($desc);
+					$desc = $toendaScript->doParse();
+					$desc = $toendaScript->checkSEO($desc, $imagePath);
 					
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=imagegallery&amp;albums='.$category.'&amp;s='.$s
@@ -1231,7 +1236,7 @@ function search_faqs($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 				$desc = $tcms_main->decodeText($desc, '2', $c_charset);
 				
 				$toendaScript = new toendaScript($desc);
-				$desc = $toendaScript->toendaScript_trigger();
+				$desc = $toendaScript->doParse();
 				$desc = $toendaScript->checkSEO($desc, $imagePath);
 				
 				$desc = substr($desc, 0, 200).' ...';

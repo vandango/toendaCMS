@@ -20,7 +20,7 @@
  * 
  * This module is used to generate a pdf document
  * 
- * @version 0.2.6
+ * @version 0.2.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -337,17 +337,30 @@ if(file_exists(_TCMS_PATH.'/tcms_global/database.php')
 			}
 			
 			// TCMS SCRIPT
+			
 			$toendaScript = new toendaScript($key);
-			$key = $toendaScript->toendaScript_trigger();
+			$key = $toendaScript->doParse();
+			$key = $toendaScript->removeTcmsMoreTag($key);
+			$key = $toendaScript->checkSEO($key, $imagePath);
+			unset($toendaScript);
 			
 			$toendaScript = new toendaScript($content00);
-			$content00 = $toendaScript->toendaScript_trigger();
+			$content00 = $toendaScript->doParse();
+			$content00 = $toendaScript->removeTcmsMoreTag($content00);
+			$content00 = $toendaScript->checkSEO($content00, $imagePath);
+			unset($toendaScript);
 			
 			$toendaScript = new toendaScript($content01);
-			$content01 = $toendaScript->toendaScript_trigger();
+			$content01 = $toendaScript->doParse();
+			$content01 = $toendaScript->removeTcmsMoreTag($content01);
+			$content01 = $toendaScript->checkSEO($content01, $imagePath);
+			unset($toendaScript);
 			
 			$toendaScript = new toendaScript($foot);
-			$foot = $toendaScript->toendaScript_trigger();
+			$foot = $toendaScript->doParse();
+			$foot = $toendaScript->removeTcmsMoreTag($foot);
+			$foot = $toendaScript->checkSEO($foot, $imagePath);
+			unset($toendaScript);
 			
 			// CHARSETS
 			$title       = $tcms_main->decodeText($title, '2', $c_charset);
@@ -412,7 +425,10 @@ if(file_exists(_TCMS_PATH.'/tcms_global/database.php')
 			$news_content = $arr_news['news'];
 			
 			$toendaScript = new toendaScript($news_content);
-			$news_content = $toendaScript->toendaScript_trigger();
+			$news_content = $toendaScript->doParse();
+			$news_content = $toendaScript->removeTcmsMoreTag($news_content);
+			$news_content = $toendaScript->checkSEO($news_content, $imagePath);
+			unset($toendaScript);
 			
 			$news_content = $toendaScript->toendaScript_more($news_content, 'text');
 			
