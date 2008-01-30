@@ -488,6 +488,11 @@ if(trim($s) != 'printer') {
 		if(!defined('_LAYOUT_GUESTBOOK_ENTRY')) {
 			define('_LAYOUT_GUESTBOOK_ENTRY', 'theme/'.$s.'/guestbook_entry.php');
 		}
+		
+		/*_LAYOUT_LINK_ENTRY*/
+		if(!defined('_LAYOUT_LINK_ENTRY')) {
+			define('_LAYOUT_LINK_ENTRY', 'theme/'.$s.'/link_entry.php');
+		}
 	}
 	else {
 		$tcms_error = new tcms_error('tcms_defines.lib.php', 2, $s, $imagePath);
@@ -501,6 +506,10 @@ if(trim($s) != 'printer') {
 			define('_LAYOUT_GUESTBOOK_ENTRY', '');
 		}
 		
+		if(!defined('_LAYOUT_LINK_ENTRY')) {
+			define('_LAYOUT_LINK_ENTRY', '');
+		}
+		
 		unset($tcms_error);
 	}
 }
@@ -511,6 +520,10 @@ else {
 	
 	if(!defined('_LAYOUT_GUESTBOOK_ENTRY')) {
 		define('_LAYOUT_GUESTBOOK_ENTRY', '');
+	}
+	
+	if(!defined('_LAYOUT_LINK_ENTRY')) {
+		define('_LAYOUT_LINK_ENTRY', '');
 	}
 }
 

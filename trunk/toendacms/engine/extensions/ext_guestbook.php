@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a guestbook.
  *
- * @version 0.5.7
+ * @version 0.6.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -267,19 +267,20 @@ if($dcG->getEnabled()) {
 						
 						First the old one:
 					*/
+					$tcms_template = new tcms_toendaTemplate();
 					
-					if($tcms_file->checkFileExist(_LAYOUT_GUESTBOOK_ENTRY)) {
-						$layoutEntry = $tcms_file->readToEnd(_LAYOUT_GUESTBOOK_ENTRY);
+					if($tcms_template->checkTemplateExist(_LAYOUT_GUESTBOOK_ENTRY)) {
+						$tcms_template->loadTemplate(_LAYOUT_GUESTBOOK_ENTRY);
 						
-						$layoutEntry = str_replace('#####TABLE_ROW_BG_COLOR#####', $arr_color[$wsc], $layoutEntry);
-						$layoutEntry = str_replace('#####GUESTBOOK_COLUMN_NAME_WIDTH#####', $dcG->getNameWidth(), $layoutEntry);
-						$layoutEntry = str_replace('#####GUESTBOOK_ENTRY_CREATOR#####', $entryCreator, $layoutEntry);
-						$layoutEntry = str_replace('#####GUESTBOOK_ENTRY_NUMBER#####', $entryNumber, $layoutEntry);
-						$layoutEntry = str_replace('#####GUESTBOOK_ENTRY_DATE#####', $entryDate, $layoutEntry);
-						$layoutEntry = str_replace('#####GUESTBOOK_ENTRY_TEXT#####', $entryText, $layoutEntry);
-						$layoutEntry = str_replace('#####GUESTBOOK_COLUMN_TEXT_WIDTH#####', $dcG->getTextWidth(), $layoutEntry);
-						
-						echo $layoutEntry;
+						echo $tcms_template->getGuestbookEntry(
+							$arr_color[$wsc], 
+							$dcG->getNameWidth(), 
+							$dcG->getTextWidth(), 
+							$entryCreator, 
+							$entryNumber, 
+							$entryDate, 
+							$entryText
+						);
 					}
 					else {
 						echo '<tr style="height: 5px;">'
@@ -304,6 +305,9 @@ if($dcG->getEnabled()) {
 						
 						echo '</tr>';
 					}
+					
+					$tcms_template->unloadTemplate();
+					unset($tcms_template);
 				}
 			}
 		}
