@@ -28,7 +28,7 @@ Version 2.0
 Developer Version
 	- 1.9.0 Development
 
-Building Steps: 4190
+Building Steps: 4202
 
 
 
@@ -49,11 +49,13 @@ Building Steps: 4190
  - changed: Guestbook config now as object and only loaded in the guestbook extension.
  - changed: Relocated all module configuration settings into the modules
  - changed: Enabled the tabPane for all extensions.
+ - changed: Remoced the old configuration class "modconfig", replaced it with the
+            datacontainer objects.
  - changed: 
 
  - added: SEO format 3 (.html-format) has now the template variable.
  - added: Language support for the guestbook, a texteditor for the guestbook.
- - added: New Template Engine
+ - added: New Template Engine.
  - added: 
  
 

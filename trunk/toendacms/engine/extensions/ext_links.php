@@ -23,25 +23,27 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the links for the content.
  *
- * @version 0.2.6
+ * @version 0.3.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
  */
 
 
-$toendaScript = new toendaScript($link_text);
+$lDC = new tcms_dc_links();
+$lDC = $tcms_dcp->getLinksDC($language);
+
+
+$toendaScript = new toendaScript($lDC->getText());
 $link_text = $toendaScript->toendaScript_trigger();
 $link_text = $toendaScript->checkSEO($link_text, $imagePath);
 
 
 echo $tcms_html->contentModuleHeader(
-	$link_title, 
-	$link_subtitle, 
+	$lDC->getTitle(), 
+	$lDC->getSubtitle(), 
 	$link_text
 );
-
-
 
 
 if($choosenDB == 'xml') {
@@ -198,7 +200,7 @@ if($choosenDB == 'xml') {
 								echo '<span style="padding-left: 6px;">&raquo; ';
 								echo '<a target="'.$entryTarget.'" href="'.$entryLink.'">'.$entryText.'</a>';
 								
-								if($link_use_desc == 1) {
+								if($lDC->getUseMainDescription()) {
 									if($entryDesc != '') {
 										echo '<br />';
 										echo '<span class="text_normal" style="padding-left: 3px;">';
@@ -328,7 +330,8 @@ else {
 				
 				echo '<span style="padding-left: 6px;">&raquo; ';
 				echo '<a href="'.$entryLink.'" target="'.$entryTarget.'">'.$entryText.'</a>';
-				if($link_use_desc == 1) {
+				
+				if($lDC->getUseMainDescription()) {
 					if($entryDesc != '') {
 						echo '<br />';
 						echo '<span class="text_normal" style="padding-left: 3px;">';
@@ -336,6 +339,7 @@ else {
 						echo '</span>';
 					}
 				}
+				
 				echo '</span><br />';
 				
 				echo '</span>';
@@ -353,5 +357,9 @@ else {
 	$sqlAL->sqlFreeResult($sqlQR);
 	unset($sqlAL);
 }
+
+
+// cleanup
+unset($lDC);
 
 ?>

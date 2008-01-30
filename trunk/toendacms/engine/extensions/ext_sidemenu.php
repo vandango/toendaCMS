@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a side menu.
  *
- * @version 0.5.4
+ * @version 0.6.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -33,37 +33,18 @@ defined('_TCMS_VALID') or die('Restricted access');
 $getLang = $tcms_config->getLanguageCodeForTCMS($lang);
 
 
-if($navigation == 1){
-	if($choosenDB == 'xml'){
-		$layout_xml = new xmlparser(_TCMS_PATH.'/tcms_global/sidebar.xml','r');
-		$menu_title = $layout_xml->readSection('side', 'sidemenu_title');
-		$show_title = $layout_xml->readSection('side', 'sidemenu');
-		
-		$menu_title = $tcms_main->decodeText($menu_title, '2', $c_charset);
+if($navigation == 1) {
+	$dcSE = new tcms_dc_sidebarextensions();
+	$dcSE = $tcms_dcp->getSidebarExtensionSettings();
+	
+	
+	if($dcSE->getUseSidemenuTitle()){
+		echo $tcms_html->subTitle($dcSE->getSidemenuTitle());
 	}
-	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-		
-		$sqlQR = $sqlAL->getOne($tcms_db_prefix.'sidebar_extensions', 'sidebar_extensions');
-		$sqlARR = $sqlAL->fetchArray($sqlQR);
-		
-		$menu_title = $sqlARR['sidemenu_title'];
-		$show_title = $sqlARR['sidemenu'];
-		
-		$menu_title = $tcms_main->decodeText($menu_title, '2', $c_charset);
-	}
-	
-	
-	
-	if($show_title == 1){
-		echo $tcms_html->subTitle($menu_title);
-	}
-	
 	
 	
 	if($choosenDB != 'xml') {
-		include_once('engine/tcms_kernel/datacontainer/tcms_dc_sidemenuitem.lib.php');
+		using('toendacms.datacontainer.sidemenuitem');
 		
 		$arrMenuItem = new tcms_dc_sidemenuitem();
 		$arrMenuItem = $tcms_menu->getBasemenu($getLang);
@@ -360,6 +341,10 @@ if($navigation == 1){
 		echo '<br />';
 		//echo '<br />';
 	}
+	
+	
+	// cleanup
+	unset($dcSE);
 }
 
 ?>

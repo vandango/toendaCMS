@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * sidebar extension settings.
  *
- * @version 0.1.2
+ * @version 0.1.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -34,6 +34,7 @@ defined('_TCMS_VALID') or die('Restricted access');
 class tcms_dc_sidebarextensions {
 	private $m_id;
 	private $m_lang;
+	private $m_sidemenu;
 	private $m_sidemenu_title;
 	private $m_show_chooser_title;
 	private $m_chooser_title;
@@ -113,6 +114,25 @@ class tcms_dc_sidebarextensions {
 	 */
 	public function getSidemenuTitle() {
 		return $this->m_sidemenu_title;
+	}
+	
+	/**
+	 * Set the UseSidemenuTitle flag
+	 * 
+	 * @param String $value
+	 * @return String
+	 */
+	public function setUseSidemenuTitle($value) {
+		$this->m_sidemenu = $value;
+	}
+	
+	/**
+	 * Get the UseSidemenuTitle flag
+	 * 
+	 * @return String
+	 */
+	public function getUseSidemenuTitle() {
+		return ( $this->m_sidemenu == 1 || $this->m_sidemenu == '1' || $this->m_sidemenu ? true : false );
 	}
 	
 	/**
