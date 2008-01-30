@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a guestbook.
  *
- * @version 0.6.2
+ * @version 0.6.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -198,7 +198,11 @@ if($dcG->getEnabled()) {
 		echo '<br />';
 		
 		
-		// border: 1px solid #222;
+		$tcms_template = new tcms_toendaTemplate();
+		
+		if($tcms_template->checkTemplateExist(_LAYOUT_GUESTBOOK_ENTRY)) {
+			$tcms_template->loadTemplate(_LAYOUT_GUESTBOOK_ENTRY);
+		}
 		
 		echo $tcms_html->tableHeadClass('1', '0', '0', '100%', 'book_content');
 		
@@ -207,7 +211,7 @@ if($dcG->getEnabled()) {
 		.'<th valign="top" class="titleBG" width="'.$dcG->getTextWidth().'" align="left">'._FRONT_COMMENT.'</th>'
 		.'</tr>';
 		
-		if(isset($arr_guests) && !empty($arr_guests) && $arr_guests != '') {
+		if($tcms_main->isReal($arr_guests)) {
 			foreach($arr_guests['uid'] as $key => $val) {
 				if($key >= ( ($page * 10) - 10 ) && $key < ( $page * 10 )) {
 					if($dcG->getCleanLink()) {
@@ -267,11 +271,8 @@ if($dcG->getEnabled()) {
 						
 						First the old one:
 					*/
-					$tcms_template = new tcms_toendaTemplate();
 					
 					if($tcms_template->checkTemplateExist(_LAYOUT_GUESTBOOK_ENTRY)) {
-						$tcms_template->loadTemplate(_LAYOUT_GUESTBOOK_ENTRY);
-						
 						echo $tcms_template->getGuestbookEntry(
 							$arr_color[$wsc], 
 							$dcG->getNameWidth(), 

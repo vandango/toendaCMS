@@ -46,6 +46,19 @@ echo $tcms_html->contentModuleHeader(
 );
 
 
+/*
+	toendaTemplate Engine
+*/
+
+$tcms_script = new toendaScript();
+$tcms_template = new tcms_toendaTemplate();
+
+if($tcms_template->checkTemplateExist(_LAYOUT_LINK_ENTRY)) {
+	$tcms_template->loadTemplate(_LAYOUT_LINK_ENTRY);
+	$tcms_template->parseLinksTemplate();
+}
+
+
 if($choosenDB == 'xml') {
 	$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_links/');
 	$count = 0;
@@ -91,11 +104,8 @@ if($choosenDB == 'xml') {
 					
 					First the old one:
 				*/
-				$tcms_template = new tcms_toendaTemplate();
 				
 				if($tcms_template->checkTemplateExist(_LAYOUT_LINK_ENTRY)) {
-					$tcms_template->loadTemplate(_LAYOUT_LINK_ENTRY);
-					
 					echo $tcms_template->getLinksCategoryTitle($arrLink['name']);
 				}
 				else {
@@ -218,9 +228,6 @@ if($choosenDB == 'xml') {
 				}
 				
 				echo '<br />';
-				
-				$tcms_template->unloadTemplate();
-				unset($tcms_template);
 			}
 		}
 	}
@@ -252,11 +259,8 @@ else {
 			
 			First the old one:
 		*/
-		$tcms_template = new tcms_toendaTemplate();
 		
 		if($tcms_template->checkTemplateExist(_LAYOUT_LINK_ENTRY)) {
-			$tcms_template->loadTemplate(_LAYOUT_LINK_ENTRY);
-			
 			echo $tcms_template->getLinksCategoryTitle($arrLink['name']);
 		}
 		else {
@@ -349,9 +353,6 @@ else {
 		echo '<br />';
 		
 		$sqlAL->sqlFreeResult($sqlQR2);
-		
-		$tcms_template->unloadTemplate();
-		unset($tcms_template);
 	}
 	
 	$sqlAL->sqlFreeResult($sqlQR);
@@ -361,5 +362,10 @@ else {
 
 // cleanup
 unset($lDC);
+
+$tcms_template->unloadTemplate();
+unset($tcms_template);
+
+unset($tcms_script);
 
 ?>
