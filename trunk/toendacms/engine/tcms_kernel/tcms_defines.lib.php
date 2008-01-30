@@ -493,6 +493,11 @@ if(trim($s) != 'printer') {
 		if(!defined('_LAYOUT_LINK_ENTRY')) {
 			define('_LAYOUT_LINK_ENTRY', 'theme/'.$s.'/templates/link_entry.tpl');
 		}
+		
+		/*_LAYOUT_NEWS_ENTRY*/
+		if(!defined('_LAYOUT_NEWS_ENTRY')) {
+			define('_LAYOUT_NEWS_ENTRY', 'theme/'.$s.'/templates/news_entry.tpl');
+		}
 	}
 	else {
 		$tcms_error = new tcms_error('tcms_defines.lib.php', 2, $s, $imagePath);
@@ -510,6 +515,10 @@ if(trim($s) != 'printer') {
 			define('_LAYOUT_LINK_ENTRY', '');
 		}
 		
+		if(!defined('_LAYOUT_NEWS_ENTRY')) {
+			define('_LAYOUT_NEWS_ENTRY', '');
+		}
+		
 		unset($tcms_error);
 	}
 }
@@ -524,6 +533,10 @@ else {
 	
 	if(!defined('_LAYOUT_LINK_ENTRY')) {
 		define('_LAYOUT_LINK_ENTRY', '');
+	}
+	
+	if(!defined('_LAYOUT_NEWS_ENTRY')) {
+		define('_LAYOUT_NEWS_ENTRY', '');
 	}
 }
 
