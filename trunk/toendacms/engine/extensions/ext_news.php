@@ -24,32 +24,32 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a news manager with a news,
  * a news view and a archive with different formats.
  *
- * @version 1.6.3
+ * @version 1.6.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
  */
 
 
-if(isset($_GET['news'])){ $news = $_GET['news']; }
-if(isset($_GET['cmd'])){ $cmd = $_GET['cmd']; }
-if(isset($_GET['cat'])){ $cat = $_GET['cat']; }
-if(isset($_GET['date'])){ $date = $_GET['date']; }
-if(isset($_GET['day'])){ $day = $_GET['day']; }
-if(isset($_GET['XMLplace'])){ $XMLplace = $_GET['XMLplace']; }
-if(isset($_GET['XMLfile'])){ $XMLfile = $_GET['XMLfile']; }
+if(isset($_GET['news'])) { $news = $_GET['news']; }
+if(isset($_GET['cmd'])) { $cmd = $_GET['cmd']; }
+if(isset($_GET['cat'])) { $cat = $_GET['cat']; }
+if(isset($_GET['date'])) { $date = $_GET['date']; }
+if(isset($_GET['day'])) { $day = $_GET['day']; }
+if(isset($_GET['XMLplace'])) { $XMLplace = $_GET['XMLplace']; }
+if(isset($_GET['XMLfile'])) { $XMLfile = $_GET['XMLfile']; }
 
-if(isset($_POST['news'])){ $news = $_POST['news']; }
-if(isset($_POST['cmd'])){ $cmd = $_POST['cmd']; }
-if(isset($_POST['date'])){ $date = $_POST['date']; }
-if(isset($_POST['day'])){ $day = $_POST['day']; }
-if(isset($_POST['comment_name'])){ $comment_name = $_POST['comment_name']; }
-if(isset($_POST['comment_email'])){ $comment_email = $_POST['comment_email']; }
-if(isset($_POST['comment_web'])){ $comment_web = $_POST['comment_web']; }
-if(isset($_POST['comment_text'])){ $comment_text = $_POST['comment_text']; }
-if(isset($_POST['comment_captcha'])){ $comment_captcha = $_POST['comment_captcha']; }
-if(isset($_POST['check_captcha'])){ $check_captcha = $_POST['check_captcha']; }
-if(isset($_POST['trackback_url'])){ $trackback_url = $_POST['trackback_url']; }
+if(isset($_POST['news'])) { $news = $_POST['news']; }
+if(isset($_POST['cmd'])) { $cmd = $_POST['cmd']; }
+if(isset($_POST['date'])) { $date = $_POST['date']; }
+if(isset($_POST['day'])) { $day = $_POST['day']; }
+if(isset($_POST['comment_name'])) { $comment_name = $_POST['comment_name']; }
+if(isset($_POST['comment_email'])) { $comment_email = $_POST['comment_email']; }
+if(isset($_POST['comment_web'])) { $comment_web = $_POST['comment_web']; }
+if(isset($_POST['comment_text'])) { $comment_text = $_POST['comment_text']; }
+if(isset($_POST['comment_captcha'])) { $comment_captcha = $_POST['comment_captcha']; }
+if(isset($_POST['check_captcha'])) { $check_captcha = $_POST['check_captcha']; }
+if(isset($_POST['trackback_url'])) { $trackback_url = $_POST['trackback_url']; }
 
 
 
@@ -71,13 +71,13 @@ if($choosenDB == 'xml') {
 	$arr_news = $tcms_file->getPathContent('data/tcms_news/');
 }
 
-if(!isset($news) && $action != 'archive'){ $action = 'start'; }
-if(!isset($action)){ $action = 'start'; }
+if(!isset($news) && $action != 'archive') { $action = 'start'; }
+if(!isset($action)) { $action = 'start'; }
 
-if(!isset($cmd)){ $cmd = ''; }
-if(isset($cat)){ $action = 'archive'; $news = ''; $cmd = ''; }
-if(isset($date)){ $action = 'archive'; $news = ''; $cmd = ''; $cat = ''; }
-if(isset($day)){ $action = 'archive'; $news = ''; $cmd = ''; $cat = ''; $date = ''; }
+if(!isset($cmd)) { $cmd = ''; }
+if(isset($cat)) { $action = 'archive'; $news = ''; $cmd = ''; }
+if(isset($date)) { $action = 'archive'; $news = ''; $cmd = ''; $cat = ''; }
+if(isset($day)) { $action = 'archive'; $news = ''; $cmd = ''; $cat = ''; $date = ''; }
 
 if($action == 'start' || $action == 'archive') {
 	if($cat == '' || !isset($cat)) {
@@ -118,7 +118,7 @@ else {
 	show a complete list of all news
 */
 
-if($action == 'start' && !isset($cat)){
+if($action == 'start' && !isset($cat)) {
 	$arrNewsDC = $tcms_dcp->getNewsDCList($getLang, $is_admin, $news_amount);
 	
 	echo '<table cellpadding="0" cellspacing="0" border="0" width="100%">'
@@ -129,8 +129,8 @@ if($action == 'start' && !isset($cat)){
 	
 	echo '<tr><td colspan="3" style="height: 3px;"></td></tr>';
 	
-	if(!empty($arrNewsDC) && $arrNewsDC != '' && isset($arrNewsDC)){
-		foreach($arrNewsDC as $n_key => $n_value){
+	if(!empty($arrNewsDC) && $arrNewsDC != '' && isset($arrNewsDC)) {
+		foreach($arrNewsDC as $n_key => $n_value) {
 			$dcNews = new tcms_dc_news();
 			$dcNews = $arrNewsDC[$n_key];
 			
@@ -210,7 +210,11 @@ if($action == 'start' && !isset($cat)){
 	show one news
 */
 
-if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment_save' && !isset($cat)){
+if($news != '' 
+&& $action != 'start' 
+&& $action != 'archive' 
+&& $cmd != 'comment_save' 
+&& !isset($cat)) {
 	$dcNews = new tcms_dc_news();
 	$dcNews = $tcms_dcp->getNewsDC($getLang, $news, $is_admin);
 	
@@ -222,9 +226,9 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 			
 			echo '<a href="'.$link.'" />';
 			
-			echo '<script>if(browser == \'ie\'){
+			echo '<script>if(browser == \'ie\') {
 			document.write(\'<img alt="'._NEWS_EDIT_CURRENT.'" title="'._NEWS_EDIT_CURRENT.'" style="" src="'.$imagePath.'engine/images/pencil.gif" border="0" />\');
-			}else{
+			}else {
 			document.write(\'<img alt="'._NEWS_EDIT_CURRENT.'" title="'._NEWS_EDIT_CURRENT.'" style="padding-bottom: 0px; padding-top: 1px;" src="'.$imagePath.'engine/images/pencil.png" border="0" />\');
 			}</script>';
 			
@@ -238,24 +242,112 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 		}
 		
 		
+		/*
+			toendaTemplate Engine
+		*/
 		
-		//echo '<div class="contentmain">';
+		$seperator = '|';
 		
-		echo '<div style="width: 100%;" class="news_title_bg">'
-		//.'<strong class="text_huge">'
-		.$dcNews->getTitle()
-		//.'</strong>'
-		.'</div>';
+		$tcms_script = new toendaScript();
+		$tcms_template = new tcms_toendaTemplate();
+		
+		if($tcms_template->checkTemplateExist(_LAYOUT_NEWS_ENTRY)) {
+			$tcms_template->loadTemplate(_LAYOUT_NEWS_ENTRY);
+			$tcms_template->parseNewsTemplate();
 			
-		
-		if($show_autor_as_link == 1){
-			$userID = $tcms_ap->getUserID($dcNews->GetAutor());
+			$seperator = $tcms_template->getSeperator();
 		}
 		
 		
-		/*
-			get categories
-		*/
+		// date
+		$entryDate = _TABLE_PUBLISHED_ON.'&nbsp;';
+		
+		switch($use_timesince) {
+			case 0:
+				$entryDate .= lang_date(
+					substr($dcNews->getDate(), 0, 2), 
+					substr($dcNews->getDate(), 3, 2), 
+					substr($dcNews->getDate(), 6, 4), 
+					substr($dcNews->getTime(), 0, 2), 
+					substr($dcNews->getTime(), 3, 2), 
+					''
+				);
+				break;
+			
+			case 1:
+				$timestamp = mktime(
+					substr($dcNews->getTime(), 0, 2), 
+					substr($dcNews->getTime(), 3, 2), 
+					'00', 
+					substr($dcNews->getDate(), 3, 2), 
+					substr($dcNews->getDate(), 0, 2), 
+					substr($dcNews->getDate(), 6, 4)
+				);
+				
+				$entryDate .= $tcms_blogfeatures->timeSince(
+					$timestamp, 
+					false, 
+					$lang
+				);
+				break;
+			
+			case 2:
+				$month = substr($dcNews->getDate(), 3, 2);
+				
+				$entryDate .= substr($dcNews->getDate(), 0, 2).'. '
+				.$monthName[((
+					substr($month, 0, 1) == 0 ?
+					substr($month, 1, 1) :
+					$month
+				))].' ';
+				
+				switch(trim($lang)) {
+					case 'en':
+						$entryDate .= substr($dcNews->GetDate(), 6, 4)
+						.' '.substr($dcNews->GetTime(), 0, 2).':'
+						.substr($dcNews->GetTime(), 3, 2).'h';
+						break;
+					
+					case 'de':
+						$entryDate .= substr($dcNews->GetDate(), 6, 4)
+						.' '.substr($dcNews->GetTime(), 0, 2).':'
+						.substr($dcNews->GetTime(), 3, 2).' Uhr';
+						break;
+					
+					default:
+						$entryDate .= substr($dcNews->GetDate(), 6, 4)
+						.' '.substr($dcNews->GetTime(), 0, 2).':'
+						.substr($dcNews->GetTime(), 3, 2).'h';
+						break;
+				}
+				
+				$entryDate .= ' '.$tcms_blogfeatures->timeOfDay(
+					substr($dcNews->getTime(), 0, 2), 
+					$lang
+				);
+				break;
+			
+			default:
+				$entryDate .= lang_date(
+					substr($dcNews->getDate(), 0, 2), 
+					substr($dcNews->getDate(), 3, 2), 
+					substr($dcNews->getDate(), 6, 4), 
+					substr($dcNews->getTime(), 0, 2), 
+					substr($dcNews->getTime(), 3, 2), 
+					''
+				);
+				break;
+		}
+		
+		$entryInfo = $entryDate;
+		
+		
+		// autor and categories
+		if($show_autor_as_link == 1) {
+			$userID = $tcms_ap->getUserID($dcNews->GetAutor());
+		}
+		
+		// get categories
 		if($choosenDB == 'xml') {
 			/*
 				load categories from xml
@@ -333,7 +425,7 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 			else {
 				$count = 0;
 				
-				while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+				while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
 					$catLink['link'][$count] = $sqlObj->cat_uid;
 					$catLink['name'][$count] = $sqlObj->name;
 					
@@ -344,124 +436,12 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 			}
 		}
 		
-		
-		/*
-			time
-			and categories
-		*/
-		echo '<div style="padding-top: 5px;" class="news_content_bg">'
-		.'<span class="text_small">'
-		._TABLE_PUBLISHED.'&nbsp;';
-		
-		//echo '<span class="text_small">'
-		//._TABLE_PUBLISHED.'&nbsp;';
-		
-		switch($use_timesince) {
-			case 0:
-				echo lang_date(
-					substr($dcNews->getDate(), 0, 2), 
-					substr($dcNews->getDate(), 3, 2), 
-					substr($dcNews->getDate(), 6, 4), 
-					substr($dcNews->getTime(), 0, 2), 
-					substr($dcNews->getTime(), 3, 2), 
-					''
-				);
-				break;
-			
-			case 1:
-				$timestamp = mktime(
-					substr($dcNews->getTime(), 0, 2), 
-					substr($dcNews->getTime(), 3, 2), 
-					'00', 
-					substr($dcNews->getDate(), 3, 2), 
-					substr($dcNews->getDate(), 0, 2), 
-					substr($dcNews->getDate(), 6, 4)
-				);
-				
-				echo $tcms_blogfeatures->timeSince(
-					$timestamp, 
-					false, 
-					$lang
-				);
-				break;
-			
-			case 2:
-				$month = substr($dcNews->getDate(), 3, 2);
-				
-				echo substr($dcNews->getDate(), 0, 2).'. '
-				.$monthName[((
-					substr($month, 0, 1) == 0 ?
-					substr($month, 1, 1) :
-					$month
-				))].' ';
-				
-				switch(trim($lang)) {
-					case 'en':
-						echo substr($dcNews->GetDate(), 6, 4)
-						.' '.substr($dcNews->GetTime(), 0, 2).':'
-						.substr($dcNews->GetTime(), 3, 2).'h';
-						break;
-					
-					case 'de':
-						echo substr($dcNews->GetDate(), 6, 4)
-						.' '.substr($dcNews->GetTime(), 0, 2).':'
-						.substr($dcNews->GetTime(), 3, 2).' Uhr';
-						break;
-					
-					default:
-						echo substr($dcNews->GetDate(), 6, 4)
-						.' '.substr($dcNews->GetTime(), 0, 2).':'
-						.substr($dcNews->GetTime(), 3, 2).'h';
-						break;
-				}
-				
-				echo ' '.$tcms_blogfeatures->timeOfDay(
-					substr($dcNews->getTime(), 0, 2), 
-					$lang
-				);
-				break;
-			
-			default:
-				echo lang_date(
-					substr($dcNews->getDate(), 0, 2), 
-					substr($dcNews->getDate(), 3, 2), 
-					substr($dcNews->getDate(), 6, 4), 
-					substr($dcNews->getTime(), 0, 2), 
-					substr($dcNews->getTime(), 3, 2), 
-					''
-				);
-				break;
-		}
-		
-		if(!empty($catLink) && $catLink != '') {
-			echo '&nbsp;'._NEWS_IN;
-			
-			foreach($catLink['link'] as $catKey => $catVal) {
-				if($catKey != 0) {
-					echo ',';
-				}
-				
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-				.'id=newsmanager&amp;s='.$s.'&amp;cat='.$catVal
-				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlConvertToSEO($link);
-				
-				echo '&nbsp;<a href="'.$link.'">'
-				.$catLink['name'][$catKey]
-				.'</a>';
-			}
-		}
-		
-		
-		/*
-			author
-		*/
 		if($show_autor == 1) {
-			echo '&nbsp;&bull;&nbsp;';
+			$entryInfo .= '&nbsp;'.$seperator.'&nbsp;';
 			
 			if($show_autor_as_link == 1) {
 				if($dcNews->getAutor() != '') {
-					echo _NEWS_WRITTEN.'&nbsp;';
+					$entryInfo .= _NEWS_WRITTEN.'&nbsp;';
 					
 					if($userID != false) {
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
@@ -469,30 +449,38 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
 						$link = $tcms_main->urlConvertToSEO($link);
 						
-						echo '<a href="'.$link.'">'.$dcNews->getAutor().'</a>';
+						$entryInfo .= '<a href="'.$link.'">'.$dcNews->getAutor().'</a>';
 					}
 					else {
-						echo $dcNews->getAutor();
+						$entryInfo .= $dcNews->getAutor();
 					}
 				}
 			}
 			else {
-				echo _NEWS_WRITTEN.' '.$dcNews->getAutor();
+				$entryInfo .= _NEWS_WRITTEN.' '.$dcNews->getAutor();
 			}
 		}
 		
-		echo '</span>';
+		if(!empty($catLink) && $catLink != '') {
+			$entryInfo .= '&nbsp;'._NEWS_IN;
+			
+			foreach($catLink['link'] as $catKey => $catVal) {
+				if($catKey != 0) {
+					$entryInfo .= ',';
+				}
+				
+				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+				.'id=newsmanager&amp;s='.$s.'&amp;cat='.$catVal
+				.( isset($lang) ? '&amp;lang='.$lang : '' );
+				$link = $tcms_main->urlConvertToSEO($link);
+				
+				$entryInfo .= '&nbsp;<a href="'.$link.'">'
+				.$catLink['name'][$catKey]
+				.'</a>';
+			}
+		}
 		
-		
-		/*
-			content
-		*/
-		echo '<br />'
-		.'<br />'
-		.'<div class="news_content_box">';
-		
-		//echo '<div class="news_content_bg"><br />';
-		
+		// text
 		$news_content = $dcNews->getText();
 		
 		$toendaScript = new toendaScript($news_content);
@@ -500,12 +488,48 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 		$news_content = $toendaScript->removeTcmsMoreTag($news_content);
 		$news_content = $toendaScript->checkSEO($news_content, $imagePath);
 		
-		$toendaScript->doParsePHP($news_content);
+		$entryText = $news_content;
 		
 		
-		echo '</div></div>'
-		.'<br />';
-		//echo '<br /><br /><br /></div>';
+		/*
+			FOR COMPATIBILITY:
+			OLD AND NEW TEMPLATE ENGINE
+		*/
+		
+		if($tcms_template->checkTemplateExist(_LAYOUT_NEWS_ENTRY, 2)) {
+			$entry = $tcms_template->getNewsSingleEntry(
+				$link, 
+				$dcNews->GetTitle(), 
+				$entryInfo, 
+				$entryText
+			);
+			
+			$tcms_script->doParsePHP($entry);
+		}
+		else {
+			echo '<div style="width: 100%;" class="news_title_bg">'
+			//.'<strong class="text_huge">'
+			.$dcNews->getTitle()
+			//.'</strong>'
+			.'</div>';
+			
+			
+			echo '<div style="padding-top: 5px;" class="news_content_bg">'
+			.'<span class="text_small">'
+			.$entryInfo
+			.'</span>';
+			
+			
+			echo '<br />'
+			.'<br />'
+			.'<div class="news_content_box">';
+			
+			$toendaScript->doParsePHP($entryText);
+			
+			echo '</div></div>'
+			.'<br />';
+		}
+		
 		
 		
 		/*
@@ -582,7 +606,7 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 					JavaScript for checking inputs
 				*/
 				?><script language="JavaScript">
-				function checkinputs(id){
+				function checkinputs(id) {
 					sendOK = true;
 					
 					strName = document.forms[id].comment_name.value;
@@ -615,7 +639,7 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 						return false;
 					}
 					
-					<? if($use_captcha == 1){ ?>
+					<? if($use_captcha == 1) { ?>
 						strMsg = document.forms[id].comment_captcha.value;
 						if(strMsg == '') {
 							sendOK = false;
@@ -625,12 +649,11 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 						}
 					<? } ?>
 					
-					if (sendOK){ document.forms[id].submit(); }
+					if (sendOK) { document.forms[id].submit(); }
 				}
 				</script><?
 				
 				
-				include_once('engine/tcms_kernel/datacontainer/tcms_dc_comment.lib.php');
 				
 				$arrCommentDC = $tcms_dcp->getCommentDCList($news);
 				
@@ -642,54 +665,51 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 							$commentDC = new tcms_dc_comment();
 							$commentDC = $arrCommentDC[$key];
 							
-							echo '<div class="comment_box comment_box_bgcolor_'
-							.( is_integer($count / 2) ? '2' : '1' )
-							.'">';
 							
+							// init
+							$entry = '';
+							$entryAutor = '';
+							$entryDate = '';
+							$entryText = '';
+							
+							
+							// row
+							$entryRow = ( is_integer($count / 2) ? '2' : '1' );
+							
+							// gravatar
 							if($use_gravatar == 1) {
-								$grav_url = 'http://www.gravatar.com/'
+								$entryGravatar = 'http://www.gravatar.com/'
 								.'avatar.php?'
 								.'gravatar_id='.md5($commentDC->getEMail())
 								.'&amp;size=32';
-								
-								echo '<a href="http://www.gravatar.com" title="What is this?" target="_blank">'
-								.'<img align="right" border="0" src="'.$grav_url.'" alt="?" />'
-								.'</a><br />';
 							}
 							
-							echo '<strong class="comment_title">'.$count.'. ';
-							
+							// autor
 							if($commentDC->getURL() != '') {
-								echo '<a href="'.$commentDC->getURL().'">'.$commentDC->getName().'</a>';
+								$entryAutor = '<a href="'.$commentDC->getURL().'">'.$commentDC->getName().'</a>';
 							}
 							else {
-								echo $commentDC->getName();
+								$entryAutor = $commentDC->getName();
 							}
 							
-							echo '</strong>';
-							
-							echo '<span class="text_small" style="padding: 3px 0 0 3px;">'
-							.lang_date(
+							// date
+							$entryDate = lang_date(
 								substr($commentDC->getTime(), 6, 2), 
 								substr($commentDC->getTime(), 4, 2), 
 								substr($commentDC->getTime(), 0, 4), 
 								substr($commentDC->getTime(), 8, 2), 
 								substr($commentDC->getTime(), 10, 2), 
 								substr($commentDC->getTime(), 12, 2)
-							).'</span>';
+							);
 							
-							echo $hr_line_5;
-							
-							$msg = $commentDC->getText();
+							// text
+							$entryText = $commentDC->getText();
 							
 							if($use_emoticons == 1) {
-								$msg = $tcms_main->replaceSmilyTags($msg, $imagePath);
+								$entryText = $tcms_main->replaceSmilyTags($entryText, $imagePath);
 							}
 							
-							echo '<div class="comment_text">'
-							.$msg
-							.'</div>';
-							
+							// admin
 							if($check_session) {
 								if($is_admin == 'Administrator' 
 								|| $is_admin == 'Developer') {
@@ -699,21 +719,67 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 									.( isset($lang) ? '&amp;lang='.$lang : '' );
 									$link = $tcms_main->urlConvertToSEO($link);
 									
-									echo '<a class="main" href="'.$link.'">'
+									$entryAdmin = '<a class="main" href="'.$link.'">'
 									.'<strong>'._TCMS_ADMIN_DELETE.'</strong>'
 									.'</a>';
 								}
 							}
 							
-							echo '</div>'
-							.'<br />';
-							//.'<br />';
+							
+							/*
+								toendaTemplate
+							*/
+							
+							if($tcms_template->checkTemplateExist(_LAYOUT_NEWS_ENTRY, 3)) {
+								$entry = $tcms_template->getNewsCommentEntry(
+									$entryRow, 
+									$entryGravatar, 
+									$count, 
+									$entryAutor, 
+									$entryDate, 
+									$entryText, 
+									$entryAdmin
+								);
+								
+								$tcms_script->doParsePHP($entry);
+							}
+							else {
+								echo '<div class="comment_box comment_box_bgcolor_'
+								.$entryRow
+								.'">';
+								
+								if($use_gravatar == 1) {
+									echo '<a href="http://www.gravatar.com" title="What is this?" target="_blank">'
+									.'<img align="right" border="0" src="'.$entryGravatar.'" alt="?" />'
+									.'</a><br />';
+								}
+								
+								echo '<strong class="comment_title">'.$count.'. '
+								.$entryAutor
+								.'</strong>';
+								
+								echo '<span class="text_small" style="padding: 3px 0 0 3px;">'
+								.$entryDate
+								.'</span>';
+								
+								echo $hr_line_5;
+								
+								echo '<div class="comment_text">'
+								.$entryText
+								.'</div>';
+								
+								echo $entryAdmin;
+								
+								echo '</div>'
+								.'<br />';
+								//.'<br />';
+							}
 							
 							$count++;
 						}
 					}
 				}
-				else{
+				else {
 					echo _FRONT_NOCOMMENT.'<br />';
 				}
 				
@@ -791,8 +857,13 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 				echo '</form>';
 			}
 		}
+		
+		
+		// cleanup
+		unset($tcms_template);
+		unset($tcms_script);
 	}
-	else{
+	else {
 		echo '<strong>'._MSG_NOT_PUBLISHED.'</strong>';
 	}
 }
@@ -804,47 +875,47 @@ if($news != '' && $action != 'start' && $action != 'archive' && $cmd != 'comment
 	save commenst
 */
 
-if($use_news_comments == 1){
-	if($cmd == 'comment_save'){
+if($use_news_comments == 1) {
+	if($cmd == 'comment_save') {
 		// Timestamp
 		$cur_c_date = date('YmdHis');
 		$save_comment = true;
 		
-		if($use_captcha == 1){
-			if($comment_captcha == ''){
+		if($use_captcha == 1) {
+			if($comment_captcha == '') {
 				echo _MSG_NOCAPTCHA.'<br />';
 				$save_comment = false;
 			}
-			else{ $save_comment = true; }
+			else { $save_comment = true; }
 			
-			if($save_comment){
-				if($comment_captcha != $check_captcha){
+			if($save_comment) {
+				if($comment_captcha != $check_captcha) {
 					echo _MSG_CAPTCHA_NOT_VALID.'<br />';
 					$save_comment = false;
 				}
-				else{ $save_comment = true; }
+				else { $save_comment = true; }
 			}
 		}
 		
-		if($save_comment){
-			if($comment_name == ''){
+		if($save_comment) {
+			if($comment_name == '') {
 				echo _MSG_NONAME;
 				$save_comment = false;
 			}
-			else{
+			else {
 				$save_comment = true;
 			}
 		}
 		
-		if($save_comment){ if($comment_email == ''){ echo _MSG_NOEMAIL; $save_comment = false; }else{ $save_comment = true; } }
-		if($save_comment){ if(strpos($comment_email, '@') == false){ echo _MSG_NOEMAIL; $save_comment = false; }else{ $save_comment = true; } }
-		if($save_comment){ if($comment_text == '') { echo _MSG_NOMSG; $save_comment = false; }  else{ $save_comment = true; } }
+		if($save_comment) { if($comment_email == '') { echo _MSG_NOEMAIL; $save_comment = false; }else { $save_comment = true; } }
+		if($save_comment) { if(strpos($comment_email, '@') == false) { echo _MSG_NOEMAIL; $save_comment = false; }else { $save_comment = true; } }
+		if($save_comment) { if($comment_text == '') { echo _MSG_NOMSG; $save_comment = false; }  else { $save_comment = true; } }
 		
-		if($comment_web != ''){ if(substr($comment_web, 0, 7) != 'http://'){ $comment_web = 'http://'.$comment_web; } }
+		if($comment_web != '') { if(substr($comment_web, 0, 7) != 'http://') { $comment_web = 'http://'.$comment_web; } }
 		
 		
 		
-		if($save_comment == true){
+		if($save_comment == true) {
 			// clean from html tags
 			$comment_name = strip_tags($comment_name);
 			$comment_email = strip_tags($comment_email);
@@ -860,16 +931,16 @@ if($use_news_comments == 1){
 			
 			
 			$comment_ip = getenv('REMOTE_ADDR');
-			if($comment_ip == ''){
+			if($comment_ip == '') {
 				$comment_remote = 'localhost';
 				$comment_ip = '127.0.0.1';
 			}
-			else{
+			else {
 				$comment_remote = getHostByAddr($comment_ip);
 			}
 			
 			
-			if($choosenDB == 'xml'){
+			if($choosenDB == 'xml') {
 				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_news/comments_'.$news.'/'.$cur_c_date.'.xml', 'w');
 				$xmluser->xmlDeclaration();
 				$xmluser->xmlSection('comment');
@@ -885,7 +956,7 @@ if($use_news_comments == 1){
 				$xmluser->xmlSectionBuffer();
 				$xmluser->xmlSectionEnd('comment');
 			}
-			else{
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect(
 					$sqlUser, 
@@ -895,7 +966,7 @@ if($use_news_comments == 1){
 					$sqlPort
 				);
 				
-				switch($choosenDB){
+				switch($choosenDB) {
 					case 'mysql':
 						$newSQLColumns = '`module`, `timestamp`, `name`, `email`, `web`, `msg`, `time`, `ip`, `domain`';
 						break;
@@ -950,7 +1021,7 @@ if($use_news_comments == 1){
 			
 			echo '<a href="'.$link.'">'._TCMS_ADMIN_BACK.'</a>';
 		}
-		else{
+		else {
 			echo '<a href="javascript:history.back();">'._TCMS_ADMIN_BACK.'</a>';
 		}
 	}
@@ -989,12 +1060,12 @@ if($action == 'archive'
 			).'<br /><br />';
 			
 			
-			if($choosenDB != 'xml'){
-				if($check_session){
-					if($is_admin == 'User' || $is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor' || $is_admin == 'Presenter'){
+			if($choosenDB != 'xml') {
+				if($check_session) {
+					if($is_admin == 'User' || $is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor' || $is_admin == 'Presenter') {
 						$authSQL = "OR ".$tcms_db_prefix."news.access = 'Protected' ";
 					}
-					if($is_admin == 'Administrator' || $is_admin == 'Developer'){
+					if($is_admin == 'Administrator' || $is_admin == 'Developer') {
 						$authSQL = "OR ".$tcms_db_prefix."news.access = 'Protected' OR ".$tcms_db_prefix."news.access = 'Private' ";
 					}
 				}
@@ -1008,7 +1079,7 @@ if($action == 'archive'
 				."ORDER BY stamp DESC";
 			}
 		}
-		else{
+		else {
 			/*
 			*
 			* DAYVIEW
@@ -1033,12 +1104,12 @@ if($action == 'archive'
 			).'<br /><br />';
 			
 			
-			if($choosenDB != 'xml'){
-				if($check_session){
-					if($is_admin == 'User' || $is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor' || $is_admin == 'Presenter'){
+			if($choosenDB != 'xml') {
+				if($check_session) {
+					if($is_admin == 'User' || $is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor' || $is_admin == 'Presenter') {
 						$authSQL = "OR ".$tcms_db_prefix."news.access = 'Protected' ";
 					}
-					if($is_admin == 'Administrator' || $is_admin == 'Developer'){
+					if($is_admin == 'Administrator' || $is_admin == 'Developer') {
 						$authSQL = "OR ".$tcms_db_prefix."news.access = 'Protected' OR ".$tcms_db_prefix."news.access = 'Private' ";
 					}
 				}
@@ -1053,16 +1124,16 @@ if($action == 'archive'
 			}
 		}
 	}
-	else{
-		if($choosenDB == 'xml'){
+	else {
+		if($choosenDB == 'xml') {
 			$xmlP = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$cat.'.xml', 'r');
 			$catName = $xmlP->readSection('cat', 'name');
 			$catDesc = $xmlP->readSection('cat', 'desc');
 			
-			if(!$catName){ $catName = ''; }
-			if(!$catDesc){ $catDesc = ''; }
+			if(!$catName) { $catName = ''; }
+			if(!$catDesc) { $catDesc = ''; }
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
 			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
@@ -1072,23 +1143,23 @@ if($action == 'archive'
 			$catName = $sqlARR['name'];
 			$catDesc = $sqlARR['desc'];
 			
-			if($catName == NULL){ $catName = ''; }
-			if($catDesc == NULL){ $catDesc = ''; }
+			if($catName == NULL) { $catName = ''; }
+			if($catDesc == NULL) { $catDesc = ''; }
 		}
 		
 		$catName = $tcms_main->decodeText($catName, '2', $c_charset);
 		$catDesc = $tcms_main->decodeText($catDesc, '2', $c_charset);
 		
-		if($catName != ''){ echo $tcms_html->contentTitle(_NEWS_CATEGORY_ARCHIV.' \''.$catName.'\'').'<br />'; }
-		if($catDesc != ''){ echo $tcms_html->contentText($catDesc).'<br /><br />'; }
+		if($catName != '') { echo $tcms_html->contentTitle(_NEWS_CATEGORY_ARCHIV.' \''.$catName.'\'').'<br />'; }
+		if($catDesc != '') { echo $tcms_html->contentText($catDesc).'<br /><br />'; }
 		
 		
-		if($choosenDB != 'xml'){
-			if($check_session){
-				if($is_admin == 'User' || $is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor' || $is_admin == 'Presenter'){
+		if($choosenDB != 'xml') {
+			if($check_session) {
+				if($is_admin == 'User' || $is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor' || $is_admin == 'Presenter') {
 					$authSQL = "OR ".$tcms_db_prefix."news.access = 'Protected' ";
 				}
-				if($is_admin == 'Administrator' || $is_admin == 'Developer'){
+				if($is_admin == 'Administrator' || $is_admin == 'Developer') {
 					$authSQL = "OR ".$tcms_db_prefix."news.access = 'Protected' OR ".$tcms_db_prefix."news.access = 'Private' ";
 				}
 			}
@@ -1107,13 +1178,13 @@ if($action == 'archive'
 	
 	$cZ = 0;
 	
-	if($choosenDB == 'xml'){
-		if(!empty($arr_news) && $arr_news != '' && isset($arr_news)){
-			foreach($arr_news as $key => $cvalue){
+	if($choosenDB == 'xml') {
+		if(!empty($arr_news) && $arr_news != '' && isset($arr_news)) {
+			foreach($arr_news as $key => $cvalue) {
 				$isCorrect = false;
 				
-				if(isset($date)){
-					if(strlen($date) == 6){
+				if(isset($date)) {
+					if(strlen($date) == 6) {
 						/*
 							-- MONTH ARCHIVE --
 							
@@ -1127,14 +1198,14 @@ if($action == 'archive'
 						$checkDate = $main_xml->readSection('news', 'date');
 						
 						
-						if(substr(substr($date, 4, 2), 0, 1) == '0'){ $ccMonth = substr(substr($date, 4, 2), 1, 1); }
-						else{ $ccMonth = substr($date, 4, 2); }
+						if(substr(substr($date, 4, 2), 0, 1) == '0') { $ccMonth = substr(substr($date, 4, 2), 1, 1); }
+						else { $ccMonth = substr($date, 4, 2); }
 						
-						if(strpos($checkDate, $ccMonth.'.'.substr($date, 0, 4))){
+						if(strpos($checkDate, $ccMonth.'.'.substr($date, 0, 4))) {
 							$isCorrect = true;
 						}
 					}
-					else{
+					else {
 						/*
 							-- DAY ARCHIVE --
 							
@@ -1182,7 +1253,7 @@ if($action == 'archive'
 					$checkCat = $main_xml->readSection('news', 'category');
 					$arrCat = explode('{###}', $checkCat);
 					
-					if(in_array($cat, $arrCat)){
+					if(in_array($cat, $arrCat)) {
 						$isCorrect = true;
 					}
 				}
@@ -1191,7 +1262,7 @@ if($action == 'archive'
 				if($nws_acc == 'Public') {
 					$show_this_news = true;
 				}
-				elseif($nws_acc == 'Protected'){
+				elseif($nws_acc == 'Protected') {
 					if($is_admin == 'User' 
 					|| $is_admin == 'Administrator' 
 					|| $is_admin == 'Developer' 
@@ -1204,7 +1275,7 @@ if($action == 'archive'
 						$show_this_news = false;
 					}
 				}
-				elseif($nws_acc == 'Private'){
+				elseif($nws_acc == 'Private') {
 					if($is_admin == 'Administrator' 
 					|| $is_admin == 'Developer') {
 						$show_this_news = true;
@@ -1215,11 +1286,11 @@ if($action == 'archive'
 				}
 				
 				
-				if($is_pub == 1 && $show_this_news == true && $isCorrect == true){
+				if($is_pub == 1 && $show_this_news == true && $isCorrect == true) {
 					$is_date  = $main_xml->readSection('news', 'publish_date');
 					$is_date = mktime(substr($is_date, 11, 2), substr($is_date, 14, 2), 0, substr($is_date, 3, 2), substr($is_date, 0, 2), substr($is_date, 6, 4));
 					
-					if($is_date < time()){
+					if($is_date < time()) {
 						$arr_newsItems['title'][$cZ] = $main_xml->readSection('news', 'title');
 						$arr_newsItems['news'][$cZ]  = $main_xml->readSection('news', 'newstext');
 						$arr_newsItems['date'][$cZ]  = $main_xml->readSection('news', 'date');
@@ -1230,12 +1301,12 @@ if($action == 'archive'
 						$arr_newsItems['cmt'][$cZ]   = $main_xml->readSection('news', 'comments_enabled');
 						$arr_newsItems['cat'][$cZ]   = $checkCat;
 						
-						if(!$arr_newsItems['title'][$cZ]){ $arr_newsItems['title'][$cZ] = ''; }
+						if(!$arr_newsItems['title'][$cZ]) { $arr_newsItems['title'][$cZ] = ''; }
 						if(!$arr_newsItems['date'][$cZ]) { $arr_newsItems['date'][$cZ]  = ''; }
 						if(!$arr_newsItems['time'][$cZ]) { $arr_newsItems['time'][$cZ]  = ''; }
-						if(!$arr_newsItems['order'][$cZ]){ $arr_newsItems['order'][$cZ] = ''; }
-						if(!$arr_newsItems['stamp'][$cZ]){ $arr_newsItems['stamp'][$cZ] = ''; }
-						if(!$arr_newsItems['autor'][$cZ]){ $arr_newsItems['autor'][$cZ] = ''; }
+						if(!$arr_newsItems['order'][$cZ]) { $arr_newsItems['order'][$cZ] = ''; }
+						if(!$arr_newsItems['stamp'][$cZ]) { $arr_newsItems['stamp'][$cZ] = ''; }
+						if(!$arr_newsItems['autor'][$cZ]) { $arr_newsItems['autor'][$cZ] = ''; }
 						if(!$arr_newsItems['cmt'][$cZ])  { $arr_newsItems['cmt'][$cZ]   = ''; }
 						if(!$arr_newsItems['cat'][$cZ])  { $arr_newsItems['cat'][$cZ]   = ''; }
 						
@@ -1251,7 +1322,7 @@ if($action == 'archive'
 			}
 		}
 		
-		if($arr_newsItems['time']){
+		if($arr_newsItems['time']) {
 			array_multisort(
 				$arr_newsItems['stamp'], SORT_DESC, 
 				$arr_newsItems['date'], SORT_DESC, 
@@ -1265,7 +1336,7 @@ if($action == 'archive'
 			);
 		}
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
@@ -1273,12 +1344,12 @@ if($action == 'archive'
 		
 		$count = 0;
 		
-		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)) {
 			$is_date = $sqlARR['publish_date'];
 			
 			mktime(substr($is_date, 11, 2), substr($is_date, 14, 2), 0, substr($is_date, 3, 2), substr($is_date, 0, 2), substr($is_date, 6, 4));
 			
-			if($is_date < time()){
+			if($is_date < time()) {
 				$arr_newsItems['title'][$count] = $sqlARR['title'];
 				$arr_newsItems['autor'][$count] = $sqlARR['autor'];
 				$arr_newsItems['date'][$count]  = $sqlARR['date'];
@@ -1289,15 +1360,15 @@ if($action == 'archive'
 				$arr_newsItems['image'][$count] = $sqlARR['image'];
 				$arr_newsItems['cmt'][$count]   = $sqlARR['comments_enabled'];
 				
-				if($arr_newsItems['title'][$count] == NULL){ $arr_newsItems['title'][$count] = ''; }
-				if($arr_newsItems['autor'][$count] == NULL){ $arr_newsItems['autor'][$count] = ''; }
-				if($arr_newsItems['date'][$count]  == NULL){ $arr_newsItems['date'][$count]  = ''; }
-				if($arr_newsItems['time'][$count]  == NULL){ $arr_newsItems['time'][$count]  = ''; }
-				if($arr_newsItems['news'][$count]  == NULL){ $arr_newsItems['news'][$count]  = ''; }
-				if($arr_newsItems['order'][$count] == NULL){ $arr_newsItems['order'][$count] = ''; }
-				if($arr_newsItems['stamp'][$count] == NULL){ $arr_newsItems['stamp'][$count] = ''; }
-				if($arr_newsItems['image'][$count] == NULL){ $arr_newsItems['image'][$count] = ''; }
-				if($arr_newsItems['cmt'][$count]   == NULL){ $arr_newsItems['cmt'][$count]   = ''; }
+				if($arr_newsItems['title'][$count] == NULL) { $arr_newsItems['title'][$count] = ''; }
+				if($arr_newsItems['autor'][$count] == NULL) { $arr_newsItems['autor'][$count] = ''; }
+				if($arr_newsItems['date'][$count]  == NULL) { $arr_newsItems['date'][$count]  = ''; }
+				if($arr_newsItems['time'][$count]  == NULL) { $arr_newsItems['time'][$count]  = ''; }
+				if($arr_newsItems['news'][$count]  == NULL) { $arr_newsItems['news'][$count]  = ''; }
+				if($arr_newsItems['order'][$count] == NULL) { $arr_newsItems['order'][$count] = ''; }
+				if($arr_newsItems['stamp'][$count] == NULL) { $arr_newsItems['stamp'][$count] = ''; }
+				if($arr_newsItems['image'][$count] == NULL) { $arr_newsItems['image'][$count] = ''; }
+				if($arr_newsItems['cmt'][$count]   == NULL) { $arr_newsItems['cmt'][$count]   = ''; }
 				
 				$arr_newsItems['title'][$count] = $tcms_main->decodeText($arr_newsItems['title'][$count], '2', $c_charset);
 				$arr_newsItems['news'][$count]  = $tcms_main->decodeText($arr_newsItems['news'][$count], '2', $c_charset);
@@ -1313,7 +1384,7 @@ if($action == 'archive'
 	
 	
 	if($tcms_main->isArray($arr_newsItems['stamp'])) {
-		foreach($arr_newsItems['stamp'] as $key => $value){
+		foreach($arr_newsItems['stamp'] as $key => $value) {
 			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 			.'id=newsmanager&amp;s='.$s.'&amp;news='.$arr_newsItems['order'][$key]
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -1334,7 +1405,7 @@ if($action == 'archive'
 			echo '<div style="padding-top: 5px;" class="news_content_bg">'
 			.'<span class="text_small">';
 			
-			switch($use_timesince){
+			switch($use_timesince) {
 				case 0:
 					echo lang_date(
 						substr($arr_newsItems['date'][$key], 0, 2), 
@@ -1422,14 +1493,14 @@ if($action == 'archive'
 				comment link
 				if enabled
 			*/
-			if($use_news_comments == 1){
-				if($arr_newsItems['cmt'][$key] == 1){
-					if($choosenDB == 'xml'){
+			if($use_news_comments == 1) {
+				if($arr_newsItems['cmt'][$key] == 1) {
+					if($choosenDB == 'xml') {
 						$nw_amount = $tcms_file->getPathContentAmount(
 							_TCMS_PATH.'/tcms_news/comments_'.$arr_newsItems['order'][$key].'/'
 						);
 					}
-					else{
+					else {
 						$sqlAL = new sqlAbstractionLayer($choosenDB);
 						$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 						
@@ -1489,7 +1560,7 @@ if($action == 'archive'
 					$catLink['link'][0] = $defaultCat;
 				}
 			}
-			else{
+			else {
 				if($show_autor_as_link == 1) {
 					$userID = $tcms_ap->getUserID($arr_newsItems['autor'][$n_key]);
 				}
@@ -1514,7 +1585,7 @@ if($action == 'archive'
 					$catLink['name'][0] = $sqlObj->name;
 					$catLink['link'][0] = $defaultCat;
 					
-					if($catLink['name'][0] == NULL){ $catLink['name'][0] = ''; }
+					if($catLink['name'][0] == NULL) { $catLink['name'][0] = ''; }
 					
 					$catLink['name'][0] = $tcms_main->decodeText($catLink['name'][0], '2', $c_charset);
 				}
@@ -1559,28 +1630,28 @@ if($action == 'archive'
 						}
 					}
 				}
-				else{
+				else {
 					echo '&nbsp;'._NEWS_WRITTEN.'&nbsp;'.$arr_newsItems['autor'][$key];
 				}
 			}
 			
-			if(!empty($catLink) && $catLink != ''){
+			if(!empty($catLink) && $catLink != '') {
 				echo '&nbsp;'._NEWS_IN;
 				
-				foreach($catLink['link'] as $catKey => $catVal){
+				foreach($catLink['link'] as $catKey => $catVal) {
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=newsmanager&amp;s='.$s.'&amp;cat='.$catVal
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlConvertToSEO($link);
 					
-					if($catKey != 0){ echo ','; }
+					if($catKey != 0) { echo ','; }
 					echo '&nbsp;<a href="'.$link.'">'
 					.$catLink['name'][$catKey]
 					.'</a>';
 				}
 			}
 			
-			if($use_trackback == 1){
+			if($use_trackback == 1) {
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id=newsmanager&amp;s='.$s.'&amp;news='.$arr_newsItems['order'][$key].'&amp;cmd=trackback'
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -1589,8 +1660,8 @@ if($action == 'archive'
 				echo '&nbsp;|&nbsp;<a href="'.$link.'">'._NEWS_TRACKBACK.'</a>';
 			}
 			
-			if($use_news_comments == 1){
-				if($arr_newsItems['cmt'][$key] == 1){
+			if($use_news_comments == 1) {
+				if($arr_newsItems['cmt'][$key] == 1) {
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=newsmanager&amp;s='.$s.'&amp;news='.$arr_newsItems['order'][$key]
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -1677,10 +1748,10 @@ if($action == 'archive'
 				echo $news_text;
 				$toendaScript_more_show = true;
 			}
-			else{
+			else {
 				$news_content = $toendaScript->removeTcmsMoreTag($news_content);
 				
-				if($cut_news == 0){
+				if($cut_news == 0) {
 					//$news_content = trim($news_content);
 					//echo $news_content;
 					
@@ -1688,8 +1759,8 @@ if($action == 'archive'
 					
 					$toendaScript_more_show = false;
 				}
-				else{
-					if(strlen($news_content) > $cut_news){
+				else {
+					if(strlen($news_content) > $cut_news) {
 						$news_content = $toendaScript->doParsePHP($news_content, true);
 						
 						$str_off = strpos($news_content, ' ', $cut_news);
@@ -1698,7 +1769,7 @@ if($action == 'archive'
 						echo $news_text.' ...';
 						$toendaScript_more_show = true;
 					}
-					elseif(strlen($news_content) < $cut_news){
+					elseif(strlen($news_content) < $cut_news) {
 						//$news_content = trim($news_content);
 						//echo $news_content;
 						
@@ -1709,13 +1780,13 @@ if($action == 'archive'
 				}
 			}*/
 			
-			if($toendaScript_more_show){
+			if($toendaScript_more_show) {
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id=newsmanager&amp;s='.$s.'&amp;news='.$arr_newsItems['order'][$key]
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlConvertToSEO($link);
 				
-				switch($readmore_link){
+				switch($readmore_link) {
 					case 0: //--> new line - left align
 						echo '<br />'
 						.'<a href="'.$link.'">'
@@ -1777,7 +1848,7 @@ if($action == 'archive'
 		$sortPoint = false;
 		
 		if($tcms_main->isArray($arrNewsDC)) {
-			foreach($arrNewsDC as $n_key => $n_value){
+			foreach($arrNewsDC as $n_key => $n_value) {
 				$dcNews = new tcms_dc_news();
 				$dcNews = $arrNewsDC[$n_key];
 				
@@ -1785,7 +1856,7 @@ if($action == 'archive'
 				$sortMonth = substr($dcNews->getDate(), 3, 2);
 				$sortYear  = substr($dcNews->getDate(), 6, 4);
 				
-				if(isset($sortLastYear)){
+				if(isset($sortLastYear)) {
 					if($sortLastYear != $sortYear) {
 						$sortPoint = false;
 					}
@@ -1866,14 +1937,14 @@ if($action == 'archive'
 								$is_date  = $main_xml->readSection('news', 'publish_date');
 								$nws_acc  = $main_xml->readSection('news', 'access');
 								
-								if($nws_acc == 'Public'){ $show_this_news = true; }
-									elseif($nws_acc == 'Protected'){
-									if($is_admin == 'User' || $is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor' || $is_admin == 'Presenter'){ $show_this_news = true; }
-									else{ $show_this_news = false; }
+								if($nws_acc == 'Public') { $show_this_news = true; }
+									elseif($nws_acc == 'Protected') {
+									if($is_admin == 'User' || $is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor' || $is_admin == 'Presenter') { $show_this_news = true; }
+									else { $show_this_news = false; }
 								}
-									elseif($nws_acc == 'Private'){
-									if($is_admin == 'Administrator' || $is_admin == 'Developer'){ $show_this_news = true; }
-									else{ $show_this_news = false; }
+									elseif($nws_acc == 'Private') {
+									if($is_admin == 'Administrator' || $is_admin == 'Developer') { $show_this_news = true; }
+									else { $show_this_news = false; }
 								}
 								
 								if($show_this_news == true) {
@@ -1887,11 +1958,11 @@ if($action == 'archive'
 										$arr_newsItems['order'][$count] = $main_xml->readSection('news', 'order');
 										$arr_newsItems['stamp'][$count] = $main_xml->readSection('news', 'stamp');
 										
-										if(!$arr_newsItems['title'][$count]){ $arr_newsItems['title'][$count] = ''; }
+										if(!$arr_newsItems['title'][$count]) { $arr_newsItems['title'][$count] = ''; }
 										if(!$arr_newsItems['date'][$count]) { $arr_newsItems['date'][$count]  = ''; }
 										if(!$arr_newsItems['time'][$count]) { $arr_newsItems['time'][$count]  = ''; }
-										if(!$arr_newsItems['order'][$count]){ $arr_newsItems['order'][$count] = ''; }
-										if(!$arr_newsItems['stamp'][$count]){ $arr_newsItems['stamp'][$count] = ''; }
+										if(!$arr_newsItems['order'][$count]) { $arr_newsItems['order'][$count] = ''; }
+										if(!$arr_newsItems['stamp'][$count]) { $arr_newsItems['stamp'][$count] = ''; }
 										
 										$arr_newsItems['title'][$count] = $tcms_main->decodeText($arr_newsItems['title'][$count], '2', $c_charset);
 										
@@ -1910,12 +1981,12 @@ if($action == 'archive'
 			$authSQL = '';
 			
 			
-			if($check_session){
-				if($is_admin == 'User' || $is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor' || $is_admin == 'Presenter'){
+			if($check_session) {
+				if($is_admin == 'User' || $is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor' || $is_admin == 'Presenter') {
 					$authSQL = "OR ".$tcms_db_prefix."news.access = 'Protected' ";
 				}
 				
-				if($is_admin == 'Administrator' || $is_admin == 'Developer'){
+				if($is_admin == 'Administrator' || $is_admin == 'Developer') {
 					$authSQL = "OR ".$tcms_db_prefix."news.access = 'Protected' OR ".$tcms_db_prefix."news.access = 'Private' ";
 				}
 			}
@@ -1949,14 +2020,14 @@ if($action == 'archive'
 							$is_date = $sqlARR['publish_date'];
 							$nws_acc = $sqlARR['access'];
 							
-							if($nws_acc == 'Public'){ $show_this_news = true; }
-							elseif($nws_acc == 'Protected'){
-								if($is_admin == 'User' || $is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor' || $is_admin == 'Presenter'){ $show_this_news = true; }
-								else{ $show_this_news = false; }
+							if($nws_acc == 'Public') { $show_this_news = true; }
+							elseif($nws_acc == 'Protected') {
+								if($is_admin == 'User' || $is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor' || $is_admin == 'Presenter') { $show_this_news = true; }
+								else { $show_this_news = false; }
 							}
-							elseif($nws_acc == 'Private'){
-								if($is_admin == 'Administrator' || $is_admin == 'Developer'){ $show_this_news = true; }
-								else{ $show_this_news = false; }
+							elseif($nws_acc == 'Private') {
+								if($is_admin == 'Administrator' || $is_admin == 'Developer') { $show_this_news = true; }
+								else { $show_this_news = false; }
 							}
 							
 							if($show_this_news == true) {
@@ -1970,12 +2041,12 @@ if($action == 'archive'
 									$arr_newsItems['order'][$count] = $sqlARR['uid'];
 									$arr_newsItems['stamp'][$count] = $sqlARR['stamp'];
 									
-									if($arr_newsItems['categ'][$count] == NULL){ $arr_newsItems['categ'][$count] = ''; }
-									if($arr_newsItems['title'][$count] == NULL){ $arr_newsItems['title'][$count] = ''; }
-									if($arr_newsItems['date'][$count]  == NULL){ $arr_newsItems['date'][$count]  = ''; }
-									if($arr_newsItems['time'][$count]  == NULL){ $arr_newsItems['time'][$count]  = ''; }
-									if($arr_newsItems['order'][$count] == NULL){ $arr_newsItems['order'][$count] = ''; }
-									if($arr_newsItems['stamp'][$count] == NULL){ $arr_newsItems['stamp'][$count] = ''; }
+									if($arr_newsItems['categ'][$count] == NULL) { $arr_newsItems['categ'][$count] = ''; }
+									if($arr_newsItems['title'][$count] == NULL) { $arr_newsItems['title'][$count] = ''; }
+									if($arr_newsItems['date'][$count]  == NULL) { $arr_newsItems['date'][$count]  = ''; }
+									if($arr_newsItems['time'][$count]  == NULL) { $arr_newsItems['time'][$count]  = ''; }
+									if($arr_newsItems['order'][$count] == NULL) { $arr_newsItems['order'][$count] = ''; }
+									if($arr_newsItems['stamp'][$count] == NULL) { $arr_newsItems['stamp'][$count] = ''; }
 									
 									$arr_newsItems['title'][$count] = $tcms_main->decodeText($arr_newsItems['title'][$count], '2', $c_charset);
 									
@@ -2012,7 +2083,7 @@ if($action == 'archive'
 		
 		if($tcms_main->isReal($arr_newsItems['stamp'])) {
 			foreach ($arr_newsItems['stamp'] as $key => $value) {
-				if($arr_newsItems['categ'][$key] != $arr_newsItems['categ'][$key - 1]){
+				if($arr_newsItems['categ'][$key] != $arr_newsItems['categ'][$key - 1]) {
 					$sortPoint = false;
 				}
 				
@@ -2088,15 +2159,15 @@ if($action == 'archive'
 // DELETE COMMENT
 // ------------------------------------------
 
-if($check_session){
+if($check_session) {
 	if($is_admin == 'Administrator' 
 	|| $is_admin == 'Developer' 
-	|| $is_admin == 'Presenter'){
-		if($cmd == 'delete'){
-			if($choosenDB == 'xml'){
+	|| $is_admin == 'Presenter') {
+		if($cmd == 'delete') {
+			if($choosenDB == 'xml') {
 				unlink(_TCMS_PATH.'/tcms_news/comments_'.$XMLplace.'/'.$XMLfile);
 			}
-			else{
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				

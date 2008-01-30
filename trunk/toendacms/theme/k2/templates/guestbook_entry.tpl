@@ -1,3 +1,4 @@
+<!--#####GUESTBOOK_ENTRY_TEMPLATE_BEGIN#####-->
 <tr style="height: 5px;">
 	<td></td>
 </tr>
@@ -15,3 +16,4 @@
 		#####GUESTBOOK_ENTRY_TEXT#####
 	</td>
 </tr>
+<!--#####GUESTBOOK_ENTRY_TEMPLATE_END#####-->

@@ -36,6 +36,8 @@
 **************************
 * ADD THIS
 *
+if(!defined('_TABLE_PUBLISHED_ON'))            define('_TABLE_PUBLISHED_ON', 'Published on');
+
 if(!defined('_SEARCH_WITH_GOOGLE'))            define('_SEARCH_WEBSEARCH', 'Websearch');
 
 if(!defined('_GLOBAL_MM_VIEW_LIST'))           define('_GLOBAL_MM_VIEW_LIST', 'List view');

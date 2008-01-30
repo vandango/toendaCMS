@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to implement toendaTemplate Engine.
  *
- * @version 0.1.1
+ * @version 0.2.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -56,10 +56,13 @@ defined('_TCMS_VALID') or die('Restricted access');
  * loadTemplate                        -> Load a template into the buffer
  * unloadTemplate                      -> Unload a template into the buffer
  * getGuestbookEntry                   -> Get the entry template for a guestbook entry
+ * parseLinksTemplate                  -> Parse the links template
  * getLinksCategoryTitle               -> Get the category title template for a link
  * getLinksEntry                       -> Get the entry template for a link
  * parseNewsTemplate                   -> Parse the news template
  * getNewsFrontpageEntry               -> Get the template for the news on the frontpage
+ * getNewsSingleEntry                  -> Get the template for the news details
+ * getNewsCommentEntry                 -> Get the template for the news comments
  * 
  * </code>
  *
@@ -162,11 +165,51 @@ class tcms_toendaTemplate {
 	 * Check if the template exist
 	 *
 	 * @param String $file
+	 * @param Integer $checkPart
 	 * @return Boolean
 	 */
-	public function checkTemplateExist($file) {
+	public function checkTemplateExist($file, $checkPart = 0) {
 		if($this->_tcmsFile->checkFileExist($file)) {
-			return true;
+			if($checkPart > 0) {
+				switch($checkPart) {
+					case 1:
+						if($this->_part1 != NULL
+						&& trim($this->_part1) != '') {
+							return true;
+						}
+						else {
+							return false;
+						}
+						break;
+					
+					case 2:
+						if($this->_part2 != NULL
+						&& trim($this->_part2) != '') {
+							return true;
+						}
+						else {
+							return false;
+						}
+						break;
+					
+					case 3:
+						if($this->_part3 != NULL
+						&& trim($this->_part3) != '') {
+							return true;
+						}
+						else {
+							return false;
+						}
+						break;
+					
+					default:
+						return false;
+						break;
+				}
+			}
+			else {
+				return true;
+			}
 		}
 		else {
 			return false;
@@ -228,39 +271,61 @@ class tcms_toendaTemplate {
 	
 	
 	/**
+	 * Parse the links template
+	 *
+	 */
+	public function parseLinksTemplate() {
+		if(trim($this->_buffer) != '') {
+			// part 1
+			$part1_pos_begin = strpos($this->_buffer, '<!--#####LINK_TITLE_TEMPLATE_BEGIN#####-->');
+			$part1_pos_end = strpos($this->_buffer, '<!--#####LINK_TITLE_TEMPLATE_END#####-->');
+			
+			if($part1_pos_begin > -1 && $part1_pos_end > -1) {
+				$this->_part1 = substr(
+					$this->_buffer, 
+					$part1_pos_begin, 
+					$part1_pos_end - $part1_pos_begin
+				);
+				
+				$this->_part1 = str_replace('<!--#####LINK_TITLE_TEMPLATE_BEGIN#####-->', '', $this->_part1);
+				$this->_part1 = str_replace('<!--#####LINK_TITLE_TEMPLATE_END#####-->', '', $this->_part1);
+			}
+			
+			// part 2
+			$part2_pos_begin = strpos($this->_buffer, '<!--#####LINK_ENTRY_TEMPLATE_BEGIN#####-->');
+			$part2_pos_end = strpos($this->_buffer, '<!--#####LINK_ENTRY_TEMPLATE_END#####-->');
+			
+			if($part2_pos_begin > -1 && $part2_pos_end > -1) {
+				$this->_part2 = substr(
+					$this->_buffer, 
+					$part2_pos_begin, 
+					$part2_pos_end - $part2_pos_begin
+				);
+				
+				$this->_part2 = str_replace('<!--#####LINK_ENTRY_TEMPLATE_BEGIN#####-->', '', $this->_part2);
+				$this->_part2 = str_replace('<!--#####LINK_ENTRY_TEMPLATE_END#####-->', '', $this->_part2);
+			}
+		}
+	}
+	
+	
+	
+	/**
 	 * Get the category title template for a link
 	 *
 	 * @param String $title
 	 * @return String
 	 */
 	public function getLinksCategoryTitle($title) {
-		$layoutEntryTitle = '';
+		$layoutEntry = '';
 		
-		if(trim($this->_buffer) != '') {
-			if(strpos($this->_buffer, '<!--#####LINK_TITLE_TEMPLATE#####-->') > -1) {
-				if(strpos($this->_buffer, '<!--#####LINK_ENTRY_TEMPLATE#####-->') > -1) {
-					$layoutEntryTitle = substr(
-						$this->_buffer, 
-						0, 
-						strpos($this->_buffer, '<!--#####LINK_ENTRY_TEMPLATE#####-->')
-					);
-				}
-				else {
-					$layoutEntryTitle = substr(
-						$this->_buffer, 
-						0
-					);
-				}
-				
-				$layoutEntryTitle = trim($layoutEntryTitle);
-				$layoutEntryTitle = str_replace('<!--#####LINK_TITLE_TEMPLATE#####-->', '', $layoutEntryTitle);
-				$layoutEntryTitle = str_replace('<!--#####LINK_ENTRY_TEMPLATE#####-->', '', $layoutEntryTitle);
-				
-				$layoutEntryTitle = str_replace('#####LINK_TITLE#####', $title, $layoutEntryTitle);
-			}
+		if(trim($this->_part1) != '') {
+			$layoutEntry = trim($this->_part1);
+			
+			$layoutEntry = str_replace('#####LINK_TITLE#####', $title, $layoutEntry);
 		}
 		
-		return $layoutEntryTitle;
+		return $layoutEntry;
 	}
 	
 	
@@ -275,27 +340,18 @@ class tcms_toendaTemplate {
 	 * @return String
 	 */
 	public function getLinksEntry($entryTarget, $entryLink, $entryText, $entryDesc) {
-		$layoutEntryText = '';
+		$layoutEntry = '';
 		
-		if(trim($this->_buffer) != '') {
-			if(strpos($this->_buffer, '<!--#####LINK_ENTRY_TEMPLATE#####-->') > -1) {
-				$layoutEntryText = substr(
-					$this->_buffer, 
-					strpos($this->_buffer, '<!--#####LINK_ENTRY_TEMPLATE#####-->')
-				);
-				
-				$layoutEntryText = trim($layoutEntryText);
-				$layoutEntryText = str_replace('<!--#####LINK_TITLE_TEMPLATE#####-->', '', $layoutEntryText);
-				$layoutEntryText = str_replace('<!--#####LINK_ENTRY_TEMPLATE#####-->', '', $layoutEntryText);
-				
-				$layoutEntryText = str_replace('#####LINK_TARGET#####', $entryTarget, $layoutEntryText);
-				$layoutEntryText = str_replace('#####LINK_LINK#####', $entryLink, $layoutEntryText);
-				$layoutEntryText = str_replace('#####LINK_TEXT#####', $entryText, $layoutEntryText);
-				$layoutEntryText = str_replace('#####LINK_DESC#####', $entryDesc, $layoutEntryText);
-			}
+		if(trim($this->_part2) != '') {
+			$layoutEntry = trim($this->_part2);
+			
+			$layoutEntry = str_replace('#####LINK_TARGET#####', $entryTarget, $layoutEntry);
+			$layoutEntry = str_replace('#####LINK_LINK#####', $entryLink, $layoutEntry);
+			$layoutEntry = str_replace('#####LINK_TEXT#####', $entryText, $layoutEntry);
+			$layoutEntry = str_replace('#####LINK_DESC#####', $entryDesc, $layoutEntry);
 		}
 		
-		return $layoutEntryText;
+		return $layoutEntry;
 	}
 	
 	
@@ -306,84 +362,66 @@ class tcms_toendaTemplate {
 	 */
 	public function parseNewsTemplate() {
 		if(trim($this->_buffer) != '') {
+			// configuration
+			if(strpos($this->_buffer, 'news.information.seperator') > -1) {
+				$posSepStart = strpos($this->_buffer, 'news.information.seperator') + 27;
+				$posSepEnd = strpos(
+					$this->_buffer, 
+					chr(10), 
+					$posSepStart
+				);
+				
+				// seperator
+				$this->_sepererator = substr(
+					$this->_buffer, 
+					$posSepStart, 
+					$posSepEnd - $posSepStart
+				);
+			}
+			
 			// part 1
-			if(strpos($this->_buffer, '<!--#####NEWS_FRONTPAGE_TEMPLATE#####-->') > -1) {
-				if(strpos($this->_buffer, '<!--#####NEWS_SINGLE_TEMPLATE#####-->') > -1) {
-					$this->_part1 = substr(
-						$this->_buffer, 
-						0, 
-						strpos($this->_buffer, '<!--#####NEWS_SINGLE_TEMPLATE#####-->')
-					);
-				}
-				else {
-					if(strpos($this->_buffer, '<!--#####NEWS_COMMENT_TEMPLATE#####-->') > -1) {
-						$this->_part1 = substr(
-							$this->_buffer, 
-							0, 
-							strpos($this->_buffer, '<!--#####NEWS_COMMENT_TEMPLATE#####-->')
-						);
-					}
-					else {
-						$this->_part1 = substr(
-							$this->_buffer, 
-							0
-						);
-					}
-				}
+			$part1_pos_begin = strpos($this->_buffer, '<!--#####NEWS_FRONTPAGE_TEMPLATE_BEGIN#####-->');
+			$part1_pos_end = strpos($this->_buffer, '<!--#####NEWS_FRONTPAGE_TEMPLATE_END#####-->');
+			
+			if($part1_pos_begin > -1 && $part1_pos_end > -1) {
+				$this->_part1 = substr(
+					$this->_buffer, 
+					$part1_pos_begin, 
+					$part1_pos_end - $part1_pos_begin
+				);
 				
-				if(strpos($this->_part1, 'news.information.seperator') > -1) {
-					$posSepStart = strpos($this->_part1, 'news.information.seperator') + 27;
-					$posSepEnd = strpos(
-						$this->_part1, 
-						chr(10), 
-						$posSepStart
-					);
-					
-					$this->_sepererator = substr(
-						$this->_part1, 
-						$posSepStart, 
-						$posSepEnd - $posSepStart
-					);
-					
-					$this->_part1 = substr($this->_part1, $posSepEnd);
-				}
-				
-				$this->_part1 = str_replace('<!--#####NEWS_FRONTPAGE_TEMPLATE#####-->', '', $this->_part1);
-				$this->_part1 = str_replace('<!--#####NEWS_SINGLE_TEMPLATE#####-->', '', $this->_part1);
-				$this->_part1 = str_replace('<!--#####NEWS_COMMENT_TEMPLATE#####-->', '', $this->_part1);
+				$this->_part1 = str_replace('<!--#####NEWS_FRONTPAGE_TEMPLATE_BEGIN#####-->', '', $this->_part1);
+				$this->_part1 = str_replace('<!--#####NEWS_FRONTPAGE_TEMPLATE_END#####-->', '', $this->_part1);
 			}
 			
 			// part 2
-			if(strpos($this->_buffer, '<!--#####NEWS_SINGLE_TEMPLATE#####-->') > -1) {
-				if(strpos($this->_buffer, '<!--#####NEWS_COMMENT_TEMPLATE#####-->') > -1) {
-					$this->_part2 = substr(
-						$this->_buffer, 
-						0, 
-						strpos($this->_buffer, '<!--#####NEWS_COMMENT_TEMPLATE#####-->')
-					);
-				}
-				else {
-					$this->_part2 = substr(
-						$this->_buffer, 
-						strpos($this->_buffer, '<!--#####NEWS_SINGLE_TEMPLATE#####-->')
-					);
-				}
+			$part2_pos_begin = strpos($this->_buffer, '<!--#####NEWS_SINGLE_TEMPLATE_BEGIN#####-->');
+			$part2_pos_end = strpos($this->_buffer, '<!--#####NEWS_SINGLE_TEMPLATE_END#####-->');
+			
+			if($part2_pos_begin > -1 && $part2_pos_end > -1) {
+				$this->_part2 = substr(
+					$this->_buffer, 
+					$part2_pos_begin, 
+					$part2_pos_end - $part2_pos_begin
+				);
 				
-				$this->_part2 = str_replace('<!--#####NEWS_FRONTPAGE_TEMPLATE#####-->', '', $this->_part2);
-				$this->_part2 = str_replace('<!--#####NEWS_SINGLE_TEMPLATE#####-->', '', $this->_part2);
-				$this->_part2 = str_replace('<!--#####NEWS_COMMENT_TEMPLATE#####-->', '', $this->_part2);
+				$this->_part2 = str_replace('<!--#####NEWS_SINGLE_TEMPLATE_BEGIN#####-->', '', $this->_part2);
+				$this->_part2 = str_replace('<!--#####NEWS_SINGLE_TEMPLATE_END#####-->', '', $this->_part2);
 			}
 			
 			// part 3
-			if(strpos($this->_buffer, '<!--#####NEWS_COMMENT_TEMPLATE#####-->') > -1) {
+			$part3_pos_begin = strpos($this->_buffer, '<!--#####NEWS_COMMENT_TEMPLATE_BEGIN#####-->');
+			$part3_pos_end = strpos($this->_buffer, '<!--#####NEWS_COMMENT_TEMPLATE_END#####-->');
+			
+			if($part3_pos_begin > -1 && $part3_pos_end > -1) {
 				$this->_part3 = substr(
 					$this->_buffer, 
-					strpos($this->_buffer, '<!--#####NEWS_COMMENT_TEMPLATE#####-->')
+					$part3_pos_begin, 
+					$part3_pos_end - $part3_pos_begin
 				);
 				
-				$this->_part3 = str_replace('<!--#####NEWS_FRONTPAGE_TEMPLATE#####-->', '', $this->_part3);
-				$this->_part3 = str_replace('<!--#####NEWS_SINGLE_TEMPLATE#####-->', '', $this->_part3);
-				$this->_part3 = str_replace('<!--#####NEWS_COMMENT_TEMPLATE#####-->', '', $this->_part3);
+				$this->_part3 = str_replace('<!--#####NEWS_COMMENT_TEMPLATE_BEGIN#####-->', '', $this->_part3);
+				$this->_part3 = str_replace('<!--#####NEWS_COMMENT_TEMPLATE_END#####-->', '', $this->_part3);
 			}
 		}
 	}
@@ -409,6 +447,67 @@ class tcms_toendaTemplate {
 			$layoutEntry = str_replace('#####NEWS_TITLE#####', $title, $layoutEntry);
 			$layoutEntry = str_replace('#####NEWS_INFORMATON#####', $info, $layoutEntry);
 			$layoutEntry = str_replace('#####NEWS_TEXT#####', $text, $layoutEntry);
+		}
+		
+		return $layoutEntry;
+	}
+	
+	
+	
+	/**
+	 * Get the template for the news details
+	 * 
+	 * @param String $link
+	 * @param String $title
+	 * @param String $info
+	 * @param String $text
+	 * @return String
+	 */
+	public function getNewsSingleEntry($link, $title, $info, $text) {
+		$layoutEntry = '';
+		
+		if(trim($this->_part2) != '') {
+			$layoutEntry = trim($this->_part2);
+			
+			$layoutEntry = str_replace('#####NEWS_LINK#####', $link, $layoutEntry);
+			$layoutEntry = str_replace('#####NEWS_TITLE#####', $title, $layoutEntry);
+			$layoutEntry = str_replace('#####NEWS_INFORMATON#####', $info, $layoutEntry);
+			$layoutEntry = str_replace('#####NEWS_TEXT#####', $text, $layoutEntry);
+		}
+		
+		return $layoutEntry;
+	}
+	
+	
+	
+	/**
+	 * Get the template for the news comments
+	 * 
+	 * @param String $row
+	 * @param String $gravatarLink
+	 * @param String $counter
+	 * @param String $autor
+	 * @param String $date
+	 * @param String $text
+	 * @param String $admin
+	 * @return String
+	 */
+	public function getNewsCommentEntry($row, $gravatarLink, $counter, $autor, $date, $text, $admin) {
+		$layoutEntry = '';
+		
+		if(trim($this->_part3) != '') {
+			$layoutEntry = trim($this->_part3);
+			
+			$text = str_replace('{php:}', '', $text);
+			$text = str_replace('{:php}', '', $text);
+			
+			$layoutEntry = str_replace('#####NEWS_COMMENT_ROW#####', $row, $layoutEntry);
+			$layoutEntry = str_replace('#####NEWS_COMMENT_GRAVATAR_LINK#####', $gravatarLink, $layoutEntry);
+			$layoutEntry = str_replace('#####NEWS_COMMENT_COUNTER#####', $counter, $layoutEntry);
+			$layoutEntry = str_replace('#####NEWS_COMMENT_AUTOR_NAME#####', $autor, $layoutEntry);
+			$layoutEntry = str_replace('#####NEWS_COMMENT_DATE#####', $date, $layoutEntry);
+			$layoutEntry = str_replace('#####NEWS_COMMENT_TEXT#####', $text, $layoutEntry);
+			$layoutEntry = str_replace('#####NEWS_COMMENT_ADMIN#####', $admin, $layoutEntry);
 		}
 		
 		return $layoutEntry;

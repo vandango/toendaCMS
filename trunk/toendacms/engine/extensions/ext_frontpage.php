@@ -102,10 +102,23 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 		
 		
 		/*
-			display news
+			toendaTemplate Engine
 		*/
-		if(!empty($arrNewsDC) && $arrNewsDC != '' && isset($arrNewsDC)){
-			foreach($arrNewsDC as $n_key => $n_value){
+		
+		$seperator = '|';
+		
+		$tcms_script = new toendaScript();
+		$tcms_template = new tcms_toendaTemplate();
+		
+		if($tcms_template->checkTemplateExist(_LAYOUT_NEWS_ENTRY)) {
+			$tcms_template->loadTemplate(_LAYOUT_NEWS_ENTRY);
+			$tcms_template->parseNewsTemplate();
+			
+			$seperator = $tcms_template->getSeperator();
+		}
+		
+		if($tcms_main->isReal($arrNewsDC)) {
+			foreach($arrNewsDC as $n_key => $n_value) {
 				$dcNews = new tcms_dc_news();
 				$dcNews = $arrNewsDC[$n_key];
 				
@@ -132,24 +145,6 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 					echo '</a>';
 					
 					echo '</div>';
-				}
-				
-				
-				
-				/*
-					toendaTemplate Engine
-				*/
-				
-				$seperator = '|';
-				
-				$tcms_script = new toendaScript();
-				$tcms_template = new tcms_toendaTemplate();
-				
-				if($tcms_template->checkTemplateExist(_LAYOUT_NEWS_ENTRY)) {
-					$tcms_template->loadTemplate(_LAYOUT_NEWS_ENTRY);
-					$tcms_template->parseNewsTemplate();
-					
-					$seperator = $tcms_template->getSeperator();
 				}
 				
 				
@@ -201,19 +196,19 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 						
 						switch(trim($lang)) {
 							case 'en':
-								echo substr($dcNews->GetDate(), 6, 4)
+								$entryDate .= substr($dcNews->GetDate(), 6, 4)
 								.' '.substr($dcNews->GetTime(), 0, 2).':'
 								.substr($dcNews->GetTime(), 3, 2).'h';
 								break;
 							
 							case 'de':
-								echo substr($dcNews->GetDate(), 6, 4)
+								$entryDate .= substr($dcNews->GetDate(), 6, 4)
 								.' '.substr($dcNews->GetTime(), 0, 2).':'
 								.substr($dcNews->GetTime(), 3, 2).' Uhr';
 								break;
 							
 							default:
-								echo substr($dcNews->GetDate(), 6, 4)
+								$entryDate .= substr($dcNews->GetDate(), 6, 4)
 								.' '.substr($dcNews->GetTime(), 0, 2).':'
 								.substr($dcNews->GetTime(), 3, 2).'h';
 								break;
@@ -539,13 +534,15 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 					echo $hr_line_4;
 				}
 				
-				unset($tcms_template);
-				unset($tcms_script);
 				unset($catLink);
 				unset($news_content);
 				unset($dcNews);
 			}
 		}
+		
+		
+		unset($tcms_template);
+		unset($tcms_script);
 		
 		
 		if(count($arrNewsDC) >= $how_many) {

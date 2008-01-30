@@ -233,6 +233,7 @@ if(!defined('_TABLE_TEXT'))                    define('_TABLE_TEXT', 'Main Text'
 if(!defined('_TABLE_DEFAULT'))                 define('_TABLE_DEFAULT', 'Default');
 if(!defined('_TABLE_PUBLISHED'))               define('_TABLE_PUBLISHED', 'Published');
 if(!defined('_TABLE_NOT_PUBLISHED'))           define('_TABLE_NOT_PUBLISHED', 'Not Published');
+if(!defined('_TABLE_PUBLISHED_ON'))            define('_TABLE_PUBLISHED_ON', 'Published on');
 if(!defined('_TABLE_PUBLISHING'))              define('_TABLE_PUBLISHING', 'Publishing');
 if(!defined('_TABLE_RSS'))                     define('_TABLE_RSS', 'RSS Feed Link');
 if(!defined('_TABLE_ENABLED'))                 define('_TABLE_ENABLED', 'Enabled');

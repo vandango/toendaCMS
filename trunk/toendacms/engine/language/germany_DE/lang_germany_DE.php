@@ -234,6 +234,7 @@ define('_TABLE_TEXT', 'Haupttext');
 define('_TABLE_DEFAULT', 'Standard');
 define('_TABLE_PUBLISHED', 'Ver&#246;ffentlicht');
 define('_TABLE_NOT_PUBLISHED', 'Nicht Ver&#246;ffentlicht');
+define('_TABLE_PUBLISHED_ON', 'Ver&#246;ffentlicht am');
 define('_TABLE_PUBLISHING', 'Ver&#246;ffentlichung');
 define('_TABLE_RSS', 'RSS Feed Link');
 define('_TABLE_ENABLED', 'Aktiviert');
