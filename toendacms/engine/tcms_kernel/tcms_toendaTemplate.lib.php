@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to implement toendaTemplate Engine.
  *
- * @version 0.0.5
+ * @version 0.1.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -38,6 +38,15 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * __construct()                       -> Default constructor
  * __destruct()                        -> Default destructor
+ * 
+ *--------------------------------------------------------
+ * PROPERTIES
+ *--------------------------------------------------------
+ * 
+ * getBuffer                           -> Get the buffer
+ * setBuffer                           -> Set the buffer
+ * getSeperator                        -> Get the seperator
+ * setSeperator                        -> Set the seperator
  *
  *--------------------------------------------------------
  * PUBLIC MEMBERS
@@ -49,6 +58,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getGuestbookEntry                   -> Get the entry template for a guestbook entry
  * getLinksCategoryTitle               -> Get the category title template for a link
  * getLinksEntry                       -> Get the entry template for a link
+ * parseNewsTemplate                   -> Parse the news template
+ * getNewsFrontpageEntry               -> Get the template for the news on the frontpage
  * 
  * </code>
  *
@@ -59,6 +70,10 @@ class tcms_toendaTemplate {
 	private $_tcmsFile;
 	
 	private $_buffer;
+	private $_sepererator;
+	private $_part1;
+	private $_part2;
+	private $_part3;
 	
 	
 	
@@ -83,6 +98,56 @@ class tcms_toendaTemplate {
 	 * Default destructor
 	 */
 	public function __destruct() {
+	}
+	
+	
+	
+	// -------------------------------------------------
+	// PROPERTIES
+	// -------------------------------------------------
+	
+	
+	
+	/**
+	 * Get the buffer
+	 *
+	 * @return String
+	 */
+	public function getBuffer() {
+		return $this->_buffer;
+	}
+	
+	
+	
+	/**
+	 * Set the buffer
+	 *
+	 * @param String $value
+	 */
+	public function setBuffer($value) {
+		$this->_buffer = $value;
+	}
+	
+	
+	
+	/**
+	 * Get the seperator
+	 *
+	 * @return String
+	 */
+	public function getSeperator() {
+		return $this->_sepererator;
+	}
+	
+	
+	
+	/**
+	 * Set the seperator
+	 *
+	 * @param String $value
+	 */
+	public function setSeperator($value) {
+		$this->_sepererator = $value;
 	}
 	
 	
@@ -172,13 +237,20 @@ class tcms_toendaTemplate {
 		$layoutEntryTitle = '';
 		
 		if(trim($this->_buffer) != '') {
-			if(strpos($this->_buffer, '<!--#####LINK_TITLE_TEMPLATE#####-->') > 0
-			&& strpos($this->_buffer, '<!--#####LINK_ENTRY_TEMPLATE#####-->') > 0) {
-				$layoutEntryTitle = substr(
-					$this->_buffer, 
-					0, 
-					strpos($this->_buffer, '<!--#####LINK_ENTRY_TEMPLATE#####-->')
-				);
+			if(strpos($this->_buffer, '<!--#####LINK_TITLE_TEMPLATE#####-->') > -1) {
+				if(strpos($this->_buffer, '<!--#####LINK_ENTRY_TEMPLATE#####-->') > -1) {
+					$layoutEntryTitle = substr(
+						$this->_buffer, 
+						0, 
+						strpos($this->_buffer, '<!--#####LINK_ENTRY_TEMPLATE#####-->')
+					);
+				}
+				else {
+					$layoutEntryTitle = substr(
+						$this->_buffer, 
+						0
+					);
+				}
 				
 				$layoutEntryTitle = trim($layoutEntryTitle);
 				$layoutEntryTitle = str_replace('<!--#####LINK_TITLE_TEMPLATE#####-->', '', $layoutEntryTitle);
@@ -206,7 +278,7 @@ class tcms_toendaTemplate {
 		$layoutEntryText = '';
 		
 		if(trim($this->_buffer) != '') {
-			if(strpos($this->_buffer, '<!--#####LINK_ENTRY_TEMPLATE#####-->') > 0) {
+			if(strpos($this->_buffer, '<!--#####LINK_ENTRY_TEMPLATE#####-->') > -1) {
 				$layoutEntryText = substr(
 					$this->_buffer, 
 					strpos($this->_buffer, '<!--#####LINK_ENTRY_TEMPLATE#####-->')
@@ -224,6 +296,122 @@ class tcms_toendaTemplate {
 		}
 		
 		return $layoutEntryText;
+	}
+	
+	
+	
+	/**
+	 * Parse the news template
+	 *
+	 */
+	public function parseNewsTemplate() {
+		if(trim($this->_buffer) != '') {
+			// part 1
+			if(strpos($this->_buffer, '<!--#####NEWS_FRONTPAGE_TEMPLATE#####-->') > -1) {
+				if(strpos($this->_buffer, '<!--#####NEWS_SINGLE_TEMPLATE#####-->') > -1) {
+					$this->_part1 = substr(
+						$this->_buffer, 
+						0, 
+						strpos($this->_buffer, '<!--#####NEWS_SINGLE_TEMPLATE#####-->')
+					);
+				}
+				else {
+					if(strpos($this->_buffer, '<!--#####NEWS_COMMENT_TEMPLATE#####-->') > -1) {
+						$this->_part1 = substr(
+							$this->_buffer, 
+							0, 
+							strpos($this->_buffer, '<!--#####NEWS_COMMENT_TEMPLATE#####-->')
+						);
+					}
+					else {
+						$this->_part1 = substr(
+							$this->_buffer, 
+							0
+						);
+					}
+				}
+				
+				if(strpos($this->_part1, 'news.information.seperator') > -1) {
+					$posSepStart = strpos($this->_part1, 'news.information.seperator') + 27;
+					$posSepEnd = strpos(
+						$this->_part1, 
+						chr(10), 
+						$posSepStart
+					);
+					
+					$this->_sepererator = substr(
+						$this->_part1, 
+						$posSepStart, 
+						$posSepEnd - $posSepStart
+					);
+					
+					$this->_part1 = substr($this->_part1, $posSepEnd);
+				}
+				
+				$this->_part1 = str_replace('<!--#####NEWS_FRONTPAGE_TEMPLATE#####-->', '', $this->_part1);
+				$this->_part1 = str_replace('<!--#####NEWS_SINGLE_TEMPLATE#####-->', '', $this->_part1);
+				$this->_part1 = str_replace('<!--#####NEWS_COMMENT_TEMPLATE#####-->', '', $this->_part1);
+			}
+			
+			// part 2
+			if(strpos($this->_buffer, '<!--#####NEWS_SINGLE_TEMPLATE#####-->') > -1) {
+				if(strpos($this->_buffer, '<!--#####NEWS_COMMENT_TEMPLATE#####-->') > -1) {
+					$this->_part2 = substr(
+						$this->_buffer, 
+						0, 
+						strpos($this->_buffer, '<!--#####NEWS_COMMENT_TEMPLATE#####-->')
+					);
+				}
+				else {
+					$this->_part2 = substr(
+						$this->_buffer, 
+						strpos($this->_buffer, '<!--#####NEWS_SINGLE_TEMPLATE#####-->')
+					);
+				}
+				
+				$this->_part2 = str_replace('<!--#####NEWS_FRONTPAGE_TEMPLATE#####-->', '', $this->_part2);
+				$this->_part2 = str_replace('<!--#####NEWS_SINGLE_TEMPLATE#####-->', '', $this->_part2);
+				$this->_part2 = str_replace('<!--#####NEWS_COMMENT_TEMPLATE#####-->', '', $this->_part2);
+			}
+			
+			// part 3
+			if(strpos($this->_buffer, '<!--#####NEWS_COMMENT_TEMPLATE#####-->') > -1) {
+				$this->_part3 = substr(
+					$this->_buffer, 
+					strpos($this->_buffer, '<!--#####NEWS_COMMENT_TEMPLATE#####-->')
+				);
+				
+				$this->_part3 = str_replace('<!--#####NEWS_FRONTPAGE_TEMPLATE#####-->', '', $this->_part3);
+				$this->_part3 = str_replace('<!--#####NEWS_SINGLE_TEMPLATE#####-->', '', $this->_part3);
+				$this->_part3 = str_replace('<!--#####NEWS_COMMENT_TEMPLATE#####-->', '', $this->_part3);
+			}
+		}
+	}
+	
+	
+	
+	/**
+	 * Get the template for the news on the frontpage
+	 * 
+	 * @param String $link
+	 * @param String $title
+	 * @param String $info
+	 * @param String $text
+	 * @return String
+	 */
+	public function getNewsFrontpageEntry($link, $title, $info, $text) {
+		$layoutEntry = '';
+		
+		if(trim($this->_part1) != '') {
+			$layoutEntry = trim($this->_part1);
+			
+			$layoutEntry = str_replace('#####NEWS_LINK#####', $link, $layoutEntry);
+			$layoutEntry = str_replace('#####NEWS_TITLE#####', $title, $layoutEntry);
+			$layoutEntry = str_replace('#####NEWS_INFORMATON#####', $info, $layoutEntry);
+			$layoutEntry = str_replace('#####NEWS_TEXT#####', $text, $layoutEntry);
+		}
+		
+		return $layoutEntry;
 	}
 }
 

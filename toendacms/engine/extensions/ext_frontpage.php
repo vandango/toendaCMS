@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides a frontpage with news and a text.
  *
- * @version 1.5.9
+ * @version 1.7.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -136,26 +136,33 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 				
 				
 				
+				/*
+					toendaTemplate Engine
+				*/
+				
+				$seperator = '|';
+				
+				$tcms_script = new toendaScript();
+				$tcms_template = new tcms_toendaTemplate();
+				
+				if($tcms_template->checkTemplateExist(_LAYOUT_NEWS_ENTRY)) {
+					$tcms_template->loadTemplate(_LAYOUT_NEWS_ENTRY);
+					$tcms_template->parseNewsTemplate();
+					
+					$seperator = $tcms_template->getSeperator();
+				}
+				
+				
+				// link
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id=newsmanager&amp;s='.$s.'&amp;news='.$dcNews->GetID()
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlConvertToSEO($link);
 				
-				echo '<div style="width: 100%;" class="news_title_bg">'
-				//.'<strong class="text_huge">'
-				.'<a href="'.$link.'">'
-				.$dcNews->GetTitle()
-				.'</a>'
-				//.'</strong>'
-				.'</div>';
-				
-				
-				echo '<div style="padding-top: 5px;" class="news_content_bg">'
-				.'<span class="text_small">';
-				
+				// date
 				switch($use_timesince){
 					case 0:
-						echo lang_date(
+						$entryDate = lang_date(
 							substr($dcNews->GetDate(), 0, 2), 
 							substr($dcNews->GetDate(), 3, 2), 
 							substr($dcNews->GetDate(), 6, 4), 
@@ -175,7 +182,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 							substr($dcNews->GetDate(), 6, 4)
 						);
 						
-						echo $tcms_blogfeatures->timeSince(
+						$entryDate = $tcms_blogfeatures->timeSince(
 							$timestamp, 
 							false, 
 							$lang
@@ -185,7 +192,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 					case 2:
 						$month = substr($dcNews->GetDate(), 3, 2);
 						
-						echo substr($dcNews->GetDate(), 0, 2).'. '
+						$entryDate = substr($dcNews->GetDate(), 0, 2).'. '
 						.$monthName[((
 							substr($month, 0, 1) == 0 ?
 							substr($month, 1, 1) :
@@ -212,14 +219,14 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 								break;
 						}
 						
-						echo ', '.$tcms_blogfeatures->timeOfDay(
+						$entryDate .= ', '.$tcms_blogfeatures->timeOfDay(
 							substr($dcNews->GetTime(), 0, 2), 
 							$lang
 						);
 						break;
 					
 					default:
-						echo lang_date(
+						$entryDate = lang_date(
 							substr($dcNews->GetDate(), 0, 2), 
 							substr($dcNews->GetDate(), 3, 2), 
 							substr($dcNews->GetDate(), 6, 4), 
@@ -230,9 +237,9 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 						break;
 				}
 				
-				/*
-					the amount of comments
-				*/
+				$entryInfo = $entryDate;
+				
+				// comment amount
 				if($use_news_comments == 1) {
 					if($dcNews->GetCommentsEnabled() == 1) {
 						$nw_amount = $tcms_dcp->getCommentDCList(
@@ -243,11 +250,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 					}
 				}
 				
-				
-				/*
-					get user id
-					and the categories
-				*/
+				// autor and categories
 				if($show_autor_as_link == 1) {
 					$userID = $tcms_ap->getUserID($dcNews->GetAutor());
 				}
@@ -297,7 +300,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 				}
 				else {
 					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					
 					
 					$strSQL = "SELECT * "
@@ -305,8 +308,8 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 					."INNER JOIN ".$tcms_db_prefix."news_categories ON (".$tcms_db_prefix."news_to_categories.cat_uid = ".$tcms_db_prefix."news_categories.uid) "
 					."WHERE (".$tcms_db_prefix."news_to_categories.news_uid = '".$dcNews->GetID()."')";
 					
-					$sqlQR = $sqlAL->sqlQuery($strSQL);
-					$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+					$sqlQR = $sqlAL->query($strSQL);
+					$sqlNR = $sqlAL->getNumber($sqlQR);
 					
 					
 					if($sqlNR == 0) {
@@ -332,21 +335,17 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 							$count++;
 						}
 					}
+					
+					$sqlAL->freeResult($sqlQR);
+					unset($sqlAL);
 				}
 				
+				$entryInfo .= '&nbsp;'.$seperator;
 				
-				echo '&nbsp;|';
-				
-				
-				/*
-					show autor, if enabled
-					show categories
-					show comments, if enabled
-				*/
 				if($show_autor == 1) {
 					if($show_autor_as_link == 1) {
 						if($dcNews->GetAutor() != '') {
-							echo '&nbsp;'._NEWS_WRITTEN.'&nbsp;';
+							$entryInfo .= '&nbsp;'._NEWS_WRITTEN.'&nbsp;';
 							
 							if($userID != false) {
 								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
@@ -354,25 +353,25 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 								.( isset($lang) ? '&amp;lang='.$lang : '' );
 								$link = $tcms_main->urlConvertToSEO($link);
 								
-								echo '<a href="'.$link.'">'
+								$entryInfo .= '<a href="'.$link.'">'
 								.$dcNews->GetAutor().'</a>';
 							}
 							else {
-								echo $dcNews->GetAutor();
+								$entryInfo .= $dcNews->GetAutor();
 							}
 						}
 					}
 					else {
-						echo '&nbsp;'._NEWS_WRITTEN.'&nbsp;'.$dcNews->GetAutor();
+						$entryInfo .= '&nbsp;'._NEWS_WRITTEN.'&nbsp;'.$dcNews->GetAutor();
 					}
 				}
 				
 				if(!empty($catLink) && $catLink != '') {
-					echo '&nbsp;'._NEWS_IN;
+					$entryInfo .= '&nbsp;'._NEWS_IN;
 					
 					foreach($catLink['link'] as $catKey => $catVal) {
 						if($catKey != 0) {
-							echo ',';
+							$entryInfo .= ',';
 						}
 						
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
@@ -380,7 +379,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
 						$link = $tcms_main->urlConvertToSEO($link);
 						
-						echo '&nbsp;<a href="'.$link.'">'
+						$entryInfo .= '&nbsp;<a href="'.$link.'">'
 						.$catLink['name'][$catKey]
 						.'</a>';
 					}
@@ -392,7 +391,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlConvertToSEO($link);
 					
-					echo '&nbsp;|&nbsp;'
+					$entryInfo .= '&nbsp;'.$seperator.'&nbsp;'
 					.'<a href="'.$link.'">'._NEWS_TRACKBACK.'</a>';
 				}
 				
@@ -403,22 +402,13 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
 						$link = $tcms_main->urlConvertToSEO($link);
 						
-						echo '&nbsp;|&nbsp;'
+						$entryInfo .= '&nbsp;'.$seperator.'&nbsp;'
 						.'<a href="'.$link.'#comments">'
 						.$nw_amount.' '.( $nw_amount == 1 ? _FRONT_COMMENT : _FRONT_COMMENTS ).'</a>';
 					}
 				}
 				
-				echo '</span>';
-				
-				
-				/*
-					show the news
-				*/
-				echo '<br />'
-				.'<br />'
-				.'<div class="news_content_box">';
-				
+				// text
 				$news_content = $dcNews->GetText();
 				
 				$toendaScript = new toendaScript($news_content);
@@ -432,7 +422,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 					$news_pos = $toendaScript->getTcmsMoreTagPos($news_content);
 					$news_content = $toendaScript->removeTcmsMoreTag($news_content);
 					
-					echo trim(substr($news_content, 0, $news_pos));
+					$entryText = trim(substr($news_content, 0, $news_pos));
 					
 					$toendaScript_more_show = true;
 				}
@@ -440,7 +430,9 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 					$news_content = $toendaScript->removeTcmsMoreTag($news_content);
 					
 					if($cut_news == 0) {
-						$toendaScript->doParsePHP($news_content);
+						$entryText = $news_content;
+						
+						// $toendaScript->doParsePHP();
 						
 						//$news_content = trim($news_content);
 						//echo $news_content;
@@ -454,14 +446,15 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 							$str_off = strpos($news_content, ' ', $cut_news);
 							$news = substr($news_content, 0, $str_off);
 							$news = trim($news);
-							echo $news.' ...';
+							
+							$entryText = $news.' ...';
+							
 							$toendaScript_more_show = true;
 						}
 						elseif(strlen($news_content) < $cut_news) {
-							//$news_content = trim($news_content);
-							//echo $news_content;
+							$entryText = $news_content;
 							
-							$toendaScript->doParsePHP($news_content);
+							//$toendaScript->doParsePHP($news_content);
 							
 							$toendaScript_more_show = false;
 						}
@@ -497,12 +490,57 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 					}
 				}
 				
-				echo '</div></div>';
-				echo '<br />';
-				
-				echo $hr_line_4;
 				
 				
+				/*
+					FOR COMPATIBILITY:
+					OLD AND NEW TEMPLATE ENGINE
+				*/
+				
+				if($tcms_template->checkTemplateExist(_LAYOUT_NEWS_ENTRY)) {
+					$entry = $tcms_template->getNewsFrontpageEntry(
+						$link, 
+						$dcNews->GetTitle(), 
+						$entryInfo, 
+						$entryText
+					);
+					
+					$tcms_script->doParsePHP($entry);
+				}
+				else {
+					echo '<div style="width: 100%;" class="news_title_bg">'
+					//.'<strong class="text_huge">'
+					.'<a href="'.$link.'">'
+					.$dcNews->GetTitle()
+					.'</a>'
+					//.'</strong>'
+					.'</div>';
+					
+					
+					echo '<div style="padding-top: 5px;" class="news_content_bg">'
+					.'<span class="text_small">'
+					.$entryInfo
+					.'</span>';
+					
+					
+					/*
+						show the news
+					*/
+					echo '<br />'
+					.'<br />'
+					.'<div class="news_content_box">';
+					
+					$toendaScript->doParsePHP($entryText);
+					
+					echo '</div>'
+					.'</div>'
+					.'<br />';
+					
+					echo $hr_line_4;
+				}
+				
+				unset($tcms_template);
+				unset($tcms_script);
 				unset($catLink);
 				unset($news_content);
 				unset($dcNews);

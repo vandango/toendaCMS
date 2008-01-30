@@ -1072,7 +1072,7 @@ class tcms_main {
 				$text = $this->convertChars($text);
 				
 				if(phpversion() >= '5.1.0') {
-					$text = htmlspecialchars_decode($text);
+					$text = htmlspecialchars_decode($text, ENT_QUOTES);
 				}
 				else {
 					$text = strtr(
@@ -1083,6 +1083,9 @@ class tcms_main {
 				
 				$text = $this->decodeIconV($text, $charset);
 				$text = stripslashes($text);
+				
+				$text = str_replace('&quot;', '"', $text);
+				$text = str_replace('&#039;', "'", $text);
 				break;
 			
 			case '3':
