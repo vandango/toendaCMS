@@ -20,7 +20,7 @@
  * 
  * This module is used to generate a pdf document
  * 
- * @version 0.2.9
+ * @version 0.3.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -46,7 +46,6 @@ using('toendacms.kernel.configuration');
 using('toendacms.kernel.main');
 using('toendacms.kernel.sql');
 using('toendacms.kernel.script');
-using('toendacms.kernel.modconfig');
 using('toendacms.kernel.gd');
 using('toendacms.kernel.version');
 using('toendacms.kernel.html');
@@ -69,7 +68,6 @@ define('_TCMS_PATH', $tcms_site[0]['path']);
 require(_TCMS_PATH.'/tcms_global/database.php');
 
 $tcms_main      = new tcms_main(_TCMS_PATH, $choosenDB);
-$tcms_modconfig = new tcms_modconfig(_TCMS_PATH, '');
 $tcms_version   = new tcms_version();
 $tcms_config    = new tcms_configuration(_TCMS_PATH);
 

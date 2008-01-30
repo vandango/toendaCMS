@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 3.0.4
+ * @version 3.0.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -409,7 +409,6 @@ if($wsShowSite) {
 		// global
 		using('toendacms.kernel.script');
 		using('toendacms.kernel.gd');
-		using('toendacms.kernel.modconfig');
 		using('toendacms.kernel.error');
 		using('toendacms.kernel.menu_provider');
 		using('toendacms.kernel.toendaTemplate');
@@ -462,6 +461,7 @@ if($wsShowSite) {
 		using('toendacms.datacontainer.products');
 		using('toendacms.datacontainer.download');
 		using('toendacms.datacontainer.knowledgebase');
+		using('toendacms.datacontainer.links');
 		
 		
 		
@@ -673,8 +673,6 @@ if($wsShowSite) {
 					/*
 						some objects
 					*/
-					// configuration
-					$tcms_modconfig = new tcms_modconfig(_TCMS_PATH, $imagePath);
 					
 					// datacontainer
 					$tcms_dcp = new tcms_datacontainer_provider(_TCMS_PATH, $c_charset);
@@ -824,6 +822,7 @@ if($wsShowSite) {
 						case 'imagegallery':
 						case 'download':
 						case 'knowledgebase':
+						case 'links':
 							break;
 						
 						case 'frontpage':
@@ -893,16 +892,6 @@ if($wsShowSite) {
 							if($use_trackback == 1) {
 								using('toendacms.kernel.trackback');
 							}
-							break;
-						
-						case 'links':
-							$arrL = $tcms_modconfig->getLinkConfig($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-							
-							$link_title    = $arrL['link_title'];
-							$link_subtitle = $arrL['link_subtitle'];
-							$link_text     = $arrL['link_text'];
-							$link_use_desc = $arrL['link_use_desc'];
-							$authorized    = $arrL['access'];
 							break;
 					}
 					

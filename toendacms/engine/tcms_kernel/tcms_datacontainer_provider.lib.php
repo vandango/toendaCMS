@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.6.7
+ * @version 1.7.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -79,6 +79,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getGuestbookDC                            -> Get a guestbook data container
  * getDownloadDC                             -> Get a download data container
  * getKnowledgebaseDC                        -> Get a knowledgebase data container
+ * getLinksDC                                -> Get a links data container
  *
  * getSidebarModuleDC                        -> Get a sidebarmodul data container
  * getSidebarExtensionSettings               -> Get the sidebar extension settings
@@ -213,7 +214,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param String $language
 	 * @param String $newsID = ''
 	 * @param String $usergroup = ''
-	 * @return tcms_news_dc Object
+	 * @return tcms_news_dc
 	 */
 	public function getNewsDC($language, $newsID, $usergroup) {
 		$newsDC = new tcms_dc_news();
@@ -361,7 +362,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param Integer $amount
 	 * @param String $published = '1'
 	 * @param Boolean $withShowOnFrontpage = false
-	 * @return tcms_news_dc Object Array
+	 * @return Array
 	 */
 	public function getNewsDCList($language, $usergroup = '', $amount, $published = '1', $withShowOnFrontpage = false) {
 		$doFill = false;
@@ -1235,7 +1236,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param Boolean $load = true
 	 * @param String $language = ''
 	 * @param Integer $amount = -1
-	 * @return tcms_dc_comment Object Array
+	 * @return Array
 	 */
 	public function getCommentDCList($newsID, $module = 'news', $load = true, $language = '', $amount = -1) {			
 		if($this->m_choosenDB == 'xml') {
@@ -1519,7 +1520,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param String $contentID
 	 * @param Boolean $withLanguages = false
 	 * @param String $language = ''
-	 * @return tcms_content_dc Object
+	 * @return tcms_content_dc
 	 */
 	public function getContentDC($contentID, $withLanguages = false, $language = '') {
 		$contentDC = new tcms_dc_content();
@@ -1778,7 +1779,13 @@ class tcms_datacontainer_provider extends tcms_main {
 				break;
 			
 			case 'links':
-				$authorized = $authorized;
+				$lDC = new tcms_dc_links();
+				$lDC = $this->getLinksDC($language);
+				
+				$authorized = $lDC->getAccess();
+				
+				unset($lDC);
+				
 				$content_published = 1;
 				break;
 			
@@ -2126,7 +2133,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	/**
 	 * Get a impressum data container
 	 * 
-	 * @return tcms_dc_impressum Object
+	 * @return tcms_dc_impressum
 	 */
 	public function getImpressumDC($language) {
 		$impDC = new tcms_dc_impressum();
@@ -2229,7 +2236,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * Get a frontpage data container
 	 * 
 	 * @param String $language
-	 * @return tcms_dc_frontpage Object
+	 * @return tcms_dc_frontpage
 	 */
 	public function getFrontpageDC($language) {
 		$frontDC = new tcms_dc_frontpage();
@@ -2352,7 +2359,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * Get a newsmanager data container
 	 * 
 	 * @param String $language
-	 * @return tcms_dc_newsmanager Object
+	 * @return tcms_dc_newsmanager
 	 */
 	public function getNewsmanagerDC($language) {
 		$newsDC = new tcms_dc_newsmanager();
@@ -2560,7 +2567,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * Get a Contactform data container
 	 * 
 	 * @param String $language
-	 * @return tcms_dc_contactform Object
+	 * @return tcms_dc_contactform
 	 */
 	public function getContactformDC($language) {
 		$cfDC = new tcms_dc_contactform();
@@ -2682,7 +2689,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * Get a products data container
 	 * 
 	 * @param String $language
-	 * @return tcms_dc_products Object
+	 * @return tcms_dc_products
 	 */
 	public function getProductsDC($language) {
 		$pDC = new tcms_dc_products();
@@ -2805,7 +2812,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	/**
 	 * Get a imagegallery data container
 	 * 
-	 * @return tcms_dc_imagegallery Object
+	 * @return tcms_dc_imagegallery
 	 */
 	public function getImagegalleryDC() {
 		$iDC = new tcms_dc_imagegallery();
@@ -3256,9 +3263,160 @@ class tcms_datacontainer_provider extends tcms_main {
 	
 	
 	/**
+	 * Get a links data container
+	 * 
+	 * @param String $language
+	 * @param Boolean $loadSideData = false
+	 * @return tcms_dc_links
+	 */
+	function getLinksDC($language, $loadSideData = false) {
+		$lDC = new tcms_dc_links();
+		
+		if($this->m_choosenDB == 'xml') {
+			/*if(file_exists($this->m_path.'/tcms_global/linkmanager.'.$language.'.xml')) {
+				$xml = new xmlparser(
+					$this->m_path.'/tcms_global/linkmanager.'.$language.'.xml',
+					'r'
+				);
+			}
+			else {
+				$xml = new xmlparser($this->m_path.'/tcms_global/var.xml','r');
+				$language = $xml->readValue('front_lang');
+				$xml->flush();
+				unset($xml);
+				
+				$xml = new xmlparser(
+					$this->m_path.'/tcms_global/linkmanager.'.$language.'.xml',
+					'r'
+				);
+			}*/
+			
+			$xml = new xmlparser(
+				$this->m_path.'/tcms_global/linkmanager.xml',
+				'r'
+			);
+			
+			if(!$wsSideTitle) {
+				$wsID           = 'links_config_main';
+				$wsTitle        = $xml->readSection('config', 'link_main_title');
+				$wsKey          = $xml->readSection('config', 'link_main_subtitle');
+				$wsText         = $xml->readSection('config', 'link_main_text');
+				$wsUseMainDesc  = $xml->readSection('config', 'link_use_main_desc');
+				$wsAccess       = $xml->readSection('config', 'link_main_access');
+				$wsUseSideDesc  = 0;
+				$wsUseSideTitle = 0;
+				$wsSideTitle    = '';
+			}
+			else {
+				$wsID           = 'links_config_side';
+				$wsTitle        = '';
+				$wsKey          = '';
+				$wsText         = '';
+				$wsUseMainDesc  = 0;
+				$wsAccess       = '';
+				$wsUseSideDesc  = $xml->readSection('config', 'link_use_side_desc');
+				$wsUseSideTitle = $xml->readSection('config', 'link_use_side_title');
+				$wsSideTitle    = $xml->readSection('config', 'link_side_title');
+			}
+			
+			$xml->flush();
+			unset($xml);
+			
+			if($wsID           == false) $wsID           = '';
+			if($wsTitle        == false) $wsTitle        = '';
+			if($wsTitle        == false) $wsTitle        = '';
+			if($wsText         == false) $wsText         = '';
+			//if($wsUseMainDesc  == false) $wsUseMainDesc  = '';
+			if($wsAccess       == false) $wsAccess       = '';
+			//if($wsUseSideDesc  == false) $wsUseSideDesc  = '';
+			//if($wsUseSideTitle == false) $wsUseSideTitle = '';
+			if($wsSideTitle    == false) $wsSideTitle    = '';
+		}
+		else {
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
+			
+			$strQuery = "SELECT * "
+			."FROM ".$this->m_sqlPrefix."links_config ";
+			
+			if(!$wsSideTitle) {
+				$strQuery .= "WHERE uid = 'links_config_main'";
+			}
+			else {
+				$strQuery .= "WHERE uid = 'links_config_side'";
+			}
+			
+			//."WHERE language = '".$language."'";
+			
+			$sqlQR = $sqlAL->query($strQuery);
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
+			
+			if(!$wsSideTitle) {
+				$wsID           = 'links_config_main';
+				$wsTitle        = $sqlObj->link_main_title;
+				$wsKey          = $sqlObj->link_main_subtitle;
+				$wsText         = $sqlObj->link_main_text;
+				$wsUseMainDesc  = $sqlObj->link_use_main_desc;
+				$wsAccess       = $sqlObj->link_main_access;
+				$wsUseSideDesc  = 0;
+				$wsUseSideTitle = 0;
+				$wsSideTitle    = '';
+			}
+			else {
+				$wsID           = 'links_config_side';
+				$wsTitle        = '';
+				$wsKey          = '';
+				$wsText         = '';
+				$wsUseMainDesc  = 0;
+				$wsAccess       = '';
+				$wsUseSideDesc  = $sqlObj->link_use_side_desc;
+				$wsUseSideTitle = $sqlObj->link_use_side_title;
+				$wsSideTitle    = $sqlObj->link_side_title;
+			}
+			
+			$sqlAL->freeResult($sqlQR);
+			unset($sqlAL);
+			
+			if($wsID           == NULL) $wsID          = '';
+			if($wsTitle        == NULL) $wsTitle       = '';
+			if($wsTitle        == NULL) $wsTitle       = '';
+			if($wsText         == NULL) $wsText         = '';
+			//if($wsUseMainDesc  == NULL) $wsUseMainDesc  = '';
+			if($wsAccess       == NULL) $wsAccess       = '';
+			//if($wsUseSideDesc  == NULL) $wsUseSideDesc  = '';
+			//if($wsUseSideTitle == NULL) $wsUseSideTitle = '';
+			if($wsSideTitle    == NULL) $wsSideTitle    = '';
+		}
+		
+		$wsTitle     = $this->decodeText($wsTitle, '2', $this->m_CHARSET);
+		$wsKey       = $this->decodeText($wsKey, '2', $this->m_CHARSET);
+		$wsText      = $this->decodeText($wsText, '2', $this->m_CHARSET);
+		$wsSideTitle = $this->decodeText($wsSideTitle, '2', $this->m_CHARSET);
+		
+		$lDC->setID($wsID);
+		$lDC->setTitle($wsTitle);
+		$lDC->setText($wsText);
+		$lDC->setSubtitle($wsKey);
+		$lDC->setSideTitle($wsSideTitle);
+		$lDC->setUseMainDescription($wsUseMainDesc);
+		$lDC->setUseSideDescription($wsUseSideDesc);
+		$lDC->setUseSideTitle($wsUseSideTitle);
+		
+		return $lDC;
+	}
+	
+	
+	
+	/**
 	 * Get a sidebarmodul data container
 	 * 
-	 * @return tcms_dc_sidebarmodule Object
+	 * @return tcms_dc_sidebarmodule
 	 */
 	public function getSidebarModuleDC() {
 		$sbmDC = new tcms_dc_sidebarmodule();
@@ -3312,7 +3470,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	/**
 	 * Get the sidebar extension settings
 	 * 
-	 * @return String
+	 * @return tcms_dc_sidebarextensions
 	 */
 	public function getSidebarExtensionSettings() {
 		$se = new tcms_dc_sidebarextensions();
@@ -3321,6 +3479,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$xml = new xmlparser(''.$this->m_path.'/tcms_global/sidebar.xml', 'r');
 			
 			$wsLang          = $xml->readSection('side', 'lang');
+			$wsSidemenu      = $xml->readSection('side', 'sidemenu');
 			$wsSidemenuTitle = $xml->readSection('side', 'sidemenu_title');
 			$wsShowCT        = $xml->readSection('side', 'show_chooser_title');
 			$wsChooserTitle  = $xml->readSection('side', 'chooser_title');
@@ -3342,6 +3501,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			unset($xml);
 			
 			if($wsLang          == false) $wsLang          = '';
+			//if($wsSidemenu      == false) $wsSidemenu      = '';
 			if($wsSidemenuTitle == false) $wsSidemenuTitle = '';
 			//if($wsShowCT        == false) $wsShowCT        = '';
 			if($wsChooserTitle  == false) $wsChooserTitle  = '';
@@ -3373,6 +3533,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$sqlObj = $sqlAL->fetchObject($sqlQR);
 			
 			$wsLang          = $sqlObj->lang;
+			$wsSidemenu      = $sqlObj->sidemenu;
 			$wsSidemenuTitle = $sqlObj->sidemenu_title;
 			$wsShowCT        = $sqlObj->show_chooser_title;
 			$wsChooserTitle  = $sqlObj->chooser_title;
@@ -3394,6 +3555,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			unset($sqlAL);
 			
 			if($wsLang          == NULL) $wsLang          = '';
+			//if($wsSidemenu      == NULL) $wsSidemenu      = '';
 			if($wsSidemenuTitle == NULL) $wsSidemenuTitle = '';
 			//if($wsShowCT        == NULL) $wsShowCT        = '';
 			if($wsChooserTitle  == NULL) $wsChooserTitle  = '';
@@ -3424,6 +3586,7 @@ class tcms_datacontainer_provider extends tcms_main {
 		
 		$se->setID('sidebar_extensions');
 		$se->setLanguages($wsLang);
+		$se->setUseSidemenuTitle($wsSidemenu);
 		$se->setSidemenuTitle($wsSidemenuTitle);
 		$se->setShowLayoutChooserTitle($wsShowCT);
 		$se->setLayoutChooserTitle($wsChooserTitle);
