@@ -28,7 +28,7 @@ Version 2.0
 Developer Version
 	- 1.9.0 Development
 
-Building Steps: 4183
+Building Steps: 4190
 
 
 
@@ -48,9 +48,12 @@ Building Steps: 4183
  - changed: Better search page, replace the search functions into the search class.
  - changed: Guestbook config now as object and only loaded in the guestbook extension.
  - changed: Relocated all module configuration settings into the modules
+ - changed: Enabled the tabPane for all extensions.
  - changed: 
 
  - added: SEO format 3 (.html-format) has now the template variable.
+ - added: Language support for the guestbook, a texteditor for the guestbook.
+ - added: New Template Engine
  - added: 
  
 
