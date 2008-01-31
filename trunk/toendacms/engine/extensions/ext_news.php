@@ -251,8 +251,8 @@ if($news != ''
 		$tcms_script = new toendaScript();
 		$tcms_template = new tcms_toendaTemplate();
 		
-		if($tcms_template->checkTemplateExist(_LAYOUT_NEWS_ENTRY)) {
-			$tcms_template->loadTemplate(_LAYOUT_NEWS_ENTRY);
+		if($tcms_template->checkTemplateExist(_LAYOUT_TEMPLATE_NEWS)) {
+			$tcms_template->loadTemplate(_LAYOUT_TEMPLATE_NEWS);
 			$tcms_template->parseNewsTemplate();
 			
 			$seperator = $tcms_template->getSeperator();
@@ -496,7 +496,7 @@ if($news != ''
 			OLD AND NEW TEMPLATE ENGINE
 		*/
 		
-		if($tcms_template->checkTemplateExist(_LAYOUT_NEWS_ENTRY, 2)) {
+		if($tcms_template->checkTemplateExist(_LAYOUT_TEMPLATE_NEWS, 2)) {
 			$entry = $tcms_template->getNewsSingleEntry(
 				$link, 
 				$dcNews->GetTitle(), 
@@ -730,7 +730,7 @@ if($news != ''
 								toendaTemplate
 							*/
 							
-							if($tcms_template->checkTemplateExist(_LAYOUT_NEWS_ENTRY, 3)) {
+							if($tcms_template->checkTemplateExist(_LAYOUT_TEMPLATE_NEWS, 3)) {
 								$entry = $tcms_template->getNewsCommentEntry(
 									$entryRow, 
 									$entryGravatar, 

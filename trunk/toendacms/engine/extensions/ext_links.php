@@ -54,8 +54,8 @@ echo $tcms_html->contentModuleHeader(
 $tcms_script = new toendaScript();
 $tcms_template = new tcms_toendaTemplate();
 
-if($tcms_template->checkTemplateExist(_LAYOUT_LINK_ENTRY)) {
-	$tcms_template->loadTemplate(_LAYOUT_LINK_ENTRY);
+if($tcms_template->checkTemplateExist(_LAYOUT_TEMPLATE_LINK)) {
+	$tcms_template->loadTemplate(_LAYOUT_TEMPLATE_LINK);
 	$tcms_template->parseLinksTemplate();
 }
 
@@ -106,7 +106,7 @@ if($choosenDB == 'xml') {
 					First the old one:
 				*/
 				
-				if($tcms_template->checkTemplateExist(_LAYOUT_LINK_ENTRY)) {
+				if($tcms_template->checkTemplateExist(_LAYOUT_TEMPLATE_LINK)) {
 					echo $tcms_template->getLinksCategoryTitle($arrLink['name']);
 				}
 				else {
@@ -194,7 +194,7 @@ if($choosenDB == 'xml') {
 								
 								First the old one:
 							*/
-							if($tcms_template->checkTemplateExist(_LAYOUT_LINK_ENTRY)) {
+							if($tcms_template->checkTemplateExist(_LAYOUT_TEMPLATE_LINK)) {
 								$layoutEntryText = $tcms_template->getLinksEntry(
 									$entryTarget, 
 									$entryLink, 
@@ -261,7 +261,7 @@ else {
 			First the old one:
 		*/
 		
-		if($tcms_template->checkTemplateExist(_LAYOUT_LINK_ENTRY)) {
+		if($tcms_template->checkTemplateExist(_LAYOUT_TEMPLATE_LINK)) {
 			echo $tcms_template->getLinksCategoryTitle($arrLink['name']);
 		}
 		else {
@@ -319,7 +319,7 @@ else {
 				
 				First the old one:
 			*/
-			if($tcms_template->checkTemplateExist(_LAYOUT_LINK_ENTRY)) {
+			if($tcms_template->checkTemplateExist(_LAYOUT_TEMPLATE_LINK)) {
 				$layoutEntryText = $tcms_template->getLinksEntry(
 					$entryTarget, 
 					$entryLink, 

@@ -497,8 +497,8 @@ class toendaScript {
 	 * @return String
 	 */
 	private function _parseFilter($newsContent){
-		$newsContent = $this->_filter_Toenda($newsContent);
-		$newsContent = $this->_filter_SessionLinks($newsContent);
+		$newsContent = $this->__filter_Toenda($newsContent);
+		$newsContent = $this->__filter_SessionLinks($newsContent);
 		return $newsContent;
 	}
 	

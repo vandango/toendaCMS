@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to implement toendaTemplate Engine.
  *
- * @version 0.2.3
+ * @version 0.2.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -435,9 +435,10 @@ class tcms_toendaTemplate {
 	 * @param String $title
 	 * @param String $info
 	 * @param String $text
+	 * @param String $newsSpacing
 	 * @return String
 	 */
-	public function getNewsFrontpageEntry($link, $title, $info, $text) {
+	public function getNewsFrontpageEntry($link, $title, $info, $text, $newsSpacing) {
 		$layoutEntry = '';
 		
 		if(trim($this->_part1) != '') {
@@ -447,6 +448,7 @@ class tcms_toendaTemplate {
 			$layoutEntry = str_replace('#####NEWS_TITLE#####', $title, $layoutEntry);
 			$layoutEntry = str_replace('#####NEWS_INFORMATON#####', $info, $layoutEntry);
 			$layoutEntry = str_replace('#####NEWS_TEXT#####', $text, $layoutEntry);
+			$layoutEntry = str_replace('#####NEWS_SPACING#####', $newsSpacing, $layoutEntry);
 		}
 		
 		return $layoutEntry;
@@ -508,6 +510,79 @@ class tcms_toendaTemplate {
 			$layoutEntry = str_replace('#####NEWS_COMMENT_DATE#####', $date, $layoutEntry);
 			$layoutEntry = str_replace('#####NEWS_COMMENT_TEXT#####', $text, $layoutEntry);
 			$layoutEntry = str_replace('#####NEWS_COMMENT_ADMIN#####', $admin, $layoutEntry);
+		}
+		
+		return $layoutEntry;
+	}
+	
+	
+	
+	/**
+	 * Parse the imprint template
+	 *
+	 */
+	public function parseImprintTemplate() {
+		if(trim($this->_buffer) != '') {
+			// part 1
+			$part1_pos_begin = strpos($this->_buffer, '<!--#####IMPRINT_TEMPLATE_BEGIN#####-->');
+			$part1_pos_end = strpos($this->_buffer, '<!--#####IMPRINT_TEMPLATE_END#####-->');
+			
+			if($part1_pos_begin > -1 && $part1_pos_end > -1) {
+				$this->_part1 = substr(
+					$this->_buffer, 
+					$part1_pos_begin, 
+					$part1_pos_end - $part1_pos_begin
+				);
+				
+				$this->_part1 = str_replace('<!--#####IMPRINT_TEMPLATE_BEGIN#####-->', '', $this->_part1);
+				$this->_part1 = str_replace('<!--#####IMPRINT_TEMPLATE_END#####-->', '', $this->_part1);
+			}
+		}
+	}
+	
+	
+	
+	/**
+	 * Get the imprint template
+	 *
+	 * @param String $owner
+	 * @param String $contactPerson
+	 * @param String $contactPersonEmail
+	 * @param String $contactPersonPhone
+	 * @param String $person
+	 * @param String $taxnumber
+	 * @param String $tradeID
+	 * @param String $copyright
+	 * @param String $text
+	 * @return String
+	 */
+	public function getImprintCategoryTitle(
+		$owner, 
+		$useContactPerson, 
+		$contactPerson, 
+		$contactPersonEmail, 
+		$contactPersonPhone, 
+		$person,  
+		$taxnumber, 
+		$tradeID, 
+		$copyright, 
+		$text
+		) {
+		$layoutEntry = '';
+		
+		if(trim($this->_part1) != '') {
+			$layoutEntry = trim($this->_part1);
+			
+			$layoutEntry = str_replace('#####IMPRINT_OWNER#####', $owner, $layoutEntry);
+			$layoutEntry = str_replace('#####IMPRINT_USE_CONTACT_PERSON#####', $useContactPerson, $layoutEntry);
+			$layoutEntry = str_replace('#####IMPRINT_CONTACT_PERSON#####', $contactPerson, $layoutEntry);
+			$layoutEntry = str_replace('#####IMPRINT_CONTACT_PERSON_EMAIL#####', $contactPersonEmail, $layoutEntry);
+			$layoutEntry = str_replace('#####IMPRINT_CONTACT_PERSON_PHONE#####', $contactPersonPhone, $layoutEntry);
+			$layoutEntry = str_replace('#####IMPRINT_PERSON#####', $person, $layoutEntry);
+			$layoutEntry = str_replace('#####IMPRINT_TAXNUMBER#####', $taxnumber, $layoutEntry);
+			$layoutEntry = str_replace('#####IMPRINT_TRADEID#####', $tradeID, $layoutEntry);
+			$layoutEntry = str_replace('#####IMPRINT_COPYRIGHT#####', $copyright, $layoutEntry);
+			$layoutEntry = str_replace('#####IMPRINT_TEXT#####', $text, $layoutEntry);
 		}
 		
 		return $layoutEntry;

@@ -200,8 +200,8 @@ if($dcG->getEnabled()) {
 		
 		$tcms_template = new tcms_toendaTemplate();
 		
-		if($tcms_template->checkTemplateExist(_LAYOUT_GUESTBOOK_ENTRY)) {
-			$tcms_template->loadTemplate(_LAYOUT_GUESTBOOK_ENTRY);
+		if($tcms_template->checkTemplateExist(_LAYOUT_TEMPLATE_GUESTBOOK)) {
+			$tcms_template->loadTemplate(_LAYOUT_TEMPLATE_GUESTBOOK);
 		}
 		
 		echo $tcms_html->tableHeadClass('1', '0', '0', '100%', 'book_content');
@@ -272,7 +272,7 @@ if($dcG->getEnabled()) {
 						First the old one:
 					*/
 					
-					if($tcms_template->checkTemplateExist(_LAYOUT_GUESTBOOK_ENTRY)) {
+					if($tcms_template->checkTemplateExist(_LAYOUT_TEMPLATE_GUESTBOOK)) {
 						echo $tcms_template->getGuestbookEntry(
 							$arr_color[$wsc], 
 							$dcG->getNameWidth(), 

@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used as a law-concurring
  * publishing form.
  *
- * @version 0.4.0
+ * @version 0.4.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -50,7 +50,10 @@ echo $tcms_html->contentModuleHeader(
 );
 
 
-echo '<span class="contentmain">';
+
+/*
+	load data
+*/
 
 if($dcImpressum->getContact() != 'no_contact') {
 	if($choosenDB == 'xml') {
@@ -157,17 +160,15 @@ if($dcImpressum->getContact() != 'no_contact') {
 		}
 	}
 	
-	echo '<strong class="imptitle">'.$websiteowner.'</strong><br /><br />';
-	
 	
 	// contact person
-	echo ( $tcms_main->isReal($contact['name']) ? '<strong>'._IMPRESSUM_CONTACTPERSON.':</strong> '.$contact['name'] : '' ).
-	( $tcms_main->isReal($contact['position']) ? ', '.$contact['position'].'<br />' : '<br />' );
+	$entryContactPerson = ( $tcms_main->isReal($contact['name']) ? '<strong>'._IMPRESSUM_CONTACTPERSON.':</strong> '.$contact['name'] : '' )
+	.( $tcms_main->isReal($contact['position']) ? ', '.$contact['position'] : '' );
 	
 	
 	// email
 	if($cipher_email == 1) {
-		echo ( $tcms_main->isReal($contact['email']) 
+		$entryContactPersonEmail = ( $tcms_main->isReal($contact['email']) 
 			? '<strong>'._IMPRESSUM_EMAIL.':</strong>'
 			.'&nbsp;<script language="JavaScript">'
 			.'JSCrypt.displayCryptMail(\''.$tcms_main->encodeBase64($contact['email']).'\', \''.$contact['name'].'\');'
@@ -177,7 +178,7 @@ if($dcImpressum->getContact() != 'no_contact') {
 		);
 	}
 	else {
-		echo ( $tcms_main->isReal($contact['email']) 
+		$entryContactPersonEmail = ( $tcms_main->isReal($contact['email']) 
 			? '<strong>'._IMPRESSUM_EMAIL.':</strong>'
 			.'&nbsp;<a href="mailto:'.$contact['email'].'">'
 			.$contact['email']
@@ -189,7 +190,7 @@ if($dcImpressum->getContact() != 'no_contact') {
 	
 	
 	// phone and fax
-	echo ( $tcms_main->isReal($contact['phone']) 
+	$entryPhone = ( $tcms_main->isReal($contact['phone']) 
 		? '<strong>'._IMPRESSUM_PHONE.':</strong>'
 		.'&nbsp;'.$contact['phone']
 		.'<br />' 
@@ -202,12 +203,8 @@ if($dcImpressum->getContact() != 'no_contact') {
 	);
 	
 	
-	echo '<br />';
-	//echo '<br />';
-	
-	
 	// office
-	echo '<span class="font"><strong>'._IMPRESSUM_OFFICE.'</strong><br />'
+	$entryPerson = '<span class="font"><strong>'._IMPRESSUM_OFFICE.'</strong><br />'
 	.( $tcms_main->isReal($contact['name'])    ? $contact['name'].'<br />'   : '' )
 	.( $tcms_main->isReal($contact['street'])  ? $contact['street'].'<br />' : '' )
 	.( $tcms_main->isReal($contact['postal'])  ? $contact['postal'].' '      : '' )
@@ -216,45 +213,120 @@ if($dcImpressum->getContact() != 'no_contact') {
 	.( $tcms_main->isReal($contact['country']) ? $contact['country']         : '' )
 	.'</span>';
 	
-	echo '<br /><br />';
+	
+	$entryUseContactPerson = true;
+}
+else {
+	$entryUseContactPerson = false;
 }
 
+// taxnumber
 if($tcms_main->isReal($dcImpressum->getTaxNumber())) {
-	echo '<strong>'._IMPRESSUM_TAX.':</strong> '
-	.$dcImpressum->getTaxNumber()
-	.'<br />';
+	$entryTaxnumber = '<strong>'._IMPRESSUM_TAX.':</strong> '
+	.$dcImpressum->getTaxNumber();
 }
 
+// trade id
 if($tcms_main->isReal($dcImpressum->getUstID())) {
-	echo '<strong>'._IMPRESSUM_UST.':</strong> '
+	$entryTradeID = '<strong>'._IMPRESSUM_UST.':</strong> '
 	.$dcImpressum->getUstID();
 }
 
-echo '<br />'
-.'<br />';
+// copyright
+$entryCopyright = _IMPRESSUM_SITECOPY.' '.$websiteowner
+.' &copy; '.$websitecopyright.'. '._IMPRESSUM_COPY;
 
-
-echo _IMPRESSUM_SITECOPY.' '.$websiteowner.' &copy; '.$websitecopyright.'. '._IMPRESSUM_COPY.'<br /><br />';
-
-
+// text
 $toendaScript = new toendaScript($dcImpressum->getText());
 $content = $toendaScript->doParse();
 $content = $toendaScript->removeTcmsMoreTag($content);
-$content = $toendaScript->checkSEO($content, $imagePath);
+$entryText = $toendaScript->checkSEO($content, $imagePath);
+unset($toendaScript);
 
-echo $content;
 
 
-echo '<br /><br />'.$cms_name.' - '.$cms_tagline.' &copy; '.$toenda_copyright.' by '
+/*
+	toendaTemplate Engine
+*/
+
+$tcms_script = new toendaScript();
+$tcms_template = new tcms_toendaTemplate();
+
+if($tcms_template->checkTemplateExist(_LAYOUT_TEMPLATE_IMPRINT)) {
+	$tcms_template->loadTemplate(_LAYOUT_TEMPLATE_IMPRINT);
+	$tcms_template->parseImprintTemplate();
+	
+	$entry = $tcms_template->getImprintCategoryTitle(
+		$websiteowner, 
+		$entryUseContactPerson, 
+		$entryContactPerson, 
+		$entryContactPersonEmail, 
+		$entryPhone, 
+		$entryPerson, 
+		$entryTaxnumber, 
+		$entryTradeID, 
+		$entryCopyright, 
+		$entryText
+	);
+	
+	$tcms_script->doParsePHP($entry);
+}
+else {
+	echo '<span class="contentmain">'
+	.'<strong class="imptitle">'.$websiteowner.'</strong><br /><br />';
+	
+	echo $entryUseContactPerson
+	.'<br />';
+	
+	echo $entryContactPersonEmail
+	.'<br />';
+	
+	echo $entryPhone;
+	
+	echo '<br />';
+	
+	echo $entryPerson;
+	
+	echo '<br />'
+	.'<br />';
+	
+	if($tcms_main->isReal($entryTaxnumber)) {
+		echo $entryTaxnumber.'<br />';
+	}
+	
+	if($tcms_main->isReal($entryTradeID)) {
+		echo $entryTradeID.'<br />';
+	}
+	
+	echo $entryCopyright
+	.'<br />'
+	.'<br />';
+	
+	$tcms_script->doParsePHP($entryText);
+	
+	echo '<br />'
+	.'<br />';
+	
+	echo '</span>';
+}
+
+
+/*
+echo '<br /><br />'
+.'<hr class="hr_line" />'
+.'<span class="contentmain">'
+.$cms_name.' - '.$cms_tagline.' &copy; '.$toenda_copyright.' by '
 .'<a href="http://www.toenda.com" target="_blank">Toenda Software Development</a>.&nbsp;'
 ._TCMS_ADMIN_RIGHT
 .'<br />'
-.' '.$cms_name.' - '.$cms_tagline.' '._ABOUT_FREE_SOFTWARE;
-
-echo '</span>';
+.' '.$cms_name.' - '.$cms_tagline.' '._ABOUT_FREE_SOFTWARE
+.'</span>';
+*/
 
 
 // cleanup
 unset($dcImpressum);
+unset($tcms_template);
+unset($tcms_script);
 
 ?>
