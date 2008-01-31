@@ -23,16 +23,16 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used as a base language loader.
  *
- * @version 0.1.5
+ * @version 0.1.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
  */
 
 
-include_once(( $language_stage == 'admin' ? '..' : 'engine' ).'/tcms_kernel/tcms_xml.lib.php');
+include_once(( _TCMS_LANGUAGE_STARTPOINT == 'admin' ? '..' : 'engine' ).'/tcms_kernel/tcms_xml.lib.php');
 
-switch($language_stage){
+switch(_TCMS_LANGUAGE_STARTPOINT){
 	case 'admin':
 		$xml = new xmlparser('../../data/tcms_global/var.xml', 'r');
 		$tcms_lang = $xml->read_section('global', 'lang');

@@ -49,7 +49,9 @@ define('_TCMS_VALID', 1);
 include_once('engine/tcms_kernel/tcms_loader.lib.php');
 
 // load language loader
-$language_stage = 'index';
+if(!defined('_TCMS_LANGUAGE_STARTPOINT')) {
+	define('_TCMS_LANGUAGE_STARTPOINT', 'index');
+}
 include_once('engine/language/lang_admin.php');
 
 // load current active page
@@ -90,10 +92,6 @@ $xml = new xmlparser(_TCMS_PATH.'/tcms_global/var.xml','r');
 $show_wysiwyg = $xml->readSection('global', 'wysiwyg');
 $xml->flush();
 unset($xml);
-
-// language
-$language_stage = 'index';
-include_once('engine/language/lang_admin.php');
 
 
 $xml  = new xmlparser('engine/tcms_kernel/tcms_version.xml','r');

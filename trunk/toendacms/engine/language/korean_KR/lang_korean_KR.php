@@ -15,76 +15,76 @@
 
 
 // ADMIN
-define('_TCMS_ADMIN_TITLE', 'ToendaCMS 챗쨈??짝占쏙옙챠탐?챙占승댐옙占�');
+define('_TCMS_ADMIN_TITLE', 'ToendaCMS 챗쨈??�?�?��?�옙챠�??챙�?�승�?옙�?��');
 define('_TCMS_ADMIN_BACK', '챘??짚챘징?');
-define('_TCMS_ADMIN_FORWARD', '챙?탑占승셌ヂ�');
-define('_TCMS_ADMIN_CLOSE', '챘?짬챗쨍占�');
-define('_TCMS_ADMIN_SAVE', '챙 ???占�');
+define('_TCMS_ADMIN_FORWARD', '챙?탑�?�승셌ヂ�');
+define('_TCMS_ADMIN_CLOSE', '챘?짬챗�?�?��');
+define('_TCMS_ADMIN_SAVE', '챙 ???�?��');
 define('_TCMS_ADMIN_NO', 'No');
-define('_TCMS_ADMIN_FTPUPLOAD', 'FTP챘징? 챙?짭챘짝째 챠??챙占승셌ヂ∽옙 챘쨋?????째 챙?짢챘짼占시�占시э옙?짹');
+define('_TCMS_ADMIN_FTPUPLOAD', 'FTP챘징? 챙?짭챘�?째 챠??챙�?�승셌ヂ∽옙 챘쨋?????째 챙?짢챘짼�?�시��?�시�?옙?짹');
 define('_TCMS_ADMIN_DELETE', '챙??짯챙 ?');
-define('_TCMS_ADMIN_CREATE', '챙?? 챙?짢챘짼占시ヂ�챘??짚챗쨍째');
-define('_TCMS_ADMIN_UPLOAD', '챙?짭챘짝짭챗쨍째');
-define('_TCMS_ADMIN_INSTALL', '챘??짹챘징占�mp 챙??짚챙쨔?');
-define('_TCMS_ADMIN_SEND', '챠?占시э옙쨍');
-define('_TCMS_ADMIN_VOTE', '챠?짭챠???챠?占시ぢ몌옙');
+define('_TCMS_ADMIN_CREATE', '챙?? 챙?짢챘짼�?�시ヂ�챘??짚챗�?째');
+define('_TCMS_ADMIN_UPLOAD', '챙?짭챘�?짭챗�?째');
+define('_TCMS_ADMIN_INSTALL', '챘??짹챘징�?��mp 챙??짚챙쨔?');
+define('_TCMS_ADMIN_SEND', '챠?�?�시�?옙�?');
+define('_TCMS_ADMIN_VOTE', '챠?짭챠???챠?�?�시�?�몌옙');
 define('_TCMS_ADMIN_NEW', '챙??챘징?');
 define('_TCMS_ADMIN_CONFIG', 'Configure this module');
-define('_TCMS_ADMIN_NEWPAGE', '챙?? 챠탐?챙占승댐옙占�');
+define('_TCMS_ADMIN_NEWPAGE', '챙?? 챠�??챙�?�승�?옙�?��');
 define('_TCMS_ADMIN_UPDATE', '챙??챘징?챗쨀 챙쨔짢');
 define('_TCMS_ADMIN_VER', 'Version');
 define('_TCMS_ADMIN_DEV', 'developed by');
 define('_TCMS_ADMIN_RIGHT', 'All rights reserved.');
-define('_TCMS_ADMIN_LOGED', '챙 ??챙??占쏙옙占� ');
-define('_TCMS_TOP_OF_PAGE', '챙占쏙옙챠탐?챙占승댐옙占쏙옙 챙 ?챙占쏙옙챙???챘징? 챙占승늘ワ옙??..');
-define('_TCMS_PRINT_PAGE', '챙占쏙옙챠탐?챙占승댐옙占시э옙쨍챙占쏙옙 ...');
+define('_TCMS_ADMIN_LOGED', '챙 ??챙??�?��?�옙�?�� ');
+define('_TCMS_TOP_OF_PAGE', '챙�?��?�옙챠�??챙�?�승�?옙�?��?�옙 챙 ?챙�?��?�옙챙???챘징? 챙�?�승늘ワ옙??..');
+define('_TCMS_PRINT_PAGE', '챙�?��?�옙챠�??챙�?�승�?옙�?�시�?옙�?챙�?��?�옙 ...');
 
 
 // TCMS
-define('_TCMS_MENU_HOME', '챙?占쏙옙??');
-define('_TCMS_MENU_LOGOUT', '챘징?챗쨌쨍챙?占시�占�');
-//define('_TCMS_MENU_PAGE', '챙?쨔占쏙옙챙占승댐옙占�');
-define('_TCMS_MENU_FILE', '챠??챙占승셌ぢ댐옙?짝占쏙옙');
-define('_TCMS_MENU_MEDIA', '챘짠짚챙짼쨈 챗쨈??짝占쏙옙');
+define('_TCMS_MENU_HOME', '챙?�?��?�옙??');
+define('_TCMS_MENU_LOGOUT', '챘징?챗쨌�?챙?�?�시��?��');
+//define('_TCMS_MENU_PAGE', '챙?쨔�?��?�옙챙�?�승�?옙�?��');
+define('_TCMS_MENU_FILE', '챠??챙�?�승셌�?��?옙?�?�?��?�옙');
+define('_TCMS_MENU_MEDIA', '챘짠짚챙짼쨈 챗쨈??�?�?��?�옙');
 define('_TCMS_MENU_NEWS_CATEGORIES', 'News Categories');
 define('_TCMS_MENU_NOTE', 'Notebook');
-define('_TCMS_MENU_SIDEMENU', '챠?占쏙옙??챘짤占시ワ옙占�');
-define('_TCMS_MENU_TOPMENU', '챙?占쏙옙???챘짤占시ワ옙占�');
-define('_TCMS_MENU_MENUTITLE', '챘짤占시ワ옙占쏙옙?챘짧짤');
-define('_TCMS_MENU_CONTENT', '챗쨀 챙 ??챠탐?챙占승댐옙占�');
-define('_TCMS_MENU_NEWS', '챙??챙???챙?占�');
+define('_TCMS_MENU_SIDEMENU', '챠?�?��?�옙??챘짤�?�시ワ옙�?��');
+define('_TCMS_MENU_TOPMENU', '챙?�?��?�옙???챘짤�?�시ワ옙�?��');
+define('_TCMS_MENU_MENUTITLE', '챘짤�?�시ワ옙�?��?�옙?챘짧짤');
+define('_TCMS_MENU_CONTENT', '챗쨀 챙 ??챠�??챙�?�승�?옙�?��');
+define('_TCMS_MENU_NEWS', '챙??챙???챙?�?��');
 define('_TCMS_MENU_DOWN', 'Downloads');
 define('_TCMS_MENU_PRODUCTS', 'Products');
-define('_TCMS_MENU_SIDEEXT', '챠?占쏙옙짜챗쨍째챘占쏙옙');
-define('_TCMS_MENU_SIDE', '챙쨍징챘짤쨈 챘짤占시ワ옙占�');
+define('_TCMS_MENU_SIDEEXT', '챠?�?��?�옙짜챗�?째챘�?��?�옙');
+define('_TCMS_MENU_SIDE', '챙�?징챘짤쨈 챘짤�?�시ワ옙�?��');
 define('_TCMS_MENU_NEWSLETTER', 'Newsletter');
 define('_TCMS_MENU_POLL', '챠?짭챠???');
 define('_TCMS_MENU_EXT', 'Extensions');
 define('_TCMS_MENU_FRONT', 'Frontpage');
 define('_TCMS_MENU_GALLERY', 'Image gallery');
 define('_TCMS_MENU_IMP', 'Publishing form');
-define('_TCMS_MENU_CONTACT', '챙??째챘占승쏙옙占시ぢ�?짝占쏙옙');
-define('_TCMS_MENU_USER', '챙??짭챙큄짤챙탑占시わ옙?짝占쏙옙');
+define('_TCMS_MENU_CONTACT', '챙??째챘�?�승�?�옙�?�시�?��?�?�?��?�옙');
+define('_TCMS_MENU_USER', '챙??짭챙�?�짤챙탑�?�시�?옙?�?�?��?�옙');
 define('_TCMS_MENU_USERPAGE', 'Userpages');
 define('_TCMS_MENU_CFORM', 'Contact form');
-define('_TCMS_MENU_QBOOK', '챘째짤챘짧?챘징占�');
+define('_TCMS_MENU_QBOOK', '챘째짤챘짧?챘징�?��');
 define('_TCMS_MENU_CS', 'Components System');
 define('_TCMS_MENU_GLOBAL', 'Global Configuration');
 define('_TCMS_MENU_DB', 'Database Configuration');
 define('_TCMS_MENU_THEME', 'Template Manager');
 define('_TCMS_MENU_THEME_UPLOAD', 'Template install&amp;edit');
-define('_TCMS_MENU_THEME_PREVIEW', '챘짱쨍챘짝짭챘쨀쨈챗쨍째');
+define('_TCMS_MENU_THEME_PREVIEW', '챘짱�?챘�?짭챘쨀쨈챗�?째');
 define('_TCMS_MENU_COPY', 'License');
 define('_TCMS_MENU_CREDITS', 'Credits &amp; System');
 define('_TCMS_MENU_DOCU', 'Documentation');
-define('_TCMS_MENU_HELP', '챘占쏙옙?챙?占승㏆옙');
-define('_TCMS_MENU_SUPPORT', '챙짠??占쏙옙');
-define('_TCMS_MENU_ABOUT_MODULE', '챘짧짢챘??? 챙 ?챘쨀占�');
-define('_TCMS_MENU_ABOUT', 'toendaCMS 챙 ?챘쨀占�');
+define('_TCMS_MENU_HELP', '챘�?��?�옙?챙?�?�승�?�옙');
+define('_TCMS_MENU_SUPPORT', '챙짠??�?��?�옙');
+define('_TCMS_MENU_ABOUT_MODULE', '챘짧짢챘??? 챙 ?챘쨀�?��');
+define('_TCMS_MENU_ABOUT', 'toendaCMS 챙 ?챘쨀�?��');
 
 
 // MODULES
-define('_MOD_HOME', '챙짼?챙占쏙옙');
+define('_MOD_HOME', '챙짼?챙�?��?�옙');
 define('_MOD_PAGE', 'Webpage Module');
 define('_MOD_EXPLORE', 'Filemanager - Explore your files');
 define('_MOD_MEDIA', 'Media Manager');
@@ -133,13 +133,13 @@ define('_TABLE_PUBLISHED', 'Published');
 define('_TABLE_PUBLISHING', 'Publishing');
 define('_TABLE_ENABLED', 'Enabled');
 define('_TABLE_NAME', 'Name');
-define('_TABLE_USERNAME', '챙??짭챙큄짤챙탑占시ヂわ옙?');
-define('_TABLE_GROUP', '챗쨌쨍챘짙쨔');
+define('_TABLE_USERNAME', '챙??짭챙�?�짤챙탑�?�시ヂ�?옙?');
+define('_TABLE_GROUP', '챗쨌�?챘짙쨔');
 define('_TABLE_PERSON', 'Personal Information');
 define('_TABLE_SUBID', 'SUB ID');
 define('_TABLE_ORDER', 'ID');
 define('_TABLE_POS', 'Position');
-define('_TABLE_FUNCTIONS', '챗쨍째챘?짜');
+define('_TABLE_FUNCTIONS', '챗�?째챘?짜');
 define('_TABLE_PARENT', 'Parent Element for Submenu');
 define('_TABLE_PARENTC', 'Please choose');
 define('_TABLE_PARENTN', 'No submenu');
@@ -151,18 +151,18 @@ define('_TABLE_FILE', 'File');
 define('_TABLE_FILE_EXISTS', 'If file exists, please enter the complete filename. Please think about that before uploading: Create a folder with the name of the file, but without extensions like .zip and spaces must be underlines (_). This folder will be used.');
 define('_TABLE_FILE_OTHERURL', 'If the file on a other server, enter here the complete adress and the name of the file (a folder will be create from this name).');
 define('_TABLE_DATE', '챘?? 챙짠?');
-define('_TABLE_TIME', '챙?占시わ옙?');
+define('_TABLE_TIME', '챙?�?�시�?옙?');
 define('_TABLE_EMAIL', 'eMail');
 define('_TABLE_OPTION', 'Option');
-define('_TABLE_INFO', '챙 ?챘쨀占�');
+define('_TABLE_INFO', '챙 ?챘쨀�?��');
 define('_TABLE_ORDER_HELP', '(Identify Number)');
-define('_TABLE_ALBUM', '챙?짢챘짼占�');
-define('_TABLE_DIR', '챘占쏙옙챘 ?占� 챘짝짭');
+define('_TABLE_ALBUM', '챙?짢챘짼�?��');
+define('_TABLE_DIR', '챘�?��?�옙챘 ?�?�� 챘�?짭');
 define('_TABLE_BACKENDFILE', 'Backend file');
 define('_TABLE_FRONTENDFILE', 'Frontend file');
 define('_TABLE_SETTINGSFILE', 'Settings file');
-define('_TABLE_IMAGE', '챙占승늘ワ옙占쏙옙?');
-define('_TABLE_USE', '챙??짭챙큄짤');
+define('_TABLE_IMAGE', '챙�?�승늘ワ옙�?��?�옙?');
+define('_TABLE_USE', '챙??짭챙�?�짤');
 define('_TABLE_DELETE', '챙??짯챙 ?');
 define('_TABLE_DESCRIPTION', 'Description');
 define('_TABLE_NEW', 'New Entry');
@@ -181,7 +181,7 @@ define('_TABLE_TAX', 'with Tax');
 define('_TABLE_QUANTITY', 'Quantity');
 define('_TABLE_WEIGHT', 'Weight');
 define('_TABLE_SAVEBUTTON', 'Save');
-define('_TABLE_EDITBUTTON', '챠탐쨍챙짠??');
+define('_TABLE_EDITBUTTON', '챠�?�?챙짠??');
 define('_TABLE_DELBUTTON', '챙??짯챙 ?');
 define('_TABLE_SETTINGSBUTTON', 'Settings');
 define('_TABLE_ADMINBUTTON', 'Administer');
@@ -213,11 +213,11 @@ define('_TABLE_SIDE_CS', 'Component for Sidebar');
 
 
 // MESSAGES
-define('_DIE_LOGIN', '챘징?챗쨌쨍챙占쏙옙챠?占쏙옙쩌占쏙옙占쏙옙占승�');
+define('_DIE_LOGIN', '챘징?챗쨌�?챙�?��?�옙챠?�?��?�옙쩌�?��?�옙�?��?�옙�?�승�');
 define('_MSG_NOINFO', '[NO INFORMATION AVAILABLE]');
-define('_MSG_SAVED', '챙??짹챗쨀쨉챙 占쏙옙?쩌챘징? 챙 ???占시ワ옙占쏙옙??챙?쨉챘?占쏙옙占�');
-define('_MSG_SAVED_FAILED', '챙 ???占쏙옙짚占승㉲ワ옙占�');
-define('_MSG_SEND', '챙??짹챗쨀쨉챙 占쏙옙?쩌챘징? 챙 ??챙??징 챘占쏙옙챙???챙?쨉챘?占쏙옙占�');
+define('_MSG_SAVED', '챙??짹챗쨀쨉챙 �?��?�옙?쩌챘징? 챙 ???�?�시ワ옙�?��?�옙??챙?쨉챘?�?��?�옙�?��');
+define('_MSG_SAVED_FAILED', '챙 ???�?��?�옙짚�?�승㉲ワ옙�?��');
+define('_MSG_SEND', '챙??짹챗쨀쨉챙 �?��?�옙?쩌챘징? 챙 ??챙??징 챘�?��?�옙챙???챙?쨉챘?�?��?�옙�?��');
 define('_MSG_NOTWRITABLE', 'IS NOT WRITABLE!');
 define('_MSG_NOINSTALL', 'Please Install first!');
 define('_MSG_GOTOINSTALL', 'GO TO INSTALLATION');
@@ -227,42 +227,42 @@ define('_MSG_PAGE_LOAD_2', 'seconds');
 define('_MSG_NOIMAGE', 'No image selected.');
 define('_MSG_IMAGE', 'Image succesfull uploadet to');
 define('_MSG_SEND', 'Successfully send.');
-define('_MSG_NONAME', '챙占승늘ワ옙?챙占쏙옙? 챙탑?占쏙옙챠?占쏙옙쩌占쏙옙占쏙옙占승�');
+define('_MSG_NONAME', '챙�?�승늘ワ옙?챙�?��?�옙? 챙탑?�?��?�옙챠?�?��?�옙쩌�?��?�옙�?��?�옙�?�승�');
 define('_MSG_FALSEPASSWORD', 'False Password!');
 define('_MSG_PASSWORDNOTVALID', 'Passwords not valid!');
-define('_MSG_NOEMAIL', '챗쨍째챙탑?챘占�챙 ??챙탑占쏙옙째占쏙옙챙짙쩌챙???챗째??챙????챙占쏙옙');
-define('_MSG_EMAILVALID', '챙 ??챙탑占쏙옙째占쏙옙챙짙쩌챙???챗째??챙?짭챘째占시ヂΒ댐옙占시�占쏙옙쨉챘?占쏙옙占�');
-define('_MSG_DELETE', '챙??짹챗쨀쨉챙 占쏙옙?쩌챘징? 챙??짯챙 ? 챘占쏙옙챙???챙?쨉챘?占쏙옙占�');
+define('_MSG_NOEMAIL', '챗�?째챙탑?챘�?��챙 ??챙탑�?��?�옙째�?��?�옙챙짙쩌챙???챗째??챙????챙�?��?�옙');
+define('_MSG_EMAILVALID', '챙 ??챙탑�?��?�옙째�?��?�옙챙짙쩌챙???챗째??챙?짭챘째�?�시ヂΒ�?옙�?�시��?��?�옙쨉챘?�?��?�옙�?��');
+define('_MSG_DELETE', '챙??짹챗쨀쨉챙 �?��?�옙?쩌챘징? 챙??짯챙 ? 챘�?��?�옙챙???챙?쨉챘?�?��?�옙�?��');
 define('_MSG_DELETE_SUBMIT', 'Do you really want to delete this entry?');
 define('_MSG_DELETE_INACTIVE', 'Deleting not successfull. The Entry was not activate by selecting he Checkbox.');
-define('_MSG_NOSUBJECT', '챙 ?챘짧짤챙占쏙옙? 챙탑?占쏙옙챠?占쏙옙쩌占쏙옙占쏙옙占승�');
-define('_MSG_NOMSG', '챘??쨈챙큄짤챙占쏙옙? 챙탑?占쏙옙챠?占쏙옙쩌占쏙옙占쏙옙占승�');
+define('_MSG_NOSUBJECT', '챙 ?챘짧짤챙�?��?�옙? 챙탑?�?��?�옙챠?�?��?�옙쩌�?��?�옙�?��?�옙�?�승�');
+define('_MSG_NOMSG', '챘??쨈챙�?�짤챙�?��?�옙? 챙탑?�?��?�옙챠?�?��?�옙쩌�?��?�옙�?��?�옙�?�승�');
 define('_MSG_NEWSLETTER', 'You have successfully subscribe to our newsletter.');
 define('_MSG_POLL', 'Thank you for your vote in this poll.');
 define('_MSG_UPLOAD', 'The file uploaded to');
 define('_MSG_NOUPLOAD', 'The file cant be upload.');
 define('_MSG_ERROR', '챙?짚챘짜?');
-define('_MSG_REGNOTALLOWD', '챠큄?챙?占시わ옙??占시э옙쨈 챠???챙큄짤챘占쏙옙챙짠??챙?占쏙옙쨉챘?占쏙옙占�');
-define('_MSG_NOACCOUNT', '챙??짭챙큄짤챙탑占시ぢ곤옙?챙????챙?쨉챘?占쏙옙占�');
-define('_MSG_NOCONTENT', '챘?쨔챙占시э옙占�챙??쨍 챙?? 챙????챙?쨉챘?占쏙옙占�');
+define('_MSG_REGNOTALLOWD', '챠�?�?챙?�?�시�?옙??�?�시�?옙쨈 챠???챙�?�짤챘�?��?�옙챙짠??챙?�?��?�옙쨉챘?�?��?�옙�?��');
+define('_MSG_NOACCOUNT', '챙??짭챙�?�짤챙탑�?�시�?�곤옙?챙????챙?쨉챘?�?��?�옙�?��');
+define('_MSG_NOCONTENT', '챘?쨔챙�?�시�?옙�?��챙??�? 챙?? 챙????챙?쨉챘?�?��?�옙�?��');
 define('_MSG_USERNOTEXISTS', 'User not exists.');
 define('_MSG_USEREXISTS', 'Username exists. Please choose another one.');
 
 
 // LOGIN
-define('_LOGIN_MSG', '챗쨈??짝占쏙옙챙占승몌옙?');
-define('_LOGIN_USERNAME', '챙??짭챙큄짤챙탑占�');
-define('_LOGIN_USERNAME_JS', '챙??짭챙큄짤챙탑占시ヂわ옙챙占� 챙탑?占쏙옙챠?占쏙옙?쨍챙큄占�');
-define('_LOGIN_PASSWORD', '챙??챠?쨍');
-define('_LOGIN_PASSWORD_JS', '챙??챠?쨍챘짜쩌 챙탑?占쏙옙챠?占쏙옙쩌占�쨍챙큄占�');
-define('_LOGIN_FALSE', '챙?짚占승� Username, Password or Userrights (Group)');
-define('_LOGIN_FALSE_LPW', '챙?짚占승� Username or eMail');
-define('_LOGIN_SUBMIT', '챘징?챗쨌쨍챙占쏙옙');
-define('_LOGIN_LOGOUT', '챘징?챗쨌쨍챙?占시�占�');
-define('_LOGIN_PROFILE', '챘??짹챘징占쏙옙?챘쨀占�');
-define('_LOGIN_ADMIN', '챗쨈??짝占�');
-define('_LOGIN_FORGOTPW', ' 챙??챠?쨍 챙째쩐챗쨍째');
-define('_LOGIN_WELCOME', '챠?占쏙옙占쏙옙?짤챘占쏙옙챘?占�');
+define('_LOGIN_MSG', '챗쨈??�?�?��?�옙챙�?�승몌옙?');
+define('_LOGIN_USERNAME', '챙??짭챙�?�짤챙탑�?��');
+define('_LOGIN_USERNAME_JS', '챙??짭챙�?�짤챙탑�?�시ヂ�?옙챙�?�� 챙탑?�?��?�옙챠?�?��?�옙?�?챙�?��?��');
+define('_LOGIN_PASSWORD', '챙??챠?�?');
+define('_LOGIN_PASSWORD_JS', '챙??챠?�?챘짜쩌 챙탑?�?��?�옙챠?�?��?�옙쩌�?���?챙�?��?��');
+define('_LOGIN_FALSE', '챙?짚�?�승� Username, Password or Userrights (Group)');
+define('_LOGIN_FALSE_LPW', '챙?짚�?�승� Username or eMail');
+define('_LOGIN_SUBMIT', '챘징?챗쨌�?챙�?��?�옙');
+define('_LOGIN_LOGOUT', '챘징?챗쨌�?챙?�?�시��?��');
+define('_LOGIN_PROFILE', '챘??짹챘징�?��?�옙?챘쨀�?��');
+define('_LOGIN_ADMIN', '챗쨈??�?�?��');
+define('_LOGIN_FORGOTPW', ' 챙??챠?�? 챙째�?챗�?째');
+define('_LOGIN_WELCOME', '챠?�?��?�옙�?��?�옙?짤챘�?��?�옙챘?�?��');
 define('_LOGIN_SUBMIT_NEWS', 'Publish News');
 define('_LOGIN_SUBMIT_IMAGES', 'Publish Images');
 define('_LOGIN_CREATE_ALBUM', 'Create Album');
@@ -270,30 +270,30 @@ define('_LOGIN_CREATE_CATEGORY', 'Create Category');
 
 
 // REGISTRATION
-define('_REG_TITLE', '챠큄?챙?占시わ옙??占�');
-define('_REG_LPW', '챙??챠?쨍챗째??챙?占시ぢ곤옙챘???챙짠??챙?占쏙옙쨉챘?占시わ옙?');
+define('_REG_TITLE', '챠�?�?챙?�?�시�?옙??�?��');
+define('_REG_LPW', '챙??챠?�?챗째??챙?�?�시�?�곤옙챘???챙짠??챙?�?��?�옙쨉챘?�?�시�?옙?');
 define('_REG_LPWTEXT', 'Please enter your Username and e-mail address then click on the Send Password button. You will receive a new password shortly. Use this new password to access the site.');
-define('_REG_TEXT_1', '챙짹??챙?占시�??챙?占시ワ옙占시�占승ぢ㈒э옙??챠?占시�? 챠?占승わ옙챙탑?챘占쏙옙챘?占�');
-define('_REG_TEXT_2', '챘쨔? 챠???챙?占쏙옙占쏙옙? 챠?占쏙옙占승わ옙챙탑?챘占쏙옙챘?占�');
-define('_REG_SUBMIT_LPW', '챙??챠?쨍 챙 ??챙??징');
-define('_REG_SUBMIT_SR', '챠큄?챙?占시わ옙??占�');
-define('_REG_PWNOTAGREE', '챙??챠?쨍챗째??챙占승쇽옙占쏙옙占쏙옙??챙?占쏙옙쨉챘?占쏙옙占�');
-define('_REG_NAME_NG', '챙占승늘ワ옙?챙占쏙옙? 챙탑?占쏙옙챠?占쏙옙쩌占쏙옙占쏙옙占승�');
-define('_REG_USERNAME_NG', '챙??짭챙큄짤챙탑占시ヂわ옙챙占� 챙탑?占쏙옙챠?占쏙옙쩌占쏙옙占쏙옙占승�');
-define('_REG_PASSWORD_NG', '챙??챠?쨍챘짜쩌 챙탑?占쏙옙챠?占쏙옙쩌占쏙옙占쏙옙占승�');
-define('_REG_EMAIL_NG', '챙 ??챙탑占쏙옙째占승몌옙쩌챙占�챘짜쩌 챙탑?占쏙옙챠?占쏙옙쩌占쏙옙占쏙옙占승�');
-define('_REG_LPW_SUCCESS', '챙??챘징?챙큄쨈 챙??챠?쨍');
-define('_REG_SUCCESS', '챙??짹챗쨀쨉챙 占쏙옙?쩌챘징? 챗째???占시ワ옙占시�??챙?쨉챘?占쏙옙占�');
-define('_REG_NO_SUCCESS', '챗째???占시ワ옙占�챙짚?? 챙?짚챘짜?챗째??챘째?챙?占쏙옙??챙?쨉챘?占쏙옙占�');
+define('_REG_TEXT_1', '챙짹??챙?�?�시�??챙?�?�시ワ옙�?�시��?�승�?�㈒�?옙??챠?�?�시�? 챠?�?�승�?옙챙탑?챘�?��?�옙챘?�?��');
+define('_REG_TEXT_2', '챘쨔? 챠???챙?�?��?�옙�?��?�옙? 챠?�?��?�옙�?�승�?옙챙탑?챘�?��?�옙챘?�?��');
+define('_REG_SUBMIT_LPW', '챙??챠?�? 챙 ??챙??징');
+define('_REG_SUBMIT_SR', '챠�?�?챙?�?�시�?옙??�?��');
+define('_REG_PWNOTAGREE', '챙??챠?�?챗째??챙�?�승쇽옙�?��?�옙�?��?�옙??챙?�?��?�옙쨉챘?�?��?�옙�?��');
+define('_REG_NAME_NG', '챙�?�승늘ワ옙?챙�?��?�옙? 챙탑?�?��?�옙챠?�?��?�옙쩌�?��?�옙�?��?�옙�?�승�');
+define('_REG_USERNAME_NG', '챙??짭챙�?�짤챙탑�?�시ヂ�?옙챙�?�� 챙탑?�?��?�옙챠?�?��?�옙쩌�?��?�옙�?��?�옙�?�승�');
+define('_REG_PASSWORD_NG', '챙??챠?�?챘짜쩌 챙탑?�?��?�옙챠?�?��?�옙쩌�?��?�옙�?��?�옙�?�승�');
+define('_REG_EMAIL_NG', '챙 ??챙탑�?��?�옙째�?�승몌옙쩌챙�?��챘짜쩌 챙탑?�?��?�옙챠?�?��?�옙쩌�?��?�옙�?��?�옙�?�승�');
+define('_REG_LPW_SUCCESS', '챙??챘징?챙�?�쨈 챙??챠?�?');
+define('_REG_SUCCESS', '챙??짹챗쨀쨉챙 �?��?�옙?쩌챘징? 챗째???�?�시ワ옙�?�시�??챙?쨉챘?�?��?�옙�?��');
+define('_REG_NO_SUCCESS', '챗째???�?�시ワ옙�?��챙짚?? 챙?짚챘짜?챗째??챘째?챙?�?��?�옙??챙?쨉챘?�?��?�옙�?��');
 define('_REG_SUCCESS_TEXT', 'Your registration was successfull Click on the link and you will have access to the website with the login.');
-define('_REG_AUTO_MSG', '챙占승늘ぢ뀐옙챙占쏙옙?챘?짚챙占�챙??짭챙큄짤챙탑占시ヂ∽옙 챘쨋?????째 챙탑占시ワ옙?占승셌ヂ� 챘째?챙??징 챘占쏙옙챙???챙?쨉챘?占쏙옙占�');
+define('_REG_AUTO_MSG', '챙�?�승늘�?��?옙챙�?��?�옙?챘?짚챙�?��챙??짭챙�?�짤챙탑�?�시ヂ∽옙 챘쨋?????째 챙탑�?�시ワ옙?�?�승셌ヂ� 챘째?챙??징 챘�?��?�옙챙???챙?쨉챘?�?��?�옙�?��');
 define('_REG_TEXT_LPW', 'A user want to get a new passwort for this user. This is your new password.');
 define('_REG_VALIDATE', 'Congratulations, you are now regirstated. In the Login field can you write you username and password and login.');
-define('_REG_NO_VALIDATE', '챙?짚챘짜?, 챙占승몌옙? 챘짼?챠?쨍챗째??챙?짭챘째占시ヂΒ댐옙占시�占쏙옙쨉챘?占쏙옙占�');
+define('_REG_NO_VALIDATE', '챙?짚챘짜?, 챙�?�승몌옙? 챘짼?챠?�?챗째??챙?짭챘째�?�시ヂΒ�?옙�?�시��?��?�옙쨉챘?�?��?�옙�?��');
 
 
 // PROFILE
-define('_PROFILE_TITLE', '챠큄?챙?占쏙옙?챘쨀占�');
+define('_PROFILE_TITLE', '챠�?�?챙?�?��?�옙?챘쨀�?��');
 define('_PROFILE_EDIT', 'Edit User Profile');
 
 
@@ -309,8 +309,8 @@ define('_USERPAGE_CREATE_CATEGORIES', 'User can create news categories from fron
 
 
 // START
-define('_START_MSG', '챠?占시�占쏙옙?짤챘占쏙옙챘?占�');
-define('_START_QUESTION', '챙?짚챘??챙占쏙옙?챘짭쨈챙???챙占� 챠?占쏙옙占시ぢ�챙?쨉챘?占시わ옙?');
+define('_START_MSG', '챠?�?�시��?��?�옙?짤챘�?��?�옙챘?�?��');
+define('_START_QUESTION', '챙?짚챘??챙�?��?�옙?챘짭쨈챙???챙�?�� 챠?�?��?�옙�?�시�?��챙?쨉챘?�?�시�?옙?');
 define('_START_TEXT_0', '<strong>Take a look at your Page.</strong> If you wish to edit the content of a page, please click the page title in the page tree to the left.');
 define('_START_TEXT_1', '<strong>Create a page.</strong> To do this, create a menu entry and edit in the follow the static content page and the sidebar content.');
 define('_START_TEXT_2', '<strong>Edit your System Settings.</strong> You can change the name and title of your website of you can edit the metatags.');
@@ -445,20 +445,20 @@ define('_EXT_DOWNLOAD_TEXT', 'Download Manager text');
 
 
 // GALLERY
-define('_GALLERY_CONFIG', '챙占승늘ワ옙占쏙옙?챗짼占시ヅ몌옙짝占쏙옙?짚챙 ??');
+define('_GALLERY_CONFIG', '챙�?�승늘ワ옙�?��?�옙?챗짼�?�시ヅ몌옙�?�?��?�옙?짚챙 ??');
 define('_GALLERY_ID', 'ID');
-define('_GALLERY_FRONT_TITLE', '챗짼占시ヅ몌옙짝占�');
+define('_GALLERY_FRONT_TITLE', '챗짼�?�시ヅ몌옙�?�?��');
 define('_GALLERY_FRONT_SUBTITLE', 'Gallery subtitle');
 define('_GALLERY_CREATE', 'Create new album');
 define('_GALLERY_NEW', 'New album');
 define('_GALLERY_DESCRIPTION', 'Description');
 define('_GALLERY_TITLE', 'Gallery');
-define('_GALLERY_THISIS', '챙占승늘ぢ냈냉э옙??');
-define('_GALLERY_THISIS2', '챙?짢챘짼占시��챘占쏙옙챘?占�');
+define('_GALLERY_THISIS', '챙�?�승늘�?�냈냉�?옙??');
+define('_GALLERY_THISIS2', '챙?짢챘짼�?�시��챘�?��?�옙챘?�?��');
 define('_GALLERY_THISIS3', 'Load up here your pictures, delete your pictures or edit the description. But only save on image description at one time.');
-define('_GALLERY_IMGTITLE', '챠??챙占승셌ヂわ옙?');
-define('_GALLERY_IMGSIZE', '챠占쏙옙쨍占�');
-define('_GALLERY_IMGRESOLUTION', '챠?쨈占쏙옙챘占�?');
+define('_GALLERY_IMGTITLE', '챠??챙�?�승셌ヂ�?옙?');
+define('_GALLERY_IMGSIZE', '챠�?��?�옙�?�?��');
+define('_GALLERY_IMGRESOLUTION', '챠?쨈�?��?�옙챘�?��?');
 define('_GALLERY_AMOUNT', '챙??챘짼?');
 define('_GALLERY_IMG_DETAILS', 'Use Image Details');
 define('_GALLERY_FTP_UPLOAD', 'All available albums');
@@ -471,25 +471,25 @@ define('_GALLERY_POSTED', 'Uploaded on');
 
 
 // PERSON
-define('_PERSON_NAME', '챙占승늘ワ옙?');
-define('_PERSON_USERNAME', '챙??짭챙큄짤챙탑占시ヂわ옙?');
+define('_PERSON_NAME', '챙�?�승늘ワ옙?');
+define('_PERSON_USERNAME', '챙??짭챙�?�짤챙탑�?�시ヂ�?옙?');
 define('_PERSON_POSITION', '챙???챙쨔?');
 define('_PERSON_OCCUPATION', 'Occupation');
-define('_PERSON_GROUP', '챙??짭챙큄짤챙탑占시ぢ력맡ヂｏ옙');
+define('_PERSON_GROUP', '챙??짭챙�?�짤챙탑�?�시�?�력맡ヂ�?옙');
 define('_PERSON_JOINDATE', 'Joined');
 define('_PERSON_RIGHTS', 'Userrights');
-define('_PERSON_EMAIL', '챙 ??챙탑占쏙옙째占쏙옙');
-define('_PERSON_PASSWORD', '챙??챠?쨍');
+define('_PERSON_EMAIL', '챙 ??챙탑�?��?�옙째�?��?�옙');
+define('_PERSON_PASSWORD', '챙??챠?�?');
 define('_PERSON_AS_MD5', 'MD5 String');
-define('_PERSON_VPASSWORD', '챙??챠?쨍챠?占시э옙쨍');
-define('_PERSON_STREET', '챗쨍째챠????쩌챙占�');
+define('_PERSON_VPASSWORD', '챙??챠?�?챠?�?�시�?옙�?');
+define('_PERSON_STREET', '챗�?째챠????쩌챙�?��');
 define('_PERSON_STATE', '챗쨉짯챗째??');
-define('_PERSON_TOWN', '챙占쏙옙/챘짤쨈');
+define('_PERSON_TOWN', '챙�?��?�옙/챘짤쨈');
 define('_PERSON_COUNTRY', '챗쨉짯챗째??');
-define('_PERSON_POSTAL', '챙큄째챠탐쨍챘짼?챠?쨍');
+define('_PERSON_POSTAL', '챙�?�째챠�?�?챘짼?챠?�?');
 define('_PERSON_PHONE', '챙 ??챠??');
 define('_PERSON_FAX', '챠?짤챙?짚');
-define('_PERSON_DETAILS', '챙?占시э옙?쨍챙 ?챘쨀占�');
+define('_PERSON_DETAILS', '챙?�?�시�?옙?�?챙 ?챘쨀�?��');
 define('_PERSON_WWW', 'Homepage');
 define('_PERSON_ICQ', 'ICQ Number');
 define('_PERSON_AIM', 'AIM Name');
@@ -616,11 +616,11 @@ define('_POLL_ANSWERS', 'Answers');
 
 
 // PATHWAY
-define('_PATH_HOME', '챙짼?챙占쏙옙');
-define('_PATH_REGISTRATION', '챠큄?챙?占시わ옙??占�');
-define('_PATH_PROFILE', '챘??짹챘징占쏙옙?챘쨀占�');
+define('_PATH_HOME', '챙짼?챙�?��?�옙');
+define('_PATH_REGISTRATION', '챠�?�?챙?�?�시�?옙??�?��');
+define('_PATH_PROFILE', '챘??짹챘징�?��?�옙?챘쨀�?��');
 define('_PATH_POLLS', '챘짧짢챘??  챠?짭챠???');
-define('_PATH_LOSTPW', '챙??챠?占승곤옙챙?占시ぢ곤옙챘???챙짠??챙?占쏙옙쨉챘?占시わ옙?');
+define('_PATH_LOSTPW', '챙??챠?�?�승곤옙챙?�?�시�?�곤옙챘???챙짠??챙?�?��?�옙쨉챘?�?�시�?옙?');
 define('_PATH_SEARCH', 'Search');
 
 
@@ -691,19 +691,19 @@ define('_ABOUT_POWERED_BY', 'Site powered by');
 
 
 // CONTACTFORM
-define('_FORM_NAME', '챙占승늘ワ옙?');
+define('_FORM_NAME', '챙�?�승늘ワ옙?');
 define('_FORM_EMAIL', 'eMail');
 define('_FORM_MESSAGE', 'Message');
 define('_FORM_URL', 'Website');
 define('_FORM_SUBJECT', 'Subject');
 define('_FORM_MSG', 'Message');
 define('_FORM_COPY', 'Please send me a copy');
-define('_FORM_SEND', '챠?占시э옙쨍');
-define('_FORM_SUBMIT', '챠?占시э옙쨍');
+define('_FORM_SEND', '챠?�?�시�?옙�?');
+define('_FORM_SUBMIT', '챠?�?�시�?옙�?');
 
 
 // GUESTBOOK
-define('_BOOK_SEND', '챠?占시э옙쨍');
+define('_BOOK_SEND', '챠?�?�시�?옙�?');
 define('_BOOK_NOT_ADD', 'Your data has not been added again!');
 define('_BOOK_FILL_IN', 'Please fill in all data!');
 define('_BOOK_DEL_MSG', 'Selected messages have been deleted!');
@@ -713,7 +713,7 @@ define('_BOOK_ENTRY1', 'entries');
 define('_BOOK_ENTRY2', 'entry');
 define('_BOOK_DELENTRY', 'DELETE THIS ENTRY');
 define('_BOOK_E_NO', 'No.');
-define('_BOOK_E_NAME', '챙占승늘ワ옙?');
+define('_BOOK_E_NAME', '챙�?�승늘ワ옙?');
 define('_BOOK_E_DATE', '챘?? 챙짠?');
 define('_BOOK_E_EMAIL', 'eMail');
 define('_BOOK_PAGE', 'Page');
@@ -752,8 +752,8 @@ define('_PRODUCTS_USE_CATEGORY_TITLE', 'Show category title in sidebar');
 
 
 // NEWS
-define('_NEWS_WRITTEN', '챙탑??챙??짹챙탑占�');
-define('_NEWS_TITLE', '챘짧짢챘?? 챗쨍??챘쨀쨈챗쨍째');
+define('_NEWS_WRITTEN', '챙탑??챙??짹챙탑�?��');
+define('_NEWS_TITLE', '챘짧짢챘?? 챗�???챘쨀쨈챗�?째');
 define('_NEWS_TEXT', 'Here are all your news listed. You can edit thus or create a new one.');
 define('_NEWS_EDIT_CURRENT', 'Edit this current News.');
 define('_NEWS_NEW_CURRENT', 'Create new News.');
@@ -785,20 +785,20 @@ define('_FRONTPAGE_NEWS', 'News');
 define('_FRONTPAGE_NEWS_TITLE', 'News title');
 define('_FRONTPAGE_NEWS_MUCH', 'How much news at the frontpage?');
 define('_FRONTPAGE_NEWS_CHARS', 'How much characters in this news?');
-define('_FRONT_MORE', '챙탑占시э옙?쨍챠탑?');
-define('_FRONT_COMMENT', '챗째?챙占쏙옙 챘占승㎴ぢ몌옙?');
-define('_FRONT_NOCOMMENT', '챘??짹챘징占시ワ옙? 챘占승㎴ぢ몌옙?占쏙옙챙????챙?쨉챘?占쏙옙占�');
-define('_FRONT_COMMENT_TITLE', '챙?? 챘占승㎴ぢ몌옙?챙탑??챙??짹');
-define('_FRONT_COMMENT_NAME', '챙占승늘ワ옙?');
-define('_FRONT_COMMENT_EMAIL', '챙 ??챙탑占쏙옙째占쏙옙');
-define('_FRONT_COMMENT_WEB', '챠?占쏙옙?챙占승댐옙占�');
-define('_FRONT_COMMENT_TEXT', '챘??쨈챙큄짤');
-define('_FRONT_COMMENT_POST', '챙탑??챙??짹챙탑占�');
+define('_FRONT_MORE', '챙탑�?�시�?옙?�?챠탑?');
+define('_FRONT_COMMENT', '챗째?챙�?��?�옙 챘�?�승㎴�?�몌옙?');
+define('_FRONT_NOCOMMENT', '챘??짹챘징�?�시ワ옙? 챘�?�승㎴�?�몌옙?�?��?�옙챙????챙?쨉챘?�?��?�옙�?��');
+define('_FRONT_COMMENT_TITLE', '챙?? 챘�?�승㎴�?�몌옙?챙탑??챙??짹');
+define('_FRONT_COMMENT_NAME', '챙�?�승늘ワ옙?');
+define('_FRONT_COMMENT_EMAIL', '챙 ??챙탑�?��?�옙째�?��?�옙');
+define('_FRONT_COMMENT_WEB', '챠?�?��?�옙?챙�?�승�?옙�?��');
+define('_FRONT_COMMENT_TEXT', '챘??쨈챙�?�짤');
+define('_FRONT_COMMENT_POST', '챙탑??챙??짹챙탑�?��');
 
 
 // DOCUMENTATION
-define('_DOCU_TITLE', '챘짭쨍챙???');
-define('_DOCU_TEXT', '챙 ???占쏙옙占쏙옙占시わ옙챙?쨉챘?占시わ옙?');
+define('_DOCU_TITLE', '챘짭�?챙???');
+define('_DOCU_TEXT', '챙 ???�?��?�옙�?��?�옙�?�시�?옙챙?쨉챘?�?�시�?옙?');
 
 
 // SEARCH
@@ -843,8 +843,8 @@ function lang_date($day, $month, $year, $hour, $min, $sec){
 
 
 // INCLUDE DEFAULT LANGUAGE
-if($language_stage == 'admin'){ include_once('../language/english_EN/lang_english_EN.php'); }
-elseif($language_stage == 'index'){ include_once('engine/language/english_EN/lang_english_EN.php'); }
+if(_TCMS_LANGUAGE_STARTPOINT == 'admin'){ include_once('../language/english_EN/lang_english_EN.php'); }
+elseif(_TCMS_LANGUAGE_STARTPOINT == 'index'){ include_once('engine/language/english_EN/lang_english_EN.php'); }
 // END INCLUDE
 
 ?>

@@ -47,7 +47,9 @@ if(isset($_GET['conduct'])){ $conduct = $_GET['conduct']; }
 */
 define('_TCMS_VALID', 1);
 
-$language_stage = 'admin';
+if(!defined('_TCMS_LANGUAGE_STARTPOINT')) {
+	define('_TCMS_LANGUAGE_STARTPOINT', 'admin');
+}
 
 include_once('../../site.php');
 define('_TCMS_PATH', '../../'.$tcms_site[0]['path']);

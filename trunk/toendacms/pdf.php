@@ -71,8 +71,9 @@ $tcms_main      = new tcms_main(_TCMS_PATH, $choosenDB);
 $tcms_version   = new tcms_version();
 $tcms_config    = new tcms_configuration(_TCMS_PATH);
 
-
-$language_stage = 'print';
+if(!defined('_TCMS_LANGUAGE_STARTPOINT')) {
+	define('_TCMS_LANGUAGE_STARTPOINT', 'print');
+}
 include_once ('engine/language/lang_admin.php');
 
 $choosenDB = $tcms_db_engine;

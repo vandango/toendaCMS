@@ -142,7 +142,9 @@ if(file_exists(_TCMS_PATH.'/tcms_global/database.php')
 	$tcms_time      = new tcms_time();
 	
 	
-	$language_stage = 'print';
+	if(!defined('_TCMS_LANGUAGE_STARTPOINT')) {
+		define('_TCMS_LANGUAGE_STARTPOINT', 'print');
+	}
 	include_once('engine/language/lang_admin.php');
 	
 	require(_TCMS_PATH.'/tcms_global/database.php');

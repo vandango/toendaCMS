@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 3.0.8
+ * @version 3.0.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -157,7 +157,9 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 	/*
 		language
 	*/
-	$language_stage = 'index';
+	if(!defined('_TCMS_LANGUAGE_STARTPOINT')) {
+		define('_TCMS_LANGUAGE_STARTPOINT', 'index');
+	}
 	include_once('engine/language/lang_admin.php');
 	//using('toendacms.language.admin');
 	

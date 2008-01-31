@@ -1209,8 +1209,8 @@ function lang_date($day, $month, $year, $hour, $min, $sec){
 
 
 // INCLUDE DEFAULT LANGUAGE
-if($language_stage == 'admin'){ include_once('../language/english_EN/lang_english_EN.php'); }
-elseif($language_stage == 'index'){ include_once('engine/language/english_EN/lang_english_EN.php'); }
+if(_TCMS_LANGUAGE_STARTPOINT == 'admin'){ include_once('../language/english_EN/lang_english_EN.php'); }
+elseif(_TCMS_LANGUAGE_STARTPOINT == 'index'){ include_once('engine/language/english_EN/lang_english_EN.php'); }
 // END INCLUDE
 
 

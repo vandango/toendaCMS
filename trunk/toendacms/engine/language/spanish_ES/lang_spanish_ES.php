@@ -1396,7 +1396,7 @@ if(!function_exists(lang_date) && !function_exists('lang_date')){
 *
 */
 
-if($language_stage == 'admin'){ include_once('../language/english_EN/lang_english_EN.php'); }
+if(_TCMS_LANGUAGE_STARTPOINT == 'admin'){ include_once('../language/english_EN/lang_english_EN.php'); }
 else{ include_once('engine/language/english_EN/lang_english_EN.php'); }
 
 
