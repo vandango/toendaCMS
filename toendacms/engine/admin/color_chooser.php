@@ -22,7 +22,7 @@ define('_TCMS_VALID', 1);
  *
  * This is used as a color chooser window.
  *
- * @version 0.0.6
+ * @version 0.0.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -34,7 +34,9 @@ if(isset($_GET['id'])){ $id = $_GET['id']; }
 
 if(!isset($id)){ $id = 'color1'; }
 
-$language_stage = 'admin';
+if(!defined('_TCMS_LANGUAGE_STARTPOINT')) {
+	define('_TCMS_LANGUAGE_STARTPOINT', 'admin');
+}
 include_once('../language/lang_admin.php');
 
 include_once ('../tcms_kernel/tcms.lib.php');

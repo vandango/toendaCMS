@@ -20,7 +20,7 @@
  *
  * This is used as a help window.
  *
- * @version 0.1.0
+ * @version 0.1.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -48,7 +48,9 @@ define('_TCMS_VALID', 1);
 include_once('../tcms_kernel/tcms_loader.lib.php');
 
 // load language loader
-$language_stage = 'admin';
+if(!defined('_TCMS_LANGUAGE_STARTPOINT')) {
+	define('_TCMS_LANGUAGE_STARTPOINT', 'admin');
+}
 include_once('../language/lang_admin.php');
 
 // load current active page

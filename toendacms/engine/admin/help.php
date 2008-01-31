@@ -20,7 +20,7 @@
  *
  * This is used as a help window.
  *
- * @version 0.0.8
+ * @version 0.0.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -51,7 +51,9 @@ $tcms_version = new tcms_version('../../');
 $adminTheme = $tcms_config->getAdminTheme();
 
 
-$language_stage = 'admin';
+if(!defined('_TCMS_LANGUAGE_STARTPOINT')) {
+	define('_TCMS_LANGUAGE_STARTPOINT', 'admin');
+}
 include_once('../language/lang_admin.php');
 
 $toenda_copy = $tcms_version->getToendaCopyright();

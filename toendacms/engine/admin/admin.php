@@ -21,7 +21,7 @@
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 1.3.0
+ * @version 1.3.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -73,7 +73,9 @@ $tcms_file = new tcms_file();
 */
 if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 	// load language loader
-	$language_stage = 'admin';
+	if(!defined('_TCMS_LANGUAGE_STARTPOINT')) {
+		define('_TCMS_LANGUAGE_STARTPOINT', 'admin');
+	}
 	include_once('../language/lang_admin.php');
 	
 	
