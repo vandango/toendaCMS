@@ -45,18 +45,18 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 class tcms_import extends tcms_main {
-	var $m_administer;
-	var $m_charset;
-	var $_tcmsTime;
+	private $m_administer;
+	private $m_charset;
+	private $_tcmsTime;
 	
 	// database information
-	var $db_choosenDB;
-	var $db_user;
-	var $db_pass;
-	var $db_host;
-	var $db_database;
-	var $db_port;
-	var $db_prefix;
+	private $db_choosenDB;
+	private $db_user;
+	private $db_pass;
+	private $db_host;
+	private $db_database;
+	private $db_port;
+	private $db_prefix;
 	
 	
 	

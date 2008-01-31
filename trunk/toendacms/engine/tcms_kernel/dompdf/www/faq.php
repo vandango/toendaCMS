@@ -226,9 +226,9 @@ documentation for the CPDF_Adapter class (<a
 href="doc/">http://www.digitaljunkies.ca/dompdf/doc</a>) for more
 details.  Also have a look at the demo_01.html file in the www/test/
 directory.  It adds a header and footer using
-PDF_Adapter->page_text().  It also adds text superimposed over the
+PDF_Adapter--&gt;page_text().  It also adds text superimposed over the
 rendered text using a PDF 'object'.  This object is added using
-CPDF_Adapter->add_object().  See <a
+CPDF_Adapter--&gt;add_object().  See <a
 href="usage.php#inline">usage.php</a> for more info on inline PHP.</li>
 </ol>
 
@@ -266,7 +266,7 @@ opening the download dialog?</h3>
 <p>This is controlled by the "Attachment" header sent by dompdf when
 it streams the PDF to the client.  You can modify the headers sent by
 dompdf by passing additional options to the
-<code>$dompdf->stream()</code> function:</p>
+<code>dompdf-&gt;stream()</code> function:</p>
 
 <pre>
 require_once("dompdf_config.inc.php");

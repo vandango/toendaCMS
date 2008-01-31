@@ -89,7 +89,7 @@ templating engine like Smarty, you can simply do:</p>
 <pre>
 &lt;?php
 $tmpfile = tempnam("/tmp", "dompdf_");
-file_put_contents($tmpfile, $smarty->fetch()); // Replace $smarty->fetch()
+file_put_contents($tmpfile, $smarty-fetch()); // Replace $smarty-fetch()
                                                 // with your HTML string
 
 $url = "dompdf.php?input_file=" . rawurlencode($tmpfile) . 

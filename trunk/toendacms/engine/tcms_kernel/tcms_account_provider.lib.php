@@ -260,17 +260,16 @@ class tcms_account_provider extends tcms_main {
 					$nickXML = $this->decodeText($tmpNickXML, '2', $this->m_charset);
 					
 					if($realOrNick == $nickXML) {
-						return substr($XMLUserFile, 0, 32);
 						$userFound = true;
-						break;
+						return substr($XMLUserFile, 0, 32);
 					}
 					else {
 						$tmpRealXML = $xmlUser->readSection('user', 'username');
 						$arrRealXML = $this->decodeText($tmpRealXML, '2', $this->m_charset);
 						
 						if($realOrNick == $arrRealXML) {
-							return substr($XMLUserFile, 0, 32);
 							$userFound = true;
+							return substr($XMLUserFile, 0, 32);
 							break;
 						}
 						else {

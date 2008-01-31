@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the polls.
  *
- * @version 0.3.6
+ * @version 0.3.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -392,9 +392,6 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				echo '</td></tr>';
 				$option_number = 13;
 			}
-		}
-		else{
-			continue;
 		}
 		
 		//================================================

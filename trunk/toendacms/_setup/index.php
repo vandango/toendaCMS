@@ -22,7 +22,7 @@ define('_TCMS_VALID', 1);
  *
  * This file is used as the installer central.
  *
- * @version 0.5.4
+ * @version 0.5.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -200,10 +200,35 @@ $version = $cms_name.' | '.$tagline.' &bull; '.$release.' ['.$codename.'] &bull;
 <br />
 <?
 
-include('lang/'.strtolower($lang).'_'.strtoupper($lang).'.php');
+$lang1 = strtolower($lang);
+$lang2 = strtoupper($lang);
 
 
-switch($site){
+if(!defined('_LANG_LOWER')) {
+	define('_LANG_LOWER', $lang1);
+}
+
+if(!defined('_LANG_UPPER')) {
+	define('_LANG_UPPER', $lang2);
+}
+
+if(!defined('_LANG_FILE')) {
+	define('_LANG_FILE', 'lang/'._LANG_LOWER.'_'._LANG_UPPER.'.php');
+}
+
+if(!defined('_SITE')) {
+	define('_SITE', $site);
+}
+
+if(!defined('_SITE_FILE')) {
+	define('_SITE_FILE', 'inc/'._SITE.'.php');
+}
+
+
+include(_LANG_FILE);
+
+
+switch(_SITE){
 	case 'language': $step = 1; break;
 	case 'check':    $step = 2; break;
 	case 'license':  $step = 3; break;
@@ -230,13 +255,13 @@ switch($site){
 	
 	<div class="tcms_tablebody"><?
 		
-		switch($site){
+		switch(_SITE){
 			case 'language':
-				include($site.'.php');
+				include(_SITE.'.php');
 				break;
 			
 			default:
-				include('inc/'.$site.'.php');
+				include(_SITE_FILE);
 				break;
 		}
 		
