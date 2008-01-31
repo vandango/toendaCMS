@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a base content loader.
  *
- * @version 0.8.4
+ * @version 0.8.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -245,10 +245,18 @@ if($content_published == 1) {
 						Load Layout ID for Content Templates
 					*/
 					
-					echo '<div style="width: 99%; display: block;">'
-					.'<div class="contentheading">'.$dcContent->getTitle().'</div>'
-					.'<span class="contentstamp">'.$key.'</span><br /><br />'
-					.'<div class="contentmain"><br />';
+					echo '<div style="width: 99%; display: block;">';
+					//.'<div class="contentheading">'.$dcContent->getTitle().'</div>'
+					//.'<span class="contentstamp">'.$key.'</span><br /><br />'
+					//.'<div class="contentmain"><br />';
+					
+					echo $tcms_html->contentModuleHeader(
+						$dcContent->getTitle(), 
+						$key, 
+						''
+					);
+					
+					echo '<div class="contentmain">';
 					
 					$toendaScript->doParsePHP($content00);
 					

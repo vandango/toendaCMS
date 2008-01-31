@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the topmenu items.
  *
- * @version 0.6.4
+ * @version 0.6.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -468,16 +468,16 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 	// SAVE
 	//=====================================================
 	
-	if($todo == 'save'){
+	if($todo == 'save') {
 		if($new_tm_pub == '' || !isset($new_tm_pub)){ $new_tm_pub = '0'; }
 		
 		// CHARSETS
-		$new_tm_name    = $tcms_main->encodeText($new_tm_name, '2', $c_charset);
+		$new_tm_name = $tcms_main->encodeText($new_tm_name, '2', $c_charset);
 		
-		
-		$new_tm_link = $tcms_main->getNewUID(5, 'content');
 		
 		if(trim($new_tm_link) == 'new_page') {
+			$new_tm_link = $tcms_main->getNewUID(5, 'content');
+			
 			if($choosenDB == 'xml') {
 				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_content/'.$new_tm_link.'.xml', 'w');
 				$xmluser->xml_c_declaration($c_charset);
@@ -554,7 +554,9 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			$sqlAL->sqlUpdateOne($tcms_db_prefix.'topmenu', $newSQLData, $maintag);
 		}
 		
-		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_topmenu\'</script>';
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_topmenu\';'
+		.'</script>';
 	}
 	
 	
@@ -565,7 +567,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 	// NEW
 	//=====================================================
 	
-	if($todo == 'next'){
+	if($todo == 'next') {
 		if($new_tm_pub == '' || !isset($new_tm_pub)){ $new_tm_pub = '0'; }
 		
 		if($new_tm_id == '' || !isset($new_tm_id) || empty($new_tm_id)){

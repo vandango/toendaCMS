@@ -274,10 +274,6 @@ echo '<br />';
 
 
 
-
-
-
-
 if($id_group == 'Developer' || $id_group == 'Administrator'){
 	// row one - cell one: content -> list all not published documents
 	if($choosenDB == 'xml'){
@@ -458,8 +454,6 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 echo '<br />';
 echo '<br />';
 echo '<br />';
-
-
 
 
 
