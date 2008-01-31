@@ -18,9 +18,9 @@
 /**
  * Functions
  *
- * This file is used for so9me needed functions.
+ * This file is used for some needed functions.
  *
- * @version 0.1.0
+ * @version 0.1.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -110,8 +110,8 @@ function updateLanguageForXML() {
 	);
 	
 	rename(
-		_TCMS_PATH.'/tcms_global/impressum.xml', 
-		_TCMS_PATH.'/tcms_global/impressum.'.$plang.'.xml'
+		_TCMS_PATH.'/tcms_global/imprint.xml', 
+		_TCMS_PATH.'/tcms_global/imprint.'.$plang.'.xml'
 	);
 	
 	// update news

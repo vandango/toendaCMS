@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a footer.
  *
- * @version 0.5.2
+ * @version 0.5.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -38,7 +38,7 @@ echo '<div class="legal">';
 	FOOTER TOP
 */
 
-$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=impressum&amp;s='.$s
+$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=imprint&amp;s='.$s
 .( isset($lang) ? '&amp;lang='.$lang : '' );
 $link = $tcms_main->urlConvertToSEO($link);
 

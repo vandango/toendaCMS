@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * This file is used for different variables.
  * 
- * @version 0.3.1
+ * @version 0.3.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -48,7 +48,7 @@ $arrTables[$ticTCMS++] = 'guestbook';
 $arrTables[$ticTCMS++] = 'guestbook_items';
 $arrTables[$ticTCMS++] = 'imagegallery';
 $arrTables[$ticTCMS++] = 'imagegallery_config';
-$arrTables[$ticTCMS++] = 'impressum';
+$arrTables[$ticTCMS++] = 'imprint';
 $arrTables[$ticTCMS++] = 'knowledgebase';
 $arrTables[$ticTCMS++] = 'knowledgebase_config';
 $arrTables[$ticTCMS++] = 'links';

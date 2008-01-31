@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.7.2
+ * @version 1.7.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -70,7 +70,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getContentTitle                           -> Get the title of a content element
  * getContentIdByTitle                       -> Get the id of a content element by its title
  *
- * getImpressumDC                            -> Get a impressum data container
+ * getImprintDC                              -> Get a imprint data container
  * getFrontpageDC                            -> Get a frontpage data container
  * getNewsmanagerDC                          -> Get a newsmanager data container
  * getContactformDC                          -> Get a contactform data container
@@ -1719,7 +1719,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			case 'profile':
 			case 'polls':
 			case 'register':
-			case 'impressum':
+			case 'imprint':
 			case 'frontpage':
 			case 'search':
 			case 'download':
@@ -2131,17 +2131,17 @@ class tcms_datacontainer_provider extends tcms_main {
 	
 	
 	/**
-	 * Get a impressum data container
+	 * Get a imprint data container
 	 * 
-	 * @return tcms_dc_impressum
+	 * @return tcms_dc_imprint
 	 */
-	public function getImpressumDC($language) {
-		$impDC = new tcms_dc_impressum();
+	public function getImprintDC($language) {
+		$impDC = new tcms_dc_imprint();
 		
 		if($this->m_choosenDB == 'xml') {
-			if(file_exists($this->m_path.'/tcms_global/impressum.'.$language.'.xml')) {
+			if(file_exists($this->m_path.'/tcms_global/imprint.'.$language.'.xml')) {
 				$xml = new xmlparser(
-					$this->m_path.'/tcms_global/impressum.'.$language.'.xml',
+					$this->m_path.'/tcms_global/imprint.'.$language.'.xml',
 					'r'
 				);
 			}
@@ -2152,7 +2152,7 @@ class tcms_datacontainer_provider extends tcms_main {
 				unset($xml);
 				
 				$xml = new xmlparser(
-					$this->m_path.'/tcms_global/impressum.'.$language.'.xml',
+					$this->m_path.'/tcms_global/imprint.'.$language.'.xml',
 					'r'
 				);
 			}
@@ -2187,13 +2187,13 @@ class tcms_datacontainer_provider extends tcms_main {
 			);
 			
 			$strQuery = "SELECT imp_title, imp_stamp, imp_contact, taxno, ustid, legal "
-			."FROM ".$this->m_sqlPrefix."impressum "
+			."FROM ".$this->m_sqlPrefix."imprint "
 			."WHERE language = '".$language."'";
 			
 			$sqlQR = $sqlAL->query($strQuery);
 			$sqlObj = $sqlAL->fetchObject($sqlQR);
 			
-			$wsID      = 'impressum';
+			$wsID      = 'imprint';
 			$wsTitle   = $sqlObj->imp_title;
 			$wsKeynote = $sqlObj->imp_stamp;
 			$wsText    = $sqlObj->legal;

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for a wizard to create a new page.
  *
- * @version 0.3.2
+ * @version 0.3.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -264,9 +264,9 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 				$relocate = 'mod_contactform';
 				break;
 			
-			case 'impressum':
-				$new_linkto = 'impressum';
-				$relocate = 'mod_impressum';
+			case 'imprint':
+				$new_linkto = 'imprint';
+				$relocate = 'mod_imprint';
 				break;
 			
 			case 'guestbook':

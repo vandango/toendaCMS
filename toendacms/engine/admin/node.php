@@ -289,10 +289,10 @@ if(isset($id_user)) {
 		
 		
 		/*
-			impressum
+			imprint
 			module
 		*/
-		$dvalue = '?id=impressum'; //&amp;s='.$lb_layout;
+		$dvalue = '?id=imprint'; //&amp;s='.$lb_layout;
 		
 		if($seoEnabled == 1){
 			$dvalue = $tcms_main->urlConvertToSEO($dvalue, $seoFormat);

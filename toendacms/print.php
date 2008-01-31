@@ -20,7 +20,7 @@
  * 
  * This module is used to generate a pdf document
  * 
- * @version 0.2.7
+ * @version 0.2.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -218,7 +218,7 @@ if(file_exists(_TCMS_PATH.'/tcms_global/database.php')
 			$content_published = 1;
 			break;
 		
-		case 'impressum':
+		case 'imprint':
 			$authorized = 'Public';
 			$content_published = 1;
 			break;

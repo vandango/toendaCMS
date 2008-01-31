@@ -219,7 +219,7 @@ $dayName['short']['sun'] = _TCMS_DAY_SUNDAY_XS;
 /*_IMAGEGALLERY*/  if(!defined('_IMAGEGALLERY'))   define('_IMAGEGALLERY', 'engine/extensions/ext_gallery.php');
 /*_NEWSMANAGER*/   if(!defined('_NEWSMANAGER'))    define('_NEWSMANAGER', 'engine/extensions/ext_news.php');
 /*_FRONTPAGE*/     if(!defined('_FRONTPAGE'))      define('_FRONTPAGE', 'engine/extensions/ext_frontpage.php');
-/*_IMPRESSUM*/     if(!defined('_IMPRESSUM'))      define('_IMPRESSUM', 'engine/extensions/ext_impressum.php');
+/*_IMPRINT*/       if(!defined('_IMPRINT'))        define('_IMPRINT', 'engine/extensions/ext_imprint.php');
 /*_SEND*/          if(!defined('_SEND'))           define('_SEND', 'engine/extensions/ext_contactform.php');
 /*_VERSION*/       if(!defined('_VERSION'))        define('_VERSION', 'engine/extensions/ext_version.php');
 /*_REGISTER*/      if(!defined('_REGISTER'))       define('_REGISTER', 'engine/extensions/ext_register.php');
@@ -283,7 +283,7 @@ switch($id){
 	case 'newsmanager': $id_meta_ad = _TCMS_MENU_NEWS; break;
 	case 'contactform': $id_meta_ad = _TCMS_MENU_CFORM; break;
 	case 'knowledgebase': $id_meta_ad = _TCMS_MENU_FAQ; break;
-	case 'impressum': $id_meta_ad = _TCMS_MENU_IMP; break;
+	case 'imprint': $id_meta_ad = _TCMS_MENU_IMP; break;
 	case 'frontpage': $id_meta_ad = _TCMS_MENU_FRONT; break;
 	case 'search': $id_meta_ad = _TCMS_MENU_SEARCH; break;
 	case 'links': $id_meta_ad = _TCMS_MENU_LINK; break;
@@ -483,6 +483,7 @@ $_LAYOUT_TEMPLATE_GUESTBOOK = '';
 $_LAYOUT_TEMPLATE_LINK = '';
 $_LAYOUT_TEMPLATE_NEWS = '';
 $_LAYOUT_TEMPLATE_IMPRINT = '';
+$_LAYOUT_TEMPLATE_IMAGEGALLERY = '';
 
 if(trim($s) != 'printer') {
 	if($tcms_file->checkFileExist('theme/'.$s.'/index.php')) {
@@ -491,6 +492,7 @@ if(trim($s) != 'printer') {
 		$_LAYOUT_TEMPLATE_LINK = 'theme/'.$s.'/templates/link.tmpl';
 		$_LAYOUT_TEMPLATE_NEWS = 'theme/'.$s.'/templates/news.tmpl';
 		$_LAYOUT_TEMPLATE_IMPRINT = 'theme/'.$s.'/templates/imprint.tmpl';
+		$_LAYOUT_TEMPLATE_IMAGEGALLERY = 'theme/'.$s.'/templates/imagegallery.tmpl';
 	}
 	else {
 		$tcms_error = new tcms_error('tcms_defines.lib.php', 2, $s, $imagePath);
@@ -508,6 +510,7 @@ if(!defined('_LAYOUT_TEMPLATE_GUESTBOOK'))     define('_LAYOUT_TEMPLATE_GUESTBOO
 if(!defined('_LAYOUT_TEMPLATE_LINK'))          define('_LAYOUT_TEMPLATE_LINK', $_LAYOUT_TEMPLATE_LINK);
 if(!defined('_LAYOUT_TEMPLATE_NEWS'))          define('_LAYOUT_TEMPLATE_NEWS', $_LAYOUT_TEMPLATE_NEWS);
 if(!defined('_LAYOUT_TEMPLATE_IMPRINT'))       define('_LAYOUT_TEMPLATE_IMPRINT', $_LAYOUT_TEMPLATE_IMPRINT);
+if(!defined('_LAYOUT_TEMPLATE_IMAGEGALLERY'))  define('_LAYOUT_TEMPLATE_IMAGEGALLERY', $_LAYOUT_TEMPLATE_IMAGEGALLERY);
 
 
 ?>
