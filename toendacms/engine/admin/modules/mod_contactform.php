@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the contactform configuration.
  *
- * @version 0.5.0
+ * @version 0.5.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -224,10 +224,12 @@ if($id_group == 'Developer'
 		.'<select class="tcms_select" id="new_lang" name="new_lang"'.$js.'>';
 		
 		foreach($languages['fine'] as $key => $value) {
-			if($old_lang == $languages['code'][$key])
+			if($old_lang == $languages['code'][$key]) {
 				$dl = ' selected="selected"';
-			else
+			}
+			else {
 				$dl = '';
+			}
 			
 			echo '<option value="'.$value.'"'.$dl.'>'
 			.$languages['name'][$key]
