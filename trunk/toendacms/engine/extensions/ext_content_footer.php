@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Content footer with links for the "top of page", "print" 
  * and "pdf" functions.
  *
- * @version 0.5.7
+ * @version 0.5.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -77,7 +77,7 @@ echo '&nbsp;';
 if($id == 'register' 
 || $id == 'profile' 
 || $id == 'polls' 
-|| $id == 'impressum' 
+|| $id == 'imprint' 
 || $id == 'imagegallery' 
 || $id == 'guestbook' 
 || $id == 'contactform' 
@@ -150,7 +150,7 @@ if($tcms_config->usePDFLink()) {
 	if($id != 'register' 
 	&& $id != 'profile' 
 	&& $id != 'polls' 
-	&& $id != 'impressum' 
+	&& $id != 'imprint' 
 	&& $id != 'imagegallery' 
 	&& $id != 'guestbook' 
 	&& $id != 'contactform' 
@@ -238,7 +238,7 @@ switch($id) {
 	case 'imagegallery' : break;
 	case 'newsmanager'  : break;
 	case 'frontpage'    : break;
-	case 'impressum'    : break;
+	case 'imprint'      : break;
 	
 	default:
 		if($tcms_config->getShowDocAutor()) {
@@ -336,7 +336,7 @@ if($tcms_config->useContentLanguage()) {
 		case 'imagegallery' : break;
 		case 'newsmanager'  : break;
 		case 'frontpage'    : break;
-		case 'impressum'    : break;
+		case 'imprint'      : break;
 		
 		default:
 			$arr_langs = $tcms_dcp->getContentLanguages($id);

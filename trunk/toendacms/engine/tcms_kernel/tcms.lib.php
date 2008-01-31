@@ -2134,13 +2134,13 @@ class tcms_main {
 				
 				$encodeMore = true;
 			}
-			else if($val == 'id=impressum' || substr($val, 1) == 'id=impressum') {
+			else if($val == 'id=imprint' || substr($val, 1) == 'id=imprint') {
 				$ret = $this->globalFolder.'/index.php/';
 				
 				switch($this->_tcmsConfig->getLanguageFrontend()) {
 					case 'germany_DE': $text = 'impressum.html'; break;
-					case 'english_EN': $text = 'legal.html'; break;
-					default:  $text = 'legal.html'; break;
+					case 'english_EN': $text = 'imprint.html'; break;
+					default:  $text = 'imprint.html'; break;
 				}
 				
 				$encodeMore = true;

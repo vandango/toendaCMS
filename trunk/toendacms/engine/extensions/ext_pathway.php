@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a pathway.
  *
- * @version 0.6.2
+ * @version 0.6.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -1000,9 +1000,9 @@ switch($id) {
 		echo $_HOMEPATH.'&nbsp;'.$pathwayChar.'&nbsp;<span class="pathway">'._PATH_POLLS.'</span>';
 		break;
 	
-	case 'impressum':
+	case 'imprint':
 		/*
-			IMPRESSUM
+			IMPRINT
 		*/
 		
 		echo $_HOMEPATH.'&nbsp;'.$pathwayChar.'&nbsp;<span class="pathway">'._PATH_LEGAL.'</span>';

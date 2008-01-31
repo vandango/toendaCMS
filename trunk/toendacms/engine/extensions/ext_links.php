@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the links for the content.
  *
- * @version 0.3.1
+ * @version 0.3.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -107,7 +107,8 @@ if($choosenDB == 'xml') {
 				*/
 				
 				if($tcms_template->checkTemplateExist(_LAYOUT_TEMPLATE_LINK)) {
-					echo $tcms_template->getLinksCategoryTitle($arrLink['name']);
+					$entry = $tcms_template->getLinksCategoryTitle($lVal);
+					$tcms_script->doParsePHP($entry);
 				}
 				else {
 					echo '<div class="headLineLinksMainpage">'
@@ -202,7 +203,6 @@ if($choosenDB == 'xml') {
 									$entryDesc
 								);
 								
-								$tcms_script = new toendaScript();
 								$tcms_script->doParsePHP($layoutEntryText);
 							}
 							else {
@@ -262,7 +262,8 @@ else {
 		*/
 		
 		if($tcms_template->checkTemplateExist(_LAYOUT_TEMPLATE_LINK)) {
-			echo $tcms_template->getLinksCategoryTitle($arrLink['name']);
+			$entry = $tcms_template->getLinksCategoryTitle($arrLink['name']);
+			$tcms_script->doParsePHP($entry);
 		}
 		else {
 			//echo '<span class="text_big" style="padding-left: 3px;"><strong>'.$arrLink['name'].'</strong></span><br />';
@@ -327,7 +328,6 @@ else {
 					$entryDesc
 				);
 				
-				$tcms_script = new toendaScript();
 				$tcms_script->doParsePHP($layoutEntryText);
 			}
 			else {

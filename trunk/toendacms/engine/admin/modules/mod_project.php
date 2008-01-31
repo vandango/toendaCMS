@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a filemanager for all Sites
  *
- * @version 0.5.1
+ * @version 0.5.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -51,7 +51,7 @@ $checkEnd     = false;
 $checkSubEnd  = false;
 
 $news_id   = 'newsmanager';
-$imp_id    = 'impressum';
+$imp_id    = 'imprint';
 $front_id  = 'frontpage';
 $image_id  = 'imagegallery';
 $guest_id  = 'guestbook';
@@ -319,7 +319,7 @@ if($topmenu_active == 1){
 			
 			// IMPRESSUM
 			if($arr_expT['link'][$ekey] == $imp_id) {
-				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_impressum';
+				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_imprint';
 				$tbMod = true;
 			}
 			
@@ -481,7 +481,7 @@ if($sidemenu_active == 1){
 			
 			// IMPRESSUM
 			if($arr_exp['link'][$ekey] == $imp_id) {
-				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_impressum';
+				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_imprint';
 				$tbMod = true;
 			}
 			

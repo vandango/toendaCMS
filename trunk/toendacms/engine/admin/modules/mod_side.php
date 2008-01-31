@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the sidebar content.
  *
- * @version 0.5.4
+ * @version 0.5.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -73,7 +73,7 @@ if($id_group == 'Developer'
 		$arr_modules['name'][1] = _TCMS_MENU_DOWN;
 		$arr_modules['xml'][2]  = 'frontpage.xml';
 		$arr_modules['name'][2] = _TCMS_MENU_FRONT;
-		$arr_modules['xml'][3]  = 'impressum.xml';
+		$arr_modules['xml'][3]  = 'imprint.xml';
 		$arr_modules['name'][3] = _TCMS_MENU_IMP;
 		$arr_modules['xml'][4]  = 'imagegallery.xml';
 		$arr_modules['name'][4] = _TCMS_MENU_GALLERY;
@@ -116,7 +116,7 @@ if($id_group == 'Developer'
 		$arr_activefiles['name'][1] = _TCMS_MENU_DOWN;
 		$arr_activefiles['xml'][2]  = 'frontpage';
 		$arr_activefiles['name'][2] = _TCMS_MENU_FRONT;
-		$arr_activefiles['xml'][3]  = 'impressum';
+		$arr_activefiles['xml'][3]  = 'imprint';
 		$arr_activefiles['name'][3] = _TCMS_MENU_IMP;
 		$arr_activefiles['xml'][4]  = 'imagegallery';
 		$arr_activefiles['name'][4] = _TCMS_MENU_GALLERY;

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used fore the site title.
  *
- * @version 0.6.2
+ * @version 0.6.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -829,9 +829,9 @@ switch($id) {
 		._PATH_POLLS;
 		break;
 	
-	case 'impressum':
+	case 'imprint':
 		/*
-			IMPRESSUM
+			IMPRINT
 		*/
 		
 		$sitetitleAdditional .= _PATH_HOME

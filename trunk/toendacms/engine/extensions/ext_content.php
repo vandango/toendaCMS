@@ -81,7 +81,7 @@ if($content_published == 1) {
 			case 'imagegallery' : include(_IMAGEGALLERY); break;
 			case 'newsmanager'  : include(_NEWSMANAGER); break;
 			case 'frontpage'    : include(_FRONTPAGE); break;
-			case 'impressum'    : include(_IMPRESSUM); break;
+			case 'imprint'      : include(_IMPRINT); break;
 			default:
 				/*
 					CONTENT

@@ -28,7 +28,7 @@ Version 2.0
 Developer Version
 	- 1.9.0 Development
 
-Building Steps: 4257
+Building Steps: 4275
 
 
 
@@ -51,11 +51,17 @@ Building Steps: 4257
  - changed: Enabled the tabPane for all extensions.
  - changed: Remoced the old configuration class "modconfig", replaced it with the
             datacontainer objects.
+ - changed: German word "Impressum" changed into the english "Imprint" (global for all files).
  - changed: 
 
  - added: SEO format 3 (.html-format) has now the template variable.
  - added: Language support for the guestbook, a texteditor for the guestbook.
- - added: New Template Engine (toendaTemplate).
+ - added: New Template Engine (toendaTemplate), following extension are now implemented:
+          - News (frontpage entry, single view, comment entry)
+          - Links (category title, link entry)
+          - Guestbook (entry)
+          - Imagegallery (album list table header, album list entry, imagelist for list
+            view, imagelist for thumbnail view)
  - added: 
  
 

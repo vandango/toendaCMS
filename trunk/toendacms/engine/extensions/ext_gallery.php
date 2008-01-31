@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a imagegallery.
  *
- * @version 0.8.5
+ * @version 1.0.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -36,9 +36,6 @@ if(isset($_GET['albums'])) { $albums = $_GET['albums']; }
 $dcIG = new tcms_dc_imagegallery();
 $dcIG = $tcms_dcp->getImagegalleryDC();
 
-
-$hr_line_1 = '<tr class="hr_line"><td colspan="2"></td></tr>';
-$hr_line_2 = '<tr style="height: 5px;"><td colspan="2"><hr class="hrule" noshade="noshade" /></td></tr>';
 
 
 /*
@@ -134,46 +131,49 @@ if($albums == 'start') {
 	);
 	
 	
-	// table rows
-	echo '<table cellpadding="0" cellspacing="0" border="0" width="100%">'
-	.'<tr>'
-	.'<th class="titleBG" align="left" width="20%"><strong>'._GALLERY_TITLE.'</strong></th>'
-	.'<th class="titleBG" align="left" width="70%" style="padding-left: 5px;"><strong>'._GALLERY_DESCRIPTION.'</strong></th>'
-	.'</tr>';
+	// table head
+	echo $tcms_html->tableHead();
 	
-	echo '<tr><td valign="top" colspan="2" style="height: 7px;"></td></tr>';
 	
-	if(is_array($arr_albums['path'])) {
+	/*
+		toendaTemplate Engine
+	*/
+	
+	$tcms_script = new toendaScript();
+	$tcms_template = new tcms_toendaTemplate();
+	
+	
+	if($tcms_template->checkTemplateExist(_LAYOUT_TEMPLATE_IMAGEGALLERY)) {
+		$tcms_template->loadTemplate(_LAYOUT_TEMPLATE_IMAGEGALLERY);
+		$tcms_template->parseImagegalleryTemplate();
+		
+		$entry = $tcms_template->getImagegalleryAlbumHeader(
+			_GALLERY_TITLE, 
+			_GALLERY_DESCRIPTION
+		);
+		
+		$tcms_script->doParsePHP($entry);
+	}
+	else {
+		// table rows
+		echo '<tr>'
+		.'<th class="titleBG" align="left" width="20%"><strong>'._GALLERY_TITLE.'</strong></th>'
+		.'<th class="titleBG" align="left" width="70%" style="padding-left: 5px;"><strong>'._GALLERY_DESCRIPTION.'</strong></th>'
+		.'</tr>'
+		.'<tr><td valign="top" colspan="2" style="height: 7px;"></td></tr>';
+	}
+	
+	
+	
+	if($tcms_main->isArray($arr_albums['path'])) {
 		foreach($arr_albums['path'] as $key => $value) {
+			// link
 			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 			.'id='.$id.'&amp;s='.$s.'&amp;albums='.$arr_albums['path'][$key]
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlConvertToSEO($link);
 			
-			/*
-			echo '<tr><td valign="top" colspan="2" class="text_big">'
-			.'<a style="padding-left: 3px;" href="'.$link.'">'
-			.'<strong>'.$arr_albums['title'][$key].'</strong></a>'
-			.'</td></tr>';
-			*/
-			
-			echo '<tr>'
-			.'<td colspan="2" class="text_big">'
-			.'<div class="headLineGallery">'
-			.'<br />'
-			.'<span class="text_big"><a style="padding-left: 3px;" href="'.$link.'">'
-			.'<strong>'.$arr_albums['title'][$key].'</strong></a></span>'
-			.'</div>'
-			.'</td>'
-			.'</tr>';
-			
-			echo '<tr><td valign="top" colspan="2" style="height: 3px;"></td></tr>';
-			
-			echo '<tr class="text_normal">';
-			
-			echo '<td width="20%" valign="top">'
-			.'<a href="'.$link.'">';
-			
+			// image
 			if($arr_albums['image'][$key] != '') {
 				if(!is_dir(_TCMS_PATH.'/thumbnails/'.$value.'/')) {
 					mkdir(_TCMS_PATH.'/thumbnails/'.$value.'/', 0777);
@@ -188,34 +188,72 @@ if($albums == 'start') {
 					);
 				}
 				
-				echo '<img style="border: 1px solid #333333;" '
-				.'src="'.$imagePath._TCMS_PATH.'/thumbnails/'.$value.'/thumb_'.$arr_albums['image'][$key].'" '
-				.'border="0" align="left" />';
+				$entryImage = $imagePath._TCMS_PATH.'/thumbnails/'.$value.'/thumb_'.$arr_albums['image'][$key];
 			}
 			else {
-				echo '<img style="border: 1px solid #333333;" '
-				.'src="'.$imagePath.'engine/images/no_picture.gif" '
-				.'border="0" align="left" />';
+				$entryImage = $imagePath.'engine/images/no_picture.gif';
 			}
 			
-			echo '</a></td>';
 			
-			echo '<td width="70%" valign="top" style="padding-left: 5px;">'.
-				$arr_albums['description'][$key]
-			.'</td></tr>';
 			
-			//echo '<tr><td valign="top" colspan="2"><hr class="hr_line" /></td></tr>';
-			echo '<tr>'
-			.'<td valign="top" colspan="2">'
-			.'<div class="headLinePadding">'
-			.'<img src="'.$imagePath.'engine/images/blank.gif" border="0" height="1" />'
-			.'</div>'
-			.'</td>'
-			.'</tr>';
+			/*
+				toendaTemplate Engine
+			*/
+			
+			if($tcms_template->checkTemplateExist(_LAYOUT_TEMPLATE_IMAGEGALLERY, 2)) {
+				$entry = $tcms_template->getImagegalleryAlbumEntry(
+					$link, 
+					$arr_albums['title'][$key], 
+					$entryImage, 
+					$arr_albums['description'][$key]
+				);
+				
+				$tcms_script->doParsePHP($entry);
+			}
+			else {
+				echo '<tr>'
+				.'<td colspan="2" class="text_big">'
+				.'<div class="headLineGallery">'
+				.'<br />'
+				.'<span class="text_big"><a style="padding-left: 3px;" href="'.$link.'">'
+				.'<strong>'.$arr_albums['title'][$key].'</strong></a></span>'
+				.'</div>'
+				.'</td>'
+				.'</tr>';
+				
+				echo '<tr><td valign="top" colspan="2" style="height: 3px;"></td></tr>';
+				
+				echo '<tr class="text_normal">';
+				
+				echo '<td width="20%" valign="top">'
+				.'<a href="'.$link.'">'
+				.'<img style="border: 1px solid #333333;" '
+				.'src="'.$entryImage.'" '
+				.'border="0" align="left" />'
+				.'</a></td>';
+				
+				echo '<td width="70%" valign="top" style="padding-left: 5px;">'
+				.$arr_albums['description'][$key]
+				.'</td></tr>';
+				
+				echo '<tr>'
+				.'<td valign="top" colspan="2">'
+				.'<div class="headLinePadding">'
+				.'<img src="'.$imagePath.'engine/images/blank.gif" border="0" height="1" />'
+				.'</div>'
+				.'</td>'
+				.'</tr>';
+			}
 		}
 	}
 	
-	echo '</table>';
+	
+	echo $tcms_html->tableEnd();
+	
+	
+	// cleanup
+	unset($tcms_template);
+	unset($tcms_script);
 }
 
 
@@ -261,20 +299,17 @@ if($albums != 'start') {
 				$album_title = $tcms_main->decodeText($album_title, '2', $c_charset);
 				$album_desc  = $tcms_main->decodeText($album_desc, '2', $c_charset);
 				
+				
+				// link
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id=imagegallery&amp;s='.$s
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
 				$link = $tcms_main->urlConvertToSEO($link);
 				
-				echo '<div class="contentheading">'._GALLERY_THISIS.' '.$album_title.' '._GALLERY_THISIS2.'</div>'
-				.'(&nbsp;<a href="'.$link.'">'.$dcIG->getTitle().'</a>&nbsp;)'
-				.'<br /><br />';
 				
-				echo '<span class="contentmain">'.$album_desc.'</span>'
-				.'<br /><br />';
-				
-				
-				echo $tcms_html->tableHeadClass('0', '2', '0', '100%', 'noborder news_content_bg');
+				// title
+				$album_title = _GALLERY_THISIS.' '.$album_title.' '._GALLERY_THISIS2.'</div>'
+				.'<div>(<a href="'.$link.'">'.$dcIG->getTitle().'</a>)<br /><br />';
 				
 				
 				$arr_dir = $tcms_file->getPathContent(_TCMS_PATH.'/images/albums/'.$a_value.'/');
@@ -338,6 +373,28 @@ if($albums != 'start') {
 					$imagesPerRow = ( $tcms_main->isReal($dcIG->getListOptionAmount()) ? $dcIG->getListOptionAmount() : 4 );
 					$currentColumn = 0;
 					
+					
+					// title
+					echo $tcms_html->contentModuleHeader(
+						$album_title, 
+						$album_desc, 
+						''
+					);
+					
+					echo $tcms_html->tableHeadClass('0', '2', '0', '100%', 'noborder news_content_bg');
+					
+					/*
+						toendaTemplate Engine
+					*/
+					
+					$tcms_script = new toendaScript();
+					$tcms_template = new tcms_toendaTemplate();
+					
+					if($tcms_template->checkTemplateExist(_LAYOUT_TEMPLATE_IMAGEGALLERY)) {
+						$tcms_template->loadTemplate(_LAYOUT_TEMPLATE_IMAGEGALLERY);
+						$tcms_template->parseImagegalleryTemplate();
+					}
+					
 					if($tcms_main->isArray($arr_tc['fn'])) {
 						foreach($arr_tc['fn'] as $dkey => $dvalue) {
 							if(trim($dvalue) != '') {
@@ -369,7 +426,12 @@ if($albums != 'start') {
 									$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 									$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 									
-									$sqlQR = $sqlAL->query("SELECT * FROM ".$tcms_db_prefix."imagegallery WHERE album='".$a_value."' AND image='".$des_file."'");
+									$sqlQR = $sqlAL->query(
+										"SELECT *"
+										." FROM ".$tcms_db_prefix."imagegallery"
+										." WHERE album='".$a_value."'"
+										." AND image='".$des_file."'"
+									);
 									$sqlObj = $sqlAL->fetchObject($sqlQR);
 									
 									$old_des = $sqlObj->text;
@@ -388,89 +450,156 @@ if($albums != 'start') {
 									$dcIG->setListOption(0);
 								}
 								
-								switch($dcIG->getListOption()) {
-									case 0:
-										echo '<tr><td width="110" valign="top">'
-										.'<a href="'.$imagePath.'media.php?album='.$a_value.'&amp;key='.$dvalue.'" target="_blank">'
-										.'<img style="border: 1px solid #333333;" src="'.$imagePath._TCMS_PATH.'/thumbnails/'.$a_value.'/thumb_'.$dvalue.'" border="0" />'
-										.'</a>';
-										
-										$size = filesize(_TCMS_PATH.'/images/albums/'.$a_value.'/'.$dvalue) / 1024;
-										$kpos = strpos($size, '.');
-										$img_size = substr($size, 0, $kpos+3);
-										
-										echo '</td><td valign="top">';
-										
-										echo '<div class="text_normal gallery_text">'.$old_des.'</div>';
-										
-										if(trim($old_des) != '') {
-											echo '<hr class="hr_line" />';
+								
+								// image link
+								$entryImageLink = $imagePath.'media.php?album='.$a_value.'&amp;key='.$dvalue;
+								
+								// image thumb
+								$entryImageThumb = $imagePath._TCMS_PATH.'/thumbnails/'.$a_value.'/thumb_'.$dvalue;
+								
+								// image comments link
+								if($dcIG->getUseComments()) {
+									if($choosenDB == 'xml') {
+										if(!is_dir(_TCMS_PATH.'/tcms_imagegallery/'.$a_value.'/comments_'.$dvalue.'/')) {
+											mkdir(_TCMS_PATH.'/tcms_imagegallery/'.$a_value.'/comments_'.$dvalue.'/', 0777);
 										}
 										
-										if($dcIG->getUseComments()) {
-											if($choosenDB == 'xml') {
-												if(!is_dir(_TCMS_PATH.'/tcms_imagegallery/'.$a_value.'/comments_'.$dvalue.'/')) {
-													mkdir(_TCMS_PATH.'/tcms_imagegallery/'.$a_value.'/comments_'.$dvalue.'/', 0777);
-												}
-												
-												$ic_amount = $tcms_file->getPathContentAmount(
-													_TCMS_PATH.'/tcms_imagegallery/'.$a_value.'/comments_'.$dvalue.'/'
-												);
-											}
-											else {
-												$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-												$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-												
-												$sqlQR = $sqlAL->getOne($tcms_db_prefix.'comments', $old_uid);
-												
-												$ic_amount = $sqlAL->getNumber($sqlQR);
+										$ic_amount = $tcms_file->getPathContentAmount(
+											_TCMS_PATH.'/tcms_imagegallery/'.$a_value.'/comments_'.$dvalue.'/'
+										);
+									}
+									else {
+										$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+										$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+										
+										$sqlQR = $sqlAL->getOne($tcms_db_prefix.'comments', $old_uid);
+										
+										$ic_amount = $sqlAL->getNumber($sqlQR);
+									}
+									
+									$entryCommentsLink = '<a class="text_normal" target="_blank" href="'.$imagePath.'media.php?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'album='.$a_value.'&amp;key='.$dvalue.'#comments">'
+									.$ic_amount.' '.( $ic_amount == 1 ? _FRONT_COMMENT : _FRONT_COMMENTS )
+									.'</a>'
+									.'<br />';
+								}
+								
+								// image date
+								$entryUploadDate = lang_date(
+									substr($arr_tc['tc'][$dkey], 6, 2), 
+									substr($arr_tc['tc'][$dkey], 4, 2), 
+									substr($arr_tc['tc'][$dkey], 0, 4), 
+									substr($arr_tc['tc'][$dkey], 8, 2), 
+									substr($arr_tc['tc'][$dkey], 10, 2), 
+									substr($arr_tc['tc'][$dkey], 12, 2)
+								);
+								
+								// ...
+								
+								// image details
+								if($dcIG->getUseImageDetails()) {
+									$size = filesize(_TCMS_PATH.'/images/albums/'.$a_value.'/'.$dvalue) / 1024;
+									$kpos = strpos($size, '.');
+									$img_size = substr($size, 0, $kpos + 3);
+									
+									$entryImageDetails = '<span class="text_normal">'
+									.'<br />'._GALLERY_IMGTITLE.': <em>'.$dvalue.'</em><br />
+									'._GALLERY_IMGSIZE.': <em>'.$img_size.' KB</em><br />
+									'._GALLERY_IMGRESOLUTION.': <em>'.$img_o_width.' x '.$img_o_height.'</em>'
+									.'</span>';
+								}
+								
+								
+								
+								/*
+									toendaTemplate Engine
+								*/
+								if($tcms_template->checkTemplateExist(_LAYOUT_TEMPLATE_IMAGEGALLERY)) {
+									switch($dcIG->getListOption()) {
+										case 0:
+											$entry = $tcms_template->getImagegalleryAlbumListViewEntry(
+												$entryImageLink, 
+												$entryImageThumb, 
+												$old_des, 
+												$entryCommentsLink, 
+												$entryUploadDate, 
+												$entryImageDetails
+											);
+											
+											$tcms_script->doParsePHP($entry);
+											break;
+										
+										case 1:
+											if($currentColumn % $imagesPerRow == 0) {
+												echo '<tr>';
 											}
 											
-											echo '<a class="text_normal" target="_blank" href="'.$imagePath.'media.php?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'album='.$a_value.'&amp;key='.$dvalue.'#comments">'.$ic_amount.' '.( $ic_amount == 1 ? _FRONT_COMMENT : _FRONT_COMMENTS ).'</a><br />';
-										}
-										
-										echo '<span class="text_normal">'
-										._GALLERY_POSTED.' <em>'
-										.lang_date(substr($arr_tc['tc'][$dkey], 6, 2), substr($arr_tc['tc'][$dkey], 4, 2), substr($arr_tc['tc'][$dkey], 0, 4), substr($arr_tc['tc'][$dkey], 8, 2), substr($arr_tc['tc'][$dkey], 10, 2), substr($arr_tc['tc'][$dkey], 12, 2))
-										.'</em>'
-										.'</span>';
-										
-										if($dcIG->getUseImageDetails()) {
+											$entry = $tcms_template->getImagegalleryAlbumThumbViewEntry(
+												$entryImageLink, 
+												$entryImageThumb
+											);
+											
+											$tcms_script->doParsePHP($entry);
+											
+											if($currentColumn % $imagesPerRow == $imagesPerRow-1) {
+												echo '</td>'
+												.'<tr style="height: 15px;"><td colspan="'.$imagesPerRow.'"></td></tr>';
+											}
+											
+											$currentColumn++;
+											break;
+									}
+								}
+								else {
+									switch($dcIG->getListOption()) {
+										case 0:
+											echo '<tr><td width="110" valign="top">'
+											.'<a href="'.$entryImageLink.'" target="_blank">'
+											.'<img style="border: 1px solid #333333;" src="'.$entryImageThumb.'" border="0" />'
+											.'</a>';
+											
+											echo '</td><td valign="top">';
+											
+											echo '<div class="text_normal gallery_text">'.$old_des.'</div>';
+											
+											if(trim($old_des) != '') {
+												echo '<hr class="hr_line" />';
+											}
+											
+											echo $entryCommentsLink;
+											
 											echo '<span class="text_normal">'
-											.'<br />'._GALLERY_IMGTITLE.': <em>'.$dvalue.'</em><br />
-											'._GALLERY_IMGSIZE.': <em>'.$img_size.' KB</em><br />
-											'._GALLERY_IMGRESOLUTION.': <em>'.$img_o_width.' x '.$img_o_height.'</em>'
+											._GALLERY_POSTED.' <em>'
+											.$entryUploadDate
+											.'</em>'
 											.'</span>';
-										}
+											
+											echo $entryImageDetails;
+											
+											echo '</td></tr>';
+											
+											echo '<tr style="height: 15px;"><td colspan="2"></td></tr>';
+											break;
 										
-										echo '</td></tr>';
-										
-										echo '<tr style="height: 15px;"><td colspan="2"></td></tr>';
-										break;
-									
-									case 1:
-										if($currentColumn % $imagesPerRow == 0)
-											echo '<tr>';
-										
-										// show thumbnail
-										echo '<td width="100">'
-										.'<a href="'.$imagePath.'media.php?album='.$a_value.'&amp;key='.$dvalue.'" target="_blank">'
-										.'<img style="border: 1px solid #333333;" src="'.$imagePath._TCMS_PATH.'/thumbnails/'.$a_value.'/thumb_'.$dvalue.'" border="0" />'
-										.'</a>';
-										
-										$size = filesize(_TCMS_PATH.'/images/albums/'.$a_value.'/'.$dvalue) / 1024;
-										$kpos = strpos($size, '.');
-										$img_size = substr($size, 0, $kpos+3);
-										
-										echo '</td>';
-										
-										if($currentColumn % $imagesPerRow == $imagesPerRow-1) {
-											echo '</td>'
-											.'<tr style="height: 15px;"><td colspan="'.$imagesPerRow.'"></td></tr>';
-										}
-										
-										$currentColumn++;
-										break;
+										case 1:
+											if($currentColumn % $imagesPerRow == 0) {
+												echo '<tr>';
+											}
+											
+											// show thumbnail
+											echo '<td width="100">'
+											.'<a href="'.$entryImageLink.'" target="_blank">'
+											.'<img style="border: 1px solid #333333;" src="'.$entryImageThumb.'" border="0" />'
+											.'</a>'
+											.'</td>';
+											
+											if($currentColumn % $imagesPerRow == $imagesPerRow-1) {
+												echo '</td>'
+												.'<tr style="height: 15px;"><td colspan="'.$imagesPerRow.'"></td></tr>';
+											}
+											
+											$currentColumn++;
+											break;
+									}
 								}
 							}
 						}
@@ -480,14 +609,23 @@ if($albums != 'start') {
 						if($currentColumn % $imagesPerRow != 0) {
 							$columsLeft = $imagesPerRow - ($currentColumn % $imagesPerRow);
 							
-							for(;$columsLeft > 0; $columsLeft--) echo '<td>&nbsp;</td>';
+							for(;$columsLeft > 0; $columsLeft--) {
+								echo '<td>&nbsp;</td>';
+							}
 							
 							echo '</tr>';
 						}
 					}
+					
+					
+					// table end
+					echo $tcms_html->tableEnd();
+					
+					
+					// cleanup
+					unset($tcms_template);
+					unset($tcms_script);
 				}
-				
-				echo $tcms_html->tableEnd();
 			}
 		}
 	}

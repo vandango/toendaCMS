@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 3.0.7
+ * @version 3.0.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -817,7 +817,7 @@ if($wsShowSite) {
 					switch($id) {
 						case 'contactform':
 						case 'guestbook':
-						case 'impressum':
+						case 'imprint':
 						case 'products':
 						case 'imagegallery':
 						case 'download':
@@ -965,7 +965,7 @@ if($wsShowSite) {
 						if(!isset($image_id)) { $image_id = 'imagegallery'; }
 						if(!isset($link_id)) { $link_id = 'links'; }
 						if(!isset($news_id)) { $news_id = 'newsmanager'; }
-						if(!isset($imp_id)) { $imp_id = 'impressum'; }
+						if(!isset($imp_id)) { $imp_id = 'imprint'; }
 						if(!isset($faq_id)) { $faq_id = 'knowledgebase'; }
 						
 						

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to implement toendaTemplate Engine.
  *
- * @version 0.2.5
+ * @version 0.3.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -63,6 +63,13 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getNewsFrontpageEntry               -> Get the template for the news on the frontpage
  * getNewsSingleEntry                  -> Get the template for the news details
  * getNewsCommentEntry                 -> Get the template for the news comments
+ * parseImprintTemplate                -> Parse the imprint template
+ * getImprintEntry                     -> Get the imprint template
+ * parseImagegalleryTemplate           -> Parse the imagegallery template
+ * getImagegalleryAlbumHeader          -> Get the template for the imagegallery album header
+ * getImagegalleryAlbumEntry           -> Get the template for the imagegallery album entry
+ * getImagegalleryAlbumListViewEntry   -> Get the template for a imagegallery album list view entry
+ * getImagegalleryAlbumThumbViewEntry  -> Get the template for a imagegallery album thumbnail view entry
  * 
  * </code>
  *
@@ -77,6 +84,7 @@ class tcms_toendaTemplate {
 	private $_part1;
 	private $_part2;
 	private $_part3;
+	private $_part4;
 	
 	
 	
@@ -195,6 +203,16 @@ class tcms_toendaTemplate {
 					case 3:
 						if($this->_part3 != NULL
 						&& trim($this->_part3) != '') {
+							return true;
+						}
+						else {
+							return false;
+						}
+						break;
+					
+					case 4:
+						if($this->_part4 != NULL
+						&& trim($this->_part4) != '') {
 							return true;
 						}
 						else {
@@ -556,7 +574,7 @@ class tcms_toendaTemplate {
 	 * @param String $text
 	 * @return String
 	 */
-	public function getImprintCategoryTitle(
+	public function getImprintEntry(
 		$owner, 
 		$useContactPerson, 
 		$contactPerson, 
@@ -583,6 +601,180 @@ class tcms_toendaTemplate {
 			$layoutEntry = str_replace('#####IMPRINT_TRADEID#####', $tradeID, $layoutEntry);
 			$layoutEntry = str_replace('#####IMPRINT_COPYRIGHT#####', $copyright, $layoutEntry);
 			$layoutEntry = str_replace('#####IMPRINT_TEXT#####', $text, $layoutEntry);
+		}
+		
+		return $layoutEntry;
+	}
+	
+	
+	
+	/**
+	 * Parse the imagegallery template
+	 *
+	 */
+	public function parseImagegalleryTemplate() {
+		if(trim($this->_buffer) != '') {
+			// part 1
+			$part1_pos_begin = strpos($this->_buffer, '<!--#####IMAGEGALLERY_ALBUMLIST_HEADER_TEMPLATE_BEGIN#####-->');
+			$part1_pos_end = strpos($this->_buffer, '<!--#####IMAGEGALLERY_ALBUMLIST_HEADER_TEMPLATE_END#####-->');
+			
+			if($part1_pos_begin > -1 && $part1_pos_end > -1) {
+				$this->_part1 = substr(
+					$this->_buffer, 
+					$part1_pos_begin, 
+					$part1_pos_end - $part1_pos_begin
+				);
+				
+				$this->_part1 = str_replace('<!--#####IMAGEGALLERY_ALBUMLIST_HEADER_TEMPLATE_BEGIN#####-->', '', $this->_part1);
+				$this->_part1 = str_replace('<!--#####IMAGEGALLERY_ALBUMLIST_HEADER_TEMPLATE_END#####-->', '', $this->_part1);
+			}
+			
+			// part 2
+			$part2_pos_begin = strpos($this->_buffer, '<!--#####IMAGEGALLERY_ALBUMLIST_ENTRY_TEMPLATE_BEGIN#####-->');
+			$part2_pos_end = strpos($this->_buffer, '<!--#####IMAGEGALLERY_ALBUMLIST_ENTRY_TEMPLATE_END#####-->');
+			
+			if($part2_pos_begin > -1 && $part2_pos_end > -1) {
+				$this->_part2 = substr(
+					$this->_buffer, 
+					$part2_pos_begin, 
+					$part2_pos_end - $part2_pos_begin
+				);
+				
+				$this->_part2 = str_replace('<!--#####IMAGEGALLERY_ALBUMLIST_ENTRY_TEMPLATE_BEGIN#####-->', '', $this->_part2);
+				$this->_part2 = str_replace('<!--#####IMAGEGALLERY_ALBUMLIST_ENTRY_TEMPLATE_END#####-->', '', $this->_part2);
+			}
+			
+			// part 3
+			$part3_pos_begin = strpos($this->_buffer, '<!--#####IMAGEGALLERY_ALBUM_LIST_VIEW_TEMPLATE_BEGIN#####-->');
+			$part3_pos_end = strpos($this->_buffer, '<!--#####IMAGEGALLERY_ALBUM_LIST_VIEW_TEMPLATE_END#####-->');
+			
+			if($part3_pos_begin > -1 && $part3_pos_end > -1) {
+				$this->_part3 = substr(
+					$this->_buffer, 
+					$part3_pos_begin, 
+					$part3_pos_end - $part3_pos_begin
+				);
+				
+				$this->_part3 = str_replace('<!--#####IMAGEGALLERY_ALBUM_LIST_VIEW_TEMPLATE_BEGIN#####-->', '', $this->_part3);
+				$this->_part3 = str_replace('<!--#####IMAGEGALLERY_ALBUM_LIST_VIEW_TEMPLATE_END#####-->', '', $this->_part3);
+			}
+			
+			// part 4
+			$part4_pos_begin = strpos($this->_buffer, '<!--#####IMAGEGALLERY_ALBUM_THUMB_VIEW_TEMPLATE_BEGIN#####-->');
+			$part4_pos_end = strpos($this->_buffer, '<!--#####IMAGEGALLERY_ALBUM_THUMB_VIEW_TEMPLATE_END#####-->');
+			
+			if($part4_pos_begin > -1 && $part4_pos_end > -1) {
+				$this->_part4 = substr(
+					$this->_buffer, 
+					$part4_pos_begin, 
+					$part4_pos_end - $part4_pos_begin
+				);
+				
+				$this->_part4 = str_replace('<!--#####IMAGEGALLERY_ALBUM_THUMB_VIEW_TEMPLATE_BEGIN#####-->', '', $this->_part4);
+				$this->_part4 = str_replace('<!--#####IMAGEGALLERY_ALBUM_THUMB_VIEW_TEMPLATE_END#####-->', '', $this->_part4);
+			}
+		}
+	}
+	
+	
+	
+	/**
+	 * Get the template for the imagegallery album header
+	 * 
+	 * @param String $title
+	 * @param String $desc
+	 * @return String
+	 */
+	public function getImagegalleryAlbumHeader($title, $desc) {
+		$layoutEntry = '';
+		
+		if(trim($this->_part1) != '') {
+			$layoutEntry = trim($this->_part1);
+			
+			$layoutEntry = str_replace('#####ALBUM_GALERY_TITLE#####', $title, $layoutEntry);
+			$layoutEntry = str_replace('#####ALBUM_GALERY_DESCRIPTION#####', $desc, $layoutEntry);
+		}
+		
+		return $layoutEntry;
+	}
+	
+	
+	
+	/**
+	 * Get the template for the imagegallery album entry
+	 * 
+	 * @param String $link
+	 * @param String $title
+	 * @param String $thumb
+	 * @param String $desc
+	 * @return String
+	 */
+	public function getImagegalleryAlbumEntry($link, $title, $thumb, $desc) {
+		$layoutEntry = '';
+		
+		if(trim($this->_part2) != '') {
+			$layoutEntry = trim($this->_part2);
+			
+			$layoutEntry = str_replace('#####ALBUM_LINK#####', $link, $layoutEntry);
+			$layoutEntry = str_replace('#####ALBUM_TITLE#####', $title, $layoutEntry);
+			$layoutEntry = str_replace('#####ALBUM_THUMBNAIL_IMAGE#####', $thumb, $layoutEntry);
+			$layoutEntry = str_replace('#####ALBUM_DESCRIPTION#####', $desc, $layoutEntry);
+		}
+		
+		return $layoutEntry;
+	}
+	
+	
+	
+	/**
+	 * Get the template for a imagegallery album list view entry
+	 * 
+	 * @param String $imageLink
+	 * @param String $imageThumb
+	 * @param String $imageTitle
+	 * @param String $imageCommentsLink
+	 * @param String $imageUploaddate
+	 * @param String $imageDetails
+	 * @return String
+	 */
+	public function getImagegalleryAlbumListViewEntry($imageLink, $imageThumb, $imageTitle, $imageCommentsLink, $imageUploaddate, $imageDetails) {
+		$layoutEntry = '';
+		
+		if(trim($this->_part3) != '') {
+			$layoutEntry = trim($this->_part3);
+			
+			$layoutEntry = str_replace('#####ALBUM_IMAGE_LINK#####', $imageLink, $layoutEntry);
+			$layoutEntry = str_replace('#####ALBUM_IMAGE_THUMBNAIL#####', $imageThumb, $layoutEntry);
+			$layoutEntry = str_replace('#####ALBUM_IMAGE_TITLE#####', $imageTitle, $layoutEntry);
+			$layoutEntry = str_replace('#####ALBUM_IMAGE_COMMENTS_LINK#####', $imageCommentsLink, $layoutEntry);
+			$layoutEntry = str_replace('#####ALBUM_IMAGE_UPLOAD_DATE#####', $imageUploaddate, $layoutEntry);
+			$layoutEntry = str_replace('#####ALBUM_IMAGE_DETAILS#####', $imageDetails, $layoutEntry);
+		}
+		
+		return $layoutEntry;
+	}
+	
+	
+	
+	/**
+	 * Get the template for a imagegallery album thumbnail view entry
+	 * 
+	 * @param String $imageLink
+	 * @param String $imageThumb
+	 * @param String $imageTitle
+	 * @param String $imageCommentsLink
+	 * @param String $imageUploaddate
+	 * @param String $imageDetails
+	 * @return String
+	 */
+	public function getImagegalleryAlbumThumbViewEntry($imageLink, $imageThumb) {
+		$layoutEntry = '';
+		
+		if(trim($this->_part4) != '') {
+			$layoutEntry = trim($this->_part4);
+			
+			$layoutEntry = str_replace('#####ALBUM_IMAGE_LINK#####', $imageLink, $layoutEntry);
+			$layoutEntry = str_replace('#####ALBUM_IMAGE_THUMBNAIL#####', $imageThumb, $layoutEntry);
 		}
 		
 		return $layoutEntry;

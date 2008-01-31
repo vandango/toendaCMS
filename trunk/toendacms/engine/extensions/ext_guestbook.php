@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a guestbook.
  *
- * @version 0.6.3
+ * @version 0.6.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -198,6 +198,7 @@ if($dcG->getEnabled()) {
 		echo '<br />';
 		
 		
+		$tcms_script = new toendaScript();
 		$tcms_template = new tcms_toendaTemplate();
 		
 		if($tcms_template->checkTemplateExist(_LAYOUT_TEMPLATE_GUESTBOOK)) {
@@ -273,7 +274,7 @@ if($dcG->getEnabled()) {
 					*/
 					
 					if($tcms_template->checkTemplateExist(_LAYOUT_TEMPLATE_GUESTBOOK)) {
-						echo $tcms_template->getGuestbookEntry(
+						$entry = $tcms_template->getGuestbookEntry(
 							$arr_color[$wsc], 
 							$dcG->getNameWidth(), 
 							$dcG->getTextWidth(), 
@@ -282,6 +283,8 @@ if($dcG->getEnabled()) {
 							$entryDate, 
 							$entryText
 						);
+						
+						$tcms_script->doParsePHP($entry);
 					}
 					else {
 						echo '<tr style="height: 5px;">'

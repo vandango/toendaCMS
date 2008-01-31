@@ -7,9 +7,9 @@
 | Author: Jonathan Naumann                                               |
 +------------------------------------------------------------------------+
 |
-| toendaCMS Impressum DataContainer
+| toendaCMS Imprint DataContainer
 |
-| File:	tcms_dc_impressum.lib.php
+| File:	tcms_dc_imprint.lib.php
 |
 +
 */
@@ -19,7 +19,7 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 /**
- * toendaCMS Impressum data container
+ * toendaCMS Imprint data container
  *
  * This class is used as a datacontainer object for
  * publishing form items.
@@ -31,7 +31,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  */
 
 
-class tcms_dc_impressum {
+class tcms_dc_imprint {
 	private $m_title;
 	private $m_key;
 	private $m_legal;
