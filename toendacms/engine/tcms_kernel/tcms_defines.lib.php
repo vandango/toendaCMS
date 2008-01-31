@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for global values
  *
- * @version 0.7.9
+ * @version 0.8.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -477,68 +477,37 @@ if(!defined('_SITE_META_DATA')) define('_SITE_META_DATA', $strMetaData);
 /*
 	LAYOUT
 */
+
+$_LAYOUT = '';
+$_LAYOUT_TEMPLATE_GUESTBOOK = '';
+$_LAYOUT_TEMPLATE_LINK = '';
+$_LAYOUT_TEMPLATE_NEWS = '';
+$_LAYOUT_TEMPLATE_IMPRINT = '';
+
 if(trim($s) != 'printer') {
 	if($tcms_file->checkFileExist('theme/'.$s.'/index.php')) {
-		/*_LAYOUT*/
-		if(!defined('_LAYOUT')) {
-			define('_LAYOUT', 'theme/'.$s.'/index.php');
-		}
-		
-		/*_LAYOUT_GUESTBOOK_ENTRY*/
-		if(!defined('_LAYOUT_GUESTBOOK_ENTRY')) {
-			define('_LAYOUT_GUESTBOOK_ENTRY', 'theme/'.$s.'/templates/guestbook_entry.tpl');
-		}
-		
-		/*_LAYOUT_LINK_ENTRY*/
-		if(!defined('_LAYOUT_LINK_ENTRY')) {
-			define('_LAYOUT_LINK_ENTRY', 'theme/'.$s.'/templates/link_entry.tpl');
-		}
-		
-		/*_LAYOUT_NEWS_ENTRY*/
-		if(!defined('_LAYOUT_NEWS_ENTRY')) {
-			define('_LAYOUT_NEWS_ENTRY', 'theme/'.$s.'/templates/news_entry.tpl');
-		}
+		$_LAYOUT = 'theme/'.$s.'/index.php';
+		$_LAYOUT_TEMPLATE_GUESTBOOK = 'theme/'.$s.'/templates/guestbook.tmpl';
+		$_LAYOUT_TEMPLATE_LINK = 'theme/'.$s.'/templates/link.tmpl';
+		$_LAYOUT_TEMPLATE_NEWS = 'theme/'.$s.'/templates/news.tmpl';
+		$_LAYOUT_TEMPLATE_IMPRINT = 'theme/'.$s.'/templates/imprint.tmpl';
 	}
 	else {
 		$tcms_error = new tcms_error('tcms_defines.lib.php', 2, $s, $imagePath);
 		$tcms_error->showMessage(false);
 		
-		if(!defined('_LAYOUT')) {
-			define('_LAYOUT', '');
-		}
-		
-		if(!defined('_LAYOUT_GUESTBOOK_ENTRY')) {
-			define('_LAYOUT_GUESTBOOK_ENTRY', '');
-		}
-		
-		if(!defined('_LAYOUT_LINK_ENTRY')) {
-			define('_LAYOUT_LINK_ENTRY', '');
-		}
-		
-		if(!defined('_LAYOUT_NEWS_ENTRY')) {
-			define('_LAYOUT_NEWS_ENTRY', '');
-		}
-		
 		unset($tcms_error);
 	}
 }
 else {
-	if(!defined('_LAYOUT')) {
-		define('_LAYOUT', 'theme/'.$s.'/index.php');
-	}
-	
-	if(!defined('_LAYOUT_GUESTBOOK_ENTRY')) {
-		define('_LAYOUT_GUESTBOOK_ENTRY', '');
-	}
-	
-	if(!defined('_LAYOUT_LINK_ENTRY')) {
-		define('_LAYOUT_LINK_ENTRY', '');
-	}
-	
-	if(!defined('_LAYOUT_NEWS_ENTRY')) {
-		define('_LAYOUT_NEWS_ENTRY', '');
-	}
+	$_LAYOUT = 'theme/printer/index.php';
 }
+
+if(!defined('_LAYOUT'))                        define('_LAYOUT', $_LAYOUT);
+if(!defined('_LAYOUT_TEMPLATE_GUESTBOOK'))     define('_LAYOUT_TEMPLATE_GUESTBOOK', $_LAYOUT_TEMPLATE_GUESTBOOK);
+if(!defined('_LAYOUT_TEMPLATE_LINK'))          define('_LAYOUT_TEMPLATE_LINK', $_LAYOUT_TEMPLATE_LINK);
+if(!defined('_LAYOUT_TEMPLATE_NEWS'))          define('_LAYOUT_TEMPLATE_NEWS', $_LAYOUT_TEMPLATE_NEWS);
+if(!defined('_LAYOUT_TEMPLATE_IMPRINT'))       define('_LAYOUT_TEMPLATE_IMPRINT', $_LAYOUT_TEMPLATE_IMPRINT);
 
 
 ?>

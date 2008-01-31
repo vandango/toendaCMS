@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used as a upload and edit page for the
  * templates.
  *
- * @version 0.4.2
+ * @version 0.4.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -139,7 +139,7 @@ if($id_group == 'Developer'
 				|| strpos($val, '.phtml') 
 				|| strpos($val, '.xml') 
 				|| strpos($val, '.xslt')
-				|| strpos($val, '.tpl')){
+				|| strpos($val, '.tmpl')){
 					echo '<a'.( $load_template_file == $val ? ' class="tcms_tabA"' : ' class="tcms_tab"' ).' href="admin.php?id_user='.$id_user.'&amp;site=mod_upload_layout&amp;load_template_file='.$val.'">'.$val.'</a>';
 				}
 			}
@@ -157,7 +157,7 @@ if($id_group == 'Developer'
 						|| strpos($val2, '.htm') 
 						|| strpos($val2, '.php3') 
 						|| strpos($val2, '.phtml')
-						|| strpos($val2, '.tpl')){
+						|| strpos($val2, '.tmpl')){
 							echo '<a'.( $load_template_file == $val.'/'.$val2 ? ' class="tcms_tabA"' : ' class="tcms_tab"' ).' href="admin.php?id_user='.$id_user.'&amp;site=mod_upload_layout&amp;load_template_file='.$val.'/'.$val2.'">'.$val.'/'.$val2.'</a>';
 						}
 					}

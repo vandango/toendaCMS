@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides a frontpage with news and a text.
  *
- * @version 1.7.0
+ * @version 1.7.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -60,12 +60,6 @@ if(!isset($cmd)) {
 using('toendacms.datacontainer.news');
 using('toendacms.datacontainer.comment');
 using('toendacms.datacontainer.account');
-
-$hr_line_1 = '<tr class="hr_line"><td colspan="2"></td></tr>';
-$hr_line_2 = '<tr style="height: 15px;"><td colspan="2"><br /><br /></td></tr>';
-$hr_line_3 = '<hr class="hr_line" noshade="noshade" />';
-//$hr_line_4 = '<div style="height: '.$news_spacing.'px;">&nbsp;</div>';
-$hr_line_4 = '<div class="news_seperator" style="margin-bottom: '.$news_spacing.'px;">&nbsp;</div>';
 
 
 
@@ -110,8 +104,8 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 		$tcms_script = new toendaScript();
 		$tcms_template = new tcms_toendaTemplate();
 		
-		if($tcms_template->checkTemplateExist(_LAYOUT_NEWS_ENTRY)) {
-			$tcms_template->loadTemplate(_LAYOUT_NEWS_ENTRY);
+		if($tcms_template->checkTemplateExist(_LAYOUT_TEMPLATE_NEWS)) {
+			$tcms_template->loadTemplate(_LAYOUT_TEMPLATE_NEWS);
 			$tcms_template->parseNewsTemplate();
 			
 			$seperator = $tcms_template->getSeperator();
@@ -466,20 +460,20 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 					
 					switch($readmore_link) {
 						case 0: //--> new line - left align
-							echo '<br />'
+							$entryText .= '<br />'
 							.'<a href="'.$link.'">'
 							._FRONT_MORE.'&nbsp;&raquo;</a>';
 							break;
 						
 						case 1: //--> new line - right align
-							echo '<div align="right">'
+							$entryText .= '<div align="right">'
 							.'<a href="'.$link.'">'
 							._FRONT_MORE.'&nbsp;&raquo;</a>'
 							.'</div>';
 							break;
 						
 						case 2: //--> self line - after text
-							echo '&nbsp;<a href="'.$link.'">'
+							$entryText .= '&nbsp;<a href="'.$link.'">'
 							._FRONT_MORE.'&nbsp;&raquo;</a>';
 							break;
 					}
@@ -492,12 +486,13 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 					OLD AND NEW TEMPLATE ENGINE
 				*/
 				
-				if($tcms_template->checkTemplateExist(_LAYOUT_NEWS_ENTRY)) {
+				if($tcms_template->checkTemplateExist(_LAYOUT_TEMPLATE_NEWS)) {
 					$entry = $tcms_template->getNewsFrontpageEntry(
 						$link, 
 						$dcNews->GetTitle(), 
 						$entryInfo, 
-						$entryText
+						$entryText, 
+						$news_spacing
 					);
 					
 					$tcms_script->doParsePHP($entry);
@@ -531,7 +526,9 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 					.'</div>'
 					.'<br />';
 					
-					echo $hr_line_4;
+					echo '<div class="news_seperator" style="margin-bottom: '.$news_spacing.'px;">'
+					.'&nbsp;'
+					.'</div>';
 				}
 				
 				unset($catLink);
