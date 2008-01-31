@@ -135,11 +135,11 @@ if($id_group == 'Developer'
 				|| strpos($val, '.php') 
 				|| strpos($val, '.html') 
 				|| strpos($val, '.htm') 
-				|| strpos($val, '.php3') 
+				|| strpos($val, '.php5') 
 				|| strpos($val, '.phtml') 
 				|| strpos($val, '.xml') 
 				|| strpos($val, '.xslt')
-				|| strpos($val, '.tmpl')){
+				|| strpos($val, '.tpl')){
 					echo '<a'.( $load_template_file == $val ? ' class="tcms_tabA"' : ' class="tcms_tab"' ).' href="admin.php?id_user='.$id_user.'&amp;site=mod_upload_layout&amp;load_template_file='.$val.'">'.$val.'</a>';
 				}
 			}
@@ -155,9 +155,9 @@ if($id_group == 'Developer'
 						|| strpos($val2, '.php') 
 						|| strpos($val2, '.html') 
 						|| strpos($val2, '.htm') 
-						|| strpos($val2, '.php3') 
+						|| strpos($val2, '.php5') 
 						|| strpos($val2, '.phtml')
-						|| strpos($val2, '.tmpl')){
+						|| strpos($val2, '.tpl')){
 							echo '<a'.( $load_template_file == $val.'/'.$val2 ? ' class="tcms_tabA"' : ' class="tcms_tab"' ).' href="admin.php?id_user='.$id_user.'&amp;site=mod_upload_layout&amp;load_template_file='.$val.'/'.$val2.'">'.$val.'/'.$val2.'</a>';
 						}
 					}

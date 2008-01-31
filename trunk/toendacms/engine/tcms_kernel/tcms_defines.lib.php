@@ -488,11 +488,11 @@ $_LAYOUT_TEMPLATE_IMAGEGALLERY = '';
 if(trim($s) != 'printer') {
 	if($tcms_file->checkFileExist('theme/'.$s.'/index.php')) {
 		$_LAYOUT = 'theme/'.$s.'/index.php';
-		$_LAYOUT_TEMPLATE_GUESTBOOK = 'theme/'.$s.'/templates/guestbook.tmpl';
-		$_LAYOUT_TEMPLATE_LINK = 'theme/'.$s.'/templates/link.tmpl';
-		$_LAYOUT_TEMPLATE_NEWS = 'theme/'.$s.'/templates/news.tmpl';
-		$_LAYOUT_TEMPLATE_IMPRINT = 'theme/'.$s.'/templates/imprint.tmpl';
-		$_LAYOUT_TEMPLATE_IMAGEGALLERY = 'theme/'.$s.'/templates/imagegallery.tmpl';
+		$_LAYOUT_TEMPLATE_GUESTBOOK = 'theme/'.$s.'/templates/guestbook.tpl';
+		$_LAYOUT_TEMPLATE_LINK = 'theme/'.$s.'/templates/link.tpl';
+		$_LAYOUT_TEMPLATE_NEWS = 'theme/'.$s.'/templates/news.tpl';
+		$_LAYOUT_TEMPLATE_IMPRINT = 'theme/'.$s.'/templates/imprint.tpl';
+		$_LAYOUT_TEMPLATE_IMAGEGALLERY = 'theme/'.$s.'/templates/imagegallery.tpl';
 	}
 	else {
 		$tcms_error = new tcms_error('tcms_defines.lib.php', 2, $s, $imagePath);
