@@ -21,7 +21,7 @@
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 1.3.1
+ * @version 1.3.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -263,10 +263,15 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 -->
 <meta name="generator" content="'.$cms_name.' - '.$cms_tagline.' | Copyright '.$toenda_copy.' Toenda Software Development. '._TCMS_ADMIN_RIGHT.'" />
 <link rel="shortcut icon" href="../images/favicon.png">
+
+<script language="javascript" src="../js/browsercheck.js"></script>
 <script language="JavaScript" src="../js/dhtml.js"></script>
 <script language="JavaScript" src="../js/menu.js"></script>
 <script language="JavaScript" src="../js/edit.js"></script>
 <script language="JavaScript" src="../js/ajax.js"></script>
+
+<!-- tinyMCE -->
+<script language="javascript" type="text/javascript" src="../js/tinymce/tiny_mce.js"></script>
 
 <!-- overLib -->
 <script language="JavaScript" src="../js/overlib/overlib_mini.js"></script>
@@ -283,6 +288,14 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 <!-- tabPane -->
 <script type="text/javascript" src="../js/tabs/tabpane.js"></script>
 <link type="text/css" rel="StyleSheet" href="../js/tabs/css/luna/tab.css" />
+<!--<link type="text/css" rel="StyleSheet" href="../js/tabs/tabpane.css" />-->
+
+<!-- jsCalendar -->
+<script language="JavaScript" src="../js/jscalendar/calendar.js"></script>
+<script language="Javascript" src="../js/jscalendar/lang/calendar-en.js"></script>
+<script language="Javascript" src="../js/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" type="text/css" media="all" href="../js/jscalendar/calendar-toendaCMS.css" title="toendaCMS" />
+
 
 <!-- toendaCMS Styles -->
 <style type="text/css">@import "theme/'._TCMS_THEME_ADMIN.'/tcms_main.css";</style>
@@ -356,7 +369,7 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 				Load Layout
 			*/
 			if($canEdit) {
-			 	include_once('../tcms_kernel/tcms_array.lib.php');
+				include_once('../tcms_kernel/tcms_array.lib.php');
 				include_once('../tcms_kernel/tcms_freemenu.lib.php');
 				
 				

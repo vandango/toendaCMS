@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to implement the tinyMCE editor.
  *
- * @version 0.1.8
+ * @version 0.2.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -85,22 +85,27 @@ class tcms_tinyMCE {
 				nicht im ie: plugin -> contextmenu
 			*/
 			echo '<!-- tinyMCE -->
-			<script language="javascript" type="text/javascript" src="../js/browsercheck.js"></script>
-			<script language="javascript" type="text/javascript" src="../js/tinymce/tiny_mce.js"></script>
 			<script language="javascript" type="text/javascript">
 			
 			tinyMCE.init({
 				theme : "advanced",
+				mode : "exact",
+				elements : "content",
 				language : "'.$language.'",
-				mode : "specific_textareas",
 				relative_urls : false,
 				remove_script_host : false,
 				document_base_url : "'.( $this->m_seoPath == '' ? '/' : '/'.$this->m_seoPath.'/' ).'",
 				extended_valid_elements: "font[size|color|face]",
 				
-				plugins : "table,searchreplace,paste,insertdatetime,flash,fullscreen,preview,advhr,advlink",
+				force_p_newlines : false,
+				force_br_newlines : true,
+				convert_newlines_to_brs : false,
+				remove_linebreaks : true,
+				
+				plugins : "table,searchreplace,paste,insertdatetime,media,fullscreen,preview,advhr,advlink,pagebreak,contextmenu",//,inlinepopups",
 				plugin_insertdate_dateFormat : "%d.%m.%Y",
 				plugin_insertdate_timeFormat : "%H:%M:%S",
+				pagebreak_separator : "{tcms_more}",
 				
 				theme_advanced_buttons1_add_before : "cut,copy,paste,pasteword,selectall,separator",
 				theme_advanced_buttons1_add : "forecolor,backcolor",
@@ -109,7 +114,7 @@ class tcms_tinyMCE {
 				theme_advanced_buttons2_add : "fullscreen,preview",
 				
 				theme_advanced_buttons3_add_before : "tablecontrols,separator,advhr",
-				theme_advanced_buttons3_add : "flash,insertdate,inserttime",
+				theme_advanced_buttons3_add : "media,insertdate,inserttime,pagebreak",
 				
 				content_css : "../styles/tcms_common.css", 
 				
@@ -120,7 +125,7 @@ class tcms_tinyMCE {
 				},
 				
 				apply_source_formatting : true,
-				invalid_elements : "applet",
+				invalid_elements : "applet,p",
 				valid_elements : ""
 				+"a[style|accesskey|charset|class|coords|dir<ltr?rtl|href|hreflang|id|lang|name"
 				  +"|onblur|onclick|ondblclick|onfocus|onkeydown|onkeypress|onkeyup"
@@ -391,19 +396,13 @@ class tcms_tinyMCE {
 				theme_advanced_resize_horizontal : false,
 				theme_advanced_resizing : true,
 				
-				force_p_newlines : false,
-				force_br_newlines : true,
-				convert_newlines_to_brs : false,
-				remove_linebreaks : true,
-				
 				directionality: "ltr",
 				debug : false,
 				cleanup : true,
-				cleanup_on_startup : false,
-				safari_warning : false
+				cleanup_on_startup : false
 			});'
 			.( $withAjaxSaveLoad ? '
-			
+			'/*
 			function ajaxLoad(contentData) {
 				var ed = tinyMCE.get(\''.$textareaForAjaxSaveLoad.'\');
 			
@@ -425,7 +424,7 @@ class tcms_tinyMCE {
 					alert(ed.getContent());
 					// ... -> save function here
 				}, 3000);
-			}
+			}*/.'
 			' : '' ).'
 			
 			</script>

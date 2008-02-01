@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used as top menu.
  *
- * @version 1.0.3
+ * @version 1.0.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -454,7 +454,7 @@ if($mod_title['show'][$site] == 1){
 	}
 	
 	if($show_wysiwyg == 'tinymce' && $site == 'mod_frontpage'){
-		echo '<a style="padding: 3px 3px 0 3px;" href="javascript:tinyMCE.triggerSave();tinyMCE.updateContent(\'front_text\');save();"><img title="'._TCMS_ADMIN_SAVE.'" alt="'._TCMS_ADMIN_SAVE.'" src="../images/admin_menu/save.png" border="0" /></a>';
+		echo '<a style="padding: 3px 3px 0 3px;" href="javascript:tinyMCE.triggerSave();save();"><img title="'._TCMS_ADMIN_SAVE.'" alt="'._TCMS_ADMIN_SAVE.'" src="../images/admin_menu/save.png" border="0" /></a>';
 	}
 	if($show_wysiwyg != 'tinymce' && $site == 'mod_frontpage'){
 		echo '<a style="padding: 3px 3px 0 3px;" href="javascript:save();"><img title="'._TCMS_ADMIN_SAVE.'" alt="'._TCMS_ADMIN_SAVE.'" src="../images/admin_menu/save.png" border="0" /></a>';
