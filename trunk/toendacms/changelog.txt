@@ -28,7 +28,7 @@ Version 2.0
 Developer Version
 	- 1.9.0 Development
 
-Building Steps: 4275
+Building Steps: 4300
 
 
 
@@ -52,6 +52,9 @@ Building Steps: 4275
  - changed: Remoced the old configuration class "modconfig", replaced it with the
             datacontainer objects.
  - changed: German word "Impressum" changed into the english "Imprint" (global for all files).
+ - changed: Start to update tinyMCE from 2.1.3 to 3.0 (but freezed while tinyMCE 3 saves
+            all content with the paragraph tag (<p>, i hate it so much - the setting
+            "force_p_newlines : false" dosnt works).
  - changed: 
 
  - added: SEO format 3 (.html-format) has now the template variable.
