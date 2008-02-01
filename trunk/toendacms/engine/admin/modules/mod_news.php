@@ -99,15 +99,12 @@ if(isset($_POST['newSynCFeedAmount'])){ $newSynCFeedAmount = $_POST['newSynCFeed
 
 
 
-echo '
-<script language="JavaScript" src="../js/jscalendar/calendar.js"></script>
-<script language="Javascript" src="../js/jscalendar/lang/calendar-en.js"></script>
-<script language="Javascript" src="../js/jscalendar/calendar-setup.js"></script>
-<link rel="stylesheet" type="text/css" media="all" href="../js/jscalendar/calendar-toendaCMS.css" title="toendaCMS" />
-<script type="text/javascript" src="../js/tabs/tabpane.js"></script>
-<link type="text/css" rel="StyleSheet" href="../js/tabs/css/luna/tab.css" />
-<!--<link type="text/css" rel="StyleSheet" href="../js/tabs/tabpane.css" />-->
-';
+
+
+// -----------------------------------------------------
+// INIT
+// -----------------------------------------------------
+
 
 if($show_wysiwyg == 'tinymce'){
 	include('../tcms_kernel/tcms_tinyMCE.lib.php');
@@ -122,14 +119,6 @@ if($show_wysiwyg == 'tinymce'){
 	
 	unset($tcms_tinyMCE);
 }
-
-
-
-
-
-// -----------------------------------------------------
-// INIT
-// -----------------------------------------------------
 
 if(!isset($todo)){ $todo = 'show'; }
 

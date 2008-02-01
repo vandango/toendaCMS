@@ -442,7 +442,7 @@ if($checkUserExists) {
 			echo '</table>';
 			
 			if($show_wysiwyg == 'tinymce') {
-				echo '<br /><input type="submit" class="inputbutton" onclick="javascript:tinyMCE.triggerSave();tinyMCE.updateContent(\'content\');" value="'._TCMS_ADMIN_SAVE.'" />';
+				echo '<br /><input type="submit" class="inputbutton" onclick="javascript:tinyMCE.triggerSave();" value="'._TCMS_ADMIN_SAVE.'" />';
 			}
 			elseif($show_wysiwyg == 'fckeditor') {
 				echo '<br /><input type="submit" class="inputbutton" onclick="javascript:save();" value="'._TCMS_ADMIN_SAVE.'" />';

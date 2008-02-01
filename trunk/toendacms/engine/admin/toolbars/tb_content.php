@@ -49,7 +49,7 @@ switch($todo){
 		if($show_wysiwyg == 'tinymce' && $todo != 'config'){
 			echo '<a'
 			.' style="padding: 3px 3px 0 3px;"'
-			.' href="javascript:tinyMCE.triggerSave();tinyMCE.updateContent(\'content\');save();">'
+			.' href="javascript:tinyMCE.triggerSave();save();">'
 			.'<img'
 			.' title="'._TCMS_ADMIN_SAVE.'"'
 			.' alt="'._TCMS_ADMIN_SAVE.'"'
@@ -76,7 +76,7 @@ switch($todo){
 			.'gebi(\'draft\').value=\'0\';'
 			//.'ajaxSave();'
 			.'tinyMCE.triggerSave();'
-			.'tinyMCE.updateContent(\'content\');'
+			//.'tinyMCE.updateContent(\'content\');'
 			.'save();'
 			.'">'
 			.'<img title="'._TCMS_ADMIN_APPLY.'" alt="'._TCMS_ADMIN_APPLY.'" src="../images/admin_menu/apply.png" border="0" />'

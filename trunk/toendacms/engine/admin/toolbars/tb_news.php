@@ -41,7 +41,7 @@ switch($todo){
 		echo '<img src="../images/admin_menu/line.gif" border="0" />';
 		
 		if($show_wysiwyg == 'tinymce' && $todo != 'config'){
-			echo '<a style="padding: 3px 3px 0 3px;" href="javascript:tinyMCE.triggerSave();tinyMCE.updateContent(\'content\');save();">'
+			echo '<a style="padding: 3px 3px 0 3px;" href="javascript:tinyMCE.triggerSave();save();">'
 			.'<img title="'._TCMS_ADMIN_SAVE.'" alt="'._TCMS_ADMIN_SAVE.'" src="../images/admin_menu/save.png" border="0" />'
 			.'</a>';
 		}
@@ -58,7 +58,7 @@ switch($todo){
 			.'gebi(\'draft\').value=\'0\';'
 			//.'ajaxSave();'
 			.'tinyMCE.triggerSave();'
-			.'tinyMCE.updateContent(\'content\');'
+			//.'tinyMCE.updateContent(\'content\');'
 			.'save();'
 			.'">'
 			.'<img title="'._TCMS_ADMIN_APPLY.'" alt="'._TCMS_ADMIN_APPLY.'" src="../images/admin_menu/apply.png" border="0" />'
@@ -75,7 +75,7 @@ switch($todo){
 		echo '<img src="../images/admin_menu/line.gif" border="0" />';
 		
 		if($show_wysiwyg == 'tinymce' && $todo != 'config'){
-			echo '<a style="padding: 3px 3px 0 3px;" href="javascript:tinyMCE.triggerSave();tinyMCE.updateContent(\'content\');save();">'
+			echo '<a style="padding: 3px 3px 0 3px;" href="javascript:tinyMCE.triggerSave();save();">'
 			.'<img title="'._TCMS_ADMIN_SAVE.'" alt="'._TCMS_ADMIN_SAVE.'" src="../images/admin_menu/save.png" border="0" />'
 			.'</a>';
 		}
