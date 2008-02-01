@@ -125,7 +125,7 @@ class tcms_tinyMCE {
 				},
 				
 				apply_source_formatting : true,
-				invalid_elements : "applet,p",
+				invalid_elements : "applet",
 				valid_elements : ""
 				+"a[style|accesskey|charset|class|coords|dir<ltr?rtl|href|hreflang|id|lang|name"
 				  +"|onblur|onclick|ondblclick|onfocus|onkeydown|onkeypress|onkeyup"
