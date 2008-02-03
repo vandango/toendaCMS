@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide some often used html
  * codes.
  *
- * @version 0.5.3
+ * @version 0.5.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -584,6 +584,33 @@ class tcms_html {
 	 */
 	public function tableEnd() {
 		return '</table>';
+	}
+	
+	
+	
+	/**
+	 * Div Tag Box
+	 * 
+	 * @param String $class = ''
+	 * @param String $style = 'width: 100%;'
+	 * @return String
+	 */
+	public function divBoxStart($class = '', $style = 'width: 100%;') {
+		return '<div'
+		.( trim($class) != '' ? ' class="'.$class.'"' : '')
+		.( trim($style) != '' ? ' style="'.$style.'"' : '')
+		.'>';
+	}
+	
+	
+	
+	/**
+	 * Div Tag Box end
+	 * 
+	 * @return String
+	 */
+	public function divBoxEnd() {
+		return '</div>';
 	}
 	
 	
