@@ -52,7 +52,7 @@ echo $tcms_html->contentModuleHeader(
 */
 
 $tcms_script = new toendaScript();
-$tcms_template = new tcms_toendaTemplate();
+$tcms_template = new toendaTemplate();
 
 if($tcms_template->checkTemplateExist(_LAYOUT_TEMPLATE_LINK)) {
 	$tcms_template->loadTemplate(_LAYOUT_TEMPLATE_LINK);
