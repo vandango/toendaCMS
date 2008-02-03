@@ -76,7 +76,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  */
 
 
-class tcms_toendaTemplate {
+class toendaTemplate {
 	private $_tcmsFile;
 	
 	private $_buffer;
