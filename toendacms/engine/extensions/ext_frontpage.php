@@ -87,8 +87,8 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 		LOAD NEWS
 	*/
 	
-	if($how_many != 0){
-		if($front_news_title != ''){
+	if($how_many != 0) {
+		if($front_news_title != '') {
 			echo $tcms_html->contentUnderlinedTitle($front_news_title);
 		}
 		
@@ -520,7 +520,7 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 					.'<br />'
 					.'<div class="news_content_box">';
 					
-					$toendaScript->doParsePHP($entryText);
+					$tcms_script->doParsePHP($entryText);
 					
 					echo '</div>'
 					.'</div>'
