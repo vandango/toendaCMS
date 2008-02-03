@@ -10,21 +10,42 @@
 | JavaScript crypting
 |
 | File:		jscrypt.js
-| Version:	0.0.4
+| Version:	0.0.7
 |
 +
 */
 
 
-/************************************************
-*
-* JAVASCRIPT FUNCTIONS
-*
-* base64arrays
-* decodeBase64
-* encodeBase64
-*
-*/
+/**
+ * toendaCMS JavaScript Functions for ciphering
+ * 
+ * This file provides some javaScript functions.
+ * 
+ * @version 0.1.0
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage tcms_kernel
+ *
+ * <code>
+ * 
+ * rot13init
+ * rot13
+ * base64arrays
+ * decodeBase64
+ * encodeBase64
+ * decode_utf8
+ * encode_utf8
+ * doit
+ * undoit
+ * displayCrypt
+ * displayCryptMail
+ * displayCryptMailTo
+ * saveEncoded
+ * tcmsJSCrypt
+ * 
+ * </code>
+ * 
+ */
 
 
 var keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
@@ -213,6 +234,22 @@ function cryptMail(mail){
 }
 
 
+function saveEncoded(id, base64Field) {
+	var text = encodeBase64(
+		document.getElementById('content').value
+	);
+	
+	//document.write('--------->' + text);
+	//document.write('--------->' + decodeBase64(text));
+	
+	document.getElementById(base64Field).value = text
+	
+	//document.write('--------->' + document.getElementById(base64Field).value);
+	
+	document.getElementById(id).submit();
+}
+
+
 function tcmsJSCrypt(){
 	this.rot13 = rot13;
 	this.encodeBase64 = encodeBase64;
@@ -223,6 +260,7 @@ function tcmsJSCrypt(){
 	this.displayCryptMail = displayCryptMail;
 	this.displayCryptMailTo = displayCryptMailTo;
 	this.cryptMail = cryptMail;
+	this.saveEncoded = saveEncoded;
 }
 
 

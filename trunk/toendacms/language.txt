@@ -68,6 +68,8 @@ if(!defined('_EXT_NEWS_SYN_CFEED_TYPE'))       define('_EXT_NEWS_SYN_CFEED_TYPE'
 
 if(!defined('_TABLE_BOOKMARK'))                define('_TABLE_BOOKMARK', 'Bookmark');
 
+if(!defined('_LU_TEMPLATE_FILE'))              define('_LU_TEMPLATE_FILE', 'Template File');
+
 *
 *
 **************************
