@@ -36,6 +36,9 @@
 **************************
 * ADD THIS
 *
+
+if(!defined('_TCMS_ADMIN_NEW_FILE_BUTTON'))    define('_TCMS_ADMIN_NEW_FILE_BUTTON', 'Create File');
+
 if(!defined('_TABLE_PUBLISHED_ON'))            define('_TABLE_PUBLISHED_ON', 'Published on');
 
 if(!defined('_SEARCH_WITH_GOOGLE'))            define('_SEARCH_WEBSEARCH', 'Websearch');
@@ -49,6 +52,7 @@ if(!defined('_GLOBAL_SHOW_BOOKMARK_LINKS'))    define('_GLOBAL_SHOW_BOOKMARK_LIN
 if(!defined('_PATH_CONTACTFORM'))              define('_PATH_CONTACTFORM', 'Contactform');
 
 if(!defined('_MSG_COMMENT_FOR'))               define('_MSG_COMMENT_FOR', 'Comment to');
+if(!defined('_MSG_DELETE_ERROR'))              define('_MSG_DELETE_ERROR', 'Deleting not successfull!');
 
 if(!defined('_EXT_NEWS_SYN_USE_RSS091_IMG'))   define('_EXT_NEWS_SYN_USE_RSS091_IMG', 'Use default image for the RSS 0.91 link');
 if(!defined('_EXT_NEWS_SYN_RSS091_TEXT'))      define('_EXT_NEWS_SYN_RSS091_TEXT', 'RSS 0.91 link text');
@@ -69,6 +73,8 @@ if(!defined('_EXT_NEWS_SYN_CFEED_TYPE'))       define('_EXT_NEWS_SYN_CFEED_TYPE'
 if(!defined('_TABLE_BOOKMARK'))                define('_TABLE_BOOKMARK', 'Bookmark');
 
 if(!defined('_LU_TEMPLATE_FILE'))              define('_LU_TEMPLATE_FILE', 'Template File');
+if(!defined('_LU_TEMPLATE_EDITOR'))            define('_LU_TEMPLATE_EDITOR', 'Template Editor');
+if(!defined('_LU_TEMPLATE_CREATE'))            define('_LU_TEMPLATE_CREATE', 'Create file');
 
 *
 *
