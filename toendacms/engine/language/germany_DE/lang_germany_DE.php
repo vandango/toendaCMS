@@ -990,6 +990,7 @@ define('_LU_DES_NAME', 'Template Name');
 define('_LU_DES_AUTOR', 'Name des Autors');
 define('_LU_DES_URL', 'Webseite des Autors');
 define('_LU_DES_VERSION', 'Version des Templates');
+define('_LU_TEMPLATE_FILE', 'Template Datei');
 
 
 // CREDITS

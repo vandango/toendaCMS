@@ -21,7 +21,7 @@
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 1.3.2
+ * @version 1.3.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -269,6 +269,7 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 <script language="JavaScript" src="../js/menu.js"></script>
 <script language="JavaScript" src="../js/edit.js"></script>
 <script language="JavaScript" src="../js/ajax.js"></script>
+<script language="JavaScript" src="../js/jscrypt.js"></script>
 
 <!-- tinyMCE -->
 <script language="javascript" type="text/javascript" src="../js/tinymce/tiny_mce.js"></script>
