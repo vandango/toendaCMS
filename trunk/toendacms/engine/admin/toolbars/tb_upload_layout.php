@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for the template uploader
  *
- * @version 0.0.3
+ * @version 0.0.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -53,6 +53,12 @@ switch($todo){
 		echo '<a style="padding: 3px 3px 0 3px;" href="javascript:accept(\'zlib\');">'
 		.'<img title="'._TCMS_ADMIN_UPLOAD.'" alt="'._TCMS_ADMIN_UPLOAD.'" src="../images/admin_menu/upload.png" border="0" />'
 		.'</a>';
+		
+		echo '<a style="padding: 3px 3px 0 3px;" href="javascript:accept(\'createNewFile\');">'
+		.'<img title="'._TCMS_ADMIN_NEW_FILE_BUTTON.'" alt="'._TCMS_ADMIN_NEW_FILE_BUTTON.'" src="../images/admin_menu/save.png" border="0" />'
+		.'</a>';
+		
+		echo '<img src="../images/admin_menu/line.gif" border="0" />';
 		
 		echo '<a style="padding: 3px 3px 0 3px;" href="javascript:JSCrypt.saveEncoded(\'ttEdit\', \'base64Content\');">'
 		.'<img title="'._TCMS_ADMIN_SAVE.'" alt="'._TCMS_ADMIN_SAVE.'" src="../images/admin_menu/save.png" border="0" />'

@@ -51,6 +51,7 @@ if(!defined('_TCMS_ADMIN_NEW_FTPALBUM'))       define('_TCMS_ADMIN_NEW_FTPALBUM'
 if(!defined('_TCMS_ADMIN_NEW_CATEGORY'))       define('_TCMS_ADMIN_NEW_CATEGORY', 'Add new Category...');
 if(!defined('_TCMS_ADMIN_NEW_DIR'))            define('_TCMS_ADMIN_NEW_DIR', 'Add new directory...');
 if(!defined('_TCMS_ADMIN_NEW_DIR_BUTTON'))     define('_TCMS_ADMIN_NEW_DIR_BUTTON', 'Create Folder');
+if(!defined('_TCMS_ADMIN_NEW_FILE_BUTTON'))    define('_TCMS_ADMIN_NEW_FILE_BUTTON', 'Create File');
 if(!defined('_TCMS_ADMIN_CONFIG'))             define('_TCMS_ADMIN_CONFIG', 'Configure this module');
 if(!defined('_TCMS_ADMIN_LIST'))               define('_TCMS_ADMIN_LIST', 'List items');
 if(!defined('_TCMS_ADMIN_NEWPAGE'))            define('_TCMS_ADMIN_NEWPAGE', 'WIZARD: Create new page for your webpage.');
@@ -387,9 +388,10 @@ define('_MSG_PASSWORDNOTVALID', 'Password not valid!');
 define('_MSG_NOPASSWORD', 'Passwords not valid!');
 define('_MSG_NOEMAIL', 'No eMail-adress given');
 define('_MSG_EMAILVALID', 'eMail-adress not valid');
-define('_MSG_DELETE', 'Successfully deleted.');
-define('_MSG_DELETE_SUBMIT', 'Do you really want to delete this entry?');
-define('_MSG_DELETE_INACTIVE', 'Deleting not successfull. The Entry was not activate by selecting he Checkbox.');
+if(!defined('_MSG_DELETE'))                    define('_MSG_DELETE', 'Successfully deleted.');
+if(!defined('_MSG_DELETE_ERROR'))              define('_MSG_DELETE_ERROR', 'Deleting not successfull!');
+if(!defined('_MSG_DELETE_SUBMIT'))             define('_MSG_DELETE_SUBMIT', 'Do you really want to delete this entry?');
+if(!defined('_MSG_DELETE_INACTIVE'))           define('_MSG_DELETE_INACTIVE', 'Deleting not successfull. The Entry was not activate by selecting he Checkbox.');
 define('_MSG_NOSUBJECT', 'Please enter subject');
 define('_MSG_NOMSG', 'Please enter message');
 define('_MSG_NEWSLETTER', 'You have successfully subscribe to our newsletter.');
@@ -989,6 +991,7 @@ define('_LU_DES_URL', 'URL of the Author\'s Website');
 define('_LU_DES_VERSION', 'Version of your Template');
 if(!defined('_LU_TEMPLATE_FILE'))              define('_LU_TEMPLATE_FILE', 'Template File');
 if(!defined('_LU_TEMPLATE_EDITOR'))            define('_LU_TEMPLATE_EDITOR', 'Template Editor');
+if(!defined('_LU_TEMPLATE_CREATE'))            define('_LU_TEMPLATE_CREATE', 'Create file');
 
 
 // CREDITS

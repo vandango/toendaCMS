@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used as a upload and edit page for the
  * templates.
  *
- * @version 0.5.1
+ * @version 0.6.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -32,6 +32,8 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 if(isset($_GET['load_template_file'])){ $load_template_file = $_GET['load_template_file']; }
+if(isset($_GET['newFilename'])){ $newFilename = $_GET['newFilename']; }
+if(isset($_GET['s'])){ $s = $_GET['s']; }
 
 if(isset($_POST['zlib_upload'])){ $zlib_upload = $_POST['zlib_upload']; }
 if(isset($_POST['dir'])){ $dir = $_POST['dir']; }
@@ -43,6 +45,7 @@ if(isset($_POST['desc'])){ $desc = $_POST['desc']; }
 if(isset($_POST['content'])){ $content = $_POST['content']; }
 if(isset($_POST['s'])){ $s = $_POST['s']; }
 if(isset($_POST['template_file'])){ $template_file = $_POST['template_file']; }
+if(isset($_POST['newFilename'])){ $newFilename = $_POST['newFilename']; }
 if(isset($_POST['base64Content'])){ $base64Content = $_POST['base64Content']; }
 
 
@@ -157,16 +160,19 @@ if($id_group == 'Developer'
 		}
 		
 		echo '</select>'
+		.'<input name="btn_action" class="tcms_button" type="button" value="'._TCMS_ADMIN_NEW_FILE_BUTTON.'"'
+		.' onclick="chk=confirm(\''._MSG_DELETE_SUBMIT.'\'); if(!chk) { return false; }else{ document.location=\''
+		.'admin.php?site=mod_upload_layout&id_user='.$id_user.'&todo=delete_file'
+		.'&s='.$s
+		.'&newFilename=\' + document.getElementById(\'choosenTemplateFile\').value; }" />'
 		.'<br />'
 		.'</td>'
 		.'</tr>';
 		
 		
 		// load the index file
-		if(file_exists('../../theme/'.$s.'/'.$load_template_file)) {
-			$tcms_file = new tcms_file('../../theme/'.$s.'/'.$load_template_file, 'r');
-			$loadPHP = $tcms_file->Read();
-			$tcms_file->Close();
+		if($tcms_file->checkFileExist('../../theme/'.$s.'/'.$load_template_file)) {
+			$loadPHP = $tcms_file->readToEnd('../../theme/'.$s.'/'.$load_template_file);
 		}
 		else {
 			$loadPHP = '';
@@ -190,7 +196,7 @@ if($id_group == 'Developer'
 		}
 		
 		echo '<textarea name="content" id="content" class="tcms_textarea_source" style="overflow: auto !important;">'
-		.htmlspecialchars_decode($loadPHP)
+		.htmlspecialchars($loadPHP)
 		.'</textarea>'
 		.'<br /><br />';
 		/*
@@ -223,6 +229,53 @@ if($id_group == 'Developer'
 		.'<input name="base64Content" id="base64Content" type="hidden" value="" />'
 		.'<input name="template_file" type="hidden" value="'.$load_template_file.'" />'
 		.'</form>'
+		.'</div>';
+		
+		
+		/*
+			createfile tab
+		*/
+		
+		echo '<div class="tab-page" id="tab-page-create">'
+		.'<h2 class="tab">'._LU_TEMPLATE_CREATE.'</h2>'
+		.'<form name="createNewFile" id="createNewFile"'
+		.' action="admin.php?id_user='.$id_user.'&site=mod_upload_layout"'
+		.' method="post">'
+		.'<input name="s" type="hidden" value="'.$s.'" />'
+		.'<input name="todo" type="hidden" value="create_file" />';
+		
+		
+		// table
+		echo $tcms_html->tableHeadNoBorder();
+		
+		
+		echo '<tr><td colspan="2" class="tcms_padding_mini">&nbsp;</td></tr>';
+		
+		
+		// table rows
+		echo '<tr>'
+		.'<td class="tcms_padding_mini" width="150">'
+		._LU_FILE
+		.'</td><td>'
+		.'<input name="newFilename" id="newFilename" type="text" class="tcms_input_normal" />'
+		.'<input name="btn_action" class="tcms_button" type="button" value="'._TCMS_ADMIN_NEW_FILE_BUTTON.'"'
+		.' onclick="document.location=\''
+		.'admin.php?site=mod_upload_layout&id_user='.$id_user.'&todo=create_file'
+		.'&s='.$s
+		.'&newFilename=\' + document.getElementById(\'newFilename\').value;" />'
+		.'</td>'
+		.'</tr>';
+		
+		
+		echo '<tr><td colspan="2" class="tcms_padding_mini">&nbsp;</td></tr>';
+		
+		
+		// Table end
+		echo $tcms_html->tableEnd()
+		.'<br />';
+		
+		
+		echo '</form>'
 		.'</div>';
 		
 		
@@ -260,7 +313,7 @@ if($id_group == 'Developer'
 		
 		// table rows
 		echo '<tr>'
-		.'<td class="tcms_padding_mini" width="150">'
+		.'<td class="tcms_padding_mini" width="100">'
 		._LU_ZFILE
 		.'</td><td>'
 		.'<input name="zlib_upload" type="file" class="tcms_upload" />'
@@ -287,6 +340,7 @@ if($id_group == 'Developer'
 		echo '<script type="text/javascript">'
 		.'var tabPane1 = new WebFXTabPane(document.getElementById("tab-pane-1"));'
 		.'tabPane1.addTabPage(document.getElementById("tab-page-text"));'
+		.'tabPane1.addTabPage(document.getElementById("tab-page-create"));'
 		.'tabPane1.addTabPage(document.getElementById("tab-page-set"));'
 		.'setupAllTabs();'
 		.'</script>'
@@ -307,16 +361,19 @@ if($id_group == 'Developer'
 	if($todo == 'template_save') {
 		$content = $tcms_main->decodeBase64($base64Content);
 		
-		echo $content.'<hr>';
-		echo $base64Content.'<hr>';
+		//echo $content.'<hr>';
+		//echo $base64Content.'<hr>';
+		//echo '../../theme/'.$s.'/'.$template_file;
 		
-		//$tcms_file = new tcms_file('../../theme/'.$s.'/'.$template_file, 'w+');
-		//$tcms_file->Backup();
-		//$tcms_file->Write($content);
-		//$tcms_file->Close();
+		$tcms_file2 = new tcms_file();
+		$tcms_file2->backup('../../theme/'.$s.'/'.$template_file);
+		$tcms_file2->open('../../theme/'.$s.'/'.$template_file, 'w+');
+		$tcms_file2->write($content);
+		$tcms_file2->close();
+		unset($tcms_file2);
 		
 		echo '<script>'
-		//.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_upload_layout&load_template_file='.$template_file.'\';'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_upload_layout&load_template_file='.$template_file.'\';'
 		.'</script>';
 	}
 	
@@ -463,6 +520,68 @@ if($id_group == 'Developer'
 		
 		echo '<script>'
 		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_upload_layout\';'
+		.'</script>';
+	}
+	
+	
+	
+	
+	/*
+		delete file
+	*/
+	if($todo == 'delete_file') {
+		if(!trim($newFilename) == ''
+		&& $tcms_file->checkFileExist('../../theme/'.$s.'/'.$newFilename)) {
+			$tcms_file->deleteFile('../../theme/'.$s.'/'.$newFilename);
+			
+			echo '<script>'
+			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_upload_layout\';'
+			.'</script>';
+		}
+		else {
+			echo '<script>'
+			.'alert(\''._MSG_DELETE_ERROR.'\');'
+			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_upload_layout&load_template_file='.$newFilename.'\';'
+			.'</script>';
+		}
+	}
+	
+	
+	
+	
+	/*
+		create file
+	*/
+	if($todo == 'create_file') {
+		if(!trim($newFilename) == ''
+		&& !$tcms_file->checkFileExist('../../theme/'.$s.'/'.$newFilename)
+		&& (
+			strpos($newFilename, '.js') 
+			|| strpos($newFilename, '.css') 
+			|| strpos($newFilename, '.php') 
+			|| strpos($newFilename, '.html') 
+			|| strpos($newFilename, '.htm') 
+			|| strpos($newFilename, '.php5') 
+			|| strpos($newFilename, '.phtml')
+			|| strpos($newFilename, '.tpl')
+		)) {
+			$tcms_file2 = new tcms_file(
+				'../../theme/'.$s.'/'.$newFilename, 
+				'w+'
+			);
+			$tcms_file2->Write('');
+			$tcms_file2->Close();
+			unset($tcms_file2);
+			
+			$msg = _MSG_SAVED;
+		}
+		else {
+			$msg = _MSG_SAVED_FAILED;
+		}
+		
+		echo '<script>'
+		.'alert(\''.$msg.'\');'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_upload_layout&load_template_file='.$newFilename.'\';'
 		.'</script>';
 	}
 }

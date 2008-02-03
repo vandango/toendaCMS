@@ -51,6 +51,7 @@ define('_TCMS_ADMIN_NEW_CATEGORY', 'Neue Kategorie erstellen...');
 define('_TCMS_ADMIN_NEW_FTPALBUM', 'Neues Album aus FTP Ordner...');
 define('_TCMS_ADMIN_NEW_DIR', 'Neuen Ordner erstellen...');
 define('_TCMS_ADMIN_NEW_DIR_BUTTON', 'Ordner erstellen');
+define('_TCMS_ADMIN_NEW_FILE_BUTTON', 'Datei erstellen');
 define('_TCMS_ADMIN_LIST', 'Eintr&#228;ge auflisten');
 define('_TCMS_ADMIN_CONFIG', 'Konfigurieren Sie dieses Modul');
 define('_TCMS_ADMIN_NEWPAGE', 'Neue Seite f&#252;r Ihre Webseite erstellen.');
@@ -370,7 +371,7 @@ define('_TABLE_BOOKMARK', 'Bookmark');
 define('_DIE_LOGIN', 'Sie m&#252;ssen sich erst anmelden!<br /><a href="index.php">Log in</a>');
 define('_MSG_NOINFO', '[KEINE INFORMATIONEN VERF&#220;GBAR]');
 define('_MSG_SAVED', 'Erfolgreich gespeichert.');
-define('_MSG_SAVED_FAILED', 'Nicht erfolgreich gespeichert.');
+define('_MSG_SAVED_FAILED', 'Speichern fehlgeschlagen.');
 define('_MSG_SEND', 'Erfolgreich versendet.');
 define('_MSG_SEND_FAILED', 'Fehler beim versenden!');
 define('_MSG_NOTWRITABLE', 'IST NICHT BESCHREIBAR!');
@@ -390,6 +391,7 @@ define('_MSG_NOPASSWORD', 'Kein Passwort eingegeben!');
 define('_MSG_NOEMAIL', 'Keine eMail Adresse eingegeben');
 define('_MSG_EMAILVALID', 'eMail Adresse nicht vollstaendig');
 define('_MSG_DELETE', 'Erfolgreich geloescht.');
+define('_MSG_DELETE_ERROR', 'Es konnte nicht geloescht werden.');
 define('_MSG_DELETE_SUBMIT', 'Wollen sie diesen Eintrag wirklich loeschen?');
 define('_MSG_DELETE_INACTIVE', 'Es konnte nicht geloescht werden. Der entsprechende Eintrag wurde nicht mit der Checkbox aktiviert.');
 define('_MSG_NOSUBJECT', 'Bitte geben sie den Betreff ein');
@@ -992,6 +994,7 @@ define('_LU_DES_URL', 'Webseite des Autors');
 define('_LU_DES_VERSION', 'Version des Templates');
 define('_LU_TEMPLATE_FILE', 'Template Datei');
 define('_LU_TEMPLATE_EDITOR', 'Template Editor');
+define('_LU_TEMPLATE_CREATE', 'Datei erstellen');
 
 
 // CREDITS
