@@ -58,135 +58,36 @@ if($id_group == 'Developer'
 	
 	
 	/*
-		upload
+		upload and edit
 	*/
 	if($todo == 'show') {
-		echo $tcms_html->text(_LU_TEXT.'<br /><br />', 'left');
-		
-		
-		// form
-		echo '<!--BEGIN-FORM-->'
-		.'<form name="zlib" id="zlib" action="admin.php?id_user='.$id_user.'&site=mod_upload_layout" method="post" enctype="multipart/form-data">'
-		.'<input name="todo" type="hidden" value="zlib_save" />'
-		.'<!--BEGIN-TABLE-->';
-		
-		
-		// table
-		echo '<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
-		
-		
-		// table title
-		echo '<tr class="tcms_bg_blue_01"><td colspan="2" class="tcms_db_title tcms_padding_mini"><strong>'._LU_ZTITLE.'</strong></td></tr>';
-		echo '<tr><td colspan="2" class="tcms_padding_mini">&nbsp;</td></tr>';
-		
-		
-		// table rows
-		echo '<tr><td class="tcms_padding_mini" width="150">'._LU_ZFILE.'</td><td>'
-		.'<input name="zlib_upload" type="file" class="tcms_upload" />'
-		.'</td></tr>';
-		
-		
-		echo '<tr><td colspan="2" class="tcms_padding_mini">&nbsp;</td></tr>';
-		
-		
-		// Table end
-		echo '</table><br />';
-		
-		
-		// end form
-		echo '</form>';
-	}
-	
-	
-	
-	/*
-		edit index.php files
-	*/
-	if($todo != 'edit') {
 		$layout_xml = new xmlparser(_TCMS_PATH.'/tcms_global/layout.xml', 'r');
 		$s = $layout_xml->readSection('layout', 'select');
 		
-		
-		// form
-		echo '<form name="ttEdit" id="ttEdit" action="admin.php?id_user='.$id_user.'&site=mod_upload_layout" method="post">'
-		.'';
-		
-		
-		// table
-		echo '<table cellpadding="0" cellspacing="0" width="100%" border="0" class="noborder">';
-		
-		
-		// table title
-		echo '<tr class="tcms_bg_blue_01"><td class="tcms_db_title tcms_padding_mini">'
-		.'<strong>'._LU_TEMPLATE_FILE.'</strong>'
-		.'</td></tr>';
-		echo '<tr><td class="tcms_padding_mini"><br />';
-		
 		if(!isset($load_template_file)){ $load_template_file = 'index.php'; }
 		
-		// list of files
-		/*echo '<div style="display: block; width: 100%; border-bottom: 1px solid #ccc; padding-bottom: 2px;">'
-		.'<div style="display: block; width: 30px; float: left;">&nbsp;</div>';
 		
-		$arrFiles = $tcms_file->getPathContent('../../theme/'.$s.'/');
+		/*
+			tabpane start
+		*/
 		
-		foreach($arrFiles as $key => $val){
-			if(!is_dir($val)){
-				if(strpos($val, '.js') 
-				|| strpos($val, '.css') 
-				|| strpos($val, '.php') 
-				|| strpos($val, '.html') 
-				|| strpos($val, '.htm') 
-				|| strpos($val, '.php5') 
-				|| strpos($val, '.phtml') 
-				|| strpos($val, '.xml') 
-				|| strpos($val, '.xslt')
-				|| strpos($val, '.tpl')) {
-					//echo '1-'.strpos($val, '.php.bak').'<br>';
-					if(!(strpos($val, '.php.bak') > 0)) {
-						echo '<a'
-						.( $load_template_file == $val ? ' class="tcms_tabA"' : ' class="tcms_tab"' )
-						.' href="admin.php?id_user='.$id_user.'&amp;site=mod_upload_layout&amp;load_template_file='.$val.'">'
-						.$val
-						.'</a>';
-					}
-				}
-			}
-			
-			//if(is_dir($val)){
-			if(!strpos($val, '.')){
-				$arrFiles = $tcms_file->getPathContent('../../theme/'.$s.'/'.$val.'/');
-				
-				foreach($arrFiles as $key2 => $val2){
-					if(!is_dir($val2)){
-						if(strpos($val2, '.js') 
-						|| strpos($val2, '.css') 
-						|| strpos($val2, '.php') 
-						|| strpos($val2, '.html') 
-						|| strpos($val2, '.htm') 
-						|| strpos($val2, '.php5') 
-						|| strpos($val2, '.phtml')
-						|| strpos($val2, '.tpl')) {
-							//echo '2-'.strpos($val2, '.php.bak').'<br>';
-							if(!(strpos($val2, '.php.bak') > 0)) {
-								echo '<a'
-								.( $load_template_file == $val.'/'.$val2 ? ' class="tcms_tabA"' : ' class="tcms_tab"' )
-								.' href="admin.php?id_user='.$id_user.'&amp;site=mod_upload_layout&amp;load_template_file='.$val.'/'.$val2.'">'
-								.$val.'/'.$val2
-								.'</a>';
-							}
-						}
-					}
-				}
-			}
-			
-			clearstatcache();
-		}
-		
-		echo '</div>';*/
+		echo '<div class="tab-pane" id="tab-pane-1">';
 		
 		
-		// select file list
+		/*
+			settings tab
+		*/
+		
+		echo '<div class="tab-page" id="tab-page-set">'
+		.'<h2 class="tab">'._TABLE_SETTINGS.'</h2>'// form
+		.'<form name="ttEdit" id="ttEdit"'
+		.' action="admin.php?id_user='.$id_user.'&site=mod_upload_layout"'
+		.' method="post"'
+		.' enctype="multipart/form-data">'
+		.'<table cellpadding="1" cellspacing="2" width="100%" border="0" class="noborder">';
+		
+		
+		// table rows
 		$arrFiles = $tcms_file->getPathContent('../../theme/'.$s.'/');
 		
 		$link = 'admin.php?id_user='.$id_user.'&site=mod_upload_layout'
@@ -194,7 +95,9 @@ if($id_group == 'Developer'
 		
 		$js = ' onchange="document.location=\''.$link.'\' + this.value;"';
 		
-		echo _LU_TEMPLATE_FILE.': <select class="tcms_select" id="choosenTemplateFile" name="choosenTemplateFile"'.$js.'>';
+		echo '<tr>'
+		.'<td class="tcms_padding_mini">'
+		._LU_TEMPLATE_FILE.': <select class="tcms_select" id="choosenTemplateFile" name="choosenTemplateFile"'.$js.'>';
 		
 		foreach($arrFiles as $key => $val){
 			if(!is_dir($val)){
@@ -255,7 +158,8 @@ if($id_group == 'Developer'
 		
 		echo '</select>'
 		.'<br />'
-		.'<br />';
+		.'</td>'
+		.'</tr>';
 		
 		
 		// load the index file
@@ -270,7 +174,8 @@ if($id_group == 'Developer'
 		
 		
 		// editor
-		echo '<div>';// class="tcms_tabPage">';
+		echo '<tr>'
+		.'<td class="tcms_padding_mini">';
 		
 		if(strpos($load_template_file, '.php') 
 		|| strpos($load_template_file, '.tpl') 
@@ -284,7 +189,9 @@ if($id_group == 'Developer'
 			echo '<script>createCSSToolbar(\'ttEdit\', \'CSS\');</script><br />';
 		}
 		
-		echo '<textarea name="content" id="content" class="tcms_textarea_source" style="overflow: auto !important;">'.$loadPHP.'</textarea>'
+		echo '<textarea name="content" id="content" class="tcms_textarea_source" style="overflow: auto !important;">'
+		.htmlspecialchars_decode($loadPHP)
+		.'</textarea>'
 		.'<br /><br />';
 		/*
 		$loadPHP = str_replace("\r", "", $loadPHP);
@@ -299,11 +206,15 @@ if($id_group == 'Developer'
 		}
 		</script>';
 		*/
-		echo '</div>';
+		echo '</td>'
+		.'</tr>';
 		
 		
 		// Table end
-		echo '</table><br />';
+		echo '<br />';
+		
+		
+		echo $tcms_html->tableEnd();
 		
 		
 		// end form
@@ -311,7 +222,80 @@ if($id_group == 'Developer'
 		.'<input name="s" type="hidden" value="'.$s.'" />'
 		.'<input name="base64Content" id="base64Content" type="hidden" value="" />'
 		.'<input name="template_file" type="hidden" value="'.$load_template_file.'" />'
-		.'</form>';
+		.'</form>'
+		.'</div>';
+		
+		
+		/*
+			text tab
+		*/
+		
+		echo '<div class="tab-page" id="tab-page-text">'
+		.'<h2 class="tab">'._LU_ZTITLE.'</h2>'
+		.'<form name="zlib" id="zlib"'
+		.' action="admin.php?id_user='.$id_user.'&site=mod_upload_layout"'
+		.' method="post"'
+		.' enctype="multipart/form-data">'
+		.'<input name="todo" type="hidden" value="zlib_save" />';
+		
+		
+		// table
+		echo $tcms_html->tableHeadNoBorder();
+		
+		
+		echo '<tr><td colspan="2" class="tcms_padding_mini">&nbsp;</td></tr>';
+		
+		
+		// table rows
+		echo '<tr>'
+		.'<td class="tcms_padding_mini" colspan="2">'
+		.$tcms_html->text(
+			_LU_TEXT
+			.'<br /><br />', 
+			'left'
+		)
+		.'</td>'
+		.'</tr>';
+		
+		
+		// table rows
+		echo '<tr>'
+		.'<td class="tcms_padding_mini" width="150">'
+		._LU_ZFILE
+		.'</td><td>'
+		.'<input name="zlib_upload" type="file" class="tcms_upload" />'
+		.'</td>'
+		.'</tr>';
+		
+		
+		echo '<tr><td colspan="2" class="tcms_padding_mini">&nbsp;</td></tr>';
+		
+		
+		// Table end
+		echo $tcms_html->tableEnd()
+		.'<br />';
+		
+		
+		echo '</form>'
+		.'</div>';
+		
+		
+		/*
+			tabpane end
+		*/
+		
+		echo '<script type="text/javascript">'
+		.'var tabPane1 = new WebFXTabPane(document.getElementById("tab-pane-1"));'
+		.'tabPane1.addTabPage(document.getElementById("tab-page-text"));'
+		.'tabPane1.addTabPage(document.getElementById("tab-page-set"));'
+		.'setupAllTabs();'
+		.'</script>'
+		.'<br />';
+		
+		
+		/*
+			END
+		*/
 	}
 	
 	
@@ -323,16 +307,16 @@ if($id_group == 'Developer'
 	if($todo == 'template_save') {
 		$content = $tcms_main->decodeBase64($base64Content);
 		
-		//echo $base64Content.'<hr>';
-		//echo $content.'<hr>';
+		echo $content.'<hr>';
+		echo $base64Content.'<hr>';
 		
-		$tcms_file = new tcms_file('../../theme/'.$s.'/'.$template_file, 'w+');
-		$tcms_file->Backup();
-		$tcms_file->Write($content);
-		$tcms_file->Close();
+		//$tcms_file = new tcms_file('../../theme/'.$s.'/'.$template_file, 'w+');
+		//$tcms_file->Backup();
+		//$tcms_file->Write($content);
+		//$tcms_file->Close();
 		
 		echo '<script>'
-		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_upload_layout&load_template_file='.$template_file.'\';'
+		//.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_upload_layout&load_template_file='.$template_file.'\';'
 		.'</script>';
 	}
 	
