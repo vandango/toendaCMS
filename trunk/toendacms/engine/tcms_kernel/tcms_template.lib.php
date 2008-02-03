@@ -9,7 +9,7 @@
 | 
 | toendaTemplate Engine
 |
-| File:	tcms_toendaTemplate.lib.php
+| File:	toendaTemplate.lib.php
 |
 +
 */
