@@ -28,7 +28,7 @@ Version 2.0
 Developer Version
 	- 1.9.0 Development
 
-Building Steps: 4385
+Building Steps: 4390
 
 
 
@@ -56,6 +56,7 @@ Building Steps: 4385
             all content with the paragraph tag (<p>, i hate it so much - the setting
             "force_p_newlines : false" dosnt works).
  - changed: Improvements of the template editor.
+ - changed: Upgraded tinyMCE to version 3.
  - changed: 
 
  - added: SEO format 3 (.html-format) has now the template variable.

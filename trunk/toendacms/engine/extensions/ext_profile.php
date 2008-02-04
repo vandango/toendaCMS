@@ -417,7 +417,7 @@ if($checkUserExists) {
 			echo '<br /><br />';
 			
 			if($show_wysiwyg == 'tinymce') {
-				echo '<textarea class="newsSubmit" id="content" name="content" mce_editable="true"></textarea>';
+				echo '<textarea class="newsSubmit" id="content" name="content"></textarea>';
 			}
 			elseif($show_wysiwyg == 'fckeditor') {
 				if($seoEnabled == 1)

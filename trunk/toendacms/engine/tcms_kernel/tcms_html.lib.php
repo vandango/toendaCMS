@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide some often used html
  * codes.
  *
- * @version 0.5.5
+ * @version 0.5.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -99,10 +99,11 @@ class tcms_html {
 		if(trim($text) != '' && trim($text) != '---') {
 			echo '<p class="contentmain">';
 			$tcmsScriptObj->doParsePHP($text);
-			echo '</p><br />';
+			echo '</p>'
+			.'<br /><br />';
 		}
 		else if(trim($text) != '---') {
-			echo '<br />';
+			echo '<br /><br />';
 		}
 	}
 	
@@ -115,9 +116,11 @@ class tcms_html {
 	 * @return String
 	 */
 	public function contentUnderlinedTitle($title = '') {
-		return '<div class="text_huge">'.$title.'</div>'
-		.'<hr class="hr_line" />'
-		.'<br />';
+		if(trim($title) != '') {
+			return '<div class="text_huge">'.$title.'</div>'
+			.'<hr class="hr_line" />'
+			.'<br />';
+		}
 	}
 	
 	
