@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to implement the tinyMCE editor.
  *
- * @version 0.2.0
+ * @version 0.2.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -97,6 +97,7 @@ class tcms_tinyMCE {
 				document_base_url : "'.( $this->m_seoPath == '' ? '/' : '/'.$this->m_seoPath.'/' ).'",
 				extended_valid_elements: "font[size|color|face]",
 				
+				forced_root_block : false,
 				force_p_newlines : false,
 				force_br_newlines : true,
 				convert_newlines_to_brs : false,
@@ -437,11 +438,12 @@ class tcms_tinyMCE {
 			.'<script language="javascript" type="text/javascript">
 			tinyMCE.init({
 				theme : "advanced",
-				language : "en",
-				'.( $seoEnabled == 1 ? 'relative_urls : false,' : '' ).'
-				'.( $seoEnabled == 1 ? 'remove_script_host : true,' : '' ).'
-				mode : "specific_textareas",
-				'.( $this->m_seoEnabled == 1 ? 'document_base_url : "'.( $this->m_seoPath == '' ? '/' : '/'.$this->m_seoPath.'/' ).'",' : '' ).'
+				mode : "exact",
+				elements : "content",
+				language : "'.$language.'",
+				relative_urls : false,
+				remove_script_host : false,
+				document_base_url : "'.( $this->m_seoPath == '' ? '/' : '/'.$this->m_seoPath.'/' ).'",
 				extended_valid_elements: "font[size|color|face]",
 				
 				plugins : "table,searchreplace,paste,preview,advhr,advlink",
@@ -467,6 +469,7 @@ class tcms_tinyMCE {
 				theme_advanced_source_editor_width : "750",
 				
 				directionality: "ltr",
+				forced_root_block : false,
 				force_p_newlines : false,
 				force_br_newlines : true,
 				convert_newlines_to_brs : false,
