@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to implement toendaTemplate Engine.
  *
- * @version 0.3.3
+ * @version 0.4.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -70,6 +70,10 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getImagegalleryAlbumEntry           -> Get the template for the imagegallery album entry
  * getImagegalleryAlbumListViewEntry   -> Get the template for a imagegallery album list view entry
  * getImagegalleryAlbumThumbViewEntry  -> Get the template for a imagegallery album thumbnail view entry
+ * parseDownloadTemplate               -> Parse the download template
+ * getDownloadTableTitle               -> Get the template for the download table title
+ * getDownloadTableCategoryEntry       -> Get the template for the download table category entry
+ * getDownloadTableDownloadEntry       -> Get the template for the download table download entry
  * 
  * </code>
  *
@@ -761,10 +765,6 @@ class toendaTemplate {
 	 * 
 	 * @param String $imageLink
 	 * @param String $imageThumb
-	 * @param String $imageTitle
-	 * @param String $imageCommentsLink
-	 * @param String $imageUploaddate
-	 * @param String $imageDetails
 	 * @return String
 	 */
 	public function getImagegalleryAlbumThumbViewEntry($imageLink, $imageThumb) {
@@ -775,6 +775,141 @@ class toendaTemplate {
 			
 			$layoutEntry = str_replace('#####ALBUM_IMAGE_LINK#####', $imageLink, $layoutEntry);
 			$layoutEntry = str_replace('#####ALBUM_IMAGE_THUMBNAIL#####', $imageThumb, $layoutEntry);
+		}
+		
+		return $layoutEntry;
+	}
+	
+	
+	
+	/**
+	 * Parse the download template
+	 *
+	 */
+	public function parseDownloadTemplate() {
+		if(trim($this->_buffer) != '') {
+			// part 1
+			$part1_pos_begin = strpos($this->_buffer, '<!--#####DOWNLOAD_TABLE_HEADER_TEMPLATE_BEGIN#####-->');
+			$part1_pos_end = strpos($this->_buffer, '<!--#####DOWNLOAD_TABLE_HEADER_TEMPLATE_END#####-->');
+			
+			if($part1_pos_begin > -1 && $part1_pos_end > -1) {
+				$this->_part1 = substr(
+					$this->_buffer, 
+					$part1_pos_begin, 
+					$part1_pos_end - $part1_pos_begin
+				);
+				
+				$this->_part1 = str_replace('<!--#####DOWNLOAD_TABLE_HEADER_TEMPLATE_BEGIN#####-->', '', $this->_part1);
+				$this->_part1 = str_replace('<!--#####DOWNLOAD_TABLE_HEADER_TEMPLATE_END#####-->', '', $this->_part1);
+			}
+			
+			// part 2
+			$part2_pos_begin = strpos($this->_buffer, '<!--#####DOWNLOAD_TABLE_ENTRY_CATEGORY_TEMPLATE_BEGIN#####-->');
+			$part2_pos_end = strpos($this->_buffer, '<!--#####DOWNLOAD_TABLE_ENTRY_CATEGORY_TEMPLATE_END#####-->');
+			
+			if($part2_pos_begin > -1 && $part2_pos_end > -1) {
+				$this->_part2 = substr(
+					$this->_buffer, 
+					$part2_pos_begin, 
+					$part2_pos_end - $part2_pos_begin
+				);
+				
+				$this->_part2 = str_replace('<!--#####DOWNLOAD_TABLE_ENTRY_CATEGORY_TEMPLATE_BEGIN#####-->', '', $this->_part2);
+				$this->_part2 = str_replace('<!--#####DOWNLOAD_TABLE_ENTRY_CATEGORY_TEMPLATE_END#####-->', '', $this->_part2);
+			}
+			
+			// part 3
+			$part3_pos_begin = strpos($this->_buffer, '<!--#####DOWNLOAD_TABLE_ENTRY_DOWNLOAD_TEMPLATE_BEGIN#####-->');
+			$part3_pos_end = strpos($this->_buffer, '<!--#####DOWNLOAD_TABLE_ENTRY_DOWNLOAD_TEMPLATE_END#####-->');
+			
+			if($part3_pos_begin > -1 && $part3_pos_end > -1) {
+				$this->_part3 = substr(
+					$this->_buffer, 
+					$part3_pos_begin, 
+					$part3_pos_end - $part3_pos_begin
+				);
+				
+				$this->_part3 = str_replace('<!--#####DOWNLOAD_TABLE_ENTRY_DOWNLOAD_TEMPLATE_BEGIN#####-->', '', $this->_part3);
+				$this->_part3 = str_replace('<!--#####DOWNLOAD_TABLE_ENTRY_DOWNLOAD_TEMPLATE_END#####-->', '', $this->_part3);
+			}
+		}
+	}
+	
+	
+	
+	/**
+	 * Get the template for the download table title
+	 * 
+	 * @param String $title
+	 * @return String
+	 */
+	public function getDownloadTableTitle($title) {
+		$layoutEntry = '';
+		
+		if(trim($this->_part1) != '') {
+			$layoutEntry = trim($this->_part1);
+			
+			$layoutEntry = str_replace('#####DOWNLOAD_CATEGORY_TITLE#####', $title, $layoutEntry);
+		}
+		
+		return $layoutEntry;
+	}
+	
+	
+	
+	/**
+	 * Get the template for the download table category entry
+	 * 
+	 * @param String $imagelink
+	 * @param String $link
+	 * @param String $title
+	 * @param String $text
+	 * @return String
+	 */
+	public function getDownloadTableCategoryEntry($imagelink, $link, $title, $text) {
+		$layoutEntry = '';
+		
+		if(trim($this->_part2) != '') {
+			$layoutEntry = trim($this->_part2);
+			
+			$layoutEntry = str_replace('#####DOWNLOAD_CATEGORY_IMAGE_LINK#####', $imagelink, $layoutEntry);
+			$layoutEntry = str_replace('#####DOWNLOAD_CATEGORY_LINK#####', $link, $layoutEntry);
+			$layoutEntry = str_replace('#####DOWNLOAD_CATEGORY_TITLE#####', $title, $layoutEntry);
+			$layoutEntry = str_replace('#####DOWNLOAD_CATEGORY_TEXT#####', $text, $layoutEntry);
+		}
+		
+		return $layoutEntry;
+	}
+	
+	
+	
+	/**
+	 * Get the template for the download table download entry
+	 * 
+	 * @param String $imagelink
+	 * @param String $link
+	 * @param String $title
+	 * @param String $text
+	 * @param String $dateTitle
+	 * @param String $date
+	 * @param String $fileSizeTitle
+	 * @param String $fileSize
+	 * @return String
+	 */
+	public function getDownloadTableDownloadEntry($imagelink, $link, $title, $text, $dateTitle, $date, $fileSizeTitle, $fileSize) {
+		$layoutEntry = '';
+		
+		if(trim($this->_part3) != '') {
+			$layoutEntry = trim($this->_part3);
+			
+			$layoutEntry = str_replace('#####DOWNLOAD_ITEM_IMAGE_LINK#####', $imagelink, $layoutEntry);
+			$layoutEntry = str_replace('#####DOWNLOAD_ITEM_LINK#####', $link, $layoutEntry);
+			$layoutEntry = str_replace('#####DOWNLOAD_ITEM_TITLE#####', $title, $layoutEntry);
+			$layoutEntry = str_replace('#####DOWNLOAD_ITEM_TEXT#####', $text, $layoutEntry);
+			$layoutEntry = str_replace('#####DOWNLOAD_ITEM_UPLOADED_ON_TITLE#####', $dateTitle, $layoutEntry);
+			$layoutEntry = str_replace('#####DOWNLOAD_ITEM_UPLOADED_ON_DATE#####', $date, $layoutEntry);
+			$layoutEntry = str_replace('#####DOWNLOAD_ITEM_FILESIZE_TITLE#####', $fileSizeTitle, $layoutEntry);
+			$layoutEntry = str_replace('#####DOWNLOAD_ITEM_FILESIZE#####', $fileSize, $layoutEntry);
 		}
 		
 		return $layoutEntry;

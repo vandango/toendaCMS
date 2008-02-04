@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a Knowledgebase / FAQ and Article database.
  *
- * @version 0.5.0
+ * @version 0.5.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -48,10 +48,72 @@ if($kDC->getEnabled()) {
 	
 	
 	if($cmd == 'list') {
+		/*
+			category text
+		*/
+		
+		if($tcms_main->isReal($category)) {
+			if($choosenDB == 'xml') {
+				$xml = new xmlparser(_TCMS_PATH.'/tcms_knowledgebase/'.$category.'.xml','r');
+				
+				$text = $xml->readSection('faq', 'content');
+				
+				$text = $tcms_main->decodeText($text, '2', $c_charset);
+				
+				$xml->flush();
+				unset($xml);
+			}
+			else {
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				
+				switch($is_admin) {
+					case 'Developer':
+					case 'Administrator':
+						$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
+						break;
+					
+					case 'User':
+					case 'Editor':
+					case 'Presenter':
+						$strAdd = " OR access = 'Protected' ) ";
+						break;
+					
+					default:
+						$strAdd = ' ) ';
+						break;
+				}
+				
+				$sqlSTR = "SELECT * "
+				."FROM ".$tcms_db_prefix."knowledgebase "
+				."WHERE uid = '".$category."' "
+				."AND publish_state = 2 "
+				."AND type = 'c' "
+				."AND ( access = 'Public' "
+				.$strAdd
+				."ORDER BY sort ASC, date ASC, title ASC";
+				
+				$sqlQR = $sqlAL->query($sqlSTR);
+				$sqlObj = $sqlAL->fetchObject($sqlQR);
+				
+				$text = $sqlObj->content;
+				
+				$text = $tcms_main->decodeText($text, '2', $c_charset);
+				
+				$sqlAL->freeResult($sqlQR);
+				unset($sqlAL);
+			}
+			
+			$pageText = $text;
+		}
+		else {
+			$pageText = $kDC->getText();
+		}
+		
 		echo $tcms_html->contentModuleHeader(
 			$kDC->getTitle(), 
 			$kDC->getSubtitle(), 
-			( trim($category) == '' || !isset($category) ? '' : $kDC->getText() )
+			$pageText
 		);
 		
 		
@@ -170,7 +232,7 @@ if($kDC->getEnabled()) {
 			}
 		}
 		else {
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			switch($is_admin) {
@@ -265,7 +327,6 @@ if($kDC->getEnabled()) {
 					$arrFAQ['pub'][$count]     = $sqlARR['publish_state'];
 					$arrFAQ['access'][$count]  = $sqlARR['access'];
 					$arrFAQ['autor'][$count]   = $sqlARR['autor'];
-					
 					
 					if($arrFAQ['uid'][$count]     == NULL) { $arrFAQ['uid'][$count]     = ''; }
 					if($arrFAQ['title'][$count]   == NULL) { $arrFAQ['title'][$count]   = ''; }
@@ -448,7 +509,7 @@ if($kDC->getEnabled()) {
 				$faq_cat    = $tcms_main->decodeText($faq_cat, '2', $c_charset);
 			}
 			else {
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'knowledgebase', $category);
@@ -460,7 +521,7 @@ if($kDC->getEnabled()) {
 			}
 		}
 		else {
-			$faq_cat    = $faq_title;
+			$faq_cat    = $kDC->getTitle();
 			$access_cat = 'Public';
 		}
 		
@@ -512,7 +573,7 @@ if($kDC->getEnabled()) {
 				}
 			}
 			else {
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				switch($is_admin) {
@@ -621,7 +682,7 @@ if($kDC->getEnabled()) {
 						$link = $tcms_main->urlConvertToSEO($link);
 					}
 					
-					$strAutor = $tcms_ap->getUser($arrFAQ['autor']);
+					$strAutor = $tcms_ap->getUsername($arrFAQ['autor']);
 					
 					// class="main"
 					echo _NEWS_WRITTEN.': '

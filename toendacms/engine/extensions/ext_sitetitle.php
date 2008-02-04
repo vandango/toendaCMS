@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used fore the site title.
  *
- * @version 0.6.3
+ * @version 0.6.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -54,10 +54,13 @@ switch($id) {
 			DOWNLOAD
 		*/
 		
+		$dDC = new tcms_dc_download();
+		$dDC = $tcms_dcp->getDownloadDC($getLang);
+		
 		$sitetitleAdditional .= _PATH_HOME;
 		
 		if((!isset($category) || $category == '') && (!isset($file) || $file == '')) {
-			$sitetitleAdditional .= '&nbsp;/&nbsp;'.$download_title;
+			$sitetitleAdditional .= '&nbsp;/&nbsp;'.$dDC->getTitle();
 		}
 		
 		if(isset($category) || isset($file)) {
@@ -196,7 +199,7 @@ switch($id) {
 			
 			
 			// list
-			$sitetitleAdditional .= $download_title;
+			$sitetitleAdditional .= $dDC->getTitle();
 			
 			
 			for($i = ($checkFAQTitle - 1); $i >= 0; $i--) {
@@ -227,6 +230,9 @@ switch($id) {
 			
 			$sitetitleAdditional .= '<span class="pathway">'.$file.'</a>';
 		}*/
+		
+		
+		unset($dDC);
 		break;
 	
 	case 'knowledgebase':
