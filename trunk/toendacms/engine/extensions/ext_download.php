@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides a download manager..
  *
- * @version 0.8.7
+ * @version 0.9.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -371,211 +371,445 @@ if($action == 'showall') {
 			}
 		}
 		
-		echo $tcms_html->tableHeadClass('0', '0', '0', '100%', 'noborder');
-		echo '<tr>'
-		.'<td valign="top" class="titleBG" style="padding-left: 2px;" align="left" colspan="2">'
-		._TABLE_CATEGORY.( $wsCatAdd != '' ? ': '.$wsCatTit.' ('.$wsCatAdd.')' : '' )
-		.'</td></tr>'
-		.'<tr style="height: 2px;"><td colspan="2"></td></tr>'
-		.'<tr><td colspan="2"><br /></td></tr>';
 		
-		if(isset($arr_dw['sort']) && !empty($arr_dw['sort']) && $arr_dw['sort'] != '') {
+		
+		/*
+			parse contents
+		*/
+		
+		// table title
+		$entryTableTitle = _TABLE_CATEGORY.( $wsCatAdd != '' ? ': '.$wsCatTit.' ('.$wsCatAdd.')' : '' );
+		
+		
+		
+		/*
+			toendaTemplate Engine
+		*/
+		
+		$tcms_script = new toendaScript();
+		$tcms_template = new toendaTemplate();
+		
+		// table head
+		echo $tcms_html->tableHeadNoBorder();
+		
+		
+		if($tcms_template->checkTemplateExist(_LAYOUT_TEMPLATE_DOWNLOAD)) {
+			$tcms_template->loadTemplate(_LAYOUT_TEMPLATE_DOWNLOAD);
+			$tcms_template->parseDownloadTemplate();
+			
+			$entry = $tcms_template->getDownloadTableTitle(
+				$entryTableTitle
+			);
+			
+			$tcms_script->doParsePHP($entry);
+		}
+		else {
+			echo '<tr>'
+			.'<td valign="top" class="titleBG" style="padding-left: 2px;" align="left" colspan="2">'
+			.$entryTableTitle
+			.'</td></tr>'
+			.'<tr style="height: 2px;"><td colspan="2"></td></tr>'
+			.'<tr><td colspan="2"><br /></td></tr>';
+		}
+		
+		
+		if($tcms_main->isArray($arr_dw['sort'])) {
 			foreach($arr_dw['sort'] as $key => $value) {
-				if($key >= ( ($page * 10) - 10 ) && $key < ( $page * 10 )) {
-					echo '<tr>'
-					.'<td valign="top" align="center" width="70" style="padding-right: 5px;">';
-					
-					
+				if($key >= ( ($page * 10) - 10 ) 
+				&& $key < ( $page * 10 )) {
 					/*
-						access
+						parse contents
 					*/
+					
+					// access
 					$checkAcc = $arr_dw['ac'][$key];
 					$showThis = $tcms_main->checkAccess($checkAcc, $is_admin);
 					
 					
-					if($arr_dw['st'][$key] == 'd') {
-						if($showThis) {
+					
+					/*
+						toendaTemplate Engine
+					*/
+					if($tcms_template->checkTemplateExist(_LAYOUT_TEMPLATE_DOWNLOAD, 2)) {
+						if($arr_dw['st'][$key] == 'd') {
+							/*
+								category
+							*/
+							
+							// link
 							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 							.'id=download&amp;s='.$s.'&amp;action=showall'
 							.'&amp;category='.$arr_dw['uid'][$key]
 							.( isset($lang) ? '&amp;lang='.$lang : '' );
 							$link = $tcms_main->urlConvertToSEO($link);
 							
-							echo '<a href="'.$link.'">';
+							// imageLink
+							$entryImageLink = '';
 							
-							if($detect_browser == 1) {
-								echo '<script>if(browser == \'ie\') {'
-								.'document.write(\'<img src="'.$imagePath.'engine/images/filesystemGIF/'.$arr_dw['type'][$key].'.gif" border="0" />\');'
-								.'}else {'
-								.'document.write(\'<img src="'.$imagePath.'engine/images/filesystem/'.$arr_dw['type'][$key].'.png" border="0" />\');'
-								.'}</script>';
+							if($showThis) {
+								$entryImageLink .= '<a href="'.$link.'">';
 								
-								echo '<noscript>'
-								.'<img src="'.$imagePath.'engine/images/filesystem/'.$arr_dw['type'][$key].'.png" border="0" />'
-								.'</noscript>';
+								if($detect_browser == 1) {
+									$entryImageLink .= '<script>if(browser == \'ie\') {'
+									.'document.write(\'<img src="'.$imagePath.'engine/images/filesystemGIF/'.$arr_dw['type'][$key].'.gif" border="0" />\');'
+									.'}else {'
+									.'document.write(\'<img src="'.$imagePath.'engine/images/filesystem/'.$arr_dw['type'][$key].'.png" border="0" />\');'
+									.'}</script>';
+									
+									$entryImageLink .= '<noscript>'
+									.'<img src="'.$imagePath.'engine/images/filesystem/'.$arr_dw['type'][$key].'.png" border="0" />'
+									.'</noscript>';
+								}
+								else {
+									$entryImageLink .= '<img src="'.$imagePath.'engine/images/filesystem/'.$arr_dw['type'][$key].'.png" border="0" />';
+								}
+								
+								$entryImageLink .= '</a>';
 							}
 							else {
-								echo '<img src="'.$imagePath.'engine/images/filesystem/'.$arr_dw['type'][$key].'.png" border="0" />';
+								if($detect_browser == 1) {
+									$entryImageLink .= '<script>if(browser == \'ie\') {'
+									.'document.write(\'<img src="'.$imagePath.'engine/images/filesystemGIF/folder_locked.gif" border="0" />\');'
+									.'}else {'
+									.'document.write(\'<img src="'.$imagePath.'engine/images/filesystem/folder_locked.png" border="0" />\');'
+									.'}</script>';
+									
+									$entryImageLink .= '<noscript>'
+									.'<img src="'.$imagePath.'engine/images/filesystem/folder_locked.png" border="0" />'
+									.'</noscript>';
+								}
+								else {
+									$entryImageLink .= '<img src="'.$imagePath.'engine/images/filesystem/folder_locked.png" border="0" />';
+								}
 							}
 							
-							echo '</a>';
+							// title
+							$entryTitle = $arr_dw['name'][$key];
+							
+							// text
+							$entryText = $arr_dw['desc'][$key];
+							
+							
+							// parse
+							$entry = $tcms_template->getDownloadTableCategoryEntry(
+								$entryImageLink, 
+								$link, 
+								$entryTitle, 
+								$entryText
+							);
+							
+							$tcms_script->doParsePHP($entry);
 						}
 						else {
-							if($detect_browser == 1) {
-								echo '<script>if(browser == \'ie\') {'
-								.'document.write(\'<img src="'.$imagePath.'engine/images/filesystemGIF/folder_locked.gif" border="0" />\');'
-								.'}else {'
-								.'document.write(\'<img src="'.$imagePath.'engine/images/filesystem/folder_locked.png" border="0" />\');'
-								.'}</script>';
-								
-								echo '<noscript>'
-								.'<img src="'.$imagePath.'engine/images/filesystem/folder_locked.png" border="0" />'
-								.'</noscript>';
-							}
-							else {
-								echo '<img src="'.$imagePath.'engine/images/filesystem/folder_locked.png" border="0" />';
-							}
-						}
-					}
-					else {
-						if($showThis) {
-							if($arr_dw['mir'][$key] == 0 
-							&& !$tcms_main->checkWebLink($arr_dw['file'][$key])) {
-								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-								.'id=download&amp;s='.$s.'&amp;action=start'
-								.( isset($lang) ? '&amp;lang='.$lang : '' )
-								.'&amp;category='.$arr_dw['uid'][$key]
-								.'&amp;file='.$arr_dw['file'][$key];
-								
-								$link = $tcms_main->urlConvertToSEO($link);
-							}
-							else {
-								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-								.'id=download&amp;s='.$s.'&amp;action=start'
-								.( isset($lang) ? '&amp;lang='.$lang : '' )
-								.'&amp;category='.$arr_dw['uid'][$key]
-								.'&amp;c=_mirror_'
-								.'&amp;file=';
-								
-								$link = $tcms_main->urlConvertToSEO($link);
-								$link = $link.$arr_dw['file'][$key];
-							}
+							/*
+								entry
+							*/
 							
-							echo '<a href="'.$link.'" target="_blank">';
-							
-							if($arr_dw['img'][$key] == '_mimetypes_') {
-								if($tcms_file->checkFileExist('engine/images/mimetypes/'.$arr_dw['type'][$key].'.png')) {
-									if($detect_browser == 1) {
-										echo '<script>if(browser == \'ie\') {'
-										.'document.write(\'<img src="'.$imagePath.'engine/images/mimetypesGIF/'.$arr_dw['type'][$key].'.gif" border="0" />\');'
-										.'}else {'
-										.'document.write(\'<img src="'.$imagePath.'engine/images/mimetypes/'.$arr_dw['type'][$key].'.png" border="0" />\');'
-										.'}</script>';
-										
-										echo '<noscript>'
-										.'<img src="'.$imagePath.'engine/images/mimetypes/'.$arr_dw['type'][$key].'.png" border="0" />'
-										.'</noscript>';
+							if($showThis) {
+								// link
+								if(!$tcms_main->checkWebLink($arr_dw['file'][$key])) {
+									$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+									.'id=download&amp;s='.$s.'&amp;action=start'
+									.( isset($lang) ? '&amp;lang='.$lang : '' )
+									.'&amp;category='.$arr_dw['uid'][$key]
+									.'&amp;file='.$arr_dw['file'][$key];
+									
+									$link = $tcms_main->urlConvertToSEO($link);
+								}
+								else {
+									$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+									.'id=download&amp;s='.$s.'&amp;action=start'
+									.( isset($lang) ? '&amp;lang='.$lang : '' )
+									.'&amp;category='.$arr_dw['uid'][$key]
+									.'&amp;c=_mirror_'
+									.'&amp;file=';
+									
+									$link = $tcms_main->urlConvertToSEO($link);
+									$link = $link.$arr_dw['file'][$key];
+								}
+								
+								
+								// imageLink
+								$entryImageLink = '';
+								
+								$entryImageLink .= '<a href="'.$link.'" target="_blank">';
+								
+								if($arr_dw['img'][$key] == '_mimetypes_') {
+									if($tcms_file->checkFileExist('engine/images/mimetypes/'.$arr_dw['type'][$key].'.png')) {
+										if($detect_browser == 1) {
+											$entryImageLink .= '<script>if(browser == \'ie\') {'
+											.'document.write(\'<img src="'.$imagePath.'engine/images/mimetypesGIF/'.$arr_dw['type'][$key].'.gif" border="0" />\');'
+											.'}else {'
+											.'document.write(\'<img src="'.$imagePath.'engine/images/mimetypes/'.$arr_dw['type'][$key].'.png" border="0" />\');'
+											.'}</script>';
+											
+											$entryImageLink .= '<noscript>'
+											.'<img src="'.$imagePath.'engine/images/mimetypes/'.$arr_dw['type'][$key].'.png" border="0" />'
+											.'</noscript>';
+										}
+										else {
+											$entryImageLink .= '<img src="'.$imagePath.'engine/images/mimetypes/'.$arr_dw['type'][$key].'.png" border="0" />';
+										}
 									}
 									else {
-										echo '<img src="'.$imagePath.'engine/images/mimetypes/'.$arr_dw['type'][$key].'.png" border="0" />';
+										if($detect_browser == 1) {
+											$entryImageLink .= '<script>if(browser == \'ie\') {'
+											.'document.write(\'<img src="'.$imagePath.'engine/images/mimetypesGIF/empty.gif" border="0" />\');'
+											.'}else {'
+											.'document.write(\'<img src="'.$imagePath.'engine/images/mimetypes/empty.png" border="0" />\');'
+											.'}</script>';
+											
+											$entryImageLink .= '<noscript>'
+											.'<img src="'.$imagePath.'engine/images/mimetypes/empty.png" border="0" />'
+											.'</noscript>';
+										}
+										else {
+											$entryImageLink .= '<img src="'.$imagePath.'engine/images/mimetypes/empty.png" border="0" />';
+										}
 									}
 								}
 								else {
-									if($detect_browser == 1) {
-										echo '<script>if(browser == \'ie\') {'
-										.'document.write(\'<img src="'.$imagePath.'engine/images/mimetypesGIF/empty.gif" border="0" />\');'
-										.'}else {'
-										.'document.write(\'<img src="'.$imagePath.'engine/images/mimetypes/empty.png" border="0" />\');'
-										.'}</script>';
-										
-										echo '<noscript>'
-										.'<img src="'.$imagePath.'engine/images/mimetypes/empty.png" border="0" />'
-										.'</noscript>';
-									}
-									else {
-										echo '<img src="'.$imagePath.'engine/images/mimetypes/empty.png" border="0" />';
+									$entryImageLink .= '<img src="'.$imagePath._TCMS_PATH.'/files/'.$arr_dw['uid'][$key].'/'.$arr_dw['img'][$key].'" border="0" />';
+								}
+								
+								$entryImageLink .= '</a>';
+								
+								// title
+								$entryTitle = $arr_dw['name'][$key];
+								
+								// text
+								$entryText = $arr_dw['desc'][$key];
+								
+								// upload date
+								$entryDate = $arr_dw['date'][$key];
+								
+								// filesize
+								$entryFileSize = '';
+								
+								if($tcms_file->checkFileExist(_TCMS_PATH.'/files/'.$arr_dw['uid'][$key].'/'.$arr_dw['file'][$key])) {
+									$size = $tcms_file->getFilesize(
+										_TCMS_PATH.'/files/'.$arr_dw['uid'][$key].'/'.$arr_dw['file'][$key]
+									) / 1024;
+									$kpos = strpos($size, '.');
+									$file_size = substr($size, 0, $kpos+3);
+									
+									if($tcms_main->isReal($file_size)) {
+										$entryFileSize .= $file_size.' KB';
 									}
 								}
+								
+								
+								// parse
+								$entry = $tcms_template->getDownloadTableDownloadEntry(
+									$entryImageLink, 
+									$link, 
+									$entryTitle, 
+									$entryText, 
+									_DOWNLOADS_SUBMIT_ON, 
+									$entryDate, 
+									_GALLERY_IMGSIZE, 
+									$entryFileSize
+								);
+								
+								$tcms_script->doParsePHP($entry);
 							}
-							else {
-								echo '<img src="'.$imagePath._TCMS_PATH.'/files/'.$arr_dw['uid'][$key].'/'.$arr_dw['img'][$key].'" border="0" />';
-							}
-							
-							echo '</a>';
-						}
-						else {
-							/*echo ( $arr_dw['img'][$key] == '_mimetypes_'
-							?
-								( file_exists('engine/images/mimetypes/'.$arr_dw['type'][$key].'.png')
-								? '<img src="'.$imagePath.'engine/images/mimetypes/'.$arr_dw['type'][$key].'.png" border="0" />'
-								: '<img src="'.$imagePath.'engine/images/mimetypes/empty.png" border="0" />' )
-							:
-							'<img src="'.$imagePath._TCMS_PATH.'/files/'.$arr_dw['uid'][$key].'/'.$arr_dw['img'][$key].'" border="0" />'
-							);*/
-						}
-					}
-					
-					echo '</td>'
-					.'<td valign="top" align="left">';
-					
-					
-					if($arr_dw['st'][$key] == 'd') {
-						if($showThis) {
-							echo '<a class="main text_big" href="'.$link.'">'
-							.$tcms_html->bold($arr_dw['name'][$key])
-							.'</a>'
-							.$tcms_html->text($arr_dw['desc'][$key], 'left');
-						}
-						else {
-							echo $tcms_html->bold($arr_dw['name'][$key])
-							.$tcms_html->text($arr_dw['desc'][$key], 'left');
 						}
 					}
 					else {
-						if($tcms_file->checkFileExist(_TCMS_PATH.'/files/'.$category.'/'.$arr_dw['file'][$key])) {
-							$size = $tcms_file->getFilesize(
-								_TCMS_PATH.'/files/'.$category.'/'.$arr_dw['file'][$key]
-							) / 1024;
-							$kpos = strpos($size, '.');
-							$file_size = substr($size, 0, $kpos+3);
-						}
+						echo '<tr>'
+						.'<td valign="top" align="center" width="70" style="padding-right: 5px;">';
+					
 						
-						if($showThis) {
-							echo '<a class="main text_big" href="'.$link.'" target="_blank">'
-							.$tcms_html->bold($arr_dw['name'][$key])
-							.'</a>'
-							.$tcms_html->text($arr_dw['desc'][$key], 'left')
-							.'<br />';
-							
-							echo '<strong>'._DOWNLOADS_SUBMIT_ON.':</strong>'
-							.$tcms_html->text('&nbsp;'.$arr_dw['date'][$key], 'left')
-							.'<br />';
-							
-							
-							if(isset($file_size) && !empty($file_size) && $file_size != '') {
-								echo '<strong>'._GALLERY_IMGSIZE.':</strong>'
-								.$tcms_html->text('&nbsp;'.$file_size.' KB', 'left');
+						if($arr_dw['st'][$key] == 'd') {
+							if($showThis) {
+								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+								.'id=download&amp;s='.$s.'&amp;action=showall'
+								.'&amp;category='.$arr_dw['uid'][$key]
+								.( isset($lang) ? '&amp;lang='.$lang : '' );
+								$link = $tcms_main->urlConvertToSEO($link);
+								
+								echo '<a href="'.$link.'">';
+								
+								if($detect_browser == 1) {
+									echo '<script>if(browser == \'ie\') {'
+									.'document.write(\'<img src="'.$imagePath.'engine/images/filesystemGIF/'.$arr_dw['type'][$key].'.gif" border="0" />\');'
+									.'}else {'
+									.'document.write(\'<img src="'.$imagePath.'engine/images/filesystem/'.$arr_dw['type'][$key].'.png" border="0" />\');'
+									.'}</script>';
+									
+									echo '<noscript>'
+									.'<img src="'.$imagePath.'engine/images/filesystem/'.$arr_dw['type'][$key].'.png" border="0" />'
+									.'</noscript>';
+								}
+								else {
+									echo '<img src="'.$imagePath.'engine/images/filesystem/'.$arr_dw['type'][$key].'.png" border="0" />';
+								}
+								
+								echo '</a>';
+							}
+							else {
+								if($detect_browser == 1) {
+									echo '<script>if(browser == \'ie\') {'
+									.'document.write(\'<img src="'.$imagePath.'engine/images/filesystemGIF/folder_locked.gif" border="0" />\');'
+									.'}else {'
+									.'document.write(\'<img src="'.$imagePath.'engine/images/filesystem/folder_locked.png" border="0" />\');'
+									.'}</script>';
+									
+									echo '<noscript>'
+									.'<img src="'.$imagePath.'engine/images/filesystem/folder_locked.png" border="0" />'
+									.'</noscript>';
+								}
+								else {
+									echo '<img src="'.$imagePath.'engine/images/filesystem/folder_locked.png" border="0" />';
+								}
 							}
 						}
 						else {
-							/*echo $tcms_html->bold($arr_dw['name'][$key])
-							.$tcms_html->text($arr_dw['desc'][$key], 'left')
-							.'<br />';*/
+							if($showThis) {
+								if($arr_dw['mir'][$key] == 0 
+								&& !$tcms_main->checkWebLink($arr_dw['file'][$key])) {
+									$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+									.'id=download&amp;s='.$s.'&amp;action=start'
+									.( isset($lang) ? '&amp;lang='.$lang : '' )
+									.'&amp;category='.$arr_dw['uid'][$key]
+									.'&amp;file='.$arr_dw['file'][$key];
+									
+									$link = $tcms_main->urlConvertToSEO($link);
+								}
+								else {
+									$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+									.'id=download&amp;s='.$s.'&amp;action=start'
+									.( isset($lang) ? '&amp;lang='.$lang : '' )
+									.'&amp;category='.$arr_dw['uid'][$key]
+									.'&amp;c=_mirror_'
+									.'&amp;file=';
+									
+									$link = $tcms_main->urlConvertToSEO($link);
+									$link = $link.$arr_dw['file'][$key];
+								}
+								
+								echo '<a href="'.$link.'" target="_blank">';
+								
+								if($arr_dw['img'][$key] == '_mimetypes_') {
+									if($tcms_file->checkFileExist('engine/images/mimetypes/'.$arr_dw['type'][$key].'.png')) {
+										if($detect_browser == 1) {
+											echo '<script>if(browser == \'ie\') {'
+											.'document.write(\'<img src="'.$imagePath.'engine/images/mimetypesGIF/'.$arr_dw['type'][$key].'.gif" border="0" />\');'
+											.'}else {'
+											.'document.write(\'<img src="'.$imagePath.'engine/images/mimetypes/'.$arr_dw['type'][$key].'.png" border="0" />\');'
+											.'}</script>';
+											
+											echo '<noscript>'
+											.'<img src="'.$imagePath.'engine/images/mimetypes/'.$arr_dw['type'][$key].'.png" border="0" />'
+											.'</noscript>';
+										}
+										else {
+											echo '<img src="'.$imagePath.'engine/images/mimetypes/'.$arr_dw['type'][$key].'.png" border="0" />';
+										}
+									}
+									else {
+										if($detect_browser == 1) {
+											echo '<script>if(browser == \'ie\') {'
+											.'document.write(\'<img src="'.$imagePath.'engine/images/mimetypesGIF/empty.gif" border="0" />\');'
+											.'}else {'
+											.'document.write(\'<img src="'.$imagePath.'engine/images/mimetypes/empty.png" border="0" />\');'
+											.'}</script>';
+											
+											echo '<noscript>'
+											.'<img src="'.$imagePath.'engine/images/mimetypes/empty.png" border="0" />'
+											.'</noscript>';
+										}
+										else {
+											echo '<img src="'.$imagePath.'engine/images/mimetypes/empty.png" border="0" />';
+										}
+									}
+								}
+								else {
+									echo '<img src="'.$imagePath._TCMS_PATH.'/files/'.$arr_dw['uid'][$key].'/'.$arr_dw['img'][$key].'" border="0" />';
+								}
+								
+								echo '</a>';
+							}
+							else {
+								/*echo ( $arr_dw['img'][$key] == '_mimetypes_'
+								?
+									( file_exists('engine/images/mimetypes/'.$arr_dw['type'][$key].'.png')
+									? '<img src="'.$imagePath.'engine/images/mimetypes/'.$arr_dw['type'][$key].'.png" border="0" />'
+									: '<img src="'.$imagePath.'engine/images/mimetypes/empty.png" border="0" />' )
+								:
+								'<img src="'.$imagePath._TCMS_PATH.'/files/'.$arr_dw['uid'][$key].'/'.$arr_dw['img'][$key].'" border="0" />'
+								);*/
+							}
 						}
+						
+						echo '</td>'
+						.'<td valign="top" align="left">';
+						
+						
+						if($arr_dw['st'][$key] == 'd') {
+							if($showThis) {
+								echo '<a class="main text_big" href="'.$link.'">'
+								.$tcms_html->bold($arr_dw['name'][$key])
+								.'</a>'
+								.$tcms_html->text($arr_dw['desc'][$key], 'left');
+							}
+							else {
+								echo $tcms_html->bold($arr_dw['name'][$key])
+								.$tcms_html->text($arr_dw['desc'][$key], 'left');
+							}
+						}
+						else {
+							if($tcms_file->checkFileExist(_TCMS_PATH.'/files/'.$category.'/'.$arr_dw['file'][$key])) {
+								$size = $tcms_file->getFilesize(
+									_TCMS_PATH.'/files/'.$category.'/'.$arr_dw['file'][$key]
+								) / 1024;
+								$kpos = strpos($size, '.');
+								$file_size = substr($size, 0, $kpos+3);
+							}
+							
+							if($showThis) {
+								echo '<a class="main text_big" href="'.$link.'" target="_blank">'
+								.$tcms_html->bold($arr_dw['name'][$key])
+								.'</a>'
+								.$tcms_html->text($arr_dw['desc'][$key], 'left')
+								.'<br />';
+								
+								echo '<strong>'._DOWNLOADS_SUBMIT_ON.':</strong>'
+								.$tcms_html->text('&nbsp;'.$arr_dw['date'][$key], 'left')
+								.'<br />';
+								
+								
+								if(isset($file_size) && !empty($file_size) && $file_size != '') {
+									echo '<strong>'._GALLERY_IMGSIZE.':</strong>'
+									.$tcms_html->text('&nbsp;'.$file_size.' KB', 'left');
+								}
+							}
+							else {
+								/*echo $tcms_html->bold($arr_dw['name'][$key])
+								.$tcms_html->text($arr_dw['desc'][$key], 'left')
+								.'<br />';*/
+							}
+						}
+						
+						
+						echo '</td>'
+						.'</tr>';
+						
+						echo '<tr><td colspan="2">'
+						.'<hr class="hr_line" />'
+						.'</td></tr>';
 					}
-					
-					
-					echo '</td>'
-					.'</tr>';
-					
-					echo '<tr><td colspan="2">'
-					.'<hr class="hr_line" />'
-					.'</td></tr>';
 				}
 			}
 		}
 		
 		echo $tcms_html->tableEnd().'<br />';
+		
+		
+		
+		// cleanup
+		unset($tcms_template);
+		unset($tcms_script);
 		
 		
 		

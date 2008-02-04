@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used as a Knowledgebase.
  *
- * @version 0.6.0
+ * @version 0.6.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -620,7 +620,7 @@ if($todo == 'show'){
 			echo '<td class="tcms_db_2" '.$strLocation.'>'.$arrFAQ['date'][$key].'&nbsp;</td>';
 			
 			
-			$strAutor = $tcms_ap->getUser($arrFAQ['autor'][$key]);
+			$strAutor = $tcms_ap->getUsername($arrFAQ['autor'][$key]);
 			
 			echo '<td class="tcms_db_2" '.$strLocation.'>'.$strAutor.'&nbsp;</td>';
 			
@@ -645,7 +645,9 @@ if($todo == 'show'){
 			echo '</a></td>';
 			
 			
-			echo '<td class="tcms_db_2" '.$strLocation.' align="center" style="color: '.( $arrFAQ['access'][$key] == 'Public' ? '#008800' : '#ff0000' ).';">'.$arrFAQ['access'][$key].'</td>';
+			echo '<td class="tcms_db_2" '.$strLocation.' align="center" style="color: '.( $arrFAQ['access'][$key] == 'Public' ? '#008800' : '#ff0000' ).';">'
+			.$arrFAQ['access'][$key]
+			.'</td>';
 			
 			
 			switch(trim($arrFAQ['type'][$key])){
@@ -978,13 +980,12 @@ if($todo == 'edit') {
 	.'<select class="tcms_select" name="new_faq_autor">';
 	
 	if($id_group == 'Developer' 
-	|| $id_group == 'Administrator'){
-		$strAutor = $tcms_ap->getUser($id_uid);
-		
+	|| $id_group == 'Administrator') {
 		echo '<optgroup label="'._USER_SELF.'">'
-		.'<option value="'.$id_uid.'"'.( $arrFAQ_autor == $id_uid ? ' selected="selected"' : '').'>'.$strAutor.'</option>'
-		.'</optgroup>'
-		.'<optgroup label="'._USER_ALL.'">';
+		.'<option value="'.$id_uid.'"'.( $arrFAQ_autor == $id_uid ? ' selected="selected"' : '').'>'.$id_username.'</option>'
+		.'</optgroup>';
+		
+		echo '<optgroup label="'._USER_ALL.'">';
 		
 		foreach($arrActiveUser['tag'] as $key => $value){
 			echo '<option value="'.$value.'"'.( $arrFAQ_autor == $value ? ' selected="selected"' : '').'>'.$arrActiveUser['user'][$key].'</option>';
@@ -992,12 +993,10 @@ if($todo == 'edit') {
 		
 		echo '</optgroup>';
 	}
-	else{
-		$strAutor = $tcms_ap->getUser($id_uid);
+	else {
+		echo '<option value="'.$id_uid.'"'.( $arrFAQ_autor == $id_uid ? ' selected="selected"' : '').'>'.$id_username.'</option>';
 		
-		echo '<option value="'.$id_uid.'"'.( $arrFAQ_autor == $id_uid ? ' selected="selected"' : '').'>'.$strAutor.'</option>';
-		
-		$strAutor = $tcms_ap->getUser($arrFAQ_autor);
+		$strAutor = $tcms_ap->getUsername($arrFAQ_autor);
 		
 		if(isset($arrFAQ_autor) && $arrFAQ_autor != '' && ($arrFAQ_autor != $id_username && $arrFAQ_autor != $id_name)){
 			echo '<option value="'.$arrFAQ_autor.'" selected="selected">'.$strAutor.'</option>';

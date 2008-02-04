@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for global values
  *
- * @version 0.8.1
+ * @version 0.8.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -484,6 +484,7 @@ $_LAYOUT_TEMPLATE_LINK = '';
 $_LAYOUT_TEMPLATE_NEWS = '';
 $_LAYOUT_TEMPLATE_IMPRINT = '';
 $_LAYOUT_TEMPLATE_IMAGEGALLERY = '';
+$_LAYOUT_TEMPLATE_DOWNLOAD = '';
 
 if(trim($s) != 'printer') {
 	if($tcms_file->checkFileExist('theme/'.$s.'/index.php')) {
@@ -493,6 +494,7 @@ if(trim($s) != 'printer') {
 		$_LAYOUT_TEMPLATE_NEWS = 'theme/'.$s.'/templates/news.tpl';
 		$_LAYOUT_TEMPLATE_IMPRINT = 'theme/'.$s.'/templates/imprint.tpl';
 		$_LAYOUT_TEMPLATE_IMAGEGALLERY = 'theme/'.$s.'/templates/imagegallery.tpl';
+		$_LAYOUT_TEMPLATE_DOWNLOAD = 'theme/'.$s.'/templates/download.tpl';
 	}
 	else {
 		$tcms_error = new tcms_error('tcms_defines.lib.php', 2, $s, $imagePath);
@@ -511,6 +513,7 @@ if(!defined('_LAYOUT_TEMPLATE_LINK'))          define('_LAYOUT_TEMPLATE_LINK', $
 if(!defined('_LAYOUT_TEMPLATE_NEWS'))          define('_LAYOUT_TEMPLATE_NEWS', $_LAYOUT_TEMPLATE_NEWS);
 if(!defined('_LAYOUT_TEMPLATE_IMPRINT'))       define('_LAYOUT_TEMPLATE_IMPRINT', $_LAYOUT_TEMPLATE_IMPRINT);
 if(!defined('_LAYOUT_TEMPLATE_IMAGEGALLERY'))  define('_LAYOUT_TEMPLATE_IMAGEGALLERY', $_LAYOUT_TEMPLATE_IMAGEGALLERY);
+if(!defined('_LAYOUT_TEMPLATE_DOWNLOAD'))      define('_LAYOUT_TEMPLATE_DOWNLOAD', $_LAYOUT_TEMPLATE_DOWNLOAD);
 
 
 ?>

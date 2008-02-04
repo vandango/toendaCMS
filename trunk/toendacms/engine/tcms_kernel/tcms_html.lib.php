@@ -217,10 +217,11 @@ class tcms_html {
 	 * @return String
 	 */
 	public function text($text, $align = 'left') {
-		if(trim($align) == '')
+		if(trim($align) == '') {
 			$align = 'left';
+		}
 		
-		return '<span class="text_normal" style="text-align: '.$align.';">'.$text.'</span>';
+		return ( trim($text) != '' ? '<span class="text_normal" style="text-align: '.$align.';">'.$text.'</span>' : '' );
 	}
 	
 	

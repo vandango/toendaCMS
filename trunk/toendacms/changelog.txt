@@ -28,7 +28,7 @@ Version 2.0
 Developer Version
 	- 1.9.0 Development
 
-Building Steps: 4390
+Building Steps: 4407
 
 
 
@@ -39,6 +39,8 @@ Building Steps: 4390
 
  - security fixed: 
 
+ - bug fixed: The DateTime button for the downloads in the download manager in the
+              backend opens now a timecontrol for all downloads.
  - bug fixed: 
 
  - changed: DataContainer Classes changed to the correct PHP5-Class-Design.
@@ -67,6 +69,7 @@ Building Steps: 4390
           - Guestbook (entry)
           - Imagegallery (album list table header, album list entry, imagelist for list
             view, imagelist for thumbnail view)
+          - Download (table header, category entry, download entry)
  - added: 
  
 

@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide methods to get and
  * save user accounts and also contacts.
  * 
- * @version 0.4.0
+ * @version 0.4.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -224,7 +224,7 @@ class tcms_account_provider extends tcms_main {
 			if($sqlNR > 0) {
 				$sqlObj = $sqlAL->fetchObject($sqlQR);
 				$nickXML = $sqlObj->username;
-				$nickXML = $this->decodeText($tmpNickXML, '2', $this->m_charset);
+				$nickXML = $this->decodeText($nickXML, '2', $this->m_charset);
 			}
 			else {
 				$nickXML = false;

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a pathway.
  *
- * @version 0.6.3
+ * @version 0.6.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -64,10 +64,13 @@ switch($id) {
 			DOWNLOAD
 		*/
 		
+		$dDC = new tcms_dc_download();
+		$dDC = $tcms_dcp->getDownloadDC($getLang);
+		
 		echo $_HOMEPATH;
 		
 		if((!isset($category) || $category == '') && (!isset($file) || $file == '')) {
-			echo '&nbsp;'.$pathwayChar.'&nbsp;<span class="pathway">'.$download_title.'</span>';
+			echo '&nbsp;'.$pathwayChar.'&nbsp;<span class="pathway">'.$dDC->getTitle().'</span>';
 		}
 		
 		if(isset($category) || isset($file)) {
@@ -200,8 +203,9 @@ switch($id) {
 				}
 			}
 			
-			if(!isset($checkFAQTitle))
+			if(!isset($checkFAQTitle)) {
 				$checkFAQTitle = 1;
+			}
 			
 			echo '&nbsp;'.$pathwayChar.'&nbsp;';
 			
@@ -211,7 +215,7 @@ switch($id) {
 			.( isset($lang) ? '&amp;lang='.$lang : '' );
 			$link = $tcms_main->urlConvertToSEO($link);
 			
-			echo '<a class="pathway" href="'.$link.'">'.$download_title.'</a>';
+			echo '<a class="pathway" href="'.$link.'">'.$dDC->getTitle().'</a>';
 			
 			
 			for($i = ($checkFAQTitle - 1); $i >= 0; $i--) {
@@ -252,6 +256,9 @@ switch($id) {
 			
 			echo '<span class="pathway">'.$file.'</a>';
 		}*/
+		
+		
+		unset($dDC);
 		break;
 	
 	case $news_id:
@@ -346,8 +353,9 @@ switch($id) {
 			IMAGEGALLERY
 		*/
 		
-		if(!isset($albums))
+		if(!isset($albums)) {
 			echo $_HOMEPATH.'&nbsp;'.$pathwayChar.'&nbsp;<span class="pathway">'.$pathway[$id].'</span>';
+		}
 		
 		if(isset($albums)) {
 			if($choosenDB == 'xml') {

@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used for the download configuration
  * and the administration of all the downloads.
  *
- * @version 0.8.2
+ * @version 0.8.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -745,15 +745,15 @@ if($param_save_mode == 'off'){
 					else{
 						echo '<textarea name="new_desc" class="tcms_textarea_big">'.$arr_dw['desc'][$key].'</textarea>'
 						.'<br />'
-						.'<input class="tcms_input_small" id="new_date" name="new_date" type="text" value="'.$arr_dw['date'][$key].'" />'
-						.'<input type="button" value="&nbsp;" style="background: transparent url(../js/jscalendar/img.gif) no-repeat;" id="triggerButtonDateTime" />'
+						.'<input class="tcms_input_small" id="new_date_'.$arr_dw['uid'][$key].'" name="new_date" type="text" value="'.$arr_dw['date'][$key].'" />'
+						.'<input type="button" value="&nbsp;" style="background: transparent url(../js/jscalendar/img.gif) no-repeat;" id="triggerButtonDateTime_'.$arr_dw['uid'][$key].'" />'
 						.'<script type="text/javascript">
 						Calendar.setup({
-					        inputField     :    "new_date",
+					        inputField     :    "new_date_'.$arr_dw['uid'][$key].'",
 					        ifFormat       :    "%d.%m.%Y-%H:%M",
 					        showsTime      :    true,
 					        timeFormat     :    24,
-					        button         :    "triggerButtonDateTime",
+					        button         :    "triggerButtonDateTime_'.$arr_dw['uid'][$key].'",
 					        singleClick    :    false,
 					        step           :    1
 					    });
