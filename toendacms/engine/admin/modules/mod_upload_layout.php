@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used as a upload and edit page for the
  * templates.
  *
- * @version 0.6.0
+ * @version 0.6.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -171,7 +171,8 @@ if($id_group == 'Developer'
 		
 		
 		// load the index file
-		if($tcms_file->checkFileExist('../../theme/'.$s.'/'.$load_template_file)) {
+		if(trim($load_template_file) != '' 
+		&& $tcms_file->checkFileExist('../../theme/'.$s.'/'.$load_template_file)) {
 			$loadPHP = $tcms_file->readToEnd('../../theme/'.$s.'/'.$load_template_file);
 		}
 		else {
