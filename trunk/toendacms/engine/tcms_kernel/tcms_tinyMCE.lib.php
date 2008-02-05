@@ -125,8 +125,22 @@ class tcms_tinyMCE {
 					theme_advanced_toolbar_align : "left"
 				},
 				
+				theme_advanced_toolbar_location : "top",
+				theme_advanced_toolbar_align : "left",
+				theme_advanced_source_editor_height : "550",
+				theme_advanced_source_editor_width : "750",
+				theme_advanced_path_location : "bottom",
+				theme_advanced_resize_horizontal : false,
+				theme_advanced_resizing : true,
+				
+				directionality: "ltr",
+				debug : false,
+				cleanup : true,
+				cleanup_on_startup : false,
+				
 				apply_source_formatting : true,
 				invalid_elements : "applet",
+				
 				valid_elements : ""
 				+"a[style|accesskey|charset|class|coords|dir<ltr?rtl|href|hreflang|id|lang|name"
 				  +"|onblur|onclick|ondblclick|onfocus|onkeydown|onkeypress|onkeyup"
@@ -388,19 +402,7 @@ class tcms_tinyMCE {
 				  +"|onmouseup|style|title|type],"
 				+"var[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress"
 				  +"|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style"
-				  +"|title]",
-				theme_advanced_toolbar_location : "top",
-				theme_advanced_toolbar_align : "left",
-				theme_advanced_source_editor_height : "550",
-				theme_advanced_source_editor_width : "750",
-				theme_advanced_path_location : "bottom",
-				theme_advanced_resize_horizontal : false,
-				theme_advanced_resizing : true,
-				
-				directionality: "ltr",
-				debug : false,
-				cleanup : true,
-				cleanup_on_startup : false
+				  +"|title]"
 			});'
 			.( $withAjaxSaveLoad ? '
 			'/*
