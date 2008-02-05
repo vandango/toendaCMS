@@ -100,10 +100,10 @@ class tcms_html {
 			echo '<p class="contentmain">';
 			$tcmsScriptObj->doParsePHP($text);
 			echo '</p>'
-			.'<br /><br />';
+			.'<br />';
 		}
 		else if(trim($text) != '---') {
-			echo '<br /><br />';
+			echo '<br />';
 		}
 	}
 	
