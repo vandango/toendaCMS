@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used as a upload and edit page for the
  * templates.
  *
- * @version 0.6.1
+ * @version 0.6.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -160,7 +160,7 @@ if($id_group == 'Developer'
 		}
 		
 		echo '</select>'
-		.'<input name="btn_action" class="tcms_button" type="button" value="'._TCMS_ADMIN_NEW_FILE_BUTTON.'"'
+		.'<input name="btn_action" class="tcms_button" type="button" value="'._TCMS_ADMIN_DELETE.'"'
 		.' onclick="chk=confirm(\''._MSG_DELETE_SUBMIT.'\'); if(!chk) { return false; }else{ document.location=\''
 		.'admin.php?site=mod_upload_layout&id_user='.$id_user.'&todo=delete_file'
 		.'&s='.$s
