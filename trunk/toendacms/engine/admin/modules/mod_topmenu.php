@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the topmenu items.
  *
- * @version 0.6.5
+ * @version 0.6.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -53,8 +53,9 @@ if(isset($_POST['language'])){ $language = $_POST['language']; }
 //=====================================================
 
 if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Writer'){
-	if(!isset($todo))
+	if(!isset($todo)) {
 		$todo = 'show';
+	}
 	
 	
 	
@@ -63,8 +64,8 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 	//=====================================================
 	
 	if($todo == 'show'){
-		echo tcms_html::bold(_TOPMENU_TITLE);
-		echo tcms_html::text(_TOPMENU_TEXT.'<br /><br />', 'left');
+		echo $tcms_html->bold(_TOPMENU_TITLE);
+		echo $tcms_html->text(_TOPMENU_TEXT.'<br /><br />', 'left');
 		
 		if($choosenDB == 'xml'){
 			$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_topmenu/');
@@ -109,8 +110,8 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			}
 		}
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Writer'){
 				$strAdd = "";
@@ -280,8 +281,8 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				if($tm_target == false) { $tm_target = ''; }
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'topmenu', $maintag);
 				$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
@@ -309,7 +310,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			if(!isset($newType)){ $newType = $tm_type; }
 			if(!isset($odot)){ $odot = 'save'; }
 				
-			echo tcms_html::bold(_TABLE_EDIT);
+			echo $tcms_html->bold(_TABLE_EDIT);
 			$show_dropdown = false;
 		}
 		else{
@@ -324,7 +325,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			
 			$maintag = $tcms_main->getNewUID(5, 'topmenu');
 			
-			echo tcms_html::bold(_TABLE_NEW);
+			echo $tcms_html->bold(_TABLE_NEW);
 			
 			if(!isset($odot)){ $odot = 'next'; }
 			
@@ -337,7 +338,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		
 		$width = '200';
 		
-		echo tcms_html::text(_TOPMENU_TEXT.'<br /><br />', 'left');
+		echo $tcms_html->text(_TOPMENU_TEXT.'<br /><br />', 'left');
 		
 		
 		// form begin
@@ -481,23 +482,23 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			if($choosenDB == 'xml') {
 				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_content/'.$new_tm_link.'.xml', 'w');
 				$xmluser->xml_c_declaration($c_charset);
-				$xmluser->xml_section('main');
+				$xmluser->xmlSection('main');
 				
-				$xmluser->write_value('title', $new_tm_name);
-				$xmluser->write_value('key', '');
-				$xmluser->write_value('content00', '');
-				$xmluser->write_value('content01', '');
-				$xmluser->write_value('foot', '');
-				$xmluser->write_value('id', $new_tm_link);
-				$xmluser->write_value('db_layout', '');
-				$xmluser->write_value('access', $new_tm_access);
+				$xmluser->writeValue('title', $new_tm_name);
+				$xmluser->writeValue('key', '');
+				$xmluser->writeValue('content00', '');
+				$xmluser->writeValue('content01', '');
+				$xmluser->writeValue('foot', '');
+				$xmluser->writeValue('id', $new_tm_link);
+				$xmluser->writeValue('db_layout', '');
+				$xmluser->writeValue('access', $new_tm_access);
 				
-				$xmluser->xml_section_buffer();
-				$xmluser->xml_section_end('main');
+				$xmluser->xmlSectionBuffer();
+				$xmluser->xmlSectionEnd('main');
 			}
 			else {
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				switch($choosenDB){
 					case 'mysql':
@@ -515,31 +516,31 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				
 				$newSQLData = "'".$new_tm_name."', 'Public'";
 				
-				$sqlQR = $sqlAL->sqlCreateOne($tcms_db_prefix.'content', $newSQLColumns, $newSQLData, $new_tm_link);
+				$sqlQR = $sqlAL->createOne($tcms_db_prefix.'content', $newSQLColumns, $newSQLData, $new_tm_link);
 			}
 		}
 		
 		
 		if($choosenDB == 'xml') {
 			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_topmenu/'.$maintag.'.xml', 'w');
-			$xmluser->xml_declaration();
-			$xmluser->xml_section('top');
+			$xmluser->xmlDeclaration();
+			$xmluser->xmlSection('top');
 			
-			$xmluser->write_value('name', $new_tm_name);
-			$xmluser->write_value('id', $new_tm_id);
-			$xmluser->write_value('type', $new_tm_type);
-			$xmluser->write_value('link', $new_tm_link);
-			$xmluser->write_value('published', $new_tm_pub);
-			$xmluser->write_value('access', $new_tm_access);
-			$xmluser->write_value('target', $new_tm_target);
-			$xmluser->write_value('language', $language);
+			$xmluser->writeValue('name', $new_tm_name);
+			$xmluser->writeValue('id', $new_tm_id);
+			$xmluser->writeValue('type', $new_tm_type);
+			$xmluser->writeValue('link', $new_tm_link);
+			$xmluser->writeValue('published', $new_tm_pub);
+			$xmluser->writeValue('access', $new_tm_access);
+			$xmluser->writeValue('target', $new_tm_target);
+			$xmluser->writeValue('language', $language);
 			
-			$xmluser->xml_section_buffer();
-			$xmluser->xml_section_end('top');
+			$xmluser->xmlSectionBuffer();
+			$xmluser->xmlSectionEnd('top');
 		}
 		else {
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$newSQLData = ''
 			.$tcms_db_prefix.'topmenu.name="'.$new_tm_name.'", '
@@ -593,20 +594,20 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 						'w'
 					);
 					$xmluser->xml_c_declaration($c_charset);
-					$xmluser->xml_section('main');
+					$xmluser->xmlSection('main');
 					
-					$xmluser->write_value('title', $new_tm_name);
-					$xmluser->write_value('key', '');
-					$xmluser->write_value('content00', '');
-					$xmluser->write_value('content01', '');
-					$xmluser->write_value('foot', '');
-					$xmluser->write_value('id', $new_tm_link);
-					//$xmluser->write_value('db_layout', '');
-					$xmluser->write_value('access', $new_tm_access);
-					$xmluser->write_value('language', $language);
+					$xmluser->writeValue('title', $new_tm_name);
+					$xmluser->writeValue('key', '');
+					$xmluser->writeValue('content00', '');
+					$xmluser->writeValue('content01', '');
+					$xmluser->writeValue('foot', '');
+					$xmluser->writeValue('id', $new_tm_link);
+					//$xmluser->writeValue('db_layout', '');
+					$xmluser->writeValue('access', $new_tm_access);
+					$xmluser->writeValue('language', $language);
 					
-					$xmluser->xml_section_buffer();
-					$xmluser->xml_section_end('main');
+					$xmluser->xmlSectionBuffer();
+					$xmluser->xmlSectionEnd('main');
 				}
 				else {
 					$xmluser = new xmlparser(
@@ -614,24 +615,24 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 						'w'
 					);
 					$xmluser->xml_c_declaration($c_charset);
-					$xmluser->xml_section('main');
+					$xmluser->xmlSection('main');
 					
-					$xmluser->write_value('title', $new_tm_name);
-					$xmluser->write_value('key', '');
-					$xmluser->write_value('content00', '');
-					$xmluser->write_value('content01', '');
-					$xmluser->write_value('foot', '');
-					$xmluser->write_value('id', $new_tm_link);
-					//$xmluser->write_value('db_layout', '');
-					$xmluser->write_value('access', $new_tm_access);
+					$xmluser->writeValue('title', $new_tm_name);
+					$xmluser->writeValue('key', '');
+					$xmluser->writeValue('content00', '');
+					$xmluser->writeValue('content01', '');
+					$xmluser->writeValue('foot', '');
+					$xmluser->writeValue('id', $new_tm_link);
+					//$xmluser->writeValue('db_layout', '');
+					$xmluser->writeValue('access', $new_tm_access);
 					
-					$xmluser->xml_section_buffer();
-					$xmluser->xml_section_end('main');
+					$xmluser->xmlSectionBuffer();
+					$xmluser->xmlSectionEnd('main');
 				}
 			}
 			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				switch($choosenDB){
 					case 'mysql':
@@ -666,7 +667,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 					
 					$newSQLData .= ", '".$language."'";
 					
-					$sqlQR = $sqlAL->sqlCreateOne(
+					$sqlQR = $sqlAL->createOne(
 						$tcms_db_prefix.'content_languages', 
 						$newSQLColumns, 
 						$newSQLData, 
@@ -674,7 +675,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 					);
 				}
 				else {
-					$sqlQR = $sqlAL->sqlCreateOne(
+					$sqlQR = $sqlAL->createOne(
 						$tcms_db_prefix.'content', 
 						$newSQLColumns, 
 						$newSQLData, 
@@ -685,26 +686,29 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		}
 		
 		
-		if($choosenDB == 'xml'){
+		if($choosenDB == 'xml') {
 			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_topmenu/'.$maintag.'.xml', 'w');
-			$xmluser->xml_declaration();
-			$xmluser->xml_section('top');
+			$xmluser->xmlDeclaration();
+			$xmluser->xmlSection('top');
 			
-			$xmluser->write_value('name', $new_tm_name);
-			$xmluser->write_value('id', $new_tm_id);
-			$xmluser->write_value('type', $new_tm_type);
-			$xmluser->write_value('link', $new_tm_link);
-			$xmluser->write_value('published', $new_tm_pub);
-			$xmluser->write_value('access', $new_tm_access);
-			$xmluser->write_value('target', $new_tm_target);
-			$xmluser->write_value('language', $language);
+			$xmluser->writeValue('name', $new_tm_name);
+			$xmluser->writeValue('id', $new_tm_id);
+			$xmluser->writeValue('type', $new_tm_type);
+			$xmluser->writeValue('link', $new_tm_link);
+			$xmluser->writeValue('published', $new_tm_pub);
+			$xmluser->writeValue('access', $new_tm_access);
+			$xmluser->writeValue('target', $new_tm_target);
+			$xmluser->writeValue('language', $language);
 			
-			$xmluser->xml_section_buffer();
-			$xmluser->xml_section_end('top');
+			$xmluser->xmlSectionBuffer();
+			$xmluser->xmlSectionEnd('top');
+			
+			$xmluser->flush();
+			unset($xmluser);
 		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		else {
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			switch($choosenDB){
 				case 'mysql':
@@ -723,10 +727,15 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			$newSQLData = "'".$new_tm_name."', ".$new_tm_id.", '".$new_tm_type."', '"
 			.$new_tm_link."', ".$new_tm_pub.", '".$new_tm_access."', '".$new_tm_target."', '".$language."'";
 			
-			$sqlAL->sqlCreateOne($tcms_db_prefix.'topmenu', $newSQLColumns, $newSQLData, $maintag);
+			$sqlAL->createOne($tcms_db_prefix.'topmenu', $newSQLColumns, $newSQLData, $maintag);
+			
+			$sqlAL->freeResult($sqlQR);
+			unset($sqlAL);
 		}
 		
-		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_topmenu\'</script>';
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_topmenu\';'
+		.'</script>';
 	}
 	
 	
@@ -743,8 +752,8 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			case 'off':
 				if($choosenDB == 'xml'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_topmenu/'.$maintag.'.xml', 'published', '1', '0'); }
 				else{
-					$sqlAL = new sqlAbstractionLayer($choosenDB);
-					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					$newSQLData = $tcms_db_prefix.'topmenu.published=0';
 					$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'topmenu', $newSQLData, $maintag);
 				}
@@ -755,8 +764,8 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 			case 'on':
 				if($choosenDB == 'xml'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_topmenu/'.$maintag.'.xml', 'published', '0', '1'); }
 				else{
-					$sqlAL = new sqlAbstractionLayer($choosenDB);
-					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					$newSQLData = $tcms_db_prefix.'topmenu.published=1';
 					$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'topmenu', $newSQLData, $maintag);
 				}
@@ -788,8 +797,8 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 					xmlparser::edit_value(_TCMS_PATH.'/tcms_topmenu/'.$re.'.xml', 'id', $reorderID, $mainorderID);
 				}
 				else{
-					$sqlAL = new sqlAbstractionLayer($choosenDB);
-					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					
 					$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'topmenu', $id);
 					$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
@@ -827,8 +836,8 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 					xmlparser::edit_value(_TCMS_PATH.'/tcms_topmenu/'.$re.'.xml', 'id', $reorderID, $mainorderID);
 				}
 				else{
-					$sqlAL = new sqlAbstractionLayer($choosenDB);
-					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					
 					$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'topmenu', $id);
 					$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
@@ -866,8 +875,8 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 	if($todo == 'delete'){
 		if($choosenDB == 'xml'){ unlink(_TCMS_PATH.'/tcms_topmenu/'.$maintag.'.xml'); }
 		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			$sqlAL->sqlDeleteOne($tcms_db_prefix.'topmenu', $maintag);
 		}
 		

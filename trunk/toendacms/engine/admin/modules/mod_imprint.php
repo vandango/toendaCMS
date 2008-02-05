@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the publishing form.
  *
- * @version 0.7.3
+ * @version 0.7.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -598,7 +598,7 @@ if($id_group == 'Developer'
 				
 				switch($choosenDB) {
 					case 'mysql':
-						$sqlQR = $sqlAL->sqlUpdateField(
+						$sqlQR = $sqlAL->updateField(
 							$tcms_db_prefix.'imprint', 
 							$newSQLData, 
 							'imp_id', 
@@ -607,7 +607,7 @@ if($id_group == 'Developer'
 						break;
 					
 					default:
-						$sqlQR = $sqlAL->sqlUpdateField(
+						$sqlQR = $sqlAL->updateField(
 							$tcms_db_prefix.'imprint', 
 							$newSQLData, 
 							'imp_id', 
@@ -639,7 +639,7 @@ if($id_group == 'Developer'
 				
 				$maintag = $tcms_main->getNewUID(9, 'imprint');
 				
-				$sqlQR = $sqlAL->sqlCreateOne(
+				$sqlQR = $sqlAL->createOne(
 					$tcms_db_prefix.'imprint', 
 					$newSQLColumns, 
 					$newSQLData, 

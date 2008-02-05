@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a documents manager.
  *
- * @version 1.2.7
+ * @version 1.2.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -1557,10 +1557,10 @@ if($id_group == 'Developer'
 			$del_menuitem = $sqlAL->getNumber($sqlQR);
 			
 			if($del_menuitem != 0){
-				$sqlAL->deleteIdv($tcms_db_prefix.'sidemenu', 'link', $maintag);
+				$sqlAL->deleteIndividual($tcms_db_prefix.'sidemenu', 'link', $maintag);
 			}
 			else{
-				$sqlAL->deleteIdv($tcms_db_prefix.'topmenu', 'link', $maintag);
+				$sqlAL->deleteIndividual($tcms_db_prefix.'topmenu', 'link', $maintag);
 			}
 		}
 		

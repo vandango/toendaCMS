@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a datacontainer object for
  * sidebar extension settings.
  *
- * @version 0.1.3
+ * @version 0.1.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -246,7 +246,7 @@ class tcms_dc_sidebarextensions {
 	 * @return String
 	 */
 	public function getShowLoginTitle() {
-		return ( $this->$m_show_login_title == 1 || $this->$m_show_login_title == '1' || $this->$m_show_login_title ? true : false );
+		return ( $this->m_show_login_title == 1 || $this->m_show_login_title == '1' || $this->m_show_login_title ? true : false );
 	}
 	
 	/**

@@ -21,7 +21,7 @@
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 0.6.8
+ * @version 0.7.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -304,6 +304,8 @@ if(isset($id_user)){
 				$dvalue2 = ( isset($folder) ? $folder.'/' : '' ).$dvalue;
 				$dvalue3 = $dvalue;
 				
+				$relPath = ( $folder == '' ? '' : $folder.'/' );
+				
 				if(is_dir(trim(_TCMS_PATH.'/images/Image/'.$dvalue2))) {
 					$addurl = '';
 					
@@ -350,31 +352,24 @@ if(isset($id_user)){
 					if(!preg_match('/.mp3/i', strtolower($dvalue))){
 						$tcms_gd = new tcms_gd();
 						
-						if(!$tcms_file->checkFileExist(_TCMS_PATH.'/images/upload_thumb/thumb_'.$dvalue)){
+						if(!$tcms_file->checkFileExist(_TCMS_PATH.'/images/upload_thumb/'.$relPath.'thumb_'.$dvalue)){
 							if(isset($faq) && $faq != '') {
-								//tcms_gd::gd_thumbnail(_TCMS_PATH.'/images/knowledgebase/', _TCMS_PATH.'/images/upload_thumb/', $dvalue, '100', 'create');
-								
 								$tcms_gd->createThumbnail(
-									_TCMS_PATH.'/images/knowledgebase/', 
-									_TCMS_PATH.'/images/upload_thumb/', 
+									_TCMS_PATH.'/images/knowledgebase/'.$relPath, 
+									_TCMS_PATH.'/images/upload_thumb/'.$relPath, 
 									$dvalue, 
 									100
 								);
 							}
 							else {
-								//tcms_gd::gd_thumbnail(_TCMS_PATH.'/images/Image/', _TCMS_PATH.'/images/upload_thumb/', $dvalue, '100', 'create');
-								
 								$tcms_gd->createThumbnail(
-									_TCMS_PATH.'/images/Image/', 
-									_TCMS_PATH.'/images/upload_thumb/', 
+									_TCMS_PATH.'/images/Image/'.$relPath, 
+									_TCMS_PATH.'/images/upload_thumb/'.$relPath, 
 									$dvalue, 
 									100
 								);
 							}
 						}
-						
-						//$img_size = getimagesize(_TCMS_PATH.'/images/knowledgebase/'.$dvalue);
-						//$img_size = getimagesize(_TCMS_PATH.'/images/Image/'.$dvalue);
 						
 						if(isset($faq) && $faq != '') {
 							$tcms_gd->readImageInformation(
@@ -425,7 +420,7 @@ if(isset($id_user)){
 						$checkType = false;
 					}
 					elseif($checkType){
-						echo '<img style="border: 1px solid #333333;" src="'._TCMS_PATH.'/images/upload_thumb/thumb_'.$dvalue.'" border="0" />';
+						echo '<img style="border: 1px solid #333333;" src="'._TCMS_PATH.'/images/upload_thumb/'.$relPath.'thumb_'.$dvalue.'" border="0" />';
 					}
 					
 					
@@ -516,7 +511,7 @@ if(isset($id_user)){
 								.'\'&lt;a href=&quot;'.$seo_path.'/images/Image/'.$dvalue2.'&quot; '
 								.'rel=&quot;lightbox&quot;&gt;'
 								.'&lt;img '
-								.'src=&quot;'.$img_path.'/images/upload_thumb/thumb_'.$dvalue3.'&quot; '
+								.'src=&quot;'.$img_path.'/images/upload_thumb/'.$relPath.'thumb_'.$dvalue3.'&quot; '
 								.'alt=&quot;'.$dvalue.'&quot; /&gt;'
 								.'&lt;\/a&gt;\');'
 								.'self.close()';
