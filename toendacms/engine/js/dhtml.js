@@ -20,7 +20,7 @@
  *
  * This file provides some favaScript functions.
  *
- * @version 0.5.0
+ * @version 0.5.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -63,6 +63,7 @@
  * setNewsImage(img, id, id2)        -> accept image for openers ID field for newsmanager config
  * setFAQImage(img, id, id2)         -> accept image for openers ID field for knowledgebase config
  * setColor(id, color)               -> accept a color for openers ID field
+ * deleteMediafileExt                -> Delete a media file
  * deleteMediafile                   -> Delete a media file
  * deleteFolder                      -> Delete a folder in media browser
  *
@@ -673,6 +674,13 @@ function setFAQImage(img, id, id2) {
 function setColor(id, color) {
 	window.opener.document.getElementById(id).value = color;
 	self.close();
+}
+
+
+function deleteMediafileExt(session, action, path, image, message) {
+	if(confirm(message)) {
+		document.location='admin.php?site=mod_media&id_user=' + session + '&action=' + action + '&todo=deleteImage&path=' + path + '&delimg=' + image;
+	}
 }
 
 

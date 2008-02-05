@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for a wizard to create a new page.
  *
- * @version 0.3.3
+ * @version 0.4.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -36,6 +36,7 @@ if(isset($_POST['tmp_order'])){ $tmp_order = $_POST['tmp_order']; }
 if(isset($_POST['access'])){ $access = $_POST['access']; }
 if(isset($_POST['tmp_linkto'])){ $tmp_linkto = $_POST['tmp_linkto']; }
 if(isset($_POST['new_published'])){ $new_published = $_POST['new_published']; }
+if(isset($_POST['language'])){ $language = $_POST['language']; }
 
 
 
@@ -124,8 +125,8 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 	//=====================================================
 	
 	if($todo == 'show'){
-		echo tcms_html::bold(_NEWPAGE_TITLE);
-		echo tcms_html::text(_NEWPAGE_TEXT.'<br /><br />', 'left');
+		echo $tcms_html->bold(_NEWPAGE_TITLE);
+		echo $tcms_html->text(_NEWPAGE_TEXT.'<br /><br />', 'left');
 		
 		echo '<form action="admin.php?id_user='.$id_user.'&site=mod_newpage" method="POST">';
 		
@@ -136,6 +137,32 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		echo '<table width="100%" cellpadding="1" cellspacing="5" class="tcms_table">';
 		
 		//================================================
+		
+		// row
+		if($tcms_config->useContentLanguage()) {
+			echo '<tr><td valign="top" width="'.$width.'">'
+			.'<strong class="tcms_bold">'._TCMS_LANGUAGE.'</strong>'
+			.'</td><td>'
+			.'<select class="tcms_select" id="language" name="language">';
+			
+			foreach($languages['code'] as $key => $value) {
+				if($value != $tcms_config->getLanguageCode(true)) {
+					if($tm_lang == $value) {
+						$dl = ' selected="selected"';
+					}
+					else {
+						$dl = '';
+					}
+					
+					echo '<option value="'.$value.'"'.$dl.'>'
+					.$languages['name'][$key]
+					.'</option>';
+				}
+			}
+			
+			echo '</select>'
+			.'</td></tr>';
+		}
 		
 		echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._TABLE_TITLE.'</b>
 		</td><td><input class="tcms_input_normal" name="np_title" type="text" value="" />
@@ -253,10 +280,31 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 				break;
 		}
 		
+		
 		switch($tmp_linkto){
 			case 'new_page':
 				$new_linkto = $tcms_main->getNewUID(5, 'content');
 				$relocate = 'mod_content';
+				break;
+			
+			case 'knowledgebase':
+				$new_linkto = 'knowledgebase';
+				$relocate = 'mod_knowledgebase';
+				break;
+			
+			case 'products':
+				$new_linkto = 'products';
+				$relocate = 'mod_products';
+				break;
+			
+			case 'links':
+				$new_linkto = 'links';
+				$relocate = 'mod_links';
+				break;
+			
+			case 'download':
+				$new_linkto = 'download';
+				$relocate = 'mod_download';
 				break;
 			
 			case 'contactform':
@@ -271,7 +319,12 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 			
 			case 'guestbook':
 				$new_linkto = 'guestbook';
-				$relocate = 'mod_guestbook';
+				$relocate = 'mod_guestbook_config';
+				break;
+			
+			case 'frontpage':
+				$new_linkto = 'frontpage';
+				$relocate = 'mod_frontpage';
 				break;
 			
 			case 'newsmanager':
@@ -282,6 +335,16 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 			case 'imagegallery':
 				$new_linkto = 'imagegallery';
 				$relocate = 'mod_gallery';
+				break;
+			
+			case 'polls':
+				$new_linkto = 'polls';
+				$relocate = 'mod_poll';
+				break;
+			
+			case 'search':
+				$new_linkto = 'search';
+				$relocate = 'mod_start';
 				break;
 			
 			default:
@@ -301,27 +364,30 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		
 		if($choosenDB == 'xml'){
 			$xmluser = new xmlparser(_TCMS_PATH.'/'.$tcms_menu.'/'.$maintag.'.xml', 'w');
-			$xmluser->xml_declaration();
-			if($tcms_menu == $tcms_db_prefix.'topmenu'){ $xmluser->xml_section('top'); }
-			else{ $xmluser->xml_section('menu'); }
+			$xmluser->xmlDeclaration();
+			if($tcms_menu == $tcms_db_prefix.'topmenu'){ $xmluser->xmlSection('top'); }
+			else{ $xmluser->xmlSection('menu'); }
 			
-			$xmluser->write_value('name', $np_title);
-			$xmluser->write_value('id', $id_main);
+			$xmluser->writeValue('name', $np_title);
+			$xmluser->writeValue('id', $id_main);
+			
 			if($tcms_menu == $tcms_db_prefix.'menu'){
-				$xmluser->write_value('subid', $id_sub);
-				$xmluser->write_value('type', 'link');
-				$xmluser->write_value('parent', $parent);
+				$xmluser->writeValue('subid', $id_sub);
+				$xmluser->writeValue('type', 'link');
+				$xmluser->writeValue('parent', $parent);
 			}
-			$xmluser->write_value('link', $new_linkto);
-			$xmluser->write_value('published', $new_published);
+			
+			$xmluser->writeValue('language', $language);
+			$xmluser->writeValue('link', $new_linkto);
+			$xmluser->writeValue('published', $new_published);
 			if($tcms_menu == $tcms_db_prefix.'menu' || $tcms_menu == $tcms_db_prefix.'topmenu'){
-				$xmluser->write_value('access', $access);
+				$xmluser->writeValue('access', $access);
 			}
 			
-			$xmluser->xml_section_buffer();
+			$xmluser->xmlSectionBuffer();
 			
-			if($tcms_menu == $tcms_db_prefix.'topmenu'){ $xmluser->xml_section_end('top'); }
-			else{ $xmluser->xml_section_end('menu'); }
+			if($tcms_menu == $tcms_db_prefix.'topmenu'){ $xmluser->xmlSectionEnd('top'); }
+			else{ $xmluser->xmlSectionEnd('menu'); }
 		}
 		else{
 			if($tcms_menu == $tcms_db_prefix.'menu'){ $tcms_menu = $tcms_db_prefix.'sidemenu'; }
@@ -335,12 +401,12 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 					$newSQLData = "'".$np_title."', ".$id_main;
 					
 					if($tcms_menu == $tcms_db_prefix.'sidemenu'){
-						$newSQLColumns .= ', `subid`, `type`, `parent`';
-						$newSQLData .= ", '".$id_sub."', 'link', '".$parent."'";
+						$newSQLColumns .= ', `subid`, `parent`';
+						$newSQLData .= ", '".$id_sub."', '".$parent."'";
 					}
 					
-					$newSQLColumns .= ', `link`, `published`, `access`';
-					$newSQLData .= ", '".$new_linkto."', ".$new_published.", '".$access."'";
+					$newSQLColumns .= ', `type`, `link`, `published`, `access`, `language`';
+					$newSQLData .= ", 'link', '".$new_linkto."', ".$new_published.", '".$access."', '".$language."'";
 					break;
 				
 				case 'pgsql':
@@ -348,12 +414,12 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 					$newSQLData = "'".$np_title."', ".$id_main;
 					
 					if($tcms_menu == $tcms_db_prefix.'sidemenu'){
-						$newSQLColumns .= ', subid, "type", parent';
-						$newSQLData .= ", '".$id_sub."', 'link', '".$parent."'";
+						$newSQLColumns .= ', subid, parent';
+						$newSQLData .= ", '".$id_sub."', '".$parent."'";
 					}
 					
-					$newSQLColumns .= ', link, published, "access"';
-					$newSQLData .= ", '".$new_linkto."', ".$new_published.", '".$access."'";
+					$newSQLColumns .= ', "type", link, published, "access", "language"';
+					$newSQLData .= ", 'link', '".$new_linkto."', ".$new_published.", '".$access."', '".$language."'";
 					break;
 				
 				case 'mssql':
@@ -361,16 +427,16 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 					$newSQLData = "'".$np_title."', ".$id_main;
 					
 					if($tcms_menu == $tcms_db_prefix.'sidemenu'){
-						$newSQLColumns .= ', [subid], [type], [parent]';
-						$newSQLData .= ", '".$id_sub."', 'link', '".$parent."'";
+						$newSQLColumns .= ', [subid], [parent]';
+						$newSQLData .= ", '".$id_sub."', '".$parent."'";
 					}
 					
-					$newSQLColumns .= ', [link], [published], [access]';
-					$newSQLData .= ", '".$new_linkto."', ".$new_published.", '".$access."'";
+					$newSQLColumns .= ', [type], [link], [published], [access], [language]';
+					$newSQLData .= ", 'link', '".$new_linkto."', ".$new_published.", '".$access."', '".$language."'";
 					break;
 			}
 			
-			$sqlAL->sqlCreateOne($tcms_menu, $newSQLColumns, $newSQLData, $maintag);
+			$sqlAL->createOne($tcms_menu, $newSQLColumns, $newSQLData, $maintag);
 		}
 		
 		
@@ -394,24 +460,24 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 		
 		
 		
-		if($relocate == 'mod_content' && $content_not_exists){
+		if($relocate == 'mod_content' && $content_not_exists) {
 			if($choosenDB == 'xml'){
 				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_content/'.$new_linkto.'.xml', 'w');
 				
-				$xmluser->xml_c_declaration($c_charset);
-				$xmluser->xml_section('main');
+				$xmluser->xmlDeclarationWithCharset($c_charset);
+				$xmluser->xmlSection('main');
 				
-				$xmluser->write_value('title', $np_title);
-				$xmluser->write_value('key', '');
-				$xmluser->write_value('content00', '');
-				$xmluser->write_value('content01', '');
-				$xmluser->write_value('foot', '');
-				$xmluser->write_value('id', $new_linkto);
-				//$xmluser->write_value('db_layout', '');
-				$xmluser->write_value('access', $access);
+				$xmluser->writeValue('title', $np_title);
+				$xmluser->writeValue('key', '');
+				$xmluser->writeValue('content00', '');
+				$xmluser->writeValue('content01', '');
+				$xmluser->writeValue('foot', '');
+				$xmluser->writeValue('id', $new_linkto);
+				//$xmluser->writeValue('db_layout', '');
+				$xmluser->writeValue('access', $access);
 				
-				$xmluser->xml_section_buffer();
-				$xmluser->xml_section_end('main');
+				$xmluser->xmlSectionBuffer();
+				$xmluser->xmlSectionEnd('main');
 			}
 			else{
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
@@ -433,7 +499,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 				
 				$newSQLData = "'".$np_title."', '".$access."'";
 				
-				$sqlAL->sqlCreateOne($tcms_db_prefix.'content', $newSQLColumns, $newSQLData, $new_linkto);
+				$sqlAL->createOne($tcms_db_prefix.'content', $newSQLColumns, $newSQLData, $new_linkto);
 			}
 		}
 		

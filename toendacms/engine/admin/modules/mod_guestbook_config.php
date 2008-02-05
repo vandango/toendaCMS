@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the guestbook configuration.
  *
- * @version 0.5.7
+ * @version 0.6.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -627,7 +627,7 @@ if($id_group == 'Developer'
 						break;
 				}
 				
-				$newSQLData = "'".$new_guest_id."', ".$booktitle.", "
+				$newSQLData = "'guestbook', '".$booktitle."', "
 				."'".$bookstamp."', '".$content."', "
 				."'".$guestbook_access."', ".$new_enabled.", "
 				.$new_clean_link.", ".$new_clean_script.", "
@@ -641,7 +641,7 @@ if($id_group == 'Developer'
 					$tcms_db_prefix.'guestbook', 
 					$newSQLColumns, 
 					$newSQLData, 
-					$maintag
+					$maintag, true
 				);
 			}
 		}

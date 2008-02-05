@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a info provider.
  *
- * @version 0.2.3
+ * @version 0.2.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -122,19 +122,19 @@ echo '<hr noshade="noshade" align="left" style="width: 800px; height: 1px; backg
 echo '<h3 class="tcms_ft_blue_01">'._CREDITS_RELEVANT_SET.'</h3>';
 
 echo '<div class="tcms_placeholder_200"><strong>'._CREDITS_SET_GLOBALS.':</strong></div>'
-.'<div class="tcms_placeholder">'._CREDITS_SET_GLOBALS.': <em>'.$tcms_main->getPHPSetting('register_globals').'</em></div>';
+.'<div class="tcms_placeholder"><em>'.$tcms_main->getPHPSetting('register_globals', true, 1).'</em></div>';
 
 echo '<div class="tcms_placeholder_200"><strong>'._MSG_FILE_UPLOADS.':</strong></div>'
-.'<div class="tcms_placeholder"><em>'.$tcms_main->getPHPSetting('file_uploads').'</em></div>';
+.'<div class="tcms_placeholder"><em>'.$tcms_main->getPHPSetting('file_uploads', true).'</em></div>';
 
 echo '<div class="tcms_placeholder_200"><strong>'._MSG_MAX_FILE_SIZE.':</strong></div>'
-.'<div class="tcms_placeholder"><em>'.ini_get('upload_max_filesize').' / '.$upload_max_filesize.' Bytes</em></div>';
+.'<div class="tcms_placeholder"><em>'.$tcms_main->getPHPSetting('upload_max_filesize', true).' / '.$upload_max_filesize.' Bytes</em></div>';
 
 echo '<div class="tcms_placeholder_200"><strong>'._MSG_MAX_POST_SIZE.':</strong></div>'
-.'<div class="tcms_placeholder"><em>'.ini_get('post_max_size').' / '.$post_max_size.' Bytes</em></div>';
+.'<div class="tcms_placeholder"><em>'.$tcms_main->getPHPSetting('post_max_size', true).' / '.$post_max_size.' Bytes</em></div>';
 
 echo '<div class="tcms_placeholder_200"><strong>save_mode:</strong></div>'
-.'<div class="tcms_placeholder"><em>'.$tcms_main->getPHPSetting('save_mode').'</em></div>';
+.'<div class="tcms_placeholder"><em>'.$tcms_main->getPHPSetting('save_mode', true, 1).'</em></div>';
 
 
 

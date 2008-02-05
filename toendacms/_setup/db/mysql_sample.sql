@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 18. Dezember 2007 um 00:59
+-- Erstellungszeit: 05. Februar 2008 um 14:55
 -- Server Version: 5.0.45
 -- PHP-Version: 5.2.4
 
@@ -33,6 +33,9 @@ CREATE TABLE `#####albums` (
 -- Daten für Tabelle `#####albums`
 --
 
+INSERT INTO `#####albums` (`uid`, `title`, `album_id`, `published`, `desc`, `image`) VALUES
+('030a5e799cd0', 'gfhgfh', '799cd0', 1, 'gdfhdsfdsfdsf', 'Sonnenuntergang.jpg'),
+('c91c7a36b2e6', 'dsfds', '36b2e6', 1, 'dsfdsfdsfdsfdsf', '');
 
 -- --------------------------------------------------------
 
@@ -90,7 +93,7 @@ CREATE TABLE `#####contactform` (
 
 INSERT INTO `#####contactform` (`uid`, `language`, `contact`, `show_contacts_in_sidebar`, `send_id`, `contacttitle`, `contactstamp`, `contacttext`, `access`, `enabled`, `use_adressbook`, `use_contact`, `show_contactemail`) VALUES
 ('contactform', 'english_EN', 'info@toenda.com', 0, 'contactform', 'Contact Us and ...', '... send us a message.', 'my contacttext&lt;br /&gt;\r\n', 'Public', 1, 1, 1, 1),
-('196716e11c5', 'germany_DE', 'info@toenda.com', 1, 'contactform', 'Kontaktformular', '', 'Und ein wenig Text ...\r\n', 'Public', 1, 1, 1, 1);
+('196716e11c5', 'germany_DE', 'info@toenda.com', 1, 'contactform', 'Kontaktformular', 'Lorem ipsum dolor', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer\r\ntellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam\r\nfeugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio\r\nmauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris\r\ndolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque\r\nhabitant morbi tristique senectus et netus et malesuada fames ac turpis\r\negestas.', 'Public', 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -212,7 +215,10 @@ CREATE TABLE `#####downloads` (
 --
 
 INSERT INTO `#####downloads` (`uid`, `name`, `date`, `desc`, `type`, `sort`, `pub`, `access`, `image`, `file`, `cat`, `parent`, `sql_type`, `mirror`) VALUES
-('05cb9c17d8', 'dsf', '02.08.2007-19:34', 'sdfsdf', 'zip', 1, 1, 'Public', '_mimetypes_', 'http://static.toenda.com/templates/pushbutton.zip', NULL, NULL, 'f', 1);
+('05cb9c17d8', 'dsf', '02.08.2007-19:34', 'sdfsdfdsfdsfdsfdsfdsfdsf', 'zip', 2, 1, 'Public', '_mimetypes_', 'http://static.toenda.com/templates/pushbutton.zip', NULL, NULL, 'f', 1),
+('9deda931c7', 'sdfdsf', '29.01.2008-10:22', '', 'png', 3, 1, 'Public', '_mimetypes_', 'regular_expressions_cheat_sheet.png', NULL, NULL, 'f', 0),
+('8466591749', 'Base', '04.02.2008-13:46', '', 'folder', 1, 1, 'Public', NULL, NULL, NULL, NULL, 'd', NULL),
+('89370422f5', '(PRODUCT) RED Wallpaper', '05.02.2008-14:15', '', 'jpg', 4, 1, 'Public', '_mimetypes_', 'Admired.jpg', NULL, NULL, 'f', 0);
 
 -- --------------------------------------------------------
 
@@ -233,7 +239,7 @@ CREATE TABLE `#####downloads_config` (
 --
 
 INSERT INTO `#####downloads_config` (`uid`, `download_id`, `download_title`, `download_stamp`, `download_text`) VALUES
-('download', 'download', 'Downloads and Software', 'Toenda Software Downloads', 'Our software downloads.');
+('download', 'download', 'Downloads and Software', 'Lorem ipsum dolor', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer tellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam feugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio mauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris dolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.');
 
 -- --------------------------------------------------------
 
@@ -265,7 +271,7 @@ CREATE TABLE `#####frontpage` (
 
 INSERT INTO `#####frontpage` (`uid`, `language`, `front_id`, `front_title`, `front_stamp`, `front_text`, `news_title`, `news_cut`, `module_use_0`, `sb_news_title`, `sb_news_amount`, `sb_news_chars`, `sb_news_enabled`, `sb_news_display`) VALUES
 ('24k58ilp6', 'english_EN', 'frontpage', 'Welcome to the Home of toendaCMS', 'Open Source Content Management Framework', 'Welcome to the Samplesite of the free Open Source Content Management Framework toendaCMS.&lt;br /&gt;\r\nIt is for enterprise purposes and/or private uses on the web. It offers\r\nfull flexibility and extendability while featuring an accomplished set\r\nof ready-made interfaces, function&amp;#39;s and modules.\r\n', 'News', 0, 5, 'Latest News', 5, 100, 0, 3),
-('4frtgh587', 'germany_DE', 'frontpage', 'Willkommen auf der Demoseite von toendaCMS', 'Open Source Content Management Framework', 'Willkommen auf der Demoseite des Open-Source Content Management Frameworks toendaCMS.&lt;br /&gt;\r\n It is for enterprise purposes and/or private uses on the web. It offers full flexibility and extendability while featuring an accomplished set of ready-made interfaces, function&amp;#39;&amp;#39;s and modules.\r\n', 'Neuigkeiten', 0, 5, 'Die letzten Neuigkeiten', 5, 100, 0, 3);
+('4frtgh587', 'germany_DE', 'frontpage', 'Willkommen auf der Demoseite von toendaCMS', 'Open Source Content Management Framework', 'Willkommen auf der Demoseite des Open-Source Content Management Frameworks toendaCMS.&lt;br /&gt;\r\n It is for enterprise purposes and/or private uses on the web. It offers full flexibility and extendability while featuring an accomplished set of ready-made interfaces, function&#039;&#039;s and modules.', 'Neuigkeiten', 0, 5, 'Die letzten Neuigkeiten', 5, 100, 0, 3);
 
 -- --------------------------------------------------------
 
@@ -287,15 +293,17 @@ CREATE TABLE `#####guestbook` (
   `name_width` varchar(4) default NULL,
   `text_width` varchar(4) default NULL,
   `color_row_1` varchar(6) default NULL,
-  `color_row_2` varchar(6) default NULL
+  `color_row_2` varchar(6) default NULL,
+  `text` text,
+  `language` varchar(25) NOT NULL default 'english_EN'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Daten für Tabelle `#####guestbook`
 --
 
-INSERT INTO `#####guestbook` (`uid`, `guest_id`, `booktitle`, `bookstamp`, `access`, `enabled`, `clean_link`, `clean_script`, `convert_at`, `show_email`, `name_width`, `text_width`, `color_row_1`, `color_row_2`) VALUES
-('guestbook', 'guestbook', 'My Guests', 'of this beautiful website', 'Public', 1, 1, 1, 1, 1, '140', '360', 'efefef', 'ffffff');
+INSERT INTO `#####guestbook` (`uid`, `guest_id`, `booktitle`, `bookstamp`, `access`, `enabled`, `clean_link`, `clean_script`, `convert_at`, `show_email`, `name_width`, `text_width`, `color_row_1`, `color_row_2`, `text`, `language`) VALUES
+('guestbook', 'guestbook', 'Guestbook', 'Lorem ipsum dolor', 'Public', 1, 1, 1, 1, 1, '140', '360', 'efefef', 'ffffff', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer\r\ntellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam\r\nfeugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio\r\nmauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris\r\ndolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque\r\nhabitant morbi tristique senectus et netus et malesuada fames ac turpis\r\negestas.', 'germany_DE');
 
 -- --------------------------------------------------------
 
@@ -311,6 +319,13 @@ CREATE TABLE `#####guestbook_items` (
   `date` varchar(8) default NULL,
   `time` varchar(5) default NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `#####guestbook_items`
+--
+
+INSERT INTO `#####guestbook_items` (`uid`, `name`, `email`, `text`, `date`, `time`) VALUES
+('55cb02d7477921bb0091b9ba7ae91b85', 'vandango', 'vandango@toenda.com', 'Wow, whats a new and cool guestbook.', '20051124', '12:33');
 
 -- --------------------------------------------------------
 
@@ -330,6 +345,9 @@ CREATE TABLE `#####imagegallery` (
 -- Daten für Tabelle `#####imagegallery`
 --
 
+INSERT INTO `#####imagegallery` (`uid`, `album`, `image`, `text`, `date`) VALUES
+('ddb16b6726', '799cd0', 'Sonnenuntergang.jpg', 'Sonnenuntergang.jpg', '20080129135136'),
+('3c5fc7f0c0', '799cd0', 'Winter.jpg', 'Winter.jpg', '20080129135140');
 
 -- --------------------------------------------------------
 
@@ -359,16 +377,16 @@ CREATE TABLE `#####imagegallery_config` (
 -- Daten für Tabelle `#####imagegallery_config`
 --
 
-INSERT INTO `#####imagegallery_config` (`uid`, `image_id`, `image_title`, `image_stamp`, `image_details`, `use_comments`, `access`, `max_image`, `needle_image`, `show_lastimg_title`, `align_image`, `size_image`, `image_sort`, `list_option`) VALUES
-('imagegallery', 'imagegallery', 'Imagegallery', 'Picture i like', 0, 1, 'Public', 5, 'Last uploaded', 1, 'center', 100, 'desc', 1);
+INSERT INTO `#####imagegallery_config` (`uid`, `image_id`, `image_title`, `image_stamp`, `image_details`, `use_comments`, `access`, `max_image`, `needle_image`, `show_lastimg_title`, `align_image`, `size_image`, `image_sort`, `list_option`, `list_option_amount`) VALUES
+('imagegallery', 'imagegallery', 'Imagegallery', 'Picture i like', 0, 1, 'Public', 5, 'Last uploaded', 1, 'center', 100, 'asc', 1, 4);
 
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `#####impressum`
+-- Tabellenstruktur für Tabelle `#####imprint`
 --
 
-CREATE TABLE `#####impressum` (
+CREATE TABLE `#####imprint` (
   `uid` varchar(9) NOT NULL default '',
   `language` varchar(25) NOT NULL,
   `imp_id` varchar(9) NOT NULL default '',
@@ -381,12 +399,12 @@ CREATE TABLE `#####impressum` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Daten für Tabelle `#####impressum`
+-- Daten für Tabelle `#####imprint`
 --
 
-INSERT INTO `#####impressum` (`uid`, `language`, `imp_id`, `imp_title`, `imp_stamp`, `imp_contact`, `taxno`, `ustid`, `legal`) VALUES
-('impressum', 'english_EN', 'impressum', 'Disclaimer', 'Information about this website', '10a1b5f6ab', '123456789', '123123d', 'No portion of this web site may be reproduced without express written consent from its owner.\r\n'),
-('hgztkj87r', 'germany_DE', 'impressum', 'Impressum', 'Informationen &uuml;ber diese Webseite', '10a1b5f6ab', '123456789', '123123d', '&lt;span class__________&quot;contentmain&quot;&gt;&lt;span class__________&quot;contentmain&quot;&gt;&lt;strong&gt;Haftungsausschluss / Datenschutz&lt;/strong&gt;&lt;br /&gt;\r\n&lt;br /&gt;\r\n1. Wichtiger rechtlicher Hinweis und Haftungsausschlu&szlig;:&lt;br /&gt;\r\nDas Landgericht Hamburg hat am 12. Mai 1998 im Urteil 312 O 85/98\r\n&quot;Haftung f&uuml;r Links&quot; entschieden, da&szlig; durch die Ver&ouml;ffentlichung eines\r\nLinks auf einer Homepage die Inhalte der gelinkten Seiten mit zu\r\nverantworten sind. Das l&auml;&szlig;t sich nur verhindern, wenn man sich\r\nausdr&uuml;cklich von den Inhalten der gelinkten Seiten distanziert. Wir\r\ndistanzieren uns daher von allen Inhalten, die sich hinter den\r\nangegebenen Links, den dahinter stehenden Servern, weiterf&uuml;hrenden\r\nLinks, G&auml;steb&uuml;chern und s&auml;mtlichen anderen sichtbaren und nicht\r\nsichtbaren Inhalten verbergen. Sollte eine der Seiten auf den\r\nentsprechenden Servern gegen geltendes Recht versto&szlig;en, so ist uns\r\ndieses nicht bekannt. Auf entsprechende Benachrichtigung hin werden wir\r\nselbstverst&auml;ndlich den Link zu dem entsprechenden Server entfernen\r\n(nachzulesen unter www.online-recht.de). Sollte Ihre Homepage, gegen\r\nIhren Wunsch, in unserer Referenzliste verzeichnet sein, dann wenden\r\nSie sich bitte an uns. Wir werden den Link dann umgehend l&ouml;schen.\r\nVielen Dank &lt;br /&gt;\r\n2. Datenschutz:&lt;br /&gt;\r\nEs ist Absicht der Firma Toenda Software Development, die Gesetze zum\r\nSchutz der Privatsph&auml;re und die Datenschutzgesetze genauestens\r\neinzuhalten und zu respektieren. Wir m&ouml;chten dazu beitragen, das\r\nInternet zu einer sicheren und verbindlichen Informationsquelle f&uuml;r\r\nunsere Homepage-Besucher zu machen. Wir sch&uuml;tzen die pers&ouml;nlichen\r\nInformationen unserer G&auml;ste gegen m&ouml;glichen Datenmi&szlig;brauch. Wir geben\r\nau&szlig;erdem Zugriff auf eigene pers&ouml;nliche Informationen, so da&szlig;\r\nInformationen, die wir &uuml;ber Sie haben, ge&auml;ndert oder gel&ouml;scht werden\r\nkann. &lt;br /&gt;\r\n&lt;br /&gt;\r\n2.1 Pers&ouml;nlich identifizierbare Informationen&lt;br /&gt;\r\nWir sammeln pers&ouml;nlich identifizierbare Informationen nur wenn Sie sich\r\neintragen , um an unseren online- Wettbewerben (Preisausschreiben)\r\nteilzunehmen oder Sie um pers&ouml;nliche &Uuml;bersendung von Informationen\r\nbitten.&lt;br /&gt;\r\nDiese Daten werden von der Firma &lt;/span&gt;&lt;span class__________&quot;contentmain&quot;&gt;Toenda Software Development&lt;/span&gt;&lt;span class__________&quot;contentmain&quot;&gt;\r\ngenutzt und nicht an Drittfirmen weitergegeben. Wenn Sie unter 18\r\nJahren sind k&ouml;nnen Sie nur an Wettbewerben teilnehmen oder um\r\npers&ouml;nliche Infromations&uuml;bersendung bitten, wenn die Erlaubnis der\r\nEltern vorliegt. &lt;br /&gt;\r\n&lt;br /&gt;\r\n2. 2 Nicht pers&ouml;nlich identifizierbare Informationen&lt;br /&gt;\r\nWir bem&uuml;hen uns unser Web-Angebot laufend zu verbessern. Daf&uuml;r ist es\r\nn&uuml;tzlich, zu wissen, welche Informationen am beliebtesten ist. Zu\r\ndiesem Zwecke speichern wir Datum, Uhrzeit, Suchbegriff und die von\r\nIhnen angeforderte Information mit der jeweiligen IP-Adresse.&lt;br /&gt;\r\nEine IP-Adresse ist eine Nummer, die automatisch Ihrem Computer\r\nzugeteilt wird, wann immer Sie im Web surfen. Web-Server, d.h. die\r\nGro&szlig;computer, die die Webseiten &amp;bdquo;bereitstellen&amp;ldquo;, identifizieren Ihren\r\nComputer automatisch anhand seiner IP-Adresse. Die Firma &lt;/span&gt;&lt;span class__________&quot;contentmain&quot;&gt;Toenda Software Development&lt;/span&gt;&lt;span class__________&quot;contentmain&quot;&gt;\r\nsammelt IP-Adressen zus&auml;tzlich f&uuml;r Zwecke der Systemverwaltung, um\r\nBerichte zu erstellen und die Benutzung unserer Websites zu verfolgen.\r\nWenn Sie spezifische Seiten von den Websites der Firma anfordern,\r\nerkennen unsere Server oder Computer die IP-Adressen der G&auml;ste. Wir\r\nverbinden IP-Adressen aber nicht mit pers&ouml;nlich identifizierbaren\r\nInformationen, was bedeutet, da&szlig; der Benutzer f&uuml;r uns anonym bleibt.&lt;/span&gt;\r\n&lt;/span&gt;\r\n');
+INSERT INTO `#####imprint` (`uid`, `language`, `imp_id`, `imp_title`, `imp_stamp`, `imp_contact`, `taxno`, `ustid`, `legal`) VALUES
+('imprint', 'english_EN', 'imprint', 'Disclaimer', 'Information about this website', '10a1b5f6ab', '123456789', '123123d', 'No portion of this web site may be reproduced without express written consent from its owner.\r\n'),
+('hgztkj87r', 'germany_DE', 'imprint', 'Impressum', 'Informationen &amp;#252;ber diese Webseite', '10a1b5f6ab', '123456789', '123123d', '&lt;span class__________&quot;contentmain&quot;&gt;&lt;span class__________&quot;contentmain&quot;&gt;&lt;strong&gt;Haftungsausschluss / Datenschutz&lt;/strong&gt;&lt;br /&gt; &lt;br /&gt; 1. Wichtiger rechtlicher Hinweis und Haftungsausschlu&amp;szlig;:&lt;br /&gt; Das Landgericht Hamburg hat am 12. Mai 1998 im Urteil 312 O 85/98\r\n&quot;Haftung f&amp;uuml;r Links&quot; entschieden, da&amp;szlig; durch die Ver&amp;ouml;ffentlichung eines\r\nLinks auf einer Homepage die Inhalte der gelinkten Seiten mit zu\r\nverantworten sind. Das l&amp;auml;&amp;szlig;t sich nur verhindern, wenn man sich\r\nausdr&amp;uuml;cklich von den Inhalten der gelinkten Seiten distanziert. Wir\r\ndistanzieren uns daher von allen Inhalten, die sich hinter den\r\nangegebenen Links, den dahinter stehenden Servern, weiterf&amp;uuml;hrenden\r\nLinks, G&amp;auml;steb&amp;uuml;chern und s&amp;auml;mtlichen anderen sichtbaren und nicht\r\nsichtbaren Inhalten verbergen. Sollte eine der Seiten auf den\r\nentsprechenden Servern gegen geltendes Recht versto&amp;szlig;en, so ist uns\r\ndieses nicht bekannt. Auf entsprechende Benachrichtigung hin werden wir\r\nselbstverst&amp;auml;ndlich den Link zu dem entsprechenden Server entfernen\r\n(nachzulesen unter www.online-recht.de). Sollte Ihre Homepage, gegen\r\nIhren Wunsch, in unserer Referenzliste verzeichnet sein, dann wenden\r\nSie sich bitte an uns. Wir werden den Link dann umgehend l&amp;ouml;schen.\r\nVielen Dank &lt;br /&gt; 2. Datenschutz:&lt;br /&gt; Es ist Absicht der Firma Toenda Software Development, die Gesetze zum\r\nSchutz der Privatsph&amp;auml;re und die Datenschutzgesetze genauestens\r\neinzuhalten und zu respektieren. Wir m&amp;ouml;chten dazu beitragen, das\r\nInternet zu einer sicheren und verbindlichen Informationsquelle f&amp;uuml;r\r\nunsere Homepage-Besucher zu machen. Wir sch&amp;uuml;tzen die pers&amp;ouml;nlichen\r\nInformationen unserer G&amp;auml;ste gegen m&amp;ouml;glichen Datenmi&amp;szlig;brauch. Wir geben\r\nau&amp;szlig;erdem Zugriff auf eigene pers&amp;ouml;nliche Informationen, so da&amp;szlig;\r\nInformationen, die wir &amp;uuml;ber Sie haben, ge&amp;auml;ndert oder gel&amp;ouml;scht werden\r\nkann. &lt;br /&gt; &lt;br /&gt; 2.1 Pers&amp;ouml;nlich identifizierbare Informationen&lt;br /&gt; Wir sammeln pers&amp;ouml;nlich identifizierbare Informationen nur wenn Sie sich\r\neintragen , um an unseren online- Wettbewerben (Preisausschreiben)\r\nteilzunehmen oder Sie um pers&amp;ouml;nliche &amp;Uuml;bersendung von Informationen\r\nbitten.&lt;br /&gt; Diese Daten werden von der Firma &lt;/span&gt;&lt;span class__________&quot;contentmain&quot;&gt;Toenda Software Development&lt;/span&gt;&lt;span class__________&quot;contentmain&quot;&gt; genutzt und nicht an Drittfirmen weitergegeben. Wenn Sie unter 18\r\nJahren sind k&amp;ouml;nnen Sie nur an Wettbewerben teilnehmen oder um\r\npers&amp;ouml;nliche Infromations&amp;uuml;bersendung bitten, wenn die Erlaubnis der\r\nEltern vorliegt. &lt;br /&gt; &lt;br /&gt; 2. 2 Nicht pers&amp;ouml;nlich identifizierbare Informationen&lt;br /&gt; Wir bem&amp;uuml;hen uns unser Web-Angebot laufend zu verbessern. Daf&amp;uuml;r ist es\r\nn&amp;uuml;tzlich, zu wissen, welche Informationen am beliebtesten ist. Zu\r\ndiesem Zwecke speichern wir Datum, Uhrzeit, Suchbegriff und die von\r\nIhnen angeforderte Information mit der jeweiligen IP-Adresse.&lt;br /&gt; Eine IP-Adresse ist eine Nummer, die automatisch Ihrem Computer\r\nzugeteilt wird, wann immer Sie im Web surfen. Web-Server, d.h. die\r\nGro&amp;szlig;computer, die die Webseiten &amp;bdquo;bereitstellen&amp;ldquo;, identifizieren Ihren\r\nComputer automatisch anhand seiner IP-Adresse. Die Firma &lt;/span&gt;&lt;span class__________&quot;contentmain&quot;&gt;Toenda Software Development&lt;/span&gt;&lt;span class__________&quot;contentmain&quot;&gt; sammelt IP-Adressen zus&amp;auml;tzlich f&amp;uuml;r Zwecke der Systemverwaltung, um\r\nBerichte zu erstellen und die Benutzung unserer Websites zu verfolgen.\r\nWenn Sie spezifische Seiten von den Websites der Firma anfordern,\r\nerkennen unsere Server oder Computer die IP-Adressen der G&amp;auml;ste. Wir\r\nverbinden IP-Adressen aber nicht mit pers&amp;ouml;nlich identifizierbaren\r\nInformationen, was bedeutet, da&amp;szlig; der Benutzer f&amp;uuml;r uns anonym bleibt.&lt;/span&gt; &lt;/span&gt;');
 
 -- --------------------------------------------------------
 
@@ -416,7 +434,8 @@ CREATE TABLE `#####knowledgebase` (
 --
 
 INSERT INTO `#####knowledgebase` (`uid`, `category`, `parent`, `title`, `subtitle`, `content`, `image`, `type`, `date`, `last_update`, `access`, `autor`, `sort`, `publish_state`) VALUES
-('6e6f2483b7', '', '', 'sdfsdf', 'sdfsdf', 'sdfsdf\r\n', '', 'a', '02.08.2007-19:33', '02.08.2007-19:33', 'Public', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff', 0, 2);
+('6e6f2483b7', '', '', 'sdfsdf', 'sdfsdf', 'sdfsdf', '', 'a', '02.08.2007-19:33', '04.02.2008-15:12', 'Public', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff', 2, 2),
+('4da17b1b80', '', '', 'asdasd', 'asdasdasdasdas', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer tellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam feugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio mauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris dolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.', '', 'c', '04.02.2008-15:12', '04.02.2008-15:12', 'Public', 'ccdc5cfffaf3cd9342e40dd9dcb3a3ff', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -440,7 +459,7 @@ CREATE TABLE `#####knowledgebase_config` (
 --
 
 INSERT INTO `#####knowledgebase_config` (`uid`, `id`, `title`, `subtitle`, `text`, `enabled`, `autor_enabled`, `access`) VALUES
-('knowledgebase', 'knowledgebase', 'FAQs and Articles', 'A small knowledge database', 'Here you will find an example set of FAQs and Articles.', 1, 0, 'Public');
+('knowledgebase', 'knowledgebase', 'FAQs and Articles', 'A small knowledge database', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer\r\ntellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam\r\nfeugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio\r\nmauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris\r\ndolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque\r\nhabitant morbi tristique senectus et netus et malesuada fames ac turpis\r\negestas.', 1, 0, 'Public');
 
 -- --------------------------------------------------------
 
@@ -470,7 +489,7 @@ CREATE TABLE `#####links` (
 INSERT INTO `#####links` (`uid`, `type`, `category`, `sort`, `name`, `desc`, `link`, `published`, `target`, `rss`, `access`, `module`) VALUES
 ('34dr567zhtzh876sgh48r68f44h5s8z4', 'l', 'sdf7sdf768sd7f78sdf6sd76fsdfsd7f', 0, 'Toenda Software Development', 'Developer of toendaCMS', 'http://www.toenda.com', 1, '_blank', '', 'Public', 3),
 ('sdf7sdf768sd7f78sdf6sd76fsdfsd7f', 'c', '', 0, 'Toenda', 'Toenda Software Development Links', '', 1, '', '', 'Public', 3),
-('dsf78578asdas7das76das7d67as67d6', 'l', 'sdf7sdf768sd7f78sdf6sd76fsdfsd7f', 1, 'toendaCMS Demonstration Site', 'The officiell demonstration site of the content management and weblogging system toendaCMS.', 'http://toendacms.toenda.com', 1, '_blank', NULL, 'Public', 3),
+('dsf78578asdas7das76das7d67as67d6', 'l', 'sdf7sdf768sd7f78sdf6sd76fsdfsd7f', 1, 'toendaCMS Demonstration Site', '', 'http://toendacms.toenda.com', 1, '_blank', '', 'Public', 3),
 ('asdasdasdasdasd6786786as78d6as67', 'l', 'sdf7sdf768sd7f78sdf6sd76fsdfsd7f', 2, 'PHP.net', 'Officiell PHP webpage', 'http://www.php.net', 1, '_blank', '', 'Public', 2),
 ('d8f83e6e9acc6ad211104949db1285fd', 'l', 'sdf7sdf768sd7f78sdf6sd76fsdfsd7f', 3, 'vandango | creative coding', 'toendaCMS maindeveloper weblog', 'http://vandango.org', 1, '_blank', '', 'Public', 1),
 ('50c3ef9ef90f608dd85ca31166b62e68', 'c', NULL, 1, 'Linux', 'Some Links about Linus free operating system', '', 1, '', '', 'Public', 3),
@@ -501,7 +520,7 @@ CREATE TABLE `#####links_config` (
 
 INSERT INTO `#####links_config` (`uid`, `link_use_side_desc`, `link_use_side_title`, `link_side_title`, `link_use_main_desc`, `link_main_title`, `link_main_subtitle`, `link_main_text`, `link_main_access`) VALUES
 ('links_config_side', 0, 1, 'Blogroll', NULL, NULL, NULL, NULL, NULL),
-('links_config_main', NULL, NULL, NULL, 1, 'myLinks', 'A list of all websites i like', 'This is a example text for the textlink page.&lt;a href__________&quot;/toendacms/index.php/section/contactform/template/k2&quot;&gt;Kontaktformular&lt;/a&gt;', 'Public');
+('links_config_main', NULL, NULL, NULL, 1, 'myLinks', 'A list of all websites i like', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer\r\ntellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam\r\nfeugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio\r\nmauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris\r\ndolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque\r\nhabitant morbi tristique senectus et netus et malesuada fames ac turpis\r\negestas.', 'Public');
 
 -- --------------------------------------------------------
 
@@ -533,7 +552,8 @@ CREATE TABLE `#####news` (
 
 INSERT INTO `#####news` (`uid`, `language`, `title`, `autor`, `date`, `time`, `newstext`, `stamp`, `published`, `publish_date`, `comments_enabled`, `image`, `access`, `show_on_frontpage`) VALUES
 ('c4c846e167', 'english_EN', 'Hello world!', 'Dolly', '29.03.2007', '00:00', 'Hello world. This is Dolly  and you reading my first post. If you want you can delete it, but you can edit it too. Or you write a new one and let this where it is. It''s your choice.&lt;br /&gt;\r\n&lt;br /&gt;\r\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer tellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam feugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio mauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris dolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.&lt;br /&gt;\r\n', 200703290000, 1, '29.03.2007-00:00', 1, '', 'Public', 1),
-('90ac2e39eb', 'germany_DE', 'Hallo Welt!', 'Dolly', '30.03.2007', '17:25', 'Hallo Welt. Ich bin Dolly und du liest gerade den ersten Eintrag. Wenn du willst, kannst du mich l&ouml;schen, oder du bearbeitest mich einfach. Order du schreibst einen neuen und l&auml;sst mich hier zur&uuml;ck, ganz wie du willst.&lt;br /&gt;\r\n&lt;br /&gt;\r\n&lt;a href__________&quot;http://localhost/toendacms_svn/toendacms/data/images/Image/toendaCMS.png&quot; rel__________&quot;lightbox&quot;&gt;&lt;img align__________&quot;left&quot; alt__________&quot;toendaCMS.png&quot; src__________&quot;http://localhost/toendacms_svn/toendacms/data/images/Image/toendaCMS.png&quot; title__________&quot;toendaCMS.png&quot; /&gt;&lt;/a&gt;\r\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer\r\ntellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam\r\nfeugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio\r\nmauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris\r\ndolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque\r\nhabitant morbi tristique senectus et netus et malesuada fames ac turpis\r\negestas.\r\n', 200703301725, 1, '30.03.2007-17:25', 1, '', 'Public', 1);
+('90ac2e39eb', 'germany_DE', 'Hallo Welt!', 'Dolly', '30.03.2007', '17:25', 'Hallo Welt. Ich bin Dolly und du liest gerade den ersten Eintrag. Wenn du willst, kannst du mich l&ouml;schen, oder du bearbeitest mich einfach. Order du schreibst einen neuen und l&auml;sst mich hier zur&uuml;ck, ganz wie du willst.&lt;br /&gt;\r\n&lt;br /&gt;\r\n&lt;a href__________&quot;http://localhost/toendacms_svn/toendacms/data/images/Image/toendaCMS.png&quot; rel__________&quot;lightbox&quot;&gt;&lt;img align__________&quot;left&quot; alt__________&quot;toendaCMS.png&quot; src__________&quot;http://localhost/toendacms_svn/toendacms/data/images/Image/toendaCMS.png&quot; title__________&quot;toendaCMS.png&quot; /&gt;&lt;/a&gt;\r\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer\r\ntellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam\r\nfeugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio\r\nmauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris\r\ndolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque\r\nhabitant morbi tristique senectus et netus et malesuada fames ac turpis\r\negestas.\r\n', 200703301725, 1, '30.03.2007-17:25', 1, '', 'Public', 1),
+('8337f6d091', 'germany_DE', 'Lorem', 'root', '30.01.2008', '13:26', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer tellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam feugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio mauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris dolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.&lt;br /&gt;&lt;br /&gt; Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer tellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam feugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio mauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris dolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.', 200801301326, 1, '30.01.2008-13:26', 1, '', 'Public', 1);
 
 -- --------------------------------------------------------
 
@@ -567,6 +587,13 @@ CREATE TABLE `#####newsletter_items` (
   `user` varchar(255) NOT NULL default '',
   `email` varchar(255) NOT NULL default ''
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `#####newsletter_items`
+--
+
+INSERT INTO `#####newsletter_items` (`uid`, `user`, `email`) VALUES
+('f574da', 'Jonathan Naumann', 'info@toenda.com');
 
 -- --------------------------------------------------------
 
@@ -626,7 +653,7 @@ CREATE TABLE `#####newsmanager` (
 
 INSERT INTO `#####newsmanager` (`uid`, `news_id`, `news_title`, `news_stamp`, `news_text`, `news_image`, `use_comments`, `show_autor`, `show_autor_as_link`, `news_amount`, `access`, `news_cut`, `use_gravatar`, `use_emoticons`, `use_rss091`, `use_rss10`, `use_rss20`, `use_atom03`, `use_opml`, `syn_amount`, `use_syn_title`, `def_feed`, `use_trackback`, `use_timesince`, `readmore_link`, `news_spacing`, `language`, `use_rss091_img`, `rss091_text`, `use_rss10_img`, `rss10_text`, `use_rss20_img`, `rss20_feed`, `use_atom03_img`, `atom03_text`, `use_opml_img`, `opml_text`, `use_comment_feed`, `comment_feed_text`, `comment_feed_type`, `use_comment_feed_img`, `comments_feed_amount`) VALUES
 ('newsmanager', 'newsmanager', 'News', 'Current', 'My newstext&lt;br /&gt;\r\n', '', 1, 1, 1, 20, 'Public', 0, 0, 1, 1, 1, 1, 1, 1, 5, 0, 'RSS2.0', 0, 2, 0, 0, 'english_EN', 1, '', 1, '', 1, '', 1, '', 1, '', 1, '', '', 0, 5),
-('45789hgtzu', 'newsmanager', 'Neuigkeiten', 'Aktuell', 'Mein Neuigkeitentext und noch viel mehr&lt;br /&gt;\r\nUnd ein wenig Text ...&lt;br /&gt;\r\n', '', 1, 1, 1, 20, 'Public', 0, 1, 1, 0, 0, 1, 0, 0, 5, 0, 'RSS2.0', 0, 0, 0, 0, 'germany_DE', 0, '', 0, '', 0, 'News abonnieren', 0, '', 0, '', 1, 'Kommentare abonnieren', 'RSS2.0', 0, 25);
+('45789hgtzu', 'newsmanager', 'Neuigkeiten', 'Lorem ipsum dolor', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer\r\ntellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam\r\nfeugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio\r\nmauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris\r\ndolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque\r\nhabitant morbi tristique senectus et netus et malesuada fames ac turpis\r\negestas.', '', 1, 1, 1, 20, 'Public', 0, 1, 1, 0, 0, 1, 0, 0, 5, 0, 'RSS2.0', 0, 0, 0, 20, 'germany_DE', 0, '', 0, '', 0, 'News abonnieren', 0, '', 0, '', 1, 'Kommentare abonnieren', 'RSS2.0', 0, 25);
 
 -- --------------------------------------------------------
 
@@ -645,7 +672,7 @@ CREATE TABLE `#####news_categories` (
 --
 
 INSERT INTO `#####news_categories` (`uid`, `name`, `desc`) VALUES
-('erdf4', 'Uncategorized', 'News without a category.');
+('erdf4', 'Uncategorized', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer tellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam feugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio mauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris dolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.');
 
 -- --------------------------------------------------------
 
@@ -664,10 +691,9 @@ CREATE TABLE `#####news_to_categories` (
 --
 
 INSERT INTO `#####news_to_categories` (`uid`, `news_uid`, `cat_uid`) VALUES
-('faf794901b615e2c26ef4a78f7219853', '79b944ed5f', 'erdf4'),
 ('ec42d00d6ed95e280c1ed0086b6bba09', 'c4c846e167', 'erdf4'),
-('145a5946991378852797f16685d75fb0', 'a4439ff6b4', 'erdf4'),
-('019a7e022961e19855032b4981717200', '90ac2e39eb', 'erdf4');
+('019a7e022961e19855032b4981717200', '90ac2e39eb', 'erdf4'),
+('8495d08bee50689735b8d55c3b2fbd4b', '8337f6d091', 'erdf4');
 
 -- --------------------------------------------------------
 
@@ -681,6 +707,10 @@ CREATE TABLE `#####notepad` (
   `note` text,
   PRIMARY KEY  (`uid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `#####notepad`
+--
 
 -- --------------------------------------------------------
 
@@ -841,8 +871,8 @@ CREATE TABLE `#####products_config` (
 --
 
 INSERT INTO `#####products_config` (`uid`, `language`, `products_id`, `products_title`, `products_stamp`, `products_text`, `category_state`, `category_title`, `use_category_title`, `show_price_only_users`, `startpagetitle`, `use_sidebar_categories`, `max_latest_products`) VALUES
-('products', 'germany_DE', 'products', 'Products', 'Lorem ipsum dolor', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer tellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam feugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio mauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris dolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\r\n', '', 'Product Categories', 1, 0, 'Aktuelle Angebot', 1, 15),
-('f225076a', 'english_EN', 'products', 'sdfsdfsdf', 'sdfsdf', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer\r\ntellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam\r\nfeugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio\r\nmauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris\r\ndolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque\r\nhabitant morbi tristique senectus et netus et malesuada fames ac turpis\r\negestas.\r\n', '', 'sdfsdf', 1, 0, 'Current offers', 1, 15);
+('f225076a', 'english_EN', 'products', 'sdfsdfsdf', 'sdfsdf', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer\r\ntellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam\r\nfeugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio\r\nmauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris\r\ndolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque\r\nhabitant morbi tristique senectus et netus et malesuada fames ac turpis\r\negestas.\r\n', '', 'sdfsdf', 1, 0, 'Current offers', 1, 15),
+('products', 'germany_DE', 'products', 'Products', 'Lorem ipsum dolor', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer tellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam feugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio mauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris dolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\r\n', '', 'Product Categories', 1, 0, 'Aktuelle Angebot', 1, 15);
 
 -- --------------------------------------------------------
 
@@ -856,6 +886,10 @@ CREATE TABLE `#####session` (
   `user` varchar(255) NOT NULL default '',
   `user_id` varchar(32) NOT NULL default ''
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `#####session`
+--
 
 -- --------------------------------------------------------
 
@@ -952,12 +986,19 @@ INSERT INTO `#####sidemenu` (`uid`, `language`, `name`, `id`, `subid`, `root`, `
 ('51272', 'english_EN', 'Contact Me', 4, '-', '-', '-', '-', '-', '-', 'link', 'contactform', 1, 'Public', ''),
 ('dc688', 'english_EN', 'License', 2, '-', '-', '-', '-', '-', '-', 'link', '18e2a', 1, 'Public', ''),
 ('52d28', 'english_EN', 'Guestbook', 3, '-', '-', '-', '-', '-', '-', 'link', 'guestbook', 1, 'Public', ''),
+('11d22', 'english_EN', 'sub1', 2, '0', '-', '2', '-', '-', '-', 'link', 'polls', 1, 'Public', ''),
+('dfsd7', 'english_EN', 'subsub1', 2, '0', '-', '-', '-', '11d22', '-', 'link', 'search', 0, 'Public', NULL),
 ('c39d0', 'germany_DE', 'Navigation', 7, '-', '-', '-', '-', '-', '-', 'title', '0', 1, 'Public', ''),
 ('638ac', 'germany_DE', 'Lizenz', 10, '-', '-', '-', '-', '-', '-', 'link', '18e2a', 1, 'Public', ''),
 ('1fffa', 'germany_DE', 'Startseite', 8, '-', '-', '-', '-', '-', '-', 'link', 'frontpage', 0, 'Public', ''),
 ('a27fc', 'germany_DE', 'G&auml;stebuch', 9, '-', '-', '-', '-', '-', '-', 'link', 'guestbook', 1, 'Public', ''),
 ('e19ce', 'germany_DE', 'Kontaktformular', 11, '-', '-', '-', '-', '-', '-', 'link', 'contactform', 1, 'Public', ''),
 ('b0abf', 'germany_DE', 'Komponenten', 12, '-', '-', '-', '-', '-', '-', 'title', '-', 1, 'Public', ''),
+('7364b', 'germany_DE', 'sadasd', 8, '1', '-', '8', '-', '-', '-', 'link', 'impressum', 1, 'Public', ''),
+('60af3', 'germany_DE', 'Domainchecker', 13, '-', '-', '-', '-', '-', '-', 'link', 'components&item=domainchecker', 1, 'Public', ''),
+('e0fab', 'germany_DE', 'Shop', 14, '-', '-', '-', '-', '-', '-', 'link', 'components&item=tcmsshop', 1, 'Public', ''),
+('f48d6', 'germany_DE', 'Test', 15, '-', '-', '-', '-', '-', '-', 'link', '3ce0c', 1, 'Public', ''),
+('709c9', 'germany_DE', 'FAQ', 16, '-', '-', '-', '-', '-', '-', 'link', 'knowledgebase', 1, 'Public', '');
 
 -- --------------------------------------------------------
 
@@ -974,6 +1015,11 @@ CREATE TABLE `#####statistics` (
   `timestamp` datetime default NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+--
+-- Daten für Tabelle `#####statistics`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -985,6 +1031,11 @@ CREATE TABLE `#####statistics_ip` (
   `ip` varchar(15) NOT NULL default '',
   `value` int(10) default NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `#####statistics_ip`
+--
+
 
 -- --------------------------------------------------------
 
@@ -998,6 +1049,11 @@ CREATE TABLE `#####statistics_os` (
   `os` varchar(255) default NULL,
   `value` int(10) default NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `#####statistics_os`
+--
+
 
 -- --------------------------------------------------------
 
@@ -1024,10 +1080,15 @@ CREATE TABLE `#####topmenu` (
 INSERT INTO `#####topmenu` (`uid`, `language`, `name`, `id`, `type`, `link`, `published`, `access`, `target`) VALUES
 ('1fbae', 'english_EN', 'Home', 0, 'link', 'frontpage', 1, 'Public', ''),
 ('3c6d9', 'english_EN', 'News', 1, 'link', 'newsmanager', 1, 'Public', ''),
-('d2112', 'english_EN', 'Legal', 2, 'link', 'impressum', 1, 'Public', ''),
+('d2112', 'english_EN', 'Downloads', 2, 'link', 'download', 1, 'Public', ''),
+('706b2', 'english_EN', 'Gallery', 3, 'link', 'imagegallery', 1, 'Public', ''),
 ('7e31e', 'germany_DE', 'Startseite', 7, 'link', 'frontpage', 1, 'Public', ''),
 ('61c34', 'germany_DE', 'Neuigkeiten', 8, 'link', 'newsmanager', 1, 'Public', ''),
-('f39c7', 'germany_DE', 'Impressum', 9, 'link', 'impressum', 1, 'Public', '');
+('f39c7', 'germany_DE', 'Downloads', 9, 'link', 'download', 1, 'Public', ''),
+('ac64b', 'germany_DE', 'Gallery', 10, 'link', 'imagegallery', 1, 'Public', ''),
+('87f51', 'germany_DE', 'Produkte', 11, 'link', 'products', 1, 'Public', ''),
+('fb2ee', 'germany_DE', 'Links', 12, 'link', 'links', 1, 'Public', ''),
+('0f239', 'germany_DE', 'Suche', 17, 'link', 'search', 1, 'Public', '');
 
 -- --------------------------------------------------------
 
@@ -1060,6 +1121,10 @@ CREATE TABLE `#####user` (
   `location` varchar(255) default NULL,
   `hobby` varchar(255) default NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `#####user`
+--
 
 -- --------------------------------------------------------
 

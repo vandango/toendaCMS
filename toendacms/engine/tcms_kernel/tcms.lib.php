@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic public functions.
  *
- * @version 3.1.0
+ * @version 3.1.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -472,17 +472,40 @@ class tcms_main {
 	 * Get a PHP setting
 	 *
 	 * @param String $value
-	 * @param Boolean $asString
+	 * @param Boolean $asString = false
+	 * @param Integer $returnValue = 0
 	 * @return Boolean or String
 	 */
-	public function getPHPSetting($value, $asString = false) {
+	public function getPHPSetting($value, $asString = false, $returnValue = 0) {
 		if($asString) {
-			return ini_get($value);
+			if(ini_get($value) == '1') {
+				$r = '1';
+			}
+			else if(ini_get($value) == 'on') {
+				$r = 'on';
+			}
+			else if(ini_get($value) == '0') {
+				$r = '0';
+			}
+			else if(ini_get($value) == 'off') {
+				$r = 'off';
+			}
+			else {
+				if($returnValue == 0) {
+					$r = ini_get($value);
+				}
+				else {
+					$tmp = (ini_get($value) == '1' || ini_get($value) == 'on' ? true : false);
+					
+					$r = ( $tmp ? 'on' : 'off' );
+				}
+			}
 		}
 		else {
 			$r = (ini_get($value) == '1' || ini_get($value) == 'on' ? true : false);
-			return $r;
 		}
+		
+		return $r;
 	}
 	
 	
