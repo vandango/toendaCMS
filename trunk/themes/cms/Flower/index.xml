@@ -1,0 +1,7 @@
+<template>
+	<name>Flower</name>
+	<autor>Themeportal</autor>
+	<url>www.themeportal.de</url>
+	<desc>Theme with a Flower in the Header</desc>
+	<version>1.0</version>
+</template>
