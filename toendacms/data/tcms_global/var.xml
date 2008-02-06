@@ -12,7 +12,7 @@
 	<default_category>erdf4</default_category>
 	<topmenu_active>1</topmenu_active>
 	<statistics>0</statistics>
-	<seo_enabled>1</seo_enabled>
+	<seo_enabled>0</seo_enabled>
 	<server_folder>toendacms_svn/toendacms</server_folder>
 	<seo_format>2</seo_format>
 	<seo_news_title>1</seo_news_title>
