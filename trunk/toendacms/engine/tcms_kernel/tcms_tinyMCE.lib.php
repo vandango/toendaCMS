@@ -94,7 +94,7 @@ class tcms_tinyMCE {
 				language : "'.$language.'",
 				relative_urls : false,
 				remove_script_host : false,
-				document_base_url : "'.( $this->m_seoPath == '' ? '/' : '/'.$this->m_seoPath.'/' ).'",
+				document_base_url : "'.( trim($this->m_seoPath) == '' ? '/' : '/'.$this->m_seoPath.'/' ).'",
 				extended_valid_elements: "font[size|color|face]",
 				
 				forced_root_block : false,
