@@ -1,0 +1,324 @@
+/*   
+Flower
+Theme by Themeportal.de
+http://themeportal.de/ | http://demo.themeportal.de/
+
+Layout based on Kubrcik of Michael Heilemann
+http://binarybonsai.com/
+*/
+
+
+
+
+body {
+	margin: 0;
+	padding: 0;
+	background: #fff;
+	font-size: 10px;
+	font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif;
+	color: #333;
+	text-align: center;
+}
+
+h1, h2, h3 { font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Arial, Sans-Serif; font-weight: bold; }
+h1, h1 a, h1 a:hover, h1 a:visited, .description { text-decoration: none; color: white; }
+h2, h2 a, h2 a:visited, h3, h3 a, h3 a:visited { color: #333; }
+h2, h2 a, h2 a:hover, h2 a:visited, h3, h3 a, h3 a:hover, h3 a:visited, #sidebar h2 { text-decoration: none; }
+h1 { font-size: 4em; text-align: center; }
+h2 { font-size: 1.6em; }
+h3 { font-size: 1.3em; }
+
+a, h2 a:hover, h3 a:hover { color: #779C23; text-decoration: none; }
+a:hover { color: #C4C838; text-decoration: none; }
+h1 { padding-top: 70px; margin: 0; }
+.description { text-align: center; }
+h2 { margin: 30px 0 0; }
+h2.pagetitle { margin-top: 30px; text-align: center; }
+#sidebar h2 { margin: 10px 0 0; padding: 0; }
+h3 { padding: 0; margin: 30px 0 0; }
+h3.comments { padding: 0; margin: 40px auto 20px ; }
+p img { padding: 0; max-width: 100%; }
+hr { display: none; }
+a img { border: none; }
+
+.postmetadata ul, .postmetadata li { display: inline; list-style-type: none; list-style-image: none; }
+#sidebar ul li { list-style-type: none; list-style-image: none;  }
+#sidebar ul, #sidebar ul ol { margin: 0; padding: 0; }
+#sidebar ul p, #sidebar ul select { margin: 5px 0 8px; }
+#sidebar ul ul, #sidebar ul ol { margin: 5px 0 0 10px; }
+#sidebar ul ul ul, #sidebar ul ol { margin: 0 0 0 10px; }
+ol li, #sidebar ul ol li { list-style: decimal outside; }
+#sidebar ul ul li, #sidebar ul ol li { margin: 3px 0 0; padding: 0; }
+#sidebar { padding: 20px 0 10px 0; margin-left: 545px; width: 190px; }
+#sidebar form { margin: 0; }
+
+#page {
+	background-color: white;
+	margin: 20px auto;
+	padding: 0;
+	width: 760px;
+	background: white url(body.jpg) repeat-y top;
+	border: none;
+	text-align: left;
+}
+
+#header {
+	font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif;
+	margin: 0 !important;
+	margin: 0 0 0 1px;
+	padding: 1px;
+	height: 198px;
+	width: 760px;
+	padding: 0;
+	margin: 0 auto;
+	background: #73a0c5 url(header2.gif) no-repeat bottom center;
+}
+
+#headerimg {
+	margin: 7px 9px 0;
+	height: 192px;
+	width: 740px;
+	margin: 0;
+}
+
+#footer {
+	background-color: #eee;
+	padding: 0 0 10px 0;
+	margin: 0 auto;
+	width: 760px;
+	clear: both;
+	background: url(footer.jpg) no-repeat bottom;
+	border: none;
+	text-align: center;
+}
+
+#contentpage {
+	font-size: 11px;
+	line-height: 1.4em;
+	float: left;
+	padding: 25px 0 20px 45px;
+	margin: 0px 0 0;
+	width: 450px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+toendaCMS specific code
+*/
+
+/* image */
+.image{
+	/*border: 1px dotted #777777;*/
+	padding: 2px;
+}
+
+/* legal */
+.legal{ font-size: 9px; color: #333; text-align: center; }
+a.legal:link, a.legal:visited{ color: #333; text-decoration: none; text-align: center; }
+.legal a:hover{ text-decoration: underline; text-align: center; }
+
+
+/* title */
+.title { text-shadow: black; margin: 0; }
+a.index { }
+a.index:hover { text-decoration  : none; }
+.subtitle { color: #e2e6f3; font-size: 1.2em; }
+.sitelogo{ padding-top: 10px; padding-left: 10px; }
+
+
+/* content */
+.contentheading { font-size: 15px; font-weight: bold; border-bottom: 2px dotted #aaa; margin-bottom: 3px; }
+.contentstamp { font-size: 14px; }
+.contentmain { font-size: 11px; }
+
+.text_small{ font-family: Arial, Helvetica, Sans-Serif; font-size: 0.9em; line-height: 1.5em; color: #777; }
+.text_normal{ font-size: 11px; }
+.text_big{ font-size: 13px; }
+.text_huge{ font-size: 15px; }
+
+.book_content{ font-size: 11px; }
+
+
+/* news */
+.news_title_bg { text-align: justify; }
+.news_title_bg a {
+	color: #000;
+	text-decoration: none;
+	font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Arial, Sans-Serif;
+	font-weight: bold;
+	font-size: 1.3em;
+}
+.news_title_bg a:hover {
+	color: #06c;
+	text-decoration: none;
+	font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Arial, Sans-Serif;
+	font-weight: bold;
+	font-size: 1.3em;
+}
+.news_content_bg{ font-size: 11px; }
+
+
+/* table title */
+.titleBG{ font-size: 14px; border-bottom: 1px #aaa solid; padding-left: 4px; margin: 0px; }
+.download_top{ font-size: 14px;	border-bottom: 2px #9bb2b9 solid; padding-left: 4px; margin: 0px; text-align: left; }
+
+
+/* imagegyllery */
+.gallery_text{ display: block; border-bottom: 1px dotted #555; }
+
+
+/* misc */
+.hr_line{ padding: 1px 0 0 0; background-color: #333333; }
+
+
+/* poll */
+.poll_sheet{ background-color: #f6f6f6; border: 1px solid #eeeeee; font-size: 10px; color: #111111; }
+
+
+/* sidebar content */
+.sideheading { font-size: 11px; font-weight: bold; color: #333333; text-align: left; }
+.sidemain { font-size: 9px; padding: 3px; color: #444444; }
+
+
+/* impressum */
+.imptitle { font-size: 13px; padding-left: 5px; }
+.impoffice { padding-left: 38px; }
+
+
+/* comments */
+.comment_title{
+	padding-left: 3px;
+	padding-right: 3px;
+	font-size: 16px;
+}
+.comment_text{
+	border-bottom: 1px solid #aaaaaa;
+	padding: 5px 5px 5px 5px;
+	font-size: 11px;
+}
+
+
+/* search */
+.search_result_bar{
+	font-size: 12px;
+	color: #333333;
+	background: #f8f8f8;
+	padding-left: 2px;
+	border: 1px solid #cccccc;
+}
+.search_result{
+	font-size: 11px;
+	color: #333333;
+	background: #fafafa;
+	padding-left: 2px;
+	border: 1px solid #ececec;
+}
+
+
+/* navigation */
+.menutitle {
+	color: #333333;
+	font-size: 13px;
+	display: block;
+	margin: 10px 0 0 0;
+}
+
+
+/* pathway */
+.pathway { font-size: 10px; text-decoration: none; }
+a.pathway:link, a.pathway:visited { font-size: 10px; text-decoration: none; }
+a.pathway:hover { font-size: 10px; text-decoration: none; }
+
+
+/* mainlevel - mainmenu */
+a.mainlevel, a.mainlevel:link, a.mainlevel:visited, a.mainlevel:active { padding-left: 10px; text-decoration: none; }
+a.mainlevel:hover { text-decoration: none; }
+
+
+/* submenu - submenu */
+a.submenu, a.submenu:link, a.submenu:visited, a.submenu:active { padding-left: 20px; text-decoration: none; }
+a.submenu:hover { text-decoration: underline; }
+
+
+/* toplevel - topmenu */
+a.toplevel{
+	color: #4E4E4E;
+	margin-top: 2px;
+	width: 83px;
+	height: 20px;
+	line-height: 20px;
+	background: url(linkbg_1.gif) top repeat-y;
+	text-align: center;
+	display: block;
+	float: left;
+}
+a.toplevel:hover {
+	background: url(linkbg_2.gif) top repeat-y;
+}
+
+
+/* mainlinks - default links */
+.main { padding-left: 3px; font-size: 12px; font-weight: bold; color: #000000; text-decoration: none; }
+a.main { padding-left: 3px; font-size: 12px; font-weight: bold; color: #333333; text-decoration: none; }
+a.main:hover { color: #336699; }
+
+
+/* forum */
+.user_profile_title{
+	font-size: 12px;
+	font-weight: bold;
+	color: #333333;
+	background: #f8f8f8;
+	padding: 2px;
+	border: 1px solid #cccccc;
+}
+
+
+/* ToendaSHOP */
+.products_top{ font-size: 14px; padding-left: 4px; margin: 0px; text-align: left; }
+a.products_top, a.products_top:link, a.products_top:visited, a.products_top:active { color: #23598C; font-size: 14px; text-decoration: none; }
+a.products_top:hover { color: #000000; }
+.products_onetop{ border-bottom: 2px #9bb2b9 solid; padding-left: 4px; margin: 0px; text-align: left; }
+
+
+/* login */
+.loginform{ width: 90px; }
+.logintext{ font-size: 11px; }
+.searchform{ width: 160px !important; height: 15px !important; }
+.signatureform{ width: 400px !important; }
+
+.bookfield{ width: 252px !important; height: 15px !important; }
+
+
+
+/* input */
+.tcms_more{ font-size: 11px; height: 18px; }
+.inputtext{ font-size: 11px; height: 18px; border: 1px solid #777777; }
+.inputbutton{ font-size: 11px; }
+.inputtextarea{ width: 255px; height: 180px; font-size: 11px; margin: 0 0 2px 0; border: 1px solid #777777; }
+.newsSubmit{ width: 400px; height: 500px; font-size: 11px; margin: 0 0 2px 0; }
+
+.langSelector {
+float: right;
+margin-right: 15px;	
+margin-top: -10px;
+}
+
+
+
+/* "Daisy, Daisy, give me your answer do. I'm half crazy all for the love of you.
+	It won't be a stylish marriage, I can't afford a carriage.
+	But you'll look sweet upon the seat of a bicycle built for two." */
