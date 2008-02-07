@@ -28,7 +28,7 @@ Version 2.0
 Developer Version
 	- 1.9.0 Development
 
-Building Steps: 4440
+Building Steps: 4450
 
 
 
@@ -60,6 +60,8 @@ Building Steps: 4440
             "force_p_newlines : false" dosnt works).
  - changed: Improvements of the template editor.
  - changed: Upgraded tinyMCE to version 3.
+ - changed: ALT and TITLE attributes on the from the media browser inserted images
+            has now a taglist, generated from the name and path of the file.
  - changed: 
 
  - added: SEO format 3 (.html-format) has now the template variable.
