@@ -20,7 +20,7 @@
  *
  * This is used as a linkbrowser
  *
- * @version 0.4.7
+ * @version 0.5.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -555,7 +555,7 @@ if(isset($id_user)) {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
-				$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix.'content');
+				$sqlQR = $sqlAL->getAll($tcms_db_prefix.'content');
 				
 				$count = 0;
 				
@@ -699,7 +699,7 @@ if(isset($id_user)) {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix.'imagegallery ORDER BY album, date');
+			$sqlQR = $sqlAL->getAll($tcms_db_prefix.'imagegallery ORDER BY album, date');
 			
 			$count = 0;
 			$xmlAlbum2 = '';
