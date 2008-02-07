@@ -1234,8 +1234,10 @@ define('_DB_CONFIG', 'Configuration Database');
 define('_DB_BACKUP_RESTORE', 'Database Backup &amp; Restore');
 define('_DB_BACKUP_OPTIMIZATION', 'Database Optimization');
 define('_DB_DB', 'Database');
-define('_DB_BACKUP_AS_FILE', 'Save backup as file?');
-define('_DB_BACKUP_AS_STRUCTURE', 'Only database structure?');
+if(!defined('_DB_BACKUP_AS_FILE'))             define('_DB_BACKUP_AS_FILE', 'Save backup as file?');
+if(!defined('_DB_BACKUP_AS_STRUCTURE'))        define('_DB_BACKUP_AS_STRUCTURE', 'Only database structure?');
+if(!defined('_DB_CLEAN_UP'))                   define('_DB_CLEAN_UP', 'Cleanup Database');
+if(!defined('_DB_START_CLEAN_UP'))             define('_DB_START_CLEAN_UP', 'Start cleanup');
 
 
 // LINKS
