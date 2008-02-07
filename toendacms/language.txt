@@ -37,6 +37,9 @@
 * ADD THIS
 *
 
+if(!defined('_DB_CLEAN_UP'))                   define('_DB_CLEAN_UP', 'Cleanup Database');
+if(!defined('_DB_START_CLEAN_UP'))             define('_DB_START_CLEAN_UP', 'Start cleanup');
+
 if(!defined('_TCMS_ADMIN_NEW_FILE_BUTTON'))    define('_TCMS_ADMIN_NEW_FILE_BUTTON', 'Create File');
 
 if(!defined('_TABLE_PUBLISHED_ON'))            define('_TABLE_PUBLISHED_ON', 'Published on');
