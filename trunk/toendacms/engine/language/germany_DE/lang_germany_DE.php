@@ -1239,6 +1239,9 @@ define('_DB_BACKUP_OPTIMIZATION', 'Database Optimierung');
 define('_DB_DB', 'Datenbank');
 define('_DB_BACKUP_AS_FILE', 'Backup als Datei speichern?');
 define('_DB_BACKUP_AS_STRUCTURE', 'Nur die Datenbankstruktur?');
+define('_DB_CLEAN_UP', 'Datenbank aufr&#228;umen');
+define('_DB_START_CLEAN_UP', 'Jetzt aufr&#228;umen');
+
 
 
 // LINKS
