@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * This module is for the global configuration settings.
  * 
- * @version 1.5.0
+ * @version 1.5.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Admin Backend
@@ -1142,10 +1142,31 @@ if($id_group == 'Developer'
 			.'<br /></td></tr>';
 			
 			
-			echo '<tr><td class="tcms_padding_mini" height="25" valign="top">'._DB_OPTIMIZATION.'</td>'
-			.'<td><input type="button" value="'._DB_START_OPTIMIZATION.'" '
-			.'onclick="document.location=\'admin.php?id_user='.$id_user.'&site=mod_global&todo=optimize&this_engine='.$choosenDB.'&action='.$action.'\'" />'
-			.'</td></tr>';
+			echo '<tr>'
+			.'<td class="tcms_padding_mini" height="25" valign="top">'
+			._DB_OPTIMIZATION
+			.'</td><td>'
+			.'<input type="button" value="'._DB_START_OPTIMIZATION.'" onclick="'
+			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_global&todo=optimize&this_engine='.$choosenDB.'&action='.$action.'\';'
+			.'" />'
+			.'</td>'
+			.'</tr>';
+			
+			
+			
+			echo '<tr><td colspan="2" class="tcms_padding_mini">'
+			.'<br /></td></tr>';
+			
+			
+			echo '<tr>'
+			.'<td class="tcms_padding_mini" height="25" valign="top">'
+			._DB_CLEAN_UP
+			.'</td><td>'
+			.'<input type="button" value="'._DB_START_CLEAN_UP.'" onclick="'
+			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_global&todo=clean&this_engine='.$choosenDB.'&action='.$action.'\';'
+			.'" />'
+			.'</td>'
+			.'</tr>';
 		}
 		
 		
@@ -1665,7 +1686,57 @@ $tcms_db_prefix   = \''.$new_prefix.'\';
 			$sqlResult = $sqlAL->query($strOptimize);
 		}
 		
-		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_global&action='.$action.'\'</script>';
+		echo '<script>'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_global&action='.$action.'\';'
+		.'</script>';
+	}
+	
+	
+	
+	
+	
+	//==================================================
+	// CLEAR
+	//==================================================
+	
+	if($todo == 'clean') {
+		if($this_engine == 'mysql') {
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			
+			$str = "SELECT nc.*"
+			." FROM ".$tcms_db_prefix."news_categories AS nc"
+			." LEFT JOIN ".$tcms_db_prefix."news_to_categories AS ntc"
+			." ON nc.uid = ntc.cat_uid"
+			." LEFT JOIN ".$tcms_db_prefix."news AS n"
+			." ON n.uid = ntc.news_uid"
+			." WHERE ntc.uid IS NULL";
+			
+			$sqlNr = 0;
+			$count = 0;
+			
+			$sqlQr = $sqlAL->query($str);
+			$sqlNr = $sqlAL->getNumber($sqlQr);
+			
+			echo '<br />'
+			.'Unbenutzte News Kategorien: '.$sqlNr
+			.'<br />';
+			
+			while($sqlObj = $sqlAL->fetchObject($sqlQr)) {
+				echo 'Kategorie: '.$sqlObj->name
+				.'<br />'
+				.'UID: '.$sqlObj->uid
+				.'<br />'
+				.'<br />';
+			}
+			
+			$sqlAL->freeResult($sqlQr);
+			unset($sqlAL);
+		}
+		
+		echo '<script>'
+		//.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_global&action='.$action.'\';'
+		.'</script>';
 	}
 	
 	

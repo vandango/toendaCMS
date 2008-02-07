@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the news.
  *
- * @version 1.9.0
+ * @version 1.9.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -817,12 +817,12 @@ if($todo == 'show'){
 		.$strAdd
 		."ORDER BY stamp DESC, date DESC, time DESC";
 		
-		$sqlQR = $sqlAL->sqlQuery($sqlSTR);
-		$sqlNr = $sqlAL->sqlGetNumber($sqlQR);
+		$sqlQR = $sqlAL->query($sqlSTR);
+		$sqlNr = $sqlAL->getNumber($sqlQR);
 		
 		$count = 0;
 		
-		while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)){
+		while($sqlObj = $sqlAL->fetchObject($sqlQR)){
 			$arr_news['order'][$count] = $sqlObj->uid;
 			$arr_news['title'][$count] = $sqlObj->title;
 			$arr_news['date'][$count]  = $sqlObj->date;
@@ -1123,8 +1123,8 @@ if($todo == 'edit'){
 			."WHERE uid = '".$maintag."' "
 			.$strAdd;
 			
-			$sqlQR = $sqlAL->sqlQuery($sqlSTR);
-			$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+			$sqlQR = $sqlAL->query($sqlSTR);
+			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
 			if($id_group != 'Developer' || $id_group != 'Administrator'){
 				if($sqlNR == 0)
@@ -1133,7 +1133,7 @@ if($todo == 'edit'){
 					$canEdit = true;
 			}
 			
-			$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
 			
 			$nws_title        = $sqlObj->title;
 			$nws_autor        = $sqlObj->autor;
@@ -1175,7 +1175,7 @@ if($todo == 'edit'){
 			."INNER JOIN ".$tcms_db_prefix."news_categories ON (".$tcms_db_prefix."news_to_categories.cat_uid = ".$tcms_db_prefix."news_categories.uid) "
 			."WHERE (".$tcms_db_prefix."news_to_categories.news_uid = '".$maintag."')";
 			
-			$sqlQR = $sqlAL->sqlQuery($strSQL);
+			$sqlQR = $sqlAL->query($strSQL);
 			
 			$count = 0;
 			
@@ -1954,7 +1954,7 @@ if($todo == 'save'){
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		
-		$sqlAL->sqlQuery("DELETE FROM ".$tcms_db_prefix."news_to_categories WHERE news_uid = '".$maintag."'");
+		$sqlAL->query("DELETE FROM ".$tcms_db_prefix."news_to_categories WHERE news_uid = '".$maintag."'");
 		
 		
 		switch($choosenDB){
@@ -2092,8 +2092,8 @@ if($todo == 'save'){
 		."FROM ".$tcms_db_prefix."newsmanager "
 		."WHERE language = '".$language."'";
 		
-		$sqlQR = $sqlAL->sqlQuery($strQuery);
-		$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+		$sqlQR = $sqlAL->query($strQuery);
+		$sqlObj = $sqlAL->fetchObject($sqlQR);
 		
 		$defaultFeed = $sqlObj->def_feed;
 		$synAmount   = $sqlObj->syn_amount;
@@ -2287,8 +2287,8 @@ if($todo == 'next'){
 		."FROM ".$tcms_db_prefix."newsmanager "
 		."WHERE language = '".$language."'";
 		
-		$sqlQR = $sqlAL->sqlQuery($strQuery);
-		$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+		$sqlQR = $sqlAL->query($strQuery);
+		$sqlObj = $sqlAL->fetchObject($sqlQR);
 		
 		$defaultFeed = $sqlObj->def_feed;
 		$synAmount   = $sqlObj->syn_amount;
@@ -2500,7 +2500,7 @@ if($todo == 'delete'){
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		$sqlAL->sqlDeleteOne($tcms_db_prefix.'news', $maintag);
 		$sqlAL->sqlDeleteOne($tcms_db_prefix.'comments', $maintag);
-		$sqlAL->sqlQuery("DELETE FROM ".$tcms_db_prefix."news_to_categories WHERE news_uid = '".$maintag."'");
+		$sqlAL->query("DELETE FROM ".$tcms_db_prefix."news_to_categories WHERE news_uid = '".$maintag."'");
 	}
 	
 	// regenerate feeds
@@ -2523,8 +2523,8 @@ if($todo == 'delete'){
 		."FROM ".$tcms_db_prefix."newsmanager "
 		."WHERE language = '".$tcms_config->getLanguageFrontend()."'";
 		
-		$sqlQR = $sqlAL->sqlQuery($strQuery);
-		$sqlObj = $sqlAL->sqlFetchObject($sqlQR);
+		$sqlQR = $sqlAL->query($strQuery);
+		$sqlObj = $sqlAL->fetchObject($sqlQR);
 		
 		$defaultFeed = $sqlObj->def_feed;
 		$synAmount   = $sqlObj->syn_amount;

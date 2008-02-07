@@ -20,7 +20,7 @@
  *
  * This file provides some favaScript functions.
  *
- * @version 0.5.2
+ * @version 0.5.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -176,29 +176,29 @@ function relocateTo(link, lang) {
 // SHOW MENU
 // --------------------------------------
 
-function show(id, top, left){
+function show(id, top, left) {
 	document.getElementById(id).style.visibility='visible';
 	document.getElementById(id).style.top=top;
 	document.getElementById(id).style.left=left;
 }
 
 
-function show_easy(id){
+function show_easy(id) {
 	document.getElementById(id).style.visibility='visible';
 }
 
 
-function hide(id){
+function hide(id) {
 	document.getElementById(id).style.visibility='hidden';
 }
 
 
-function showXP(id){
+function showXP(id) {
 	document.getElementById(id).style.display='absolute';
 }
 
 
-function hideXP(id){
+function hideXP(id) {
 	document.getElementById(id).style.display='none';
 }
 
@@ -211,15 +211,15 @@ function hideXP(id){
 // --------------------------------------
 
 function wxlBgCol(id,farbe) {
-	if (document.all){
+	if (document.all) {
 		document.all[id].style.backgroundColor=farbe;
 	}
-	else{
-		if (document.getElementById){
+	else {
+		if (document.getElementById) {
 			document.getElementById(id).style.backgroundColor=farbe;
 		}
-		else{
-			if (document.layers){
+		else {
+			if (document.layers) {
 				document.layers[id].bgColor=farbe;
 			}
 		}
@@ -234,42 +234,42 @@ function wxlBgCol(id,farbe) {
 // SAVE FORM VALUE
 // --------------------------------------
 
-function save(){
+function save() {
 	document.forms[0].submit();
 }
 
 
-function apply(){
+function apply() {
 	gebi('draft').value = '0';
 	document.forms[0].submit();
 }
 
 
-function save_id(id){
+function save_id(id) {
 	//document.forms[id].submit();
 	document.getElementById(id).submit();
 }
 
 
-function accept(id){
+function accept(id) {
 	document.getElementById(id).submit();
 }
 
 
-function checkinputs(){
+function checkinputs() {
 	sendOK = true;
 	
 	if (sendOK) { document.forms[0].submit(); }
 }
 
 
-function submitXML(id, action, newvalue){
+function submitXML(id, action, newvalue) {
 	document.getElementById(action).value = newvalue;
 	document.getElementById(id).submit();
 }
 
 
-function submitForm(id){
+function submitForm(id) {
 	document.getElementById(id).submit();
 }
 
@@ -281,16 +281,16 @@ function submitForm(id){
 // OPEN WINDOWS
 // --------------------------------------
 
-function imageWindow(img, param){
+function imageWindow(img, param) {
 	var path;
 	
-	if(param == 'media'){ path = '../../data/images/Image/'; }
-	else{ path = ''; }
+	if(param == 'media') { path = '../../data/images/Image/'; }
+	else { path = ''; }
 	
 	win = window.open(path+img, 'Window', 'width=600,height=400,scrollbars=1,resizable=1');
 	
-	if(win != null){
-		if(win.opener == null){
+	if(win != null) {
+		if(win.opener == null) {
 			mpic.opener = self;
 		}
 		//win.location.href = img;
@@ -298,14 +298,14 @@ function imageWindow(img, param){
 }
 
 
-function popWindow(path, sizex, sizey){
+function popWindow(path, sizex, sizey) {
 	if(sizex == '') sizex = '600';
 	if(sizey == '') sizey = '400';
 	
 	win = window.open(path, 'Window', 'width=' + sizex + ',height=' + sizey + ',scrollbars=1,resizable=1');
 	
-	if(win != null){
-		if(win.opener == null){
+	if(win != null) {
+		if(win.opener == null) {
 			mpic.opener = self;
 		}
 		//win.location.href = img;
@@ -313,10 +313,10 @@ function popWindow(path, sizex, sizey){
 }
 
 
-function printWindow(s, id, news, session, imagePath){
+function printWindow(s, id, news, session, imagePath) {
 	var path;
 	
-	switch(id){
+	switch(id) {
 		case 'modul':
 			path = 'index.php?' + s + '&s=printer';
 			break;
@@ -370,41 +370,41 @@ function printWindow(s, id, news, session, imagePath){
 }
 
 
-function pdfWindow(s, id, news, category, article, session, imagePath){
+function pdfWindow(s, id, news, category, article, session, imagePath) {
 	var path;
 	
 	path = 'pdf.php?id=' + id + '&s=' + s;
-	if(news != ''){ path = path + '&news=' + news; }
-	if(category != ''){ path = path + '&category=' + category; }
-	if(article != ''){ path = path + '&article=' + article; }
-	if(session != ''){ path = path + '&session=' + session; }
+	if(news != '') { path = path + '&news=' + news; }
+	if(category != '') { path = path + '&category=' + category; }
+	if(article != '') { path = path + '&article=' + article; }
+	if(session != '') { path = path + '&session=' + session; }
 	
 	win = window.open(imagePath + path, 'Window', 'width=700,height=500,scrollbars=1,resizable=1');
 	
-	if(win != null){
-		if(win.opener == null){
+	if(win != null) {
+		if(win.opener == null) {
 			mpic.opener = self;
 		}
 	}
 }
 
 
-function pageWindow(path){
+function pageWindow(path) {
 	win = window.open(path, 'Window', 'width=700,height=500,scrollbars=1,resizable=1');
 	
-	if(win != null){
-		if(win.opener == null){
+	if(win != null) {
+		if(win.opener == null) {
 			mpic.opener = self;
 		}
 	}
 }
 
 
-function helpWindow(path){
+function helpWindow(path) {
 	win = window.open(path, 'toendaCMSHelpWindow', 'width=400,height=400,scrollbars=1,resizable=0');
 	
-	if(win != null){
-		if(win.opener == null){
+	if(win != null) {
+		if(win.opener == null) {
 			mpic.opener = self;
 		}
 	}
@@ -414,7 +414,7 @@ function helpWindow(path){
 /*
 	open a window
 */
-function openWindow(file, title, width, height, scroll, resize){
+function openWindow(file, title, width, height, scroll, resize) {
 	if(title == '') title = 'Window';
 	if(width == '') width = 400;
 	if(height == '') height = 500;
@@ -423,8 +423,8 @@ function openWindow(file, title, width, height, scroll, resize){
 	
 	win = window.open(file, title, 'width=' + width + ',height=' + height + ',scrollbars=1,resizable=' + resize);
 	
-	if(win != null){
-		if(win.opener == null){
+	if(win != null) {
+		if(win.opener == null) {
 			mpic.opener = self;
 		}
 	}
@@ -438,17 +438,22 @@ function openWindow(file, title, width, height, scroll, resize){
 // ACCEPT IMAGE TO CONTENT
 // --------------------------------------
 
-function setImageNL(img, id, script, url){
+
+function setImageNL(img, id, script, url) {
+	setImageNLTaglist(img, id, script, url, img);
+}
+
+function setImageNLTaglist(img, id, script, url, tagList) {
 	if(script == 'toendaScript') {
 		var commandValue = '{img#' + url + 'data/images/Image/' + img + '#border=0#}';
 	}
 	else {
-		var commandValue = '<img title="' + img + '" alt="' + img + '" src="' + url + 'data/images/Image/' + img + '" border="0" />';
+		var commandValue = '<img title="' + tagList + '" alt="' + tagList + '" src="' + url + 'data/images/Image/' + img + '" border="0" />';
 	}
 	
 	var input = window.opener.document.getElementById(id);
 	
-	if(document.selection){
+	if(document.selection) {
 		var oldContent;
 		var newContent;
 		var selectedContent;
@@ -457,11 +462,11 @@ function setImageNL(img, id, script, url){
 		selectedContent = opener.document.selection.createRange().text;
 		oldContent = input.value;
 		
-		if(selectedContent == ''){
+		if(selectedContent == '') {
 			input.value = oldContent + commandValue;
 			input.focus();
 		}
-		else{
+		else {
 			changedSelectedContent = selectedContent + commandValue;
 			
 			newContent = oldContent.replace(selectedContent, changedSelectedContent);
@@ -470,7 +475,7 @@ function setImageNL(img, id, script, url){
 			input.focus();
 		}
 	}
-	else if(window.getSelection){
+	else if(window.getSelection) {
 		var start = input.selectionStart;
 		var end = input.selectionEnd;
 		var insText = input.value.substring(start, end);
@@ -479,9 +484,9 @@ function setImageNL(img, id, script, url){
 		
 		var pos;
 		
-		if(insText.length == 0){
+		if(insText.length == 0) {
 			pos = start + commandValue.length;
-		}else{
+		}else {
 			pos = start + insText.length + commandValue.length;
 		}
 		
@@ -489,15 +494,15 @@ function setImageNL(img, id, script, url){
 		input.selectionEnd = pos;
 		input.focus();
 	}
-	else{
+	else {
 		var pos;
 		var re = new RegExp('^[0-9]{0,3}$');
 		
-		while(!re.test(pos)){
+		while(!re.test(pos)) {
 			pos = input.value.length;
 		}
 		
-		if(pos > input.value.length){
+		if(pos > input.value.length) {
 			pos = input.value.length;
 		}
 		
@@ -509,17 +514,22 @@ function setImageNL(img, id, script, url){
 }
 
 
-function setImage(img, id, script){
+function setImage(img, id, script) {
+	setImageTaglist(img, id, script, img);
+}
+
+
+function setImageTaglist(img, id, script, tagList) {
 	if(script == 'toendaScript') {
 		var commandValue = '{img#data/images/Image/' + img + '#border=0#}';
 	}
 	else {
-		var commandValue = '<img title="' + img + '" alt="' + img + '" src="data/images/Image/' + img + '" border="0" />';
+		var commandValue = '<img title="' + tagList + '" alt="' + tagList + '" src="data/images/Image/' + img + '" border="0" />';
 	}
 	
 	var input = window.opener.document.getElementById(id);
 	
-	if(document.selection){
+	if(document.selection) {
 		var oldContent;
 		var newContent;
 		var selectedContent;
@@ -528,11 +538,11 @@ function setImage(img, id, script){
 		selectedContent = opener.document.selection.createRange().text;
 		oldContent = input.value;
 		
-		if(selectedContent == ''){
+		if(selectedContent == '') {
 			input.value = oldContent + commandValue;
 			input.focus();
 		}
-		else{
+		else {
 			changedSelectedContent = selectedContent + commandValue;
 			
 			newContent = oldContent.replace(selectedContent, changedSelectedContent);
@@ -541,7 +551,7 @@ function setImage(img, id, script){
 			input.focus();
 		}
 	}
-	else if(window.getSelection){
+	else if(window.getSelection) {
 		var start = input.selectionStart;
 		var end = input.selectionEnd;
 		var insText = input.value.substring(start, end);
@@ -550,9 +560,9 @@ function setImage(img, id, script){
 		
 		var pos;
 		
-		if(insText.length == 0){
+		if(insText.length == 0) {
 			pos = start + commandValue.length;
-		}else{
+		}else {
 			pos = start + insText.length + commandValue.length;
 		}
 		
@@ -560,15 +570,15 @@ function setImage(img, id, script){
 		input.selectionEnd = pos;
 		input.focus();
 	}
-	else{
+	else {
 		var pos;
 		var re = new RegExp('^[0-9]{0,3}$');
 		
-		while(!re.test(pos)){
+		while(!re.test(pos)) {
 			pos = input.value.length;
 		}
 		
-		if(pos > input.value.length){
+		if(pos > input.value.length) {
 			pos = input.value.length;
 		}
 		
@@ -580,21 +590,21 @@ function setImage(img, id, script){
 }
 
 
-function setLink(link, title, id, script){
+function setLink(link, title, id, script) {
 	if(title == '') title = link;
 	
-	if(script == 'toendaScript'){
+	if(script == 'toendaScript') {
 		var commandValue = '{url#' + link + '#:}';
 		commandValue = commandValue + title + '{:url}';
 	}
-	else{
+	else {
 		var commandValue = '<a href="' + link + '" alt="' + title + '" title="' + title + '">';
 		commandValue = commandValue + title + '</a>';
 	}
 	
 	var input = window.opener.document.getElementById(id);
 	
-	if(document.selection){
+	if(document.selection) {
 		var oldContent;
 		var newContent;
 		var selectedContent;
@@ -603,11 +613,11 @@ function setLink(link, title, id, script){
 		selectedContent = opener.document.selection.createRange().text;
 		oldContent = input.value;
 		
-		if(selectedContent == ''){
+		if(selectedContent == '') {
 			input.value = oldContent + commandValue;
 			input.focus();
 		}
-		else{
+		else {
 			changedSelectedContent = selectedContent + commandValue;
 			
 			newContent = oldContent.replace(selectedContent, changedSelectedContent);
@@ -616,7 +626,7 @@ function setLink(link, title, id, script){
 			input.focus();
 		}
 	}
-	else if(window.getSelection){
+	else if(window.getSelection) {
 		var start = input.selectionStart;
 		var end = input.selectionEnd;
 		var insText = input.value.substring(start, end);
@@ -625,9 +635,9 @@ function setLink(link, title, id, script){
 		
 		var pos;
 		
-		if(insText.length == 0){
+		if(insText.length == 0) {
 			pos = start + commandValue.length;
-		}else{
+		}else {
 			pos = start + insText.length + commandValue.length;
 		}
 		
@@ -635,15 +645,15 @@ function setLink(link, title, id, script){
 		input.selectionEnd = pos;
 		input.focus();
 	}
-	else{
+	else {
 		var pos;
 		var re = new RegExp('^[0-9]{0,3}$');
 		
-		while(!re.test(pos)){
+		while(!re.test(pos)) {
 			pos = input.value.length;
 		}
 		
-		if(pos > input.value.length){
+		if(pos > input.value.length) {
 			pos = input.value.length;
 		}
 		
@@ -705,7 +715,7 @@ function deleteFolder(session, action, image, message) {
 // ROTATE IMAGES
 // --------------------------------------
 
-function showImage(){
+function showImage() {
 	var theImages = new Array();
 	
 	theImages[0] = 'theme/main/img/rotate/logo1.gif';
@@ -718,13 +728,13 @@ function showImage(){
 	var j = 0
 	var p = theImages.length;
 	var preBuffer = new Array()
-	for (i = 0; i < p; i++){
+	for (i = 0; i < p; i++) {
 		preBuffer[i] = new Image()
 		preBuffer[i].src = theImages[i]
 	}
 	
 	var whichImage = Math.round(Math.random()*(p-1));
-	function showImage2(){
+	function showImage2() {
 		document.write('<img border="0" width="112" height="111" alt="Top Banner" src="'+theImages[whichImage]+'">');
 	}
 }

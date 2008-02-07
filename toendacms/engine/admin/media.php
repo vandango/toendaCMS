@@ -21,27 +21,27 @@
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 0.7.0
+ * @version 0.7.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
  */
 
 
-if(isset($_GET['v'])){ $v = $_GET['v']; }
-if(isset($_GET['n'])){ $n = $_GET['n']; }
-if(isset($_GET['faq'])){ $faq = $_GET['faq']; }
-if(isset($_GET['url'])){ $url = $_GET['url']; }
-if(isset($_GET['id_user'])){ $id_user = $_GET['id_user']; }
-if(isset($_GET['folder'])){ $folder = $_GET['folder']; }
+if(isset($_GET['v'])) { $v = $_GET['v']; }
+if(isset($_GET['n'])) { $n = $_GET['n']; }
+if(isset($_GET['faq'])) { $faq = $_GET['faq']; }
+if(isset($_GET['url'])) { $url = $_GET['url']; }
+if(isset($_GET['id_user'])) { $id_user = $_GET['id_user']; }
+if(isset($_GET['folder'])) { $folder = $_GET['folder']; }
 
-if(isset($_POST['n'])){ $n = $_POST['n']; }
-if(isset($_POST['faq'])){ $faq = $_POST['faq']; }
-if(isset($_POST['mediaImage'])){ $mediaImage = $_POST['mediaImage']; }
-if(isset($_POST['saveMedia'])){ $saveMedia = $_POST['saveMedia']; }
-if(isset($_POST['todo'])){ $todo = $_POST['todo']; }
-if(isset($_POST['id_user'])){ $id_user = $_POST['id_user']; }
-if(isset($_POST['folder'])){ $folder = $_POST['folder']; }
+if(isset($_POST['n'])) { $n = $_POST['n']; }
+if(isset($_POST['faq'])) { $faq = $_POST['faq']; }
+if(isset($_POST['mediaImage'])) { $mediaImage = $_POST['mediaImage']; }
+if(isset($_POST['saveMedia'])) { $saveMedia = $_POST['saveMedia']; }
+if(isset($_POST['todo'])) { $todo = $_POST['todo']; }
+if(isset($_POST['id_user'])) { $id_user = $_POST['id_user']; }
+if(isset($_POST['folder'])) { $folder = $_POST['folder']; }
 
 
 // ---------------------------------------------
@@ -106,12 +106,12 @@ else {
 
 $tcms_auth = new tcms_authentication(_TCMS_PATH, $c_charset, $imagePath);
 
-if(isset($faq) && $faq != ''){
+if(isset($faq) && $faq != '') {
 	$arr_dir = $tcms_file->getPathContent(
 		_TCMS_PATH.'/images/knowledgebase/'
 	);
 }
-else{
+else {
 	$arr_dir = $tcms_file->getPathContent(
 		_TCMS_PATH.'/images/Image/'
 		.( isset($folder) ? $folder.'/' : '' )
@@ -149,11 +149,11 @@ $post_max_size = $tcms_main->getPostMaxSizeInBytes();
 // LIST
 //===================================================================================
 
-if(isset($id_user)){
+if(isset($id_user)) {
 	// check session
 	$check_session = $tcms_auth->checkSessionExist($id_user, true);
 	
-	if($check_session){
+	if($check_session) {
 		// layout
 		$adminTheme = $tcms_config->getAdminTheme();
 		
@@ -218,7 +218,7 @@ if(isset($id_user)){
 			upload images
 		*/
 		
-		if($todo == 'saveMedia'){
+		if($todo == 'saveMedia') {
 			if($_FILES['mediaImage']['size'] > 0 && (
 			$_FILES['mediaImage']['type'] == 'image/png' || 
 			$_FILES['mediaImage']['type'] == 'image/jpeg' || 
@@ -234,7 +234,7 @@ if(isset($id_user)){
 			$_FILES['mediaImage']['type'] == 'video/x-msvideo' || 
 			$_FILES['mediaImage']['type'] == 'video/mpeg' || 
 			$_FILES['mediaImage']['type'] == 'video/avi' || 
-			$_FILES['mediaImage']['type'] == 'video/wmv')){
+			$_FILES['mediaImage']['type'] == 'video/wmv')) {
 				if($_FILES['mediaImage']['size'] <= $upload_max_filesize
 				&& $_FILES['mediaImage']['size'] <= $post_max_size) {
 					$fileName = $_FILES['mediaImage']['name'];
@@ -299,8 +299,8 @@ if(isset($id_user)){
 		*/
 		echo $tcms_html->tableHeadClass('3', '0', '0', '100%', 'tcms_border_gray01');
 		
-		if($tcms_main->isArray($arr_dir)){
-			foreach($arr_dir as $dkey => $dvalue){
+		if($tcms_main->isArray($arr_dir)) {
+			foreach($arr_dir as $dkey => $dvalue) {
 				$dvalue2 = ( isset($folder) ? $folder.'/' : '' ).$dvalue;
 				$dvalue3 = $dvalue;
 				
@@ -309,19 +309,19 @@ if(isset($id_user)){
 				if(is_dir(trim(_TCMS_PATH.'/images/Image/'.$dvalue2))) {
 					$addurl = '';
 					
-					if(isset($v)){
+					if(isset($v)) {
 						$addurl .= '&amp;v='.$v;
 					}
 					
-					if(isset($faq)){
+					if(isset($faq)) {
 						$addurl .= '&amp;faq='.$faq;
 					}
 					
-					if(isset($n)){
+					if(isset($n)) {
 						$addurl .= '&amp;n='.$n;
 					}
 					
-					if(isset($url)){
+					if(isset($url)) {
 						$addurl .= '&amp;url='.$url;
 					}
 					
@@ -348,11 +348,11 @@ if(isset($id_user)){
 				else if(trim($dvalue) != 'Thumbs.db' 
 				&& trim($dvalue) != 'thumbs.db' 
 				&& trim($dvalue) != 'index.html' 
-				&& substr(trim($dvalue), 0, 1) != '.'){
-					if(!preg_match('/.mp3/i', strtolower($dvalue))){
+				&& substr(trim($dvalue), 0, 1) != '.') {
+					if(!preg_match('/.mp3/i', strtolower($dvalue))) {
 						$tcms_gd = new tcms_gd();
 						
-						if(!$tcms_file->checkFileExist(_TCMS_PATH.'/images/upload_thumb/'.$relPath.'thumb_'.$dvalue)){
+						if(!$tcms_file->checkFileExist(_TCMS_PATH.'/images/upload_thumb/'.$relPath.'thumb_'.$dvalue)) {
 							if(isset($faq) && $faq != '') {
 								$tcms_gd->createThumbnail(
 									_TCMS_PATH.'/images/knowledgebase/'.$relPath, 
@@ -391,35 +391,35 @@ if(isset($id_user)){
 					
 					$checkType = true;
 					
-					if($tcms_file->getMimeType(strtolower($dvalue)) == 'mp3' && $checkType){
+					if($tcms_file->getMimeType(strtolower($dvalue)) == 'mp3' && $checkType) {
 						echo '<img style="border: 1px solid #ccc; margin: 6px auto auto 6px;" src="../images/mimetypes/mp3.png" border="0" />';
 						$checkType = false;
 					}
-					if($tcms_file->getMimeType(strtolower($dvalue)) == 'wma' && $checkType){
+					if($tcms_file->getMimeType(strtolower($dvalue)) == 'wma' && $checkType) {
 						echo '<img style="border: 1px solid #ccc; margin: 6px auto auto 6px;" src="../images/mimetypes/wma.png" border="0" />';
 						$checkType = false;
 					}
-					if($tcms_file->getMimeType(strtolower($dvalue)) == 'wav' && $checkType){
+					if($tcms_file->getMimeType(strtolower($dvalue)) == 'wav' && $checkType) {
 						echo '<img style="border: 1px solid #ccc; margin: 6px auto auto 6px;" src="../images/mimetypes/wav.png" border="0" />';
 						$checkType = false;
 					}
-					elseif($tcms_file->getMimeType(strtolower($dvalue)) == 'avi' && $checkType){
+					elseif($tcms_file->getMimeType(strtolower($dvalue)) == 'avi' && $checkType) {
 						echo '<img style="border: 1px solid #ccc; margin: 6px auto auto 6px;" src="../images/mimetypes/avi.png" border="0" />';
 						$checkType = false;
 					}
-					elseif($tcms_file->getMimeType(strtolower($dvalue)) == 'mpeg' && $checkType){
+					elseif($tcms_file->getMimeType(strtolower($dvalue)) == 'mpeg' && $checkType) {
 						echo '<img style="border: 1px solid #ccc; margin: 6px auto auto 6px;" src="../images/mimetypes/mpeg.png" border="0" />';
 						$checkType = false;
 					}
-					elseif($tcms_file->getMimeType(strtolower($dvalue)) == 'mpg' && $checkType){
+					elseif($tcms_file->getMimeType(strtolower($dvalue)) == 'mpg' && $checkType) {
 						echo '<img style="border: 1px solid #ccc; margin: 6px auto auto 6px;" src="../images/mimetypes/mpeg.png" border="0" />';
 						$checkType = false;
 					}
-					elseif($tcms_file->getMimeType(strtolower($dvalue)) == 'wmv' && $checkType){
+					elseif($tcms_file->getMimeType(strtolower($dvalue)) == 'wmv' && $checkType) {
 						echo '<img style="border: 1px solid #ccc; margin: 6px auto auto 6px;" src="../images/mimetypes/wmv.png" border="0" />';
 						$checkType = false;
 					}
-					elseif($checkType){
+					elseif($checkType) {
 						echo '<img style="border: 1px solid #333333;" src="'._TCMS_PATH.'/images/upload_thumb/'.$relPath.'thumb_'.$dvalue.'" border="0" />';
 					}
 					
@@ -465,7 +465,20 @@ if(isset($id_user)){
 					
 					
 					// images
-					if(!preg_match('/.mp3/i', strtolower($dvalue))){
+					if(!preg_match('/.mp3/i', strtolower($dvalue))) {
+						$rTemp = $url;
+						
+						// generate taglist
+						$fileExt = $tcms_file->getFileExtension($dvalue2);
+						$tagList = $rTemp.$dvalue2;
+						
+						$tagList = str_replace($fileExt, ' ', $tagList);
+						$tagList = str_replace('http://', '', $tagList);
+						$tagList = str_replace('/', ' ', $tagList);
+						$tagList = str_replace('_', ' ', $tagList);
+						$tagList = str_replace('.', ' ', $tagList);
+						$tagList = trim($tagList);
+						
 						// news configuration
 						if(isset($v) && $v == 'news_config') {
 							$cmdImage = 'setNewsImage(\''.$dvalue.'\', \'news_mm_image\', \'news_tt_image\')';
@@ -477,21 +490,19 @@ if(isset($id_user)){
 						// all other
 						elseif(isset($n) && $n == 'without') {
 							if(isset($url) && $url != '') {
-								$rTemp = $url;
-								
 								if($show_wysiwyg == 'toendaScript') {
-									$cmdImage = 'setImageNL(\''.$dvalue2.'\', \'content\', \'toendaScript\', \''.$rTemp.'\')';
+									$cmdImage = 'setImageNLTaglist(\''.$dvalue2.'\', \'content\', \'toendaScript\', \''.$rTemp.'\', \''.$tagList.'\')';
 								}
 								else {
-									$cmdImage = 'setImageNL(\''.$dvalue2.'\', \'content\', \'HTML\', \''.$rTemp.'\')';
+									$cmdImage = 'setImageNLTaglist(\''.$dvalue2.'\', \'content\', \'HTML\', \''.$rTemp.'\', \''.$tagList.'\')';
 								}
 							}
 							else {
 								if($show_wysiwyg == 'toendaScript') {
-									$cmdImage = 'setImage(\''.$rTemp.$dvalue2.'\', \'content\', \'toendaScript\')';
+									$cmdImage = 'setImageTaglist(\''.$rTemp.$dvalue2.'\', \'content\', \'toendaScript\', \''.$tagList.'\')';
 								}
 								else {
-									$cmdImage = 'setImage(\''.$rTemp.$dvalue2.'\', \'content\', \'HTML\')';
+									$cmdImage = 'setImageTaglist(\''.$rTemp.$dvalue2.'\', \'content\', \'HTML\', \''.$tagList.'\')';
 								}
 							}
 						}
@@ -502,7 +513,8 @@ if(isset($id_user)){
 								.'rel=&quot;lightbox&quot;&gt;'
 								.'&lt;img '
 								.'src=&quot;'.$img_path.'/images/Image/'.$dvalue2.'&quot; '
-								.'alt=&quot;'.$dvalue.'&quot; /&gt;'
+								.'alt=&quot;'.$tagList.'&quot;'
+								.'title=&quot;'.$tagList.'&quot; /&gt;'
 								.'&lt;\/a&gt;\');'
 								.'self.close()';
 								
@@ -512,16 +524,17 @@ if(isset($id_user)){
 								.'rel=&quot;lightbox&quot;&gt;'
 								.'&lt;img '
 								.'src=&quot;'.$img_path.'/images/upload_thumb/'.$relPath.'thumb_'.$dvalue3.'&quot; '
-								.'alt=&quot;'.$dvalue.'&quot; /&gt;'
+								.'alt=&quot;'.$tagList.'&quot;'
+								.'title=&quot;'.$tagList.'&quot; /&gt;'
 								.'&lt;\/a&gt;\');'
 								.'self.close()';
 							}
 							else {
 								if($show_wysiwyg == 'toendaScript') {
-									$cmdImage = 'setImage(\''.$dvalue2.'\', \'content\', \'toendaScript\')';
+									$cmdImage = 'setImageTaglist(\''.$dvalue2.'\', \'content\', \'toendaScript\', \''.$tagList.'\')';
 								}
 								else {
-									$cmdImage = 'setImage(\''.$dvalue2.'\', \'content\', \'HTML\')';
+									$cmdImage = 'setImageTaglist(\''.$dvalue2.'\', \'content\', \'HTML\', \''.$tagList.'\')';
 								}
 							}
 						}
@@ -598,7 +611,7 @@ if(isset($id_user)){
 		.'</div>';
 	}
 }
-else{
+else {
 	echo '<div align="center" style=" padding: 100px 10px 100px 10px; border: 1px solid #333; background-color: #f8f8f8; font-family: Georgia, \'Lucida Grande\', \'Lucida Sans\', Serif;">'
 	.'<h1>'._DIE_LOGIN.'</h2>'
 	.'</div>';
