@@ -11,14 +11,13 @@
 	} {:php}
 	
 	#####IMPRINT_CONTACT_PERSON_EMAIL#####
-	<br />
 	
 	{php:} if('#####IMPRINT_CONTACT_PERSON_PHONE#####' != '') {
 		echo '#####IMPRINT_CONTACT_PERSON_PHONE#####<br />';
 	} {:php}
 	
 	{php:} if('#####IMPRINT_USE_CONTACT_PERSON#####' == '1') {
-		echo '#####IMPRINT_PERSON#####<br /><br />';
+		echo '<br />#####IMPRINT_PERSON#####<br /><br />';
 	} {:php}
 	
 	#####IMPRINT_TAXNUMBER#####

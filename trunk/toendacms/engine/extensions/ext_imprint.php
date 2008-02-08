@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used as a law-concurring
  * publishing form.
  *
- * @version 0.4.2
+ * @version 0.4.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -234,7 +234,7 @@ if($tcms_main->isReal($dcImpressum->getUstID())) {
 
 // copyright
 $entryCopyright = _IMPRESSUM_SITECOPY.' '.$websiteowner
-.' &copy; '.$websitecopyright.'. '._IMPRESSUM_COPY;
+.' &copy; '.$tcms_config->getWebpageCopyright().'. '._IMPRESSUM_COPY;
 
 // text
 $toendaScript = new toendaScript($dcImpressum->getText());
@@ -275,15 +275,16 @@ else {
 	echo '<span class="contentmain">'
 	.'<strong class="imptitle">'.$websiteowner.'</strong><br /><br />';
 	
-	echo $entryUseContactPerson
-	.'<br />';
+	if($entryUseContactPerson) {
+		echo $entryContactPerson
+		.'<br />';
+	}
 	
 	echo $entryContactPersonEmail
+	.$entryPhone;
+	
+	echo '<br />'
 	.'<br />';
-	
-	echo $entryPhone;
-	
-	echo '<br />';
 	
 	echo $entryPerson;
 	
