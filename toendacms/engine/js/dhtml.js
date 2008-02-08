@@ -20,7 +20,7 @@
  *
  * This file provides some favaScript functions.
  *
- * @version 0.5.3
+ * @version 0.5.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -56,9 +56,12 @@
  * pageWindow(path)                  -> open a window with a php or html file
  * helpWindow(path)                  -> same as above
  * openWindow(file, title, width, height, scroll, resize)
- *                                     -> open a custom window
- *
- * setImage(img, id, script)         -> accept image for openers ID field
+ *                                   -> open a custom window
+ * 
+ * setImageNL                        -> accept image for openers ID field
+ * setImageNLTaglist                 -> accept image for openers ID field
+ * setImage                          -> accept image for openers ID field
+ * setImageTaglist(img, id, script)  -> accept image for openers ID field
  * setLink(link, title, id, script)  -> accept link for openers ID field
  * setNewsImage(img, id, id2)        -> accept image for openers ID field for newsmanager config
  * setFAQImage(img, id, id2)         -> accept image for openers ID field for knowledgebase config
@@ -282,10 +285,18 @@ function submitForm(id) {
 // --------------------------------------
 
 function imageWindow(img, param) {
+	imageWindowExt(img, param, false);
+}
+
+function imageWindowExt(img, param, forFaq) {
 	var path;
 	
-	if(param == 'media') { path = '../../data/images/Image/'; }
-	else { path = ''; }
+	if(param == 'media') {
+		path = '../../data/images/' + ( !forFaq ? 'Image' : 'knowledgebase' ) + '/';
+	}
+	else {
+		path = '';
+	}
 	
 	win = window.open(path+img, 'Window', 'width=600,height=400,scrollbars=1,resizable=1');
 	
@@ -293,7 +304,6 @@ function imageWindow(img, param) {
 		if(win.opener == null) {
 			mpic.opener = self;
 		}
-		//win.location.href = img;
 	}
 }
 

@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide the global
  * configuration data.
  *
- * @version 0.6.1
+ * @version 0.6.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -326,7 +326,7 @@ class tcms_configuration {
 		$this->m_sitekey = $tcms_main->decodeText($this->m_sitekey, '2', $this->m_charset);
 		$this->m_sitelogo = $tcms_main->decodeText($this->m_sitelogo, '2', $this->m_charset);
 		$this->m_wpowner = $tcms_main->decodeText($this->m_wpowner, '2', $this->m_charset);
-		$this->m_wpcopyright = $tcms_main->decodeText($this->m_wpcopyright, '2', $this->m_charset);
+		//$this->m_wpcopyright = $tcms_main->decodeText($this->m_wpcopyright, '2', $this->m_charset);
 		$this->m_wpowner_url = $tcms_main->decodeText($this->m_wpowner_url, '2', $this->m_charset);
 		$this->m_wpowner_mail = $tcms_main->decodeText($this->m_wpowner_mail, '2', $this->m_charset);
 		$this->m_footer_text = $tcms_main->decodeText($this->m_footer_text, '2', $this->m_charset);

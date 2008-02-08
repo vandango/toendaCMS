@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for all graphic actions.
  *
- * @version 0.4.1
+ * @version 0.4.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -70,7 +70,7 @@ class tcms_gd {
 	/**
 	 * Default constructor
 	 */
-	public function __construct(){
+	public function __construct() {
 	}
 	
 	
@@ -88,7 +88,7 @@ class tcms_gd {
 	 *
 	 * @return String
 	 */
-	public function getImageWidth(){
+	public function getImageWidth() {
 		return $this->m_width;
 	}
 	
@@ -99,7 +99,7 @@ class tcms_gd {
 	 *
 	 * @return String
 	 */
-	public function getImageHeight(){
+	public function getImageHeight() {
 		return $this->m_height;
 	}
 	
@@ -110,7 +110,7 @@ class tcms_gd {
 	 *
 	 * @return String
 	 */
-	public function getImageMimetyp(){
+	public function getImageMimetyp() {
 		return $this->m_mimetype;
 	}
 	
@@ -121,7 +121,7 @@ class tcms_gd {
 	 *
 	 * @return String
 	 */
-	public function readImageInformation($filename){
+	public function readImageInformation($filename) {
 		$arrImageSize = getimagesize($filename);
 		
 		$this->m_width      = $arrImageSize[0];
@@ -138,7 +138,7 @@ class tcms_gd {
 		$this->m_colorFlag  = ord(substr($result,10,1)) >> 7;
 		$this->m_background = ord(substr($result,11));
 		
-		if($this->m_colorFlag){
+		if($this->m_colorFlag) {
 			$tableSizeNeeded = ($this->m_background + 1) * 3;
 			$result = fread($fp, $tableSizeNeeded);
 			$this->m_transparentRed   = ord(substr($result, $this->m_background * 3,1));
@@ -154,7 +154,7 @@ class tcms_gd {
 	/**
 	 * Create a thumbnail of a image located in "path"
 	 * and save it to "target_path"
-	 *
+	 * 
 	 * @param String $path
 	 * @param String $targetPath
 	 * @param String $image
@@ -163,8 +163,29 @@ class tcms_gd {
 	 * @param Boolean $sizeInName = false
 	 * @return Boolean
 	 */
-	public function createThumbnail($path, $targetPath, $image, $size, $withTransparency = false, $sizeInName = false){
-		global $tcms_file;
+	public function createThumbnail($path, $targetPath, $image, $size, $withTransparency = false, $sizeInName = false) {
+		return $this->createThumbnailExt('thumb_', $path, $targetPath, $image, $size, $withTransparency, $sizeInName);
+	}
+	
+	
+	
+	/**
+	 * Create a thumbnail of a image located in "path"
+	 * and save it to "target_path"
+	 *
+	 * @param String $thumbPrefix
+	 * @param String $path
+	 * @param String $targetPath
+	 * @param String $image
+	 * @param Integer $size
+	 * @param Boolean $withTransparency = false
+	 * @param Boolean $sizeInName = false
+	 * @return Boolean
+	 */
+	public function createThumbnailExt($thumbPrefix, $path, $targetPath, $image, $size, $withTransparency = false, $sizeInName = false) {
+		include_once('tcms_file.lib.php');
+		
+		$tcms_file = new tcms_file();
 		
 		$isImage = true;
 		
@@ -212,22 +233,22 @@ class tcms_gd {
 				$img_height = $img_o_height / $X_factor100;
 				
 				if($sizeInName) {
-					$img_path = $targetPath.'thumb_'.$size.'_'.$image;
+					$img_path = $targetPath.$thumbPrefix.$size.'_'.$image;
 				}
 				else {
-					$img_path = $targetPath.'thumb_'.$image;
+					$img_path = $targetPath.$thumbPrefix.$image;
 				}
 				
-				if($withTransparency){
+				if($withTransparency) {
 					$img_file = @imagecreatetruecolor($img_width, $img_height);
 				}
-				else{
+				else {
 					//$img_file = @imagecreate($img_width, $img_height);
 					$img_file = @imagecreatetruecolor($img_width, $img_height);
 					
 					$this->readImageInformation($path.$image);
 					
-					if($this->m_version == '89a' && $this->m_colorFlag == 1){
+					if($this->m_version == '89a' && $this->m_colorFlag == 1) {
 						$transparent = @imagecolorallocate($img_file, 
 							$this->m_transparentRed, 
 							$this->m_transparentGreen, 
@@ -251,7 +272,7 @@ class tcms_gd {
 				//imagecolortransparent($img_file);
 				//@imagepng($img_file, $img_path);
 				
-				switch($tcms_file->getMimeType($image)){
+				switch($tcms_file->getMimeType($image)) {
 					case 'jpg':
 					case 'jpeg':
 					case 'jpe':
@@ -290,7 +311,7 @@ class tcms_gd {
 	 * 
 	 * @return String
 	 */
-	public function createCaptchaImage($path, $cacheCleanSize){
+	public function createCaptchaImage($path, $cacheCleanSize) {
 		include_once('tcms_file.lib.php');
 		
 		$tcms_file = new tcms_file();
@@ -299,7 +320,7 @@ class tcms_gd {
 		$captcha = mt_rand(10000, 99999);
 		
 		if($tcms_file->checkFileExist($path.'captcha.txt')) {
-			if($tcms_file->getFilesize($path.'captcha.txt') > $cacheCleanSize){
+			if($tcms_file->getFilesize($path.'captcha.txt') > $cacheCleanSize) {
 				$tcms_file->deleteDirContent($path, true);
 				
 				//mkdir($path, 0777);
@@ -335,13 +356,13 @@ class tcms_gd {
 	 * @param String $targetPath
 	 * @param String $choosenDB = 'xml'
 	 */
-	public function generateFTPImageData($path, $targetPath, $choosenDB = 'xml'){
+	public function generateFTPImageData($path, $targetPath, $choosenDB = 'xml') {
 		global $tcms_main;
 		global $tcms_time;
 		
 		$dir = opendir($path);
 		
-		if($choosenDB != 'xml'){
+		if($choosenDB != 'xml') {
 			include($tcms_main->getAdministerSite().'/tcms_global/database.php');
 			
 			$db_user     = $tcms_db_user;
@@ -355,9 +376,9 @@ class tcms_gd {
 			$sqlCN = $sqlAL->connect($db_user, $db_pass, $db_host, $db_database, $db_port, $tcms_time);
 		}
 		
-		while($entry = readdir($dir)){
-			if($entry != '.' && $entry != '..' && $entry != 'CVS'){
-				if($choosenDB == 'xml'){
+		while($entry = readdir($dir)) {
+			if($entry != '.' && $entry != '..' && $entry != 'CVS') {
+				if($choosenDB == 'xml') {
 					$xml = new xmlparser($targetPath.$entry.'.xml', 'w');
 					$xml->xml_declaration();
 					$xml->xml_section('image');
@@ -371,12 +392,12 @@ class tcms_gd {
 					$xml->flush();
 					unset($xml);
 				}
-				else{
+				else {
 					$new_image_id = substr(md5(microtime()), 0, 10);
 					
 					$newSQLColumns = 'album, image, date';
 					
-					switch($choosenDB){
+					switch($choosenDB) {
 						case 'mysql':
 							$newSQLColumns = 'album, image, date';
 							break;
@@ -420,7 +441,7 @@ class tcms_gd {
 	 * @deprecated 
 	 * @return String
 	 */
-	public function gd_imginfo($filename){
+	public function gd_imginfo($filename) {
 		//$this->readImageInformation($filename);
 		
 		$fp  = fopen($filename,"rb");
@@ -433,7 +454,7 @@ class tcms_gd {
 		$this->m_colorFlag  = ord(substr($result,10,1)) >> 7;
 		$this->m_background = ord(substr($result,11));
 		
-		if($this->m_colorFlag){
+		if($this->m_colorFlag) {
 			$tableSizeNeeded = ($this->m_background + 1) * 3;
 			$result = fread($fp, $tableSizeNeeded);
 			$this->m_transparentRed   = ord(substr($result, $this->m_background * 3,1));
@@ -456,7 +477,7 @@ class tcms_gd {
 	 * @param String $image
 	 * @param Integer $size
 	 */
-	public function gd_thumbnail($path, $target_path, $image, $size, $w_or_h){
+	public function gd_thumbnail($path, $target_path, $image, $size, $w_or_h) {
 		//$this->createThumbnail($path, $target_path, $image, $size);
 		$targetPath = $target_path;
 		
@@ -506,24 +527,24 @@ class tcms_gd {
 	 * @param String $image
 	 * @param Integer $size
 	 */
-	public function gd_thumbnail_with_transparency($path, $target_path, $image, $size, $w_or_h){
+	public function gd_thumbnail_with_transparency($path, $target_path, $image, $size, $w_or_h) {
 		if( strpos($image, '.jpg') != false || 
 			strpos($image, '.jpeg') != false || 
 			strpos($image, '.jpe') != false || 
 			strpos($image, '.JPG') != false || 
 			strpos($image, '.JPEG') != false || 
-			strpos($image, '.JPE') != false){ $img_src = @imagecreatefromjpeg($path.$image); }
+			strpos($image, '.JPE') != false) { $img_src = @imagecreatefromjpeg($path.$image); }
 		
 		if( strpos($image, '.png') != false || 
-			strpos($image, '.PNG') != false){ $img_src = @imagecreatefrompng($path.$image); }
+			strpos($image, '.PNG') != false) { $img_src = @imagecreatefrompng($path.$image); }
 		
 		if( strpos($image, '.gif') != false || 
-			strpos($image, '.GIF') != false){ $img_src = @imagecreatefromgif($path.$image); }
+			strpos($image, '.GIF') != false) { $img_src = @imagecreatefromgif($path.$image); }
 		
 		$img_o_width  = imagesx($img_src);
 		$img_o_height = imagesy($img_src);
 		
-		if($w_or_h == 'create'){
+		if($w_or_h == 'create') {
 			$X_factor100  = $img_o_width/$size;
 			
 			$img_width    = $img_o_width/$X_factor100;
@@ -534,7 +555,7 @@ class tcms_gd {
 			//$img_file    = imagecreatetruecolor($img_width, $img_height);
 			$img_file    = @imagecreate($img_width, $img_height);
 			
-			if($this->m_version == '89a' && $this->m_colorFlag == 1){
+			if($this->m_version == '89a' && $this->m_colorFlag == 1) {
 				$transparent = @imagecolorallocate($img_file, 
 					$this->m_transparentRed, 
 					$this->m_transparentGreen, 
@@ -548,8 +569,8 @@ class tcms_gd {
 			@imagepng($img_file, $img_path);
 		}
 		
-		if($w_or_h == 'w'){ return $img_o_width; }
-		if($w_or_h == 'h'){ return $img_o_height; }
+		if($w_or_h == 'w') { return $img_o_width; }
+		if($w_or_h == 'h') { return $img_o_height; }
 	}
 	
 	
@@ -562,11 +583,11 @@ class tcms_gd {
 	 * @param String $path
 	 * @param String $targetPath
 	 */
-	public function createftp($path, $target_path){
+	public function createftp($path, $target_path) {
 		$dir = opendir($path);
 		
-		while($entry = readdir($dir)){
-			if($entry != '.' && $entry != '..' && $entry != 'CVS'){
+		while($entry = readdir($dir)) {
+			if($entry != '.' && $entry != '..' && $entry != 'CVS') {
 				$xmluser = new xmlparser($target_path.$entry.'.xml', 'w');
 				$xmluser->xml_declaration();
 				$xmluser->xml_section('image');
@@ -599,18 +620,18 @@ class tcms_gd {
 	 * @param String $path
 	 * @param String $targetPath
 	 */
-	public function createftp_sql($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $path, $image_folder){
+	public function createftp_sql($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $path, $image_folder) {
 		$dir = opendir($path);
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
 		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		while($entry = readdir($dir)){
-			if($entry != '.' && $entry != '..' && $entry != 'CVS'){
+		while($entry = readdir($dir)) {
+			if($entry != '.' && $entry != '..' && $entry != 'CVS') {
 				$new_image_id = substr(md5(microtime()), 0, 10);
 				
 				$newSQLColumns = 'album, image, date';
 				
-				switch($choosenDB){
+				switch($choosenDB) {
 					case 'mysql':
 						$newSQLColumns = 'album, image, date';
 						break;

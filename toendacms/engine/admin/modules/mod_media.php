@@ -23,24 +23,24 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a media manager.
  *
- * @version 0.7.5
+ * @version 0.7.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
  */
 
 
-if(isset($_GET['action'])){ $action = $_GET['action']; }
-if(isset($_GET['check'])){ $check = $_GET['check']; }
-if(isset($_GET['path'])){ $path = $_GET['path']; }
-if(isset($_GET['delimg'])){ $delimg = $_GET['delimg']; }
-if(isset($_GET['directory'])){ $directory = $_GET['directory']; }
+if(isset($_GET['action'])) { $action = $_GET['action']; }
+if(isset($_GET['check'])) { $check = $_GET['check']; }
+if(isset($_GET['path'])) { $path = $_GET['path']; }
+if(isset($_GET['delimg'])) { $delimg = $_GET['delimg']; }
+if(isset($_GET['directory'])) { $directory = $_GET['directory']; }
 
-if(isset($_POST['action'])){ $action = $_POST['action']; }
-if(isset($_POST['event'])){ $event = $_POST['event']; }
-if(isset($_POST['delimg'])){ $delimg = $_POST['delimg']; }
-if(isset($_POST['path'])){ $path = $_POST['path']; }
-if(isset($_POST['directory'])){ $directory = $_POST['directory']; }
+if(isset($_POST['action'])) { $action = $_POST['action']; }
+if(isset($_POST['event'])) { $event = $_POST['event']; }
+if(isset($_POST['delimg'])) { $delimg = $_POST['delimg']; }
+if(isset($_POST['path'])) { $path = $_POST['path']; }
+if(isset($_POST['directory'])) { $directory = $_POST['directory']; }
 
 
 
@@ -49,7 +49,7 @@ if(isset($_POST['directory'])){ $directory = $_POST['directory']; }
 // TABS
 // --------------------------------------------------------------------
 
-if(!isset($action)){ $action = 'image'; }
+if(!isset($action)) { $action = 'image'; }
 
 echo '<div style="display: block; width: 100%; border-bottom: 1px solid #ccc; padding-bottom: 2px; margin: 10px 0 0 0;">'
 .'<div style="display: block; width: 30px; float: left;">&nbsp;</div>'
@@ -84,7 +84,7 @@ $maxVal = count($arr_dir);
 // DISPLAY
 // --------------------------------------------------------------------
 
-if($todo != 'upload' && $todo != 'deleteImage'){
+if($todo != 'upload' && $todo != 'deleteImage') {
 	echo '<form name="upload" id="upload" action="admin.php?id_user='.$id_user.'&amp;site=mod_media" method="post" enctype="multipart/form-data">';
 	
 	
@@ -130,7 +130,7 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 	);
 	
 	if($tcms_main->isArray($arr_path)) {
-		foreach($arr_path as $fkey => $fvalue){
+		foreach($arr_path as $fkey => $fvalue) {
 			echo '<option value="'.$fvalue.'">'.$fvalue.'</option>';
 		}
 	}
@@ -381,11 +381,12 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 		$bgkey = 0;
 		
 		// files
-		foreach($arr_dir as $fileKey => $fileVal){
+		foreach($arr_dir as $fileKey => $fileVal) {
 			$dkey = $fileKey;
 			$dvalue = $fileVal;
 			
 			$relPath = ( $path == '' ? '' : $path.'/' );
+			$relPref = ( $action == 'image' ? 'thumb_' : 'thumb_faq_' );
 			
 			//echo $fileKey.$fileVal.'<br />';
 			
@@ -394,9 +395,10 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 			|| $tcms_main->isVideo($dvalue, false)
 			|| $tcms_main->isMultimedia($dvalue, false)) {
 				if(!preg_match('/.mp3/i', strtolower($dvalue))) {
-					if(trim($action) == 'image'){
-						if(!file_exists(_TCMS_PATH.'/images/upload_thumb/'.$relPath.'thumb_'.$dvalue)) {
-							$tcms_gd->createThumbnail(
+					if(trim($action) == 'image') {
+						if(!file_exists(_TCMS_PATH.'/images/upload_thumb/'.$relPath.$relPref.$dvalue)) {
+							$tcms_gd->createThumbnailExt(
+								$relPref, 
 								_TCMS_PATH.'/images/Image/'.$relPath, 
 								_TCMS_PATH.'/images/upload_thumb/'.$relPath, 
 								$dvalue, 
@@ -404,9 +406,10 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 							);
 						}
 					}
-					else{
-						if(!file_exists(_TCMS_PATH.'/images/upload_thumb/'.$relPath.'thumb_'.$dvalue)) {
-							$tcms_gd->createThumbnail(
+					else {
+						if(!file_exists(_TCMS_PATH.'/images/upload_thumb/'.$relPath.$relPref.$dvalue)) {
+							$tcms_gd->createThumbnailExt(
+								$relPref, 
 								_TCMS_PATH.'/images/knowledgebase/'.$relPath, 
 								_TCMS_PATH.'/images/upload_thumb/'.$relPath, 
 								$dvalue, 
@@ -430,9 +433,9 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 				$boxImgH = 0;
 				
 				if($tcms_main->isImage($dvalue, false)) {
-					if($tcms_file->checkFileExist(_TCMS_PATH.'/images/upload_thumb/'.$relPath.'thumb_'.$dvalue)) {
+					if($tcms_file->checkFileExist(_TCMS_PATH.'/images/upload_thumb/'.$relPath.$relPref.$dvalue)) {
 						$tcms_gd->readImageInformation(
-							_TCMS_PATH.'/images/upload_thumb/'.$relPath.'thumb_'.$dvalue
+							_TCMS_PATH.'/images/upload_thumb/'.$relPath.$relPref.$dvalue
 						);
 						
 						if($tcms_gd->getImageHeight() > 85) {
@@ -455,8 +458,8 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 				}
 				
 				// get image info
-				if(!preg_match('/.mp3/i', strtolower($dvalue))){
-					if(trim($action) == 'image'){
+				if(!preg_match('/.mp3/i', strtolower($dvalue))) {
+					if(trim($action) == 'image') {
 						if(file_exists(_TCMS_PATH.'/images/Image/'.$relPath.$dvalue)) {
 							$tcms_gd->readImageInformation(
 								_TCMS_PATH.'/images/Image/'.$relPath.$dvalue
@@ -514,65 +517,65 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 					
 					$checkType = true;
 					
-					if($tcms_file->getMimeType(strtolower($dvalue)) == 'mp3' && $checkType){
+					if($tcms_file->getMimeType(strtolower($dvalue)) == 'mp3' && $checkType) {
 						$imgAdd = '<img src=../images/mimetypes/mp3.png border=0 />';
 						$fileType = 'music';
 						$checkType = false;
 					}
-					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'wma' && $checkType){
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'wma' && $checkType) {
 						$imgAdd = '<img  src=../images/mimetypes/wma.png border=0 />';
 						$fileType = 'music';
 						$checkType = false;
 					}
-					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'wav' && $checkType){
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'wav' && $checkType) {
 						$imgAdd = '<img  src=../images/mimetypes/wav.png border=0 />';
 						$fileType = 'music';
 						$checkType = false;
 					}
-					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'ogg' && $checkType){
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'ogg' && $checkType) {
 						$imgAdd = '<img  src=../images/mimetypes/ogg.png border=0 />';
 						$fileType = 'music';
 						$checkType = false;
 					}
-					elseif($tcms_file->getMimeType(strtolower($dvalue)) == 'avi' && $checkType){
+					elseif($tcms_file->getMimeType(strtolower($dvalue)) == 'avi' && $checkType) {
 						$imgAdd = '<img  src=../images/mimetypes/avi.png border=0 />';
 						$fileType = 'movie';
 						$checkType = false;
 					}
-					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'mpeg' && $checkType){
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'mpeg' && $checkType) {
 						$imgAdd = '<img  src=../images/mimetypes/mpeg.png border=0 />';
 						$fileType = 'movie';
 						$checkType = false;
 					}
-					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'mpg' && $checkType){
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'mpg' && $checkType) {
 						$imgAdd = '<img  src=../images/mimetypes/mpeg.png border=0 />';
 						$fileType = 'movie';
 						$checkType = false;
 					}
-					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'wmv' && $checkType){
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'wmv' && $checkType) {
 						$imgAdd = '<img  src=../images/mimetypes/wmv.png border=0 />';
 						$fileType = 'movie';
 						$checkType = false;
 					}
-					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'swf' && $checkType){
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'swf' && $checkType) {
 						$imgAdd = '<img '
 						.' src=../images/mimetypes/swf.png border=0 />';
 						$fileType = 'movie';
 						$checkType = false;
 					}
-					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'cab' && $checkType){
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'cab' && $checkType) {
 						$imgAdd = '<img '
 						.' src=../images/mimetypes/cab.png border=0 />';
 						$fileType = 'movie';
 						$checkType = false;
 					}
-					else if($checkType){
-						if($tcms_file->checkFileExist(_TCMS_PATH.'/images/upload_thumb/'.$relPath.'thumb_'.$dvalue)) {
+					else if($checkType) {
+						if($tcms_file->checkFileExist(_TCMS_PATH.'/images/upload_thumb/'.$relPath.$relPref.$dvalue)) {
 							$imgAdd = '<img'.(
 								$img_o_height > $img_o_width
 								? ( $img_o_height > 100 ? ' height=100' : '' )
 								: ( $img_o_width > 100 ? ' width=100' : '' )
-							).' src='._TCMS_PATH.'/images/upload_thumb/'.$relPath.'thumb_'.$dvalue.''
+							).' src='._TCMS_PATH.'/images/upload_thumb/'.$relPath.$relPref.$dvalue.''
 							.' border=0 />';
 							
 							$fileType = 'image';
@@ -624,7 +627,7 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 					<a onmouseover="return overlib(\''.$overlibText.'\', CAPTION, \''
 					.( strlen($dvalue) > 25 ? substr($dvalue, 0, 20).' ...' : $dvalue )
 					.'\', BELOW, RIGHT, WIDTH, 150);" onmouseout="return nd();"'
-					.' href="javascript:imageWindow(\''.$path.'/'.$dvalue.'\', \'media\');">'
+					.' href="javascript:imageWindowExt(\''.$relPath.$dvalue.'\', \'media\', '.( trim($action) == 'image' ? 'false' : 'true' ).');">'
 					.'<img style="border: 1px solid #ccc; margin: 2px 2px 0 2px; float: left;"'
 					.' src="../images/explore/'.$fileType.'.png" border="0" />'
 					.'<div style="padding: 8px 0 0 5px;">'
@@ -636,14 +639,14 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 					// date
 					echo '<td class="tcms_db_2">'
 					.$tcms_file->getFileCreateTime(
-						'../../data/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue
+						'../../data/images/'.( trim($action) == 'image' ? 'Image' : 'knowledgebase' ).'/'.$relPath.$dvalue
 					)
 					.'</td>';
 					
 					// size
 					echo '<td class="tcms_db_2">'
 					.$tcms_file->getDirectorySizeString(
-						'../../data/images/Image/'.( $path == '' ? '' : $path.'/' ).$dvalue
+						'../../data/images/'.( trim($action) == 'image' ? 'Image' : 'knowledgebase' ).'/'.$relPath.$dvalue
 					)
 					.'</td>';
 					
@@ -698,56 +701,56 @@ if($todo != 'upload' && $todo != 'deleteImage'){
 					
 					$checkType = true;
 					
-					if($tcms_file->getMimeType(strtolower($dvalue)) == 'mp3' && $checkType){
+					if($tcms_file->getMimeType(strtolower($dvalue)) == 'mp3' && $checkType) {
 						echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/mp3.png" border="0" />';
 						$checkType = false;
 					}
-					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'wma' && $checkType){
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'wma' && $checkType) {
 						echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/wma.png" border="0" />';
 						$checkType = false;
 					}
-					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'wav' && $checkType){
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'wav' && $checkType) {
 						echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/wav.png" border="0" />';
 						$checkType = false;
 					}
-					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'ogg' && $checkType){
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'ogg' && $checkType) {
 						echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/ogg.png" border="0" />';
 						$checkType = false;
 					}
-					elseif($tcms_file->getMimeType(strtolower($dvalue)) == 'avi' && $checkType){
+					elseif($tcms_file->getMimeType(strtolower($dvalue)) == 'avi' && $checkType) {
 						echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/avi.png" border="0" />';
 						$checkType = false;
 					}
-					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'mpeg' && $checkType){
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'mpeg' && $checkType) {
 						echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/mpeg.png" border="0" />';
 						$checkType = false;
 					}
-					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'mpg' && $checkType){
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'mpg' && $checkType) {
 						echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/mpeg.png" border="0" />';
 						$checkType = false;
 					}
-					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'wmv' && $checkType){
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'wmv' && $checkType) {
 						echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;" src="../images/mimetypes/wmv.png" border="0" />';
 						$checkType = false;
 					}
-					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'swf' && $checkType){
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'swf' && $checkType) {
 						echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;"'
 						.' src="../images/mimetypes/swf.png" border="0" />';
 						$checkType = false;
 					}
-					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'cab' && $checkType){
+					else if($tcms_file->getMimeType(strtolower($dvalue)) == 'cab' && $checkType) {
 						echo '<img style="border: 1px solid #ccc; margin: 26px auto auto 26px;"'
 						.' src="../images/mimetypes/cab.png" border="0" />';
 						$checkType = false;
 					}
-					else if($checkType){
-						if($tcms_file->checkFileExist(_TCMS_PATH.'/images/upload_thumb/'.$relPath.'thumb_'.$dvalue)) {
+					else if($checkType) {
+						if($tcms_file->checkFileExist(_TCMS_PATH.'/images/upload_thumb/'.$relPath.$relPref.$dvalue)) {
 							echo '<img'.(
 								$img_o_height > $img_o_width
 								? ( $img_o_height > 100 ? ' height="100"' : '' )
 								: ( $img_o_width > 100 ? ' width="100"' : '' )
 							).' style="border: 1px solid #ccc;"'
-							.' src="'._TCMS_PATH.'/images/upload_thumb/'.$relPath.'thumb_'.$dvalue.'"'
+							.' src="'._TCMS_PATH.'/images/upload_thumb/'.$relPath.$relPref.$dvalue.'"'
 							.' border="0" />';
 						}
 						else {
@@ -807,7 +810,7 @@ if($todo == 'upload') {
 	$tcms_main->isImage($_FILES['event']['type']) ||
 	$tcms_main->isAudio($_FILES['event']['type']) ||
 	$tcms_main->isVideo($_FILES['event']['type']) ||
-	$tcms_main->isMultimedia($_FILES['event']['type']))){
+	$tcms_main->isMultimedia($_FILES['event']['type']))) {
 		if($_FILES['event']['size'] <= $upload_max_filesize
 		&& $_FILES['event']['size'] <= $post_max_size) {
 			$fileName = $_FILES['event']['name'];
@@ -854,25 +857,29 @@ if($todo == 'upload') {
 
 if($todo == 'deleteImage') {
 	if(trim($action) == 'image') {
-		if(is_dir(_TCMS_PATH.'/images/Image/'.$path.$delimg) == 1){
+		if(is_dir(_TCMS_PATH.'/images/Image/'.$path.$delimg) == 1) {
 			//$tcms_file->deleteDir(_TCMS_PATH.'/images/Image/'.$delimg);
 			unlink(_TCMS_PATH.'/images/Image/'.$path.$delimg);
 		}
 		else {
 			unlink(_TCMS_PATH.'/images/Image/'.$path.$delimg);
 		}
+		
+		$relPref = 'thumb_';
 	}
 	else {
-		if(is_dir(_TCMS_PATH.'/images/knowledgebase/'.$path.$delimg) == 1){
+		if(is_dir(_TCMS_PATH.'/images/knowledgebase/'.$path.$delimg) == 1) {
 			//$tcms_file->deleteDir(_TCMS_PATH.'/images/knowledgebase/'.$delimg);
 			unlink(_TCMS_PATH.'/images/knowledgebase/'.$path.$delimg);
 		}
 		else {
 			unlink(_TCMS_PATH.'/images/knowledgebase/'.$path.$delimg);
 		}
+		
+		$relPref = 'thumb_faq_';
 	}
 	
-	unlink(_TCMS_PATH.'/images/upload_thumb/'.$path.'thumb_'.$delimg);
+	unlink(_TCMS_PATH.'/images/upload_thumb/'.$path.$relPref.$delimg);
 	
 	if(trim($path) != '') {
 		$path = str_replace('/', '', $path);
