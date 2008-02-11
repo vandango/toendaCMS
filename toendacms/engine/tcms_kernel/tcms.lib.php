@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic public functions.
  *
- * @version 3.1.1
+ * @version 3.1.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -1334,6 +1334,8 @@ class tcms_main {
 		$text = strip_tags(' - '.trim(substr($text, 0, 240)));
 		$text = str_replace(chr(10), ' ', $text);
 		$text = str_replace(chr(13), ' ', $text);
+		$text = $this->replaceAmp($text);
+		$text = htmlentities($text);
 		
 		return $text;
 	}

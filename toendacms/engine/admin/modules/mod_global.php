@@ -1154,7 +1154,7 @@ if($id_group == 'Developer'
 			
 			
 			
-			echo '<tr><td colspan="2" class="tcms_padding_mini">'
+			/*echo '<tr><td colspan="2" class="tcms_padding_mini">'
 			.'<br /></td></tr>';
 			
 			
@@ -1166,7 +1166,7 @@ if($id_group == 'Developer'
 			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_global&todo=clean&this_engine='.$choosenDB.'&action='.$action.'\';'
 			.'" />'
 			.'</td>'
-			.'</tr>';
+			.'</tr>';*/
 		}
 		
 		
