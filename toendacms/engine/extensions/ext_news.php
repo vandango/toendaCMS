@@ -59,9 +59,6 @@ if(isset($_POST['trackback_url'])) { $trackback_url = $_POST['trackback_url']; }
 
 $getLang = $tcms_config->getLanguageCodeForTCMS($lang);
 
-using('toendacms.datacontainer.news');
-using('toendacms.datacontainer.comment');
-
 $hr_line_1 = '<tr class="hr_line"><td colspan="2"></td></tr>';
 $hr_line_2 = '<div class="news_seperator" style="margin-bottom: '.$news_spacing.'px;">&nbsp;</div>';
 $hr_line_3 = '<tr class="hr_line"><td colspan="3"></td></tr>';

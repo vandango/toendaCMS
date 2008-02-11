@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.7.4
+ * @version 1.7.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -69,6 +69,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getXmlIdFromContentLanguage               -> Get the id of a language content file
  * getContentTitle                           -> Get the title of a content element
  * getContentIdByTitle                       -> Get the id of a content element by its title
+ * getGlobalContentDC                        -> Get the global content object
  *
  * getImprintDC                              -> Get a imprint data container
  * getFrontpageDC                            -> Get a frontpage data container
@@ -214,7 +215,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param String $language
 	 * @param String $newsID = ''
 	 * @param String $usergroup = ''
-	 * @return tcms_news_dc
+	 * @return tcms_dc_news
 	 */
 	public function getNewsDC($language, $newsID, $usergroup) {
 		$newsDC = new tcms_dc_news();
@@ -1520,7 +1521,7 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param String $contentID
 	 * @param Boolean $withLanguages = false
 	 * @param String $language = ''
-	 * @return tcms_content_dc
+	 * @return tcms_dc_content
 	 */
 	public function getContentDC($contentID, $withLanguages = false, $language = '') {
 		$contentDC = new tcms_dc_content();
@@ -2131,8 +2132,130 @@ class tcms_datacontainer_provider extends tcms_main {
 	
 	
 	/**
+	 * Get the global content object
+	 * 
+	 * @param String $id
+	 * @param String $language
+	 * @param String $usergroup
+	 * @param String $news = ''
+	 * @return tcms_dc_globalcontent
+	 */
+	public function getGlobalContentDC($id, $language, $usergroup, $news = '') {
+		$gc = new tcms_dc_globalcontent();
+		
+		switch($id) {
+			case 'profile':
+				break;
+			
+			case 'polls':
+				break;
+			
+			case 'register':
+				break;
+			
+			case 'imprint':
+				$dc = new tcms_dc_imprint();
+				$dc = $this->getImprintDC($language);
+				
+				$gc->setID($dc->getID());
+				$gc->setTitle($dc->getTitle());
+				$gc->setSubtitle($dc->getSubtitle());
+				$gc->setText($dc->getText());
+				$gc->getFootText('');
+				
+				unset($dc);
+				break;
+			
+			case 'frontpage':
+				$dc = new tcms_dc_frontpage();
+				$dc = $this->getFrontpageDC($language);
+				
+				$gc->setID($dc->getID());
+				$gc->setTitle($dc->getTitle());
+				$gc->setSubtitle($dc->getSubtitle());
+				$gc->setText($dc->getText());
+				$gc->getFootText('');
+				
+				unset($dc);
+				break;
+			
+			case 'search':
+				break;
+			
+			case 'download':
+				break;
+			
+			case 'products':
+				break;
+			
+			case 'components':
+				break;
+			
+			case 'imagegallery':
+				break;
+			
+			case 'guestbook':
+				break;
+			
+			case 'newsmanager':
+				break;
+			
+			case 'contactform':
+				$dc = new tcms_dc_contactform();
+				$dc = $this->getContactformDC($language);
+				
+				$gc->setID($dc->getID());
+				$gc->setTitle($dc->getTitle());
+				$gc->setSubtitle($dc->getSubtitle());
+				$gc->setText($dc->getText());
+				$gc->getFootText('');
+				
+				unset($dc);
+				break;
+			
+			case 'knowledgebase':
+				break;
+			
+			case 'links':
+				break;
+			
+			default:
+				if(trim($news) != '') {
+					$dc = new tcms_dc_news();
+					$dc = $this->getNewsDC($language, $news, $usergroup);
+					
+					$gc->setID($dc->getID());
+					$gc->setTitle($dc->getTitle());
+					$gc->setSubtitle('');
+					$gc->setText($dc->getText());
+					$gc->getFootText('');
+					
+					unset($dc);
+				}
+				else {
+					$dc = new tcms_dc_content();
+					$dc = $this->getContentDC($id, true, $language);
+					
+					$gc->setID($dc->getID());
+					$gc->setTitle($dc->getTitle());
+					$gc->setSubtitle($dc->getKeynote());
+					$gc->setText($dc->getText());
+					$gc->getFootText($dc->getFootText());
+					
+					unset($dc);
+				}
+				break;
+		}
+		
+		return $gc;
+	}
+	
+	
+	
+	/**
 	 * Get a imprint data container
 	 * 
+	 * @param String $language
 	 * @return tcms_dc_imprint
 	 */
 	public function getImprintDC($language) {
