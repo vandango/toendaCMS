@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 3.0.9
+ * @version 3.1.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -453,6 +453,7 @@ if($wsShowSite) {
 		}
 		
 		// include datacontainer
+		using('toendacms.datacontainer.content');
 		using('toendacms.datacontainer.sidebarmodule');
 		using('toendacms.datacontainer.sidebarextensions');
 		using('toendacms.datacontainer.contactform');
@@ -464,6 +465,10 @@ if($wsShowSite) {
 		using('toendacms.datacontainer.download');
 		using('toendacms.datacontainer.knowledgebase');
 		using('toendacms.datacontainer.links');
+		using('toendacms.datacontainer.imprint');
+		using('toendacms.datacontainer.news');
+		using('toendacms.datacontainer.comment');
+		using('toendacms.datacontainer.globalcontent');
 		
 		
 		

@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used as a law-concurring
  * publishing form.
  *
- * @version 0.4.3
+ * @version 0.4.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -34,8 +34,6 @@ defined('_TCMS_VALID') or die('Restricted access');
 /*
 	INIT
 */
-
-using('toendacms.datacontainer.imprint');
 
 $dcImpressum = new tcms_dc_imprint();
 $dcImpressum = $tcms_dcp->getImprintDC($getLang);
