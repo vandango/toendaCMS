@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for globar backend values.
  *
- * @version 0.5.8
+ * @version 0.5.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -576,7 +576,9 @@ else{
 	$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 	$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 	
-	$sqlQR = $sqlAL->getAll($tcms_db_prefix.'news_categories');
+	$sqlQR = $sqlAL->getAll(
+		$tcms_db_prefix.'news_categories ORDER BY name ASC'
+	);
 	$count = 0;
 	
 	while($sqlObj = $sqlAL->fetchObject($sqlQR)){

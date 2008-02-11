@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.7.3
+ * @version 1.7.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -3296,7 +3296,7 @@ class tcms_datacontainer_provider extends tcms_main {
 				'r'
 			);
 			
-			if(!$wsSideTitle) {
+			if(!$loadSideData) {
 				$wsID           = 'links_config_main';
 				$wsTitle        = $xml->readSection('config', 'link_main_title');
 				$wsKey          = $xml->readSection('config', 'link_main_subtitle');
@@ -3345,7 +3345,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$strQuery = "SELECT * "
 			."FROM ".$this->m_sqlPrefix."links_config ";
 			
-			if(!$wsSideTitle) {
+			if(!$loadSideData) {
 				$strQuery .= "WHERE uid = 'links_config_main'";
 			}
 			else {
@@ -3357,7 +3357,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$sqlQR = $sqlAL->query($strQuery);
 			$sqlObj = $sqlAL->fetchObject($sqlQR);
 			
-			if(!$wsSideTitle) {
+			if(!$loadSideData) {
 				$wsID           = 'links_config_main';
 				$wsTitle        = $sqlObj->link_main_title;
 				$wsKey          = $sqlObj->link_main_subtitle;

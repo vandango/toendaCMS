@@ -15,6 +15,38 @@ Knowledgebase Template
 
 
 
+----------
+SELECT
+	COUNT(tcms_news_to_categories.news_uid) AS countNC ,
+	tcms_news_categories.name AS tncName ,
+	tcms_news_categories.uid AS tncUID ,
+	tcms_news.title as nName,
+	tcms_news.uid as nUID
+FROM tcms_news_to_categories 
+INNER JOIN tcms_news 
+ON (tcms_news_to_categories.news_uid = tcms_news.uid) 
+INNER JOIN tcms_news_categories 
+ON (tcms_news_to_categories.cat_uid = tcms_news_categories.uid) 
+WHERE tcms_news.access = 'Public' 
+AND tcms_news.language = 'english_EN'
+GROUP BY tcms_news_categories.name, tcms_news_categories.uid ORDER BY tncName
+
+
+
+
+
+SELECT nc.*
+FROM tcms_news_categories AS nc
+LEFT JOIN tcms_news_to_categories AS ntc
+ON nc.uid = ntc.cat_uid
+LEFT JOIN tcms_news AS n
+ON n.uid = ntc.news_uid
+WHERE ntc.uid IS NULL
+----------
+
+
+
+
 
     * Imagegallery
       - Good thumbnail quality. But I think you will already make this better in your next update.

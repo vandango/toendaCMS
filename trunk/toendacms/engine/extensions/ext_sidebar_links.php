@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides a linklist for the sidebar.
  *
- * @version 0.2.1
+ * @version 0.2.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -32,7 +32,7 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 if($use_side_links == 1) {
 	$lDC = new tcms_dc_links();
-	$lDC = $tcms_dcp->getLinksDC($language);
+	$lDC = $tcms_dcp->getLinksDC($language, true);
 	
 	
 	if($lDC->getUseSideTitle()) {

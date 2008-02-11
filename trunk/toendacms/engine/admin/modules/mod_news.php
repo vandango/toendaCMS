@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the news.
  *
- * @version 1.9.1
+ * @version 1.9.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -1171,9 +1171,10 @@ if($todo == 'edit'){
 			
 			
 			$strSQL = "SELECT * "
-			."FROM ".$tcms_db_prefix."news_to_categories "
-			."INNER JOIN ".$tcms_db_prefix."news_categories ON (".$tcms_db_prefix."news_to_categories.cat_uid = ".$tcms_db_prefix."news_categories.uid) "
-			."WHERE (".$tcms_db_prefix."news_to_categories.news_uid = '".$maintag."')";
+			." FROM ".$tcms_db_prefix."news_to_categories "
+			." INNER JOIN ".$tcms_db_prefix."news_categories ON (".$tcms_db_prefix."news_to_categories.cat_uid = ".$tcms_db_prefix."news_categories.uid) "
+			." WHERE (".$tcms_db_prefix."news_to_categories.news_uid = '".$maintag."')"
+			." ORDER BY ".$tcms_db_prefix."news_to_categorie.name DESC";
 			
 			$sqlQR = $sqlAL->query($strSQL);
 			
