@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.7.5
+ * @version 1.7.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -1200,7 +1200,7 @@ class tcms_datacontainer_provider extends tcms_main {
 				$wsTitle = html_entity_decode($wsTitle);
 				
 				$item->title = $commentForText.' '.$wsTitle.' '.strtolower($postedByText).' '.$dcComment->getName();
-				$item->link = $wsowner_url.$seoFolder.'/?id=newsmanager&amp;news='.$dcComment->getID();
+				$item->link = $wsowner_url.$seoFolder.'/?id=newsmanager&news='.$dcComment->getID();
 				
 				$item->description = $dcComment->getText();
 				$item->date = mktime(
