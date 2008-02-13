@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a search module.
  *
- * @version 0.7.1
+ * @version 0.7.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -70,6 +70,11 @@ echo '<form action="'.( $seoEnabled == 1 ? $seoFolder.'/' : '' ).'?" method="pos
 .'<input type="hidden" name="s" value="'.$s.'" />'
 .( isset($session) ? '<input type="hidden" name="session" value="'.$session.'" />' : '' )
 .( isset($lang) ? '<input type="hidden" name="lang" value="'.$lang.'" />' : '' );
+
+
+if(!isset($option)) {
+	$option = 'con';
+}
 
 
 echo '<div align="left" class="text_normal">'
@@ -180,7 +185,7 @@ else {
 
 echo '<div style="display:block;">'
 .'<label for="all">'
-.'<input type="radio" style="border: 0px !important;" name="option" id="all" value="all"'.( $option == 'all' ? ' checked' : '' ).' />'
+.'<input type="radio" style="border: 0px !important;" name="option" id="all" value="all"'.( $option == 'all' ? ' checked="checked"' : '' ).' />'
 .'&nbsp;'._NEWS_ALL
 .'</label>'
 .'</div>';
@@ -192,10 +197,6 @@ echo '<br />';
 
 echo $tcms_html->searchResultTitle(_SEARCH_TEXT_FOUND)
 .'<br />';
-
-if(!isset($option)) {
-	$option = 'con';
-}
 
 $nothing_search = _SEARCH_BOX;
 $sc = 0;

@@ -25,7 +25,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Adapted from original code by Natalie Downe: 
  * http://blog.natbat.co.uk/archive/2003/Jun/14/time_since
  *
- * @version 0.2.0
+ * @version 0.2.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -215,7 +215,7 @@ class tcms_blogfeatures {
 			case 06:
 				switch(trim($lang)) {
 					case 'en': $tod = 'terribly early in the morning'; break;
-					case 'de': $tod = 'sehr früher morgen'; break;
+					case 'de': $tod = 'sehr fr&#252;her morgen'; break;
 					default: $tod = 'terribly early in the morning'; break;
 				}
 				break;
@@ -225,7 +225,7 @@ class tcms_blogfeatures {
 			case 09:
 				switch(trim($lang)) {
 					case 'en': $tod = 'early morning'; break;
-					case 'de': $tod = 'früher morgen'; break;
+					case 'de': $tod = 'fr&#252;her morgen'; break;
 					default: $tod = 'early morning'; break;
 				}
 				break;
@@ -258,7 +258,7 @@ class tcms_blogfeatures {
 			case 14:
 				switch(trim($lang)) {
 					case 'en': $tod = 'early afternoon'; break;
-					case 'de': $tod = 'früher nachmittag'; break;
+					case 'de': $tod = 'fr&#252;her nachmittag'; break;
 					default: $tod = 'early afternoon'; break;
 				}
 				break;
@@ -275,7 +275,7 @@ class tcms_blogfeatures {
 			case 17:
 				switch(trim($lang)) {
 					case 'en': $tod = 'late afternoon'; break;
-					case 'de': $tod = 'später nachmittag'; break;
+					case 'de': $tod = 'sp&#228;ter nachmittag'; break;
 					default: $tod = 'late afternoon'; break;
 				}
 				break;
@@ -284,7 +284,7 @@ class tcms_blogfeatures {
 			case 19:
 				switch(trim($lang)) {
 					case 'en': $tod = 'early evening'; break;
-					case 'de': $tod = 'früher abend'; break;
+					case 'de': $tod = 'fr&#252;her abend'; break;
 					default: $tod = 'early evening'; break;
 				}
 				break;
@@ -301,7 +301,7 @@ class tcms_blogfeatures {
 			case 22:
 				switch(trim($lang)) {
 					case 'en': $tod = 'late evening'; break;
-					case 'de': $tod = 'später abend'; break;
+					case 'de': $tod = 'sp&#228;ter abend'; break;
 					default: $tod = 'late evening'; break;
 				}
 				break;
@@ -309,7 +309,7 @@ class tcms_blogfeatures {
 			case 23:
 				switch(trim($lang)) {
 					case 'en': $tod = 'late at night'; break;
-					case 'de': $tod = 'spät in der nacht'; break;
+					case 'de': $tod = 'sp&#228;t in der Nacht'; break;
 					default: $tod = 'late at night'; break;
 				}
 				break;

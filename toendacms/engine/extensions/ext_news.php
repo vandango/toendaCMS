@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a news manager with a news,
  * a news view and a archive with different formats.
  *
- * @version 1.6.4
+ * @version 1.6.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -300,21 +300,21 @@ if($news != ''
 				
 				switch(trim($lang)) {
 					case 'en':
-						$entryDate .= substr($dcNews->GetDate(), 6, 4)
-						.' '.substr($dcNews->GetTime(), 0, 2).':'
-						.substr($dcNews->GetTime(), 3, 2).'h';
+						$entryDate .= substr($dcNews->GetDate(), 6, 4);
+						//.' '.substr($dcNews->GetTime(), 0, 2).':'
+						//.substr($dcNews->GetTime(), 3, 2).'h';
 						break;
 					
 					case 'de':
-						$entryDate .= substr($dcNews->GetDate(), 6, 4)
-						.' '.substr($dcNews->GetTime(), 0, 2).':'
-						.substr($dcNews->GetTime(), 3, 2).' Uhr';
+						$entryDate .= substr($dcNews->GetDate(), 6, 4);
+						//.' '.substr($dcNews->GetTime(), 0, 2).':'
+						//.substr($dcNews->GetTime(), 3, 2).' Uhr';
 						break;
 					
 					default:
-						$entryDate .= substr($dcNews->GetDate(), 6, 4)
-						.' '.substr($dcNews->GetTime(), 0, 2).':'
-						.substr($dcNews->GetTime(), 3, 2).'h';
+						$entryDate .= substr($dcNews->GetDate(), 6, 4);
+						//.' '.substr($dcNews->GetTime(), 0, 2).':'
+						//.substr($dcNews->GetTime(), 3, 2).'h';
 						break;
 				}
 				
@@ -879,18 +879,30 @@ if($use_news_comments == 1) {
 		$save_comment = true;
 		
 		if($use_captcha == 1) {
-			if($comment_captcha == '') {
+			if(trim($comment_captcha) == '') {
 				echo _MSG_NOCAPTCHA.'<br />';
 				$save_comment = false;
 			}
-			else { $save_comment = true; }
+			else {
+				$save_comment = true;
+			}
 			
 			if($save_comment) {
-				if($comment_captcha != $check_captcha) {
+				$chk = $tcms_gd->getLastCaptchaImage(
+					$tcms_main, 
+					'cache/captcha/', 
+					$check_captcha, 
+					$comment_captcha
+				);
+				
+				if($comment_captcha != $chk
+				|| trim($chk) == '') {
 					echo _MSG_CAPTCHA_NOT_VALID.'<br />';
 					$save_comment = false;
 				}
-				else { $save_comment = true; }
+				else {
+					$save_comment = true;
+				}
 			}
 		}
 		
