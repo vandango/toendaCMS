@@ -20,7 +20,7 @@
  * 
  * This module is used to generate a pdf document
  * 
- * @version 0.3.1
+ * @version 0.3.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
