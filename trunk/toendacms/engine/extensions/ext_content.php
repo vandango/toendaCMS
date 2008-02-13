@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a base content loader.
  *
- * @version 0.8.8
+ * @version 0.8.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -38,16 +38,12 @@ if(!isset($page)) {
 	$page = 1;
 }
 
-if($tcms_main->isReal($news)) {
+/*if($tcms_main->isReal($news)) {
 	$gc = $tcms_dcp->getGlobalContentDC($id, $getLang, $is_admin, $news);
 }
 else {
 	$gc = $tcms_dcp->getGlobalContentDC($id, $getLang, $is_admin);
-}
-
-echo '<hr class="hr_line">'.$gc->getTitle().'<br>';
-echo $gc->getSubtitle().'<br>';
-echo $gc->getText().'<hr class="hr_line">';
+}*/
 
 
 
