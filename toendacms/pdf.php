@@ -140,7 +140,7 @@ switch($id){
 			$cl_xml = new xmlparser(_TCMS_PATH.'/tcms_content/'.$id.'.xml','r');
 			$authorized = $cl_xml->readSection('main', 'access');
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'content', $id);
@@ -172,13 +172,13 @@ if($authorized == 'Public'){ $ws_auth = 1; }
 if($authorized == 'Protected'){
 	$ws_auth = 0;
 	if($is_admin == 'User' || $is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Writer' || $is_admin == 'Editor' || $is_admin == 'Presenter'){ $ws_auth = 1; }
-	else{ $ws_auth = 0; }
+	else { $ws_auth = 0; }
 }
 
 if($authorized == 'Private'){
 	$ws_auth = 0;
 	if($is_admin == 'Administrator' || $is_admin == 'Developer'){ $ws_auth = 1; }
-	else{ $ws_auth = 0; }
+	else { $ws_auth = 0; }
 }
 
 
@@ -212,7 +212,7 @@ if($ws_auth == 1){
 				if(!$arr_news['stamp']){ $arr_news['stamp'] = ''; }
 				if(!$arr_news['image']){ $arr_news['image'] = ''; }
 			}
-			else{
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
@@ -294,7 +294,7 @@ if($ws_auth == 1){
 				if($arr_weight == false)      { $arr_weight      = ''; }
 				if($arr_sort == false)        { $arr_sort        = ''; }
 			}
-			else{
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
@@ -398,7 +398,7 @@ if($ws_auth == 1){
 			if(trim($arr_factory_url) == ''){
 				$arr_factory_url = _TABLE_FACTORY.': '.$arr_factory.'<br>';
 			}
-			else{
+			else {
 				$arr_factory_url = _TABLE_FACTORY.': '.$arr_factory.' ('.( substr($arr_factory_url, 0, 4) != 'http' ? 'http://' : '' ).$arr_factory_url.')<br>';
 			}
 			
@@ -431,7 +431,7 @@ if($ws_auth == 1){
 				$foot      = $content_xml->readSection('main', 'foot');
 				//$layout_id = $content_xml->readSection('main', 'db_layout');
 			}
-			else{
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
@@ -484,9 +484,8 @@ if($ws_auth == 1){
 	
 	
 	
-	/*if(!isset($layout_id) || $layout_id == '' || empty($layout_id)){
-		$layout_id = 'db_content_default.php';
-	}*/
+	$toendaScript = new toendaScript();
+	
 	
 	$content00 = str_replace('{tcms_more}', '', $content00);
 	
@@ -501,6 +500,8 @@ if($ws_auth == 1){
 	.$foot.'</div>'
 	.'</div>';
 	
+	unset($toendaScript);
+	
 	
 	$buffer = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'
 	.'<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">'
@@ -514,45 +515,10 @@ if($ws_auth == 1){
 	
 	//echo $buffer;
 	
-	
-	//--> DOMPDF
-	
-	$html ='<html><body>'.
-	'<p>Put your html here, or generate it with your favourite '.
-	'templating system.</p>'.
-	'</body></html>';
-	
 	$fp = fopen('cache/output4pdf.html', 'w');
 	fwrite($fp, $html);
 	fclose($fp);
 	
-	$input_file = '../../../../cache/output4pdf.html';
-	//$input_file = $seoFolder.'cache/output4pdf.html';
-	
-	$output_file = 'dompdf.pdf';
-	
-	$url = $seoFolder.'engine/tcms_kernel/dompdf/dompdf.php?input_file='
-	.rawurlencode($input_file)
-	.'&paper=letter&output_file='.rawurlencode($output_file);
-    
-    //header('Location: http://'.$_SERVER['HTTP_HOST'].$url);
-    echo '<script>'
-	.'document.location=\'http://'.$_SERVER['HTTP_HOST'].$url.'\';'
-	.'</script>';
-    
-	unlink('cache/output4pdf.html');
-    
-	/*
-	require_once('engine/tcms_kernel/dompdf/dompdf_config.inc.php');
-	
-	$dompdf = new DOMPDF();
-	$dompdf->set_base_path('engine/tcms_kernel/dompdf/');
-	$dompdf->load_html($html);
-	$dompdf->render();
-	$dompdf->stream('../../../cache/dompdf.pdf');
-	*/
-	
-	/*
 	include_once('engine/tcms_kernel/html2pdf/html2fpdf.php');
 	
 	$returnPDF = new HTML2FPDF();
@@ -560,10 +526,19 @@ if($ws_auth == 1){
 	$returnPDF->WriteHTML($buffer);
 	$returnPDF->SetAuthor($websiteowner);
 	$returnPDF->SetCreator('toendaCMS - '.$cms_release.' - '.$cms_build);
-	$returnPDF->Output();
-	*/
+	//$returnPDF->Output();
+	$returnPDF->Output('cache/output.pdf', 'F');
+	unset($returnPDF);
+    
+	unlink('cache/output4pdf.html');
+	//unlink('cache/output.pdf');
+    
+	
+    echo '<script>'
+	.'document.location=\'http://'.$_SERVER['HTTP_HOST'].$seoFolder.'cache/output.pdf\';'
+	.'</script>';
 }
-else{
+else {
 	include_once(_ERROR_401);
 }
 
