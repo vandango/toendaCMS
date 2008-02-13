@@ -44,7 +44,7 @@
 <tr>
 	<td valign="top" colspan="2">
 		<div class="headLinePadding">
-			<img src="/toendacms_svn/toendacms/engine/images/blank.gif" border="0" height="1" />
+			<img src="#####ALBUM_BLANK_IMAGE#####" border="0" height="1" />
 		</div>
 	</td>
 </tr>

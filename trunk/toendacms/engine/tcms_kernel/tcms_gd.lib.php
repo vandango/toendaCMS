@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for all graphic actions.
  *
- * @version 0.4.2
+ * @version 0.5.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -41,12 +41,11 @@ defined('_TCMS_VALID') or die('Restricted access');
  * readImageInformation              -> Read information about an image
  * createThumbnail                   -> Create a thumbnail of a image located in "path" and save it to "target_path"
  * createCaptchaImage                -> Creates a captcha image and returns the imagename
+ * getLastCaptchaImage               -> Get the last captcha image
  * 
  * DEPRECATED gd_imginfo                        -> Get information about an image
  * DEPRECATED gd_thumbnail                      -> creates thumbnails in png
  * DEPRECATED gd_thumbnail_with_transparency    -> creates thumbnails in png with transparenzy
- * DEPRECATED createftp                         -> creates tcms album from uploaded album
- * DEPRECATED createftp_sql                     -> creates tcms album from uploaded album - sql
  * 
  * </code>
  *
@@ -209,10 +208,6 @@ class tcms_gd {
 				$img_src = @imagecreatefromgif($path.$image);
 				break;
 			
-			case 'gif':
-				$img_src = @imagecreatefromgif($path.$image);
-				break;
-			
 			case 'bmp':
 				$img_src = @imagecreatefromwbmp($path.$image);
 				break;
@@ -331,8 +326,10 @@ class tcms_gd {
 			}
 		}
 		
+		$captchaFilename = md5($captcha);
+		
 		$handle = fopen($path.'captcha.txt', 'a');
-		fwrite($handle, "$captcha\n");
+		fwrite($handle, '-'.$captcha.$captchaFilename);
 		fclose($handle);
 		
 		$cImage = imagecreate(45, 18);
@@ -340,10 +337,41 @@ class tcms_gd {
 		$bg = ImageColorAllocate($cImage, 255, 255, 255);
 		@imagestring($cImage, 4, 1, 1, $captcha, 1);
 		
-		@imagepng($cImage, $path.$captcha.'.png');
+		@imagepng($cImage, $path.$captchaFilename.'.png');
 		//ImageDestroy($image);
 		
-		return $captcha;
+		return $captchaFilename;
+	}
+	
+	
+	
+	/**
+	 * Get the last captcha image
+	 *
+	 * @param tcms_main $tcms_main
+	 * @param String $path
+	 * @param String $captcha
+	 * @param String $value
+	 * @return String
+	 */
+	public function getLastCaptchaImage(&$tcms_main, $path, $captcha, $value) {
+		include_once('tcms_file.lib.php');
+		
+		$tcms_file = new tcms_file();
+		
+		$cnt = $tcms_file->readToEnd($path.'captcha.txt');
+		$full = explode('-', $cnt);
+		$upper = $tcms_main->countArrayValues($full);
+		$lastKey = substr($full[$upper], 0, 5);
+		$lastFile = substr($full[$upper], 5);
+		
+		if($lastFile == $captcha
+		&& $value == $lastKey) {
+			return $lastKey;
+		}
+		else {
+			return '';
+		}
 	}
 	
 	
@@ -571,89 +599,6 @@ class tcms_gd {
 		
 		if($w_or_h == 'w') { return $img_o_width; }
 		if($w_or_h == 'h') { return $img_o_height; }
-	}
-	
-	
-	
-	/**
-	 * DEPRECATED: Generates all the needed data xml files for a
-	 * ftp uploaded image folder
-	 * 
-	 * @deprecated 
-	 * @param String $path
-	 * @param String $targetPath
-	 */
-	public function createftp($path, $target_path) {
-		$dir = opendir($path);
-		
-		while($entry = readdir($dir)) {
-			if($entry != '.' && $entry != '..' && $entry != 'CVS') {
-				$xmluser = new xmlparser($target_path.$entry.'.xml', 'w');
-				$xmluser->xml_declaration();
-				$xmluser->xml_section('image');
-				$xmluser->write_value('text', '');
-				$xmluser->write_value('timecode', date('YmdHis'));
-				$xmluser->xml_section_buffer();
-				$xmluser->xml_section_end('image');
-				unset($xmluser);
-			}
-		}
-		
-		closedir($dir);
-		
-		return $target_path;
-	}
-	
-	
-	
-	/**
-	 * DEPRECATED: Generates all the needed data in the database for a
-	 * ftp uploaded image folder
-	 * 
-	 * @deprecated 
-	 * @param String $choosenDB
-	 * @param String $sqlUser
-	 * @param String $sqlPass
-	 * @param String $sqlHost
-	 * @param String $sqlDB
-	 * @param String $sqlPort
-	 * @param String $path
-	 * @param String $targetPath
-	 */
-	public function createftp_sql($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $path, $image_folder) {
-		$dir = opendir($path);
-		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-		
-		while($entry = readdir($dir)) {
-			if($entry != '.' && $entry != '..' && $entry != 'CVS') {
-				$new_image_id = substr(md5(microtime()), 0, 10);
-				
-				$newSQLColumns = 'album, image, date';
-				
-				switch($choosenDB) {
-					case 'mysql':
-						$newSQLColumns = 'album, image, date';
-						break;
-					
-					case 'pgsql':
-						$newSQLColumns = 'album, image, "date"';
-						break;
-					
-					case 'pgsql':
-						$newSQLColumns = '[album], [image], [date]';
-						break;
-				}
-				
-				$newSQLData = "'".$image_folder."', '".$entry."', '".date('YmdHis')."'";
-				
-				$sqlQR = $sqlAL->sqlCreateOne('tcms_imagegallery', $newSQLColumns, $newSQLData, $new_image_id);
-			}
-		}
-		
-		closedir($dir);
-		
-		return $image_folder;
 	}
 }
 

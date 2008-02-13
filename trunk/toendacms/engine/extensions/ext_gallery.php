@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a imagegallery.
  *
- * @version 1.0.1
+ * @version 1.0.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -205,7 +205,8 @@ if($albums == 'start') {
 					$link, 
 					$arr_albums['title'][$key], 
 					$entryImage, 
-					$arr_albums['description'][$key]
+					$arr_albums['description'][$key],
+					$imagePath.'engine/images/blank.gif'
 				);
 				
 				$tcms_script->doParsePHP($entry);
