@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.7.6
+ * @version 1.7.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -2144,13 +2144,17 @@ class tcms_datacontainer_provider extends tcms_main {
 		$gc = new tcms_dc_globalcontent();
 		
 		switch($id) {
+			case 'search':
+			case 'components':
+			case 'newsmanager':
 			case 'profile':
-				break;
-			
 			case 'polls':
-				break;
-			
 			case 'register':
+				$gc->setID('');
+				$gc->setTitle('');
+				$gc->setSubtitle('');
+				$gc->setText('');
+				$gc->getFootText('');
 				break;
 			
 			case 'imprint':
@@ -2179,25 +2183,56 @@ class tcms_datacontainer_provider extends tcms_main {
 				unset($dc);
 				break;
 			
-			case 'search':
-				break;
-			
 			case 'download':
+				$dc = new tcms_dc_download();
+				$dc = $this->getDownloadDC($language);
+				
+				$gc->setID($dc->getID());
+				$gc->setTitle($dc->getTitle());
+				$gc->setSubtitle($dc->getSubtitle());
+				$gc->setText($dc->getText());
+				$gc->getFootText('');
+				
+				unset($dc);
 				break;
 			
 			case 'products':
-				break;
-			
-			case 'components':
+				$dc = new tcms_dc_products();
+				$dc = $this->getProductsDC($language);
+				
+				$gc->setID($dc->getID());
+				$gc->setTitle($dc->getTitle());
+				$gc->setSubtitle($dc->getSubtitle());
+				$gc->setText($dc->getText());
+				$gc->getFootText('');
+				
+				unset($dc);
 				break;
 			
 			case 'imagegallery':
+				$dc = new tcms_dc_imagegallery();
+				$dc = $this->getImagegalleryDC($language);
+				
+				$gc->setID($dc->getID());
+				$gc->setTitle($dc->getTitle());
+				$gc->setSubtitle($dc->getSubtitle());
+				$gc->setText('');
+				$gc->getFootText('');
+				
+				unset($dc);
 				break;
 			
 			case 'guestbook':
-				break;
-			
-			case 'newsmanager':
+				$dc = new tcms_dc_guestbook();
+				$dc = $this->getGuestbookDC($language);
+				
+				$gc->setID($dc->getID());
+				$gc->setTitle($dc->getTitle());
+				$gc->setSubtitle($dc->getSubtitle());
+				$gc->setText($dc->getText());
+				$gc->getFootText('');
+				
+				unset($dc);
 				break;
 			
 			case 'contactform':
@@ -2214,9 +2249,29 @@ class tcms_datacontainer_provider extends tcms_main {
 				break;
 			
 			case 'knowledgebase':
+				$dc = new tcms_dc_knowledgebase();
+				$dc = $this->getKnowledgebaseDC($language);
+				
+				$gc->setID($dc->getID());
+				$gc->setTitle($dc->getTitle());
+				$gc->setSubtitle($dc->getSubtitle());
+				$gc->setText($dc->getText());
+				$gc->getFootText('');
+				
+				unset($dc);
 				break;
 			
 			case 'links':
+				$dc = new tcms_dc_links();
+				$dc = $this->getLinksDC($language);
+				
+				$gc->setID($dc->getID());
+				$gc->setTitle($dc->getTitle());
+				$gc->setSubtitle($dc->getSubtitle());
+				$gc->setText($dc->getText());
+				$gc->getFootText('');
+				
+				unset($dc);
 				break;
 			
 			default:
