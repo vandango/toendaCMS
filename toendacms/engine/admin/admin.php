@@ -21,7 +21,7 @@
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 1.3.3
+ * @version 1.3.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -59,7 +59,9 @@ include_once('../tcms_kernel/tcms_loader.lib.php');
 
 // load current active page
 include_once('../../site.php');
-define('_TCMS_PATH', '../../'.$tcms_site[0]['path']);
+if(!defined('_TCMS_PATH')) {
+	define('_TCMS_PATH', '../../'.$tcms_site[0]['path']);
+}
 
 // import filesystem
 using('toendacms.kernel.file', false, true);
@@ -88,7 +90,9 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 		$noSEOFolder = true;
 	}
 	
-	define('_TCMS_BACKEND_MODULE', $site);
+	if(!defined('_TCMS_BACKEND_MODULE')) {
+		define('_TCMS_BACKEND_MODULE', $site);
+	}
 	
 	// import classes
 	include_once(_TCMS_PATH.'/tcms_global/database.php');
@@ -189,9 +193,6 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 	$theme      = $tcms_config->getFrontendTheme();
 	$adminTheme = $tcms_config->getAdminTheme();
 	
-	define('_TCMS_THEME', $theme);
-	define('_TCMS_THEME_ADMIN', $adminTheme);
-	
 	
 	// mail
 	$mail_with_smtp   = $tcms_mail_with_smtp;
@@ -279,8 +280,8 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 
 <!-- JSCookMenu -->
 <script language="JavaScript" src="../js/JSCookMenu/JSCookMenu.js"></script>
-<style type="text/css">@import "theme/'._TCMS_THEME_ADMIN.'/JSCookMenu/theme.css";</style>
-<script language="JavaScript" src="theme/'._TCMS_THEME_ADMIN.'/JSCookMenu/theme.js" type="text/javascript"></script>
+<style type="text/css">@import "theme/'.$adminTheme.'/JSCookMenu/theme.css";</style>
+<script language="JavaScript" src="theme/'.$adminTheme.'/JSCookMenu/theme.js" type="text/javascript"></script>
 
 <!-- dTree -->
 <script type="text/javascript" src="../js/dtree/dtree.js"></script>
@@ -299,18 +300,18 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 
 
 <!-- toendaCMS Styles -->
-<style type="text/css">@import "theme/'._TCMS_THEME_ADMIN.'/tcms_main.css";</style>
-<style type="text/css">@import "theme/'._TCMS_THEME_ADMIN.'/tcms_editor.css";</style>
+<style type="text/css">@import "theme/'.$adminTheme.'/tcms_main.css";</style>
+<style type="text/css">@import "theme/'.$adminTheme.'/tcms_editor.css";</style>
 <style> html { margin: 0px !important; padding: 0px !important; } </style>
-'.( file_exists('theme/'._TCMS_THEME_ADMIN.'/tcms_main_ie.css') ?
-'<!--[if lte IE 6]><style type="text/css">@import "theme/'._TCMS_THEME_ADMIN.'/tcms_main_ie.css";</style><![endif]-->
-<!--[if IE 7]><style type="text/css">@import "theme/'._TCMS_THEME_ADMIN.'/tcms_main_ie.css";</style><![endif]-->'
+'.( file_exists('theme/'.$adminTheme.'/tcms_main_ie.css') ?
+'<!--[if lte IE 6]><style type="text/css">@import "theme/'.$adminTheme.'/tcms_main_ie.css";</style><![endif]-->
+<!--[if IE 7]><style type="text/css">@import "theme/'.$adminTheme.'/tcms_main_ie.css";</style><![endif]-->'
 : '' ).'
 
 </head>
 ';
 	
-	include_once('theme/'._TCMS_THEME_ADMIN.'/tcms_color.php');
+	include_once('theme/'.$adminTheme.'/tcms_color.php');
 	
 	
 	echo '<body'.( _TCMS_BACKEND_MODULE == 'mod_upload_layout' ? ' onload="init();"' : '' ).'>'

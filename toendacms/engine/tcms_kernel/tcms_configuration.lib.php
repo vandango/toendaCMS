@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide the global
  * configuration data.
  *
- * @version 0.6.2
+ * @version 0.6.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -271,7 +271,7 @@ class tcms_configuration {
 			
 			
 			// layout
-			if(file_exists($administer.'/tcms_global/footer.xml')) {
+			if(file_exists($administer.'/tcms_global/layout.xml')) {
 				$this->o_xml = simplexml_load_file($administer.'/tcms_global/layout.xml');
 				
 				$this->m_frontendTheme = $this->o_xml->select;
