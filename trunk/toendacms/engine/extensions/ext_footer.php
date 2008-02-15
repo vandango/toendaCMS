@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a footer.
  *
- * @version 0.5.3
+ * @version 0.5.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -66,7 +66,7 @@ if($tcms_config->showDefaultFooterText()) {
 	ADDITIONAL FOOTER TEXT
 */
 echo '<span class="legal">'
-.$footer_text
+.$tcms_config->getFooterText()
 .'</span>';
 
 
