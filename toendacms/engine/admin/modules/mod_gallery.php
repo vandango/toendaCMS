@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used to manage the galleries.
  *
- * @version 0.9.3
+ * @version 0.9.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -122,7 +122,7 @@ if($param_save_mode == 'off') {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix.'albums');
+		$sqlQR = $sqlAL->getAll($tcms_db_prefix.'albums');
 		
 		$count = 0;
 		
@@ -534,20 +534,22 @@ if($param_save_mode == 'off') {
 					
 					echo '<td class="tcms_db_2" valign="top">';
 					
-					if($choosenDB == 'xml'){ $arrGImages = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_imagegallery/'.$tvalue); }
-					else{
+					if($choosenDB == 'xml') {
+						$arrGImages = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_imagegallery/'.$tvalue);
+					}
+					else {
 						$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 						$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 						
-						$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix."imagegallery WHERE album='".$tvalue."'");
-						$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
+						$sqlQR = $sqlAL->getAll($tcms_db_prefix."imagegallery WHERE album='".$tvalue."'");
+						$sqlNR = $sqlAL->getNumber($sqlQR);
 						
 						unset($arrGImages);
 						
 						if($sqlNR != 0){
 							$count = 0;
 							
-							while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+							while($sqlARR = $sqlAL->fetchArray($sqlQR)){
 								$arrGImages[$count]  = $sqlARR['image'];
 								if($arrGImages[$count] == NULL){ $arrGImages[$count] = ''; }
 								$count++;
@@ -563,7 +565,13 @@ if($param_save_mode == 'off') {
 						}
 						
 						if(!file_exists(_TCMS_PATH.'/thumbnails/'.$tvalue.'/thumb_'.$arr_albums['image'][$key])){
-							tcms_gd::gd_thumbnail(_TCMS_PATH.'/images/albums/'.$tvalue.'/', _TCMS_PATH.'/thumbnails/'.$tvalue.'/', $arr_albums['image'][$key], '100', 'create');
+							$tcms_gd->createThumbnailExt(
+								'thumb_',
+								_TCMS_PATH.'/images/albums/'.$tvalue.'/',
+								_TCMS_PATH.'/thumbnails/'.$tvalue.'/', 
+								$arr_albums['image'][$key], 
+								100
+							);
 						}
 					}
 					
@@ -731,7 +739,7 @@ if($param_save_mode == 'off') {
 						$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 						
 						$sqlQR = $sqlAL->query("SELECT * FROM ".$tcms_db_prefix."imagegallery WHERE image='".$des_file."' AND album='".$value."'");
-						$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+						$sqlARR = $sqlAL->fetchArray($sqlQR);
 						
 						$old_des = $sqlARR['text'];
 						$old_tc  = $sqlARR['date'];
@@ -945,14 +953,28 @@ if($param_save_mode == 'off') {
 			$tcms_file->createDir(_TCMS_PATH.'/thumbnails/'.$fake_folder, 0777);
 			
 			$start_path  = _TCMS_PATH.'/images/albums/'.$folder.'/';
+			$target_path = _TCMS_PATH.'/tcms_imagegallery/'.$fake_folder.'/';
+			//tcms_gd::createftp($start_path, $target_path);
 			
-			if($choosenDB == 'xml'){
+			$tcms_gd->generateFTPImageData(
+				$start_path, 
+				$target_path, 
+				$choosenDB
+			);
+			
+			/*if($choosenDB == 'xml'){
 				$target_path = _TCMS_PATH.'/tcms_imagegallery/'.$fake_folder.'/';
-				tcms_gd::createftp($start_path, $target_path);
+				//tcms_gd::createftp($start_path, $target_path);
+				
+				$tcms_gd->generateFTPImageData(
+					$start_path, 
+					$target_path, 
+					$choosenDB
+				);
 			}
 			else{
 				tcms_gd::createftp_sql($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $start_path, $fake_folder);
-			}
+			}*/
 			
 			rename(_TCMS_PATH.'/images/albums/'.$folder, _TCMS_PATH.'/images/albums/'.$fake_folder);
 			

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for all graphic actions.
  *
- * @version 0.5.1
+ * @version 0.5.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -400,7 +400,7 @@ class tcms_gd {
 			$db_port     = $tcms_db_port;
 			$db_prefix   = $tcms_db_prefix;
 			
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->connect($db_user, $db_pass, $db_host, $db_database, $db_port, $tcms_time);
 		}
 		
@@ -408,14 +408,14 @@ class tcms_gd {
 			if($entry != '.' && $entry != '..' && $entry != 'CVS') {
 				if($choosenDB == 'xml') {
 					$xml = new xmlparser($targetPath.$entry.'.xml', 'w');
-					$xml->xml_declaration();
+					$xml->xmlDeclaration();
 					$xml->xml_section('image');
 					
-					$xml->write_value('text', $entry);
-					$xml->write_value('timecode', date('YmdHis'));
+					$xml->writeValue('text', $entry);
+					$xml->writeValue('timecode', date('YmdHis'));
 					
-					$xml->xml_section_buffer();
-					$xml->xml_section_end('image');
+					$xml->xmlSectionBuffer();
+					$xml->xmlSectionEnd('image');
 					
 					$xml->flush();
 					unset($xml);
