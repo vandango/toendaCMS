@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a guestbook.
  *
- * @version 0.6.4
+ * @version 0.6.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -510,10 +510,6 @@ if($dcG->getEnabled()) {
 	
 	
 	
-	
-	
-	
-	
 	if($action == 'submit') {
 		$save_now = true;
 		$save_entry = true;
@@ -525,9 +521,20 @@ if($dcG->getEnabled()) {
 			}
 			
 			if($save_entry) {
-				if($comment_captcha != $check_captcha) {
+				$chk = $tcms_gd->getLastCaptchaImage(
+					$tcms_main, 
+					'cache/captcha/', 
+					$check_captcha, 
+					$comment_captcha
+				);
+				
+				if($comment_captcha != $chk
+				|| trim($chk) == '') {
 					$captcha_msg = _MSG_CAPTCHA_NOT_VALID;
 					$save_entry = false;
+				}
+				else {
+					$save_entry = true;
 				}
 			}
 			
