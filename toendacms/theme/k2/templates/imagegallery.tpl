@@ -54,7 +54,7 @@
 <!--#####IMAGEGALLERY_ALBUM_LIST_VIEW_TEMPLATE_BEGIN#####-->
 <tr>
 	<td width="110" valign="top">
-		<a href="#####ALBUM_IMAGE_LINK#####" target="_blank">
+		<a href="#####ALBUM_IMAGE_LINK#####" title="#####ALBUM_IMAGE_TITLE_ATTRIBUTE#####" target="_blank">
 		<img style="border: 1px solid #333333;" src="#####ALBUM_IMAGE_THUMBNAIL#####" border="0" />
 		</a>
 	</td>
@@ -85,7 +85,11 @@
 
 <!--#####IMAGEGALLERY_ALBUM_THUMB_VIEW_TEMPLATE_BEGIN#####-->
 <td width="100">
-	<a href="#####ALBUM_IMAGE_LINK#####" target="_blank">
+	<!-- #####ALBUM_IMAGE_LINK##### = The link to the image with the image viewer -->
+	<!-- #####ALBUM_IMAGE_TITLE_ATTRIBUTE##### = The taglist of the image -->
+	<!-- #####ALBUM_IMAGE_THUMBNAIL##### = The link to the thumbnail of the image -->
+	<!-- #####ALBUM_IMAGE##### = The link to the image itself -->
+	<a href="#####ALBUM_IMAGE#####" title="#####ALBUM_IMAGE_TITLE_ATTRIBUTE#####" target="_blank" rel="lightbox[lightbox]">
 	<img style="border: 1px solid #333333;" src="#####ALBUM_IMAGE_THUMBNAIL#####" border="0" />
 	</a>
 </td>

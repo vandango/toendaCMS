@@ -309,7 +309,9 @@ if($albums != 'start') {
 				
 				
 				// title
-				$album_title = _GALLERY_THISIS.' '.$album_title.' '._GALLERY_THISIS2.'</div>'
+				//$album_title = _GALLERY_THISIS.' '.$album_title.' '._GALLERY_THISIS2.'</div>'
+				//.'<div>(<a href="'.$link.'">'.$dcIG->getTitle().'</a>)<br /><br />';
+				$album_title = _GALLERY_THISIS2.' '.$album_title.'</div>'
 				.'<div>(<a href="'.$link.'">'.$dcIG->getTitle().'</a>)<br /><br />';
 				
 				
@@ -457,6 +459,7 @@ if($albums != 'start') {
 								
 								// image thumb
 								$entryImageThumb = $imagePath._TCMS_PATH.'/thumbnails/'.$a_value.'/thumb_'.$dvalue;
+								$entryImage = $imagePath._TCMS_PATH.'/images/albums/'.$a_value.'/'.$dvalue;
 								
 								// image comments link
 								if($dcIG->getUseComments()) {
@@ -509,6 +512,19 @@ if($albums != 'start') {
 									.'</span>';
 								}
 								
+								// taglist
+								
+								// generate taglist
+								$fileExt = $tcms_file->getFileExtension($dvalue);
+								$tagList = $dvalue;
+								
+								$tagList = str_replace($fileExt, ' ', $tagList);
+								$tagList = str_replace('http://', '', $tagList);
+								$tagList = str_replace('/', ' ', $tagList);
+								$tagList = str_replace('_', ' ', $tagList);
+								$tagList = str_replace('.', ' ', $tagList);
+								$tagList = trim($tagList);
+								
 								
 								
 								/*
@@ -523,7 +539,8 @@ if($albums != 'start') {
 												$old_des, 
 												$entryCommentsLink, 
 												$entryUploadDate, 
-												$entryImageDetails
+												$entryImageDetails, 
+												$tagList
 											);
 											
 											$tcms_script->doParsePHP($entry);
@@ -536,7 +553,9 @@ if($albums != 'start') {
 											
 											$entry = $tcms_template->getImagegalleryAlbumThumbViewEntry(
 												$entryImageLink, 
-												$entryImageThumb
+												$tagList, 
+												$entryImageThumb, 
+												$entryImage
 											);
 											
 											$tcms_script->doParsePHP($entry);
@@ -554,7 +573,7 @@ if($albums != 'start') {
 									switch($dcIG->getListOption()) {
 										case 0:
 											echo '<tr><td width="110" valign="top">'
-											.'<a href="'.$entryImageLink.'" target="_blank">'
+											.'<a href="'.$entryImageLink.'" title="'.$tagList.'" target="_blank" rel="lightbox[lightbox]">'
 											.'<img style="border: 1px solid #333333;" src="'.$entryImageThumb.'" border="0" />'
 											.'</a>';
 											
@@ -588,7 +607,7 @@ if($albums != 'start') {
 											
 											// show thumbnail
 											echo '<td width="100">'
-											.'<a href="'.$entryImageLink.'" target="_blank">'
+											.'<a href="'.$entryImageLink.'" title="'.$tagList.'" target="_blank" rel="lightbox[lightbox]">'
 											.'<img style="border: 1px solid #333333;" src="'.$entryImageThumb.'" border="0" />'
 											.'</a>'
 											.'</td>';

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to implement toendaTemplate Engine.
  *
- * @version 0.4.1
+ * @version 0.4.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -741,9 +741,10 @@ class toendaTemplate {
 	 * @param String $imageCommentsLink
 	 * @param String $imageUploaddate
 	 * @param String $imageDetails
+	 * @param String $imageThumbTitle
 	 * @return String
 	 */
-	public function getImagegalleryAlbumListViewEntry($imageLink, $imageThumb, $imageTitle, $imageCommentsLink, $imageUploaddate, $imageDetails) {
+	public function getImagegalleryAlbumListViewEntry($imageLink, $imageThumb, $imageTitle, $imageCommentsLink, $imageUploaddate, $imageDetails, $imageThumbTitle) {
 		$layoutEntry = '';
 		
 		if(trim($this->_part3) != '') {
@@ -755,6 +756,7 @@ class toendaTemplate {
 			$layoutEntry = str_replace('#####ALBUM_IMAGE_COMMENTS_LINK#####', $imageCommentsLink, $layoutEntry);
 			$layoutEntry = str_replace('#####ALBUM_IMAGE_UPLOAD_DATE#####', $imageUploaddate, $layoutEntry);
 			$layoutEntry = str_replace('#####ALBUM_IMAGE_DETAILS#####', $imageDetails, $layoutEntry);
+			$layoutEntry = str_replace('#####ALBUM_IMAGE_TITLE_ATTRIBUTE#####', $imageThumbTitle, $layoutEntry);
 		}
 		
 		return $layoutEntry;
@@ -766,17 +768,21 @@ class toendaTemplate {
 	 * Get the template for a imagegallery album thumbnail view entry
 	 * 
 	 * @param String $imageLink
+	 * @param String $imageThumbTitle
 	 * @param String $imageThumb
+	 * @param String $image
 	 * @return String
 	 */
-	public function getImagegalleryAlbumThumbViewEntry($imageLink, $imageThumb) {
+	public function getImagegalleryAlbumThumbViewEntry($imageLink, $imageThumbTitle, $imageThumb, $image) {
 		$layoutEntry = '';
 		
 		if(trim($this->_part4) != '') {
 			$layoutEntry = trim($this->_part4);
 			
 			$layoutEntry = str_replace('#####ALBUM_IMAGE_LINK#####', $imageLink, $layoutEntry);
+			$layoutEntry = str_replace('#####ALBUM_IMAGE_TITLE_ATTRIBUTE#####', $imageThumbTitle, $layoutEntry);
 			$layoutEntry = str_replace('#####ALBUM_IMAGE_THUMBNAIL#####', $imageThumb, $layoutEntry);
+			$layoutEntry = str_replace('#####ALBUM_IMAGE#####', $image, $layoutEntry);
 		}
 		
 		return $layoutEntry;
