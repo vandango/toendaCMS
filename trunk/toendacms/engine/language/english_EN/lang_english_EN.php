@@ -363,6 +363,12 @@ if(!defined('_TABLE_FRONTPAGE'))               define('_TABLE_FRONTPAGE', 'Front
 if(!defined('_TABLE_SHOWONMAINPAGE'))          define('_TABLE_SHOWONMAINPAGE', 'Show on mainpage');
 if(!defined('_TABLE_BROWSE'))                  define('_TABLE_BROWSE', 'Browse');
 if(!defined('_TABLE_BOOKMARK'))                define('_TABLE_BOOKMARK', 'Bookmark');
+if(!defined('_TABLE_SYS_INFO'))                define('_TABLE_SYS_INFO', 'System Information');
+if(!defined('_TABLE_YOU_ARE_RUNNING'))         define('_TABLE_YOU_ARE_RUNNING', 'You are running');
+if(!defined('_TABLE_SITE_STATS'))              define('_TABLE_SITE_STATS', 'Site Statistics');
+if(!defined('_TABLE_NUM_OF_NEWS'))             define('_TABLE_NUM_OF_NEWS', 'Total Posts');
+if(!defined('_TABLE_NUM_OF_YOUR_NEWS'))        define('_TABLE_NUM_OF_YOUR_NEWS', 'Number of Your Posts');
+if(!defined('_TABLE_NUM_OF_COMMENTS'))         define('_TABLE_NUM_OF_COMMENTS', 'Number of Comments');
 
 
 // MESSAGES

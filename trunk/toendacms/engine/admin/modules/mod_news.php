@@ -30,72 +30,72 @@ defined('_TCMS_VALID') or die('Restricted access');
  */
 
 
-if(isset($_GET['minValue'])){ $minValue = $_GET['minValue']; }
-if(isset($_GET['maxValue'])){ $maxValue = $_GET['maxValue']; }
-if(isset($_GET['thisValue'])){ $thisValue = $_GET['thisValue']; }
-if(isset($_GET['action'])){ $action = $_GET['action']; }
-if(isset($_GET['new_news_mm_image'])){ $new_news_mm_image = $_GET['new_news_mm_image']; }
-if(isset($_GET['check'])){ $check = $_GET['check']; }
-if(isset($_GET['sender'])){ $sender = $_GET['sender']; }
+if(isset($_GET['minValue'])) { $minValue = $_GET['minValue']; }
+if(isset($_GET['maxValue'])) { $maxValue = $_GET['maxValue']; }
+if(isset($_GET['thisValue'])) { $thisValue = $_GET['thisValue']; }
+if(isset($_GET['action'])) { $action = $_GET['action']; }
+if(isset($_GET['new_news_mm_image'])) { $new_news_mm_image = $_GET['new_news_mm_image']; }
+if(isset($_GET['check'])) { $check = $_GET['check']; }
+if(isset($_GET['sender'])) { $sender = $_GET['sender']; }
 
-if(isset($_POST['extra'])){ $extra = $_POST['extra']; }
-if(isset($_POST['new_news_mm_amount'])){ $new_news_mm_amount = $_POST['new_news_mm_amount']; }
-if(isset($_POST['new_news_mm_id'])){ $new_news_mm_id = $_POST['new_news_mm_id']; }
-if(isset($_POST['new_use_comments'])){ $new_use_comments = $_POST['new_use_comments']; }
-if(isset($_POST['new_use_autor'])){ $new_use_autor = $_POST['new_use_autor']; }
-if(isset($_POST['new_use_autor_link'])){ $new_use_autor_link = $_POST['new_use_autor_link']; }
-if(isset($_POST['news_mm_title'])){ $news_mm_title = $_POST['news_mm_title']; }
-if(isset($_POST['news_mm_stamp'])){ $news_mm_stamp = $_POST['news_mm_stamp']; }
-if(isset($_POST['news_mm_image'])){ $news_mm_image = $_POST['news_mm_image']; }
-if(isset($_POST['news_mm_access'])){ $news_mm_access = $_POST['news_mm_access']; }
-if(isset($_POST['stamp'])){ $stamp = $_POST['stamp']; }
-if(isset($_POST['titel'])){ $titel = $_POST['titel']; }
-if(isset($_POST['autor'])){ $autor = $_POST['autor']; }
-if(isset($_POST['order'])){ $order = $_POST['order']; }
-if(isset($_POST['new_date'])){ $new_date = $_POST['new_date']; }
-if(isset($_POST['new_time'])){ $new_time = $_POST['new_time']; }
-if(isset($_POST['new_publish_date'])){ $new_publish_date = $_POST['new_publish_date']; }
-if(isset($_POST['new_published'])){ $new_published = $_POST['new_published']; }
-if(isset($_POST['content'])){ $content = $_POST['content']; }
-if(isset($_POST['news_image'])){ $news_image = $_POST['news_image']; }
-if(isset($_POST['new_news_cut'])){ $new_news_cut = $_POST['new_news_cut']; }
-if(isset($_POST['new_access'])){ $new_access = $_POST['new_access']; }
-if(isset($_POST['new_comments_en'])){ $new_comments_en = $_POST['new_comments_en']; }
-if(isset($_POST['use_emoticons'])){ $use_emoticons = $_POST['use_emoticons']; }
-if(isset($_POST['use_gravatar'])){ $use_gravatar = $_POST['use_gravatar']; }
-if(isset($_POST['sender'])){ $sender = $_POST['sender']; }
-if(isset($_POST['new_use_rss091'])){ $new_use_rss091 = $_POST['new_use_rss091']; }
-if(isset($_POST['new_use_rss10'])){ $new_use_rss10 = $_POST['new_use_rss10']; }
-if(isset($_POST['new_use_rss20'])){ $new_use_rss20 = $_POST['new_use_rss20']; }
-if(isset($_POST['new_use_atom03'])){ $new_use_atom03 = $_POST['new_use_atom03']; }
-if(isset($_POST['new_use_opml'])){ $new_use_opml = $_POST['new_use_opml']; }
-if(isset($_POST['new_syn_amount'])){ $new_syn_amount = $_POST['new_syn_amount']; }
-if(isset($_POST['new_use_syn_title'])){ $new_use_syn_title = $_POST['new_use_syn_title']; }
-if(isset($_POST['new_def_feed'])){ $new_def_feed = $_POST['new_def_feed']; }
-if(isset($_POST['new_use_trackback'])){ $new_use_trackback = $_POST['new_use_trackback']; }
-if(isset($_POST['new_use_timesince'])){ $new_use_timesince = $_POST['new_use_timesince']; }
-if(isset($_POST['new_readmore_link'])){ $new_readmore_link = $_POST['new_readmore_link']; }
-if(isset($_POST['new_news_spacing'])){ $new_news_spacing = $_POST['new_news_spacing']; }
-if(isset($_POST['new_sof'])){ $new_sof = $_POST['new_sof']; }
-if(isset($_POST['new_news_lang'])){ $new_news_lang = $_POST['new_news_lang']; }
-if(isset($_POST['lang_exist'])){ $lang_exist = $_POST['lang_exist']; }
-if(isset($_POST['language'])){ $language = $_POST['language']; }
-if(isset($_POST['draft'])){ $draft = $_POST['draft']; }
-if(isset($_POST['newSynRSS091UseImg'])){ $newSynRSS091UseImg = $_POST['newSynRSS091UseImg']; }
-if(isset($_POST['newSynRSS091Text'])){ $newSynRSS091Text = $_POST['newSynRSS091Text']; }
-if(isset($_POST['newSynRSS10UseImg'])){ $newSynRSS10UseImg = $_POST['newSynRSS10UseImg']; }
-if(isset($_POST['newSynRSS10Text'])){ $newSynRSS10Text = $_POST['newSynRSS10Text']; }
-if(isset($_POST['newSynRSS20UseImg'])){ $newSynRSS20UseImg = $_POST['newSynRSS20UseImg']; }
-if(isset($_POST['newSynRSS20Text'])){ $newSynRSS20Text = $_POST['newSynRSS20Text']; }
-if(isset($_POST['newSynATOM03UseImg'])){ $newSynATOM03UseImg = $_POST['newSynATOM03UseImg']; }
-if(isset($_POST['newSynATOM03Text'])){ $newSynATOM03Text = $_POST['newSynATOM03Text']; }
-if(isset($_POST['newSynOPMLUseImg'])){ $newSynOPMLUseImg = $_POST['newSynOPMLUseImg']; }
-if(isset($_POST['newSynOPMLText'])){ $newSynOPMLText = $_POST['newSynOPMLText']; }
-if(isset($_POST['newSynUseCFeed'])){ $newSynUseCFeed = $_POST['newSynUseCFeed']; }
-if(isset($_POST['newSynUseCFeedImg'])){ $newSynUseCFeedImg = $_POST['newSynUseCFeedImg']; }
-if(isset($_POST['newSynCFeedText'])){ $newSynCFeedText = $_POST['newSynCFeedText']; }
-if(isset($_POST['newSynCFeedType'])){ $newSynCFeedType = $_POST['newSynCFeedType']; }
-if(isset($_POST['newSynCFeedAmount'])){ $newSynCFeedAmount = $_POST['newSynCFeedAmount']; }
+if(isset($_POST['extra'])) { $extra = $_POST['extra']; }
+if(isset($_POST['new_news_mm_amount'])) { $new_news_mm_amount = $_POST['new_news_mm_amount']; }
+if(isset($_POST['new_news_mm_id'])) { $new_news_mm_id = $_POST['new_news_mm_id']; }
+if(isset($_POST['new_use_comments'])) { $new_use_comments = $_POST['new_use_comments']; }
+if(isset($_POST['new_use_autor'])) { $new_use_autor = $_POST['new_use_autor']; }
+if(isset($_POST['new_use_autor_link'])) { $new_use_autor_link = $_POST['new_use_autor_link']; }
+if(isset($_POST['news_mm_title'])) { $news_mm_title = $_POST['news_mm_title']; }
+if(isset($_POST['news_mm_stamp'])) { $news_mm_stamp = $_POST['news_mm_stamp']; }
+if(isset($_POST['news_mm_image'])) { $news_mm_image = $_POST['news_mm_image']; }
+if(isset($_POST['news_mm_access'])) { $news_mm_access = $_POST['news_mm_access']; }
+if(isset($_POST['stamp'])) { $stamp = $_POST['stamp']; }
+if(isset($_POST['titel'])) { $titel = $_POST['titel']; }
+if(isset($_POST['autor'])) { $autor = $_POST['autor']; }
+if(isset($_POST['order'])) { $order = $_POST['order']; }
+if(isset($_POST['new_date'])) { $new_date = $_POST['new_date']; }
+if(isset($_POST['new_time'])) { $new_time = $_POST['new_time']; }
+if(isset($_POST['new_publish_date'])) { $new_publish_date = $_POST['new_publish_date']; }
+if(isset($_POST['new_published'])) { $new_published = $_POST['new_published']; }
+if(isset($_POST['content'])) { $content = $_POST['content']; }
+if(isset($_POST['news_image'])) { $news_image = $_POST['news_image']; }
+if(isset($_POST['new_news_cut'])) { $new_news_cut = $_POST['new_news_cut']; }
+if(isset($_POST['new_access'])) { $new_access = $_POST['new_access']; }
+if(isset($_POST['new_comments_en'])) { $new_comments_en = $_POST['new_comments_en']; }
+if(isset($_POST['use_emoticons'])) { $use_emoticons = $_POST['use_emoticons']; }
+if(isset($_POST['use_gravatar'])) { $use_gravatar = $_POST['use_gravatar']; }
+if(isset($_POST['sender'])) { $sender = $_POST['sender']; }
+if(isset($_POST['new_use_rss091'])) { $new_use_rss091 = $_POST['new_use_rss091']; }
+if(isset($_POST['new_use_rss10'])) { $new_use_rss10 = $_POST['new_use_rss10']; }
+if(isset($_POST['new_use_rss20'])) { $new_use_rss20 = $_POST['new_use_rss20']; }
+if(isset($_POST['new_use_atom03'])) { $new_use_atom03 = $_POST['new_use_atom03']; }
+if(isset($_POST['new_use_opml'])) { $new_use_opml = $_POST['new_use_opml']; }
+if(isset($_POST['new_syn_amount'])) { $new_syn_amount = $_POST['new_syn_amount']; }
+if(isset($_POST['new_use_syn_title'])) { $new_use_syn_title = $_POST['new_use_syn_title']; }
+if(isset($_POST['new_def_feed'])) { $new_def_feed = $_POST['new_def_feed']; }
+if(isset($_POST['new_use_trackback'])) { $new_use_trackback = $_POST['new_use_trackback']; }
+if(isset($_POST['new_use_timesince'])) { $new_use_timesince = $_POST['new_use_timesince']; }
+if(isset($_POST['new_readmore_link'])) { $new_readmore_link = $_POST['new_readmore_link']; }
+if(isset($_POST['new_news_spacing'])) { $new_news_spacing = $_POST['new_news_spacing']; }
+if(isset($_POST['new_sof'])) { $new_sof = $_POST['new_sof']; }
+if(isset($_POST['new_news_lang'])) { $new_news_lang = $_POST['new_news_lang']; }
+if(isset($_POST['lang_exist'])) { $lang_exist = $_POST['lang_exist']; }
+if(isset($_POST['language'])) { $language = $_POST['language']; }
+if(isset($_POST['draft'])) { $draft = $_POST['draft']; }
+if(isset($_POST['newSynRSS091UseImg'])) { $newSynRSS091UseImg = $_POST['newSynRSS091UseImg']; }
+if(isset($_POST['newSynRSS091Text'])) { $newSynRSS091Text = $_POST['newSynRSS091Text']; }
+if(isset($_POST['newSynRSS10UseImg'])) { $newSynRSS10UseImg = $_POST['newSynRSS10UseImg']; }
+if(isset($_POST['newSynRSS10Text'])) { $newSynRSS10Text = $_POST['newSynRSS10Text']; }
+if(isset($_POST['newSynRSS20UseImg'])) { $newSynRSS20UseImg = $_POST['newSynRSS20UseImg']; }
+if(isset($_POST['newSynRSS20Text'])) { $newSynRSS20Text = $_POST['newSynRSS20Text']; }
+if(isset($_POST['newSynATOM03UseImg'])) { $newSynATOM03UseImg = $_POST['newSynATOM03UseImg']; }
+if(isset($_POST['newSynATOM03Text'])) { $newSynATOM03Text = $_POST['newSynATOM03Text']; }
+if(isset($_POST['newSynOPMLUseImg'])) { $newSynOPMLUseImg = $_POST['newSynOPMLUseImg']; }
+if(isset($_POST['newSynOPMLText'])) { $newSynOPMLText = $_POST['newSynOPMLText']; }
+if(isset($_POST['newSynUseCFeed'])) { $newSynUseCFeed = $_POST['newSynUseCFeed']; }
+if(isset($_POST['newSynUseCFeedImg'])) { $newSynUseCFeedImg = $_POST['newSynUseCFeedImg']; }
+if(isset($_POST['newSynCFeedText'])) { $newSynCFeedText = $_POST['newSynCFeedText']; }
+if(isset($_POST['newSynCFeedType'])) { $newSynCFeedType = $_POST['newSynCFeedType']; }
+if(isset($_POST['newSynCFeedAmount'])) { $newSynCFeedAmount = $_POST['newSynCFeedAmount']; }
 
 
 
@@ -106,7 +106,7 @@ if(isset($_POST['newSynCFeedAmount'])){ $newSynCFeedAmount = $_POST['newSynCFeed
 // -----------------------------------------------------
 
 
-if($show_wysiwyg == 'tinymce'){
+if($show_wysiwyg == 'tinymce') {
 	include('../tcms_kernel/tcms_tinyMCE.lib.php');
 	
 	$tcms_tinyMCE = new tcms_tinyMCE($tcms_path, $seoEnabled);
@@ -120,7 +120,7 @@ if($show_wysiwyg == 'tinymce'){
 	unset($tcms_tinyMCE);
 }
 
-if(!isset($todo)){ $todo = 'show'; }
+if(!isset($todo)) { $todo = 'show'; }
 
 $arr_farbe[0] = $arr_color[0];
 $arr_farbe[1] = $arr_color[1];
@@ -133,9 +133,9 @@ if($choosenDB == 'xml') {
 	$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_news/');
 }
 
-if(!isset($minValue)){ $minValue = 0; }
-if(!isset($maxValue)){ $maxValue = 10; }
-if(!isset($thisValue)){ $thisValue = 10; }
+if(!isset($minValue)) { $minValue = 0; }
+if(!isset($maxValue)) { $maxValue = 10; }
+if(!isset($thisValue)) { $thisValue = 10; }
 
 
 
@@ -148,7 +148,7 @@ if(!isset($thisValue)){ $thisValue = 10; }
 if($todo == 'config') {
 	if($id_group == 'Developer' 
 	|| $id_group == 'Administrator') {
-		if(!isset($action)){ $action = 'news'; }
+		if(!isset($action)) { $action = 'news'; }
 		
 		using('toendacms.datacontainer.newsmanager', false, true);
 		
@@ -244,7 +244,7 @@ if($todo == 'config') {
 		$wsSynCFeedText    = htmlspecialchars($wsSynCFeedText);
 		
 		
-		switch(trim($show_wysiwyg)){
+		switch(trim($show_wysiwyg)) {
 			case 'tinymce':
 				//$old_front_text = str_replace('src="', 'src="../../', $old_front_text);
 				$old_news_mm_text = stripslashes($old_news_mm_text);
@@ -274,7 +274,7 @@ if($todo == 'config') {
 		}
 		
 		
-		if($seoEnabled == 0 && $show_wysiwyg == 'tinymce'){
+		if($seoEnabled == 0 && $show_wysiwyg == 'tinymce') {
 			//$old_news_mm_text = str_replace('src="', 'src="../../', $old_news_mm_text);
 		}
 		
@@ -378,19 +378,19 @@ if($todo == 'config') {
 		.'<script>createToendaToolbar(\'imp\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');</script>'
 		.'<br />' : '' );
 		
-		if($show_wysiwyg == 'tinymce'){ }
-		elseif($show_wysiwyg == 'fckeditor'){ }
-		else{
-			if($show_wysiwyg == 'toendaScript'){ echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'toendaScript\');</script>'; }
-			else{ echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'HTML\');</script>'; }
+		if($show_wysiwyg == 'tinymce') { }
+		elseif($show_wysiwyg == 'fckeditor') { }
+		else {
+			if($show_wysiwyg == 'toendaScript') { echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'toendaScript\');</script>'; }
+			else { echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'HTML\');</script>'; }
 		}
 		
 		echo '<br /><br />';
 		
-		if($show_wysiwyg == 'tinymce'){
+		if($show_wysiwyg == 'tinymce') {
 			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content" mce_editable="true">'.$old_news_mm_text.'</textarea>';
 		}
-		elseif($show_wysiwyg == 'fckeditor'){
+		elseif($show_wysiwyg == 'fckeditor') {
 			$sBasePath = '../js/FCKeditor/';
 			
 			$oFCKeditor = new FCKeditor('content') ;
@@ -398,7 +398,7 @@ if($todo == 'config') {
 			$oFCKeditor->Value = $old_news_mm_text;
 			$oFCKeditor->Create();
 		}
-		else{
+		else {
 			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" id="content" name="content">'.$old_news_mm_text.'</textarea>';
 		}
 		
@@ -411,7 +411,7 @@ if($todo == 'config') {
 		.'<input type="button" name="tcms" value="'._EXT_NEWS_DESELECT.'" onclick="document.getElementById(\'news_mm_image\').src=\'\';document.getElementById(\'news_tt_image\').value=\'\';document.getElementById(\'news_mm_image\').style.visibility=\'hidden\';" />'
 		.'<br />';
 		
-		if(isset($new_news_mm_image)){ $old_news_mm_image = $new_news_mm_image; }
+		if(isset($new_news_mm_image)) { $old_news_mm_image = $new_news_mm_image; }
 		
 		echo '<img width="100"'.( $old_news_mm_image == '' ? ' style="visibility:hidden;"' : '' ).' id="news_mm_image" src="'._TCMS_PATH.'/images/Image/'.$old_news_mm_image.'" border="0" />'
 		.'<input name="news_mm_image" id="news_tt_image" value="'.$old_news_mm_image.'" type="hidden" />'
@@ -708,7 +708,7 @@ if($todo == 'config') {
 		echo '</form>'
 		.'<br />';
 	}
-	else{
+	else {
 		echo '<strong>'._MSG_NOTENOUGH_USERRIGHTS.'</strong>';
 	}
 }
@@ -721,12 +721,12 @@ if($todo == 'config') {
 // VALUES
 // -----------------------------------------------------
 
-if($todo == 'show'){
+if($todo == 'show') {
 	echo $tcms_html->bold(_NEWS_TITLE);
 	echo $tcms_html->text(_NEWS_TEXT.'<br /><br />', 'left');
 	
-	if($choosenDB == 'xml'){
-		if($tcms_main->isArray($arr_filename)){
+	if($choosenDB == 'xml') {
+		if($tcms_main->isArray($arr_filename)) {
 			$count = 0;
 			
 			foreach($arr_filename as $key => $value) {
@@ -760,15 +760,15 @@ if($todo == 'show'){
 					$arr_news['sof'][$count]   = $main_xml->read_value('show_on_frontpage');
 					$arr_news['lang'][$count]  = $main_xml->read_value('language');
 					
-					if(!$arr_news['title'][$count]){ $arr_news['title'][$count] = ''; }
+					if(!$arr_news['title'][$count]) { $arr_news['title'][$count] = ''; }
 					if(!$arr_news['date'][$count]) { $arr_news['date'][$count]  = ''; }
 					if(!$arr_news['time'][$count]) { $arr_news['time'][$count]  = ''; }
-					if(!$arr_news['order'][$count]){ $arr_news['order'][$count] = ''; }
-					if(!$arr_news['stamp'][$count]){ $arr_news['stamp'][$count] = ''; }
+					if(!$arr_news['order'][$count]) { $arr_news['order'][$count] = ''; }
+					if(!$arr_news['stamp'][$count]) { $arr_news['stamp'][$count] = ''; }
 					if(!$arr_news['pub'][$count])  { $arr_news['pub'][$count]   = ''; }
 					if(!$arr_news['cmt'][$count])  { $arr_news['cmt'][$count]   = ''; }
 					if(!$arr_news['acc'][$count])  { $arr_news['acc'][$count]   = ''; }
-					if(!$arr_news['autor'][$count]){ $arr_news['autor'][$count] = ''; }
+					if(!$arr_news['autor'][$count]) { $arr_news['autor'][$count] = ''; }
 					//if(!$arr_news['sof'][$count])  { $arr_news['sof'][$count]   = 1; }
 					
 					// CHARSETS
@@ -784,7 +784,7 @@ if($todo == 'show'){
 		
 		$sqlNr = $count;
 		
-		if($arr_news && is_array($arr_news)){
+		if($arr_news && is_array($arr_news)) {
 			array_multisort(
 				$arr_news['stamp'], SORT_DESC, 
 				$arr_news['date'], SORT_DESC, 
@@ -800,14 +800,14 @@ if($todo == 'show'){
 			);
 		}
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Writer'){
+		if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Writer') {
 			$strAdd = "";
 		}
-		else{
+		else {
 			$strAdd = "AND ( autor = '".$id_username."' OR autor = '".$id_name."' ) ";
 		}
 		
@@ -822,7 +822,7 @@ if($todo == 'show'){
 		
 		$count = 0;
 		
-		while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+		while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
 			$arr_news['order'][$count] = $sqlObj->uid;
 			$arr_news['title'][$count] = $sqlObj->title;
 			$arr_news['date'][$count]  = $sqlObj->date;
@@ -835,16 +835,16 @@ if($todo == 'show'){
 			$arr_news['sof'][$count]   = $sqlObj->show_on_frontpage;
 			$arr_news['lang'][$count]  = $sqlObj->language;
 			
-			if($arr_news['order'][$count] == NULL){ $arr_news['order'][$count] = ''; }
-			if($arr_news['title'][$count] == NULL){ $arr_news['title'][$count] = ''; }
-			if($arr_news['date'][$count]  == NULL){ $arr_news['date'][$count]  = ''; }
-			if($arr_news['time'][$count]  == NULL){ $arr_news['time'][$count]  = ''; }
-			if($arr_news['stamp'][$count] == NULL){ $arr_news['stamp'][$count] = ''; }
-			if($arr_news['cmt'][$count]   == NULL){ $arr_news['cmt'][$count]   = ''; }
-			if($arr_news['acc'][$count]   == NULL){ $arr_news['acc'][$count]   = ''; }
-			if($arr_news['autor'][$count] == NULL){ $arr_news['autor'][$count] = ''; }
-			if($arr_news['sof'][$count]   == NULL){ $arr_news['sof'][$count]   = 1; }
-			if($arr_news['lang'][$count]  == NULL){ $arr_news['lang'][$count]  = ''; }
+			if($arr_news['order'][$count] == NULL) { $arr_news['order'][$count] = ''; }
+			if($arr_news['title'][$count] == NULL) { $arr_news['title'][$count] = ''; }
+			if($arr_news['date'][$count]  == NULL) { $arr_news['date'][$count]  = ''; }
+			if($arr_news['time'][$count]  == NULL) { $arr_news['time'][$count]  = ''; }
+			if($arr_news['stamp'][$count] == NULL) { $arr_news['stamp'][$count] = ''; }
+			if($arr_news['cmt'][$count]   == NULL) { $arr_news['cmt'][$count]   = ''; }
+			if($arr_news['acc'][$count]   == NULL) { $arr_news['acc'][$count]   = ''; }
+			if($arr_news['autor'][$count] == NULL) { $arr_news['autor'][$count] = ''; }
+			if($arr_news['sof'][$count]   == NULL) { $arr_news['sof'][$count]   = 1; }
+			if($arr_news['lang'][$count]  == NULL) { $arr_news['lang'][$count]  = ''; }
 			
 			// CHARSETS
 			$arr_news['title'][$count] = $tcms_main->decodeText($arr_news['title'][$count], '2', $c_charset);
@@ -869,13 +869,13 @@ if($todo == 'show'){
 		.'<th valign="middle" class="tcms_db_title" width="10%" align="right">'._TABLE_FUNCTIONS.'</th>'
 		.'<tr>';
 	
-	if(isset($arr_news['stamp']) && !empty($arr_news['stamp']) && $arr_news['stamp'] != ''){
+	if($tcms_main->isReal($arr_news['stamp'])) {
 		$count = -1;
 		
-		foreach($arr_news['stamp'] as $key => $value){
+		foreach($arr_news['stamp'] as $key => $value) {
 			$count++;
 			
-			if($key >= $minValue && $key < $maxValue){
+			if($key >= $minValue && $key < $maxValue) {
 				if($id_group == 'Developer' 
 				|| $id_group == 'Administrator') {
 					$showAll = true;
@@ -891,7 +891,7 @@ if($todo == 'show'){
 				}
 				//}
 				
-				if($showAll == true){
+				if($showAll == true) {
 					$bgkey++;
 					
 					if(is_integer($bgkey/2)) {
@@ -970,19 +970,19 @@ if($todo == 'show'){
 		.'<td height="18" align="center" class="tcms_db_title tcms_padding_mini" colspan="10"'
 		.'<strong>';
 		
-		if($minValue > 0 || $maxValue == $morePages){
+		if($minValue > 0 || $maxValue == $morePages) {
 			echo '<a class="tcms_fm" href="admin.php?id_user='.$id_user.'&amp;site=mod_news&amp;thisValue='.$thisValue.'">&laquo; '._TABLE_START.'</a>';
 		}
-		else{ echo '&laquo; '._TABLE_START; }
+		else { echo '&laquo; '._TABLE_START; }
 		
 		
 		echo '&nbsp;';
 		
 		
-		if($minValue > 0){
+		if($minValue > 0) {
 			echo '<a class="tcms_fm" href="admin.php?id_user='.$id_user.'&amp;site=mod_news&amp;thisValue='.$thisValue.'&amp;minValue='.( $minValue - $thisValue ).'&amp;maxValue='.( $maxValue - $thisValue ).'">&#8249; '._TABLE_PREVIOUS.'</a>';
 		}
-		else{ echo '&#8249; '._TABLE_PREVIOUS; }
+		else { echo '&#8249; '._TABLE_PREVIOUS; }
 		
 		
 		echo '&nbsp;|&nbsp;';
@@ -992,23 +992,23 @@ if($todo == 'show'){
 		echo '&nbsp;|&nbsp;';
 		
 		
-		if($morePages > $maxValue){
+		if($morePages > $maxValue) {
 			echo '<a class="tcms_fm" href="admin.php?id_user='.$id_user.'&amp;site=mod_news&amp;thisValue='.$thisValue.'&amp;minValue='.( $minValue + $thisValue ).'&amp;maxValue='.( $maxValue + $thisValue ).'">'._TABLE_NEXT.' &#8250;</a>';
 		}
-		else{ echo _TABLE_NEXT.' &#8250;'; }
+		else { echo _TABLE_NEXT.' &#8250;'; }
 		
 		
 		echo '&nbsp;';
 		
 		
-		if($morePages > $maxValue){
-			if(strlen($morePages) < 3){
+		if($morePages > $maxValue) {
+			if(strlen($morePages) < 3) {
 				$tmpmorePages = $morePages / 10;
 			}
-			elseif(strlen($morePages)== 3){
+			elseif(strlen($morePages)== 3) {
 				$tmpmorePages = $morePages / 100;
 			}
-			else{
+			else {
 				$tmpmorePages = $morePages / 100;
 			}
 			
@@ -1017,7 +1017,7 @@ if($todo == 'show'){
 			
 			echo '<a class="tcms_fm" href="admin.php?id_user='.$id_user.'&amp;site=mod_news&amp;thisValue='.$thisValue.'&amp;minValue='.( $tmpmorePages ).'&amp;maxValue='.( $tmpmorePages + $thisValue ).'">'._TABLE_END.' &raquo;</a>';
 		}
-		else{ echo _TABLE_END.' &raquo;'; }
+		else { echo _TABLE_END.' &raquo;'; }
 		
 		echo '</strong></td></tr>';
 	}
@@ -1053,22 +1053,22 @@ if($todo == 'show'){
 // EDIT AND CREATE FORM
 // -----------------------------------------------------
 
-if($todo == 'edit'){
+if($todo == 'edit') {
 	$canEdit = true;
 	
-	if(isset($maintag)){
-		if($choosenDB == 'xml'){
+	if(isset($maintag)) {
+		if($choosenDB == 'xml') {
 			$main_xml = new xmlparser(_TCMS_PATH.'/tcms_news/'.$maintag.'.xml','r');
 			$nws_autor        = $main_xml->read_value('autor');
 			
-			if($id_group != 'Developer' && $id_group != 'Administrator'){
+			if($id_group != 'Developer' && $id_group != 'Administrator') {
 				if($nws_autor != $id_username && $$nws_autor != $id_name)
 					$canEdit = false;
 				else
 					$canEdit = true;
 			}
 			
-			if($canEdit){
+			if($canEdit) {
 				$nws_title        = $main_xml->read_value('title');
 				$nws_date         = $main_xml->read_value('date');
 				$nws_time         = $main_xml->read_value('time');
@@ -1091,17 +1091,17 @@ if($todo == 'edit'){
 				if(!$nws_news)        { $nws_news         = ''; }
 				if(!$nws_order)       { $nws_order        = ''; }
 				if(!$nws_published)   { $nws_published    = ''; }
-				if(!$nws_publish_date){ $nws_publish_date = ''; }
+				if(!$nws_publish_date) { $nws_publish_date = ''; }
 				if(!$nws_comments_en) { $nws_comments_en  = ''; }
 				if(!$nws_image)       { $nws_image        = ''; }
 				if(!$nws_cat)         { $nws_cat          = ''; }
 				if(!$nws_access)      { $nws_access       = ''; }
 				//if(!$nws_sof)         { $nws_sof          = ''; }
 				
-				if($nws_cat != ''){
+				if($nws_cat != '') {
 					$arr_cat = explode('{###}', $nws_cat);
 				}
-				else{
+				else {
 					$globals_xml = new xmlparser(_TCMS_PATH.'/tcms_global/var.xml','r');
 					$old_default_cat = $globals_xml->readSection('global', 'default_category');
 					
@@ -1109,7 +1109,7 @@ if($todo == 'edit'){
 				}
 			}
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
@@ -1126,7 +1126,7 @@ if($todo == 'edit'){
 			$sqlQR = $sqlAL->query($sqlSTR);
 			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
-			if($id_group != 'Developer' || $id_group != 'Administrator'){
+			if($id_group != 'Developer' || $id_group != 'Administrator') {
 				if($sqlNR == 0)
 					$canEdit = false;
 				else
@@ -1150,20 +1150,20 @@ if($todo == 'edit'){
 			$nws_sof          = $sqlObj->show_on_frontpage;
 			$nws_lang         = $sqlObj->language;
 			
-			if($nws_title        == NULL){ $nws_title        = ''; }
-			if($nws_autor        == NULL){ $nws_autor        = ''; }
-			if($nws_date         == NULL){ $nws_date         = ''; }
-			if($nws_time         == NULL){ $nws_time         = ''; }
-			if($nws_news         == NULL){ $nws_news         = ''; }
-			if($nws_order        == NULL){ $nws_order        = ''; }
-			if($nws_stamp        == NULL){ $nws_stamp        = ''; }
-			if($nws_published    == NULL){ $nws_published    = ''; }
-			if($nws_publish_date == NULL){ $nws_publish_date = ''; }
-			if($nws_comments_en  == NULL){ $nws_comments_en  = ''; }
-			if($nws_image        == NULL){ $nws_image        = ''; }
-			if($nws_access       == NULL){ $nws_access       = ''; }
-			if($nws_sof          == NULL){ $nws_sof          = ''; }
-			if($nws_lang         == NULL){ $nws_lang         = ''; }
+			if($nws_title        == NULL) { $nws_title        = ''; }
+			if($nws_autor        == NULL) { $nws_autor        = ''; }
+			if($nws_date         == NULL) { $nws_date         = ''; }
+			if($nws_time         == NULL) { $nws_time         = ''; }
+			if($nws_news         == NULL) { $nws_news         = ''; }
+			if($nws_order        == NULL) { $nws_order        = ''; }
+			if($nws_stamp        == NULL) { $nws_stamp        = ''; }
+			if($nws_published    == NULL) { $nws_published    = ''; }
+			if($nws_publish_date == NULL) { $nws_publish_date = ''; }
+			if($nws_comments_en  == NULL) { $nws_comments_en  = ''; }
+			if($nws_image        == NULL) { $nws_image        = ''; }
+			if($nws_access       == NULL) { $nws_access       = ''; }
+			if($nws_sof          == NULL) { $nws_sof          = ''; }
+			if($nws_lang         == NULL) { $nws_lang         = ''; }
 			
 			
 			unset($sqlARR);
@@ -1180,10 +1180,10 @@ if($todo == 'edit'){
 			
 			$count = 0;
 			
-			while($sqlARR = $sqlAL->fetchArray($sqlQR)){
+			while($sqlARR = $sqlAL->fetchArray($sqlQR)) {
 				$arr_cat[$count] = $sqlARR['cat_uid'];
 				
-				if($arr_cat[$count] == NULL){ $arr_cat[$count] = ''; }
+				if($arr_cat[$count] == NULL) { $arr_cat[$count] = ''; }
 				
 				$count++;
 			}
@@ -1203,7 +1203,7 @@ if($todo == 'edit'){
 		$edit_add_news = _NEWS_NEW_CURRENT;
 		$odot = 'save';
 	}
-	else{
+	else {
 		$maintag = $tcms_main->getNewUID(10, 'news');
 		
 		$nws_title        = '';
@@ -1228,18 +1228,18 @@ if($todo == 'edit'){
 	}
 	
 	
-	if($canEdit){
-		if($show_wysiwyg == 'tinymce'){
+	if($canEdit) {
+		if($show_wysiwyg == 'tinymce') {
 			$nws_news = stripslashes($nws_news);
 		}
-		elseif($show_wysiwyg == 'fckeditor'){
+		elseif($show_wysiwyg == 'fckeditor') {
 			$nws_news = str_replace('src="', 'src="../../../../', $nws_news);
 			$nws_news = str_replace('src="../../../../http:', 'src="http:', $nws_news);
 			$nws_news = str_replace('src="../../../../https:', 'src="https:', $nws_news);
 			$nws_news = str_replace('src="../../../../ftp:', 'src="ftp:', $nws_news);
 			$nws_news = str_replace('src="../../../..//', 'src="/', $nws_news);
 		}
-		else{
+		else {
 			$nws_news = ereg_replace('<br />'.chr(10), chr(13), $nws_news);
 			$nws_news = ereg_replace('<br />'.chr(13), chr(13), $nws_news);
 			$nws_news = ereg_replace('<br />', chr(13), $nws_news);
@@ -1254,20 +1254,20 @@ if($todo == 'edit'){
 		}
 		
 		
-		if($seoEnabled == 0 && $show_wysiwyg == 'tinymce'){
+		if($seoEnabled == 0 && $show_wysiwyg == 'tinymce') {
 			//$nws_news = str_replace('src="', 'src="../../', $nws_news);
 		}
 		
 		
-		if($id_group == 'Developer' || $id_group == 'Administrator'){ $showAll = true; }
-		else{
-			if($nws_access == 'Public' || $nws_access == 'Protected'){ $showAll = true; }
-			else{ $showAll = false; }
+		if($id_group == 'Developer' || $id_group == 'Administrator') { $showAll = true; }
+		else {
+			if($nws_access == 'Public' || $nws_access == 'Protected') { $showAll = true; }
+			else { $showAll = false; }
 		}
 		
 		
-		if($showAll == true){
-			if(!isset($nws_image) || $nws_image == '' || empty($nws_image) || !strpos($nws_image, '.')){
+		if($showAll == true) {
+			if(!isset($nws_image) || $nws_image == '' || empty($nws_image) || !strpos($nws_image, '.')) {
 				$nws_image = 'system/toendacms.png';
 			}
 			
@@ -1387,17 +1387,17 @@ if($todo == 'edit'){
 			$globals_xml = new xmlparser(_TCMS_PATH.'/tcms_global/var.xml','r');
 			$old_default_cat = $globals_xml->readSection('global', 'default_category');
 			
-			foreach($arrNewsCat['tag'] as $key => $value){
+			foreach($arrNewsCat['tag'] as $key => $value) {
 				$checkME = false;
 				
-				if(!empty($arr_cat)){
-					foreach($arr_cat as $ckey => $cval){
-						if($cval == $value){ $checkME = true; }
+				if(!empty($arr_cat)) {
+					foreach($arr_cat as $ckey => $cval) {
+						if($cval == $value) { $checkME = true; }
 					}
 				}
-				else{
-					if($old_default_cat == $value){ $checkME = true; }
-					else{ $checkME = false; }
+				else {
+					if($old_default_cat == $value) { $checkME = true; }
+					else { $checkME = false; }
 				}
 				
 				echo '<div class="tcms_switchcolor_4" style="margin: 0; padding: 0 0 4px 0;" onmouseover="this.style.background=\''.$arr_farbe[1].'\';" onmouseout="this.style.background=\''.$arr_farbe[0].'\';">'
@@ -1483,7 +1483,7 @@ if($todo == 'edit'){
 				echo '<option value="'.$id_username.'"'.( $nws_autor == $id_username ? ' selected="selected"' : '').'>'.$id_username.'</option>'
 				.'<option value="'.$id_name.'"'.( $nws_autor == $id_name ? ' selected="selected"' : '').'>'.$id_name.'</option>';
 				
-				if(isset($nws_autor) && $nws_autor != '' && ($nws_autor != $id_username && $nws_autor != $id_name)){
+				if(isset($nws_autor) && $nws_autor != '' && ($nws_autor != $id_username && $nws_autor != $id_name)) {
 					echo '<option value="'.$nws_autor.'" selected="selected">'.$nws_autor.'</option>';
 				}
 			}
@@ -1562,7 +1562,7 @@ if($todo == 'edit'){
 			.'<select name="new_access" class="tcms_select">'
 				.'<option value="Public"'.( $nws_access == 'Public' ? ' selected="selected"' : '' ).'>'._TABLE_PUBLIC.'</option>'
 				.'<option value="Protected"'.( $nws_access == 'Protected' ? ' selected="selected"' : '' ).'>'._TABLE_PROTECTED.'</option>';
-				if($id_group == 'Developer' || $id_group == 'Administrator'){
+				if($id_group == 'Developer' || $id_group == 'Administrator') {
 					echo '<option value="Private"'.( $nws_access == 'Private' ? ' selected="selected"' : '' ).'>'._TABLE_PRIVATE.'</option>';
 				}
 			echo '</select>'
@@ -1594,11 +1594,11 @@ if($todo == 'edit'){
 			
 			echo '</form>';
 		}
-		else{
+		else {
 			echo '<strong>'._MSG_NOTENOUGH_USERRIGHTS.'</strong>';
 		}
 	}
-	else{
+	else {
 		echo '<strong>'._MSG_NOTENOUGH_USERRIGHTS.'</strong>';
 	}
 }
@@ -1653,22 +1653,22 @@ if($todo == 'save_config') {
 	
 	
 	// CHARSETS
-	if($extra == 1){
+	if($extra == 1) {
 		$content = str_replace('src="../../../../http:', 'src="http:', $content);
 		
-		if($show_wysiwyg == 'tinymce'){
+		if($show_wysiwyg == 'tinymce') {
 			//$content = str_replace('../../', '', $content);
 			$content = stripslashes($content);
 		}
-		elseif($show_wysiwyg == 'fckeditor'){
+		elseif($show_wysiwyg == 'fckeditor') {
 			$content = str_replace('../../../../../../../../../', '', $content);
 			$content = str_replace('../../../../', '', $content);
 		}
-		else{
+		else {
 			$content = $tcms_main->convertNewlineToHTML($content);
 		}
 		
-		if($seoEnabled == 0 && $show_wysiwyg == 'tinymce'){
+		if($seoEnabled == 0 && $show_wysiwyg == 'tinymce') {
 			//$content = str_replace('src="../../', 'src="', $content);
 		}
 		
@@ -1676,7 +1676,7 @@ if($todo == 'save_config') {
 		$news_mm_stamp = $tcms_main->encodeText($news_mm_stamp, '2', $c_charset);
 		$content = $tcms_main->encodeText($content, '2', $c_charset);
 	}
-	else{
+	else {
 		//$content = $tcms_main->decodeBase64($content);
 	}
 	
@@ -1747,7 +1747,7 @@ if($todo == 'save_config') {
 		$xmluser->xmlSectionEnd('config');
 		
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
@@ -1817,7 +1817,7 @@ if($todo == 'save_config') {
 			}
 		}
 		else {
-			switch($choosenDB){
+			switch($choosenDB) {
 				case 'mysql':
 					$newSQLColumns = '`news_id`, `news_title`, `news_stamp`, `news_text`, '
 					.'`news_image`, `use_comments`, `show_autor`, `show_autor_as_link`, '
@@ -1883,7 +1883,7 @@ if($todo == 'save_config') {
 		}
 	}
 	
-	if($extra == 1){
+	if($extra == 1) {
 		if($setLang != '') {
 			$setLang = $tcms_config->getLanguageCodeByTCMSCode($setLang);
 			
@@ -1899,7 +1899,7 @@ if($todo == 'save_config') {
 			.'</script>';
 		}
 	}
-	else{
+	else {
 		if($setLang != '') {
 			$setLang = $tcms_config->getLanguageCodeByTCMSCode($setLang);
 			
@@ -1925,18 +1925,18 @@ if($todo == 'save_config') {
 // SAVE
 // -----------------------------------------------------
 
-if($todo == 'save'){
-	if($new_published == '' || empty($new_published) || !isset($new_published)){ $new_published = 0; }
-	if($new_comments_en == '' || empty($new_comments_en) || !isset($new_comments_en)){ $new_comments_en = 0; }
-	if($new_sof == '' || empty($new_sof) || !isset($new_sof)){ $new_sof = 0; }
+if($todo == 'save') {
+	if($new_published == '' || empty($new_published) || !isset($new_published)) { $new_published = 0; }
+	if($new_comments_en == '' || empty($new_comments_en) || !isset($new_comments_en)) { $new_comments_en = 0; }
+	if($new_sof == '' || empty($new_sof) || !isset($new_sof)) { $new_sof = 0; }
 	
 	
-	if($choosenDB == 'xml'){
+	if($choosenDB == 'xml') {
 		$myCat = '';
 		$i = 0;
 		
-		while($i <= count($arrNewsCat['tag'])){
-			if(!empty($_POST['new_cat_'.$i]) && isset($_POST['new_cat_'.$i])){
+		while($i <= count($arrNewsCat['tag'])) {
+			if(!empty($_POST['new_cat_'.$i]) && isset($_POST['new_cat_'.$i])) {
 				$myCat .= $_POST['new_cat_'.$i].'{###}';
 				/*
 				$user_xml  = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$_POST['new_cat_'.$i].'.xml','r');
@@ -1950,7 +1950,7 @@ if($todo == 'save'){
 		
 		$new_cat = $myCat;
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
@@ -1958,7 +1958,7 @@ if($todo == 'save'){
 		$sqlAL->query("DELETE FROM ".$tcms_db_prefix."news_to_categories WHERE news_uid = '".$maintag."'");
 		
 		
-		switch($choosenDB){
+		switch($choosenDB) {
 			case 'mysql':
 				$newSQLColumns = '`news_uid`, `cat_uid`';
 				break;
@@ -1973,8 +1973,8 @@ if($todo == 'save'){
 		}
 		
 		
-		for($i = 0; $i <= count($arrNewsCat['tag']); $i++){
-			if(!empty($_POST['new_cat_'.$i]) && isset($_POST['new_cat_'.$i])){
+		for($i = 0; $i <= count($arrNewsCat['tag']); $i++) {
+			if(!empty($_POST['new_cat_'.$i]) && isset($_POST['new_cat_'.$i])) {
 				$n2c_maintag = $tcms_main->getNewUID(32, 'news_to_categories');
 				
 				$newSQLData = "'".$maintag."', '".$_POST['new_cat_'.$i]."'";
@@ -1983,7 +1983,7 @@ if($todo == 'save'){
 			}
 		}
 		
-		if($i == 0){
+		if($i == 0) {
 			$globals_xml = new xmlparser(_TCMS_PATH.'/tcms_global/var.xml','r');
 			$old_default_cat = $globals_xml->readSection('global', 'default_category');
 			
@@ -1995,19 +1995,19 @@ if($todo == 'save'){
 		}
 	}
 	
-	if($show_wysiwyg == 'tinymce'){
+	if($show_wysiwyg == 'tinymce') {
 		$content = stripslashes($content);
 	}
-	elseif($show_wysiwyg == 'fckeditor'){
+	elseif($show_wysiwyg == 'fckeditor') {
 		$content = str_replace('../../../../../../../../../', '', $content);
 		$content = str_replace('../../../../', '', $content);
 	}
-	else{
+	else {
 		$content = $tcms_main->convertNewlineToHTML($content);
 	}
 	
 	
-	if($seoEnabled == 0 && $show_wysiwyg == 'tinymce'){
+	if($seoEnabled == 0 && $show_wysiwyg == 'tinymce') {
 		//$content = str_replace('src="../../', 'src="', $content);
 	}
 	
@@ -2021,12 +2021,12 @@ if($todo == 'save'){
 	$stamp = substr($new_publish_date, 6, 4).substr($new_publish_date, 3, 2).substr($new_publish_date, 0, 2).substr($new_publish_date, 11, 2).substr($new_publish_date, 14, 2);
 	
 	
-	if($new_date == ''){ $new_date = $date; }
-	if($new_time == ''){ $new_time = $time; }
-	if($new_publish_date == ''){ $new_publish_date = $date.'-'.$time; }
+	if($new_date == '') { $new_date = $date; }
+	if($new_time == '') { $new_time = $time; }
+	if($new_publish_date == '') { $new_publish_date = $date.'-'.$time; }
 	
 	
-	if($choosenDB == 'xml'){
+	if($choosenDB == 'xml') {
 		$xmluser = new xmlparser(_TCMS_PATH.'/tcms_news/'.$maintag.'.xml', 'w');
 		$xmluser->xmlDeclaration();
 		$xmluser->xmlSection('news');
@@ -2050,7 +2050,7 @@ if($todo == 'save'){
 		$xmluser->xmlSectionBuffer();
 		$xmluser->xmlSectionEnd('news');
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
@@ -2077,7 +2077,7 @@ if($todo == 'save'){
 	}
 	
 	// regenerate feeds
-	if($choosenDB == 'xml'){
+	if($choosenDB == 'xml') {
 		$xml = new xmlparser(_TCMS_PATH.'/tcms_global/newsmanager.'.$language.'.xml','r');
 		$defaultFeed = $xml->readSection('config', 'def_feed');
 		$synAmount   = $xml->readSection('config', 'syn_amount');
@@ -2085,7 +2085,7 @@ if($todo == 'save'){
 		$xml->flush();
 		unset($xml);
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
@@ -2100,7 +2100,7 @@ if($todo == 'save'){
 		$synAmount   = $sqlObj->syn_amount;
 		$showAutor   = $sqlObj->show_autor;
 		
-		if($defaultFeed == NULL){ $defaultFeed = 'RSS2.0'; }
+		if($defaultFeed == NULL) { $defaultFeed = 'RSS2.0'; }
 		
 		$sqlAL->sqlFreeResult($sqlQR);
 	}
@@ -2129,20 +2129,20 @@ if($todo == 'save'){
 // CREATE
 // -----------------------------------------------------
 
-if($todo == 'next'){
-	if($new_published == '' || empty($new_published) || !isset($new_published)){ $new_published = 0; }
+if($todo == 'next') {
+	if($new_published == '' || empty($new_published) || !isset($new_published)) { $new_published = 0; }
 	//if($new_cat       == '' || empty($new_cat)       || !isset($new_cat))      { $new_cat = ''; }
-	if($new_comments_en == '' || empty($new_comments_en) || !isset($new_comments_en)){ $new_comments_en = 0; }
-	if($new_sof == '' || empty($new_sof) || !isset($new_sof)){ $new_sof = 0; }
+	if($new_comments_en == '' || empty($new_comments_en) || !isset($new_comments_en)) { $new_comments_en = 0; }
+	if($new_sof == '' || empty($new_sof) || !isset($new_sof)) { $new_sof = 0; }
 	
 	
 	
-	if($choosenDB == 'xml'){
+	if($choosenDB == 'xml') {
 		$myCat = '';
 		$i = 0;
 		
-		while($i <= count($arrNewsCat['tag'])){
-			if(!empty($_POST['new_cat_'.$i]) && isset($_POST['new_cat_'.$i])){
+		while($i <= count($arrNewsCat['tag'])) {
+			if(!empty($_POST['new_cat_'.$i]) && isset($_POST['new_cat_'.$i])) {
 				$myCat .= $_POST['new_cat_'.$i].'{###}';
 				/*
 				$user_xml  = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$_POST['new_cat_'.$i].'.xml','r');
@@ -2157,12 +2157,12 @@ if($todo == 'next'){
 		
 		$new_cat = $myCat;
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
 		
-		switch($choosenDB){
+		switch($choosenDB) {
 			case 'mysql':
 				$newSQLColumns = '`news_uid`, `cat_uid`';
 				break;
@@ -2177,8 +2177,8 @@ if($todo == 'next'){
 		}
 		
 		
-		for($i = 0; $i <= count($arrNewsCat['tag']); $i++){
-			if(!empty($_POST['new_cat_'.$i]) && isset($_POST['new_cat_'.$i])){
+		for($i = 0; $i <= count($arrNewsCat['tag']); $i++) {
+			if(!empty($_POST['new_cat_'.$i]) && isset($_POST['new_cat_'.$i])) {
 				$n2c_maintag = $tcms_main->getNewUID(32, 'news_to_categories');
 				
 				$newSQLData = "'".$maintag."', '".$_POST['new_cat_'.$i]."'";
@@ -2188,18 +2188,18 @@ if($todo == 'next'){
 		}
 	}
 	
-	if($show_wysiwyg == 'tinymce'){
+	if($show_wysiwyg == 'tinymce') {
 		$content = stripslashes($content);
 	}
-	elseif($show_wysiwyg == 'fckeditor'){
+	elseif($show_wysiwyg == 'fckeditor') {
 		$content = str_replace('../../../../../../../../../', '', $content);
 		$content = str_replace('../../../../', '', $content);
 	}
-	else{
+	else {
 		$content = $tcms_main->convertNewlineToHTML($content);
 	}
 	
-	if($seoEnabled == 0 && $show_wysiwyg == 'tinymce'){
+	if($seoEnabled == 0 && $show_wysiwyg == 'tinymce') {
 		//$content = str_replace('src="../../', 'src="', $content);
 	}
 	
@@ -2211,11 +2211,11 @@ if($todo == 'next'){
 	
 	$stamp = substr($new_publish_date, 6, 4).substr($new_publish_date, 3, 2).substr($new_publish_date, 0, 2).substr($new_publish_date, 11, 2).substr($new_publish_date, 14, 2);
 	
-	if($new_date == ''){ $new_date = $date; }
-	if($new_time == ''){ $new_time = $time; }
-	if($new_publish_date == ''){ $new_publish_date = $date.'-'.$time; }
+	if($new_date == '') { $new_date = $date; }
+	if($new_time == '') { $new_time = $time; }
+	if($new_publish_date == '') { $new_publish_date = $date.'-'.$time; }
 	
-	if($choosenDB == 'xml'){
+	if($choosenDB == 'xml') {
 		$xmluser = new xmlparser(_TCMS_PATH.'/tcms_news/'.$maintag.'.xml', 'w');
 		$xmluser->xmlDeclaration();
 		$xmluser->xmlSection('news');
@@ -2243,11 +2243,11 @@ if($todo == 'next'){
 		mkdir(_TCMS_PATH.'/tcms_news/comments_'.$maintag.'/', 0777);
 		umask($old_umask);
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		switch($choosenDB){
+		switch($choosenDB) {
 			case 'mysql':
 				$newSQLColumns = '`title`, `autor`, `date`, `time`, `newstext`, `stamp`, `published`, '
 				.'`publish_date`, `comments_enabled`, `image`, `access`, `show_on_frontpage`, `language`';
@@ -2272,7 +2272,7 @@ if($todo == 'next'){
 	}
 	
 	// regenerate feeds
-	if($choosenDB == 'xml'){
+	if($choosenDB == 'xml') {
 		$xml = new xmlparser(_TCMS_PATH.'/tcms_global/newsmanager.'.$language.'.xml','r');
 		$defaultFeed = $xml->readSection('config', 'def_feed');
 		$synAmount   = $xml->readSection('config', 'syn_amount');
@@ -2280,7 +2280,7 @@ if($todo == 'next'){
 		$xml->flush();
 		unset($xml);
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
@@ -2295,7 +2295,7 @@ if($todo == 'next'){
 		$synAmount   = $sqlObj->syn_amount;
 		$showAutor   = $sqlObj->show_autor;
 		
-		if($defaultFeed == NULL){ $defaultFeed = 'RSS2.0'; }
+		if($defaultFeed == NULL) { $defaultFeed = 'RSS2.0'; }
 		
 		$sqlAL->sqlFreeResult($sqlQR);
 	}
@@ -2324,11 +2324,11 @@ if($todo == 'next'){
 // ENABLE / DISABLE COMMENTS
 // -----------------------------------------------------==============================
 
-if($todo == 'enableComments'){
-	switch($action){
+if($todo == 'enableComments') {
+	switch($action) {
 		// Take it off
 		case 'off':
-			if($choosenDB == 'xml'){
+			if($choosenDB == 'xml') {
 				xmlparser::edit_value(
 					_TCMS_PATH.'/tcms_news/'.$maintag.'.xml', 
 					'comments_enabled', 
@@ -2343,12 +2343,12 @@ if($todo == 'enableComments'){
 				$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'news', $newSQLData, $maintag);
 			}
 			
-			if($sender == 'desktop'){
+			if($sender == 'desktop') {
 				echo '<script type="text/javascript">'
 				.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\';'
 				.'</script>';
 			}
-			else{
+			else {
 				echo '<script type="text/javascript">'
 				.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_news\';'
 				.'</script>';
@@ -2357,18 +2357,18 @@ if($todo == 'enableComments'){
 		
 		// Take it on
 		case 'on':
-			if($choosenDB == 'xml'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_news/'.$maintag.'.xml', 'comments_enabled', '0', '1'); }
-			else{
+			if($choosenDB == 'xml') { xmlparser::edit_value(_TCMS_PATH.'/tcms_news/'.$maintag.'.xml', 'comments_enabled', '0', '1'); }
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				$newSQLData = $tcms_db_prefix.'news.comments_enabled=1';
 				$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'news', $newSQLData, $maintag);
 			}
 			
-			if($sender == 'desktop'){
+			if($sender == 'desktop') {
 				echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\';</script>';
 			}
-			else{
+			else {
 				echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_news\';</script>';
 			}
 			break;
@@ -2383,40 +2383,40 @@ if($todo == 'enableComments'){
 // PUBLISH / UNPUBLISH
 // -----------------------------------------------------==============================
 
-if($todo == 'publishItem'){
-	switch($action){
+if($todo == 'publishItem') {
+	switch($action) {
 		// Take it off
 		case 'off':
-			if($choosenDB == 'xml'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_news/'.$maintag.'.xml', 'published', '1', '0'); }
-			else{
+			if($choosenDB == 'xml') { xmlparser::edit_value(_TCMS_PATH.'/tcms_news/'.$maintag.'.xml', 'published', '1', '0'); }
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				$newSQLData = $tcms_db_prefix.'news.published=0';
 				$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'news', $newSQLData, $maintag);
 			}
 			
-			if($sender == 'desktop'){
+			if($sender == 'desktop') {
 				echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\';</script>';
 			}
-			else{
+			else {
 				echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_news\';</script>';
 			}
 			break;
 		
 		// Take it on
 		case 'on':
-			if($choosenDB == 'xml'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_news/'.$maintag.'.xml', 'published', '0', '1'); }
-			else{
+			if($choosenDB == 'xml') { xmlparser::edit_value(_TCMS_PATH.'/tcms_news/'.$maintag.'.xml', 'published', '0', '1'); }
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				$newSQLData = $tcms_db_prefix.'news.published=1';
 				$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'news', $newSQLData, $maintag);
 			}
 			
-			if($sender == 'desktop'){
+			if($sender == 'desktop') {
 				echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\';</script>';
 			}
-			else{
+			else {
 				echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_news\';</script>';
 			}
 			break;
@@ -2431,24 +2431,24 @@ if($todo == 'publishItem'){
 // ENABLE FRONTPAGE
 // -----------------------------------------------------==============================
 
-if($todo == 'enableFrontpage'){
-	switch($action){
+if($todo == 'enableFrontpage') {
+	switch($action) {
 		// Take it off
 		case 'off':
 			if($choosenDB == 'xml') {
 				xmlparser::edit_value(_TCMS_PATH.'/tcms_news/'.$maintag.'.xml', 'show_on_frontpage', '1', '0');
 			}
-			else{
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				$newSQLData = $tcms_db_prefix.'news.show_on_frontpage=0';
 				$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'news', $newSQLData, $maintag);
 			}
 			
-			if($sender == 'desktop'){
+			if($sender == 'desktop') {
 				echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\';</script>';
 			}
-			else{
+			else {
 				echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_news\';</script>';
 			}
 			break;
@@ -2458,17 +2458,17 @@ if($todo == 'enableFrontpage'){
 			if($choosenDB == 'xml') {
 				xmlparser::edit_value(_TCMS_PATH.'/tcms_news/'.$maintag.'.xml', 'show_on_frontpage', '0', '1');
 			}
-			else{
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				$newSQLData = $tcms_db_prefix.'news.show_on_frontpage=1';
 				$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'news', $newSQLData, $maintag);
 			}
 			
-			if($sender == 'desktop'){
+			if($sender == 'desktop') {
 				echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\';</script>';
 			}
-			else{
+			else {
 				echo '<script type="text/javascript">document.location=\'admin.php?id_user='.$id_user.'&site=mod_news\';</script>';
 			}
 			break;
@@ -2483,8 +2483,8 @@ if($todo == 'enableFrontpage'){
 // DELETE
 // -----------------------------------------------------==============================
 
-if($todo == 'delete'){
-	if($choosenDB == 'xml'){
+if($todo == 'delete') {
+	if($choosenDB == 'xml') {
 		unlink(_TCMS_PATH.'/tcms_news/'.$maintag.'.xml');
 		/*
 		
@@ -2496,7 +2496,7 @@ if($todo == 'delete'){
 		*/
 		$tcms_file->deleteDir(_TCMS_PATH.'/tcms_news/comments_'.$maintag.'/');
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		$sqlAL->sqlDeleteOne($tcms_db_prefix.'news', $maintag);
@@ -2505,7 +2505,7 @@ if($todo == 'delete'){
 	}
 	
 	// regenerate feeds
-	if($choosenDB == 'xml'){
+	if($choosenDB == 'xml') {
 		$xml = new xmlparser(
 			_TCMS_PATH.'/tcms_global/newsmanager.'.$tcms_config->getLanguageFrontend().'.xml',
 			'r'
@@ -2516,7 +2516,7 @@ if($todo == 'delete'){
 		$xml->flush();
 		unset($xml);
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
@@ -2531,7 +2531,7 @@ if($todo == 'delete'){
 		$synAmount   = $sqlObj->syn_amount;
 		$showAutor   = $sqlObj->show_autor;
 		
-		if($defaultFeed == NULL){ $defaultFeed = 'RSS2.0'; }
+		if($defaultFeed == NULL) { $defaultFeed = 'RSS2.0'; }
 		
 		$sqlAL->sqlFreeResult($sqlQR);
 	}

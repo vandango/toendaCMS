@@ -365,6 +365,12 @@ if(!defined('_TABLE_FRONTPAGE'))               define('_TABLE_FRONTPAGE', 'Start
 if(!defined('_TABLE_SHOWONMAINPAGE'))          define('_TABLE_SHOWONMAINPAGE', 'Auf Hauptseite anzeigen');
 if(!defined('_TABLE_BROWSE'))                  define('_TABLE_BROWSE', 'St&#246;bern');
 if(!defined('_TABLE_BOOKMARK'))                define('_TABLE_BOOKMARK', 'Bookmark');
+if(!defined('_TABLE_SYS_INFO'))                define('_TABLE_SYS_INFO', 'System Informationen');
+if(!defined('_TABLE_YOU_ARE_RUNNING'))         define('_TABLE_YOU_ARE_RUNNING', 'Aktuelle Version: ');
+if(!defined('_TABLE_SITE_STATS'))              define('_TABLE_SITE_STATS', 'Interne Statistik');
+if(!defined('_TABLE_NUM_OF_NEWS'))             define('_TABLE_NUM_OF_NEWS', 'Neuigkeiten Insgesamt');
+if(!defined('_TABLE_NUM_OF_YOUR_NEWS'))        define('_TABLE_NUM_OF_YOUR_NEWS', 'Eigene Neuigkeiten');
+if(!defined('_TABLE_NUM_OF_COMMENTS'))         define('_TABLE_NUM_OF_COMMENTS', 'Kommentare Insgesamt');
 
 
 // MESSAGES

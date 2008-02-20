@@ -43,6 +43,12 @@ if(!defined('_DB_START_CLEAN_UP'))             define('_DB_START_CLEAN_UP', 'Sta
 if(!defined('_TCMS_ADMIN_NEW_FILE_BUTTON'))    define('_TCMS_ADMIN_NEW_FILE_BUTTON', 'Create File');
 
 if(!defined('_TABLE_PUBLISHED_ON'))            define('_TABLE_PUBLISHED_ON', 'Published on');
+if(!defined('_TABLE_SYS_INFO'))                define('_TABLE_SYS_INFO', 'System Information');
+if(!defined('_TABLE_YOU_ARE_RUNNING'))         define('_TABLE_YOU_ARE_RUNNING', 'You are running');
+if(!defined('_TABLE_SITE_STATS'))              define('_TABLE_SITE_STATS', 'Site Statistics');
+if(!defined('_TABLE_NUM_OF_NEWS'))             define('_TABLE_NUM_OF_NEWS', 'Total Posts');
+if(!defined('_TABLE_NUM_OF_YOUR_NEWS'))        define('_TABLE_NUM_OF_YOUR_NEWS', 'Number of Your Posts');
+if(!defined('_TABLE_NUM_OF_COMMENTS'))         define('_TABLE_NUM_OF_COMMENTS', 'Number of Comments');
 
 if(!defined('_SEARCH_WITH_GOOGLE'))            define('_SEARCH_WEBSEARCH', 'Websearch');
 
