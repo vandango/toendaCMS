@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a imagegallery.
  *
- * @version 1.0.2
+ * @version 1.0.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -607,7 +607,7 @@ if($albums != 'start') {
 											
 											// show thumbnail
 											echo '<td width="100">'
-											.'<a href="'.$entryImageLink.'" title="'.$tagList.'" target="_blank" rel="lightbox[lightbox]">'
+											.'<a href="'.$entryImageLink.'" title="'.$tagList.'" target="_blank">'// rel="lightbox[lightbox]">'
 											.'<img style="border: 1px solid #333333;" src="'.$entryImageThumb.'" border="0" />'
 											.'</a>'
 											.'</td>';
