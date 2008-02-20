@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.7.7
+ * @version 1.8.
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -53,6 +53,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * PUBLIC MEMBERS
  * --------------------------------------------------------
  * 
+ * getNewsStatistics                         -> Get some news statistics
  * getNewsDC                                 -> Get a specific news data container
  * getNewsDCList                             -> Get a list of news data container
  * getNewsTitle                              -> Get the title of a news element
@@ -206,6 +207,98 @@ class tcms_datacontainer_provider extends tcms_main {
 	// -------------------------------------------------
 	// PUBLIC MEMBERS
 	// -------------------------------------------------
+	
+	
+	
+	/**
+	 * Get some news statistics
+	 * 
+	 * @param String $userID
+	 * @return Array
+	 */
+	public function getNewsStatistics($userID) {
+		$arrNewsStats['news_amount'] = 0;
+		$arrNewsStats['your_news_amount'] = 0;
+		$arrNewsStats['comment_amount'] = 0;
+		
+		$nCount = 0;
+		$ynCount = 0;
+		$cCount = 0;
+		
+		include_once('tcms_account_provider.lib.php');
+		include_once('datacontainer/tcms_dc_account.lib.php');
+		
+		$tcms_ap = new tcms_account_provider($this->m_path, $this->m_CHARSET, $this->_tcmsTime);
+		
+		if($this->m_choosenDB == 'xml') {
+			$arr_filename = $this->_getPathContent($this->m_path.'/tcms_news/');
+			
+			if($this->isArray($arr_filename)) {
+				foreach($arr_filename as $nkey => $nvalue) {
+					$xml = new xmlparser($this->m_path.'/tcms_news/'.$nvalue,'r');
+					
+					//$is_lang = $xml->readSection('news', 'language');
+					
+					$wsAutor = $xml->readSection('news', 'autor');
+					$wsAutor = $this->decodeText($wsAutor, '2', $this->m_CHARSET);
+					
+					$wsID = $tcms_ap->getUserID($wsAutor);
+					
+					if($wsID == $userID) {
+						$ynCount++;
+					}
+					
+					$xml->flush();
+					unset($xml);
+					
+					$nCount++;
+				}
+			}
+		}
+		else {
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
+			
+			$sqlStr = "SELECT * "
+			." FROM ".$this->m_sqlPrefix."news ";
+			
+			$sqlQR = $sqlAL->query($sqlStr);
+			$nCount = $sqlAL->getNumber($sqlQR);
+			$sqlAL->freeResult($sqlQR);
+			
+			$wsAcc = new tcms_dc_account();
+			$wsAcc = $tcms_ap->getAccount($userID);
+			
+			$sqlStr = "SELECT * "
+			." FROM ".$this->m_sqlPrefix."news "
+			." WHERE (autor = '".$wsAcc->getUsername()."' "
+			." OR autor = '".$wsAcc->getName()."') ";
+			
+			$sqlQR = $sqlAL->query($sqlStr);
+			$ynCount = $sqlAL->getNumber($sqlQR);
+			$sqlAL->freeResult($sqlQR);
+			
+			unset($sqlAL);
+		}
+		
+		$cCount = $this->getCommentDCList(
+			'__ALL_NEWS__', 
+			'news', 
+			false
+		);
+		
+		$arrNewsStats['news_amount'] = $nCount;
+		$arrNewsStats['your_news_amount'] = $ynCount;
+		$arrNewsStats['comment_amount'] = $cCount;
+		
+		return $arrNewsStats;
+	}
 	
 	
 	
