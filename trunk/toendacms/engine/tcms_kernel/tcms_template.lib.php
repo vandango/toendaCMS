@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to implement toendaTemplate Engine.
  *
- * @version 0.4.2
+ * @version 0.4.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -771,9 +771,11 @@ class toendaTemplate {
 	 * @param String $imageThumbTitle
 	 * @param String $imageThumb
 	 * @param String $image
+	 * @param String $filename
+	 * @param String $albumName
 	 * @return String
 	 */
-	public function getImagegalleryAlbumThumbViewEntry($imageLink, $imageThumbTitle, $imageThumb, $image) {
+	public function getImagegalleryAlbumThumbViewEntry($imageLink, $imageThumbTitle, $imageThumb, $image, $filename, $albumName) {
 		$layoutEntry = '';
 		
 		if(trim($this->_part4) != '') {
@@ -783,6 +785,8 @@ class toendaTemplate {
 			$layoutEntry = str_replace('#####ALBUM_IMAGE_TITLE_ATTRIBUTE#####', $imageThumbTitle, $layoutEntry);
 			$layoutEntry = str_replace('#####ALBUM_IMAGE_THUMBNAIL#####', $imageThumb, $layoutEntry);
 			$layoutEntry = str_replace('#####ALBUM_IMAGE#####', $image, $layoutEntry);
+			$layoutEntry = str_replace('#####ALBUM_IMAGE_FILENAME#####', $filename, $layoutEntry);
+			$layoutEntry = str_replace('#####ALBUM_IMAGE_ALBUMNAME#####', $albumName, $layoutEntry);
 		}
 		
 		return $layoutEntry;

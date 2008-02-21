@@ -89,6 +89,8 @@
 	<!-- #####ALBUM_IMAGE_TITLE_ATTRIBUTE##### = The taglist of the image -->
 	<!-- #####ALBUM_IMAGE_THUMBNAIL##### = The link to the thumbnail of the image -->
 	<!-- #####ALBUM_IMAGE##### = The link to the image itself -->
+	<!-- #####ALBUM_IMAGE_FILENAME##### = The filename of the image -->
+	<!-- #####ALBUM_IMAGE_ALBUMNAME##### = The path name of the album -->
 	<a href="#####ALBUM_IMAGE_LINK#####" title="#####ALBUM_IMAGE_TITLE_ATTRIBUTE#####" target="_blank"><!-- rel="lightbox[lightbox]">-->
 	<img style="border: 1px solid #333333;" src="#####ALBUM_IMAGE_THUMBNAIL#####" border="0" />
 	</a>
