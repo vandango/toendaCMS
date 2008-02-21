@@ -28,7 +28,7 @@ Version 2.0
 Developer Version
 	- 1.9.0 Development
 
-Building Steps: 4547
+Building Steps: 4555
 
 
 
@@ -64,6 +64,7 @@ Building Steps: 4547
  - changed: ALT and TITLE attributes on the from the media browser inserted images
             has now a taglist, generated from the name and path of the file.
  - changed: Backend startpage has now some new statistics.
+ - changed: Changed the license from GPL2 to GPL3.
  - changed: 
 
  - added: SEO format 3 (.html-format) has now the template variable.

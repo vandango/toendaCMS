@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a guestbook.
  *
- * @version 0.6.5
+ * @version 0.6.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -309,14 +309,14 @@ if($dcG->getEnabled()) {
 						
 						echo '</tr>';
 					}
-					
-					$tcms_template->unloadTemplate();
-					unset($tcms_template);
 				}
 			}
 		}
 		
 		echo $tcms_html->tableEnd();
+		
+		$tcms_template->unloadTemplate();
+		unset($tcms_template);
 		
 		
 		

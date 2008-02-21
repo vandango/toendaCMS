@@ -447,6 +447,7 @@ if($use_syndication == 1) {
 	*/
 	
 	$wsUrl = '/'.$imagePath.'/cache/'.$def_feed.'.'.$lang.'.xml';
+	$wsUrl = str_replace('///', '/', $wsUrl);
 	$wsUrl = str_replace('//', '/', $wsUrl);
 	
 	$strMetaData .= '<link rel="alternate" type="application/rss+xml"'
