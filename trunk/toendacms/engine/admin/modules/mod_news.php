@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the news.
  *
- * @version 1.9.2
+ * @version 1.9.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -1174,7 +1174,7 @@ if($todo == 'edit') {
 			." FROM ".$tcms_db_prefix."news_to_categories "
 			." INNER JOIN ".$tcms_db_prefix."news_categories ON (".$tcms_db_prefix."news_to_categories.cat_uid = ".$tcms_db_prefix."news_categories.uid) "
 			." WHERE (".$tcms_db_prefix."news_to_categories.news_uid = '".$maintag."')"
-			." ORDER BY ".$tcms_db_prefix."news_to_categorie.name DESC";
+			." ORDER BY ".$tcms_db_prefix."news_categories.name DESC";
 			
 			$sqlQR = $sqlAL->query($strSQL);
 			
@@ -1392,12 +1392,18 @@ if($todo == 'edit') {
 				
 				if(!empty($arr_cat)) {
 					foreach($arr_cat as $ckey => $cval) {
-						if($cval == $value) { $checkME = true; }
+						if($cval == $value) {
+							$checkME = true;
+						}
 					}
 				}
 				else {
-					if($old_default_cat == $value) { $checkME = true; }
-					else { $checkME = false; }
+					if($old_default_cat == $value) {
+						$checkME = true;
+					}
+					else {
+						$checkME = false;
+					}
 				}
 				
 				echo '<div class="tcms_switchcolor_4" style="margin: 0; padding: 0 0 4px 0;" onmouseover="this.style.background=\''.$arr_farbe[1].'\';" onmouseout="this.style.background=\''.$arr_farbe[0].'\';">'
