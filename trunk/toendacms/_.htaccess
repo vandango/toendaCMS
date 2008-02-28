@@ -14,7 +14,7 @@
 #  mod_rewrite in use
 #
 
-#RewriteEngine On
+RewriteEngine On
 
 ## -------------------------------------------------------
 ##  Set the root folder and the rules
@@ -24,18 +24,18 @@
 #  is not directly related to physical file paths.
 #  Update YourtoendaCMSDirectory (just / for root)
 
-#RewriteBase /YourtoendaCMSDirectory
+RewriteBase /toendacms_svn/toendacms
 #RewriteBase /toendacms
 
 #
 #  Rules
 #
 
-#RewriteCond %{REQUEST_FILENAME} !\.(jpg|jpeg|gif|png|css|js|pl|txt)$
-#RewriteCond %{REQUEST_FILENAME} !-f
-#RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !\.(jpg|jpeg|gif|png|css|js|pl|txt)$
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 
-#RewriteRule ^(.*) index.php
+RewriteRule ^(.*) index.php
 
 ## -------------------------------------------------------
 ##  PHP5 Handler
