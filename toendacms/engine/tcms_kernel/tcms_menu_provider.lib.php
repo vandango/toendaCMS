@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a provider for sidemenu datacontainer
  * objects.
  *
- * @version 0.3.0
+ * @version 0.3.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -102,7 +102,7 @@ class tcms_menu_provider extends tcms_main {
 		}
 		
 		parent::setAdministerSite($tcms_administer_path);
-		parent::setURLSEO($this->_tcmsConfig->getSEOFormat());
+		parent::setURLSEO($this->_tcmsConfig->getSEOFormatString());
 		parent::setGlobalFolder(
 			$this->_tcmsConfig->getSEOPath(), 
 			$this->_tcmsConfig->getSEOEnabled()

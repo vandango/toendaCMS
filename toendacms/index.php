@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 3.1.1
+ * @version 3.1.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -517,7 +517,10 @@ if($wsShowSite) {
 					$tcms_main->setURLSEO('slash');
 				}
 				else if($seoFormat == 2) {
-					$tcms_main->setURLSEO('');
+					$tcms_main->setURLSEO('html');
+				}
+				else if($seoFormat == 3) {
+					$tcms_main->setURLSEO('cleanhtml');
 				}
 				
 					

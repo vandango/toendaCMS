@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used for the search engine
  * optimization.
  *
- * @version 0.6.0
+ * @version 0.6.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -41,7 +41,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * explodeUrlColonFormat         -> Explode the url in colon format
  * explodeUrlSlashFormat         -> Explode the url in slash format
- * explodeHTMLFormat             -> Explode the url in slash format
+ * explodeHTMLFormat             -> Explode the url in html format
+ * explodeCleanHTMLFormat        -> Explode the url in clean html format
  * 
  * </code>
  */
@@ -341,14 +342,16 @@ class tcms_seo {
 	
 	
 	/**
-	 * Explode the url in slash format
+	 * Explode the url in html format
 	 * 
 	 * @param Object &$tcmsMainObj = null
 	 * @param Object &$tcmsTimeObj = null
 	 * @param Object &$tcmsConfigObj = null
 	 * @param Object &$tcmsFileObj = null
+	 * @param Boolean $withIndexPHP = true
+	 * @return Array
 	 */
-	public function explodeHTMLFormat(&$tcmsMainObj = null, &$tcmsTimeObj = null, &$tcmsConfigObj = null, &$tcmsFileObj = null) {
+	public function explodeHTMLFormat(&$tcmsMainObj = null, &$tcmsTimeObj = null, &$tcmsConfigObj = null, &$tcmsFileObj = null, $withIndexPHP = true) {
 		$tcms_main = $tcmsMainObj;
 		$tcms_time = $tcmsTimeObj;
 		$tcms_config = $tcmsConfigObj;
@@ -593,6 +596,20 @@ class tcms_seo {
 		}
 		
 		return ( $arrSEO == '' ? null : $arrSEO );
+	}
+	
+	
+	
+	/**
+	 * Explode the url in clean html format
+	 * 
+	 * @param Object &$tcmsMainObj = null
+	 * @param Object &$tcmsTimeObj = null
+	 * @param Object &$tcmsConfigObj = null
+	 * @param Object &$tcmsFileObj = null
+	 */
+	public function explodeCleanHTMLFormat(&$tcmsMainObj = null, &$tcmsTimeObj = null, &$tcmsConfigObj = null, &$tcmsFileObj = null) {
+		return $this->explodeHTMLFormat(&$tcmsMainObj, &$tcmsTimeObj, &$tcmsConfigObj, $tcmsFileObj, true);
 	}
 }
 

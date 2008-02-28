@@ -20,7 +20,7 @@
  *
  * This is used as a linkbrowser
  *
- * @version 0.5.0
+ * @version 0.5.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -137,6 +137,9 @@ else if($seoFormat == 1) {
 }
 else if($seoFormat == 2) {
 	$tcms_main->setURLSEO('html');
+}
+else if($seoFormat == 3) {
+	$tcms_main->setURLSEO('cleanhtml');
 }
 
 

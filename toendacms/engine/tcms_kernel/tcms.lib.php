@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic public functions.
  *
- * @version 3.1.2
+ * @version 3.1.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -2047,7 +2047,11 @@ class tcms_main {
 				
 				$text = $this->encodeUtf8Uri($text);
 				
-				$text = $this->urlConvertToHTMLFormat($text);
+				$text = $this->urlConvertToHTMLFormat(
+					$text, 
+					( $this->urlSEO == 'html' ? true : false )
+				);
+				
 				//echo '<span style="color:#fff;">url-nachher:'.$text.'</span><br><br>';
 			}
 		}
@@ -2061,9 +2065,10 @@ class tcms_main {
 	 * Converts a normal link into a html based link
 	 * 
 	 * @param String $text
+	 * @param Boolean $withIndexPHP = true
 	 * @return String
 	 */
-	public function urlConvertToHTMLFormat($text) {
+	public function urlConvertToHTMLFormat($text, $withIndexPHP = true) {
 		//echo $text.'<br>';
 		
 		$arr_url = explode('&amp;', $text);
@@ -2076,6 +2081,13 @@ class tcms_main {
 		$add = '';
 		$encodeMore = false;
 		
+		if($withIndexPHP) {
+			$indexPHP = 'index.php/';
+		}
+		else {
+			$indexPHP = '';
+		}
+		
 		foreach($arr_url as $key => $val) {
 			//echo '<span style="color:#fff;">'.$val.'</span><br>';
 			$val = str_replace($this->globalFolder.'/index.php?id=', '', $val);
@@ -2083,7 +2095,7 @@ class tcms_main {
 			//echo '<span style="color:#fff;">'.$val.'</span><br>';
 			
 			if($val == 'id=frontpage' || substr($val, 1) == 'id=frontpage') {
-				$ret = $this->globalFolder.'/index.php/';
+				$ret = $this->globalFolder.'/'.$indexPHP;
 				
 				switch($this->_tcmsConfig->getLanguageFrontend()) {
 					case 'germany_DE': $text = 'startseite.html'; break;
@@ -2094,7 +2106,7 @@ class tcms_main {
 				$encodeMore = true;
 			}
 			else if($val == 'id=newsmanager' || substr($val, 1) == 'id=newsmanager') {
-				$ret = $this->globalFolder.'/index.php/';
+				$ret = $this->globalFolder.'/'.$indexPHP;
 				
 				switch($this->_tcmsConfig->getLanguageFrontend()) {
 					case 'germany_DE': $text = 'neuigkeiten.html'; break;
@@ -2105,7 +2117,7 @@ class tcms_main {
 				$encodeMore = true;
 			}
 			else if($val == 'id=download' || substr($val, 1) == 'id=download') {
-				$ret = $this->globalFolder.'/index.php/';
+				$ret = $this->globalFolder.'/'.$indexPHP;
 				
 				switch($this->_tcmsConfig->getLanguageFrontend()) {
 					case 'germany_DE': $text = 'download.html'; break;
@@ -2116,7 +2128,7 @@ class tcms_main {
 				$encodeMore = true;
 			}
 			else if($val == 'id=contactform' || substr($val, 1) == 'id=contactform') {
-				$ret = $this->globalFolder.'/index.php/';
+				$ret = $this->globalFolder.'/'.$indexPHP;
 				
 				switch($this->_tcmsConfig->getLanguageFrontend()) {
 					case 'germany_DE': $text = 'kontakt.html'; break;
@@ -2127,7 +2139,7 @@ class tcms_main {
 				$encodeMore = true;
 			}
 			else if($val == 'id=register' || substr($val, 1) == 'id=register') {
-				$ret = $this->globalFolder.'/index.php/';
+				$ret = $this->globalFolder.'/'.$indexPHP;
 				
 				switch($this->_tcmsConfig->getLanguageFrontend()) {
 					case 'germany_DE': $text = 'anmeldung.html'; break;
@@ -2138,7 +2150,7 @@ class tcms_main {
 				$encodeMore = true;
 			}
 			else if($val == 'id=profile' || substr($val, 1) == 'id=profile') {
-				$ret = $this->globalFolder.'/index.php/';
+				$ret = $this->globalFolder.'/'.$indexPHP;
 				
 				switch($this->_tcmsConfig->getLanguageFrontend()) {
 					case 'germany_DE': $text = 'profil.html'; break;
@@ -2149,7 +2161,7 @@ class tcms_main {
 				$encodeMore = true;
 			}
 			else if($val == 'id=polls' || substr($val, 1) == 'id=polls') {
-				$ret = $this->globalFolder.'/index.php/';
+				$ret = $this->globalFolder.'/'.$indexPHP;
 				
 				switch($this->_tcmsConfig->getLanguageFrontend()) {
 					case 'germany_DE': $text = 'umfragen.html'; break;
@@ -2160,7 +2172,7 @@ class tcms_main {
 				$encodeMore = true;
 			}
 			else if($val == 'id=imprint' || substr($val, 1) == 'id=imprint') {
-				$ret = $this->globalFolder.'/index.php/';
+				$ret = $this->globalFolder.'/'.$indexPHP;
 				
 				switch($this->_tcmsConfig->getLanguageFrontend()) {
 					case 'germany_DE': $text = 'impressum.html'; break;
@@ -2171,7 +2183,7 @@ class tcms_main {
 				$encodeMore = true;
 			}
 			else if($val == 'id=imagegallery' || substr($val, 1) == 'id=imagegallery') {
-				$ret = $this->globalFolder.'/index.php/';
+				$ret = $this->globalFolder.'/'.$indexPHP;
 				
 				switch($this->_tcmsConfig->getLanguageFrontend()) {
 					case 'germany_DE': $text = 'galerie.html'; break;
@@ -2182,7 +2194,7 @@ class tcms_main {
 				$encodeMore = true;
 			}
 			else if($val == 'id=guestbook' || substr($val, 1) == 'id=guestbook') {
-				$ret = $this->globalFolder.'/index.php/';
+				$ret = $this->globalFolder.'/'.$indexPHP;
 				
 				switch($this->_tcmsConfig->getLanguageFrontend()) {
 					case 'germany_DE': $text = 'gaestebuch.html'; break;
@@ -2193,7 +2205,7 @@ class tcms_main {
 				$encodeMore = true;
 			}
 			else if($val == 'id=knowledgebase' || substr($val, 1) == 'id=knowledgebase') {
-				$ret = $this->globalFolder.'/index.php/';
+				$ret = $this->globalFolder.'/'.$indexPHP;
 				
 				switch($this->_tcmsConfig->getLanguageFrontend()) {
 					case 'germany_DE': $text = 'artikel.html'; break;
@@ -2204,7 +2216,7 @@ class tcms_main {
 				$encodeMore = true;
 			}
 			else if($val == 'id=products' || substr($val, 1) == 'id=products') {
-				$ret = $this->globalFolder.'/index.php/';
+				$ret = $this->globalFolder.'/'.$indexPHP;
 				
 				switch($this->_tcmsConfig->getLanguageFrontend()) {
 					case 'germany_DE': $text = 'produkte.html'; break;
@@ -2215,7 +2227,7 @@ class tcms_main {
 				$encodeMore = true;
 			}
 			else if($val == 'id=search' || substr($val, 1) == 'id=search') {
-				$ret = $this->globalFolder.'/index.php/';
+				$ret = $this->globalFolder.'/'.$indexPHP;
 				
 				switch($this->_tcmsConfig->getLanguageFrontend()) {
 					case 'germany_DE': $text = 'suche.html'; break;
@@ -2226,7 +2238,7 @@ class tcms_main {
 				$encodeMore = true;
 			}
 			else if($val == 'id=links' || substr($val, 1) == 'id=links') {
-				$ret = $this->globalFolder.'/index.php/';
+				$ret = $this->globalFolder.'/'.$indexPHP;
 				
 				switch($this->_tcmsConfig->getLanguageFrontend()) {
 					case 'germany_DE': $text = 'links.html'; break;
@@ -2237,14 +2249,14 @@ class tcms_main {
 				$encodeMore = true;
 			}
 			else if($val == 'id=components' || substr($val, 1) == 'id=components') {
-				$ret = $this->globalFolder.'/index.php/';
+				$ret = $this->globalFolder.'/'.$indexPHP;
 				$text = 'cs.html';
 				
 				$encodeMore = true;
 			}
 			else if(substr($val, 0, 3) == 'id=' || substr($val, 1, 3) == 'id=') {
 				if(trim($text) == '') {
-					$ret = $this->globalFolder.'/index.php/';
+					$ret = $this->globalFolder.'/'.$indexPHP;
 					
 					$val = substr($val, strpos($val, 'id=') + 3);
 					
