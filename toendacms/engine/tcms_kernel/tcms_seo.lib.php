@@ -609,7 +609,7 @@ class tcms_seo {
 	 * @param Object &$tcmsFileObj = null
 	 */
 	public function explodeCleanHTMLFormat(&$tcmsMainObj = null, &$tcmsTimeObj = null, &$tcmsConfigObj = null, &$tcmsFileObj = null) {
-		return $this->explodeHTMLFormat(&$tcmsMainObj, &$tcmsTimeObj, &$tcmsConfigObj, $tcmsFileObj, true);
+		return $this->explodeHTMLFormat($tcmsMainObj, $tcmsTimeObj, $tcmsConfigObj, $tcmsFileObj, true);
 	}
 }
 
