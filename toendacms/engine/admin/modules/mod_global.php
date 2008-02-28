@@ -964,7 +964,7 @@ if($id_group == 'Developer'
 		.'<br />'
 		.'<label for="urlformat_3">'
 		.'<input type="radio" name="new_seo_format" id="urlformat_3" value="3"'.($old_seo_format == 3 ? ' checked="checked"' : '' ).' />'
-		.'/en/frontpage.html (ONLY FOR TESTING!)'
+		.'/en/frontpage.html (You must configure the .htaccess file!)'
 		.'</label>'
 		.'</td></tr>';
 		
