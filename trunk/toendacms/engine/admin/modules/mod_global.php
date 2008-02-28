@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * This module is for the global configuration settings.
  * 
- * @version 1.5.1
+ * @version 1.5.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Admin Backend
@@ -960,6 +960,11 @@ if($id_group == 'Developer'
 		.'<label for="urlformat_2">'
 		.'<input type="radio" name="new_seo_format" id="urlformat_2" value="2"'.($old_seo_format == 2 ? ' checked="checked"' : '' ).' />'
 		.'index.php/en/frontpage.html'
+		.'</label>'
+		.'<br />'
+		.'<label for="urlformat_3">'
+		.'<input type="radio" name="new_seo_format" id="urlformat_3" value="3"'.($old_seo_format == 3 ? ' checked="checked"' : '' ).' />'
+		.'/en/frontpage.html (ONLY FOR TESTING!)'
 		.'</label>'
 		.'</td></tr>';
 		

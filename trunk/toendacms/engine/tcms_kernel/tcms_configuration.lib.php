@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide the global
  * configuration data.
  *
- * @version 0.6.3
+ * @version 0.6.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -46,6 +46,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getSEOPath                  -> Get the SEO path
  * getSEOEnabled               -> Get the SEO enabled state
  * getSEOFormat                -> Get the SEO format option
+ * getSEOFormatString          -> Get the SEO format option
  * getSEOOptionNewsTitle       -> Get the SEO format option: with news title
  * getSEOOptionContentTitle    -> Get the SEO format option: with content title
  * getEmailCiphering           -> Get the setting if all emails must be ciphered
@@ -486,6 +487,33 @@ class tcms_configuration {
 	 */
 	public function getSEOFormat() {
 		return $this->m_SEOformat;
+	}
+	
+	
+	
+	/**
+	 * Get the SEO format option
+	 *
+	 * @return String
+	 */
+	public function getSEOFormatString() {
+		switch($this->m_SEOformat) {
+			case 0:
+				return 'colon';
+				break;
+				
+			case 1:
+				return 'slash';
+				break;
+				
+			case 2:
+				return 'html';
+				break;
+				
+			case 3:
+				return 'cleanhtml';
+				break;
+		}
 	}
   
   
