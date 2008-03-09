@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used as a law-concurring
  * publishing form.
  *
- * @version 0.4.4
+ * @version 0.4.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -255,7 +255,7 @@ if($tcms_template->checkTemplateExist(_LAYOUT_TEMPLATE_IMPRINT)) {
 	$tcms_template->parseImprintTemplate();
 	
 	$entry = $tcms_template->getImprintEntry(
-		$websiteowner, 
+		$tcms_config->getWebpageOwner(), 
 		$entryUseContactPerson, 
 		$entryContactPerson, 
 		$entryContactPersonEmail, 
@@ -271,7 +271,7 @@ if($tcms_template->checkTemplateExist(_LAYOUT_TEMPLATE_IMPRINT)) {
 }
 else {
 	echo '<span class="contentmain">'
-	.'<strong class="imptitle">'.$websiteowner.'</strong><br /><br />';
+	.'<strong class="imptitle">'.$tcms_config->getWebpageOwner().'</strong><br /><br />';
 	
 	if($entryUseContactPerson) {
 		echo $entryContactPerson
