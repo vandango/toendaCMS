@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the publishing form.
  *
- * @version 0.7.4
+ * @version 0.7.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -229,7 +229,7 @@ if($id_group == 'Developer'
 		.'<th valign="middle" align="left" class="tcms_db_title tcms_padding_mini">'._TCMS_ADMIN_EDIT_LANG.'</th>'
 		.'</tr></table>';
 		
-		echo $tcms_html->tableHeadClass('1', '5', '0', '100%', 'tcms_table');
+		echo $tcms_html->tableHeadNoBorder('1', '5', '0', '100%');
 		
 		// row
 		$link = 'admin.php?id_user='.$id_user.'&site=mod_imprint'
