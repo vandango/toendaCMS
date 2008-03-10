@@ -279,6 +279,13 @@ p a img:hover { background: #C2E5FA; }
 toendaCMS specific code
 */
 
+.tcms_more {
+	background: url(../../../engine/images/tcms_more.gif) no-repeat transparent;
+	height: 8px !important;
+	width: 34px !important;
+	margin: 8px auto 7px auto;
+}
+
 /* legal */
 .legal {
 	font-size: 9px;

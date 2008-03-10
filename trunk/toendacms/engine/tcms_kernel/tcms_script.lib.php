@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a parser and a base class
  * for the toendaScript.
  * 
- * @version 0.8.0
+ * @version 0.8.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -561,6 +561,7 @@ class toendaScript {
 	 * Cut a text at the {tcms_more} tag
 	 * 
 	 * @param String $newsContent
+	 * @return String
 	 */
 	public function cutAtTcmsMoreTag($newsContent){
 		if(strpos($newsContent, '{tcms_more}')) {
@@ -577,6 +578,7 @@ class toendaScript {
 	 * Get the position of the {tcms_more} tag
 	 * 
 	 * @param String $newsContent
+	 * @return String
 	 */
 	public function getTcmsMoreTagPos($newsContent){
 		return strpos($newsContent, '{tcms_more}');
@@ -588,9 +590,15 @@ class toendaScript {
 	 * Remove the {tcms_more} tag
 	 * 
 	 * @param String $newsContent
+	 * @param Boolean $withCssImage = false
+	 * @return String
 	 */
-	public function removeTcmsMoreTag($newsContent){
-		return str_replace('{tcms_more}', '', $newsContent);
+	public function removeTcmsMoreTag($newsContent, $withCssImage = false){
+		return str_replace(
+			'{tcms_more}', 
+			( $withCssImage ? '<div class="tcms_more"></div>' : '' ), 
+			$newsContent
+		);
 	}
 	
 	
@@ -599,6 +607,7 @@ class toendaScript {
 	 * Has a text the {tcms_more} tag?
 	 * 
 	 * @param String $newsContent
+	 * @return String
 	 */
 	public function hasTcmsMoreTag($newsContent){
 		return ( strpos($newsContent, '{tcms_more}') ? true : false );
@@ -611,6 +620,7 @@ class toendaScript {
 	 * 
 	 * @param String $text
 	 * @param String $seoImageFolder
+	 * @return String
 	 */
 	public function checkSEO($text, $seoImageFolder){
 		global $session;
