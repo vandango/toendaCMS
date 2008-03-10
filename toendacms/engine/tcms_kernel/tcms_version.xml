@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <version>
-	<release>1.9.0</release>
+	<release>1.9.9</release>
 	<codename>Hiroshima</codename>
 	<codename>Longji</codename>
 	
+	<status>Beta</status>
 	<status>Development</status>
 	<status>Stable</status>
 	<status>RC1</status>
-	<status>Beta</status>
 	
 	<build>Build 4580</build>
 	<name>toendaCMS</name>
