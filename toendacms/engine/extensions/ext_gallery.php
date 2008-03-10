@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a imagegallery.
  *
- * @version 1.0.4
+ * @version 1.0.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -556,8 +556,8 @@ if($albums != 'start') {
 												$tagList, 
 												$entryImageThumb, 
 												$entryImage, 
-												$a_value, 
-												$dvalue
+												$dvalue, 
+												$a_value
 											);
 											
 											$tcms_script->doParsePHP($entry);
@@ -575,7 +575,7 @@ if($albums != 'start') {
 									switch($dcIG->getListOption()) {
 										case 0:
 											echo '<tr><td width="110" valign="top">'
-											.'<a href="'.$entryImageLink.'" title="'.$tagList.'" target="_blank" rel="lightbox[lightbox]">'
+											.'<a href="'.$entryImageLink.'" title="'.$tagList.'" target="_blank">'// rel="lightbox[lightbox]">'
 											.'<img style="border: 1px solid #333333;" src="'.$entryImageThumb.'" border="0" />'
 											.'</a>';
 											
