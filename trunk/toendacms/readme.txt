@@ -26,7 +26,7 @@ your Stylesheet file of your Template.
 This are all modules with PHP must be compiled.
 
 - 15 Megabyte free Webspace
-- PHP Version 5 (at least 5.0.0)
+- PHP Version 5 (at least 5.2.0)
     with GD
     with zLib
     at encoding problems:  with mbstring
