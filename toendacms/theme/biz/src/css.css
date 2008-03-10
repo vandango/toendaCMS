@@ -342,6 +342,13 @@ html>body .item ul li { margin: 0 0 0 10px; }
 	toendaCMS specific code
 */
 
+.tcms_more {
+	background: url(../../../engine/images/tcms_more.gif) no-repeat transparent;
+	height: 8px !important;
+	width: 34px !important;
+	margin: 8px auto 7px auto;
+}
+
 .news_content_box{ padding-bottom: 10px; }
 
 
