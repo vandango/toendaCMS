@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the guestbook configuration.
  *
- * @version 0.6.0
+ * @version 0.6.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -333,6 +333,9 @@ if($id_group == 'Developer'
 		if($show_wysiwyg != 'tinymce' && $show_wysiwyg != 'fckeditor') {
 			if($show_wysiwyg == 'toendaScript') {
 				echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'toendaScript\');</script>';
+			}
+			else if($show_wysiwyg == 'Wiki') {
+				echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'Wiki\');</script>';
 			}
 			else {
 				echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'HTML\');</script>';

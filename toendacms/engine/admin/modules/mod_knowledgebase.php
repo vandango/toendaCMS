@@ -23,34 +23,34 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used as a Knowledgebase.
  *
- * @version 0.6.1
+ * @version 0.6.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
  */
 
 
-if(isset($_GET['action'])){ $action = $_GET['action']; }
-if(isset($_GET['type'])){ $type = $_GET['type']; }
-if(isset($_GET['category'])){ $category = $_GET['category']; }
+if(isset($_GET['action'])) { $action = $_GET['action']; }
+if(isset($_GET['type'])) { $type = $_GET['type']; }
+if(isset($_GET['category'])) { $category = $_GET['category']; }
 
-if(isset($_POST['category'])){ $category = $_POST['category']; }
-if(isset($_POST['new_faq_title'])){ $new_faq_title = $_POST['new_faq_title']; }
-if(isset($_POST['new_faq_subt'])){ $new_faq_subt = $_POST['new_faq_subt']; }
-if(isset($_POST['content'])){ $content = $_POST['content']; }
-if(isset($_POST['new_faq_date'])){ $new_faq_date = $_POST['new_faq_date']; }
-if(isset($_POST['new_faq_type'])){ $new_faq_type = $_POST['new_faq_type']; }
-if(isset($_POST['new_faq_sort'])){ $new_faq_sort = $_POST['new_faq_sort']; }
-if(isset($_POST['new_faq_cat'])){ $new_faq_cat = $_POST['new_faq_cat']; }
-if(isset($_POST['new_faq_img'])){ $new_faq_img = $_POST['new_faq_img']; }
-if(isset($_POST['new_faq_pub'])){ $new_faq_pub = $_POST['new_faq_pub']; }
-if(isset($_POST['new_faq_access'])){ $new_faq_access = $_POST['new_faq_access']; }
-if(isset($_POST['new_faq_autor'])){ $new_faq_autor = $_POST['new_faq_autor']; }
-if(isset($_POST['new_faq_id'])){ $new_faq_id = $_POST['new_faq_id']; }
-if(isset($_POST['new_faq_subtitle'])){ $new_faq_subtitle = $_POST['new_faq_subtitle']; }
-if(isset($_POST['new_faq_access'])){ $new_faq_access = $_POST['new_faq_access']; }
-if(isset($_POST['new_faq_enabled'])){ $new_faq_enabled = $_POST['new_faq_enabled']; }
-if(isset($_POST['new_faq_autor_enabled'])){ $new_faq_autor_enabled = $_POST['new_faq_autor_enabled']; }
+if(isset($_POST['category'])) { $category = $_POST['category']; }
+if(isset($_POST['new_faq_title'])) { $new_faq_title = $_POST['new_faq_title']; }
+if(isset($_POST['new_faq_subt'])) { $new_faq_subt = $_POST['new_faq_subt']; }
+if(isset($_POST['content'])) { $content = $_POST['content']; }
+if(isset($_POST['new_faq_date'])) { $new_faq_date = $_POST['new_faq_date']; }
+if(isset($_POST['new_faq_type'])) { $new_faq_type = $_POST['new_faq_type']; }
+if(isset($_POST['new_faq_sort'])) { $new_faq_sort = $_POST['new_faq_sort']; }
+if(isset($_POST['new_faq_cat'])) { $new_faq_cat = $_POST['new_faq_cat']; }
+if(isset($_POST['new_faq_img'])) { $new_faq_img = $_POST['new_faq_img']; }
+if(isset($_POST['new_faq_pub'])) { $new_faq_pub = $_POST['new_faq_pub']; }
+if(isset($_POST['new_faq_access'])) { $new_faq_access = $_POST['new_faq_access']; }
+if(isset($_POST['new_faq_autor'])) { $new_faq_autor = $_POST['new_faq_autor']; }
+if(isset($_POST['new_faq_id'])) { $new_faq_id = $_POST['new_faq_id']; }
+if(isset($_POST['new_faq_subtitle'])) { $new_faq_subtitle = $_POST['new_faq_subtitle']; }
+if(isset($_POST['new_faq_access'])) { $new_faq_access = $_POST['new_faq_access']; }
+if(isset($_POST['new_faq_enabled'])) { $new_faq_enabled = $_POST['new_faq_enabled']; }
+if(isset($_POST['new_faq_autor_enabled'])) { $new_faq_autor_enabled = $_POST['new_faq_autor_enabled']; }
 
 
 
@@ -60,14 +60,14 @@ if(isset($_POST['new_faq_autor_enabled'])){ $new_faq_autor_enabled = $_POST['new
 // INIT
 // -------------------------------------------------
 
-if(!isset($todo)){ $todo = 'show'; }
+if(!isset($todo)) { $todo = 'show'; }
 
 echo '<script language="JavaScript" src="../js/jscalendar/calendar.js"></script>';
 echo '<script language="Javascript" src="../js/jscalendar/lang/calendar-en.js"></script>';
 echo '<script language="Javascript" src="../js/jscalendar/calendar-setup.js"></script>';
 echo '<link rel="stylesheet" type="text/css" media="all" href="../js/jscalendar/calendar-toendaCMS.css" title="toendaCMS" />';
 
-if($show_wysiwyg == 'tinymce'){
+if($show_wysiwyg == 'tinymce') {
 	include('../tcms_kernel/tcms_tinyMCE.lib.php');
 	
 	$tcms_tinyMCE = new tcms_tinyMCE($tcms_path, $seoEnabled);
@@ -82,9 +82,9 @@ if($show_wysiwyg == 'tinymce'){
 // CONFIG
 // -------------------------------------------------
 
-if($todo == 'config'){
-	if($id_group == 'Developer' || $id_group == 'Administrator'){
-		if($choosenDB == 'xml'){
+if($todo == 'config') {
+	if($id_group == 'Developer' || $id_group == 'Administrator') {
+		if($choosenDB == 'xml') {
 			$knowledgebase_xml = new xmlparser(_TCMS_PATH.'/tcms_global/knowledgebase.xml','r');
 			
 			$faq_title         = $knowledgebase_xml->readSection('config', 'title');
@@ -94,7 +94,7 @@ if($todo == 'config'){
 			$faq_autor_enabled = $knowledgebase_xml->readSection('config', 'autor_enabled');
 			$faq_access        = $knowledgebase_xml->readSection('config', 'access');
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
@@ -109,13 +109,13 @@ if($todo == 'config'){
 			$faq_enabled        = $sqlARR['enabled'];
 			$faq_autor_enabled  = $sqlARR['autor_enabled'];
 			
-			if($faq_id            == NULL){ $faq_id            = ''; }
-			if($faq_title         == NULL){ $faq_title         = ''; }
-			if($faq_subtitle      == NULL){ $faq_subtitle      = ''; }
-			if($faq_text          == NULL){ $faq_text          = ''; }
-			if($faq_access        == NULL){ $faq_access        = ''; }
-			if($faq_enabled       == NULL){ $faq_enabled       = ''; }
-			if($faq_autor_enabled == NULL){ $faq_autor_enabled = ''; }
+			if($faq_id            == NULL) { $faq_id            = ''; }
+			if($faq_title         == NULL) { $faq_title         = ''; }
+			if($faq_subtitle      == NULL) { $faq_subtitle      = ''; }
+			if($faq_text          == NULL) { $faq_text          = ''; }
+			if($faq_access        == NULL) { $faq_access        = ''; }
+			if($faq_enabled       == NULL) { $faq_enabled       = ''; }
+			if($faq_autor_enabled == NULL) { $faq_autor_enabled = ''; }
 		}
 		
 		
@@ -127,17 +127,17 @@ if($todo == 'config'){
 		$faq_subtitle = htmlspecialchars($faq_subtitle);
 		
 		
-		if($show_wysiwyg == 'tinymce'){
+		if($show_wysiwyg == 'tinymce') {
 			$faq_text = stripslashes($faq_text);
 		}
-		elseif($show_wysiwyg == 'fckeditor'){
+		elseif($show_wysiwyg == 'fckeditor') {
 			$faq_text = str_replace('src="', 'src="../../../../', $faq_text);
 			$faq_text = str_replace('src="../../../../http:', 'src="http:', $faq_text);
 			$faq_text = str_replace('src="../../../../https:', 'src="https:', $faq_text);
 			$faq_text = str_replace('src="../../../../ftp:', 'src="ftp:', $faq_text);
 			$faq_text = str_replace('src="../../../..//', 'src="/', $faq_text);
 		}
-		else{
+		else {
 			$faq_text = ereg_replace('<br />'.chr(10), chr(13), $faq_text);
 			$faq_text = ereg_replace('<br />'.chr(13), chr(13), $faq_text);
 			$faq_text = ereg_replace('<br />', chr(13), $faq_text);
@@ -152,7 +152,7 @@ if($todo == 'config'){
 		}
 		
 		
-		if($seoEnabled == 0 && $show_wysiwyg == 'tinymce'){
+		if($seoEnabled == 0 && $show_wysiwyg == 'tinymce') {
 			//$faq_text = str_replace('src="', 'src="../../', $faq_text);
 		}
 		
@@ -221,17 +221,24 @@ if($todo == 'config'){
 		echo '<tr><td valign="top" colspan="2">'
 		.'<script>createToendaToolbar(\'knowledgebase\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');</script>';
 		
-		if($show_wysiwyg == 'tinymce'){ echo '<br /><br />'; }
-		elseif($show_wysiwyg == 'fckeditor'){ }
-		else{
-			if($show_wysiwyg == 'toendaScript'){ echo '<script>createToolbar(\'knowledgebase\', \''.$tcms_lang.'\', \'toendaScript\');</script>'; }
-			else{ echo '<script>createToolbar(\'knowledgebase\', \''.$tcms_lang.'\', \'HTML\');</script>'; }
+		if($show_wysiwyg == 'tinymce') { echo '<br /><br />'; }
+		elseif($show_wysiwyg == 'fckeditor') { }
+		else {
+			if($show_wysiwyg == 'toendaScript') {
+				echo '<script>createToolbar(\'knowledgebase\', \''.$tcms_lang.'\', \'toendaScript\');</script>';
+			}
+			else if($show_wysiwyg == 'Wiki') {
+				echo '<script>createToolbar(\'knowledgebase\', \''.$tcms_lang.'\', \'Wiki\');</script>';
+			}
+			else {
+				echo '<script>createToolbar(\'knowledgebase\', \''.$tcms_lang.'\', \'HTML\');</script>';
+			}
 		}
 		
-		if($show_wysiwyg == 'tinymce'){
+		if($show_wysiwyg == 'tinymce') {
 			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" id="content" name="content" mce_editable="true">'.$faq_text.'</textarea>';
 		}
-		elseif($show_wysiwyg == 'fckeditor'){
+		elseif($show_wysiwyg == 'fckeditor') {
 			$sBasePath = '../js/FCKeditor/';
 			
 			$oFCKeditor = new FCKeditor('content') ;
@@ -240,7 +247,7 @@ if($todo == 'config'){
 			$oFCKeditor->Value = $faq_text;
 			$oFCKeditor->Create();
 		}
-		else{
+		else {
 			echo '<textarea name="content" id="content" class="tcms_textarea_huge">'.$faq_text.'</textarea>';
 		}
 		
@@ -250,7 +257,7 @@ if($todo == 'config'){
 		// Table end
 		echo '</table><br /></form>';
 	}
-	else{
+	else {
 		echo '<strong>'._MSG_NOTENOUGH_USERRIGHTS.'</strong>';
 	}
 }
@@ -263,7 +270,7 @@ if($todo == 'config'){
 // LIST
 // -------------------------------------------------
 
-if($todo == 'show'){
+if($todo == 'show') {
 	echo $tcms_html->bold(_FAQ_TITLE);
 	echo $tcms_html->text(_FAQ_TEXT.'<br /><br />', 'left');
 	
@@ -283,7 +290,7 @@ if($todo == 'show'){
 			$arrFAQparent['type'][$count] = $xml->readSection('faq', 'type');
 			$arrFAQparent['pub'][$count]  = $xml->readSection('faq', 'publish_state');
 			
-			if($arrFAQparent['type'][$count] == 'c' && $arrFAQparent['pub'][$count] == '2'){
+			if($arrFAQparent['type'][$count] == 'c' && $arrFAQparent['pub'][$count] == '2') {
 				$arrFAQparent['title'][$count]  = $xml->readSection('faq', 'title');
 				$arrFAQparent['parent'][$count] = $xml->readSection('faq', 'parent');
 				$arrFAQparent['uid'][$count]    = substr($category, 0, 10);
@@ -295,14 +302,14 @@ if($todo == 'show'){
 				
 				$count++;
 				
-				while($checkCat != ""){
+				while($checkCat != "") {
 					$xml = new xmlparser(_TCMS_PATH.'/tcms_knowledgebase/'.$arrFAQparent['parent'][$count - 1].'.xml','r');
 					
 					$checkCat = $xml->readSection('faq', 'category');
 					$arrFAQparent['type'][$count]   = $xml->readSection('faq', 'type');
 					$arrFAQparent['pub'][$count]    = $xml->readSection('faq', 'publish_state');
 					
-					if($arrFAQparent['type'][$count] == 'c' && $arrFAQparent['pub'][$count] == '2'){
+					if($arrFAQparent['type'][$count] == 'c' && $arrFAQparent['pub'][$count] == '2') {
 						$arrFAQparent['title'][$count]  = $xml->readSection('faq', 'title');
 						$arrFAQparent['parent'][$count] = $xml->readSection('faq', 'parent');
 						$arrFAQparent['uid'][$count]    = substr($arrFAQparent['parent'][$count - 1], 0, 10);
@@ -318,8 +325,8 @@ if($todo == 'show'){
 				}
 			}
 		}
-		else{
-			switch($id_group){
+		else {
+			switch($id_group) {
 				case 'Developer':
 				case 'Administrator':
 					$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
@@ -349,7 +356,7 @@ if($todo == 'show'){
 			$sqlQR = $sqlAL->query($sqlSTRparent);
 			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
-			while($sqlNR > 0){
+			while($sqlNR > 0) {
 				$sqlObj = $sqlAL->fetchObject($sqlQR);
 				
 				unset($sqlQR);
@@ -358,9 +365,9 @@ if($todo == 'show'){
 				$arrFAQparent['uid'][$count]    = $sqlObj->uid;
 				$arrFAQparent['parent'][$count] = $sqlObj->parent;
 				
-				if($arrFAQparent['title'][$count]  == NULL){ $arrFAQparent['title'][$count]  = ''; }
-				if($arrFAQparent['uid'][$count]    == NULL){ $arrFAQparent['uid'][$count]    = ''; }
-				if($arrFAQparent['parent'][$count] == NULL){ $arrFAQparent['parent'][$count] = ''; }
+				if($arrFAQparent['title'][$count]  == NULL) { $arrFAQparent['title'][$count]  = ''; }
+				if($arrFAQparent['uid'][$count]    == NULL) { $arrFAQparent['uid'][$count]    = ''; }
+				if($arrFAQparent['parent'][$count] == NULL) { $arrFAQparent['parent'][$count] = ''; }
 				
 				// CHARSETS
 				$arrFAQparent['title'][$count] = $tcms_main->decodeText($arrFAQparent['title'][$count], '2', $c_charset);
@@ -382,7 +389,7 @@ if($todo == 'show'){
 			}
 		}
 		
-		if(!isset($checkFAQTitle)){ $checkFAQTitle = 1; }
+		if(!isset($checkFAQTitle)) { $checkFAQTitle = 1; }
 		
 		
 		echo '<a href="admin.php?id_user='.$id_user.'&amp;site=mod_knowledgebase">'
@@ -392,13 +399,13 @@ if($todo == 'show'){
 		.'</a>';
 		
 		
-		for($i = ($checkFAQTitle - 1); $i >= 0; $i--){
+		for($i = ($checkFAQTitle - 1); $i >= 0; $i--) {
 			echo '&nbsp;/&nbsp;';
 			
-			if($i == 0){
+			if($i == 0) {
 				echo $arrFAQparent['title'][$i];
 			}
-			else{
+			else {
 				echo '<a href="admin.php?id_user='.$id_user.'&amp;site=mod_knowledgebase&amp;category='.$arrFAQparent['uid'][$i].'">'
 				.$arrFAQparent['title'][$i]
 				.'</a>';
@@ -429,17 +436,17 @@ if($todo == 'show'){
 				/*
 					rules
 				*/
-				if(!isset($category) || $category == ''){
+				if(!isset($category) || $category == '') {
 					if($checkCat == '') $countThis = true;
 					else $countThis = false;
 				}
-				else{
+				else {
 					if($checkCat == $category) $countThis = true;
 					else $countThis = false;
 				}
 				
 				
-				if($countThis){
+				if($countThis) {
 					$arrFAQ['uid'][$count]     = substr($value, 0, 10);
 					$arrFAQ['cat'][$count]     = $checkCat;
 					$arrFAQ['title'][$count]   = $menu_xml->readSection('faq', 'title');
@@ -467,7 +474,7 @@ if($todo == 'show'){
 			}
 		}
 		
-		if(is_array($arrFAQ)){
+		if(is_array($arrFAQ)) {
 			array_multisort(
 				$arrFAQ['sort'], SORT_ASC, 
 				$arrFAQ['date'], SORT_ASC, 
@@ -484,11 +491,11 @@ if($todo == 'show'){
 			);
 		}
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		switch($id_group){
+		switch($id_group) {
 			case 'Developer':
 			case 'Administrator':
 				$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
@@ -505,7 +512,7 @@ if($todo == 'show'){
 				break;
 		}
 		
-		if(!isset($category)){
+		if(!isset($category)) {
 			$sqlSTR = "SELECT * "
 			."FROM ".$tcms_db_prefix."knowledgebase "
 			."WHERE parent IS NULL "
@@ -514,7 +521,7 @@ if($todo == 'show'){
 			.$strAdd
 			."ORDER BY sort ASC, date ASC, title ASC";
 		}
-		else{
+		else {
 			$sqlSTR = "SELECT * "
 			."FROM ".$tcms_db_prefix."knowledgebase "
 			."WHERE category = '".$category."' "
@@ -528,7 +535,7 @@ if($todo == 'show'){
 		
 		$count = 0;
 		
-		while($sqlARR = $sqlAL->fetchArray($sqlQR)){
+		while($sqlARR = $sqlAL->fetchArray($sqlQR)) {
 			$arrFAQ['uid'][$count]     = $sqlARR['uid'];
 			$arrFAQ['title'][$count]   = $sqlARR['title'];
 			$arrFAQ['subt'][$count]    = $sqlARR['subtitle'];
@@ -543,16 +550,16 @@ if($todo == 'show'){
 			$arrFAQ['autor'][$count]   = $sqlARR['autor'];
 			
 			
-			if($arrFAQ['uid'][$count]     == NULL){ $arrFAQ['uid'][$count]     = ''; }
-			if($arrFAQ['title'][$count]   == NULL){ $arrFAQ['title'][$count]   = ''; }
-			if($arrFAQ['subt'][$count]    == NULL){ $arrFAQ['subt'][$count]    = ''; }
-			if($arrFAQ['content'][$count] == NULL){ $arrFAQ['content'][$count] = ''; }
-			if($arrFAQ['date'][$count]    == NULL){ $arrFAQ['date'][$count]    = ''; }
-			if($arrFAQ['type'][$count]    == NULL){ $arrFAQ['type'][$count]    = ''; }
-			if($arrFAQ['sort'][$count]    == NULL){ $arrFAQ['sort'][$count]    = ''; }
-			if($arrFAQ['pub'][$count]     == NULL){ $arrFAQ['pub'][$count]     = ''; }
-			if($arrFAQ['access'][$count]  == NULL){ $arrFAQ['access'][$count]  = ''; }
-			if($arrFAQ['autor'][$count]   == NULL){ $arrFAQ['autor'][$count]   = ''; }
+			if($arrFAQ['uid'][$count]     == NULL) { $arrFAQ['uid'][$count]     = ''; }
+			if($arrFAQ['title'][$count]   == NULL) { $arrFAQ['title'][$count]   = ''; }
+			if($arrFAQ['subt'][$count]    == NULL) { $arrFAQ['subt'][$count]    = ''; }
+			if($arrFAQ['content'][$count] == NULL) { $arrFAQ['content'][$count] = ''; }
+			if($arrFAQ['date'][$count]    == NULL) { $arrFAQ['date'][$count]    = ''; }
+			if($arrFAQ['type'][$count]    == NULL) { $arrFAQ['type'][$count]    = ''; }
+			if($arrFAQ['sort'][$count]    == NULL) { $arrFAQ['sort'][$count]    = ''; }
+			if($arrFAQ['pub'][$count]     == NULL) { $arrFAQ['pub'][$count]     = ''; }
+			if($arrFAQ['access'][$count]  == NULL) { $arrFAQ['access'][$count]  = ''; }
+			if($arrFAQ['autor'][$count]   == NULL) { $arrFAQ['autor'][$count]   = ''; }
 			
 			
 			// CHARSETS
@@ -579,12 +586,12 @@ if($todo == 'show'){
 		.'<th valign="middle" class="tcms_db_title" width="10%" align="center">'._TABLE_ACCESS.'</th>'
 		.'<th valign="middle" class="tcms_db_title" width="10%" align="right">'._TABLE_FUNCTIONS.'</th></tr>';
 	
-	if($tcms_main->isArray($arrFAQ)){
-		foreach($arrFAQ['uid'] as $key => $value){
-			if(is_integer($key/2)){ $wsc = 0; }
-			else{ $wsc = 1; }
+	if($tcms_main->isArray($arrFAQ)) {
+		foreach($arrFAQ['uid'] as $key => $value) {
+			if(is_integer($key/2)) { $wsc = 0; }
+			else { $wsc = 1; }
 			
-			switch(trim($arrFAQ['type'][$key])){
+			switch(trim($arrFAQ['type'][$key])) {
 				case 'c':
 					$strLocation = '';
 					//'document.location=\'admin.php?id_user='.$id_user.'&amp;site=mod_knowledgebase&amp;category='.$arrFAQ['uid'][$key].'\';';
@@ -600,7 +607,7 @@ if($todo == 'show'){
 			.'onMouseOver="wxlBgCol(\'row'.$key.'\',\'#ececec\')" '
 			.'onMouseOut="wxlBgCol(\'row'.$key.'\',\''.$arr_color[$wsc].'\')">';
 			
-			switch(trim($arrFAQ['type'][$key])){
+			switch(trim($arrFAQ['type'][$key])) {
 				case 'c':
 					echo '<td class="tcms_db_2" style="width: 13px !important;" '.$strLocation.'>'
 					.'<img border="0" src="../images/explore/faq_folder.png" />'
@@ -628,7 +635,7 @@ if($todo == 'show'){
 			echo '<td align="center" class="tcms_db_2" '.$strLocation.'>'
 			.'<a href="admin.php?id_user='.$id_user.'&amp;site=mod_knowledgebase&amp;todo=changePublish&amp;action=';
 			
-			switch($arrFAQ['pub'][$key]){
+			switch($arrFAQ['pub'][$key]) {
 				case 0: echo 'st'; break;
 				case 1: echo 'on'; break;
 				case 2: echo 'off'; break;
@@ -636,7 +643,7 @@ if($todo == 'show'){
 			
 			echo '&amp;maintag='.$arrFAQ['uid'][$key].'">';
 			
-			switch($arrFAQ['pub'][$key]){
+			switch($arrFAQ['pub'][$key]) {
 				case 0: echo '<img src="../images/no.png" border="0" />'; break;
 				case 1: echo '<img src="../images/wait.png" border="0" />'; break;
 				case 2: echo '<img src="../images/yes.png" border="0" />'; break;
@@ -650,7 +657,7 @@ if($todo == 'show'){
 			.'</td>';
 			
 			
-			switch(trim($arrFAQ['type'][$key])){
+			switch(trim($arrFAQ['type'][$key])) {
 				case 'c':
 					echo '<td class="tcms_db_2" align="right" valign="middle">'
 					.'<a title="'._TABLE_GOUPBUTTON.'" href="admin.php?id_user='.$id_user.'&amp;site=mod_knowledgebase&amp;category='.$arrFAQ['uid'][$key].'">'
@@ -705,19 +712,19 @@ if($todo == 'edit') {
 			$arrFAQ_cat     = $menu_xml->readSection('faq', 'category');
 			$arrFAQ_autor   = $menu_xml->readSection('faq', 'autor');
 			
-			if($arrFAQ_title   == false){ $arrFAQ_title   = ''; }
-			if($arrFAQ_subt    == false){ $arrFAQ_subt    = ''; }
-			if($arrFAQ_content == false){ $arrFAQ_content = ''; }
-			if($arrFAQ_date    == false){ $arrFAQ_date    = ''; }
-			if($arrFAQ_type    == false){ $arrFAQ_type    = ''; }
-			//if($arrFAQ_sort    == false){ $arrFAQ_sort    = ''; }
-			if($arrFAQ_img     == false){ $arrFAQ_img     = ''; }
-			if($arrFAQ_pub     == false){ $arrFAQ_pub     = '0'; }
-			if($arrFAQ_access  == false){ $arrFAQ_access  = ''; }
-			if($arrFAQ_autor   == false){ $arrFAQ_autor   = ''; }
-			if($arrFAQ_cat     == false){ $arrFAQ_cat     = ''; }
+			if($arrFAQ_title   == false) { $arrFAQ_title   = ''; }
+			if($arrFAQ_subt    == false) { $arrFAQ_subt    = ''; }
+			if($arrFAQ_content == false) { $arrFAQ_content = ''; }
+			if($arrFAQ_date    == false) { $arrFAQ_date    = ''; }
+			if($arrFAQ_type    == false) { $arrFAQ_type    = ''; }
+			//if($arrFAQ_sort    == false) { $arrFAQ_sort    = ''; }
+			if($arrFAQ_img     == false) { $arrFAQ_img     = ''; }
+			if($arrFAQ_pub     == false) { $arrFAQ_pub     = '0'; }
+			if($arrFAQ_access  == false) { $arrFAQ_access  = ''; }
+			if($arrFAQ_autor   == false) { $arrFAQ_autor   = ''; }
+			if($arrFAQ_cat     == false) { $arrFAQ_cat     = ''; }
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
@@ -739,16 +746,16 @@ if($todo == 'edit') {
 			$arrFAQ_autor   = $sqlARR['autor'];
 			
 			
-			if($arrFAQ_uid     == NULL){ $arrFAQ_uid     = ''; }
-			if($arrFAQ_title   == NULL){ $arrFAQ_title   = ''; }
-			if($arrFAQ_subt    == NULL){ $arrFAQ_subt    = ''; }
-			if($arrFAQ_content == NULL){ $arrFAQ_content = ''; }
-			if($arrFAQ_date    == NULL){ $arrFAQ_date    = ''; }
-			if($arrFAQ_type    == NULL){ $arrFAQ_type    = ''; }
-			if($arrFAQ_sort    == NULL){ $arrFAQ_sort    = ''; }
-			if($arrFAQ_pub     == NULL){ $arrFAQ_pub     = ''; }
-			if($arrFAQ_access  == NULL){ $arrFAQ_access  = ''; }
-			if($arrFAQ_autor   == NULL){ $arrFAQ_autor   = ''; }
+			if($arrFAQ_uid     == NULL) { $arrFAQ_uid     = ''; }
+			if($arrFAQ_title   == NULL) { $arrFAQ_title   = ''; }
+			if($arrFAQ_subt    == NULL) { $arrFAQ_subt    = ''; }
+			if($arrFAQ_content == NULL) { $arrFAQ_content = ''; }
+			if($arrFAQ_date    == NULL) { $arrFAQ_date    = ''; }
+			if($arrFAQ_type    == NULL) { $arrFAQ_type    = ''; }
+			if($arrFAQ_sort    == NULL) { $arrFAQ_sort    = ''; }
+			if($arrFAQ_pub     == NULL) { $arrFAQ_pub     = ''; }
+			if($arrFAQ_access  == NULL) { $arrFAQ_access  = ''; }
+			if($arrFAQ_autor   == NULL) { $arrFAQ_autor   = ''; }
 		}
 		
 		$arrFAQ_title   = $tcms_main->decodeText($arrFAQ_title, '2', $c_charset);
@@ -758,7 +765,7 @@ if($todo == 'edit') {
 		echo $tcms_html->bold(_TABLE_EDIT);
 		$odot = 'save';
 	}
-	else{
+	else {
 		$arrFAQ_uid     = '';
 		$arrFAQ_title   = '';
 		$arrFAQ_subt    = '';
@@ -787,15 +794,15 @@ if($todo == 'edit') {
 	$arrFAQ_title = htmlspecialchars($arrFAQ_title);
 	$arrFAQ_subt  = htmlspecialchars($arrFAQ_subt);
 	
-	if($show_wysiwyg == 'tinymce'){
+	if($show_wysiwyg == 'tinymce') {
 		$arrFAQ_content = stripslashes($arrFAQ_content);
 	}
-	elseif($show_wysiwyg == 'fckeditor'){
+	elseif($show_wysiwyg == 'fckeditor') {
 		$arrFAQ_content = str_replace('src="', 'src="../../../../', $arrFAQ_content);
 		$arrFAQ_content = str_replace('src="../../../../http:', 'src="http:', $arrFAQ_content);
 		$arrFAQ_content = str_replace('src="../../../..//', 'src="/', $arrFAQ_content);
 	}
-	else{
+	else {
 		$arrFAQ_content = ereg_replace('<br />'.chr(10), chr(13),  $arrFAQ_content);
 		$arrFAQ_content = ereg_replace('<br />'.chr(13), chr(13),  $arrFAQ_content);
 		$arrFAQ_content = ereg_replace('<br />', chr(13),  $arrFAQ_content);
@@ -812,7 +819,7 @@ if($todo == 'edit') {
 	}
 	
 	
-	if($seoEnabled == 0 && $show_wysiwyg == 'tinymce'){
+	if($seoEnabled == 0 && $show_wysiwyg == 'tinymce') {
 		//$arrFAQ_content = str_replace('src="', 'src="../../', $arrFAQ_content);
 	}
 	
@@ -876,19 +883,29 @@ if($todo == 'edit') {
 	.( $show_wysiwyg != 'fckeditor' ? '<br /><br />' : '' )
 	.( $type == 'a' ? '<script>createToendaToolbar(\'faq\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');</script>' : '' );
 	
-	if($type == 'a'){
-		if($show_wysiwyg != 'tinymce' && $show_wysiwyg != 'fckeditor'){
-			if($show_wysiwyg == 'toendaScript')
+	if($type == 'a') {
+		if($show_wysiwyg != 'tinymce' && $show_wysiwyg != 'fckeditor') {
+			if($show_wysiwyg == 'toendaScript') {
 				echo '<script>createToolbar(\'faq\', \''.$tcms_lang.'\', \'toendaScript\');</script>';
-			else
+			}
+			else if($show_wysiwyg == 'Wiki') {
+				echo '<script>createToolbar(\'faq\', \''.$tcms_lang.'\', \'Wiki\');</script>';
+			}
+			else {
 				echo '<script>createToolbar(\'faq\', \''.$tcms_lang.'\', \'HTML\');</script>';
+			}
 		}
 	}
-	else{
-		if($show_wysiwyg == 'toendaScript')
+	else {
+		if($show_wysiwyg == 'toendaScript') {
 			echo '<script>createToolbar(\'faq\', \''.$tcms_lang.'\', \'toendaScript\');</script>';
-		else
+		}
+		else if($show_wysiwyg == 'Wiki') {
+			echo '<script>createToolbar(\'faq\', \''.$tcms_lang.'\', \'Wiki\');</script>';
+		}
+		else {
 			echo '<script>createToolbar(\'faq\', \''.$tcms_lang.'\', \'HTML\');</script>';
+		}
 	}
 	
 	echo '<br />'
@@ -898,11 +915,11 @@ if($todo == 'edit') {
 	// table row
 	echo '<tr><td valign="top" colspan="2">';
 	
-	if($type == 'a'){
-		if($show_wysiwyg == 'tinymce'){
+	if($type == 'a') {
+		if($show_wysiwyg == 'tinymce') {
 			echo '<textarea class="tcms_textarea_huge" style="width: 100%;" id="content" name="content" mce_editable="true">'.$arrFAQ_content.'</textarea>';
 		}
-		elseif($show_wysiwyg == 'fckeditor'){
+		elseif($show_wysiwyg == 'fckeditor') {
 			$sBasePath = '../js/FCKeditor/';
 			
 			$oFCKeditor = new FCKeditor('content') ;
@@ -911,11 +928,11 @@ if($todo == 'edit') {
 			$oFCKeditor->Value = $arrFAQ_content;
 			$oFCKeditor->Create();
 		}
-		else{
+		else {
 			echo '<textarea class="tcms_textarea_huge" style="width: 100%;" id="content" name="content">'.$arrFAQ_content.'</textarea>';
 		}
 	}
-	else{
+	else {
 		echo '<textarea class="tcms_textarea_huge" style="width: 100%;" id="content" name="content">'.$arrFAQ_content.'</textarea>';
 	}
 	
@@ -941,7 +958,7 @@ if($todo == 'edit') {
 	._FAQ_BASE_CATEGORY
 	.'</option>';
 	
-	foreach($arrFAQCategories['tag'] as $key => $value){
+	foreach($arrFAQCategories['tag'] as $key => $value) {
 		echo '<option value="'.$value.'"'
 		.( $value == $arrFAQ_cat || $value == $category
 			? ' selected="selected"' 
@@ -987,7 +1004,7 @@ if($todo == 'edit') {
 		
 		echo '<optgroup label="'._USER_ALL.'">';
 		
-		foreach($arrActiveUser['tag'] as $key => $value){
+		foreach($arrActiveUser['tag'] as $key => $value) {
 			echo '<option value="'.$value.'"'.( $arrFAQ_autor == $value ? ' selected="selected"' : '').'>'.$arrActiveUser['user'][$key].'</option>';
 		}
 		
@@ -998,7 +1015,7 @@ if($todo == 'edit') {
 		
 		$strAutor = $tcms_ap->getUsername($arrFAQ_autor);
 		
-		if(isset($arrFAQ_autor) && $arrFAQ_autor != '' && ($arrFAQ_autor != $id_username && $arrFAQ_autor != $id_name)){
+		if(isset($arrFAQ_autor) && $arrFAQ_autor != '' && ($arrFAQ_autor != $id_username && $arrFAQ_autor != $id_name)) {
 			echo '<option value="'.$arrFAQ_autor.'" selected="selected">'.$strAutor.'</option>';
 		}
 	}
@@ -1014,7 +1031,7 @@ if($todo == 'edit') {
 	.'<input type="button" name="tcms" value="'._EXT_NEWS_DESELECT.'" onclick="document.getElementById(\'faq_img\').src=\'\';document.getElementById(\'new_faq_img\').value=\'\';document.getElementById(\'faq_img\').style.display=\'none\';" />'
 	.'<br />';
 	
-	if(isset($new_faq_img)){ $arrFAQ_img = $new_faq_img; }
+	if(isset($new_faq_img)) { $arrFAQ_img = $new_faq_img; }
 	
 	echo '<img width="100"'.( $arrFAQ_img == '' ? ' style="display:block;"' : '' ).' id="faq_img" src="'._TCMS_PATH.'/images/knowledgebase/'.$arrFAQ_img.'" border="0" />'
 	.'<input name="new_faq_img" id="new_faq_img" value="'.$arrFAQ_img.'" type="hidden" />';
@@ -1040,26 +1057,26 @@ if($todo == 'edit') {
 // CHANGE PUBLISHING
 // -------------------------------------------------
 
-if($todo == 'changePublish'){
-	switch($action){
+if($todo == 'changePublish') {
+	switch($action) {
 		// Take it off
 		case 'off':
 			if($choosenDB == 'xml') {
 				xmlparser::edit_value(_TCMS_PATH.'/tcms_knowledgebase/'.$maintag.'.xml', 'publish_state', '2', '0');
 			}
-			else{
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				$newSQLData = $tcms_db_prefix.'knowledgebase.publish_state=0';
 				$sqlQR = $sqlAL->updateOne($tcms_db_prefix.'knowledgebase', $newSQLData, $maintag);
 			}
 			
-			if($sender == 'desktop'){
+			if($sender == 'desktop') {
 				echo '<script type="text/javascript">'
 				.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\';'
 				.'</script>';
 			}
-			else{
+			else {
 				if($tcms_main->isReal($new_faq_cat)) {
 					$strAdd = '&category='.$new_faq_cat;
 				}
@@ -1075,22 +1092,22 @@ if($todo == 'changePublish'){
 		
 		// Take it on
 		case 'on':
-			if($choosenDB == 'xml'){
+			if($choosenDB == 'xml') {
 				xmlparser::edit_value(_TCMS_PATH.'/tcms_knowledgebase/'.$maintag.'.xml', 'publish_state', '1', '2');
 			}
-			else{
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				$newSQLData = $tcms_db_prefix.'knowledgebase.publish_state=2';
 				$sqlQR = $sqlAL->updateOne($tcms_db_prefix.'knowledgebase', $newSQLData, $maintag);
 			}
 			
-			if($sender == 'desktop'){
+			if($sender == 'desktop') {
 				echo '<script type="text/javascript">'
 				.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\';'
 				.'</script>';
 			}
-			else{
+			else {
 				if($tcms_main->isReal($new_faq_cat)) {
 					$strAdd = '&category='.$new_faq_cat;
 				}
@@ -1106,22 +1123,22 @@ if($todo == 'changePublish'){
 		
 		// Take it on
 		case 'st':
-			if($choosenDB == 'xml'){
+			if($choosenDB == 'xml') {
 				xmlparser::edit_value(_TCMS_PATH.'/tcms_knowledgebase/'.$maintag.'.xml', 'publish_state', '0', '1');
 			}
-			else{
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				$newSQLData = $tcms_db_prefix.'knowledgebase.publish_state=1';
 				$sqlQR = $sqlAL->updateOne($tcms_db_prefix.'knowledgebase', $newSQLData, $maintag);
 			}
 			
-			if($sender == 'desktop'){
+			if($sender == 'desktop') {
 				echo '<script type="text/javascript">'
 				.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_page\';'
 				.'</script>';
 			}
-			else{
+			else {
 				if($tcms_main->isReal($new_faq_cat)) {
 					$strAdd = '&category='.$new_faq_cat;
 				}
@@ -1145,28 +1162,28 @@ if($todo == 'changePublish'){
 // SASE CONFIGURATION
 // -------------------------------------------------
 
-if($todo == 'save_config'){
+if($todo == 'save_config') {
 	if(empty($new_faq_enabled))      { $new_faq_enabled       = 0; }
-	if(empty($new_faq_autor_enabled)){ $new_faq_autor_enabled = 0; }
-	if($new_faq_title    == ''){ $new_faq_title    = ''; }
-	if($new_faq_subtitle == ''){ $new_faq_subtitle = ''; }
-	if($content          == ''){ $content          = ''; }
-	if($new_faq_access   == ''){ $new_faq_access   = 'Public'; }
+	if(empty($new_faq_autor_enabled)) { $new_faq_autor_enabled = 0; }
+	if($new_faq_title    == '') { $new_faq_title    = ''; }
+	if($new_faq_subtitle == '') { $new_faq_subtitle = ''; }
+	if($content          == '') { $content          = ''; }
+	if($new_faq_access   == '') { $new_faq_access   = 'Public'; }
 	
 	
-	if($show_wysiwyg == 'tinymce'){
+	if($show_wysiwyg == 'tinymce') {
 		$content = stripslashes($content);
 	}
-	elseif($show_wysiwyg == 'fckeditor'){
+	elseif($show_wysiwyg == 'fckeditor') {
 		$content = str_replace('../../../../../../../../../', '', $content);
 		$content = str_replace('../../../../', '', $content);
 	}
-	else{
+	else {
 		$content = $tcms_main->convertNewlineToHTML($content);
 	}
 	
 	
-	if($seoEnabled == 0 && $show_wysiwyg == 'tinymce'){
+	if($seoEnabled == 0 && $show_wysiwyg == 'tinymce') {
 		//$content = str_replace('src="../../', 'src="', $content);
 	}
 	
@@ -1177,7 +1194,7 @@ if($todo == 'save_config'){
 	$content          = $tcms_main->encodeText($content, '2', $c_charset);
 	
 	
-	if($choosenDB == 'xml'){
+	if($choosenDB == 'xml') {
 		$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/knowledgebase.xml', 'w');
 		$xmluser->xml_declaration();
 		$xmluser->xml_section('config');
@@ -1192,7 +1209,7 @@ if($todo == 'save_config'){
 		$xmluser->xml_section_buffer();
 		$xmluser->xml_section_end('config');
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
@@ -1220,24 +1237,24 @@ if($todo == 'save_config'){
 // SASE
 // -------------------------------------------------
 
-if($todo == 'save'){
+if($todo == 'save') {
 	if($new_faq_cat  == '' || !isset($new_faq_cat)) { $new_faq_cat  = null; }
-	if($new_faq_sort == '' || !isset($new_faq_sort)){ $new_faq_sort = 0; }
+	if($new_faq_sort == '' || !isset($new_faq_sort)) { $new_faq_sort = 0; }
 	
 	
-	if($show_wysiwyg == 'tinymce'){
+	if($show_wysiwyg == 'tinymce') {
 		$content = stripslashes($content);
 	}
-	elseif($show_wysiwyg == 'fckeditor'){
+	elseif($show_wysiwyg == 'fckeditor') {
 		$content = str_replace('../../../../../../../../../', '', $content);
 		$content = str_replace('../../../../', '', $content);
 	}
-	else{
+	else {
 		$content = $tcms_main->convertNewlineToHTML($content);
 	}
 	
 	
-	if($seoEnabled == 0 && $show_wysiwyg == 'tinymce'){
+	if($seoEnabled == 0 && $show_wysiwyg == 'tinymce') {
 		//$content = str_replace('src="../../', 'src="', $content);
 	}
 	
@@ -1248,7 +1265,7 @@ if($todo == 'save'){
 	$content       = $tcms_main->encodeText($content, '2', $c_charset);
 	
 	
-	if($choosenDB == 'xml'){
+	if($choosenDB == 'xml') {
 		if(!isset($_POST['CatCount']) || $_POST['CatCount'] == '' || empty($_POST['CatCount'])) {
 			$_POST['CatCount'] = 0;
 		}
@@ -1274,7 +1291,7 @@ if($todo == 'save'){
 		$xmluser->xml_section_buffer();
 		$xmluser->xml_section_end('faq');
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
@@ -1316,24 +1333,24 @@ if($todo == 'save'){
 // CREATE ITEM
 // -------------------------------------------------
 
-if($todo == 'next'){
+if($todo == 'next') {
 	if($new_faq_cat  == '' || !isset($new_faq_cat)) { $new_faq_cat  = null; }
-	if($new_faq_sort == '' || !isset($new_faq_sort)){ $new_faq_sort = 0; }
+	if($new_faq_sort == '' || !isset($new_faq_sort)) { $new_faq_sort = 0; }
 	
 	
-	if($show_wysiwyg == 'tinymce'){
+	if($show_wysiwyg == 'tinymce') {
 		$content = stripslashes($content);
 	}
-	elseif($show_wysiwyg == 'fckeditor'){
+	elseif($show_wysiwyg == 'fckeditor') {
 		$content = str_replace('../../../../../../../../../', '', $content);
 		$content = str_replace('../../../../', '', $content);
 	}
-	else{
+	else {
 		$content = $tcms_main->convertNewlineToHTML($content);
 	}
 	
 	
-	if($seoEnabled == 0 && $show_wysiwyg == 'tinymce'){
+	if($seoEnabled == 0 && $show_wysiwyg == 'tinymce') {
 		//$content = str_replace('src="../../', 'src="', $content);
 	}
 	
@@ -1346,7 +1363,7 @@ if($todo == 'next'){
 	//$content = htmlentities($content);
 	
 	
-	if($choosenDB == 'xml'){
+	if($choosenDB == 'xml') {
 		$xmluser = new xmlparser(_TCMS_PATH.'/tcms_knowledgebase/'.$maintag.'.xml', 'w');
 		$xmluser->xml_declaration();
 		$xmluser->xml_section('faq');
@@ -1368,11 +1385,11 @@ if($todo == 'next'){
 		$xmluser->xml_section_buffer();
 		$xmluser->xml_section_end('faq');
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		switch($choosenDB){
+		switch($choosenDB) {
 			case 'mysql':
 				$newSQLColumns = '`category`, `parent`, `title`, `subtitle`, `content`, `image`, '
 				.'`type`, `date`, `last_update`, `access`, `autor`, `sort`, `publish_state`';
@@ -1416,11 +1433,11 @@ if($todo == 'next'){
 // DELETE
 // -------------------------------------------------
 
-if($todo == 'delete'){
-	if($choosenDB == 'xml'){
+if($todo == 'delete') {
+	if($choosenDB == 'xml') {
 		unlink(_TCMS_PATH.'/tcms_knowledgebase/'.$maintag.'.xml');
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
@@ -1429,8 +1446,8 @@ if($todo == 'delete'){
 		);
 		$sqlNR = $sqlAL->getNumber($sqlQR);
 		
-		//while($sqlNR != 0){
-		while($sqlARR = $sqlAL->fetchArray($sqlQR)){
+		//while($sqlNR != 0) {
+		while($sqlARR = $sqlAL->fetchArray($sqlQR)) {
 			$new_maintag = $sqlARR['uid'];
 			
 			$sqlQR = $sqlAL->query(

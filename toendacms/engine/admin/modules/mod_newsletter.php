@@ -23,26 +23,26 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a newsletter extension.
  *
- * @version 0.6.2
+ * @version 0.6.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
  */
 
 
-if(isset($_GET['check'])){ $check = $_GET['check']; }
+if(isset($_GET['check'])) { $check = $_GET['check']; }
 
-if(isset($_POST['action'])){ $action = $_POST['action']; }
-if(isset($_POST['title_nl'])){ $title_nl = $_POST['title_nl']; }
-if(isset($_POST['text_nl'])){ $text_nl = $_POST['text_nl']; }
-if(isset($_POST['link_nl'])){ $link_nl = $_POST['link_nl']; }
-if(isset($_POST['show_nlt'])){ $show_nlt = $_POST['show_nlt']; }
-if(isset($_POST['subject'])){ $subject = $_POST['subject']; }
-if(isset($_POST['content'])){ $content = $_POST['content']; }
-if(isset($_POST['date'])){ $date = $_POST['date']; }
-if(isset($_POST['maintag'])){ $maintag = $_POST['maintag']; }
-if(isset($_POST['new_nl_email'])){ $new_nl_email = $_POST['new_nl_email']; }
-if(isset($_POST['new_nl_name'])){ $new_nl_name = $_POST['new_nl_name']; }
+if(isset($_POST['action'])) { $action = $_POST['action']; }
+if(isset($_POST['title_nl'])) { $title_nl = $_POST['title_nl']; }
+if(isset($_POST['text_nl'])) { $text_nl = $_POST['text_nl']; }
+if(isset($_POST['link_nl'])) { $link_nl = $_POST['link_nl']; }
+if(isset($_POST['show_nlt'])) { $show_nlt = $_POST['show_nlt']; }
+if(isset($_POST['subject'])) { $subject = $_POST['subject']; }
+if(isset($_POST['content'])) { $content = $_POST['content']; }
+if(isset($_POST['date'])) { $date = $_POST['date']; }
+if(isset($_POST['maintag'])) { $maintag = $_POST['maintag']; }
+if(isset($_POST['new_nl_email'])) { $new_nl_email = $_POST['new_nl_email']; }
+if(isset($_POST['new_nl_name'])) { $new_nl_name = $_POST['new_nl_name']; }
 
 
 
@@ -53,7 +53,7 @@ if($id_group == 'Developer'
 	// INIT
 	// ----------------------------------------------------
 	
-	if(!isset($action)){ $action = 'show'; }
+	if(!isset($action)) { $action = 'show'; }
 	
 	$bgkey     = 0;
 	
@@ -100,7 +100,7 @@ if($id_group == 'Developer'
 		$checkHandle = @imap_open('{'.$imapServer.( $imapPOP3 == 1 ? '/pop3' : '' ).':'.$imapPort.'}', $imapUsername, $imapPassword, OP_READONLY) || die('<h2>Cannot open mailbox!</h2>');
 		
 		
-		if($checkHandle != false){
+		if($checkHandle != false) {
 			$checkString = _NL_CHECKSTRING;
 			
 			$checkHeaders = imap_headers($checkHandle);
@@ -210,7 +210,7 @@ if($id_group == 'Developer'
 			// ----------------------------------------------------
 			
 			?><script language="JavaScript">
-			function sendinputs(){
+			function sendinputs() {
 				sendOK = true;
 				
 				strsubject = document.getElementById('subject').value;
@@ -229,7 +229,7 @@ if($id_group == 'Developer'
 					return;
 				}
 				
-				if (sendOK){ document.getElementById('newsletter').submit(); }
+				if (sendOK) { document.getElementById('newsletter').submit(); }
 			}
 			</script><?
 			
@@ -269,7 +269,7 @@ if($id_group == 'Developer'
 			.'</td></tr>';
 			
 			
-			if($alwaysCheck == 0){
+			if($alwaysCheck == 0) {
 				// table rows
 				echo '<tr><td class="tcms_padding_mini" width="250">'._NL_CHECKFORUNSUBSCRIBE.'</td>'
 				.'<td><img src="../images/bullet_1.gif" border="0" vspace="4" style="margin: 5px 0 0 0 !important;" />'
@@ -299,10 +299,13 @@ if($id_group == 'Developer'
 			.'<br />'
 			.'<script>createToendaToolbar(\'newsletter\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'n=without&url='.$_owner_url.'\', \'\', \''.$id_user.'\');</script>';
 			
-			if($show_wysiwyg == 'toendaScript'){
+			if($show_wysiwyg == 'toendaScript') {
 				echo '<script>createToolbar(\'newsletter\', \''.$tcms_lang.'\', \'toendaScript\');</script>';
 			}
-			else{
+			else if($show_wysiwyg == 'Wiki') {
+				echo '<script>createToolbar(\'newsletter\', \''.$tcms_lang.'\', \'Wiki\');</script>';
+			}
+			else {
 				echo '<script>createToolbar(\'newsletter\', \''.$tcms_lang.'\', \'HTML\');</script>';
 			}
 			
@@ -322,17 +325,17 @@ if($id_group == 'Developer'
 	
 	
 	
-	if($todo == 'listNL'){
+	if($todo == 'listNL') {
 		// ----------------------------------------------------
 		// LIST NEWSLETTER ENTRYS
 		// ----------------------------------------------------
 		
-		if($choosenDB == 'xml'){
+		if($choosenDB == 'xml') {
 			$arr_nl_user['files'] = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_newsletter/');
 			
 			$nl = 0;
-			if(isset($arr_nl_user['files']) && !empty($arr_nl_user['files']) && $arr_nl_user['files'] != ''){
-				foreach($arr_nl_user['files'] as $nl => $val){
+			if(isset($arr_nl_user['files']) && !empty($arr_nl_user['files']) && $arr_nl_user['files'] != '') {
+				foreach($arr_nl_user['files'] as $nl => $val) {
 					$nl_xml = new xmlparser(_TCMS_PATH.'/tcms_newsletter/'.$arr_nl_user['files'][$nl], 'r');
 					
 					$arr_nl_user['tag'][$nl]   = substr($arr_nl_user['files'][$nl], 0, 6);
@@ -343,14 +346,14 @@ if($id_group == 'Developer'
 				}
 			}
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix.'newsletter_items');
 			$count = 0;
 			
-			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)) {
 				$arr_nl_user['tag'][$count]   = $sqlARR['uid'];
 				$arr_nl_user['id'][$count]    = $sqlARR['user'];
 				$arr_nl_user['email'][$count] = $sqlARR['email'];
@@ -361,7 +364,7 @@ if($id_group == 'Developer'
 			}
 		}
 		
-		if(isset($arr_nl_user['id']) && !empty($arr_nl_user['id']) && $arr_nl_user['id'] != ''){
+		if(isset($arr_nl_user['id']) && !empty($arr_nl_user['id']) && $arr_nl_user['id'] != '') {
 			array_multisort(
 				$arr_nl_user['id'], SORT_DESC, 
 				$arr_nl_user['email'], SORT_DESC, 
@@ -386,10 +389,10 @@ if($id_group == 'Developer'
 			.'<th valign="middle" class="tcms_db_title" align="left">'._TABLE_EMAIL.'</th>'
 			.'<th valign="middle" class="tcms_db_title" width="20%" align="right">'._TABLE_FUNCTIONS.'</th><tr>';
 		
-		if(isset($arr_nl_user['id']) && !empty($arr_nl_user['id']) && $arr_nl_user['id'] != ''){
-			foreach ($arr_nl_user['id'] as $nl_key => $nl_value){
+		if(isset($arr_nl_user['id']) && !empty($arr_nl_user['id']) && $arr_nl_user['id'] != '') {
+			foreach ($arr_nl_user['id'] as $nl_key => $nl_value) {
 				$bgkey++;
-				if(is_integer($bgkey/2)){ $ws_color = $arr_color[0]; } else{ $ws_color = $arr_color[1]; }
+				if(is_integer($bgkey/2)) { $ws_color = $arr_color[0]; } else { $ws_color = $arr_color[1]; }
 				
 				echo '<tr id="row'.$nl_key.'" '
 				.'bgcolor="'.$ws_color.'" '
@@ -425,20 +428,20 @@ if($id_group == 'Developer'
 	// EDIT
 	// ----------------------------------------------------
 	
-	if($todo == 'edit'){
+	if($todo == 'edit') {
 		// Auslesen
 		$createAct = false;
 		
-		if(isset($maintag)){
-			if($choosenDB == 'xml'){
+		if(isset($maintag)) {
+			if($choosenDB == 'xml') {
 				$main_xml = new xmlparser(_TCMS_PATH.'/tcms_newsletter/'.$maintag.'.xml','r');
 				$arr_nl['email'] = $main_xml->readSection('nl_user', 'email');
 				$arr_nl['name'] = $main_xml->readSection('nl_user', 'user');
 				
-				if(!$arr_nl['email']){ $arr_nl['email'] = ''; }
+				if(!$arr_nl['email']) { $arr_nl['email'] = ''; }
 				if(!$arr_nl['name']) { $arr_nl['name'] = ''; }
 			}
-			else{
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
@@ -462,12 +465,12 @@ if($id_group == 'Developer'
 		
 		
 		// HTML
-		if($arr_nl['email'] == ''){
+		if($arr_nl['email'] == '') {
 			echo $tcms_html->bold(_TABLE_NEW);
 			$edit_add_news = _NL_NEWUSER;
 			$createAct = true;
 		}
-		else{
+		else {
 			echo $tcms_html->bold(_TABLE_EDIT);
 			$edit_add_news = _NL_EDITUSER;
 			$createAct = false;
@@ -485,7 +488,7 @@ if($id_group == 'Developer'
 		.'<input name="todo" type="hidden" value="save" />'
 		.'<input name="maintag" type="hidden" value="'.$maintag.'" />';
 		
-		if($createAct){ echo '<input name="action" type="hidden" value="new" />'; }
+		if($createAct) { echo '<input name="action" type="hidden" value="new" />'; }
 		
 		
 		// table head
@@ -536,7 +539,7 @@ if($id_group == 'Developer'
 			$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix.'newsletter_items');
 			$count = 0;
 			
-			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)) {
 				$arr_send_nl['user'][$count]  = $sqlARR['user'];
 				$arr_send_nl['email'][$count] = $sqlARR['email'];
 				
@@ -662,10 +665,10 @@ if($id_group == 'Developer'
 		SAVEING GLOBAL NEWSLETTER SETTINGS
 	*/
 	
-	if($todo == 'save_nl'){
-		if($id_group == 'Developer' || $id_group == 'Administrator'){
+	if($todo == 'save_nl') {
+		if($id_group == 'Developer' || $id_group == 'Administrator') {
 			if(empty($use_nl))  { $use_nl   = 0; }
-			if(empty($show_nlt)){ $show_nlt = 0; }
+			if(empty($show_nlt)) { $show_nlt = 0; }
 			if($text_nl == '')  { $text_nl  = $old_text_nl; }
 			if($title_nl == '') { $title_nl = 'Newsletter'; }
 			if($link_nl == '')  { $link_nl  = 'Submit'; }
@@ -676,7 +679,7 @@ if($id_group == 'Developer'
 			$link_nl    = $tcms_main->encodeText($link_nl, '2', $c_charset);
 			
 			
-			if($choosenDB == 'xml'){
+			if($choosenDB == 'xml') {
 				$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/newsletter.xml', 'w');
 				$xmluser->xml_declaration();
 				$xmluser->xml_section('newsletter');
@@ -689,7 +692,7 @@ if($id_group == 'Developer'
 				$xmluser->xml_section_buffer();
 				$xmluser->xml_section_end('newsletter');
 			}
-			else{
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
@@ -713,15 +716,15 @@ if($id_group == 'Developer'
 		SAVING NEWSLETTER USER
 	*/
 	
-	if($todo == 'save'){
+	if($todo == 'save') {
 		if($new_nl_email == '' || strpos($new_nl_email, '@') == false) {
 			echo '<script>'
 			.'alert(\''._MSG_NOEMAIL.' ...\');'
 			.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_newsletter\''
 			.'</script>';
 		}
-		else{
-			if($choosenDB == 'xml'){
+		else {
+			if($choosenDB == 'xml') {
 				$var_conf = 'nl_user';
 				
 				$new_nl_name = $tcms_main->encodeText($new_nl_name, '2', $c_charset);
@@ -736,14 +739,14 @@ if($id_group == 'Developer'
 				$xmluser->xml_section_buffer();
 				$xmluser->xml_section_end($var_conf);
 			}
-			else{
+			else {
 				$new_nl_name = $tcms_main->encodeText($new_nl_name, '2', $c_charset);
 				
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
-				if(isset($action) && !empty($action) && $action == 'new'){
-					switch($choosenDB){
+				if(isset($action) && !empty($action) && $action == 'new') {
+					switch($choosenDB) {
 						case 'mysql':
 							$newSQLColumns = '`user`, `email`';
 							break;
@@ -760,7 +763,7 @@ if($id_group == 'Developer'
 					
 					$sqlQR = $sqlAL->sqlCreateOne($tcms_db_prefix.'newsletter_items', $newSQLColumns, $newSQLData, $maintag);
 				}
-				else{
+				else {
 					$newSQLData = ''
 					.$tcms_db_prefix.'newsletter_items.user="'.$new_nl_name.'", '
 					.$tcms_db_prefix.'newsletter_items.email="'.$new_nl_email.'"';
@@ -780,12 +783,12 @@ if($id_group == 'Developer'
 		DELETE
 	*/
 	
-	if($todo == 'delete'){
-		if($check == 'yes'){
-			if($choosenDB == 'xml'){
+	if($todo == 'delete') {
+		if($check == 'yes') {
+			if($choosenDB == 'xml') {
 				unlink(_TCMS_PATH.'/tcms_newsletter/'.$maintag.'.xml');
 			}
-			else{
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				$sqlAL->sqlDeleteOne($tcms_db_prefix.'newsletter_items', $maintag);
@@ -793,20 +796,20 @@ if($id_group == 'Developer'
 			
 			echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_newsletter&todo=listNL\'</script>';
 		}
-		else{
+		else {
 			echo '<script type="text/javascript">
 			delCheck = confirm("'._MSG_DELETE_SUBMIT.'");
-			if(delCheck == false){
+			if(delCheck == false) {
 				document.location=\'admin.php?id_user='.$id_user.'&site=mod_newsletter\';
 			}
-			else{
+			else {
 				document.location=\'admin.php?id_user='.$id_user.'&site=mod_newsletter&todo=delete&check=yes&maintag='.$maintag.'\';
 			}
 			</script>';
 		}
 	}
 }
-else{
+else {
 	echo '<strong>'._MSG_NOTENOUGH_USERRIGHTS.'</strong>';
 }
 

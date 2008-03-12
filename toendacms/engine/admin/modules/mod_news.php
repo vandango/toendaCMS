@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the news.
  *
- * @version 1.9.3
+ * @version 1.9.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -378,11 +378,20 @@ if($todo == 'config') {
 		.'<script>createToendaToolbar(\'imp\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');</script>'
 		.'<br />' : '' );
 		
-		if($show_wysiwyg == 'tinymce') { }
-		elseif($show_wysiwyg == 'fckeditor') { }
+		if($show_wysiwyg == 'tinymce') {
+		}
+		elseif($show_wysiwyg == 'fckeditor') {
+		}
 		else {
-			if($show_wysiwyg == 'toendaScript') { echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'toendaScript\');</script>'; }
-			else { echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'HTML\');</script>'; }
+			if($show_wysiwyg == 'toendaScript') {
+				echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'toendaScript\');</script>';
+			}
+			else if($show_wysiwyg == 'Wiki') {
+				echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'Wiki\');</script>';
+			}
+			else {
+				echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'HTML\');</script>';
+			}
 		}
 		
 		echo '<br /><br />';

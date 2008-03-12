@@ -23,35 +23,35 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the links.
  *
- * @version 0.6.5
+ * @version 0.6.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
  */
 
 
-if(isset($_GET['action'])){ $action = $_GET['action']; }
+if(isset($_GET['action'])) { $action = $_GET['action']; }
 
-if(isset($_POST['new_link_type'])){ $new_link_type = $_POST['new_link_type']; }
-if(isset($_POST['new_link_cat'])){ $new_link_cat = $_POST['new_link_cat']; }
-if(isset($_POST['new_link_sort'])){ $new_link_sort = $_POST['new_link_sort']; }
-if(isset($_POST['new_link_name'])){ $new_link_name = $_POST['new_link_name']; }
-if(isset($_POST['new_link_desc'])){ $new_link_desc = $_POST['new_link_desc']; }
-if(isset($_POST['new_link_link'])){ $new_link_link = $_POST['new_link_link']; }
-if(isset($_POST['new_link_pub'])){ $new_link_pub = $_POST['new_link_pub']; }
-if(isset($_POST['new_link_target'])){ $new_link_target = $_POST['new_link_target']; }
-if(isset($_POST['new_link_rss'])){ $new_link_rss = $_POST['new_link_rss']; }
-if(isset($_POST['new_link_acs'])){ $new_link_acs = $_POST['new_link_acs']; }
-if(isset($_POST['dbAction'])){ $dbAction = $_POST['dbAction']; }
-if(isset($_POST['new_link_use_side_desc'])){ $new_link_use_side_desc = $_POST['new_link_use_side_desc']; }
-if(isset($_POST['new_link_use_side_title'])){ $new_link_use_side_title = $_POST['new_link_use_side_title']; }
-if(isset($_POST['new_link_side_title'])){ $new_link_side_title = $_POST['new_link_side_title']; }
-if(isset($_POST['new_link_main_title'])){ $new_link_main_title = $_POST['new_link_main_title']; }
-if(isset($_POST['new_link_main_subtitle'])){ $new_link_main_subtitle = $_POST['new_link_main_subtitle']; }
-if(isset($_POST['new_link_use_main_desc'])){ $new_link_use_main_desc = $_POST['new_link_use_main_desc']; }
-if(isset($_POST['content'])){ $content = $_POST['content']; }
-if(isset($_POST['new_link_main_access'])){ $new_link_main_access = $_POST['new_link_main_access']; }
-if(isset($_POST['new_link_doc'])){ $new_link_doc = $_POST['new_link_doc']; }
+if(isset($_POST['new_link_type'])) { $new_link_type = $_POST['new_link_type']; }
+if(isset($_POST['new_link_cat'])) { $new_link_cat = $_POST['new_link_cat']; }
+if(isset($_POST['new_link_sort'])) { $new_link_sort = $_POST['new_link_sort']; }
+if(isset($_POST['new_link_name'])) { $new_link_name = $_POST['new_link_name']; }
+if(isset($_POST['new_link_desc'])) { $new_link_desc = $_POST['new_link_desc']; }
+if(isset($_POST['new_link_link'])) { $new_link_link = $_POST['new_link_link']; }
+if(isset($_POST['new_link_pub'])) { $new_link_pub = $_POST['new_link_pub']; }
+if(isset($_POST['new_link_target'])) { $new_link_target = $_POST['new_link_target']; }
+if(isset($_POST['new_link_rss'])) { $new_link_rss = $_POST['new_link_rss']; }
+if(isset($_POST['new_link_acs'])) { $new_link_acs = $_POST['new_link_acs']; }
+if(isset($_POST['dbAction'])) { $dbAction = $_POST['dbAction']; }
+if(isset($_POST['new_link_use_side_desc'])) { $new_link_use_side_desc = $_POST['new_link_use_side_desc']; }
+if(isset($_POST['new_link_use_side_title'])) { $new_link_use_side_title = $_POST['new_link_use_side_title']; }
+if(isset($_POST['new_link_side_title'])) { $new_link_side_title = $_POST['new_link_side_title']; }
+if(isset($_POST['new_link_main_title'])) { $new_link_main_title = $_POST['new_link_main_title']; }
+if(isset($_POST['new_link_main_subtitle'])) { $new_link_main_subtitle = $_POST['new_link_main_subtitle']; }
+if(isset($_POST['new_link_use_main_desc'])) { $new_link_use_main_desc = $_POST['new_link_use_main_desc']; }
+if(isset($_POST['content'])) { $content = $_POST['content']; }
+if(isset($_POST['new_link_main_access'])) { $new_link_main_access = $_POST['new_link_main_access']; }
+if(isset($_POST['new_link_doc'])) { $new_link_doc = $_POST['new_link_doc']; }
 
 
 
@@ -64,7 +64,7 @@ echo '<script type="text/javascript" src="../js/tabs/tabpane.js"></script>
 <link type="text/css" rel="StyleSheet" href="../js/tabs/css/luna/tab.css" />
 <!--<link type="text/css" rel="StyleSheet" href="../js/tabs/tabpane.css" />-->';
 
-if(!isset($todo)){ $todo = 'show'; }
+if(!isset($todo)) { $todo = 'show'; }
 
 
 
@@ -93,7 +93,7 @@ if($todo == 'config') {
 			$old_link_main_subtitle = $tcms_main->decodeText($old_link_main_subtitle, '2', $c_charset);
 			$old_link_main_text     = $tcms_main->decodeText($old_link_main_text, '2', $c_charset);
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
@@ -113,14 +113,14 @@ if($todo == 'config') {
 			$old_link_use_main_desc  = $sqlARR['link_use_main_desc'];
 			$old_link_main_access    = $sqlARR['link_main_access'];
 			
-			if($old_link_use_side_desc  == NULL){ $old_link_use_side_desc  = ''; }
-			if($old_link_use_side_title == NULL){ $old_link_use_side_title = ''; }
-			if($old_link_side_title     == NULL){ $old_link_side_title     = ''; }
-			if($old_link_main_title     == NULL){ $old_link_main_title     = ''; }
-			if($old_link_main_subtitle  == NULL){ $old_link_main_subtitle  = ''; }
-			if($old_link_main_text      == NULL){ $old_link_main_text      = ''; }
-			if($old_link_use_main_desc  == NULL){ $old_link_use_main_desc  = ''; }
-			if($old_link_main_access    == NULL){ $old_link_main_access    = ''; }
+			if($old_link_use_side_desc  == NULL) { $old_link_use_side_desc  = ''; }
+			if($old_link_use_side_title == NULL) { $old_link_use_side_title = ''; }
+			if($old_link_side_title     == NULL) { $old_link_side_title     = ''; }
+			if($old_link_main_title     == NULL) { $old_link_main_title     = ''; }
+			if($old_link_main_subtitle  == NULL) { $old_link_main_subtitle  = ''; }
+			if($old_link_main_text      == NULL) { $old_link_main_text      = ''; }
+			if($old_link_use_main_desc  == NULL) { $old_link_use_main_desc  = ''; }
+			if($old_link_main_access    == NULL) { $old_link_main_access    = ''; }
 			
 			$old_link_side_title    = $tcms_main->decodeText($old_link_side_title, '2', $c_charset);
 			$old_link_main_title    = $tcms_main->decodeText($old_link_main_title, '2', $c_charset);
@@ -136,7 +136,7 @@ if($todo == 'config') {
 		
 		
 		
-		if($show_wysiwyg == 'tinymce'){
+		if($show_wysiwyg == 'tinymce') {
 			include('../tcms_kernel/tcms_tinyMCE.lib.php');
 			
 			$tcms_tinyMCE = new tcms_tinyMCE($tcms_path, $seoEnabled);
@@ -145,14 +145,14 @@ if($todo == 'config') {
 			//$old_link_main_text = str_replace('src="', 'src="../../', $old_link_main_text);
 			$old_link_main_text = stripslashes($old_link_main_text);
 		}
-		elseif($show_wysiwyg == 'fckeditor'){
+		elseif($show_wysiwyg == 'fckeditor') {
 			$old_link_main_text = str_replace('src="', 'src="../../../../', $old_link_main_text);
 			$old_link_main_text = str_replace('src="../../../../http:', 'src="http:', $old_link_main_text);
 			$old_link_main_text = str_replace('src="../../../../https:', 'src="https:', $old_link_main_text);
 			$old_link_main_text = str_replace('src="../../../../ftp:', 'src="ftp:', $old_link_main_text);
 			$old_link_main_text = str_replace('src="../../../..//', 'src="/', $old_link_main_text);
 		}
-		else{
+		else {
 			$old_link_main_text = ereg_replace('<br />'.chr(10), chr(13), $old_link_main_text);
 			$old_link_main_text = ereg_replace('<br />'.chr(13), chr(13), $old_link_main_text);
 			$old_link_main_text = ereg_replace('<br />', chr(13), $old_link_main_text);
@@ -167,7 +167,7 @@ if($todo == 'config') {
 		}
 		
 		
-		if($seoEnabled == 0 && $show_wysiwyg == 'tinymce'){
+		if($seoEnabled == 0 && $show_wysiwyg == 'tinymce') {
 			//$old_link_main_text = str_replace('src="', 'src="../../', $old_link_main_text);
 		}
 		
@@ -232,6 +232,9 @@ if($todo == 'config') {
 			if($show_wysiwyg == 'toendaScript') {
 				echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'toendaScript\');</script>';
 			}
+			else if($show_wysiwyg == 'Wiki') {
+				echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'Wiki\');</script>';
+			}
 			else {
 				echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'HTML\');</script>';
 			}
@@ -239,10 +242,10 @@ if($todo == 'config') {
 		
 		echo '<br /><br />';
 		
-		if($show_wysiwyg == 'tinymce'){
+		if($show_wysiwyg == 'tinymce') {
 			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" id="content" name="content" mce_editable="true">'.$old_link_main_text.'</textarea>';
 		}
-		elseif($show_wysiwyg == 'fckeditor'){
+		elseif($show_wysiwyg == 'fckeditor') {
 			$sBasePath = '../js/FCKeditor/';
 			
 			$oFCKeditor = new FCKeditor('content') ;
@@ -251,7 +254,7 @@ if($todo == 'config') {
 			$oFCKeditor->Value = $old_link_main_text;
 			$oFCKeditor->Create();
 		}
-		else{
+		else {
 			echo '<textarea name="content" id="content" class="tcms_textarea_huge">'.$old_link_main_text.'</textarea>';
 		}
 		
@@ -319,7 +322,7 @@ if($todo == 'config') {
 		
 		echo '</form>';
 	}
-	else{
+	else {
 		echo '<strong>'._MSG_NOTENOUGH_USERRIGHTS.'</strong>';
 	}
 }
@@ -331,30 +334,30 @@ if($todo == 'config') {
 // SHOW OLD VALUES
 //=====================================================
 
-if($todo == 'show'){
+if($todo == 'show') {
 	echo tcms_html::bold(_LINK_MODULE_TITLE);
 	echo tcms_html::text(_LINK_MODULE_DESC.'<br /><br />', 'left');
 	
-	if($choosenDB == 'xml'){
+	if($choosenDB == 'xml') {
 		$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_links/');
 		
 		$count = 0;
 		
-		if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
-			foreach($arr_filename as $key => $value){
+		if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != '') {
+			foreach($arr_filename as $key => $value) {
 				$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_links/'.$value,'r');
 				
 				$arrLinkType = $menu_xml->readSection('link', 'type');
 				
-				if($arrLinkType == 'c'){
+				if($arrLinkType == 'c') {
 				$arrLink['tag'][$count]  = substr($value, 0, 32);
 					$arrLink['name'][$count] = $menu_xml->readSection('link', 'name');
 					$arrLink['desc'][$count] = $menu_xml->readSection('link', 'desc');
 					$arrLink['pub'][$count]  = $menu_xml->readSection('link', 'published');
 					$arrLink['sort'][$count] = $menu_xml->readSection('link', 'sort');
 					
-					if(!$arrLink['name'][$count]){ $arrLink['name'][$count] = ''; }
-					if(!$arrLink['desc'][$count]){ $arrLink['desc'][$count] = ''; }
+					if(!$arrLink['name'][$count]) { $arrLink['name'][$count] = ''; }
+					if(!$arrLink['desc'][$count]) { $arrLink['desc'][$count] = ''; }
 					if(!$arrLink['pub'][$count]) { $arrLink['pub'][$count]  = ''; }
 					
 					// CHARSETS
@@ -367,7 +370,7 @@ if($todo == 'show'){
 			}
 		}
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
@@ -375,17 +378,17 @@ if($todo == 'show'){
 		
 		$count = 0;
 		
-		while($sqlARR = $sqlAL->fetchArray($sqlQR)){
+		while($sqlARR = $sqlAL->fetchArray($sqlQR)) {
 			$arrLink['tag'][$count]  = $sqlARR['uid'];
 			$arrLink['name'][$count] = $sqlARR['name'];
 			$arrLink['desc'][$count] = $sqlARR['desc'];
 			$arrLink['pub'][$count]  = $sqlARR['published'];
 			$arrLink['sort'][$count] = $sqlARR['sort'];
 			
-			if($arrLink['name'][$count] == NULL){ $arrLink['name'][$count] = ''; }
-			if($arrLink['desc'][$count] == NULL){ $arrLink['desc'][$count] = ''; }
-			if($arrLink['pub'][$count]  == NULL){ $arrLink['pub'][$count]  = ''; }
-			if($arrLink['sort'][$count] == NULL){ $arrLink['sort'][$count] = ''; }
+			if($arrLink['name'][$count] == NULL) { $arrLink['name'][$count] = ''; }
+			if($arrLink['desc'][$count] == NULL) { $arrLink['desc'][$count] = ''; }
+			if($arrLink['pub'][$count]  == NULL) { $arrLink['pub'][$count]  = ''; }
+			if($arrLink['sort'][$count] == NULL) { $arrLink['sort'][$count] = ''; }
 			
 			// CHARSETS
 			$arrLink['name'][$count] = $tcms_main->decodeText($arrLink['name'][$count], '2', $c_charset);
@@ -398,7 +401,7 @@ if($todo == 'show'){
 		$sqlAL->sqlFreeResult($sqlQR);
 	}
 	
-	if($arrLink && is_array($arrLink)){
+	if($arrLink && is_array($arrLink)) {
 		array_multisort(
 			$arrLink['sort'], SORT_ASC, 
 			$arrLink['name'], SORT_ASC, 
@@ -420,10 +423,10 @@ if($todo == 'show'){
 	
 	$change_row_color = 0;
 	
-	if(isset($arrLink['name']) && !empty($arrLink['name']) && $arrLink['name'] != ''){
-		foreach($arrLink['name'] as $key => $value){
-			if(is_integer($key/2)){ $wsc = 0; }
-			else{ $wsc = 1; }
+	if(isset($arrLink['name']) && !empty($arrLink['name']) && $arrLink['name'] != '') {
+		foreach($arrLink['name'] as $key => $value) {
+			if(is_integer($key/2)) { $wsc = 0; }
+			else { $wsc = 1; }
 			
 			echo '<tr height="25" id="row'.$change_row_color.'" '
 			.'bgcolor="'.$arr_color[$wsc].'" '
@@ -457,7 +460,7 @@ if($todo == 'show'){
 			
 			
 			
-			if($choosenDB == 'xml'){
+			if($choosenDB == 'xml') {
 				unset($arrLinkItem);
 				unset($arr_filename);
 				
@@ -465,21 +468,21 @@ if($todo == 'show'){
 				
 				$count = 0;
 				
-				if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
-					foreach($arr_filename as $llkey => $llvalue){
+				if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != '') {
+					foreach($arr_filename as $llkey => $llvalue) {
 						$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_links/'.$llvalue,'r');
 						$arrLinkType = $menu_xml->readSection('link', 'type');
 						$arrLinkCat  = $menu_xml->readSection('link', 'category');
 						
-						if($arrLinkType == 'l' && $arrLinkCat == $arrLink['tag'][$key]){
+						if($arrLinkType == 'l' && $arrLinkCat == $arrLink['tag'][$key]) {
 							$arrLinkItem['tag'][$count]  = substr($llvalue, 0, 32);
 							$arrLinkItem['name'][$count] = $menu_xml->readSection('link', 'name');
 							$arrLinkItem['desc'][$count] = $menu_xml->readSection('link', 'desc');
 							$arrLinkItem['pub'][$count]  = $menu_xml->readSection('link', 'published');
 							$arrLinkItem['sort'][$count] = $menu_xml->readSection('link', 'sort');
 							
-							if(!$arrLinkItem['name'][$count]){ $arrLinkItem['name'][$count] = ''; }
-							if(!$arrLinkItem['desc'][$count]){ $arrLinkItem['desc'][$count] = ''; }
+							if(!$arrLinkItem['name'][$count]) { $arrLinkItem['name'][$count] = ''; }
+							if(!$arrLinkItem['desc'][$count]) { $arrLinkItem['desc'][$count] = ''; }
 							if(!$arrLinkItem['pub'][$count]) { $arrLinkItem['pub'][$count]  = ''; }
 							
 							// CHARSETS
@@ -492,7 +495,7 @@ if($todo == 'show'){
 					}
 				}
 			}
-			else{
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
@@ -502,17 +505,17 @@ if($todo == 'show'){
 				
 				$count = 0;
 				
-				while($sqlARR = $sqlAL->fetchArray($sqlQR)){
+				while($sqlARR = $sqlAL->fetchArray($sqlQR)) {
 					$arrLinkItem['tag'][$count]  = $sqlARR['uid'];
 					$arrLinkItem['name'][$count] = $sqlARR['name'];
 					$arrLinkItem['desc'][$count] = $sqlARR['desc'];
 					$arrLinkItem['pub'][$count]  = $sqlARR['published'];
 					$arrLinkItem['sort'][$count] = $sqlARR['sort'];
 					
-					if($arrLinkItem['name'][$count] == NULL){ $arrLinkItem['name'][$count] = ''; }
-					if($arrLinkItem['desc'][$count] == NULL){ $arrLinkItem['desc'][$count] = ''; }
-					if($arrLinkItem['pub'][$count]  == NULL){ $arrLinkItem['pub'][$count]  = ''; }
-					if($arrLinkItem['sort'][$count] == NULL){ $arrLinkItem['sort'][$count] = ''; }
+					if($arrLinkItem['name'][$count] == NULL) { $arrLinkItem['name'][$count] = ''; }
+					if($arrLinkItem['desc'][$count] == NULL) { $arrLinkItem['desc'][$count] = ''; }
+					if($arrLinkItem['pub'][$count]  == NULL) { $arrLinkItem['pub'][$count]  = ''; }
+					if($arrLinkItem['sort'][$count] == NULL) { $arrLinkItem['sort'][$count] = ''; }
 					
 					// CHARSETS
 					$arrLinkItem['name'][$count] = $tcms_main->decodeText($arrLinkItem['name'][$count], '2', $c_charset);
@@ -527,7 +530,7 @@ if($todo == 'show'){
 				$sqlAL->sqlFreeResult($sqlQR);
 			}
 			
-			if($arrLinkItem && is_array($arrLinkItem)){
+			if($arrLinkItem && is_array($arrLinkItem)) {
 				array_multisort(
 					$arrLinkItem['sort'], SORT_ASC, 
 					$arrLinkItem['name'], SORT_ASC, 
@@ -539,10 +542,10 @@ if($todo == 'show'){
 			
 			$change_row_color++;
 			
-			if(isset($arrLinkItem['tag']) && !empty($arrLinkItem['tag']) && $arrLinkItem['tag'] != ''){
-				foreach($arrLinkItem['tag'] as $liKey => $liVal){
-					if(is_integer($change_row_color/2)){ $wsc2 = 0; }
-					else{ $wsc2 = 1; }
+			if(isset($arrLinkItem['tag']) && !empty($arrLinkItem['tag']) && $arrLinkItem['tag'] != '') {
+				foreach($arrLinkItem['tag'] as $liKey => $liVal) {
+					if(is_integer($change_row_color/2)) { $wsc2 = 0; }
+					else { $wsc2 = 1; }
 					
 					echo '<tr height="25" id="row'.$change_row_color.'" '
 					.'bgcolor="'.$arr_color[$wsc2].'" '
@@ -589,11 +592,11 @@ if($todo == 'show'){
 // FORM
 //=====================================================
 
-if($todo == 'edit'){
+if($todo == 'edit') {
 	//***************************
 	//
-	if(isset($maintag) && !empty($maintag) && $maintag != ''){
-		if($choosenDB == 'xml'){
+	if(isset($maintag) && !empty($maintag) && $maintag != '') {
+		if($choosenDB == 'xml') {
 			$user_xml = new xmlparser(_TCMS_PATH.'/tcms_links/'.$maintag.'.xml','r');
 			$link_name = $user_xml->readSection('link', 'name');
 			$link_desc = $user_xml->readSection('link', 'desc');
@@ -607,19 +610,19 @@ if($todo == 'edit'){
 			$link_type = $user_xml->readSection('link', 'type');
 			$link_doc  = $user_xml->readSection('link', 'module');
 			
-			if(!$link_name){ $link_name = ''; }
-			if(!$link_desc){ $link_desc = ''; }
+			if(!$link_name) { $link_name = ''; }
+			if(!$link_desc) { $link_desc = ''; }
 			if(!$link_pub) { $link_pub  = ''; }
 			if(!$link_cat) { $link_cat  = ''; }
-			if(!$link_sort){ $link_sort = ''; }
-			if(!$link_link){ $link_link = ''; }
-			if(!$link_targ){ $link_targ = ''; }
+			if(!$link_sort) { $link_sort = ''; }
+			if(!$link_link) { $link_link = ''; }
+			if(!$link_targ) { $link_targ = ''; }
 			if(!$link_rss) { $link_rss  = ''; }
 			if(!$link_acs) { $link_acs  = ''; }
-			if(!$link_type){ $link_type = ''; }
+			if(!$link_type) { $link_type = ''; }
 			if(!$link_doc) { $link_doc  = ''; }
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
@@ -638,17 +641,17 @@ if($todo == 'edit'){
 			$link_acs  = $sqlARR['access'];
 			$link_doc  = $sqlARR['module'];
 			
-			if($link_name == NULL){ $link_name = ''; }
-			if($link_desc == NULL){ $link_desc = ''; }
-			if($link_pub  == NULL){ $link_pub  = ''; }
-			if($link_cat  == NULL){ $link_cat  = ''; }
-			if($link_sort == NULL){ $link_sort = ''; }
-			if($link_link == NULL){ $link_link = ''; }
-			if($link_targ == NULL){ $link_targ = ''; }
-			if($link_rss  == NULL){ $link_rss  = ''; }
-			if($link_acs  == NULL){ $link_acs  = ''; }
-			if($link_type == NULL){ $link_type = ''; }
-			if($link_doc  == NULL){ $link_doc  = ''; }
+			if($link_name == NULL) { $link_name = ''; }
+			if($link_desc == NULL) { $link_desc = ''; }
+			if($link_pub  == NULL) { $link_pub  = ''; }
+			if($link_cat  == NULL) { $link_cat  = ''; }
+			if($link_sort == NULL) { $link_sort = ''; }
+			if($link_link == NULL) { $link_link = ''; }
+			if($link_targ == NULL) { $link_targ = ''; }
+			if($link_rss  == NULL) { $link_rss  = ''; }
+			if($link_acs  == NULL) { $link_acs  = ''; }
+			if($link_type == NULL) { $link_type = ''; }
+			if($link_doc  == NULL) { $link_doc  = ''; }
 			
 			$dbDo = 'save';
 		}
@@ -660,7 +663,7 @@ if($todo == 'edit'){
 		$odot = 'save';
 		$dbDo = 'save';
 	}
-	else{
+	else {
 		$link_doc  = 3;
 		$link_pub  = 0;
 		$link_targ = '_blank';
@@ -687,7 +690,7 @@ if($todo == 'edit'){
 	.'<input name="new_link_acs" type="hidden" value="Public" />'
 	.'<input class="tcms_input_normal" name="new_link_rss" type="hidden" value="'.$link_rss.'" />';
 	
-	if($choosenDB != 'xml'){ echo '<input name="dbAction" type="hidden" value="'.$dbDo.'" />'; }
+	if($choosenDB != 'xml') { echo '<input name="dbAction" type="hidden" value="'.$dbDo.'" />'; }
 	
 	
 	// table head
@@ -737,25 +740,25 @@ if($todo == 'edit'){
 	
 	//================================================
 	
-	if($link_type == 'l' || $link_type == ''){
+	if($link_type == 'l' || $link_type == '') {
 		echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._TABLE_CATEGORY.'</strong></td>
 		<td valign="top"><select name="new_link_cat" class="tcms_select">';
 		
-		if($choosenDB == 'xml'){
+		if($choosenDB == 'xml') {
 			$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_links/');
 			
 			$count = 0;
 			
-			if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
-				foreach($arr_filename as $skey => $svalue){
+			if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != '') {
+				foreach($arr_filename as $skey => $svalue) {
 					$user_xml = new xmlparser(_TCMS_PATH.'/tcms_links/'.$svalue,'r');
 					$link_cat_type = $user_xml->read_value('type');
 					
-					if($link_cat_type == 'c'){
+					if($link_cat_type == 'c') {
 						$link_cat_name = $user_xml->read_value('name');
 						$link_cat_uid  = substr($svalue, 0, 32);
 						
-						if(!$link_cat_name){ $link_cat_name = ''; }
+						if(!$link_cat_name) { $link_cat_name = ''; }
 						if(!$link_cat_uid) { $link_cat_uid  = ''; }
 						
 						$link_cat_name = $tcms_main->decodeText($link_cat_name, '2', $c_charset);
@@ -765,18 +768,18 @@ if($todo == 'edit'){
 				}
 			}
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$sqlQR = $sqlAL->sqlGetALL($tcms_db_prefix."links WHERE type='c'");
 			
-			while($sqlARR = $sqlAL->fetchArray($sqlQR)){
+			while($sqlARR = $sqlAL->fetchArray($sqlQR)) {
 				$link_cat_name = $sqlARR['name'];
 				$link_cat_uid  = $sqlARR['uid'];
 				
-				if($link_cat_name == NULL){ $link_cat_name = ''; }
-				if($link_cat_uid  == NULL){ $link_cat_uid  = ''; }
+				if($link_cat_name == NULL) { $link_cat_name = ''; }
+				if($link_cat_uid  == NULL) { $link_cat_uid  = ''; }
 				
 				$link_cat_name = $tcms_main->decodeText($link_cat_name, '2', $c_charset);
 				
@@ -789,7 +792,7 @@ if($todo == 'edit'){
 	
 	
 	// type
-	if($dbDo == 'next'){
+	if($dbDo == 'next') {
 		echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._TABLE_TYPE.'</strong></td>'
 		.'<td valign="top">'
 		.'<select name="new_link_type" class="tcms_select">'
@@ -797,7 +800,7 @@ if($todo == 'edit'){
 			.'<option value="c">'._TABLE_CATEGORY.'</option>'
 		.'</select></td></tr>';
 	}
-	else{ echo '<input class="tcms_input_normal" name="new_link_type" type="hidden" value="'.$link_type.'" />'; }
+	else { echo '<input class="tcms_input_normal" name="new_link_type" type="hidden" value="'.$link_type.'" />'; }
 	
 	
 	// access
@@ -813,7 +816,7 @@ if($todo == 'edit'){
 	
 	
 	// sidebar or maincontent or both
-	if(!isset($link_doc) || $link_doc == 0 || empty($link_doc)){ $link_doc = 3; }
+	if(!isset($link_doc) || $link_doc == 0 || empty($link_doc)) { $link_doc = 3; }
 	echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._LINK_WICH_MODULE.'</strong></td>'
 	.'<td valign="top">'
 	.'<select name="new_link_doc" class="tcms_select">'
@@ -834,26 +837,26 @@ if($todo == 'edit'){
 // SAVEING
 //=====================================================
 
-if($todo == 'save_config'){
+if($todo == 'save_config') {
 	if(empty($new_link_use_side_desc))  { $new_link_use_side_desc  = 0; }
 	if(empty($new_link_use_main_desc))  { $new_link_use_main_desc  = 0; }
 	if(empty($new_link_use_side_title)) { $new_link_use_side_title = 0; }
 	if($new_link_side_title == '')      { $new_link_side_title     = $old_link_side_title; }
 	
 	
-	if($show_wysiwyg == 'tinymce'){
+	if($show_wysiwyg == 'tinymce') {
 		$content = stripslashes($content);
 	}
-	elseif($show_wysiwyg == 'fckeditor'){
+	elseif($show_wysiwyg == 'fckeditor') {
 		$content = str_replace('../../../../../../../../../', '', $content);
 		$content = str_replace('../../../../', '', $content);
 	}
-	else{
+	else {
 		$content = $tcms_main->convertNewlineToHTML($content);
 	}
 	
 	
-	if($seoEnabled == 0 && $show_wysiwyg == 'tinymce'){
+	if($seoEnabled == 0 && $show_wysiwyg == 'tinymce') {
 		//$content = str_replace('src="../../', 'src="', $content);
 	}
 	
@@ -865,7 +868,7 @@ if($todo == 'save_config'){
 	$content                = $tcms_main->encodeText($content, '2', $c_charset);
 	
 	
-	if($choosenDB == 'xml'){
+	if($choosenDB == 'xml') {
 		$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/linkmanager.xml', 'w');
 		$xmluser->xml_declaration();
 		$xmluser->xml_section('config');
@@ -882,7 +885,7 @@ if($todo == 'save_config'){
 		$xmluser->xml_section_buffer();
 		$xmluser->xml_section_end('config');
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
@@ -919,17 +922,17 @@ if($todo == 'save_config'){
 if($todo == 'save') {
 	//****************************************
 	
-	if($new_link_name == '' || !isset($new_link_name)){ $new_link_name = ''; }
-	if($new_link_desc == '' || !isset($new_link_desc)){ $new_link_desc = ''; }
+	if($new_link_name == '' || !isset($new_link_name)) { $new_link_name = ''; }
+	if($new_link_desc == '' || !isset($new_link_desc)) { $new_link_desc = ''; }
 	if($new_link_acs  == '' || !isset($new_link_acs)) { $new_link_acs  = 'Public'; }
-	if($new_link_targ == '' || !isset($new_link_targ)){ $new_link_targ = '_blank'; }
-	if($new_link_type == '' || !isset($new_link_type)){ $new_link_type = 'l'; }
+	if($new_link_targ == '' || !isset($new_link_targ)) { $new_link_targ = '_blank'; }
+	if($new_link_type == '' || !isset($new_link_type)) { $new_link_type = 'l'; }
 	
-	if(!isset($new_link_doc)  || empty($new_link_doc)  || $new_link_doc  == ''){ $new_link_doc  = 3; }
-	if(!isset($new_link_pub)  || empty($new_link_pub)  || $new_link_pub  == ''){ $new_link_pub  = 0; }
+	if(!isset($new_link_doc)  || empty($new_link_doc)  || $new_link_doc  == '') { $new_link_doc  = 3; }
+	if(!isset($new_link_pub)  || empty($new_link_pub)  || $new_link_pub  == '') { $new_link_pub  = 0; }
 	
 	
-	if($new_link_type == 'c'){
+	if($new_link_type == 'c') {
 		$new_link_link = '';
 		$new_link_target = '';
 		$new_link_rss = '';
@@ -941,7 +944,7 @@ if($todo == 'save') {
 	$new_link_desc = $tcms_main->encodeText($new_link_desc, '2', $c_charset);
 	
 	
-	if($new_link_sort == ''){
+	if($new_link_sort == '') {
 		$new_link_sort = $tcms_main->create_sort_id_sub(
 			$choosenDB, 
 			$sqlUser, 
@@ -977,12 +980,12 @@ if($todo == 'save') {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		//if($new_link_sort == ''){
+		//if($new_link_sort == '') {
 			//$new_link_sort = $tcms_main->create_sort_id($choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $tcms_db_prefix.'links', 'sort');
 			//$new_link_sort = 0;
 		//}
 		
-		switch($dbAction){
+		switch($dbAction) {
 			case 'save':
 				$newSQLData = ''
 				.$tcms_db_prefix.'links.type="'.$new_link_type.'", '
@@ -1000,7 +1003,7 @@ if($todo == 'save') {
 				break;
 			
 			case 'next':
-				switch($choosenDB){
+				switch($choosenDB) {
 					case 'mysql':
 						$newSQLColumns = '`type`, `category`, `sort`, `name`, `desc`, `link`, `published`, `target`, `rss`, `access`, `module`';
 						break;
@@ -1033,12 +1036,12 @@ if($todo == 'save') {
 // PUBLISH / UNPUBLISH
 //===================================================================================
 
-if($todo == 'publishItem'){
-	switch($action){
+if($todo == 'publishItem') {
+	switch($action) {
 		// Take it off
 		case 'off':
-			if($choosenDB == 'xml'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_links/'.$maintag.'.xml', 'published', '1', '0'); }
-			else{
+			if($choosenDB == 'xml') { xmlparser::edit_value(_TCMS_PATH.'/tcms_links/'.$maintag.'.xml', 'published', '1', '0'); }
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				$newSQLData = $tcms_db_prefix.'links.published=0';
@@ -1049,8 +1052,8 @@ if($todo == 'publishItem'){
 		
 		// Take it on
 		case 'on':
-			if($choosenDB == 'xml'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_links/'.$maintag.'.xml', 'published', '0', '1'); }
-			else{
+			if($choosenDB == 'xml') { xmlparser::edit_value(_TCMS_PATH.'/tcms_links/'.$maintag.'.xml', 'published', '0', '1'); }
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				$newSQLData = $tcms_db_prefix.'links.published=1';
@@ -1068,11 +1071,11 @@ if($todo == 'publishItem'){
 // DELETE
 //===================================================================================
 
-if($todo == 'delete'){
-	if($choosenDB == 'xml'){
+if($todo == 'delete') {
+	if($choosenDB == 'xml') {
 		unlink(_TCMS_PATH.'/tcms_links/'.$maintag.'.xml');
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		$sqlAL->sqlQuery("DELETE FROM ".$tcms_db_prefix."links WHERE uid = '".$maintag."'");
