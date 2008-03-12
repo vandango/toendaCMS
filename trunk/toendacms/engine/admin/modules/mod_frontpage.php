@@ -23,36 +23,36 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the frontpage.
  *
- * @version 0.8.3
+ * @version 0.8.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
  */
 
 
-if(isset($_POST['extra'])){ $extra = $_POST['extra']; }
-if(isset($_POST['front_id'])){ $front_id = $_POST['front_id']; }
-if(isset($_POST['front_title'])){ $front_title = $_POST['front_title']; }
-if(isset($_POST['front_stamp'])){ $front_stamp = $_POST['front_stamp']; }
-if(isset($_POST['content'])){ $content = $_POST['content']; }
-if(isset($_POST['new_news_title'])){ $new_news_title = $_POST['new_news_title']; }
-if(isset($_POST['news_cut'])){ $news_cut = $_POST['news_cut']; }
-if(isset($_POST['module_use_0'])){ $module_use_0 = $_POST['module_use_0']; }
-if(isset($_POST['new_sb_news_title'])){ $new_sb_news_title = $_POST['new_sb_news_title']; }
-if(isset($_POST['sb_module_use_0'])){ $sb_module_use_0 = $_POST['sb_module_use_0']; }
-if(isset($_POST['sb_news_cut'])){ $sb_news_cut = $_POST['sb_news_cut']; }
-if(isset($_POST['new_sb_enabled'])){ $new_sb_enabled = $_POST['new_sb_enabled']; }
-if(isset($_POST['new_sb_display'])){ $new_sb_display = $_POST['new_sb_display']; }
-if(isset($_POST['new_front_lang'])){ $new_front_lang = $_POST['new_front_lang']; }
-if(isset($_POST['lang_exist'])){ $lang_exist = $_POST['lang_exist']; }
+if(isset($_POST['extra'])) { $extra = $_POST['extra']; }
+if(isset($_POST['front_id'])) { $front_id = $_POST['front_id']; }
+if(isset($_POST['front_title'])) { $front_title = $_POST['front_title']; }
+if(isset($_POST['front_stamp'])) { $front_stamp = $_POST['front_stamp']; }
+if(isset($_POST['content'])) { $content = $_POST['content']; }
+if(isset($_POST['new_news_title'])) { $new_news_title = $_POST['new_news_title']; }
+if(isset($_POST['news_cut'])) { $news_cut = $_POST['news_cut']; }
+if(isset($_POST['module_use_0'])) { $module_use_0 = $_POST['module_use_0']; }
+if(isset($_POST['new_sb_news_title'])) { $new_sb_news_title = $_POST['new_sb_news_title']; }
+if(isset($_POST['sb_module_use_0'])) { $sb_module_use_0 = $_POST['sb_module_use_0']; }
+if(isset($_POST['sb_news_cut'])) { $sb_news_cut = $_POST['sb_news_cut']; }
+if(isset($_POST['new_sb_enabled'])) { $new_sb_enabled = $_POST['new_sb_enabled']; }
+if(isset($_POST['new_sb_display'])) { $new_sb_display = $_POST['new_sb_display']; }
+if(isset($_POST['new_front_lang'])) { $new_front_lang = $_POST['new_front_lang']; }
+if(isset($_POST['lang_exist'])) { $lang_exist = $_POST['lang_exist']; }
 
 
 
 if($id_group == 'Developer' 
-|| $id_group == 'Administrator'){
+|| $id_group == 'Administrator') {
 	if($todo != 'save') {
-		if($show_wysiwyg == 'tinymce'){
-			if($todo != 'config'){
+		if($show_wysiwyg == 'tinymce') {
+			if($todo != 'config') {
 				echo '<style>.tableRowLight{ background-color: #ececec; }.tableRowDark{ background-color: #333333; }</style>';
 				include('../tcms_kernel/tcms_tinyMCE.lib.php');
 				
@@ -79,7 +79,7 @@ if($id_group == 'Developer'
 		else
 			$getLang = $tcms_front_lang;
 		
-		if($choosenDB == 'xml'){
+		if($choosenDB == 'xml') {
 			if(file_exists(_TCMS_PATH.'/tcms_global/frontpage.'.$getLang.'.xml')) {
 				$front_xml = new xmlparser(_TCMS_PATH.'/tcms_global/frontpage.'.$getLang.'.xml', 'r');
 				$old_front_id        = $front_xml->read_section('front', 'front_id');
@@ -96,18 +96,18 @@ if($id_group == 'Developer'
 				$old_sb_display      = $front_xml->read_section('front', 'sb_news_display');
 				$old_front_lang      = $getLang;
 				
-				if($old_front_id        == false){ $old_front_id        = ''; }
-				if($old_front_title     == false){ $old_front_title     = ''; }
-				if($old_front_stamp     == false){ $old_front_stamp     = ''; }
-				if($old_front_text      == false){ $old_front_text      = ''; }
-				if($old_news_title      == false){ $old_news_title      = ''; }
-				if($old_news_cut        == false){ $old_news_cut        = ''; }
-				if($old_module_use_0    == false){ $old_module_use_0    = ''; }
-				if($old_sb_news_title   == false){ $old_sb_news_title   = ''; }
-				if($old_sb_module_use_0 == false){ $old_sb_module_use_0 = ''; }
-				if($old_sb_news_cut     == false){ $old_sb_news_cut     = ''; }
-				if($old_sb_enabled      == false){ $old_sb_enabled      = ''; }
-				if($old_sb_display      == false){ $old_sb_display      = ''; }
+				if($old_front_id        == false) { $old_front_id        = ''; }
+				if($old_front_title     == false) { $old_front_title     = ''; }
+				if($old_front_stamp     == false) { $old_front_stamp     = ''; }
+				if($old_front_text      == false) { $old_front_text      = ''; }
+				if($old_news_title      == false) { $old_news_title      = ''; }
+				if($old_news_cut        == false) { $old_news_cut        = ''; }
+				if($old_module_use_0    == false) { $old_module_use_0    = ''; }
+				if($old_sb_news_title   == false) { $old_sb_news_title   = ''; }
+				if($old_sb_module_use_0 == false) { $old_sb_module_use_0 = ''; }
+				if($old_sb_news_cut     == false) { $old_sb_news_cut     = ''; }
+				if($old_sb_enabled      == false) { $old_sb_enabled      = ''; }
+				if($old_sb_display      == false) { $old_sb_display      = ''; }
 				
 				$langExist = 1;
 			}
@@ -115,7 +115,7 @@ if($id_group == 'Developer'
 				$langExist = 0;
 			}
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
@@ -141,18 +141,18 @@ if($id_group == 'Developer'
 			$old_sb_display      = $sqlObj->sb_news_display;
 			$old_front_lang      = $sqlObj->language;
 			
-			if($old_front_id        == NULL){ $old_front_id        = ''; }
-			if($old_front_title     == NULL){ $old_front_title     = ''; }
-			if($old_front_stamp     == NULL){ $old_front_stamp     = ''; }
-			if($old_front_text      == NULL){ $old_front_text      = ''; }
-			if($old_news_title      == NULL){ $old_news_title      = ''; }
-			if($old_news_cut        == NULL){ $old_news_cut        = ''; }
-			if($old_module_use_0    == NULL){ $old_module_use_0    = ''; }
-			if($old_sb_news_title   == NULL){ $old_sb_news_title   = ''; }
-			if($old_sb_module_use_0 == NULL){ $old_sb_module_use_0 = ''; }
-			if($old_sb_news_cut     == NULL){ $old_sb_news_cut     = ''; }
-			if($old_sb_enabled      == NULL){ $old_sb_enabled      = ''; }
-			if($old_sb_display      == NULL){ $old_sb_display      = ''; }
+			if($old_front_id        == NULL) { $old_front_id        = ''; }
+			if($old_front_title     == NULL) { $old_front_title     = ''; }
+			if($old_front_stamp     == NULL) { $old_front_stamp     = ''; }
+			if($old_front_text      == NULL) { $old_front_text      = ''; }
+			if($old_news_title      == NULL) { $old_news_title      = ''; }
+			if($old_news_cut        == NULL) { $old_news_cut        = ''; }
+			if($old_module_use_0    == NULL) { $old_module_use_0    = ''; }
+			if($old_sb_news_title   == NULL) { $old_sb_news_title   = ''; }
+			if($old_sb_module_use_0 == NULL) { $old_sb_module_use_0 = ''; }
+			if($old_sb_news_cut     == NULL) { $old_sb_news_cut     = ''; }
+			if($old_sb_enabled      == NULL) { $old_sb_enabled      = ''; }
+			if($old_sb_display      == NULL) { $old_sb_display      = ''; }
 		}
 		
 		
@@ -161,7 +161,7 @@ if($id_group == 'Developer'
 		}
 		
 		
-		if($todo != 'config'){
+		if($todo != 'config') {
 			$old_front_title   = $tcms_main->decodeText($old_front_title, '2', $c_charset);
 			$old_front_stamp   = $tcms_main->decodeText($old_front_stamp, '2', $c_charset);
 			$old_front_text    = $tcms_main->decodeText($old_front_text, '2', $c_charset);
@@ -172,7 +172,7 @@ if($id_group == 'Developer'
 			
 			
 			
-			switch(trim($show_wysiwyg)){
+			switch(trim($show_wysiwyg)) {
 				case 'tinymce':
 					//$old_front_text = str_replace('src="', 'src="../../', $old_front_text);
 					$old_front_text = stripslashes($old_front_text);
@@ -202,11 +202,11 @@ if($id_group == 'Developer'
 			}
 			
 			
-			if($seoEnabled == 0 && $show_wysiwyg == 'tinymce'){
+			if($seoEnabled == 0 && $show_wysiwyg == 'tinymce') {
 				//$old_front_text = str_replace('src="', 'src="../../', $old_front_text);
 			}
 		}
-		else{
+		else {
 			//$old_front_text = $tcms_main->encodeBase64($old_front_text);
 		}
 		
@@ -308,21 +308,31 @@ if($id_group == 'Developer'
 		.'<script>createToendaToolbar(\'front\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');</script>'
 		: '' );
 		
-		if($show_wysiwyg == 'tinymce'){ echo '<br />'; }
-		elseif($show_wysiwyg == 'fckeditor'){ }
-		else{
-			if($show_wysiwyg == 'toendaScript'){ echo '<script>createToolbar(\'front\', \''.$tcms_lang.'\', \'toendaScript\');</script>'; }
-			else{ echo '<script>createToolbar(\'front\', \''.$tcms_lang.'\', \'HTML\');</script>'; }
+		if($show_wysiwyg == 'tinymce') {
+			echo '<br />';
+		}
+		elseif($show_wysiwyg == 'fckeditor') {
+		}
+		else {
+			if($show_wysiwyg == 'toendaScript') {
+				echo '<script>createToolbar(\'front\', \''.$tcms_lang.'\', \'toendaScript\');</script>';
+			}
+			else if($show_wysiwyg == 'Wiki') {
+				echo '<script>createToolbar(\'front\', \''.$tcms_lang.'\', \'Wiki\');</script>';
+			}
+			else {
+				echo '<script>createToolbar(\'front\', \''.$tcms_lang.'\', \'HTML\');</script>';
+			}
 		}
 		
-		if($show_wysiwyg != 'fckeditor'){
+		if($show_wysiwyg != 'fckeditor') {
 			echo '<br />';
 		}
 		
-		if($show_wysiwyg == 'tinymce'){
+		if($show_wysiwyg == 'tinymce') {
 			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content" mce_editable="true">'.$old_front_text.'</textarea>';
 		}
-		elseif($show_wysiwyg == 'fckeditor'){
+		elseif($show_wysiwyg == 'fckeditor') {
 			$sBasePath = '../js/FCKeditor/';
 			
 			$oFCKeditor = new FCKeditor('content') ;
@@ -330,7 +340,7 @@ if($id_group == 'Developer'
 			$oFCKeditor->Value = $old_front_text;
 			$oFCKeditor->Create();
 		}
-		else{
+		else {
 			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content">'.$old_front_text.'</textarea>';
 		}
 		
@@ -452,36 +462,36 @@ if($id_group == 'Developer'
 	// -------------------------------------------------
 	
 	if($todo == 'save') {
-		if($front_id          == ''){ $front_id            = 0; }
-		if($front_title       == ''){ $front_title         = ''; }
-		if($front_stamp       == ''){ $front_stamp         = ''; }
-		if($content           == ''){ $content             = ''; }
-		if($new_news_title    == ''){ $new_news_title      = ''; }
-		if($news_cut          == ''){ $news_cut            = 0; }
-		if($module_use_0      == ''){ $module_use_0        = 0; }
-		if($new_sb_news_title == ''){ $new_sb_news_title   = ''; }
-		if($sb_module_use_0   == ''){ $sb_module_use_0     = 0; }
-		if($sb_news_cut       == ''){ $sb_news_cut         = 0; }
+		if($front_id          == '') { $front_id            = 0; }
+		if($front_title       == '') { $front_title         = ''; }
+		if($front_stamp       == '') { $front_stamp         = ''; }
+		if($content           == '') { $content             = ''; }
+		if($new_news_title    == '') { $new_news_title      = ''; }
+		if($news_cut          == '') { $news_cut            = 0; }
+		if($module_use_0      == '') { $module_use_0        = 0; }
+		if($new_sb_news_title == '') { $new_sb_news_title   = ''; }
+		if($sb_module_use_0   == '') { $sb_module_use_0     = 0; }
+		if($sb_news_cut       == '') { $sb_news_cut         = 0; }
 		if(empty($new_sb_enabled))  { $new_sb_enabled      = 0; }
 		if(empty($new_sb_display))  { $new_sb_display      = 0; }
 		
 		
-		if($extra == 1){
+		if($extra == 1) {
 			$old_front_text = str_replace('src="../../../../http:', 'src="http:', $old_front_text);
 			
-			if($show_wysiwyg == 'tinymce'){
+			if($show_wysiwyg == 'tinymce') {
 				//$content = str_replace('../../', '', $content);
 				$content = stripslashes($content);
 			}
-			elseif($show_wysiwyg == 'fckeditor'){
+			elseif($show_wysiwyg == 'fckeditor') {
 				$content = str_replace('../../../../../../../../../', '', $content);
 				$content = str_replace('../../../../', '', $content);
 			}
-			else{
+			else {
 				$content = $tcms_main->convertNewlineToHTML($content);
 			}
 			
-			if($seoEnabled == 0 && $show_wysiwyg == 'tinymce'){
+			if($seoEnabled == 0 && $show_wysiwyg == 'tinymce') {
 				//$content = str_replace('src="../../', 'src="', $content);
 			}
 			
@@ -489,7 +499,7 @@ if($id_group == 'Developer'
 			$front_stamp       = $tcms_main->encodeText($front_stamp, '2', $c_charset);
 			$content           = $tcms_main->encodeText($content, '2', $c_charset);
 		}
-		else{
+		else {
 			//$content = $tcms_main->decodeBase64($content);
 		}
 		
@@ -567,7 +577,7 @@ if($id_group == 'Developer'
 				}
 			}
 			else {
-				switch($choosenDB){
+				switch($choosenDB) {
 					case 'mysql':
 						$newSQLColumns = '`front_id`, `front_title`, `front_stamp`, `front_text`, '
 						.'`news_title`, `news_cut`, `module_use_0`, `sb_news_title`, '
@@ -620,7 +630,7 @@ if($id_group == 'Developer'
 		}
 	}
 }
-else{
+else {
 	echo '<strong>'._MSG_NOTENOUGH_USERRIGHTS.'</strong>';
 }
 

@@ -26,7 +26,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Some lines of this code is inspired by and copied from
  * the MediaWiki PHP wiki software.
  * 
- * @version 0.1.7
+ * @version 0.2.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -350,7 +350,7 @@ class tcms_wikiparser {
 		echo '</pre></span>';
 		*/
 		
-		while($i<count($bits)) {
+		while($i < count($bits)) {
 			$url = $bits[$i++];
 			$protocol = $bits[$i++];
 			$text = $bits[$i++];
@@ -359,7 +359,7 @@ class tcms_wikiparser {
 			// The characters '<' and '>' should not be included in
 			// URLs, per RFC 2396.
 			if (preg_match('/&(lt|gt);/', $url, $m2, PREG_OFFSET_CAPTURE)) {
-				$text = substr($url, $m2[0][1]) . ' ' . $text;
+				$text = substr($url, $m2[0][1]).' '.$text;
 				$url = substr($url, 0, $m2[0][1]);
 			}
 
@@ -866,19 +866,40 @@ class tcms_wikiparser {
 	 * @access private
 	 */
 	function _replaceFreeExternalLinks($text) {
+		global $tcms_main;
+		
 		// http:\/\/|https:\/\/|ftp:\/\/|irc:\/\/|gopher:\/\/|news:|mailto:
 		$bits = preg_split('/(\b(?:'.EXT_URL_PROTOCOLS.'))/S', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
 		$s = array_shift($bits);
 		$i = 0;
 		
+		/*
+		echo '<span style="font-size: 12px;"><pre>';
+		print_r($bits);
+		echo '</pre></span>';
+		*/
+		
 		while($i < count($bits)) {
 			$protocol = $bits[$i++];
 			$remainder = $bits[$i++];
+			
+			//echo '$protocol:'.$protocol.'<br>';
+			//echo '$remainder:'.$remainder.'<br>';
 			
 			if(preg_match('/^('.EXT_LINK_URL_CLASS.'+)(.*)$/s', $remainder, $m)) {
 				// Found some characters after the protocol that look promising
 				$url = $protocol.$m[1];
 				$trail = $m[2];
+				
+				if(strlen($trail) == 0 
+				&& isset($bits[$i]) 
+				&& preg_match('/^'. EXT_URL_PROTOCOLS . '$/S', $bits[$i]) 
+				&& preg_match( '/^('.EXT_LINK_URL_CLASS.'+)(.*)$/s', $bits[$i + 1], $m )) {
+					// add protocol, arg
+					$url .= $bits[$i].$m[1]; // protocol, url as arg to previous link
+					$i += 2;
+					$trail = $m[2];
+				}
 				
 				// The characters '<' and '>' (which were escaped by
 				// removeHTMLtags()) should not be included in
@@ -906,11 +927,19 @@ class tcms_wikiparser {
 				// Replace &amp; from obsolete syntax with &.
 				// All HTML entities will be escaped by _makeLink
 				$url = str_replace('&amp;', '&', $url);
-
+				
+				//echo '$url:'.$url.'<br>';
+				//echo '$trail:'.$trail.'<br>';
+				//echo '$text:'.$text.'<br>';
+				
+				//echo 'drin? ('.') '.($tcms_main->contains($trail, 'rel="lightbox"') ? 'ja' : 'nein');
+				
+				//if(!$tcms_main->contains($trail, 'rel="lightbox"')) {
+				
 				// Is this an external image?
 				if($text === false) {
 					// Not an image, make a link
-					$text = $this->_makeLink( $url, $url, true );
+					$text = $this->_makeLink($url, $url, true);
 				}
 				
 				$s .= $text.$trail;
@@ -940,7 +969,7 @@ class tcms_wikiparser {
 		$url = preg_replace('/[\\x00-\\x1f_]/', ' ', $url);
 		$url = htmlspecialchars($url);
 		
-		$style .= " title=\"{$link}\"";
+		$style .= " title=\"{$url}\"";
 		
 		if($escape) {
 			$text = htmlspecialchars($text);

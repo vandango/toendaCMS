@@ -23,26 +23,26 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the publishing form.
  *
- * @version 0.7.5
+ * @version 0.7.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
  */
 
 
-if(isset($_GET['vall'])){ $vall = $_GET['vall']; }
+if(isset($_GET['vall'])) { $vall = $_GET['vall']; }
 
-if(isset($_POST['imp_id'])){ $imp_id = $_POST['imp_id']; }
-if(isset($_POST['imp_title'])){ $imp_title = $_POST['imp_title']; }
-if(isset($_POST['imp_stamp'])){ $imp_stamp = $_POST['imp_stamp']; }
-if(isset($_POST['imp_contact'])){ $imp_contact = $_POST['imp_contact']; }
-if(isset($_POST['taxno'])){ $taxno = $_POST['taxno']; }
-if(isset($_POST['ustid'])){ $ustid = $_POST['ustid']; }
-if(isset($_POST['legal'])){ $legal = $_POST['legal']; }
-if(isset($_POST['vall'])){ $vall = $_POST['vall']; }
-if(isset($_POST['content'])){ $content = $_POST['content']; }
-if(isset($_POST['lang_exist'])){ $lang_exist = $_POST['lang_exist']; }
-if(isset($_POST['new_imp_lang'])){ $new_imp_lang = $_POST['new_imp_lang']; }
+if(isset($_POST['imp_id'])) { $imp_id = $_POST['imp_id']; }
+if(isset($_POST['imp_title'])) { $imp_title = $_POST['imp_title']; }
+if(isset($_POST['imp_stamp'])) { $imp_stamp = $_POST['imp_stamp']; }
+if(isset($_POST['imp_contact'])) { $imp_contact = $_POST['imp_contact']; }
+if(isset($_POST['taxno'])) { $taxno = $_POST['taxno']; }
+if(isset($_POST['ustid'])) { $ustid = $_POST['ustid']; }
+if(isset($_POST['legal'])) { $legal = $_POST['legal']; }
+if(isset($_POST['vall'])) { $vall = $_POST['vall']; }
+if(isset($_POST['content'])) { $content = $_POST['content']; }
+if(isset($_POST['lang_exist'])) { $lang_exist = $_POST['lang_exist']; }
+if(isset($_POST['new_imp_lang'])) { $new_imp_lang = $_POST['new_imp_lang']; }
 
 
 
@@ -53,9 +53,9 @@ echo '<script type="text/javascript" src="../js/tabs/tabpane.js"></script>
 
 
 if($id_group == 'Developer' 
-|| $id_group == 'Administrator'){
-	if($todo != 'save'){
-		if($show_wysiwyg == 'tinymce'){
+|| $id_group == 'Administrator') {
+	if($todo != 'save') {
+		if($show_wysiwyg == 'tinymce') {
 			include('../tcms_kernel/tcms_tinyMCE.lib.php');
 			
 			$tcms_tinyMCE = new tcms_tinyMCE($tcms_path, $seoEnabled);
@@ -72,7 +72,7 @@ if($id_group == 'Developer'
 		else
 			$getLang = $tcms_front_lang;
 		
-		if($choosenDB == 'xml'){
+		if($choosenDB == 'xml') {
 			if(file_exists(_TCMS_PATH.'/tcms_global/imprint.'.$getLang.'.xml')) {
 				$imp_xml = new xmlparser(_TCMS_PATH.'/tcms_global/imprint.'.$getLang.'.xml','r');
 				$old_imp_id       = $imp_xml->read_section('imp', 'imp_id');
@@ -100,7 +100,7 @@ if($id_group == 'Developer'
 				$old_imp_id = 'imprint';
 			}
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
@@ -121,13 +121,13 @@ if($id_group == 'Developer'
 			$test_imp_contact = $sqlObj->imp_contact;
 			$old_imp_lang     = $sqlObj->language;
 			
-			if($old_imp_id       == NULL){ $old_imp_id       = ''; }
-			if($old_imp_title    == NULL){ $old_imp_title    = ''; }
-			if($old_imp_stamp    == NULL){ $old_imp_stamp    = ''; }
-			if($old_taxno        == NULL){ $old_taxno        = ''; }
-			if($old_ustid        == NULL){ $old_ustid        = ''; }
-			if($old_legal        == NULL){ $old_legal        = ''; }
-			if($test_imp_contact == NULL){ $test_imp_contact = ''; }
+			if($old_imp_id       == NULL) { $old_imp_id       = ''; }
+			if($old_imp_title    == NULL) { $old_imp_title    = ''; }
+			if($old_imp_stamp    == NULL) { $old_imp_stamp    = ''; }
+			if($old_taxno        == NULL) { $old_taxno        = ''; }
+			if($old_ustid        == NULL) { $old_ustid        = ''; }
+			if($old_legal        == NULL) { $old_legal        = ''; }
+			if($test_imp_contact == NULL) { $test_imp_contact = ''; }
 		}
 		
 		
@@ -147,17 +147,17 @@ if($id_group == 'Developer'
 		$old_imp_stamp = htmlspecialchars($old_imp_stamp);
 		
 		
-		if($show_wysiwyg == 'tinymce'){
+		if($show_wysiwyg == 'tinymce') {
 			$old_legal = stripslashes($old_legal);
 		}
-		elseif($show_wysiwyg == 'fckeditor'){
+		elseif($show_wysiwyg == 'fckeditor') {
 			$old_legal = str_replace('src="', 'src="../../../../', $old_legal);
 			$old_legal = str_replace('src="../../../../http:', 'src="http:', $old_legal);
 			$old_legal = str_replace('src="../../../../https:', 'src="https:', $old_legal);
 			$old_legal = str_replace('src="../../../../ftp:', 'src="ftp:', $old_legal);
 			$old_legal = str_replace('src="../../../..//', 'src="/', $old_legal);
 		}
-		else{
+		else {
 			$old_legal = ereg_replace('<br />'.chr(10), chr(13), $old_legal);
 			$old_legal = ereg_replace('<br />'.chr(13), chr(13), $old_legal);
 			$old_legal = ereg_replace('<br />', chr(13), $old_legal);
@@ -172,27 +172,27 @@ if($id_group == 'Developer'
 		}
 		
 		
-		if($seoEnabled == 0 && $show_wysiwyg == 'tinymce'){
+		if($seoEnabled == 0 && $show_wysiwyg == 'tinymce') {
 			//$old_legal = str_replace('src="', 'src="../../', $old_legal);
 		}
 		
 		
 		
-		if($choosenDB == 'xml'){
+		if($choosenDB == 'xml') {
 			$arr_contacts['all'] = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_contacts/');
 			
-			if(is_array($arr_contacts['all']) && !empty($arr_contacts['all'])){
-				foreach($arr_contacts['all'] as $key => $val){
+			if(is_array($arr_contacts['all']) && !empty($arr_contacts['all'])) {
+				foreach($arr_contacts['all'] as $key => $val) {
 					$contact_xml = new xmlparser(_TCMS_PATH.'/tcms_contacts/'.$val,'r');
 					$cp = $contact_xml->readValue('published');
-					if($cp == 1){
+					if($cp == 1) {
 						$arr_contacts['arr'][$key] = $contact_xml->readValue('name');
 						$arr_contacts['all'][$key] = substr($val, 0, 10);
 					}
 				}
 			}
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
@@ -200,11 +200,11 @@ if($id_group == 'Developer'
 			
 			$count = 0;
 			
-			while($sqlARR = $sqlAL->fetchArray($sqlQR)){
+			while($sqlARR = $sqlAL->fetchArray($sqlQR)) {
 				$arr_contacts['arr'][$count] = $sqlARR['name'];
 				$arr_contacts['all'][$count] = $sqlARR['uid'];
 				
-				if($arr_contacts['arr'][$count] == NULL){ $arr_contacts['arr'][$count] = ''; }
+				if($arr_contacts['arr'][$count] == NULL) { $arr_contacts['arr'][$count] = ''; }
 				
 				$arr_contacts['arr'][$count] = $tcms_main->decodeText($arr_contacts['arr'][$count], '2', $c_charset);
 				
@@ -310,19 +310,28 @@ if($id_group == 'Developer'
 		.'<script>createToendaToolbar(\'imp\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');</script>'
 		.'<br />' : '' );
 		
-		if($show_wysiwyg == 'tinymce'){ }
-		elseif($show_wysiwyg == 'fckeditor'){ }
-		else{
-			if($show_wysiwyg == 'toendaScript'){ echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'toendaScript\');</script>'; }
-			else{ echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'HTML\');</script>'; }
+		if($show_wysiwyg == 'tinymce') {
+		}
+		elseif($show_wysiwyg == 'fckeditor') {
+		}
+		else {
+			if($show_wysiwyg == 'toendaScript') {
+				echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'toendaScript\');</script>';
+			}
+			else if($show_wysiwyg == 'Wiki') {
+				echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'Wiki\');</script>';
+			}
+			else {
+				echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'HTML\');</script>';
+			}
 		}
 		
 		echo '<br /><br />';
 		
-		if($show_wysiwyg == 'tinymce'){
+		if($show_wysiwyg == 'tinymce') {
 			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content" mce_editable="true">'.$old_legal.'</textarea>';
 		}
-		elseif($show_wysiwyg == 'fckeditor'){
+		elseif($show_wysiwyg == 'fckeditor') {
 			$sBasePath = '../js/FCKeditor/';
 			
 			$oFCKeditor = new FCKeditor('content') ;
@@ -330,7 +339,7 @@ if($id_group == 'Developer'
 			$oFCKeditor->Value = $old_legal;
 			$oFCKeditor->Create();
 		}
-		else{
+		else {
 			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" id="content" name="content">'.$old_legal.'</textarea>';
 		}
 		
@@ -359,7 +368,7 @@ if($id_group == 'Developer'
 		.'<option value="no_contact"'.( $vall == 'no_contact' || $test_imp_contact == 'no_contact' ? ' selected="selected"' : '' ).'> &bull; '._IMPRESSUM_NO_CONTACT.' &bull; </option>';
 		
 		arsort($arr_contacts['arr']);
-		foreach($arr_contacts['arr'] as $c_key => $c_value){
+		foreach($arr_contacts['arr'] as $c_key => $c_value) {
 			$arr_contacts['arr'][$c_key] = $tcms_main->decodeText($arr_contacts['arr'][$c_key], '2', $c_charset);
 			echo '<option name="vall" value="'.$arr_contacts['all'][$c_key].'">'.$arr_contacts['arr'][$c_key].'</option>';
 		}
@@ -368,7 +377,7 @@ if($id_group == 'Developer'
 		
 		
 		// table rows
-		if(isset($vall)){
+		if(isset($vall)) {
 			$test_imp_contact = $vall;
 		}
 		
@@ -376,9 +385,9 @@ if($id_group == 'Developer'
 		.'<td valign="top">'
 		.'<textarea name="text" id="text" class="tcms_textarea_big">';
 		
-		if($tcms_main->isReal($test_imp_contact) && $test_imp_contact != 'no_contact'){
-			if($choosenDB == 'xml'){
-				if(file_exists(_TCMS_PATH.'/tcms_contacts/'.$test_imp_contact.'.xml')){
+		if($tcms_main->isReal($test_imp_contact) && $test_imp_contact != 'no_contact') {
+			if($choosenDB == 'xml') {
+				if(file_exists(_TCMS_PATH.'/tcms_contacts/'.$test_imp_contact.'.xml')) {
 					$con_xml = new xmlparser(_TCMS_PATH.'/tcms_contacts/'.$test_imp_contact.'.xml','r');
 					
 					$contact['name']     = $con_xml->readValue('name');
@@ -393,18 +402,18 @@ if($id_group == 'Developer'
 					$contact['fax']      = $con_xml->readValue('fax');
 				}
 				
-				if($contact['name']     == false){ $contact['name']     = ''; }
-				if($contact['position'] == false){ $contact['position'] = ''; }
-				if($contact['email']    == false){ $contact['email']    = ''; }
-				if($contact['street']   == false){ $contact['street']   = ''; }
-				if($contact['country']  == false){ $contact['country']  = ''; }
-				if($contact['state']    == false){ $contact['state']    = ''; }
-				if($contact['town']     == false){ $contact['town']     = ''; }
-				if($contact['postal']   == false){ $contact['postal']   = ''; }
-				if($contact['phone']    == false){ $contact['phone']    = ''; }
-				if($contact['fax']      == false){ $contact['fax']      = ''; }
+				if($contact['name']     == false) { $contact['name']     = ''; }
+				if($contact['position'] == false) { $contact['position'] = ''; }
+				if($contact['email']    == false) { $contact['email']    = ''; }
+				if($contact['street']   == false) { $contact['street']   = ''; }
+				if($contact['country']  == false) { $contact['country']  = ''; }
+				if($contact['state']    == false) { $contact['state']    = ''; }
+				if($contact['town']     == false) { $contact['town']     = ''; }
+				if($contact['postal']   == false) { $contact['postal']   = ''; }
+				if($contact['phone']    == false) { $contact['phone']    = ''; }
+				if($contact['fax']      == false) { $contact['fax']      = ''; }
 			}
-			else{
+			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
@@ -422,16 +431,16 @@ if($id_group == 'Developer'
 				$contact['phone']    = $sqlARR['phone'];
 				$contact['fax']      = $sqlARR['fax'];
 				
-				if($contact['name']     == NULL){ $contact['name']     = ''; }
-				if($contact['position'] == NULL){ $contact['position'] = ''; }
-				if($contact['email']    == NULL){ $contact['email']    = ''; }
-				if($contact['street']   == NULL){ $contact['street']   = ''; }
-				if($contact['country']  == NULL){ $contact['country']  = ''; }
-				if($contact['state']    == NULL){ $contact['state']    = ''; }
-				if($contact['town']     == NULL){ $contact['town']     = ''; }
-				if($contact['postal']   == NULL){ $contact['postal']   = ''; }
-				if($contact['phone']    == NULL){ $contact['phone']    = ''; }
-				if($contact['fax']      == NULL){ $contact['fax']      = ''; }
+				if($contact['name']     == NULL) { $contact['name']     = ''; }
+				if($contact['position'] == NULL) { $contact['position'] = ''; }
+				if($contact['email']    == NULL) { $contact['email']    = ''; }
+				if($contact['street']   == NULL) { $contact['street']   = ''; }
+				if($contact['country']  == NULL) { $contact['country']  = ''; }
+				if($contact['state']    == NULL) { $contact['state']    = ''; }
+				if($contact['town']     == NULL) { $contact['town']     = ''; }
+				if($contact['postal']   == NULL) { $contact['postal']   = ''; }
+				if($contact['phone']    == NULL) { $contact['phone']    = ''; }
+				if($contact['fax']      == NULL) { $contact['fax']      = ''; }
 			}
 			
 			// CHARSETS
@@ -513,34 +522,34 @@ if($id_group == 'Developer'
 	// SAVE, EDIT AND DELETE
 	//==================================================
 	
-	if($todo == 'save'){
-		if($show_wysiwyg != 'tinymce' && $show_wysiwyg != 'fckeditor'){
+	if($todo == 'save') {
+		if($show_wysiwyg != 'tinymce' && $show_wysiwyg != 'fckeditor') {
 			$legal = $tcms_main->convertNewlineToHTML($legal);
 		}
 		
-		if($imp_id      == ''){ $imp_id      = ''; }
-		if($imp_title   == ''){ $imp_title   = ''; }
-		if($imp_stamp   == ''){ $imp_stamp   = ''; }
-		if($imp_contact == ''){ $imp_contact = ''; }
-		if($taxno       == ''){ $taxno       = ''; }
-		if($ustid       == ''){ $ustid       = ''; }
-		if($content     == ''){ $content     = ''; }
+		if($imp_id      == '') { $imp_id      = ''; }
+		if($imp_title   == '') { $imp_title   = ''; }
+		if($imp_stamp   == '') { $imp_stamp   = ''; }
+		if($imp_contact == '') { $imp_contact = ''; }
+		if($taxno       == '') { $taxno       = ''; }
+		if($ustid       == '') { $ustid       = ''; }
+		if($content     == '') { $content     = ''; }
 		
 		
-		if($show_wysiwyg == 'tinymce'){
+		if($show_wysiwyg == 'tinymce') {
 			//$content = str_replace('../../', '', $content);
 			$content = stripslashes($content);
 		}
-		elseif($show_wysiwyg == 'fckeditor'){
+		elseif($show_wysiwyg == 'fckeditor') {
 			$content = str_replace('../../../../../../../../../', '', $content);
 			$content = str_replace('../../../../', '', $content);
 		}
-		else{
+		else {
 			$content = $tcms_main->convertNewlineToHTML($content);
 		}
 		
 		
-		if($seoEnabled == 0 && $show_wysiwyg == 'tinymce'){
+		if($seoEnabled == 0 && $show_wysiwyg == 'tinymce') {
 			//$content = str_replace('src="../../', 'src="', $content);
 		}
 		
@@ -566,7 +575,7 @@ if($id_group == 'Developer'
 		}
 		
 		
-		if($choosenDB == 'xml'){
+		if($choosenDB == 'xml') {
 			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/imprint.'.$setLang.'.xml', 'w');
 			$xmluser->xml_declaration();
 			$xmluser->xml_section('imp');
@@ -582,7 +591,7 @@ if($id_group == 'Developer'
 			$xmluser->xml_section_buffer();
 			$xmluser->xml_section_end('imp');
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
@@ -617,7 +626,7 @@ if($id_group == 'Developer'
 				}
 			}
 			else {
-				switch($choosenDB){
+				switch($choosenDB) {
 					case 'mysql':
 						$newSQLColumns = '`imp_id`, `imp_title`, `imp_stamp`, `imp_contact`, '
 						.'`taxno`, `ustid`, `legal`, `language`';
@@ -664,7 +673,7 @@ if($id_group == 'Developer'
 		}
 	}
 }
-else{
+else {
 	echo '<strong>'._MSG_NOTENOUGH_USERRIGHTS.'</strong>';
 }
 

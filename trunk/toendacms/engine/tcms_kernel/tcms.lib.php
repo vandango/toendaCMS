@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic public functions.
  *
- * @version 3.1.6
+ * @version 3.1.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -114,6 +114,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * paf                               -> Prints a array
  * lastIndexOf                       -> The same as strrpos, except $searchThis can be a string
  * indexOf                           -> The same as strpos
+ * contains                          -> Returns true if a string containing a other specific string
  * startsWith                        -> Checks if a text starts with a specific string
  * endsWith                          -> Checks if a text ends with a specific string
  * convertNewlineToHTML              -> Replaces all newlines in a string with <br /> tags
@@ -2545,6 +2546,26 @@ class tcms_main {
 	 */
 	public function indexOf($findHere, $searchThis, $offset = 0) {
 		return strpos($findHere, $searchThis, $offset);
+	}
+	
+	
+	
+	/**
+	 * Returns true if a string containing a other specific string
+	 * 
+	 * @param String $findHere
+	 * @param String $searchThis
+	 * @return Integer
+	 */
+	public function contains($findHere, $searchThis) {
+		$pos = strpos($findHere, $searchThis);
+		
+		if(is_numeric($pos)
+		&& $pos > -1) {
+			return true;
+		}
+		
+		return false;
 	}
 	
 	

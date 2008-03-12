@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a base module fpr user operations.
  *
- * @version 1.0.9
+ * @version 1.1.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -408,6 +408,9 @@ if($checkUserExists) {
 			else {
 				if($show_wysiwyg == 'toendaScript') {
 					echo '<script>createToolbar(\'news\', \''.$tcms_lang.'\', \'toendaScript\');</script>';
+				}
+				else if($show_wysiwyg == 'Wiki') {
+					echo '<script>createToolbar(\'news\', \''.$tcms_lang.'\', \'Wiki\');</script>';
 				}
 				else {
 					echo '<script>createToolbar(\'news\', \''.$tcms_lang.'\', \'HTML\');</script>';
