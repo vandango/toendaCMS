@@ -1321,9 +1321,13 @@ if($todo == 'edit') {
 			.'\');'
 			.'</script>';
 			
-			if($show_wysiwyg != 'tinymce' && $show_wysiwyg != 'fckeditor') {
+			if($show_wysiwyg != 'tinymce' 
+			&& $show_wysiwyg != 'fckeditor') {
 				if($show_wysiwyg == 'toendaScript') {
 					echo '<script>createToolbar(\'news\', \''.$tcms_lang.'\', \'toendaScript\');</script>';
+				}
+				else if($show_wysiwyg == 'Wiki') {
+					echo '<script>createToolbar(\'news\', \''.$tcms_lang.'\', \'Wiki\');</script>';
 				}
 				else {
 					echo '<script>createToolbar(\'news\', \''.$tcms_lang.'\', \'HTML\');</script>';

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><config>
+<?xml version="1.0" encoding="utf-8"?><config>
 	<image_id>imagegallery</image_id>
 	<image_title>czoxMjoiSW1hZ2VnYWxsZXJ5Ijs=</image_title>
 	<image_stamp>czoyNToiUGljdHVyZXMgdGhhdCB0ZWxsIHN0b3J5cyI7</image_stamp>
@@ -11,6 +11,6 @@
 	<align_image>center</align_image>
 	<size_image>80</size_image>
 	<image_sort>desc</image_sort>
-	<list_option>0</list_option>
-
+	<list_option>1</list_option>
+	<list_option_amount></list_option_amount>
 </config>

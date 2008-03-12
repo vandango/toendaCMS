@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for a basic public functions.
  *
- * @version 3.1.4
+ * @version 3.1.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -114,6 +114,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * paf                               -> Prints a array
  * lastIndexOf                       -> The same as strrpos, except $searchThis can be a string
  * indexOf                           -> The same as strpos
+ * startsWith                        -> Checks if a text starts with a specific string
+ * endsWith                          -> Checks if a text ends with a specific string
  * convertNewlineToHTML              -> Replaces all newlines in a string with <br /> tags
  * cutStringToLength                 -> Cut a string and append a string
  * cutLongStringToShortString        -> Cut a long strong to a short string
@@ -2517,7 +2519,9 @@ class tcms_main {
 	public function lastIndexOf($findHere, $searchThis, $offset = 0) {
 		$strrpos = false;
 		
-		if(is_string($findHere) && is_string($searchThis) && is_numeric($offset)) {
+		if(is_string($findHere) 
+		&& is_string($searchThis) 
+		&& is_numeric($offset)) {
 			$strlen = strlen($findHere);
 			$strpos = strpos(strrev(substr($findHere, $offset)), strrev($searchThis));
 			
@@ -2541,6 +2545,55 @@ class tcms_main {
 	 */
 	public function indexOf($findHere, $searchThis, $offset = 0) {
 		return strpos($findHere, $searchThis, $offset);
+	}
+	
+	
+	
+	/**
+	 * Checks if a text starts with a specific string
+	 * 
+	 * @param String $startString
+	 * @param String $findHere
+	 * @return Boolean
+	 */
+	public function startsWith($startString, $findHere) {
+		if(@substr(trim($findHere), 0, @strlen(trim($startString))) == trim($startString)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	
+	
+	/**
+	 * Checks if a text ends with a specific string
+	 * 
+	 * @param String $startString
+	 * @param String $findHere
+	 * @return Boolean
+	 */
+	public function endsWith($endString, $findHere) {
+		if(strlen($endString) < strlen($findHere)) {
+			/*
+			echo 'len:'.$findHere.'=='.strlen($findHere).'<br>';
+			echo 'lp:'.strlen($endString).'<br>';
+			echo 'tag-len:'.(strlen($findHere) - strlen($endString)).'<br>';
+			echo '==>'.htmlentities(substr(trim($findHere), (strlen($findHere) - strlen($endString)))).'<br>';
+			echo '==>'.htmlentities($endString).'<br>';
+			echo '<br><br>';
+			*/
+			if(@substr(trim($findHere), @strlen($findHere) - @strlen($endString)) == trim($endString)) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
 	}
 	
 	

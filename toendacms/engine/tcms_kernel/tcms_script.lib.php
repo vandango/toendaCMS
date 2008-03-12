@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a parser and a base class
  * for the toendaScript.
  * 
- * @version 0.8.2
+ * @version 0.8.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -186,7 +186,7 @@ class toendaScript {
 	 * @return String
 	 */
 	private function _parseRules($newsContent){
-		return str_replace('{hr}', '<hr />', $newsContent);
+		return str_replace('{hr}', '<hr class="hr_line" />', $newsContent);
 	}
 	
 	
@@ -459,10 +459,12 @@ class toendaScript {
 		
 		$output = str_replace('#ext}', '" scrolling="auto" marginheight="0" marginwidth="0" frameborder="0" style="border: 0px solid #fff !important;"></iframe>', $output);
 		
-		if(preg_match('/#width=/', $output))
+		if(preg_match('/#width=/', $output)) {
 			$output = str_replace('></iframe>', '></iframe>', $output);
-		else
+		}
+		else {
 			$output = str_replace('></iframe>', ' width="100%"></iframe>', $output);
+		}
 		
 		return $output;
 	}
@@ -528,20 +530,20 @@ class toendaScript {
 	 */
 	private function __filter_Toenda($newsContent){
 		$text = $newsContent;
-		//$text = preg_replace('/toendacms/i', '<a href="http://www.toendacms.com" target="_blank">toendaCMS</a>', $text);
+		//$text = preg_replace('/toendacms/i', '<a href="http://www.toendacms.org" target="_blank">toendaCMS</a>', $text);
 		/*
-		$text = preg_replace('/<p>toendacms/i', '<p><a href="http://www.toendacms.com" target="_blank">toendaCMS</a>', $text);
-		$text = preg_replace('/<b>toendacms/i', '<b><a href="http://www.toendacms.com" target="_blank">toendaCMS</a>', $text);
-		$text = preg_replace('/<strong>toendacms/i', '<strong><a href="http://www.toendacms.com" target="_blank">toendaCMS</a>', $text);
-		$text = preg_replace('/<u>toendacms/i', '<u><a href="http://www.toendacms.com" target="_blank">toendaCMS</a>', $text);
-		$text = preg_replace('/<em>toendacms/i', '<em><a href="http://www.toendacms.com" target="_blank">toendaCMS</a>', $text);
-		$text = preg_replace('/<li>toendacms/i', '<li><a href="http://www.toendacms.com" target="_blank">toendaCMS</a>', $text);
-		$text = preg_replace('/<h1>toendacms/i', '<h1><a href="http://www.toendacms.com" target="_blank">toendaCMS</a>', $text);
-		$text = preg_replace('/<h2>toendacms/i', '<h2><a href="http://www.toendacms.com" target="_blank">toendaCMS</a>', $text);
-		$text = preg_replace('/<h3>toendacms/i', '<h3><a href="http://www.toendacms.com" target="_blank">toendaCMS</a>', $text);
-		$text = preg_replace('/<h4>toendacms/i', '<h4><a href="http://www.toendacms.com" target="_blank">toendaCMS</a>', $text);
-		$text = preg_replace('/<h5>toendacms/i', '<h5><a href="http://www.toendacms.com" target="_blank">toendaCMS</a>', $text);
-		$text = preg_replace('/<h6>toendacms/i', '<h6><a href="http://www.toendacms.com" target="_blank">toendaCMS</a>', $text);
+		$text = preg_replace('/<p>toendacms/i', '<p><a href="http://www.toendacms.org" target="_blank">toendaCMS</a>', $text);
+		$text = preg_replace('/<b>toendacms/i', '<b><a href="http://www.toendacms.org" target="_blank">toendaCMS</a>', $text);
+		$text = preg_replace('/<strong>toendacms/i', '<strong><a href="http://www.toendacms.org" target="_blank">toendaCMS</a>', $text);
+		$text = preg_replace('/<u>toendacms/i', '<u><a href="http://www.toendacms.org" target="_blank">toendaCMS</a>', $text);
+		$text = preg_replace('/<em>toendacms/i', '<em><a href="http://www.toendacms.org" target="_blank">toendaCMS</a>', $text);
+		$text = preg_replace('/<li>toendacms/i', '<li><a href="http://www.toendacms.org" target="_blank">toendaCMS</a>', $text);
+		$text = preg_replace('/<h1>toendacms/i', '<h1><a href="http://www.toendacms.org" target="_blank">toendaCMS</a>', $text);
+		$text = preg_replace('/<h2>toendacms/i', '<h2><a href="http://www.toendacms.org" target="_blank">toendaCMS</a>', $text);
+		$text = preg_replace('/<h3>toendacms/i', '<h3><a href="http://www.toendacms.org" target="_blank">toendaCMS</a>', $text);
+		$text = preg_replace('/<h4>toendacms/i', '<h4><a href="http://www.toendacms.org" target="_blank">toendaCMS</a>', $text);
+		$text = preg_replace('/<h5>toendacms/i', '<h5><a href="http://www.toendacms.org" target="_blank">toendaCMS</a>', $text);
+		$text = preg_replace('/<h6>toendacms/i', '<h6><a href="http://www.toendacms.org" target="_blank">toendaCMS</a>', $text);
 		*/
 		//$text = preg_replace('/(Toenda)/i', '<a href="http://www.toenda.com" target="_blank">Toenda</a>', $text);
 		//$text = preg_replace('/(Toenda Software Development)/i', '<a href="http://www.toenda.com" target="_blank">Toenda Software Development</a>', $text);
@@ -696,9 +698,9 @@ class toendaScript {
 		$this->content = $this->_parseLi($this->content);
 		$this->content = $this->_parseFontColor($this->content);
 		$this->content = $this->_parseUrl($this->content);
-		//$this->content = $this->_parsePHP($this->content);
 		$this->content = $this->_parseExt($this->content);
 		$this->content = $this->_parseFilter($this->content);
+		$this->content = $this->_parseIfThenElse($this->content);
 		
 		return $this->content;
 	}

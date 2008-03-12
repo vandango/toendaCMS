@@ -410,6 +410,7 @@ if($wsShowSite) {
 		
 		// global
 		using('toendacms.kernel.script');
+		using('toendacms.kernel.wikiparser');
 		using('toendacms.kernel.gd');
 		using('toendacms.kernel.error');
 		using('toendacms.kernel.menu_provider');

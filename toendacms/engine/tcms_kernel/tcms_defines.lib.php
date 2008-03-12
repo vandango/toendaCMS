@@ -427,7 +427,7 @@ $strMetaData = '<meta http-equiv="Content-Type" content="text/html; charset='.$c
  '.$tcms_version->getName().' is a free open source Content Management Framework created by Jonathan Naumann and licensed under the GNU/GPL license.
  '.$tcms_version->getName().' is copyright (c) '.$tcms_version->getToendaCopyright().' of Toenda Software Development.
  Components are copyright (c) of their respective owners.
- Information and contribution at http://www.toendacms.com
+ Information and contribution at http://www.toendacms.org
 -->
 
 <link rel="stylesheet" href="'.$imagePath.'engine/styles/tcms_common.css" />

@@ -280,7 +280,7 @@ switch(_SITE){
 	<strong>OSI Certified Open Source Software</strong>
 	<br />
 	<br />
-	<a class="tcms_legal" href="http://www.toendacms.com" target="_blank"><img src="images/toendaCMS_button_02.png" border="0" /></a>
+	<a class="tcms_legal" href="http://www.toendacms.org" target="_blank"><img src="images/toendaCMS_button_02.png" border="0" /></a>
 	<br />
 	<img src="../engine/images/logos/osi-certified-120x100.png" border="0" />
 </div>

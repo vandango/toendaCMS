@@ -567,7 +567,7 @@ if($id_group == 'Developer'
 			.( file_exists('../js/FCKeditor') ? '<option value="fckeditor"'.( $old_use_wysiwyg == 'fckeditor' ? ' selected="selected"' : '' ).'>FCKEditor</option>' : '' )
 			.'<option value="toendaScript"'.( $old_use_wysiwyg == 'toendaScript' ? ' selected="selected"' : '' ).'>'._TCMS_ADMIN_NO.' WYSIWYG (toendaScript)</option>'
 			.'<option value="no"'.( $old_use_wysiwyg == 'no' ? ' selected="selected"' : '' ).'>'._TCMS_ADMIN_NO.' WYSIWYG (HTML)</option>'
-			//.'<option value="wiki"'.( $old_use_wysiwyg == 'wiki' ? ' selected="selected"' : '' ).'>'._TCMS_ADMIN_NO.' WYSIWYG (Wiki Syntax)</option>'
+			.'<option value="Wiki"'.( $old_use_wysiwyg == 'Wiki' ? ' selected="selected"' : '' ).'>'._TCMS_ADMIN_NO.' WYSIWYG (WikiSyntax) *BETA*</option>'
 		.'</select>'
 		.'</td>'
 		.'</tr>';

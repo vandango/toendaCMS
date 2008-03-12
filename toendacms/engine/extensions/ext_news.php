@@ -480,10 +480,20 @@ if($news != ''
 		// text
 		$news_content = $dcNews->getText();
 		
-		$toendaScript = new toendaScript($news_content);
-		$news_content = $toendaScript->doParse();
-		$news_content = $toendaScript->removeTcmsMoreTag($news_content, true);
-		$news_content = $toendaScript->checkSEO($news_content, $imagePath);
+		if($tcms_config->getWYSIWYGEditor() == 'Wiki') {
+			$wiki = new tcms_wikiparser($news_content);
+			$news_content = $wiki->doParse();
+			$news_content = $wiki->removeTcmsMoreTag($news_content, true);
+			$news_content = $wiki->checkSEO($news_content, $imagePath);
+			unset($wiki);
+		}
+		else {
+			$toendaScript = new toendaScript($news_content);
+			$news_content = $toendaScript->doParse();
+			$news_content = $toendaScript->removeTcmsMoreTag($news_content, true);
+			$news_content = $toendaScript->checkSEO($news_content, $imagePath);
+			unset($toendaScript);
+		}
 		
 		$entryText = $news_content;
 		
