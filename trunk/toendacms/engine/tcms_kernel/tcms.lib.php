@@ -2602,16 +2602,17 @@ class tcms_main {
 	 * Count values in an array
 	 * 
 	 * @param Array $array
+	 * @param Boolean $withReduce = true
 	 * @return Integer
 	 */
-	public function countArrayValues($array) {
+	public function countArrayValues($array, $withReduce = true) {
 		$count = 0;
 		
-		foreach($array as $key => $val) {
+		foreach($array as $item) {//$key => $val) {
 			$count++;
 		}
 		
-		return $count - 1;
+		return $count - ( $withReduce ? 1 : 0 );
 	}
 	
 	

@@ -10,7 +10,7 @@
 | Edit JavaScript Functions
 |
 | File:		edit.js
-| Version:	0.7.7
+| Version:	0.7.8
 |
 +
 */
@@ -197,15 +197,15 @@ function createToolbar(form, lang, script) {
 			+ form + '\', \'content\', \'tt\', \'' 
 			+ script + '\');">&nbsp;</a>'
 		);
-		
-		document.write(
-			'<a href="#" class="tcms_editor tcms_citefont" alt="' 
-			+ tSB_Cite + '" title="' 
-			+ tSB_Cite + '" onclick="insertCommand(\'' 
-			+ form + '\', \'content\', \'cite\', \'' 
-			+ script + '\');">&nbsp;</a>'
-		);
 	}
+	
+	document.write(
+		'<a href="#" class="tcms_editor tcms_citefont" alt="' 
+		+ tSB_Cite + '" title="' 
+		+ tSB_Cite + '" onclick="insertCommand(\'' 
+		+ form + '\', \'content\', \'cite\', \'' 
+		+ script + '\');">&nbsp;</a>'
+	);
 	
 	document.write(
 		'<a href="#" class="tcms_editor tcms_hrfont" alt="Line" title="Line" onclick="insertCommand(\'' 
@@ -566,22 +566,6 @@ function insertCommand(form, id, command, script) {
 			break;
 		
 		case 'Wiki':
-			/*
-		'''Fetter Text'''
-		''Kursiver Text''
-			[http://www.beispiel.de Link-Text]
-		== H1 ==
-		=== H2 ===
-		==== H3 ====
-		===== H4 =====
-			[[Bild:Beispiel.jpg]]
-			[[Media:Beispiel.ogg]]
-			<math>Formel hier einfügen</math>
-			<nowiki>Unformatierten Text hier einfügen</nowiki>
-			--~~~~
-			
-			----
-			*/
 			switch(command) {
 				case 'head':
 					var insSize = prompt('Size (1-4):', '1');
@@ -659,10 +643,14 @@ function insertCommand(form, id, command, script) {
 					commandValuePost = ']';
 					break;
 				
+				case 'cite':
+					commandValuePre = '<blockquote>';
+					commandValuePost = '</blockquote>';
+					break;
+				
 				case 'u':
 				case 'tt':
 				case 'ul':
-				case 'cite':
 				case 'center':
 				case 'left':
 				case 'right':

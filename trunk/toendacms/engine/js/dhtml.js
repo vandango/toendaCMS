@@ -20,7 +20,7 @@
  *
  * This file provides some favaScript functions.
  *
- * @version 0.5.5
+ * @version 0.5.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -457,6 +457,9 @@ function setImageNLTaglist(img, id, script, url, tagList) {
 	if(script == 'toendaScript') {
 		var commandValue = '{img#' + url + 'data/images/Image/' + img + '#border=0#}';
 	}
+	else if(script == 'Wiki') {
+		var commandValue = '[[Image:' + url + 'data/images/Image/' + img + '|left|' + tagList + ']]';
+	}
 	else {
 		var commandValue = '<img title="' + tagList + '" alt="' + tagList + '" src="' + url + 'data/images/Image/' + img + '" border="0" />';
 	}
@@ -533,6 +536,9 @@ function setImageTaglist(img, id, script, tagList) {
 	if(script == 'toendaScript') {
 		var commandValue = '{img#data/images/Image/' + img + '#border=0#}';
 	}
+	else if(script == 'Wiki') {
+		var commandValue = '[[Image:data/images/Image/' + img + '|left|' + tagList + ']]';
+	}
 	else {
 		var commandValue = '<img title="' + tagList + '" alt="' + tagList + '" src="data/images/Image/' + img + '" border="0" />';
 	}
@@ -606,6 +612,9 @@ function setLink(link, title, id, script) {
 	if(script == 'toendaScript') {
 		var commandValue = '{url#' + link + '#:}';
 		commandValue = commandValue + title + '{:url}';
+	}
+	else if(script == 'Wiki') {
+		var commandValue = '[' + link + ' ' + title + ']';
 	}
 	else {
 		var commandValue = '<a href="' + link + '" alt="' + title + '" title="' + title + '">';

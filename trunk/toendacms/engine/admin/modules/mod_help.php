@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for help and as a documents wiki wrapper.
  *
- * @version 0.1.5
+ * @version 0.1.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -82,6 +82,39 @@ echo '</div>';
 
 echo '<div class="tab-page" id="tab-page-info">'
 .'<h2 class="tab">'._TCMS_HELP.'</h2>';
+
+
+echo '<div class="tcms_help_title">Wiki Syntax</div>';
+
+echo '<br /><table border="0" class="tcms_help_box" cellpadding="4" cellspacing="0">
+<tr class="tcms_help_box_title">
+	<th>Language</th>
+	<th>Link</th>
+</tr><tr class="tcms_bg_grey_02">
+	<td class="tcms_help_bb" valign="top" width="30%">
+		German
+	</td>
+	<td class="tcms_help_bb" valign="top" width="70%">
+		<a href="http://de.wikipedia.org/wiki/Kategorie:Wikipedia:Hilfe" target="_blank">
+		http://de.wikipedia.org/wiki/Kategorie:Wikipedia:Hilfe
+		</a>
+	</td>
+</tr><tr>
+	<td class="tcms_help_bb" valign="top" width="30%">
+		English
+	</td>
+	<td class="tcms_help_bb" valign="top" width="70%">
+		<a href="http://en.wikipedia.org/wiki/Category:Wikipedia_help" target="_blank">
+		http://en.wikipedia.org/wiki/Category:Wikipedia_help
+		</a>
+	</td>
+</tr>
+</table>';
+
+
+echo '<br />';
+echo '<br />';
+echo '<br />';
 
 
 echo '<div class="tcms_help_title">'._TCMS_TSCRIPT_SYNTAX_REF.'</div>';

@@ -23,8 +23,10 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used as a parser and a base class
  * for the toendaScript.
+ * Some lines of this code is inspired by and copied from
+ * the MediaWiki PHP wiki software.
  * 
- * @version 0.1.1
+ * @version 0.1.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -44,51 +46,50 @@ defined('_TCMS_VALID') or die('Restricted access');
  * PRIVATE MEMBERS
  * --------------------------------------------------------
  * 
- * _parseLinebreaks              -> [PRIVATE] Parse the linebreak tags
- * _parseRules                   -> [PRIVATE] Parse the rule tags
- * _parseQuotes                  -> [PRIVATE] Parse the bold and italize tags
- * _parseHeader                  -> [PRIVATE] Parse the header tags
- * _parseList                    -> [PRIVATE] Parse the list tags
- * _parseUrl                     -> [PRIVATE] Parse the url tags
+ * _parseLinebreaks              -> Parse the linebreak tags
+ * _parseRules                   -> Parse the rule tags
+ * _parseQuotes                  -> Parse the bold and italize tags
+ * _parseHeader                  -> Parse the header tags
+ * _parseList                    -> Parse the list tags
+ * _parseUrl                     -> Parse the url tags
+ * _parseImages                  -> Parse the image tags
  * 
- * _parseImages                  -> [PRIVATE] Parse the image tags
- * _parseCenter                  -> [PRIVATE] Parse the center tags
- * _parseLeft                    -> [PRIVATE] Parse the left tags
- * _parseRight                   -> [PRIVATE] Parse the right tags
- * _parseUnderline               -> [PRIVATE] Parse the underline tags
- * _parseBlockquote              -> [PRIVATE] Parse the blockquote tags
- * _parseTeletyper               -> [PRIVATE] Parse the tetetyper tags
- * _parseFontColor               -> [PRIVATE] Parse the fontcolor tags
- * _parseExt                     -> [PRIVATE] Parse the ext tags
- * _parseFilter                  -> [PRIVATE] Parse the filter tags
- * __filter_SessionLinks         -> [PRIVATE] Parse the session
- * __filter_Toenda               -> [PRIVATE] Parse the toenda and toendacms words
+ * _parseCenter                  -> Parse the center tags
+ * _parseLeft                    -> Parse the left tags
+ * _parseRight                   -> Parse the right tags
+ * _parseUnderline               -> Parse the underline tags
+ * _parseBlockquote              -> Parse the blockquote tags
+ * _parseTeletyper               -> Parse the tetetyper tags
+ * _parseFontColor               -> Parse the fontcolor tags
+ * _parseExt                     -> Parse the ext tags
+ * _parseFilter                  -> Parse the filter tags
+ * __filter_SessionLinks         -> Parse the session
+ * __filter_Toenda               -> Parse the toenda and toendacms words
  * 
- * _doHeaders                    -> [PRIVATE] Helper function for parsers
- * _doQuotes                     -> [PRIVATE] Helper function for parsers
+ * _replaceFreeExternalLinks     -> Replace anything that looks like a URL with a link
+ * _makeLink                     -> Create a link
+ * _doHeaders                    -> Helper function for parsers
+ * _doQuotes                     -> Helper function for parsers
+ * _countWords                   -> Count Words in a phrase
  *
  * --------------------------------------------------------
  * PUBLIC MEMBERS
  * --------------------------------------------------------
  * 
- * cutAtTcmsMoreTag              -> Cut a text at the {tcms_more} tag
- * getTcmsMoreTagPos             -> Get the position of the {tcms_more} tag
- * removeTcmsMoreTag             -> Remove the {tcms_more} tag
- * hasTcmsMoreTag                -> Has a text the {tcms_more} tag?
- * checkSEO                      -> Set the image folder if SEO is enabled
- * doParse                       -> Start the toendaScript parser
- * doParsePHP                    -> Parse the php tags
+ * doParse                       -> Start the parser
  * 
  * </code>
  *
  */
 
-define( 'HTTP_PROTOCOLS', 'http:\/\/|https:\/\/' );
-# Everything except bracket, space, or control characters
-define( 'EXT_LINK_URL_CLASS', '[^]<>"\\x00-\\x20\\x7F]' );
-# Including space
-define( 'EXT_LINK_TEXT_CLASS', '[^\]\\x00-\\x1F\\x7F]' );
-		define( 'EXT_LINK_BRACKETED',  '/\[(\b(http:\/\/|https:\/\/|ftp:\/\/|irc:\/\/|gopher:\/\/|news:|mailto:)'.EXT_LINK_URL_CLASS.'+) *('.EXT_LINK_TEXT_CLASS.'*?)\]/S' );
+
+define('HTTP_PROTOCOLS', 'http:\/\/|https:\/\/');
+// Everything except bracket, space, or control characters
+define('EXT_LINK_URL_CLASS', '[^]<>"\\x00-\\x20\\x7F]');
+// Including space
+define('EXT_LINK_TEXT_CLASS', '[^\]\\x00-\\x1F\\x7F]');
+define('EXT_URL_PROTOCOLS', 'http:\/\/|https:\/\/|ftp:\/\/|irc:\/\/|gopher:\/\/|news:|mailto:');
+define('EXT_LINK_BRACKETED',  '/\[(\b('.EXT_URL_PROTOCOLS.')'.EXT_LINK_URL_CLASS.'+) *('.EXT_LINK_TEXT_CLASS.'*?)\]/S');
 		
 
 class tcms_wikiparser {
@@ -128,35 +129,7 @@ class tcms_wikiparser {
 	
 	
 	/**
-	 * [PRIVATE] Count Words in a phrase
-	 *
-	 * @param String $text
-	 * @param String $wordToCount
-	 * @return String
-	 */
-	private function _countWords($text, $wordToCount = '') {
-		if($wordToCount == '') {
-			return str_word_count($text);
-		}
-		else {
-			$text = strip_tags(trim($text));
-			$arr = explode(' ', $text);
-			$counter = 0;
-			
-			foreach($arr as $key => $val) {
-				if(strpos(' '.$val.' ', $wordToCount, 0)) {
-					$counter++;
-				}
-			}
-			
-			return $counter;
-		}
-	}
-	
-	
-	
-	/**
-	 * [PRIVATE] Parse the linebreak tags
+	 * Parse the linebreak tags
 	 * 
 	 * @param String $text
 	 * @return String
@@ -177,7 +150,7 @@ class tcms_wikiparser {
 	
 	
 	/**
-	 * [PRIVATE] Parse the rule tags
+	 * Parse the rule tags
 	 * 
 	 * @param String $text
 	 * @return String
@@ -189,7 +162,7 @@ class tcms_wikiparser {
 	
 	
 	/**
-	 * [PRIVATE] Parse the bold and italize tags
+	 * Parse the bold and italize tags
 	 * 
 	 * @param String $text
 	 * @return String
@@ -207,7 +180,7 @@ class tcms_wikiparser {
 	
 	
 	/**
-	 * [PRIVATE] Parse the header tags
+	 * Parse the header tags
 	 * 
 	 * @param String $text
 	 * @return String
@@ -225,7 +198,7 @@ class tcms_wikiparser {
 	
 	
 	/**
-	 * [PRIVATE] Parse the list tags
+	 * Parse the list tags
 	 * 
 	 * @param String $text
 	 * @return String
@@ -360,7 +333,7 @@ class tcms_wikiparser {
 	
 	
 	/**
-	 * [PRIVATE] Parse the url tags
+	 * Parse the url tags
 	 * 
 	 * @param String $text
 	 * @return String
@@ -368,12 +341,8 @@ class tcms_wikiparser {
 	private function _parseUrl($text) {
 		$bits = preg_split(EXT_LINK_BRACKETED, $text, -1, PREG_SPLIT_DELIM_CAPTURE);
 
-		$s = $this->replaceFreeExternalLinks(array_shift($bits));
+		$s = $this->_replaceFreeExternalLinks(array_shift($bits));
 		$i = 0;
-		
-		
-		
-		
 		
 		/*
 		echo '<span style="font-size: 12px;"><pre>';
@@ -381,130 +350,61 @@ class tcms_wikiparser {
 		echo '</pre></span>';
 		*/
 		
-		while ( $i<count( $bits ) ) {
+		while($i<count($bits)) {
 			$url = $bits[$i++];
 			$protocol = $bits[$i++];
 			$text = $bits[$i++];
 			$trail = $bits[$i++];
 			
-			
-
-			# The characters '<' and '>' (which were escaped by
-			# removeHTMLtags()) should not be included in
-			# URLs, per RFC 2396.
+			// The characters '<' and '>' should not be included in
+			// URLs, per RFC 2396.
 			if (preg_match('/&(lt|gt);/', $url, $m2, PREG_OFFSET_CAPTURE)) {
 				$text = substr($url, $m2[0][1]) . ' ' . $text;
 				$url = substr($url, 0, $m2[0][1]);
 			}
 
-			# If the link text is an image URL, replace it with an <img> tag
-			# This happened by accident in the original parser, but some people used it extensively
-			//$img = $this->maybeMakeExternalImage( $text );
-			//if($img !== false ) {
-			//	$text = $img;
-			//}
-
+			// If the link text is an image URL, replace it with an <img> tag
+			// This happened by accident in the original parser, but some people used it extensively
+			/*$img = $this->maybeMakeExternalImage( $text );
+			if($img !== false ) {
+				$text = $img;
+			}*/
+			
 			$dtrail = '';
-
-
-			# No link text, e.g. [http://domain.tld/some.link]
-			if ( $text == '' ) {
-				# Autonumber if allowed
+			
+			// No link text, e.g. [http://domain.tld/some.link]
+			if($text == '') {
+				// Autonumber if allowed
 				
-				if ( strpos( HTTP_PROTOCOLS, str_replace('/','\/', $protocol) ) !== false ) {
+				if(strpos(HTTP_PROTOCOLS, str_replace('/','\/', $protocol)) !== false) {
 					$text = '[' . ++$this->mAutonumber . ']';
 					$linktype = 'autonumber';
-				} else {
-					# Otherwise just use the URL
-					$text = htmlspecialchars( $url );
+				}
+				else {
+					// Otherwise just use the URL
+					$text = htmlspecialchars($url);
 					$linktype = 'free';
 				}
-			} else {
-				# Have link text, e.g. [http://domain.tld/some.link text]s
-				# Check for trail
+			}
+			else {
+				// Have link text, e.g. [http://domain.tld/some.link text]s
+				// Check for trail
 				//list( $dtrail, $trail ) = Linker::splitTrail( $trail );
 			}
-
-			//$text = $wgContLang->markNoConversion($text);
-			$text = $text;
-
-			# Replace &amp; from obsolete syntax with &.
-			# All HTML entities will be escaped by makeExternalLink()
-			# or maybeMakeExternalImage()
-			$url = str_replace( '&amp;', '&', $url );
-
-			# Process the trail (i.e. everything after this link up until start of the next link),
-			# replacing any non-bracketed links
-			$trail = $this->replaceFreeExternalLinks( $trail );
-
-
-			# Use the encoded URL
-			# This means that users can paste URLs directly into the text
-			# Funny characters like &ouml; aren't valid in URLs anyway
-			# This was changed in August 2004
-			$s .= $this->_makeLink( $url, $text, false ) . $dtrail . $trail;
-		}
-		
-		return $s;
-	}
-	
-	/**
-	 * Replace anything that looks like a URL with a link
-	 * @access private
-	 */
-	function replaceFreeExternalLinks( $text ) {
-		
-
-		$bits = preg_split( '/(\b(?:http:\/\/|https:\/\/|ftp:\/\/|irc:\/\/|gopher:\/\/|news:|mailto:))/S', $text, -1, PREG_SPLIT_DELIM_CAPTURE );
-		$s = array_shift( $bits );
-		$i = 0;
-
-
-		while ( $i < count( $bits ) ){
-			$protocol = $bits[$i++];
-			$remainder = $bits[$i++];
-
-			if ( preg_match( '/^('.EXT_LINK_URL_CLASS.'+)(.*)$/s', $remainder, $m ) ) {
-				# Found some characters after the protocol that look promising
-				$url = $protocol . $m[1];
-				$trail = $m[2];
-
-				# The characters '<' and '>' (which were escaped by
-				# removeHTMLtags()) should not be included in
-				# URLs, per RFC 2396.
-				if (preg_match('/&(lt|gt);/', $url, $m2, PREG_OFFSET_CAPTURE)) {
-					$trail = substr($url, $m2[0][1]) . $trail;
-					$url = substr($url, 0, $m2[0][1]);
-				}
-
-				# Move trailing punctuation to $trail
-				$sep = ',;\.:!?';
-				# If there is no left bracket, then consider right brackets fair game too
-				if ( strpos( $url, '(' ) === false ) {
-					$sep .= ')';
-				}
-
-				$numSepChars = strspn( strrev( $url ), $sep );
-				if ( $numSepChars ) {
-					$trail = substr( $url, -$numSepChars ) . $trail;
-					$url = substr( $url, 0, -$numSepChars );
-				}
-
-				# Replace &amp; from obsolete syntax with &.
-				# All HTML entities will be escaped by makeExternalLink()
-				# or maybeMakeExternalImage()
-				$url = str_replace( '&amp;', '&', $url );
-
-				# Is this an external image?
-				//$text = $this->maybeMakeExternalImage( $url );
-				if ( $text === false ) {
-					# Not an image, make a link
-					$text = $this->_makeLink( $url, $url, true );
-				}
-				$s .= $text . $trail;
-			} else {
-				$s .= $protocol . $remainder;
-			}
+			
+			// Replace &amp; from obsolete syntax with &.
+			// All HTML entities will be escaped by _makeLink()
+			$url = str_replace('&amp;', '&', $url);
+			
+			// Process the trail (i.e. everything after this link up until start of the next link),
+			// replacing any non-bracketed links
+			$trail = $this->_replaceFreeExternalLinks($trail);
+			
+			// Use the encoded URL
+			// This means that users can paste URLs directly into the text
+			// Funny characters like &ouml; aren't valid in URLs anyway
+			// This was changed in August 2004
+			$s .= $this->_makeLink($url, $text, false).$dtrail.$trail;
 		}
 		
 		return $s;
@@ -512,54 +412,212 @@ class tcms_wikiparser {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
-	 * [PRIVATE] Parse the image tags
+	 * Parse the image tags
 	 * 
 	 * @param String $text
 	 * @return String
 	 */
 	private function _parseImages($text) {
-		$output = str_replace('{img#', '<img src="', $text);
-		$output = str_replace('#border=', '" border="', $output);
-		$output = str_replace('#align=', '" align="', $output);
-		$output = str_replace('#width=', '" width="', $output);
-		$output = str_replace('#height=', '" height="', $output);
-		$output = str_replace('#}', '" />', $output);
+		global $tcms_main;
+		
+		$output = '';
+		$out1 = '';
+		$out = '';
+		
+		$wordCount = $this->_countWords($text, '[[Image:');
+		
+		//echo $wordCount.'<--<br>';
+		
+		if($wordCount > 0) {
+			if($wordCount == 1) {
+				$out1 = substr($text, 0, strpos($text, '[[Image:'));
+				
+				$out .= $out1;
+				
+				$imgCode = substr(
+					$text, 
+					strpos($text, '[[Image:') + 8, 
+					strpos($text, ']]') - ((strpos($text, '[[Image:') + 8))
+				);
+				
+				$attrs = explode('|', $imgCode);
+				
+				/*
+				echo '<span style="font-size: 12px;"><pre>';
+				print_r($attrs);
+				echo '</pre></span>';
+				*/
+				
+				$output .= '<img src="';
+				
+				$maxIndex = $tcms_main->countArrayValues($attrs);
+				
+				if($maxIndex > 0) {
+					$attrs[$maxIndex] = '[['.$attrs[$maxIndex].']]';
+				}
+				
+				foreach($attrs as $attr) {
+					//echo '->'.$attr.'<br>';
+					$output .= $this->_makeImage($attr);
+				}
+				
+				$output .= '" />';
+				$out .= $output;
+				
+				$out2 = substr($text, strpos($text, ']]') + 8);
+				
+				$out .= $out2;
+			}
+			elseif($wordCount > 1) {
+				$currentPos = 0;
+				$posStart = 0;
+				$posEnd = 0;
+				$go = true;
+				$count = 0;
+				
+				while($go) {
+					$posStart = strpos($text, '[[Image:', $posStart);
+					$posEnd = strpos($text, ']]', $posEnd);
+					
+					if(strpos($text, '[[Image:', $posStart) === false
+					&& $go === true) {
+						$go = false;
+					}
+					else {
+						$posStart += 8;
+						$output = '';
+						
+						$out1 = substr($text, $currentPos, $posStart - $currentPos);
+						
+						$out1 = str_replace('[[Image:', '', $out1);
+						$out1 = str_replace(']]', '', $out1);
+						
+						$out .= $out1;
+						
+						$imgCode = substr(
+							$text, 
+							$posStart, 
+							$posEnd - ($posStart)
+						);
+						
+						// replace tag
+						$attrs = explode('|', $imgCode);
+						
+						/*
+						echo '<span style="font-size: 12px;"><pre>';
+						print_r($attrs);
+						echo '</pre></span>';
+						*/
+						
+						$output .= '<img src="';
+						
+						$maxIndex = $tcms_main->countArrayValues($attrs);
+						
+						if($maxIndex > 0) {
+							$attrs[$maxIndex] = '[['.$attrs[$maxIndex].']]';
+						}
+						
+						foreach($attrs as $attr) {
+							//echo '->'.$attr.'<br>';
+							$output .= $this->_makeImage($attr);
+						}
+						
+						$output .= '" />';
+						$out .= $output;
+						
+						// inits for next tag value
+						$posEnd += 8;
+						$posStart = $posEnd;
+						$currentPos = $posEnd;
+						
+						$count++;
+						
+						if($count == $wordCount) {
+							$go = false;
+						}
+					}
+				}
+				
+				$out .= substr($text, $currentPos, strlen($text) - $currentPos);
+			}
+		}
+		else {
+			$out = $text;
+		}
+		
+		return $out;
+	}
+	
+	private function _makeImage($attr) {
+		global $tcms_main;
+		
+		$output = '';
+		
+		if($tcms_main->startsWith('[[', $attr)
+		&& $tcms_main->endsWith(']]', $attr)) {
+			$output = '" alt="'.substr($attr, 2, ( strlen($attr) - 4 ));
+		}
+		else if($tcms_main->endsWith('px', $attr)) {
+			$output = '" width="'.$attr;
+		}
+		else {
+			switch($attr) {
+				case 'left':
+					$output = '" align="left';
+					break;
+				
+				case 'right':
+					$output = '" align="right';
+					break;
+				
+				case 'center':
+					$output = '" align="center';
+					break;
+				
+				default:
+					$output = $attr;
+					break;
+			}
+		}
 		
 		return $output;
 	}
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
-	 * [PRIVATE] Parse the center tags
+	 * Parse the center tags
 	 * 
 	 * @param String $text
 	 * @return String
@@ -574,7 +632,7 @@ class tcms_wikiparser {
 	
 	
 	/**
-	 * [PRIVATE] Parse the left tags
+	 * Parse the left tags
 	 * 
 	 * @param String $text
 	 * @return String
@@ -589,7 +647,7 @@ class tcms_wikiparser {
 	
 	
 	/**
-	 * [PRIVATE] Parse the right tags
+	 * Parse the right tags
 	 * 
 	 * @param String $text
 	 * @return String
@@ -604,7 +662,7 @@ class tcms_wikiparser {
 	
 	
 	/**
-	 * [PRIVATE] Parse the underline tags
+	 * Parse the underline tags
 	 * 
 	 * @param String $text
 	 * @return String
@@ -619,7 +677,7 @@ class tcms_wikiparser {
 	
 	
 	/**
-	 * [PRIVATE] Parse the blockquote tags
+	 * Parse the blockquote tags
 	 * 
 	 * @param String $text
 	 * @return String
@@ -634,7 +692,7 @@ class tcms_wikiparser {
 	
 	
 	/**
-	 * [PRIVATE] Parse the teletyper tags
+	 * Parse the teletyper tags
 	 * 
 	 * @param String $text
 	 * @return String
@@ -649,7 +707,7 @@ class tcms_wikiparser {
 	
 	
 	/**
-	 * [PRIVATE] Parse the fontcolor tags
+	 * Parse the fontcolor tags
 	 * 
 	 * @param String $text
 	 * @return String
@@ -696,7 +754,7 @@ class tcms_wikiparser {
 	
 	
 	/**
-	 * [PRIVATE] Parse the ext tags
+	 * Parse the ext tags
 	 * 
 	 * @param String $text
 	 * @return String
@@ -722,7 +780,7 @@ class tcms_wikiparser {
 	
 	
 	/**
-	 * [PRIVATE] Parse the filter tags
+	 * Parse the filter tags
 	 * 
 	 * @param String $text
 	 * @return String
@@ -737,7 +795,7 @@ class tcms_wikiparser {
 	
 	
 	/**
-	 * [PRIVATE] Parse the session
+	 * Parse the session
 	 * 
 	 * @param String $text
 	 * @return String
@@ -753,7 +811,7 @@ class tcms_wikiparser {
 	
 	
 	/**
-	 * [PRIVATE] Parse the toenda and toendacms words
+	 * Parse the toenda and toendacms words
 	 * 
 	 * @param String $text
 	 * @return String
@@ -799,6 +857,74 @@ class tcms_wikiparser {
 	
 	
 	
+	
+	/**
+	 * Replace anything that looks like a URL with a link
+	 * 
+	 * @param String $text
+	 * @return String
+	 * @access private
+	 */
+	function _replaceFreeExternalLinks($text) {
+		// http:\/\/|https:\/\/|ftp:\/\/|irc:\/\/|gopher:\/\/|news:|mailto:
+		$bits = preg_split('/(\b(?:'.EXT_URL_PROTOCOLS.'))/S', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
+		$s = array_shift($bits);
+		$i = 0;
+		
+		while($i < count($bits)) {
+			$protocol = $bits[$i++];
+			$remainder = $bits[$i++];
+			
+			if(preg_match('/^('.EXT_LINK_URL_CLASS.'+)(.*)$/s', $remainder, $m)) {
+				// Found some characters after the protocol that look promising
+				$url = $protocol.$m[1];
+				$trail = $m[2];
+				
+				// The characters '<' and '>' (which were escaped by
+				// removeHTMLtags()) should not be included in
+				// URLs, per RFC 2396.
+				if(preg_match('/&(lt|gt);/', $url, $m2, PREG_OFFSET_CAPTURE)) {
+					$trail = substr($url, $m2[0][1]).$trail;
+					$url = substr($url, 0, $m2[0][1]);
+				}
+				
+				// Move trailing punctuation to $trail
+				$sep = ',;\.:!?';
+				
+				// If there is no left bracket, then consider right brackets fair game too
+				if(strpos($url, '(') === false) {
+					$sep .= ')';
+				}
+				
+				$numSepChars = strspn(strrev($url), $sep);
+				
+				if($numSepChars) {
+					$trail = substr($url, -$numSepChars).$trail;
+					$url = substr($url, 0, -$numSepChars);
+				}
+				
+				// Replace &amp; from obsolete syntax with &.
+				// All HTML entities will be escaped by _makeLink
+				$url = str_replace('&amp;', '&', $url);
+
+				// Is this an external image?
+				if($text === false) {
+					// Not an image, make a link
+					$text = $this->_makeLink( $url, $url, true );
+				}
+				
+				$s .= $text.$trail;
+			}
+			else {
+				$s .= $protocol.$remainder;
+			}
+		}
+		
+		return $s;
+	}
+	
+	
+	
 	/**
 	 * Create a link
 	 * 
@@ -826,7 +952,7 @@ class tcms_wikiparser {
 	
 	
 	/**
-	 * [PRIVATE] Helper function for parsers
+	 * Helper function for parsers
 	 * 
 	 * @access private
 	 * @param String $text
@@ -870,7 +996,7 @@ class tcms_wikiparser {
 	
 	
 	/**
-	 * [PRIVATE] Helper function for parsers
+	 * Helper function for parsers
 	 * 
 	 * @access private
 	 * @param String $text
@@ -1087,125 +1213,37 @@ class tcms_wikiparser {
 	
 	
 	
+	/**
+	 * Count Words in a phrase
+	 *
+	 * @param String $text
+	 * @param String $wordToCount
+	 * @return String
+	 */
+	private function _countWords($text, $wordToCount = '') {
+		if($wordToCount == '') {
+			return str_word_count($text);
+		}
+		else {
+			$text = strip_tags(trim($text));
+			$arr = explode(' ', $text);
+			$counter = 0;
+			
+			foreach($arr as $key => $val) {
+				if(strpos(' '.$val.' ', $wordToCount, 0)) {
+					$counter++;
+				}
+			}
+			
+			return $counter;
+		}
+	}
+	
+	
+	
 	// -------------------------------------------------
 	// PUBLIC MEMBERS
 	// -------------------------------------------------
-	
-	
-	
-	/**
-	 * Cut a text at the {tcms_more} tag
-	 * 
-	 * @param String $text
-	 * @return String
-	 */
-	public function cutAtTcmsMoreTag($text) {
-		if(strpos($text, '{tcms_more}')) {
-			return substr($text, 0, strpos($text, '{tcms_more}'));
-		}
-		else {
-			return $text;
-		}
-	}
-	
-	
-	
-	/**
-	 * Get the position of the {tcms_more} tag
-	 * 
-	 * @param String $text
-	 * @return String
-	 */
-	public function getTcmsMoreTagPos($text) {
-		return strpos($text, '{tcms_more}');
-	}
-	
-	
-	
-	/**
-	 * Remove the {tcms_more} tag
-	 * 
-	 * @param String $text
-	 * @param Boolean $withCssImage = false
-	 * @return String
-	 */
-	public function removeTcmsMoreTag($text, $withCssImage = false) {
-		return str_replace(
-			'{tcms_more}', 
-			( $withCssImage ? '<div class="tcms_more"></div>' : '' ), 
-			$text
-		);
-	}
-	
-	
-	
-	/**
-	 * Has a text the {tcms_more} tag?
-	 * 
-	 * @param String $text
-	 * @return String
-	 */
-	public function hasTcmsMoreTag($text) {
-		return ( strpos($text, '{tcms_more}') ? true : false );
-	}
-	
-	
-	
-	/**
-	 * Set the image folder if SEO is enabled
-	 * 
-	 * @param String $text
-	 * @param String $seoImageFolder
-	 * @return String
-	 */
-	public function checkSEO($text, $seoImageFolder) {
-		global $session;
-		global $seoEnabled;
-		global $seoPath;
-		global $seoFormat;
-		global $tcms_main;
-		
-		//echo 'seo:'.$seoImageFolder.'<br>';
-		
-		if($seoEnabled == 1 
-		&& trim($seoImageFolder) != ''
-		&& trim($seoImageFolder) != '/') {
-			$tempSEO = str_replace('/', '', $seoImageFolder);
-			$text = preg_replace('/(src=")(?!\/'.$tempSEO.')(?!http)/i', 'src="'.$seoImageFolder, $text);
-			
-			$text = str_replace($seoImageFolder.$seoImageFolder, $seoImageFolder, $text);
-		}
-		
-		if($tcms_main->isReal($session)) {
-			//echo $text;
-			//$text = preg_replace('/<a href="\/'.$seoPath.'\/\?/i', '<a href="/'.$seoPath.'/?session='.$session.'&amp;', $text);
-			$text = str_replace(
-				'<a href="'.$seoPath.'/?', 
-				'<a href="'.$seoPath.'/?session='.$session.'&amp;', 
-				$text
-			);
-			//echo $text;
-			
-			if($seoFormat == 0) {
-				//$text = preg_replace('/<a href="\/'.$seoPath.'\/\index.php\//i', '<a href="/'.$seoPath.'/index.php/session:'.$session.'/', $text);
-				$text = str_replace(
-					'<a href="'.$seoPath.'/index.php/', 
-					'<a href="'.$seoPath.'/index.php/session:'.$session.'/', 
-					$text
-				);
-			}
-			else {
-				//$text = preg_replace('/<a href="\/'.$seoPath.'\/\index.php\//i', '<a href="/'.$seoPath.'/index.php/session/'.$session.'/', $text);
-				$text = str_replace(
-					'<a href="'.$seoPath.'/index.php/', 
-					'<a href="'.$seoPath.'/index.php/session/'.$session.'/', 
-					$text
-				);
-			}
-		}
-		
-		return $text;
-	}
 	
 	
 	
@@ -1221,7 +1259,7 @@ class tcms_wikiparser {
 		$this->content = $this->_parseHeader($this->content);
 		$this->content = $this->_parseList($this->content);
 		$this->content = $this->_parseUrl($this->content);
-		//$this->content = $this->_parseImages($this->content);
+		$this->content = $this->_parseImages($this->content);
 		//$this->content = $this->_parseCenter($this->content);
 		//$this->content = $this->_parseLeft($this->content);
 		//$this->content = $this->_parseRight($this->content);
@@ -1233,152 +1271,6 @@ class tcms_wikiparser {
 		//$this->content = $this->_parseFilter($this->content);
 		
 		return $this->content;
-	}
-	
-	
-	
-	/**
-	 * Parse the php tags
-	 * 
-	 * @param String $text
-	 * @param Boolean $onlyClear = false
-	 * @return String
-	 */
-	public function doParsePHP($text, $onlyClear = false) {
-		$out1 = '';
-		$out = '';
-		
-		//if($onlyClear) {
-			//$text = str_replace('{php:}', '', $text);
-			//return str_replace('{:php}', '', $text);
-		//}
-		//else {
-		$wordCount = $this->_countWords($text, '{php:}');
-		
-		//echo '<br>'.$wordCount.'<br>';
-		
-		
-		/*
-			nothing found
-		*/
-		if($wordCount == 0) {
-			if(!$onlyClear) {
-				echo $text;
-			}
-			else {
-				return $text;
-			}
-		}
-		/*
-			one php-block found
-		*/
-		else if($wordCount == 1) {
-			$out1 = substr($text, 0, strpos($text, '{php:}'));
-			
-			if(!$onlyClear) {
-				echo $out1;
-			}
-			else {
-				$out .= $out1;
-			}
-			
-			if(!$onlyClear) {
-				$phpCode = substr(
-					$text, 
-					strpos($text, '{php:}') + 6, 
-					strpos($text, '{:php}') - ((strpos($text, '{php:}') + 6))
-				);
-				
-				eval($phpCode);
-			}
-			
-			$out2 = substr($text, strpos($text, '{:php}') + 6);
-			
-			if(!$onlyClear) {
-				echo $out2;
-			}
-			else {
-				$out .= $out2;
-			}
-		}
-		/*
-			more php-block's found
-		*/
-		else if($wordCount > 1) {
-			$currentPos = 0;
-			$posStart = 0;
-			$posEnd = 0;
-			$go = true;
-			$count = 0;
-			
-			//echo '<br>len:'.strlen($text).'<br>';
-			
-			while($go) {
-				$posStart = strpos($text, '{php:}', $posStart);
-				$posEnd = strpos($text, '{:php}', $posEnd);
-				
-				if(strpos($text, '{php:}', $posStart) === false
-				&& $go === true) {
-					$go = false;
-				}
-				else {
-					#echo '<br>ps:'.$posStart.'<br>';
-					#echo 'pe:'.$posEnd.'<br>';
-					#echo 'cp:'.$currentPos.'<br>';
-					
-					
-					$posStart += 6;
-					
-					$out1 = substr($text, $currentPos, $posStart - $currentPos);
-					
-					//$out2 = substr($text, $posEnd + 6, );
-					
-					$out1 = str_replace('{php:}', '', $out1);
-					$out1 = str_replace('{:php}', '', $out1);
-					
-					//echo '<hr class="hr_line">1: '.$out1.'<br><hr class="hr_line">php: ';
-					//echo eval($phpCode).'<br>';
-					//echo ' :php<hr class="hr_line"><br>';
-					
-					//$out .= $out1.eval($phpCode);
-					if(!$onlyClear) {
-						echo $out1;
-					}
-					else {
-						$out .= $out1;
-					}
-					
-					if(!$onlyClear) {
-						$phpCode = substr(
-							$text, 
-							$posStart, 
-							$posEnd - ($posStart)
-						);
-						
-						eval($phpCode);
-					}
-					
-					$posEnd += 6;
-					$posStart = $posEnd;
-					$currentPos = $posEnd;
-					
-					$count++;
-					
-					if($count == $wordCount) {
-						$go = false;
-					}
-				}
-			}
-			
-			if(!$onlyClear) {
-				echo substr($text, $currentPos, strlen($text) - $currentPos);
-			}
-			else {
-				$out .= substr($text, $currentPos, strlen($text) - $currentPos);
-				return $out;
-			}
-		}
-		//}
 	}
 }
 
