@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a footer.
  *
- * @version 0.5.4
+ * @version 0.5.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -55,7 +55,7 @@ echo '<br />';
 */
 if($tcms_config->showDefaultFooterText()) {
 	echo '<span class="legal">'._ABOUT_POWERED_BY.'&nbsp;'
-	.'<a title="'._ABOUT_POWERED_BY.' '.$tcms_version->getName().' - '.$tcms_version->getTagline().'!" class="legal" href="http://www.toendacms.com" target="_blank">'.$tcms_version->getName().'</a>&nbsp;&copy;&nbsp;'.$toenda_copyright.'&nbsp;'
+	.'<a title="'._ABOUT_POWERED_BY.' '.$tcms_version->getName().' - '.$tcms_version->getTagline().'!" class="legal" href="http://www.toendacms.org" target="_blank">'.$tcms_version->getName().'</a>&nbsp;&copy;&nbsp;'.$toenda_copyright.'&nbsp;'
 	.'<a title="'._ABOUT_POWERED_BY.' '.$tcms_version->getName().' - '.$tcms_version->getTagline().'!" class="legal" href="http://www.toenda.com" target="_blank">Toenda Software Development</a>.&nbsp;'
 	._TCMS_ADMIN_RIGHT.'<br />'.$tcms_version->getName().' - '.$tcms_version->getTagline().'! '._ABOUT_FREE_SOFTWARE.'</span><br />';
 }
@@ -90,7 +90,7 @@ if($tcms_config->showTCMSLogo()) {
 	
 	echo '<div>'
 	.'<br />'
-	.'<a title="'._ABOUT_POWERED_BY.' '.$tcms_version->getName().' - '.$tcms_version->getTagline().'!" class="legal" href="http://www.toendacms.com" target="_blank">'
+	.'<a title="'._ABOUT_POWERED_BY.' '.$tcms_version->getName().' - '.$tcms_version->getTagline().'!" class="legal" href="http://www.toendacms.org" target="_blank">'
 	.'<img align="center" '
 	.'alt="'._ABOUT_POWERED_BY.' '.$tcms_version->getName().' - '.$tcms_version->getTagline().'!" '
 	.'title="'._ABOUT_POWERED_BY.' '.$tcms_version->getName().' - '.$tcms_version->getTagline().'!" '
@@ -161,7 +161,7 @@ if($tcms_config->showValidationLinks()) {
 	.'&nbsp;';
 	
 	echo '<a title="'._FOOTER_VALID_ANY_BROWSER.'" '
-	.'class="legal" href="http://toendacms.com/index.php/en/articles.html?cmd=detail&amp;article=0de66f4a19" target="_blank">'
+	.'class="legal" href="http://toendacms.org/index.php/en/articles.html?cmd=detail&amp;article=0de66f4a19" target="_blank">'
 	.'<img align="center" '
 	.'alt="'._FOOTER_VALID_ANY_BROWSER.'" '
 	.'title="'._FOOTER_VALID_ANY_BROWSER.'" '

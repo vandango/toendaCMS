@@ -22,7 +22,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a media manager.
  *
- * @version 0.1.6
+ * @version 0.1.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -105,7 +105,7 @@ echo '<tr><td>'
 .'<img border="0" src="../images/web.gif" align="left" />'
 .'<strong>toendaCMS Forum: </strong>'
 .'</td><td>'
-.'<a class="blog" href="http://forum.toendacms.com" target="_blank">forum.toendacms.com</a>'
+.'<a class="blog" href="http://forum.toendacms.org" target="_blank">forum.toendacms.org</a>'
 .'</td></tr>';
 
 
@@ -113,7 +113,7 @@ echo '<tr><td>'
 .'<img border="0" src="../images/web.gif" align="left" />'
 .'<strong>toendaCMS Wiki: </strong>'
 .'</td><td>'
-.'<a class="blog" href="http://wiki.toendacms.com" target="_blank">wiki.toendacms.com</a>'
+.'<a class="blog" href="http://wiki.toendacms.org" target="_blank">wiki.toendacms.org</a>'
 .'</td></tr>';
 
 
@@ -121,7 +121,7 @@ echo '<tr><td>'
 .'<img border="0" src="../images/web.gif" align="left" />'
 .'<strong>'._ABOUT_URL.': </strong>'
 .'</td><td>'
-.'<a class="blog" href="http://demo.toendacms.com" target="_blank">demo.toendacms.com</a>'
+.'<a class="blog" href="http://demo.toendacms.org" target="_blank">demo.toendacms.org</a>'
 .'</td></tr>';
 
 
@@ -129,7 +129,7 @@ echo '<tr><td>'
 .'<img border="0" src="../images/web.gif" align="left" />'
 .'<strong>'._ABOUT_URL_DOWNLOAD.': </strong>'
 .'</td><td>'
-.'<a class="blog" href="http://www.toendacms.com" target="_blank">www.toendacms.com</a>'
+.'<a class="blog" href="http://www.toendacms.org" target="_blank">www.toendacms.org</a>'
 .'</td></tr>';
 
 

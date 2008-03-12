@@ -143,7 +143,7 @@ echo '
  '.$cms_name.' is a free open source Content Management Framework created by Jonathan Naumann and licensed under the GNU/GPL license.
  '.$cms_name.' is copyright (c) '.$toenda_copy.' of Toenda Software Development.
  Components are copyright (c) of their respective owners.
- Information and contribution at http://toendacms.com
+ Information and contribution at http://www.toendacms.org
 -->
 <meta name="generator" content="'.$cms_name.' - '.$cms_tagline.' | Copyright '.$toenda_copy.' Toenda Software Development. '._TCMS_ADMIN_RIGHT.'" />
 <link href="theme/'.$adminTheme.'/tcms_main.css" rel="stylesheet" type="text/css" />

@@ -28,7 +28,7 @@ Version 2.0
 Developer Version
 	- 1.9.0 Development
 
-Building Steps: 4580
+Building Steps: 4590
 
 
 
@@ -79,6 +79,7 @@ Building Steps: 4580
  - added: Global Content datacontainer to get the id, title, subtitle, text and footnote of
           each content element.
  - added: SEO format 4 (clean .html-format) is now available. Its cleanup the index.php name from the url.
+ - added: WikiSyntax (experimental)
  - added: 
  
 

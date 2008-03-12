@@ -25,7 +25,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used for loading some framework
  * files.
  *
- * @version 0.1.2
+ * @version 0.1.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel

@@ -1026,7 +1026,7 @@ if(!defined('_ABOUTMOD_DESCRIPTION'))          define('_ABOUTMOD_DESCRIPTION', '
 // ABOUT
 if(!defined('_ABOUT_TITLE'))                   define('_ABOUT_TITLE', 'toendaCMS - Your ideas ahead! - Open Source Content Management Framework');
 if(!defined('_ABOUT_TEXT'))                    define('_ABOUT_TEXT', 'toendaCMS ist ein freies Open Source Content Management Framework basierend auf PHP4, PHP5, XML und verschiedenen Datenbank Servern.');
-if(!defined('_ABOUT_TEXT2'))                   define('_ABOUT_TEXT2', 'Lesen Sie sich f&#252;r n&#228;here Informationen <a class="tcms_about" href="http://www.toendacms.com/">http://www.toendacms.com/</a> an. toendaCMS wird mit ABSOLUT KEINER GARANTIE ver&#246;ffentlicht. Dies ist freie Software und Sie haben die Freiheit es unter bestimmten Bedingungen zu verteilen. Diese Nachricht darf nicht entfernt werden, dies ist per Gesetz verboten.');
+if(!defined('_ABOUT_TEXT2'))                   define('_ABOUT_TEXT2', 'Lesen Sie sich f&#252;r n&#228;here Informationen <a class="tcms_about" href="http://www.toendacms.org/">http://www.toendacms.org/</a> an. toendaCMS wird mit ABSOLUT KEINER GARANTIE ver&#246;ffentlicht. Dies ist freie Software und Sie haben die Freiheit es unter bestimmten Bedingungen zu verteilen. Diese Nachricht darf nicht entfernt werden, dies ist per Gesetz verboten.');
 if(!defined('_ABOUT_EMAIL_INFO'))              define('_ABOUT_EMAIL_INFO', 'Information und Technischer Support');
 if(!defined('_ABOUT_EMAIL_BUG'))               define('_ABOUT_EMAIL_BUG', 'Bugs melden');
 if(!defined('_ABOUT_URL_DEVELOPMENT'))         define('_ABOUT_URL_DEVELOPMENT', 'toendaCMS Entwicklung');

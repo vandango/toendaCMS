@@ -261,7 +261,7 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 	 '.$tcms_version->getName().' is a free open source Content Management Framework created by Jonathan Naumann and licensed under the GNU/GPL license.
 	 '.$tcms_version->getName().' is copyright (c) '.$tcms_version->getToendaCopyright().' of Toenda Software Development.
 	 Components are copyright (c) of their respective owners.
-	 Information and contribution at http://www.toendacms.com
+	 Information and contribution at http://www.toendacms.org
 	-->
 	
 	<style>
