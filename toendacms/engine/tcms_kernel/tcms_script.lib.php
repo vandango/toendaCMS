@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a parser and a base class
  * for the toendaScript.
  * 
- * @version 0.8.4
+ * @version 0.8.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -100,7 +100,7 @@ class toendaScript {
 	 *
 	 * @param String $content
 	 */
-	public function __construct($content = ''){
+	public function __construct($content = '') {
 		$this->content = $content;
 	}
 	
@@ -596,6 +596,13 @@ class toendaScript {
 	 * @return String
 	 */
 	public function removeTcmsMoreTag($newsContent, $withCssImage = false){
+		$newsContent = str_replace('{tcms_more}<br>', '{tcms_more}', $newsContent);
+		$newsContent = str_replace('{tcms_more}<br/>', '{tcms_more}', $newsContent);
+		$newsContent = str_replace('{tcms_more}<br />', '{tcms_more}', $newsContent);
+		$newsContent = str_replace('{tcms_more}<BR>', '{tcms_more}', $newsContent);
+		$newsContent = str_replace('{tcms_more}<BR/>', '{tcms_more}', $newsContent);
+		$newsContent = str_replace('{tcms_more}<BR />', '{tcms_more}', $newsContent);
+		
 		return str_replace(
 			'{tcms_more}', 
 			( $withCssImage ? '<div class="tcms_more"></div>' : '' ), 
@@ -680,27 +687,36 @@ class toendaScript {
 	 * 
 	 * @return String
 	 */
-	public function doParse(){
-		$this->content = $this->_parseImages($this->content);
-		$this->content = $this->_parseLinebreaks($this->content);
-		$this->content = $this->_parseRules($this->content);
-		$this->content = $this->_parseBold($this->content);
-		$this->content = $this->_parseItalize($this->content);
-		$this->content = $this->_parseCenter($this->content);
-		$this->content = $this->_parseLeft($this->content);
-		$this->content = $this->_parseRight($this->content);
-		$this->content = $this->_parseUnderline($this->content);
-		$this->content = $this->_parseHeader($this->content);
-		$this->content = $this->_parseBlockquote($this->content);
-		$this->content = $this->_parseTeletyper($this->content);
-		$this->content = $this->_parseUl($this->content);
-		$this->content = $this->_parseOl($this->content);
-		$this->content = $this->_parseLi($this->content);
-		$this->content = $this->_parseFontColor($this->content);
-		$this->content = $this->_parseUrl($this->content);
-		$this->content = $this->_parseExt($this->content);
-		$this->content = $this->_parseFilter($this->content);
-		$this->content = $this->_parseIfThenElse($this->content);
+	public function doParse() {
+		global $tcms_config;
+		
+		if($tcms_config->getWYSIWYGEditor() == 'Wiki') {
+			$wiki = new tcms_wikiparser($this->content);
+			$this->content = $wiki->doParse();
+			unset($wiki);
+		}
+		else {
+			$this->content = $this->_parseImages($this->content);
+			$this->content = $this->_parseLinebreaks($this->content);
+			$this->content = $this->_parseRules($this->content);
+			$this->content = $this->_parseBold($this->content);
+			$this->content = $this->_parseItalize($this->content);
+			$this->content = $this->_parseCenter($this->content);
+			$this->content = $this->_parseLeft($this->content);
+			$this->content = $this->_parseRight($this->content);
+			$this->content = $this->_parseUnderline($this->content);
+			$this->content = $this->_parseHeader($this->content);
+			$this->content = $this->_parseBlockquote($this->content);
+			$this->content = $this->_parseTeletyper($this->content);
+			$this->content = $this->_parseUl($this->content);
+			$this->content = $this->_parseOl($this->content);
+			$this->content = $this->_parseLi($this->content);
+			$this->content = $this->_parseFontColor($this->content);
+			$this->content = $this->_parseUrl($this->content);
+			$this->content = $this->_parseExt($this->content);
+			$this->content = $this->_parseFilter($this->content);
+			$this->content = $this->_parseIfThenElse($this->content);
+		}
 		
 		return $this->content;
 	}

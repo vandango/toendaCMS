@@ -21,7 +21,7 @@
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 0.7.3
+ * @version 0.7.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -493,6 +493,9 @@ if(isset($id_user)) {
 								if($show_wysiwyg == 'toendaScript') {
 									$cmdImage = 'setImageNLTaglist(\''.$dvalue2.'\', \'content\', \'toendaScript\', \''.$rTemp.'\', \''.$tagList.'\')';
 								}
+								else if($show_wysiwyg == 'Wiki') {
+									$cmdImage = 'setImageNLTaglist(\''.$dvalue2.'\', \'content\', \'Wiki\', \''.$rTemp.'\', \''.$tagList.'\')';
+								}
 								else {
 									$cmdImage = 'setImageNLTaglist(\''.$dvalue2.'\', \'content\', \'HTML\', \''.$rTemp.'\', \''.$tagList.'\')';
 								}
@@ -500,6 +503,9 @@ if(isset($id_user)) {
 							else {
 								if($show_wysiwyg == 'toendaScript') {
 									$cmdImage = 'setImageTaglist(\''.$rTemp.$dvalue2.'\', \'content\', \'toendaScript\', \''.$tagList.'\')';
+								}
+								else if($show_wysiwyg == 'Wiki') {
+									$cmdImage = 'setImageTaglist(\''.$rTemp.$dvalue2.'\', \'content\', \'Wiki\', \''.$tagList.'\')';
 								}
 								else {
 									$cmdImage = 'setImageTaglist(\''.$rTemp.$dvalue2.'\', \'content\', \'HTML\', \''.$tagList.'\')';
@@ -533,6 +539,9 @@ if(isset($id_user)) {
 								if($show_wysiwyg == 'toendaScript') {
 									$cmdImage = 'setImageTaglist(\''.$dvalue2.'\', \'content\', \'toendaScript\', \''.$tagList.'\')';
 								}
+								else if($show_wysiwyg == 'Wiki') {
+									$cmdImage = 'setImageTaglist(\''.$dvalue2.'\', \'content\', \'Wiki\', \''.$tagList.'\')';
+								}
 								else {
 									$cmdImage = 'setImageTaglist(\''.$dvalue2.'\', \'content\', \'HTML\', \''.$tagList.'\')';
 								}
@@ -558,6 +567,9 @@ if(isset($id_user)) {
 							if($show_wysiwyg == 'toendaScript') {
 								$cmdImage = 'setLink(\''.$rTemp.$dvalue2.'\', \''.$dvalue.'\', \'content\', \'toendaScript\')';
 							}
+							else if($show_wysiwyg == 'Wiki') {
+								$cmdImage = 'setLink(\''.$rTemp.$dvalue2.'\', \''.$dvalue.'\', \'content\', \'Wiki\')';
+							}
 							else {
 								$cmdImage = 'setLink(\''.$rTemp.$dvalue2.'\', \''.$dvalue.'\', \'content\', \'HTML\')';
 							}
@@ -569,6 +581,9 @@ if(isset($id_user)) {
 							else {
 								if($show_wysiwyg == 'toendaScript') {
 									$cmdImage = 'setLink(\''.$dvalue2.'\', \''.$dvalue.'\', \'content\', \'toendaScript\')';
+								}
+								else if($show_wysiwyg == 'Wiki') {
+									$cmdImage = 'setLink(\''.$dvalue2.'\', \''.$dvalue.'\', \'content\', \'Wiki\')';
 								}
 								else {
 									$cmdImage = 'setLink(\''.$dvalue2.'\', \''.$dvalue.'\', \'content\', \'HTML\')';

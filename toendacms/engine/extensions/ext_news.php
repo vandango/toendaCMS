@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a news manager with a news,
  * a news view and a archive with different formats.
  *
- * @version 1.6.9
+ * @version 1.7.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -480,20 +480,11 @@ if($news != ''
 		// text
 		$news_content = $dcNews->getText();
 		
-		if($tcms_config->getWYSIWYGEditor() == 'Wiki') {
-			$wiki = new tcms_wikiparser($news_content);
-			$news_content = $wiki->doParse();
-			$news_content = $wiki->removeTcmsMoreTag($news_content, true);
-			$news_content = $wiki->checkSEO($news_content, $imagePath);
-			unset($wiki);
-		}
-		else {
-			$toendaScript = new toendaScript($news_content);
-			$news_content = $toendaScript->doParse();
-			$news_content = $toendaScript->removeTcmsMoreTag($news_content, true);
-			$news_content = $toendaScript->checkSEO($news_content, $imagePath);
-			unset($toendaScript);
-		}
+		$toendaScript = new toendaScript($news_content);
+		$news_content = $toendaScript->doParse();
+		$news_content = $toendaScript->removeTcmsMoreTag($news_content, true);
+		$news_content = $toendaScript->checkSEO($news_content, $imagePath);
+		unset($toendaScript);
 		
 		$entryText = $news_content;
 		
