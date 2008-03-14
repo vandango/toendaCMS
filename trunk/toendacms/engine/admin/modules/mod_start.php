@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a a personal startpage.
  *
- * @version 0.2.
+ * @version 0.3.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -35,25 +35,85 @@ echo '<div>'
 .'<h3>'._START_MSG.' '.$id_name.'</h3>'
 .'</div>';
 
+
+// sys info
+if($choosenDB == 'xml') {
+	$statDBName = _DB_XML;
+	$statDBValue = 'XML database is online';
+}
+else {
+	$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+	$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+	
+	switch($choosenDB) {
+		case 'mysql':
+			$statDBName = _DB_MYSQL;
+			$statDBValue = $sqlAL->getStats();
+			
+			$statDBValue = preg_replace('/  /i', '<br />', $statDBValue);
+			//$statDBValue = preg_replace('/:<br \/>/i', ': ', $statDBValue);
+			//$statDBValue = preg_replace('/<br \/><br \/>/i', '<br />', $statDBValue);
+			$statDBValue = str_replace('Queries per second avg:', 'Queries per second:', $statDBValue);
+			break;
+		
+		case 'pgsql':
+			$statDBName = _DB_PGSQL;
+			$sqlQR = $sqlAL->query('SHOW SERVER_VERSION');
+			$sqlARR = $sqlAL->fetchArray($sqlQR);
+			$statDBValue = $sqlARR[0];
+			break;
+		
+		case 'mssql':
+			$statDBName = _DB_MSSQL;
+			$statDBValue = 'Not yet implemented!';
+			break;
+	}
+}
+
 echo '<hr class="box-hr" />'
 .'<div class="column span-first">'
 .'<div class="column span-first" id="box-header">'
 .'<h3>'._TABLE_SYS_INFO.'</h3>'
 ._TABLE_YOU_ARE_RUNNING.' '.$cms_name.' '._TCMS_ADMIN_VER.' '.$release.' ['.$codename.']'
+.'<br />'
+.'<br />'
+.'<table id="site-stats" width="100%" cellspacing="0">'
+.'<tr>'
+.'<td valign="top">'._STATS_DATA_DIR_SIZE.'</td>'
+.'<td>'.$tcms_file->getDirectorySizeString(_TCMS_PATH).'</td>'
+.'</tr>'
+.'<tr>'
+.'<td valign="top">'.$statDBName.'</td>'
+.'<td>'.$statDBValue.'</td>'
+.'</tr>'
+.'</table>'
 .'</div>';
 
+
+// site stats
 $arrNewsStats = $tcms_dcp->getNewsStatistics($id_uid);
 
 echo ' <div class="column span-first" id="box-header">'
 .'<h3>'._TABLE_SITE_STATS.'</h3>'
 .'<table id="site-stats" width="100%" cellspacing="0">'
-.'<tr><td>'._TABLE_NUM_OF_NEWS.'</td><td>'.$arrNewsStats['news_amount'].'</td></tr>'
-.'<tr><td>'._TABLE_NUM_OF_YOUR_NEWS.'</td><td>'.$arrNewsStats['your_news_amount'].'</td></tr>'
-.'<tr><td>'._TABLE_NUM_OF_COMMENTS.'</td><td>'.$arrNewsStats['comment_amount'].'</td></tr>'
+.'<tr>'
+.'<td valign="top">'._TABLE_NUM_OF_NEWS.'</td>'
+.'<td>'.$arrNewsStats['news_amount'].'</td>'
+.'</tr>'
+.'<tr>'
+.'<td valign="top">'._TABLE_NUM_OF_YOUR_NEWS.'</td>'
+.'<td>'.$arrNewsStats['your_news_amount'].'</td>'
+.'</tr>'
+.'<tr>'
+.'<td valign="top">'._TABLE_NUM_OF_COMMENTS.'</td>'
+.'<td>'.$arrNewsStats['comment_amount'].'</td>'
+.'</tr>'
 .'</table>'
 .'</div>'
 .'</div>';
 
+
+// tasks
 echo '<div class="column prepend" id="box-header">'
 .'<h3>'._START_QUESTION.'</h3>'
 .'<table cellpadding="0" cellspacing="0" border="0" width="500" class="noborder">'

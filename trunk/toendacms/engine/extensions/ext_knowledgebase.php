@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a Knowledgebase / FAQ and Article database.
  *
- * @version 0.5.2
+ * @version 0.5.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -44,7 +44,9 @@ $kDC = $tcms_dcp->getKnowledgebaseDC($getLang);
 // -------------------------------------------------
 
 if($kDC->getEnabled()) {
-	if(!isset($cmd) || $cmd == 'showall') $cmd = 'list';
+	if(!isset($cmd) || $cmd == 'showall') {
+		$cmd = 'list';
+	}
 	
 	
 	if($cmd == 'list') {
@@ -65,7 +67,7 @@ if($kDC->getEnabled()) {
 			}
 			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				switch($is_admin) {
 					case 'Developer':
@@ -233,7 +235,7 @@ if($kDC->getEnabled()) {
 		}
 		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			switch($is_admin) {
 				case 'Developer':
@@ -510,7 +512,7 @@ if($kDC->getEnabled()) {
 			}
 			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'knowledgebase', $category);
 				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
@@ -574,7 +576,7 @@ if($kDC->getEnabled()) {
 			}
 			else {
 				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				switch($is_admin) {
 					case 'Developer':
@@ -611,17 +613,17 @@ if($kDC->getEnabled()) {
 				
 				//echo $sqlSTR.'<br />'.$sqlAL->getNumber($sqlQR);
 				
-				$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+				$sqlObj = $sqlAL->fetchObject($sqlQR);
 				
-				$arrFAQ['title']   = $sqlARR['title'];
-				$arrFAQ['subt']    = $sqlARR['subtitle'];
-				$arrFAQ['content'] = $sqlARR['content'];
-				$arrFAQ['date']    = $sqlARR['date'];
-				$arrFAQ['autor']   = $sqlARR['tusername'];
-				$arrFAQ['autorid'] = $sqlARR['autor'];
-				$arrFAQ['lup']     = $sqlARR['last_update'];
-				$arrFAQ['cat']     = $sqlARR['category'];
-				$arrFAQ['access']  = $sqlARR['access'];
+				$arrFAQ['title']   = $sqlObj->title;
+				$arrFAQ['subt']    = $sqlObj->subtitle;
+				$arrFAQ['content'] = $sqlObj->content;
+				$arrFAQ['date']    = $sqlObj->date;
+				$arrFAQ['autor']   = $sqlObj->tusername;
+				$arrFAQ['autorid'] = $sqlObj->autor;
+				$arrFAQ['lup']     = $sqlObj->last_update;
+				$arrFAQ['cat']     = $sqlObj->category;
+				$arrFAQ['access']  = $sqlObj->access;
 				
 				if($arrFAQ['title']   == NULL) { $arrFAQ['title']   = ''; }
 				if($arrFAQ['subt']    == NULL) { $arrFAQ['subt']    = ''; }
@@ -653,15 +655,22 @@ if($kDC->getEnabled()) {
 				}
 				$link = $tcms_main->urlConvertToSEO($link);
 				
-				
-				echo tcms_html::contentheading($arrFAQ['title']);//.'<br />';
+				echo $tcms_html->contentTitle($arrFAQ['title']);
 				//echo tcms_html::contentstamp(_TABLE_CATEGORY.': <a href="'.$link.'">'.$faq_cat.'</a><br />');
 				
 				if(!empty($arrFAQ)) {
 					echo '<span class="text_small">';
 					
 					echo _TABLE_CATEGORY.': <a href="'.$link.'">'.$faq_cat.'</a><br />';
-					echo _DOWNLOADS_SUBMIT_ON.': '.lang_date(substr($arrFAQ['date'], 0, 2), substr($arrFAQ['date'], 3, 2), substr($arrFAQ['date'], 6, 4), substr($arrFAQ['date'], 11, 2), substr($arrFAQ['date'], 14, 2), '');
+					
+					echo _DOWNLOADS_SUBMIT_ON.': '.lang_date(
+						substr($arrFAQ['date'], 0, 2), 
+						substr($arrFAQ['date'], 3, 2), 
+						substr($arrFAQ['date'], 6, 4), 
+						substr($arrFAQ['date'], 11, 2), 
+						substr($arrFAQ['date'], 14, 2), 
+						''
+					);
 					
 					echo '</span>'
 					.'<br />'
@@ -682,7 +691,8 @@ if($kDC->getEnabled()) {
 						$link = $tcms_main->urlConvertToSEO($link);
 					}
 					
-					$strAutor = $tcms_ap->getUsername($arrFAQ['autor']);
+					$strId = $tcms_ap->getUserID($arrFAQ['autor']);
+					$strAutor = $tcms_ap->getUsername($strId);
 					
 					// class="main"
 					echo _NEWS_WRITTEN.': '

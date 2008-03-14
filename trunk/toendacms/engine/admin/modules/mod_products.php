@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module is used for the products configuration
  * and the administration of all the products.
  *
- * @version 0.8.4
+ * @version 0.9.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -1899,10 +1899,12 @@ if($todo == 'save') {
 		$fileName = $_FILES['new_image1']['name'];
 		$imgDir = _TCMS_PATH.'/images/products/';
 		
+		$fileName = $tcms_main->cleanFilename($fileName);
+		
 		copy($_FILES['new_image1']['tmp_name'], $imgDir.$fileName);
 		
 		$msg = _MSG_UPLOAD.' '.$imgDir.$_FILES['new_image1']['name'];
-		$new_image1 = $_FILES['new_image1']['name'];
+		$new_image1 = $fileName;
 	}
 	else {
 		$msg = _MSG_NOIMAGE;
@@ -1911,6 +1913,8 @@ if($todo == 'save') {
 	
 	if($tcms_main->isReal($tmp_image1)) {
 		if($tcms_main->isReal($new_image1) && $new_image1 != '') {
+			$tmp_image1 = $tcms_main->cleanFilename($tmp_image1);
+			
 			if(file_exists(_TCMS_PATH.'/images/products/'.$tmp_image1)) {
 				$tcms_file->deleteFile(_TCMS_PATH.'/images/products/'.$tmp_image1);
 				$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_150_'.$tmp_image1);
@@ -1937,10 +1941,12 @@ if($todo == 'save') {
 		$fileName = $_FILES['new_image2']['name'];
 		$imgDir = _TCMS_PATH.'/images/products/';
 		
+		$fileName = $tcms_main->cleanFilename($fileName);
+		
 		copy($_FILES['new_image2']['tmp_name'], $imgDir.$fileName);
 		
 		$msg = _MSG_UPLOAD.' '.$imgDir.$_FILES['new_image2']['name'];
-		$new_image2 = $_FILES['new_image2']['name'];
+		$new_image2 = $fileName;
 	}
 	else {
 		$msg = _MSG_NOIMAGE;
@@ -1949,6 +1955,8 @@ if($todo == 'save') {
 	
 	if($tcms_main->isReal($tmp_image2)) {
 		if($tcms_main->isReal($new_image2) && $new_image2 != '') {
+			$tmp_image2 = $tcms_main->cleanFilename($tmp_image2);
+			
 			if(file_exists(_TCMS_PATH.'/images/products/'.$tmp_image2)) {
 				$tcms_file->deleteFile(_TCMS_PATH.'/images/products/'.$tmp_image2);
 				$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_150_'.$tmp_image2);
@@ -1975,10 +1983,12 @@ if($todo == 'save') {
 		$fileName = $_FILES['new_image3']['name'];
 		$imgDir = _TCMS_PATH.'/images/products/';
 		
+		$fileName = $tcms_main->cleanFilename($fileName);
+		
 		copy($_FILES['new_image3']['tmp_name'], $imgDir.$fileName);
 		
 		$msg = _MSG_UPLOAD.' '.$imgDir.$_FILES['new_image3']['name'];
-		$new_image3 = $_FILES['new_image3']['name'];
+		$new_image3 = $fileName;
 	}
 	else {
 		$msg = _MSG_NOIMAGE;
@@ -1987,6 +1997,8 @@ if($todo == 'save') {
 	
 	if($tcms_main->isReal($tmp_image3)) {
 		if($tcms_main->isReal($new_image3) && $new_image3 != '') {
+			$tmp_image3 = $tcms_main->cleanFilename($tmp_image3);
+			
 			if(file_exists(_TCMS_PATH.'/images/products/'.$tmp_image3)) {
 				$tcms_file->deleteFile(_TCMS_PATH.'/images/products/'.$tmp_image3);
 				$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_150_'.$tmp_image3);
@@ -2013,10 +2025,12 @@ if($todo == 'save') {
 		$fileName = $_FILES['new_image4']['name'];
 		$imgDir = _TCMS_PATH.'/images/products/';
 		
+		$fileName = $tcms_main->cleanFilename($fileName);
+		
 		copy($_FILES['new_image4']['tmp_name'], $imgDir.$fileName);
 		
 		$msg = _MSG_UPLOAD.' '.$imgDir.$_FILES['new_image4']['name'];
-		$new_image4 = $_FILES['new_image4']['name'];
+		$new_image4 = $fileName;
 	}
 	else {
 		$msg = _MSG_NOIMAGE;
@@ -2025,6 +2039,8 @@ if($todo == 'save') {
 	
 	if($tcms_main->isReal($tmp_image4)) {
 		if($tcms_main->isReal($new_image4) && $new_image4 != '') {
+			$tmp_image4 = $tcms_main->cleanFilename($tmp_image4);
+			
 			if(file_exists(_TCMS_PATH.'/images/products/'.$tmp_image4)) {
 				$tcms_file->deleteFile(_TCMS_PATH.'/images/products/'.$tmp_image4);
 				$tcms_file->deleteFile(_TCMS_PATH.'/images/products_thumb/thumb_150_'.$tmp_image4);

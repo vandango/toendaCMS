@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used as a Knowledgebase.
  *
- * @version 0.6.2
+ * @version 0.6.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -881,7 +881,7 @@ if($todo == 'edit') {
 	echo '<tr><td valign="top" colspan="2"><br />'
 	.'<strong class="tcms_bold">'._TABLE_TEXT.' ('._TCMS_MENU_FAQ.' '._TABLE_ORDER.': '.$maintag.')</strong>'
 	.( $show_wysiwyg != 'fckeditor' ? '<br /><br />' : '' )
-	.( $type == 'a' ? '<script>createToendaToolbar(\'faq\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');</script>' : '' );
+	.( $type == 'a' ? '<script>createToendaToolbar(\'faq\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'&v=faq\', \'\', \''.$id_user.'\');</script>' : '' );
 	
 	if($type == 'a') {
 		if($show_wysiwyg != 'tinymce' && $show_wysiwyg != 'fckeditor') {
@@ -897,14 +897,16 @@ if($todo == 'edit') {
 		}
 	}
 	else {
-		if($show_wysiwyg == 'toendaScript') {
-			echo '<script>createToolbar(\'faq\', \''.$tcms_lang.'\', \'toendaScript\');</script>';
-		}
-		else if($show_wysiwyg == 'Wiki') {
-			echo '<script>createToolbar(\'faq\', \''.$tcms_lang.'\', \'Wiki\');</script>';
-		}
-		else {
-			echo '<script>createToolbar(\'faq\', \''.$tcms_lang.'\', \'HTML\');</script>';
+		if($show_wysiwyg != 'tinymce' && $show_wysiwyg != 'fckeditor') {
+			if($show_wysiwyg == 'toendaScript') {
+				echo '<script>createToolbar(\'faq\', \''.$tcms_lang.'\', \'toendaScript\');</script>';
+			}
+			else if($show_wysiwyg == 'Wiki') {
+				echo '<script>createToolbar(\'faq\', \''.$tcms_lang.'\', \'Wiki\');</script>';
+			}
+			else {
+				echo '<script>createToolbar(\'faq\', \''.$tcms_lang.'\', \'HTML\');</script>';
+			}
 		}
 	}
 	
@@ -1027,8 +1029,11 @@ if($todo == 'edit') {
 	// access
 	echo '<strong class="tcms_bold">'._TABLE_IMAGE.'</strong>';
 	
-	echo '<br /><input type="button" name="tcms" value="'._TCMSSCRIPT_IMAGES.'" onclick="window.open(\'media.php?id_user='.$id_user.'&v=faq&faq=faq\', \'ImageBrowser\', \'width=400,height=500,left=50,top=50,scrollbars=yes\');" />'
-	.'<input type="button" name="tcms" value="'._EXT_NEWS_DESELECT.'" onclick="document.getElementById(\'faq_img\').src=\'\';document.getElementById(\'new_faq_img\').value=\'\';document.getElementById(\'faq_img\').style.display=\'none\';" />'
+	echo '<br />'
+	.'<input type="button" name="tcms" value="'._TCMSSCRIPT_IMAGES.'"'
+	.' onclick="window.open(\'media.php?id_user='.$id_user.'&v=faq&faq=faq\', \'ImageBrowser\', \'width=400,height=500,left=50,top=50,scrollbars=yes\');" />'
+	.'<input type="button" name="tcms" value="'._EXT_NEWS_DESELECT.'"'
+	.' onclick="document.getElementById(\'faq_img\').src=\'\';document.getElementById(\'new_faq_img\').value=\'\';document.getElementById(\'faq_img\').style.display=\'none\';" />'
 	.'<br />';
 	
 	if(isset($new_faq_img)) { $arrFAQ_img = $new_faq_img; }

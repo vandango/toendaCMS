@@ -23,20 +23,20 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a statistics provider.
  *
- * @version 0.3.4
+ * @version 0.3.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
  */
 
 
-if(isset($_GET['old_engine'])){ $old_engine = $_GET['old_engine']; }
-if(isset($_GET['action'])){ $action = $_GET['action']; }
-if(isset($_GET['reset'])){ $reset = $_GET['reset']; }
+if(isset($_GET['old_engine'])) { $old_engine = $_GET['old_engine']; }
+if(isset($_GET['action'])) { $action = $_GET['action']; }
+if(isset($_GET['reset'])) { $reset = $_GET['reset']; }
 
-if(isset($_POST['old_engine'])){ $old_engine = $_POST['old_engine']; }
-if(isset($_POST['action'])){ $action = $_POST['action']; }
-if(isset($_POST['reset'])){ $reset = $_POST['reset']; }
+if(isset($_POST['old_engine'])) { $old_engine = $_POST['old_engine']; }
+if(isset($_POST['action'])) { $action = $_POST['action']; }
+if(isset($_POST['reset'])) { $reset = $_POST['reset']; }
 
 
 
@@ -47,49 +47,11 @@ echo '<script type="text/javascript" src="../js/tabs/tabpane.js"></script>
 
 
 if($id_group == 'Developer' 
-|| $id_group == 'Administrator'){
+|| $id_group == 'Administrator') {
 	/*
 		init
 	*/
-	$c_xml      = new xmlparser(_TCMS_PATH.'/tcms_global/var.xml', 'r');
-	$statistics = $c_xml->read_section('global', 'statistics');
-	
-	
-	
-	if($choosenDB == 'xml'){
-		echo '<strong>'._DB_XML.'</strong>: XML database is online<br />';
-		echo '<strong>'._DB_XML.' '._GALLERY_IMGSIZE.'</strong>: '
-		.$tcms_file->getDirectorySizeString(_TCMS_PATH).'<br /><br />';
-	}
-	else{
-		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-		
-		
-		/*
-			database
-		*/
-		switch($choosenDB){
-			case 'mysql':
-				//$sqlQR = $sqlAL->sqlQuery('show status');
-				echo '<strong>'._DB_MYSQL.'</strong>: '.$sqlAL->getStats().'<br />';
-				break;
-			
-			case 'pgsql':
-				$sqlQR = $sqlAL->query('SHOW SERVER_VERSION');
-				$sqlARR = $sqlAL->fetchArray($sqlQR);
-				echo '<strong>'._DB_PGSQL.'</strong>: Server version '.$sqlARR[0].' ( More state information not yet implemented )<br />';
-				break;
-			
-			case 'mssql':
-				echo '<strong>'._DB_PGSQL.'</strong>: ( State information not yet implemented )<br />';
-				break;
-		}
-		
-		
-		echo '<strong>'._DB_XML.' '._GALLERY_IMGSIZE.'</strong>: '
-		.$tcms_file->getDirectorySizeString(_TCMS_PATH).'<br /><br />';
-	}
+	$statistics = $tcms_config->getStatistics();
 	
 	
 	
@@ -99,7 +61,7 @@ if($id_group == 'Developer'
 		echo '</h3>';
 	}
 	else {
-		if($choosenDB == 'xml'){
+		if($choosenDB == 'xml') {
 			//echo '<strong>'._DB_XML.'</strong>: XML database is online<br />';
 			//echo '<strong>'._DB_XML.' '._GALLERY_IMGSIZE.'</strong>: '
 			//.$tcms_file->getDirectorySizeString(_TCMS_PATH).'<br /><br />';
@@ -108,8 +70,8 @@ if($id_group == 'Developer'
 			
 			$arr_statfiles = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_statistics/');
 			
-			if(!empty($arr_statfiles) && $arr_statfiles != '' && isset($arr_statfiles)){
-				foreach($arr_statfiles as $key => $value){
+			if(!empty($arr_statfiles) && $arr_statfiles != '' && isset($arr_statfiles)) {
+				foreach($arr_statfiles as $key => $value) {
 					$statXML = new xmlparser(_TCMS_PATH.'/tcms_statistics/'.$value, 'r');
 					$stat_value = $statXML->read_value('value');
 					$statsum += $stat_value;
@@ -154,8 +116,8 @@ if($id_group == 'Developer'
 			
 			$arr_statfiles = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_statistics/');
 			
-			if(!empty($arr_statfiles) && $arr_statfiles != '' && isset($arr_statfiles)){
-				foreach($arr_statfiles as $key => $value){
+			if(!empty($arr_statfiles) && $arr_statfiles != '' && isset($arr_statfiles)) {
+				foreach($arr_statfiles as $key => $value) {
 					$statXML = new xmlparser(_TCMS_PATH.'/tcms_statistics/'.$value, 'r');
 					
 					$arr_stat['host'][$key]      = $statXML->read_value('host');
@@ -164,16 +126,16 @@ if($id_group == 'Developer'
 					$arr_stat['referrer'][$key]  = $statXML->read_value('referrer');
 					$arr_stat['timestamp'][$key] = $statXML->read_value('timestamp');
 					
-					if($arr_stat['host'][$key]      == false){ $arr_stat['host'][$key]      = ''; }
-					if($arr_stat['site_url'][$key]  == false){ $arr_stat['site_url'][$key]  = ''; }
-					if($arr_stat['value'][$key]     == false){ $arr_stat['value'][$key]     = ''; }
-					if($arr_stat['referrer'][$key]  == false){ $arr_stat['referrer'][$key]  = ''; }
-					if($arr_stat['timestamp'][$key] == false){ $arr_stat['timestamp'][$key] = ''; }
+					if($arr_stat['host'][$key]      == false) { $arr_stat['host'][$key]      = ''; }
+					if($arr_stat['site_url'][$key]  == false) { $arr_stat['site_url'][$key]  = ''; }
+					if($arr_stat['value'][$key]     == false) { $arr_stat['value'][$key]     = ''; }
+					if($arr_stat['referrer'][$key]  == false) { $arr_stat['referrer'][$key]  = ''; }
+					if($arr_stat['timestamp'][$key] == false) { $arr_stat['timestamp'][$key] = ''; }
 				}
 			}
 			
 			/*
-			if(is_array($arr_stat)){
+			if(is_array($arr_stat)) {
 				array_multisort(
 					$arr_stat['value'], SORT_DESC, SORT_NUMERIC, 
 					$arr_stat['timestamp'], SORT_DESC, SORT_NUMERIC, 
@@ -192,11 +154,11 @@ if($id_group == 'Developer'
 				.'<th valign="middle" class="tcms_db_title" width="50%" align="left">'._STATS_PAGE.'</th>'
 				.'<th valign="middle" class="tcms_db_title" width="40%" align="left">'._STATS_REF.'</th></tr>';
 			
-			if(is_array($arr_stat) && !empty($arr_stat)){
-				foreach($arr_stat['host'] as $key => $val){
-					if($key < 20){
-						if(is_integer($key/2)){ $wsc = 0; }
-						else{ $wsc = 1; }
+			if(is_array($arr_stat) && !empty($arr_stat)) {
+				foreach($arr_stat['host'] as $key => $val) {
+					if($key < 20) {
+						if(is_integer($key/2)) { $wsc = 0; }
+						else { $wsc = 1; }
 						
 						echo '<tr height="25" id="row'.$key.'" '
 						.'bgcolor="'.$arr_color[$wsc].'" '
@@ -230,22 +192,22 @@ if($id_group == 'Developer'
 			
 			$arr_statfiles = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_statistics_os/');
 			
-			if(!empty($arr_statfiles) && $arr_statfiles != '' && isset($arr_statfiles)){
-				foreach($arr_statfiles as $key => $value){
+			if(!empty($arr_statfiles) && $arr_statfiles != '' && isset($arr_statfiles)) {
+				foreach($arr_statfiles as $key => $value) {
 					$statXML = new xmlparser(_TCMS_PATH.'/tcms_statistics_os/'.$value, 'r');
 					
 					$arr_stat['browser'][$key] = $statXML->read_value('browser');
 					$arr_stat['os'][$key]      = $statXML->read_value('os');
 					$arr_stat['value'][$key]   = $statXML->read_value('value');
 					
-					if($arr_stat['browser'][$key] == false){ $arr_stat['browser'][$key] = ''; }
-					if($arr_stat['os'][$key]      == false){ $arr_stat['os'][$key]      = ''; }
-					if($arr_stat['value'][$key]   == false){ $arr_stat['value'][$key]   = ''; }
+					if($arr_stat['browser'][$key] == false) { $arr_stat['browser'][$key] = ''; }
+					if($arr_stat['os'][$key]      == false) { $arr_stat['os'][$key]      = ''; }
+					if($arr_stat['value'][$key]   == false) { $arr_stat['value'][$key]   = ''; }
 				}
 			}
 			
 			/*
-			if(is_array($arr_stat)){
+			if(is_array($arr_stat)) {
 				array_multisort(
 					$arr_stat['value'], SORT_DESC, SORT_NUMERIC, 
 					$arr_stat['browser'], SORT_DESC, SORT_NUMERIC, 
@@ -260,11 +222,11 @@ if($id_group == 'Developer'
 				.'<th valign="middle" class="tcms_db_title" width="40%" align="left">'._STATS_BROWSER.'</th>'
 				.'<th valign="middle" class="tcms_db_title" width="60%" align="left">'._STATS_OS.'</th></tr>';
 			
-			if(is_array($arr_stat) && !empty($arr_stat)){
-				foreach($arr_stat['value'] as $key => $val){
-					//if($key < 20){
-						if(is_integer($key/2)){ $wsc = 0; }
-						else{ $wsc = 1; }
+			if(is_array($arr_stat) && !empty($arr_stat)) {
+				foreach($arr_stat['value'] as $key => $val) {
+					//if($key < 20) {
+						if(is_integer($key/2)) { $wsc = 0; }
+						else { $wsc = 1; }
 						
 						echo '<tr height="25" id="row'.$key.'" '
 						.'bgcolor="'.$arr_color[$wsc].'" '
@@ -300,7 +262,7 @@ if($id_group == 'Developer'
 			.'style="font-size: 16px; font-family: Verdana, arial, sans-serif; font-weight: bold;" '
 			.'onclick="document.location=\'admin.php?id_user='.$id_user.'&site=mod_stats&action=reset&reset=1\';" />';
 			
-			if($reset == 1){
+			if($reset == 1) {
 				// delete hit stats
 				$tcms_file->deleteDir(_TCMS_PATH.'/tcms_statistics/');
 				mkdir(_TCMS_PATH.'/tcms_statistics/', 0777);
@@ -325,13 +287,13 @@ if($id_group == 'Developer'
 				
 				
 				
-				if($hitStats == 0 && $ipStats == 0 && $osStats == 0){
+				if($hitStats == 0 && $ipStats == 0 && $osStats == 0) {
 					echo '<script>'
 					.'alert(\''._STATS_RESET_SUCCESS.'\');'
 					.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_stats\';'
 					.'</script>';
 				}
-				else{
+				else {
 					echo '<script>'
 					.'alert(\''._STATS_RESET_FAILED.'\');'
 					.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_stats\';'
@@ -424,18 +386,18 @@ if($id_group == 'Developer'
 			
 			$count = 0;
 			
-			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)) {
 				$arr_stat['host'][$count]       = $sqlARR['host'];
 				$arr_stat['url'][$count]        = $sqlARR['site_url'];
 				$arr_stat['value'][$count]      = $sqlARR['value'];
 				$arr_stat['referrer'][$count]   = $sqlARR['referrer'];
 				$arr_stat['timestamp'][$count]  = $sqlARR['timestamp'];
 				
-				if($arr_stat['host'][$count]       == NULL){ $arr_stat['host'][$count]       = ''; }
-				if($arr_stat['url'][$count]        == NULL){ $arr_stat['url'][$count]        = ''; }
-				if($arr_stat['value'][$count]      == NULL){ $arr_stat['value'][$count]      = ''; }
-				if($arr_stat['referrer'][$count]   == NULL){ $arr_stat['referrer'][$count]   = ''; }
-				if($arr_stat['timestamp'][$count]  == NULL){ $arr_stat['timestamp'][$count]  = ''; }
+				if($arr_stat['host'][$count]       == NULL) { $arr_stat['host'][$count]       = ''; }
+				if($arr_stat['url'][$count]        == NULL) { $arr_stat['url'][$count]        = ''; }
+				if($arr_stat['value'][$count]      == NULL) { $arr_stat['value'][$count]      = ''; }
+				if($arr_stat['referrer'][$count]   == NULL) { $arr_stat['referrer'][$count]   = ''; }
+				if($arr_stat['timestamp'][$count]  == NULL) { $arr_stat['timestamp'][$count]  = ''; }
 				
 				$count++;
 			}
@@ -449,11 +411,11 @@ if($id_group == 'Developer'
 				.'<th valign="middle" class="tcms_db_title" width="50%" align="left">'._STATS_PAGE.'</th>'
 				.'<th valign="middle" class="tcms_db_title" width="40%" align="left">'._STATS_REF.'</th></tr>';
 			
-			if(is_array($arr_stat) && !empty($arr_stat)){
-				foreach($arr_stat['host'] as $key => $val){
-					//if($key < 20){
-						if(is_integer($key/2)){ $wsc = 0; }
-						else{ $wsc = 1; }
+			if(is_array($arr_stat) && !empty($arr_stat)) {
+				foreach($arr_stat['host'] as $key => $val) {
+					//if($key < 20) {
+						if(is_integer($key/2)) { $wsc = 0; }
+						else { $wsc = 1; }
 						
 						echo '<tr height="25" id="row'.$key.'" '
 						.'bgcolor="'.$arr_color[$wsc].'" '
@@ -498,14 +460,14 @@ if($id_group == 'Developer'
 			
 			$count = 0;
 			
-			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)) {
 				//$arr_stat['browser'][$count] = $sqlARR['browser'];
 				$arr_stat['os'][$count]      = $sqlARR['os'];
 				$arr_stat['value'][$count]   = $sqlARR['value'];
 				
-				//if($arr_stat['browser'][$count] == NULL){ $arr_stat['browser'][$count] = ''; }
-				if($arr_stat['os'][$count]      == NULL){ $arr_stat['os'][$count]      = ''; }
-				if($arr_stat['value'][$count]   == NULL){ $arr_stat['value'][$count]   = ''; }
+				//if($arr_stat['browser'][$count] == NULL) { $arr_stat['browser'][$count] = ''; }
+				if($arr_stat['os'][$count]      == NULL) { $arr_stat['os'][$count]      = ''; }
+				if($arr_stat['value'][$count]   == NULL) { $arr_stat['value'][$count]   = ''; }
 				
 				$count++;
 			}
@@ -518,11 +480,11 @@ if($id_group == 'Developer'
 				.'<th valign="middle" class="tcms_db_title" width="90%" align="left">'._STATS_OS.'</th>'
 				.'</tr>';
 			
-			if(is_array($arr_stat) && !empty($arr_stat)){
-				foreach($arr_stat['value'] as $key => $val){
-					//if($key < 20){
-						if(is_integer($key/2)){ $wsc = 0; }
-						else{ $wsc = 1; }
+			if(is_array($arr_stat) && !empty($arr_stat)) {
+				foreach($arr_stat['value'] as $key => $val) {
+					//if($key < 20) {
+						if(is_integer($key/2)) { $wsc = 0; }
+						else { $wsc = 1; }
 						
 						echo '<tr height="25" id="row'.$key.'" '
 						.'bgcolor="'.$arr_color[$wsc].'" '
@@ -565,14 +527,14 @@ if($id_group == 'Developer'
 			
 			$count = 0;
 			
-			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+			while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)) {
 				$arr_stat['browser'][$count] = $sqlARR['browser'];
 				//$arr_stat['os'][$count]      = $sqlARR['os'];
 				$arr_stat['value'][$count]   = $sqlARR['value'];
 				
-				if($arr_stat['browser'][$count] == NULL){ $arr_stat['browser'][$count] = ''; }
-				//if($arr_stat['os'][$count]      == NULL){ $arr_stat['os'][$count]      = ''; }
-				if($arr_stat['value'][$count]   == NULL){ $arr_stat['value'][$count]   = ''; }
+				if($arr_stat['browser'][$count] == NULL) { $arr_stat['browser'][$count] = ''; }
+				//if($arr_stat['os'][$count]      == NULL) { $arr_stat['os'][$count]      = ''; }
+				if($arr_stat['value'][$count]   == NULL) { $arr_stat['value'][$count]   = ''; }
 				
 				$count++;
 			}
@@ -585,11 +547,11 @@ if($id_group == 'Developer'
 				//.'<th valign="middle" class="tcms_db_title" width="60%" align="left">'._STATS_OS.'</th>'
 				.'</tr>';
 			
-			if(is_array($arr_stat) && !empty($arr_stat)){
-				foreach($arr_stat['value'] as $key => $val){
-					//if($key < 20){
-						if(is_integer($key/2)){ $wsc = 0; }
-						else{ $wsc = 1; }
+			if(is_array($arr_stat) && !empty($arr_stat)) {
+				foreach($arr_stat['value'] as $key => $val) {
+					//if($key < 20) {
+						if(is_integer($key/2)) { $wsc = 0; }
+						else { $wsc = 1; }
 						
 						echo '<tr height="25" id="row'.$key.'" '
 						.'bgcolor="'.$arr_color[$wsc].'" '
@@ -625,7 +587,7 @@ if($id_group == 'Developer'
 			.'style="font-size: 16px; font-family: Verdana, arial, sans-serif; font-weight: bold;" '
 			.'onclick="document.location=\'admin.php?id_user='.$id_user.'&site=mod_stats&action=reset&reset=1\';" />';
 			
-			if($reset == 1){
+			if($reset == 1) {
 				// delete hit stats
 				$sqlSTR = "DELETE FROM ".$tcms_db_prefix."statistics WHERE NOT (ip_uid IS NULL)";
 				$sqlQR = $sqlAL->sqlQuery($sqlSTR);
@@ -658,13 +620,13 @@ if($id_group == 'Developer'
 				
 				
 				
-				if($hitStats == 0 && $ipStats == 0 && $osStats == 0){
+				if($hitStats == 0 && $ipStats == 0 && $osStats == 0) {
 					echo '<script>'
 					.'alert(\''._STATS_RESET_SUCCESS.'\');'
 					.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_stats\';'
 					.'</script>';
 				}
-				else{
+				else {
 					echo '<script>'
 					.'alert(\''._STATS_RESET_FAILED.'\');'
 					.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_stats\';'
@@ -693,7 +655,7 @@ if($id_group == 'Developer'
 		}
 	}
 }
-else{
+else {
 	echo '<strong>'._MSG_NOTENOUGH_USERRIGHTS.'</strong>';
 }
 
