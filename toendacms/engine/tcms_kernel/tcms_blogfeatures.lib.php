@@ -25,7 +25,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Adapted from original code by Natalie Downe: 
  * http://blog.natbat.co.uk/archive/2003/Jun/14/time_since
  *
- * @version 0.2.1
+ * @version 0.2.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -134,15 +134,15 @@ class tcms_blogfeatures {
 		// set output var
 		switch(trim($lang)) {
 			case 'en':
-				$output = ($count == 1) ? '1 '.$name : "$count {$name}s";
+				$output = ($count == 1) ? '1 '.$name : $count.' '.$name.'s';
 				break;
 			
 			case 'de':
-				$output = ($count == 1) ? '1 '.$name : "$count {$name}e";
+				$output = ($count == 1) ? '1 '.$name : $count.' '.$name.'e';
 				break;
 			
 			default:
-				$output = ($count == 1) ? '1 '.$name : "$count {$name}s";
+				$output = ($count == 1) ? '1 '.$name : $count.' '.$name.'s';
 				break;
 		}
 	
@@ -177,6 +177,7 @@ class tcms_blogfeatures {
 			case 'de':
 				$output = str_replace('Stundee', 'Stunden', $output);
 				$output = str_replace('Minutee', 'Minuten', $output);
+				$output = str_replace('Wochee', 'Wochen', $output);
 				$output.' her';
 				break;
 			

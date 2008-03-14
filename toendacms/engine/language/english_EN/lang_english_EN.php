@@ -1281,6 +1281,7 @@ if(!defined('_STATS_RESET'))                   define('_STATS_RESET', 'Reset sta
 if(!defined('_STATS_RESET_TEXT'))              define('_STATS_RESET_TEXT', 'Here you can reset you statistics. <strong>ATTENTION!</strong> You cannot gain back your statistics after the reset.');
 if(!defined('_STATS_RESET_SUCCESS'))           define('_STATS_RESET_SUCCESS', 'Statistics successfull reseted.');
 if(!defined('_STATS_RESET_FAILED'))            define('_STATS_RESET_FAILED', 'Statistics reset failed.');
+if(!defined('_STATS_DATA_DIR_SIZE'))           define('_STATS_DATA_DIR_SIZE', 'Size of the data directory');
 
 
 // FAQ's

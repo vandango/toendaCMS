@@ -1286,6 +1286,7 @@ if(!defined('_STATS_RESET'))                   define('_STATS_RESET', 'Zur&#252;
 if(!defined('_STATS_RESET_TEXT'))              define('_STATS_RESET_TEXT', 'Hier k&#246;nnen sie ihre Statistiken zur&#252;cksetzen. <strong>WARNUNG!</strong> Nach dem Reset k&#246;nnen Sie die Statistiken nicht wiederherstellen.');
 if(!defined('_STATS_RESET_SUCCESS'))           define('_STATS_RESET_SUCCESS', 'Ihre Statistiken wurden erfolgreich zurueckgesetzt.');
 if(!defined('_STATS_RESET_FAILED'))            define('_STATS_RESET_FAILED', 'Ihre Statistiken konnten nicht zurueckgesetzt werden.');
+if(!defined('_STATS_DATA_DIR_SIZE'))           define('_STATS_DATA_DIR_SIZE', 'Datenverzeichnis-Gr&#246;&#223;e');
 
 
 // FAQ's

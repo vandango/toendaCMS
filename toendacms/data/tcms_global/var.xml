@@ -9,17 +9,17 @@
 	<description></description>
 	<currency>EUR</currency>
 	<toendacms_in_sitetitle>0</toendacms_in_sitetitle>
-	<default_category>51fa1</default_category>
+	<default_category>erdf4</default_category>
 	<topmenu_active>1</topmenu_active>
 	<statistics>0</statistics>
-	<seo_enabled>0</seo_enabled>
+	<seo_enabled>1</seo_enabled>
 	<server_folder>toendacms_svn/toendacms</server_folder>
 	<seo_format>3</seo_format>
-	<seo_news_title>0</seo_news_title>
-	<seo_content_title>0</seo_content_title>
+	<seo_news_title>1</seo_news_title>
+	<seo_content_title>1</seo_content_title>
 	<site_offline>0</site_offline>
-	<site_offline_text>Y3pvM05Ub2lWR2hwY3lCemFYUmxJR2x6SUdSdmQyNGdabTl5SUcxaGFXNTBaVzVoYm1ObExpWnNkRHRpY2lBdkptZDBPMUJzWldGelpTQmphR1ZqYXlCaVlXTnJJR0ZuWVdsdUlITnZiMjR1SWpzPQ==</site_offline_text>
-	<show_top_pages>1</show_top_pages>
+	<site_offline_text>VGhpcyBzaXRlIGlzIGRvd24gZm9yIG1haW50ZW5hbmNlLiZsdDticiAvJmd0O1BsZWFzZSBjaGVjayBiYWNrIGFnYWluIHNvb24u</site_offline_text>
+	<show_top_pages></show_top_pages>
 	<cipher_email>1</cipher_email>
 	<js_browser_detect>1</js_browser_detect>
 	<use_cs>1</use_cs>
@@ -30,14 +30,14 @@
 	<pathway_char>/</pathway_char>
 	<anti_frame>1</anti_frame>
 	<revisit_after>1</revisit_after>
-	<robotsfile>http://www.vandango.org/robots.txt</robotsfile>
+	<robotsfile>http://www.toendacms.com/robots.txt</robotsfile>
 	<pdflink>1</pdflink>
 	<cachecontrol>no-cache, must-revalidate</cachecontrol>
 	<pragma>no-cache</pragma>
 	<expires>1</expires>
 	<robots>index, follow</robots>
-	<last_changes>2008-03-09 21:27:26</last_changes>
+	<last_changes>2008-03-14 12:04:17</last_changes>
 	<use_content_language>1</use_content_language>
-	<valid_links></valid_links>
+	<valid_links>1</valid_links>
 	<mediaman_view>list</mediaman_view>
 </global>

@@ -106,17 +106,18 @@ else {
 
 $tcms_auth = new tcms_authentication(_TCMS_PATH, $c_charset, $imagePath);
 
-if(isset($faq) && $faq != '') {
-	$arr_dir = $tcms_file->getPathContent(
-		_TCMS_PATH.'/images/knowledgebase/'
-	);
+if(isset($faq) && $faq != ''
+|| isset($v) && $v == 'faq') {
+	$mainPath = 'knowledgebase';
 }
 else {
-	$arr_dir = $tcms_file->getPathContent(
-		_TCMS_PATH.'/images/Image/'
-		.( isset($folder) ? $folder.'/' : '' )
-	);
+	$mainPath = 'Image';
 }
+
+$arr_dir = $tcms_file->getPathContent(
+	_TCMS_PATH.'/images/'.$mainPath.'/'
+	.( isset($folder) ? $folder.'/' : '' )
+);
 
 $show_wysiwyg = $tcms_config->getWYSIWYGEditor();
 $c_charset    = $tcms_config->getCharset();
@@ -241,12 +242,8 @@ if(isset($id_user)) {
 					
 					$fileName = $tcms_main->cleanFilename($fileName);
 					
-					if(isset($faq) && $faq != '') {
-						$imgDir = _TCMS_PATH.'/images/knowledgebase/';
-					}
-					else {
-						$imgDir = _TCMS_PATH.'/images/Image/';
-					}
+					$imgDir = _TCMS_PATH.'/images/'.$mainPath.'/'
+					.( isset($folder) ? $folder.'/' : '' );
 					
 					copy($_FILES['mediaImage']['tmp_name'], $imgDir.$fileName);
 					
@@ -306,7 +303,7 @@ if(isset($id_user)) {
 				
 				$relPath = ( $folder == '' ? '' : $folder.'/' );
 				
-				if(is_dir(trim(_TCMS_PATH.'/images/Image/'.$dvalue2))) {
+				if(is_dir(trim(_TCMS_PATH.'/images/'.$mainPath.'/'.$dvalue2))) {
 					$addurl = '';
 					
 					if(isset($v)) {
@@ -353,34 +350,17 @@ if(isset($id_user)) {
 						$tcms_gd = new tcms_gd();
 						
 						if(!$tcms_file->checkFileExist(_TCMS_PATH.'/images/upload_thumb/'.$relPath.'thumb_'.$dvalue)) {
-							if(isset($faq) && $faq != '') {
-								$tcms_gd->createThumbnail(
-									_TCMS_PATH.'/images/knowledgebase/'.$relPath, 
-									_TCMS_PATH.'/images/upload_thumb/'.$relPath, 
-									$dvalue, 
-									100
-								);
-							}
-							else {
-								$tcms_gd->createThumbnail(
-									_TCMS_PATH.'/images/Image/'.$relPath, 
-									_TCMS_PATH.'/images/upload_thumb/'.$relPath, 
-									$dvalue, 
-									100
-								);
-							}
+							$tcms_gd->createThumbnail(
+								_TCMS_PATH.'/images/'.$mainPath.'/'.$relPath, 
+								_TCMS_PATH.'/images/upload_thumb/'.$relPath, 
+								$dvalue, 
+								100
+							);
 						}
 						
-						if(isset($faq) && $faq != '') {
-							$tcms_gd->readImageInformation(
-								_TCMS_PATH.'/images/knowledgebase/'.$dvalue2
-							);
-						}
-						else {
-							$tcms_gd->readImageInformation(
-								_TCMS_PATH.'/images/Image/'.$dvalue2
-							);
-						}
+						$tcms_gd->readImageInformation(
+							_TCMS_PATH.'/images/'.$mainPath.'/'.$dvalue2
+						);
 						
 						$img_o_width  = $tcms_gd->getImageWidth();
 						$img_o_height = $tcms_gd->getImageHeight();
@@ -424,12 +404,7 @@ if(isset($id_user)) {
 					}
 					
 					
-					if(isset($faq) && $faq != '') {
-						$size = filesize(_TCMS_PATH.'/images/knowledgebase/'.$dvalue2) / 1024;
-					}
-					else {
-						$size = filesize(_TCMS_PATH.'/images/Image/'.$dvalue2) / 1024;
-					}
+					$size = filesize(_TCMS_PATH.'/images/'.$mainPath.'/'.$dvalue2) / 1024;
 					
 					$kpos = strpos($size, '.');
 					$img_size = substr($size, 0, $kpos+3);
@@ -515,10 +490,10 @@ if(isset($id_user)) {
 						else {
 							if($show_wysiwyg == 'tinymce' && $v != 'links') {
 								$cmdImage = 'opener.tinyMCE.execCommand(\'mceInsertContent\', false, '
-								.'\'&lt;a href=&quot;'.$seo_path.'/images/Image/'.$dvalue2.'&quot; '
+								.'\'&lt;a href=&quot;'.$seo_path.'/images/'.$mainPath.'/'.$dvalue2.'&quot; '
 								.'rel=&quot;lightbox&quot;&gt;'
 								.'&lt;img '
-								.'src=&quot;'.$img_path.'/images/Image/'.$dvalue2.'&quot; '
+								.'src=&quot;'.$img_path.'/images/'.$mainPath.'/'.$dvalue2.'&quot; '
 								.'alt=&quot;'.$tagList.'&quot;'
 								.'title=&quot;'.$tagList.'&quot; /&gt;'
 								.'&lt;\/a&gt;\');'
@@ -526,7 +501,7 @@ if(isset($id_user)) {
 								
 								$cmdThumb = 'opener.tinyMCE.execCommand(\'mceInsertContent\', false, '
 								//.'\'&lt;a href=&quot;javascript:imageWindow(\&#39;'.$dvalue2.'\&#39;, \&#39;media\&#39;);&quot;&gt;'
-								.'\'&lt;a href=&quot;'.$seo_path.'/images/Image/'.$dvalue2.'&quot; '
+								.'\'&lt;a href=&quot;'.$seo_path.'/images/'.$mainPath.'/'.$dvalue2.'&quot; '
 								.'rel=&quot;lightbox&quot;&gt;'
 								.'&lt;img '
 								.'src=&quot;'.$img_path.'/images/upload_thumb/'.$relPath.'thumb_'.$dvalue3.'&quot; '

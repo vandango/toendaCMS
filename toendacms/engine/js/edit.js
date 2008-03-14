@@ -78,14 +78,37 @@ function createToendaToolbar(form, lang, editor, extra, front, session) {
 			break;
 		
 		case 'tinymce':
-			document.write('<a href="#" class="tcms_editor tcms_imagefont" alt="' + tSB_image + '" title="' + tSB_image + '" onclick="openWindow(\'' + extra + '\', \'ImageBrowser\', \'400\', \'500\', \'0\', \'0\');">&nbsp;</a>');
+			document.write(
+				'<a href="#" class="tcms_editor tcms_imagefont" alt="' 
+				+ tSB_image 
+				+ '" title="' 
+				+ tSB_image 
+				+ '" onclick="openWindow(\'' 
+				+ extra 
+				+ '\', \'ImageBrowser\', \'400\', \'500\', \'0\', \'0\');">&nbsp;</a>'
+			);
 			
 			extra = 'node.php?id_user=' + session + '&' + extra;
-			document.write('<a href="#" class="tcms_editor tcms_link" alt="' + tSB_links + '" title="' + tSB_links + '" onclick="openWindow(\'' + extra + '\', \'LinkBrowser\', \'600\', \'500\', \'0\', \'0\');">&nbsp;</a>');
+			
+			document.write(
+				'<a href="#" class="tcms_editor tcms_link" alt="' 
+				+ tSB_links 
+				+ '" title="' 
+				+ tSB_links 
+				+ '" onclick="openWindow(\'' 
+				+ extra 
+				+ '\', \'LinkBrowser\', \'600\', \'500\', \'0\', \'0\');">&nbsp;</a>'
+			);
 			
 			if(form == 'news' 
 			|| form == 'contentPage') {
-				document.write('<a href="#" class="tcms_editor tcms_morefont" alt="' + tSB_more + '" title="' + tSB_more + '" onclick="tinyMCE.execCommand(\'mceInsertContent\',false,\'{tcms_more}\');">&nbsp;</a>');
+				document.write(
+					'<a href="#" class="tcms_editor tcms_morefont" alt="' 
+					+ tSB_more 
+					+ '" title="' 
+					+ tSB_more 
+					+ '" onclick="tinyMCE.execCommand(\'mceInsertContent\',false,\'{tcms_more}\');">&nbsp;</a>'
+				);
 			}
 			break;
 		
