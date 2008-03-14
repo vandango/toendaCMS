@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a documents manager.
  *
- * @version 1.2.9
+ * @version 1.3.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -677,7 +677,7 @@ if($id_group == 'Developer'
 		
 		
 		if($tcms_main->isReal($lang)) {
-			$arr_docs = $tcms_file->getAllDocuments($tcms_config->getCharset());
+			$arr_docs = $tcms_dcp->getAllDocuments($tcms_config->getCharset());
 			unset($value);
 			
 			// row

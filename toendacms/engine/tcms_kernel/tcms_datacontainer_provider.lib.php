@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.8.
+ * @version 1.9.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -65,6 +65,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getCommentDCList                          -> Get a list of news data container
  *
  * getContentDC                              -> Get a specific content data container
+ * getAllDocuments                           -> Get all documents
  * getContentAccess                          -> Get the access infos from a content item
  * getContentLanguages                       -> Get a list of content languages
  * getXmlIdFromContentLanguage               -> Get the id of a language content file
@@ -1796,6 +1797,63 @@ class tcms_datacontainer_provider extends tcms_main {
 		}
 		
 		return $contentDC;
+	}
+	
+	
+	
+	/**
+	 * Get all documents
+	 * 
+	 * @param String $charset = 'ISO-8859-1'
+	 * @return Array
+	 */
+	public function getAllDocuments($charset = 'ISO-8859-1') {
+		$count = 0;
+		
+		if($this->m_choosenDB == 'xml') {
+			$arr_docs = $this->getPathContent($this->administer.'/tcms_content/');
+			
+			if(is_array($arr_docs)) {
+				unset($val);
+				
+				foreach($arr_docs as $key => $val) {
+					$xml = new xmlparser($this->administer.'/tcms_content/'.$val,'r');
+					
+					$arrDocuments['id'][$count] = $xml->readSection('main', 'id');
+					$arrDocuments['name'][$count] = $this->decodeText(
+						$xml->readSection('main', 'title'), '2', $charset
+					);
+					
+					$xml->flush();
+					unset($xml);
+					
+					$count++;
+				}
+			}
+		}
+		else {
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
+			
+			$sqlQR = $sqlAL->getAll($this->m_sqlPrefix.'content');
+			
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
+				$arrDocuments['id'][$count] = $sqlObj->uid;
+				$arrDocuments['name'][$count] = $this->decodeText($sqlObj->title, '2', $charset);
+				
+				$count++;
+			}
+			
+			$sqlAL->freeResult($sqlQR);
+		}
+		
+		return $arrDocuments;
 	}
 	
 	
