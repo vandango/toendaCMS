@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide all file and directory
  * related methods und public functions.
  *
- * @version 0.5.0
+ * @version 0.5.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -39,6 +39,12 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * __construct                       -> Constructor
  * __destruct                        -> Destructor
+ * 
+ * --------------------------------------------------------
+ * PROPERTIES
+ * --------------------------------------------------------
+ * 
+ * setTcmsTimeObj                    -> Set the tcms_time object
  *
  * --------------------------------------------------------
  * PUBLIC METHODS
@@ -89,6 +95,7 @@ class tcms_file {
 	private $m_file;
 	private $m_openMode;
 	private $m_fp;
+	private $_tcmsTime;
 	
 	
 	
@@ -121,6 +128,17 @@ class tcms_file {
 	// -------------------------------------------------
 	// PROPERTIES
 	// -------------------------------------------------
+	
+	
+	
+	/**
+	 * Set the tcms_time object
+	 *
+	 * @param Object $value
+	 */
+	public function setTcmsTimeObj($value) {
+		$this->_tcmsTime = $value;
+	}
 	
 	
 	
@@ -521,63 +539,6 @@ class tcms_file {
 		$size = sprintf("%01.2f", $size);
 		
 		return $size.'&nbsp;'.$measure;
-	}
-	
-	
-	
-	/**
-	 * Get all documents
-	 * 
-	 * @param String $charset = 'ISO-8859-1'
-	 * @return Array
-	 */
-	public function getAllDocuments($charset = 'ISO-8859-1') {
-		$count = 0;
-		
-		if($this->db_choosenDB == 'xml') {
-			$arr_docs = $this->getPathContent($this->administer.'/tcms_content/');
-			
-			if(is_array($arr_docs)) {
-				unset($val);
-				
-				foreach($arr_docs as $key => $val) {
-					$xml = new xmlparser($this->administer.'/tcms_content/'.$val,'r');
-					
-					$arrDocuments['id'][$count] = $xml->readSection('main', 'id');
-					$arrDocuments['name'][$count] = $this->decodeText(
-						$xml->readSection('main', 'title'), '2', $charset
-					);
-					
-					$xml->flush();
-					unset($xml);
-					
-					$count++;
-				}
-			}
-		}
-		else {
-			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
-			$sqlCN = $sqlAL->connect(
-				$this->db_user, 
-				$this->db_pass, 
-				$this->db_host, 
-				$this->db_database, 
-				$this->db_port
-			);
-			
-			$sqlQR = $sqlAL->getAll($this->db_prefix.'content');
-			
-			while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
-				$arrDocuments['id'][$count] = $sqlObj->uid;
-				$arrDocuments['name'][$count] = $this->decodeText($sqlObj->title, '2', $charset);
-				
-				$count++;
-			}
-			
-			$sqlAL->freeResult($sqlQR);
-		}
-		
-		return $arrDocuments;
 	}
 	
 	

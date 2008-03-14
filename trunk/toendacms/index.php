@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 3.1.2
+ * @version 3.1.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -155,16 +155,6 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 	
 	
 	/*
-		language
-	*/
-	if(!defined('_TCMS_LANGUAGE_STARTPOINT')) {
-		define('_TCMS_LANGUAGE_STARTPOINT', 'index');
-	}
-	include_once('engine/language/lang_admin.php');
-	//using('toendacms.language.admin');
-	
-	
-	/*
 		SEO URL's
 	*/
 	if($seoEnabled == 1) {
@@ -253,6 +243,21 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 	else {
 		$imagePath = '';
 	}
+	
+	
+	/*
+		language
+	*/
+	if(!defined('_TCMS_LANGUAGE_STARTPOINT')) {
+		define('_TCMS_LANGUAGE_STARTPOINT', 'index');
+	}
+	include_once('engine/language/lang_admin.php');
+	//using('toendacms.language.admin');
+	
+	
+	/*
+		load objects
+	*/
 	
 	// authentication
 	$tcms_auth = new tcms_authentication(_TCMS_PATH, $c_charset, $imagePath);
