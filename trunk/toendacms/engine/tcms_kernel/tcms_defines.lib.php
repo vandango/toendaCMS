@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for global values
  *
- * @version 0.8.3
+ * @version 0.8.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -496,6 +496,7 @@ if(trim($s) != 'printer') {
 		$_LAYOUT_TEMPLATE_IMPRINT = 'theme/'.$s.'/templates/imprint.tpl';
 		$_LAYOUT_TEMPLATE_IMAGEGALLERY = 'theme/'.$s.'/templates/imagegallery.tpl';
 		$_LAYOUT_TEMPLATE_DOWNLOAD = 'theme/'.$s.'/templates/download.tpl';
+		$_LAYOUT_TEMPLATE_CONTENT = 'theme/'.$s.'/templates/content.tpl';
 	}
 	else {
 		$tcms_error = new tcms_error('tcms_defines.lib.php', 2, $s, $imagePath);
@@ -515,6 +516,7 @@ if(!defined('_LAYOUT_TEMPLATE_NEWS'))          define('_LAYOUT_TEMPLATE_NEWS', $
 if(!defined('_LAYOUT_TEMPLATE_IMPRINT'))       define('_LAYOUT_TEMPLATE_IMPRINT', $_LAYOUT_TEMPLATE_IMPRINT);
 if(!defined('_LAYOUT_TEMPLATE_IMAGEGALLERY'))  define('_LAYOUT_TEMPLATE_IMAGEGALLERY', $_LAYOUT_TEMPLATE_IMAGEGALLERY);
 if(!defined('_LAYOUT_TEMPLATE_DOWNLOAD'))      define('_LAYOUT_TEMPLATE_DOWNLOAD', $_LAYOUT_TEMPLATE_DOWNLOAD);
+if(!defined('_LAYOUT_TEMPLATE_CONTENT'))       define('_LAYOUT_TEMPLATE_CONTENT', $_LAYOUT_TEMPLATE_CONTENT);
 
 
 ?>
