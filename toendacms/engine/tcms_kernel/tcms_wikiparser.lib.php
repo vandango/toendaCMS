@@ -586,199 +586,6 @@ class tcms_wikiparser {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/**
-	 * Parse the center tags
-	 * 
-	 * @param String $text
-	 * @return String
-	 */
-	private function _parseCenter($text) {
-		$output = str_replace('{center:}', '<div align="center">', $text);
-		$output = str_replace('{:center}', '</div>', $output);
-		
-		return $output;
-	}
-	
-	
-	
-	/**
-	 * Parse the left tags
-	 * 
-	 * @param String $text
-	 * @return String
-	 */
-	private function _parseLeft($text) {
-		$output = str_replace('{left:}', '<div align="left">', $text);
-		$output = str_replace('{:left}', '</div>', $output);
-		
-		return $output;
-	}
-	
-	
-	
-	/**
-	 * Parse the right tags
-	 * 
-	 * @param String $text
-	 * @return String
-	 */
-	private function _parseRight($text) {
-		$output = str_replace('{right:}', '<div align="right">', $text);
-		$output = str_replace('{:right}', '</div>', $output);
-		
-		return $output;
-	}
-	
-	
-	
-	/**
-	 * Parse the underline tags
-	 * 
-	 * @param String $text
-	 * @return String
-	 */
-	private function _parseUnderline($text) {
-		$output = str_replace('{u:}', '<u>', $text);
-		$output = str_replace('{:u}', '</u>', $output);
-		
-		return $output;
-	}
-	
-	
-	
-	/**
-	 * Parse the blockquote tags
-	 * 
-	 * @param String $text
-	 * @return String
-	 */
-	private function _parseBlockquote($text) {
-		$output = str_replace('{cite:}', '<blockquote>', $text);
-		$output = str_replace('{:cite}', '</blockquote>', $output);
-		
-		return $output;
-	}
-	
-	
-	
-	/**
-	 * Parse the teletyper tags
-	 * 
-	 * @param String $text
-	 * @return String
-	 */
-	private function _parseTeletyper($text) {
-		$output = str_replace('{tt:}', '<tt>', $text);
-		$output = str_replace('{:tt}', '</tt>', $output);
-		
-		return $output;
-	}
-	
-	
-	
-	/**
-	 * Parse the fontcolor tags
-	 * 
-	 * @param String $text
-	 * @return String
-	 */
-	private function _parseFontColor($text) {
-		$color = substr(
-			$text, 
-			strpos($text, '{fc#') + 4, 
-			strpos($text, '#}') - 4
-		);
-		
-		switch($color) {
-			case 'white':
-				$output = str_replace('{fc#'.$color, '<span style="color: #ffffff;', $text);
-				break;
-			
-			case 'black':
-				$output = str_replace('{fc#'.$color, '<span style="color: #000000;', $text);
-				break;
-			
-			case 'red':
-				$output = str_replace('{fc#'.$color, '<span style="color: #ff0000;', $text);
-				break;
-			
-			case 'green':
-				$output = str_replace('{fc#'.$color, '<span style="color: #00ff00;', $text);
-				break;
-			
-			case 'blue':
-				$output = str_replace('{fc#'.$color, '<span style="color: #0000ff;', $text);
-				break;
-			
-			default:
-				$output = str_replace('{fc#'.$color, '<span style="color: #'.$color.';', $text);
-				break;
-		}
-		
-		$output = str_replace('#:}', '">', $output);
-		$output = str_replace('{:fc}', '</span>', $output);
-		
-		return $output;
-	}
-	
-	
-	
-	/**
-	 * Parse the ext tags
-	 * 
-	 * @param String $text
-	 * @return String
-	 */
-	private function _parseExt($text) {
-		$output = str_replace('{ext#url=', '<iframe src="', $text);
-		
-		$output = str_replace('#width=', '" width="', $output);
-		$output = str_replace('#height=', '" height="', $output);
-		
-		$output = str_replace('#ext}', '" scrolling="auto" marginheight="0" marginwidth="0" frameborder="0" style="border: 0px solid #fff !important;"></iframe>', $output);
-		
-		if(preg_match('/#width=/', $output)) {
-			$output = str_replace('></iframe>', '></iframe>', $output);
-		}
-		else {
-			$output = str_replace('></iframe>', ' width="100%"></iframe>', $output);
-		}
-		
-		return $output;
-	}
-	
-	
-	
 	/**
 	 * Parse the filter tags
 	 * 
@@ -795,22 +602,6 @@ class tcms_wikiparser {
 	
 	
 	/**
-	 * Parse the session
-	 * 
-	 * @param String $text
-	 * @return String
-	 */
-	private function __filter_SessionLinks($text) {
-		//global $session;
-		
-		//$text = preg_replace('/<a href="/i', '<a href="?session='.$session, $text);
-		
-		return $text;
-	}
-	
-	
-	
-	/**
 	 * Parse the toenda and toendacms words
 	 * 
 	 * @param String $text
@@ -818,6 +609,13 @@ class tcms_wikiparser {
 	 */
 	private function __filter_Toenda($text) {
 		$text = $text;
+		
+		$text = preg_replace(
+			'/(?!toendacms?!)/i', 
+			'<a href="http://www.toendacms.org" target="_blank">toendaCMS</a>', 
+			$text
+		);
+		
 		//$text = preg_replace('/toendacms/i', '<a href="http://www.toendacms.org" target="_blank">toendaCMS</a>', $text);
 		/*
 		$text = preg_replace('/<p>toendacms/i', '<p><a href="http://www.toendacms.org" target="_blank">toendaCMS</a>', $text);
@@ -841,20 +639,21 @@ class tcms_wikiparser {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	/**
+	 * Parse the session
+	 * 
+	 * @param String $text
+	 * @return String
+	 */
+	private function __filter_SessionLinks($text) {
+		//global $session;
+		
+		//$text = preg_replace('/<a href="/i', '<a href="?session='.$session, $text);
+		//$text = preg_replace('/(<a href=")(?!\/)(?!http)/i', '<a href="?session='.$session, $text);
+		//$text = preg_replace('/(?!">)(?!\/)(<\/a>)/i', '&session='.$session.'">[0]</a>', $text);
+		
+		return $text;
+	}
 	
 	
 	
@@ -1289,15 +1088,7 @@ class tcms_wikiparser {
 		$this->content = $this->_parseList($this->content);
 		$this->content = $this->_parseUrl($this->content);
 		$this->content = $this->_parseImages($this->content);
-		//$this->content = $this->_parseCenter($this->content);
-		//$this->content = $this->_parseLeft($this->content);
-		//$this->content = $this->_parseRight($this->content);
-		//$this->content = $this->_parseUnderline($this->content);
-		//$this->content = $this->_parseBlockquote($this->content);
-		//$this->content = $this->_parseTeletyper($this->content);
-		//$this->content = $this->_parseFontColor($this->content);
-		//$this->content = $this->_parseExt($this->content);
-		//$this->content = $this->_parseFilter($this->content);
+		$this->content = $this->_parseFilter($this->content);
 		
 		return $this->content;
 	}

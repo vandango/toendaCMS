@@ -9,7 +9,7 @@
 | 
 | toendaTemplate Engine
 |
-| File:	toendaTemplate.lib.php
+| File:	tcms_template.lib.php
 |
 +
 */
@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to implement toendaTemplate Engine.
  *
- * @version 0.4.3
+ * @version 0.4.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -74,6 +74,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * getDownloadTableTitle               -> Get the template for the download table title
  * getDownloadTableCategoryEntry       -> Get the template for the download table category entry
  * getDownloadTableDownloadEntry       -> Get the template for the download table download entry
+ * parseContentTemplate                -> Parse the content template
+ * getContent                          -> Get the template for the content
  * 
  * </code>
  *
@@ -922,6 +924,57 @@ class toendaTemplate {
 			$layoutEntry = str_replace('#####DOWNLOAD_ITEM_UPLOADED_ON_DATE#####', $date, $layoutEntry);
 			$layoutEntry = str_replace('#####DOWNLOAD_ITEM_FILESIZE_TITLE#####', $fileSizeTitle, $layoutEntry);
 			$layoutEntry = str_replace('#####DOWNLOAD_ITEM_FILESIZE#####', $fileSize, $layoutEntry);
+		}
+		
+		return $layoutEntry;
+	}
+	
+	
+	
+	/**
+	 * Parse the content template
+	 *
+	 */
+	public function parseContentTemplate() {
+		if(trim($this->_buffer) != '') {
+			// part 1
+			$part1_pos_begin = strpos($this->_buffer, '<!--#####CONTENT_TEMPLATE_BEGIN#####-->');
+			$part1_pos_end = strpos($this->_buffer, '<!--#####CONTENT_TEMPLATE_END#####-->');
+			
+			if($part1_pos_begin > -1 && $part1_pos_end > -1) {
+				$this->_part1 = substr(
+					$this->_buffer, 
+					$part1_pos_begin, 
+					$part1_pos_end - $part1_pos_begin
+				);
+				
+				$this->_part1 = str_replace('<!--#####CONTENT_TEMPLATE_BEGIN#####-->', '', $this->_part1);
+				$this->_part1 = str_replace('<!--#####CONTENT_TEMPLATE_END#####-->', '', $this->_part1);
+			}
+		}
+	}
+	
+	
+	
+	/**
+	 * Get the template for the content
+	 * 
+	 * @param String $title
+	 * @param String $subtitle
+	 * @param String $text
+	 * @param String $footnote
+	 * @return String
+	 */
+	public function getContent($title, $subtitle, $text, $footnote) {
+		$layoutEntry = '';
+		
+		if(trim($this->_part1) != '') {
+			$layoutEntry = trim($this->_part1);
+			
+			$layoutEntry = str_replace('#####CONTENT_TITLE#####', $title, $layoutEntry);
+			$layoutEntry = str_replace('#####CONTENT_SUBTITLE#####', $subtitle, $layoutEntry);
+			$layoutEntry = str_replace('#####CONTENT_TEXT#####', $text, $layoutEntry);
+			$layoutEntry = str_replace('#####CONTENT_FOOTNOTE#####', $footnote, $layoutEntry);
 		}
 		
 		return $layoutEntry;

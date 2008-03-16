@@ -232,42 +232,69 @@ if($content_published == 1) {
 					// TCMS SCRIPT
 					$toendaScript = new toendaScript($key);
 					$key = $toendaScript->doParse();
+					unset($toendaScript);
 					
 					$toendaScript = new toendaScript($content00);
 					$content00 = $toendaScript->doParse();
 					$content00 = $toendaScript->checkSEO($content00, $imagePath);
+					unset($toendaScript);
 					
 					$toendaScript = new toendaScript($content01);
 					$content01 = $toendaScript->doParse();
 					$content01 = $toendaScript->checkSEO($content01, $imagePath);
+					unset($toendaScript);
 					
 					$toendaScript = new toendaScript($foot);
 					$foot = $toendaScript->doParse();
 					$foot = $toendaScript->checkSEO($foot, $imagePath);
+					unset($toendaScript);
 					
 					
 					/*
-						Load Layout ID for Content Templates
+						toendaTemplate Engine
 					*/
 					
-					echo '<div style="width: 99%; display: block;">';
-					//.'<div class="contentheading">'.$dcContent->getTitle().'</div>'
-					//.'<span class="contentstamp">'.$key.'</span><br /><br />'
-					//.'<div class="contentmain"><br />';
+					$tcms_script = new toendaScript();
+					$tcms_template = new toendaTemplate();
 					
-					echo $tcms_html->contentModuleHeader(
-						$dcContent->getTitle(), 
-						$key, 
-						''
-					);
+					if($tcms_template->checkTemplateExist(_LAYOUT_TEMPLATE_CONTENT)) {
+						$tcms_template->loadTemplate(_LAYOUT_TEMPLATE_CONTENT);
+						$tcms_template->parseContentTemplate();
+						
+						$entry = $tcms_template->getContent(
+							$dcContent->getTitle(), 
+							$key, 
+							$content00, 
+							$foot
+						);
+						
+						$tcms_script->doParsePHP($entry);
+					}
+					else {
+						echo '<div style="width: 99%; display: block;">';
+						//.'<div class="contentheading">'.$dcContent->getTitle().'</div>'
+						//.'<span class="contentstamp">'.$key.'</span><br /><br />'
+						//.'<div class="contentmain"><br />';
+						
+						echo $tcms_html->contentModuleHeader(
+							$dcContent->getTitle(), 
+							$key, 
+							''
+						);
+						
+						echo '<div class="contentmain">';
+						
+						$toendaScript->doParsePHP($content00);
+						
+						echo '<br />'.$content01.'<br />'
+						.$foot.'</div>'
+						.'</div>';
+					}
 					
-					echo '<div class="contentmain">';
 					
-					$toendaScript->doParsePHP($content00);
-					
-					echo '<br />'.$content01.'<br />'
-					.$foot.'</div>'
-					.'</div>';
+					// cleanup
+					unset($tcms_template);
+					unset($tcms_script);
 					
 					
 					// view page links
