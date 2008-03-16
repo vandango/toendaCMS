@@ -26,7 +26,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Some lines of this code is inspired by and copied from
  * the MediaWiki PHP wiki software.
  * 
- * @version 0.2.0
+ * @version 0.2.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -610,9 +610,19 @@ class tcms_wikiparser {
 	private function __filter_Toenda($text) {
 		$text = $text;
 		
+		// tagline
+		/*
 		$text = preg_replace(
-			'/(?toendacms?)/i', 
-			'<a href="http://www.toendacms.org" target="_blank">toendaCMS</a>', 
+			'/(?!\/)(toendacms - your ideas ahead!)(?!\/)/i', 
+			'<a href="http://www.toendacms.org" target="_blank">toendaCMS - Your ideas ahead!</a>', 
+			$text
+		);
+		*/
+		
+		// word
+		$text = preg_replace(
+			'/(?!\/)(toendacms )(?!\/)/i', 
+			'<a href="http://www.toendacms.org" target="_blank">toendaCMS</a> ', 
 			$text
 		);
 		
