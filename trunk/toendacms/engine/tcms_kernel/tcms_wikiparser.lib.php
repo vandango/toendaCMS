@@ -611,7 +611,7 @@ class tcms_wikiparser {
 		$text = $text;
 		
 		$text = preg_replace(
-			'/(?!toendacms?!)/i', 
+			'/(?toendacms?)/i', 
 			'<a href="http://www.toendacms.org" target="_blank">toendaCMS</a>', 
 			$text
 		);
