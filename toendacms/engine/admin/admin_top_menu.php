@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used as top menu.
  *
- * @version 1.0.4
+ * @version 1.0.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -189,6 +189,7 @@ $position_help = 509;
 				[null,'&nbsp;<? echo _TCMS_TOPMENU_SITE; ?>&nbsp;',null,null,null,
 					['<img src="../images/config.gif" />','<? echo _TCMS_MENU_GLOBAL; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_global','_self',null], 
 					['<img src="../images/import.png" />','<? echo _TCMS_MENU_IMPORT; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_import','_self',null], 
+					['<img src="../images/log.png" />','<? echo _TCMS_MENU_LOG; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_log','_self',null], 
 					['<img src="../images/stats.png" />','<? echo _TCMS_MENU_STATS; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_stats','_self',null], 
 					['<img src="../images/template.png" />','<? echo _TCMS_MENU_THEME; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_layout','_self',null], 
 					['<img src="../images/template_upload.png" />','<? echo _TCMS_MENU_THEME_UPLOAD; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_upload_layout','_self',null], 
@@ -345,6 +346,7 @@ $position_help = 509;
 				[null,'&nbsp;<? echo _TCMS_TOPMENU_SITE; ?>&nbsp;',null,null,null,
 					['<img src="../images/import.png" />','<? echo _TCMS_MENU_IMPORT; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_import','_self',null], 
 					['<img src="../images/stats.png" />','<? echo _TCMS_MENU_STATS; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_stats','_self',null], 
+					['<img src="../images/log.png" />','<? echo _TCMS_MENU_LOG; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_log','_self',null], 
 					['<img src="../images/template.png" />','<? echo _TCMS_MENU_THEME; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_layout','_self',null], 
 					['<img src="../images/template_upload.png" />','<? echo _TCMS_MENU_THEME_UPLOAD; ?>','admin.php?id_user=<? echo $id_user; ?>&site=mod_upload_layout','_self',null], 
 					['<img src="../images/preview.png" />','&raquo; <? echo _TCMS_MENU_THEME_PREVIEW; ?>','../../index.php','_self',null]

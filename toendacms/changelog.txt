@@ -28,7 +28,7 @@ Version 2.0
 Developer Version
 	- 1.9.0 Development
 
-Building Steps: 4670
+Building Steps: 4685
 
 
 
@@ -81,6 +81,7 @@ Building Steps: 4670
           each content element.
  - added: SEO format 4 (clean .html-format) is now available. Its cleanup the index.php name from the url.
  - added: WikiSyntax (experimental)
+ - added: Loghandler to log all activities of all users.
  - added: 
  
 

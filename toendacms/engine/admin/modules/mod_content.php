@@ -322,7 +322,7 @@ if($id_group == 'Developer'
 		
 		echo '<table cellpadding="3" cellspacing="0" border="0" class="noborder">';
 		echo '<tr class="tcms_bg_blue_01">'
-		.'<th valign="middle" class="tcms_db_title" width="2%" colspan="2">&nbsp;</th>'
+		.'<th valign="middle" class="tcms_db_title" width="2%">&nbsp;</th>'
 		.'<th valign="middle" class="tcms_db_title" width="58%" align="left">'._TABLE_TITLE.'</th>'
 		.'<th valign="middle" class="tcms_db_title" width="5%" align="left">'._TABLE_ORDER.'</th>'
 		.'<th valign="middle" class="tcms_db_title" width="10%" align="left">'._TABLE_AUTOR.'</th>'
@@ -362,7 +362,7 @@ if($id_group == 'Developer'
 				.'onMouseOver="wxlBgCol(\'row'.$key.'\',\'#ececec\')" '
 				.'onMouseOut="wxlBgCol(\'row'.$key.'\',\''.$ws_farbe.'\')">';
 				
-				echo '<td colspan="2" class="tcms_db_2" width="20"'.$strJS.'>'
+				echo '<td class="tcms_db_2" width="20"'.$strJS.'>'
 				.'<img border="0" src="../images/page.png" />'
 				.'</td>';
 				
