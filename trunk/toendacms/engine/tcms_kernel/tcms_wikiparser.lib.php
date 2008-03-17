@@ -53,15 +53,6 @@ defined('_TCMS_VALID') or die('Restricted access');
  * _parseList                    -> Parse the list tags
  * _parseUrl                     -> Parse the url tags
  * _parseImages                  -> Parse the image tags
- * 
- * _parseCenter                  -> Parse the center tags
- * _parseLeft                    -> Parse the left tags
- * _parseRight                   -> Parse the right tags
- * _parseUnderline               -> Parse the underline tags
- * _parseBlockquote              -> Parse the blockquote tags
- * _parseTeletyper               -> Parse the tetetyper tags
- * _parseFontColor               -> Parse the fontcolor tags
- * _parseExt                     -> Parse the ext tags
  * _parseFilter                  -> Parse the filter tags
  * __filter_SessionLinks         -> Parse the session
  * __filter_Toenda               -> Parse the toenda and toendacms words
@@ -700,6 +691,7 @@ class tcms_wikiparser {
 				$url = $protocol.$m[1];
 				$trail = $m[2];
 				
+				/*
 				if(strlen($trail) == 0 
 				&& isset($bits[$i]) 
 				&& preg_match('/^'. EXT_URL_PROTOCOLS . '$/S', $bits[$i]) 
@@ -752,6 +744,9 @@ class tcms_wikiparser {
 				}
 				
 				$s .= $text.$trail;
+				*/
+				
+				$s .= $url.$trail;
 			}
 			else {
 				$s .= $protocol.$remainder;

@@ -176,6 +176,7 @@ if(!defined('_TCMS_MENU_SEARCH'))              define('_TCMS_MENU_SEARCH', 'Such
 if(!defined('_TCMS_MENU_IMPORT'))              define('_TCMS_MENU_IMPORT', 'Import');
 if(!defined('_TCMS_MENU_CFORM'))               define('_TCMS_MENU_CFORM', 'Kontaktformular');
 if(!defined('_TCMS_MENU_BOOK'))                define('_TCMS_MENU_BOOK', 'G&#228;stebuch');
+if(!defined('_TCMS_MENU_LOG'))                 define('_TCMS_MENU_LOG', 'LogViewer');
 
 
 // MODULE
@@ -225,6 +226,7 @@ if(!defined('_MOD_DOCU'))                      define('_MOD_DOCU', 'Dokumentatio
 if(!defined('_MOD_CREDITS'))                   define('_MOD_CREDITS', 'Credits und System Informationen');
 if(!defined('_MOD_ABOUT_MODULE'))              define('_MOD_ABOUT_MODULE', 'toendaCMS Modul Beschreibung');
 if(!defined('_MOD_ABOUT'))                     define('_MOD_ABOUT', '&#220;ber toendaCMS');
+if(!defined('_MOD_LOG'))                       define('_MOD_LOG', 'LogViewer');
 
 
 // TABLE
@@ -371,6 +373,7 @@ if(!defined('_TABLE_SITE_STATS'))              define('_TABLE_SITE_STATS', 'Inte
 if(!defined('_TABLE_NUM_OF_NEWS'))             define('_TABLE_NUM_OF_NEWS', 'Neuigkeiten Insgesamt');
 if(!defined('_TABLE_NUM_OF_YOUR_NEWS'))        define('_TABLE_NUM_OF_YOUR_NEWS', 'Eigene Neuigkeiten');
 if(!defined('_TABLE_NUM_OF_COMMENTS'))         define('_TABLE_NUM_OF_COMMENTS', 'Kommentare Insgesamt');
+if(!defined('_TABLE_MODULE'))                  define('_TABLE_MODULE', 'Modul');
 
 
 // MESSAGES
@@ -1287,6 +1290,9 @@ if(!defined('_STATS_RESET_TEXT'))              define('_STATS_RESET_TEXT', 'Hier
 if(!defined('_STATS_RESET_SUCCESS'))           define('_STATS_RESET_SUCCESS', 'Ihre Statistiken wurden erfolgreich zurueckgesetzt.');
 if(!defined('_STATS_RESET_FAILED'))            define('_STATS_RESET_FAILED', 'Ihre Statistiken konnten nicht zurueckgesetzt werden.');
 if(!defined('_STATS_DATA_DIR_SIZE'))           define('_STATS_DATA_DIR_SIZE', 'Datenverzeichnis-Gr&#246;&#223;e');
+if(!defined('_STATS_LOG_TITLE'))               define('_STATS_LOG_TITLE', 'LogViewer');
+if(!defined('_STATS_LOG_TEXT'))                define('_STATS_LOG_TEXT', '&#220;bersicht ihrer Aktivit&#228;ten');
+if(!defined('_STATS_LOG_TEXT_ADMIN'))          define('_STATS_LOG_TEXT_ADMIN', 'und der Aktivit&#228;ten aller Benutzer');
 
 
 // FAQ's

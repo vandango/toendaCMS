@@ -49,6 +49,7 @@ if(!defined('_TABLE_SITE_STATS'))              define('_TABLE_SITE_STATS', 'Site
 if(!defined('_TABLE_NUM_OF_NEWS'))             define('_TABLE_NUM_OF_NEWS', 'Total Posts');
 if(!defined('_TABLE_NUM_OF_YOUR_NEWS'))        define('_TABLE_NUM_OF_YOUR_NEWS', 'Number of Your Posts');
 if(!defined('_TABLE_NUM_OF_COMMENTS'))         define('_TABLE_NUM_OF_COMMENTS', 'Number of Comments');
+if(!defined('_TABLE_MODULE'))                  define('_TABLE_MODULE', 'Module');
 
 if(!defined('_SEARCH_WITH_GOOGLE'))            define('_SEARCH_WEBSEARCH', 'Websearch');
 
@@ -84,6 +85,14 @@ if(!defined('_TABLE_BOOKMARK'))                define('_TABLE_BOOKMARK', 'Bookma
 if(!defined('_LU_TEMPLATE_FILE'))              define('_LU_TEMPLATE_FILE', 'Template File');
 if(!defined('_LU_TEMPLATE_EDITOR'))            define('_LU_TEMPLATE_EDITOR', 'Template Editor');
 if(!defined('_LU_TEMPLATE_CREATE'))            define('_LU_TEMPLATE_CREATE', 'Create file');
+
+if(!defined('_TCMS_MENU_LOG'))                 define('_TCMS_MENU_LOG', 'LogViewer');
+
+if(!defined('_MOD_LOG'))                       define('_MOD_LOG', 'LogViewer');
+
+if(!defined('_STATS_LOG_TITLE'))               define('_STATS_LOG_TITLE', 'LogViewer');
+if(!defined('_STATS_LOG_TEXT'))                define('_STATS_LOG_TEXT', 'Overview of all your activities');
+if(!defined('_STATS_LOG_TEXT_ADMIN'))          define('_STATS_LOG_TEXT_ADMIN', 'and the activities of all other users');
 
 *
 *

@@ -175,6 +175,7 @@ if(!defined('_TCMS_MENU_SEARCH'))              define('_TCMS_MENU_SEARCH', 'Sear
 if(!defined('_TCMS_MENU_IMPORT'))              define('_TCMS_MENU_IMPORT', 'Import');
 if(!defined('_TCMS_MENU_CFORM'))               define('_TCMS_MENU_CFORM', 'Contactform');
 if(!defined('_TCMS_MENU_BOOK'))                define('_TCMS_MENU_BOOK', 'Guestbook');
+if(!defined('_TCMS_MENU_LOG'))                 define('_TCMS_MENU_LOG', 'LogViewer');
 
 
 // MODULES
@@ -224,6 +225,7 @@ if(!defined('_MOD_DOCU'))                      define('_MOD_DOCU', 'Documentatio
 if(!defined('_MOD_CREDITS'))                   define('_MOD_CREDITS', 'Credits and System Information');
 if(!defined('_MOD_ABOUT_MODULE'))              define('_MOD_ABOUT_MODULE', 'toendaCMS Modules Description');
 if(!defined('_MOD_ABOUT'))                     define('_MOD_ABOUT', 'About toendaCMS');
+if(!defined('_MOD_LOG'))                       define('_MOD_LOG', 'LogViewer');
 
 
 // TABLES
@@ -369,6 +371,7 @@ if(!defined('_TABLE_SITE_STATS'))              define('_TABLE_SITE_STATS', 'Site
 if(!defined('_TABLE_NUM_OF_NEWS'))             define('_TABLE_NUM_OF_NEWS', 'Total Posts');
 if(!defined('_TABLE_NUM_OF_YOUR_NEWS'))        define('_TABLE_NUM_OF_YOUR_NEWS', 'Number of Your Posts');
 if(!defined('_TABLE_NUM_OF_COMMENTS'))         define('_TABLE_NUM_OF_COMMENTS', 'Number of Comments');
+if(!defined('_TABLE_MODULE'))                  define('_TABLE_MODULE', 'Module');
 
 
 // MESSAGES
@@ -1282,6 +1285,9 @@ if(!defined('_STATS_RESET_TEXT'))              define('_STATS_RESET_TEXT', 'Here
 if(!defined('_STATS_RESET_SUCCESS'))           define('_STATS_RESET_SUCCESS', 'Statistics successfull reseted.');
 if(!defined('_STATS_RESET_FAILED'))            define('_STATS_RESET_FAILED', 'Statistics reset failed.');
 if(!defined('_STATS_DATA_DIR_SIZE'))           define('_STATS_DATA_DIR_SIZE', 'Size of the data directory');
+if(!defined('_STATS_LOG_TITLE'))               define('_STATS_LOG_TITLE', 'LogViewer');
+if(!defined('_STATS_LOG_TEXT'))                define('_STATS_LOG_TEXT', 'Overview of all your activities');
+if(!defined('_STATS_LOG_TEXT_ADMIN'))          define('_STATS_LOG_TEXT_ADMIN', 'and the activities of all other users');
 
 
 // FAQ's

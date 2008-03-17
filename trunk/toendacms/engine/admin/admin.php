@@ -21,7 +21,7 @@
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 1.3.5
+ * @version 1.4.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -112,6 +112,7 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 	using('toendacms.kernel.configuration', false, true);
 	using('toendacms.kernel.version', false, true);
 	using('toendacms.kernel.import', false, true);
+	using('toendacms.kernel.loghandler', false, true);
 	
 	include_once('../tcms_kernel/tcms_globals.lib.php');
 	include_once('../tcms_kernel/pclzip/pclzip.lib.php');
@@ -120,6 +121,9 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 	if($tcms_file->checkFileExist('../js/FCKeditor/fckeditor.php')) {
 		include_once('../js/FCKeditor/fckeditor.php');
 	}
+	
+	// include datacontainer
+	using('toendacms.datacontainer.log', false, true);
 	
 	
 	// timer
@@ -173,6 +177,9 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 	
 	// image class
 	$tcms_gd = new tcms_gd();
+	
+	// log
+	$tcms_log = new tcms_loghandler(_TCMS_PATH, $tcms_time, $tcms_config);
 	
 	
 	// database
@@ -454,8 +461,9 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 	
 	// clean up
 	unset($tcms_version);
-	unset($tcms_config);
 	unset($tcms_main);
+	unset($tcms_log);
+	unset($tcms_config);
 	unset($tcms_time);
 }
 else{
@@ -472,12 +480,33 @@ else{
 	Logout
 */
 if($todo == 'logout') {
+	// config
+	$tcms_config = new tcms_configuration(_TCMS_PATH);
+	
+	// account provider
+	$tcms_ap = new tcms_account_provider(_TCMS_PATH, $c_charset, $tcms_time);
+	
+	// log
+	$tcms_log = new tcms_loghandler(_TCMS_PATH, $tcms_time, $tcms_config);
+	
 	// authentication
 	$tcms_auth = new tcms_authentication(_TCMS_PATH, $c_charset, '', $tcms_time);
 	
+	// log entry
+	$arr_ws = $tcms_ap->getUserInfo($id_user, true);
+	
+	$tcms_log->WriteEntry(
+		$arr_ws['id'], 
+		'logout', 
+		'Successfull logout.'
+	);
+	
+	// logout
 	$tcms_auth->doLogout($id_user, true);
 	
-	echo '<script>document.location.href=\'index.php\';</script>';
+	echo '<script>'
+	.'document.location.href=\'index.php\';'
+	.'</script>';
 }
 	
 

@@ -9,14 +9,30 @@
 | 
 | Browser list
 |
-| File:		tcms_oslist.lib.php
-| Version:	0.0.1
+| File:	tcms_oslist.lib.php
 |
 +
 */
 
 
 defined('_TCMS_VALID') or die('Restricted access');
+
+
+/**
+ * OS list
+ * 
+ * This list came from the absolute professionell open source
+ * content management system Joomla! (www.joomla.org).
+ * It's free software and released under the GNU General Public License.
+ * (http://www.gnu.org/copyleft/gpl.html)
+ * Copyright (C) 2005 Open Source Matters. All rights reserved.
+ * 
+ * @version 0.0.2
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage tcms_kernel
+ *
+ */
 
 
 $i = 0;

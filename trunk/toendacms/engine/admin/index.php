@@ -21,7 +21,7 @@
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 0.7.5
+ * @version 0.8.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -47,6 +47,9 @@ if(isset($_GET['conduct'])){ $conduct = $_GET['conduct']; }
 */
 define('_TCMS_VALID', 1);
 
+// include import loader
+include_once('../tcms_kernel/tcms_loader.lib.php');
+
 if(!defined('_TCMS_LANGUAGE_STARTPOINT')) {
 	define('_TCMS_LANGUAGE_STARTPOINT', 'admin');
 }
@@ -62,24 +65,45 @@ include_once('../tcms_kernel/tcms_file.lib.php');
 include_once('../tcms_kernel/tcms_sql.lib.php');
 include_once('../tcms_kernel/tcms_xml.lib.php');
 include_once(_TCMS_PATH.'/tcms_global/database.php');
-include_once('../tcms_kernel/tcms_authentication.lib.php');
+using('toendacms.kernel.html', false, true);
+using('toendacms.kernel.authentication', false, true);
+using('toendacms.kernel.account_provider', false, true);
+using('toendacms.kernel.loghandler', false, true);
 include_once('../tcms_kernel/tcms_configuration.lib.php');
 include_once('../tcms_kernel/tcms_version.lib.php');
 include_once('../tcms_kernel/phpmailer/class.phpmailer.php');
 
+// include datacontainer
+using('toendacms.datacontainer.log', false, true);
 
-$c_xml = new xmlparser(_TCMS_PATH.'/tcms_global/layout.xml','r');
-$adminTheme = $c_xml->readSection('layout', 'admin');
 
+// config
 $tcms_config = new tcms_configuration(_TCMS_PATH);
-$c_charset = $tcms_config->getCharset();
+$c_charset   = $tcms_config->getCharset();
+$adminTheme  = $tcms_config->getAdminTheme();
 
-$tcms_auth = new tcms_authentication(_TCMS_PATH, $c_charset, '');
-
+// baseclass
 $tcms_main = new tcms_main(_TCMS_PATH);
 
+// version
 $tcms_version = new tcms_version('../../');
 
+// time
+$tcms_time = new tcms_time();
+
+// html
+$tcms_html = new tcms_html();
+
+// authetication
+$tcms_auth = new tcms_authentication(_TCMS_PATH, $c_charset, '', $tcms_time);
+
+// account provider
+$tcms_ap = new tcms_account_provider(_TCMS_PATH, $c_charset, $tcms_time);
+
+// log
+$tcms_log = new tcms_loghandler(_TCMS_PATH, $tcms_time, $tcms_config);
+
+// db
 $choosenDB = $tcms_db_engine;
 $sqlUser   = $tcms_db_user;
 $sqlPass   = $tcms_db_password;
@@ -264,7 +288,16 @@ function displayKeyCode() {
 if($cmd == 'login') {
 	$id_user = $tcms_auth->doLogin($username, $password, true);
 	
-	if($id_user !== false && strlen($id_user) == 32) {
+	if($id_user !== false 
+	&& strlen($id_user) == 32) {
+		$userId = $tcms_ap->getUserID($username);
+		
+		$tcms_log->WriteEntry(
+			$userId, 
+			'login', 
+			'Successfull login.'
+		);
+		
 		echo '<script>'
 		.'document.location.href=\'admin.php?id_user='.$id_user.'\';'
 		.'</script>';
@@ -287,6 +320,17 @@ if($cmd == 'login') {
 				$msg = '';
 				break;
 		}
+		
+		$errStr = 'Login Error:<br />'
+		.'Username: '.$username.'<br />'
+		//.'Password: '.$password.'<br />'
+		.'Message: '.$msg;
+		
+		$tcms_log->WriteEntry(
+			'', 
+			'login', 
+			$errStr
+		);
 		
 		echo '<div class="loginerror" align="center">'
 		.'<h1>! '._MSG_ERROR.' !</h1>'

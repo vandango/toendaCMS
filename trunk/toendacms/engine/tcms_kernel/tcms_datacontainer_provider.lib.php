@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.9.0
+ * @version 1.9.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -686,7 +686,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			$count = 0;
 			
 			while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
-				$wsPubD = $sqlARR['publish_date'];
+				$wsPubD = $sqlObj->publish_date;
 				
 				$wsPubD = mktime(substr($wsPubD, 11, 2), substr($wsPubD, 14, 2), 0, substr($wsPubD, 3, 2), substr($wsPubD, 0, 2), substr($wsPubD, 6, 4));
 				
