@@ -1511,16 +1511,16 @@ class tcms_datacontainer_provider extends tcms_main {
 			switch($this->m_choosenDB) {
 				case 'mysql':
 					$dbLimitFront = "";
-					$dbLimitBack = ( $amount == -1 ? "" : "LIMIT 0, ".$amount );
+					$dbLimitBack = ( $amount < 1 ? "" : "LIMIT 0, ".$amount );
 					break;
 				
 				case 'pgsql':
 					$dbLimitFront = "";
-					$dbLimitBack = ( $amount == -1 ? "" : "LIMIT ".$amount );
+					$dbLimitBack = ( $amount < 1 ? "" : "LIMIT ".$amount );
 					break;
 				
 				case 'mssql':
-					$dbLimitFront = ( $amount == -1 ? "" : "TOP ".$amount );
+					$dbLimitFront = ( $amount < 1 ? "" : "TOP ".$amount );
 					$dbLimitBack = "";
 					break;
 				
