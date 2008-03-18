@@ -218,11 +218,11 @@ class tcms_loghandler extends tcms_main {
 			$itemCount++;
 		}
 		
-		if($this->db_choosenDB == 'xml') {
+		if($this->_choosenDB == 'xml') {
 			$arrFiles = $this->_getPathContent($this->_path.'/tcms_log/');
 			
 			// sort by timestamp
-			sort($arrFiles, SORT_DESC);
+			krsort($arrFiles);
 			
 			if($this->isArray($arrFiles)) {
 				foreach($arrFiles as $key => $value) {
