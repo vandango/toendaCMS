@@ -232,10 +232,10 @@ if($todo == 'update') {
 	
 	
 	echo '<div style="display: block; float: left; width: 220px; font-weight: bold;">'
-	._TCMS_DB_UPDATE_VERSION_160
+	._TCMS_DB_UPDATE_VERSION_162
 	.'</div>'
 	.'<div style="display: block; float: left; margin: 0 0 0 30px; width: 250px;">'
-	.'<input checked="checked" name="new_update" type="radio" value="160" />'
+	.'<input checked="checked" name="new_update" type="radio" value="162" />'
 	.'</div>'
 	.'<div style="display: block; margin: 0 0 0 560px;">&nbsp;</div>'
 	.'<br />';
