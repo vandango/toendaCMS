@@ -35,3 +35,21 @@ ALTER TABLE [#####newsmanager] ADD [comment_feed_text] VARCHAR( 255 ) NULL DEFAU
 ALTER TABLE [#####newsmanager] ADD [comment_feed_type] VARCHAR( 7 ) NULL DEFAULT '';
 ALTER TABLE [#####newsmanager] ADD [use_comment_feed_img] TINYINT NOT NULL DEFAULT '0';
 ALTER TABLE [#####newsmanager] ADD [comments_feed_amount] INT NOT NULL DEFAULT '5';
+
+ALTER TABLE [#####imagegallery_config] ADD [list_option_amount] TINYINT NOT NULL DEFAULT '4';
+ALTER TABLE [#####guestbook] ADD [text] VARCHAR(MAX) NULL;
+ALTER TABLE [#####guestbook] ADD [language] [varchar]( 25 ) NOT NULL DEFAULT 'english_EN';
+
+EXEC sp_rename [#####impressum], [#####imprint];
+
+
+CREATE TABLE [#####log] (
+	[uid] [varchar]( 32 ) NOT NULL ,
+	[user_uid] [varchar]( 32 ) NULL ,
+	[stamp] [int] NOT NULL,
+	[ip] [varchar]( 40 ) NULL ,
+	[module] [varchar]( 40 ) NULL ,
+	[text] [varchar](MAX) NULL
+);
+
+

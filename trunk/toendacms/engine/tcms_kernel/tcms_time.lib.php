@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to have some often used time tools.
  *
- * @version 0.1.5
+ * @version 0.3.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -53,19 +53,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * startSqlQueryCounter                -> Starts the sql query counter
  * incrmentSqlQueryCounter             -> Increment the sql query counter
  * getSqlQueryCountValue               -> Return the sql query count sum
- *
- *--------------------------------------------------------
- * DEPRECATED
- *--------------------------------------------------------
- * getmicrotime               -> return microtime
- * tcms_load_start            -> set starttime to start loading of page
- * tcms_load_end              -> set endtime to end loading of page and echo
- * current_date               -> return current date
- * current_time               -> return current time
- * loadtime_output            -> Return a string with the timer value
- * tcms_query_count_start     -> Starts the sql query counter
- * tcms_query_counter         -> Count the sql query counter
- * tcms_query_count_end_out   -> Return the sql query count sum
+ * convertSecondsIntoString            -> Convert seconds into a time string
  * 
  * </code>
  *
@@ -84,14 +72,14 @@ class tcms_time {
 	/**
 	 * Default constructor
 	 */
-	public function __construct(){
+	public function __construct() {
 	}
 	
 	
 	/**
 	 * Default destructor
 	 */
-	public function __destruct(){
+	public function __destruct() {
 	}
 	
 	
@@ -103,7 +91,7 @@ class tcms_time {
 	/**
 	 * Get a microtime
 	 */
-	public function getMicrotime(){
+	public function getMicrotime() {
 		list($usec, $sec) = explode(' ', microtime());
 		return ((float)$usec + (float)$sec);
 	}
@@ -112,7 +100,7 @@ class tcms_time {
 	/**
 	 * Get the current time
 	 */
-	public function getCurrentTime(){
+	public function getCurrentTime() {
 		return date('H:i');
 	}
 	
@@ -120,7 +108,7 @@ class tcms_time {
 	/**
 	 *  Get the current date
 	 */
-	public function getCurrentDate(){
+	public function getCurrentDate() {
 		return date('d.m.Y');
 	}
 	
@@ -128,7 +116,7 @@ class tcms_time {
 	/**
 	 * Start the timer
 	 */
-	public function startTimer(){
+	public function startTimer() {
 		$this->_starttime = $this->getMicrotime();
 	}
 	
@@ -136,7 +124,7 @@ class tcms_time {
 	/**
 	 * Stop the timer
 	 */
-	public function stopTimer(){
+	public function stopTimer() {
 		$this->_endtime = $this->getMicrotime();
 		//return $this->displayTimerValue();
 	}
@@ -145,7 +133,7 @@ class tcms_time {
 	/**
 	 * Return a string with the current timer value
 	 */
-	public function getCurrentTimerValue(){
+	public function getCurrentTimerValue() {
 		$this->_endtime = $this->getMicrotime();
 		$time = $this->_endtime - $this->_starttime;
 		
@@ -156,7 +144,7 @@ class tcms_time {
 	/**
 	 * Return a string with the timer value
 	 */
-	public function getTimerValue(){
+	public function getTimerValue() {
 		$time = $this->_endtime - $this->_starttime;
 		
 		return round($time, 4);
@@ -166,7 +154,7 @@ class tcms_time {
 	/**
 	 * Starts the sql query counter
 	 */
-	public function startSqlQueryCounter(){
+	public function startSqlQueryCounter() {
 		$this->_sqlQuerys = 0;
 	}
 	
@@ -174,7 +162,7 @@ class tcms_time {
 	/**
 	 * Increment the sql query counter
 	 */
-	public function incrmentSqlQueryCounter(){
+	public function incrmentSqlQueryCounter() {
 		$this->_sqlQuerys++;
 	}
 	
@@ -182,120 +170,72 @@ class tcms_time {
 	/**
 	 * Return the sql query count sum
 	 */
-	public function getSqlQueryCountValue(){
+	public function getSqlQueryCountValue() {
 		return ( $this->_sqlQuerys == 1 ? $this->_sqlQuerys.' Database Query' : $this->_sqlQuerys.' Database Querys.' );
 	}
 	
 	
 	
-	/*
-		DEPRECATED
-	*/
-	
-	
-	
 	/**
-	 * @deprecated 
-	 * @return Starts the loadtime counter
-	 * @desc 
+	 * Convert seconds into a time string
+	 *
+	 * @param String $language
+	 * @param Integer $NumberOfSeconds
+	 * @return String
 	 */
-	public function tcms_load_start(){
-		global $starttime;
-		$starttime = tcms_time::get_microtime();
-	}
-	
-	
-	/**
-	 * @deprecated 
-	 * @return microtime
-	 * @desc 
-	 */
-	public function get_microtime(){
-		list($usec, $sec) = explode(' ', microtime());
-		return ((float)$usec + (float)$sec);
-	}
-	
-	
-	/**
-	 * @deprecated 
-	 * @return the current time
-	 * @desc 
-	 */
-	public function current_time(){
-		$time = date('H:i');
-		return $time;
-	}
-	
-	
-	/**
-	 * @deprecated 
-	 * @return the current date
-	 * @desc 
-	 */
-	public function current_date(){
-		$date = date('d.m.Y');
-		return $date;
-	}
-	
-	
-	/**
-	 * @deprecated 
-	 * @return Stop the loadtime counter
-	 * @desc 
-	 */
-	public function tcms_load_end(){
-		global $endtime;
-		$endtime = tcms_time::get_microtime();
-		return tcms_time::loadtime_output();
-	}
-	
-	
-	/**
-	 * @deprecated 
-	 * @return Return a string with the loadtime
-	 * @desc 
-	 */
-	public function loadtime_output(){
-		global $starttime;
-		global $endtime;
+	public function convertSecondsIntoString($language, $NumberOfSeconds) {
+		if($language == 'de') {
+			$time_map = array(
+				'Jahre'    => 31536000,    # 365 Tage
+				'Monate'   => 2592000,    # 30 Tage
+				'Wochen'   => 604800,    # 7 Tage
+				'Tage'     => 86400,
+				'Stunden'  => 3600,
+				'Minuten'  => 60,
+				'Sekunden' => 1,
+			);
+		}
+		else {
+			$time_map = array(
+				'Years'   => 31536000,    # 365 Tage
+				'Months'  => 2592000,    # 30 Tage
+				'Weeks'   => 604800,    # 7 Tage
+				'Days'    => 86400,
+				'Hours'   => 3600,
+				'Minutes' => 60,
+				'Seconds' => 1,
+			);
+		}
 		
-		$time = $endtime - $starttime;
+		$SecondsTotal = $NumberOfSeconds;
+		$SecondsLeft  = $SecondsTotal;
 		
-		return _MSG_PAGE_LOAD_1.'&nbsp;'.round($time, 4).'&nbsp;'._MSG_PAGE_LOAD_2;
-	}
-	
-	
-	/**
-	 * @deprecated 
-	 * @return Starts the sql query counter
-	 * @desc 
-	 */
-	public function tcms_query_count_start(){
-		global $sqlQuery;
-		$sqlQuery = 0;
-	}
-	
-	
-	/**
-	 * @deprecated 
-	 * @return Count the sql query counter
-	 * @desc 
-	 */
-	public function tcms_query_counter(){
-		global $sqlQuery;
-		$sqlQuery++;
-		//echo '<h2>'.$sqlQuery.'</h2><br>';
-	}
-	
-	
-	/**
-	 * @deprecated 
-	 * @return Return the sql query count sum
-	 * @desc 
-	 */
-	public function tcms_query_count_end_out(){
-		global $sqlQuery;
-		return ( $sqlQuery == 1 ? $sqlQuery.' Database Query' : $sqlQuery.' Database Querys.' );
+		$stack = array();
+		$count = 0;
+		
+		foreach($time_map as $k => $v) {
+			if($SecondsLeft < $v 
+			|| $SecondsLeft == 0) {
+				continue;
+			}
+			else {
+				$amount = floor($SecondsLeft/ $v);
+				$SecondsLeft = $SecondsLeft % $v;
+				
+				$label = ($amount>1) ? $k : substr($k, 0, -1);
+				$stack[] = sprintf('<strong>%s</strong> %s', $amount, $label);
+				
+				$stack2[$count]['name'] = $label;
+				$stack2[$count]['value'] = $amount;
+				
+				$count++;
+			}
+		}
+		
+		$result[0] = $stack2;
+		$result[1] = join (', ', $stack);
+		
+		return $result;
 	}
 }
 
