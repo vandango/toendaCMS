@@ -35,6 +35,18 @@ ALTER TABLE "public"."#####newsmanager" ADD COLUMN "comments_feed_amount" INTEGE
 
 
 
+
+ALTER TABLE `#####imagegallery_config` ADD `list_option_amount` INTEGER NOT NULL DEFAULT '4';
+
+ALTER TABLE `#####guestbook` ADD `text` TEXT NULL ,
+ADD `language` VARCHAR( 25 ) NOT NULL DEFAULT 'english_EN';
+
+ALTER TABLE "public"."#####impressum" RENAME TO "#####imprint";
+
+
+
+
+
 CREATE TABLE "public"."#####log" (
 "uid" VARCHAR( 32 ) NOT NULL ,
 "user_uid" VARCHAR( 32 ) NULL ,

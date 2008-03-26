@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 3.1.3
+ * @version 3.1.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -346,11 +346,19 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 }
 else {
 	if($tcms_param->checkInstallDir(_TCMS_PATH)) {
-		echo '<div align="center" style=" padding: 100px 10px 100px 10px; border: 1px solid #333; background-color: #f8f8f8; font-family: Georgia, \'Lucida Grande\', \'Lucida Sans\', Serif;">'
-		.'<img src="engine/images/tcms_top.gif" border="0" />'
-		.'<h1>toendaCMS Error 500: Internal Server Error!</h1>'
-		.'<h2>This site is temporarily unavailable.<br />Please notify the System Administrator</h2>'
-		.'</div>';
+		echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'
+		.chr(13).'<html xmlns="http://www.w3.org/1999/xhtml">'
+		.chr(13).'<head>'
+		.chr(13).'<title>toendaCMS Error</title>'
+		.chr(13).'</head>'
+		.chr(13).'<body>'
+		.chr(13).'<div align="center" style=" padding: 100px 10px 100px 10px; border: 1px solid #333; background-color: #f8f8f8; font-family: Georgia, \'Lucida Grande\', \'Lucida Sans\', Serif;">'
+		.chr(13).'<img src="engine/images/tcms_top.gif" border="0" />'
+		.chr(13).'<h1>toendaCMS Error 500: Internal Server Error!</h1>'
+		.chr(13).'<h2>This site is temporarily unavailable.<br />Please notify the System Administrator</h2>'
+		.chr(13).'</div>'
+		.chr(13).'</body>'
+		.chr(13).'</html>';
 		
 		$wsShowSite = false;
 	}
@@ -369,10 +377,18 @@ if($wsShowSite) {
 		SITE ON / OFF
 	*/
 	if($site_offline == 1) {
-		echo '<div align="center" style=" padding: 100px 10px 100px 10px; border: 1px solid #333; background-color: #f8f8f8; font-family: Georgia, \'Lucida Grande\', \'Lucida Sans\', Serif;">'
-		.'<img src="'.$toendaCMSimage.'engine/images/tcms_top.gif" border="0" />'
-		.'<h2>'.$tcms_config->getSiteOfflineText().'</h2>'
-		.'</div>';
+		echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'
+		.chr(13).'<html xmlns="http://www.w3.org/1999/xhtml">'
+		.chr(13).'<head>'
+		.chr(13).'<title>toendaCMS Offline</title>'
+		.chr(13).'</head>'
+		.chr(13).'<body>'
+		.chr(13).'<div align="center" style=" padding: 100px 10px 100px 10px; border: 1px solid #333; background-color: #f8f8f8; font-family: Georgia, \'Lucida Grande\', \'Lucida Sans\', Serif;">'
+		.chr(13).'<img src="'.$toendaCMSimage.'engine/images/tcms_top.gif" border="0" />'
+		.chr(13).'<h2>'.$tcms_config->getSiteOfflineText().'</h2>'
+		.chr(13).'</div>'
+		.chr(13).'</body>'
+		.chr(13).'</html>';
 	}
 	else {
 		// clean url strings (against cross-site scripting)
