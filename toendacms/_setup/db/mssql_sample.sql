@@ -1,38 +1,37 @@
-USE [tcms]
-GO
-/****** Objekt:  Table [#####comments]    Skriptdatum: 09/02/2007 18:07:15 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-SET ANSI_PADDING ON
-GO
-CREATE TABLE [#####comments](
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####knowledgebase]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [#####knowledgebase](
 	[uid] [varchar](10) NOT NULL DEFAULT (''),
-	[module] [varchar](5) NOT NULL DEFAULT (''),
-	[timestamp] [varchar](14) NOT NULL DEFAULT (''),
-	[name] [varchar](255) NOT NULL DEFAULT (''),
-	[email] [varchar](255) NULL DEFAULT (NULL),
-	[web] [varchar](255) NULL DEFAULT (NULL),
-	[msg] [text] NULL,
-	[time] [varchar](14) NOT NULL DEFAULT (''),
-	[ip] [varchar](15) NULL DEFAULT (NULL),
-	[domain] [varchar](255) NULL DEFAULT (NULL),
- CONSTRAINT [PK_tcms_comments] PRIMARY KEY CLUSTERED 
+	[category] [varchar](10) NULL DEFAULT (NULL),
+	[parent] [varchar](10) NULL DEFAULT (NULL),
+	[title] [varchar](255) NULL DEFAULT (NULL),
+	[subtitle] [varchar](255) NULL DEFAULT (NULL),
+	[content] [text] NULL,
+	[image] [varchar](255) NULL DEFAULT (NULL),
+	[type] [char](1) NOT NULL DEFAULT (''),
+	[date] [varchar](16) NOT NULL DEFAULT (''),
+	[last_update] [varchar](16) NOT NULL DEFAULT (''),
+	[access] [varchar](10) NOT NULL DEFAULT (''),
+	[autor] [varchar](32) NOT NULL DEFAULT (''),
+	[sort] [int] NOT NULL DEFAULT ('0'),
+	[publish_state] [int] NOT NULL DEFAULT ('0'),
+ CONSTRAINT [PK_#####knowledgebase] PRIMARY KEY CLUSTERED 
 (
 	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
 GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####knowledgebase_config]    Skriptdatum: 09/02/2007 18:09:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-SET ANSI_PADDING ON
-GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####knowledgebase_config]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [#####knowledgebase_config](
 	[uid] [varchar](13) NOT NULL DEFAULT (''),
 	[id] [varchar](13) NOT NULL DEFAULT (''),
@@ -42,283 +41,19 @@ CREATE TABLE [#####knowledgebase_config](
 	[enabled] [int] NOT NULL DEFAULT ('0'),
 	[autor_enabled] [int] NOT NULL DEFAULT ('0'),
 	[access] [varchar](10) NOT NULL DEFAULT (''),
- CONSTRAINT [PK_tcms_knowledgebase_config] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#####knowledgebase_config] PRIMARY KEY CLUSTERED 
 (
 	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
 GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####products_config]    Skriptdatum: 09/02/2007 18:12:12 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-SET ANSI_PADDING ON
-GO
-CREATE TABLE [#####products_config](
-	[uid] [varchar](8) NOT NULL DEFAULT (''),
-	[products_id] [varchar](8) NOT NULL DEFAULT (''),
-	[products_title] [varchar](255) NOT NULL DEFAULT (''),
-	[products_stamp] [varchar](255) NOT NULL DEFAULT (''),
-	[products_text] [text] NOT NULL,
-	[category_state] [varchar](255) NOT NULL DEFAULT (''),
-	[category_title] [varchar](255) NOT NULL DEFAULT (''),
-	[use_category_title] [int] NOT NULL DEFAULT ('0'),
-	[language] [varchar](25) NULL,
-	[show_price_only_users] [tinyint] NULL,
-	[startpagetitle] [varchar](255) NULL,
-	[use_sidebar_categories] [tinyint] NOT NULL DEFAULT ('1'),
-	[max_latest_products] [int] NOT NULL DEFAULT ('15'),
- CONSTRAINT [PK_tcms_products_config] PRIMARY KEY CLUSTERED 
-(
-	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####contactform]    Skriptdatum: 09/02/2007 18:07:27 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
-CREATE TABLE [#####contactform](
-	[uid] [varchar](11) NOT NULL DEFAULT (''),
-	[contact] [varchar](255) NOT NULL DEFAULT (''),
-	[show_contacts_in_sidebar] [int] NOT NULL DEFAULT ('0'),
-	[send_id] [varchar](11) NOT NULL DEFAULT (''),
-	[contacttitle] [varchar](255) NOT NULL DEFAULT (''),
-	[contactstamp] [varchar](255) NOT NULL DEFAULT (''),
-	[access] [varchar](10) NOT NULL DEFAULT (''),
-	[enabled] [int] NULL DEFAULT (NULL),
-	[use_adressbook] [int] NULL DEFAULT (NULL),
-	[use_contact] [int] NULL DEFAULT (NULL),
-	[show_contactemail] [int] NOT NULL DEFAULT ((0)),
-	[contacttext] [text] NOT NULL DEFAULT (''),
-	[language] [varchar](25) NOT NULL DEFAULT (''),
- CONSTRAINT [PK_tcms_contactform] PRIMARY KEY CLUSTERED 
-(
-	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####links]    Skriptdatum: 09/02/2007 18:09:54 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
-CREATE TABLE [#####links](
-	[uid] [varchar](32) NOT NULL DEFAULT (''),
-	[type] [char](1) NOT NULL DEFAULT ('l'),
-	[category] [varchar](32) NULL DEFAULT (NULL),
-	[sort] [int] NULL DEFAULT (NULL),
-	[name] [varchar](255) NULL DEFAULT (NULL),
-	[desc] [text] NULL,
-	[link] [varchar](255) NULL DEFAULT (NULL),
-	[published] [int] NOT NULL DEFAULT ('0'),
-	[target] [varchar](20) NULL DEFAULT (NULL),
-	[rss] [varchar](255) NULL DEFAULT (NULL),
-	[access] [varchar](10) NOT NULL DEFAULT (''),
-	[module] [int] NULL DEFAULT (NULL),
- CONSTRAINT [PK_tcms_links] PRIMARY KEY CLUSTERED 
-(
-	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####session]    Skriptdatum: 09/02/2007 18:12:15 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
-CREATE TABLE [#####session](
-	[uid] [varchar](32) NOT NULL DEFAULT (''),
-	[date] [varchar](20) NOT NULL DEFAULT (''),
-	[user] [varchar](255) NOT NULL DEFAULT (''),
-	[user_id] [varchar](32) NOT NULL DEFAULT (''),
- CONSTRAINT [PK_tcms_session] PRIMARY KEY CLUSTERED 
-(
-	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####sidebar]    Skriptdatum: 09/02/2007 18:12:22 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
-CREATE TABLE [#####sidebar](
-	[uid] [varchar](32) NOT NULL DEFAULT (''),
-	[title] [varchar](255) NULL DEFAULT (NULL),
-	[key] [varchar](255) NULL DEFAULT (NULL),
-	[content] [text] NULL,
-	[foot] [varchar](255) NULL DEFAULT (NULL),
-	[id] [varchar](255) NOT NULL DEFAULT (''),
- CONSTRAINT [PK_tcms_sidebar] PRIMARY KEY CLUSTERED 
-(
-	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####contacts]    Skriptdatum: 09/02/2007 18:07:39 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
-CREATE TABLE [#####contacts](
-	[uid] [varchar](10) NOT NULL DEFAULT (''),
-	[default_con] [int] NOT NULL DEFAULT ('0'),
-	[published] [int] NOT NULL DEFAULT ('0'),
-	[name] [varchar](255) NOT NULL DEFAULT (''),
-	[position] [varchar](255) NULL DEFAULT (NULL),
-	[email] [varchar](255) NOT NULL DEFAULT (''),
-	[street] [varchar](255) NULL DEFAULT (NULL),
-	[country] [varchar](255) NULL DEFAULT (NULL),
-	[state] [varchar](255) NULL DEFAULT (NULL),
-	[town] [varchar](255) NULL DEFAULT (NULL),
-	[postal] [int] NULL DEFAULT (NULL),
-	[phone] [varchar](40) NULL DEFAULT (NULL),
-	[fax] [varchar](40) NULL DEFAULT (NULL),
- CONSTRAINT [PK_tcms_contacts] PRIMARY KEY CLUSTERED 
-(
-	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####links_config]    Skriptdatum: 09/02/2007 18:10:03 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
-CREATE TABLE [#####links_config](
-	[uid] [varchar](17) NOT NULL DEFAULT (''),
-	[link_use_side_desc] [int] NULL DEFAULT (NULL),
-	[link_use_side_title] [int] NULL DEFAULT (NULL),
-	[link_side_title] [varchar](255) NULL DEFAULT (NULL),
-	[link_use_main_desc] [int] NULL DEFAULT (NULL),
-	[link_main_title] [varchar](255) NULL DEFAULT (NULL),
-	[link_main_subtitle] [varchar](255) NULL DEFAULT (NULL),
-	[link_main_text] [text] NULL,
-	[link_main_access] [varchar](10) NULL DEFAULT (NULL),
- CONSTRAINT [PK_tcms_links_config] PRIMARY KEY CLUSTERED 
-(
-	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####sidebar_extensions]    Skriptdatum: 09/02/2007 18:12:45 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
-CREATE TABLE [#####sidebar_extensions](
-	[uid] [varchar](18) NOT NULL DEFAULT (''),
-	[sidemenu_title] [varchar](255) NULL DEFAULT (NULL),
-	[sidemenu] [int] NOT NULL DEFAULT ('0'),
-	[sidebar_title] [varchar](255) NULL DEFAULT (NULL),
-	[show_sidebar_title] [int] NOT NULL DEFAULT ('0'),
-	[chooser_title] [varchar](255) NULL DEFAULT (NULL),
-	[show_chooser_title] [int] NOT NULL DEFAULT ('0'),
-	[search_title] [varchar](255) NULL DEFAULT (NULL),
-	[show_search_title] [int] NOT NULL DEFAULT ('0'),
-	[search_alignment] [varchar](10) NULL DEFAULT (NULL),
-	[search_withbr] [int] NOT NULL DEFAULT ('0'),
-	[search_withbutton] [int] NULL DEFAULT (NULL),
-	[search_word] [varchar](255) NULL DEFAULT (NULL),
-	[login_title] [varchar](255) NULL DEFAULT (NULL),
-	[usermenu_title] [varchar](255) NULL DEFAULT (NULL),
-	[nologin] [varchar](255) NULL DEFAULT (NULL),
-	[reg_link] [varchar](255) NULL DEFAULT (NULL),
-	[reg_user] [varchar](255) NULL DEFAULT (NULL),
-	[reg_pass] [varchar](255) NULL DEFAULT (NULL),
-	[login_user] [int] NOT NULL DEFAULT ('0'),
-	[usermenu] [int] NOT NULL DEFAULT ('0'),
-	[show_login_title] [int] NOT NULL DEFAULT ('0'),
-	[show_news_cat_amount] [int] NULL DEFAULT ('0'),
-	[show_memberlist] [int] NOT NULL DEFAULT ((0)),
-	[lang] [varchar](255) NOT NULL DEFAULT (''),
- CONSTRAINT [PK_tcms_sidebar_extensions] PRIMARY KEY CLUSTERED 
-(
-	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####user]    Skriptdatum: 09/02/2007 18:13:39 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
-CREATE TABLE [#####user](
-	[uid] [varchar](32) NOT NULL CONSTRAINT [DF__tcms_user__uid__51EF2864]  DEFAULT (''),
-	[name] [varchar](255) NOT NULL CONSTRAINT [DF__tcms_user__name__52E34C9D]  DEFAULT (''),
-	[username] [varchar](255) NOT NULL CONSTRAINT [DF__tcms_user__usern__53D770D6]  DEFAULT (''),
-	[password] [varchar](32) NOT NULL CONSTRAINT [DF__tcms_user__passw__54CB950F]  DEFAULT (''),
-	[email] [varchar](255) NOT NULL CONSTRAINT [DF__tcms_user__email__55BFB948]  DEFAULT (''),
-	[group] [varchar](32) NOT NULL CONSTRAINT [DF__tcms_user__group__56B3DD81]  DEFAULT (''),
-	[join_date] [varchar](19) NOT NULL CONSTRAINT [DF__tcms_user__join___57A801BA]  DEFAULT (''),
-	[last_login] [varchar](19) NULL CONSTRAINT [DF__tcms_user__last___589C25F3]  DEFAULT (NULL),
-	[birthday] [varchar](10) NULL CONSTRAINT [DF__tcms_user__birth__59904A2C]  DEFAULT (NULL),
-	[gender] [varchar](5) NOT NULL CONSTRAINT [DF__tcms_user__gende__5A846E65]  DEFAULT (''),
-	[occupation] [varchar](255) NULL CONSTRAINT [DF__tcms_user__occup__5B78929E]  DEFAULT (NULL),
-	[homepage] [varchar](255) NULL CONSTRAINT [DF__tcms_user__homep__5C6CB6D7]  DEFAULT (NULL),
-	[icq] [varchar](20) NULL CONSTRAINT [DF__tcms_user__icq__5D60DB10]  DEFAULT (NULL),
-	[aim] [varchar](20) NULL CONSTRAINT [DF__tcms_user__aim__5E54FF49]  DEFAULT (NULL),
-	[yim] [varchar](20) NULL CONSTRAINT [DF__tcms_user__yim__5F492382]  DEFAULT (NULL),
-	[msn] [varchar](20) NULL CONSTRAINT [DF__tcms_user__msn__603D47BB]  DEFAULT (NULL),
-	[skype] [varchar](100) NULL CONSTRAINT [DF_tcms_user_skype]  DEFAULT (''),
-	[enabled] [int] NOT NULL CONSTRAINT [DF__tcms_user__enabl__61316BF4]  DEFAULT ('0'),
-	[#####enabled] [int] NOT NULL CONSTRAINT [DF__tcms_user__tcms___6225902D]  DEFAULT ('0'),
-	[static_value] [int] NOT NULL CONSTRAINT [DF__tcms_user__stati__6319B466]  DEFAULT ('0'),
-	[signature] [text] NULL,
-	[location] [varchar](255) NULL CONSTRAINT [DF__tcms_user__locat__640DD89F]  DEFAULT (NULL),
-	[hobby] [varchar](255) NULL CONSTRAINT [DF__tcms_user__hobby__6501FCD8]  DEFAULT (NULL),
- CONSTRAINT [PK_tcms_user] PRIMARY KEY CLUSTERED 
-(
-	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####news]    Skriptdatum: 09/02/2007 18:10:19 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####news]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [#####news](
 	[uid] [varchar](10) NOT NULL DEFAULT (''),
 	[title] [varchar](255) NULL DEFAULT (NULL),
@@ -337,18 +72,139 @@ CREATE TABLE [#####news](
 PRIMARY KEY CLUSTERED 
 (
 	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
 GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####content]    Skriptdatum: 09/02/2007 18:07:51 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-SET ANSI_PADDING ON
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####statistics_ip]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [#####statistics_ip](
+	[uid] [varchar](32) NOT NULL DEFAULT (''),
+	[ip] [varchar](15) NOT NULL DEFAULT (''),
+	[value] [int] NULL DEFAULT (NULL),
+ CONSTRAINT [PK_#####statistics_ip] PRIMARY KEY CLUSTERED 
+(
+	[uid] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+END
 GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####products_config]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [#####products_config](
+	[uid] [varchar](8) NOT NULL DEFAULT (''),
+	[products_id] [varchar](8) NOT NULL DEFAULT (''),
+	[products_title] [varchar](255) NOT NULL DEFAULT (''),
+	[products_stamp] [varchar](255) NOT NULL DEFAULT (''),
+	[products_text] [text] NOT NULL,
+	[category_state] [varchar](255) NOT NULL DEFAULT (''),
+	[category_title] [varchar](255) NOT NULL DEFAULT (''),
+	[use_category_title] [int] NOT NULL DEFAULT ('0'),
+	[language] [varchar](25) NULL,
+	[show_price_only_users] [tinyint] NULL,
+	[startpagetitle] [varchar](255) NULL,
+	[use_sidebar_categories] [tinyint] NOT NULL DEFAULT ('1'),
+	[max_latest_products] [int] NOT NULL DEFAULT ('15'),
+ CONSTRAINT [PK_#####products_config] PRIMARY KEY CLUSTERED 
+(
+	[uid] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####statistics_os]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [#####statistics_os](
+	[uid] [varchar](32) NOT NULL DEFAULT (''),
+	[browser] [varchar](255) NULL DEFAULT (NULL),
+	[os] [varchar](255) NULL DEFAULT (NULL),
+	[value] [int] NULL DEFAULT (NULL),
+ CONSTRAINT [PK_#####statistics_os] PRIMARY KEY CLUSTERED 
+(
+	[uid] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+END
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####products]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [#####products](
+	[uid] [varchar](32) NOT NULL DEFAULT (''),
+	[name] [varchar](255) NOT NULL DEFAULT (''),
+	[product_number] [varchar](255) NULL DEFAULT (NULL),
+	[factory] [varchar](255) NULL DEFAULT (NULL),
+	[factory_url] [varchar](255) NULL DEFAULT (NULL),
+	[desc] [text] NULL,
+	[category] [varchar](32) NULL DEFAULT (''),
+	[image1] [varchar](255) NULL DEFAULT (NULL),
+	[date] [varchar](16) NOT NULL DEFAULT (''),
+	[price] [varchar](50) NULL DEFAULT (NULL),
+	[price_tax] [varchar](50) NULL DEFAULT (NULL),
+	[status] [int] NOT NULL DEFAULT ('0'),
+	[quantity] [int] NULL DEFAULT (NULL),
+	[weight] [varchar](50) NULL DEFAULT (NULL),
+	[sort] [int] NOT NULL DEFAULT ('0'),
+	[access] [varchar](10) NULL DEFAULT (NULL),
+	[sql_type] [char](1) NOT NULL DEFAULT (''),
+	[image2] [varchar](255) NULL,
+	[image3] [varchar](255) NULL,
+	[image4] [varchar](255) NULL,
+	[show_on_startpage] [tinyint] NOT NULL DEFAULT ('0'),
+	[pub] [tinyint] NOT NULL DEFAULT ('0'),
+	[parent] [varchar](32) NULL,
+	[language] [varchar](25) NOT NULL DEFAULT ('english_EN'),
+ CONSTRAINT [PK_#####products] PRIMARY KEY CLUSTERED 
+(
+	[uid] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####topmenu]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [#####topmenu](
+	[uid] [varchar](5) NOT NULL DEFAULT (''),
+	[name] [varchar](255) NULL DEFAULT (NULL),
+	[id] [int] NOT NULL DEFAULT ('0'),
+	[type] [varchar](10) NULL DEFAULT (NULL),
+	[link] [varchar](255) NULL DEFAULT (NULL),
+	[published] [int] NOT NULL DEFAULT ('0'),
+	[access] [varchar](10) NOT NULL DEFAULT (''),
+	[target] [varchar](20) NULL DEFAULT (''),
+	[language] [varchar](25) NOT NULL DEFAULT (''),
+ CONSTRAINT [PK_#####topmenu] PRIMARY KEY CLUSTERED 
+(
+	[uid] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+END
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####content]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [#####content](
 	[uid] [varchar](5) NOT NULL DEFAULT (''),
 	[title] [varchar](255) NULL DEFAULT (NULL),
@@ -362,59 +218,164 @@ CREATE TABLE [#####content](
 	[published] [int] NOT NULL DEFAULT ('0'),
 	[autor] [varchar](255) NULL DEFAULT (NULL),
 	[language] [varchar](25) NULL,
- CONSTRAINT [PK_tcms_content] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#####content] PRIMARY KEY CLUSTERED 
 (
 	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
 GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####news_categories]    Skriptdatum: 09/02/2007 18:10:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-SET ANSI_PADDING ON
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####contactform]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [#####contactform](
+	[uid] [varchar](11) NOT NULL DEFAULT (''),
+	[contact] [varchar](255) NOT NULL DEFAULT (''),
+	[show_contacts_in_sidebar] [int] NOT NULL DEFAULT ('0'),
+	[send_id] [varchar](11) NOT NULL DEFAULT (''),
+	[contacttitle] [varchar](255) NOT NULL DEFAULT (''),
+	[contactstamp] [varchar](255) NOT NULL DEFAULT (''),
+	[access] [varchar](10) NOT NULL DEFAULT (''),
+	[enabled] [int] NULL DEFAULT (NULL),
+	[use_adressbook] [int] NULL DEFAULT (NULL),
+	[use_contact] [int] NULL DEFAULT (NULL),
+	[show_contactemail] [int] NOT NULL DEFAULT ((0)),
+	[contacttext] [text] NOT NULL DEFAULT (''),
+	[language] [varchar](25) NOT NULL DEFAULT (''),
+ CONSTRAINT [PK_#####contactform] PRIMARY KEY CLUSTERED 
+(
+	[uid] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
 GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####guestbook]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [#####guestbook](
+	[uid] [varchar](9) NOT NULL DEFAULT (''),
+	[guest_id] [varchar](9) NULL DEFAULT (NULL),
+	[booktitle] [varchar](255) NULL DEFAULT (NULL),
+	[bookstamp] [varchar](255) NULL DEFAULT (NULL),
+	[access] [varchar](10) NULL DEFAULT (NULL),
+	[enabled] [int] NULL DEFAULT (NULL),
+	[clean_link] [int] NOT NULL DEFAULT ('0'),
+	[clean_script] [int] NOT NULL DEFAULT ('0'),
+	[convert_at] [int] NOT NULL DEFAULT ('0'),
+	[show_email] [int] NOT NULL DEFAULT ('0'),
+	[name_width] [varchar](4) NULL DEFAULT (NULL),
+	[text_width] [varchar](4) NULL DEFAULT (NULL),
+	[color_row_1] [varchar](6) NULL DEFAULT (NULL),
+	[color_row_2] [varchar](6) NULL DEFAULT (NULL),
+	[text] [varchar](max) NULL,
+	[language] [varchar](25) NOT NULL DEFAULT ('english_EN'),
+ CONSTRAINT [PK_#####guestbook] PRIMARY KEY CLUSTERED 
+(
+	[uid] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+END
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####news_categories]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [#####news_categories](
 	[uid] [varchar](5) NOT NULL DEFAULT (''),
 	[name] [varchar](255) NOT NULL DEFAULT (''),
 	[desc] [text] NULL,
- CONSTRAINT [PK_tcms_news_categories] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#####news_categories] PRIMARY KEY CLUSTERED 
 (
 	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
 GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####news_to_categories]    Skriptdatum: 09/02/2007 18:10:26 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-SET ANSI_PADDING ON
-GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####news_to_categories]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [#####news_to_categories](
 	[uid] [varchar](5) NOT NULL DEFAULT (''),
 	[news_uid] [varchar](10) NOT NULL DEFAULT (''),
 	[cat_uid] [varchar](5) NOT NULL DEFAULT (''),
- CONSTRAINT [PK_tcms_news_to_categories] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#####news_to_categories] PRIMARY KEY CLUSTERED 
 (
 	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
+END
 GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####sidemenu]    Skriptdatum: 09/02/2007 18:12:59 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-SET ANSI_PADDING ON
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####links]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [#####links](
+	[uid] [varchar](32) NOT NULL DEFAULT (''),
+	[type] [char](1) NOT NULL DEFAULT ('l'),
+	[category] [varchar](32) NULL DEFAULT (NULL),
+	[sort] [int] NULL DEFAULT (NULL),
+	[name] [varchar](255) NULL DEFAULT (NULL),
+	[desc] [text] NULL,
+	[link] [varchar](255) NULL DEFAULT (NULL),
+	[published] [int] NOT NULL DEFAULT ('0'),
+	[target] [varchar](20) NULL DEFAULT (NULL),
+	[rss] [varchar](255) NULL DEFAULT (NULL),
+	[access] [varchar](10) NOT NULL DEFAULT (''),
+	[module] [int] NULL DEFAULT (NULL),
+ CONSTRAINT [PK_#####links] PRIMARY KEY CLUSTERED 
+(
+	[uid] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
 GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####downloads]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [#####downloads](
+	[uid] [varchar](10) NOT NULL CONSTRAINT [DF__tcms_downlo__uid__2D27B809]  DEFAULT (''),
+	[name] [varchar](255) NULL CONSTRAINT [DF__tcms_downl__name__2E1BDC42]  DEFAULT (NULL),
+	[date] [varchar](16) NOT NULL CONSTRAINT [DF__tcms_downl__date__2F10007B]  DEFAULT (''),
+	[desc] [text] NULL,
+	[type] [varchar](255) NOT NULL CONSTRAINT [DF__tcms_downl__type__300424B4]  DEFAULT (''),
+	[sort] [int] NULL CONSTRAINT [DF__tcms_downl__sort__30F848ED]  DEFAULT (NULL),
+	[mirror] [int] NOT NULL,
+	[pub] [int] NULL CONSTRAINT [DF__tcms_downlo__pub__32E0915F]  DEFAULT (NULL),
+	[access] [varchar](10) NULL CONSTRAINT [DF__tcms_down__acces__33D4B598]  DEFAULT (NULL),
+	[image] [varchar](255) NULL CONSTRAINT [DF__tcms_down__image__34C8D9D1]  DEFAULT (NULL),
+	[file] [varchar](255) NULL CONSTRAINT [DF__tcms_downl__file__35BCFE0A]  DEFAULT (NULL),
+	[cat] [varchar](10) NULL CONSTRAINT [DF__tcms_downlo__cat__36B12243]  DEFAULT (NULL),
+	[sql_type] [char](1) NOT NULL CONSTRAINT [DF__tcms_down__sql_t__37A5467C]  DEFAULT (''),
+	[parent] [varchar](10) NULL,
+ CONSTRAINT [PK_#####downloads] PRIMARY KEY CLUSTERED 
+(
+	[uid] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####sidemenu]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [#####sidemenu](
 	[uid] [varchar](5) NOT NULL DEFAULT (''),
 	[name] [varchar](255) NULL DEFAULT (NULL),
@@ -431,101 +392,281 @@ CREATE TABLE [#####sidemenu](
 	[parent_lvl1] [varchar](5) NULL DEFAULT ('-'),
 	[target] [varchar](20) NULL DEFAULT (''),
 	[language] [varchar](25) NOT NULL DEFAULT (''),
- CONSTRAINT [PK_tcms_sidemenu] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#####sidemenu] PRIMARY KEY CLUSTERED 
 (
 	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
+END
 GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####newsletter]    Skriptdatum: 09/02/2007 18:10:34 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-SET ANSI_PADDING ON
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####notepad]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [#####notepad](
+	[uid] [varchar](32) NOT NULL DEFAULT (''),
+	[name] [varchar](200) NOT NULL DEFAULT (''),
+	[note] [text] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[uid] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
 GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####session]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [#####session](
+	[uid] [varchar](32) NOT NULL DEFAULT (''),
+	[date] [varchar](20) NOT NULL DEFAULT (''),
+	[user] [varchar](255) NOT NULL DEFAULT (''),
+	[user_id] [varchar](32) NOT NULL DEFAULT (''),
+ CONSTRAINT [PK_#####session] PRIMARY KEY CLUSTERED 
+(
+	[uid] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+END
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####albums]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [#####albums](
+	[uid] [varchar](12) NOT NULL DEFAULT (''),
+	[title] [varchar](255) NULL DEFAULT (NULL),
+	[album_id] [varchar](6) NOT NULL DEFAULT (''),
+	[published] [int] NOT NULL DEFAULT ('0'),
+	[desc] [text] NULL,
+	[image] [varchar](255) NULL DEFAULT (NULL),
+ CONSTRAINT [PK_#####albums] PRIMARY KEY CLUSTERED 
+(
+	[uid] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####poll_config]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [#####poll_config](
+	[uid] [varchar](4) NOT NULL DEFAULT (''),
+	[poll_title] [varchar](30) NULL DEFAULT (NULL),
+	[allpoll_title] [varchar](30) NULL DEFAULT (NULL),
+	[show_poll_title] [int] NOT NULL DEFAULT ('0'),
+	[poll_side_width] [int] NOT NULL DEFAULT ('0'),
+	[poll_main_width] [int] NOT NULL DEFAULT ('0'),
+	[poll_sm_title] [varchar](30) NULL DEFAULT (NULL),
+	[use_poll_sidemenu] [int] NOT NULL DEFAULT ('0'),
+	[poll_sidemenu_id] [int] NOT NULL DEFAULT ('0'),
+	[poll_tm_title] [varchar](30) NULL DEFAULT (NULL),
+	[use_poll_topmenu] [int] NOT NULL DEFAULT ('0'),
+	[poll_topmenu_id] [int] NOT NULL DEFAULT ('0'),
+ CONSTRAINT [PK_#####poll_config] PRIMARY KEY CLUSTERED 
+(
+	[uid] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+END
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####sidebar]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [#####sidebar](
+	[uid] [varchar](32) NOT NULL DEFAULT (''),
+	[title] [varchar](255) NULL DEFAULT (NULL),
+	[key] [varchar](255) NULL DEFAULT (NULL),
+	[content] [text] NULL,
+	[foot] [varchar](255) NULL DEFAULT (NULL),
+	[id] [varchar](255) NOT NULL DEFAULT (''),
+ CONSTRAINT [PK_#####sidebar] PRIMARY KEY CLUSTERED 
+(
+	[uid] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####newsletter]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [#####newsletter](
 	[uid] [varchar](10) NOT NULL DEFAULT (''),
 	[nl_title] [varchar](255) NOT NULL DEFAULT (''),
 	[nl_show_title] [int] NOT NULL DEFAULT ('0'),
 	[nl_text] [varchar](255) NOT NULL DEFAULT (''),
 	[nl_link] [varchar](255) NOT NULL DEFAULT (''),
- CONSTRAINT [PK_tcms_newsletter] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#####newsletter] PRIMARY KEY CLUSTERED 
 (
 	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
+END
 GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####newsletter_items]    Skriptdatum: 09/02/2007 18:10:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-SET ANSI_PADDING ON
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####content_languages]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [#####content_languages](
+	[uid] [varchar](5) NOT NULL,
+	[content_uid] [varchar](5) NOT NULL,
+	[language] [varchar](25) NOT NULL,
+	[title] [varchar](255) NULL,
+	[key] [varchar](255) NULL,
+	[content00] [text] NULL,
+	[content01] [text] NULL,
+	[foot] [varchar](255) NULL,
+	[autor] [varchar](255) NULL,
+	[db_layout] [varchar](50) NOT NULL,
+	[access] [varchar](10) NOT NULL,
+	[in_work] [int] NOT NULL DEFAULT ('0'),
+	[published] [int] NOT NULL DEFAULT ('0')
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
 GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####contacts]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [#####contacts](
+	[uid] [varchar](10) NOT NULL DEFAULT (''),
+	[default_con] [int] NOT NULL DEFAULT ('0'),
+	[published] [int] NOT NULL DEFAULT ('0'),
+	[name] [varchar](255) NOT NULL DEFAULT (''),
+	[position] [varchar](255) NULL DEFAULT (NULL),
+	[email] [varchar](255) NOT NULL DEFAULT (''),
+	[street] [varchar](255) NULL DEFAULT (NULL),
+	[country] [varchar](255) NULL DEFAULT (NULL),
+	[state] [varchar](255) NULL DEFAULT (NULL),
+	[town] [varchar](255) NULL DEFAULT (NULL),
+	[postal] [int] NULL DEFAULT (NULL),
+	[phone] [varchar](40) NULL DEFAULT (NULL),
+	[fax] [varchar](40) NULL DEFAULT (NULL),
+ CONSTRAINT [PK_#####contacts] PRIMARY KEY CLUSTERED 
+(
+	[uid] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+END
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####newsletter_items]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [#####newsletter_items](
 	[uid] [varchar](6) NOT NULL DEFAULT (''),
 	[user] [varchar](255) NOT NULL DEFAULT (''),
 	[email] [varchar](255) NOT NULL DEFAULT (''),
- CONSTRAINT [PK_tcms_newsletter_items] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#####newsletter_items] PRIMARY KEY CLUSTERED 
 (
 	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
+END
 GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####downloads_config]    Skriptdatum: 09/02/2007 18:08:20 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-SET ANSI_PADDING ON
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####guestbook_items]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [#####guestbook_items](
+	[uid] [varchar](32) NOT NULL DEFAULT (''),
+	[name] [varchar](255) NULL DEFAULT (NULL),
+	[email] [varchar](255) NULL DEFAULT (NULL),
+	[text] [text] NULL,
+	[date] [varchar](8) NULL DEFAULT (NULL),
+	[time] [varchar](5) NULL DEFAULT (NULL),
+ CONSTRAINT [PK_#####guestbook_items] PRIMARY KEY CLUSTERED 
+(
+	[uid] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
 GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####downloads_config]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [#####downloads_config](
 	[uid] [varchar](8) NOT NULL DEFAULT (''),
 	[download_id] [varchar](8) NOT NULL DEFAULT (''),
 	[download_title] [varchar](255) NULL DEFAULT (NULL),
 	[download_stamp] [varchar](255) NULL DEFAULT (NULL),
 	[download_text] [text] NULL,
- CONSTRAINT [PK_tcms_downloads_config] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#####downloads_config] PRIMARY KEY CLUSTERED 
 (
 	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
 GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####usergroup]    Skriptdatum: 09/02/2007 18:13:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-SET ANSI_PADDING ON
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####imagegallery]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [#####imagegallery](
+	[uid] [varchar](10) NOT NULL DEFAULT (''),
+	[album] [varchar](6) NOT NULL DEFAULT (''),
+	[image] [varchar](255) NOT NULL DEFAULT (''),
+	[text] [text] NULL,
+	[date] [varchar](14) NOT NULL DEFAULT (''),
+ CONSTRAINT [PK_#####imagegallery] PRIMARY KEY CLUSTERED 
+(
+	[uid] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
 GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####usergroup]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [#####usergroup](
 	[uid] [varchar](32) NOT NULL,
 	[name] [varchar](25) NOT NULL,
 	[right] [int] NOT NULL,
- CONSTRAINT [PK_tcms_usergroup] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#####usergroup] PRIMARY KEY CLUSTERED 
 (
 	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
+END
 GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####statistics]    Skriptdatum: 09/02/2007 18:13:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-SET ANSI_PADDING ON
-GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####statistics]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [#####statistics](
 	[host] [varchar](255) NOT NULL DEFAULT (''),
 	[site_url] [varchar](255) NOT NULL DEFAULT (''),
@@ -534,16 +675,56 @@ CREATE TABLE [#####statistics](
 	[referrer] [varchar](255) NULL DEFAULT (NULL),
 	[timestamp] [datetime] NULL DEFAULT (NULL)
 ) ON [PRIMARY]
+END
 GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####newsmanager]    Skriptdatum: 09/02/2007 18:11:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-SET ANSI_PADDING ON
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####poll_items]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [#####poll_items](
+	[uid] [varchar](8) NOT NULL DEFAULT (''),
+	[poll_uid] [varchar](32) NOT NULL DEFAULT (''),
+	[ip] [varchar](15) NOT NULL DEFAULT (''),
+	[domain] [varchar](255) NOT NULL DEFAULT (''),
+	[answer] [int] NOT NULL DEFAULT ('0'),
+ CONSTRAINT [PK_#####poll_items] PRIMARY KEY CLUSTERED 
+(
+	[uid] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+END
 GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####links_config]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [#####links_config](
+	[uid] [varchar](17) NOT NULL DEFAULT (''),
+	[link_use_side_desc] [int] NULL DEFAULT (NULL),
+	[link_use_side_title] [int] NULL DEFAULT (NULL),
+	[link_side_title] [varchar](255) NULL DEFAULT (NULL),
+	[link_use_main_desc] [int] NULL DEFAULT (NULL),
+	[link_main_title] [varchar](255) NULL DEFAULT (NULL),
+	[link_main_subtitle] [varchar](255) NULL DEFAULT (NULL),
+	[link_main_text] [text] NULL,
+	[link_main_access] [varchar](10) NULL DEFAULT (NULL),
+ CONSTRAINT [PK_#####links_config] PRIMARY KEY CLUSTERED 
+(
+	[uid] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####newsmanager]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [#####newsmanager](
 	[uid] [varchar](11) NOT NULL CONSTRAINT [DF__tcms_newsma__uid__3D2915A8]  DEFAULT (''),
 	[news_id] [varchar](11) NOT NULL CONSTRAINT [DF__tcms_news__news___3E1D39E1]  DEFAULT (''),
@@ -572,271 +753,34 @@ CREATE TABLE [#####newsmanager](
 	[readmore_link] [int] NOT NULL CONSTRAINT [DF_tcms_newsmanager_readmore_link]  DEFAULT ((0)),
 	[news_spacing] [int] NULL CONSTRAINT [DF_tcms_newsmanager_news_spacing]  DEFAULT ((0)),
 	[language] [varchar](25) NOT NULL DEFAULT (''),
-	[use_rss091_img] [int] NOT NULL DEFAULT '1',
-	[rss091_text] VARCHAR( 255 ) NOT NULL DEFAULT '',
-	[use_rss10_img] [int] NOT NULL DEFAULT '1',
-	[rss10_text] VARCHAR( 255 ) NOT NULL DEFAULT '',
-	[use_rss20_img] [int] NOT NULL DEFAULT '1',
-	[rss20_feed] VARCHAR( 255 ) NOT NULL DEFAULT '',
-	[use_atom03_img] [int] NOT NULL DEFAULT '1',
-	[atom03_text] VARCHAR( 255 ) NOT NULL DEFAULT '',
-	[use_opml_img] [int] NOT NULL DEFAULT '1',
-	[opml_text] VARCHAR( 255 ) NOT NULL DEFAULT '',
-	[use_comment_feed] [int] NOT NULL DEFAULT '1',
-	[comment_feed_text] VARCHAR( 255 ) NULL DEFAULT '',
-	[comment_feed_type] VARCHAR( 7 ) NULL DEFAULT '',
-	[use_comment_feed_img] [int] NOT NULL DEFAULT '0',
-	[comments_feed_amount] [int] NOT NULL DEFAULT '5'
- CONSTRAINT [PK_tcms_newsmanager] PRIMARY KEY CLUSTERED 
+	[use_rss091_img] [int] NOT NULL DEFAULT ('1'),
+	[rss091_text] [varchar](255) NOT NULL DEFAULT (''),
+	[use_rss10_img] [int] NOT NULL DEFAULT ('1'),
+	[rss10_text] [varchar](255) NOT NULL DEFAULT (''),
+	[use_rss20_img] [int] NOT NULL DEFAULT ('1'),
+	[rss20_feed] [varchar](255) NOT NULL DEFAULT (''),
+	[use_atom03_img] [int] NOT NULL DEFAULT ('1'),
+	[atom03_text] [varchar](255) NOT NULL DEFAULT (''),
+	[use_opml_img] [int] NOT NULL DEFAULT ('1'),
+	[opml_text] [varchar](255) NOT NULL DEFAULT (''),
+	[use_comment_feed] [int] NOT NULL DEFAULT ('1'),
+	[comment_feed_text] [varchar](255) NULL DEFAULT (''),
+	[comment_feed_type] [varchar](7) NULL DEFAULT (''),
+	[use_comment_feed_img] [int] NOT NULL DEFAULT ('0'),
+	[comments_feed_amount] [int] NOT NULL DEFAULT ('5'),
+ CONSTRAINT [PK_#####newsmanager] PRIMARY KEY CLUSTERED 
 (
 	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
 GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####frontpage]    Skriptdatum: 09/02/2007 18:08:34 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-SET ANSI_PADDING ON
-GO
-CREATE TABLE [#####frontpage](
-	[uid] [varchar](9) NOT NULL DEFAULT (''),
-	[front_id] [varchar](9) NOT NULL DEFAULT (''),
-	[front_title] [varchar](255) NULL DEFAULT (NULL),
-	[front_stamp] [varchar](255) NULL DEFAULT (NULL),
-	[front_text] [text] NULL,
-	[news_title] [varchar](255) NULL DEFAULT (NULL),
-	[news_cut] [int] NOT NULL DEFAULT ('0'),
-	[module_use_0] [int] NOT NULL DEFAULT ('0'),
-	[sb_news_title] [varchar](255) NULL DEFAULT (NULL),
-	[sb_news_amount] [int] NULL DEFAULT (NULL),
-	[sb_news_chars] [int] NULL DEFAULT (NULL),
-	[sb_news_enabled] [int] NOT NULL DEFAULT ('0'),
-	[sb_news_display] [int] NOT NULL DEFAULT ('0'),
-	[language] [varchar](25) NOT NULL DEFAULT (''),
- CONSTRAINT [PK_tcms_frontpage] PRIMARY KEY CLUSTERED 
-(
-	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####statistics_ip]    Skriptdatum: 09/02/2007 18:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
-CREATE TABLE [#####statistics_ip](
-	[uid] [varchar](32) NOT NULL DEFAULT (''),
-	[ip] [varchar](15) NOT NULL DEFAULT (''),
-	[value] [int] NULL DEFAULT (NULL),
- CONSTRAINT [PK_tcms_statistics_ip] PRIMARY KEY CLUSTERED 
-(
-	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####statistics_os]    Skriptdatum: 09/02/2007 18:13:11 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
-CREATE TABLE [#####statistics_os](
-	[uid] [varchar](32) NOT NULL DEFAULT (''),
-	[browser] [varchar](255) NULL DEFAULT (NULL),
-	[os] [varchar](255) NULL DEFAULT (NULL),
-	[value] [int] NULL DEFAULT (NULL),
- CONSTRAINT [PK_tcms_statistics_os] PRIMARY KEY CLUSTERED 
-(
-	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####topmenu]    Skriptdatum: 09/02/2007 18:13:20 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
-CREATE TABLE [#####topmenu](
-	[uid] [varchar](5) NOT NULL DEFAULT (''),
-	[name] [varchar](255) NULL DEFAULT (NULL),
-	[id] [int] NOT NULL DEFAULT ('0'),
-	[type] [varchar](10) NULL DEFAULT (NULL),
-	[link] [varchar](255) NULL DEFAULT (NULL),
-	[published] [int] NOT NULL DEFAULT ('0'),
-	[access] [varchar](10) NOT NULL DEFAULT (''),
-	[target] [varchar](20) NULL DEFAULT (''),
-	[language] [varchar](25) NOT NULL DEFAULT (''),
- CONSTRAINT [PK_tcms_topmenu] PRIMARY KEY CLUSTERED 
-(
-	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####guestbook]    Skriptdatum: 09/02/2007 18:08:49 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
-CREATE TABLE [#####guestbook](
-	[uid] [varchar](9) NOT NULL DEFAULT (''),
-	[guest_id] [varchar](9) NULL DEFAULT (NULL),
-	[booktitle] [varchar](255) NULL DEFAULT (NULL),
-	[bookstamp] [varchar](255) NULL DEFAULT (NULL),
-	[access] [varchar](10) NULL DEFAULT (NULL),
-	[enabled] [int] NULL DEFAULT (NULL),
-	[clean_link] [int] NOT NULL DEFAULT ('0'),
-	[clean_script] [int] NOT NULL DEFAULT ('0'),
-	[convert_at] [int] NOT NULL DEFAULT ('0'),
-	[show_email] [int] NOT NULL DEFAULT ('0'),
-	[name_width] [varchar](4) NULL DEFAULT (NULL),
-	[text_width] [varchar](4) NULL DEFAULT (NULL),
-	[color_row_1] [varchar](6) NULL DEFAULT (NULL),
-	[color_row_2] [varchar](6) NULL DEFAULT (NULL),
- CONSTRAINT [PK_tcms_guestbook] PRIMARY KEY CLUSTERED 
-(
-	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####notepad]    Skriptdatum: 09/02/2007 18:11:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
-CREATE TABLE [#####notepad](
-	[uid] [varchar](32) NOT NULL DEFAULT (''),
-	[name] [varchar](200) NOT NULL DEFAULT (''),
-	[note] [text] NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####poll_config]    Skriptdatum: 09/02/2007 18:11:20 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
-CREATE TABLE [#####poll_config](
-	[uid] [varchar](4) NOT NULL DEFAULT (''),
-	[poll_title] [varchar](30) NULL DEFAULT (NULL),
-	[allpoll_title] [varchar](30) NULL DEFAULT (NULL),
-	[show_poll_title] [int] NOT NULL DEFAULT ('0'),
-	[poll_side_width] [int] NOT NULL DEFAULT ('0'),
-	[poll_main_width] [int] NOT NULL DEFAULT ('0'),
-	[poll_sm_title] [varchar](30) NULL DEFAULT (NULL),
-	[use_poll_sidemenu] [int] NOT NULL DEFAULT ('0'),
-	[poll_sidemenu_id] [int] NOT NULL DEFAULT ('0'),
-	[poll_tm_title] [varchar](30) NULL DEFAULT (NULL),
-	[use_poll_topmenu] [int] NOT NULL DEFAULT ('0'),
-	[poll_topmenu_id] [int] NOT NULL DEFAULT ('0'),
- CONSTRAINT [PK_tcms_poll_config] PRIMARY KEY CLUSTERED 
-(
-	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####guestbook_items]    Skriptdatum: 09/02/2007 18:08:54 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
-CREATE TABLE [#####guestbook_items](
-	[uid] [varchar](32) NOT NULL DEFAULT (''),
-	[name] [varchar](255) NULL DEFAULT (NULL),
-	[email] [varchar](255) NULL DEFAULT (NULL),
-	[text] [text] NULL,
-	[date] [varchar](8) NULL DEFAULT (NULL),
-	[time] [varchar](5) NULL DEFAULT (NULL),
- CONSTRAINT [PK_tcms_guestbook_items] PRIMARY KEY CLUSTERED 
-(
-	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####imagegallery]    Skriptdatum: 09/02/2007 18:08:58 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
-CREATE TABLE [#####imagegallery](
-	[uid] [varchar](10) NOT NULL DEFAULT (''),
-	[album] [varchar](6) NOT NULL DEFAULT (''),
-	[image] [varchar](255) NOT NULL DEFAULT (''),
-	[text] [text] NULL,
-	[date] [varchar](14) NOT NULL DEFAULT (''),
- CONSTRAINT [PK_tcms_imagegallery] PRIMARY KEY CLUSTERED 
-(
-	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####poll_items]    Skriptdatum: 09/02/2007 18:11:25 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
-CREATE TABLE [#####poll_items](
-	[uid] [varchar](8) NOT NULL DEFAULT (''),
-	[poll_uid] [varchar](32) NOT NULL DEFAULT (''),
-	[ip] [varchar](15) NOT NULL DEFAULT (''),
-	[domain] [varchar](255) NOT NULL DEFAULT (''),
-	[answer] [int] NOT NULL DEFAULT ('0'),
- CONSTRAINT [PK_tcms_poll_items] PRIMARY KEY CLUSTERED 
-(
-	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####imagegallery_config]    Skriptdatum: 09/02/2007 18:09:13 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####imagegallery_config]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [#####imagegallery_config](
 	[uid] [varchar](12) NOT NULL DEFAULT (''),
 	[image_id] [varchar](12) NOT NULL DEFAULT (''),
@@ -852,21 +796,59 @@ CREATE TABLE [#####imagegallery_config](
 	[size_image] [int] NULL DEFAULT (NULL),
 	[image_sort] [varchar](4) NOT NULL DEFAULT ('desc'),
 	[list_option] [int] NOT NULL DEFAULT ((0)),
- CONSTRAINT [PK_tcms_imagegallery_config] PRIMARY KEY CLUSTERED 
+	[list_option_amount] [tinyint] NOT NULL DEFAULT ('4'),
+ CONSTRAINT [PK_#####imagegallery_config] PRIMARY KEY CLUSTERED 
 (
 	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
 GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####userpage]    Skriptdatum: 09/02/2007 18:13:49 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-SET ANSI_PADDING ON
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####sidebar_extensions]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [#####sidebar_extensions](
+	[uid] [varchar](18) NOT NULL DEFAULT (''),
+	[sidemenu_title] [varchar](255) NULL DEFAULT (NULL),
+	[sidemenu] [int] NOT NULL DEFAULT ('0'),
+	[sidebar_title] [varchar](255) NULL DEFAULT (NULL),
+	[show_sidebar_title] [int] NOT NULL DEFAULT ('0'),
+	[chooser_title] [varchar](255) NULL DEFAULT (NULL),
+	[show_chooser_title] [int] NOT NULL DEFAULT ('0'),
+	[search_title] [varchar](255) NULL DEFAULT (NULL),
+	[show_search_title] [int] NOT NULL DEFAULT ('0'),
+	[search_alignment] [varchar](10) NULL DEFAULT (NULL),
+	[search_withbr] [int] NOT NULL DEFAULT ('0'),
+	[search_withbutton] [int] NULL DEFAULT (NULL),
+	[search_word] [varchar](255) NULL DEFAULT (NULL),
+	[login_title] [varchar](255) NULL DEFAULT (NULL),
+	[usermenu_title] [varchar](255) NULL DEFAULT (NULL),
+	[nologin] [varchar](255) NULL DEFAULT (NULL),
+	[reg_link] [varchar](255) NULL DEFAULT (NULL),
+	[reg_user] [varchar](255) NULL DEFAULT (NULL),
+	[reg_pass] [varchar](255) NULL DEFAULT (NULL),
+	[login_user] [int] NOT NULL DEFAULT ('0'),
+	[usermenu] [int] NOT NULL DEFAULT ('0'),
+	[show_login_title] [int] NOT NULL DEFAULT ('0'),
+	[show_news_cat_amount] [int] NULL DEFAULT ('0'),
+	[show_memberlist] [int] NOT NULL DEFAULT ((0)),
+	[lang] [varchar](255) NOT NULL DEFAULT (''),
+ CONSTRAINT [PK_#####sidebar_extensions] PRIMARY KEY CLUSTERED 
+(
+	[uid] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+END
 GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####userpage]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [#####userpage](
 	[uid] [varchar](8) NOT NULL DEFAULT (''),
 	[text_width] [varchar](5) NULL DEFAULT (NULL),
@@ -876,21 +858,39 @@ CREATE TABLE [#####userpage](
 	[album_publish] [int] NOT NULL DEFAULT ('0'),
 	[cat_publish] [int] NOT NULL DEFAULT ('0'),
 	[pic_publish] [char](1) NULL DEFAULT (NULL),
- CONSTRAINT [PK_tcms_userpage] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#####userpage] PRIMARY KEY CLUSTERED 
 (
 	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
+END
 GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####polls]    Skriptdatum: 09/02/2007 18:11:39 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-SET ANSI_PADDING ON
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####log]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [#####log](
+	[uid] [varchar](32) NOT NULL,
+	[user_uid] [varchar](32) NULL,
+	[stamp] [int] NOT NULL,
+	[ip] [varchar](40) NULL,
+	[module] [varchar](40) NULL,
+	[text] [varchar](max) NULL,
+ CONSTRAINT [PK_blog_log] PRIMARY KEY CLUSTERED 
+(
+	[uid] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+END
 GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####polls]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [#####polls](
 	[uid] [varchar](32) NOT NULL DEFAULT (''),
 	[title] [varchar](255) NOT NULL DEFAULT (''),
@@ -906,22 +906,81 @@ CREATE TABLE [#####polls](
 	[question10] [varchar](255) NULL DEFAULT (NULL),
 	[question11] [varchar](255) NULL DEFAULT (NULL),
 	[question12] [varchar](255) NULL DEFAULT (NULL),
- CONSTRAINT [PK_tcms_polls] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#####polls] PRIMARY KEY CLUSTERED 
 (
 	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
+END
 GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####impressum]    Skriptdatum: 09/02/2007 18:09:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-SET ANSI_PADDING ON
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####user]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [#####user](
+	[uid] [varchar](32) NOT NULL CONSTRAINT [DF__tcms_user__uid__51EF2864]  DEFAULT (''),
+	[name] [varchar](255) NOT NULL CONSTRAINT [DF__tcms_user__name__52E34C9D]  DEFAULT (''),
+	[username] [varchar](255) NOT NULL CONSTRAINT [DF__tcms_user__usern__53D770D6]  DEFAULT (''),
+	[password] [varchar](32) NOT NULL CONSTRAINT [DF__tcms_user__passw__54CB950F]  DEFAULT (''),
+	[email] [varchar](255) NOT NULL CONSTRAINT [DF__tcms_user__email__55BFB948]  DEFAULT (''),
+	[group] [varchar](32) NOT NULL CONSTRAINT [DF__tcms_user__group__56B3DD81]  DEFAULT (''),
+	[join_date] [varchar](19) NOT NULL CONSTRAINT [DF__tcms_user__join___57A801BA]  DEFAULT (''),
+	[last_login] [varchar](19) NULL CONSTRAINT [DF__tcms_user__last___589C25F3]  DEFAULT (NULL),
+	[birthday] [varchar](10) NULL CONSTRAINT [DF__tcms_user__birth__59904A2C]  DEFAULT (NULL),
+	[gender] [varchar](5) NOT NULL CONSTRAINT [DF__tcms_user__gende__5A846E65]  DEFAULT (''),
+	[occupation] [varchar](255) NULL CONSTRAINT [DF__tcms_user__occup__5B78929E]  DEFAULT (NULL),
+	[homepage] [varchar](255) NULL CONSTRAINT [DF__tcms_user__homep__5C6CB6D7]  DEFAULT (NULL),
+	[icq] [varchar](20) NULL CONSTRAINT [DF__tcms_user__icq__5D60DB10]  DEFAULT (NULL),
+	[aim] [varchar](20) NULL CONSTRAINT [DF__tcms_user__aim__5E54FF49]  DEFAULT (NULL),
+	[yim] [varchar](20) NULL CONSTRAINT [DF__tcms_user__yim__5F492382]  DEFAULT (NULL),
+	[msn] [varchar](20) NULL CONSTRAINT [DF__tcms_user__msn__603D47BB]  DEFAULT (NULL),
+	[skype] [varchar](100) NULL CONSTRAINT [DF_tcms_user_skype]  DEFAULT (''),
+	[enabled] [int] NOT NULL CONSTRAINT [DF__tcms_user__enabl__61316BF4]  DEFAULT ('0'),
+	[blog_enabled] [int] NOT NULL CONSTRAINT [DF__tcms_user__tcms___6225902D]  DEFAULT ('0'),
+	[static_value] [int] NOT NULL CONSTRAINT [DF__tcms_user__stati__6319B466]  DEFAULT ('0'),
+	[signature] [text] NULL,
+	[location] [varchar](255) NULL CONSTRAINT [DF__tcms_user__locat__640DD89F]  DEFAULT (NULL),
+	[hobby] [varchar](255) NULL CONSTRAINT [DF__tcms_user__hobby__6501FCD8]  DEFAULT (NULL),
+ CONSTRAINT [PK_#####user] PRIMARY KEY CLUSTERED 
+(
+	[uid] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
 GO
-CREATE TABLE [#####impressum](
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####comments]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [#####comments](
+	[uid] [varchar](10) NOT NULL DEFAULT (''),
+	[module] [varchar](5) NOT NULL DEFAULT (''),
+	[timestamp] [varchar](14) NOT NULL DEFAULT (''),
+	[name] [varchar](255) NOT NULL DEFAULT (''),
+	[email] [varchar](255) NULL DEFAULT (NULL),
+	[web] [varchar](255) NULL DEFAULT (NULL),
+	[msg] [text] NULL,
+	[time] [varchar](14) NOT NULL DEFAULT (''),
+	[ip] [varchar](15) NULL DEFAULT (NULL),
+	[domain] [varchar](255) NULL DEFAULT (NULL),
+ CONSTRAINT [PK_#####comments] PRIMARY KEY CLUSTERED 
+(
+	[uid] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####imprint]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [#####imprint](
 	[uid] [varchar](9) NOT NULL DEFAULT (''),
 	[imp_id] [varchar](9) NOT NULL DEFAULT (''),
 	[imp_title] [varchar](255) NULL DEFAULT (NULL),
@@ -931,165 +990,65 @@ CREATE TABLE [#####impressum](
 	[ustid] [varchar](50) NULL DEFAULT (NULL),
 	[legal] [text] NULL,
 	[language] [varchar](25) NOT NULL DEFAULT (''),
- CONSTRAINT [PK_tcms_impressum] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#####imprint] PRIMARY KEY CLUSTERED 
 (
 	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
 GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####knowledgebase]    Skriptdatum: 09/02/2007 18:09:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-SET ANSI_PADDING ON
-GO
-CREATE TABLE [#####knowledgebase](
-	[uid] [varchar](10) NOT NULL DEFAULT (''),
-	[category] [varchar](10) NULL DEFAULT (NULL),
-	[parent] [varchar](10) NULL DEFAULT (NULL),
-	[title] [varchar](255) NULL DEFAULT (NULL),
-	[subtitle] [varchar](255) NULL DEFAULT (NULL),
-	[content] [text] NULL,
-	[image] [varchar](255) NULL DEFAULT (NULL),
-	[type] [char](1) NOT NULL DEFAULT (''),
-	[date] [varchar](16) NOT NULL DEFAULT (''),
-	[last_update] [varchar](16) NOT NULL DEFAULT (''),
-	[access] [varchar](10) NOT NULL DEFAULT (''),
-	[autor] [varchar](32) NOT NULL DEFAULT (''),
-	[sort] [int] NOT NULL DEFAULT ('0'),
-	[publish_state] [int] NOT NULL DEFAULT ('0'),
- CONSTRAINT [PK_tcms_knowledgebase] PRIMARY KEY CLUSTERED 
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#####frontpage]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [#####frontpage](
+	[uid] [varchar](9) NOT NULL DEFAULT (''),
+	[front_id] [varchar](9) NOT NULL DEFAULT (''),
+	[front_title] [varchar](255) NULL DEFAULT (NULL),
+	[front_stamp] [varchar](255) NULL DEFAULT (NULL),
+	[front_text] [text] NULL,
+	[news_title] [varchar](255) NULL DEFAULT (NULL),
+	[news_cut] [int] NOT NULL DEFAULT ('0'),
+	[module_use_0] [int] NOT NULL DEFAULT ('0'),
+	[sb_news_title] [varchar](255) NULL DEFAULT (NULL),
+	[sb_news_amount] [int] NULL DEFAULT (NULL),
+	[sb_news_chars] [int] NULL DEFAULT (NULL),
+	[sb_news_enabled] [int] NOT NULL DEFAULT ('0'),
+	[sb_news_display] [int] NOT NULL DEFAULT ('0'),
+	[language] [varchar](25) NOT NULL DEFAULT (''),
+ CONSTRAINT [PK_#####frontpage] PRIMARY KEY CLUSTERED 
 (
 	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####products]    Skriptdatum: 09/02/2007 18:12:01 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
-CREATE TABLE [#####products](
-	[uid] [varchar](32) NOT NULL DEFAULT (''),
-	[name] [varchar](255) NOT NULL DEFAULT (''),
-	[product_number] [varchar](255) NULL DEFAULT (NULL),
-	[factory] [varchar](255) NULL DEFAULT (NULL),
-	[factory_url] [varchar](255) NULL DEFAULT (NULL),
-	[desc] [text] NULL,
-	[category] [varchar](32) NULL DEFAULT (''),
-	[image1] [varchar](255) NULL DEFAULT (NULL),
-	[date] [varchar](16) NOT NULL DEFAULT (''),
-	[price] [varchar](50) NULL DEFAULT (NULL),
-	[price_tax] [varchar](50) NULL DEFAULT (NULL),
-	[status] [int] NOT NULL DEFAULT ('0'),
-	[quantity] [int] NULL DEFAULT (NULL),
-	[weight] [varchar](50) NULL DEFAULT (NULL),
-	[sort] [int] NOT NULL DEFAULT ('0'),
-	[access] [varchar](10) NULL DEFAULT (NULL),
-	[sql_type] [char](1) NOT NULL DEFAULT (''),
-	[image2] [varchar](255) NULL,
-	[image3] [varchar](255) NULL,
-	[image4] [varchar](255) NULL,
-	[show_on_startpage] [tinyint] NOT NULL DEFAULT ('0'),
-	[pub] [tinyint] NOT NULL DEFAULT ('0'),
-	[parent] [varchar](32) NULL,
-	[language] [varchar](25) NOT NULL DEFAULT ('english_EN'),
- CONSTRAINT [PK_tcms_products] PRIMARY KEY CLUSTERED 
-(
-	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####downloads]    Skriptdatum: 09/02/2007 18:08:14 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
-CREATE TABLE [#####downloads](
-	[uid] [varchar](10) NOT NULL CONSTRAINT [DF__tcms_downlo__uid__2D27B809]  DEFAULT (''),
-	[name] [varchar](255) NULL CONSTRAINT [DF__tcms_downl__name__2E1BDC42]  DEFAULT (NULL),
-	[date] [varchar](16) NOT NULL CONSTRAINT [DF__tcms_downl__date__2F10007B]  DEFAULT (''),
-	[desc] [text] NULL,
-	[type] [varchar](255) NOT NULL CONSTRAINT [DF__tcms_downl__type__300424B4]  DEFAULT (''),
-	[sort] [int] NULL CONSTRAINT [DF__tcms_downl__sort__30F848ED]  DEFAULT (NULL),
-	[mirror] [int] NOT NULL,
-	[pub] [int] NULL CONSTRAINT [DF__tcms_downlo__pub__32E0915F]  DEFAULT (NULL),
-	[access] [varchar](10) NULL CONSTRAINT [DF__tcms_down__acces__33D4B598]  DEFAULT (NULL),
-	[image] [varchar](255) NULL CONSTRAINT [DF__tcms_down__image__34C8D9D1]  DEFAULT (NULL),
-	[file] [varchar](255) NULL CONSTRAINT [DF__tcms_downl__file__35BCFE0A]  DEFAULT (NULL),
-	[cat] [varchar](10) NULL CONSTRAINT [DF__tcms_downlo__cat__36B12243]  DEFAULT (NULL),
-	[sql_type] [char](1) NOT NULL CONSTRAINT [DF__tcms_down__sql_t__37A5467C]  DEFAULT (''),
-	[parent] [varchar](10) NULL,
- CONSTRAINT [PK_tcms_downloads] PRIMARY KEY CLUSTERED 
-(
-	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####albums]    Skriptdatum: 09/02/2007 18:07:05 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
-CREATE TABLE [#####albums](
-	[uid] [varchar](12) NOT NULL DEFAULT (''),
-	[title] [varchar](255) NULL DEFAULT (NULL),
-	[album_id] [varchar](6) NOT NULL DEFAULT (''),
-	[published] [int] NOT NULL DEFAULT ('0'),
-	[desc] [text] NULL,
-	[image] [varchar](255) NULL DEFAULT (NULL),
- CONSTRAINT [PK_tcms_albums] PRIMARY KEY CLUSTERED 
-(
-	[uid] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-SET ANSI_PADDING OFF
-GO
-/****** Objekt:  Table [#####content_languages]    Skriptdatum: 09/02/2007 18:08:01 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
-CREATE TABLE [#####content_languages](
-	[uid] [varchar](5) NOT NULL,
-	[content_uid] [varchar](5) NOT NULL,
-	[language] [varchar](25) NOT NULL,
-	[title] [varchar](255) NULL,
-	[key] [varchar](255) NULL,
-	[content00] [text] NULL,
-	[content01] [text] NULL,
-	[foot] [varchar](255) NULL,
-	[autor] [varchar](255) NULL,
-	[db_layout] [varchar](50) NOT NULL,
-	[access] [varchar](10) NOT NULL,
-	[in_work] [int] NOT NULL DEFAULT ('0'),
-	[published] [int] NOT NULL DEFAULT ('0')
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-SET ANSI_PADDING OFF
-GO
+END
 
 
-ALTER TABLE [#####content_languages]
-ADD CONSTRAINT pk_#####content_languages PRIMARY KEY ([uid]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1273,8 +1232,8 @@ VALUES ('sidebar_extensions', 'Sidemenu', 0, 'Sidebar', 0, 'Showcase', 1, 'Searc
 INSERT INTO [#####frontpage] ([uid], [front_id], [front_title], [front_stamp], [front_text], [news_title], [news_cut], [module_use_0], [sb_news_title], [sb_news_amount], [sb_news_chars], [sb_news_enabled], [sb_news_display], [language]) 
 VALUES ('frontpage', 'frontpage', 'Welcome to the Home of toendaCMS', 'Content Management and Weblogging System', 'Welcome to the Samplesite of the free Open-Source content management and weblogging system toendaCMS.&lt;br /&gt;\r\nIt is for enterprise purposes and/or private uses on the web. It offers full flexibility and extendability while featuring an accomplished set of ready-made [int]erfaces, function''s and modules.', 'Journal', 0, 3, ' Latest News', 5, 100, 1, 3, 'english_EN');
 
-INSERT INTO [#####impressum] ([uid], [imp_id], [imp_title], [imp_stamp], [imp_contact], [taxno], [ustid], [legal], [language]) 
-VALUES ('impressum', 'impressum', 'Disclaimer', 'Information about this website', '10a1b5f6ab', '123456789', '123123d', 'No portion of this web site may be reproduced without express written consent from its owner.', 'english_EN');
+INSERT INTO [#####imprint] ([uid], [imp_id], [imp_title], [imp_stamp], [imp_contact], [taxno], [ustid], [legal], [language]) 
+VALUES ('imprint', 'imprint', 'Disclaimer', 'Information about this website', '10a1b5f6ab', '123456789', '123123d', 'No portion of this web site may be reproduced without express written consent from its owner.', 'english_EN');
 
 INSERT INTO [#####newsmanager] ([uid], [news_id], [news_title], [news_stamp], [news_image], [use_comments], [show_autor], [show_autor_as_link], [news_amount], [access], [news_cut], [use_gravatar], [use_emoticons], [use_rss091], [use_rss10], [use_rss20], [use_atom03], [use_opml], [syn_amount], [use_syn_title], [def_feed], [use_trackback], [use_timesince], [news_text], [readmore_link], [news_spacing], [language]) 
 VALUES ('newsmanager', 'newsmanager', 'News', 'Current', ' ', 1, 0, 0, 20, 'Public', 0, 0, 1, 1, 1, 1, 1, 1, 5, 1, 'RSS2.0', 0, 0, 'testext ', 0, 25, 'english_EN', 0, '', 0, '', 0, '', 0, '', 0, '', 1, '', 'RSS2.0', 0, 25);

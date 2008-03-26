@@ -5,11 +5,11 @@
 	<charset>UTF-8</charset>
 	<wysiwyg>tinymce</wysiwyg>
 	<lang>germany_DE</lang>
-	<front_lang>english_EN</front_lang>
+	<front_lang>germany_DE</front_lang>
 	<description></description>
 	<currency>EUR</currency>
 	<toendacms_in_sitetitle>0</toendacms_in_sitetitle>
-	<default_category>51fa1</default_category>
+	<default_category>erdf4</default_category>
 	<topmenu_active>1</topmenu_active>
 	<statistics>0</statistics>
 	<seo_enabled>1</seo_enabled>

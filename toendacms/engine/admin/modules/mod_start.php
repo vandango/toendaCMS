@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a a personal startpage.
  *
- * @version 0.3.0
+ * @version 0.3.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -50,10 +50,44 @@ else {
 			$statDBName = _DB_MYSQL;
 			$statDBValue = $sqlAL->getStats();
 			
-			$statDBValue = preg_replace('/  /i', '<br />', $statDBValue);
-			//$statDBValue = preg_replace('/:<br \/>/i', ': ', $statDBValue);
-			//$statDBValue = preg_replace('/<br \/><br \/>/i', '<br />', $statDBValue);
-			$statDBValue = str_replace('Queries per second avg:', 'Queries per second:', $statDBValue);
+			$counter = 0;
+			$arrTmpStats = explode('  ', $statDBValue);
+			
+			foreach($arrTmpStats as $value) {
+				$tmp = explode(': ', $value);
+				
+				$tmp[0] = str_replace(
+					'Queries per second avg', 
+					'Queries per second', 
+					$tmp[0]
+				);
+				
+				if(trim($tmp[0]) == 'Uptime') {
+					$tmp[1] = $tcms_time->convertSecondsIntoString(
+						$tcms_config->getLanguageCodeByTCMSCode(
+							$tcms_config->getLanguageBackend()
+						), 
+						$tmp[1]
+					);
+					
+					$tmp[1] = $tmp[1][1];
+				}
+				
+				$arrStats[$counter]['name'] = $tmp[0];
+				$arrStats[$counter]['value'] = $tmp[1];
+				
+				$counter++;
+			}
+			
+			$statDBValue = '';
+			
+			foreach($arrStats as $value) {
+				$statDBValue .= $value['name'].': '.$value['value'].'<br />';
+				
+				if(trim($value['name']) == 'Uptime') {
+					$statDBValue .= '<br />';
+				}
+			}
 			break;
 		
 		case 'pgsql':
