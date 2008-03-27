@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a contactform with a internal
  * adressbook with vcard export.
  *
- * @version 0.9.2
+ * @version 0.9.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -561,11 +561,13 @@ if($dcCF->getEnabled()) {
 			
 			
 			// inputs
+			/*
 			echo '<div style="display: block; float: left; width: 30px;">'
 			.'<input name="kopie" type="checkbox" id="kopie" value="checkbox" /></div>';
 			
 			echo '<div style="display: block; margin: 0 0 3px 1px; width: 300px; text-align: left;">'
 			.'<span class="text_normal">'._FORM_COPY.'</span></div>';
+			*/
 			
 			
 			if(!$dcCF->getUseAdressbook()) {

@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide a dynamic
  * search class.
  *
- * @version 0.3.1
+ * @version 0.3.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -222,6 +222,8 @@ class tcms_search extends tcms_main {
 	public function searchNews($searchWord, $language) {
 		$sc = 0;
 		
+		$lang = $this->_tcmsConfig->getLanguageCodeByTCMSCode($language);
+		
 		parent::setCurrentLang($language);
 		
 		if($this->m_choosenDB == 'xml') {
@@ -380,7 +382,7 @@ class tcms_search extends tcms_main {
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $this->urlConvertToSEO($link);
 					
-					echo '<a class="main" href="123'.$link.'">'.$tit.'</a>'
+					echo '<a class="main" href="'.$link.'">'.$tit.'</a>'
 					.$this->_tcmsHtml->searchResultPanel($date.' - '.$time)
 					.'<br />';
 					
@@ -403,6 +405,8 @@ class tcms_search extends tcms_main {
 	 */
 	public function searchDocuments($searchWord, $language) {
 		$sc = 0;
+		
+		$lang = $this->_tcmsConfig->getLanguageCodeByTCMSCode($language);
 		
 		parent::setCurrentLang($language);
 		
