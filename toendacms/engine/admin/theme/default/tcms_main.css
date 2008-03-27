@@ -388,6 +388,7 @@ td.tcms_top_menu_tape {
 	height: 580px;
 	width: 95%;
 	overflow: auto !important;
+	background: #ececec;
 }
 
 /* Input Textarea Huge */
