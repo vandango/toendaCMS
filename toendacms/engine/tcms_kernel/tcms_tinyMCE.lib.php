@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to implement the tinyMCE editor.
  *
- * @version 0.2.2
+ * @version 0.2.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -103,7 +103,7 @@ class tcms_tinyMCE {
 				convert_newlines_to_brs : false,
 				remove_linebreaks : true,
 				
-				plugins : "table,searchreplace,paste,insertdatetime,media,fullscreen,preview,advhr,advlink,pagebreak,contextmenu",//,inlinepopups",
+				plugins : "iespell,safari,xhtmlxtras,contextmenu,table,searchreplace,paste,insertdatetime,media,fullscreen,preview,advhr,advlink,pagebreak",//,inlinepopups",
 				plugin_insertdate_dateFormat : "%d.%m.%Y",
 				plugin_insertdate_timeFormat : "%H:%M:%S",
 				pagebreak_separator : "{tcms_more}",

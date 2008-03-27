@@ -941,7 +941,9 @@ switch($id) {
 }
 
 
-if(!defined('_SITE_TITLE_ADDITIONAL')) define('_SITE_TITLE_ADDITIONAL', $sitetitleAdditional);
+if(!defined('_SITE_TITLE_ADDITIONAL')) {
+	define('_SITE_TITLE_ADDITIONAL', $sitetitleAdditional);
+}
 
 if(trim(_SITE_TITLE) != '') {
 	echo _SITE_TITLE;

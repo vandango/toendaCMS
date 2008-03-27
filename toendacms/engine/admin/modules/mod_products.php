@@ -1541,6 +1541,7 @@ if($todo == 'edit') {
 		)
 		.'&nbsp;'.( $tcms_main->isReal($wsImage1) ? '('.$wsImage1.')' : '' )
 		.'&nbsp;<input type="button" name="tcms1" value="'._EXT_NEWS_DESELECT.'" onclick="gebi(\'tmp_image1\').value=\'_empty_\';gebi(\'tmp_image_file1\').src=\'../images/no_picture.gif\';" />'
+		.'&nbsp;<input type="button" name="tcms_1" value="'._EXT_NEWS_SELECT.'" onclick="alert(\'Currently not implemented...\');" />'
 		.'</td></tr>';
 		
 		
@@ -1564,6 +1565,7 @@ if($todo == 'edit') {
 		)
 		.'&nbsp;'.( $tcms_main->isReal($wsImage2) ? '('.$wsImage2.')' : '' )
 		.'&nbsp;<input type="button" name="tcms2" value="'._EXT_NEWS_DESELECT.'" onclick="gebi(\'tmp_image2\').value=\'_empty_\';gebi(\'tmp_image_file2\').src=\'../images/no_picture.gif\';" />'
+		.'&nbsp;<input type="button" name="tcms_2" value="'._EXT_NEWS_SELECT.'" onclick="alert(\'Currently not implemented...\');" />'
 		.'</td></tr>';
 		
 		
@@ -1587,6 +1589,7 @@ if($todo == 'edit') {
 		)
 		.'&nbsp;'.( $tcms_main->isReal($wsImage3) ? '('.$wsImage3.')' : '' )
 		.'&nbsp;<input type="button" name="tcms3" value="'._EXT_NEWS_DESELECT.'" onclick="gebi(\'tmp_image3\').value=\'_empty_\';gebi(\'tmp_image_file3\').src=\'../images/no_picture.gif\';" />'
+		.'&nbsp;<input type="button" name="tcms_3" value="'._EXT_NEWS_SELECT.'" onclick="alert(\'Currently not implemented...\');" />'
 		.'</td></tr>';
 		
 		
@@ -1610,6 +1613,7 @@ if($todo == 'edit') {
 		)
 		.'&nbsp;'.( $tcms_main->isReal($wsImage4) ? '('.$wsImage4.')' : '' )
 		.'&nbsp;<input type="button" name="tcms4" value="'._EXT_NEWS_DESELECT.'" onclick="gebi(\'tmp_image4\').value=\'_empty_\';gebi(\'tmp_image_file4\').src=\'../images/no_picture.gif\';" />'
+		.'&nbsp;<input type="button" name="tcms_4" value="'._EXT_NEWS_SELECT.'" onclick="alert(\'Currently not implemented...\');" />'
 		.'</td></tr>';
 		
 		
