@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a base content loader.
  *
- * @version 0.8.9
+ * @version 0.9.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -284,7 +284,7 @@ if($content_published == 1) {
 						
 						echo '<div class="contentmain">';
 						
-						$toendaScript->doParsePHP($content00);
+						$tcms_script->doParsePHP($content00);
 						
 						echo '<br />'.$content01.'<br />'
 						.$foot.'</div>'
