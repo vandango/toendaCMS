@@ -1,5 +1,5 @@
 /**
- * $Id: editor_plugin_src.js 520 2008-01-07 16:30:32Z spocke $
+ * $Id: editor_plugin_src.js 665 2008-03-04 13:26:59Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -16,8 +16,10 @@
 			t.onContextMenu = new tinymce.util.Dispatcher(this);
 
 			ed.onContextMenu.add(function(ed, e) {
-				t._getMenu(ed).showMenu(e.clientX, e.clientY);
-				Event.cancel(e);
+				if (!e.ctrlKey) {
+					t._getMenu(ed).showMenu(e.clientX, e.clientY);
+					Event.cancel(e);
+				}
 			});
 
 			function hide() {
@@ -33,7 +35,7 @@
 		},
 
 		_getMenu : function(ed) {
-			var t = this, m = t._menu, se = ed.selection, col = se.isCollapsed(), el = se.getNode() || ed.getBody(), am;
+			var t = this, m = t._menu, se = ed.selection, col = se.isCollapsed(), el = se.getNode() || ed.getBody(), am, p1, p2;
 
 			if (m) {
 				m.removeAll();

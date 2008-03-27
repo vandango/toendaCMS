@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a media manager.
  *
- * @version 0.8.2
+ * @version 0.8.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -885,6 +885,7 @@ if($todo == 'deleteImage') {
 	if(trim($action) == 'products') {
 		unlink(_TCMS_PATH.'/images/'.$thumbPath.'/'.$thumbPrefix.$delimg);
 		unlink(_TCMS_PATH.'/images/'.$thumbPath.'/thumb_150_'.$delimg);
+		unlink(_TCMS_PATH.'/images/'.$thumbPath.'/thumb_235_'.$delimg);
 		unlink(_TCMS_PATH.'/images/'.$thumbPath.'/thumb_240_'.$delimg);
 	}
 	

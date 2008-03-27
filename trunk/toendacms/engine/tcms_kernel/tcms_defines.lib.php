@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for global values
  *
- * @version 0.8.4
+ * @version 0.8.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -435,20 +435,26 @@ $strMetaData = '<meta http-equiv="Content-Type" content="text/html; charset='.$c
 ';
 
 if($use_syndication == 1) {
-	$wsUrlBase = 'http://'.$_SERVER['HTTP_HOST'];
-	
-	/*
-	$wsUrl = '/'.$imagePath.'/cache/ATOM0.3.xml';
-	$wsUrl = str_replace('//', '/', $wsUrl);
-	
-	$strMetaData .= '<link rel="alternate" type="application/atom+xml"'
-	.' title="Atom 0.3"'
-	.' href="'.$wsUrlBase.$wsUrl.'" />'.chr(13);
-	*/
-	
-	$wsUrl = '/'.$imagePath.'/cache/'.$def_feed.'.'.$lang.'.xml';
-	$wsUrl = str_replace('///', '/', $wsUrl);
-	$wsUrl = str_replace('//', '/', $wsUrl);
+	if($tcms_config->getSEOEnabled()) {
+		$wsUrlBase = 'http://'.$_SERVER['HTTP_HOST'];
+		
+		/*
+		$wsUrl = '/'.$imagePath.'/cache/ATOM0.3.xml';
+		$wsUrl = str_replace('//', '/', $wsUrl);
+		
+		$strMetaData .= '<link rel="alternate" type="application/atom+xml"'
+		.' title="Atom 0.3"'
+		.' href="'.$wsUrlBase.$wsUrl.'" />'.chr(13);
+		*/
+		
+		$wsUrl = '/'.$imagePath.'/cache/'.$def_feed.'.'.$lang.'.xml';
+		$wsUrl = str_replace('///', '/', $wsUrl);
+		$wsUrl = str_replace('//', '/', $wsUrl);
+	}
+	else {
+		$wsUrlBase = '';
+		$wsUrl = 'cache/'.$def_feed.'.'.$lang.'.xml';
+	}
 	
 	$strMetaData .= '<link rel="alternate" type="application/rss+xml"'
 	.' title="'.$def_feed.'"'
