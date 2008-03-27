@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a search module.
  *
- * @version 0.7.2
+ * @version 0.7.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -535,6 +535,7 @@ function search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, 
 	global $tcms_db_prefix;
 	global $tcms_main;
 	global $tcms_administer_site;
+	global $lang;
 	
 	if($choosenDB == 'xml'){
 		$arr_searchfiles = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_products/', 'files');
@@ -736,6 +737,7 @@ function search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost,
 	global $tcms_db_prefix;
 	global $tcms_main;
 	global $tcms_administer_site;
+	global $lang;
 	
 	if($choosenDB == 'xml'){
 		$arr_searchfiles = $tcms_file->getPathContent(_TCMS_PATH.'/files/', 'files');
@@ -925,6 +927,7 @@ function search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $s
 	global $tcms_db_prefix;
 	global $tcms_main;
 	global $tcms_administer_site;
+	global $lang;
 	
 	if($choosenDB == 'xml'){
 		$arr_searchfiles = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_imagegallery/', 'files');
@@ -1074,6 +1077,7 @@ function search_faqs($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 	global $tcms_db_prefix;
 	global $tcms_main;
 	global $tcms_administer_site;
+	global $lang;
 	
 	if($choosenDB == 'xml'){
 		$arr_searchfiles = $tcms_file->getPathContent($tcms_main->getAdministerSite().'/tcms_knowledgebase/', 'files');
