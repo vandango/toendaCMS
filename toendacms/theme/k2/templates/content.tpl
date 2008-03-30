@@ -1,5 +1,4 @@
 <!--#####CONTENT_TEMPLATE_BEGIN#####-->
-
 <div style="width: 99%; display: block;">
 	<div class="contentheading">
 		#####CONTENT_TITLE#####
@@ -10,7 +9,6 @@
 	</span>
 	<br />
 	<br />
-	<br />
 	
 	<div class="contentmain">
 		#####CONTENT_TEXT#####
@@ -19,5 +17,4 @@
 		#####CONTENT_FOOTNOTE#####
 	</div>
 </div>
-
 <!--#####CONTENT_TEMPLATE_END#####-->
