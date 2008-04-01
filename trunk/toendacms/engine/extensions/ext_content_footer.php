@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * Content footer with links for the "top of page", "print" 
  * and "pdf" functions.
  *
- * @version 0.5.8
+ * @version 0.5.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -350,7 +350,7 @@ if($tcms_config->useContentLanguage()) {
 				.'id='.$id
 				.'&amp;s='.$s
 				.'&amp;lang=';
-				$link = $tcms_main->urlConvertToSEO($link);
+				$link = $tcms_main->urlConvertToSEO($link, true, true);
 				
 				$js = ' onchange="relocateTo(\''.$link.'\', this.value);"';
 				
@@ -363,16 +363,20 @@ if($tcms_config->useContentLanguage()) {
 						$defLang = $tcms_config->getLanguageCode(true);
 						
 						if($defLang == $lang) {
-							if($tcms_config->getLanguageFrontend() == $languages['code'][$key])
+							if($tcms_config->getLanguageFrontend() == $languages['code'][$key]) {
 								$dl = ' selected="selected"';
-							else
+							}
+							else {
 								$dl = '';
+							}
 						}
 						else {
-							if($lang == $val)
+							if($lang == $val) {
 								$dl = ' selected="selected"';
-							else
+							}
+							else {
 								$dl = '';
+							}
 						}
 						
 						echo '<option value="'.$val.'"'.$dl.'>'.$languages['name'][$key].'</option>';

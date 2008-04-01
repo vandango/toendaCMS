@@ -4,11 +4,13 @@
 		#####CONTENT_TITLE#####
 	</div>
 	
-	<span class="contentstamp">
-		#####CONTENT_SUBTITLE#####
-	</span>
-	<br />
-	<br />
+	{php:} if('#####CONTENT_SUBTITLE#####' != '') {
+		echo '<span class="contentstamp">
+			#####CONTENT_SUBTITLE#####
+		</span>
+		<br />
+		<br />';
+	} {:php}
 	
 	<div class="contentmain">
 		#####CONTENT_TEXT#####
