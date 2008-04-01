@@ -20,10 +20,10 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 /**
  * toendaCMS Kernel - System framework
- *
+ * 
  * This class is used for a basic public functions.
- *
- * @version 3.1.8
+ * 
+ * @version 3.1.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -1994,8 +1994,9 @@ class tcms_main {
 	 * 
 	 * @param String $text
 	 * @param Boolean $withAmpersant = true
+	 * @param Boolean $onlyDefaultLanguage = false
 	 */
-	public function urlConvertToSEO($text, $withAmpersant = true) {
+	public function urlConvertToSEO($text, $withAmpersant = true, $onlyDefaultLanguage = false) {
 		$text = str_replace('&#', '*-*', $text);
 		
 		if($withAmpersant) {
@@ -2052,7 +2053,8 @@ class tcms_main {
 				
 				$text = $this->urlConvertToHTMLFormat(
 					$text, 
-					( $this->urlSEO == 'html' ? true : false )
+					( $this->urlSEO == 'html' ? true : false ), 
+					$onlyDefaultLanguage
 				);
 				
 				//echo '<span style="color:#fff;">url-nachher:'.$text.'</span><br><br>';
@@ -2069,9 +2071,10 @@ class tcms_main {
 	 * 
 	 * @param String $text
 	 * @param Boolean $withIndexPHP = true
+	 * @param Boolean $onlyDefaultLanguage = false
 	 * @return String
 	 */
-	public function urlConvertToHTMLFormat($text, $withIndexPHP = true) {
+	public function urlConvertToHTMLFormat($text, $withIndexPHP = true, $onlyDefaultLanguage = false) {
 		//echo $text.'<br>';
 		
 		$arr_url = explode('&amp;', $text);
@@ -2269,7 +2272,20 @@ class tcms_main {
 							$this->_tcmsConfig->getCharset(), 
 							$this->_tcmsTime
 						);
-						$val = $dcp->getContentTitle($val, $this->_getLang);
+						
+						if($onlyDefaultLanguage) {
+							$lang = $this->_tcmsConfig->getLanguageCodeByTCMSCode(
+								$this->_tcmsConfig->getLanguageFrontend()
+							);
+						}
+						else {
+							$lang = $this->_getLang;
+						}
+						
+						$val = $dcp->getContentTitle(
+							$val, 
+							$lang
+						);
 						unset($dcp);
 						
 						$val = $this->cleanStringForUrlName($val);
