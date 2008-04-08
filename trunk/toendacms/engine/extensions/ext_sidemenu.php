@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a side menu.
  *
- * @version 0.6.0
+ * @version 0.6.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content Modules
@@ -88,10 +88,17 @@ if($navigation == 1) {
 				//
 				// submenu
 				//
-				$arrSubMenuItem = $tcms_menu->getSubmenu($getLang, 1, $menuItem->GetID(), $id, $item);
+				$arrSubMenuItem = $tcms_menu->getSubmenu(
+					$getLang, 
+					1, 
+					$menuItem->GetID(), 
+					$id, 
+					$item
+				);
 				
 				if($tcms_main->isArray($arrSubMenuItem)){
-					echo '<li><ul style="list-style-type: none !important;">';
+					echo '<li>'
+					.'<ul style="list-style-type: none !important;">';
 					
 					foreach($arrSubMenuItem as $sm_key => $sm_value){
 						$subMenuItem = new tcms_dc_sidemenuitem();
@@ -99,7 +106,7 @@ if($navigation == 1) {
 						
 						$target = ( $subMenuItem->GetTarget() == '' ? '' : ' target="'.$subMenuItem->GetTarget().'"' );
 						
-						if($menuItem->getPublished() == 1) {
+						if($subMenuItem->getPublished()) {
 							echo '<li>';
 							
 							switch($subMenuItem->GetType()){
@@ -130,7 +137,8 @@ if($navigation == 1) {
 						$arrSubMenu2Item = $tcms_menu->getSubmenu($getLang, 2, $subMenuItem->GetID(), $id, $item);
 						
 						if($tcms_main->isArray($arrSubMenu2Item)){
-							echo '<ul style="list-style-type: none !important;">';
+							echo '<li>'
+							.'<ul style="list-style-type: none !important;">';
 							
 							foreach($arrSubMenu2Item as $sm_key => $sm_value){
 								$subMenu2Item = new tcms_dc_sidemenuitem();
@@ -138,7 +146,7 @@ if($navigation == 1) {
 								
 								$target = ( $subMenu2Item->GetTarget() == '' ? '' : ' target="'.$subMenu2Item->GetTarget().'"' );
 								
-								if($menuItem->getPublished() == 1) {
+								if($subMenu2Item->getPublished()) {
 									echo '<li>';
 									
 									switch($subMenu2Item->GetType()){
@@ -166,7 +174,8 @@ if($navigation == 1) {
 								unset($subMenu2Item);
 							}
 							
-							echo '</ul>';
+							echo '</ul>'
+							.'</li>';
 						}
 						
 						unset($arrSubMenu2Item);
@@ -177,7 +186,8 @@ if($navigation == 1) {
 						unset($subMenuItem);
 					}
 					
-					echo '</ul></li>';
+					echo '</ul>'
+					.'</li>';
 				}
 				
 				unset($arrSubMenuItem);

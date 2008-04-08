@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a provider for sidemenu datacontainer
  * objects.
  *
- * @version 0.3.1
+ * @version 0.3.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -86,7 +86,7 @@ class tcms_menu_provider extends tcms_main {
 		
 		//echo 'pfad: '.$this->m_path.' ---> '.$tcms_administer_path.' ---> '.$this->administer.'<br>';
 		
-		if(file_exists($this->m_path.'/tcms_global/database.php')){
+		if(file_exists($this->m_path.'/tcms_global/database.php')) {
 			require($this->m_path.'/tcms_global/database.php');
 			
 			$this->m_choosenDB = $tcms_db_engine;
@@ -97,7 +97,7 @@ class tcms_menu_provider extends tcms_main {
 			$this->m_sqlPort   = $tcms_db_port;
 			$this->m_sqlPrefix = $tcms_db_prefix;
 		}
-		else{
+		else {
 			$this->m_choosenDB = 'xml';
 		}
 		
@@ -134,23 +134,23 @@ class tcms_menu_provider extends tcms_main {
 	 * @param Integer $item_id
 	 * @return String
 	 */
-	public function _checkIDByLink($lang, $id, $root, $level = 0, $item_id){
+	public function _checkIDByLink($lang, $id, $root, $level = 0, $item_id) {
 		//$menuItem = new tcms_dc_sidemenuitem();
 		
 		//$menuItem->SetLink('_NOTHING_');
 		$exeCute = false;
 		
-		if($this->m_choosenDB == 'xml'){
+		if($this->m_choosenDB == 'xml') {
 			/*$arr_filename = $this->readdir_ext($this->m_path.'/tcms_menu/');
 			
-			if($this->isArray($arr_filename)){
-				foreach($arr_filename as $nkey => $nvalue){
+			if($this->isArray($arr_filename)) {
+				foreach($arr_filename as $nkey => $nvalue) {
 					$xml = new xmlparser($this->m_path.'/tcms_menu/'.$nvalue,'r');
 					
 					$my_link = $xml->read_section('menu', 'link');
 					$my_id   = $xml->read_section('menu', 'id');
 					
-					if(trim($my_link) == trim($id) && trim($my_id) == trim($item_id)){
+					if(trim($my_link) == trim($id) && trim($my_id) == trim($item_id)) {
 						//echo $item_id.' - '.$id.' - '.$nvalue.'<br>';
 						
 						$menuItem->SetTitle($xml->read_section('menu', 'name'));
@@ -167,7 +167,7 @@ class tcms_menu_provider extends tcms_main {
 				}
 			}*/
 		}
-		else{
+		else {
 			//
 			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
 			$sqlCN = $sqlAL->connect(
@@ -180,7 +180,7 @@ class tcms_menu_provider extends tcms_main {
 			
 			$parentID = '';
 			
-			switch($this->m_IsAdmin){
+			switch($this->m_IsAdmin) {
 				case 'Developer':
 				case 'Administrator':
 					$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
@@ -255,20 +255,20 @@ class tcms_menu_provider extends tcms_main {
 	 * @param Integer $level = 0
 	 * @return String
 	 */
-	public function _getDByLink($lang, $id, $root, $level = 0){
+	public function _getDByLink($lang, $id, $root, $level = 0) {
 		$result = '0';
 		
-		if($this->m_choosenDB == 'xml'){
+		if($this->m_choosenDB == 'xml') {
 			/*$arr_filename = $this->readdir_ext($this->m_path.'/tcms_menu/');
 			
-			if($this->isArray($arr_filename)){
-				foreach($arr_filename as $nkey => $nvalue){
+			if($this->isArray($arr_filename)) {
+				foreach($arr_filename as $nkey => $nvalue) {
 					$xml = new xmlparser($this->m_path.'/tcms_menu/'.$nvalue,'r');
 					
 					$my_link = $xml->read_section('menu', 'link');
 					$my_id   = $xml->read_section('menu', 'id');
 					
-					if(trim($my_link) == trim($id) && trim($my_id) == trim($item_id)){
+					if(trim($my_link) == trim($id) && trim($my_id) == trim($item_id)) {
 						//echo $item_id.' - '.$id.' - '.$nvalue.'<br>';
 						
 						$menuItem->SetTitle($xml->read_section('menu', 'name'));
@@ -285,7 +285,7 @@ class tcms_menu_provider extends tcms_main {
 				}
 			}*/
 		}
-		else{
+		else {
 			//
 			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
 			$sqlCN = $sqlAL->connect(
@@ -298,7 +298,7 @@ class tcms_menu_provider extends tcms_main {
 			
 			$parentID = '';
 			
-			switch($this->m_IsAdmin){
+			switch($this->m_IsAdmin) {
 				case 'Developer':
 				case 'Administrator':
 					$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
@@ -345,8 +345,8 @@ class tcms_menu_provider extends tcms_main {
 	 */
 	public function getBasemenu($lang) {
 		if($this->m_choosenDB == 'xml') {
-			/*foreach($arr_file as $key => $value){
-				if($value != 'index.html'){
+			/*foreach($arr_file as $key => $value) {
+				if($value != 'index.html') {
 					$side_xml = new xmlparser($this->administer.'/tcms_menu/'.$value,'r');
 					$arr_menu['name'][$key] = $side_xml->read_value('name');
 					$arr_menu['id'][$key]   = $side_xml->read_value('id');
@@ -387,7 +387,7 @@ class tcms_menu_provider extends tcms_main {
 			
 			$executeQuery = false;
 			
-			switch($this->m_IsAdmin){
+			switch($this->m_IsAdmin) {
 				case 'Developer':
 				case 'Administrator':
 					$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
@@ -425,7 +425,7 @@ class tcms_menu_provider extends tcms_main {
 			
 			$count = 0;
 			
-			while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
 				$menuItem = new tcms_dc_sidemenuitem();
 				
 				$sql_name = $this->decodeText($sqlObj->name, '2', $c_charset);
@@ -510,13 +510,19 @@ class tcms_menu_provider extends tcms_main {
 			
 			$item_id = $this->_getDByLink($lang, $currentPage, $subMenuOf, $level);
 			//echo $currentPage.' - '.$subMenuOf.' - '.$level.' - '.$item_id.'<br>';
-			$executeQuery = $this->_checkIDByLink($lang, $currentPage, $subMenuOf, $level, $item_id);
+			$executeQuery = $this->_checkIDByLink(
+				$lang, 
+				$currentPage, 
+				$subMenuOf, 
+				$level, 
+				$item_id
+			);
 			
 			
 			//
 			//
 			//
-			switch($level){
+			switch($level) {
 				case 1:
 					$sql_parent = "parent_lvl1 = '".$subMenuOf."' OR parent = '".$item_id."'";
 					break;
@@ -542,7 +548,7 @@ class tcms_menu_provider extends tcms_main {
 			
 			//if($level >= 2)
 				//echo $strSQL.'<br />';
-			
+			//echo $strSQL.'<br />';
 			
 			//
 			//
@@ -552,7 +558,7 @@ class tcms_menu_provider extends tcms_main {
 				
 				$count = 0;
 				
-				while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+				while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
 					$menuItem = new tcms_dc_sidemenuitem();
 					
 					$sql_name = $this->decodeText($sqlObj->name, '2', $c_charset);
@@ -595,14 +601,14 @@ class tcms_menu_provider extends tcms_main {
 	 * @param String $root = ''
 	 * @return Array
 	 */
-	public function getSidemenu($lang, $item_id = '', $level = 0, $id = '', $item = '', $root = ''){
-		if($this->m_choosenDB == 'xml'){
+	public function getSidemenu($lang, $item_id = '', $level = 0, $id = '', $item = '', $root = '') {
+		if($this->m_choosenDB == 'xml') {
 			/*$arr_filename = $this->readdir_ext($this->m_path.'/tcms_menu/');
 			
 			$count = 0;
 			$show_item = false;
 			
-			if($this->isReal($id)){
+			if($this->isReal($id)) {
 				if($id == 'components')
 					$id = $id.'&item='.$item;
 				
@@ -610,33 +616,33 @@ class tcms_menu_provider extends tcms_main {
 				$menuItem = $this->_GetParentItem($item_id, $id);
 			}
 			
-			if($this->isArray($arr_filename)){
-				foreach($arr_filename as $nkey => $nvalue){
+			if($this->isArray($arr_filename)) {
+				foreach($arr_filename as $nkey => $nvalue) {
 					$xml = new xmlparser($this->m_path.'/tcms_menu/'.$nvalue,'r');
 					
 					$is_pub  = $xml->read_section('menu', 'published');
 					
-					if($is_pub == 1){
+					if($is_pub == 1) {
 						$is_auth = $xml->read_section('menu', 'access');
 						
 						$show_item = $this->checkAccess($is_auth, $this->m_IsAdmin);
 						
-						if($show_item == true){
+						if($show_item == true) {
 							$mi_parent = $xml->read_section('menu', 'parent');
 							
 							// only parent
-							if($item_id == ''){
+							if($item_id == '') {
 								if(trim($mi_parent) == '-')
 									$show_item = true;
 								else
 									$show_item = false;
 							}
 							// or sub items
-							else{
-								if($menuItem->GetLink() == '_NOTHING_'){
+							else {
+								if($menuItem->GetLink() == '_NOTHING_') {
 									$show_item = false;
 								}
-								else{
+								else {
 									if($this->isReal($id))
 										$item_id = $menuItem->GetPosition();
 									
@@ -648,7 +654,7 @@ class tcms_menu_provider extends tcms_main {
 							}
 							
 							// and now write
-							if($show_item){
+							if($show_item) {
 								$arr_menu['name'][$count] = $xml->read_section('menu', 'name');
 								$arr_menu['id'][$count]   = $xml->read_section('menu', 'id');
 								$arr_menu['sub'][$count]  = $xml->read_section('menu', 'subid');
@@ -670,7 +676,7 @@ class tcms_menu_provider extends tcms_main {
 				}
 			}
 			
-			if(is_array($arr_menu['id']) && isset($arr_menu['id'])){
+			if(is_array($arr_menu['id']) && isset($arr_menu['id'])) {
 				array_multisort(
 					$arr_menu['id'], SORT_ASC, 
 					$arr_menu['sub'], SORT_ASC, 
@@ -683,12 +689,12 @@ class tcms_menu_provider extends tcms_main {
 				);
 			}
 			
-			if(is_array($arr_menu['id']) && isset($arr_menu['id'])){
+			if(is_array($arr_menu['id']) && isset($arr_menu['id'])) {
 				$count = 0;
 				
 				unset($n_key);
 				
-				foreach($arr_menu['id'] as $key => $n_value){
+				foreach($arr_menu['id'] as $key => $n_value) {
 					$menuItem = new tcms_dc_sidemenuitem();
 					
 					$menuItem->SetTitle($arr_menu['name'][$key]);
@@ -706,7 +712,7 @@ class tcms_menu_provider extends tcms_main {
 				}
 			}*/
 		}
-		else{
+		else {
 			//
 			//
 			//
@@ -721,7 +727,7 @@ class tcms_menu_provider extends tcms_main {
 			
 			$executeQuery = false;
 			
-			switch($this->m_IsAdmin){
+			switch($this->m_IsAdmin) {
 				case 'Developer':
 				case 'Administrator':
 					$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
@@ -743,7 +749,7 @@ class tcms_menu_provider extends tcms_main {
 			//
 			// $id   = id
 			// $item = cs
-			if($this->isReal($id)){
+			if($this->isReal($id)) {
 				if($id == 'components')
 					$id = $id.'&item='.$item;
 				
@@ -752,20 +758,20 @@ class tcms_menu_provider extends tcms_main {
 				//echo '<b>'.$root.' - '.( $executeQuery ? '1' : '0' ).'</b>';
 				// - '.$id.' ('.$level.'): '.$item_id.' == '.$currentID.'</b><br />';
 			}
-			else{
+			else {
 				$executeQuery = true;
 			}
 			
 			//
 			// hier dran ist zu erkennen ob root oder sub
 			//
-			if($item_id == ''){
+			if($item_id == '') {
 				$sql_parent = "( parent_lvl1 IS NULL OR parent_lvl1parent_lvl1 = '-' )"
 				." AND ( parent_lvl2 IS NULL OR parent_lvl2 = '-' )"
 				." AND ( parent_lvl3 IS NULL OR parent_lvl3 = '-' )";
 			}
-			else{
-				switch($level){
+			else {
+				switch($level) {
 					case 2: $sql_parent = "parent_lvl2 = '".$item_id."'"; break;
 					case 3: $sql_parent = "parent_lvl3 = '".$item_id."'"; break;
 				}
@@ -782,12 +788,12 @@ class tcms_menu_provider extends tcms_main {
 			//if($level >= 2)
 			//	echo $strSQL.'<br />';
 			
-			if($executeQuery){
+			if($executeQuery) {
 				$sqlQR = $sqlAL->query($strSQL);
 				
 				$count = 0;
 				
-				while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+				while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
 					$menuItem = new tcms_dc_sidemenuitem();
 					
 					$sql_name = $this->decodeText($sqlObj->name, '2', $c_charset);
@@ -850,14 +856,14 @@ class tcms_menu_provider extends tcms_main {
 			
 			$count = 0;
 			
-			while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
 				$arr_link['name'][$count] = $sqlObj->name;
 				$arr_link['id'][$count]   = $sqlObj->id;
 				$arr_link['link'][$count] = $sqlObj->link;
 				
-				if($arr_link['name'][$count] == NULL){ $arr_link['name'][$count] = ''; }
-				if($arr_link['id'][$count]   == NULL){ $arr_link['id'][$count]   = ''; }
-				if($arr_link['link'][$count] == NULL){ $arr_link['link'][$count] = ''; }
+				if($arr_link['name'][$count] == NULL) { $arr_link['name'][$count] = ''; }
+				if($arr_link['id'][$count]   == NULL) { $arr_link['id'][$count]   = ''; }
+				if($arr_link['link'][$count] == NULL) { $arr_link['link'][$count] = ''; }
 				
 				// CHARSETS
 				$arr_link['name'][$count] = $this->decodeText($arr_link['name'][$count], '2', $c_charset);
@@ -867,9 +873,9 @@ class tcms_menu_provider extends tcms_main {
 			}
 			
 			
-			if($which != 'check_id'){
-				if(is_array($arr_link['link']) && !empty($arr_link['link'])){
-					foreach($arr_link['link'] as $key => $value){
+			if($which != 'check_id') {
+				if(is_array($arr_link['link']) && !empty($arr_link['link'])) {
+					foreach($arr_link['link'] as $key => $value) {
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id='.$value.'&amp;s='.$s
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -891,14 +897,14 @@ class tcms_menu_provider extends tcms_main {
 			
 			$count = 0;
 			
-			while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
 				$arr_link['name'][$count] = $sqlObj->name;
 				$arr_link['id'][$count]   = $sqlObj->id;
 				$arr_link['link'][$count] = $sqlObj->link;
 				
-				if($arr_link['name'][$count] == NULL){ $arr_link['name'][$count] = ''; }
-				if($arr_link['id'][$count]   == NULL){ $arr_link['id'][$count]   = ''; }
-				if($arr_link['link'][$count] == NULL){ $arr_link['link'][$count] = ''; }
+				if($arr_link['name'][$count] == NULL) { $arr_link['name'][$count] = ''; }
+				if($arr_link['id'][$count]   == NULL) { $arr_link['id'][$count]   = ''; }
+				if($arr_link['link'][$count] == NULL) { $arr_link['link'][$count] = ''; }
 				
 				// CHARSETS
 				$arr_link['name'][$count] = $this->decodeText($arr_link['name'][$count], '2', $c_charset);
@@ -908,9 +914,9 @@ class tcms_menu_provider extends tcms_main {
 			}
 			
 			
-			if($which != 'check_id'){
-				if(is_array($arr_link['link']) && !empty($arr_link['link'])){
-					foreach($arr_link['link'] as $key => $value){
+			if($which != 'check_id') {
+				if(is_array($arr_link['link']) && !empty($arr_link['link'])) {
+					foreach($arr_link['link'] as $key => $value) {
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id='.$value.'&amp;s='.$s
 						.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -924,18 +930,18 @@ class tcms_menu_provider extends tcms_main {
 			}
 		}
 		
-		if(is_array($pathwayT) && !empty($pathwayT)){
-			foreach($pathwayT as $key => $value){ $tmpPathway[$key] = $value; }
+		if(is_array($pathwayT) && !empty($pathwayT)) {
+			foreach($pathwayT as $key => $value) { $tmpPathway[$key] = $value; }
 		}
 		
-		if(is_array($pathway) && !empty($pathway)){
-			foreach($pathway as $key => $value){ $tmpPathway[$key] = $value; }
+		if(is_array($pathway) && !empty($pathway)) {
+			foreach($pathway as $key => $value) { $tmpPathway[$key] = $value; }
 		}
 		
 		if(!is_array($arr_path)) { $arr_path[0]  = ''; }
-		if(!is_array($arr_pathT)){ $arr_pathT[0] = ''; }
+		if(!is_array($arr_pathT)) { $arr_pathT[0] = ''; }
 		if(!is_array($titleway)) { $titleway[0]  = ''; }
-		if(!is_array($titlewayT)){ $titlewayT[0] = ''; }
+		if(!is_array($titlewayT)) { $titlewayT[0] = ''; }
 		
 		$arr_path = array_merge($arr_path, $arr_pathT);
 		$titleway = array_merge($titleway, $titlewayT);
