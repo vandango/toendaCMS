@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the topmenu items.
  *
- * @version 0.6.7
+ * @version 0.6.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -601,6 +601,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 					$xmluser->writeValue('content00', '');
 					$xmluser->writeValue('content01', '');
 					$xmluser->writeValue('foot', '');
+					$xmluser->writeValue('autor', $id_username);
 					$xmluser->writeValue('id', $new_tm_link);
 					//$xmluser->writeValue('db_layout', '');
 					$xmluser->writeValue('access', $new_tm_access);
@@ -622,6 +623,7 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 					$xmluser->writeValue('content00', '');
 					$xmluser->writeValue('content01', '');
 					$xmluser->writeValue('foot', '');
+					$xmluser->writeValue('autor', $id_username);
 					$xmluser->writeValue('id', $new_tm_link);
 					//$xmluser->writeValue('db_layout', '');
 					$xmluser->writeValue('access', $new_tm_access);
@@ -636,19 +638,19 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				
 				switch($choosenDB){
 					case 'mysql':
-						$newSQLColumns = '`title`, `access`';
+						$newSQLColumns = '`title`, `access`, `autor`';
 						break;
 					
 					case 'pgsql':
-						$newSQLColumns = 'title, "access"';
+						$newSQLColumns = 'title, "access", "autor"';
 						break;
 					
 					case 'mssql':
-						$newSQLColumns = '[title], [access]';
+						$newSQLColumns = '[title], [access], [autor]';
 						break;
 				}
 				
-				$newSQLData = "'".$new_tm_name."', '".$new_tm_access."'";
+				$newSQLData = "'".$new_tm_name."', '".$new_tm_access."', '".$id_username."'";
 				
 				if($language != $tcms_config->getLanguageFrontend()) {
 					switch($choosenDB){
