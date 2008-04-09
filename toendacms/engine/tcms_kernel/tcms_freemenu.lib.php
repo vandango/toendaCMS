@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for globar backend values.
  *
- * @version 0.6.0
+ * @version 0.6.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -277,6 +277,12 @@ if($site == 'mod_newpage' || $site == 'mod_sidemenu'){
 		$i++;
 	}
 	
+	if(!in_array('sitemap', $arrXMLID)){
+		$arr_linkcom['name'][$i] = _TCMS_MENU_SITEMAP;
+		$arr_linkcom['link'][$i] = 'sitemap';
+		$i++;
+	}
+	
 	
 	unset($arrDocuments);
 	
@@ -460,6 +466,12 @@ if($site == 'mod_topmenu'){
 	if(!in_array('links', $arrXMLID)){
 		$arr_linkcom['name'][$i] = _TCMS_MENU_LINK;
 		$arr_linkcom['link'][$i] = 'links';
+		$i++;
+	}
+	
+	if(!in_array('sitemap', $arrXMLID)){
+		$arr_linkcom['name'][$i] = _TCMS_MENU_SITEMAP;
+		$arr_linkcom['link'][$i] = 'sitemap';
 		$i++;
 	}
 	

@@ -176,6 +176,7 @@ if(!defined('_TCMS_MENU_IMPORT'))              define('_TCMS_MENU_IMPORT', 'Impo
 if(!defined('_TCMS_MENU_CFORM'))               define('_TCMS_MENU_CFORM', 'Contactform');
 if(!defined('_TCMS_MENU_BOOK'))                define('_TCMS_MENU_BOOK', 'Guestbook');
 if(!defined('_TCMS_MENU_LOG'))                 define('_TCMS_MENU_LOG', 'LogViewer');
+if(!defined('_TCMS_MENU_SITEMAP'))             define('_TCMS_MENU_SITEMAP', 'Sitemap');
 
 
 // MODULES

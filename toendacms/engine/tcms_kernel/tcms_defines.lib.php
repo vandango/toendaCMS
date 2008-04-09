@@ -208,6 +208,7 @@ $dayName['short']['sun'] = _TCMS_DAY_SUNDAY_XS;
 /*_SYNDICATION*/   if(!defined('_SYNDICATION'))    define('_SYNDICATION', 'engine/extensions/ext_syndication.php');
 /*_FRONT_NEWS*/    if(!defined('_FRONT_NEWS'))     define('_FRONT_NEWS', 'engine/extensions/ext_sidebar_news.php');
 /*_LANG_SELECTOR*/ if(!defined('_LANG_SELECTOR'))  define('_LANG_SELECTOR', 'engine/extensions/ext_language_selector.php');
+/*_SITEMAP*/       if(!defined('_SITEMAP'))        define('_SITEMAP', 'engine/extensions/ext_sitemap.php');
 
 //
 // --> IN CONTENT
@@ -290,6 +291,7 @@ switch($id){
 	case 'download': $id_meta_ad = _TCMS_MENU_NEWS; break;
 	case 'products': $id_meta_ad = _TCMS_MENU_PRODUCTS; break;
 	case 'components': $id_meta_ad = _TCMS_MENU_CS; break;
+	case 'sitemap': $id_meta_ad = _TCMS_MENU_SITEMAP; break;
 	
 	default:
 		$arrContentAccess = $tcms_dcp->getContentAccess($id, $getLang, $authorized);

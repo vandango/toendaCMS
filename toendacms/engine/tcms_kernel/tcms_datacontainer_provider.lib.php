@@ -1877,6 +1877,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			case 'download':
 			case 'products':
 			case 'components':
+			case 'sitemap':
 				$authorized = 'Public';
 				$content_published = 1;
 				break;
@@ -3934,6 +3935,175 @@ class tcms_datacontainer_provider extends tcms_main {
 		$se->setShowNewsCategoryAmount($wsShowNCA);
 		
 		return $se;
+	}
+	
+	
+	
+	/**
+	 * Load a sitemap recursivly
+	 *
+	 * @param String $usergroup
+	 * @param String $language
+	 * @param String $parentID1
+	 * @param String $parentID2
+	 * @param String $parentID3
+	 * @param String $parentPosID
+	 * @param Boolean $sitemenu = true
+	 * @param Boolean $topmenu = true
+	 * @return Array
+	 */
+	function getSitemap($usergroup, $language, $parentID1 = '', $parentID2 = '', $parentID3 = '', $parentPosID = '', $sitemenu = true, $topmenu = true) {
+		if($this->m_choosenDB == 'xml') {
+			/*$xml = new xmlparser(''.$this->m_path.'/tcms_global/sidebar.xml', 'r');
+			
+			$wsLang          = $xml->readSection('side', 'lang');
+			
+			$xml->flush();
+			unset($xml);
+			
+			if($wsLang          == false) $wsLang          = '';*/
+		}
+		else {
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
+			
+			switch($usergroup) {
+				case 'Developer':
+				case 'Administrator':
+					$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
+					break;
+				
+				case 'User':
+				case 'Editor':
+				case 'Presenter':
+					$strAdd = " OR access = 'Protected' ) ";
+					break;
+				
+				default:
+					$strAdd = ' ) ';
+					break;
+			}
+			
+			$count = 0;
+			
+			// first load the structure from the topmenu
+			if($topmenu) {
+				if(trim($parentID1) == ''
+				&& trim($parentID2) == ''
+				&& trim($parentID3) == ''
+				&& trim($parentPosID) == '') {
+					$arrMap[$count]['uid'] = '';
+					$arrMap[$count]['id'] = '';
+					$arrMap[$count]['name'] = '';
+					$arrMap[$count]['link'] = '';
+					$arrMap[$count]['target'] = '';
+					$arrMap[$count]['type'] = '';
+					$arrMap[$count]['pub'] = '';
+					$arrMap[$count]['parent'] = '';
+					$arrMap[$count]['parent_lvl1'] = '';
+					$arrMap[$count]['parent_lvl2'] = '';
+					$arrMap[$count]['parent_lvl3'] = '';
+				}
+				else {
+					//
+				}
+			}
+			
+			// then from the sidemenu
+			if($sitemenu) {
+				$strSQL = "SELECT * "
+				."FROM ".$this->m_sqlPrefix."sidemenu "
+				."WHERE NOT (uid IS NULL) "
+				."AND (language = '".$language."') "
+				."AND NOT (type = 'title') "
+				//."AND (published = 1) "
+				."AND ( access = 'Public' "
+				.$strAdd;
+				
+				if(trim($parentID1) == ''
+				&& trim($parentID2) == ''
+				&& trim($parentID3) == ''
+				&& trim($parentPosID) == '') {
+					$strSQL .= "AND ("
+					."( subid IS NULL OR subid = '' OR subid = '-' )"
+					." AND ( parent_lvl1 IS NULL OR parent_lvl1 = '' OR parent_lvl1 = '-' )"
+					." AND ( parent_lvl2 IS NULL OR parent_lvl2 = '' OR parent_lvl2 = '-' )"
+					." AND ( parent_lvl3 IS NULL OR parent_lvl3 = '' OR parent_lvl3 = '-' )"
+					.") ";
+				}
+				else {
+					if(trim($parentID1) != ''
+					&& trim($parentID1) != '-') {
+						$strSQL .= "AND ("
+						.( trim($parentPosID) != '' ? " (parent = '".$parentPosID."') OR " : "" )
+						." (parent_lvl1 = '".$parentID1."')"
+						.") ";
+					}
+					else if(trim($parentID2) != ''
+					&& trim($parentID2) != '-') {
+						$strSQL .= "AND ("
+						//." (parent = '".$parentPosID."')"
+						." (parent_lvl2 = '".$parentID2."')"
+						.") ";
+					}
+					else if(trim($parentID3) != ''
+					&& trim($parentID3) != '-') {
+						$strSQL .= "AND ("
+						//." (parent = '".$parentPosID."')"
+						." (parent_lvl3 = '".$parentID3."')"
+						.") ";
+					}
+				}
+				
+				$strSQL .= "ORDER BY id ASC, subid ASC, name ASC";
+				
+				//echo $strSQL;
+				
+				$sqlQR = $sqlAL->query($strSQL);
+				
+				while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)) {
+					$wsUid = $sqlObj->uid;
+					$wsID = $sqlObj->id;
+					$wsLink = $sqlObj->link;
+					
+					//if(!$this->isElementInArray($wsLink, $arrMap, 'link')) {
+					//}
+					
+					$wsName = $sqlObj->name;
+					$wsTarget = $sqlObj->target;
+					$wsType = $sqlObj->type;
+					$wsPub = $sqlObj->published;
+					$wsPar = $sqlObj->parent;
+					$wsPar1 = $sqlObj->parent_lvl1;
+					$wsPar2 = $sqlObj->parent_lvl2;
+					$wsPar3 = $sqlObj->parent_lvl3;
+					
+					$wsName = $this->decodeText($wsName, '2', $this->m_CHARSET);
+					
+					$arrMap[$count]['uid'] = $wsUid;
+					$arrMap[$count]['id'] = $wsID;
+					$arrMap[$count]['name'] = $wsName;
+					$arrMap[$count]['link'] = $wsLink;
+					$arrMap[$count]['target'] = $wsTarget;
+					$arrMap[$count]['type'] = $wsType;
+					$arrMap[$count]['pub'] = $wsPub;
+					$arrMap[$count]['parent'] = $wsPar;
+					$arrMap[$count]['parent_lvl1'] = $wsPar1;
+					$arrMap[$count]['parent_lvl2'] = $wsPar2;
+					$arrMap[$count]['parent_lvl3'] = $wsPar3;
+					
+					$count++;
+				}
+			}
+		}
+		
+		return $arrMap;
 	}
 }
 

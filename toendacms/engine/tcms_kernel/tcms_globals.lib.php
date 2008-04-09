@@ -23,10 +23,10 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for global values
  *
- * @version 0.0.7
+ * @version 0.0.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
- * @subpackage toendaCMS
+ * @subpackage tcms_kernel
  */
 
 
@@ -48,6 +48,7 @@ $arrTCMSModules[11] = 'links';
 $arrTCMSModules[12] = 'download';
 $arrTCMSModules[13] = 'components';
 $arrTCMSModules[14] = 'frontpage';
+$arrTCMSModules[15] = 'sitemap';
 
 
 

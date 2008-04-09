@@ -405,10 +405,10 @@ class tcms_menu_provider extends tcms_main {
 					break;
 			}
 			
-			$sql_parent = "( subid IS NULL OR subid = '-' )"
-			." AND ( parent_lvl1 IS NULL OR parent_lvl1 = '-' )"
-			." AND ( parent_lvl2 IS NULL OR parent_lvl2 = '-' )"
-			." AND ( parent_lvl3 IS NULL OR parent_lvl3 = '-' )";
+			$sql_parent = "( subid IS NULL OR subid = '' OR subid = '-' )"
+			." AND ( parent_lvl1 IS NULL OR parent_lvl1 = '' OR parent_lvl1 = '-' )"
+			." AND ( parent_lvl2 IS NULL OR parent_lvl2 = '' OR parent_lvl2 = '-' )"
+			." AND ( parent_lvl3 IS NULL OR parent_lvl3 = '' OR parent_lvl3 = '-' )";
 			
 			$strSQL = "SELECT *"
 			." FROM ".$this->m_sqlPrefix."sidemenu"
