@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.9.1
+ * @version 1.9.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -3950,9 +3950,10 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param String $parentPosID
 	 * @param Boolean $sitemenu = true
 	 * @param Boolean $topmenu = true
+	 * @param Integer $level
 	 * @return Array
 	 */
-	function getSitemap($usergroup, $language, $parentID1 = '', $parentID2 = '', $parentID3 = '', $parentPosID = '', $sitemenu = true, $topmenu = true) {
+	function getSitemap($usergroup, $language, $parentID1 = '', $parentID2 = '', $parentID3 = '', $parentPosID = '', $sitemenu = true, $topmenu = true, $level) {
 		if($this->m_choosenDB == 'xml') {
 			/*$xml = new xmlparser(''.$this->m_path.'/tcms_global/sidebar.xml', 'r');
 			
@@ -4038,32 +4039,38 @@ class tcms_datacontainer_provider extends tcms_main {
 					.") ";
 				}
 				else {
-					if(trim($parentID1) != ''
-					&& trim($parentID1) != '-') {
-						$strSQL .= "AND ("
-						.( trim($parentPosID) != '' ? " (parent = '".$parentPosID."') OR " : "" )
-						." (parent_lvl1 = '".$parentID1."')"
-						.") ";
-					}
-					else if(trim($parentID2) != ''
-					&& trim($parentID2) != '-') {
-						$strSQL .= "AND ("
-						//." (parent = '".$parentPosID."')"
-						." (parent_lvl2 = '".$parentID2."')"
-						.") ";
-					}
-					else if(trim($parentID3) != ''
-					&& trim($parentID3) != '-') {
-						$strSQL .= "AND ("
-						//." (parent = '".$parentPosID."')"
-						." (parent_lvl3 = '".$parentID3."')"
-						.") ";
+					switch($level) {
+						case 1:
+							$strSQL .= "AND ("
+							.( trim($parentPosID) != '' ? " (parent = '".$parentPosID."') OR " : "" )
+							." (parent_lvl1 = '".$parentID1."')"
+							." AND ( parent_lvl2 IS NULL OR parent_lvl2 = '-' )"
+							." AND ( parent_lvl3 IS NULL OR parent_lvl3 = '-' )"
+							.") ";
+							break;
+						
+						case 2:
+							$strSQL .= "AND ("
+							//." (parent = '".$parentPosID."')"
+							." (parent_lvl2 = '".$parentID2."')"
+							.") ";
+							break;
+						
+						case 3:
+							$strSQL .= "AND ("
+							//." (parent = '".$parentPosID."')"
+							." (parent_lvl3 = '".$parentID3."')"
+							.") ";
+							break;
+						
+						default:
+							break;
 					}
 				}
 				
 				$strSQL .= "ORDER BY id ASC, subid ASC, name ASC";
 				
-				//echo $strSQL;
+				//if($level == 2) { echo $strSQL; }
 				
 				$sqlQR = $sqlAL->query($strSQL);
 				
@@ -4079,10 +4086,6 @@ class tcms_datacontainer_provider extends tcms_main {
 					$wsTarget = $sqlObj->target;
 					$wsType = $sqlObj->type;
 					$wsPub = $sqlObj->published;
-					$wsPar = $sqlObj->parent;
-					$wsPar1 = $sqlObj->parent_lvl1;
-					$wsPar2 = $sqlObj->parent_lvl2;
-					$wsPar3 = $sqlObj->parent_lvl3;
 					
 					$wsName = $this->decodeText($wsName, '2', $this->m_CHARSET);
 					
@@ -4093,10 +4096,6 @@ class tcms_datacontainer_provider extends tcms_main {
 					$arrMap[$count]['target'] = $wsTarget;
 					$arrMap[$count]['type'] = $wsType;
 					$arrMap[$count]['pub'] = $wsPub;
-					$arrMap[$count]['parent'] = $wsPar;
-					$arrMap[$count]['parent_lvl1'] = $wsPar1;
-					$arrMap[$count]['parent_lvl2'] = $wsPar2;
-					$arrMap[$count]['parent_lvl3'] = $wsPar3;
 					
 					$count++;
 				}

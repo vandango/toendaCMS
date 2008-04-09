@@ -1336,6 +1336,14 @@ if(!defined('_FOOTER_VALID_CSS'))              define('_FOOTER_VALID_CSS', 'This
 if(!defined('_FOOTER_VALID_ANY_BROWSER'))      define('_FOOTER_VALID_ANY_BROWSER', 'This toendaCMS site is usable in any web browser.');
 
 
+// SITEMAP
+if(!defined('_SITEMAP_TITLE'))                 define('_SITEMAP_TITLE', 'Sitemap');
+if(!defined('_SITEMAP_SUBTITLE'))              define('_SITEMAP_SUBTITLE', 'Get yn overview of this webpage');
+if(!defined('_SITEMAP_TEXT'))                  define('_SITEMAP_TEXT', '');
+if(!defined('_SITEMAP_SIDEMENU'))              define('_SITEMAP_SIDEMENU', 'Accessible from the sidemenu:');
+if(!defined('_SITEMAP_TOPMENU'))               define('_SITEMAP_TOPMENU', 'Accessible from the topmenu:');
+
+
 // COUNTRY LIST
 if(!defined('_COUNTRY_AFGHANISTAN'))           define('_COUNTRY_AFGHANISTAN', 'Afghanistan');
 if(!defined('_COUNTRY_ALBANIA'))               define('_COUNTRY_ALBANIA', 'Albania');

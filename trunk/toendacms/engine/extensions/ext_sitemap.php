@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a sitemap generator extension
  *
- * @version 0.0.2
+ * @version 0.0.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content-Modules
@@ -40,17 +40,17 @@ defined('_TCMS_VALID') or die('Restricted access');
  * @param String $parentID2
  * @param String $parentID3
  * @param String $parentPosID
+ * @param Integer $globLevel
  */
-function displayItems($parentID1, $parentID2, $parentID3, $parentPosID) {
+function displayItems($parentID1, $parentID2, $parentID3, $parentPosID, $globLevel) {
 	global $tcms_dcp;
 	global $tcms_config;
 	global $tcms_main;
-	global $globLevel;
 	global $getLang;
+	global $lang;
 	global $is_admin;
 	global $session;
-	
-	$globLevel++;
+	global $s;
 	
 	$arrMap2 = $tcms_dcp->getSitemap(
 		$is_admin, 
@@ -60,10 +60,13 @@ function displayItems($parentID1, $parentID2, $parentID3, $parentPosID) {
 		$parentID3, 
 		$parentPosID, 
 		$tcms_config->getSidemenuEnabled(), 
-		$tcms_config->getTopmenuEnabled()
+		$tcms_config->getTopmenuEnabled(), 
+		$globLevel
 	);
 	
 	$return = '';
+	
+	//$tcms_main->paf($arrMap2);
 	
 	if($tcms_main->isArray($arrMap2)) {
 		//$ul1 = '<ul>';
@@ -98,12 +101,15 @@ function displayItems($parentID1, $parentID2, $parentID3, $parentPosID) {
 				}
 			}
 			
-			$wsHtml = displayItems(
-				( $globLevel == 1 ? $value['uid'] : '' ), 
-				( $globLevel == 2 ? $value['uid'] : '' ), 
-				( $globLevel == 3 ? $value['uid'] : '' ), 
-				( $globLevel == 0 ? $value['id'] : '' )
-			);
+			if($globLevel < 4) {
+				$wsHtml = displayItems(
+					( ( $globLevel + 1 ) == 1 ? $value['uid'] : '' ), 
+					( ( $globLevel + 1 ) == 2 ? $value['uid'] : '' ), 
+					( ( $globLevel + 1 ) == 3 ? $value['uid'] : '' ), 
+					( ( $globLevel + 1 ) == 0 ? $value['id'] : '' ), 
+					$globLevel + 1
+				);
+			}
 			
 			//$li2 = '</li>';
 			
@@ -140,92 +146,112 @@ function displayItems($parentID1, $parentID2, $parentID3, $parentPosID) {
 
 // init
 
-$globLevel = 0;
+echo $tcms_html->contentModuleHeader(
+	_SITEMAP_TITLE.' - BETA!', 
+	_SITEMAP_SUBTITLE, 
+	_SITEMAP_TEXT
+);
+
 
 $getLang = $tcms_config->getLanguageCodeForTCMS($lang);
 
-$arrMap = $tcms_dcp->getSitemap(
-	$is_admin, 
-	$getLang, 
-	'', 
-	'', 
-	'', 
-	'', 
-	$tcms_config->getSidemenuEnabled(), 
-	$tcms_config->getTopmenuEnabled()
-);
 
-
-
-
-// display
-
-echo $tcms_html->contentModuleHeader(
-	_TCMS_MENU_SITEMAP.' - BETA!', 
-	'', 
-	''
-);
-
-echo '<ul>';
-
-foreach($arrMap as $key => $value) {
-	$liContent = '';
+if($tcms_config->getTopmenuEnabled()) {
+	echo '<h3>'._SITEMAP_TOPMENU.'</h3>';
 	
-	$target = ( $value['target'] == '' ? '' : ' target="'.$value['target'].'"' );
-	
-	if($value['pub'] == 1) {
-		switch($value['type']){
-			case 'web':
-				$liContent = '<a href="'.$value['link'].'"'.$target.'>'
-				.$value['name']
-				.'</a>';
-				break;
-			
-			case 'title':
-				$liContent = $value['name'];
-				break;
-			
-			case 'link':
-				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-				.'id='.$value['link'].'&amp;s='.$s
-				.( isset($lang) ? '&amp;lang='.$lang : '' );
-				$link = $tcms_main->urlConvertToSEO($link);
-				
-				$liContent = '<a href="'.$link.'"'.$target.'>'.$value['name'].'</a>';
-				break;
-		}
-	}
-	else {
-		$liContent = '[Unver&ouml;ffentlicht]';
-	}
-	
-	$wsHtml = displayItems(
-		$value['uid'], 
+	$arrMap = $tcms_dcp->getSitemap(
+		$is_admin, 
+		$getLang, 
 		'', 
 		'', 
-		$value['id']
+		'', 
+		'', 
+		false, 
+		$tcms_config->getTopmenuEnabled(), 
+		0
 	);
-	
-	if(trim($liContent) != ''
-	|| trim($wsHtml) != '') {
-		echo '<li>';
-	}
-	
-	if(trim($liContent) != '') {
-		echo '<strong>'.$liContent.'</strong>';
-	}
-	
-	if(trim($wsHtml) != '') {
-		echo $wsHtml;
-	}
-	
-	if(trim($liContent) != ''
-	|| trim($wsHtml) != '') {
-		echo '</li>';
-	}
 }
 
-echo '</ul>'
-.'<br />';
+
+if($tcms_config->getSidemenuEnabled()) {
+	echo '<br />'
+	.'<h3>'._SITEMAP_SIDEMENU.'</h3>';
+	
+	$arrMap = $tcms_dcp->getSitemap(
+		$is_admin, 
+		$getLang, 
+		'', 
+		'', 
+		'', 
+		'', 
+		$tcms_config->getSidemenuEnabled(), 
+		false, 
+		0
+	);
+	
+	
+	echo '<ul>';
+	
+	foreach($arrMap as $key => $value) {
+		$liContent = '';
+		
+		$target = ( $value['target'] == '' ? '' : ' target="'.$value['target'].'"' );
+		
+		if($value['pub'] == 1) {
+			switch($value['type']){
+				case 'web':
+					$liContent = '<a href="'.$value['link'].'"'.$target.'>'
+					.$value['name']
+					.'</a>';
+					break;
+				
+				case 'title':
+					$liContent = $value['name'];
+					break;
+				
+				case 'link':
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id='.$value['link'].'&amp;s='.$s
+					.( isset($lang) ? '&amp;lang='.$lang : '' );
+					$link = $tcms_main->urlConvertToSEO($link);
+					
+					$liContent = '<a href="'.$link.'"'.$target.'>'.$value['name'].'</a>';
+					break;
+			}
+		}
+		else {
+			$liContent = '[Unver&ouml;ffentlicht]';
+		}
+		
+		$wsHtml = displayItems(
+			$value['uid'], 
+			'', 
+			'', 
+			$value['id'], 
+			1
+		);
+		
+		if(trim($liContent) != ''
+		|| trim($wsHtml) != '') {
+			echo '<li>';
+		}
+		
+		if(trim($liContent) != '') {
+			echo '<strong>'.$liContent.'</strong>';
+		}
+		
+		if(trim($wsHtml) != '') {
+			echo $wsHtml;
+		}
+		
+		if(trim($liContent) != ''
+		|| trim($wsHtml) != '') {
+			echo '</li>';
+		}
+	}
+	
+	echo '</ul>'
+	.'<br />';
+}
 
 ?>
