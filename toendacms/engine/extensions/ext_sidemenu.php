@@ -23,14 +23,12 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a side menu.
  *
- * @version 0.6.3
+ * @version 0.7.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content-Modules
  */
 
-
-$globLevel = 0;
 
 $getLang = $tcms_config->getLanguageCodeForTCMS($lang);
 
@@ -54,20 +52,19 @@ if($tcms_config->getSidemenuEnabled()) {
 		 * @param String $parentID
 		 * @param String $level
 		 */
-		function displayMenuItems($parentID, $level) {
+		function displayMenuItems($parentID, $level, $globLevel) {
 			global $tcms_menu;
 			global $tcms_config;
 			global $tcms_main;
-			global $globLevel;
 			global $getLang;
+			global $lang;
 			global $id;
 			global $item;
-			
-			$globLevel++;
+			global $s;
 			
 			$arrSubMenuItem = $tcms_menu->getSubmenu(
 				$getLang, 
-				1, 
+				$level, 
 				$parentID, 
 				$id, 
 				$item
@@ -82,6 +79,8 @@ if($tcms_config->getSidemenuEnabled()) {
 					$subMenuItem = $arrSubMenuItem[$sm_key];
 					
 					$target = ( $subMenuItem->GetTarget() == '' ? '' : ' target="'.$subMenuItem->GetTarget().'"' );
+					
+					$loadSubmenu = false;
 					
 					if($subMenuItem->getPublished()) {
 						echo '<li>';
@@ -101,17 +100,44 @@ if($tcms_config->getSidemenuEnabled()) {
 								.( isset($lang) ? '&amp;lang='.$lang : '' );
 								$link = $tcms_main->urlConvertToSEO($link);
 								
-								echo '<a class="submenu" href="'.$link.'"'.$target.'>'.$subMenuItem->GetTitle().'</a>';
+								echo '<a class="submenu" href="'.$link.'"'.$target.'>'
+								.$subMenuItem->GetTitle()
+								.'</a>';
+								
+								// id is the same as the link
+								// or id is the link from a submenuitem
+								if($globLevel >= 1) {
+									$wsDoIt = $tcms_menu->checkIdFromSubmenuItem(
+										$getLang, 
+										$id, 
+										$subMenuItem->getID(), 
+										$level + 1
+									);
+									
+									if($id == $subMenuItem->getLink()
+									|| $wsDoIt) {
+										$loadSubmenu = true;
+									}
+								}
+								else {
+									if($id == $subMenuItem->getLink()) {
+										$loadSubmenu = true;
+									}
+								}
 								break;
 						}
 						
 						echo '</li>';
 					}
 					
-					displayMenuItems(
-						$subMenuItem->getID(), 
-						$level + 1
-					);
+					if($loadSubmenu
+					&& $level < 4) {
+						displayMenuItems(
+							$subMenuItem->getID(), 
+							$level + 1, 
+							$globLevel + 1
+						);
+					}
 				}
 				
 				echo '</ul>'
@@ -163,16 +189,31 @@ if($tcms_config->getSidemenuEnabled()) {
 					
 					echo '</li>';
 				}
-				/*
-				displayMenuItems(
-					$menuItem->getID(), 
-					0
-				);
-				*/
+				
+				if($id == $menuItem->GetLink()) {
+					$wsDoIt = true;
+				}
+				else {
+					$wsDoIt = $tcms_menu->checkIdFromAllSubmenuItems(
+						$getLang, 
+						$id, 
+						$menuItem->getID(), 
+						1
+					);
+				}
+				
+				if($wsDoIt) {
+					displayMenuItems(
+						$menuItem->getID(), 
+						1, 
+						1
+					);
+				}
+				
 				//
 				// submenu
 				//
-				
+				/*
 				$arrSubMenuItem = $tcms_menu->getSubmenu(
 					$getLang, 
 					1, 
@@ -279,6 +320,7 @@ if($tcms_config->getSidemenuEnabled()) {
 				//
 				// end submenu
 				//
+				*/
 				
 				unset($menuItem);
 			}

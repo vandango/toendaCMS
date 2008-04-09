@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a provider for sidemenu datacontainer
  * objects.
  *
- * @version 0.3.2
+ * @version 0.4.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -40,6 +40,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * _checkIDByLink                          -> Check a menuitem by link
  * _getIDByLink                            -> Get a menuitem by link
  * 
+ * checkIdFromSubmenuItem                  -> Checks if the id is the link from the subitem of a menuitem
  * getBasemenu                             -> Get a array of sidemenu items from the base
  * getSubmenu                              -> Get a array of sidemenu items from the base
  * getSidemenu                             -> Get a array of menu items
@@ -134,7 +135,7 @@ class tcms_menu_provider extends tcms_main {
 	 * @param Integer $item_id
 	 * @return String
 	 */
-	public function _checkIDByLink($lang, $id, $root, $level = 0, $item_id) {
+	private function _checkIDByLink($lang, $id, $root, $level = 0, $item_id) {
 		//$menuItem = new tcms_dc_sidemenuitem();
 		
 		//$menuItem->SetLink('_NOTHING_');
@@ -227,6 +228,12 @@ class tcms_menu_provider extends tcms_main {
 					}
 				}
 			}
+			if($level = 2) {
+				$exeCute = true;
+			}
+			if($level = 3) {
+				$exeCute = true;
+			}
 			else {
 				if($sqlObj->root == null || $sqlObj->root == '-') {
 					if($sqlObj->parent_lvl2 == $root) {
@@ -255,7 +262,7 @@ class tcms_menu_provider extends tcms_main {
 	 * @param Integer $level = 0
 	 * @return String
 	 */
-	public function _getDByLink($lang, $id, $root, $level = 0) {
+	private function _getDByLink($lang, $id, $root, $level = 0) {
 		$result = '0';
 		
 		if($this->m_choosenDB == 'xml') {
@@ -333,6 +340,151 @@ class tcms_menu_provider extends tcms_main {
 		}
 		
 		return $result;
+	}
+	
+	
+	
+	/**
+	 * Checks if the id is the link from the subitem of a menuitem
+	 *
+	 * @param String $lang
+	 * @param String $id
+	 * @param String $parent
+	 * @param Integer $level
+	 * @return String
+	 */
+	public function checkIdFromSubmenuItem($lang, $id, $parent, $level) {
+		$result = false;
+		
+		if($this->m_choosenDB == 'xml') {
+			/*$arr_filename = $this->readdir_ext($this->m_path.'/tcms_menu/');
+			
+			if($this->isArray($arr_filename)) {
+				foreach($arr_filename as $nkey => $nvalue) {
+					$xml = new xmlparser($this->m_path.'/tcms_menu/'.$nvalue,'r');
+					
+					$my_link = $xml->read_section('menu', 'link');
+					$my_id   = $xml->read_section('menu', 'id');
+					
+					if(trim($my_link) == trim($id) && trim($my_id) == trim($item_id)) {
+						//echo $item_id.' - '.$id.' - '.$nvalue.'<br>';
+						
+						$menuItem->SetTitle($xml->read_section('menu', 'name'));
+						$menuItem->SetPosition($my_id);
+						$menuItem->SetSubmenuPosition($xml->read_section('menu', 'subid'));
+						$menuItem->SetLink($my_link);
+						$menuItem->SetType($xml->read_section('menu', 'type'));
+						$menuItem->SetAccess($xml->read_section('menu', 'access'));
+						$menuItem->SetParent($xml->read_section('menu', 'parent'));
+						$menuItem->GetPublished($xml->read_section('menu', 'published'));
+						
+						break;
+					}
+				}
+			}*/
+		}
+		else {
+			//
+			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
+			$sqlCN = $sqlAL->connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
+			
+			switch($this->m_IsAdmin) {
+				case 'Developer':
+				case 'Administrator':
+					$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
+					break;
+				
+				case 'User':
+				case 'Editor':
+				case 'Presenter':
+					$strAdd = " OR access = 'Protected' ) ";
+					break;
+				
+				default:
+					$strAdd = ' ) ';
+					break;
+			}
+			
+			switch($level) {
+				case 1:
+					$sql_parent = "parent_lvl1";
+					break;
+				
+				case 2:
+					$sql_parent = "parent_lvl2";
+					break;
+				
+				case 3:
+					$sql_parent = "parent_lvl3";
+					break;
+				
+				default:
+					$sql_parent = "parent_lvl1";
+					break;
+			}
+			
+			$strSQL = "SELECT *"
+			." FROM ".$this->m_sqlPrefix."sidemenu"
+			." WHERE ".$sql_parent." = '".$parent."'"
+			." AND language = '".$lang."'"
+			//." AND published = 1"
+			." AND ( access = 'Public' ".$strAdd
+			." ORDER BY id ASC, subid ASC";
+			
+			//if($level == 2) {
+			//	echo $strSQL;
+			//}
+			
+			$sqlQR = $sqlAL->query($strSQL);
+			
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
+				if($sqlObj->link == $id) {
+					$result = true;
+					break;
+				}
+			}
+			
+			//echo ( $result ? 'ja' : 'nein' ).'<br>';
+						
+			$sqlAL->freeResult($sqlQR);
+			unset($sqlAL);
+		}
+		
+		return $result;
+	}
+	
+	
+	
+	/**
+	 * Checks if the id is the link from the subitems of a menuitem
+	 *
+	 * @param String $lang
+	 * @param String $id
+	 * @param String $parent
+	 * @return String
+	 */
+	public function checkIdFromAllSubmenuItems($lang, $id, $parent) {
+		//echo $id.'-'.$parent.'<br>';
+		
+		$wsChk = $this->checkIdFromSubmenuItem($lang, $id, $parent, 1);
+		
+		if(!$wsChk) {
+			$wsChk = $this->checkIdFromSubmenuItem($lang, $id, $parent, 2);
+			
+			if(!$wsChk) {
+				$wsChk = $this->checkIdFromSubmenuItem($lang, $id, $parent, 3);
+			}
+		}
+		
+		//echo ( $wsChk ? 'ja' : 'nein' ).'<br>';
+		
+		return $wsChk;
 	}
 	
 	
@@ -510,6 +662,8 @@ class tcms_menu_provider extends tcms_main {
 			
 			$item_id = $this->_getDByLink($lang, $currentPage, $subMenuOf, $level);
 			//echo $currentPage.' - '.$subMenuOf.' - '.$level.' - '.$item_id.'<br>';
+			//echo $currentPage.' - '.$subMenuOf.' - '.$level.' - '.$item_id.'<br>';
+			
 			$executeQuery = $this->_checkIDByLink(
 				$lang, 
 				$currentPage, 
@@ -518,42 +672,50 @@ class tcms_menu_provider extends tcms_main {
 				$item_id
 			);
 			
-			
-			//
-			//
-			//
-			switch($level) {
-				case 1:
-					$sql_parent = "parent_lvl1 = '".$subMenuOf."' OR parent = '".$item_id."'";
-					break;
-				
-				case 2:
-					$sql_parent = "parent_lvl2 = '".$subMenuOf."'";
-					break;
-				
-				case 3: $sql_parent = "parent_lvl3 = '".$subMenuOf."'"; break;
-			}
+			//echo ( $executeQuery ? 'ja' : 'nein' ).'<br>';
 			
 			
-			//
-			//
-			//
-			$strSQL = "SELECT *"
-			." FROM ".$this->m_sqlPrefix."sidemenu"
-			." WHERE ".$sql_parent
-			." AND language = '".$lang."'"
-			//." AND published = 1"
-			." AND ( access = 'Public' ".$strAdd
-			." ORDER BY id ASC, subid ASC";
-			
-			//if($level >= 2)
-				//echo $strSQL.'<br />';
-			//echo $strSQL.'<br />';
-			
-			//
-			//
-			//
 			if($executeQuery) {
+				//
+				//
+				//
+				switch($level) {
+					case 1:
+						$sql_parent = "( "
+						."(parent_lvl1 = '".$subMenuOf."' OR parent = '".$item_id."') "
+						."AND (parent_lvl2 = '' OR parent_lvl2 = '-') "
+						."AND (parent_lvl3 = '' OR parent_lvl3 = '-') "
+						.")";
+						break;
+					
+					case 2:
+						$sql_parent = "( parent_lvl2 = '".$subMenuOf."' )";
+						break;
+					
+					case 3:
+						$sql_parent = "( parent_lvl3 = '".$subMenuOf."' )";
+						break;
+				}
+				
+				
+				//
+				//
+				//
+				$strSQL = "SELECT *"
+				." FROM ".$this->m_sqlPrefix."sidemenu"
+				." WHERE ".$sql_parent
+				." AND language = '".$lang."'"
+				//." AND published = 1"
+				." AND ( access = 'Public' ".$strAdd
+				." ORDER BY id ASC, subid ASC";
+				
+				if($level > 1) {
+					//echo $strSQL.'<br />';
+				}
+				
+				//
+				//
+				//
 				$sqlQR = $sqlAL->query($strSQL);
 				
 				$count = 0;
@@ -591,7 +753,7 @@ class tcms_menu_provider extends tcms_main {
 	
 	
 	/**
-	 * Get a array of sidemenu items
+	 * DEPRECATED: Get a array of sidemenu items
 	 *
 	 * @param String $lang
 	 * @param String $item_id = ''
@@ -600,6 +762,7 @@ class tcms_menu_provider extends tcms_main {
 	 * @param String $item = ''
 	 * @param String $root = ''
 	 * @return Array
+	 * @deprecated Since all time
 	 */
 	public function getSidemenu($lang, $item_id = '', $level = 0, $id = '', $item = '', $root = '') {
 		if($this->m_choosenDB == 'xml') {
