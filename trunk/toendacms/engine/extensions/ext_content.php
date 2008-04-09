@@ -23,10 +23,10 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a base content loader.
  *
- * @version 0.9.0
+ * @version 0.9.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
- * @subpackage Content Modules
+ * @subpackage Content-Modules
  */
 
 
@@ -87,6 +87,7 @@ if($content_published == 1) {
 			case 'newsmanager'  : include(_NEWSMANAGER); break;
 			case 'frontpage'    : include(_FRONTPAGE); break;
 			case 'imprint'      : include(_IMPRINT); break;
+			case 'sitemap'      : include(_SITEMAP); break;
 			default:
 				/*
 					CONTENT

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * This class is used for a basic public functions.
  * 
- * @version 3.1.9
+ * @version 3.2.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -662,18 +662,28 @@ class tcms_main {
 	 * 
 	 * @param String $element
 	 * @param Array $array
+	 * @param String $subDimension = ''
 	 * @return Unknown
 	 */
-	public function isElementInArray($element, $array) {
-		//in_array
-		//foreach($array as $key => $value) {
-		foreach($array as $value) {
-			if(trim($value) == trim($element)) {
-				return true;
+	public function isElementInArray($element, $array, $subDimension = '') {
+		if(trim($subDimension) == '') {
+			foreach($array as $key => $value) {
+				if(trim($array[$key][$subDimension]) == trim($element)) {
+					return true;
+				}
 			}
+			
+			return false;
 		}
-		
-		return false;
+		else {
+			foreach($array as $value) {
+				if(trim($value) == trim($element)) {
+					return true;
+				}
+			}
+			
+			return false;
+		}
 	}
 	
 	
@@ -2250,6 +2260,17 @@ class tcms_main {
 					case 'germany_DE': $text = 'links.html'; break;
 					case 'english_EN': $text = 'links.html'; break;
 					default:  $text = 'links.html'; break;
+				}
+				
+				$encodeMore = true;
+			}
+			else if($val == 'id=sitemap' || substr($val, 1) == 'id=sitemap') {
+				$ret = $this->globalFolder.'/'.$indexPHP;
+				
+				switch($this->_tcmsConfig->getLanguageFrontend()) {
+					case 'germany_DE': $text = 'sitemap.html'; break;
+					case 'english_EN': $text = 'sitemap.html'; break;
+					default:  $text = 'sitemap.html'; break;
 				}
 				
 				$encodeMore = true;

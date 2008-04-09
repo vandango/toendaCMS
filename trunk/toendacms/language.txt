@@ -37,6 +37,8 @@
 * ADD THIS
 *
 
+if(!defined('_TCMS_MENU_SITEMAP'))             define('_TCMS_MENU_SITEMAP', 'Sitemap');
+
 if(!defined('_DB_CLEAN_UP'))                   define('_DB_CLEAN_UP', 'Cleanup Database');
 if(!defined('_DB_START_CLEAN_UP'))             define('_DB_START_CLEAN_UP', 'Start cleanup');
 
