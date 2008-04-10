@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a filemanager for all Sites
  *
- * @version 0.5.2
+ * @version 0.6.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -61,6 +61,7 @@ $pro_id    = 'products';
 $links_id  = 'links';
 $faq_id    = 'knowledgebase';
 $cs_id     = 'components';
+$sm_id     = 'sitemap';
 
 
 
@@ -70,17 +71,17 @@ $cs_id     = 'components';
 // SIDEMENU ITEMS
 // -----------------------------------------------------
 
-if($sidemenu_active == 1){
-	if($choosenDB == 'xml'){
+if($sidemenu_active == 1) {
+	if($choosenDB == 'xml') {
 		$arr_explore['link'] = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_menu/');
 		// IDS
 		$ii = 0;
-		while(!empty($arr_explore['link'][$ii])){
-			if($arr_explore['link'][$ii] != 'index.html'){
+		while(!empty($arr_explore['link'][$ii])) {
+			if($arr_explore['link'][$ii] != 'index.html') {
 				$explore_xml = new xmlparser(_TCMS_PATH.'/tcms_menu/'.$arr_explore['link'][$ii], 'r');
 				$exp_type[$ii] = $explore_xml->read_value('type');
 				
-				if($exp_type[$ii] == 'link'){
+				if($exp_type[$ii] == 'link') {
 					$arr_exp['name'][$ii] = $explore_xml->read_value('name');
 					$arr_exp['id'][$ii]   = $explore_xml->read_value('id');
 					$arr_exp['sub'][$ii]  = $explore_xml->read_value('subid');
@@ -93,29 +94,62 @@ if($sidemenu_active == 1){
 					$arr_exp['name'][$ii] = $tcms_main->decodeText($arr_exp['name'][$ii], '2', $c_charset);
 				}
 			}
+			
 			$ii++;
 		}
+		
+		if(is_array($arr_exp)) {
+			array_multisort(
+				$arr_exp['id'], SORT_ASC, SORT_REGULAR, 
+				$arr_exp['sub'], SORT_ASC, SORT_REGULAR, 
+				$arr_exp['link'], SORT_ASC, SORT_REGULAR, 
+				$arr_exp['pub'], SORT_ASC, SORT_REGULAR, 
+				$arr_exp['uid'], SORT_ASC, SORT_REGULAR, 
+				$arr_exp['type'], SORT_ASC, SORT_REGULAR, 
+				$arr_exp['name'], SORT_ASC, SORT_REGULAR, 
+				$arr_exp['lang'], SORT_ASC, SORT_REGULAR
+			);
+		}
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
 		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix."sidemenu WHERE type = 'link'");
+		//$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix."sidemenu WHERE type = 'link'");
+		
+		if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Writer') {
+			$strAdd = "";
+		}
+		else {
+			$strAdd = "AND ( autor = '".$id_username."' OR autor = '".$id_name."' ) ";
+		}
+		
+		$sqlSTR = "SELECT * "
+		."FROM ".$tcms_db_prefix."sidemenu "
+		."WHERE NOT (uid IS NULL) "
+		."AND type = 'link' "
+		.$strAdd
+		."ORDER BY id ASC, subid ASC, parent_lvl1 ASC, parent_lvl2 ASC, parent_lvl3 ASC, name ASC";
+		
+		$sqlQR = $sqlAL->query($sqlSTR);
 		
 		$ii = 0;
 		
-		while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)){
+		while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)) {
 			$exp_type[$ii] = $sqlARR['type'];
-			if($exp_type[$ii] == NULL){ $exp_type[$ii] = ''; }
+			if($exp_type[$ii] == NULL) { $exp_type[$ii] = ''; }
 			
 			$arr_exp['name'][$ii] = trim($sqlObj->name);
 			$arr_exp['id'][$ii]   = trim($sqlObj->id);
 			$arr_exp['sub'][$ii]  = trim($sqlObj->subid);
+			$arr_exp['p1'][$ii]   = trim($sqlObj->parent_lvl1);
+			$arr_exp['p2'][$ii]   = trim($sqlObj->parent_lvl2);
+			$arr_exp['p3'][$ii]   = trim($sqlObj->parent_lvl3);
 			$arr_exp['link'][$ii] = trim($sqlObj->link);
 			$arr_exp['pub'][$ii]  = trim($sqlObj->published);
 			$arr_exp['type'][$ii] = trim($sqlObj->type);
 			$arr_exp['uid'][$ii]  = trim($sqlObj->uid);
-			$arr_exp['lang'][$ii]  = trim($sqlObj->language);
+			$arr_exp['lang'][$ii] = trim($sqlObj->language);
 			
 			$arr_exp['name'][$ii] = $tcms_main->decodeText($arr_exp['name'][$ii], '2', $c_charset);
 			
@@ -123,19 +157,6 @@ if($sidemenu_active == 1){
 		}
 		
 		$sqlAL->sqlFreeResult($sqlQR);
-	}
-	
-	if(is_array($arr_exp)){
-		array_multisort(
-			$arr_exp['id'], SORT_ASC, SORT_REGULAR, 
-			$arr_exp['sub'], SORT_ASC, SORT_REGULAR, 
-			$arr_exp['link'], SORT_ASC, SORT_REGULAR, 
-			$arr_exp['pub'], SORT_ASC, SORT_REGULAR, 
-			$arr_exp['uid'], SORT_ASC, SORT_REGULAR, 
-			$arr_exp['type'], SORT_ASC, SORT_REGULAR, 
-			$arr_exp['name'], SORT_ASC, SORT_REGULAR, 
-			$arr_exp['lang'], SORT_ASC, SORT_REGULAR
-		);
 	}
 }
 
@@ -147,13 +168,13 @@ if($sidemenu_active == 1){
 // TOPMENU ITEMS
 // -----------------------------------------------------
 
-if($topmenu_active == 1){
-	if($choosenDB == 'xml'){
+if($topmenu_active == 1) {
+	if($choosenDB == 'xml') {
 		$arr_explore['link'] = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_topmenu/');
 		// IDS
 		$iiT = 0;
-		while(!empty($arr_explore['link'][$iiT])){
-			if($arr_explore['link'][$iiT] != 'index.html'){
+		while(!empty($arr_explore['link'][$iiT])) {
+			if($arr_explore['link'][$iiT] != 'index.html') {
 				$explore_xml = new xmlparser(_TCMS_PATH.'/tcms_topmenu/'.$arr_explore['link'][$iiT], 'r');
 				
 				$arr_expT['name'][$iiT] = $explore_xml->read_value('name');
@@ -169,7 +190,7 @@ if($topmenu_active == 1){
 			$iiT++;
 		}
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
 		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
@@ -177,9 +198,9 @@ if($topmenu_active == 1){
 		
 		$iiT = 0;
 		
-		while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)){
+		while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)) {
 			$exp_type[$iiT] = $sqlARR['type'];
-			if($exp_type[$iiT] == NULL){ $exp_type[$iiT] = ''; }
+			if($exp_type[$iiT] == NULL) { $exp_type[$iiT] = ''; }
 			
 			$arr_expT['name'][$iiT] = trim($sqlObj->name);
 			$arr_expT['id'][$iiT]   = trim($sqlObj->id);
@@ -196,7 +217,7 @@ if($topmenu_active == 1){
 		$sqlAL->sqlFreeResult($sqlQR);
 	}
 	
-	if(is_array($arr_expT)){
+	if(is_array($arr_expT)) {
 		array_multisort(
 			$arr_expT['id'], SORT_ASC, SORT_REGULAR, 
 			$arr_expT['link'], SORT_ASC, SORT_REGULAR, 
@@ -217,12 +238,12 @@ if($topmenu_active == 1){
 // CONTENT ITEMS
 // -----------------------------------------------------
 
-if(!isset($wpC)){ $wpC = 0; }
+if(!isset($wpC)) { $wpC = 0; }
 
-if($choosenDB == 'xml'){
+if($choosenDB == 'xml') {
 	$arr_explore['main'] = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_content/');
-	while(!empty($arr_explore['main'][$wpC])){
-		if($arr_explore['main'][$wpC] != 'index.html'){
+	while(!empty($arr_explore['main'][$wpC])) {
+		if($arr_explore['main'][$wpC] != 'index.html') {
 			$exploreC_xml = new xmlparser(_TCMS_PATH.'/tcms_content/'.$arr_explore['main'][$wpC], 'r');
 			$arr_maint['title'][$wpC] = $exploreC_xml->read_value('title');
 			$arr_maint['id'][$wpC]    = $exploreC_xml->read_value('id');
@@ -233,7 +254,7 @@ if($choosenDB == 'xml'){
 		$wpC++;
 	}
 }
-else{
+else {
 	$sqlAL = new sqlAbstractionLayer($choosenDB);
 	$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 	
@@ -241,14 +262,14 @@ else{
 	
 	$count = 0;
 	
-	while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+	while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)) {
 		$arr_maint['title'][$wpC] = $sqlARR['title'];
 		$arr_maint['id'][$wpC]    = $sqlARR['uid'];
 		$arr_maint['file'][$wpC]  = $sqlARR['uid'];
 		
-		if($arr_maint['title'][$wpC] == NULL){ $arr_maint['title'][$wpC] = ''; }
-		if($arr_maint['id'][$wpC] == NULL){ $arr_maint['id'][$wpC] = ''; }
-		if($arr_maint['file'][$wpC] == NULL){ $arr_maint['file'][$wpC] = ''; }
+		if($arr_maint['title'][$wpC] == NULL) { $arr_maint['title'][$wpC] = ''; }
+		if($arr_maint['id'][$wpC] == NULL) { $arr_maint['id'][$wpC] = ''; }
+		if($arr_maint['file'][$wpC] == NULL) { $arr_maint['file'][$wpC] = ''; }
 			
 		$arr_maint['title'][$wpC] = $tcms_main->decodeText($arr_maint['title'][$wpC], '2', $c_charset);
 		
@@ -276,7 +297,7 @@ echo $tcms_html->tableHeadNoBorder('0', '0', '0', '200');
 
 echo '<tr><td style="height: 5px;"></td></tr>';
 
-if($topmenu_active == 1){
+if($topmenu_active == 1) {
 	echo '<tr bgcolor="#ececec" height="25">';
 	echo '<td valign="middle"><img style="padding: 1px 2px 0 3px;" align="left" src="../images/menu.png" border="0" /><strong style="font-size: 14px;">'
 	.'<a style="font-size: 14px; color: #000;" href="admin.php?id_user='.$id_user.'&amp;site=mod_topmenu">'
@@ -300,8 +321,8 @@ if($topmenu_active == 1){
 	$iCounterPages = 1;
 	$tbMod = false;
 	
-	if(is_array($arr_expT['id']) && !empty($arr_expT['id'])){
-		foreach($arr_expT['id'] as $ekey => $evalue){
+	if(is_array($arr_expT['id']) && !empty($arr_expT['id'])) {
+		foreach($arr_expT['id'] as $ekey => $evalue) {
 			$prjLink = '';
 			
 			// NEWS
@@ -337,7 +358,7 @@ if($topmenu_active == 1){
 			
 			// CONTACT FORM
 			if($arr_expT['link'][$ekey] == $cform_id) {
-				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=contactform';
+				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_contactform';
 				$tbMod = true;
 			}
 			
@@ -377,6 +398,12 @@ if($topmenu_active == 1){
 				$tbMod = true;
 			}
 			
+			// SITEMAP
+			if($arr_expT['link'][$ekey] == 'sitemap') {
+				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_start';
+				$tbMod = true;
+			}
+			
 			// CS
 			if(ereg($cs_id, $arr_expT['link'][$ekey])) {
 				$_prjLink = str_replace('components&item=', '', $arr_expT['link'][$ekey]);
@@ -385,9 +412,9 @@ if($topmenu_active == 1){
 			}
 			
 			// CONTENT
-			if($tbMod == false){
-				for($cMM = 0; $cMM < $wpC; $cMM++){
-					if($arr_maint['id'][$cMM] == $arr_expT['link'][$ekey]){
+			if($tbMod == false) {
+				for($cMM = 0; $cMM < $wpC; $cMM++) {
+					if($arr_maint['id'][$cMM] == $arr_expT['link'][$ekey]) {
 						if($arr_expT['type'][$ekey] == 'web') {
 							$prjLink = $arr_expT['link'][$ekey];
 						}
@@ -399,11 +426,11 @@ if($topmenu_active == 1){
 							}
 						}
 					}
-					else{
-						if($arr_expT['type'][$ekey] == 'web'){
+					else {
+						if($arr_expT['type'][$ekey] == 'web') {
 							$prjLink = $arr_expT['link'][$ekey];
 						}
-						else{
+						else {
 							$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_content&amp;todo=edit&amp;maintag='.$arr_expT['link'][$ekey];
 							
 							if($arr_expT['lang'][$ekey] != $tcms_config->getLanguageFrontend()) {
@@ -438,7 +465,7 @@ if($topmenu_active == 1){
 
 echo '<tr><td style="height: 5px;"></td></tr>';
 
-if($sidemenu_active == 1){
+if($sidemenu_active == 1) {
 	echo '<tr bgcolor="#ececec" height="25">';
 	echo '<td valign="middle"><img style="padding: 1px 2px 0 3px;" align="left" src="../images/menu.png" border="0" /><strong style="font-size: 14px;">'
 	.'<a style="font-size: 14px; color: #000;" href="admin.php?id_user='.$id_user.'&amp;site=mod_sidemenu">'
@@ -462,8 +489,8 @@ if($sidemenu_active == 1){
 	$iSub = 1;
 	$tbMod = false;
 	
-	if(is_array($arr_exp['id']) && !empty($arr_exp['id'])){
-		foreach($arr_exp['id'] as $ekey => $evalue){
+	if(is_array($arr_exp['id']) && !empty($arr_exp['id'])) {
+		foreach($arr_exp['id'] as $ekey => $evalue) {
 			$prjLink = '';
 			$tmpPage = $iCounterPages;
 			
@@ -539,6 +566,12 @@ if($sidemenu_active == 1){
 				$tbMod = true;
 			}
 			
+			// SITEMAP
+			if($arr_exp['link'][$ekey] == 'sitemap') {
+				$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_start';
+				$tbMod = true;
+			}
+			
 			// CS
 			if(ereg($cs_id, $arr_exp['link'][$ekey])) {
 				//$prjLink = $arr_exp['link'][$ekey];
@@ -548,13 +581,13 @@ if($sidemenu_active == 1){
 			}
 			
 			// CONTENT
-			if($tbMod == false){
-				for($cMM = 0; $cMM < $wpC; $cMM++){
-					if($arr_maint['id'][$cMM] == $arr_exp['link'][$ekey]){
-						if($arr_exp['type'][$ekey] == 'web'){
+			if($tbMod == false) {
+				for($cMM = 0; $cMM < $wpC; $cMM++) {
+					if($arr_maint['id'][$cMM] == $arr_exp['link'][$ekey]) {
+						if($arr_exp['type'][$ekey] == 'web') {
 							$prjLink = $arr_exp['link'][$ekey];
 						}
-						else{
+						else {
 							$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_content&amp;todo=edit&amp;maintag='.$arr_exp['link'][$ekey];
 							
 							if($arr_exp['lang'][$ekey] != $tcms_config->getLanguageFrontend()) {
@@ -562,11 +595,11 @@ if($sidemenu_active == 1){
 							}
 						}
 					}
-					else{
-						if($arr_exp['type'][$ekey] == 'web'){
+					else {
+						if($arr_exp['type'][$ekey] == 'web') {
 							$prjLink = $arr_exp['link'][$ekey];
 						}
-						else{
+						else {
 							$prjLink = 'admin.php?id_user='.$id_user.'&amp;site=mod_content&amp;todo=edit&amp;maintag='.$arr_exp['link'][$ekey];
 							
 							if($arr_exp['lang'][$ekey] != $tcms_config->getLanguageFrontend()) {
@@ -578,7 +611,7 @@ if($sidemenu_active == 1){
 			}
 			
 			
-			if($arr_exp['sub'][$ekey] == '-'){
+			if($arr_exp['sub'][$ekey] == '-') {
 				$iCounterPages++;
 				
 				echo 'd2.add('.$iCounterPages.', 0, \''.$arr_exp['name'][$ekey].'\', \''.$prjLink.'\');'.chr(13);
@@ -586,7 +619,21 @@ if($sidemenu_active == 1){
 				$iSub = $iCounterPages;
 			}
 			else {
-				echo 'd2.add('.$iCounterPages.', '.$iSub.', \''.$arr_exp['name'][$ekey].'\', \''.$prjLink.'\');'.chr(13);
+				$parentItem = $iSub;
+				
+				if($choosenDB != 'xml') {
+					if(trim($arr_exp['p3'][$ekey]) != '-') {
+						$parentItem += 2;
+					}
+					else if(trim($arr_exp['p2'][$ekey]) != '-') {
+						$parentItem += 1;
+					}
+					else if(trim($arr_exp['p1'][$ekey]) != '-') {
+						//$parentItem += 1;
+					}
+				}
+				
+				echo 'd2.add('.$iCounterPages.', '.$parentItem.', \''.$arr_exp['name'][$ekey].'\', \''.$prjLink.'\');'.chr(13);
 				
 				//$iSub++;
 			}
