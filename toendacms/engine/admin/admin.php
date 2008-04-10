@@ -21,7 +21,7 @@
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 1.4.0
+ * @version 1.4.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -113,6 +113,7 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 	using('toendacms.kernel.version', false, true);
 	using('toendacms.kernel.import', false, true);
 	using('toendacms.kernel.loghandler', false, true);
+	using('toendacms.kernel.menu_provider', false, true);
 	
 	include_once('../tcms_kernel/tcms_globals.lib.php');
 	include_once('../tcms_kernel/pclzip/pclzip.lib.php');
@@ -261,6 +262,9 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 <html xmlns="http://www.w3.org/1999/xhtml">
 <title>'.( trim($websiteowner) == '' ? '' : $websiteowner.' | ' )._TCMS_ADMIN_TITLE.'</title>
 <meta http-equiv="Content-Type" content="text/html; charset='.$c_charset.'" />
+<meta name="generator" content="'.$cms_name.' - '.$cms_tagline.' | Copyright '.$toenda_copy.' Toenda Software Development. '._TCMS_ADMIN_RIGHT.'" />
+<link rel="shortcut icon" href="../images/favicon.png">
+
 <!--
  This website is powered by '.$cms_name.' - '.$cms_tagline.'!
  Version '.$cms_version.' - '.$cms_build.'
@@ -269,8 +273,6 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
  Components are copyright (c) of their respective owners.
  Information and contribution at http://www.toendacms.org
 -->
-<meta name="generator" content="'.$cms_name.' - '.$cms_tagline.' | Copyright '.$toenda_copy.' Toenda Software Development. '._TCMS_ADMIN_RIGHT.'" />
-<link rel="shortcut icon" href="../images/favicon.png">
 
 <script language="javascript" src="../js/browsercheck.js"></script>
 <script language="JavaScript" src="../js/dhtml.js"></script>
@@ -371,6 +373,16 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 			else {
 				$canEdit = false;
 			}
+			
+			
+			// menu object
+			$tcms_menu = new tcms_menu_provider(
+				_TCMS_PATH, 
+				$c_charset, 
+				$id_group, 
+				$tcms_time, 
+				$tcms_config
+			);
 			
 			
 			

@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used as a provider for sidemenu datacontainer
  * objects.
  *
- * @version 0.4.0
+ * @version 0.4.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -43,8 +43,8 @@ defined('_TCMS_VALID') or die('Restricted access');
  * checkIdFromSubmenuItem                  -> Checks if the id is the link from the subitem of a menuitem
  * getBasemenu                             -> Get a array of sidemenu items from the base
  * getSubmenu                              -> Get a array of sidemenu items from the base
- * getSidemenu                             -> Get a array of menu items
  * generateLinkWay                         -> Generate a linkway arraylist
+ * getParentUID                            -> Get the parent uid of an item
  * 
  * </code>
  *
@@ -753,242 +753,6 @@ class tcms_menu_provider extends tcms_main {
 	
 	
 	/**
-	 * DEPRECATED: Get a array of sidemenu items
-	 *
-	 * @param String $lang
-	 * @param String $item_id = ''
-	 * @param Integer $level = 0
-	 * @param String $id = ''
-	 * @param String $item = ''
-	 * @param String $root = ''
-	 * @return Array
-	 * @deprecated Since all time
-	 */
-	public function getSidemenu($lang, $item_id = '', $level = 0, $id = '', $item = '', $root = '') {
-		if($this->m_choosenDB == 'xml') {
-			/*$arr_filename = $this->readdir_ext($this->m_path.'/tcms_menu/');
-			
-			$count = 0;
-			$show_item = false;
-			
-			if($this->isReal($id)) {
-				if($id == 'components')
-					$id = $id.'&item='.$item;
-				
-				$menuItem = new tcms_dc_sidemenuitem();
-				$menuItem = $this->_GetParentItem($item_id, $id);
-			}
-			
-			if($this->isArray($arr_filename)) {
-				foreach($arr_filename as $nkey => $nvalue) {
-					$xml = new xmlparser($this->m_path.'/tcms_menu/'.$nvalue,'r');
-					
-					$is_pub  = $xml->read_section('menu', 'published');
-					
-					if($is_pub == 1) {
-						$is_auth = $xml->read_section('menu', 'access');
-						
-						$show_item = $this->checkAccess($is_auth, $this->m_IsAdmin);
-						
-						if($show_item == true) {
-							$mi_parent = $xml->read_section('menu', 'parent');
-							
-							// only parent
-							if($item_id == '') {
-								if(trim($mi_parent) == '-')
-									$show_item = true;
-								else
-									$show_item = false;
-							}
-							// or sub items
-							else {
-								if($menuItem->GetLink() == '_NOTHING_') {
-									$show_item = false;
-								}
-								else {
-									if($this->isReal($id))
-										$item_id = $menuItem->GetPosition();
-									
-									if(trim($item_id) == trim($mi_parent))
-										$show_item = true;
-									else
-										$show_item = false;
-								}
-							}
-							
-							// and now write
-							if($show_item) {
-								$arr_menu['name'][$count] = $xml->read_section('menu', 'name');
-								$arr_menu['id'][$count]   = $xml->read_section('menu', 'id');
-								$arr_menu['sub'][$count]  = $xml->read_section('menu', 'subid');
-								$arr_menu['type'][$count] = $xml->read_section('menu', 'type');
-								$arr_menu['link'][$count] = $xml->read_section('menu', 'link');
-								$arr_menu['acs'][$count]  = $is_auth;
-								$arr_menu['par'][$count]  = $mi_parent;
-								$arr_menu['pub'][$count]  = $is_pub;
-								
-								$arr_menu['name'][$count] = $this->decodeText($arr_menu['name'][$count], '2', $c_charset);
-								
-								$count++;
-							}
-						}
-					}
-					
-					$xml->flush();
-					unset($xml);
-				}
-			}
-			
-			if(is_array($arr_menu['id']) && isset($arr_menu['id'])) {
-				array_multisort(
-					$arr_menu['id'], SORT_ASC, 
-					$arr_menu['sub'], SORT_ASC, 
-					$arr_menu['name'], SORT_ASC, 
-					$arr_menu['type'], SORT_ASC, 
-					$arr_menu['link'], SORT_ASC, 
-					$arr_menu['acs'], SORT_ASC, 
-					$arr_menu['pub'], SORT_ASC, 
-					$arr_menu['par'], SORT_ASC
-				);
-			}
-			
-			if(is_array($arr_menu['id']) && isset($arr_menu['id'])) {
-				$count = 0;
-				
-				unset($n_key);
-				
-				foreach($arr_menu['id'] as $key => $n_value) {
-					$menuItem = new tcms_dc_sidemenuitem();
-					
-					$menuItem->SetTitle($arr_menu['name'][$key]);
-					$menuItem->SetPosition($arr_menu['id'][$key]);
-					$menuItem->SetSubmenuPosition($arr_menu['sub'][$key]);
-					$menuItem->SetLink($arr_menu['link'][$key]);
-					$menuItem->SetType($arr_menu['type'][$key]);
-					$menuItem->SetAccess($arr_menu['acs'][$key]);
-					$menuItem->SetParent($arr_menu['par'][$key]);
-					$menuItem->GetPublished($arr_menu['pub'][$key]);
-					
-					$arrReturn[$count] = $menuItem;
-					
-					$count++;
-				}
-			}*/
-		}
-		else {
-			//
-			//
-			//
-			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);
-			$sqlCN = $sqlAL->connect(
-				$this->m_sqlUser, 
-				$this->m_sqlPass, 
-				$this->m_sqlHost, 
-				$this->m_sqlDB, 
-				$this->m_sqlPort
-			);
-			
-			$executeQuery = false;
-			
-			switch($this->m_IsAdmin) {
-				case 'Developer':
-				case 'Administrator':
-					$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
-					break;
-				
-				case 'User':
-				case 'Editor':
-				case 'Presenter':
-					$strAdd = " OR access = 'Protected' ) ";
-					break;
-				
-				default:
-					$strAdd = ' ) ';
-					break;
-			}
-			
-			//
-			// hier dran: current page
-			//
-			// $id   = id
-			// $item = cs
-			if($this->isReal($id)) {
-				if($id == 'components')
-					$id = $id.'&item='.$item;
-				
-				$executeQuery = $this->_getIDByLink($lang, $id, $item_id, $level);
-				
-				//echo '<b>'.$root.' - '.( $executeQuery ? '1' : '0' ).'</b>';
-				// - '.$id.' ('.$level.'): '.$item_id.' == '.$currentID.'</b><br />';
-			}
-			else {
-				$executeQuery = true;
-			}
-			
-			//
-			// hier dran ist zu erkennen ob root oder sub
-			//
-			if($item_id == '') {
-				$sql_parent = "( parent_lvl1 IS NULL OR parent_lvl1parent_lvl1 = '-' )"
-				." AND ( parent_lvl2 IS NULL OR parent_lvl2 = '-' )"
-				." AND ( parent_lvl3 IS NULL OR parent_lvl3 = '-' )";
-			}
-			else {
-				switch($level) {
-					case 2: $sql_parent = "parent_lvl2 = '".$item_id."'"; break;
-					case 3: $sql_parent = "parent_lvl3 = '".$item_id."'"; break;
-				}
-			}
-			
-			$strSQL = "SELECT *"
-			." FROM ".$this->m_sqlPrefix."sidemenu"
-			." WHERE ".$sql_parent
-			." AND LANGUAGE = '".$lang."'"
-			." AND published = 1"
-			." AND ( access = 'Public' ".$strAdd
-			." ORDER BY id ASC, subid ASC";
-			
-			//if($level >= 2)
-			//	echo $strSQL.'<br />';
-			
-			if($executeQuery) {
-				$sqlQR = $sqlAL->query($strSQL);
-				
-				$count = 0;
-				
-				while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
-					$menuItem = new tcms_dc_sidemenuitem();
-					
-					$sql_name = $this->decodeText($sqlObj->name, '2', $c_charset);
-					
-					$menuItem->SetID($sqlObj->uid);
-					$menuItem->SetRoot($sqlObj->root);
-					$menuItem->SetTitle($sql_name);
-					$menuItem->SetPosition($sqlObj->id);
-					$menuItem->SetSubmenuPosition($sqlObj->subid);
-					$menuItem->SetLink($sqlObj->link);
-					$menuItem->SetType($sqlObj->type);
-					$menuItem->SetAccess($sqlObj->access);
-					$menuItem->SetParent($sqlObj->parent);
-					$menuItem->SetPublished($sqlObj->published);
-					$menuItem->SetTarget($sqlObj->target);
-					
-					$arrReturn[$count] = $menuItem;
-					
-					$count++;
-				}
-			}
-			
-			$sqlAL->freeResult($sqlQR);
-			unset($sqlAL);
-		}
-		
-		return $arrReturn;
-	}
-	
-	
-	
-	/**
 	 * Generate a linkway arraylist
 	 * 
 	 * @param String $session
@@ -1114,6 +878,49 @@ class tcms_menu_provider extends tcms_main {
 		$arrLinkway['pathway'] = $tmpPathway;
 		
 		return $arrLinkway;
+	}
+	
+	
+	
+	/**
+	 * Get the parent uid of an item
+	 *
+	 * @param String $uid
+	 * @return String
+	 */
+	public function getParentUID($uid) {
+		if($this->m_choosenDB == 'xml') {
+			$return = '';
+		}
+		else {
+			$sqlAL = new sqlAbstractionLayer(
+				$this->m_choosenDB, 
+				$this->_tcmsTime
+			);
+			
+			$sqlCN = $sqlAL->connect(
+				$this->m_sqlUser, 
+				$this->m_sqlPass, 
+				$this->m_sqlHost, 
+				$this->m_sqlDB, 
+				$this->m_sqlPort
+			);
+			
+			$sqlStr = "SELECT * "
+			."FROM ".$this->m_sqlPrefix."sidemenu "
+			."WHERE uid = '".$uid."'";
+			
+			$sqlQR = $sqlAL->query($sqlStr);
+			$sqlObj = $sqlAL->fetchObject($sqlQR);
+			
+			$return = $sqlObj->parent_lvl1;
+			
+			$sqlAL->freeResult($sqlQR);
+			
+			unset($sqlAL);
+		}
+		
+		return $return;
 	}
 }
 

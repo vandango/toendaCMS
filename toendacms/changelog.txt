@@ -28,7 +28,7 @@ Version 2.0
 Developer Version
 	- 1.9.0 Development
 
-Building Steps: 4795
+Building Steps: 4830
 
 
 
@@ -83,6 +83,7 @@ Building Steps: 4795
  - added: WikiSyntax (experimental)
  - added: Loghandler to log all activities of all users (currently the login and logout).
  - added: Added a sitemap generator extension.
+ - added: Finished the second level for the sidemenu (and also the third level in beta).
  - added: 
  
 
