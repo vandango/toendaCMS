@@ -712,6 +712,7 @@ class tcms_menu_provider extends tcms_main {
 				if($level > 1) {
 					//echo $strSQL.'<br />';
 				}
+				//echo $strSQL.'<br />';
 				
 				//
 				//
