@@ -4,7 +4,7 @@
 	<codename>Hiroshima</codename>
 	<codename>Longji</codename>
 	
-	<status>Beta</status>
+	<status>Beta2</status>
 	<status>Development</status>
 	<status>Stable</status>
 	<status>RC1</status>
@@ -12,6 +12,6 @@
 	<build>Build 4830</build>
 	<name>toendaCMS</name>
 	<tagline>Your ideas ahead</tagline>
-	<release_date>10.04.2008 - 16:15</release_date>
+	<release_date>11.04.2008 - 11:00</release_date>
 	<toenda_copyright>2003 - 2008</toenda_copyright>
 </version>
