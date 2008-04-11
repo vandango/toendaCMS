@@ -243,7 +243,9 @@ if($todo == 'config') {
 		echo '<br /><br />';
 		
 		if($show_wysiwyg == 'tinymce') {
-			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" id="content" name="content" mce_editable="true">'.$old_link_main_text.'</textarea>';
+			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" id="content" name="content"'
+			//.' mce_editable="true"'
+			.'>'.$old_link_main_text.'</textarea>';
 		}
 		elseif($show_wysiwyg == 'fckeditor') {
 			$sBasePath = '../js/FCKeditor/';

@@ -236,7 +236,9 @@ if($todo == 'config') {
 		}
 		
 		if($show_wysiwyg == 'tinymce') {
-			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" id="content" name="content" mce_editable="true">'.$faq_text.'</textarea>';
+			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" id="content" name="content"'
+			//.' mce_editable="true"'
+			.'>'.$faq_text.'</textarea>';
 		}
 		elseif($show_wysiwyg == 'fckeditor') {
 			$sBasePath = '../js/FCKeditor/';
@@ -919,7 +921,9 @@ if($todo == 'edit') {
 	
 	if($type == 'a') {
 		if($show_wysiwyg == 'tinymce') {
-			echo '<textarea class="tcms_textarea_huge" style="width: 100%;" id="content" name="content" mce_editable="true">'.$arrFAQ_content.'</textarea>';
+			echo '<textarea class="tcms_textarea_huge" style="width: 100%;" id="content" name="content"'
+			//.' mce_editable="true"'
+			.'>'.$arrFAQ_content.'</textarea>';
 		}
 		elseif($show_wysiwyg == 'fckeditor') {
 			$sBasePath = '../js/FCKeditor/';

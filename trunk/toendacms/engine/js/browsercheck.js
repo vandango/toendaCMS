@@ -10,7 +10,7 @@
 | Check browser software
 |
 | File:		browsercheck.js
-| Version:	0.0.3
+| Version:	0.0.4
 |
 +
 */
@@ -22,47 +22,53 @@ doBrowserCheck = true;
 //doBrowserCheck = false;
 
 
-function checkBrowser(){
+function checkBrowser() {
 	var name = navigator.userAgent;
 	name = name.toLowerCase();
 	
 	ie = false;
 	
-	if(navigator.userAgent.indexOf("MSIE") > 0){
+	if(navigator.userAgent.indexOf("MSIE") > 0) {
 		ie = true;
 		realBrowser = 'ie';
 	}
 	else{
 		ie = false;
 		
-		if(name.indexOf("safari") > 0){
+		if(name.indexOf("safari") > 0) {
 			realBrowser = 'safari';
 		}
-		else if(navigator.product == "Gecko"){
+		else if(navigator.product == "Gecko") {
 			realBrowser = 'moz';
 		}
-		else if(name.indexOf("opera") != -1){
+		else if(name.indexOf("opera") != -1) {
 			realBrowser = 'opera';
 		}
-		else if(name.indexOf("khtml") != -1){
+		else if(name.indexOf("khtml") != -1) {
 			realBrowser = 'khtml';
 		}
-		else if(name.indexOf("konqueror") != -1){
+		else if(name.indexOf("konqueror") != -1) {
 			realBrowser = 'konqueror';
 		}
-		else{
+		else {
 			realBrowser = 'moz';
 		}
 	}
 	
-	if(ie) browser = 'ie';
-	else browser = 'moz';
+	if(ie) {
+		browser = 'ie';
+	}
+	else {
+		//browser = 'moz';
+		browser = realBrowser;
+	}
 	
 	//document.write(browser);
 	//document.write(realBrowser);
 }
 
 
-if(doBrowserCheck)
+if(doBrowserCheck) {
 	checkBrowser();
+}
 

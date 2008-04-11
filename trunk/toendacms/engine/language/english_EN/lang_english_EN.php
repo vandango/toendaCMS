@@ -1128,7 +1128,7 @@ if(!defined('_PRODUCTS_ADD_TO_CART'))          define('_PRODUCTS_ADD_TO_CART', '
 if(!defined('_NEWS_WRITTEN'))                  define('_NEWS_WRITTEN', 'Posted by');
 if(!defined('_NEWS_CATEGORIE_IN'))             define('_NEWS_CATEGORIE_IN', 'Categorised');
 if(!defined('_NEWS_TITLE'))                    define('_NEWS_TITLE', 'Show All News');
-if(!defined('_NEWS_TEXT'))                     define('_NEWS_TEXT', 'Here are all your news listed. You can edit thus or create a new one.');
+if(!defined('_NEWS_TEXT'))                     define('_NEWS_TEXT', 'Here are all your news listed. You can edit this or create a new one.');
 if(!defined('_NEWS_EDIT_CURRENT'))             define('_NEWS_EDIT_CURRENT', 'Edit this news.');
 if(!defined('_NEWS_NEW_CURRENT'))              define('_NEWS_NEW_CURRENT', 'Create new news.');
 if(!defined('_NEWS_ID'))                       define('_NEWS_ID', 'News ID');
@@ -1293,7 +1293,7 @@ if(!defined('_STATS_LOG_TEXT_ADMIN'))          define('_STATS_LOG_TEXT_ADMIN', '
 
 // FAQ's
 if(!defined('_FAQ_TITLE'))                     define('_FAQ_TITLE', 'Show All FAQ\'s and articles');
-if(!defined('_FAQ_TEXT'))                      define('_FAQ_TEXT', 'Here are all your FAQ\'s and articles listed. You can edit thus or create a new items and/or categories.');
+if(!defined('_FAQ_TEXT'))                      define('_FAQ_TEXT', 'Here are all your FAQ\'s and articles listed. You can edit this items or create a new item and/or categories.');
 if(!defined('_FAQ_BASE_CATEGORY'))             define('_FAQ_BASE_CATEGORY', 'Base Category');
 if(!defined('_FAQ_CFG_TITLE'))                 define('_FAQ_CFG_TITLE', 'Configure the knowledgebase');
 

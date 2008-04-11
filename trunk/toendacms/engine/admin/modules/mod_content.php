@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a documents manager.
  *
- * @version 1.3.1
+ * @version 1.3.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -763,7 +763,9 @@ if($id_group == 'Developer'
 		.'<tr><td valign="top" colspan="2">';
 		
 		if($show_wysiwyg == 'tinymce') {
-			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content" mce_editable="true">'.$arr_content['text0'][$val].'</textarea>';
+			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content"'
+			//.' mce_editable="true"'
+			.'>'.$arr_content['text0'][$val].'</textarea>';
 		}
 		elseif($show_wysiwyg == 'fckeditor') {
 			$sBasePath = '../js/FCKeditor/';

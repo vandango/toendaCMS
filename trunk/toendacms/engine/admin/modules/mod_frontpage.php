@@ -61,9 +61,6 @@ if($id_group == 'Developer'
 			}
 		}
 		
-		
-		echo '<script language="JavaScript" src="../js/dhtml.js"></script>';
-		
 		$c_xml      = new xmlparser(_TCMS_PATH.'/tcms_global/var.xml','r');
 		$c_charset  = $c_xml->read_section('global', 'charset');
 		
@@ -215,12 +212,6 @@ if($id_group == 'Developer'
 		$old_sb_news_title = $tcms_main->decodeText($old_sb_news_title, '2', $c_charset);
 		
 		
-		
-		echo '<script type="text/javascript" src="../js/tabs/tabpane.js"></script>
-		<link type="text/css" rel="StyleSheet" href="../js/tabs/css/luna/tab.css" />
-		<!--<link type="text/css" rel="StyleSheet" href="../js/tabs/tabpane.css" />-->';
-		
-		
 		echo '<form action="admin.php?id_user='.$id_user.'&amp;site=mod_frontpage" method="post" id="front">'
 		.'<input name="lang_exist" type="hidden" value="'.$langExist.'" />'
 		.'<input name="extra" type="hidden" value="1" />'
@@ -330,7 +321,9 @@ if($id_group == 'Developer'
 		}
 		
 		if($show_wysiwyg == 'tinymce') {
-			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content" mce_editable="true">'.$old_front_text.'</textarea>';
+			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content"'
+			//.' mce_editable="true"'
+			.'>'.$old_front_text.'</textarea>';
 		}
 		elseif($show_wysiwyg == 'fckeditor') {
 			$sBasePath = '../js/FCKeditor/';

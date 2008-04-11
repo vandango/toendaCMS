@@ -33,7 +33,7 @@ border: 0px !important;
 	overflow:	visible;
 	border:		1px solid #8C867B;
 
-	filter:progid:DXImageTransform.Microsoft.Shadow(color=#BDC3BD, Direction=135, Strength=4);
+	/*filter:progid:DXImageTransform.Microsoft.Shadow(color=#BDC3BD, Direction=135, Strength=4);*/
 }
 
 .ThemeOfficeSubMenuTable

@@ -329,7 +329,9 @@ if($id_group == 'Developer'
 		echo '<br /><br />';
 		
 		if($show_wysiwyg == 'tinymce') {
-			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content" mce_editable="true">'.$old_legal.'</textarea>';
+			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content"'
+			//.' mce_editable="true"'
+			.'>'.$old_legal.'</textarea>';
 		}
 		elseif($show_wysiwyg == 'fckeditor') {
 			$sBasePath = '../js/FCKeditor/';

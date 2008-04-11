@@ -367,14 +367,14 @@ $position_help = 509;
 	
 	var tmpClickOpen = cmThemeOffice.clickOpen;
 	cmThemeOffice.clickOpen = 2;
-	cmDraw ('tcmsMenuID', tcmsMenu, 'hbr', cmThemeOffice, 'ThemeOffice');
+	cmDraw('tcmsMenuID', tcmsMenu, 'hbr', cmThemeOffice, 'ThemeOffice');
 	cmThemeOffice.clickOpen = tmpClickOpen;
 	</script>
 	</td>
 	
 	<td class="tcms_top_menu_tape" align="right"><?
 		
-		if($choosenDB == 'xml'){
+		if($choosenDB == 'xml') {
 			$strMore = '&amp;setXMLSession=1';
 		}
 		else{

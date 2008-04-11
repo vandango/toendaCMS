@@ -397,7 +397,9 @@ if($todo == 'config') {
 		echo '<br /><br />';
 		
 		if($show_wysiwyg == 'tinymce') {
-			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content" mce_editable="true">'.$old_news_mm_text.'</textarea>';
+			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content"'
+			//.' mce_editable="true"'
+			.'>'.$old_news_mm_text.'</textarea>';
 		}
 		elseif($show_wysiwyg == 'fckeditor') {
 			$sBasePath = '../js/FCKeditor/';
@@ -1358,7 +1360,8 @@ if($todo == 'edit') {
 				.' style="width: 100%;"'
 				.' id="content"'
 				.' name="content"'
-				.' mce_editable="true">'
+				//.' mce_editable="true"'
+				.'>'
 				.$nws_news
 				.'</textarea>';
 				//mce_editable="true"
