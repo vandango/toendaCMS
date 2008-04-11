@@ -22,13 +22,13 @@
 */
 
 .tableRowLight {
-	color: #000;
-	background-color: #ececec;
+	color: #000000;
+	background: #ececec;
 }
 
 .tableRowDark {
-	color: #fff;
-	background-color: #333333;
+	color: #ffffff;
+	background: #333333;
 }
 
 .smallTextLight {
@@ -39,7 +39,7 @@
 
 .smallTextDark {
 	font-size: 10px;
-	color: #000;
+	color: #000000;
 	line-height: 10px;
 }
 

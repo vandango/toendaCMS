@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the contactform configuration.
  *
- * @version 0.5.2
+ * @version 0.5.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -308,7 +308,9 @@ if($id_group == 'Developer'
 		echo '<br /><br />';
 		
 		if($show_wysiwyg == 'tinymce'){
-			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content" mce_editable="true">'
+			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content"'
+			//.' mce_editable="true"'
+			.'>'
 			.$old_contact_text
 			.'</textarea>';
 		}

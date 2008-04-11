@@ -260,10 +260,11 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
 <title>'.( trim($websiteowner) == '' ? '' : $websiteowner.' | ' )._TCMS_ADMIN_TITLE.'</title>
 <meta http-equiv="Content-Type" content="text/html; charset='.$c_charset.'" />
 <meta name="generator" content="'.$cms_name.' - '.$cms_tagline.' | Copyright '.$toenda_copy.' Toenda Software Development. '._TCMS_ADMIN_RIGHT.'" />
-<link rel="shortcut icon" href="../images/favicon.png">
+<link rel="shortcut icon" href="../images/favicon.png" />
 
 <!--
  This website is powered by '.$cms_name.' - '.$cms_tagline.'!
@@ -288,8 +289,8 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 <script language="JavaScript" src="../js/overlib/overlib_mini.js"></script>
 
 <!-- JSCookMenu -->
-<script language="JavaScript" src="../js/JSCookMenu/JSCookMenu.js"></script>
 <style type="text/css">@import "theme/'.$adminTheme.'/JSCookMenu/theme.css";</style>
+<script language="JavaScript" src="../js/JSCookMenu/JSCookMenu.js"></script>
 <script language="JavaScript" src="theme/'.$adminTheme.'/JSCookMenu/theme.js" type="text/javascript"></script>
 
 <!-- dTree -->
@@ -307,7 +308,6 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 <script language="Javascript" src="../js/jscalendar/calendar-setup.js"></script>
 <link rel="stylesheet" type="text/css" media="all" href="../js/jscalendar/calendar-toendaCMS.css" title="toendaCMS" />
 
-
 <!-- toendaCMS Styles -->
 <style type="text/css">@import "theme/'.$adminTheme.'/tcms_main.css";</style>
 <style type="text/css">@import "theme/'.$adminTheme.'/tcms_editor.css";</style>
@@ -318,6 +318,7 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 : '' ).'
 
 </head>
+
 ';
 	
 	include_once('theme/'.$adminTheme.'/tcms_color.php');
@@ -333,7 +334,7 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 	if(isset($id_user)) {
 		if($choosenDB == 'xml') {
 			if($_GET['setXMLSession'] == 1) {
-				if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_session/'.$id_user)){
+				if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_session/'.$id_user)) {
 					$file = new tcms_file(_TCMS_PATH.'/tcms_session/'.$id_user, 'r');
 					$ws_id = $file->Read();
 					

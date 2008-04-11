@@ -327,7 +327,14 @@ function cmDraw (id, menu, orient, nodeProperties, prefix)
 	if (!vertical)
 		str += '</tr>';
 	str += '</table>' + strSub;
-	obj.innerHTML = str;
+	
+	if(browser == 'ie') {
+		document.write (str);
+	}
+	else {
+		obj.innerHTML = str;
+	}
+	
 	//document.write ("<xmp>" + str + "</xmp>");
 }
 

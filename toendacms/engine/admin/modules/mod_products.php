@@ -420,7 +420,9 @@ if($todo == 'config') {
 		echo '<br /><br />';
 		
 		if($show_wysiwyg == 'tinymce') {
-			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content" mce_editable="true">'
+			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content"'
+			//.' mce_editable="true"'
+			.'>'
 			.$old_ptext
 			.'</textarea>';
 		}
@@ -1345,7 +1347,9 @@ if($todo == 'edit') {
 		echo '<br /><br />';
 		
 		if($show_wysiwyg == 'tinymce') {
-			echo '<textarea class="tcms_textarea_huge" style="width: 100%;" id="content" name="content" mce_editable="true">'
+			echo '<textarea class="tcms_textarea_huge" style="width: 100%;" id="content" name="content"'
+			//.' mce_editable="true"'
+			.'>'
 			.$wsText
 			.'</textarea>';
 		}

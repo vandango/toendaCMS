@@ -88,6 +88,11 @@ class tcms_tinyMCE {
 			<script language="javascript" type="text/javascript">
 			
 			tinyMCE.init({
+				'./*
+				mode : "exact",
+				elements : "content",
+				theme : "simple"
+				*/'
 				theme : "advanced",
 				mode : "exact",
 				elements : "content",
