@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * This class is used for a basic public functions.
  * 
- * @version 3.2.0
+ * @version 3.2.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -666,7 +666,7 @@ class tcms_main {
 	 * @return Unknown
 	 */
 	public function isElementInArray($element, $array, $subDimension = '') {
-		if(trim($subDimension) == '') {
+		if(trim($subDimension) != '') {
 			foreach($array as $key => $value) {
 				if(trim($array[$key][$subDimension]) == trim($element)) {
 					return true;
