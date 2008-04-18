@@ -895,6 +895,7 @@ class tcms_datacontainer_provider extends tcms_main {
 			."WHERE language = '".$language."' ";
 			
 			//echo $title.'<br>';
+			//echo $sql.'<br>';
 			
 			$arrTitle = explode(' ', $title);
 			
