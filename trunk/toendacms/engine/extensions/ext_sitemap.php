@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a sitemap generator extension
  *
- * @version 0.0.5
+ * @version 0.0.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content-Modules
@@ -156,10 +156,11 @@ echo $tcms_html->contentModuleHeader(
 $getLang = $tcms_config->getLanguageCodeForTCMS($lang);
 
 
+/*
+	TOPMENU
+*/
 if($tcms_config->getTopmenuEnabled()) {
-	echo '<h3>'._SITEMAP_TOPMENU.'</h3>';
-	
-	$arrMap = $tcms_dcp->getSitemap(
+	$arrMapTop = $tcms_dcp->getSitemap(
 		$is_admin, 
 		$getLang, 
 		'', 
@@ -170,13 +171,72 @@ if($tcms_config->getTopmenuEnabled()) {
 		$tcms_config->getTopmenuEnabled(), 
 		0
 	);
+	
+	if($tcms_main->isArray($arrMapTop)) {
+		echo '<h3>'._SITEMAP_TOPMENU.'</h3>'
+		.'<ul>';
+		
+		foreach($arrMapTop as $key => $value) {
+			$liContent = '';
+			
+			$target = ( $value['target'] == '' ? '' : ' target="'.$value['target'].'"' );
+			
+			if($value['pub'] == 1) {
+				switch($value['type']){
+					case 'web':
+						$liContent = '<a href="'.$value['link'].'"'.$target.'>'
+						.$value['name']
+						.'</a>';
+						break;
+					
+					case 'title':
+						$liContent = $value['name'];
+						break;
+					
+					case 'link':
+						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+						.'id='.$value['link'].'&amp;s='.$s
+						.( isset($lang) ? '&amp;lang='.$lang : '' );
+						$link = $tcms_main->urlConvertToSEO($link);
+						
+						$liContent = '<a href="'.$link.'"'.$target.'>'.$value['name'].'</a>';
+						break;
+				}
+			}
+			else {
+				//$liContent = '[Unver&ouml;ffentlicht]';
+				$liContent = '';
+			}
+			
+			if(trim($liContent) != ''
+			|| trim($wsHtml) != '') {
+				echo '<li>';
+			}
+			
+			if(trim($liContent) != '') {
+				echo '<strong>'.$liContent.'</strong>';
+			}
+			
+			if(trim($wsHtml) != '') {
+				echo $wsHtml;
+			}
+			
+			if(trim($liContent) != ''
+			|| trim($wsHtml) != '') {
+				echo '</li>';
+			}
+		}
+		
+		echo '</ul>'
+		.'<br />';
+	}
 }
 
 
+/*
+	SIDEMENU
+*/
 if($tcms_config->getSidemenuEnabled()) {
-	echo '<br />'
-	.'<h3>'._SITEMAP_SIDEMENU.'</h3>';
-	
 	$arrMap = $tcms_dcp->getSitemap(
 		$is_admin, 
 		$getLang, 
@@ -189,69 +249,72 @@ if($tcms_config->getSidemenuEnabled()) {
 		0
 	);
 	
-	
-	echo '<ul>';
-	
-	foreach($arrMap as $key => $value) {
-		$liContent = '';
+	if($tcms_main->isArray($arrMap)) {
+		echo '<h3>'._SITEMAP_SIDEMENU.'</h3>'
+		.'<ul>';
 		
-		$target = ( $value['target'] == '' ? '' : ' target="'.$value['target'].'"' );
-		
-		if($value['pub'] == 1) {
-			switch($value['type']){
-				case 'web':
-					$liContent = '<a href="'.$value['link'].'"'.$target.'>'
-					.$value['name']
-					.'</a>';
-					break;
-				
-				case 'title':
-					$liContent = $value['name'];
-					break;
-				
-				case 'link':
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-					.'id='.$value['link'].'&amp;s='.$s
-					.( isset($lang) ? '&amp;lang='.$lang : '' );
-					$link = $tcms_main->urlConvertToSEO($link);
+		foreach($arrMap as $key => $value) {
+			$liContent = '';
+			
+			$target = ( $value['target'] == '' ? '' : ' target="'.$value['target'].'"' );
+			
+			if($value['pub'] == 1) {
+				switch($value['type']){
+					case 'web':
+						$liContent = '<a href="'.$value['link'].'"'.$target.'>'
+						.$value['name']
+						.'</a>';
+						break;
 					
-					$liContent = '<a href="'.$link.'"'.$target.'>'.$value['name'].'</a>';
-					break;
+					case 'title':
+						$liContent = $value['name'];
+						break;
+					
+					case 'link':
+						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+						.'id='.$value['link'].'&amp;s='.$s
+						.( isset($lang) ? '&amp;lang='.$lang : '' );
+						$link = $tcms_main->urlConvertToSEO($link);
+						
+						$liContent = '<a href="'.$link.'"'.$target.'>'.$value['name'].'</a>';
+						break;
+				}
+			}
+			else {
+				//$liContent = '[Unver&ouml;ffentlicht]';
+				$liContent = '';
+			}
+			
+			$wsHtml = displayItems(
+				$value['uid'], 
+				'', 
+				'', 
+				$value['id'], 
+				1
+			);
+			
+			if(trim($liContent) != ''
+			|| trim($wsHtml) != '') {
+				echo '<li>';
+			}
+			
+			if(trim($liContent) != '') {
+				echo '<strong>'.$liContent.'</strong>';
+			}
+			
+			if(trim($wsHtml) != '') {
+				echo $wsHtml;
+			}
+			
+			if(trim($liContent) != ''
+			|| trim($wsHtml) != '') {
+				echo '</li>';
 			}
 		}
-		else {
-			$liContent = '[Unver&ouml;ffentlicht]';
-		}
 		
-		$wsHtml = displayItems(
-			$value['uid'], 
-			'', 
-			'', 
-			$value['id'], 
-			1
-		);
-		
-		if(trim($liContent) != ''
-		|| trim($wsHtml) != '') {
-			echo '<li>';
-		}
-		
-		if(trim($liContent) != '') {
-			echo '<strong>'.$liContent.'</strong>';
-		}
-		
-		if(trim($wsHtml) != '') {
-			echo $wsHtml;
-		}
-		
-		if(trim($liContent) != ''
-		|| trim($wsHtml) != '') {
-			echo '</li>';
-		}
+		echo '</ul>'
+		.'<br />';
 	}
-	
-	echo '</ul>'
-	.'<br />';
 }
 
 ?>
