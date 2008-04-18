@@ -2,7 +2,6 @@
   Engine
 ---------------------------------------------------------------------------------
 
-- Seitentitel überarbeiten, optimiert für Suchmaschinen (Bsp. von Jo)
 - Gästebucheinträge erst aktivieren
 - Buttons für Textbausteine generieren
 
@@ -80,12 +79,12 @@ WHERE ntc.uid IS NULL
  - Objectcaching (Menu’s, Pathway)
  - Captchas mit timestamp als namen
  - Servertime einstellbar (gmt)
- - Sitemap
+
  - Trash
  - Image resizing
  - Atom API import
  - Topmenu mit Submenu
- - Sidemenu mit mehreren Ebenen
+
  - Sidemenu aktiver Link fett
  - Linkbrowser im backend
          -> FAQ
@@ -100,5 +99,5 @@ WHERE ntc.uid IS NULL
  - content versoniering for the workflow
  - faq to the workflow desktop
  - generate a contact from a user (button)
- - cookies
+
  - private messaging system
