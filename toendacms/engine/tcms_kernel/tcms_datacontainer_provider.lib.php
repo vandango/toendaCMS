@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.9.3
+ * @version 1.9.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -3999,17 +3999,46 @@ class tcms_datacontainer_provider extends tcms_main {
 				&& trim($parentID2) == ''
 				&& trim($parentID3) == ''
 				&& trim($parentPosID) == '') {
-					$arrMap[$count]['uid'] = '';
-					$arrMap[$count]['id'] = '';
-					$arrMap[$count]['name'] = '';
-					$arrMap[$count]['link'] = '';
-					$arrMap[$count]['target'] = '';
-					$arrMap[$count]['type'] = '';
-					$arrMap[$count]['pub'] = '';
-					$arrMap[$count]['parent'] = '';
-					$arrMap[$count]['parent_lvl1'] = '';
-					$arrMap[$count]['parent_lvl2'] = '';
-					$arrMap[$count]['parent_lvl3'] = '';
+					$strSQL = "SELECT * "
+					."FROM ".$this->m_sqlPrefix."topmenu "
+					."WHERE NOT (uid IS NULL) "
+					."AND (language = '".$language."') "
+					."AND NOT (type = 'title') "
+					//."AND (published = 1) "
+					."AND ( access = 'Public' "
+					.$strAdd;
+					
+					$strSQL .= "ORDER BY id ASC, name ASC";
+					
+					//if($level == 2) { echo $strSQL; }
+					
+					$sqlQR = $sqlAL->query($strSQL);
+					
+					while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)) {
+						$wsUid = $sqlObj->uid;
+						$wsID = $sqlObj->id;
+						$wsLink = $sqlObj->link;
+						
+						//if(!$this->isElementInArray($wsLink, $arrMap, 'link')) {
+						//}
+						
+						$wsName = $sqlObj->name;
+						$wsTarget = $sqlObj->target;
+						$wsType = $sqlObj->type;
+						$wsPub = $sqlObj->published;
+						
+						$wsName = $this->decodeText($wsName, '2', $this->m_CHARSET);
+						
+						$arrMap[$count]['uid'] = $wsUid;
+						$arrMap[$count]['id'] = $wsID;
+						$arrMap[$count]['name'] = $wsName;
+						$arrMap[$count]['link'] = $wsLink;
+						$arrMap[$count]['target'] = $wsTarget;
+						$arrMap[$count]['type'] = $wsType;
+						$arrMap[$count]['pub'] = $wsPub;
+						
+						$count++;
+					}
 				}
 				else {
 					//

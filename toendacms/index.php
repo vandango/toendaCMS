@@ -26,7 +26,7 @@
  * This is the global startfile and the page loading
  * control.
  * 
- * @version 3.1.4
+ * @version 3.1.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -106,6 +106,7 @@ using('toendacms.kernel.file');
 using('toendacms.kernel.datacontainer_provider');
 using('toendacms.kernel.authentication');
 using('toendacms.kernel.account_provider');
+using('toendacms.kernel.error');
 
 // time class
 $tcms_time = new tcms_time();
@@ -153,96 +154,8 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 	
 	$tcms_config->decodeConfiguration($tcms_main);
 	
-	
-	/*
-		SEO URL's
-	*/
-	if($seoEnabled == 1) {
-		using('toendacms.kernel.seo');
-		
-		$tcms_seo = new tcms_seo();
-		
-		if($seoFormat == 0) {
-			$arrSEO = $tcms_seo->explodeUrlColonFormat();
-		}
-		else if($seoFormat == 1) {
-			$arrSEO = $tcms_seo->explodeUrlSlashFormat();
-		}
-		else {
-			$arrSEO = $tcms_seo->explodeHTMLFormat(
-				$tcms_main, 
-				$tcms_time, 
-				$tcms_config, 
-				$tcms_file
-			);
-		}
-		
-		unset($tcms_seo);
-		
-		if(isset($id)) {
-			$noSEOFolder = true;
-		}
-		
-		if(!isset($id))             { $id              = trim($arrSEO['id']);            if($id              == '') { unset($id); } }
-		if(!isset($s))              { $s               = trim($arrSEO['s']);             if($s               == '') { unset($s); } }
-		if(!isset($news))           { $news            = trim($arrSEO['news']);          if($news            == '') { unset($news); } }
-		if(!isset($feed))           { $feed            = trim($arrSEO['feed']);          if($feed            == '') { unset($feed); } }
-		if(!isset($save))           { $save            = trim($arrSEO['save']);          if($save            == '') { unset($save); } }
-		if(!isset($session))        { $session         = trim($arrSEO['session']);       if($session         == '') { unset($session); } }
-		if(!isset($reg_login))      { $reg_login       = trim($arrSEO['reg_login']);     if($reg_login       == '') { unset($reg_login); } }
-		if(!isset($todo))           { $todo            = trim($arrSEO['todo']);          if($todo            == '') { unset($todo); } }
-		if(!isset($u))              { $u               = trim($arrSEO['u']);             if($u               == '') { unset($u); } }
-		if(!isset($file))           { $file            = trim($arrSEO['file']);          if($file            == '') { unset($file); } }
-		if(!isset($category))       { $category        = trim($arrSEO['category']);      if($category        == '') { unset($category); } }
-		if(!isset($cat))            { $cat             = trim($arrSEO['cat']);           if($cat             == '') { unset($cat); } }
-		if(!isset($article))        { $article         = trim($arrSEO['article']);       if($article         == '') { unset($article); } }
-		if(!isset($action))         { $action          = trim($arrSEO['action']);        if($action          == '') { unset($action); } }
-		if(!isset($albums))         { $albums          = trim($arrSEO['albums']);        if($albums          == '') { unset($albums); } }
-		if(!isset($cmd))            { $cmd             = trim($arrSEO['command']);       if($cmd             == '') { unset($cmd); } }
-		if(!isset($current_pollall)){ $current_pollall = trim($arrSEO['poll']);          if($current_pollall == '') { unset($current_pollall); } }
-		if(!isset($ps))             { $ps              = trim($arrSEO['ps']);            if($ps              == '') { unset($ps); } }
-		if(!isset($vote))           { $vote            = trim($arrSEO['vote']);          if($vote            == '') { unset($vote); } }
-		if(!isset($XMLplace))       { $XMLplace        = trim($arrSEO['XMLplace']);      if($XMLplace        == '') { unset($XMLplace); } }
-		if(!isset($XMLfile))        { $XMLfile         = trim($arrSEO['XMLfile']);       if($XMLfile         == '') { unset($XMLfile); } }
-		if(!isset($page))           { $page            = trim($arrSEO['page']);          if($page            == '') { unset($page); } }
-		if(!isset($item))           { $item            = trim($arrSEO['item']);          if($item            == '') { unset($item); } }
-		if(!isset($contact_email))  { $contact_email   = trim($arrSEO['contact_email']); if($contact_email   == '') { unset($contact_email); } }
-		if(!isset($date))           { $date            = trim($arrSEO['date']);          if($date            == '') { unset($date); } }
-		if(!isset($code))           { $code            = trim($arrSEO['code']);          if($code            == '') { unset($code); } }
-		if(!isset($c))              { $c               = trim($arrSEO['c']);             if($c               == '') { unset($c); } }
-		if(!isset($lang))           { $lang            = trim($arrSEO['lang']);          if($lang            == '') { unset($lang); } }
-		
-		$seoOriginalFolder = $seoFolder;
-		
-		if($seoFolder != '') {
-			$seoFolder = '/'.$seoFolder;
-		}
-		else {
-			$seoFolder = '';
-		}
-	}
-	else {
-		$seoFolder = '';
-		$seoOriginalFolder = '';
-	}
-	
-	// imagepath
-	if($seoEnabled == 1) {
-		if($seoFolder != '') {
-			if($noSEOFolder) {
-				$imagePath = '';
-			}
-			else {
-				$imagePath = $seoFolder.'/';
-			}
-		}
-		else {
-			$imagePath = '/';
-		}
-	}
-	else {
-		$imagePath = '';
-	}
+	// sql abstraction layer
+	$tcms_dal = new sqlAbstractionLayer($choosenDB, $tcms_time);
 	
 	
 	/*
@@ -256,92 +169,212 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 	
 	
 	/*
-		load objects
+		Check db connection
 	*/
-	
-	// authentication
-	$tcms_auth = new tcms_authentication(_TCMS_PATH, $c_charset, $imagePath);
-	
-	// account provider
-	$tcms_ap = new tcms_account_provider(_TCMS_PATH, $c_charset);
-	
-	
-	/*
-		site offline
-		test application
-	*/
-	if($site_offline == 1) {
-		/*using('toendacms.kernel.seo');
+	if($choosenDB != 'xml') {
+		$sqlCN = $tcms_dal->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$tcms_seo = new tcms_seo();
-		
-		if($seoFormat == 0) {
-			$arrSEO = $tcms_seo->explodeUrlColonFormat();
-		}
-		else if($seoFormat == 1) {
-			$arrSEO = $tcms_seo->explodeUrlSlashFormat();
+		if(isset($sqlCN['num']) && $sqlCN['num'] == 0) {
+			$start_tcms_loading = false;
+			
+			$tcms_error = new tcms_error('index.php', 500, $sqlCN['msg'], $imagePath);
+			$tcms_error->showMessage($toendaCMSimage, false);
+			
+			unset($tcms_error);
 		}
 		else {
-			$arrSEO = $tcms_seo->explodeHTMLFormat();
+			$start_tcms_loading = true;
 		}
-		
-		unset($tcms_seo);*/
-		
-		if(!isset($session)) {
-			$session = trim($arrSEO['session']);
-			
-			if($session == '') {
-				unset($session);
-			}
-		}
-		
-		if(isset($session)) {
-			$session = $tcms_main->cleanUrlString($session, true);
-		}
-		
-		if(isset($session)) {
-			$check_session = $tcms_auth->checkSessionExist($session);
-			
-			if($check_session) {
-				$arr_ws = $tcms_ap->getUserInfo($session);
-				
-				$ws_name  = $arr_ws['name'];
-				$ws_user  = $arr_ws['user'];
-				$ws_id    = $arr_ws['id'];
-				$is_admin = $arr_ws['group'];
-				
-				if($is_admin == 'Administrator'
-				|| $is_admin == 'Developer'
-				|| $is_admin == 'Writer'
-				|| $is_admin == 'Editor') {
-					$site_offline = 0;
-					$isTestEnvironment = true;
-					echo $tcms_html->messageIsTestEnvironment();
-				}
-			}
-		}
-		
-		unset($tcms_seo);
+	}
+	else {
+		$start_tcms_loading = true;
 	}
 	
-	// next
-	$wsShowSite = true;
 	
-	$seoPath = $seoFolder;
-	
-	if($seoEnabled == '')
-		$seoEnabled = 0;
-	
-	// check the folder if seo is enabled
-	// !! needed to know if the cms is installed
-	// !! at a root level or in a directory
-	if($seoEnabled == 1) {
-		if($seoFolder != '') {
-			$toendaCMSimage = $seoFolder.'/';
+	if($start_tcms_loading) {
+		/*
+			SEO URL's
+		*/
+		if($seoEnabled == 1) {
+			using('toendacms.kernel.seo');
+			
+			$tcms_seo = new tcms_seo();
+			
+			if($seoFormat == 0) {
+				$arrSEO = $tcms_seo->explodeUrlColonFormat();
+			}
+			else if($seoFormat == 1) {
+				$arrSEO = $tcms_seo->explodeUrlSlashFormat();
+			}
+			else {
+				$arrSEO = $tcms_seo->explodeHTMLFormat(
+					$tcms_main, 
+					$tcms_time, 
+					$tcms_config, 
+					$tcms_file
+				);
+			}
+			
+			unset($tcms_seo);
+			
+			if(isset($id)) {
+				$noSEOFolder = true;
+			}
+			
+			if(!isset($id))             { $id              = trim($arrSEO['id']);            if($id              == '') { unset($id); } }
+			if(!isset($s))              { $s               = trim($arrSEO['s']);             if($s               == '') { unset($s); } }
+			if(!isset($news))           { $news            = trim($arrSEO['news']);          if($news            == '') { unset($news); } }
+			if(!isset($feed))           { $feed            = trim($arrSEO['feed']);          if($feed            == '') { unset($feed); } }
+			if(!isset($save))           { $save            = trim($arrSEO['save']);          if($save            == '') { unset($save); } }
+			if(!isset($session))        { $session         = trim($arrSEO['session']);       if($session         == '') { unset($session); } }
+			if(!isset($reg_login))      { $reg_login       = trim($arrSEO['reg_login']);     if($reg_login       == '') { unset($reg_login); } }
+			if(!isset($todo))           { $todo            = trim($arrSEO['todo']);          if($todo            == '') { unset($todo); } }
+			if(!isset($u))              { $u               = trim($arrSEO['u']);             if($u               == '') { unset($u); } }
+			if(!isset($file))           { $file            = trim($arrSEO['file']);          if($file            == '') { unset($file); } }
+			if(!isset($category))       { $category        = trim($arrSEO['category']);      if($category        == '') { unset($category); } }
+			if(!isset($cat))            { $cat             = trim($arrSEO['cat']);           if($cat             == '') { unset($cat); } }
+			if(!isset($article))        { $article         = trim($arrSEO['article']);       if($article         == '') { unset($article); } }
+			if(!isset($action))         { $action          = trim($arrSEO['action']);        if($action          == '') { unset($action); } }
+			if(!isset($albums))         { $albums          = trim($arrSEO['albums']);        if($albums          == '') { unset($albums); } }
+			if(!isset($cmd))            { $cmd             = trim($arrSEO['command']);       if($cmd             == '') { unset($cmd); } }
+			if(!isset($current_pollall)){ $current_pollall = trim($arrSEO['poll']);          if($current_pollall == '') { unset($current_pollall); } }
+			if(!isset($ps))             { $ps              = trim($arrSEO['ps']);            if($ps              == '') { unset($ps); } }
+			if(!isset($vote))           { $vote            = trim($arrSEO['vote']);          if($vote            == '') { unset($vote); } }
+			if(!isset($XMLplace))       { $XMLplace        = trim($arrSEO['XMLplace']);      if($XMLplace        == '') { unset($XMLplace); } }
+			if(!isset($XMLfile))        { $XMLfile         = trim($arrSEO['XMLfile']);       if($XMLfile         == '') { unset($XMLfile); } }
+			if(!isset($page))           { $page            = trim($arrSEO['page']);          if($page            == '') { unset($page); } }
+			if(!isset($item))           { $item            = trim($arrSEO['item']);          if($item            == '') { unset($item); } }
+			if(!isset($contact_email))  { $contact_email   = trim($arrSEO['contact_email']); if($contact_email   == '') { unset($contact_email); } }
+			if(!isset($date))           { $date            = trim($arrSEO['date']);          if($date            == '') { unset($date); } }
+			if(!isset($code))           { $code            = trim($arrSEO['code']);          if($code            == '') { unset($code); } }
+			if(!isset($c))              { $c               = trim($arrSEO['c']);             if($c               == '') { unset($c); } }
+			if(!isset($lang))           { $lang            = trim($arrSEO['lang']);          if($lang            == '') { unset($lang); } }
+			
+			$seoOriginalFolder = $seoFolder;
+			
+			if($seoFolder != '') {
+				$seoFolder = '/'.$seoFolder;
+			}
+			else {
+				$seoFolder = '';
+			}
 		}
 		else {
-			$toendaCMSimage = '';
+			$seoFolder = '';
+			$seoOriginalFolder = '';
 		}
+		
+		// imagepath
+		if($seoEnabled == 1) {
+			if($seoFolder != '') {
+				if($noSEOFolder) {
+					$imagePath = '';
+				}
+				else {
+					$imagePath = $seoFolder.'/';
+				}
+			}
+			else {
+				$imagePath = '/';
+			}
+		}
+		else {
+			$imagePath = '';
+		}
+		
+		
+		/*
+			load objects
+		*/
+		
+		// authentication
+		$tcms_auth = new tcms_authentication(_TCMS_PATH, $c_charset, $imagePath);
+		
+		// account provider
+		$tcms_ap = new tcms_account_provider(_TCMS_PATH, $c_charset);
+		
+		
+		/*
+			site offline
+			test application
+		*/
+		if($site_offline == 1) {
+			/*using('toendacms.kernel.seo');
+			
+			$tcms_seo = new tcms_seo();
+			
+			if($seoFormat == 0) {
+				$arrSEO = $tcms_seo->explodeUrlColonFormat();
+			}
+			else if($seoFormat == 1) {
+				$arrSEO = $tcms_seo->explodeUrlSlashFormat();
+			}
+			else {
+				$arrSEO = $tcms_seo->explodeHTMLFormat();
+			}
+			
+			unset($tcms_seo);*/
+			
+			if(!isset($session)) {
+				$session = trim($arrSEO['session']);
+				
+				if($session == '') {
+					unset($session);
+				}
+			}
+			
+			if(isset($session)) {
+				$session = $tcms_main->cleanUrlString($session, true);
+			}
+			
+			if(isset($session)) {
+				$check_session = $tcms_auth->checkSessionExist($session);
+				
+				if($check_session) {
+					$arr_ws = $tcms_ap->getUserInfo($session);
+					
+					$ws_name  = $arr_ws['name'];
+					$ws_user  = $arr_ws['user'];
+					$ws_id    = $arr_ws['id'];
+					$is_admin = $arr_ws['group'];
+					
+					if($is_admin == 'Administrator'
+					|| $is_admin == 'Developer'
+					|| $is_admin == 'Writer'
+					|| $is_admin == 'Editor') {
+						$site_offline = 0;
+						$isTestEnvironment = true;
+						echo $tcms_html->messageIsTestEnvironment();
+					}
+				}
+			}
+			
+			unset($tcms_seo);
+		}
+		
+		// next
+		$wsShowSite = true;
+		
+		$seoPath = $seoFolder;
+		
+		if($seoEnabled == '') {
+			$seoEnabled = 0;
+		}
+		
+		// check the folder if seo is enabled
+		// !! needed to know if the cms is installed
+		// !! at a root level or in a directory
+		if($seoEnabled == 1) {
+			if($seoFolder != '') {
+				$toendaCMSimage = $seoFolder.'/';
+			}
+			else {
+				$toendaCMSimage = '';
+			}
+		}
+	}
+	else {
+		$wsShowSite = false;
 	}
 }
 else {
@@ -433,7 +466,6 @@ if($wsShowSite) {
 		using('toendacms.kernel.script');
 		using('toendacms.kernel.wikiparser');
 		using('toendacms.kernel.gd');
-		using('toendacms.kernel.error');
 		using('toendacms.kernel.menu_provider');
 		using('toendacms.kernel.template');
 		
@@ -558,9 +590,6 @@ if($wsShowSite) {
 				$mail_user        = $tcms_mail_user;
 				$mail_password    = $tcms_mail_password;
 				
-				// sql abstraction layer
-				$tcms_dal = new sqlAbstractionLayer($choosenDB, $tcms_time);
-				
 				// safe_mode ?
 				$param_save_mode = $tcms_main->getPHPSetting('safe_mode');
 				if($param_save_mode)
@@ -607,521 +636,492 @@ if($wsShowSite) {
 				
 				
 				/*
-					Check db connection
+					IF ACTIVE
+					START THE STATISTIC COUNTER
 				*/
-				if($choosenDB != 'xml') {
-					$sqlCN = $tcms_dal->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				if($statistics == 1) {
+					$tcms_stats = new tcms_statistics($c_charset, _TCMS_PATH);
 					
-					if(isset($sqlCN['num']) && $sqlCN['num'] == 0) {
-						$start_tcms_loading = false;
-						
-						$tcms_error = new tcms_error('index.php', 500, $sqlCN['msg'], $imagePath);
-						$tcms_error->showMessage($toendaCMSimage, false);
-						
-						unset($tcms_error);
-					}
-					else {
-						$start_tcms_loading = true;
-					}
-				}
-				else {
-					$start_tcms_loading = true;
+					$tcms_stats->countSiteURL($s);
+					$tcms_stats->countBrowserInfo();
+					
+					unset($tcms_stats);
 				}
 				
 				
 				
 				/*
-					Start loading site
+					Authentication settings
 				*/
-				if($start_tcms_loading) {
-					/*
-						IF ACTIVE
-						START THE STATISTIC COUNTER
-					*/
-					if($statistics == 1) {
-						$tcms_stats = new tcms_statistics($c_charset, _TCMS_PATH);
-						
-						$tcms_stats->countSiteURL($s);
-						$tcms_stats->countBrowserInfo();
-						
-						unset($tcms_stats);
+				
+				if(isset($session)) {
+					if($_GET['setXMLSession'] == 1) {
+						if($tcms_file->checkFileExist('engine/admin/session/'.$session)) {
+							$file = new tcms_file('engine/admin/session/'.$session, 'r');
+							$ws_id = $file->read();
+							
+							$file->changeFile(_TCMS_PATH.'/tcms_session/'.$session, 'w');
+							$file->write($ws_id);
+							$file->close();
+							
+							$file->deleteCustom('engine/admin/session/'.$session);
+							
+							unset($file);
+						}
 					}
 					
+					$tcms_auth->cleanupOutdatedSessions($session);
+					$check_session = $tcms_auth->checkSessionExist($session);
 					
-					
-					/*
-						Authentication settings
-					*/
-					
-					if(isset($session)) {
-						if($_GET['setXMLSession'] == 1) {
-							if($tcms_file->checkFileExist('engine/admin/session/'.$session)) {
-								$file = new tcms_file('engine/admin/session/'.$session, 'r');
-								$ws_id = $file->read();
-								
-								$file->changeFile(_TCMS_PATH.'/tcms_session/'.$session, 'w');
-								$file->write($ws_id);
-								$file->close();
-								
-								$file->deleteCustom('engine/admin/session/'.$session);
-								
-								unset($file);
-							}
-						}
+					if($check_session) {
+						$arr_ws = $tcms_ap->getUserInfo($session);
 						
-						$tcms_auth->cleanupOutdatedSessions($session);
-						$check_session = $tcms_auth->checkSessionExist($session);
+						$ws_name  = $arr_ws['name'];
+						$ws_user  = $arr_ws['user'];
+						$ws_id    = $arr_ws['id'];
+						$is_admin = $arr_ws['group'];
 						
-						if($check_session) {
-							$arr_ws = $tcms_ap->getUserInfo($session);
-							
-							$ws_name  = $arr_ws['name'];
-							$ws_user  = $arr_ws['user'];
-							$ws_id    = $arr_ws['id'];
-							$is_admin = $arr_ws['group'];
-							
-							if(trim($is_admin) == 'Administrator'
-							|| trim($is_admin) == 'Developer'
-							|| trim($is_admin) == 'Writer'
-							|| trim($is_admin) == 'Editor') {
-								$canEdit = true;
-							}
-							else {
-								$canEdit = false;
-							}
+						if(trim($is_admin) == 'Administrator'
+						|| trim($is_admin) == 'Developer'
+						|| trim($is_admin) == 'Writer'
+						|| trim($is_admin) == 'Editor') {
+							$canEdit = true;
 						}
 						else {
 							$canEdit = false;
 						}
 					}
 					else {
-						$check_session = false;
 						$canEdit = false;
-						$is_admin = 'Guest';
 					}
+				}
+				else {
+					$check_session = false;
+					$canEdit = false;
+					$is_admin = 'Guest';
+				}
+				
+				
+				
+				/*
+					some objects
+				*/
+				
+				// datacontainer
+				$tcms_dcp = new tcms_datacontainer_provider(_TCMS_PATH, $c_charset);
+				
+				// menu object provider
+				$tcms_menu = new tcms_menu_provider(_TCMS_PATH, $c_charset, $is_admin, $tcms_time, $tcms_config);
+				
+				// components system
+				if($tcms_config->getComponentsSystemEnabled()) {
+					$tcms_cs = new tcms_cs(_TCMS_PATH, $imagePath);
+				}
+				
+				// blogfeatures
+				if($id == 'frontpage' || $id == 'newsmanager') {
+					$tcms_blogfeatures = new tcms_blogfeatures();
+				}
+				
+				// graphic engine
+				$tcms_gd = new tcms_gd();
+				
+				
+				
+				/*
+					Web Site config from XML
+				*/
+				
+				if(!$tcms_main->isReal($lang)) {
+					$lang = strtolower($tcms_config->getLanguageCode());
+				}
+				
+				$sitetitle = $tcms_config->getSiteTitle();
+				$sitename  = $tcms_config->getSiteName();
+				$sitekey   = $tcms_config->getSiteKey();
+				$logo      = $tcms_config->getSiteLogo();
+				
+				$logo = $tcms_main->decodeText($logo, '2', $c_charset);
+				$logo = trim($logo);
+				
+				if($logo != '' || !empty($logo)) {
+					$sitelogo = '<img class="sitelogo" align="left"'
+					.' src="'.$imagePath._TCMS_PATH.'/images/Image/'.$logo.'"'
+					.' border="0" />';
+				}
+				else {
+					$sitelogo = '';
+				}
+				
+				// CHARSETS
+				$cms_name         = $tcms_version->getName();
+				$cms_tagline      = $tcms_version->getTagline();
+				$cms_version      = $tcms_version->getVersion();
+				$cms_build        = $tcms_version->getBuild();
+				$toenda_copyright = $tcms_version->getToendaCopyright();
+				
+				$show_doc_autor = $tcms_config->getShowDocAutor();
+				$defaultCat     = $tcms_config->getDefaultCategory();
+				$tcmsinst       = $tcms_config->getToendaCMSInSitetitle();
+				
+				if($tcmsinst == 1) {
+					$sitetitle  = $cms_name.' | '.$sitetitle;
+				}
+				
+				// Pathway Char
+				if(!$tcms_main->isReal($pathwayChar)) {
+					$pathwayChar = '/';
+				}
+				
+				
+				$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
+				$tcms_main->setCurrentLang($getLang);
+				
+				
+				// Sidebar modules
+				$dcSidebarModule = new tcms_dc_sidebarmodule();
+				$dcSidebarModule = $tcms_dcp->getSidebarModuleDC();
+				
+				$use_side_gallery   = $dcSidebarModule->getSideGallery();
+				$use_side_category  = $dcSidebarModule->getSideCategory();
+				$use_side_archives  = $dcSidebarModule->getSideArchive();
+				$use_side_links     = $dcSidebarModule->getSideLinks();
+				$use_layout_chooser = $dcSidebarModule->getLayoutChooser();
+				$use_login          = $dcSidebarModule->getLogin();
+				$use_syndication    = $dcSidebarModule->getSyndication();
+				$use_newsletter     = $dcSidebarModule->getNewsletter();
+				$use_search         = $dcSidebarModule->getSearch();
+				$use_sidebar        = $dcSidebarModule->getSidebar();
+				$use_poll           = $dcSidebarModule->getPoll();
+				
+				unset($dcSidebarModule);
+				
+				
+				// Sidebar extension settings
+				$navigation        = $tcms_config->getSidemenuEnabled();
+				$second_navigation = $tcms_config->getTopmenuEnabled();
+				
+				$dcSE = new tcms_dc_sidebarextensions();
+				$dcSE = $tcms_dcp->getSidebarExtensionSettings();
+				
+				$user_navigation = $dcSE->getUsermenu();
+				
+				unset($dcSE);
+				
+				
+				
+				// Syndication
+				if($use_syndication == 1) {
+					$dcNewsMan = new tcms_dc_newsmanager();
+					$dcNewsMan = $tcms_dcp->getNewsmanagerDC($getLang);
 					
+					$use_rss091     = $dcNewsMan->getSyndicationRSS091();
+					$use_rss10      = $dcNewsMan->getSyndicationRSS10();
+					$use_rss20      = $dcNewsMan->getSyndicationRSS20();
+					$use_atom03     = $dcNewsMan->getSyndicationRSSAtom();
+					$use_opml       = $dcNewsMan->getSyndicationRSSOpml();
+					$syn_amount     = $dcNewsMan->getSyndicationAmount();
+					$use_syn_title  = $dcNewsMan->getSyndicationUseTitle();
+					$def_feed       = $dcNewsMan->getSyndicationDefaultFeed();
+					$use_rss091_img = $dcNewsMan->getSyndicationUseRSS091Image();
+					$rss091_text    = $dcNewsMan->getSyndicationRSS091Text();
+					$use_rss10_img  = $dcNewsMan->getSyndicationUseRSS10Image();
+					$rss10_text     = $dcNewsMan->getSyndicationRSS10Text();
+					$use_rss20_img  = $dcNewsMan->getSyndicationUseRSS20Image();
+					$rss20_text     = $dcNewsMan->getSyndicationRSS20Text();
+					$use_atom03_img = $dcNewsMan->getSyndicationUseATOM03Image();
+					$atom03_text    = $dcNewsMan->getSyndicationATOM03Text();
+					$use_opml_img   = $dcNewsMan->getSyndicationUseOPMLImage();
+					$opml_text      = $dcNewsMan->getSyndicationOPMLText();
+					$use_cfeed      = $dcNewsMan->getSyndicationUseCommentFeed();
+					$use_cfeed_img  = $dcNewsMan->getSyndicationUseCommentFeedImage();
+					$cfeed_text     = $dcNewsMan->getSyndicationCommentFeedText();
+					$cfeed_type     = $dcNewsMan->getSyndicationCommentFeedType();
+					$show_autor     = $dcNewsMan->getShowAutor();
+					$cfeed_amount   = $dcNewsMan->getSyndicationCommentFeedAmount();
+				}
+				
+				
+				
+				/*
+					load module configuration
+				*/
+				
+				switch($id) {
+					case 'contactform':
+					case 'guestbook':
+					case 'imprint':
+					case 'products':
+					case 'imagegallery':
+					case 'download':
+					case 'knowledgebase':
+					case 'links':
+						break;
 					
-					
-					/*
-						some objects
-					*/
-					
-					// datacontainer
-					$tcms_dcp = new tcms_datacontainer_provider(_TCMS_PATH, $c_charset);
-					
-					// menu object provider
-					$tcms_menu = new tcms_menu_provider(_TCMS_PATH, $c_charset, $is_admin, $tcms_time, $tcms_config);
-					
-					// components system
-					if($tcms_config->getComponentsSystemEnabled()) {
-						$tcms_cs = new tcms_cs(_TCMS_PATH, $imagePath);
-					}
-					
-					// blogfeatures
-					if($id == 'frontpage' || $id == 'newsmanager') {
-						$tcms_blogfeatures = new tcms_blogfeatures();
-					}
-					
-					// graphic engine
-					$tcms_gd = new tcms_gd();
-					
-					
-					
-					/*
-						Web Site config from XML
-					*/
-					
-					if(!$tcms_main->isReal($lang)) {
-						$lang = strtolower($tcms_config->getLanguageCode());
-					}
-					
-					$sitetitle = $tcms_config->getSiteTitle();
-					$sitename  = $tcms_config->getSiteName();
-					$sitekey   = $tcms_config->getSiteKey();
-					$logo      = $tcms_config->getSiteLogo();
-					
-					$logo = $tcms_main->decodeText($logo, '2', $c_charset);
-					$logo = trim($logo);
-					
-					if($logo != '' || !empty($logo)) {
-						$sitelogo = '<img class="sitelogo" align="left"'
-						.' src="'.$imagePath._TCMS_PATH.'/images/Image/'.$logo.'"'
-						.' border="0" />';
-					}
-					else {
-						$sitelogo = '';
-					}
-					
-					// CHARSETS
-					$cms_name         = $tcms_version->getName();
-					$cms_tagline      = $tcms_version->getTagline();
-					$cms_version      = $tcms_version->getVersion();
-					$cms_build        = $tcms_version->getBuild();
-					$toenda_copyright = $tcms_version->getToendaCopyright();
-					
-					$show_doc_autor = $tcms_config->getShowDocAutor();
-					$defaultCat     = $tcms_config->getDefaultCategory();
-					$tcmsinst       = $tcms_config->getToendaCMSInSitetitle();
-					
-					if($tcmsinst == 1) {
-						$sitetitle  = $cms_name.' | '.$sitetitle;
-					}
-					
-					// Pathway Char
-					if(!$tcms_main->isReal($pathwayChar)) {
-						$pathwayChar = '/';
-					}
-					
-					
-					$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
-					$tcms_main->setCurrentLang($getLang);
-					
-					
-					// Sidebar modules
-					$dcSidebarModule = new tcms_dc_sidebarmodule();
-					$dcSidebarModule = $tcms_dcp->getSidebarModuleDC();
-					
-					$use_side_gallery   = $dcSidebarModule->getSideGallery();
-					$use_side_category  = $dcSidebarModule->getSideCategory();
-					$use_side_archives  = $dcSidebarModule->getSideArchive();
-					$use_side_links     = $dcSidebarModule->getSideLinks();
-					$use_layout_chooser = $dcSidebarModule->getLayoutChooser();
-					$use_login          = $dcSidebarModule->getLogin();
-					$use_syndication    = $dcSidebarModule->getSyndication();
-					$use_newsletter     = $dcSidebarModule->getNewsletter();
-					$use_search         = $dcSidebarModule->getSearch();
-					$use_sidebar        = $dcSidebarModule->getSidebar();
-					$use_poll           = $dcSidebarModule->getPoll();
-					
-					unset($dcSidebarModule);
-					
-					
-					// Sidebar extension settings
-					$navigation        = $tcms_config->getSidemenuEnabled();
-					$second_navigation = $tcms_config->getTopmenuEnabled();
-					
-					$dcSE = new tcms_dc_sidebarextensions();
-					$dcSE = $tcms_dcp->getSidebarExtensionSettings();
-					
-					$user_navigation = $dcSE->getUsermenu();
-					
-					unset($dcSE);
-					
-					
-					
-					// Syndication
-					if($use_syndication == 1) {
+					case 'frontpage':
+						$dcFront = new tcms_dc_frontpage();
+						$dcFront = $tcms_dcp->getFrontpageDC($getLang);
+						
+						$front_id         = $dcFront->getID();
+						$front_title      = $dcFront->getTitle();
+						$front_stamp      = $dcFront->getSubtitle();
+						$front_text       = $dcFront->getText();
+						$front_news_title = $dcFront->getNewsTitle();
+						$cut_news         = $dcFront->getNewsChars();
+						$how_many         = $dcFront->getNewsAmount();
+						$sb_news_enabled  = $dcFront->getSidebarNewsEnabled();
+						$sb_news_display  = $dcFront->getSidebarNewsDisplay();
+						$front_s_title    = $dcFront->getSidebarNewsTitle();
+						$sb_cut_news      = $dcFront->getSidebarNewsChars();
+						$sb_how_many      = $dcFront->getSidebarNewsAmount();
+						
 						$dcNewsMan = new tcms_dc_newsmanager();
 						$dcNewsMan = $tcms_dcp->getNewsmanagerDC($getLang);
 						
-						$use_rss091     = $dcNewsMan->getSyndicationRSS091();
-						$use_rss10      = $dcNewsMan->getSyndicationRSS10();
-						$use_rss20      = $dcNewsMan->getSyndicationRSS20();
-						$use_atom03     = $dcNewsMan->getSyndicationRSSAtom();
-						$use_opml       = $dcNewsMan->getSyndicationRSSOpml();
-						$syn_amount     = $dcNewsMan->getSyndicationAmount();
-						$use_syn_title  = $dcNewsMan->getSyndicationUseTitle();
-						$def_feed       = $dcNewsMan->getSyndicationDefaultFeed();
-						$use_rss091_img = $dcNewsMan->getSyndicationUseRSS091Image();
-						$rss091_text    = $dcNewsMan->getSyndicationRSS091Text();
-						$use_rss10_img  = $dcNewsMan->getSyndicationUseRSS10Image();
-						$rss10_text     = $dcNewsMan->getSyndicationRSS10Text();
-						$use_rss20_img  = $dcNewsMan->getSyndicationUseRSS20Image();
-						$rss20_text     = $dcNewsMan->getSyndicationRSS20Text();
-						$use_atom03_img = $dcNewsMan->getSyndicationUseATOM03Image();
-						$atom03_text    = $dcNewsMan->getSyndicationATOM03Text();
-						$use_opml_img   = $dcNewsMan->getSyndicationUseOPMLImage();
-						$opml_text      = $dcNewsMan->getSyndicationOPMLText();
-						$use_cfeed      = $dcNewsMan->getSyndicationUseCommentFeed();
-						$use_cfeed_img  = $dcNewsMan->getSyndicationUseCommentFeedImage();
-						$cfeed_text     = $dcNewsMan->getSyndicationCommentFeedText();
-						$cfeed_type     = $dcNewsMan->getSyndicationCommentFeedType();
-						$show_autor     = $dcNewsMan->getShowAutor();
-						$cfeed_amount   = $dcNewsMan->getSyndicationCommentFeedAmount();
-					}
-					
-					
-					
-					/*
-						load module configuration
-					*/
-					
-					switch($id) {
-						case 'contactform':
-						case 'guestbook':
-						case 'imprint':
-						case 'products':
-						case 'imagegallery':
-						case 'download':
-						case 'knowledgebase':
-						case 'links':
-							break;
+						$use_news_comments  = $dcNewsMan->getUseComments();
+						$show_autor         = $dcNewsMan->getShowAutor();
+						$show_autor_as_link = $dcNewsMan->getShowAutorAsLink();
+						$use_gravatar       = $dcNewsMan->getUseGravatar();
+						$use_emoticons      = $dcNewsMan->getUseEmoticons();
+						$use_trackback      = $dcNewsMan->getUseTrackback();
+						$use_timesince      = $dcNewsMan->getUseTimesince();
+						$readmore_link      = $dcNewsMan->getReadmoreLink();
+						$news_spacing       = $dcNewsMan->getNewsSpacing();
 						
-						case 'frontpage':
-							$dcFront = new tcms_dc_frontpage();
-							$dcFront = $tcms_dcp->getFrontpageDC($getLang);
-							
-							$front_id         = $dcFront->getID();
-							$front_title      = $dcFront->getTitle();
-							$front_stamp      = $dcFront->getSubtitle();
-							$front_text       = $dcFront->getText();
-							$front_news_title = $dcFront->getNewsTitle();
-							$cut_news         = $dcFront->getNewsChars();
-							$how_many         = $dcFront->getNewsAmount();
-							$sb_news_enabled  = $dcFront->getSidebarNewsEnabled();
-							$sb_news_display  = $dcFront->getSidebarNewsDisplay();
-							$front_s_title    = $dcFront->getSidebarNewsTitle();
-							$sb_cut_news      = $dcFront->getSidebarNewsChars();
-							$sb_how_many      = $dcFront->getSidebarNewsAmount();
-							
-							$dcNewsMan = new tcms_dc_newsmanager();
-							$dcNewsMan = $tcms_dcp->getNewsmanagerDC($getLang);
-							
-							$use_news_comments  = $dcNewsMan->getUseComments();
-							$show_autor         = $dcNewsMan->getShowAutor();
-							$show_autor_as_link = $dcNewsMan->getShowAutorAsLink();
-							$use_gravatar       = $dcNewsMan->getUseGravatar();
-							$use_emoticons      = $dcNewsMan->getUseEmoticons();
-							$use_trackback      = $dcNewsMan->getUseTrackback();
-							$use_timesince      = $dcNewsMan->getUseTimesince();
-							$readmore_link      = $dcNewsMan->getReadmoreLink();
-							$news_spacing       = $dcNewsMan->getNewsSpacing();
-							
-							$cut_news = ( $cut_news == 0 ? '1000000' : $cut_news );
-							
-							if($use_trackback == 1) {
-								using('toendacms.kernel.trackback');
-							}
-							break;
+						$cut_news = ( $cut_news == 0 ? '1000000' : $cut_news );
 						
-						case 'newsmanager':
-							$dcNewsMan = new tcms_dc_newsmanager();
-							$dcNewsMan = $tcms_dcp->getNewsmanagerDC($getLang);
-							
-							$news_id            = $dcNewsMan->getID();
-							$news_title         = $dcNewsMan->getTitle();
-							$news_stamp         = $dcNewsMan->getSubtitle();
-							$news_maintext      = $dcNewsMan->getText();
-							$news_image         = $dcNewsMan->getImage();
-							$use_news_comments  = $dcNewsMan->getUseComments();
-							$show_autor         = $dcNewsMan->getShowAutor();
-							$show_autor_as_link = $dcNewsMan->getShowAutorAsLink();
-							$news_amount        = $dcNewsMan->getNewsAmount();
-							$cut_news           = $dcNewsMan->getNewsChars();
-							$authorized         = $dcNewsMan->getAccess();
-							$use_gravatar       = $dcNewsMan->getUseGravatar();
-							$use_emoticons      = $dcNewsMan->getUseEmoticons();
-							$use_trackback      = $dcNewsMan->getUseTrackback();
-							$use_timesince      = $dcNewsMan->getUseTimesince();
-							$readmore_link      = $dcNewsMan->getReadmoreLink();
-							$news_spacing       = $dcNewsMan->getNewsSpacing();
-							
-							$cut_news = ( $cut_news == 0 ? '1000000' : $cut_news );
-							
-							$link_news  = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-							.'id='.$news_id.'&amp;s='.$s.'&amp;lang='.$lang;
-							
-							if($use_trackback == 1) {
-								using('toendacms.kernel.trackback');
-							}
-							break;
-					}
-					
-					
-					
-					/*
-						Global Configuration from XML
-					*/
-					$keywords         = $tcms_config->getMetadataKeywords();
-					$description      = $tcms_config->getMetadataDescription();
-					$active_topmenu   = $tcms_config->getTopmenuActive();
-					
-					// CHARSETS
-					$keywords         = $tcms_main->decodeText($keywords, '2', $c_charset);
-					$description      = $tcms_main->decodeText($description, '2', $c_charset);
-					$websiteowner     = $tcms_main->decodeText($tcms_config->getWebpageOwner(), '2', $c_charset);
-					$websitecopyright = $tcms_main->decodeText($tcms_config->getWebpageCopyright(), '2', $c_charset);
-					$websiteowner_url = $tcms_main->decodeText($tcms_config->getWebpageOwnerUrl(), '2', $c_charset);
-					$footer_text      = $tcms_main->decodeText($tcms_config->getFooterText(), '2', $c_charset);
-					
-					
-					
-					/*
-						SITE MANAGEMENT :: WITH ERRORFILES
-					*/
-					if($choosenDB == 'xml') {
-						$site_max_id = $tcms_file->getPathContent(
-							_TCMS_PATH.'/tcms_content/', 
-							false, 
-							'.xml'
-						);
-						
-						$site_max_id2 = $tcms_file->getPathContent(
-							_TCMS_PATH.'/tcms_content_languages/', 
-							false, 
-							'.xml'
-						);
-						
-						if($tcms_main->isArray($site_max_id2)) {
-							$site_max_id = array_merge($site_max_id, $site_max_id2);
+						if($use_trackback == 1) {
+							using('toendacms.kernel.trackback');
 						}
+						break;
+					
+					case 'newsmanager':
+						$dcNewsMan = new tcms_dc_newsmanager();
+						$dcNewsMan = $tcms_dcp->getNewsmanagerDC($getLang);
 						
-						if(is_array($site_max_id)) {
-							if(!in_array($id.'.xml', $site_max_id)) {
-								$ws_error = true;
-							}
+						$news_id            = $dcNewsMan->getID();
+						$news_title         = $dcNewsMan->getTitle();
+						$news_stamp         = $dcNewsMan->getSubtitle();
+						$news_maintext      = $dcNewsMan->getText();
+						$news_image         = $dcNewsMan->getImage();
+						$use_news_comments  = $dcNewsMan->getUseComments();
+						$show_autor         = $dcNewsMan->getShowAutor();
+						$show_autor_as_link = $dcNewsMan->getShowAutorAsLink();
+						$news_amount        = $dcNewsMan->getNewsAmount();
+						$cut_news           = $dcNewsMan->getNewsChars();
+						$authorized         = $dcNewsMan->getAccess();
+						$use_gravatar       = $dcNewsMan->getUseGravatar();
+						$use_emoticons      = $dcNewsMan->getUseEmoticons();
+						$use_trackback      = $dcNewsMan->getUseTrackback();
+						$use_timesince      = $dcNewsMan->getUseTimesince();
+						$readmore_link      = $dcNewsMan->getReadmoreLink();
+						$news_spacing       = $dcNewsMan->getNewsSpacing();
+						
+						$cut_news = ( $cut_news == 0 ? '1000000' : $cut_news );
+						
+						$link_news  = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+						.'id='.$news_id.'&amp;s='.$s.'&amp;lang='.$lang;
+						
+						if($use_trackback == 1) {
+							using('toendacms.kernel.trackback');
 						}
+						break;
+				}
+				
+				
+				
+				/*
+					Global Configuration from XML
+				*/
+				$keywords         = $tcms_config->getMetadataKeywords();
+				$description      = $tcms_config->getMetadataDescription();
+				$active_topmenu   = $tcms_config->getTopmenuActive();
+				
+				// CHARSETS
+				$keywords         = $tcms_main->decodeText($keywords, '2', $c_charset);
+				$description      = $tcms_main->decodeText($description, '2', $c_charset);
+				$websiteowner     = $tcms_main->decodeText($tcms_config->getWebpageOwner(), '2', $c_charset);
+				$websitecopyright = $tcms_main->decodeText($tcms_config->getWebpageCopyright(), '2', $c_charset);
+				$websiteowner_url = $tcms_main->decodeText($tcms_config->getWebpageOwnerUrl(), '2', $c_charset);
+				$footer_text      = $tcms_main->decodeText($tcms_config->getFooterText(), '2', $c_charset);
+				
+				
+				
+				/*
+					SITE MANAGEMENT :: WITH ERRORFILES
+				*/
+				if($choosenDB == 'xml') {
+					$site_max_id = $tcms_file->getPathContent(
+						_TCMS_PATH.'/tcms_content/', 
+						false, 
+						'.xml'
+					);
+					
+					$site_max_id2 = $tcms_file->getPathContent(
+						_TCMS_PATH.'/tcms_content_languages/', 
+						false, 
+						'.xml'
+					);
+					
+					if($tcms_main->isArray($site_max_id2)) {
+						$site_max_id = array_merge($site_max_id, $site_max_id2);
 					}
-					else {
-						$sqlCN = $tcms_dal->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-						
-						$sqlQR = $tcms_dal->getOne($tcms_db_prefix.'content', $id);
-						$site_max_id = $tcms_dal->getNumber($sqlQR);
-						
-						if($site_max_id == 0) {
+					
+					if(is_array($site_max_id)) {
+						if(!in_array($id.'.xml', $site_max_id)) {
 							$ws_error = true;
 						}
-						
-						$tcms_dal->freeResult($sqlQR);
+					}
+				}
+				else {
+					$sqlCN = $tcms_dal->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+					
+					$sqlQR = $tcms_dal->getOne($tcms_db_prefix.'content', $id);
+					$site_max_id = $tcms_dal->getNumber($sqlQR);
+					
+					if($site_max_id == 0) {
+						$ws_error = true;
 					}
 					
-					if(in_array($id, $arrTCMSModules)) {
-						$ws_error = false;
-					}
+					$tcms_dal->freeResult($sqlQR);
+				}
+				
+				if(in_array($id, $arrTCMSModules)) {
+					$ws_error = false;
+				}
+				
+				if($ws_error == false) {
+					if(!isset($download_id)) { $download_id = 'download'; }
+					if(!isset($products_id)) { $products_id = 'products'; }
+					if(!isset($send_id)) { $send_id = 'contactform'; }
+					if(!isset($book_id)) { $book_id = 'guestbook'; }
+					if(!isset($image_id)) { $image_id = 'imagegallery'; }
+					if(!isset($link_id)) { $link_id = 'links'; }
+					if(!isset($news_id)) { $news_id = 'newsmanager'; }
+					if(!isset($imp_id)) { $imp_id = 'imprint'; }
+					if(!isset($faq_id)) { $faq_id = 'knowledgebase'; }
 					
-					if($ws_error == false) {
-						if(!isset($download_id)) { $download_id = 'download'; }
-						if(!isset($products_id)) { $products_id = 'products'; }
-						if(!isset($send_id)) { $send_id = 'contactform'; }
-						if(!isset($book_id)) { $book_id = 'guestbook'; }
-						if(!isset($image_id)) { $image_id = 'imagegallery'; }
-						if(!isset($link_id)) { $link_id = 'links'; }
-						if(!isset($news_id)) { $news_id = 'newsmanager'; }
-						if(!isset($imp_id)) { $imp_id = 'imprint'; }
-						if(!isset($faq_id)) { $faq_id = 'knowledgebase'; }
+					
+					/*
+						Main Menu
+						Top Menu
+						Linkway
 						
+						-> load only if not in cache
+					*/
+					//if(!file_exists('cache/'.)) {
+					if($choosenDB == 'xml') {
+						$arr_files     = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_menu/');
+						$arr_filesT    = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_topmenu/');
 						
-						/*
-							Main Menu
-							Top Menu
-							Linkway
-							
-							-> load only if not in cache
-						*/
-						//if(!file_exists('cache/'.)) {
-						if($choosenDB == 'xml') {
-							$arr_files     = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_menu/');
-							$arr_filesT    = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_topmenu/');
-							
-							$arr_side_navi = $tcms_main->mainmenu(
-								$arr_files, 
-								$c_charset, 
-								( isset($session) ? $session : NULL ), 
-								$s, 
-								( isset($lang) ? $lang : NULL )
-							);
-							
-							$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_topmenu/');
-							
-							$arr_top_navi = $tcms_main->topmenu(
-								$arr_filename, 
-								$c_charset, 
-								( isset($session) ? $session : NULL ), 
-								$s, 
-								( isset($lang) ? $lang : NULL )
-							);
-							
-							$arrLinkway = $tcms_main->linkway(
-								$arr_files, 
-								$arr_filesT, 
-								$c_charset, 
-								( isset($session) ? $session : NULL ), 
-								$s, 
-								( isset($lang) ? $lang : NULL )
-							);
-						}
-						else {
-							$arr_top_navi = $tcms_main->topmenuSQL(
-								$choosenDB, 
-								$sqlUser, 
-								$sqlPass, 
-								$sqlHost, 
-								$sqlDB, 
-								$sqlPort, 
-								$c_charset, 
-								( isset($session) ? $session : NULL ), 
-								$s, 
-								( isset($lang) ? $lang : NULL )
-							);
-							
-							$arrLinkway = $tcms_main->linkwaySQL(
-								$choosenDB, 
-								$sqlUser, 
-								$sqlPass, 
-								$sqlHost, 
-								$sqlDB, 
-								$sqlPort, 
-								$c_charset, 
-								( isset($session) ? $session : NULL ), 
-								$s, 
-								( isset($lang) ? $lang : NULL )
-							);
-						}
+						$arr_side_navi = $tcms_main->mainmenu(
+							$arr_files, 
+							$c_charset, 
+							( isset($session) ? $session : NULL ), 
+							$s, 
+							( isset($lang) ? $lang : NULL )
+						);
 						
+						$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_topmenu/');
 						
-						$arr_path = $arrLinkway['path'];
-						$titleway = $arrLinkway['title'];
-						$pathway  = $arrLinkway['pathway'];
+						$arr_top_navi = $tcms_main->topmenu(
+							$arr_filename, 
+							$c_charset, 
+							( isset($session) ? $session : NULL ), 
+							$s, 
+							( isset($lang) ? $lang : NULL )
+						);
 						
-						
-						/*
-							Load Components System
-						*/
-						if($use_components) {
-							$arrSideCS = $tcms_cs->getAllSideCS($is_admin);
-						}
-						
-						
-						/*
-							Inluce Defines
-						*/
-						include_once('engine/tcms_kernel/tcms_defines.lib.php');
-						//using('toendacms.kernel.defines');
-						
-						
-						/*
-							Inluce the layout
-						*/
-						if(_LAYOUT != '') {
-							include_once(_LAYOUT);
-						}
-						
-						
-						/*
-							Clean up
-						*/
-						unset($tcms_config);
-						unset($tcms_version);
-						unset($tcms_param);
-						unset($tcms_dal);
-						unset($tcms_gd);
-						unset($tcms_main);
-						unset($tcms_dcp);
-						unset($tcms_menu);
-						
-						if($use_components) {
-							unset($tcms_cs);
-						}
-						
-						if($statistics) {
-							unset($tcms_stats);
-						}
+						$arrLinkway = $tcms_main->linkway(
+							$arr_files, 
+							$arr_filesT, 
+							$c_charset, 
+							( isset($session) ? $session : NULL ), 
+							$s, 
+							( isset($lang) ? $lang : NULL )
+						);
 					}
 					else {
-						include_once('engine/tcms_kernel/tcms_defines.lib.php');
-						//using('toendacms.kernel.defines');
-						include(_ERROR_404);
+						$arr_top_navi = $tcms_main->topmenuSQL(
+							$choosenDB, 
+							$sqlUser, 
+							$sqlPass, 
+							$sqlHost, 
+							$sqlDB, 
+							$sqlPort, 
+							$c_charset, 
+							( isset($session) ? $session : NULL ), 
+							$s, 
+							( isset($lang) ? $lang : NULL )
+						);
+						
+						$arrLinkway = $tcms_main->linkwaySQL(
+							$choosenDB, 
+							$sqlUser, 
+							$sqlPass, 
+							$sqlHost, 
+							$sqlDB, 
+							$sqlPort, 
+							$c_charset, 
+							( isset($session) ? $session : NULL ), 
+							$s, 
+							( isset($lang) ? $lang : NULL )
+						);
 					}
+					
+					
+					$arr_path = $arrLinkway['path'];
+					$titleway = $arrLinkway['title'];
+					$pathway  = $arrLinkway['pathway'];
+					
+					
+					/*
+						Load Components System
+					*/
+					if($use_components) {
+						$arrSideCS = $tcms_cs->getAllSideCS($is_admin);
+					}
+					
+					
+					/*
+						Inluce Defines
+					*/
+					include_once('engine/tcms_kernel/tcms_defines.lib.php');
+					//using('toendacms.kernel.defines');
+					
+					
+					/*
+						Inluce the layout
+					*/
+					if(_LAYOUT != '') {
+						include_once(_LAYOUT);
+					}
+					
+					
+					/*
+						Clean up
+					*/
+					unset($tcms_config);
+					unset($tcms_version);
+					unset($tcms_param);
+					unset($tcms_dal);
+					unset($tcms_gd);
+					unset($tcms_main);
+					unset($tcms_dcp);
+					unset($tcms_menu);
+					
+					if($use_components) {
+						unset($tcms_cs);
+					}
+					
+					if($statistics) {
+						unset($tcms_stats);
+					}
+				}
+				else {
+					include_once('engine/tcms_kernel/tcms_defines.lib.php');
+					//using('toendacms.kernel.defines');
+					include(_ERROR_404);
 				}
 			}
 		}
