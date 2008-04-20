@@ -237,6 +237,12 @@ a:hover, a:visited:hover { text-decoration: underline; }
 h2 a:hover, h2 span a:hover { color: #27d/*1A78E2*/ !important; }
 a { color: #27d;/*1A78E2;*/ text-decoration: none; }
 
+
+a[href^="http://"]::before,
+a[href^="https://"]::before {
+	content: "\2197\00A0";
+}
+
 input, textarea {
 	/*border: 1px #aaa solid;*/
 	/*background: #f1f1f1;*/
@@ -944,7 +950,6 @@ a.langSelectorLink:active {
 
 a.langSelectorLink:hover {
 }
-
 
 
 /* http://en.wikipedia.org/wiki/K2 */
