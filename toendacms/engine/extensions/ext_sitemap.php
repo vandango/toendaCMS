@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a sitemap generator extension
  *
- * @version 0.0.7
+ * @version 0.1.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content-Modules
@@ -79,7 +79,7 @@ function displayItems($parentID1, $parentID2, $parentID3, $parentPosID, $globLev
 			//$li1 = '<li>';
 			
 			if($value['pub'] == 1) {
-				switch($value['type']){
+				switch($value['type']) {
 					case 'web':
 						$liContent = '<a href="'.$value['link'].'"'.$target.'>'
 						.$value['name']
@@ -101,7 +101,8 @@ function displayItems($parentID1, $parentID2, $parentID3, $parentPosID, $globLev
 				}
 			}
 			
-			if($globLevel < 4) {
+			if($globLevel < 4
+			&& $value['pub'] == 1) {
 				$wsHtml = displayItems(
 					( ( $globLevel + 1 ) == 1 ? $value['uid'] : '' ), 
 					( ( $globLevel + 1 ) == 2 ? $value['uid'] : '' ), 
@@ -109,6 +110,9 @@ function displayItems($parentID1, $parentID2, $parentID3, $parentPosID, $globLev
 					( ( $globLevel + 1 ) == 0 ? $value['id'] : '' ), 
 					$globLevel + 1
 				);
+			}
+			else {
+				$wsHtml = '';
 			}
 			
 			//$li2 = '</li>';
@@ -147,7 +151,7 @@ function displayItems($parentID1, $parentID2, $parentID3, $parentPosID, $globLev
 // init
 
 echo $tcms_html->contentModuleHeader(
-	_SITEMAP_TITLE.' - BETA!', 
+	_SITEMAP_TITLE, 
 	_SITEMAP_SUBTITLE, 
 	_SITEMAP_TEXT
 );
@@ -182,7 +186,7 @@ if($tcms_config->getTopmenuEnabled()) {
 			$target = ( $value['target'] == '' ? '' : ' target="'.$value['target'].'"' );
 			
 			if($value['pub'] == 1) {
-				switch($value['type']){
+				switch($value['type']) {
 					case 'web':
 						$liContent = '<a href="'.$value['link'].'"'.$target.'>'
 						.$value['name']
@@ -259,7 +263,7 @@ if($tcms_config->getSidemenuEnabled()) {
 			$target = ( $value['target'] == '' ? '' : ' target="'.$value['target'].'"' );
 			
 			if($value['pub'] == 1) {
-				switch($value['type']){
+				switch($value['type']) {
 					case 'web':
 						$liContent = '<a href="'.$value['link'].'"'.$target.'>'
 						.$value['name']
@@ -285,13 +289,31 @@ if($tcms_config->getSidemenuEnabled()) {
 				$liContent = '';
 			}
 			
-			$wsHtml = displayItems(
-				$value['uid'], 
-				'', 
-				'', 
-				$value['id'], 
-				1
-			);
+			// if link is in topmennu
+			if($tcms_config->getTopmenuEnabled()
+			&& $tcms_main->isElementInArray($value['link'], $arrMapTop, 'link')) {
+				$wsHtml = displayItems(
+					$value['uid'], 
+					'', 
+					'', 
+					$value['id'], 
+					1
+				);
+				
+				$liContent = $value['name'];
+			}
+			else if($value['pub'] == 1) {
+				$wsHtml = displayItems(
+					$value['uid'], 
+					'', 
+					'', 
+					$value['id'], 
+					1
+				);
+			}
+			else {
+				$wsHtml = '';
+			}
 			
 			if(trim($liContent) != ''
 			|| trim($wsHtml) != '') {
