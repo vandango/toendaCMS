@@ -21,7 +21,7 @@
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 0.7.4
+ * @version 0.7.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -346,13 +346,28 @@ if(isset($id_user)) {
 				&& trim($dvalue) != 'thumbs.db' 
 				&& trim($dvalue) != 'index.html' 
 				&& substr(trim($dvalue), 0, 1) != '.') {
+					if(isset($faq)) {
+						$thumbPath = 'faq_thumb';
+					}
+					else if(isset($v)) {
+						if(trim($v) == 'faq') {
+							$thumbPath = 'faq_thumb';
+						}
+						else {
+							$thumbPath = 'upload_thumb';
+						}
+					}
+					else {
+						$thumbPath = 'upload_thumb';
+					}
+					
 					if(!preg_match('/.mp3/i', strtolower($dvalue))) {
 						$tcms_gd = new tcms_gd();
 						
-						if(!$tcms_file->checkFileExist(_TCMS_PATH.'/images/upload_thumb/'.$relPath.'thumb_'.$dvalue)) {
+						if(!$tcms_file->checkFileExist(_TCMS_PATH.'/images/'.$thumbPath.'/'.$relPath.'thumb_'.$dvalue)) {
 							$tcms_gd->createThumbnail(
 								_TCMS_PATH.'/images/'.$mainPath.'/'.$relPath, 
-								_TCMS_PATH.'/images/upload_thumb/'.$relPath, 
+								_TCMS_PATH.'/images/'.$thumbPath.'/'.$relPath, 
 								$dvalue, 
 								100
 							);
@@ -400,7 +415,7 @@ if(isset($id_user)) {
 						$checkType = false;
 					}
 					elseif($checkType) {
-						echo '<img style="border: 1px solid #333333;" src="'._TCMS_PATH.'/images/upload_thumb/'.$relPath.'thumb_'.$dvalue.'" border="0" />';
+						echo '<img style="border: 1px solid #333333;" src="'._TCMS_PATH.'/images/'.$thumbPath.'/'.$relPath.'thumb_'.$dvalue.'" border="0" />';
 					}
 					
 					
@@ -460,7 +475,7 @@ if(isset($id_user)) {
 						}
 						// klnowledgebase
 						elseif(isset($faq) && $faq == 'faq') {
-							$cmdImage = 'setFAQImage(\''.$dvalue.'\', \'faq_img\', \'new_faq_img\')';
+							$cmdImage = 'setFAQImage(\''.$dvalue2.'\', \'faq_img\', \'new_faq_img\')';
 						}
 						// all other
 						elseif(isset($n) && $n == 'without') {
@@ -504,7 +519,7 @@ if(isset($id_user)) {
 								.'\'&lt;a href=&quot;'.$seo_path.'/images/'.$mainPath.'/'.$dvalue2.'&quot; '
 								.'rel=&quot;lightbox&quot;&gt;'
 								.'&lt;img '
-								.'src=&quot;'.$img_path.'/images/upload_thumb/'.$relPath.'thumb_'.$dvalue3.'&quot; '
+								.'src=&quot;'.$img_path.'/images/'.$thumbPath.'/'.$relPath.'thumb_'.$dvalue3.'&quot; '
 								.'alt=&quot;'.$tagList.'&quot;'
 								.'title=&quot;'.$tagList.'&quot; /&gt;'
 								.'&lt;\/a&gt;\');'

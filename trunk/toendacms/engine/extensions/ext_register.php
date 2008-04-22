@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the register functions.
  *
- * @version 0.6.8
+ * @version 0.6.9
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content-Modules
@@ -575,7 +575,7 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve') {
 						$new_www = 'http://'.$new_www;
 					}
 					
-					if($checkUsername) {
+					if(!$checkUsername) {
 						$pass2 = md5($pass_md5);
 						
 						$validate_md5 = $tcms_main->getNewUID(32, 'user');
