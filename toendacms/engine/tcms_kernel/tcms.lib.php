@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * This class is used for a basic public functions.
  * 
- * @version 3.2.1
+ * @version 3.2.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -2063,7 +2063,7 @@ class tcms_main {
 				
 				$text = $this->urlConvertToHTMLFormat(
 					$text, 
-					( $this->urlSEO == 'html' ? true : false ), 
+					( $this->urlSEO == 'html' || $this->urlSEO == 2 ? true : false ), 
 					$onlyDefaultLanguage
 				);
 				

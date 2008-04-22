@@ -100,7 +100,7 @@ class tcms_account_provider extends tcms_main {
 	 * @param String $administer
 	 * @param String $charset
 	 */
-	public function __construct($administer, $charset, $tcmsTimeObj = null){
+	public function __construct($administer, $charset, $tcmsTimeObj = null) {
 		$this->m_administer = $administer;
 		$this->m_charset = $charset;
 		$this->_tcmsTime = $tcmsTimeObj;
@@ -126,7 +126,7 @@ class tcms_account_provider extends tcms_main {
 	 * Destructor
 	 * 
 	 */
-	public function __destruct(){
+	public function __destruct() {
 	}
 	
 	
@@ -197,14 +197,14 @@ class tcms_account_provider extends tcms_main {
 				
 				$tmpNickXML = $xmlUser->readSection('user', 'username');
 			}
-			else{
+			else {
 				$tmpNickXML = '';
 			}
 			
 			if($tmpNickXML == '') {
 				$nickXML = false;
 			}
-			else{
+			else {
 				$nickXML = $this->decodeText($tmpNickXML, '2', $this->m_charset);
 			}
 		}
@@ -315,7 +315,7 @@ class tcms_account_provider extends tcms_main {
 			return $userID;
 		}
 		
-		if(!$userFound){ return false; }
+		if(!$userFound) { return false; }
 	}
 	
 	
@@ -327,7 +327,7 @@ class tcms_account_provider extends tcms_main {
 	 * @param Boolean $forBackend = false
 	 * @return Array
 	 */
-	public function getUserInfo($session, $forBackend = false){
+	public function getUserInfo($session, $forBackend = false) {
 		if($this->db_choosenDB == 'xml') {
 			if($forBackend) {
 				$ws_path = 'session/'.$session;
@@ -420,8 +420,8 @@ class tcms_account_provider extends tcms_main {
 	 * @param String $id
 	 * @return tcms_dc_account
 	 */
-	public function getAccount($id){
-		if($this->db_choosenDB == 'xml'){
+	public function getAccount($id) {
+		if($this->db_choosenDB == 'xml') {
 			$xml = new xmlparser($this->m_administer.'/tcms_user/'.$id.'.xml', 'r');
 			
 			$wsID = $id;
@@ -474,7 +474,7 @@ class tcms_account_provider extends tcms_main {
 			if($wsLocation   == false) $wsLocation   = '';
 			if($wsHobby      == false) $wsHobby      = '';
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
 			$sqlCN = $sqlAL->connect(
 				$this->db_user, 
@@ -586,7 +586,7 @@ class tcms_account_provider extends tcms_main {
 	 * @param String $username
 	 * @return tcms_dc_account
 	 */
-	public function getAccountByUsername($username){
+	public function getAccountByUsername($username) {
 		$accDC = new tcms_dc_account();
 		
 		$id = $this->getUserID($username);
@@ -647,7 +647,7 @@ class tcms_account_provider extends tcms_main {
 	 * @return Boolean
 	 */
 	public function checkUsernameExists($username) {
-		if($this->db_choosenDB == 'xml'){
+		if($this->db_choosenDB == 'xml') {
 			$arr_userFiles = $this->_getPathContent(
 				$this->m_administer.'/tcms_user/'
 			);
@@ -698,6 +698,7 @@ class tcms_account_provider extends tcms_main {
 				." FROM ".$this->db_prefix."user"
 				." WHERE username='".$username."'"
 			);
+			
 			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
 			if($sqlNR > 0) {
@@ -735,7 +736,7 @@ class tcms_account_provider extends tcms_main {
 		$new_location  = $this->encodeText($acc->getLocation(), '2', $this->m_charset);
 		$new_hobby     = $this->encodeText($acc->getHobby(), '2', $this->m_charset);
 		
-		if($this->db_choosenDB == 'xml'){
+		if($this->db_choosenDB == 'xml') {
 			$xmluser = new xmlparser($this->m_administer.'/tcms_user/'.$acc->GetID().'.xml', 'w');
 			$xmluser->xmlDeclaration();
 			$xmluser->xmlSection('user');
@@ -782,7 +783,7 @@ class tcms_account_provider extends tcms_main {
 			
 			unset($xmluser);
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
 			$sqlCN = $sqlAL->connect(
 				$this->db_user, 
@@ -820,7 +821,7 @@ class tcms_account_provider extends tcms_main {
 				$sqlQR = $sqlAL->updateOne($this->db_prefix.'user', $newSQLData, $acc->getID());
 			}
 			else {
-				switch($this->db_choosenDB){
+				switch($this->db_choosenDB) {
 					case 'mysql':
 						$newSQLColumns = '`name`, `username`, `password`, `email`, `group`, `last_login`, '
 						.'`join_date`, `birthday`, `gender`, `occupation`, `homepage`, `icq`, `aim`, `yim`, '
@@ -868,7 +869,7 @@ class tcms_account_provider extends tcms_main {
 				$sqlQR = $sqlAL->createOne($this->db_prefix.'user', $newSQLColumns, $newSQLData, $acc->getID());
 				
 				// notebook
-				switch($this->db_choosenDB){
+				switch($this->db_choosenDB) {
 					case 'mysql':
 						$newSQLColumns = '`name`, `note`';
 						break;
@@ -898,8 +899,8 @@ class tcms_account_provider extends tcms_main {
 	 * @param String $id
 	 * @return tcms_dc_contact
 	 */
-	public function getContact($id){
-		if($this->db_choosenDB == 'xml'){
+	public function getContact($id) {
+		if($this->db_choosenDB == 'xml') {
 			$xml = new xmlparser($this->m_administer.'/tcms_contacts/'.$id.'.xml','r');
 			$tc_defcon   = $xml->readSection('contact', 'default_con');
 			$tc_pub      = $xml->readSection('contact', 'published');
@@ -916,18 +917,18 @@ class tcms_account_provider extends tcms_main {
 			$xml->flush();
 			unset($xml);
 			
-			//if($tc_defcon   == false){ $tc_defcon   = ''; }
-			//if($tc_pub      == false){ $tc_pub      = ''; }
-			if($tc_name     == false){ $tc_name     = ''; }
-			if($tc_position == false){ $tc_position = ''; }
-			if($tc_email    == false){ $tc_email    = ''; }
-			if($tc_street   == false){ $tc_street   = ''; }
-			if($tc_country  == false){ $tc_country  = ''; }
-			if($tc_state    == false){ $tc_state    = ''; }
-			if($tc_town     == false){ $tc_town     = ''; }
-			if($tc_postal   == false){ $tc_postal   = ''; }
-			if($tc_phone    == false){ $tc_phone    = ''; }
-			if($tc_fax      == false){ $tc_fax      = ''; }
+			//if($tc_defcon   == false) { $tc_defcon   = ''; }
+			//if($tc_pub      == false) { $tc_pub      = ''; }
+			if($tc_name     == false) { $tc_name     = ''; }
+			if($tc_position == false) { $tc_position = ''; }
+			if($tc_email    == false) { $tc_email    = ''; }
+			if($tc_street   == false) { $tc_street   = ''; }
+			if($tc_country  == false) { $tc_country  = ''; }
+			if($tc_state    == false) { $tc_state    = ''; }
+			if($tc_town     == false) { $tc_town     = ''; }
+			if($tc_postal   == false) { $tc_postal   = ''; }
+			if($tc_phone    == false) { $tc_phone    = ''; }
+			if($tc_fax      == false) { $tc_fax      = ''; }
 		}
 		else {
 			$sqlAL = new sqlAbstractionLayer($this->db_choosenDB, $this->_tcmsTime);
@@ -958,18 +959,18 @@ class tcms_account_provider extends tcms_main {
 			$sqlAL->freeResult($sqlQR);
 			unset($sqlAL);
 			
-			//if($tc_defcon   == NULL){ $tc_defcon   = ''; }
-			//if($tc_pub      == NULL){ $tc_pub      = ''; }
-			if($tc_name     == NULL){ $tc_name     = ''; }
-			if($tc_position == NULL){ $tc_position = ''; }
-			if($tc_email    == NULL){ $tc_email    = ''; }
-			if($tc_street   == NULL){ $tc_street   = ''; }
-			if($tc_country  == NULL){ $tc_country  = ''; }
-			if($tc_state    == NULL){ $tc_state    = ''; }
-			if($tc_town     == NULL){ $tc_town     = ''; }
-			if($tc_postal   == NULL){ $tc_postal   = ''; }
-			if($tc_phone    == NULL){ $tc_phone    = ''; }
-			if($tc_fax      == NULL){ $tc_fax      = ''; }
+			//if($tc_defcon   == NULL) { $tc_defcon   = ''; }
+			//if($tc_pub      == NULL) { $tc_pub      = ''; }
+			if($tc_name     == NULL) { $tc_name     = ''; }
+			if($tc_position == NULL) { $tc_position = ''; }
+			if($tc_email    == NULL) { $tc_email    = ''; }
+			if($tc_street   == NULL) { $tc_street   = ''; }
+			if($tc_country  == NULL) { $tc_country  = ''; }
+			if($tc_state    == NULL) { $tc_state    = ''; }
+			if($tc_town     == NULL) { $tc_town     = ''; }
+			if($tc_postal   == NULL) { $tc_postal   = ''; }
+			if($tc_phone    == NULL) { $tc_phone    = ''; }
+			if($tc_fax      == NULL) { $tc_fax      = ''; }
 		}
 		
 		$tc_name     = $this->decodeText($tc_name, '2', $this->m_charset);
