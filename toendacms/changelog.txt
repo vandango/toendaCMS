@@ -31,11 +31,27 @@ Developer Version
 	- 1.9.9 Beta 2
 	- 2.0.0 Stable
 
-Building Steps: 5000
+Building Steps: 5001
 
 
 
- Version 2.0.0 Development
+ Version 2.0.1 Stable
+-----------------------------------------------------------------
+
+ - bug #0000xxx: 
+
+ - security fixed: 
+
+ - bug fixed: 
+
+ - changed: 
+
+ - added: 
+
+
+
+
+ Version 2.0.0
 -----------------------------------------------------------------
 
  - bug #0000xxx: 
@@ -129,7 +145,7 @@ Building Steps: 3850
 
 
 
- 
+
  Version 1.6.1 Stable
 -----------------------------------------------------------------
 
