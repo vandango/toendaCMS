@@ -23,19 +23,19 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a search module.
  *
- * @version 0.7.4
+ * @version 0.7.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content-Modules
  */
 
 
-if(isset($_POST['option'])){ $option = $_POST['option']; }
-if(isset($_POST['searchword'])){ $searchword = $_POST['searchword']; }
+if(isset($_POST['option'])) { $option = $_POST['option']; }
+if(isset($_POST['searchword'])) { $searchword = $_POST['searchword']; }
 
 
 
-if($choosenDB == 'xml'){
+if($choosenDB == 'xml') {
 	$search_xml   = new xmlparser(_TCMS_PATH.'/tcms_global/sidebar.xml','r');
 	$search_title = $search_xml->readSection('side', 'search_title');
 	
@@ -44,7 +44,7 @@ if($choosenDB == 'xml'){
 	$search_xml->flush();
 	unset($search_xml);
 }
-else{
+else {
 	$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 	$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 	
@@ -91,7 +91,7 @@ echo '<div style="display:block; width:120px; float:left;">'
 .'</div>';
 
 if($choosenDB == 'xml') {
-	if(in_array('newsmanager', $arr_side_navi['url']) || in_array('newsmanager', $arr_top_navi['id'])){
+	if(in_array('newsmanager', $arr_side_navi['url']) || in_array('newsmanager', $arr_top_navi['id'])) {
 		echo '<div style="display:block; width:120px; float:left;">'
 		.'<label for="news">'
 		.'<input type="radio" style="border: 0px !important;" id="news" name="option" value="news"'.( $option == 'news' ? ' checked="checked"' : '' ).' />'
@@ -110,7 +110,7 @@ else {
 }
 
 if($choosenDB == 'xml') {
-	if(in_array('products', $arr_side_navi['url']) || in_array('products', $arr_top_navi['id'])){
+	if(in_array('products', $arr_side_navi['url']) || in_array('products', $arr_top_navi['id'])) {
 		echo '<div style="display:block;">'
 		.'<label for="pro">'
 		.'<input type="radio" style="border: 0px !important;" name="option" id="pro" value="pro"'.( $option == 'pro' ? ' checked="checked"' : '' ).' />'
@@ -129,7 +129,7 @@ else {
 }
 
 if($choosenDB == 'xml') {
-	if(in_array('download', $arr_side_navi['url']) || in_array('download', $arr_top_navi['id'])){
+	if(in_array('download', $arr_side_navi['url']) || in_array('download', $arr_top_navi['id'])) {
 		echo '<div style="display:block; width:120px; float:left;">'
 		.'<label for="down">'
 		.'<input type="radio" style="border: 0px !important;" id="down" name="option" value="down"'.( $option == 'down' ? ' checked="checked"' : '' ).' />'
@@ -148,7 +148,7 @@ else {
 }
 
 if($choosenDB == 'xml') {
-	if(in_array('imagegallery', $arr_side_navi['url']) || in_array('imagegallery', $arr_top_navi['id'])){
+	if(in_array('imagegallery', $arr_side_navi['url']) || in_array('imagegallery', $arr_top_navi['id'])) {
 		echo '<div style="display:block; width:120px; float:left;">'
 		.'<label for="img">'
 		.'<input type="radio" style="border: 0px !important;" id="img" name="option" value="img"'.( $option == 'img' ? ' checked="checked"' : '' ).' />'
@@ -167,7 +167,7 @@ else {
 }
 
 if($choosenDB == 'xml') {
-	if(in_array('knowledgebase', $arr_side_navi['url']) || in_array('knowledgebase', $arr_top_navi['id'])){
+	if(in_array('knowledgebase', $arr_side_navi['url']) || in_array('knowledgebase', $arr_top_navi['id'])) {
 		echo '<div style="display:block; width:130px; float:left;">'
 		.'<label for="faq"><input type="radio" style="border: 0px !important;" id="faq" name="option" value="faq"'.( $option == 'faq' ? ' checked="checked"' : '' ).' />'
 		.'&nbsp;'._TCMS_MENU_FAQ
@@ -220,7 +220,7 @@ else {
 		$tcms_config
 	);
 	
-	switch($option){
+	switch($option) {
 		case 'con':
 			// documents
 			echo '<div id="document_sr">'
@@ -541,33 +541,34 @@ else {
 
 
 
-function search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s){
+function search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s) {
 	global $tcms_db_prefix;
 	global $tcms_main;
 	global $tcms_administer_site;
 	global $lang;
+	global $tcms_file;
 	
-	if($choosenDB == 'xml'){
+	if($choosenDB == 'xml') {
 		$arr_searchfiles = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_products/', 'files');
 		
-		if(is_array($arr_searchfiles)){
-			foreach($arr_searchfiles as $skey => $sval){
+		if(is_array($arr_searchfiles)) {
+			foreach($arr_searchfiles as $skey => $sval) {
 				//echo $sval.'<br>';
 				$arr_searchfiles2 = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_products/'.$sval, 'files');
 				
-				if(is_array($arr_searchfiles2)){
-					foreach($arr_searchfiles2 as $skey2 => $sval2){
-						if($sval2 != 'folderinfo.xml'){
+				if(is_array($arr_searchfiles2)) {
+					foreach($arr_searchfiles2 as $skey2 => $sval2) {
+						if($sval2 != 'folderinfo.xml') {
 							$search_xml = new xmlparser(_TCMS_PATH.'/tcms_products/'.$sval.'/'.$sval2,'r');
 							
 							$acs = $xml->readSection('main', 'access');
 							
 							$canRead = $this->checkAccess($acs, $is_admin);
 							
-							if($canRead){
+							if($canRead) {
 								$out = $search_xml->search_value_front('info', 'product', $searchword);
 								
-								if($out != false){
+								if($out != false) {
 									$tit = $search_xml->readSection('info', 'product');
 									$desc = $search_xml->readSection('info', 'desc');
 									$category = $search_xml->readSection('info', 'category');
@@ -590,9 +591,9 @@ function search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, 
 									
 									$sc++;
 								}
-								else{
+								else {
 									$out = $search_xml->search_value_front('info', 'desc', $searchword);
-									if($out != false){
+									if($out != false) {
 										$tit = $search_xml->readSection('info', 'product');
 										$desc = $search_xml->readSection('info', 'desc');
 										$category = $search_xml->readSection('info', 'category');
@@ -623,11 +624,11 @@ function search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, 
 			}
 		}
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		switch($is_admin){
+		switch($is_admin) {
 			case 'Developer':
 			case 'Administrator':
 				$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
@@ -644,7 +645,7 @@ function search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, 
 				break;
 		}
 		
-		switch($choosenDB){
+		switch($choosenDB) {
 			case 'mysql':
 				$strSQL = "SELECT *"
 				." FROM ".$tcms_db_prefix."products"
@@ -676,17 +677,17 @@ function search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, 
 		$sqlQR = $sqlAL->query($strSQL);
 		$sqlNR = $sqlAL->getNumber($sqlQR);
 		
-		if($sqlNR != 0){
-			while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+		if($sqlNR != 0) {
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
 				$tit = $sqlObj->name;
 				$desc = $sqlObj->desc;
 				$category = $sqlObj->category;
 				$uid = $sqlObj->uid;
 				$sql_type = $sqlObj->sql_type;
 				
-				if($tit  == NULL){ $tit  = ''; }
-				if($desc == NULL){ $desc = ''; }
-				if($uid  == NULL){ $uid  = ''; }
+				if($tit  == NULL) { $tit  = ''; }
+				if($desc == NULL) { $desc = ''; }
+				if($uid  == NULL) { $uid  = ''; }
 				
 				$tit = $tcms_main->decodeText($tit, '2', $c_charset);
 				$desc = $tcms_main->decodeText($desc, '2', $c_charset);
@@ -741,20 +742,21 @@ function search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, 
 
 
 
-function search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s){
+function search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s) {
 	//$tcms_main = new tcms_main('data');
 	//$tcms_main->setGlobalFolder($seoFolder, $seoEnabled);
 	global $tcms_db_prefix;
 	global $tcms_main;
 	global $tcms_administer_site;
 	global $lang;
+	global $tcms_file;
 	
-	if($choosenDB == 'xml'){
+	if($choosenDB == 'xml') {
 		$arr_searchfiles = $tcms_file->getPathContent(_TCMS_PATH.'/files/', 'files');
 		
-		if(is_array($arr_searchfiles)){
-			foreach($arr_searchfiles as $skey => $sval){
-				if($sval != 'index.html'){
+		if(is_array($arr_searchfiles)) {
+			foreach($arr_searchfiles as $skey => $sval) {
+				if($sval != 'index.html') {
 					$xml = new xmlparser(_TCMS_PATH.'/files/'.$sval.'/info.xml','r');
 					$type = $xml->readSection('info', 'sql_type');
 					
@@ -762,23 +764,23 @@ function search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost,
 					
 					$canRead = $tcms_main->checkAccess($acs, $is_admin);
 					
-					if($canRead){
+					if($canRead) {
 						$out = $xml->search_value_front('info', 'title', $searchword);
 						
-						if($type == 'f'){
+						if($type == 'f') {
 							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 							.'id=download&amp;category='.$uid.'&amp;s='.$s
 							.( isset($lang) ? '&amp;lang='.$lang : '' );
 							$link = $tcms_main->urlConvertToSEO($link);
 						}
-						else{
+						else {
 							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 							.'id=download'.( $parent != null ? '&amp;category='.$parent : '' ).'&amp;s='.$s
 							.( isset($lang) ? '&amp;lang='.$lang : '' );
 							$link = $tcms_main->urlConvertToSEO($link);
 						}
 						
-						if($out != false){
+						if($out != false) {
 							$tit = $xml->readSection('info', 'name');
 							$desc = $xml->readSection('info', 'desc');
 							$category = $xml->readSection('info', 'category');
@@ -796,9 +798,9 @@ function search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost,
 							
 							$sc++;
 						}
-						else{
+						else {
 							$out = $xml->search_value_front('info', 'desc', $searchword);
-							if($out != false){
+							if($out != false) {
 								$tit = $xml->readSection('info', 'name');
 								$desc = $xml->readSection('info', 'desc');
 								$category = $xml->readSection('info', 'category');
@@ -825,11 +827,11 @@ function search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost,
 			}
 		}
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		switch($is_admin){
+		switch($is_admin) {
 			case 'Developer':
 			case 'Administrator':
 				$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
@@ -846,7 +848,7 @@ function search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost,
 				break;
 		}
 		
-		switch($choosenDB){
+		switch($choosenDB) {
 			case 'mysql':
 				$strSQL = "SELECT *"
 				." FROM ".$tcms_db_prefix."downloads"
@@ -881,8 +883,8 @@ function search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost,
 		$sqlQR = $sqlAL->query($strSQL);
 		$sqlNR = $sqlAL->getNumber($sqlQR);
 		
-		if($sqlNR != 0){
-			while($sqlARR = $sqlAL->fetchArray($sqlQR)){
+		if($sqlNR != 0) {
+			while($sqlARR = $sqlAL->fetchArray($sqlQR)) {
 				$tit = $sqlARR['name'];
 				$desc = $sqlARR['desc'];
 				$category = $sqlARR['category'];
@@ -890,9 +892,9 @@ function search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost,
 				$type = $sqlARR['type'];
 				$parent = $sqlARR['parent'];
 				
-				if($tit  == NULL){ $tit  = ''; }
-				if($desc == NULL){ $desc = ''; }
-				if($uid  == NULL){ $uid  = ''; }
+				if($tit  == NULL) { $tit  = ''; }
+				if($desc == NULL) { $desc = ''; }
+				if($uid  == NULL) { $uid  = ''; }
 				
 				$tit = $tcms_main->decodeText($tit, '2', $c_charset);
 				$desc = $tcms_main->decodeText($desc, '2', $c_charset);
@@ -901,13 +903,13 @@ function search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost,
 				$desc = $toendaScript->doParse();
 				$desc = $toendaScript->checkSEO($desc, $imagePath);
 				
-				if($type == 'f'){
+				if($type == 'f') {
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=download&amp;category='.$uid.'&amp;s='.$s
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
 					$link = $tcms_main->urlConvertToSEO($link);
 				}
-				else{
+				else {
 					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 					.'id=download'.( $parent != null ? '&amp;category='.$parent : '' ).'&amp;s='.$s
 					.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -931,28 +933,29 @@ function search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost,
 
 
 
-function search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s){
+function search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s) {
 	//$tcms_main = new tcms_main('data');
 	//$tcms_main->setGlobalFolder($seoFolder, $seoEnabled);
 	global $tcms_db_prefix;
 	global $tcms_main;
 	global $tcms_administer_site;
 	global $lang;
+	global $tcms_file;
 	
-	if($choosenDB == 'xml'){
+	if($choosenDB == 'xml') {
 		$arr_searchfiles = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_imagegallery/', 'files');
 		
-		if(is_array($arr_searchfiles)){
-			foreach($arr_searchfiles as $skey => $sval){
+		if(is_array($arr_searchfiles)) {
+			foreach($arr_searchfiles as $skey => $sval) {
 				$arr_searchfiles2 = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_imagegallery/'.$sval, 'files');
 				//echo $sval;
-				if(is_array($arr_searchfiles2)){
-					foreach($arr_searchfiles2 as $skey2 => $sval2){
+				if(is_array($arr_searchfiles2)) {
+					foreach($arr_searchfiles2 as $skey2 => $sval2) {
 						$search_xml = new xmlparser(_TCMS_PATH.'/tcms_imagegallery/'.$sval.'/'.$sval2,'r');
 						
 						$tit = substr($sval2, 0, strpos($sval2, '.xml'));
 						
-						if($tit == $searchword){
+						if($tit == $searchword) {
 							$desc = $search_xml->readSection('image', 'text');
 							$category = $sval;
 							
@@ -978,11 +981,11 @@ function search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $s
 			}
 		}
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		switch($choosenDB){
+		switch($choosenDB) {
 			case 'mysql':
 				$strSQL = "SELECT *"
 				." FROM ".$tcms_db_prefix."imagegallery"
@@ -1008,16 +1011,16 @@ function search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $s
 		$sqlQR = $sqlAL->query($strSQL);
 		$sqlNR = $sqlAL->getNumber($sqlQR);
 		
-		if($sqlNR != 0){
-			while($sqlARR = $sqlAL->fetchArray($sqlQR)){
+		if($sqlNR != 0) {
+			while($sqlARR = $sqlAL->fetchArray($sqlQR)) {
 				$tit = $sqlARR['image'];
 				$desc = $sqlARR['text'];
 				$category = $sqlARR['album'];
 				$uid = $sqlARR['uid'];
 				
-				if($tit  == NULL){ $tit  = ''; }
-				if($desc == NULL){ $desc = ''; }
-				if($uid  == NULL){ $uid  = ''; }
+				if($tit  == NULL) { $tit  = ''; }
+				if($desc == NULL) { $desc = ''; }
+				if($uid  == NULL) { $uid  = ''; }
 				
 				$tit = $tcms_main->decodeText($tit, '2', $c_charset);
 				$desc = $tcms_main->decodeText($desc, '2', $c_charset);
@@ -1038,20 +1041,20 @@ function search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $s
 				$sc++;
 			}
 		}
-		else{
+		else {
 			$sqlQR = $sqlAL->search($tcms_db_prefix.'imagegallery', 'text', $searchword);
 			$sqlNR = $sqlAL->getNumber($sqlQR);
 			
-			if($sqlNR != 0){
-				while($sqlARR = $sqlAL->fetchArray($sqlQR)){
+			if($sqlNR != 0) {
+				while($sqlARR = $sqlAL->fetchArray($sqlQR)) {
 					$tit = $sqlARR['image'];
 					$desc = $sqlARR['text'];
 					$category = $sqlARR['album'];
 					$uid = $sqlARR['uid'];
 					
-					if($tit  == NULL){ $tit  = ''; }
-					if($desc == NULL){ $desc = ''; }
-					if($uid  == NULL){ $uid  = ''; }
+					if($tit  == NULL) { $tit  = ''; }
+					if($desc == NULL) { $desc = ''; }
+					if($uid  == NULL) { $uid  = ''; }
 					
 					$tit = $tcms_main->decodeText($tit, '2', $c_charset);
 					$desc = $tcms_main->decodeText($desc, '2', $c_charset);
@@ -1083,27 +1086,28 @@ function search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $s
 
 
 
-function search_faqs($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s){
+function search_faqs($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s) {
 	global $tcms_db_prefix;
 	global $tcms_main;
 	global $tcms_administer_site;
 	global $lang;
+	global $tcms_file;
 	
-	if($choosenDB == 'xml'){
+	if($choosenDB == 'xml') {
 		$arr_searchfiles = $tcms_file->getPathContent($tcms_main->getAdministerSite().'/tcms_knowledgebase/', 'files');
 		
-		if(is_array($arr_searchfiles)){
-			foreach($arr_searchfiles as $skey => $sval){
+		if(is_array($arr_searchfiles)) {
+			foreach($arr_searchfiles as $skey => $sval) {
 				$xml = new xmlparser($tcms_main->getAdministerSite().'/tcms_knowledgebase/'.$sval,'r');
 				
 				$found = false;
 				
 				$out = $xml->search_value_front('faq', 'content', $searchword);
 				
-				if($out == false){
+				if($out == false) {
 					$out = $xml->search_value_front('faq', 'subtitle', $searchword);
 					
-					if($out == false){
+					if($out == false) {
 						$out = $xml->search_value_front('faq', 'title', $searchword);
 						
 						if($out == false) $found = false;
@@ -1113,15 +1117,15 @@ function search_faqs($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 				}
 				else $found = true;
 					
-				if($found){
+				if($found) {
 					$acs = $xml->readSection('faq', 'access');
 					
 					/*
 						check access
 					*/
-					if($acs != 'Public'){
-						if($check_session){
-							switch($acs){
+					if($acs != 'Public') {
+						if($check_session) {
+							switch($acs) {
 								case 'Protected':
 									if($is_admin == 'User' 
 									|| $is_admin == 'Administrator' 
@@ -1146,11 +1150,11 @@ function search_faqs($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 									break;
 							}
 						}
-						else{ $show_this_category = false; }
+						else { $show_this_category = false; }
 					}
-					else{ $show_this_category = true; }
+					else { $show_this_category = true; }
 					
-					if($show_this_category){
+					if($show_this_category) {
 						$tit = $xml->readSection('faq', 'title');
 						$subtit = $xml->readSection('faq', 'subtitle');
 						$category = $xml->readSection('faq', 'category');
@@ -1174,10 +1178,10 @@ function search_faqs($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 			}
 		}
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
-		switch($is_admin){
+		switch($is_admin) {
 			case 'Developer':
 			case 'Administrator':
 				$strAdd = " OR access = 'Private' OR access = 'Protected' ) ";
@@ -1194,7 +1198,7 @@ function search_faqs($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 				break;
 		}
 		
-		switch($choosenDB){
+		switch($choosenDB) {
 			case 'mysql':
 				$strSQL = "SELECT *"
 				." FROM ".$tcms_db_prefix."knowledgebase"
@@ -1230,8 +1234,8 @@ function search_faqs($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 		$sqlQR = $sqlAL->search($tcms_db_prefix.'knowledgebase', 'content', $searchword);
 		$sqlNR = $sqlAL->getNumber($sqlQR);
 		
-		if($sqlNR != 0){
-			while($sqlARR = $sqlAL->fetchArray($sqlQR)){
+		if($sqlNR != 0) {
+			while($sqlARR = $sqlAL->fetchArray($sqlQR)) {
 				$tit = $sqlARR['title'];
 				$subtit = $sqlARR['subtitle'];
 				$desc = $sqlARR['content'];
@@ -1239,12 +1243,12 @@ function search_faqs($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 				$cat = $sqlARR['category'];
 				$type = $sqlARR['type'];
 				
-				if($tit     == NULL){ $tit     = ''; }
-				if($desc    == NULL){ $desc    = ''; }
-				if($subtit  == NULL){ $subtit  = ''; }
-				if($uid     == NULL){ $uid     = ''; }
-				if($cat     == NULL){ $cat     = ''; }
-				if($type    == NULL){ $type    = ''; }
+				if($tit     == NULL) { $tit     = ''; }
+				if($desc    == NULL) { $desc    = ''; }
+				if($subtit  == NULL) { $subtit  = ''; }
+				if($uid     == NULL) { $uid     = ''; }
+				if($cat     == NULL) { $cat     = ''; }
+				if($type    == NULL) { $type    = ''; }
 				
 				$tit = $tcms_main->decodeText($tit, '2', $c_charset);
 				$subtit = $tcms_main->decodeText($subtit, '2', $c_charset);
@@ -1256,7 +1260,7 @@ function search_faqs($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sql
 				
 				$desc = substr($desc, 0, 200).' ...';
 				
-				switch($type){
+				switch($type) {
 					case 'c':
 						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 						.'id=knowledgebase&amp;s='.$s.'&amp;cmd=list'.( $cat != '' ? '&amp;category='.$cat : '' )

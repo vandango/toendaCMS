@@ -20,7 +20,7 @@
  *
  * This file is used for some needed functions.
  *
- * @version 0.1.5
+ * @version 0.1.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -125,6 +125,14 @@ function updateLanguageForXML() {
 		rename(
 			_TCMS_PATH.'/tcms_global/contactform.xml', 
 			_TCMS_PATH.'/tcms_global/contactform.'.$plang.'.xml'
+		);
+	}
+	
+	// products
+	if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/products.xml')) {
+		rename(
+			_TCMS_PATH.'/tcms_global/products.xml', 
+			_TCMS_PATH.'/tcms_global/products.'.$plang.'.xml'
 		);
 	}
 	

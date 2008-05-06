@@ -20,15 +20,15 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-if(isset($_GET['reg_login'])){ $reg_login = $_GET['reg_login']; }
+if(isset($_GET['reg_login'])) { $reg_login = $_GET['reg_login']; }
 
-if(isset($_POST['news'])){ $news = $_POST['news']; }
-if(isset($_POST['id'])){ $id = $_POST['id']; }
-if(isset($_POST['s'])){ $s = $_POST['s']; }
-if(isset($_POST['reg_login'])){ $reg_login = $_POST['reg_login']; }
-if(isset($_POST['reg_user'])){ $reg_user = $_POST['reg_user']; }
-if(isset($_POST['reg_pass'])){ $reg_pass = $_POST['reg_pass']; }
-if(isset($_POST['reg_cookie'])){ $reg_cookie = $_POST['reg_cookie']; }
+if(isset($_POST['news'])) { $news = $_POST['news']; }
+if(isset($_POST['id'])) { $id = $_POST['id']; }
+if(isset($_POST['s'])) { $s = $_POST['s']; }
+if(isset($_POST['reg_login'])) { $reg_login = $_POST['reg_login']; }
+if(isset($_POST['reg_user'])) { $reg_user = $_POST['reg_user']; }
+if(isset($_POST['reg_pass'])) { $reg_pass = $_POST['reg_pass']; }
+if(isset($_POST['reg_cookie'])) { $reg_cookie = $_POST['reg_cookie']; }
 
 
 /**
@@ -37,14 +37,14 @@ if(isset($_POST['reg_cookie'])){ $reg_cookie = $_POST['reg_cookie']; }
  * This module provides the login functionality
  * and a login formular.
  *
- * @version 0.5.5
+ * @version 0.5.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
  */
 
 
-if(!isset($reg_login)){ $reg_login = NULL; }
+if(!isset($reg_login)) { $reg_login = NULL; }
 
 
 
@@ -70,7 +70,7 @@ if($use_login == 1) {
 			.'</span></div>'
 			.'<br />';
 		}
-		else{
+		else {
 			if($dcSE->getShowLoginTitle()) {
 				echo $tcms_html->subTitle($dcSE->getLoginTitle());
 			}
@@ -109,7 +109,7 @@ if($use_login == 1) {
 			.'<a href="'.$link.'">'._LOGIN_FORGOTPW.'</a>'
 			.'</span>';
 			
-			if($dcSE->getLoginUser()){
+			if($dcSE->getLoginUser()) {
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id=register&amp;s='.$s
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -122,7 +122,7 @@ if($use_login == 1) {
 				.'</span>';
 			}
 			
-			if($dcSE->getShowMemberlist()){
+			if($dcSE->getShowMemberlist()) {
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 				.'id=profile&amp;s='.$s.'&amp;action=list'
 				.( isset($lang) ? '&amp;lang='.$lang : '' );
@@ -185,13 +185,15 @@ if($use_login == 1) {
 	// LOGOUT NOW
 	// -----------------------------------
 	
-	if($reg_login == 'logout'){
+	if($reg_login == 'logout') {
 		$tcms_auth->doLogout($session);
 		
 		$link = '?s='.$s.( isset($lang) ? '&lang='.$lang : '' );
 		$link = $tcms_main->urlConvertToSEO($link);
 		
-		echo '<script>document.location.href=\''.$link.'\';</script>';
+		echo '<script>'
+		.'document.location.href=\''.$link.'\';'
+		.'</script>';
 	}
 
 	
