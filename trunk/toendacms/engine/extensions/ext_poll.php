@@ -30,38 +30,38 @@ defined('_TCMS_VALID') or die('Restricted access');
  */
 
 
-if(isset($_GET['paction'])){ $paction = $_GET['paction']; }
-if(isset($_GET['ps'])){ $ps = $_GET['ps']; }
-if(isset($_GET['vote'])){ $vote = $_GET['vote']; }
-if(isset($_GET['current_pollall'])){ $current_pollall = $_GET['current_pollall']; }
+if(isset($_GET['paction'])) { $paction = $_GET['paction']; }
+if(isset($_GET['ps'])) { $ps = $_GET['ps']; }
+if(isset($_GET['vote'])) { $vote = $_GET['vote']; }
+if(isset($_GET['current_pollall'])) { $current_pollall = $_GET['current_pollall']; }
 
-if(isset($_POST['a_poll'])){ $a_poll = $_POST['a_poll']; }
-if(isset($_POST['a_ip'])){ $a_ip = $_POST['a_ip']; }
-if(isset($_POST['a_make'])){ $a_make = $_POST['a_make']; }
-if(isset($_POST['answer'])){ $answer = $_POST['answer']; }
-
-
+if(isset($_POST['a_poll'])) { $a_poll = $_POST['a_poll']; }
+if(isset($_POST['a_ip'])) { $a_ip = $_POST['a_ip']; }
+if(isset($_POST['a_make'])) { $a_make = $_POST['a_make']; }
+if(isset($_POST['answer'])) { $answer = $_POST['answer']; }
 
 
 
 
-if(!isset($a_ws_cip)){ $a_ws_cip = false; }
-if(!isset($a_make)){ $a_make = ''; }
+
+
+if(!isset($a_ws_cip)) { $a_ws_cip = false; }
+if(!isset($a_make)) { $a_make = ''; }
 
 
 
-if($choosenDB == 'xml'){
+if($choosenDB == 'xml') {
 	$poll_xml = new xmlparser(_TCMS_PATH.'/tcms_global/poll.xml','r');
 	$title_ext_poll = $poll_xml->readSection('poll', 'poll_title');
 	$title_ext_allpoll = $poll_xml->readSection('poll', 'allpoll_title');
 	$mw_poll           = $poll_xml->readSection('poll', 'poll_main_width');
 }
-else{
+else {
 	$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 	$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 	
 	$sqlQR = $sqlAL->getOne($tcms_db_prefix.'poll_config', 'poll');
-	$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+	$sqlARR = $sqlAL->fetchArray($sqlQR);
 	
 	$title_ext_poll    = $sqlARR['poll_title'];
 	$title_ext_allpoll = $sqlARR['allpoll_title'];
@@ -94,9 +94,9 @@ else {
 	$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 	$sqlQR = $sqlAL->getAll($tcms_db_prefix.'polls');
 	$count = 0;
-	while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+	while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
 		$arr_apolls[$count] = $sqlObj->uid;
-		if($arr_apolls[$count] == NULL){ $arr_apolls[$count] = ''; }
+		if($arr_apolls[$count] == NULL) { $arr_apolls[$count] = ''; }
 		$count++;
 	}
 	$sqlAL->freeResult($sqlQR);
@@ -107,7 +107,7 @@ else {
 
 
 
-if(is_array($arr_apolls)){
+if(is_array($arr_apolls)) {
 	array_multisort($arr_apolls, SORT_ASC, SORT_NUMERIC);
 	
 	
@@ -128,9 +128,9 @@ if(is_array($arr_apolls)){
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		$sqlQR = $sqlAL->getAll($tcms_db_prefix."poll_items WHERE poll_uid='".$current_pollall_tag."'");
 		$count = 0;
-		while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+		while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
 			$arr_voteall[$count] = $sqlObj->ip;
-			if($arr_voteall[$count] == NULL){ $arr_voteall[$count] = ''; }
+			if($arr_voteall[$count] == NULL) { $arr_voteall[$count] = ''; }
 			$count++;
 		}
 		$sqlAL->freeResult($sqlQR);
@@ -144,17 +144,17 @@ if(is_array($arr_apolls)){
 	$paction = 'poll';
 	$a_ws_cip = false;
 	
-	if($choosenDB == 'xml'){ $your_ip2 = $a_your_ip.'.xml'; }
-	else{ $your_ip2 = $a_your_ip; }
+	if($choosenDB == 'xml') { $your_ip2 = $a_your_ip.'.xml'; }
+	else { $your_ip2 = $a_your_ip; }
 	
-	if(is_array($arr_voteall)){
-		if(in_array($your_ip2, $arr_voteall)){
+	if(is_array($arr_voteall)) {
+		if(in_array($your_ip2, $arr_voteall)) {
 			$paction = 'result';
 			$a_ws_cip = true;
 		}
 	}
 	
-	if(isset($ps) && $ps == 'result'){
+	if(isset($ps) && $ps == 'result') {
 		$paction = 'result';
 		$a_ws_cip = true;
 		$current_pollall_tag = $vote;
@@ -164,7 +164,9 @@ if(is_array($arr_apolls)){
 
 
 
-echo tcms_html::contentheading($title_ext_poll).'<br />';
+echo $tcms_html->contentModuleHeader(
+	$title_ext_poll
+);
 
 
 /*********************
@@ -173,48 +175,48 @@ echo tcms_html::contentheading($title_ext_poll).'<br />';
 *
 */
 
-if($paction == 'poll'){
-	if($choosenDB == 'xml'){
-		if(strpos($current_pollall, '.xml')){
+if($paction == 'poll') {
+	if($choosenDB == 'xml') {
+		if(strpos($current_pollall, '.xml')) {
 			$tmp_current_pollall = $current_pollall;
 		}
-		else{
+		else {
 			$tmp_current_pollall = $current_pollall.'.xml';
 		}
 		
 		$vote_xml = new xmlparser(_TCMS_PATH.'/tcms_polls/'.$tmp_current_pollall, 'r');
 		$poll_subtitle  = $vote_xml->readSection('poll', 'title');
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		$sqlQR = $sqlAL->getOne($tcms_db_prefix.'polls', $current_pollall);
-		$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+		$sqlARR = $sqlAL->fetchArray($sqlQR);
 		$poll_subtitle  = $sqlARR['title'];
 	}
 	
 	$poll_subtitle = $tcms_main->decodeText($poll_subtitle, '2', $c_charset);
 	
-	echo tcms_html::text($poll_subtitle, 'left');
+	echo $tcms_html->text($poll_subtitle);
 	
 	echo '<form name="selectform" paction="?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=polls&amp;s='.$s.'" method="post">';
 	echo '<div align="left" style="width: '.$mw_poll.'px;">';
 	
 	$qc = 1;
-	if($choosenDB == 'xml'){
+	if($choosenDB == 'xml') {
 		do{
 			$question = $vote_xml->readSection('poll', 'question'.$qc);
-			if($question != '__END_POLL_QUESTION__'){
+			if($question != '__END_POLL_QUESTION__') {
 				$question = $tcms_main->decodeText($question, '2', $c_charset);
 				echo tcms_html::poll_sheet($question, $qc, $mw_poll);
 			}
 			$qc++;
 		}while($question != '__END_POLL_QUESTION__');
 	}
-	else{
+	else {
 		do{
 			$question = $sqlARR['question'.$qc];
-			if($question != NULL){
+			if($question != NULL) {
 				$question = $tcms_main->decodeText($question, '2', $c_charset);
 				echo tcms_html::poll_sheet($question, $qc, $mw_poll);
 			}
@@ -252,8 +254,8 @@ if($paction == 'poll'){
 *
 */
 
-if($paction == 'result'){
-	if($choosenDB == 'xml'){
+if($paction == 'result') {
+	if($choosenDB == 'xml') {
 		$vote_xml = new xmlparser(_TCMS_PATH.'/tcms_polls/'.$current_pollall_tag.'.xml', 'r');
 		$poll_subtitle = $vote_xml->readSection('poll', 'title');
 		
@@ -277,11 +279,11 @@ if($paction == 'result'){
 		$aa_number         = $arrPollCalc['amount'];
 		$poll_answers      = $arrPollCalc['amounta'];
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		$sqlQRPoll = $sqlAL->getOne($tcms_db_prefix.'polls', $current_pollall_tag);
-		$sqlARR = $sqlAL->sqlFetchArray($sqlQRPoll);
+		$sqlARR = $sqlAL->fetchArray($sqlQRPoll);
 		$poll_subtitle  = $sqlARR['title'];
 		$sqlAL->freeResult($sqlQRPoll);
 		
@@ -310,7 +312,7 @@ if($paction == 'result'){
 	echo $tcms_html->tableHead();
 	echo $tcms_html->pollResultTableBreakLine('#eee');
 	
-	for($sp = 1; $sp < $qc-1; $sp++){
+	for($sp = 1; $sp < $qc-1; $sp++) {
 		
 		// WHICH BAR USE
 		$bar_sp = $sp;
@@ -325,7 +327,8 @@ if($paction == 'result'){
 		//$tb_width = 300;
 		//$mw_poll;
 		
-		if($arr_count_answers[$sp] > 0){
+		if($arr_count_answers[$sp] > 0
+		&& $a_number > 0) {
 			// BAR WIDTH
 			$bar_width = ($arr_count_answers[$sp] / $a_number * $tb_width) - 4;
 			
@@ -338,7 +341,7 @@ if($paction == 'result'){
 			$ws_percent = (100 / $a_number) * $arr_count_answers[$sp];
 			$ws_percent = substr($ws_percent, 0, 4);
 		}
-		else{
+		else {
 			$poll_bar = '&nbsp;';
 			$bar_place = '&nbsp;';
 			$ws_percent = 0;
@@ -346,10 +349,10 @@ if($paction == 'result'){
 		
 		if($arr_count_answers[$sp] != '' 
 		|| isset($arr_count_answers[$sp]) 
-		&& !empty($arr_count_answers[$sp])){
+		&& !empty($arr_count_answers[$sp])) {
 			$counted_answers = $arr_count_answers[$sp];
 		}
-		else{
+		else {
 			$counted_answers = 0;
 		}
 		
@@ -387,46 +390,48 @@ if(is_array($arr_allpolls)) {
 	array_multisort($arr_allpolls, SORT_DESC, SORT_NUMERIC);
 	
 	
-	echo '<br /><br />'.tcms_html::contentheading($title_ext_allpoll, 'left').'<br />';
+	echo '<br /><br />'.$tcms_html->contentTitle($title_ext_allpoll, 'left').'<br />';
 	
-	foreach($arr_allpolls as $key => $value) {
-		//$arr_vote = $tcms_main->l-o-a-d-_-x-m-l-_-f-i-l-e-s(
-		//'data/polls/'.substr($current_poll, 0, 8), 'files');
-		//echo $value;
-		if($choosenDB == 'xml'){
-			$ap_xml = new xmlparser(_TCMS_PATH.'/tcms_polls/'.$value, 'r');
-			$poll_subtitle = $ap_xml->readSection('poll', 'title');
+	if($tcms_main->isArray($arr_allpolls)) {
+		foreach($arr_allpolls as $key => $value) {
+			//$arr_vote = $tcms_main->l-o-a-d-_-x-m-l-_-f-i-l-e-s(
+			//'data/polls/'.substr($current_poll, 0, 8), 'files');
+			//echo $value;
+			if($choosenDB == 'xml') {
+				$ap_xml = new xmlparser(_TCMS_PATH.'/tcms_polls/'.$value, 'r');
+				$poll_subtitle = $ap_xml->readSection('poll', 'title');
+			}
+			else {
+				$sqlAL = new sqlAbstractionLayer(
+					$choosenDB, 
+					$tcms_time
+				);
+				
+				$sqlCN = $sqlAL->connect(
+					$sqlUser, 
+					$sqlPass, 
+					$sqlHost, 
+					$sqlDB, 
+					$sqlPort
+				);
+				
+				$sqlQR = $sqlAL->getOne($tcms_db_prefix.'polls', $value);
+				$sqlObj = $sqlAL->fetchObject($sqlQR);
+				$poll_subtitle  = $sqlObj->title;
+				
+				$sqlAL->freeResult($sqlQR);
+				unset($sqlAL);
+			}
+			
+			$poll_subtitle = $tcms_main->decodeText($poll_subtitle, '2', $c_charset);
+			
+			$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+			.'id=polls&amp;s='.$s.'&amp;current_pollall='.substr($value, 0, 32)
+			.( isset($lang) ? '&amp;lang='.$lang : '' );
+			$link = $tcms_main->urlConvertToSEO($link);
+			
+			echo $tcms_html->text('<a href="'.$link.'">'.$poll_subtitle.'</a><br />', 'left');
 		}
-		else{
-			$sqlAL = new sqlAbstractionLayer(
-				$choosenDB, 
-				$tcms_time
-			);
-			
-			$sqlCN = $sqlAL->connect(
-				$sqlUser, 
-				$sqlPass, 
-				$sqlHost, 
-				$sqlDB, 
-				$sqlPort
-			);
-			
-			$sqlQR = $sqlAL->getOne($tcms_db_prefix.'polls', $value);
-			$sqlObj = $sqlAL->fetchObject($sqlQR);
-			$poll_subtitle  = $sqlObj->title;
-			
-			$sqlAL->freeResult($sqlQR);
-			unset($sqlAL);
-		}
-		
-		$poll_subtitle = $tcms_main->decodeText($poll_subtitle, '2', $c_charset);
-		
-		$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-		.'id=polls&amp;s='.$s.'&amp;current_pollall='.substr($value, 0, 32)
-		.( isset($lang) ? '&amp;lang='.$lang : '' );
-		$link = $tcms_main->urlConvertToSEO($link);
-		
-		echo $tcms_html->text('<a href="'.$link.'">'.$poll_subtitle.'</a><br />', 'left');
 	}
 }
 
@@ -494,7 +499,7 @@ if($a_make == 'vote') {
 				$sqlPort
 			);
 			
-			switch($choosenDB){
+			switch($choosenDB) {
 				case 'mysql':
 					$newSQLColumns = '`poll_uid`, `ip`, `domain`, `answer`';
 					break;
