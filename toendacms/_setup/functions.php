@@ -20,7 +20,7 @@
  *
  * This file is used for some needed functions.
  *
- * @version 0.1.2
+ * @version 0.1.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -88,6 +88,7 @@ function getOS($osString){
  */
 function updateLanguageForXML() {
 	global $tcms_main;
+	global $tcms_file;
 	
 	// update to new multi-language
 	$layout_xml = new xmlparser(_TCMS_PATH.'/tcms_global/var.xml','r');
