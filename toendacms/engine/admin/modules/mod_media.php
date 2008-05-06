@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a media manager.
  *
- * @version 0.8.5
+ * @version 0.8.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -137,10 +137,10 @@ if($todo != 'upload' && $todo != 'deleteImage') {
 	echo '<tr><td class="tcms_padding_mini">'
 	.'<select class="tcms_select" name="directory" id="directory">'
 	.'<option value="'.( $path == '' ? '__DEFAULT__' : $path ).'">'.( $path == '' ? _TCMS_BASE_DIRECTORY : $path ).'</option>';
-
+	
 	$arr_path = $tcms_file->getPathContent(
-	_TCMS_PATH.'/images/'.$mainPath.'/'.$path,
-	true
+		_TCMS_PATH.'/images/'.$mainPath.'/'.$path,
+		true
 	);
 
 	if($tcms_main->isArray($arr_path)) {
@@ -240,34 +240,34 @@ if($todo != 'upload' && $todo != 'deleteImage') {
 			$chkPath = _TCMS_PATH.'/images/'
 			.$mainPath
 			.'/'.( $path == '' ? '' : $path.'/' ).$dvalue;
-
-			if(is_dir(trim(($chkPath)))) {
+			
+			if($tcms_file->checkIsDir(trim(($chkPath)))) {
 				$formStart = '<form id="'.$dvalue.'" name="'.$dvalue.'"'
 				.' action="admin.php?id_user='.$id_user.'&amp;site=mod_media" method="post">'
 				.'<input name="todo" type="hidden" value="del_img" />'
 				.'<input name="action" type="hidden" value="'.trim($action).'" />'
 				.'<input name="delimg" type="hidden" value="'.$dvalue.'" />';
-
+				
 				$formEnd = '</form>';
-
+				
 				if($tcms_config->getMediamanagerItemView() == 'list') {
 					$bgkey++;
-
+					
 					if(is_integer($bgkey / 2)) {
 						$ws_color = $arr_color[0];
 					}
 					else {
 						$ws_color = $arr_color[1];
 					}
-
+					
 					$overlibText = '<strong>'._GALLERY_IMGTITLE.':</strong>'
 					.'<br />'.$dvalue;
-
+					
 					echo '<tr height="30" id="row'.$count.'" '
 					.'style="background: '.$ws_color.';" '
 					.'onMouseOver="wxlBgCol(\'row'.$count.'\',\'#ececec\')" '
 					.'onMouseOut="wxlBgCol(\'row'.$count.'\',\''.$ws_color.'\')">';
-
+					
 					// name
 					echo '<td align="left" class="tcms_db_2">'
 					.'<a onmouseover="return overlib(\''.$overlibText.'\', CAPTION, \''
@@ -281,21 +281,23 @@ if($todo != 'upload' && $todo != 'deleteImage') {
 					.'</div>'
 					.'</a>'
 					.'</td>';
-
+					
 					// date
 					echo '<td class="tcms_db_2">'
 					.$tcms_file->getFileCreateTime(
-					_TCMS_PATH.'/images/'.$mainPath.'/'.( $path == '' ? '' : $path.'/' ).$dvalue
+						//_TCMS_PATH.'/images/'.$mainPath.'/'.( $path == '' ? '' : $path.'/' ).$dvalue
+						$chkPath
 					)
 					.'</td>';
-
+					
 					// size
 					echo '<td class="tcms_db_2">'
 					.$tcms_file->getDirectorySizeString(
-					_TCMS_PATH.'/images/'.$mainPath.'/'.( $path == '' ? '' : $path.'/' ).$dvalue
+						//_TCMS_PATH.'/images/'.$mainPath.'/'.( $path == '' ? '' : $path.'/' ).$dvalue
+						$chkPath
 					)
 					.'</td>';
-
+					
 					// function
 					echo '<td class="tcms_db_2" style="text-align: middle;" align="right" valign="middle">'
 					.$formStart
@@ -309,11 +311,10 @@ if($todo != 'upload' && $todo != 'deleteImage') {
 					.'</a>&nbsp;'
 					.$formEnd
 					.'</td>';
-
+					
 					echo '</tr>';
-
-
-
+					
+					
 					/*
 
 					echo '<div style="width: 100%; height: 30px; display: block; '
@@ -415,7 +416,7 @@ if($todo != 'upload' && $todo != 'deleteImage') {
 				if($tcms_main->isImage($dvalue, false)) {
 					//if(!preg_match('/.mp3/i', strtolower($dvalue))) {
 					if(trim($action) == 'image') {
-						if(!file_exists(_TCMS_PATH.'/images/'.$thumbPath.'/'.$relPath.$relPref.$dvalue)) {
+						if(!$tcms_file->checkFileExist(_TCMS_PATH.'/images/'.$thumbPath.'/'.$relPath.$relPref.$dvalue)) {
 							$tcms_gd->createThumbnailExt(
 							$relPref,
 							_TCMS_PATH.'/images/Image/'.$relPath,
@@ -426,7 +427,7 @@ if($todo != 'upload' && $todo != 'deleteImage') {
 						}
 					}
 					else {
-						if(!file_exists(_TCMS_PATH.'/images/'.$thumbPath.'/'.$relPath.$relPref.$dvalue)) {
+						if(!$tcms_file->checkFileExist(_TCMS_PATH.'/images/'.$thumbPath.'/'.$relPath.$relPref.$dvalue)) {
 							$tcms_gd->createThumbnailExt(
 							$relPref,
 							_TCMS_PATH.'/images/'.$mainPath.'/'.$relPath,

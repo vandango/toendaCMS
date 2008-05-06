@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the register functions.
  *
- * @version 0.7.0
+ * @version 0.7.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content-Modules
@@ -682,6 +682,10 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve') {
 						if($seoEnabled == 0) {
 							$seoURL = @str_replace('&amp;', '&', $seoURL);
 						}
+						else {
+							$seoURL = @str_replace('&amp;', '&', $seoURL);
+							$seoURL = '/'.$seoFolder.'/'.$seoURL;
+						}
 						
 						if($mail_with_smtp == '1') {
 							// phpmailer
@@ -860,7 +864,7 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve') {
 				*/
 				
 				if($choosenDB == 'xml') {
-					if(file_exists('cache/'.$code.'.xml')) {
+					if($tcms_file->checkFileExist('cache/'.$code.'.xml')) {
 						// tag
 						$ws_agree = substr($code, 0, 32);
 						
@@ -870,8 +874,16 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve') {
 						$username    = $tcms_main->decodeText($username, '2', $c_charset);
 						
 						// COPY AND DELETE TMP
-						copy('cache/'.$validation.'.xml', $imagePath._TCMS_PATH.'/tcms_user/'.$ws_agree.'.xml');
-						unlink('cache/'.$validation.'.xml');
+						if($tcms_file->checkFileExist('cache/'.$code.'.xml')) {
+							copy(
+								'cache/'.$code.'.xml', 
+								$imagePath._TCMS_PATH.'/tcms_user/'.$ws_agree.'.xml'
+							);
+						}
+						
+						if($tcms_file->checkFileExist('cache/'.$code.'.xml')) {
+							$tcms_file->deleteFile('cache/'.$code.'.xml');
+						}
 						
 						// NOTEBOOK
 						$xmluser = new xmlparser(_TCMS_PATH.'/tcms_notepad/'.$ws_agree.'.xml','w');
