@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a search module.
  *
- * @version 0.7.3
+ * @version 0.7.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content-Modules
@@ -278,6 +278,8 @@ else {
 				_TCMS_MENU_PRODUCTS
 			).'</div>';
 			
+			$searchWord = $tcms_main->encodeText($searchWord, '2', $c_charset);
+			
 			$sc = search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s);
 			
 			if($sc > 0) {
@@ -299,6 +301,8 @@ else {
 			.$tcms_html->contentUnderlinedTitle(
 				_TCMS_MENU_DOWN
 			).'</div>';
+			
+			$searchWord = $tcms_main->encodeText($searchWord, '2', $c_charset);
 			
 			$sc = search_downloads($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s);
 			
@@ -322,6 +326,8 @@ else {
 				_TCMS_MENU_GALLERY
 			).'</div>';
 			
+			$searchWord = $tcms_main->encodeText($searchWord, '2', $c_charset);
+			
 			$sc = search_images($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s);
 			
 			if($sc > 0) {
@@ -343,6 +349,8 @@ else {
 			.$tcms_html->contentUnderlinedTitle(
 				_TCMS_MENU_FAQ
 			).'</div>';
+			
+			$searchWord = $tcms_main->encodeText($searchWord, '2', $c_charset);
 			
 			$sc = search_faqs($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s);
 			
@@ -415,6 +423,8 @@ else {
 			.$tcms_html->contentUnderlinedTitle(
 				_TCMS_MENU_PRODUCTS
 			).'</div>';
+			
+			$searchWord = $tcms_main->encodeText($searchWord, '2', $c_charset);
 			
 			$sc_all = search_products($searchword, $choosenDB, $sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort, $session, $s);
 			
