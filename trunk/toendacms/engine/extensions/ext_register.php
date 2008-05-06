@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the register functions.
  *
- * @version 0.6.9
+ * @version 0.7.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content-Modules
@@ -671,12 +671,12 @@ if($cmd != 'lostpassword' && $cmd != 'retrieve') {
 						
 						$link = '?'.( isset($session) ? 'session='.$session.'&' : '' )
 						.'id=frontpage&s='.$s
-						.( isset($lang) ? '&amp;lang='.$lang : '' );
+						.( isset($lang) ? '&lang='.$lang : '' );
 						$link = @$tcms_main->urlConvertToSEO($link);
 						
 						$seoURL = '?id=register'
 						.( isset($lang) ? '&amp;lang='.$lang : '' )
-						.'&amp;cmd=validate&amp;code=';
+						.'&cmd=validate&code=';
 						$seoURL = @$tcms_main->urlConvertToSEO($seoURL);
 						
 						if($seoEnabled == 0) {

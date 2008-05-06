@@ -20,7 +20,7 @@
  *
  * This file is used for the database actions.
  *
- * @version 0.7.3
+ * @version 0.7.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -181,7 +181,7 @@ if($todo == 'update') {
 	echo '<h2>'._TCMS_DB_UPDATE_TITLE.'</h2>';
 	echo '<h3>'._TCMS_DB_UPDATE_DB1.' ';
 	
-	switch($db){
+	switch($db) {
 		case 'mysql': echo 'MySQL'; break;
 		case 'pgsql': echo 'PostgreSQL'; break;
 		case 'mssql': echo 'Microsoft SQL Server'; break;
@@ -277,7 +277,7 @@ if($todo == 'global') {
 	echo '<h2>'._TCMS_DB_NEWINSTALL_TITLE.'</h2>';
 	echo '<h3>'._TCMS_DB_NEWINSTALL_DB1.' ';
 	
-	switch($db){
+	switch($db) {
 		case 'mysql': echo 'MySQL'; break;
 		case 'pgsql': echo 'PostgreSQL'; break;
 		case 'mssql': echo 'Microsoft SQL Server'; break;
@@ -304,7 +304,7 @@ if($todo == 'global') {
 		text for postgre database
 	*/
 	
-	if($db == 'pgsql') {// || $db == 'mssql'){
+	if($db == 'pgsql') {// || $db == 'mssql') {
 		echo '<div style="display: block; width: 500px; border: 2px solid #333; background: #ececec; padding: 0 8px 0 8px; color: #ff0000;">'
 		.'<h3>'._TCMS_DB_PG_CREATEDB.'</h3>'
 		.'</div><br />';
@@ -391,7 +391,7 @@ if($todo == 'global') {
 	echo '<br />';
 	
 	
-	switch($db){
+	switch($db) {
 		case 'mysql': $engine_port = '3306'; break;
 		case 'pgsql': $engine_port = '5432'; break;
 		default: $engine_port = '';
@@ -411,7 +411,7 @@ if($todo == 'global') {
 	echo '<br />';
 	
 	
-	switch($db){
+	switch($db) {
 		case 'mssql':
 		case 'mysql':
 			echo '<div style="display: block; float: left; width: 220px; font-weight: bold;">'
@@ -429,7 +429,7 @@ if($todo == 'global') {
 	}
 	
 	
-	switch($db){
+	switch($db) {
 		case 'mysql':
 			echo '<div style="display: block; float: left; width: 220px; font-weight: bold;">'
 			._TCMS_DB_DELETEDBBEFORECREATE
@@ -484,6 +484,7 @@ if($todo == 'global') {
 	
 	// xml engine relocate
 	if($db == 'xml') {
+		/*
 		if(getPHPSetting('safe_mode') == 'off') {
 			echo '<script>'
 			.'document.getElementById(\'db_form\').submit();'
@@ -494,6 +495,11 @@ if($todo == 'global') {
 			.'document.location=\'index.php?site=error&code=1&lang='.$lang.'\';'
 			.'</script>';
 		}
+		*/
+		
+		echo '<script>'
+		.'document.getElementById(\'db_form\').submit();'
+		.'</script>';
 	}
 }
 
@@ -528,7 +534,7 @@ if($todo == 'save_update') {
 		
 		// ZLib coding
 		$archive = new PclZip($gzFilePath.$gzFileName);
-		if($archive->extract(PCLZIP_OPT_PATH, $gzFileDir) == 0){
+		if($archive->extract(PCLZIP_OPT_PATH, $gzFileDir) == 0) {
 			die(_MSG_ERROR.' : '.$archive->errorInfo(true));
 		}
 		
@@ -557,9 +563,9 @@ if($todo == 'save_update') {
 			
 			$pieces = $tcms_main->split_sql($tcms_sql_command);
 			
-			for($i = 0; $i < count($pieces); $i++){
+			for($i = 0; $i < count($pieces); $i++) {
 				$pieces[$i] = trim($pieces[$i]);
-				if(!empty($pieces[$i]) && $pieces[$i] != '#'){
+				if(!empty($pieces[$i]) && $pieces[$i] != '#') {
 					$pieces[$i] = str_replace( "#####", $new_prefix, $pieces[$i]);
 					//echo $pieces[$i].'<br />';
 					$sqlQR = $sqlAL->sqlQuery($pieces[$i]);
@@ -572,7 +578,7 @@ if($todo == 'save_update') {
 				$layout_xml = new xmlparser(_TCMS_PATH.'/tcms_global/var.xml','r');
 				$plang = $layout_xml->read_value('front_lang');
 				
-				if(file_exists('db/'.$new_engine.'_ext_updateml.sql')){
+				if(file_exists('db/'.$new_engine.'_ext_updateml.sql')) {
 					$fp = fopen('db/'.$new_engine.'_ext_updateml.sql', 'r');
 					$tcms_ml = fread($fp, filesize('db/'.$new_engine.'_ext_updateml.sql'));
 					fclose($fp);
@@ -583,9 +589,9 @@ if($todo == 'save_update') {
 					
 					$pieces = $tcms_main->split_sql($tcms_ml);
 					
-					for($i = 0; $i < count($pieces); $i++){
+					for($i = 0; $i < count($pieces); $i++) {
 						$pieces[$i] = trim($pieces[$i]);
-						if(!empty($pieces[$i]) && $pieces[$i] != '#'){
+						if(!empty($pieces[$i]) && $pieces[$i] != '#') {
 							$pieces[$i] = str_replace( "#####", $new_prefix, $pieces[$i]);
 							$pieces[$i] = str_replace( "+++++", $plang, $pieces[$i]);
 							//echo $pieces[$i].'<br />';
@@ -634,16 +640,16 @@ if($todo == 'save_update') {
 	save database settings
 */
 
-if($todo == 'save'){
+if($todo == 'save') {
 	if(!isset($new_user)   || $new_user == '')   { $new_user   = 'root'; }
 	if(!isset($new_host)   || $new_host == '')   { $new_host   = 'localhost'; }
 	if(!isset($new_drop)   || empty($new_drop))  { $new_drop   = 0; }
-	if(!isset($new_sample) || empty($new_sample)){ $new_sample = 0; }
-	if(!isset($new_create) || empty($new_create)){ $new_create = 0; }
+	if(!isset($new_sample) || empty($new_sample)) { $new_sample = 0; }
+	if(!isset($new_create) || empty($new_create)) { $new_create = 0; }
 	
 	
-	if(!isset($new_port) || $new_port == '' || empty($new_port)){
-		switch($new_engine){
+	if(!isset($new_port) || $new_port == '' || empty($new_port)) {
+		switch($new_engine) {
 			//case 'mysql': $new_port = '3306'; break;
 			//case 'pgsql': $new_port = '5432'; break;
 			default: $new_port = '';
@@ -703,7 +709,7 @@ $tcms_db_port     = \''.$set_port.'\';
 		$sqlAL = new sqlAbstractionLayer($new_engine);
 		$sqlCN = $sqlAL->connectWithoutDB($new_user, $new_password, $new_host, $new_port);
 		
-		switch($new_engine){
+		switch($new_engine) {
 			case 'mysql':
 				$sql = 'DROP DATABASE `'.$new_database.'`';
 				break;
@@ -730,13 +736,13 @@ $tcms_db_port     = \''.$set_port.'\';
 		
 		// ZLib coding
 		$archive = new PclZip($gzFilePath.$gzFileName);
-		if($archive->extract(PCLZIP_OPT_PATH, $gzFileDir) == 0){
+		if($archive->extract(PCLZIP_OPT_PATH, $gzFileDir) == 0) {
 			die(_MSG_ERROR.' : '.$archive->errorInfo(true));
 		}
 		
 		// ZLib coding
 		$archive2 = new PclZip($gzMainPath.$gzMainName);
-		if($archive2->extract(PCLZIP_OPT_PATH, $gzMainDir) == 0){
+		if($archive2->extract(PCLZIP_OPT_PATH, $gzMainDir) == 0) {
 			die(_MSG_ERROR.' : '.$archive2->errorInfo(true));
 		}
 		
@@ -763,8 +769,8 @@ $tcms_db_port     = \''.$set_port.'\';
 		
 		$sqlAL = new sqlAbstractionLayer($new_engine);
 		
-		if($new_create == 1){
-			switch($new_engine){
+		if($new_create == 1) {
+			switch($new_engine) {
 				case 'mysql':
 					//
 					// Create Database
@@ -772,7 +778,7 @@ $tcms_db_port     = \''.$set_port.'\';
 					
 					$sqlCN = $sqlAL->connectWithoutDB($new_user, $new_password, $new_host, $new_port);
 					
-					if(isset($sqlCN['num']) && $sqlCN['num'] == 0){
+					if(isset($sqlCN['num']) && $sqlCN['num'] == 0) {
 						echo '<script>'
 						.'alert(\''._TCMS_DB_CONNECTION.'\');'
 						.'document.location.href=\'index.php?site=database&lang='.$lang.'&db='.$new_engine.'\';'
@@ -794,7 +800,7 @@ $tcms_db_port     = \''.$set_port.'\';
 					
 					$sqlCN = $sqlAL->connectWithoutDB($new_user, $new_password, $new_host, $new_port);
 					
-					if(isset($sqlCN['num']) && $sqlCN['num'] == 0){
+					if(isset($sqlCN['num']) && $sqlCN['num'] == 0) {
 						echo '<script>'
 						.'alert(\''._TCMS_DB_CONNECTION.'\');'
 						.'document.location.href=\'index.php?site=database&lang='.$lang.'&db='.$new_engine.'\';'
@@ -815,7 +821,7 @@ $tcms_db_port     = \''.$set_port.'\';
 		// Fill the database with toendaCMS tables
 		$sqlCN = $sqlAL->sqlConnect($new_user, $new_password, $new_host, $new_database, $new_port);
 		
-		if(isset($sqlCN['num']) && $sqlCN['num'] == 0){
+		if(isset($sqlCN['num']) && $sqlCN['num'] == 0) {
 			echo '<script>'
 			.'alert(\''._TCMS_DB_CONNECTION.'\');'
 			.'document.location.href=\'index.php?site=database&lang='.$lang.'&db='.$new_engine.'\';'
@@ -824,10 +830,10 @@ $tcms_db_port     = \''.$set_port.'\';
 		
 		$pieces = $tcms_main->split_sql($tcms_sql_command);
 		
-		for($i = 0; $i < count($pieces); $i++){
+		for($i = 0; $i < count($pieces); $i++) {
 			$pieces[$i] = trim($pieces[$i]);
 			
-			if(!empty($pieces[$i]) && $pieces[$i] != '#'){
+			if(!empty($pieces[$i]) && $pieces[$i] != '#') {
 				$pieces[$i] = str_replace('#####', $new_prefix, $pieces[$i]);
 				//echo $pieces[$i].'<hr />';
 				$sqlQR = $sqlAL->sqlQuery($pieces[$i]);
@@ -842,10 +848,10 @@ $tcms_db_port     = \''.$set_port.'\';
 			
 			$pieces = $tcms_main->split_sql($tcms_sql_command);
 			
-			for($i = 0; $i < count($pieces); $i++){
+			for($i = 0; $i < count($pieces); $i++) {
 				$pieces[$i] = trim($pieces[$i]);
 				
-				if(!empty($pieces[$i]) && $pieces[$i] != '#'){
+				if(!empty($pieces[$i]) && $pieces[$i] != '#') {
 					$pieces[$i] = str_replace('#####', $new_prefix, $pieces[$i]);
 					//echo $pieces[$i].'<hr />';
 					$sqlQR = $sqlAL->sqlQuery($pieces[$i]);
@@ -856,7 +862,7 @@ $tcms_db_port     = \''.$set_port.'\';
 	
 	/*
 	$can = $tcms_main->canCHMOD('../data/');
-	if($can){
+	if($can) {
 		$tcms_main->reCHMOD('../data/', 0777);
 	}
 	*/

@@ -21,7 +21,7 @@
  * This is used as global startpage for the
  * administraion backend.
  *
- * @version 0.7.6
+ * @version 0.7.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -296,6 +296,50 @@ if(isset($id_user)) {
 		*/
 		echo $tcms_html->tableHeadClass('3', '0', '0', '100%', 'tcms_border_gray01');
 		
+		// go up
+		if(isset($folder)
+		&& trim($folder) != '') {
+			$addurl = '';
+			
+			if(isset($v)) {
+				$addurl .= '&amp;v='.$v;
+			}
+			
+			if(isset($faq)) {
+				$addurl .= '&amp;faq='.$faq;
+			}
+			
+			if(isset($n)) {
+				$addurl .= '&amp;n='.$n;
+			}
+			
+			if(isset($url)) {
+				$addurl .= '&amp;url='.$url;
+			}
+			
+			$link = 'media.php?id_user='.$id_user;
+			
+			echo '<tr>';
+			
+			echo '<td class="tcms_db_2" width="100" valign="top">'
+			.'<a href="'.$link.'">'
+			.'<img style="border: 0px solid #ccc; margin: 2px auto auto 2px;" src="../images/filesystem/folder.png" border="0" />'
+			.'</a>'
+			.'</td>';
+			
+			echo '<td class="tcms_db_2" valign="top">'
+			.'..<br />'
+			.'</td>';
+			
+			echo '<td class="tcms_db_2" align="right" valign="top">'
+			.'<a class="tcms_edit" href="'.$link.'">'._TCMS_OPEN_DIRECTORY.'</a>'
+			.'</td>';
+			
+			echo '</tr>';
+		}
+		
+		// dir and
+		// file list
 		if($tcms_main->isArray($arr_dir)) {
 			foreach($arr_dir as $dkey => $dvalue) {
 				$dvalue2 = ( isset($folder) ? $folder.'/' : '' ).$dvalue;
@@ -342,7 +386,19 @@ if(isset($id_user)) {
 					
 					echo '</tr>';
 				}
-				else if(trim($dvalue) != 'Thumbs.db' 
+			}
+			
+			
+			foreach($arr_dir as $dkey => $dvalue) {
+				$dvalue2 = ( isset($folder) ? $folder.'/' : '' ).$dvalue;
+				$dvalue3 = $dvalue;
+				
+				$relPath = ( $folder == '' ? '' : $folder.'/' );
+				
+				$addurl = '';
+				
+				if(!is_dir(trim(_TCMS_PATH.'/images/'.$mainPath.'/'.$dvalue2))
+				&& trim($dvalue) != 'Thumbs.db' 
 				&& trim($dvalue) != 'thumbs.db' 
 				&& trim($dvalue) != 'index.html' 
 				&& substr(trim($dvalue), 0, 1) != '.') {

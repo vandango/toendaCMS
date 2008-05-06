@@ -821,7 +821,7 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 		if($use_captcha == 1) {
 			$captchaImage = $tcms_gd->createCaptchaImage(
 				'cache/captcha/', 
-				$captcha_clean
+				$tcms_config->getCaptchaCleanSize()
 			);
 			
 			echo '<div id="captcha">'
@@ -891,11 +891,29 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 				$save_entry = false;
 			}
 			
+			/*
 			if($save_entry) {
 				if($comment_captcha != $check_captcha) {
 					$captcha_msg = _MSG_CAPTCHA_NOT_VALID;
 					$save_entry = false;
 				}
+			}
+			*/
+			
+			$chk = $tcms_gd->getLastCaptchaImage(
+				$tcms_main, 
+				'cache/captcha/', 
+				$check_captcha, 
+				$comment_captcha
+			);
+			
+			if($comment_captcha != $chk
+			|| trim($chk) == '') {
+				$captcha_msg = _MSG_CAPTCHA_NOT_VALID.$comment_captcha.'-'.$chk;
+				$save_entry = false;
+			}
+			else {
+				$save_entry = true;
 			}
 			
 			if(!$save_entry) {

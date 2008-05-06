@@ -20,7 +20,7 @@
  *
  * This file is used for some needed functions.
  *
- * @version 0.1.1
+ * @version 0.1.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -94,25 +94,44 @@ function updateLanguageForXML() {
 	$plang = $layout_xml->read_value('front_lang');
 	
 	// update setting files
-	rename(
-		_TCMS_PATH.'/tcms_global/frontpage.xml', 
-		_TCMS_PATH.'/tcms_global/frontpage.'.$plang.'.xml'
-	);
 	
-	rename(
-		_TCMS_PATH.'/tcms_global/newsmanager.xml', 
-		_TCMS_PATH.'/tcms_global/newsmanager.'.$plang.'.xml'
-	);
+	// contactform
+	if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/frontpage.xml')) {
+		rename(
+			_TCMS_PATH.'/tcms_global/frontpage.xml', 
+			_TCMS_PATH.'/tcms_global/frontpage.'.$plang.'.xml'
+		);
+	}
 	
-	rename(
-		_TCMS_PATH.'/tcms_global/contactform.xml', 
-		_TCMS_PATH.'/tcms_global/contactform.'.$plang.'.xml'
-	);
+	// contactform
+	if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/newsmanager.xml')) {
+		rename(
+			_TCMS_PATH.'/tcms_global/newsmanager.xml', 
+			_TCMS_PATH.'/tcms_global/newsmanager.'.$plang.'.xml'
+		);
+	}
 	
-	rename(
-		_TCMS_PATH.'/tcms_global/imprint.xml', 
-		_TCMS_PATH.'/tcms_global/imprint.'.$plang.'.xml'
-	);
+	// contactform
+	if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/contactform.xml')) {
+		rename(
+			_TCMS_PATH.'/tcms_global/contactform.xml', 
+			_TCMS_PATH.'/tcms_global/contactform.'.$plang.'.xml'
+		);
+	}
+	
+	// imprint
+	if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/impressum.xml')) {
+		rename(
+			_TCMS_PATH.'/tcms_global/impressum.xml', 
+			_TCMS_PATH.'/tcms_global/imprint.'.$plang.'.xml'
+		);
+	}
+	elseif($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/imprint.xml')) {
+		rename(
+			_TCMS_PATH.'/tcms_global/imprint.xml', 
+			_TCMS_PATH.'/tcms_global/imprint.'.$plang.'.xml'
+		);
+	}
 	
 	// update news
 	unset($arr_news);

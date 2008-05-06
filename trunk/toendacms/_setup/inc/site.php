@@ -32,7 +32,7 @@
 	init
 */
 
-if(!isset($todo)){ $todo = 'global'; }
+if(!isset($todo)) { $todo = 'global'; }
 
 
 
@@ -64,8 +64,8 @@ $arr_char[13] = 'EUC-JP';
 $arr_language = $tcms_file->getPathContent('../engine/language/');
 
 $ll = 0;
-while(!empty($arr_language[$ll])){
-	if($arr_language[$ll] != 'lang_admin.php'){ $arr_lang[$ll] = $arr_language[$ll]; }
+while(!empty($arr_language[$ll])) {
+	if($arr_language[$ll] != 'lang_admin.php') { $arr_lang[$ll] = $arr_language[$ll]; }
 	$ll++;
 }
 
@@ -218,7 +218,7 @@ if($todo == 'global') {
 	echo '<div style="display: block; float: left; margin: 0 0 0 30px; width: 390px;">';
 	echo '<!--[if IE]><div style="margin: 0 0 0 30px;"><![endif]-->';
 	echo '<select name="tmp_charset" class="tcms_input_site">';
-	foreach($arr_char as $ch_key => $ch_value){
+	foreach($arr_char as $ch_key => $ch_value) {
 		echo '<option value="'.$ch_value.'"'.( $old_charset == $ch_value ? ' selected="selected"' : '' ).'>'.$ch_value.'</option>';
 	}
 	echo '</select>'
@@ -239,7 +239,7 @@ if($todo == 'global') {
 	echo '<!--[if IE]><div style="margin: 0 0 0 30px;"><![endif]-->';
 	echo '
 	<select name="tmp_lang" class="tcms_input_site">';
-	foreach($arr_lang as $lg_key => $lg_value){
+	foreach($arr_lang as $lg_key => $lg_value) {
 		echo '
 		<option value="'.$lg_value.'"'
 		.(
@@ -386,7 +386,7 @@ if($todo == 'global') {
 	save settings
 */
 
-if($todo == 'save'){
+if($todo == 'save') {
 	if(!$tcms_file->checkDirExist('../data/tcms_global')) {
 		chmod('../data/tcms_global/', 0777);
 	}
@@ -418,25 +418,25 @@ if($todo == 'save'){
 	$new_site_off_text = 'This site is down for maintenance.<br />Please check back again soon.';
 	
 	
-	if($new_site_off_text != ''){ $new_site_off_text = $tcms_main->encodeBase64($new_site_off_text); }
-	if($m_title           != ''){ $m_title           = $tcms_main->encodeBase64($m_title); }
-	if($m_name            != ''){ $m_name            = $tcms_main->encodeBase64($m_name); }
-	if($new_key           != ''){ $new_key           = $tcms_main->encodeBase64($new_key); }
-	if($new_websiteowner  != ''){ $new_websiteowner  = $tcms_main->encodeBase64($new_websiteowner); }
-	if($new_owner_url     != ''){ $new_owner_url     = $tcms_main->encodeBase64($new_owner_url); }
-	if($new_copyright     != ''){ $new_copyright     = $tcms_main->encodeBase64($new_copyright); }
-	if($email             != ''){ $email             = $tcms_main->encodeBase64($email); }
-	if($keywords          != ''){ $keywords          = $tcms_main->encodeBase64($keywords); }
-	if($description       != ''){ $description       = $tcms_main->encodeBase64($description); }
+	if($new_site_off_text != '') { $new_site_off_text = $tcms_main->encodeBase64($new_site_off_text); }
+	if($m_title           != '') { $m_title           = $tcms_main->encodeBase64($m_title); }
+	if($m_name            != '') { $m_name            = $tcms_main->encodeBase64($m_name); }
+	if($new_key           != '') { $new_key           = $tcms_main->encodeBase64($new_key); }
+	if($new_websiteowner  != '') { $new_websiteowner  = $tcms_main->encodeBase64($new_websiteowner); }
+	if($new_owner_url     != '') { $new_owner_url     = $tcms_main->encodeBase64($new_owner_url); }
+	if($new_copyright     != '') { $new_copyright     = $tcms_main->encodeBase64($new_copyright); }
+	if($email             != '') { $email             = $tcms_main->encodeBase64($email); }
+	if($keywords          != '') { $keywords          = $tcms_main->encodeBase64($keywords); }
+	if($description       != '') { $description       = $tcms_main->encodeBase64($description); }
 	
 	
 	//***************************************
 	
 	$var_conf = 'namen';
 	
-	if($m_title   == ''){ $m_title   = '-'; }
-	if($m_name    == ''){ $m_name    = '-'; }
-	if($new_key   == ''){ $new_key   = '-'; }
+	if($m_title   == '') { $m_title   = '-'; }
+	if($m_name    == '') { $m_name    = '-'; }
+	if($new_key   == '') { $new_key   = '-'; }
 	
 	$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/namen.xml', 'w');
 	$xmluser->xmlDeclaration();
@@ -454,9 +454,9 @@ if($todo == 'save'){
 	
 	$var_conf = 'footer';
 	
-	if($new_websiteowner == ''){ $new_websiteowner = '-'; }
-	if($new_owner_url    == ''){ $new_owner_url    = '-'; }
-	if($new_copyright    == ''){ $new_copyright    = '-'; }
+	if($new_websiteowner == '') { $new_websiteowner = '-'; }
+	if($new_owner_url    == '') { $new_owner_url    = '-'; }
+	if($new_copyright    == '') { $new_copyright    = '-'; }
 	
 	$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/footer.xml', 'w');
 	$xmluser->xmlDeclaration();
@@ -481,7 +481,7 @@ if($todo == 'save'){
 	$var_conf = 'global';
 	
 	if(empty($keywords))   { $keywords    = '-'; }
-	if(empty($description)){ $description = '-'; }
+	if(empty($description)) { $description = '-'; }
 	
 	$xmluser = new xmlparser(_TCMS_PATH.'/tcms_global/var.xml', 'w');
 	$xmluser->xmlDeclaration();
