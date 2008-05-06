@@ -20,7 +20,7 @@
  *
  * This file is used for some needed functions.
  *
- * @version 0.1.4
+ * @version 0.1.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Installer
@@ -109,6 +109,14 @@ function updateLanguageForXML() {
 		rename(
 			_TCMS_PATH.'/tcms_global/newsmanager.xml', 
 			_TCMS_PATH.'/tcms_global/newsmanager.'.$plang.'.xml'
+		);
+	}
+	
+	// guestbook
+	if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/guestbook.xml')) {
+		rename(
+			_TCMS_PATH.'/tcms_global/guestbook.xml', 
+			_TCMS_PATH.'/tcms_global/guestbook.'.$plang.'.xml'
 		);
 	}
 	
