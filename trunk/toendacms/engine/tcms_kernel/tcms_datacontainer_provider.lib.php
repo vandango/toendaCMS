@@ -3964,6 +3964,16 @@ class tcms_datacontainer_provider extends tcms_main {
 			unset($xml);
 			
 			if($wsLang          == false) $wsLang          = '';*/
+			
+			// first load the structure from the topmenu
+			if($topmenu) {
+				//
+			}
+			
+			// then from the sidemenu
+			if($sitemenu) {
+				//
+			}
 		}
 		else {
 			$sqlAL = new sqlAbstractionLayer($this->m_choosenDB, $this->_tcmsTime);

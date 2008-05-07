@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module provides the poll functionality.
  *
- * @version 0.4.6
+ * @version 0.4.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Sidebar Modules
@@ -279,7 +279,7 @@ if($use_poll == 1) {
 					false, 
 					'.xml'
 				);
-				$number = $tcms_main->countArrayValues($files);
+				$number = $tcms_main->countArrayValues($files, false);
 				
 				$arrPollCalc       = $tcms_main->count_answers(_TCMS_PATH.'/tcms_polls/'.$current_poll_tag);
 				
@@ -299,7 +299,7 @@ if($use_poll == 1) {
 				$number = $sqlAL->sqlGetNumber($sqlQRPollItems);
 				
 				$poll_subtitle = $tcms_main->decodeText($poll_subtitle, '2', $c_charset);
-				echo tcms_html::text($poll_subtitle, 'left');
+				echo $tcms_html->text($poll_subtitle, 'left');
 				echo '<br />';
 				
 				

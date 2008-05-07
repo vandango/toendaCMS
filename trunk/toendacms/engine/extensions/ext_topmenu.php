@@ -82,7 +82,7 @@ if($tcms_config->getTopmenuEnabled()) {
 					$femCount++;
 					
 					if($active_topmenu == 1) {
-						if($set_active_link == true){
+						if($set_active_link == true) {
 							if($id == $arr_top_navi['id'][$key] && $id != 'components') {
 								$value = str_replace('class="toplevel"', 'class="toplevelActive"', $value);
 								$set_active_link = false;

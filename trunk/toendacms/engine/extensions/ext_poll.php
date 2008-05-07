@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a poll module.
  *
- * @version 0.4.7
+ * @version 0.4.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content-Modules
@@ -269,7 +269,8 @@ if($paction == 'result') {
 			false, 
 			'.xml'
 		);
-		$a_number = $tcms_main->countArrayValues($files);
+		
+		$a_number = $tcms_main->countArrayValues($files, false);
 		
 		$arrPollCalc       = $tcms_main->count_answers(_TCMS_PATH.'/tcms_polls/'.$current_pollall_tag);
 		
@@ -305,7 +306,11 @@ if($paction == 'result') {
 	
 	
 	echo $tcms_html->text('<br /><span style="font-size: 9px;">'
-		.'<strong>'.$poll_answers.' '._POLL_ANSWERS.'</strong> ('._POLL_RESULTTEXT.')</span><br />'
+		.'<strong>'.$poll_answers.' '._POLL_ANSWERS.'</strong>'.
+		(
+			 (' ('._POLL_RESULTTEXT.')')
+		)
+		.'</span><br />'
 	);
 	echo '<br />';
 	

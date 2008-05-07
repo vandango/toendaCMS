@@ -210,118 +210,6 @@ if($tcms_config->getSidemenuEnabled()) {
 					);
 				}
 				
-				//
-				// submenu
-				//
-				/*
-				$arrSubMenuItem = $tcms_menu->getSubmenu(
-					$getLang, 
-					1, 
-					$menuItem->GetID(), 
-					$id, 
-					$item
-				);
-				
-				if($tcms_main->isArray($arrSubMenuItem)) {
-					echo '<li>'
-					.'<ul style="list-style-type: none !important;">';
-					
-					foreach($arrSubMenuItem as $sm_key => $sm_value) {
-						$subMenuItem = new tcms_dc_sidemenuitem();
-						$subMenuItem = $arrSubMenuItem[$sm_key];
-						
-						$target = ( $subMenuItem->GetTarget() == '' ? '' : ' target="'.$subMenuItem->GetTarget().'"' );
-						
-						if($subMenuItem->getPublished()) {
-							echo '<li>';
-							
-							switch($subMenuItem->GetType()) {
-								case 'web':
-									echo '<a class="submenu" href="'.$subMenuItem->GetLink().'"'.$target.'>'.$subMenuItem->GetTitle().'</a>';
-									break;
-								
-								case 'title':
-									echo $tcms_html->subTitle($subMenuItem->GetTitle());
-									break;
-								
-								case 'link':
-									$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-									.'id='.$subMenuItem->GetLink().'&amp;s='.$s
-									.( isset($lang) ? '&amp;lang='.$lang : '' );
-									$link = $tcms_main->urlConvertToSEO($link);
-									
-									echo '<a class="submenu" href="'.$link.'"'.$target.'>'.$subMenuItem->GetTitle().'</a>';
-									break;
-							}
-							
-							echo '</li>';
-						}
-						
-						//
-						// submenu, level 2
-						//
-						$arrSubMenu2Item = $tcms_menu->getSubmenu($getLang, 2, $subMenuItem->GetID(), $id, $item);
-						
-						if($tcms_main->isArray($arrSubMenu2Item)) {
-							echo '<li>'
-							.'<ul style="list-style-type: none !important;">';
-							
-							foreach($arrSubMenu2Item as $sm_key => $sm_value) {
-								$subMenu2Item = new tcms_dc_sidemenuitem();
-								$subMenu2Item = $arrSubMenu2Item[$sm_key];
-								
-								$target = ( $subMenu2Item->GetTarget() == '' ? '' : ' target="'.$subMenu2Item->GetTarget().'"' );
-								
-								if($subMenu2Item->getPublished()) {
-									echo '<li>';
-									
-									switch($subMenu2Item->GetType()) {
-										case 'web':
-											echo '<a class="submenu sublevel2" href="'.$subMenu2Item->GetLink().'"'.$target.'>'.$subMenu2Item->GetTitle().'</a>';
-											break;
-										
-										case 'title':
-											echo $tcms_html->subTitle($subMenu2Item->GetTitle());
-											break;
-										
-										case 'link':
-											$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-											.'id='.$subMenu2Item->GetLink().'&amp;s='.$s
-											.( isset($lang) ? '&amp;lang='.$lang : '' );
-											$link = $tcms_main->urlConvertToSEO($link);
-											
-											echo '<a class="submenu sublevel2" href="'.$link.'"'.$target.'>'.$subMenu2Item->GetTitle().'</a>';
-											break;
-									}
-									
-									echo '</li>';
-								}
-								
-								unset($subMenu2Item);
-							}
-							
-							echo '</ul>'
-							.'</li>';
-						}
-						
-						unset($arrSubMenu2Item);
-						//
-						// end submenu
-						//
-						
-						unset($subMenuItem);
-					}
-					
-					echo '</ul>'
-					.'</li>';
-				}
-				
-				unset($arrSubMenuItem);
-				//
-				// end submenu
-				//
-				*/
-				
 				unset($menuItem);
 			}
 			
@@ -365,7 +253,7 @@ if($tcms_config->getSidemenuEnabled()) {
 		echo '<ul style="list-style-type: none !important;">';
 		$check_is_menu = 0;
 		
-		if(is_array($arr_side_navi['link']) && !empty($arr_side_navi['link'])) {
+		if($tcms_main->isArray($arr_side_navi['link'])) {
 			foreach($arr_side_navi['link'] as $key => $value) {
 				//***********************
 				// MAINMENU ACCESS

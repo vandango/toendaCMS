@@ -453,7 +453,7 @@ class tcms_file {
 							$ret = false;
 						}
 					}
-					else{
+					else {
 						if(isset($filemode)) {
 							if(!@chmod($fullpath, $filemode)) {
 								$ret = false;
@@ -493,7 +493,7 @@ class tcms_file {
 		if(!is_dir($path)) {
 			$size += filesize($path);
 		}
-		else{
+		else {
 			$dir = opendir($path);
 			
 			while($file = readdir($dir)) {
@@ -601,12 +601,12 @@ class tcms_file {
 						$i++;
 					}
 				}
-				else{
+				else {
 					if($fileType == '') {
 						$arr_dirContent[$i] = $dir;
 						$i++;
 					}
-					else{
+					else {
 						if(strpos($dir, $fileType)) {
 							$arr_dirContent[$i] = $dir;
 							$i++;
@@ -646,7 +646,7 @@ class tcms_file {
 					$arr_css['files'][$i] = $directories;
 					$i++;
 				}
-				else{
+				else {
 					if(!is_file($directories) && !strpos($directories, '.')) {
 						$arr_css['dir'][$i] = $directories;
 						$i++;
@@ -679,7 +679,7 @@ class tcms_file {
 		if($i == 0) {
 			return NULL;
 		}
-		else{
+		else {
 			if($returnOnlyAmount) {
 				return $i;
 			}
@@ -724,7 +724,7 @@ class tcms_file {
 		if(strpos($filename, '.tar.gz')) {
 			$mime = 'tar';
 		}
-		else{
+		else {
 			$mime = substr(strrchr($filename, '.'), 1);
 			
 			if($filename == '') {

@@ -31,7 +31,7 @@ Developer Version
 	- 1.9.9 Beta 2
 	- 2.0.0 Stable
 
-Building Steps: 5001
+Building Steps: 5008
 
 
 
@@ -42,6 +42,10 @@ Building Steps: 5001
 
  - security fixed: 
 
+ - bug fixed: Sitetitle and Pathway bug on the Sitemap fixed.
+ - bug fixed: Sitemap now also generated on the XML database.
+ - bug fixed: Sitemenu creation bug fixed.
+ - bug fixed: Poll has a bug using it with the XML database.
  - bug fixed: 
 
  - changed: 
