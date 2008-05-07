@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * This class is used for a basic public functions.
  * 
- * @version 3.2.2
+ * @version 3.2.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -2666,8 +2666,10 @@ class tcms_main {
 	public function countArrayValues($array, $withReduce = true) {
 		$count = 0;
 		
-		foreach($array as $item) {//$key => $val) {
-			$count++;
+		if($this->isArray($array)) {
+			foreach($array as $item) {//$key => $val) {
+				$count++;
+			}
 		}
 		
 		return $count - ( $withReduce ? 1 : 0 );
@@ -3563,6 +3565,7 @@ class tcms_main {
 					$arr_mainmenu['name'][$mkey] = $arr_menu['name'][$mkey];
 					$arr_mainmenu['pub'][$mkey] = $arr_menu['pub'][$mkey];
 					$arr_mainmenu['url'][$mkey] = $arr_menu['link'][$mkey];
+					$arr_mainmenu['tar'][$mkey] = $arr_menu['tar'][$mkey];
 					
 					if($arr_menu['type'][$mkey] == 'web') {
 						$arr_mainmenu['submenu'][$mvalue][$mkey] = '<a'.$ltarget.' class="submenu" href="'.$arr_menu['link'][$mkey].'">'.$arr_menu['name'][$mkey].'</a>';
@@ -3656,6 +3659,8 @@ class tcms_main {
 					$arr_top_navi['access'][$key] = trim($arr_top['acs'][$key]);
 					$arr_top_navi['last'][$key] = max($arr_top['id']);
 					$arr_top_navi['id'][$key] = trim($arr_top['link'][$key]);
+					$arr_top_navi['name'][$key] = trim($arr_top['name'][$key]);
+					$arr_top_navi['type'][$key] = trim($arr_top['type'][$key]);
 				}
 			}
 			

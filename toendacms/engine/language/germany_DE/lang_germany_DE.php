@@ -18,7 +18,7 @@
 /**
  * German Language
  * 
- * @version 0.6.0
+ * @version 0.6.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -969,6 +969,7 @@ if(!defined('_PATH_SEARCH'))                   define('_PATH_SEARCH', 'Suche');
 if(!defined('_PATH_LINKS'))                    define('_PATH_LINKS', 'Links');
 if(!defined('_PATH_LEGAL'))                    define('_PATH_LEGAL', 'Impressum');
 if(!defined('_PATH_CONTACTFORM'))              define('_PATH_CONTACTFORM', 'Kontaktformular');
+if(!defined('_PATH_SITEMAP'))                  define('_PATH_SITEMAP', 'Sitemap');
 
 
 // LAYOUT

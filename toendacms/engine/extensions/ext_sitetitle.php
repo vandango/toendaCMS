@@ -865,6 +865,16 @@ switch($id) {
 		._TCMS_MENU_QBOOK;
 		break;
 	
+	case 'sitemap':
+		/*
+			SITEMAP
+		*/
+		
+		$sitetitleAdditional .= _PATH_HOME
+		.'&nbsp;/&nbsp;'
+		._PATH_SITEMAP;
+		break;
+	
 	case 'components':
 		/*
 			COMPONENTS

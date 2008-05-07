@@ -1,15 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?><poll>
+<?xml version="1.0" encoding="utf-8"?><poll>
 	<poll_title>czo1OiJQb2xscyI7</poll_title>
 	<allpoll_title>czo5OiJBbGwgUG9sbHMiOw==</allpoll_title>
 	<show_poll_title>1</show_poll_title>
-	<use_poll_side>0</use_poll_side>
 	<poll_side_width>188</poll_side_width>
-	<poll_main_width>400</poll_main_width>
-	<poll_sm_title>czo0OiJQb2xsIjs=</poll_sm_title>
-	<use_poll_sidemenu>0</use_poll_sidemenu>
-	<poll_sidemenu_id>2</poll_sidemenu_id>
-	<poll_tm_title>czo0OiJQb2xsIjs=</poll_tm_title>
-	<use_poll_topmenu>0</use_poll_topmenu>
-	<poll_topmenu_id>7</poll_topmenu_id>
-
+	<poll_main_width>500</poll_main_width>
 </poll>

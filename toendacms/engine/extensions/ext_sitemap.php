@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a sitemap generator extension
  *
- * @version 0.1.0
+ * @version 0.1.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content-Modules
@@ -164,17 +164,32 @@ $getLang = $tcms_config->getLanguageCodeForTCMS($lang);
 	TOPMENU
 */
 if($tcms_config->getTopmenuEnabled()) {
-	$arrMapTop = $tcms_dcp->getSitemap(
-		$is_admin, 
-		$getLang, 
-		'', 
-		'', 
-		'', 
-		'', 
-		false, 
-		$tcms_config->getTopmenuEnabled(), 
-		0
-	);
+	if($choosenDB == 'xml') {
+		if($tcms_main->isArray($arr_top_navi['link'])) {
+			foreach($arr_top_navi['link'] as $key => $value) {
+				$arrMapTop[$key]['uid'] = '';
+				$arrMapTop[$key]['id'] = $arr_top_navi['id'][$key];
+				$arrMapTop[$key]['name'] = $arr_top_navi['name'][$key];
+				$arrMapTop[$key]['link'] = $arr_top_navi['id'][$key];
+				$arrMapTop[$key]['target'] = $arr_top_navi['tar'][$key];
+				$arrMapTop[$key]['type'] = $arr_top_navi['type'][$key];
+				$arrMapTop[$key]['pub'] = intval($arr_top_navi['pub'][$key]);
+			}
+		}
+	}
+	else {
+		$arrMapTop = $tcms_dcp->getSitemap(
+			$is_admin, 
+			$getLang, 
+			'', 
+			'', 
+			'', 
+			'', 
+			false, 
+			$tcms_config->getTopmenuEnabled(), 
+			0
+		);
+	}
 	
 	if($tcms_main->isArray($arrMapTop)) {
 		echo '<h3>'._SITEMAP_TOPMENU.'</h3>'
@@ -241,98 +256,262 @@ if($tcms_config->getTopmenuEnabled()) {
 	SIDEMENU
 */
 if($tcms_config->getSidemenuEnabled()) {
-	$arrMap = $tcms_dcp->getSitemap(
-		$is_admin, 
-		$getLang, 
-		'', 
-		'', 
-		'', 
-		'', 
-		$tcms_config->getSidemenuEnabled(), 
-		false, 
-		0
-	);
+	if($choosenDB == 'xml') {
+		if($tcms_main->isArray($arr_side_navi['link'])) {
+			//$tcms_main->paf($arr_side_navi);
+			
+			foreach($arr_side_navi['link'] as $key => $value) {
+				$arrMap[$key]['uid'] = '';
+				$arrMap[$key]['id'] = $arr_side_navi['id'][$key];
+				$arrMap[$key]['name'] = $arr_side_navi['name'][$key];
+				$arrMap[$key]['link'] = $arr_side_navi['url'][$key];
+				$arrMap[$key]['target'] = $arr_side_navi['tar'][$key];
+				$arrMap[$key]['type'] = $arr_side_navi['type'][$key];
+				$arrMap[$key]['pub'] = intval($arr_side_navi['pub'][$key]);
+				$arrMap[$key]['sub'] = $arr_side_navi['subid'][$key];
+			}
+			
+			//$tcms_main->paf($arrMap);
+		}
+	}
+	else {
+		$arrMap = $tcms_dcp->getSitemap(
+			$is_admin, 
+			$getLang, 
+			'', 
+			'', 
+			'', 
+			'', 
+			$tcms_config->getSidemenuEnabled(), 
+			false, 
+			0
+		);
+	}
 	
 	if($tcms_main->isArray($arrMap)) {
 		echo '<h3>'._SITEMAP_SIDEMENU.'</h3>'
 		.'<ul>';
+		
+		$allHtml = '';
+		
+		$wasSub = false;
+		$isSub = false;
+		$subItem = 0;
 		
 		foreach($arrMap as $key => $value) {
 			$liContent = '';
 			
 			$target = ( $value['target'] == '' ? '' : ' target="'.$value['target'].'"' );
 			
-			if($value['pub'] == 1) {
-				switch($value['type']) {
-					case 'web':
-						$liContent = '<a href="'.$value['link'].'"'.$target.'>'
-						.$value['name']
-						.'</a>';
-						break;
-					
-					case 'title':
-						$liContent = $value['name'];
-						break;
-					
-					case 'link':
-						$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
-						.'id='.$value['link'].'&amp;s='.$s
-						.( isset($lang) ? '&amp;lang='.$lang : '' );
-						$link = $tcms_main->urlConvertToSEO($link);
+			if($choosenDB != 'xml') {
+				// sql db
+				
+				if($value['pub'] == 1) {
+					switch($value['type']) {
+						case 'web':
+							$liContent = '<a href="'.$value['link'].'"'.$target.'>'
+							.$value['name']
+							.'</a>';
+							break;
 						
-						$liContent = '<a href="'.$link.'"'.$target.'>'.$value['name'].'</a>';
-						break;
+						case 'title':
+							$liContent = $value['name'];
+							break;
+						
+						case 'link':
+							$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+							.'id='.$value['link'].'&amp;s='.$s
+							.( isset($lang) ? '&amp;lang='.$lang : '' );
+							$link = $tcms_main->urlConvertToSEO($link);
+							
+							$liContent = '<a href="'.$link.'"'.$target.'>'.$value['name'].'</a>';
+							break;
+					}
+				}
+				else {
+					//$liContent = '[Unver&ouml;ffentlicht]';
+					$liContent = '';
+				}
+				
+				// if link is in topmennu
+				if($tcms_config->getTopmenuEnabled()
+				&& $tcms_main->isElementInArray($value['link'], $arrMapTop, 'link')) {
+					$wsHtml = displayItems(
+						$value['uid'], 
+						'', 
+						'', 
+						$value['id'], 
+						1
+					);
+					
+					$liContent = $value['name'];
+				}
+				else if($value['pub'] == 1) {
+					$wsHtml = displayItems(
+						$value['uid'], 
+						'', 
+						'', 
+						$value['id'], 
+						1
+					);
+				}
+				else {
+					$wsHtml = '';
+				}
+				
+				if(trim($liContent) != ''
+				|| trim($wsHtml) != '') {
+					echo '<li>';
+				}
+				
+				if(trim($liContent) != '') {
+					echo '<strong>'.$liContent.'</strong>';
+				}
+				
+				if(trim($wsHtml) != '') {
+					echo $wsHtml;
+				}
+				
+				if(trim($liContent) != ''
+				|| trim($wsHtml) != '') {
+					echo '</li>';
 				}
 			}
 			else {
-				//$liContent = '[Unver&ouml;ffentlicht]';
-				$liContent = '';
-			}
-			
-			// if link is in topmennu
-			if($tcms_config->getTopmenuEnabled()
-			&& $tcms_main->isElementInArray($value['link'], $arrMapTop, 'link')) {
-				$wsHtml = displayItems(
-					$value['uid'], 
-					'', 
-					'', 
-					$value['id'], 
-					1
-				);
+				// xml db
 				
-				$liContent = $value['name'];
-			}
-			else if($value['pub'] == 1) {
-				$wsHtml = displayItems(
-					$value['uid'], 
-					'', 
-					'', 
-					$value['id'], 
-					1
-				);
-			}
-			else {
-				$wsHtml = '';
-			}
-			
-			if(trim($liContent) != ''
-			|| trim($wsHtml) != '') {
-				echo '<li>';
-			}
-			
-			if(trim($liContent) != '') {
-				echo '<strong>'.$liContent.'</strong>';
-			}
-			
-			if(trim($wsHtml) != '') {
-				echo $wsHtml;
-			}
-			
-			if(trim($liContent) != ''
-			|| trim($wsHtml) != '') {
-				echo '</li>';
+				$wsHtml = '###xml###';
+				
+				if($value['pub'] == 1) {
+					if(trim($value['sub']) == '-') {
+						// parent
+						
+						if($subItem != 0) {
+							$wasSub = true;
+							
+							$subItem = 0;
+							$liContent = '</ul>';
+							$liContent .= '</li>';
+							$liContent .= '<li>';
+						}
+						else {
+							$liContent = '';
+						}
+						
+						$isSub = false;
+						
+						switch($value['type']) {
+							case 'web':
+								$liContent .= '<a href="'.$value['link'].'"'.$target.'>'
+								.$value['name']
+								.'</a>';
+								break;
+							
+							case 'title':
+								$liContent .= $value['name'];
+								break;
+							
+							case 'link':
+								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+								.'id='.$value['link'].'&amp;s='.$s
+								.( isset($lang) ? '&amp;lang='.$lang : '' );
+								$link = $tcms_main->urlConvertToSEO($link);
+								
+								$liContent .= '<a href="'.$link.'"'.$target.'>'.$value['name'].'</a>';
+								break;
+						}
+					}
+					else {
+						// sub
+						
+						$isSub = true;
+						$wasSub = false;
+						
+						if($subItem == 0) {
+							$allHtml = trim($allHtml);
+							$allHtml = substr($allHtml, 0, strlen($allHtml) - 5);
+							
+							//$liContent = '<li>';
+							$liContent .= '<ul>';
+						}
+						else {
+							$liContent = '';
+						}
+						
+						$subItem++;
+						
+						$liContent .= '<li>';
+						
+						$liContent .= '<strong>';
+						
+						switch($value['type']) {
+							case 'web':
+								$liContent .= '<a href="'.$value['link'].'"'.$target.'>'
+								.$value['name']
+								.'</a>';
+								break;
+							
+							case 'title':
+								$liContent .= $value['name'];
+								break;
+							
+							case 'link':
+								$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+								.'id='.$value['link'].'&amp;s='.$s
+								.( isset($lang) ? '&amp;lang='.$lang : '' );
+								$link = $tcms_main->urlConvertToSEO($link);
+								
+								$liContent .= '<a href="'.$link.'"'.$target.'>'.$value['name'].'</a>';
+								break;
+						}
+						
+						$liContent .= '</strong>';
+						
+						$liContent .= '</li>';
+					}
+				}
+				else {
+					//$liContent = '[Unver&ouml;ffentlicht]';
+					$liContent = '';
+				}
+				
+				if((trim($liContent) != ''
+				|| trim($wsHtml) != '')
+				&& !$isSub
+				&& !$wasSub) {
+					$allHtml .= '<li>';
+				}
+				
+				if(trim($liContent) != '') {
+					if(!$isSub) {
+						$allHtml .= '<strong>';
+					}
+					
+					$allHtml .= $liContent;
+					
+					if(!$isSub) {
+						$allHtml .= '</strong>';
+					}
+				}
+				
+				if(trim($wsHtml) != ''
+				&& $choosenDB != 'xml') {
+					$wsHtmlTemp = str_replace('###xml###', '', $wsHtml);
+					
+					$allHtml .= $wsHtmlTemp;
+				}
+				
+				if((trim($liContent) != ''
+				|| trim($wsHtml) != '')
+				&& !$isSub) {
+					$allHtml .= '</li>';
+				}
+				
+				$wasSub = false;
 			}
 		}
+		
+		echo $allHtml;
 		
 		echo '</ul>'
 		.'<br />';

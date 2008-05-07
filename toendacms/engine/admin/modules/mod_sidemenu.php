@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the sidemenu items.
  *
- * @version 0.8.0
+ * @version 0.8.2
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -212,9 +212,9 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 				.'<img border="0" src="../images/menu.png" style="padding-right: 3px;" />'
 				.( trim($arr_top_menu['type'][$key]) == 'title' ? '<strong>' : '' )
 				.( $choosenDB == 'xml' ? ( trim($arr_top_menu['subid'][$key]) != '-' ? ' &raquo; ' : '' ) : '' )
-				.( trim($arr_top_menu['p1'][$key]) != '-' ? ' &raquo; ' : '' )
-				.( trim($arr_top_menu['p2'][$key]) != '-' ? ' &raquo; ' : '' )
-				.( trim($arr_top_menu['p3'][$key]) != '-' ? ' &raquo; ' : '' )
+				.( trim($arr_top_menu['p1'][$key]) != '-' && trim($arr_top_menu['p1'][$key]) != '' ? ' &raquo; ' : '' )
+				.( trim($arr_top_menu['p2'][$key]) != '-' && trim($arr_top_menu['p2'][$key]) != '' ? ' &raquo; ' : '' )
+				.( trim($arr_top_menu['p3'][$key]) != '-' && trim($arr_top_menu['p3'][$key]) != '' ? ' &raquo; ' : '' )
 				.trim($arr_top_menu['name'][$key])
 				.( trim($arr_top_menu['type'][$key]) == 'title' ? '</strong>' : '' )
 				.'</td>';
@@ -526,9 +526,9 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 						$arr_parent['subid'][$z]  = ( !$all_xml->read_value('subid') ? $all_xml->read_value('subid') : '-' );
 						$arr_parent['parent'][$z] = ( !$all_xml->read_value('parent') ? $all_xml->read_value('parent') : '0' );
 						$arr_parent['name'][$z]   = $all_xml->read_value('name');
-						$arr_parent['parent_lvl1'][$count] = '-';
-						$arr_parent['parent_lvl2'][$count] = '-';
-						$arr_parent['parent_lvl3'][$count] = '-';
+						$arr_parent['parent_lvl1'][$z] = '-';
+						$arr_parent['parent_lvl2'][$z] = '-';
+						$arr_parent['parent_lvl3'][$z] = '-';
 						
 						$arr_parent['name'][$z] = $tcms_main->decodeText($arr_parent['name'][$z], '2', $c_charset);
 						
@@ -693,9 +693,16 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		|| ($choosenDB == 'xml' && $newLink == true )) {
 			echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._TABLE_PARENT.'</strong></td>'
 			.'<td valign="top">'
-			.'<select name="new_sm_parent" class="tcms_select"'
-			.' onchange="( this.value.length > 12 ? gebi(\'new_sm_id\').value=this.value.substring(12) : gebi(\'new_sm_id\').value=this.value.substring(8) );"'
-			.'>';
+			.'<select name="new_sm_parent" class="tcms_select"';
+			
+			if($choosenDB != 'xml') {
+				echo ' onchange="( this.value.length > 12 ? gebi(\'new_sm_id\').value=this.value.substring(12) : gebi(\'new_sm_id\').value=this.value.substring(8) );"';
+			}
+			else {
+				echo ' onchange="document.getElementById(\'new_sm_id\').value=this.value.substring(3);"';
+			}
+			
+			echo '>';
 			
 			$itemCounter = 0;
 			$hasSelect = false;
@@ -883,25 +890,32 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 		if($new_sm_subid  == '' || !isset($new_sm_subid)) { $new_sm_subid = '-'; }
 		if($new_sm_parent == '' || !isset($new_sm_parent)) { $new_sm_parent = '-'; }
 		
-		if(strlen($new_sm_parent) > 12) {
-			$parent_lvl1 = '#####';
-			$parent_lvl2 = substr($new_sm_parent, 4, 5);
-			$parent_lvl3 = '-';
-			$new_sm_parent = '-';
-			
-			$parent_lvl1 = $tcms_menu->getParentUID($parent_lvl2);
-		}
-		else if(strlen($new_sm_parent) > 8 && strlen($new_sm_parent) < 13) {
-			$parent_lvl1 = substr($new_sm_parent, 0, 5);
-			$parent_lvl2 = '-';
-			$parent_lvl3 = '-';
-			$new_sm_parent = substr($new_sm_parent, 8);
+		if($choosenDB != 'xml') {
+			if(strlen($new_sm_parent) > 12) {
+				$parent_lvl1 = '#####';
+				$parent_lvl2 = substr($new_sm_parent, 4, 5);
+				$parent_lvl3 = '-';
+				$new_sm_parent = '-';
+				
+				$parent_lvl1 = $tcms_menu->getParentUID($parent_lvl2);
+			}
+			else if(strlen($new_sm_parent) > 8 && strlen($new_sm_parent) < 13) {
+				$parent_lvl1 = substr($new_sm_parent, 0, 5);
+				$parent_lvl2 = '-';
+				$parent_lvl3 = '-';
+				$new_sm_parent = substr($new_sm_parent, 8);
+			}
+			else {
+				$parent_lvl1 = '-';
+				$parent_lvl2 = '-';
+				$parent_lvl3 = '-';
+				$new_sm_parent = '-';
+			}
 		}
 		else {
-			$parent_lvl1 = '-';
-			$parent_lvl2 = '-';
-			$parent_lvl3 = '-';
-			$new_sm_parent = '-';
+			$new_sm_id = str_replace('#', '', $new_sm_id);
+			$new_sm_parent = str_replace('#', '', $new_sm_parent);
+			$parent_lvl1 = str_replace('#', '', $parent_lvl1);
 		}
 		
 		$new_sm_name = $tcms_main->encodeText($new_sm_name, '2', $c_charset);
@@ -1065,23 +1079,30 @@ if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Wri
 	// -----------------------------------------------------==============================
 	
 	if($todo == 'next') {
-		if(strlen($new_sm_parent) > 12) {
-			$parent_lvl1 = '#####';
-			$parent_lvl2 = substr($new_sm_parent, 4, 5);
-			$parent_lvl3 = '-';
-			
-			$parent_lvl1 = $tcms_menu->getParentUID($parent_lvl2);
-		}
-		else if(strlen($new_sm_parent) > 8 && strlen($new_sm_parent) < 13) {
-			$parent_lvl1 = substr($new_sm_parent, 0, 5);
-			$parent_lvl2 = '-';
-			$parent_lvl3 = '-';
-			$new_sm_parent = substr($new_sm_parent, 8);
+		if($choosenDB != 'xml') {
+			if(strlen($new_sm_parent) > 12) {
+				$parent_lvl1 = '#####';
+				$parent_lvl2 = substr($new_sm_parent, 4, 5);
+				$parent_lvl3 = '-';
+				
+				$parent_lvl1 = $tcms_menu->getParentUID($parent_lvl2);
+			}
+			else if(strlen($new_sm_parent) > 8 && strlen($new_sm_parent) < 13) {
+				$parent_lvl1 = substr($new_sm_parent, 0, 5);
+				$parent_lvl2 = '-';
+				$parent_lvl3 = '-';
+				$new_sm_parent = substr($new_sm_parent, 8);
+			}
+			else {
+				$parent_lvl1 = '-';
+				$parent_lvl2 = '-';
+				$parent_lvl3 = '-';
+			}
 		}
 		else {
-			$parent_lvl1 = '-';
-			$parent_lvl2 = '-';
-			$parent_lvl3 = '-';
+			$new_sm_id = str_replace('#', '', $new_sm_id);
+			$new_sm_parent = str_replace('#', '', $new_sm_parent);
+			$parent_lvl1 = str_replace('#', '', $parent_lvl1);
 		}
 		
 		if($new_sm_parent == $maxID) {
