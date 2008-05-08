@@ -42,10 +42,6 @@ Building Steps: 5008
 
  - security fixed: 
 
- - bug fixed: Sitetitle and Pathway bug on the Sitemap fixed.
- - bug fixed: Sitemap now also generated on the XML database.
- - bug fixed: Sitemenu creation bug fixed.
- - bug fixed: Poll has a bug using it with the XML database.
  - bug fixed: 
 
  - changed: 
@@ -66,6 +62,10 @@ Building Steps: 5008
               backend opens now a timecontrol for all downloads.
  - bug fixed: Fixed many bugs on the MediaManager.
  - bug fixed: Fixed the PDF generator.
+ - bug fixed: Sitetitle and Pathway bug on the Sitemap fixed.
+ - bug fixed: Sitemap now also generated on the XML database.
+ - bug fixed: Sitemenu creation bug fixed.
+ - bug fixed: Poll has a bug using it with the XML database.
  - bug fixed: 
 
  - changed: DataContainer Classes changed to the correct PHP5-Class-Design.
