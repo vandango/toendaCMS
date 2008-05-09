@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a news manager with a news,
  * a news view and a archive with different formats.
  *
- * @version 1.7.0
+ * @version 1.7.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content-Modules
@@ -522,7 +522,7 @@ if($news != ''
 			.'<br />'
 			.'<div class="news_content_box">';
 			
-			$toendaScript->doParsePHP($entryText);
+			$tcms_script->doParsePHP($entryText);
 			
 			echo '</div></div>'
 			.'<br />';
