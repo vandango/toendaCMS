@@ -42,6 +42,7 @@ Building Steps: 5008
 
  - security fixed: 
 
+ - bug fixed: Newsmanager "doParsePHP" bug fixed.
  - bug fixed: 
 
  - changed: 
