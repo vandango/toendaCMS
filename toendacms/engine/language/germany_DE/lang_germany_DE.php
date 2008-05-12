@@ -1488,6 +1488,28 @@ if(!defined('_COUNTRY_MICRONESIA'))            define('_COUNTRY_MICRONESIA', 'Mi
 if(!defined('_COUNTRY_MOLDOVA'))               define('_COUNTRY_MOLDOVA', 'Moldawien');
 if(!defined('_COUNTRY_MONACO'))                define('_COUNTRY_MONACO', 'Monaco');
 if(!defined('_COUNTRY_MONGOLIA'))              define('_COUNTRY_MONGOLIA', 'Mongolei');
+if(!defined('_COUNTRY_MONTSERRAT'))            define('_COUNTRY_MONTSERRAT', 'Montserrat');
+if(!defined('_COUNTRY_MOZAMBIQUE'))            define('_COUNTRY_MOZAMBIQUE', 'Mosambik');
+if(!defined('_COUNTRY_MYANMAR'))               define('_COUNTRY_MYANMAR', 'Myanmar');
+
+if(!defined('_COUNTRY_OMAN'))                  define('_COUNTRY_OMAN', 'Oman');
+if(!defined('_COUNTRY_AUSTRIA'))               define('_COUNTRY_AUSTRIA', '&Ouml;sterreich');
+if(!defined('_COUNTRY_EAST_TIMOR'))            define('_COUNTRY_EAST_TIMOR', 'Ost Timor');
+if(!defined('_COUNTRY_PAKISTAN'))              define('_COUNTRY_PAKISTAN', 'Pakistan');
+if(!defined('_COUNTRY_PALAU'))                 define('_COUNTRY_PALAU', 'Palau');
+if(!defined('_COUNTRY_PANAMA'))                define('_COUNTRY_PANAMA', 'Panama');
+if(!defined('_COUNTRY_PAPUA_NEW_GUINEA'))      define('_COUNTRY_PAPUA_NEW_GUINEA', 'Papua-Neuguinea');
+if(!defined('_COUNTRY_PARAGUAY'))              define('_COUNTRY_PARAGUAY', 'Paraguay');
+if(!defined('_COUNTRY_PERU'))                  define('_COUNTRY_PERU', 'Peru');
+if(!defined('_COUNTRY_PHILLIPPINES'))          define('_COUNTRY_PHILLIPPINES', 'Philippinen');
+if(!defined('_COUNTRY_PITCAIN_ISLANDS'))       define('_COUNTRY_PITCAIN_ISLANDS', 'Pitcairn Inseln');
+if(!defined('_COUNTRY_POLAND'))                define('_COUNTRY_POLAND', 'Polen');
+if(!defined('_COUNTRY_PORTUGAL'))              define('_COUNTRY_PORTUGAL', 'Portugal');
+if(!defined('_COUNTRY_PUERTO_RICO'))           define('_COUNTRY_PUERTO_RICO', 'Puerto Rico');
+if(!defined('_COUNTRY_REUNION'))               define('_COUNTRY_REUNION', 'Reunion');
+if(!defined('_COUNTRY_RWANDA'))                define('_COUNTRY_RWANDA', 'Ruanda');
+if(!defined('_COUNTRY_ROMANIA'))               define('_COUNTRY_ROMANIA', 'Rum&#228;nien');
+if(!defined('_COUNTRY_RUSSIA'))                define('_COUNTRY_RUSSIA', 'Ru&&#223;land');
 
 if(!defined('_COUNTRY_SUDAN'))                 define('_COUNTRY_SUDAN', 'Sudan');
 if(!defined('_COUNTRY_SURINAME'))              define('_COUNTRY_SURINAME', 'Surinam');
