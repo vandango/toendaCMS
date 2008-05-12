@@ -18,7 +18,7 @@
 /**
  * German Language
  * 
- * @version 0.6.1
+ * @version 0.6.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -1524,7 +1524,28 @@ if(!defined('_COUNTRY_REUNION'))               define('_COUNTRY_REUNION', 'Reuni
 if(!defined('_COUNTRY_RWANDA'))                define('_COUNTRY_RWANDA', 'Ruanda');
 if(!defined('_COUNTRY_ROMANIA'))               define('_COUNTRY_ROMANIA', 'Rum&#228;nien');
 if(!defined('_COUNTRY_RUSSIA'))                define('_COUNTRY_RUSSIA', 'Ru&&#223;land');
-
+if(!defined('_COUNTRY_SAMOA'))                 define('_COUNTRY_SAMOA', 'Samoa');
+if(!defined('_COUNTRY_SAN_MARINO'))            define('_COUNTRY_SAN_MARINO', 'San Marino');
+if(!defined('_COUNTRY_SAO_TOME_AND_PRINCIPE')) define('_COUNTRY_SAO_TOME_AND_PRINCIPE', 'Sao Tome und Principe');
+if(!defined('_COUNTRY_SAUDI_ARABIA'))          define('_COUNTRY_SAUDI_ARABIA', 'Saudi Arabien');
+if(!defined('_COUNTRY_SWITZERLAND'))           define('_COUNTRY_SWITZERLAND', 'Schweiz');
+if(!defined('_COUNTRY_SENEGAL'))               define('_COUNTRY_SENEGAL', 'Senegal');
+if(!defined('_COUNTRY_THE_SEYCHELLES'))        define('_COUNTRY_THE_SEYCHELLES', 'Seychellen');
+if(!defined('_COUNTRY_SIERRA_LEONE'))          define('_COUNTRY_SIERRA_LEONE', 'Sierra Leone');
+if(!defined('_COUNTRY_ZIMBABWE'))              define('_COUNTRY_ZIMBABWE', 'Simbabwe');
+if(!defined('_COUNTRY_SINGAPORE'))             define('_COUNTRY_SINGAPORE', 'Singapur');
+if(!defined('_COUNTRY_SLOVAKIA'))              define('_COUNTRY_SLOVAKIA', 'Slovakei');
+if(!defined('_COUNTRY_SLOVENIAN'))             define('_COUNTRY_SLOVENIAN', 'Slovenien');
+if(!defined('_COUNTRY_SOMALIA'))               define('_COUNTRY_SOMALIA', 'Somalia');
+if(!defined('_COUNTRY_SOLOMON_ISLANDS'))       define('_COUNTRY_SOLOMON_ISLANDS', 'Solomon-Inseln');
+if(!defined('_COUNTRY_SPAIN'))                 define('_COUNTRY_SPAIN', 'Spanien');
+if(!defined('_COUNTRY_SRI_LANKA'))             define('_COUNTRY_SRI_LANKA', 'Sri Lanka');
+if(!defined('_COUNTRY_GEORGIA_SANDWICH_IS'))   define('_COUNTRY_GEORGIA_SANDWICH_IS', 'St. Georgia und S. Sandwich Inseln');
+if(!defined('_COUNTRY_ST_HELENA'))             define('_COUNTRY_ST_HELENA', 'St. Helena');
+if(!defined('_COUNTRY_ST_KITTS_NEVIS'))        define('_COUNTRY_ST_KITTS_NEVIS', 'St. Kitts &amp; Nevis');
+if(!defined('_COUNTRY_ST_LUCIA'))              define('_COUNTRY_ST_LUCIA', 'St. Lucia');
+if(!defined('_COUNTRY_ST_PIERRE_MIQUELON'))    define('_COUNTRY_ST_PIERRE_MIQUELON', 'St. Pierre und Miquelon');
+if(!defined('_COUNTRY_ST_VINCENT_GRENADINEN')) define('_COUNTRY_ST_VINCENT_GRENADINEN', 'St. Vincent und Grenadinen');
 if(!defined('_COUNTRY_SUDAN'))                 define('_COUNTRY_SUDAN', 'Sudan');
 if(!defined('_COUNTRY_SURINAME'))              define('_COUNTRY_SURINAME', 'Surinam');
 if(!defined('_COUNTRY_SVALBARD'))              define('_COUNTRY_SVALBARD', 'Svalbard und Jan Mayen (Spitzbergen)');
@@ -1586,28 +1607,40 @@ UTF-8 HTML Entities
 
 
 // SOME FORMATS
-function lang_date($day, $month, $year, $hour, $min, $sec){
-	if(trim($day) != '' && trim($month) != '' && trim($year) != ''){
+function lang_date($day, $month, $year, $hour, $min, $sec) {
+	if(trim($day) != '' && trim($month) != '' && trim($year) != '') {
 		$str1 = $day.'.'.$month.'.'.$year;
 	}
-	else{ $str1 = ''; }
-	
-	if(trim($hour) != '' && trim($min) != ''){
-		if(trim($str1) != ''){ $str3 = ' - '.$hour.':'.$min; }
-		else{ $str3 = $hour.':'.$min; }
+	else {
+		$str1 = '';
 	}
-	else{ $str3 = ''; }
 	
-	if(trim($sec) != ''){ $str2 = ':'.$sec; }
-	else{ $str2 = ''; }
+	if(trim($hour) != '' && trim($min) != '') {
+		if(trim($str1) != '') {
+			$str3 = ' - '.$hour.':'.$min;
+		}
+		else {
+			$str3 = $hour.':'.$min;
+		}
+	}
+	else {
+		$str3 = '';
+	}
+	
+	if(trim($sec) != '') {
+		$str2 = ':'.$sec;
+	}
+	else {
+		$str2 = '';
+	}
 	
 	return $str1.$str3.$str2.( trim($str3) != '' ? ' Uhr' : '');
 }
 
 
 // INCLUDE DEFAULT LANGUAGE
-if(_TCMS_LANGUAGE_STARTPOINT == 'admin'){ include_once('../language/english_EN/lang_english_EN.php'); }
-else{ include_once('engine/language/english_EN/lang_english_EN.php'); }
+if(_TCMS_LANGUAGE_STARTPOINT == 'admin') { include_once('../language/english_EN/lang_english_EN.php'); }
+else { include_once('engine/language/english_EN/lang_english_EN.php'); }
 // END INCLUDE
 
 

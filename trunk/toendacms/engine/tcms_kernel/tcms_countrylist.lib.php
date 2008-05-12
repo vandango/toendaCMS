@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for global values
  *
- * @version 0.0.7
+ * @version 0.1.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -203,28 +203,28 @@ $arrCountry['re'] = _COUNTRY_REUNION;
 $arrCountry['rw'] = _COUNTRY_RWANDA;
 $arrCountry['ro'] = _COUNTRY_ROMANIA;
 $arrCountry['ru'] = _COUNTRY_RUSSIA;
-$arrCountry['ws'] = 'Samoa';
-$arrCountry['sm'] = 'San Marino';
-$arrCountry['st'] = 'Sao Tome und Principe';
-$arrCountry['sa'] = 'Saudi Arabien';
-$arrCountry['ch'] = 'Schweiz';
-$arrCountry['sn'] = 'Senegal';
-$arrCountry['sc'] = 'Seychellen';
-$arrCountry['sl'] = 'Sierra Leone';
-$arrCountry['zw'] = 'Simbabwe';
-$arrCountry['sg'] = 'Singapur';
-$arrCountry['sk'] = 'Slovakei';
-$arrCountry['si'] = 'Slovenien';
-$arrCountry['so'] = 'Somalia';
-$arrCountry['sp'] = 'Solomon-Inseln';
-$arrCountry['es'] = 'Spanien';
-$arrCountry['lk'] = 'Sri Lanka';
-$arrCountry['gs'] = 'St. Georgia und S. Sandwich-Is.';
-$arrCountry['sh'] = 'St. Helena';
-$arrCountry['kn'] = 'St. Kitts &amp; Nevis';
-$arrCountry['lc'] = 'St. Lucia';
-$arrCountry['pm'] = 'St. Pierre und Miquelon';
-$arrCountry['vc'] = 'St. Vincent und Grenadinen';
+$arrCountry['ws'] = _COUNTRY_SAMOA;
+$arrCountry['sm'] = _COUNTRY_SAN_MARINO;
+$arrCountry['st'] = _COUNTRY_SAO_TOME_AND_PRINCIPE;
+$arrCountry['sa'] = _COUNTRY_SAUDI_ARABIA;
+$arrCountry['ch'] = _COUNTRY_SWITZERLAND;
+$arrCountry['sn'] = _COUNTRY_SENEGAL;
+$arrCountry['sc'] = _COUNTRY_THE_SEYCHELLES;
+$arrCountry['sl'] = _COUNTRY_SIERRA_LEONE;
+$arrCountry['zw'] = _COUNTRY_ZIMBABWE;
+$arrCountry['sg'] = _COUNTRY_SINGAPORE;
+$arrCountry['sk'] = _COUNTRY_SLOVAKIA;
+$arrCountry['si'] = _COUNTRY_SLOVENIAN;
+$arrCountry['so'] = _COUNTRY_SOMALIA;
+$arrCountry['sp'] = _COUNTRY_SOLOMON_ISLANDS;
+$arrCountry['es'] = _COUNTRY_SPAIN;
+$arrCountry['lk'] = _COUNTRY_SRI_LANKA;
+$arrCountry['gs'] = _COUNTRY_GEORGIA_SANDWICH_IS;
+$arrCountry['sh'] = _COUNTRY_ST_HELENA;
+$arrCountry['kn'] = _COUNTRY_ST_KITTS_NEVIS;
+$arrCountry['lc'] = _COUNTRY_ST_LUCIA;
+$arrCountry['pm'] = _COUNTRY_ST_PIERRE_MIQUELON;
+$arrCountry['vc'] = _COUNTRY_ST_VINCENT_GRENADINEN;
 $arrCountry['sd'] = _COUNTRY_SUDAN;
 $arrCountry['sr'] = _COUNTRY_SURINAME;
 $arrCountry['sj'] = _COUNTRY_SVALBARD;

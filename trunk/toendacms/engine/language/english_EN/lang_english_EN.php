@@ -18,7 +18,7 @@
 /**
  * English Language
  * 
- * @version 0.6.1
+ * @version 0.6.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -1518,30 +1518,28 @@ if(!defined('_COUNTRY_REUNION'))               define('_COUNTRY_REUNION', 'Reuni
 if(!defined('_COUNTRY_RWANDA'))                define('_COUNTRY_RWANDA', 'Rwanda');
 if(!defined('_COUNTRY_ROMANIA'))               define('_COUNTRY_ROMANIA', 'Romania');
 if(!defined('_COUNTRY_RUSSIA'))                define('_COUNTRY_RUSSIA', 'Russia');
-
-$arrCountry['ws'] = 'Samoa';
-$arrCountry['sm'] = 'San Marino';
-$arrCountry['st'] = 'Sao Tome und Principe';
-$arrCountry['sa'] = 'Saudi Arabien';
-$arrCountry['ch'] = 'Schweiz';
-$arrCountry['sn'] = 'Senegal';
-$arrCountry['sc'] = 'Seychellen';
-$arrCountry['sl'] = 'Sierra Leone';
-$arrCountry['zw'] = 'Simbabwe';
-$arrCountry['sg'] = 'Singapur';
-$arrCountry['sk'] = 'Slovakei';
-$arrCountry['si'] = 'Slovenien';
-$arrCountry['so'] = 'Somalia';
-$arrCountry['sp'] = 'Solomon-Inseln';
-$arrCountry['es'] = 'Spanien';
-$arrCountry['lk'] = 'Sri Lanka';
-$arrCountry['gs'] = 'St. Georgia und S. Sandwich-Is.';
-$arrCountry['sh'] = 'St. Helena';
-$arrCountry['kn'] = 'St. Kitts &amp; Nevis';
-$arrCountry['lc'] = 'St. Lucia';
-$arrCountry['pm'] = 'St. Pierre und Miquelon';
-$arrCountry['vc'] = 'St. Vincent und Grenadinen';
-
+if(!defined('_COUNTRY_SAMOA'))                 define('_COUNTRY_SAMOA', 'Samoa');
+if(!defined('_COUNTRY_SAN_MARINO'))            define('_COUNTRY_SAN_MARINO', 'San Marino');
+if(!defined('_COUNTRY_SAO_TOME_AND_PRINCIPE')) define('_COUNTRY_SAO_TOME_AND_PRINCIPE', 'Sao Tome and Principe');
+if(!defined('_COUNTRY_SAUDI_ARABIA'))          define('_COUNTRY_SAUDI_ARABIA', 'Saudi Arabia');
+if(!defined('_COUNTRY_SWITZERLAND'))           define('_COUNTRY_SWITZERLAND', 'Switzerland');
+if(!defined('_COUNTRY_SENEGAL'))               define('_COUNTRY_SENEGAL', 'Senegal');
+if(!defined('_COUNTRY_THE_SEYCHELLES'))        define('_COUNTRY_THE_SEYCHELLES', 'The Seychelles');
+if(!defined('_COUNTRY_SIERRA_LEONE'))          define('_COUNTRY_SIERRA_LEONE', 'Sierra Leone');
+if(!defined('_COUNTRY_ZIMBABWE'))              define('_COUNTRY_ZIMBABWE', 'Zimbabwe');
+if(!defined('_COUNTRY_SINGAPORE'))             define('_COUNTRY_SINGAPORE', 'Singapore');
+if(!defined('_COUNTRY_SLOVAKIA'))              define('_COUNTRY_SLOVAKIA', 'Slovakia');
+if(!defined('_COUNTRY_SLOVENIAN'))             define('_COUNTRY_SLOVENIAN', 'Slovenian');
+if(!defined('_COUNTRY_SOMALIA'))               define('_COUNTRY_SOMALIA', 'Somalia');
+if(!defined('_COUNTRY_SOLOMON_ISLANDS'))       define('_COUNTRY_SOLOMON_ISLANDS', 'Solomon Islands');
+if(!defined('_COUNTRY_SPAIN'))                 define('_COUNTRY_SPAIN', 'Spain');
+if(!defined('_COUNTRY_SRI_LANKA'))             define('_COUNTRY_SRI_LANKA', 'Sri Lanka');
+if(!defined('_COUNTRY_GEORGIA_SANDWICH_IS'))   define('_COUNTRY_GEORGIA_SANDWICH_IS', 'St. Georgia and S. Sandwich Islands');
+if(!defined('_COUNTRY_ST_HELENA'))             define('_COUNTRY_ST_HELENA', 'St. Helena');
+if(!defined('_COUNTRY_ST_KITTS_NEVIS'))        define('_COUNTRY_ST_KITTS_NEVIS', 'St. Kitts &amp; Nevis');
+if(!defined('_COUNTRY_ST_LUCIA'))              define('_COUNTRY_ST_LUCIA', 'St. Lucia');
+if(!defined('_COUNTRY_ST_PIERRE_MIQUELON'))    define('_COUNTRY_ST_PIERRE_MIQUELON', 'St. Pierre and Miquelon');
+if(!defined('_COUNTRY_ST_VINCENT_GRENADINEN')) define('_COUNTRY_ST_VINCENT_GRENADINEN', 'St. Vincent and Grenadinen');
 if(!defined('_COUNTRY_SUDAN'))                 define('_COUNTRY_SUDAN', 'Sudan');
 if(!defined('_COUNTRY_SURINAME'))              define('_COUNTRY_SURINAME', 'Suriname');
 if(!defined('_COUNTRY_SVALBARD'))              define('_COUNTRY_SVALBARD', 'Svalbard and Jan Mayen');
