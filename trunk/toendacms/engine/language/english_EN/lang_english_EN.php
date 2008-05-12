@@ -1482,10 +1482,10 @@ if(!defined('_COUNTRY_MICRONESIA'))            define('_COUNTRY_MICRONESIA', 'Mi
 if(!defined('_COUNTRY_MOLDOVA'))               define('_COUNTRY_MOLDOVA', 'Moldova');
 if(!defined('_COUNTRY_MONACO'))                define('_COUNTRY_MONACO', 'Monaco');
 if(!defined('_COUNTRY_MONGOLIA'))              define('_COUNTRY_MONGOLIA', 'Mongolia');
+if(!defined('_COUNTRY_MONTSERRAT'))            define('_COUNTRY_MONTSERRAT', 'Montserrat');
+if(!defined('_COUNTRY_MOZAMBIQUE'))            define('_COUNTRY_MOZAMBIQUE', 'Mozambique');
+if(!defined('_COUNTRY_MYANMAR'))               define('_COUNTRY_MYANMAR', 'Myanmar');
 
-$arrCountry['ms'] = 'Montserrat';
-$arrCountry['mz'] = 'Mozambique';
-$arrCountry['mm'] = 'Myanmar';
 $arrCountry['na'] = 'Namibia';
 $arrCountry['nr'] = 'Nauru';
 $arrCountry['np'] = 'Nepal';
@@ -1501,24 +1501,26 @@ $arrCountry['kp'] = 'Nordkorea';
 $arrCountry['nf'] = 'Norfolk-Inseln';
 $arrCountry['no'] = 'Norwegen';
 $arrCountry['mp'] = 'N?rdliche Marianen';
-$arrCountry['om'] = 'Oman';
-$arrCountry['at'] = '&Ouml;sterreich';
-$arrCountry['tp'] = 'Ost-Timor';
-$arrCountry['pk'] = 'Pakistan';
-$arrCountry['pw'] = 'Palau';
-$arrCountry['pa'] = 'Panama';
-$arrCountry['pg'] = 'Papua-Neuguinea';
-$arrCountry['py'] = 'Paraguay';
-$arrCountry['pe'] = 'Peru';
-$arrCountry['ph'] = 'Philippinen';
-$arrCountry['pn'] = 'Pitcairn-Inseln';
-$arrCountry['pl'] = 'Polen';
-$arrCountry['pt'] = 'Portugal';
-$arrCountry['pr'] = 'Puerto Rico';
-$arrCountry['re'] = 'Reunion';
-$arrCountry['rw'] = 'Ruanda';
-$arrCountry['ro'] = 'Rum&#228;nien';
-$arrCountry['ru'] = 'Ru&&#223;land';
+
+if(!defined('_COUNTRY_OMAN'))                  define('_COUNTRY_OMAN', 'Oman');
+if(!defined('_COUNTRY_AUSTRIA'))               define('_COUNTRY_AUSTRIA', 'Austria');
+if(!defined('_COUNTRY_EAST_TIMOR'))            define('_COUNTRY_EAST_TIMOR', 'East Timor');
+if(!defined('_COUNTRY_PAKISTAN'))              define('_COUNTRY_PAKISTAN', 'Pakistan');
+if(!defined('_COUNTRY_PALAU'))                 define('_COUNTRY_PALAU', 'Palau');
+if(!defined('_COUNTRY_PANAMA'))                define('_COUNTRY_PANAMA', 'Panama');
+if(!defined('_COUNTRY_PAPUA_NEW_GUINEA'))      define('_COUNTRY_PAPUA_NEW_GUINEA', 'Papua New Guinea'); // Papua-Neuguinea
+if(!defined('_COUNTRY_PARAGUAY'))              define('_COUNTRY_PARAGUAY', 'Paraguay');
+if(!defined('_COUNTRY_PERU'))                  define('_COUNTRY_PERU', 'Peru');
+if(!defined('_COUNTRY_PHILLIPPINES'))          define('_COUNTRY_PHILLIPPINES', 'Philippines');
+if(!defined('_COUNTRY_PITCAIN_ISLANDS'))       define('_COUNTRY_PITCAIN_ISLANDS', 'Pitcairn Islands');
+if(!defined('_COUNTRY_POLAND'))                define('_COUNTRY_POLAND', 'Poland');
+if(!defined('_COUNTRY_PORTUGAL'))              define('_COUNTRY_PORTUGAL', 'Portugal');
+if(!defined('_COUNTRY_PUERTO_RICO'))           define('_COUNTRY_PUERTO_RICO', 'Puerto Rico');
+if(!defined('_COUNTRY_REUNION'))               define('_COUNTRY_REUNION', 'Reunion');
+if(!defined('_COUNTRY_RWANDA'))                define('_COUNTRY_RWANDA', 'Rwanda');
+if(!defined('_COUNTRY_ROMANIA'))               define('_COUNTRY_ROMANIA', 'Romania');
+if(!defined('_COUNTRY_RUSSIA'))                define('_COUNTRY_RUSSIA', 'Russia');
+
 $arrCountry['ws'] = 'Samoa';
 $arrCountry['sm'] = 'San Marino';
 $arrCountry['st'] = 'Sao Tome und Principe';
