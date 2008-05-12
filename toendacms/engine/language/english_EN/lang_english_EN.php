@@ -1485,23 +1485,21 @@ if(!defined('_COUNTRY_MONGOLIA'))              define('_COUNTRY_MONGOLIA', 'Mong
 if(!defined('_COUNTRY_MONTSERRAT'))            define('_COUNTRY_MONTSERRAT', 'Montserrat');
 if(!defined('_COUNTRY_MOZAMBIQUE'))            define('_COUNTRY_MOZAMBIQUE', 'Mozambique');
 if(!defined('_COUNTRY_MYANMAR'))               define('_COUNTRY_MYANMAR', 'Myanmar');
-
-$arrCountry['na'] = 'Namibia';
-$arrCountry['nr'] = 'Nauru';
-$arrCountry['np'] = 'Nepal';
-$arrCountry['nc'] = 'Neukaledonien';
-$arrCountry['nz'] = 'Neuseeland';
-$arrCountry['ni'] = 'Nicaragua';
-$arrCountry['nl'] = 'Niederlande';
-$arrCountry['an'] = 'Niederl&#228;ndische Antillen';
-$arrCountry['ne'] = 'Niger';
-$arrCountry['ng'] = 'Nigeria';
-$arrCountry['nu'] = 'Niue';
-$arrCountry['kp'] = 'Nordkorea';
-$arrCountry['nf'] = 'Norfolk-Inseln';
-$arrCountry['no'] = 'Norwegen';
-$arrCountry['mp'] = 'N?rdliche Marianen';
-
+if(!defined('_COUNTRY_NAMIBIA'))               define('_COUNTRY_NAMIBIA', 'Namibia');
+if(!defined('_COUNTRY_NAURU'))                 define('_COUNTRY_NAURU', 'Nauru');
+if(!defined('_COUNTRY_NEPAL'))                 define('_COUNTRY_NEPAL', 'Nepal');
+if(!defined('_COUNTRY_NEW_CALEDONIA'))         define('_COUNTRY_NEW_CALEDONIA', 'New Caledonia');
+if(!defined('_COUNTRY_NEW_ZEALAND'))           define('_COUNTRY_NEW_ZEALAND', 'New Zealand');
+if(!defined('_COUNTRY_NICARAGUA'))             define('_COUNTRY_NICARAGUA', 'Nicaragua');
+if(!defined('_COUNTRY_NETHERLANDS'))           define('_COUNTRY_NETHERLANDS', 'Netherlands');
+if(!defined('_COUNTRY_NETHERLANDS_ANTILLES'))  define('_COUNTRY_NETHERLANDS_ANTILLES', 'The Netherlands Antilles');
+if(!defined('_COUNTRY_NIGER'))                 define('_COUNTRY_NIGER', 'Niger');
+if(!defined('_COUNTRY_NIGERIA'))               define('_COUNTRY_NIGERIA', 'Nigeria');
+if(!defined('_COUNTRY_NIUE'))                  define('_COUNTRY_NIUE', 'Niue');
+if(!defined('_COUNTRY_NORTH_KOREA'))           define('_COUNTRY_NORTH_KOREA', 'North Korea');
+if(!defined('_COUNTRY_NORFOLK_ISLANDS'))       define('_COUNTRY_NORFOLK_ISLANDS', 'Norfolk Islands');
+if(!defined('_COUNTRY_NORWAY'))                define('_COUNTRY_NORWAY', 'Norway');
+if(!defined('_COUNTRY_MARIANA_ISLANDS'))       define('_COUNTRY_MARIANA_ISLANDS', 'Mariana Islands');
 if(!defined('_COUNTRY_OMAN'))                  define('_COUNTRY_OMAN', 'Oman');
 if(!defined('_COUNTRY_AUSTRIA'))               define('_COUNTRY_AUSTRIA', 'Austria');
 if(!defined('_COUNTRY_EAST_TIMOR'))            define('_COUNTRY_EAST_TIMOR', 'East Timor');
