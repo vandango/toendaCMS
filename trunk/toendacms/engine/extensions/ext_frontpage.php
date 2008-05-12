@@ -29,7 +29,6 @@ defined('_TCMS_VALID') or die('Restricted access');
  * @subpackage Content-Modules
  */
 
-
 if(isset($_GET['save'])){ $save = $_GET['save']; }
 if(isset($_GET['news'])){ $news = $_GET['news']; }
 if(isset($_GET['cmd'])){ $cmd = $_GET['cmd']; }

@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a contacts manager.
  *
- * @version 0.4.6
+ * @version 0.4.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -389,18 +389,14 @@ if($id_group == 'Developer'
 		
 		
 		// row
-		require_once('../tcms_kernel/tcms_countrylist.lib.php');
-		
-		echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._PERSON_COUNTRY.'</strong></td>'
-		.'<td>&nbsp;<img src="../images/dot_3.gif" border="0" />&nbsp;'
-		//.'<select class="tcms_select" name="new_country">';
-		.'<input class="tcms_input_normal" name="new_country" type="text" value="'.$tc_country.'" />'
-		//foreach($arrCountryList as $key => $value){
-		//	echo '<option value="'.$arrCountryList[$key]['xs'].'"'.( $arrCountryList[$key]['xs'] == $tc_country ? ' selected="selected"' : '' ).'>'.$value['xl'].'</option>';
-		//}
-		
-		//echo '</select>'
-		.'</td></tr>';
+		echo '<tr>'
+		.'<td valign="top" width="'.$width.'">'
+		.'<strong class="tcms_bold">'._PERSON_COUNTRY.'</strong>'
+		.'</td><td>'
+		.'&nbsp;<img src="../images/dot_3.gif" border="0" />&nbsp;'
+		.$tcms_html->countryList('tcms_select', 'new_country', $tc_country, true)
+		.'</td>'
+		.'</tr>';
 		
 		
 		// row

@@ -30,33 +30,33 @@ defined('_TCMS_VALID') or die('Restricted access');
  */
 
 
-if(isset($_GET['action'])){ $action = $_GET['action']; }
+if(isset($_GET['action'])) { $action = $_GET['action']; }
 
-if(isset($_POST['full_name'])){ $full_name = $_POST['full_name']; }
-if(isset($_POST['new_username'])){ $new_username = $_POST['new_username']; }
-if(isset($_POST['check_pw'])){ $check_pw = $_POST['check_pw']; }
-if(isset($_POST['new_pw'])){ $new_pw = $_POST['new_pw']; }
-if(isset($_POST['new_email'])){ $new_email = $_POST['new_email']; }
-if(isset($_POST['new_group'])){ $new_group = $_POST['new_group']; }
-if(isset($_POST['new_join'])){ $new_join = $_POST['new_join']; }
-if(isset($_POST['new_day'])){ $new_day = $_POST['new_day']; }
-if(isset($_POST['new_month'])){ $new_month = $_POST['new_month']; }
-if(isset($_POST['new_year'])){ $new_year = $_POST['new_year']; }
-if(isset($_POST['new_sex'])){ $new_sex = $_POST['new_sex']; }
-if(isset($_POST['new_occ'])){ $new_occ = $_POST['new_occ']; }
-if(isset($_POST['new_www'])){ $new_www = $_POST['new_www']; }
-if(isset($_POST['new_icq'])){ $new_icq = $_POST['new_icq']; }
-if(isset($_POST['new_aim'])){ $new_aim = $_POST['new_aim']; }
-if(isset($_POST['new_yim'])){ $new_yim = $_POST['new_yim']; }
-if(isset($_POST['new_msn'])){ $new_msn = $_POST['new_msn']; }
-if(isset($_POST['new_skype'])){ $new_skype = $_POST['new_skype']; }
-if(isset($_POST['new_enabled'])){ $new_enabled = $_POST['new_enabled']; }
-if(isset($_POST['new_tcms'])){ $new_tcms = $_POST['new_tcms']; }
-if(isset($_POST['new_signature'])){ $new_signature = $_POST['new_signature']; }
-if(isset($_POST['new_location'])){ $new_location = $_POST['new_location']; }
-if(isset($_POST['new_hobby'])){ $new_hobby = $_POST['new_hobby']; }
-if(isset($_POST['new_static'])){ $new_static = $_POST['new_static']; }
-if(isset($_POST['new_last_login'])){ $new_last_login = $_POST['new_last_login']; }
+if(isset($_POST['full_name'])) { $full_name = $_POST['full_name']; }
+if(isset($_POST['new_username'])) { $new_username = $_POST['new_username']; }
+if(isset($_POST['check_pw'])) { $check_pw = $_POST['check_pw']; }
+if(isset($_POST['new_pw'])) { $new_pw = $_POST['new_pw']; }
+if(isset($_POST['new_email'])) { $new_email = $_POST['new_email']; }
+if(isset($_POST['new_group'])) { $new_group = $_POST['new_group']; }
+if(isset($_POST['new_join'])) { $new_join = $_POST['new_join']; }
+if(isset($_POST['new_day'])) { $new_day = $_POST['new_day']; }
+if(isset($_POST['new_month'])) { $new_month = $_POST['new_month']; }
+if(isset($_POST['new_year'])) { $new_year = $_POST['new_year']; }
+if(isset($_POST['new_sex'])) { $new_sex = $_POST['new_sex']; }
+if(isset($_POST['new_occ'])) { $new_occ = $_POST['new_occ']; }
+if(isset($_POST['new_www'])) { $new_www = $_POST['new_www']; }
+if(isset($_POST['new_icq'])) { $new_icq = $_POST['new_icq']; }
+if(isset($_POST['new_aim'])) { $new_aim = $_POST['new_aim']; }
+if(isset($_POST['new_yim'])) { $new_yim = $_POST['new_yim']; }
+if(isset($_POST['new_msn'])) { $new_msn = $_POST['new_msn']; }
+if(isset($_POST['new_skype'])) { $new_skype = $_POST['new_skype']; }
+if(isset($_POST['new_enabled'])) { $new_enabled = $_POST['new_enabled']; }
+if(isset($_POST['new_tcms'])) { $new_tcms = $_POST['new_tcms']; }
+if(isset($_POST['new_signature'])) { $new_signature = $_POST['new_signature']; }
+if(isset($_POST['new_location'])) { $new_location = $_POST['new_location']; }
+if(isset($_POST['new_hobby'])) { $new_hobby = $_POST['new_hobby']; }
+if(isset($_POST['new_static'])) { $new_static = $_POST['new_static']; }
+if(isset($_POST['new_last_login'])) { $new_last_login = $_POST['new_last_login']; }
 
 
 
@@ -68,7 +68,7 @@ if(isset($_POST['new_last_login'])){ $new_last_login = $_POST['new_last_login'];
 
 echo '<script language="JavaScript" src="../js/dhtml.js"></script>';
 
-if(!isset($todo)){ $todo = 'show'; }
+if(!isset($todo)) { $todo = 'show'; }
 
 $bgkey = 0;
 
@@ -104,8 +104,8 @@ if($todo == 'show') {
 				if(!$arr_user['user'][$key])  { $arr_user['user'][$key]   = ''; }
 				if(!$arr_user['group'][$key]) { $arr_user['group'][$key]  = ''; }
 				if(!$arr_user['email'][$key]) { $arr_user['email'][$key]  = ''; }
-				if(!$arr_user['enable'][$key]){ $arr_user['enable'][$key] = ''; }
-				if(!$arr_user['static'][$key]){ $arr_user['static'][$key] = ''; }
+				if(!$arr_user['enable'][$key]) { $arr_user['enable'][$key] = ''; }
+				if(!$arr_user['static'][$key]) { $arr_user['static'][$key] = ''; }
 				
 				if(trim($arr_user['static'][$key]) == ''
 				&& $arr_user['user'][$key] == 'root') {
@@ -118,7 +118,7 @@ if($todo == 'show') {
 			}
 		}
 		
-		if(is_array($arr_user)){
+		if(is_array($arr_user)) {
 			array_multisort(
 				$arr_user['group'], SORT_ASC, 
 				$arr_user['user'], SORT_ASC, 
@@ -130,16 +130,16 @@ if($todo == 'show') {
 			);
 		}
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		if($choosenDB == 'mssql'){
+		if($choosenDB == 'mssql') {
 			$sqlSTR = "SELECT * "
 			."FROM ".$tcms_db_prefix."user "
 			."ORDER BY ".$tcms_db_prefix."user.[group] ASC, ".$tcms_db_prefix."user.[username] ASC, ".$tcms_db_prefix."user.[name] ASC";
 		}
-		else{
+		else {
 			$sqlSTR = "SELECT * "
 			."FROM ".$tcms_db_prefix."user "
 			."ORDER BY ".$tcms_db_prefix."user.group ASC, ".$tcms_db_prefix."user.username ASC, ".$tcms_db_prefix."user.name ASC";
@@ -149,7 +149,7 @@ if($todo == 'show') {
 		
 		$count = 0;
 		
-		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)) {
 			$arr_user['tag'][$count]    = $sqlARR['uid'];
 			$arr_user['name'][$count]   = $sqlARR['name'];
 			$arr_user['user'][$count]   = $sqlARR['username'];
@@ -158,12 +158,12 @@ if($todo == 'show') {
 			$arr_user['enable'][$count] = $sqlARR['enabled'];
 			$arr_user['static'][$count] = $sqlARR['static_value'];
 			
-			if($arr_user['name'][$count]   == NULL){ $arr_user['name'][$count]   = ''; }
-			if($arr_user['user'][$count]   == NULL){ $arr_user['user'][$count]   = ''; }
-			if($arr_user['group'][$count]  == NULL){ $arr_user['group'][$count]  = ''; }
-			if($arr_user['email'][$count]  == NULL){ $arr_user['email'][$count]  = ''; }
-			if($arr_user['enable'][$count] == NULL){ $arr_user['enable'][$count] = ''; }
-			if($arr_user['static'][$count] == NULL){ $arr_user['static'][$count] = ''; }
+			if($arr_user['name'][$count]   == NULL) { $arr_user['name'][$count]   = ''; }
+			if($arr_user['user'][$count]   == NULL) { $arr_user['user'][$count]   = ''; }
+			if($arr_user['group'][$count]  == NULL) { $arr_user['group'][$count]  = ''; }
+			if($arr_user['email'][$count]  == NULL) { $arr_user['email'][$count]  = ''; }
+			if($arr_user['enable'][$count] == NULL) { $arr_user['enable'][$count] = ''; }
+			if($arr_user['static'][$count] == NULL) { $arr_user['static'][$count] = ''; }
 			
 			// CHARSETS
 			$arr_user['name'][$count] = $tcms_main->decodeText($arr_user['name'][$count], '2', $c_charset);
@@ -185,9 +185,9 @@ if($todo == 'show') {
 		.'<th valign="middle" class="tcms_db_title" width="10%" align="left">'._TABLE_GROUP.'</th>'
 		.'<th valign="middle" class="tcms_db_title" width="20%" align="right">'._TABLE_FUNCTIONS.'</th><tr>';
 	
-	if(isset($arr_user['tag']) && !empty($arr_user['tag']) && $arr_user['tag'] != ''){
-		foreach ($arr_user['tag'] as $key => $value){
-			if($id_group == 'Developer' || $id_group == 'Administrator'){
+	if(isset($arr_user['tag']) && !empty($arr_user['tag']) && $arr_user['tag'] != '') {
+		foreach ($arr_user['tag'] as $key => $value) {
+			if($id_group == 'Developer' || $id_group == 'Administrator') {
 				/*
 				 *
 				 * ONLY ADMIN CAN CHANGE USERSETTINGS
@@ -229,13 +229,13 @@ if($todo == 'show') {
 				
 				echo '</tr>';
 			}
-			else{
+			else {
 				/*
 				 *
 				 * ONLY ADMIN CAN CHANGE USERSETTINGS
 				 *
 				 */
-				if($id_username == $arr_user['user'][$key]){
+				if($id_username == $arr_user['user'][$key]) {
 					$bgkey++;
 					if(is_integer($bgkey/2)) $wsc = $arr_color[0];
 					else $wsc = $arr_color[1];
@@ -286,22 +286,22 @@ if($todo == 'show') {
 // EDIT USER
 //=====================================================
 
-if($todo == 'edit'){
+if($todo == 'edit') {
 	$canEdit = true;
 	
-	if($id_group != 'Developer' && $id_group != 'Administrator'){
-		if($maintag != $id_uid){
+	if($id_group != 'Developer' && $id_group != 'Administrator') {
+		if($maintag != $id_uid) {
 			$canEdit = false;
 		}
-		else{
+		else {
 			$canEdit = true;
 		}
 	}
 	
 	$show_edit_fields = false;
 	
-	if($canEdit){
-		if(isset($maintag)){
+	if($canEdit) {
+		if(isset($maintag)) {
 			if($tcms_ap->checkUserExists($maintag)) {
 				$show_edit_fields = true;
 			}
@@ -339,11 +339,11 @@ if($todo == 'edit'){
 			echo $tcms_html->bold(_TABLE_EDIT);
 			$odot = 'save';
 		}
-		else{
-			if($id_group == 'Developer' || $id_group == 'Administrator'){
+		else {
+			if($id_group == 'Developer' || $id_group == 'Administrator') {
 				$show_edit_fields = true;
 			}
-			else{
+			else {
 				$show_edit_fields = false;
 			}
 			
@@ -376,7 +376,7 @@ if($todo == 'edit'){
 		}
 		
 		
-		if($show_edit_fields){
+		if($show_edit_fields) {
 			$width = '200';
 			
 			echo $tcms_html->text(_LU_DES_TEXT.'<br /><br />', 'left');
@@ -442,12 +442,12 @@ if($todo == 'edit'){
 			
 			
 			// table row
-			if($id_group == 'Developer' || $id_group == 'Administrator'){
+			if($id_group == 'Developer' || $id_group == 'Administrator') {
 				echo '<tr><td valign="top" width="'.$width.'">'
 				.'&nbsp;<img src="../images/dot_2.gif" border="0" />&nbsp;'
 				.'<strong class="tcms_bold">'._PERSON_GROUP.'</strong> (<em>'._PERSON_RIGHTS.'</em>)'
 				.'</td><td><select name="new_group" class="tcms_select">';
-				foreach($arr_group as $gkey => $gvalue){
+				foreach($arr_group as $gkey => $gvalue) {
 					echo '<option'.
 					(
 						$tu_group == $gvalue
@@ -466,7 +466,7 @@ if($todo == 'edit'){
 				}
 				echo '</select></td></tr>';
 			}
-			else{
+			else {
 				echo '<tr><td valign="top" width="'.$width.'">'
 				.'&nbsp;<img src="../images/dot_2.gif" border="0" />&nbsp;'
 				.'<strong class="tcms_bold">'._PERSON_GROUP.'</strong> (<em>'._PERSON_RIGHTS.'</em>)'
@@ -528,6 +528,23 @@ if($todo == 'edit'){
 			</td></tr>';
 			
 			
+			// country
+			/*
+			require_once('../tcms_kernel/tcms_countrylist.lib.php');
+			
+			echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._PERSON_COUNTRY.'</strong></td>'
+			.'<td>&nbsp;<img src="../images/dot_3.gif" border="0" />&nbsp;'
+			//.'<select class="tcms_select" name="new_country">';
+			.'<input class="tcms_input_normal" name="new_country" type="text" value="'.$tc_country.'" />'
+			//foreach($arrCountryList as $key => $value){
+			//	echo '<option value="'.$arrCountryList[$key]['xs'].'"'.( $arrCountryList[$key]['xs'] == $tc_country ? ' selected="selected"' : '' ).'>'.$value['xl'].'</option>';
+			//}
+			
+			//echo '</select>'
+			.'</td></tr>';
+			*/
+			
+			
 			// table row
 			echo '
 			<tr><td valign="top" width="'.$width.'">
@@ -539,23 +556,31 @@ if($todo == 'edit'){
 			
 			
 			// table row
-			echo '
-			<tr><td valign="top" width="'.$width.'">
-				&nbsp;<img src="../images/dot_3.gif" border="0" />&nbsp;
-				<strong class="tcms_bold">'._PERSON_BIRTHDAY.'</strong>
-			</td><td valign="baseline">
-				<select name="new_day" class="tcms_select_day">';
-				foreach($arr_day as $key => $value){
-					echo '<option value="'.$value.'"'.( substr($tu_birthday, 0, 2) == $value ? ' selected' : '' ).'>'.$value.'</option>';
-				}echo '</select>
-				
-				<select name="new_month" class="tcms_select_month">';
-				foreach($arr_month12 as $key => $value){
-					echo '<option value="'.$value.'"'.( substr($tu_birthday, 3, 2) == $value ? ' selected' : '' ).'>'.$monthName[$value].'</option>';
-				}echo '</select>
-				
-				<input class="tcms_input_mini" name="new_year" type="text" value="'.( substr($tu_birthday, 6, 4) ).'" />
-			</td></tr>';
+			echo '<tr>'
+			.'<td valign="top" width="'.$width.'">'
+			.'&nbsp;<img src="../images/dot_3.gif" border="0" />&nbsp;'
+			.'<strong class="tcms_bold">'._PERSON_BIRTHDAY.'</strong>'
+			.'</td>'
+			.'<td valign="baseline">'
+			.'<select name="new_day" class="tcms_select_day">';
+			
+			foreach($arr_day as $key => $value) {
+				echo '<option value="'.$value.'"'.( substr($tu_birthday, 0, 2) == $value ? ' selected' : '' ).'>'.$value.'</option>';
+			}
+			
+			echo '</select>'
+			.'&nbsp;'
+			.'<select name="new_month" class="tcms_select_month">';
+			
+			foreach($arr_month12 as $key => $value) {
+				echo '<option value="'.$value.'"'.( substr($tu_birthday, 3, 2) == $value ? ' selected' : '' ).'>'.$monthName[$value].'</option>';
+			}
+			
+			echo '</select>'
+			.'&nbsp;'
+			.'<input class="tcms_input_mini" name="new_year" type="text" value="'.( substr($tu_birthday, 6, 4) ).'" />'
+			.'</td>'
+			.'</tr>';
 			
 			
 			// table row
@@ -654,10 +679,10 @@ if($todo == 'edit'){
 			
 			
 			// table row
-			if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Tester'){
+			if($id_group == 'Developer' || $id_group == 'Administrator' || $id_group == 'Tester') {
 				echo '<input name="new_enabled" value="1" type="checkbox"'.( $tu_enabled == 1 ? ' checked="checked"' : '' ).' />';
 			}
-			else{
+			else {
 				echo '<input name="new_enabled" value="1" type="hidden" />'
 				.'<img src="../images/px.png" border="0" />'
 				.'<img src="../images/yes.png" border="0" />';
@@ -677,11 +702,11 @@ if($todo == 'edit'){
 			echo '</table>'
 			.'</form>';
 		}
-		else{
+		else {
 			echo '<strong>'._MSG_NOTENOUGH_USERRIGHTS.'</strong>';
 		}
 	}
-	else{
+	else {
 		echo '<strong>'._MSG_NOTENOUGH_USERRIGHTS.'</strong>';
 	}
 }
@@ -694,7 +719,7 @@ if($todo == 'edit'){
 // SAVE EDITING
 //=====================================================
 
-if($todo == 'save'){
+if($todo == 'save') {
 	if(empty($new_enabled)) $new_enabled = 0;
 	if(empty($new_tcms))    $new_tcms    = 0;
 	if(empty($new_static))  $new_static  = 0;
@@ -748,10 +773,10 @@ if($todo == 'save'){
 // NEW
 //===================================================================================
 
-if($todo == 'next'){
-	if($new_enabled == '' || empty($new_enabled) || !isset($new_enabled)){ $new_enabled = 0; }
+if($todo == 'next') {
+	if($new_enabled == '' || empty($new_enabled) || !isset($new_enabled)) { $new_enabled = 0; }
 	if($new_tcms    == '' || empty($new_tcms)    || !isset($new_tcms))   { $new_tcms    = 0; }
-	if(!isset($new_join)){ $new_join = date('Y.m.d-H:i:s'); }
+	if(!isset($new_join)) { $new_join = date('Y.m.d-H:i:s'); }
 	
 	$new_pw = md5($new_pw);
 	
@@ -796,13 +821,13 @@ if($todo == 'next'){
 // PUBLISH / UNPUBLISH
 //=====================================================
 
-if($id_group == 'Developer' || $id_group == 'Administrator'){
-	if($todo == 'publishItem'){
-		switch($action){
+if($id_group == 'Developer' || $id_group == 'Administrator') {
+	if($todo == 'publishItem') {
+		switch($action) {
 			// Take it off
 			case 'off':
-				if($choosenDB == 'xml'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_user/'.$maintag.'.xml', 'enabled', '1', '0'); }
-				else{
+				if($choosenDB == 'xml') { xmlparser::edit_value(_TCMS_PATH.'/tcms_user/'.$maintag.'.xml', 'enabled', '1', '0'); }
+				else {
 					$sqlAL = new sqlAbstractionLayer($choosenDB);
 					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					$newSQLData = $tcms_db_prefix.'user.enabled=0';
@@ -813,8 +838,8 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 			
 			// Take it on
 			case 'on':
-				if($choosenDB == 'xml'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_user/'.$maintag.'.xml', 'enabled', '0', '1'); }
-				else{
+				if($choosenDB == 'xml') { xmlparser::edit_value(_TCMS_PATH.'/tcms_user/'.$maintag.'.xml', 'enabled', '0', '1'); }
+				else {
 					$sqlAL = new sqlAbstractionLayer($choosenDB);
 					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					$newSQLData = $tcms_db_prefix.'user.enabled=1';
@@ -834,13 +859,13 @@ if($id_group == 'Developer' || $id_group == 'Administrator'){
 // DELETE
 //=====================================================
 
-if($id_group == 'Developer' || $id_group == 'Administrator'){
-	if($todo == 'delete'){
-		if($choosenDB == 'xml'){
+if($id_group == 'Developer' || $id_group == 'Administrator') {
+	if($todo == 'delete') {
+		if($choosenDB == 'xml') {
 			unlink(_TCMS_PATH.'/tcms_user/'.$maintag.'.xml');
 			unlink(_TCMS_PATH.'/tcms_notepad/'.$maintag.'.xml');
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
 			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
