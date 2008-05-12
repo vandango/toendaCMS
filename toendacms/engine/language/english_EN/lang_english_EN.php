@@ -1473,16 +1473,16 @@ if(!defined('_COUNTRY_MALTA'))                 define('_COUNTRY_MALTA', 'Malta')
 if(!defined('_COUNTRY_MAROCCO'))               define('_COUNTRY_MAROCCO', 'Marocco');
 if(!defined('_COUNTRY_MARSHALLISLANDS'))       define('_COUNTRY_MARSHALLISLANDS', 'Marshall Islands');
 if(!defined('_COUNTRY_MARTINIQUE'))            define('_COUNTRY_MARTINIQUE', 'Martinique');
+if(!defined('_COUNTRY_MAURETANIA'))            define('_COUNTRY_MAURETANIA', 'Mauretania');
+if(!defined('_COUNTRY_MAURITIUS'))             define('_COUNTRY_MAURITIUS', 'Mauritius');
+if(!defined('_COUNTRY_MAYOTTE'))               define('_COUNTRY_MAYOTTE', 'Mayotte');
+if(!defined('_COUNTRY_MACEDONIA'))             define('_COUNTRY_MACEDONIA', 'Macedonia');
+if(!defined('_COUNTRY_MEXICO'))                define('_COUNTRY_MEXICO', 'Mexico');
+if(!defined('_COUNTRY_MICRONESIA'))            define('_COUNTRY_MICRONESIA', 'Micronesia');
+if(!defined('_COUNTRY_MOLDOVA'))               define('_COUNTRY_MOLDOVA', 'Moldova');
+if(!defined('_COUNTRY_MONACO'))                define('_COUNTRY_MONACO', 'Monaco');
+if(!defined('_COUNTRY_MONGOLIA'))              define('_COUNTRY_MONGOLIA', 'Mongolia');
 
-$arrCountry['mr'] = 'Mauretanien';
-$arrCountry['mu'] = 'Mauritius';
-$arrCountry['yt'] = 'Mayotte';
-$arrCountry['mk'] = 'Mazedonien';
-$arrCountry['mx'] = 'Mexiko';
-$arrCountry['fm'] = 'Mikronesien';
-$arrCountry['md'] = 'Moldavien';
-$arrCountry['mc'] = 'Monaco';
-$arrCountry['mn'] = 'Mongolei';
 $arrCountry['ms'] = 'Montserrat';
 $arrCountry['mz'] = 'Mozambique';
 $arrCountry['mm'] = 'Myanmar';

@@ -126,7 +126,7 @@ td.ThemeOfficeMainFolderRight,td.ThemeOfficeMainItemRight
 	padding-top:	2px;
 	padding-bottom:	2px;
 	padding-left:	0px;
-	padding-right:	0px;
+	padding-right:	4px;
 
 	border-top:	1px solid #3169C6;
 	border-bottom:	1px solid #3169C6;
@@ -209,7 +209,7 @@ tr.ThemeOfficeMainItem td.ThemeOfficeMainFolderRight
 	padding-top:	2px;
 	padding-bottom:	2px;
 	padding-left:	0px;
-	padding-right:	0px;
+	padding-right:	4px;
 
 	border-top:	1px solid #3169C6;
 	border-bottom:	1px solid #3169C6;
@@ -252,7 +252,7 @@ tr.ThemeOfficeMainItem td.ThemeOfficeMainFolderRight
 	padding-top:	3px;
 	padding-bottom:	3px;
 	padding-left:	0px;
-	padding-right:	1px;
+	padding-right:	5px;
 
 	border:		0;
 	background-color:	inherit;
