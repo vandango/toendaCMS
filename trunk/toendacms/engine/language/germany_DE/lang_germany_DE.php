@@ -1479,6 +1479,15 @@ if(!defined('_COUNTRY_MALTA'))                 define('_COUNTRY_MALTA', 'Malta')
 if(!defined('_COUNTRY_MAROCCO'))               define('_COUNTRY_MAROCCO', 'Marokko');
 if(!defined('_COUNTRY_MARSHALLISLANDS'))       define('_COUNTRY_MARSHALLISLANDS', 'Marshall Inseln');
 if(!defined('_COUNTRY_MARTINIQUE'))            define('_COUNTRY_MARTINIQUE', 'Martinique');
+if(!defined('_COUNTRY_MAURETANIA'))            define('_COUNTRY_MAURETANIA', 'Mauretanien');
+if(!defined('_COUNTRY_MAURITIUS'))             define('_COUNTRY_MAURITIUS', 'Mauritius');
+if(!defined('_COUNTRY_MAYOTTE'))               define('_COUNTRY_MAYOTTE', 'Mayotte');
+if(!defined('_COUNTRY_MACEDONIA'))             define('_COUNTRY_MACEDONIA', 'Mazedonien');
+if(!defined('_COUNTRY_MEXICO'))                define('_COUNTRY_MEXICO', 'Mexiko');
+if(!defined('_COUNTRY_MICRONESIA'))            define('_COUNTRY_MICRONESIA', 'Mikronesien');
+if(!defined('_COUNTRY_MOLDOVA'))               define('_COUNTRY_MOLDOVA', 'Moldawien');
+if(!defined('_COUNTRY_MONACO'))                define('_COUNTRY_MONACO', 'Monaco');
+if(!defined('_COUNTRY_MONGOLIA'))              define('_COUNTRY_MONGOLIA', 'Mongolei');
 
 if(!defined('_COUNTRY_SUDAN'))                 define('_COUNTRY_SUDAN', 'Sudan');
 if(!defined('_COUNTRY_SURINAME'))              define('_COUNTRY_SURINAME', 'Surinam');

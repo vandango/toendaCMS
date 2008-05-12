@@ -328,8 +328,60 @@ function cmDraw (id, menu, orient, nodeProperties, prefix)
 		str += '</tr>';
 	str += '</table>' + strSub;
 	
-	if(browser == 'ie') {
-		document.write (str);
+	
+	
+	/*
+		browser check
+	*/
+	
+	var _browser = 'moz';
+	var _realBrowser = '';
+	
+	var _name = navigator.userAgent;
+	_name = _name.toLowerCase();
+	
+	var _ie = false;
+	
+	if(navigator.userAgent.indexOf("MSIE") > 0) {
+		_ie = true;
+		_realBrowser = 'ie';
+	}
+	else {
+		_ie = false;
+		
+		if(_name.indexOf("safari") > 0) {
+			_realBrowser = 'safari';
+		}
+		else if(navigator.product == "Gecko") {
+			_realBrowser = 'moz';
+		}
+		else if(_name.indexOf("opera") != -1) {
+			_realBrowser = 'opera';
+		}
+		else if(_name.indexOf("khtml") != -1) {
+			_realBrowser = 'khtml';
+		}
+		else if(_name.indexOf("konqueror") != -1) {
+			_realBrowser = 'konqueror';
+		}
+		else {
+			_realBrowser = 'moz';
+		}
+	}
+	
+	if(_ie) {
+		_browser = 'ie';
+	}
+	else {
+		//browser = 'moz';
+		_browser = _realBrowser;
+	}
+	
+	// ---
+	
+	
+	if(_browser == 'ie') {
+		document.write(str);
 	}
 	else {
 		obj.innerHTML = str;

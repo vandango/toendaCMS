@@ -26,7 +26,7 @@ function checkBrowser() {
 	var name = navigator.userAgent;
 	name = name.toLowerCase();
 	
-	ie = false;
+	var ie = false;
 	
 	if(navigator.userAgent.indexOf("MSIE") > 0) {
 		ie = true;
