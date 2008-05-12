@@ -269,5 +269,8 @@ $arrCountry['zm'] = _COUNTRY_ZAMBIA;
 $arrCountry['cf'] = _COUNTRY_CENTRALAFRICANREPUBLIC;
 $arrCountry['cy'] = _COUNTRY_CYPRUS;
 
+//ksort($arrCountry, SORT_STRING);
+sort($arrCountry, SORT_STRING);
+
 
 ?>

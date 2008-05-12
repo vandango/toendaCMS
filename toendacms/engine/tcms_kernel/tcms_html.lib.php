@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide some often used html
  * codes.
  *
- * @version 0.5.7
+ * @version 0.6.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -588,6 +588,96 @@ class tcms_html {
 	 */
 	public function tableEnd() {
 		return '</table>';
+	}
+	
+	
+	
+	/**
+	 * Generate a country list
+	 * 
+	 * @param String $selectClass
+	 * @param String $backName
+	 * @param String $selectedValue
+	 * @param Boolean = false
+	 * @return String
+	 */
+	public function countryList($selectClass, $backName, $selectedValue, $forBackend = false) {
+		$retValue = '';
+		
+		require_once(( $forBackend ? '../' : 'engine/' ).'tcms_kernel/tcms_countrylist.lib.php');
+		
+		$retValue .= '<select class="'.$selectClass.'" name="'.$backName.'">';
+		//.'<input class="tcms_input_normal" name="new_country" type="text" value="'.$tc_country.'" />';
+		
+		$cur_char = strtolower(substr(trim($arrCountry[0]), 0, 1));
+		$temp_char = strtolower(substr(trim($arrCountry[0]), 0, 1));
+		$is_sc = false;
+		$is_first = true;
+		
+		if($temp_char == '&') {
+			$temp_char_2 = substr(
+				trim($arrCountry[0]), 
+				0, 
+				strpos(trim($arrCountry[0]), ';') + 1
+			);
+			
+			$temp_char = htmlspecialchars_decode($temp_char_2);
+			$is_sc = true;
+			
+			//echo '<option value="">'.htmlspecialchars_decode($temp_char_2).'</option>';
+		}
+		else {
+			$is_sc = false;
+		}
+		
+		$retValue .= '<optgroup label="'.( $is_sc ? $temp_char : strtoupper($temp_char) ).'">';
+		//echo '<optgroup label="'.strtoupper($temp_char).'">';
+		
+		foreach($arrCountry as $key => $value) {
+			$temp_char = strtolower(substr(trim($value), 0, 1));
+			
+			if($temp_char == '&') {
+				$temp_char_2 = substr(
+					trim($value), 
+					0, 
+					strpos(trim($value), ';') + 1
+				);
+				
+				$temp_char = htmlspecialchars_decode($temp_char_2);
+				$is_sc = true;
+				
+				//echo '<option value="">'.htmlspecialchars_decode($temp_char_2).'</option>';
+			}
+			else {
+				$is_sc = false;
+			}
+			
+			if(!$is_first) {
+				if($temp_char != $cur_char) {
+					$cur_char = $temp_char;
+					
+					$retValue .= '</optgroup>'
+					.'<optgroup label="'.( $is_sc ? $temp_char : strtoupper($temp_char) ).'">';
+				}
+				else {
+					//echo '</optgroup>';
+				}
+			}
+			else {
+				if($temp_char != $cur_char) {
+					$cur_char = $temp_char;
+				}
+			}
+			
+			$retValue .= '<option value="'.$value.'"'.( strtolower($value) == strtolower($selectedValue) ? ' selected="selected"' : '' ).'>'.$value.'</option>';
+			
+			$is_first = false;
+		}
+		
+		$retValue .= '</optgroup>'
+		.'</select>';
+		
+		return $retValue;
 	}
 	
 	
