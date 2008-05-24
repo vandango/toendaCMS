@@ -26,7 +26,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * a complete API with toendaCMS constants and can load the
  * component itself.
  *
- * @version 0.3.4
+ * @version 0.3.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_cs
@@ -153,8 +153,11 @@ class tcms_cs extends tcms_main {
 	 * @return Array
 	 */
 	public function getSpecialSettings($item, $settingsfile, $current_cs_id) {
-		if(file_exists($this->tcms_admin_path.$this->tcms_main_path.'/components/'.$item.'/'.$settingsfile)){
-			$csXML = new xmlparser($this->tcms_admin_path.$this->tcms_main_path.'/components/'.$item.'/'.$settingsfile, 'r');
+		//if(file_exists($this->tcms_admin_path.$this->tcms_main_path.'/components/'.$item.'/'.$settingsfile)){
+		//	$csXML = new xmlparser($this->tcms_admin_path.$this->tcms_main_path.'/components/'.$item.'/'.$settingsfile, 'r');
+		
+		if(file_exists($this->tcms_main_path.'/components/'.$item.'/'.$settingsfile)){
+			$csXML = new xmlparser($this->tcms_main_path.'/components/'.$item.'/'.$settingsfile, 'r');
 			
 			$xmlFileStructure = $csXML->xml_to_array();
 			
