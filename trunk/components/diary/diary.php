@@ -9,8 +9,7 @@
 |
 | Diary content component
 |
-| File:		diary_sb.php
-| Version:	0.2.0
+| File:	diary.php
 |
 +
 */
@@ -19,16 +18,30 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * Diary content component
+ *
+ * This components generates a diary. It's compatible with
+ * the calendar component to show the diaries inside a
+ * calendar.
+ *
+ * @version 0.2.2
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Components
+ * 
+ */
 
-if(isset($_GET['todo'])){ $todo = $_GET['todo']; }
-if(isset($_GET['ps'])){ $ps = $_GET['ps']; }
 
-if(isset($_POST['todo'])){ $todo = $_POST['todo']; }
-if(isset($_POST['ps'])){ $ps = $_POST['ps']; }
+if(isset($_GET['todo'])) { $todo = $_GET['todo']; }
+if(isset($_GET['ps'])) { $ps = $_GET['ps']; }
+
+if(isset($_POST['todo'])) { $todo = $_POST['todo']; }
+if(isset($_POST['ps'])) { $ps = $_POST['ps']; }
 
 
 
-$path = $tcms_administer_site.'/components/diary/data';
+$path = _TCMS_PATH.'/components/diary/data';
 
 $diaryTitle     = $_TCMS_CS_ARRAY['diary']['content']['diary_title'];
 $diarySubTitle  = $_TCMS_CS_ARRAY['diary']['content']['diary_subtitle'];
@@ -39,13 +52,13 @@ $arr_color[1]   = $_TCMS_CS_ARRAY['diary']['content']['color_row_2'];
 $diaryFolder    = $_TCMS_CS_ID['diary']['folder'];
 
 
-$diaryTitle    = $tcms_main->encode_text_without_db($diaryTitle, '2', $c_charset);
-$diarySubTitle = $tcms_main->encode_text_without_db($diarySubTitle, '2', $c_charset);
-$diaryText     = $tcms_main->encode_text_without_db($diaryText, '2', $c_charset);
+$diaryTitle    = $tcms_main->decodeText($diaryTitle, '2', $c_charset, false, true);
+$diarySubTitle = $tcms_main->decodeText($diarySubTitle, '2', $c_charset, false, true);
+$diaryText     = $tcms_main->decodeText($diaryText, '2', $c_charset, false, true);
 
 
 
-if(isset($feed) && !empty($feed) && $feed != ''){
+if(isset($feed) && !empty($feed) && $feed != '') {
 	$rss = new UniversalFeedCreator();
 	$rss->_setFormat($feed);
 	$rss->useCached();
@@ -65,77 +78,51 @@ if(isset($feed) && !empty($feed) && $feed != ''){
 
 
 
-if(!isset($date) || $date == ''){
-	if(trim($diaryTitle)    != ''){ echo tcms_html::contentheading($diaryTitle).'<br />'; }
-	if(trim($diarySubTitle) != ''){ echo tcms_html::contentstamp($diarySubTitle).'<br /><br />'; }
-	if(trim($diaryText)     != ''){ echo tcms_html::contentmain($diaryText).'<br /><br />'; }
+if(!isset($date) || $date == '') {
+	echo $tcms_html->contentModuleHeader(
+		$diaryTitle, 
+		$diarySubTitle, 
+		$diaryText
+	);
 	
 	
-	$arrFile = $tcms_main->readdir_ext($path);
+	$arrFile = $tcms_file->getPathContent($path);
 	
 	$count = 0;
 	$showItem = false;
 	
-	if(is_array($arrFile)){
-		foreach($arrFile as $cKey => $cValue){
+	if(is_array($arrFile)) {
+		foreach($arrFile as $cKey => $cValue) {
 			$xml = new xmlparser($path.'/'.$cValue, 'r');
-			$pub = $xml->read_section('date', 'published');
+			$pub = $xml->readSection('date', 'published');
 			
-			if($pub == false){ $pub = 0; }
+			if($pub == false) { $pub = 0; }
 			
-			if($pub == 1){
-				$acs = $xml->read_section('date', 'access');
+			if($pub == 1) {
+				$acs = $xml->readSection('date', 'access');
 				
+				$showItem = $tcms_auth->checkContentAccess($acs, $is_admin);
 				
-				if($check_session){
-					switch($acs){
-						case 'Public':
-							$showItem = true;
-							break;
-						
-						case 'Protected':
-							if($is_admin == 'User' || $is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Editor' || $is_admin == 'Presenter'){
-								$showItem = true;
-							}
-							else{ $showItem = false; }
-							break;
-						
-						case 'Private':
-							if($is_admin == 'Administrator' || $is_admin == 'Developer'){ $showItem = true; }
-							else{ $showItem = false; }
-							break;
-						
-						default:
-							$showItem = false;
-							break;
-					}
-				}
-				else{
-					if($acs == 'Public'){ $showItem = true; }
-					else{ $showItem = false; }
-				}
-				
-				
-				if($showItem){
-					$arrDiary['stamp'][$count]  = $xml->read_section('date', 'stamp');
-					$arrDiary['date'][$count]   = $xml->read_section('date', 'timestamp');
-					$arrDiary['title'][$count]  = $xml->read_section('date', 'title');
-					$arrDiary['text'][$count]   = $xml->read_section('date', 'text');
-					$arrDiary['tic'][$count]    = $xml->read_section('date', 'tickets');
-					$arrDiary['loc'][$count]    = $xml->read_section('date', 'location');
-					$arrDiary['land'][$count]   = $xml->read_section('date', 'country');
-					$arrDiary['town'][$count]   = $xml->read_section('date', 'town');
-					$arrDiary['zip'][$count]    = $xml->read_section('date', 'zip');
-					$arrDiary['adress'][$count] = $xml->read_section('date', 'adress');
+				if($showItem) {
+					$arrDiary['stamp'][$count]  = $xml->readSection('date', 'stamp');
+					$arrDiary['date'][$count]   = $xml->readSection('date', 'timestamp');
+					$arrDiary['title'][$count]  = $xml->readSection('date', 'title');
+					$arrDiary['text'][$count]   = $xml->readSection('date', 'text');
+					$arrDiary['tic'][$count]    = $xml->readSection('date', 'tickets');
+					$arrDiary['loc'][$count]    = $xml->readSection('date', 'location');
+					$arrDiary['land'][$count]   = $xml->readSection('date', 'country');
+					$arrDiary['town'][$count]   = $xml->readSection('date', 'town');
+					$arrDiary['zip'][$count]    = $xml->readSection('date', 'zip');
+					$arrDiary['adress'][$count] = $xml->readSection('date', 'adress');
 					$arrDiary['tag'][$count]    = substr($cValue, 0, 10);
 					
-					$arrDiary['title'][$count]  = $tcms_main->encode_text_without_db($arrDiary['title'][$count], '2', $c_charset);
-					$arrDiary['text'][$count]   = $tcms_main->encode_text_without_db($arrDiary['text'][$count], '2', $c_charset);
-					$arrDiary['tic'][$count]    = $tcms_main->encode_text_without_db($arrDiary['tic'][$count], '2', $c_charset);
-					$arrDiary['loc'][$count]    = $tcms_main->encode_text_without_db($arrDiary['loc'][$count], '2', $c_charset);
-					$arrDiary['land'][$count]   = $tcms_main->encode_text_without_db($arrDiary['land'][$count], '2', $c_charset);
-					$arrDiary['town'][$count]   = $tcms_main->encode_text_without_db($arrDiary['town'][$count], '2', $c_charset);
-					$arrDiary['adress'][$count] = $tcms_main->encode_text_without_db($arrDiary['adress'][$count], '2', $c_charset);
+					$arrDiary['title'][$count]  = $tcms_main->decodeText($arrDiary['title'][$count], '2', $c_charset, false, true);
+					$arrDiary['text'][$count]   = $tcms_main->decodeText($arrDiary['text'][$count], '2', $c_charset, false, true);
+					$arrDiary['tic'][$count]    = $tcms_main->decodeText($arrDiary['tic'][$count], '2', $c_charset, false, true);
+					$arrDiary['loc'][$count]    = $tcms_main->decodeText($arrDiary['loc'][$count], '2', $c_charset, false, true);
+					$arrDiary['land'][$count]   = $tcms_main->decodeText($arrDiary['land'][$count], '2', $c_charset, false, true);
+					$arrDiary['town'][$count]   = $tcms_main->decodeText($arrDiary['town'][$count], '2', $c_charset, false, true);
+					$arrDiary['adress'][$count] = $tcms_main->decodeText($arrDiary['adress'][$count], '2', $c_charset, false, true);
 					
 					$tempDate = $arrDiary['date'][$count];
 					
@@ -147,17 +134,17 @@ if(!isset($date) || $date == ''){
 			}
 			
 			$xml->flush();
-			$xml->_xmlparser();
+			unset($xml);
 		}
 		
 		
-		if(is_array($arrDiary)){
-			if(!isset($ps)){ $ps = 'desc'; }
+		if(is_array($arrDiary)) {
+			if(!isset($ps)) { $ps = 'desc'; }
 			
 			
-			switch($todo){
+			switch($todo) {
 				case 'time':
-					if($ps == 'desc'){
+					if($ps == 'desc') {
 						array_multisort(
 							$arrDiary['stamp'], SORT_DESC, 
 							$arrDiary['date'], SORT_DESC, 
@@ -173,7 +160,7 @@ if(!isset($date) || $date == ''){
 							$arrDiary['tag'], SORT_DESC
 						);
 					}
-					else{
+					else {
 						array_multisort(
 							$arrDiary['stamp'], SORT_ASC, 
 							$arrDiary['date'], SORT_ASC, 
@@ -192,7 +179,7 @@ if(!isset($date) || $date == ''){
 					break;
 				
 				case 'title':
-					if($ps == 'desc'){
+					if($ps == 'desc') {
 						array_multisort(
 							$arrDiary['title'], SORT_DESC, 
 							$arrDiary['stamp'], SORT_DESC, 
@@ -208,7 +195,7 @@ if(!isset($date) || $date == ''){
 							$arrDiary['tag'], SORT_DESC
 						);
 					}
-					else{
+					else {
 						array_multisort(
 							$arrDiary['title'], SORT_ASC, 
 							$arrDiary['stamp'], SORT_ASC, 
@@ -227,7 +214,7 @@ if(!isset($date) || $date == ''){
 					break;
 				
 				case 'loc':
-					if($ps == 'desc'){
+					if($ps == 'desc') {
 						array_multisort(
 							$arrDiary['loc'], SORT_DESC, 
 							$arrDiary['stamp'], SORT_DESC, 
@@ -243,7 +230,7 @@ if(!isset($date) || $date == ''){
 							$arrDiary['tag'], SORT_DESC
 						);
 					}
-					else{
+					else {
 						array_multisort(
 							$arrDiary['loc'], SORT_ASC, 
 							$arrDiary['stamp'], SORT_ASC, 
@@ -262,7 +249,7 @@ if(!isset($date) || $date == ''){
 					break;
 				
 				case 'desc':
-					if($ps == 'desc'){
+					if($ps == 'desc') {
 						array_multisort(
 							$arrDiary['text'], SORT_DESC, 
 							$arrDiary['stamp'], SORT_DESC, 
@@ -278,7 +265,7 @@ if(!isset($date) || $date == ''){
 							$arrDiary['tag'], SORT_DESC
 						);
 					}
-					else{
+					else {
 						array_multisort(
 							$arrDiary['text'], SORT_ASC, 
 							$arrDiary['stamp'], SORT_ASC, 
@@ -297,7 +284,7 @@ if(!isset($date) || $date == ''){
 					break;
 				
 				case 'tic':
-					if($ps == 'tic'){
+					if($ps == 'tic') {
 						array_multisort(
 							$arrDiary['tic'], SORT_DESC, 
 							$arrDiary['text'], SORT_DESC, 
@@ -313,7 +300,7 @@ if(!isset($date) || $date == ''){
 							$arrDiary['tag'], SORT_DESC
 						);
 					}
-					else{
+					else {
 						array_multisort(
 							$arrDiary['tic'], SORT_ASC, 
 							$arrDiary['text'], SORT_ASC, 
@@ -350,24 +337,33 @@ if(!isset($date) || $date == ''){
 			}
 			
 			
-			if($ps == 'asc') $ps = 'desc';
-			else $ps = 'asc';
+			if($ps == 'asc') {
+				$ps = 'desc';
+			}
+			else {
+				$ps = 'asc';
+			}
 			
 			
-			$date_link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=components&amp;item=diary&amp;s='.$s.'&amp;todo=time&amp;ps='.$ps;
-			$date_link = $tcms_main->urlAmpReplace($date_link, $seoFormat);
+			$date_link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+			.'id=components&amp;item=diary&amp;s='.$s.'&amp;todo=time&amp;ps='.$ps;
+			$date_link = $tcms_main->urlConvertToSEO($date_link, $seoFormat);
 			
-			$title_link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=components&amp;item=diary&amp;s='.$s.'&amp;todo=title&amp;ps='.$ps;
-			$title_link = $tcms_main->urlAmpReplace($title_link, $seoFormat);
+			$title_link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+			.'id=components&amp;item=diary&amp;s='.$s.'&amp;todo=title&amp;ps='.$ps;
+			$title_link = $tcms_main->urlConvertToSEO($title_link, $seoFormat);
 			
-			$loc_link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=components&amp;item=diary&amp;s='.$s.'&amp;todo=loc&amp;ps='.$ps;
-			$loc_link = $tcms_main->urlAmpReplace($loc_link, $seoFormat);
+			$loc_link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+			.'id=components&amp;item=diary&amp;s='.$s.'&amp;todo=loc&amp;ps='.$ps;
+			$loc_link = $tcms_main->urlConvertToSEO($loc_link, $seoFormat);
 			
-			$desc_link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=components&amp;item=diary&amp;s='.$s.'&amp;todo=desc&amp;ps='.$ps;
-			$desc_link = $tcms_main->urlAmpReplace($desc_link, $seoFormat);
+			$desc_link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+			.'id=components&amp;item=diary&amp;s='.$s.'&amp;todo=desc&amp;ps='.$ps;
+			$desc_link = $tcms_main->urlConvertToSEO($desc_link, $seoFormat);
 			
-			$desc_tic = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=components&amp;item=diary&amp;s='.$s.'&amp;todo=tic&amp;ps='.$ps;
-			$desc_tic = $tcms_main->urlAmpReplace($desc_tic, $seoFormat);
+			$desc_tic = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+			.'id=components&amp;item=diary&amp;s='.$s.'&amp;todo=tic&amp;ps='.$ps;
+			$desc_tic = $tcms_main->urlConvertToSEO($desc_tic, $seoFormat);
 			
 			
 			echo '<table cellpadding="4" cellspacing="0" border="0" width="100%" style="text-align: left !important;">';
@@ -381,18 +377,34 @@ if(!isset($date) || $date == ''){
 			.'</tr>';
 			
 			
-			foreach($arrDiary['date'] as $key => $value){
-				$cTime = mktime(substr($arrDiary['time'][$key], 0, 2), substr($arrDiary['time'][$key], 3, 2), 0, substr($arrDiary['date'][$key], 3, 2), substr($arrDiary['date'][$key], 0, 2), substr($arrDiary['date'][$key], 6, 4));
+			foreach($arrDiary['date'] as $key => $value) {
+				$cTime = mktime(
+					substr($arrDiary['time'][$key], 0, 2), 
+					substr($arrDiary['time'][$key], 3, 2), 
+					0, 
+					substr($arrDiary['date'][$key], 3, 2), 
+					substr($arrDiary['date'][$key], 0, 2), 
+					substr($arrDiary['date'][$key], 6, 4)
+				);
+				
 				$ccTime = time();
 				
-				if($cTime >= $ccTime){
-					if(isset($feed) && !empty($feed) && $feed != ''){
+				if($cTime >= $ccTime) {
+					if(isset($feed) && !empty($feed) && $feed != '') {
 						$item = new FeedItem();
 					    
 					    $item->title = $arrDiary['title'][$key];
 					    $item->link = $websiteowner_url.$seoFolder.'/?id=components&item=diary&date='.$arrDiary['tag'][$key];
 					    $item->description = $arrDiary['text'][$key];
-					    $item->date = mktime(substr($arrDiary['time'][$key], 0, 2), substr($arrDiary['time'][$key], 3, 2), 0, substr($arrDiary['date'][$key], 3, 2), substr($arrDiary['date'][$key], 0, 2), substr($arrDiary['date'][$key], 6, 4));
+					    
+					    $item->date = mktime(
+					    	substr($arrDiary['time'][$key], 0, 2), 
+					    	substr($arrDiary['time'][$key], 3, 2), 0, 
+					    	substr($arrDiary['date'][$key], 3, 2), 
+					    	substr($arrDiary['date'][$key], 0, 2), 
+					    	substr($arrDiary['date'][$key], 6, 4)
+					    );
+					    
 					    $item->source = $websiteowner_url;
 					    $item->author = '';
 					    
@@ -400,11 +412,16 @@ if(!isset($date) || $date == ''){
 					}
 				    
 				    
-					if(is_integer($key/2)){ $wsc = 0; }
-					else{ $wsc = 1; }
+					if(is_integer($key/2)) {
+						$wsc = 0;
+					}
+					else {
+						$wsc = 1;
+					}
 					
-					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=components&amp;item=diary&amp;s='.$s.'&amp;date='.$arrDiary['tag'][$key];
-					$link = $tcms_main->urlAmpReplace($link, $seoFormat);
+					$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+					.'id=components&amp;item=diary&amp;s='.$s.'&amp;date='.$arrDiary['tag'][$key];
+					$link = $tcms_main->urlConvertToSEO($link, $seoFormat);
 					
 					
 					echo '<tr class="news_content_bg" bgcolor="'.$arr_color[$wsc].'">';
@@ -461,76 +478,48 @@ if(!isset($date) || $date == ''){
 	}
 	
 	
-	if(isset($feed) && !empty($feed) && $feed != ''){
-		if(isset($save) && $save == true){
+	if(isset($feed) && !empty($feed) && $feed != '') {
+		if(isset($save) && $save == true) {
 			unlink('cache/Diary_'.$feed.'.xml');
 			$rss->saveFeed($feed, 'cache/Diary_'.$feed.'.xml', false);
 			//$rss->saveFeed($feed, 'cache/'.$feed.'.xml');
 			echo '<script>document.location=\''.$imagePath.'cache/Diary_'.$feed.'.xml\'</script>';
 		}
-		else{
+		else {
 			$rss->saveFeed($feed, 'cache/Diary_'.$feed.'.xml', false);
 		}
 	}
 }
-else{
+else {
 	$xml = new xmlparser($path.'/'.$date.'.xml', 'r');
-	$pub = $xml->read_section('date', 'published');
+	$pub = $xml->readSection('date', 'published');
 	
-	if($pub == false){ $pub = 0; }
+	if($pub == false) { $pub = 0; }
 	
-	if($pub == 1){
-		$acs = $xml->read_section('date', 'access');
+	if($pub == 1) {
+		$acs = $xml->readSection('date', 'access');
 		
+		$showItem = $tcms_auth->checkContentAccess($acs, $is_admin);
 		
-		if($check_session){
-			switch($acs){
-				case 'Public':
-					$showItem = true;
-					break;
-				
-				case 'Protected':
-					if($is_admin == 'User' || $is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Editor' || $is_admin == 'Presenter'){
-						$showItem = true;
-					}
-					else{ $showItem = false; }
-					break;
-				
-				case 'Private':
-					if($is_admin == 'Administrator' || $is_admin == 'Developer'){ $showItem = true; }
-					else{ $showItem = false; }
-					break;
-				
-				default:
-					$showItem = false;
-					break;
-			}
-		}
-		else{
-			if($acs == 'Public'){ $showItem = true; }
-			else{ $showItem = false; }
-		}
-		
-		
-		if($showItem){
-			$arrDiary['stamp'] = $xml->read_section('date', 'stamp');
-			$arrDiary['date']   = $xml->read_section('date', 'timestamp');
-			$arrDiary['title']  = $xml->read_section('date', 'title');
-			$arrDiary['text']   = $xml->read_section('date', 'text');
-			$arrDiary['tic']    = $xml->read_section('date', 'tickets');
-			$arrDiary['loc']    = $xml->read_section('date', 'location');
-			$arrDiary['land']   = $xml->read_section('date', 'country');
-			$arrDiary['town']   = $xml->read_section('date', 'town');
-			$arrDiary['zip']    = $xml->read_section('date', 'zip');
-			$arrDiary['adress'] = $xml->read_section('date', 'adress');
+		if($showItem) {
+			$arrDiary['stamp'] = $xml->readSection('date', 'stamp');
+			$arrDiary['date']   = $xml->readSection('date', 'timestamp');
+			$arrDiary['title']  = $xml->readSection('date', 'title');
+			$arrDiary['text']   = $xml->readSection('date', 'text');
+			$arrDiary['tic']    = $xml->readSection('date', 'tickets');
+			$arrDiary['loc']    = $xml->readSection('date', 'location');
+			$arrDiary['land']   = $xml->readSection('date', 'country');
+			$arrDiary['town']   = $xml->readSection('date', 'town');
+			$arrDiary['zip']    = $xml->readSection('date', 'zip');
+			$arrDiary['adress'] = $xml->readSection('date', 'adress');
 			
-			$arrDiary['title']  = $tcms_main->encode_text_without_db($arrDiary['title'], '2', $c_charset);
-			$arrDiary['text']   = $tcms_main->encode_text_without_db($arrDiary['text'], '2', $c_charset);
-			$arrDiary['loc']    = $tcms_main->encode_text_without_db($arrDiary['loc'], '2', $c_charset);
-			$arrDiary['tic']    = $tcms_main->encode_text_without_db($arrDiary['tic'], '2', $c_charset);
-			$arrDiary['land']   = $tcms_main->encode_text_without_db($arrDiary['land'], '2', $c_charset);
-			$arrDiary['town']   = $tcms_main->encode_text_without_db($arrDiary['town'], '2', $c_charset);
-			$arrDiary['adress'] = $tcms_main->encode_text_without_db($arrDiary['adress'], '2', $c_charset);
+			$arrDiary['title']  = $tcms_main->decodeText($arrDiary['title'], '2', $c_charset, false, true);
+			$arrDiary['text']   = $tcms_main->decodeText($arrDiary['text'], '2', $c_charset, false, true);
+			$arrDiary['loc']    = $tcms_main->decodeText($arrDiary['loc'], '2', $c_charset, false, true);
+			$arrDiary['tic']    = $tcms_main->decodeText($arrDiary['tic'], '2', $c_charset, false, true);
+			$arrDiary['land']   = $tcms_main->decodeText($arrDiary['land'], '2', $c_charset, false, true);
+			$arrDiary['town']   = $tcms_main->decodeText($arrDiary['town'], '2', $c_charset, false, true);
+			$arrDiary['adress'] = $tcms_main->decodeText($arrDiary['adress'], '2', $c_charset, false, true);
 			
 			$tempDate = $arrDiary['date'];
 			
@@ -540,25 +529,52 @@ else{
 	}
 	
 	$xml->flush();
-	$xml->_xmlparser();
+	unset($xml);
 	
 	
-	if(!empty($arrDiary)){
-		echo tcms_html::contentheading($arrDiary['title']).'<br />';
-		echo tcms_html::contentstamp(lang_date(substr($arrDiary['date'], 0, 2), substr($arrDiary['date'], 3, 2), substr($arrDiary['date'], 6, 4), '', '', '').' - '.$arrDiary['loc'].' - '.substr($arrDiary['time'], 0, 2).':'.substr($arrDiary['time'], 3, 2)).'<br /><br />';
+	if(!empty($arrDiary)) {
+		// back link
+		$date_link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
+		.'id=components&amp;item=diary&amp;s='.$s;
+		$date_link = $tcms_main->urlConvertToSEO($date_link, $seoFormat);
 		
 		
-		echo '<p class="contentmain">'
+		// subtitle
+		$wsTemp = lang_date(
+			substr($arrDiary['date'], 0, 2), 
+			substr($arrDiary['date'], 3, 2), 
+			substr($arrDiary['date'], 6, 4), 
+			'', 
+			'', 
+			'')
+		.' - '
+		.$arrDiary['loc']
+		.' - '
+		.substr($arrDiary['time'], 0, 2)
+		.':'
+		.substr($arrDiary['time'], 3, 2)
+		.'<br />'
+		.'(<a href="'.$date_link.'">'
+		._TCMS_ADMIN_BACK
+		.'</a>)';
+		
+		
+		// content
+		$wsTempText = '<p class="contentmain">'
 		.$arrDiary['adress']
 		.'<br />'
 		.$arrDiary['zip'].' '.$arrDiary['town'].' '.$arrDiary['land']
 		.'<br />'
-		.'</p>';
+		.'<br />'
+		.$arrDiary['text'];
 		
 		
-		echo '<p class="contentmain">'
-		.$arrDiary['text']
-		.'</span>';
+		// text
+		echo $tcms_html->contentModuleHeader(
+			$arrDiary['title'], 
+			$wsTemp, 
+			$wsTempText
+		);
 		
 		
 		/*echo '<p class="contentmain">'

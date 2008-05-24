@@ -9,8 +9,7 @@
 |
 | Calendar component Backend
 |
-| File:		backend.php
-| Version:	0.1.2
+| File:	backend.php
 |
 +
 */
@@ -19,7 +18,17 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
-
+/**
+ * Calendar component for backend
+ *
+ * This components generates a calendar.
+ *
+ * @version 0.1.2
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Components
+ * 
+ */
 
 
 if(isset($_GET['component'])){ $component = $_GET['component']; }

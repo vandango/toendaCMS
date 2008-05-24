@@ -9,8 +9,7 @@
 |
 | Diary sidebar component
 |
-| File:		diary_sb.php
-| Version:	0.1.7
+| File:	diary_sb.php
 |
 +
 */
@@ -19,10 +18,20 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * Diary sidebar component
+ *
+ * This components generates a diary for the sidebar.
+ *
+ * @version 0.1.8
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Components
+ * 
+ */
 
 
-
-$path = $tcms_administer_site.'/components/diary/data';
+$path = _TCMS_PATH.'/components/diary/data';
 
 $diaryTitle     = $_TCMS_CS_ARRAY['diary']['content']['sb_diary_title'];
 $diarySubTitle  = $_TCMS_CS_ARRAY['diary']['content']['sb_diary_subtitle'];
@@ -32,13 +41,11 @@ $howManyDates   = $_TCMS_CS_ARRAY['diary']['content']['sb_how_many_dates'];
 $diaryFolder    = $_TCMS_CS_ID['diary']['folder'];
 
 
-$diaryTitle    = $tcms_main->encode_text_without_db($diaryTitle, '2', $c_charset);
-$diarySubTitle = $tcms_main->encode_text_without_db($diarySubTitle, '2', $c_charset);
+$diaryTitle    = $tcms_main->decodeText($diaryTitle, '2', $c_charset, false, true);
+$diarySubTitle = $tcms_main->decodeText($diarySubTitle, '2', $c_charset, false, true);
 
 
-
-
-if(isset($feed) && !empty($feed) && $feed != ''){
+if(isset($feed) && !empty($feed) && $feed != '') {
 	$rss = new UniversalFeedCreator();
 	$rss->_setFormat($feed);
 	$rss->useCached();
@@ -59,70 +66,43 @@ if(isset($feed) && !empty($feed) && $feed != ''){
 
 
 
-if($showDiaryTitle == 1){
-	echo tcms_html::subtitle($diaryTitle);
+if($showDiaryTitle == 1) {
+	echo $tcms_html->sidebarTitle($diaryTitle);
 	
-	if($diarySubTitle != ''){
-		echo tcms_html::sidemain($diarySubTitle);
+	if($diarySubTitle != '') {
+		echo '<br />';
+		echo $tcms_html->sidebarText($diarySubTitle);
 	}
 	
 	echo '<br />';
 }
-else{
+else {
 	echo '<br />';
 }
 
 
 
-$arrFile = $tcms_main->readdir_ext($path);
+$arrFile = $tcms_file->getPathContent($path);
 
 $count = 0;
 $showItem = false;
 
-if(is_array($arrFile)){
+if(is_array($arrFile)) {
 	unset($arrDiary);
 	
-	foreach($arrFile as $cKey => $cValue){
-		if($count < $howManyDates){
+	foreach($arrFile as $cKey => $cValue) {
+		if($count < $howManyDates) {
 			$xml = new xmlparser($path.'/'.$cValue, 'r');
 			$pub = $xml->read_section('date', 'published');
 			
-			if($pub == false){ $pub = 0; }
+			if($pub == false) { $pub = 0; }
 			
-			if($pub == 1){
+			if($pub == 1) {
 				$acs = $xml->read_section('date', 'access');
 				
+				$showItem = $tcms_auth->checkContentAccess($acs, $is_admin);
 				
-				if($check_session){
-					switch($acs){
-						case 'Public':
-							$showItem = true;
-							break;
-						
-						case 'Protected':
-							if($is_admin == 'User' || $is_admin == 'Administrator' || $is_admin == 'Developer' || $is_admin == 'Editor' || $is_admin == 'Presenter'){
-								$showItem = true;
-							}
-							else{ $showItem = false; }
-							break;
-						
-						case 'Private':
-							if($is_admin == 'Administrator' || $is_admin == 'Developer'){ $showItem = true; }
-							else{ $showItem = false; }
-							break;
-						
-						default:
-							$showItem = false;
-							break;
-					}
-				}
-				else{
-					if($acs == 'Public'){ $showItem = true; }
-					else{ $showItem = false; }
-				}
-				
-				
-				if($showItem){
+				if($showItem) {
 					$arrDiary['stamp'][$count] = $xml->read_section('date', 'stamp');
 					$arrDiary['date'][$count]  = $xml->read_section('date', 'timestamp');
 					$arrDiary['town'][$count]  = $xml->read_section('date', 'town');
@@ -130,9 +110,9 @@ if(is_array($arrFile)){
 					$arrDiary['loc'][$count]   = $xml->read_section('date', 'location');
 					$arrDiary['tag'][$count]   = substr($cValue, 0, 10);
 					
-					$arrDiary['town'][$count]  = $tcms_main->encode_text_without_db($arrDiary['town'][$count], '2', $c_charset);
-					$arrDiary['title'][$count] = $tcms_main->encode_text_without_db($arrDiary['title'][$count], '2', $c_charset);
-					$arrDiary['loc'][$count]   = $tcms_main->encode_text_without_db($arrDiary['loc'][$count], '2', $c_charset);
+					$arrDiary['town'][$count]  = $tcms_main->decodeText($arrDiary['town'][$count], '2', $c_charset, false, true);
+					$arrDiary['title'][$count] = $tcms_main->decodeText($arrDiary['title'][$count], '2', $c_charset, false, true);
+					$arrDiary['loc'][$count]   = $tcms_main->decodeText($arrDiary['loc'][$count], '2', $c_charset, false, true);
 					
 					$tempDate = $arrDiary['date'][$count];
 					
@@ -145,11 +125,11 @@ if(is_array($arrFile)){
 		}
 		
 		$xml->flush();
-		$xml->_xmlparser();
+		unset($xml);
 	}
 	
 	
-	if(is_array($arrDiary)){
+	if(is_array($arrDiary)) {
 		array_multisort(
 			$arrDiary['stamp'], SORT_ASC, 
 			$arrDiary['date'], SORT_ASC, 
@@ -161,19 +141,27 @@ if(is_array($arrFile)){
 		);
 		
 		
-		foreach($arrDiary['date'] as $key => $value){
-			$cTime = mktime(substr($arrDiary['time'][$key], 0, 2), substr($arrDiary['time'][$key], 3, 2), 0, substr($arrDiary['date'][$key], 3, 2), substr($arrDiary['date'][$key], 0, 2), substr($arrDiary['date'][$key], 6, 4));
+		foreach($arrDiary['date'] as $key => $value) {
+			$cTime = mktime(
+				substr($arrDiary['time'][$key], 0, 2), 
+				substr($arrDiary['time'][$key], 3, 2), 
+				0, 
+				substr($arrDiary['date'][$key], 3, 2), 
+				substr($arrDiary['date'][$key], 0, 2), 
+				substr($arrDiary['date'][$key], 6, 4)
+			);
+			
 			$ccTime = date('U');
 			
-			if($cTime >= $ccTime){
+			if($cTime >= $ccTime) {
 				echo '<div class="sidemain" style="padding-left: 6px;">';
 				
 				
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=components&amp;item=diary&amp;s='.$s.'&amp;date='.$arrDiary['tag'][$key];
-				$link = $tcms_main->urlAmpReplace($link, $seoFormat);
+				$link = $tcms_main->urlConvertToSEO($link, $seoFormat);
 				
 				
-				if($arrDiary['loc'][$key] != ''){
+				if($arrDiary['loc'][$key] != '') {
 					echo '<strong><a class="main" href="'.$link.'">'
 					.$arrDiary['loc'][$key]
 					.'</a></strong>'
@@ -181,7 +169,7 @@ if(is_array($arrFile)){
 				}
 				
 				
-				if($arrDiary['town'][$key] != ''){
+				if($arrDiary['town'][$key] != '') {
 					echo //'<strong><a class="main" href="'.$link.'">'
 					lang_date(
 						substr($arrDiary['date'][$key], 0, 2), 
@@ -196,7 +184,7 @@ if(is_array($arrFile)){
 				}
 				
 				
-				if($arrDiary['title'][$key] != ''){
+				if($arrDiary['title'][$key] != '') {
 					echo $arrDiary['title'][$key]
 					.'<br />';
 				}
@@ -212,35 +200,40 @@ if(is_array($arrFile)){
 
 
 echo '<div align="center">'
-.tcms_html::bold(_TABLE_DIARY_RSS)
+.$tcms_html->bold(_TABLE_DIARY_RSS)
 .'</div>';
 
 
-
-$link = '?id=components&amp;item=diary&amp;feed=RSS0.91&amp;save=true';
-$link = $tcms_main->urlAmpReplace($link);
-
-echo '<div align="center">'
-.'<a href="'.$link.'">'
-.'<img src="'.$imagePath.'engine/images/logos/f_rss091.png" alt="RSS 0.91" title="RSS 0.91 Syndication" align="middle" name="image" border="0" /></a>'
-.'</div>';
-
-
-$link = '?id=components&amp;item=diary&amp;feed=RSS1.0&amp;save=true';
-$link = $tcms_main->urlAmpReplace($link);
-
-echo '<div align="center">'
-.'<a href="'.$link.'">'
-.'<img src="'.$imagePath.'engine/images/logos/f_rss10.png" alt="RSS 1.0" title="RSS 1.0 Syndication" align="middle" name="image" border="0" /></a>'
-.'</div>';
+if($use_rss091 == 1) {
+	$link = '?id=components&amp;item=diary&amp;feed=RSS0.91&amp;save=true';
+	$link = $tcms_main->urlConvertToSEO($link);
+	
+	echo '<div align="center">'
+	.'<a href="'.$link.'">'
+	.'<img src="'.$imagePath.'engine/images/logos/f_rss091.png" alt="RSS 0.91" title="RSS 0.91 Syndication" align="middle" name="image" border="0" /></a>'
+	.'</div>';
+}
 
 
-$link = '?id=components&amp;item=diary&amp;feed=RSS2.0&amp;save=true';
-$link = $tcms_main->urlAmpReplace($link);
+if($use_rss10) {
+	$link = '?id=components&amp;item=diary&amp;feed=RSS1.0&amp;save=true';
+	$link = $tcms_main->urlConvertToSEO($link);
+	
+	echo '<div align="center">'
+	.'<a href="'.$link.'">'
+	.'<img src="'.$imagePath.'engine/images/logos/f_rss10.png" alt="RSS 1.0" title="RSS 1.0 Syndication" align="middle" name="image" border="0" /></a>'
+	.'</div>';
+}
 
-echo '<div align="center">'
-.'<a href="'.$link.'">'
-.'<img src="'.$imagePath.'engine/images/logos/f_rss20.png" alt="RSS 2.0" title="RSS 2.0 Syndication" align="middle" name="image" border="0" /></a>'
-.'</div>';
+
+if($use_rss20) {
+	$link = '?id=components&amp;item=diary&amp;feed=RSS2.0&amp;save=true';
+	$link = $tcms_main->urlConvertToSEO($link);
+	
+	echo '<div align="center">'
+	.'<a href="'.$link.'">'
+	.'<img src="'.$imagePath.'engine/images/logos/f_rss20.png" alt="RSS 2.0" title="RSS 2.0 Syndication" align="middle" name="image" border="0" /></a>'
+	.'</div>';
+}
 
 ?>
