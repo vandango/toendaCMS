@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the news.
  *
- * @version 1.9.4
+ * @version 1.9.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -1403,34 +1403,37 @@ if($todo == 'edit') {
 			$globals_xml = new xmlparser(_TCMS_PATH.'/tcms_global/var.xml','r');
 			$old_default_cat = $globals_xml->readSection('global', 'default_category');
 			
-			foreach($arrNewsCat['tag'] as $key => $value) {
-				$checkME = false;
-				
-				if(!empty($arr_cat)) {
-					foreach($arr_cat as $ckey => $cval) {
-						if($cval == $value) {
-							$checkME = true;
+			if($tcms_main->isArray($arrNewsCat)) {
+				foreach($arrNewsCat['tag'] as $key => $value) {
+					$checkME = false;
+					
+					if(!empty($arr_cat)) {
+						foreach($arr_cat as $ckey => $cval) {
+							if($cval == $value) {
+								$checkME = true;
+							}
 						}
 					}
-				}
-				else {
-					if($old_default_cat == $value) {
-						$checkME = true;
-					}
 					else {
-						$checkME = false;
+						if($old_default_cat == $value) {
+							$checkME = true;
+						}
+						else {
+							$checkME = false;
+						}
 					}
+					
+					echo '<div class="tcms_switchcolor_4" style="margin: 0; padding: 0 0 4px 0;" onmouseover="this.style.background=\''.$arr_farbe[1].'\';" onmouseout="this.style.background=\''.$arr_farbe[0].'\';">'
+					.'<label for="new_cat_'.$key.'">'
+					.'<input type="checkbox" style="margin: 0 0 0px 0 !important;" id="new_cat_'.$key.'" name="new_cat_'.$key.'" value="'.$value.'"'.( $checkME == true ? ' checked="checked"' : '' ).' />'
+					.'&nbsp;'.$arrNewsCat['name'][$key]
+					.'</label>'
+					.'</div>';
+					
+					$catAmount = $key;
 				}
-				
-				echo '<div class="tcms_switchcolor_4" style="margin: 0; padding: 0 0 4px 0;" onmouseover="this.style.background=\''.$arr_farbe[1].'\';" onmouseout="this.style.background=\''.$arr_farbe[0].'\';">'
-				.'<label for="new_cat_'.$key.'">'
-				.'<input type="checkbox" style="margin: 0 0 0px 0 !important;" id="new_cat_'.$key.'" name="new_cat_'.$key.'" value="'.$value.'"'.( $checkME == true ? ' checked="checked"' : '' ).' />'
-				.'&nbsp;'.$arrNewsCat['name'][$key]
-				.'</label>'
-				.'</div>';
-				
-				$catAmount = $key;
 			}
+			
 			echo '</fieldset>'
 			.'</div>'
 			.'</td></tr>';
