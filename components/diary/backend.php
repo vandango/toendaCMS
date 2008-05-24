@@ -9,8 +9,7 @@
 |
 | Diary component Backend
 |
-| File:		backend.php
-| Version:	0.1.6
+| File:	backend.php
 |
 +
 */
@@ -19,58 +18,80 @@
 defined('_TCMS_VALID') or die('Restricted access');
 
 
+/**
+ * Diary component for backend
+ *
+ * This components generates a diary.
+ *
+ * @version 0.2.0
+ * @author	Jonathan Naumann <jonathan@toenda.com>
+ * @package toendaCMS
+ * @subpackage Components
+ * 
+ */
+
+
+if(isset($_GET['component'])) { $component = $_GET['component']; }
+if(isset($_GET['backend'])) { $backend = $_GET['backend']; }
+if(isset($_GET['action'])) { $action = $_GET['action']; }
+
+if(isset($_POST['component'])) { $component = $_POST['component']; }
+if(isset($_POST['backend'])) { $backend = $_POST['backend']; }
+if(isset($_POST['action'])) { $action = $_POST['action']; }
+if(isset($_POST['maintag'])) { $maintag = $_POST['maintag']; }
+
+if(isset($_POST['new_cs_diary_title'])) { $new_cs_diary_title = $_POST['new_cs_diary_title']; }
+if(isset($_POST['new_cs_diary_subtitle'])) { $new_cs_diary_subtitle = $_POST['new_cs_diary_subtitle']; }
+if(isset($_POST['content'])) { $content = $_POST['content']; }
+if(isset($_POST['new_cs_sb_diary_title'])) { $new_cs_sb_diary_title = $_POST['new_cs_sb_diary_title']; }
+if(isset($_POST['new_cs_sb_diary_subtitle'])) { $new_cs_sb_diary_subtitle = $_POST['new_cs_sb_diary_subtitle']; }
+if(isset($_POST['new_cs_how_many_dates'])) { $new_cs_how_many_dates = $_POST['new_cs_how_many_dates']; }
+if(isset($_POST['new_color_row_1'])) { $new_color_row_1 = $_POST['new_color_row_1']; }
+if(isset($_POST['new_color_row_2'])) { $new_color_row_2 = $_POST['new_color_row_2']; }
+
+if(isset($_POST['new_cs_decode_title'])) { $new_cs_decode_title = $_POST['new_cs_decode_title']; }
+if(isset($_POST['new_cs_decode_subtitle'])) { $new_cs_decode_subtitle = $_POST['new_cs_decode_subtitle']; }
+if(isset($_POST['new_cs_decode_text'])) { $new_cs_decode_text = $_POST['new_cs_decode_text']; }
+if(isset($_POST['new_cs_decode_sb_title'])) { $new_cs_decode_sb_title = $_POST['new_cs_decode_sb_title']; }
+if(isset($_POST['new_cs_decode_sb_subtitle'])) { $new_cs_decode_sb_subtitle = $_POST['new_cs_decode_sb_subtitle']; }
+
+if(isset($_POST['new_cs_show_diary_title'])) { $new_cs_show_diary_title = $_POST['new_cs_show_diary_title']; }
+
+if(isset($_POST['new_d_stamp'])) { $new_d_stamp = $_POST['new_d_stamp']; }
+if(isset($_POST['new_d_title'])) { $new_d_title = $_POST['new_d_title']; }
+if(isset($_POST['new_d_date'])) { $new_d_date = $_POST['new_d_date']; }
+if(isset($_POST['new_d_tic'])) { $new_d_tic = $_POST['new_d_tic']; }
+if(isset($_POST['new_d_loc'])) { $new_d_loc = $_POST['new_d_loc']; }
+if(isset($_POST['new_d_land'])) { $new_d_land = $_POST['new_d_land']; }
+if(isset($_POST['new_d_town'])) { $new_d_town = $_POST['new_d_town']; }
+if(isset($_POST['new_d_zip'])) { $new_d_zip = $_POST['new_d_zip']; }
+if(isset($_POST['new_d_adress'])) { $new_d_adress = $_POST['new_d_adress']; }
+if(isset($_POST['new_d_access'])) { $new_d_access = $_POST['new_d_access']; }
+if(isset($_POST['new_d_pub'])) { $new_d_pub = $_POST['new_d_pub']; }
 
 
 
-if(isset($_GET['component'])){ $component = $_GET['component']; }
-if(isset($_GET['backend'])){ $backend = $_GET['backend']; }
-if(isset($_GET['action'])){ $action = $_GET['action']; }
 
-if(isset($_POST['component'])){ $component = $_POST['component']; }
-if(isset($_POST['backend'])){ $backend = $_POST['backend']; }
-if(isset($_POST['action'])){ $action = $_POST['action']; }
-if(isset($_POST['maintag'])){ $maintag = $_POST['maintag']; }
 
-if(isset($_POST['new_cs_diary_title'])){ $new_cs_diary_title = $_POST['new_cs_diary_title']; }
-if(isset($_POST['new_cs_diary_subtitle'])){ $new_cs_diary_subtitle = $_POST['new_cs_diary_subtitle']; }
-if(isset($_POST['content'])){ $content = $_POST['content']; }
-if(isset($_POST['new_cs_sb_diary_title'])){ $new_cs_sb_diary_title = $_POST['new_cs_sb_diary_title']; }
-if(isset($_POST['new_cs_sb_diary_subtitle'])){ $new_cs_sb_diary_subtitle = $_POST['new_cs_sb_diary_subtitle']; }
-if(isset($_POST['new_cs_how_many_dates'])){ $new_cs_how_many_dates = $_POST['new_cs_how_many_dates']; }
-if(isset($_POST['new_color_row_1'])){ $new_color_row_1 = $_POST['new_color_row_1']; }
-if(isset($_POST['new_color_row_2'])){ $new_color_row_2 = $_POST['new_color_row_2']; }
+/*
+	init
+*/
 
-if(isset($_POST['new_cs_decode_title'])){ $new_cs_decode_title = $_POST['new_cs_decode_title']; }
-if(isset($_POST['new_cs_decode_subtitle'])){ $new_cs_decode_subtitle = $_POST['new_cs_decode_subtitle']; }
-if(isset($_POST['new_cs_decode_text'])){ $new_cs_decode_text = $_POST['new_cs_decode_text']; }
-if(isset($_POST['new_cs_decode_sb_title'])){ $new_cs_decode_sb_title = $_POST['new_cs_decode_sb_title']; }
-if(isset($_POST['new_cs_decode_sb_subtitle'])){ $new_cs_decode_sb_subtitle = $_POST['new_cs_decode_sb_subtitle']; }
-
-if(isset($_POST['new_cs_show_diary_title'])){ $new_cs_show_diary_title = $_POST['new_cs_show_diary_title']; }
-
-if(isset($_POST['new_d_stamp'])){ $new_d_stamp = $_POST['new_d_stamp']; }
-if(isset($_POST['new_d_title'])){ $new_d_title = $_POST['new_d_title']; }
-if(isset($_POST['new_d_date'])){ $new_d_date = $_POST['new_d_date']; }
-if(isset($_POST['new_d_tic'])){ $new_d_tic = $_POST['new_d_tic']; }
-if(isset($_POST['new_d_loc'])){ $new_d_loc = $_POST['new_d_loc']; }
-if(isset($_POST['new_d_land'])){ $new_d_land = $_POST['new_d_land']; }
-if(isset($_POST['new_d_town'])){ $new_d_town = $_POST['new_d_town']; }
-if(isset($_POST['new_d_zip'])){ $new_d_zip = $_POST['new_d_zip']; }
-if(isset($_POST['new_d_adress'])){ $new_d_adress = $_POST['new_d_adress']; }
-if(isset($_POST['new_d_access'])){ $new_d_access = $_POST['new_d_access']; }
-if(isset($_POST['new_d_pub'])){ $new_d_pub = $_POST['new_d_pub']; }
+if(!isset($action)) {
+	$action = 'settings';
+}
 
 
 
 
 
+/*
+	start
+*/
 
-
-
-
-if(!isset($action)){ $action = 'settings'; }
-
-if($action != 'save' && $action != 'edit' && $action != 'delete'){
+if($action != 'save' 
+&& $action != 'edit' 
+&& $action != 'delete') {
 	echo '<div style="display: block; width: 100%; border-bottom: 1px solid #ccc; padding-bottom: 2px; margin: 10px 0 0 0;">'
 	.'<div style="display: block; width: 30px; float: left;">&nbsp;</div>'
 	.'<a'.( $action == 'settings' ? ' class="tcms_tabA"' : ' class="tcms_tab"' ).' href="admin.php?id_user='.$id_user.'&amp;site=mod_components&amp;todo=admin&amp;component='.$component.'&amp;backend='.$backend.'&amp;action=settings">'._TABLE_SETTINGS.'</a>'
@@ -88,7 +109,7 @@ if($action != 'save' && $action != 'edit' && $action != 'delete'){
 	
 	
 	
-	if($action == 'settings'){
+	if($action == 'settings') {
 		$_TCMS_CS_ARRAY = $tcms_cs->getSpecialSettings('diary', 'diary.xml', 'diary');
 		
 		
@@ -103,16 +124,16 @@ if($action != 'save' && $action != 'edit' && $action != 'delete'){
 		$cs_color_row_2       = $_TCMS_CS_ARRAY['diary']['content']['color_row_2'];
 		
 		
-		$cs_diary_title       = $tcms_main->encode_text_without_db($cs_diary_title, '2', $c_charset);
-		$cs_diary_subtitle    = $tcms_main->encode_text_without_db($cs_diary_subtitle, '2', $c_charset);
-		$cs_diary_text        = $tcms_main->encode_text_without_db($cs_diary_text, '2', $c_charset);
-		$cs_sb_diary_title    = $tcms_main->encode_text_without_db($cs_sb_diary_title, '2', $c_charset);
-		$cs_sb_diary_subtitle = $tcms_main->encode_text_without_db($cs_sb_diary_subtitle, '2', $c_charset);
+		$cs_diary_title       = $tcms_main->decodeText($cs_diary_title, '2', $c_charset, false, true);
+		$cs_diary_subtitle    = $tcms_main->decodeText($cs_diary_subtitle, '2', $c_charset, false, true);
+		$cs_diary_text        = $tcms_main->decodeText($cs_diary_text, '2', $c_charset, false, true);
+		$cs_sb_diary_title    = $tcms_main->decodeText($cs_sb_diary_title, '2', $c_charset, false, true);
+		$cs_sb_diary_subtitle = $tcms_main->decodeText($cs_sb_diary_subtitle, '2', $c_charset, false, true);
 		
 		
 		
 		
-		if($show_wysiwyg == 'tinymce'){
+		if($show_wysiwyg == 'tinymce') {
 			echo '<!-- tinyMCE -->
 			<script language="javascript" type="text/javascript" src="../js/tinymce/tiny_mce.js"></script>
 			<script language="javascript" type="text/javascript">
@@ -166,14 +187,14 @@ if($action != 'save' && $action != 'edit' && $action != 'delete'){
 			
 			$cs_diary_text = stripslashes($cs_diary_text);
 		}
-		elseif($show_wysiwyg == 'fckeditor'){
+		elseif($show_wysiwyg == 'fckeditor') {
 			$cs_diary_text = str_replace('src="', 'src="../../../../', $cs_diary_text);
 			$cs_diary_text = str_replace('src="../../../../http:', 'src="http:', $cs_diary_text);
 			$cs_diary_text = str_replace('src="../../../../https:', 'src="https:', $cs_diary_text);
 			$cs_diary_text = str_replace('src="../../../../ftp:', 'src="ftp:', $cs_diary_text);
 			$cs_diary_text = str_replace('src="../../../..//', 'src="/', $cs_diary_text);
 		}
-		else{
+		else {
 			$cs_diary_text = ereg_replace('<br />'.chr(10), chr(13), $cs_diary_text);
 			$cs_diary_text = ereg_replace('<br />'.chr(13), chr(13), $cs_diary_text);
 			$cs_diary_text = ereg_replace('<br />', chr(13), $cs_diary_text);
@@ -275,17 +296,17 @@ if($action != 'save' && $action != 'edit' && $action != 'delete'){
 		echo '<tr><td valign="top" colspan="2">'
 		.'<script>createToendaToolbar(\'links\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');</script>';
 		
-		if($show_wysiwyg == 'tinymce'){ echo '<br /><br />'; }
-		elseif($show_wysiwyg == 'fckeditor'){ }
-		else{
-			if($show_wysiwyg == 'toendaScript'){ echo '<script>createToolbar(\'links\', \''.$tcms_lang.'\', \'toendaScript\');</script>'; }
-			else{ echo '<script>createToolbar(\'links\', \''.$tcms_lang.'\', \'HTML\');</script>'; }
+		if($show_wysiwyg == 'tinymce') { echo '<br /><br />'; }
+		elseif($show_wysiwyg == 'fckeditor') { }
+		else {
+			if($show_wysiwyg == 'toendaScript') { echo '<script>createToolbar(\'links\', \''.$tcms_lang.'\', \'toendaScript\');</script>'; }
+			else { echo '<script>createToolbar(\'links\', \''.$tcms_lang.'\', \'HTML\');</script>'; }
 		}
 		
-		if($show_wysiwyg == 'tinymce'){
+		if($show_wysiwyg == 'tinymce') {
 			echo '<textarea class="tcms_textarea_huge" style="width: 95%;" id="content" name="content" mce_editable="true">'.$cs_diary_text.'</textarea>';
 		}
-		elseif($show_wysiwyg == 'fckeditor'){
+		elseif($show_wysiwyg == 'fckeditor') {
 			$sBasePath = '../js/FCKeditor/';
 			
 			$oFCKeditor = new FCKeditor('content') ;
@@ -294,7 +315,7 @@ if($action != 'save' && $action != 'edit' && $action != 'delete'){
 			$oFCKeditor->Value = $cs_diary_text;
 			$oFCKeditor->Create();
 		}
-		else{
+		else {
 			echo '<textarea name="content" id="content" class="tcms_textarea_huge">'.$cs_diary_text.'</textarea>';
 		}
 		
@@ -304,37 +325,37 @@ if($action != 'save' && $action != 'edit' && $action != 'delete'){
 		// Table end
 		echo '</table>';
 	}
-	elseif($action == 'items'){
+	elseif($action == 'items') {
 		/*
 			list all the items
 			in the diary
 			and let the editable
 		*/
-		$path = '../../'.$tcms_administer_site.'/components/diary/data';
+		$path = _TCMS_PATH.'/components/diary/data';
 		
-		$arrFile = $tcms_main->readdir_ext($path);
+		$arrFile = $tcms_file->getPathContent($path);
 		
 		$count = 0;
 		
-		if(is_array($arrFile)){
-			foreach($arrFile as $cKey => $cValue){
+		if(is_array($arrFile)) {
+			foreach($arrFile as $cKey => $cValue) {
 				$xml = new xmlparser($path.'/'.$cValue, 'r');
 				
 				$arrDiary['tag'][$count]    = substr($cValue, 0, 10);
-				$arrDiary['stamp'][$count]  = $xml->read_section('date', 'stamp');
-				$arrDiary['date'][$count]   = $xml->read_section('date', 'timestamp');
-				$arrDiary['title'][$count]  = $xml->read_section('date', 'title');
-				$arrDiary['text'][$count]   = $xml->read_section('date', 'text');
-				$arrDiary['loc'][$count]    = $xml->read_section('date', 'location');
-				$arrDiary['town'][$count]   = $xml->read_section('date', 'town');
-				$arrDiary['access'][$count] = $xml->read_section('date', 'access');
-				$arrDiary['pub'][$count]    = $xml->read_section('date', 'published');
+				$arrDiary['stamp'][$count]  = $xml->readSection('date', 'stamp');
+				$arrDiary['date'][$count]   = $xml->readSection('date', 'timestamp');
+				$arrDiary['title'][$count]  = $xml->readSection('date', 'title');
+				$arrDiary['text'][$count]   = $xml->readSection('date', 'text');
+				$arrDiary['loc'][$count]    = $xml->readSection('date', 'location');
+				$arrDiary['town'][$count]   = $xml->readSection('date', 'town');
+				$arrDiary['access'][$count] = $xml->readSection('date', 'access');
+				$arrDiary['pub'][$count]    = $xml->readSection('date', 'published');
 				
-				$arrDiary['title'][$count]  = $tcms_main->encode_text_without_db($arrDiary['title'][$count], '2', $c_charset);
-				$arrDiary['loc'][$count]    = $tcms_main->encode_text_without_db($arrDiary['loc'][$count], '2', $c_charset);
-				$arrDiary['town'][$count]   = $tcms_main->encode_text_without_db($arrDiary['town'][$count], '2', $c_charset);
+				$arrDiary['title'][$count]  = $tcms_main->decodeText($arrDiary['title'][$count], '2', $c_charset, false, true);
+				$arrDiary['loc'][$count]    = $tcms_main->decodeText($arrDiary['loc'][$count], '2', $c_charset, false, true);
+				$arrDiary['town'][$count]   = $tcms_main->decodeText($arrDiary['town'][$count], '2', $c_charset, false, true);
 				
-				$tempStr = $tcms_main->encode_text_without_db($arrDiary['text'][$count], '2', $c_charset);
+				$tempStr = $tcms_main->decodeText($arrDiary['text'][$count], '2', $c_charset, false, true);
 				$arrDiary['text'][$count] = ( strlen($tempStr) > 60 ? substr($tempStr, 0, 60).'...' : $tempStr );
 				
 				
@@ -356,12 +377,12 @@ if($action != 'save' && $action != 'edit' && $action != 'delete'){
 				$count++;
 				
 				$xml->flush();
-				$xml->_xmlparser();
+				unset($xml);
 			}
 		}
 		
 		
-		if(is_array($arrDiary)){
+		if(is_array($arrDiary)) {
 			array_multisort(
 				$arrDiary['stamp'], SORT_DESC, 
 				$arrDiary['date'], SORT_DESC, 
@@ -376,7 +397,7 @@ if($action != 'save' && $action != 'edit' && $action != 'delete'){
 		}
 		
 		
-		if(is_array($arrDiary)){
+		if(is_array($arrDiary)) {
 			echo '<table cellpadding="3" cellspacing="0" border="0" class="noborder">';
 			echo '<tr class="tcms_bg_blue_01">'
 			.'<th valign="middle" class="tcms_db_title" width="10%" align="left">'._TABLE_DATE.'</th>'
@@ -386,10 +407,10 @@ if($action != 'save' && $action != 'edit' && $action != 'delete'){
 			.'<th valign="middle" class="tcms_db_title" width="20%" align="right">'._TABLE_FUNCTIONS.'</th>'
 			.'</tr>';
 			
-			if(is_array($arrDiary)){
-				foreach($arrDiary['stamp'] as $key => $value){
-					if(is_integer($key/2)){ $wsc = 0; }
-					else{ $wsc = 1; }
+			if(is_array($arrDiary)) {
+				foreach($arrDiary['stamp'] as $key => $value) {
+					if(is_integer($key/2)) { $wsc = 0; }
+					else { $wsc = 1; }
 					
 					echo '<tr height="25" id="row'.$key.'" '
 					.'bgcolor="'.$arr_color[$wsc].'" '
@@ -439,54 +460,57 @@ if($action != 'save' && $action != 'edit' && $action != 'delete'){
 	from the diary
 */
 
-if($action == 'edit'){
+if($action == 'edit') {
 	//***************************
 	//
-	$path = '../../'.$tcms_administer_site.'/components/diary/data/';
+	$path = _TCMS_PATH.'/components/diary/data/';
 	
-	if(isset($maintag) && !empty($maintag) && $maintag != ''){
+	if(isset($maintag) && !empty($maintag) && $maintag != '') {
 		$xml  = new xmlparser($path.$maintag.'.xml','r');
 		
-		$d_stamp  = $xml->read_section('date', 'stamp');
-		$d_date   = $xml->read_section('date', 'timestamp');
-		$d_title  = $xml->read_section('date', 'title');
-		$d_text   = $xml->read_section('date', 'text');
-		$d_tic    = $xml->read_section('date', 'tickets');
-		$d_loc    = $xml->read_section('date', 'location');
-		$d_land   = $xml->read_section('date', 'country');
-		$d_town   = $xml->read_section('date', 'town');
-		$d_zip    = $xml->read_section('date', 'zip');
-		$d_adress = $xml->read_section('date', 'adress');
-		$d_access = $xml->read_section('date', 'access');
-		$d_pub    = $xml->read_section('date', 'published');
+		$d_stamp  = $xml->readSection('date', 'stamp');
+		$d_date   = $xml->readSection('date', 'timestamp');
+		$d_title  = $xml->readSection('date', 'title');
+		$d_text   = $xml->readSection('date', 'text');
+		$d_tic    = $xml->readSection('date', 'tickets');
+		$d_loc    = $xml->readSection('date', 'location');
+		$d_land   = $xml->readSection('date', 'country');
+		$d_town   = $xml->readSection('date', 'town');
+		$d_zip    = $xml->readSection('date', 'zip');
+		$d_adress = $xml->readSection('date', 'adress');
+		$d_access = $xml->readSection('date', 'access');
+		$d_pub    = $xml->readSection('date', 'published');
 		
 		
-		if($d_stamp  == false){ $d_stamp  = ''; }
-		if($d_date   == false){ $d_date   = ''; }
-		if($d_title  == false){ $d_title  = ''; }
-		if($d_text   == false){ $d_text   = ''; }
-		if($d_tic    == false){ $d_tic    = ''; }
-		if($d_loc    == false){ $d_loc    = ''; }
-		if($d_land   == false){ $d_land   = ''; }
-		if($d_town   == false){ $d_town   = ''; }
-		if($d_zip    == false){ $d_zip    = ''; }
-		if($d_adress == false){ $d_adress = ''; }
-		if($d_access == false){ $d_access = ''; }
-		if($d_pub    == false){ $d_pub    = ''; }
+		if($d_stamp  == false) { $d_stamp  = ''; }
+		if($d_date   == false) { $d_date   = ''; }
+		if($d_title  == false) { $d_title  = ''; }
+		if($d_text   == false) { $d_text   = ''; }
+		if($d_tic    == false) { $d_tic    = ''; }
+		if($d_loc    == false) { $d_loc    = ''; }
+		if($d_land   == false) { $d_land   = ''; }
+		if($d_town   == false) { $d_town   = ''; }
+		if($d_zip    == false) { $d_zip    = ''; }
+		if($d_adress == false) { $d_adress = ''; }
+		if($d_access == false) { $d_access = ''; }
+		if($d_pub    == false) { $d_pub    = ''; }
 		
 		
-		$d_title  = $tcms_main->encode_text_without_db($d_title, '2', $c_charset);
-		$d_text   = $tcms_main->encode_text_without_db($d_text, '2', $c_charset);
-		$d_tic    = $tcms_main->encode_text_without_db($d_tic, '2', $c_charset);
-		$d_loc    = $tcms_main->encode_text_without_db($d_loc, '2', $c_charset);
-		$d_land   = $tcms_main->encode_text_without_db($d_land, '2', $c_charset);
-		$d_town   = $tcms_main->encode_text_without_db($d_town, '2', $c_charset);
-		$d_adress = $tcms_main->encode_text_without_db($d_adress, '2', $c_charset);
+		$d_title  = $tcms_main->decodeText($d_title, '2', $c_charset, false, true);
+		$d_text   = $tcms_main->decodeText($d_text, '2', $c_charset, false, true);
+		$d_tic    = $tcms_main->decodeText($d_tic, '2', $c_charset, false, true);
+		$d_loc    = $tcms_main->decodeText($d_loc, '2', $c_charset, false, true);
+		$d_land   = $tcms_main->decodeText($d_land, '2', $c_charset, false, true);
+		$d_town   = $tcms_main->decodeText($d_town, '2', $c_charset, false, true);
+		$d_adress = $tcms_main->decodeText($d_adress, '2', $c_charset, false, true);
 		
 		
-		echo tcms_html::bold(_TABLE_EDIT);
+		echo $tcms_html->bold(_TABLE_EDIT);
+		
+		$xml->flush();
+		unset($xml);
 	}
-	else{
+	else {
 		$d_stamp  = '';
 		$d_date   = date('d.m.Y-H:i');
 		$d_title  = '';
@@ -500,9 +524,9 @@ if($action == 'edit'){
 		$d_access = 'Public';
 		$d_pub    = 0;
 		
-		while(($maintag=substr(md5(time()),0,10)) && file_exists($path.$maintag.'.xml')){}
+		while(($maintag=substr(md5(time()),0,10)) && file_exists($path.$maintag.'.xml')) {}
 		
-		echo tcms_html::bold(_TABLE_NEW);
+		echo $tcms_html->bold(_TABLE_NEW);
 	}
 	//
 	//***************************
@@ -527,7 +551,7 @@ if($action == 'edit'){
 	
 	$width = '200';
 	
-	echo tcms_html::text(_CONTENT_TEXT_PAGE.'<br /><br />', 'left');
+	echo $tcms_html->text(_CONTENT_TEXT_PAGE.'<br /><br />', 'left');
 	
 	
 	echo '<script language="JavaScript" src="../js/jscalendar/calendar.js"></script>';
@@ -637,8 +661,8 @@ if($action == 'edit'){
 	.'<br /><br />'
 	.'<script>createToendaToolbar(\'side\', \''.$tcms_lang.'\', \''.( $show_wysiwyg == 'toendaScript' ? $show_wysiwyg : 'HTML' ).'\', \'?n=without\', \'\', \''.$id_user.'\');</script>';
 	
-	if($show_wysiwyg == 'toendaScript'){ echo '<script>createToolbar(\'side\', \''.$tcms_lang.'\', \'toendaScript\');</script>'; }
-	else{ echo '<script>createToolbar(\'side\', \''.$tcms_lang.'\', \'HTML\');</script>'; }
+	if($show_wysiwyg == 'toendaScript') { echo '<script>createToolbar(\'side\', \''.$tcms_lang.'\', \'toendaScript\');</script>'; }
+	else { echo '<script>createToolbar(\'side\', \''.$tcms_lang.'\', \'HTML\');</script>'; }
 	
 	echo '<textarea class="tcms_textarea_huge" id="content" name="content">'.$d_text.'</textarea>'
 	.'</td></tr>';
@@ -663,49 +687,49 @@ if($action == 'edit'){
 	save item
 */
 
-if($action == 'save_item'){
+if($action == 'save_item') {
 	if(empty($new_d_pub))  { $new_d_pub    = 0; }
-	if($new_d_access == ''){ $new_d_access = 'Public'; }
+	if($new_d_access == '') { $new_d_access = 'Public'; }
 	
 	
 	$content = $tcms_main->nl2br($content);
 	
 	
 	// CHARSETS
-	$new_d_title  = $tcms_main->decode_text_without_db($new_d_title, '2', $c_charset);
-	$content      = $tcms_main->decode_text_without_db($content, '2', $c_charset);
-	$new_d_tic    = $tcms_main->decode_text_without_db($new_d_tic, '2', $c_charset);
-	$new_d_loc    = $tcms_main->decode_text_without_db($new_d_loc, '2', $c_charset);
-	$new_d_land   = $tcms_main->decode_text_without_db($new_d_land, '2', $c_charset);
-	$new_d_town   = $tcms_main->decode_text_without_db($new_d_town, '2', $c_charset);
-	$new_d_adress = $tcms_main->decode_text_without_db($new_d_adress, '2', $c_charset);
+	$new_d_title  = $tcms_main->encodeText($new_d_title, '2', $c_charset, false, true);
+	$content      = $tcms_main->encodeText($content, '2', $c_charset, false, true);
+	$new_d_tic    = $tcms_main->encodeText($new_d_tic, '2', $c_charset, false, true);
+	$new_d_loc    = $tcms_main->encodeText($new_d_loc, '2', $c_charset, false, true);
+	$new_d_land   = $tcms_main->encodeText($new_d_land, '2', $c_charset, false, true);
+	$new_d_town   = $tcms_main->encodeText($new_d_town, '2', $c_charset, false, true);
+	$new_d_adress = $tcms_main->encodeText($new_d_adress, '2', $c_charset, false, true);
 	
 	
-	if($new_d_stamp == ''){
+	if($new_d_stamp == '') {
 		$new_d_stamp = substr($new_d_date, 6, 4).substr($new_d_date, 3, 2).substr($new_d_date, 0, 2).substr($new_d_date, 11, 2).substr($new_d_date, 14, 2);
 	}
 	
 	
 	$xmluser = new xmlparser('../../'.$tcms_administer_site.'/components/'.$component.'/data/'.$maintag.'.xml', 'w');
-	$xmluser->xml_declaration();
-	$xmluser->xml_section('date');
+	$xmluser->xmlDeclaration();
+	$xmluser->xmlSection('date');
 	
-	$xmluser->write_value('stamp', $new_d_stamp);
-	$xmluser->write_value('timestamp', $new_d_date);
-	$xmluser->write_value('title', $new_d_title);
-	$xmluser->write_value('text', $content);
-	$xmluser->write_value('tickets', $new_d_tic);
-	$xmluser->write_value('location', $new_d_loc);
-	$xmluser->write_value('country', $new_d_land);
-	$xmluser->write_value('town', $new_d_town);
-	$xmluser->write_value('zip', $new_d_zip);
-	$xmluser->write_value('adress', $new_d_adress);
-	$xmluser->write_value('published', $new_d_pub);
-	$xmluser->write_value('access', $new_d_access);
+	$xmluser->writeValue('stamp', $new_d_stamp);
+	$xmluser->writeValue('timestamp', $new_d_date);
+	$xmluser->writeValue('title', $new_d_title);
+	$xmluser->writeValue('text', $content);
+	$xmluser->writeValue('tickets', $new_d_tic);
+	$xmluser->writeValue('location', $new_d_loc);
+	$xmluser->writeValue('country', $new_d_land);
+	$xmluser->writeValue('town', $new_d_town);
+	$xmluser->writeValue('zip', $new_d_zip);
+	$xmluser->writeValue('adress', $new_d_adress);
+	$xmluser->writeValue('published', $new_d_pub);
+	$xmluser->writeValue('access', $new_d_access);
 	
-	$xmluser->xml_section_buffer();
-	$xmluser->xml_section_end('date');
-	$xmluser->_xmlparser();
+	$xmluser->xmlSectionBuffer();
+	$xmluser->xmlSectionEnd('date');
+	unset($xmluser);
 	
 	
 	echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_components&todo=admin&component='.$component.'&backend='.$backend.'&action=items\'</script>';
@@ -724,35 +748,35 @@ if($action == 'save_item'){
 	on the settings
 */
 
-if($action == 'save'){
+if($action == 'save') {
 	if(empty($new_cs_show_diary_title))  { $new_cs_show_diary_title   = 0; }
 	
 	
 	// CHARSETS
-	$new_cs_diary_title       = $tcms_main->decode_text_without_db($new_cs_diary_title, '2', $c_charset);
-	$new_cs_diary_subtitle    = $tcms_main->decode_text_without_db($new_cs_diary_subtitle, '2', $c_charset);
-	$content                  = $tcms_main->decode_text_without_db($content, '2', $c_charset);
-	$new_cs_sb_diary_title    = $tcms_main->decode_text_without_db($new_cs_sb_diary_title, '2', $c_charset);
-	$new_cs_sb_diary_subtitle = $tcms_main->decode_text_without_db($new_cs_sb_diary_subtitle, '2', $c_charset);
+	$new_cs_diary_title       = $tcms_main->encodeText($new_cs_diary_title, '2', $c_charset, false, true);
+	$new_cs_diary_subtitle    = $tcms_main->encodeText($new_cs_diary_subtitle, '2', $c_charset, false, true);
+	$content                  = $tcms_main->encodeText($content, '2', $c_charset, false, true);
+	$new_cs_sb_diary_title    = $tcms_main->encodeText($new_cs_sb_diary_title, '2', $c_charset, false, true);
+	$new_cs_sb_diary_subtitle = $tcms_main->encodeText($new_cs_sb_diary_subtitle, '2', $c_charset, false, true);
 	
 	
 	$xmluser = new xmlparser('../../'.$tcms_administer_site.'/components/'.$component.'/diary.xml', 'w');
-	$xmluser->xml_declaration();
-	$xmluser->xml_section('cs');
+	$xmluser->xmlDeclaration();
+	$xmluser->xmlSection('cs');
 	
-	$xmluser->write_value('diary_title', $new_cs_diary_title);
-	$xmluser->write_value('diary_subtitle', $new_cs_diary_subtitle);
-	$xmluser->write_value('diary_text', $content);
-	$xmluser->write_value('sb_diary_title', $new_cs_sb_diary_title);
-	$xmluser->write_value('sb_diary_subtitle', $new_cs_sb_diary_subtitle);
-	$xmluser->write_value('sb_show_diary_title', $new_cs_show_diary_title);
-	$xmluser->write_value('sb_how_many_dates', $new_cs_how_many_dates);
-	$xmluser->write_value('color_row_1', $new_color_row_1);
-	$xmluser->write_value('color_row_2', $new_color_row_2);
+	$xmluser->writeValue('diary_title', $new_cs_diary_title);
+	$xmluser->writeValue('diary_subtitle', $new_cs_diary_subtitle);
+	$xmluser->writeValue('diary_text', $content);
+	$xmluser->writeValue('sb_diary_title', $new_cs_sb_diary_title);
+	$xmluser->writeValue('sb_diary_subtitle', $new_cs_sb_diary_subtitle);
+	$xmluser->writeValue('sb_show_diary_title', $new_cs_show_diary_title);
+	$xmluser->writeValue('sb_how_many_dates', $new_cs_how_many_dates);
+	$xmluser->writeValue('color_row_1', $new_color_row_1);
+	$xmluser->writeValue('color_row_2', $new_color_row_2);
 	
-	$xmluser->xml_section_buffer();
-	$xmluser->xml_section_end('cs');
-	$xmluser->_xmlparser();
+	$xmluser->xmlSectionBuffer();
+	$xmluser->xmlSectionEnd('cs');
+	unset($xmluser);
 	
 	
 	echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_components&todo=admin&component='.$component.'&backend='.$backend.'\'</script>';
@@ -769,7 +793,7 @@ if($action == 'save'){
 /*
 	DELETE
 */
-if($action == 'delete'){
+if($action == 'delete') {
 	//****************************************
 	
 	unlink('../../'.$tcms_administer_site.'/components/diary/data/'.$maintag.'.xml');
