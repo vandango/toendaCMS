@@ -25,7 +25,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * the calendar component to show the diaries inside a
  * calendar.
  *
- * @version 0.2.2
+ * @version 0.2.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Components
