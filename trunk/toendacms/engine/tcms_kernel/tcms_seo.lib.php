@@ -66,7 +66,7 @@ class tcms_seo {
 	/**
 	 * Destructor
 	 */
-	public function __destruct(){
+	public function __destruct() {
 	}
 	
 	
@@ -74,7 +74,7 @@ class tcms_seo {
 	/**
 	 * Explode the url in colon format
 	 */
-	public function explodeUrlColonFormat(){
+	public function explodeUrlColonFormat() {
 		$this->m_urlArray = explode('/', $_SERVER['REQUEST_URI']);
 		$this->m_RequestUri = $_SERVER['REQUEST_URI'];
 		
@@ -82,119 +82,119 @@ class tcms_seo {
 		
 		$arrSEO = '';
 		
-		foreach($this->m_urlArray as $urlKey => $urlValue){
-			if(substr($urlValue, 0, 8) == 'session:'){
+		foreach($this->m_urlArray as $urlKey => $urlValue) {
+			if(substr($urlValue, 0, 8) == 'session:') {
 				$arrSEO['session'] = substr($urlValue, 8, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 8 ));
 			}
 			
-			if(substr($urlValue, 0, 8) == 'section:'){
+			if(substr($urlValue, 0, 8) == 'section:') {
 				$arrSEO['id'] = substr($urlValue, 8, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 8 ));
 			}
 			
-			if(substr($urlValue, 0, 9) == 'template:'){
+			if(substr($urlValue, 0, 9) == 'template:') {
 				$arrSEO['s'] = substr($urlValue, 9, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 9 ));
 			}
 			
-			if(substr($urlValue, 0, 5) == 'news:' && $urlKey > 2){
+			if(substr($urlValue, 0, 5) == 'news:' && $urlKey > 2) {
 				$arrSEO['news'] = substr($urlValue, 5, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 5 ));
 			}
 			
-			if(substr($urlValue, 0, 5) == 'feed:' && $urlKey > 2){
+			if(substr($urlValue, 0, 5) == 'feed:' && $urlKey > 2) {
 				$arrSEO['feed'] = substr($urlValue, 5, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 5 ));
 			}
 			
-			if(substr($urlValue, 0, 5) == 'save:' && $urlKey > 2){
+			if(substr($urlValue, 0, 5) == 'save:' && $urlKey > 2) {
 				$arrSEO['save'] = substr($urlValue, 5, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 5 ));
 			}
 			
-			if(substr($urlValue, 0, 10) == 'reg_login:' && $urlKey > 2){
+			if(substr($urlValue, 0, 10) == 'reg_login:' && $urlKey > 2) {
 				$arrSEO['reg_login'] = substr($urlValue, 10, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 10 ));
 			}
 			
-			if(substr($urlValue, 0, 5) == 'todo:' && $urlKey > 2){
+			if(substr($urlValue, 0, 5) == 'todo:' && $urlKey > 2) {
 				$arrSEO['todo'] = substr($urlValue, 5, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 5 ));
 			}
 			
-			if(substr($urlValue, 0, 5) == 'user:' && $urlKey > 2){
+			if(substr($urlValue, 0, 5) == 'user:' && $urlKey > 2) {
 				$arrSEO['u'] = substr($urlValue, 5, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 5 ));
 			}
 			
-			if(substr($urlValue, 0, 5) == 'file:' && $urlKey > 2){
+			if(substr($urlValue, 0, 5) == 'file:' && $urlKey > 2) {
 				$pos = strpos($this->m_RequestUri, '/file:') + 6;
 				$len = strlen($this->m_RequestUri) - $pos;
 				$arrSEO['file'] = substr($this->m_RequestUri, $pos, $len);
 				//$arrSEO['file'] = substr($urlValue, 5, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 5 ));
 			}
 			
-			if(substr($urlValue, 0, 9) == 'category:' && $urlKey > 2){
+			if(substr($urlValue, 0, 9) == 'category:' && $urlKey > 2) {
 				$arrSEO['category'] = substr($urlValue, 9, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 9 ));
 			}
 			
-			if(substr($urlValue, 0, 4) == 'cat:' && $urlKey > 2){
+			if(substr($urlValue, 0, 4) == 'cat:' && $urlKey > 2) {
 				$arrSEO['cat'] = substr($urlValue, 4, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 4 ));
 			}
 			
-			if(substr($urlValue, 0, 8) == 'article:' && $urlKey > 2){
+			if(substr($urlValue, 0, 8) == 'article:' && $urlKey > 2) {
 				$arrSEO['article'] = substr($urlValue, 8, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 8 ));
 			}
 			
-			if(substr($urlValue, 0, 7) == 'action:' && $urlKey > 2){
+			if(substr($urlValue, 0, 7) == 'action:' && $urlKey > 2) {
 				$arrSEO['action'] = substr($urlValue, 7, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 7 ));
 			}
 			
-			if(substr($urlValue, 0, 7) == 'albums:' && $urlKey > 2){
+			if(substr($urlValue, 0, 7) == 'albums:' && $urlKey > 2) {
 				$arrSEO['albums'] = substr($urlValue, 7, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 7 ));
 			}
 			
-			if(substr($urlValue, 0, 8) == 'command:' && $urlKey > 2){
+			if(substr($urlValue, 0, 8) == 'command:' && $urlKey > 2) {
 				$arrSEO['command'] = substr($urlValue, 8, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 8 ));
 			}
 			
-			if(substr($urlValue, 0, 5) == 'poll:' && $urlKey > 2){
+			if(substr($urlValue, 0, 5) == 'poll:' && $urlKey > 2) {
 				$arrSEO['poll'] = substr($urlValue, 5, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 5 ));
 			}
 			
-			if(substr($urlValue, 0, 3) == 'ps:'){
+			if(substr($urlValue, 0, 3) == 'ps:') {
 				$arrSEO['ps'] = substr($urlValue, 3, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 3 ));
 			}
 			
-			if(substr($urlValue, 0, 5) == 'vote:' && $urlKey > 2){
+			if(substr($urlValue, 0, 5) == 'vote:' && $urlKey > 2) {
 				$arrSEO['vote'] = substr($urlValue, 5, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 5 ));
 			}
 			
-			if(substr($urlValue, 0, 9) == 'XMLplace:' && $urlKey > 2){
+			if(substr($urlValue, 0, 9) == 'XMLplace:' && $urlKey > 2) {
 				$arrSEO['XMLplace'] = substr($urlValue, 9, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 9 ));
 			}
 			
-			if(substr($urlValue, 0, 8) == 'XMLfile:' && $urlKey > 2){
+			if(substr($urlValue, 0, 8) == 'XMLfile:' && $urlKey > 2) {
 				$arrSEO['XMLfile'] = substr($urlValue, 8, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 8 ));
 			}
 			
-			if(substr($urlValue, 0, 5) == 'page:' && $urlKey > 2){
+			if(substr($urlValue, 0, 5) == 'page:' && $urlKey > 2) {
 				$arrSEO['page'] = substr($urlValue, 5, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 5 ));
 			}
 			
-			if(substr($urlValue, 0, 5) == 'item:' && $urlKey > 2){
+			if(substr($urlValue, 0, 5) == 'item:' && $urlKey > 2) {
 				$arrSEO['item'] = substr($urlValue, 5, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 5 ));
 			}
 			
-			if(substr($urlValue, 0, 14) == 'contact_email:' && $urlKey > 2){
+			if(substr($urlValue, 0, 14) == 'contact_email:' && $urlKey > 2) {
 				$arrSEO['contact_email'] = substr($urlValue, 14, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 14 ));
 			}
 			
-			if(substr($urlValue, 0, 5) == 'date:' && $urlKey > 2){
+			if(substr($urlValue, 0, 5) == 'date:' && $urlKey > 2) {
 				$arrSEO['date'] = substr($urlValue, 5, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 5 ));
 			}
 			
-			if(substr($urlValue, 0, 5) == 'code:' && $urlKey > 2){
+			if(substr($urlValue, 0, 5) == 'code:' && $urlKey > 2) {
 				$arrSEO['code'] = substr($urlValue, 5, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 5 ));
 			}
 			
-			if(substr($urlValue, 0, 2) == 'c:' && $urlKey > 2){
+			if(substr($urlValue, 0, 2) == 'c:' && $urlKey > 2) {
 				$arrSEO['c'] = substr($urlValue, 2, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 2 ));
 			}
 			
-			if(substr($urlValue, 0, 5) == 'lang:' && $urlKey > 2){
+			if(substr($urlValue, 0, 5) == 'lang:' && $urlKey > 2) {
 				$arrSEO['lang'] = substr($urlValue, 5, ( strpos($urlValue, '/') != false ? strpos($urlValue, '/') : strlen($urlValue) - 5 ));
 			}
 		}
@@ -207,7 +207,7 @@ class tcms_seo {
 	/**
 	 * Explode the url in slash format
 	 */
-	public function explodeUrlSlashFormat(){
+	public function explodeUrlSlashFormat() {
 		$this->m_urlArray = explode('/', $_SERVER['REQUEST_URI']);
 		$this->m_RequestUri = $_SERVER['REQUEST_URI'];
 		
@@ -215,10 +215,10 @@ class tcms_seo {
 		
 		$arrSEO = '';
 		
-		foreach($this->m_urlArray as $urlKey => $urlValue){
+		foreach($this->m_urlArray as $urlKey => $urlValue) {
 			//echo $urlValue.'<br>';
 			
-			switch($urlValue){
+			switch($urlValue) {
 				case 'session':
 					$arrSEO['session'] = $this->m_urlArray[$urlKey + 1];
 					break;
@@ -392,10 +392,17 @@ class tcms_seo {
 			$end = '';
 			
 			if(strlen($urlValue) > 0) {
+				//echo strpos($urlValue, '.', 1);
+				
 				if(strpos($urlValue, '.', 1) > 0) {
 					// found point - cut ".html"
+					//echo 'found point - cut ".html"<br>';
+					
 					$val = substr($urlValue, 0, strrpos($urlValue, '.', 1));
 					$end = substr($urlValue, strrpos($urlValue, '.', 1) + 5);
+					
+					//echo $urlValue.'<br>';
+					//echo substr($urlValue, strrpos($urlValue, '.', 1) + 5).'<br>';
 				}
 				else {
 					$val = $urlValue;
@@ -569,12 +576,14 @@ class tcms_seo {
 					break;
 			}
 			
-			if(trim($end) != '') {
+			//if(trim($end) != '') {
+			if(trim($part2) != '') {
 				//echo '$arrSEO['.substr($end, 1, strpos($end, '=') - 1).'='.substr($end, strpos($end, '=') + 1).'<br>';
 				
 				$arrParams = explode('&', $end);
 				
-				foreach($arrParams as $key => $val){
+				//foreach($arrParams as $key => $val) {
+				foreach($this->m_idArray as $key => $val) {
 					$val = str_replace('?', '', $val);
 					
 					//echo 'key='.$key.'<br>';

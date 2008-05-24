@@ -63,7 +63,7 @@ if($content_published == 1) {
 		check for public access
 	*/
 	
-	$ws_auth = $tcms_main->checkAccess($authorized, $is_admin);
+	$ws_auth = $tcms_auth->checkContentAccess($authorized, $is_admin);
 	
 	
 	

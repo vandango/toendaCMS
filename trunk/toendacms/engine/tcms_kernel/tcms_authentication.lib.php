@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used to authenticate a login user.
  *
- * @version 0.4.4
+ * @version 0.4.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -63,6 +63,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * doLogout                          -> Logout from the system
  * doRetrieve                        -> Retrieve a new password
  * sendRetrievementMail              -> Send a mail at the email of the founded user with a new password.
+ * checkContentAccess                -> Check if a usergroup can read a access level
  *
  * </code>
  *
@@ -1015,6 +1016,46 @@ class tcms_authentication extends tcms_main {
 ----------------------------------------------------------------------
 ","$header");
 		}
+	}
+	
+	
+	
+	/**
+	 * Check if a usergroup can read a access level
+	 *
+	 * @param String $access
+	 * @param String $usergroup
+	 * @return Boolean
+	 */
+	public function checkContentAccess($access, $usergroup) {
+		$show_this = true;
+		
+		if($access == 'Public') {
+			$show_this = true;
+		}
+		elseif($access == 'Protected') {
+			if($usergroup == 'User'
+			|| $usergroup == 'Administrator'
+			|| $usergroup == 'Developer'
+			|| $usergroup == 'Editor'
+			|| $usergroup == 'Presenter') {
+				$show_this = true;
+			}
+			else {
+				$show_this = false;
+			}
+		}
+		elseif($access == 'Private') {
+			if($usergroup == 'Administrator'
+			|| $usergroup == 'Developer') {
+				$show_this = true;
+			}
+			else {
+				$show_this = false;
+			}
+		}
+		
+		return $show_this;
 	}
 }
 
