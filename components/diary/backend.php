@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This components generates a diary.
  *
- * @version 0.2.0
+ * @version 0.2.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Components
@@ -559,6 +559,13 @@ if($action == 'edit') {
 	echo '<script language="Javascript" src="../js/jscalendar/calendar-setup.js"></script>';
 	echo '<link rel="stylesheet" type="text/css" media="all" href="../js/jscalendar/calendar-toendaCMS.css" title="toendaCMS" />';
 	
+	if($show_wysiwyg == 'tinymce') {
+		include('../tcms_kernel/tcms_tinyMCE.lib.php');
+		
+		$tcms_tinyMCE = new tcms_tinyMCE($tcms_path, $seoEnabled);
+		$tcms_tinyMCE->initTinyMCE();
+	}
+	
 	
 	echo '<form action="admin.php?id_user='.$id_user.'&amp;site=mod_components&amp;todo=admin&amp;component='.$component.'&amp;backend='.$backend.'" method="post">'
 	.'<input name="maintag" type="hidden" value="'.$maintag.'" />'
@@ -659,13 +666,46 @@ if($action == 'edit') {
 	// table row
 	echo '<tr><td valign="top" colspan="2"><strong class="tcms_bold">'._TABLE_TEXT.'</strong>'
 	.'<br /><br />'
-	.'<script>createToendaToolbar(\'side\', \''.$tcms_lang.'\', \''.( $show_wysiwyg == 'toendaScript' ? $show_wysiwyg : 'HTML' ).'\', \'?n=without\', \'\', \''.$id_user.'\');</script>';
+	.( $show_wysiwyg != 'fckeditor' ? '<br /><br />'
+	.'<script>createToendaToolbar(\'imp\', \''.$tcms_lang.'\', \''.$show_wysiwyg.'\', \'\', \'\', \''.$id_user.'\');</script>'
+	.'<br />' : '' );
 	
-	if($show_wysiwyg == 'toendaScript') { echo '<script>createToolbar(\'side\', \''.$tcms_lang.'\', \'toendaScript\');</script>'; }
-	else { echo '<script>createToolbar(\'side\', \''.$tcms_lang.'\', \'HTML\');</script>'; }
+	if($show_wysiwyg == 'tinymce') {
+	}
+	elseif($show_wysiwyg == 'fckeditor') {
+	}
+	else {
+		if($show_wysiwyg == 'toendaScript') {
+			echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'toendaScript\');</script>';
+		}
+		else if($show_wysiwyg == 'Wiki') {
+			echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'Wiki\');</script>';
+		}
+		else {
+			echo '<script>createToolbar(\'imp\', \''.$tcms_lang.'\', \'HTML\');</script>';
+		}
+	}
 	
-	echo '<textarea class="tcms_textarea_huge" id="content" name="content">'.$d_text.'</textarea>'
-	.'</td></tr>';
+	echo '<br /><br />';
+	
+	if($show_wysiwyg == 'tinymce') {
+		echo '<textarea class="tcms_textarea_huge" style="width: 95%;" name="content" id="content"'
+		//.' mce_editable="true"'
+		.'>'.$old_legal.'</textarea>';
+	}
+	elseif($show_wysiwyg == 'fckeditor') {
+		$sBasePath = '../js/FCKeditor/';
+		
+		$oFCKeditor = new FCKeditor('content') ;
+		$oFCKeditor->BasePath = $sBasePath;
+		$oFCKeditor->Value = $old_legal;
+		$oFCKeditor->Create();
+	}
+	else {
+		echo '<textarea class="tcms_textarea_huge" style="width: 95%;" id="content" name="content">'.$old_legal.'</textarea>';
+	}
+	
+	echo '</td></tr>';
 	
 	
 	
@@ -678,10 +718,6 @@ if($action == 'edit') {
 
 
 
-
-
-
-//         
 
 /*
 	save item
@@ -732,12 +768,10 @@ if($action == 'save_item') {
 	unset($xmluser);
 	
 	
-	echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_components&todo=admin&component='.$component.'&backend='.$backend.'&action=items\'</script>';
+	echo '<script>'
+	.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_components&todo=admin&component='.$component.'&backend='.$backend.'&action=items\';'
+	.'</script>';
 }
-
-
-
-
 
 
 
@@ -779,12 +813,10 @@ if($action == 'save') {
 	unset($xmluser);
 	
 	
-	echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_components&todo=admin&component='.$component.'&backend='.$backend.'\'</script>';
+	echo '<script>'
+	.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_components&todo=admin&component='.$component.'&backend='.$backend.'\';'
+	.'</script>';
 }
-
-
-
-
 
 
 
@@ -794,13 +826,11 @@ if($action == 'save') {
 	DELETE
 */
 if($action == 'delete') {
-	//****************************************
+	unlink(_TCMS_PATH.'/components/diary/data/'.$maintag.'.xml');
 	
-	unlink('../../'.$tcms_administer_site.'/components/diary/data/'.$maintag.'.xml');
-	
-	echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_components&todo=admin&component='.$component.'&backend='.$backend.'&action=items\'</script>';
-	
-	//****************************************
+	echo '<script>'
+	.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_components&todo=admin&component='.$component.'&backend='.$backend.'&action=items\';'
+	.'</script>';
 }
 
 ?>
