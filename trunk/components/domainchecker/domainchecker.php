@@ -99,12 +99,20 @@ $link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' )
 .( isset($lang) ? '&amp;lang='.$lang : '' );
 $link = $tcms_main->urlConvertToSEO($link);
 
-echo $tcms_dc->getDomainCheckForm($link, $dc_name, $dc_domain);
+echo $tcms_dc->getDomainCheckForm(
+	$link, 
+	$dc_name, 
+	$dc_domain
+);
 
 
 
 if(trim($dc_name) != '') {
-	$tcms_dc->lookUp($dc_name, $dc_domain, $cmd);
+	$tcms_dc->lookUp(
+		$dc_name, 
+		$dc_domain, 
+		$cmd
+	);
 }
 
 
