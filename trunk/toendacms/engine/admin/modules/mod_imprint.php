@@ -67,10 +67,12 @@ if($id_group == 'Developer'
 		// INIT
 		// -----------------------------------------------------
 		
-		if($tcms_main->isReal($lang))
+		if($tcms_main->isReal($lang)) {
 			$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
-		else
+		}
+		else {
 			$getLang = $tcms_front_lang;
+		}
 		
 		if($choosenDB == 'xml') {
 			if(file_exists(_TCMS_PATH.'/tcms_global/imprint.'.$getLang.'.xml')) {
