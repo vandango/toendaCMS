@@ -692,7 +692,7 @@ if($action == 'save_item') {
 	if($new_d_access == '') { $new_d_access = 'Public'; }
 	
 	
-	$content = $tcms_main->nl2br($content);
+	$content = $tcms_main->convertNewlineToHTML($content);
 	
 	
 	// CHARSETS
@@ -710,7 +710,7 @@ if($action == 'save_item') {
 	}
 	
 	
-	$xmluser = new xmlparser('../../'.$tcms_administer_site.'/components/'.$component.'/data/'.$maintag.'.xml', 'w');
+	$xmluser = new xmlparser(_TCMS_PATH.'/components/'.$component.'/data/'.$maintag.'.xml', 'w');
 	$xmluser->xmlDeclaration();
 	$xmluser->xmlSection('date');
 	
@@ -760,7 +760,7 @@ if($action == 'save') {
 	$new_cs_sb_diary_subtitle = $tcms_main->encodeText($new_cs_sb_diary_subtitle, '2', $c_charset, false, true);
 	
 	
-	$xmluser = new xmlparser('../../'.$tcms_administer_site.'/components/'.$component.'/diary.xml', 'w');
+	$xmluser = new xmlparser(_TCMS_PATH.'/components/'.$component.'/diary.xml', 'w');
 	$xmluser->xmlDeclaration();
 	$xmluser->xmlSection('cs');
 	
