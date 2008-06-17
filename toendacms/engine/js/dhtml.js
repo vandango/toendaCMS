@@ -20,7 +20,7 @@
  *
  * This file provides some favaScript functions.
  *
- * @version 0.5.8
+ * @version 0.6.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -133,6 +133,50 @@ function displayKeyCode(object) {
 		var charCode = getKeyCode(event);
 		var charString = String.fromCharCode(charCode);
 	}
+}
+
+
+
+// --------------------------------------
+// String.TRIM
+// --------------------------------------
+
+String.prototype.leftTrim = function () {
+	return (this.replace(/^\s+/,""));
+};
+
+String.prototype.rightTrim = function () {
+	return (this.replace(/\s+$/,""));
+};
+
+String.prototype.trim = function () {
+	return (this.replace(/\s+$/,"").replace(/^\s+/,""));
+};
+
+String.prototype.superTrim = function () {
+	return(this.replace(/\s+/g," ").replace(/\s+$/,"").replace(/^\s+/,""));
+};
+
+String.prototype.removeWhiteSpaces = function () {
+	return (this.replace(/\s+/g,""));
+};
+
+
+
+// --------------------------------------
+// TRIM
+// --------------------------------------
+
+function trim(string) {
+	while(string.substring(0,1) == ' ') {
+		string = string.substring(1, string.length);
+	}
+	
+	while(string.substring(string.length-1, string.length) == ' ') {
+		string = string.substring(0, string.length-1);
+	}
+	
+	return string;
 }
 
 
@@ -728,8 +772,6 @@ function deleteFolder(session, action, image, message) {
 
 
 
-
-
 // --------------------------------------
 // ROTATE IMAGES
 // --------------------------------------
@@ -757,3 +799,22 @@ function showImage() {
 		document.write('<img border="0" width="112" height="111" alt="Top Banner" src="'+theImages[whichImage]+'">');
 	}
 }
+
+
+
+// --------------------------------------
+// CONSTRUCTOR
+// --------------------------------------
+
+function tcmsBase() {
+	this.trim = trim;
+	
+	// ---
+	
+	this.showImage = showImage;
+}
+
+tcmsBase = new tcmsBase();
+
+
+
