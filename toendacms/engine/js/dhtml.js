@@ -20,7 +20,7 @@
  *
  * This file provides some favaScript functions.
  *
- * @version 0.6.0
+ * @version 0.6.1
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -187,6 +187,21 @@ function trim(string) {
 
 function gebi(id) {
 	return document.getElementById(id);
+}
+
+function getElement(id) {
+	if(typeof(id) != 'string') {
+		return id;
+	}
+	if(document.getElementById) {
+		return document.getElementById(id);
+	}
+	else if(document.all) {
+		return document.all[id];
+	}
+	else {
+		return null;
+	}
 }
 
 
@@ -808,6 +823,8 @@ function showImage() {
 
 function tcmsBase() {
 	this.trim = trim;
+	this.gebi = gebi;
+	this.getElement = getElement;
 	
 	// ---
 	
