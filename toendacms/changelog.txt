@@ -31,7 +31,7 @@ Developer Version
 	- 1.9.9 Beta 2
 	- 2.0.0 Stable
 
-Building Steps: 5017
+Building Steps: 5023
 
 
 
@@ -43,6 +43,7 @@ Building Steps: 5017
  - security fixed: 
 
  - bug fixed: Newsmanager "doParsePHP" bug fixed.
+ - bug fixed: Newsmanager load news bug fixed.
  - bug fixed: 
 
  - changed: 

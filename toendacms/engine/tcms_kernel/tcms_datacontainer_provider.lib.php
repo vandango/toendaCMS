@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This class is used for the datacontainer.
  *
- * @version 1.9.4
+ * @version 1.9.5
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -899,24 +899,37 @@ class tcms_datacontainer_provider extends tcms_main {
 			
 			$arrTitle = explode(' ', $title);
 			
+			$sqlAddLine = "";
+			
 			foreach($arrTitle as $key => $value) {
 				if($key == 0) {
 					if($this->indexOf($value, "'") || $this->indexOf($value, "\'")) {
 						$sql .= "AND ( (title LIKE '%".$value."%') OR (title LIKE '%".str_replace('\'', '&#039;', $value)."%') ) ";
+						$sqlAddLine .= "%".$value."%";
+						$sqlAddLine .= "%".str_replace('\'', '&#039;', $value)."%";
 					}
 					else {
 						$sql .= "AND (title LIKE '%".$value."%') ";
+						$sqlAddLine .= "%".$value."%";
 					}
 				}
 				else {
 					if($this->indexOf($value, "'") || $this->indexOf($value, "\'")) {
 						$sql .= "AND ( (title LIKE '%".$value."%') OR (title LIKE '%".str_replace('\'', '&#039;', $value)."%') ) ";
+						$sqlAddLine .= "%".$value."%";
+						$sqlAddLine .= "%".str_replace('\'', '&#039;', $value)."%";
 					}
 					else {
 						$sql .= "AND (title LIKE '%".$value."%') ";
+						$sqlAddLine .= "%".$value."%";
 					}
 				}
 			}
+			
+			$sql .= " AND (title LIKE '";
+			$sql .= $sqlAddLine;
+			$sql .= "') ";
+			//AND (title LIKE '%toendacms%2%beta%2%published%')
 			
 			//echo $sql.'<br>';
 			
