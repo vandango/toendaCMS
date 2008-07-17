@@ -43,6 +43,7 @@ if(!defined('_TCMS_ADMIN_SEND'))               define('_TCMS_ADMIN_SEND', 'Sende
 if(!defined('_TCMS_ADMIN_VOTE'))               define('_TCMS_ADMIN_VOTE', 'Jetzt abstimmen!');
 if(!defined('_TCMS_ADMIN_NEW'))                define('_TCMS_ADMIN_NEW', 'Neu');
 if(!defined('_TCMS_ADMIN_IMPORT'))             define('_TCMS_ADMIN_IMPORT', 'Import');
+if(!defined('_TCMS_ADMIN_EXPORT'))             define('_TCMS_ADMIN_EXPORT', 'Export');
 if(!defined('_TCMS_ADMIN_CREATE'))             define('_TCMS_ADMIN_CREATE', 'Neues Album erstellen...');
 if(!defined('_TCMS_ADMIN_NEW_POLL'))           define('_TCMS_ADMIN_NEW_POLL', 'Neue Umfrage erstellen...');
 if(!defined('_TCMS_ADMIN_NEW_ITEM'))           define('_TCMS_ADMIN_NEW_ITEM', 'Neuen Eintrag erstellen...');
@@ -109,6 +110,7 @@ if(!defined('_TCMS_CLOSE_ALL'))                define('_TCMS_CLOSE_ALL', 'Alle s
 if(!defined('_TCMS_HELP'))                     define('_TCMS_HELP', 'Hilfe');
 if(!defined('_TCMS_DOCU'))                     define('_TCMS_DOCU', 'Wiki');
 if(!defined('_TCMS_TSCRIPT_SYNTAX_REF'))       define('_TCMS_TSCRIPT_SYNTAX_REF', 'toendaScript - Syntax Referenz');
+if(!defined('_TCMS_DOWNLOAD'))                 define('_TCMS_DOWNLOAD', 'Download');
 
 
 // BACKEND TOPMENU
@@ -174,6 +176,7 @@ if(!defined('_TCMS_MENU_ABOUT_MODULE'))        define('_TCMS_MENU_ABOUT_MODULE',
 if(!defined('_TCMS_MENU_ABOUT'))               define('_TCMS_MENU_ABOUT', '&#220;ber toendaCMS');
 if(!defined('_TCMS_MENU_SEARCH'))              define('_TCMS_MENU_SEARCH', 'Suche');
 if(!defined('_TCMS_MENU_IMPORT'))              define('_TCMS_MENU_IMPORT', 'Import');
+if(!defined('_TCMS_MENU_EXPORT'))              define('_TCMS_MENU_EXPORT', 'Export');
 if(!defined('_TCMS_MENU_CFORM'))               define('_TCMS_MENU_CFORM', 'Kontaktformular');
 if(!defined('_TCMS_MENU_BOOK'))                define('_TCMS_MENU_BOOK', 'G&#228;stebuch');
 if(!defined('_TCMS_MENU_LOG'))                 define('_TCMS_MENU_LOG', 'LogViewer');
@@ -217,6 +220,7 @@ if(!defined('_MOD_COMPONENTS'))                define('_MOD_COMPONENTS', 'Kompon
 if(!defined('_MOD_COMPONENTS_UPLOAD'))         define('_MOD_COMPONENTS_UPLOAD', 'Komponenten Installations und Bearbeitungs Manager');
 if(!defined('_MOD_GLOBAL'))                    define('_MOD_GLOBAL', 'Systemeinstellungen');
 if(!defined('_MOD_IMPORT'))                    define('_MOD_IMPORT', 'Import');
+if(!defined('_MOD_EXPORT'))                    define('_MOD_EXPORT', 'Export');
 if(!defined('_MOD_DB'))                        define('_MOD_DB', 'Datenbankeinstellungen');
 if(!defined('_MOD_STATS'))                     define('_MOD_STATS', 'Webseiten Statistiken');
 if(!defined('_MOD_TEMPLATE'))                  define('_MOD_TEMPLATE', 'Vorlagenmanager');
@@ -360,6 +364,7 @@ if(!defined('_TABLE_IMAGEBROWSER_TEXT'))       define('_TABLE_IMAGEBROWSER_TEXT'
 if(!defined('_TABLE_DIARY_RSS'))               define('_TABLE_DIARY_RSS', 'Termine als RSS Feeds');
 if(!defined('_TABLE_DIARY_TICKET'))            define('_TABLE_DIARY_TICKET', 'Kartenverkauf');
 if(!defined('_TABLE_IMPORT'))                  define('_TABLE_IMPORT', 'Import');
+if(!defined('_TABLE_EXPORT'))                  define('_TABLE_EXPORT', 'Export');
 if(!defined('_TABLE_SORT'))                    define('_TABLE_SORT', 'Sortierung');
 if(!defined('_TABLE_SORT_DESC'))               define('_TABLE_SORT_DESC', 'Absteigende Sortierung');
 if(!defined('_TABLE_SORT_ASC'))                define('_TABLE_SORT_ASC', 'Aufsteigende Sortierung');
@@ -1309,6 +1314,11 @@ if(!defined('_IMPORT_BLOGGER_FTP'))            define('_IMPORT_BLOGGER_FTP', 'Bl
 if(!defined('_IMPORT_BLOGGER_FTP_DESC'))       define('_IMPORT_BLOGGER_FTP_DESC', 'Importiert Neuigkeiten und Kommentare von einem Blogger Account der auf einem eigenem FTP Server liegt (Anleitung siehe Wiki).');
 if(!defined('_IMPORT_OOO2_DOCBOOK_XML'))       define('_IMPORT_OOO2_DOCBOOK_XML', 'OpenDocument');
 if(!defined('_IMPORT_OOO2_DOCBOOK_XML_DESC'))  define('_IMPORT_OOO2_DOCBOOK_XML_DESC', 'Importiert Dokumente mit dem OpenDocument Dateiformat.');
+
+
+// EXPORT
+if(!defined('_EXPORT_WORDPRESS'))              define('_EXPORT_WORDPRESS', 'Wordpress Export');
+if(!defined('_EXPORT_WORDPRES_DESC'))          define('_EXPORT_WORDPRES_DESC', 'Exportiert Neuigkeiten, Kommentare, Kategorien und Dokumente in eine Wordpress Export Datei.');
 
 
 // COMPONENTS UPLOAD

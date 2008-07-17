@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * 
  * This class is used for a basic public functions.
  * 
- * @version 3.2.3
+ * @version 3.2.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -121,6 +121,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * cutStringToLength                 -> Cut a string and append a string
  * cutLongStringToShortString        -> Cut a long strong to a short string
  * countArrayValues                  -> Count values in an array
+ * createCharString                  -> Create string with chars
  * 
  * xml_readdir_content         -> return id saved in xml file
  * xml_readdir_content_without -> return id saved in xml file
@@ -2657,27 +2658,6 @@ class tcms_main {
 	
 	
 	/**
-	 * Count values in an array
-	 * 
-	 * @param Array $array
-	 * @param Boolean $withReduce = true
-	 * @return Integer
-	 */
-	public function countArrayValues($array, $withReduce = true) {
-		$count = 0;
-		
-		if($this->isArray($array)) {
-			foreach($array as $item) {//$key => $val) {
-				$count++;
-			}
-		}
-		
-		return $count - ( $withReduce ? 1 : 0 );
-	}
-	
-	
-	
-	/**
 	 * Replaces all newlines in a stzring with <br /> tags
 	 * 
 	 * @param String $text
@@ -2744,6 +2724,46 @@ class tcms_main {
 			? substr($text, 0, (($length / 2) - 3)).'...' .substr($text, strlen($text) - (($length / 2) - 3))
 			: $text 
 		);
+	}
+	
+	
+	
+	/**
+	 * Count values in an array
+	 * 
+	 * @param Array $array
+	 * @param Boolean $withReduce = true
+	 * @return Integer
+	 */
+	public function countArrayValues($array, $withReduce = true) {
+		$count = 0;
+		
+		if($this->isArray($array)) {
+			foreach($array as $item) {//$key => $val) {
+				$count++;
+			}
+		}
+		
+		return $count - ( $withReduce ? 1 : 0 );
+	}
+	
+	
+	
+	/**
+	 * Create string with chars
+	 *
+	 * @param Integer $amount
+	 * @param Char $char = ' '
+	 * @return String
+	 */
+	public function createCharString($amount, $char = ' ') {
+		$res = '';
+		
+		for($i = 0; $i <= $amount; $i++) {
+			$res .= $char;
+		}
+		
+		return $res;
 	}
 	
 	

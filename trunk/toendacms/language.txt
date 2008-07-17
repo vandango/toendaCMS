@@ -29,6 +29,66 @@
 
 ############################################################################################
 #
+# VERSION 2.1.0
+#
+############################################################################################
+
+**************************
+* ADD THIS
+*
+
+if(!defined('_TCMS_DOWNLOAD'))                 define('_TCMS_DOWNLOAD', 'Download');
+
+if(!defined('_TCMS_ADMIN_EXPORT'))             define('_TCMS_ADMIN_EXPORT', 'Export');
+
+if(!defined('_TCMS_MENU_EXPORT'))              define('_TCMS_MENU_EXPORT', 'Export');
+
+if(!defined('_MOD_EXPORT'))                    define('_MOD_EXPORT', 'Export');
+
+if(!defined('_TABLE_EXPORT'))                  define('_TABLE_EXPORT', 'Export');
+
+if(!defined('_EXPORT_WORDPRESS'))              define('_EXPORT_WORDPRESS', 'Wordpress Export');
+if(!defined('_EXPORT_WORDPRES_DESC'))          define('_EXPORT_WORDPRES_DESC', 'Export toendaCMS news, comments, categories and documents into a Wordpress Export file.');
+
+*
+*
+**************************
+
+
+**************************
+* CHANGE THIS
+*
+
+this:
+
+if(!defined('_GALLERY_LIST_3_THUMB'))          define('_GALLERY_LIST_3_THUMB', '3 thumbnail images side by side');
+
+
+to:
+
+if(!defined('_GALLERY_LIST_3_THUMB'))          define('_GALLERY_LIST_3_THUMB', 'Thumbnail images side by side');
+
+*
+*
+**************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+############################################################################################
+#
 # VERSION 2.0.0
 #
 ############################################################################################

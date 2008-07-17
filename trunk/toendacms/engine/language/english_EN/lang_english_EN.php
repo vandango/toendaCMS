@@ -43,6 +43,7 @@ if(!defined('_TCMS_ADMIN_SEND'))               define('_TCMS_ADMIN_SEND', 'Send'
 if(!defined('_TCMS_ADMIN_VOTE'))               define('_TCMS_ADMIN_VOTE', 'Vote now!');
 if(!defined('_TCMS_ADMIN_NEW'))                define('_TCMS_ADMIN_NEW', 'New');
 if(!defined('_TCMS_ADMIN_IMPORT'))             define('_TCMS_ADMIN_IMPORT', 'Import');
+if(!defined('_TCMS_ADMIN_EXPORT'))             define('_TCMS_ADMIN_EXPORT', 'Export');
 if(!defined('_TCMS_ADMIN_CREATE'))             define('_TCMS_ADMIN_CREATE', 'Add new Album...');
 if(!defined('_TCMS_ADMIN_NEW_POLL'))           define('_TCMS_ADMIN_NEW_POLL', 'Add new Poll...');
 if(!defined('_TCMS_ADMIN_NEW_ITEM'))           define('_TCMS_ADMIN_NEW_ITEM', 'Add new Item...');
@@ -109,6 +110,7 @@ if(!defined('_TCMS_CLOSE_ALL'))                define('_TCMS_CLOSE_ALL', 'Close 
 if(!defined('_TCMS_HELP'))                     define('_TCMS_HELP', 'Help');
 if(!defined('_TCMS_DOCU'))                     define('_TCMS_DOCU', 'Wiki');
 if(!defined('_TCMS_TSCRIPT_SYNTAX_REF'))       define('_TCMS_TSCRIPT_SYNTAX_REF', 'toendaScript - Syntax Reference');
+if(!defined('_TCMS_DOWNLOAD'))                 define('_TCMS_DOWNLOAD', 'Download');
 
 
 // BACKEND TOPMENU
@@ -173,6 +175,7 @@ if(!defined('_TCMS_MENU_ABOUT_MODULE'))        define('_TCMS_MENU_ABOUT_MODULE',
 if(!defined('_TCMS_MENU_ABOUT'))               define('_TCMS_MENU_ABOUT', 'About toendaCMS');
 if(!defined('_TCMS_MENU_SEARCH'))              define('_TCMS_MENU_SEARCH', 'Search');
 if(!defined('_TCMS_MENU_IMPORT'))              define('_TCMS_MENU_IMPORT', 'Import');
+if(!defined('_TCMS_MENU_EXPORT'))              define('_TCMS_MENU_EXPORT', 'Export');
 if(!defined('_TCMS_MENU_CFORM'))               define('_TCMS_MENU_CFORM', 'Contactform');
 if(!defined('_TCMS_MENU_BOOK'))                define('_TCMS_MENU_BOOK', 'Guestbook');
 if(!defined('_TCMS_MENU_LOG'))                 define('_TCMS_MENU_LOG', 'LogViewer');
@@ -216,6 +219,7 @@ if(!defined('_MOD_COMPONENTS'))                define('_MOD_COMPONENTS', 'Compon
 if(!defined('_MOD_COMPONENTS_UPLOAD'))         define('_MOD_COMPONENTS_UPLOAD', 'Components Install and Edit Manager');
 if(!defined('_MOD_GLOBAL'))                    define('_MOD_GLOBAL', 'Global Configuration');
 if(!defined('_MOD_IMPORT'))                    define('_MOD_IMPORT', 'Import');
+if(!defined('_MOD_EXPORT'))                    define('_MOD_EXPORT', 'Export');
 if(!defined('_MOD_DB'))                        define('_MOD_DB', 'Database Configuration');
 if(!defined('_MOD_STATS'))                     define('_MOD_STATS', 'Website Statistics');
 if(!defined('_MOD_TEMPLATE'))                  define('_MOD_TEMPLATE', 'Template Manager');
@@ -358,6 +362,7 @@ if(!defined('_TABLE_IMAGEBROWSER_TEXT'))       define('_TABLE_IMAGEBROWSER_TEXT'
 if(!defined('_TABLE_DIARY_RSS'))               define('_TABLE_DIARY_RSS', 'Diary RSS feeds');
 if(!defined('_TABLE_DIARY_TICKET'))            define('_TABLE_DIARY_TICKET', 'Tickets');
 if(!defined('_TABLE_IMPORT'))                  define('_TABLE_IMPORT', 'Import');
+if(!defined('_TABLE_EXPORT'))                  define('_TABLE_EXPORT', 'Export');
 if(!defined('_TABLE_SORT'))                    define('_TABLE_SORT', 'Sortation');
 if(!defined('_TABLE_SORT_DESC'))               define('_TABLE_SORT_DESC', 'Descending sortation');
 if(!defined('_TABLE_SORT_ASC'))                define('_TABLE_SORT_ASC', 'Ascending sortation');
@@ -1304,6 +1309,11 @@ if(!defined('_IMPORT_BLOGGER_FTP'))            define('_IMPORT_BLOGGER_FTP', 'Bl
 if(!defined('_IMPORT_BLOGGER_FTP_DESC'))       define('_IMPORT_BLOGGER_FTP_DESC', 'Import news and comments from a Blogger account who the blog is located on a own ftp server (documentation is in the wiki).');
 if(!defined('_IMPORT_OOO2_DOCBOOK_XML'))       define('_IMPORT_OOO2_DOCBOOK_XML', 'OpenDocument');
 if(!defined('_IMPORT_OOO2_DOCBOOK_XML_DESC'))  define('_IMPORT_OOO2_DOCBOOK_XML_DESC', 'Import documents from <em>OpenDocument</em> formated files.');
+
+
+// EXPORT
+if(!defined('_EXPORT_WORDPRESS'))              define('_EXPORT_WORDPRESS', 'Wordpress Export');
+if(!defined('_EXPORT_WORDPRESS_DESC'))         define('_EXPORT_WORDPRESS_DESC', 'Export toendaCMS news, comments, categories and documents into a Wordpress Export file.');
 
 
 // COMPONENTS UPLOAD
