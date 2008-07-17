@@ -23,35 +23,35 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used as a contacts manager.
  *
- * @version 0.4.7
+ * @version 0.4.8
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
  */
 
 
-if(isset($_GET['action'])){ $action = $_GET['action']; }
+if(isset($_GET['action'])) { $action = $_GET['action']; }
 
-if(isset($_POST['new_defcon'])){ $new_defcon = $_POST['new_defcon']; }
-if(isset($_POST['new_pub'])){ $new_pub = $_POST['new_pub']; }
-if(isset($_POST['full_name'])){ $full_name = $_POST['full_name']; }
-if(isset($_POST['new_position'])){ $new_position = $_POST['new_position']; }
-if(isset($_POST['new_email'])){ $new_email = $_POST['new_email']; }
-if(isset($_POST['new_street'])){ $new_street = $_POST['new_street']; }
-if(isset($_POST['new_country'])){ $new_country = $_POST['new_country']; }
-if(isset($_POST['new_state'])){ $new_state = $_POST['new_state']; }
-if(isset($_POST['new_town'])){ $new_town = $_POST['new_town']; }
-if(isset($_POST['new_postal'])){ $new_postal = $_POST['new_postal']; }
-if(isset($_POST['new_phone'])){ $new_phone = $_POST['new_phone']; }
-if(isset($_POST['new_fax'])){ $new_fax = $_POST['new_fax']; }
-if(isset($_POST['zlib_upload'])){ $zlib_upload = $_POST['zlib_upload']; }
+if(isset($_POST['new_defcon'])) { $new_defcon = $_POST['new_defcon']; }
+if(isset($_POST['new_pub'])) { $new_pub = $_POST['new_pub']; }
+if(isset($_POST['full_name'])) { $full_name = $_POST['full_name']; }
+if(isset($_POST['new_position'])) { $new_position = $_POST['new_position']; }
+if(isset($_POST['new_email'])) { $new_email = $_POST['new_email']; }
+if(isset($_POST['new_street'])) { $new_street = $_POST['new_street']; }
+if(isset($_POST['new_country'])) { $new_country = $_POST['new_country']; }
+if(isset($_POST['new_state'])) { $new_state = $_POST['new_state']; }
+if(isset($_POST['new_town'])) { $new_town = $_POST['new_town']; }
+if(isset($_POST['new_postal'])) { $new_postal = $_POST['new_postal']; }
+if(isset($_POST['new_phone'])) { $new_phone = $_POST['new_phone']; }
+if(isset($_POST['new_fax'])) { $new_fax = $_POST['new_fax']; }
+if(isset($_POST['zlib_upload'])) { $zlib_upload = $_POST['zlib_upload']; }
 
 
 
 
 
 if($id_group == 'Developer' 
-|| $id_group == 'Administrator'){
+|| $id_group == 'Administrator') {
 	//=====================================================
 	// INIT
 	//=====================================================
@@ -72,8 +72,8 @@ if($id_group == 'Developer'
 	// OLD VALUES
 	//=====================================================
 	
-	if($todo == 'import'){
-		echo tcms_html::text(_CONTACT_VCARD_IMPORT_TEXT.'<br /><br />', 'left');
+	if($todo == 'import') {
+		echo $tcms_html->text(_CONTACT_VCARD_IMPORT_TEXT.'<br /><br />', 'left');
 		
 		
 		// form
@@ -121,22 +121,22 @@ if($id_group == 'Developer'
 	// OLD VALUES
 	//=====================================================
 	
-	if($todo == 'show'){
-		echo tcms_html::bold(_CONTACT_TITLE);
-		echo tcms_html::text(_CONTACT_TEXT.'<br /><br />', 'left');
+	if($todo == 'show') {
+		echo $tcms_html->bold(_CONTACT_TITLE);
+		echo $tcms_html->text(_CONTACT_TEXT.'<br /><br />', 'left');
 		
-		if($choosenDB == 'xml'){
+		if($choosenDB == 'xml') {
 			$arr_filename = $tcms_file->getPathContent(_TCMS_PATH.'/tcms_contacts/');
 			
-			if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
-				foreach($arr_filename as $key => $value){
+			if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != '') {
+				foreach($arr_filename as $key => $value) {
 					$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_contacts/'.$value,'r');
 					$arr_contacts['tag'][$key]    = substr($value, 0, 10);
-					$arr_contacts['defcon'][$key] = $menu_xml->read_section('contact', 'default_con');
-					$arr_contacts['pub'][$key]    = $menu_xml->read_section('contact', 'published');
-					$arr_contacts['name'][$key]   = $menu_xml->read_section('contact', 'name');
+					$arr_contacts['defcon'][$key] = $menu_xml->readSection('contact', 'default_con');
+					$arr_contacts['pub'][$key]    = $menu_xml->readSection('contact', 'published');
+					$arr_contacts['name'][$key]   = $menu_xml->readSection('contact', 'name');
 					
-					if(!$arr_contacts['defcon'][$key]){ $arr_contacts['defcon'][$key] = ''; }
+					if(!$arr_contacts['defcon'][$key]) { $arr_contacts['defcon'][$key] = ''; }
 					if(!$arr_contacts['pub'][$key])   { $arr_contacts['pub'][$key]    = ''; }
 					if(!$arr_contacts['name'][$key])  { $arr_contacts['name'][$key]   = ''; }
 					
@@ -145,7 +145,7 @@ if($id_group == 'Developer'
 				}
 			}
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
 			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
@@ -153,15 +153,15 @@ if($id_group == 'Developer'
 			
 			$count = 0;
 			
-			while($sqlObj = $sqlAL->fetchObject($sqlQR)){
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
 				$arr_contacts['tag'][$count]    = $sqlObj->uid;
 				$arr_contacts['defcon'][$count] = $sqlObj->default_con;
 				$arr_contacts['pub'][$count]    = $sqlObj->published;
 				$arr_contacts['name'][$count]   = $sqlObj->name;
 				
-				if($arr_contacts['defcon'][$count] == NULL){ $arr_contacts['defcon'][$count] = ''; }
-				if($arr_contacts['pub'][$count]    == NULL){ $arr_contacts['pub'][$count]    = ''; }
-				if($arr_contacts['name'][$count]   == NULL){ $arr_contacts['name'][$count]   = ''; }
+				if($arr_contacts['defcon'][$count] == NULL) { $arr_contacts['defcon'][$count] = ''; }
+				if($arr_contacts['pub'][$count]    == NULL) { $arr_contacts['pub'][$count]    = ''; }
+				if($arr_contacts['name'][$count]   == NULL) { $arr_contacts['name'][$count]   = ''; }
 				
 				// CHARSETS
 				$arr_contacts['name'][$count] = $tcms_main->decodeText($arr_contacts['name'][$count], '2', $c_charset);
@@ -173,7 +173,7 @@ if($id_group == 'Developer'
 			$sqlAL->sqlFreeResult($sqlQR);
 		}
 	
-		if(is_array($arr_contacts)){
+		if(is_array($arr_contacts)) {
 			array_multisort(
 				$arr_contacts['name'], SORT_ASC, 
 				$arr_contacts['tag'], SORT_ASC, 
@@ -190,8 +190,8 @@ if($id_group == 'Developer'
 			.'<th valign="middle" class="tcms_db_title" width="5%" align="left">'._TABLE_DEFAULT.'</th>'
 			.'<th valign="middle" class="tcms_db_title" width="20%" align="right">'._TABLE_FUNCTIONS.'</th><tr>';
 		
-		if(isset($arr_contacts['tag']) && !empty($arr_contacts['tag']) && $arr_contacts['tag'] != ''){
-			foreach ($arr_contacts['tag'] as $key => $value){
+		if(isset($arr_contacts['tag']) && !empty($arr_contacts['tag']) && $arr_contacts['tag'] != '') {
+			foreach ($arr_contacts['tag'] as $key => $value) {
 				$bgkey++;
 				
 				if(is_integer($bgkey/2)) $wsc = $arr_color[0];
@@ -246,8 +246,8 @@ if($id_group == 'Developer'
 	// FORM
 	//=====================================================
 	
-	if($todo == 'edit'){
-		if(isset($maintag) && trim($maintag) != ''){
+	if($todo == 'edit') {
+		if(isset($maintag) && trim($maintag) != '') {
 			$dcCon = new tcms_dc_contact();
 			$dcCon = $tcms_ap->getContact($maintag);
 			
@@ -267,7 +267,7 @@ if($id_group == 'Developer'
 			echo tcms_html::bold(_TABLE_EDIT);
 			$odot = 'save';
 		}
-		else{
+		else {
 			$tc_defcon   = 0;
 			$tc_pub      = 0;
 			$tc_name     = '';
@@ -308,16 +308,16 @@ if($id_group == 'Developer'
 		echo '<table width="100%" cellpadding="1" cellspacing="5" class="tcms_table">';
 		
 		
-		if($tc_defcon == 0){
-			if($choosenDB == 'xml'){
+		if($tc_defcon == 0) {
+			if($choosenDB == 'xml') {
 				$bCon = $tcms_main->chkDefaultContact();
 				
-				if($bCon){ $sqlNR = 1; }
-				else{ $sqlNR = 0; }
+				if($bCon) { $sqlNR = 1; }
+				else { $sqlNR = 0; }
 			}
-			else{
-				$sqlAL = new sqlAbstractionLayer($choosenDB);
-				$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			else {
+				$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+				$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 				
 				
 				$strSQL = "SELECT * "
@@ -328,19 +328,19 @@ if($id_group == 'Developer'
 				$sqlNR = $sqlAL->sqlGetNumber($sqlQR);
 			}
 		}
-		else{
+		else {
 			$sqlNR = 0;
 		}
 		
 		
-		if($sqlNR == 0){
+		if($sqlNR == 0) {
 			// row
 			echo '<tr><td valign="top" width="'.$width.'"><strong class="tcms_bold">'._TABLE_DEFAULT.'</strong></td>'
 			.'<td>&nbsp;<img src="../images/dot_2.gif" border="0" />&nbsp;'
 			.'<input name="new_defcon" value="1" type="checkbox"'.( $tc_defcon == 1 ? ' checked="checked"' : '' ).' />'
 			.'</td></tr>';
 		}
-		else{
+		else {
 			echo '<input name="new_defcon" type="hidden" value="0" />';
 		}
 		
@@ -448,9 +448,9 @@ if($id_group == 'Developer'
 	// SAVE EDITED
 	//=====================================================
 	
-	if($todo == 'save'){
-		if($new_defcon == ''){ $new_defcon = 0; }
-		if($new_pub    == ''){ $new_pub    = 0; }
+	if($todo == 'save') {
+		if($new_defcon == '') { $new_defcon = 0; }
+		if($new_pub    == '') { $new_pub    = 0; }
 		
 		// CHARSETS
 		$full_name    = $tcms_main->encodeText($full_name, '2', $c_charset);
@@ -464,30 +464,30 @@ if($id_group == 'Developer'
 		$new_phone    = $tcms_main->encodeText($new_phone, '2', $c_charset);
 		$new_fax      = $tcms_main->encodeText($new_fax, '2', $c_charset);
 		
-		if($choosenDB == 'xml'){
+		if($choosenDB == 'xml') {
 			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_contacts/'.$maintag.'.xml', 'w');
-			$xmluser->xml_declaration();
-			$xmluser->xml_section('contact');
+			$xmluser->xmlDeclaration();
+			$xmluser->xmlSection('contact');
 			
-			$xmluser->write_value('default_con', $new_defcon);
-			$xmluser->write_value('published', $new_pub);
-			$xmluser->write_value('name', $full_name);
-			$xmluser->write_value('position', $new_position);
-			$xmluser->write_value('email', $new_email);
-			$xmluser->write_value('street', $new_street);
-			$xmluser->write_value('country', $new_country);
-			$xmluser->write_value('state', $new_state);
-			$xmluser->write_value('town', $new_town);
-			$xmluser->write_value('postal', $new_postal);
-			$xmluser->write_value('phone', $new_phone);
-			$xmluser->write_value('fax', $new_fax);
+			$xmluser->writeValue('default_con', $new_defcon);
+			$xmluser->writeValue('published', $new_pub);
+			$xmluser->writeValue('name', $full_name);
+			$xmluser->writeValue('position', $new_position);
+			$xmluser->writeValue('email', $new_email);
+			$xmluser->writeValue('street', $new_street);
+			$xmluser->writeValue('country', $new_country);
+			$xmluser->writeValue('state', $new_state);
+			$xmluser->writeValue('town', $new_town);
+			$xmluser->writeValue('postal', $new_postal);
+			$xmluser->writeValue('phone', $new_phone);
+			$xmluser->writeValue('fax', $new_fax);
 			
-			$xmluser->xml_section_buffer();
-			$xmluser->xml_section_end('contact');
+			$xmluser->xmlSectionBuffer();
+			$xmluser->xmlSectionEnd('contact');
 		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		else {
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$newSQLData = ''
 			.$tcms_db_prefix.'contacts.default_con='.$new_defcon.', '
@@ -503,7 +503,7 @@ if($id_group == 'Developer'
 			.$tcms_db_prefix.'contacts.phone="'.$new_phone.'", '
 			.$tcms_db_prefix.'contacts.fax="'.$new_fax.'"';
 			
-			$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'contacts', $newSQLData, $maintag);
+			$sqlQR = $sqlAL->updateOne($tcms_db_prefix.'contacts', $newSQLData, $maintag);
 		}
 		
 		echo '<script>'
@@ -519,8 +519,8 @@ if($id_group == 'Developer'
 	// NEW
 	//===================================================================================
 	
-	if($todo == 'next'){
-		if($new_defcon == '' || empty($new_defcon)){ $new_defcon = 0; }
+	if($todo == 'next') {
+		if($new_defcon == '' || empty($new_defcon)) { $new_defcon = 0; }
 		if($new_pub    == '' || empty($new_pub))   { $new_pub    = 0; }
 		
 		// CHARSETS
@@ -535,32 +535,32 @@ if($id_group == 'Developer'
 		$new_postal   = $tcms_main->encodeText($new_postal, '2', $c_charset);
 		$new_fax      = $tcms_main->encodeText($new_fax, '2', $c_charset);
 		
-		if($choosenDB == 'xml'){
+		if($choosenDB == 'xml') {
 			$xmluser = new xmlparser(_TCMS_PATH.'/tcms_contacts/'.$maintag.'.xml', 'w');
-			$xmluser->xml_declaration();
-			$xmluser->xml_section('contact');
+			$xmluser->xmlDeclaration();
+			$xmluser->xmlSection('contact');
 			
-			$xmluser->write_value('default_con', $new_defcon);
-			$xmluser->write_value('published', $new_pub);
-			$xmluser->write_value('name', $full_name);
-			$xmluser->write_value('position', $new_position);
-			$xmluser->write_value('email', $new_email);
-			$xmluser->write_value('street', $new_street);
-			$xmluser->write_value('country', $new_country);
-			$xmluser->write_value('state', $new_state);
-			$xmluser->write_value('town', $new_town);
-			$xmluser->write_value('postal', $new_postal);
-			$xmluser->write_value('phone', $new_phone);
-			$xmluser->write_value('fax', $new_fax);
+			$xmluser->writeValue('default_con', $new_defcon);
+			$xmluser->writeValue('published', $new_pub);
+			$xmluser->writeValue('name', $full_name);
+			$xmluser->writeValue('position', $new_position);
+			$xmluser->writeValue('email', $new_email);
+			$xmluser->writeValue('street', $new_street);
+			$xmluser->writeValue('country', $new_country);
+			$xmluser->writeValue('state', $new_state);
+			$xmluser->writeValue('town', $new_town);
+			$xmluser->writeValue('postal', $new_postal);
+			$xmluser->writeValue('phone', $new_phone);
+			$xmluser->writeValue('fax', $new_fax);
 			
-			$xmluser->xml_section_buffer();
-			$xmluser->xml_section_end('contact');
+			$xmluser->xmlSectionBuffer();
+			$xmluser->xmlSectionEnd('contact');
 		}
-		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		else {
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			switch($choosenDB){
+			switch($choosenDB) {
 				case 'mysql':
 					$newSQLColumns = '`default_con`, `published`, `name`, `position`, `email`, `street`, `country`, `state`, `town`, `postal`, `phone`, `fax`';
 					break;
@@ -576,7 +576,7 @@ if($id_group == 'Developer'
 			
 			$newSQLData = $new_defcon.", ".$new_pub.", '".$full_name."', '".$new_position."', '".$new_email."', '".$new_street."', '".$new_country."', '".$new_state."', '".$new_town."', '".$new_postal."', '".$new_phone."', '".$new_fax."'";
 			
-			$sqlQR = $sqlAL->sqlCreateOne($tcms_db_prefix.'contacts', $newSQLColumns, $newSQLData, $maintag);
+			$sqlQR = $sqlAL->createOne($tcms_db_prefix.'contacts', $newSQLColumns, $newSQLData, $maintag);
 		}
 		
 		echo '<script>'
@@ -592,9 +592,9 @@ if($id_group == 'Developer'
 	// IMPORT VCARD
 	//===================================================================================
 	
-	if($todo == 'vcard_save'){
+	if($todo == 'vcard_save') {
 		if($_FILES['zlib_upload']['size'] > 0 
-		&& strrpos($_FILES['zlib_upload']['name'], '.vcf')){
+		&& strrpos($_FILES['zlib_upload']['name'], '.vcf')) {
 			$fileName = '__vcard.vcf';
 			$fileDir = '../../cache/';
 			
@@ -620,16 +620,16 @@ if($id_group == 'Developer'
 	// ENABLE / DISABLE COMMENTS
 	//===================================================================================
 	
-	if($todo == 'publishItem'){
-		switch($action){
+	if($todo == 'publishItem') {
+		switch($action) {
 			// Take it off
 			case 'off':
-				if($choosenDB == 'xml'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_contacts/'.$maintag.'.xml', 'published', '1', '0'); }
-				else{
-					$sqlAL = new sqlAbstractionLayer($choosenDB);
-					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				if($choosenDB == 'xml') { xmlparser::edit_value(_TCMS_PATH.'/tcms_contacts/'.$maintag.'.xml', 'published', '1', '0'); }
+				else {
+					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					$newSQLData = $tcms_db_prefix.'contacts.published=0';
-					$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'contacts', $newSQLData, $maintag);
+					$sqlQR = $sqlAL->updateOne($tcms_db_prefix.'contacts', $newSQLData, $maintag);
 				}
 				
 				echo '<script type="text/javascript">'
@@ -639,12 +639,12 @@ if($id_group == 'Developer'
 			
 			// Take it on
 			case 'on':
-				if($choosenDB == 'xml'){ xmlparser::edit_value(_TCMS_PATH.'/tcms_contacts/'.$maintag.'.xml', 'published', '0', '1'); }
-				else{
-					$sqlAL = new sqlAbstractionLayer($choosenDB);
-					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+				if($choosenDB == 'xml') { xmlparser::edit_value(_TCMS_PATH.'/tcms_contacts/'.$maintag.'.xml', 'published', '0', '1'); }
+				else {
+					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					$newSQLData = $tcms_db_prefix.'contacts.published=1';
-					$sqlQR = $sqlAL->sqlUpdateOne($tcms_db_prefix.'contacts', $newSQLData, $maintag);
+					$sqlQR = $sqlAL->updateOne($tcms_db_prefix.'contacts', $newSQLData, $maintag);
 				}
 				
 				echo '<script type="text/javascript">'
@@ -662,11 +662,11 @@ if($id_group == 'Developer'
 	// DELETE
 	//===================================================================================
 	
-	if($todo == 'delete'){
-		if($choosenDB == 'xml'){ unlink(_TCMS_PATH.'/tcms_contacts/'.$maintag.'.xml'); }
-		else{
-			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+	if($todo == 'delete') {
+		if($choosenDB == 'xml') { unlink(_TCMS_PATH.'/tcms_contacts/'.$maintag.'.xml'); }
+		else {
+			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$sqlAL->sqlDeleteOne($tcms_db_prefix.'contacts', $maintag);
 		}
@@ -674,7 +674,7 @@ if($id_group == 'Developer'
 		echo '<script>document.location=\'admin.php?id_user='.$id_user.'&site=mod_contact\'</script>';
 	}
 }
-else{
+else {
 	echo '<strong>'._MSG_NOTENOUGH_USERRIGHTS.'</strong>';
 }
 

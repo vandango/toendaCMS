@@ -102,17 +102,9 @@ if($todo == 'show') {
 // ----------------------------------------
 
 if($todo == 'wordpressExport') {
-	$xml = '<?xml version="1.0" encoding="UTF-8"?>'.chr(13);
-	$xml .= '<!-- generator="toendaCMS '.$cms_version.' - '.$cms_build.'" created="'.date('Y-m-d H:i').'"-->'.chr(13);
-	$xml .= '<rss version="2.0"'.chr(13);
-    $xml .= $tcms_main->createCharString(4).'xmlns:content="http://purl.org/rss/1.0/modules/content/"'.chr(13);
-    $xml .= $tcms_main->createCharString(4).'xmlns:wfw="http://wellformedweb.org/CommentAPI/"'.chr(13);
-    $xml .= $tcms_main->createCharString(4).'xmlns:dc="http://purl.org/dc/elements/1.1/"'.chr(13);
-    $xml .= $tcms_main->createCharString(4).'xmlns:wp="http://wordpress.org/export/1.0/"'.chr(13);
-    $xml .= '>'.chr(13);
-	$xml .= $tcms_main->createCharString(4).'<channel>'.chr(13);
-	$xml .= $tcms_main->createCharString(4).'</channel>'.chr(13);
-	$xml .= '</rss>'.chr(13);
+	$tcms_export = new tcms_export(_TCMS_PATH, $c_charset, $tcms_time);
+	
+	$xml = $tcms_export->generateWordpressExportFile();
 	
 	$tcms_file2 = new tcms_file();
 	$tcms_file2->open('../../cache/wordpressExportFile.xml', 'w+');
@@ -128,7 +120,7 @@ if($todo == 'wordpressExport') {
 	
 	// file
 	echo '<input type="submit" name="reset" value="'._TCMS_ADMIN_BACK.'" '
-	.'onclick="document.location=\'admin.php?id_user='.$id_user.'&site=mod_import\';" '
+	.'onclick="document.location=\'admin.php?id_user='.$id_user.'&site=mod_export\';" '
 	.'style="font-size: 16px; font-family: Verdana, arial, sans-serif; font-weight: bold;" />';
 	
 	echo '<input type="submit" name="reset" value="'._TCMS_DOWNLOAD.'" '

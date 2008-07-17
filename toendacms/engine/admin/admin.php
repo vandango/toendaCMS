@@ -112,6 +112,7 @@ if($tcms_file->checkFileExist(_TCMS_PATH.'/tcms_global/var.xml')) {
 	using('toendacms.kernel.configuration', false, true);
 	using('toendacms.kernel.version', false, true);
 	using('toendacms.kernel.import', false, true);
+	using('toendacms.kernel.export', false, true);
 	using('toendacms.kernel.loghandler', false, true);
 	using('toendacms.kernel.menu_provider', false, true);
 	
