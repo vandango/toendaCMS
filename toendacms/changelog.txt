@@ -31,7 +31,7 @@ Developer Version
 	- 1.9.9 Beta 2
 	- 2.0.0 Stable
 
-Building Steps: 5023
+Building Steps: 5025
 
 
 
@@ -49,6 +49,7 @@ Building Steps: 5023
  - changed: 
 
  - added: Countrylist completed and added to the contact manager.
+ - added: Wordpress Export file exporter.
  - added: 
 
 
