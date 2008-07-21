@@ -57,18 +57,19 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 
 class tcms_export extends tcms_main {
-	private $m_administer;
-	private $m_charset;
+	// global informaton
+	private $m_CHARSET;
+	private $m_path;
 	private $_tcmsTime;
 	
 	// database information
-	private $db_choosenDB;
-	private $db_user;
-	private $db_pass;
-	private $db_host;
-	private $db_database;
-	private $db_port;
-	private $db_prefix;
+	private $m_choosenDB;
+	private $m_sqlUser;
+	private $m_sqlPass;
+	private $m_sqlHost;
+	private $m_sqlDB;
+	private $m_sqlPort;
+	private $m_sqlPrefix;
 	
 	
 	
@@ -79,21 +80,29 @@ class tcms_export extends tcms_main {
 	 * @param String $charset
 	 * @param Object $tcmsTimeObj = null
 	 */
-	public function __construct($administer, $charset, $tcmsTimeObj = null){
-		$this->m_administer = $administer;
-		$this->administer = $administer;
-		$this->m_charset = $charset;
+	public function __construct($tcms_administer_path = 'data', $charset, $tcmsTimeObj = null){
+		$this->m_CHARSET = $charset;
+		$this->m_path = $tcms_administer_path;
 		$this->_tcmsTime = $tcmsTimeObj;
 		
-		require($this->m_administer.'/tcms_global/database.php');
+		if(file_exists($this->m_path.'/tcms_global/database.php')) {
+			require($this->m_path.'/tcms_global/database.php');
+			
+			$this->m_choosenDB = $tcms_db_engine;
+			$this->m_sqlUser   = $tcms_db_user;
+			$this->m_sqlPass   = $tcms_db_password;
+			$this->m_sqlHost   = $tcms_db_host;
+			$this->m_sqlDB     = $tcms_db_database;
+			$this->m_sqlPort   = $tcms_db_port;
+			$this->m_sqlPrefix = $tcms_db_prefix;
+		}
+		else {
+			$this->m_choosenDB = 'xml';
+		}
 		
-		$this->db_choosenDB = $tcms_db_engine;
-		$this->db_user      = $tcms_db_user;
-		$this->db_pass      = $tcms_db_password;
-		$this->db_host      = $tcms_db_host;
-		$this->db_database  = $tcms_db_database;
-		$this->db_port      = $tcms_db_port;
-		$this->db_prefix    = $tcms_db_prefix;
+		parent::setAdministerSite($tcms_administer_path);
+		//parent::__construct($tcms_administer_path, $tcmsTimeObj);
+		//parent::setDatabaseInfo($this->m_choosenDB);
 	}
 	
 	
@@ -132,9 +141,31 @@ class tcms_export extends tcms_main {
 	/**
 	 * Generate a Wordpress Export file
 	 * 
+	 * @param String $language
+	 * @param String $seoFolder = ''
 	 * @return String XML-Stream
 	 */
-	public function generateWordpressExportFile() {
+	public function generateWordpressExportFile($language, $seoFolder = '') {
+		using('toendacms.tools.feedcreator.feedcreator_class', false, true);
+		using('toendacms.kernel.script', false, true);
+		using('toendacms.kernel.account_provider', false, true);
+		using('toendacms.kernel.datacontainer_provider', false, true);
+		using('toendacms.datacontainer.news', false, true);
+		using('toendacms.datacontainer.account', false, true);
+		using('toendacms.datacontainer.comment', false, true);
+		
+		$cfgObj = new tcms_configuration($this->m_path);
+		
+		$lang = $cfgObj->getLanguageCodeByTCMSCode($language);
+		
+		$wstitle      = $this->decodeText($cfgObj->getSiteTitle(), '2', $this->m_CHARSET);
+		$wsname       = $this->decodeText($cfgObj->getSiteName(), '2', $this->m_CHARSET);
+		$wskey        = $this->decodeText($cfgObj->getSiteKey(), '2', $this->m_CHARSET);
+		$wsowner      = $this->decodeText($cfgObj->getWebpageOwner(), '2', $this->m_CHARSET);
+		$wscopyright  = $this->decodeText($cfgObj->getWebpageCopyright(), '2', $this->m_CHARSET);
+		$wsowner_url  = $this->decodeText($cfgObj->getWebpageOwnerUrl(), '2', $this->m_CHARSET);
+		$wsowner_mail = $this->decodeText($cfgObj->getWebpageOwnerMail(), '2', $this->m_CHARSET);
+		
 		$xml = '<?xml version="1.0" encoding="UTF-8"?>'.chr(13);
 		$xml .= '<!-- generator="toendaCMS '.$cms_version.' - '.$cms_build.'" created="'.date('Y-m-d H:i').'"-->'.chr(13);
 		$xml .= '<rss version="2.0"'.chr(13);
@@ -144,47 +175,137 @@ class tcms_export extends tcms_main {
 	    $xml .= $this->createCharString(4).'xmlns:wp="http://wordpress.org/export/1.0/"'.chr(13);
 	    $xml .= '>'.chr(13);
 		$xml .= $this->createCharString(4).'<channel>'.chr(13);
+		$xml .= $this->createCharString(8).'<title>galaxy Blog</title>'.chr(13);
+	    $xml .= $this->createCharString(8).'<link>http://galaxy.vandango.org</link>'.chr(13);
+	    $xml .= $this->createCharString(8).'<description>Just another WordPress weblog</description>'.chr(13);
+	    $xml .= $this->createCharString(8).'<pubDate>'.date('r').'</pubDate>'.chr(13);
+	    $xml .= $this->createCharString(8).'<generator>toendaCMS '.$cms_version.' - '.$cms_build.'</generator>'.chr(13);
+	    $xml .= $this->createCharString(8).'<language>'.$language.'</language>'.chr(13);
+	    $xml .= $this->createCharString(8).'<wp:wxr_version>1.0</wp:wxr_version>'.chr(13);
+	    $xml .= $this->createCharString(8).'<wp:base_site_url>'.$wsowner_url.'</wp:base_site_url>'.chr(13);
+	    $xml .= $this->createCharString(8).'<wp:base_blog_url>'.$wsowner_url.'</wp:base_blog_url>'.chr(13);
+		
+		
+		
+		/*
+		$rss = new UniversalFeedCreator();
+		$rss->encoding = $this->m_CHARSET;
+		$rss->_setFormat($defaultFormat);
+		$rss->useCached();
+		$rss->title = $wsname;
+		$rss->description = $wskey;
+		$rss->link = $wsowner_url;
+		$rss->syndicationURL = $wsowner_url.$seoFolder.'/cache/'.$defaultFormat.'.'.$lang.'.xml';
+		
+		$image = new FeedImage();
+		$image->title = $wsname.' Logo';
+		$image->url = '../engine/images/logos/toendaCMS_button_01.png';
+		$image->link = $wsowner_url;
+		$image->description = 'Feed provided by '.$wsname.'. Click to visit.';
+		
+		$rss->image = $image;
+		*/
+		
+		// generate now ...
+		$_tcms_ap = new tcms_account_provider($this->m_path, $this->m_CHARSET, $this->_tcmsTime);
+		$_tcms_auth = new tcms_authentication($this->m_path, $this->m_CHARSET, '', $this->_tcmsTime);
+		$_tcms_dc = new tcms_datacontainer_provider($this->m_path, $this->m_CHARSET, $this->_tcmsTime);
+		
+		if($seoFolder != '') {
+			$imagePath = $seoFolder.'/';
+		}
+		else {
+			$imagePath = '/';
+		}
+		
+		$wstitle = '';
+		
+		$arrNewsDC = $_tcms_dc->getNewsDCList($language, 'Administrator', 0, '1', true);
+		
+		if($this->isArray($arrNewsDC)) {
+			foreach($arrNewsDC as $n_key => $n_value) {
+				$dcNews = new tcms_dc_news();
+				$dcNews = $arrNewsDC[$n_key];
+				
+				$userID = $_tcms_ap->getUserID($dcNews->GetAutor());
+				
+				if($userID != false) {
+					$dcAcc = new tcms_dc_account();
+					$dcAcc = $_tcms_ap->getAccount($userID);
+					$wsMail = $dcAcc->getEmail();
+				}
+				else {
+					$wsMail = $wsowner_mail;
+				}
+			}
+		}
+		
+		/*
+		$arrNewsDC = $this->getNewsDCList($language, 'Administrator', $amount, '1', true);
+		
+		if($this->isArray($arrNewsDC)) {
+			foreach($arrNewsDC as $n_key => $n_value) {
+				$dcNews = new tcms_dc_news();
+				$dcNews = $arrNewsDC[$n_key];
+				
+				$userID = $_tcms_ap->getUserID($dcNews->GetAutor());
+				
+				if($userID != false) {
+					$dcAcc = new tcms_dc_account();
+					$dcAcc = $_tcms_ap->getAccount($userID);
+					$wsMail = $dcAcc->getEmail();
+				}
+				else {
+					$wsMail = $wsowner_mail;
+				}
+				*/
+				/*
+				$item = new FeedItem();
+				
+				$item->title = html_entity_decode($dcNews->getTitle());
+				$item->link = $wsowner_url.$seoFolder.'/?id=newsmanager&news='.$dcNews->getID();
+				
+				$toendaScript = new toendaScript();
+				
+				$news_content = $dcNews->getText();
+				$news_content = $toendaScript->checkSEO($news_content, $imagePath);
+				$news_content = $toendaScript->cutAtTcmsMoreTag($news_content);
+				
+				$item->description = $news_content;
+				$item->date = mktime(
+					substr($dcNews->getTime(), 0, 2), 
+					substr($dcNews->getTime(), 3, 2), 
+					0, 
+					substr($dcNews->getDate(), 3, 2), 
+					substr($dcNews->getDate(), 0, 2), 
+					substr($dcNews->getDate(), 6, 4)
+				);
+				$item->source = $wsowner_url;
+				
+				$item->author = ( $show_autor == 1 ? $dcNews->getAutor() : $wsowner );
+				
+				if($show_autor == 1) {
+					$item->authorEmail = $wsMail;
+				}
+				
+				$rss->addItem($item);
+				*/
+				/*
+				unset($toendaScript);
+			}
+		}
+		*/
+		
+		
+		
 		$xml .= $this->createCharString(4).'</channel>'.chr(13);
 		$xml .= '</rss>'.chr(13);
 		
 		return $xml;
 		
 		/*
-		<?xml version="1.0" encoding="UTF-8"?>
-<!-- This is a WordPress eXtended RSS file generated by WordPress as an export of your blog. -->
-<!-- It contains information about your blog's posts, comments, and categories. -->
-<!-- You may use this file to transfer that content from one site to another. -->
-<!-- This file is not intended to serve as a complete backup of your blog. -->
-
-<!-- To import this information into a WordPress blog follow these steps. -->
-<!-- 1. Log into that blog as an administrator. -->
-<!-- 2. Go to Manage: Import in the blog's admin panels. -->
-<!-- 3. Choose "WordPress" from the list. -->
-<!-- 4. Upload this file using the form provided on that page. -->
-<!-- 5. You will first be asked to map the authors in this export file to users -->
-<!--    on the blog.  For each author, you may choose to map to an -->
-<!--    existing user on the blog or to create a new user -->
-<!-- 6. WordPress will then import each of the posts, comments, and categories -->
-<!--    contained in this file into your blog -->
-
-<!-- generator="WordPress/2.6-RC1" created="2008-07-14 15:29"-->
-<rss version="2.0"
-    xmlns:content="http://purl.org/rss/1.0/modules/content/"
-    xmlns:wfw="http://wellformedweb.org/CommentAPI/"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:wp="http://wordpress.org/export/1.0/"
->
-
-<channel>
-    <title>galaxy Blog</title>
-    <link>http://galaxy.vandango.org</link>
-    <description>Just another WordPress weblog</description>
-    <pubDate>Mon, 14 Jul 2008 13:28:10 +0000</pubDate>
-    <generator>http://wordpress.org/?v=2.6-RC1</generator>
-    <language>en</language>
-    <wp:wxr_version>1.0</wp:wxr_version>
-    <wp:base_site_url>http://galaxy.vandango.org</wp:base_site_url>
-    <wp:base_blog_url>http://galaxy.vandango.org</wp:base_blog_url>
+		
+    
     <wp:category><wp:category_nicename>uncategorized</wp:category_nicename><wp:category_parent></wp:category_parent><wp:cat_name><![CDATA[Uncategorized]]></wp:cat_name></wp:category>
     <wp:tag><wp:tag_slug>hello</wp:tag_slug><wp:tag_name><![CDATA[Hello]]></wp:tag_name></wp:tag>
     <wp:tag><wp:tag_slug>post</wp:tag_slug><wp:tag_name><![CDATA[Post]]></wp:tag_name></wp:tag>
@@ -470,8 +591,7 @@ class tcms_export extends tcms_main {
 <wp:post_type>page</wp:post_type>
 <wp:post_password></wp:post_password>
     </item>
-</channel>
-</rss>
+
 		*/
 	}
 }
