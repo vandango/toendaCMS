@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to have a internal domain
  * checker class.
  *
- * @version 0.0.5
+ * @version 0.1.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -36,8 +36,10 @@ defined('_TCMS_VALID') or die('Restricted access');
  * __construct                 -> Constructor
  * __destruct                  -> Destructor
  * 
- * getWhoisServer              -> Get a list of whois server
  * getDomainCheckForm          -> This is a domain checker formular
+ * checkName                   -> Check the name of a url for false characters
+ * checkDomain                 -> Check if a domain exist
+ * lookUp                      -> Perform look up
  * 
  * </code>
  * 
@@ -46,6 +48,8 @@ defined('_TCMS_VALID') or die('Restricted access');
 
 class tcms_domaincheck {
 	private $_arrWhoisServers;
+	
+	
 	
 	/**
 	 * Constructor
@@ -216,7 +220,7 @@ class tcms_domaincheck {
 	 * @param String $ext
 	 * @return Integer
 	 */
-	function checkDomain($domain, $ext) {
+	function checkDomain($domain, $ext, $withOutput) {
 		$output = '';
 		
 		//echo 'connect to: '.$this->_arrWhoisServers[$ext][0].'<br>';
@@ -240,7 +244,11 @@ class tcms_domaincheck {
 		
 		fclose($sc);
 		
-		echo 'ausgabe: '.$output.'<br>';
+		if($withOutput) {
+			echo '<hr class="hr_line" />'
+			.$output
+			.'<br /><br />';
+		}
 		
 		//compare what has been returned by the server
 		if(eregi($this->_arrWhoisServers[$ext][1], $output)) {
@@ -253,36 +261,45 @@ class tcms_domaincheck {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	/*
-	*/
+	/**
+	 * Perform look up
+	 * 
+	 * @param $dcName
+	 * @param $dcDomain
+	 * @param $option
+	 */
 	function lookUp($dcName, $dcDomain, $option) {
-		echo '<br>start check for '.$dcName.'.'.$dcDomain.' by '.$option.' ...<br>';
+		//echo '<br>start check for '.$dcName.'.'.$dcDomain.' by '.$option.' ...<br>';
 		
 		$domain = $dcName;
 		$ext = $dcDomain;
 		
 		if(array_key_exists($dcDomain, $this->_arrWhoisServers)) {
 			if($option == 'check') {
-				$res = $this->checkDomain($dcName, $dcDomain);
+				$res = $this->checkDomain($dcName, $dcDomain, false);
 				
 				if($res == 0) {
-					echo "<b>Der Domainname ".$dcName.'.'.$dcDomain." ist frei.</b>";
+					echo '<br />'
+					.'<strong>'
+					.'the Domainname '
+					.$dcName.'.'.$dcDomain
+					.' is free.'
+					.'</strong>';
 				}
 				else {
-					echo "<b>Der Domainname ".$dcName.'.'.$dcDomain." ist vergeben.</b>";
+					echo '<br />'
+					.'<strong>'
+					.'the Domainname '
+					.$dcName.'.'.$dcDomain
+					.' is already used.'
+					.'</strong>';
+					
 					//$whois = "<font size=\"12pt\">".$string."</font>";
 					//$copy = "<center><font size=\"12pt\">Top-Side.de Php Domain Checker v1.1<br>(C) 2003 by <a target=\"_blank\" href=\"http://www.top-side.de\">Top-Side.de</a><br>based on <a href=\"http://www.nukedweb.com/phpscripts/\" target=\"_blank\">phpGlobalWhois</a></font></center>";
 				}
 			}
 			else if($option == 'whois') {
-				$this->whois($domain,$ext);
+				$this->checkDomain($domain, $ext, true);
 			}
 		}
 		/*
@@ -396,10 +413,90 @@ class tcms_domaincheck {
 	
 	
 	
+	/*
+	
+	/
+	 * Get a list of whois server
+	 *
+	 * @param String $domain
+	 * @return Array
+	 /
+	function getWhoisServer($domain) {
+		$arrWhoisServers = array(
+			"com" => array("whois.crsnic.net","No match for"),
+			"net" => array("whois.crsnic.net","No match for"),				
+			"org" => array(" whois.pir.org","NOT FOUND"),					
+			"biz" => array("whois.biz","Not found"),					
+			"info" => array("whois.afilias.net","NOT FOUND"),					
+			"co.uk" => array("whois.nic.uk","No match"),					
+			"co.ug" => array("wawa.eahd.or.ug","No entries found"),	
+			"or.ug" => array("wawa.eahd.or.ug","No entries found"),
+			"ac.ug" => array("wawa.eahd.or.ug","No entries found"),
+			"ne.ug" => array("wawa.eahd.or.ug","No entries found"),
+			"sc.ug" => array("wawa.eahd.or.ug","No entries found"),
+			"nl" 	=> array("whois.domain-registry.nl","not a registered domain"),
+			"ro" => array("whois.rotld.ro","No entries found for the selected"),
+			"com.au" => array("whois.ausregistry.net.au","No data Found"),
+			"ca" => array("whois.cira.ca", "AVAIL"),
+			"org.uk" => array("whois.nic.uk","No match"),
+			"name" => array("whois.nic.name","No match"),
+			"us" => array("whois.nic.us","Not Found"),
+			"ws" => array("whois.website.ws","No Match"),
+			"be" => array("whois.ripe.net","No entries"),
+			"com.cn" => array("whois.cnnic.cn","no matching record"),
+			"net.cn" => array("whois.cnnic.cn","no matching record"),
+			"org.cn" => array("whois.cnnic.cn","no matching record"),
+			"no" => array("whois.norid.no","no matches"),
+			"se" => array("whois.nic-se.se","No data found"),
+			"nu" => array("whois.nic.nu","NO MATCH for"),
+			"com.tw" => array("whois.twnic.net","No such Domain Name"),
+			"net.tw" => array("whois.twnic.net","No such Domain Name"),
+			"org.tw" => array("whois.twnic.net","No such Domain Name"),
+			"cc" => array("whois.nic.cc","No match"),
+			"nl" => array("whois.domain-registry.nl","is free"),
+			"pl" => array("whois.dns.pl","No information about"),
+			"pt" => array("whois.ripe.net","No entries found")
+		);
+		
+		
+		$arrWhoisServers['de']['whois.denic.de'];
+		$arrWhoisServers['com']['rs.internic.net'];
+		$arrWhoisServers['net']['rs.internic.net'];
+		$arrWhoisServers['org']['whois.networksolutions.com'];
+		$arrWhoisServers['info']['whois.afilias.net'];
+		$arrWhoisServers['biz']['whois.biz'];
+		$arrWhoisServers['at']['whois.nic.at'];
+		$arrWhoisServers['ch']['whois.nic.ch'];
+		$arrWhoisServers['li']['whois.nic.ch'];
+		$arrWhoisServers['co.uk']['whois.nic.uk'];
+		$arrWhoisServers['tv']['whois.www.tv'];
+		$arrWhoisServers['cc']['whois.enicregistrar.com'];
+		$arrWhoisServers['dk']['whois.dk-hostmaster.dk'];
+		$arrWhoisServers['it']['whois.nic.it'];
+		$arrWhoisServers['ws']['whois.worldsite.ws'];
+		
+		
+		
+		$amount = count($arrWhoisServers, COUNT_RECURSIVE);
+		//echo 'anzahl server: '.$amount.'<br>';
+		
+		for($x = 0; $x < $amount; $x++) {
+			$artld = $arrWhoisServers[$x][0];
+			$tldlen = intval(0 - strlen($artld));
+			
+			//echo $x.' --- '.$artld.' --- '.$tldlen.'<br>';
+			
+			if(substr($domain, $tldlen) == $artld) {
+				$server = $arrWhoisServers[$x][1];
+				//echo $server.'<br>';
+			}
+		}
+		
+		return $server;
+	}*/
 	
 	
-	
-	
+	/*
 	
 	
 	
@@ -483,8 +580,8 @@ class tcms_domaincheck {
 	 $line++;
    }
 }
-
-/*******		Function to print whois results	*****************************************/
+*/
+/*******		Function to print whois results	*****************************************//*
 function print_whois($output){
 	global $template,$domain,$ext;
 	if(!is_file($template)){
@@ -531,7 +628,6 @@ function print_whois($output){
 	
 	
 	
-	/*******	Function to check co.za whois via socket connection	*********************/
 function cozacheck($domain){
 		$errno = 0;
 		$errostr = "";
@@ -565,7 +661,6 @@ function cozacheck($domain){
 		}
 
 	}
-	/********	Function to check co.za whois via curl		***************************/
 	function cozacurlcheck($domain){
 		$ch = curl_init();
 		$url = "http://co.za/cgi-bin/whois.sh?Domain=";
@@ -595,7 +690,6 @@ function cozacheck($domain){
 			exit;
 		}
 	}
-/**********		function to return whois record via socket	***********************/
 	function cozawhois($domain){
 		$errno = 0;
 		$errostr = "";
@@ -624,7 +718,6 @@ function cozacheck($domain){
 			exit;
 		}
 	}
-/**********		function to return whois record via curl		**********************/
 	function cozacurlwhois($domain){
 		$ch = curl_init();
 		$url = "http://co.za/cgi-bin/whois.sh?Domain=";
@@ -651,85 +744,7 @@ function cozacheck($domain){
 		}
 
 	}
-	/**
-	 * Get a list of whois server
-	 *
-	 * @param String $domain
-	 * @return Array
-	 */
-	function getWhoisServer($domain) {
-		$arrWhoisServers = array(
-			"com" => array("whois.crsnic.net","No match for"),
-			"net" => array("whois.crsnic.net","No match for"),				
-			"org" => array(" whois.pir.org","NOT FOUND"),					
-			"biz" => array("whois.biz","Not found"),					
-			"info" => array("whois.afilias.net","NOT FOUND"),					
-			"co.uk" => array("whois.nic.uk","No match"),					
-			"co.ug" => array("wawa.eahd.or.ug","No entries found"),	
-			"or.ug" => array("wawa.eahd.or.ug","No entries found"),
-			"ac.ug" => array("wawa.eahd.or.ug","No entries found"),
-			"ne.ug" => array("wawa.eahd.or.ug","No entries found"),
-			"sc.ug" => array("wawa.eahd.or.ug","No entries found"),
-			"nl" 	=> array("whois.domain-registry.nl","not a registered domain"),
-			"ro" => array("whois.rotld.ro","No entries found for the selected"),
-			"com.au" => array("whois.ausregistry.net.au","No data Found"),
-			"ca" => array("whois.cira.ca", "AVAIL"),
-			"org.uk" => array("whois.nic.uk","No match"),
-			"name" => array("whois.nic.name","No match"),
-			"us" => array("whois.nic.us","Not Found"),
-			"ws" => array("whois.website.ws","No Match"),
-			"be" => array("whois.ripe.net","No entries"),
-			"com.cn" => array("whois.cnnic.cn","no matching record"),
-			"net.cn" => array("whois.cnnic.cn","no matching record"),
-			"org.cn" => array("whois.cnnic.cn","no matching record"),
-			"no" => array("whois.norid.no","no matches"),
-			"se" => array("whois.nic-se.se","No data found"),
-			"nu" => array("whois.nic.nu","NO MATCH for"),
-			"com.tw" => array("whois.twnic.net","No such Domain Name"),
-			"net.tw" => array("whois.twnic.net","No such Domain Name"),
-			"org.tw" => array("whois.twnic.net","No such Domain Name"),
-			"cc" => array("whois.nic.cc","No match"),
-			"nl" => array("whois.domain-registry.nl","is free"),
-			"pl" => array("whois.dns.pl","No information about"),
-			"pt" => array("whois.ripe.net","No entries found")
-		);
-		
-		/*
-		$arrWhoisServers['de']['whois.denic.de'];
-		$arrWhoisServers['com']['rs.internic.net'];
-		$arrWhoisServers['net']['rs.internic.net'];
-		$arrWhoisServers['org']['whois.networksolutions.com'];
-		$arrWhoisServers['info']['whois.afilias.net'];
-		$arrWhoisServers['biz']['whois.biz'];
-		$arrWhoisServers['at']['whois.nic.at'];
-		$arrWhoisServers['ch']['whois.nic.ch'];
-		$arrWhoisServers['li']['whois.nic.ch'];
-		$arrWhoisServers['co.uk']['whois.nic.uk'];
-		$arrWhoisServers['tv']['whois.www.tv'];
-		$arrWhoisServers['cc']['whois.enicregistrar.com'];
-		$arrWhoisServers['dk']['whois.dk-hostmaster.dk'];
-		$arrWhoisServers['it']['whois.nic.it'];
-		$arrWhoisServers['ws']['whois.worldsite.ws'];
-		*/
-		
-		
-		$amount = count($arrWhoisServers, COUNT_RECURSIVE);
-		//echo 'anzahl server: '.$amount.'<br>';
-		
-		for($x = 0; $x < $amount; $x++) {
-			$artld = $arrWhoisServers[$x][0];
-			$tldlen = intval(0 - strlen($artld));
-			
-			//echo $x.' --- '.$artld.' --- '.$tldlen.'<br>';
-			
-			if(substr($domain, $tldlen) == $artld) {
-				$server = $arrWhoisServers[$x][1];
-				//echo $server.'<br>';
-			}
-		}
-		
-		return $server;
-	}
+	*/
 	
 	
 	
@@ -741,7 +756,7 @@ function cozacheck($domain){
 	
 	
 	
-	
+	/*
 	
 	
 	
@@ -784,7 +799,7 @@ $server = $this->_arrWhoisServers[$ext][0];
     
 
 }
-	
+*/	
 	
 	
 	

@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This module provides a contactform with a internal
  * adressbook with vcard export.
  *
- * @version 0.9.3
+ * @version 0.9.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Content-Modules
@@ -199,11 +199,11 @@ if($dcCF->getEnabled()) {
 		}
 		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
-			$sqlQR = $sqlAL->sqlGetALL($tcms_db_prefix.'contacts WHERE published=1 ORDER BY name');
+			$sqlQR = $sqlAL->getAll($tcms_db_prefix.'contacts WHERE published=1 ORDER BY name');
 			
-			while($sqlObj = $sqlAL->sqlFetchObject($sqlQR)) {
+			while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
 				$csb_id      = $sqlObj->uid;
 				$csb_name    = $sqlObj->name;
 				$csb_job     = $sqlObj->position;

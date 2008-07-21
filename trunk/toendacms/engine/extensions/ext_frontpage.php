@@ -301,10 +301,10 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 					
 					
 					if($sqlNR == 0) {
-						$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'news_categories', $defaultCat);
-						$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+						$sqlQR = $sqlAL->getOne($tcms_db_prefix.'news_categories', $defaultCat);
+						$sqlObj = $sqlAL->fetchObject($sqlQR);
 						
-						$catLink['name'][0] = $sqlARR['name'];
+						$catLink['name'][0] = $sqlObj->name;
 						$catLink['link'][0] = $defaultCat;
 						
 						if($catLink['name'][0] == NULL) $catLink['name'][0] = '';
@@ -314,9 +314,9 @@ if($show == 'start' && $cmd != 'comment' && $cmd != 'comment_save'){
 					else {
 						$count = 0;
 						
-						while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)) {
-							$catLink['link'][$count] = $sqlARR['cat_uid'];
-							$catLink['name'][$count] = $sqlARR['name'];
+						while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
+							$catLink['link'][$count] = $sqlObj->cat_uid;
+							$catLink['name'][$count] = $sqlObj->name;
 							
 							$catLink['name'][$count] = $tcms_main->decodeText($catLink['name'][$count], '2', $c_charset);
 							

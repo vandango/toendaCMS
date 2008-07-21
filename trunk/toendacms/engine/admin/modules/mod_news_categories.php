@@ -30,9 +30,9 @@ defined('_TCMS_VALID') or die('Restricted access');
  */
 
 
-if(isset($_POST['new_cat_name'])){ $new_cat_name = $_POST['new_cat_name']; }
-if(isset($_POST['new_cat_desc'])){ $new_cat_desc = $_POST['new_cat_desc']; }
-if(isset($_POST['dbAction'])){ $dbAction = $_POST['dbAction']; }
+if(isset($_POST['new_cat_name'])) { $new_cat_name = $_POST['new_cat_name']; }
+if(isset($_POST['new_cat_desc'])) { $new_cat_desc = $_POST['new_cat_desc']; }
+if(isset($_POST['dbAction'])) { $dbAction = $_POST['dbAction']; }
 
 
 
@@ -41,7 +41,7 @@ if(isset($_POST['dbAction'])){ $dbAction = $_POST['dbAction']; }
 // INIT
 //=====================================================
 
-if(!isset($todo)){ $todo = 'show'; }
+if(!isset($todo)) { $todo = 'show'; }
 
 
 
@@ -59,15 +59,15 @@ if($todo == 'show') {
 		
 		$count = 0;
 		
-		if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != ''){
-			foreach($arr_filename as $key => $value){
+		if(isset($arr_filename) && !empty($arr_filename) && $arr_filename != '') {
+			foreach($arr_filename as $key => $value) {
 				$menu_xml = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$value,'r');
 				$arrCat['tag'][$key]  = substr($value, 0, 5);
 				$arrCat['name'][$key] = $menu_xml->read_section('cat', 'name');
 				$arrCat['desc'][$key] = $menu_xml->read_section('cat', 'desc');
 				
-				if(!$arrCat['name'][$key]){ $arrCat['name'][$key]  = ''; }
-				if(!$arrCat['desc'][$key]){ $arrCat['desc'][$key]  = ''; }
+				if(!$arrCat['name'][$key]) { $arrCat['name'][$key]  = ''; }
+				if(!$arrCat['desc'][$key]) { $arrCat['desc'][$key]  = ''; }
 				
 				// CHARSETS
 				$arrCat['name'][$key] = $tcms_main->decodeText($arrCat['name'][$key], '2', $c_charset);
@@ -85,21 +85,21 @@ if($todo == 'show') {
 			);
 		}
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		$sqlQR = $sqlAL->sqlGetAll($tcms_db_prefix.'news_categories ORDER BY name');
+		$sqlQR = $sqlAL->getAll($tcms_db_prefix.'news_categories ORDER BY name');
 		
 		$count = 0;
 		
-		while($sqlARR = $sqlAL->sqlFetchArray($sqlQR)){
+		while($sqlARR = $sqlAL->fetchArray($sqlQR)) {
 			$arrCat['tag'][$count]  = $sqlARR['uid'];
 			$arrCat['name'][$count] = $sqlARR['name'];
 			$arrCat['desc'][$count] = $sqlARR['desc'];
 			
-			if($arrCat['name'][$count] == NULL){ $arrCat['name'][$count] = ''; }
-			if($arrCat['desc'][$count] == NULL){ $arrCat['desc'][$count] = ''; }
+			if($arrCat['name'][$count] == NULL) { $arrCat['name'][$count] = ''; }
+			if($arrCat['desc'][$count] == NULL) { $arrCat['desc'][$count] = ''; }
 			
 			// CHARSETS
 			$arrCat['name'][$count] = $tcms_main->decodeText($arrCat['name'][$count], '2', $c_charset);
@@ -121,10 +121,10 @@ if($todo == 'show') {
 	.'<th valign="middle" class="tcms_db_title" width="20%" align="right">'._TABLE_FUNCTIONS.'</th>'
 	.'</tr>';
 	
-	if(isset($arrCat['name']) && !empty($arrCat['name']) && $arrCat['name'] != ''){
-		foreach($arrCat['name'] as $key => $value){
-			if(is_integer($key/2)){ $wsc = 0; }
-			else{ $wsc = 1; }
+	if(isset($arrCat['name']) && !empty($arrCat['name']) && $arrCat['name'] != '') {
+		foreach($arrCat['name'] as $key => $value) {
+			if(is_integer($key/2)) { $wsc = 0; }
+			else { $wsc = 1; }
 			
 			echo '<tr height="25" id="row'.$key.'" '
 			.'bgcolor="'.$arr_color[$wsc].'" '
@@ -163,29 +163,29 @@ if($todo == 'show') {
 // FORM
 //=====================================================
 
-if($todo == 'edit'){
-	if(isset($maintag) && !empty($maintag) && $maintag != ''){
-		if($choosenDB == 'xml'){
+if($todo == 'edit') {
+	if(isset($maintag) && !empty($maintag) && $maintag != '') {
+		if($choosenDB == 'xml') {
 			$user_xml  = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$maintag.'.xml','r');
 			$cat_name  = $user_xml->read_value('name');
 			$cat_desc  = $user_xml->read_value('desc');
 			$cat_count = $user_xml->read_value('count');
 			
-			if($cat_name == false){ $cat_name = ''; }
-			if($cat_desc == false){ $cat_desc = ''; }
+			if($cat_name == false) { $cat_name = ''; }
+			if($cat_desc == false) { $cat_desc = ''; }
 		}
-		else{
+		else {
 			$sqlAL = new sqlAbstractionLayer($choosenDB);
-			$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+			$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 			
 			$sqlQR = $sqlAL->sqlGetOne($tcms_db_prefix.'news_categories', $maintag);
-			$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+			$sqlARR = $sqlAL->fetchArray($sqlQR);
 			
 			$cat_name = $sqlARR['name'];
 			$cat_desc = $sqlARR['desc'];
 			
-			if($cat_name == NULL){ $cat_name = ''; }
-			if($cat_desc == NULL){ $cat_desc = ''; }
+			if($cat_name == NULL) { $cat_name = ''; }
+			if($cat_desc == NULL) { $cat_desc = ''; }
 			
 			$dbDo = 'save';
 		}
@@ -196,7 +196,7 @@ if($todo == 'edit'){
 		echo $tcms_html->bold(_TABLE_EDIT);
 		$odot = 'save';
 	}
-	else{
+	else {
 		$cat_name = '';
 		$cat_desc = '';
 		
@@ -204,7 +204,7 @@ if($todo == 'edit'){
 		
 		echo $tcms_html->bold(_TABLE_NEW);
 		$odot = 'save';
-		if($choosenDB != 'xml'){ $dbDo = 'next'; }
+		if($choosenDB != 'xml') { $dbDo = 'next'; }
 	}
 	//
 	//***************************
@@ -236,10 +236,10 @@ if($todo == 'edit'){
 	.'<input name="todo" type="hidden" value="'.$odot.'" />'
 	.'<input name="maintag" type="hidden" value="'.$maintag.'" />';
 	
-	if($choosenDB != 'xml'){
+	if($choosenDB != 'xml') {
 		echo '<input name="dbAction" type="hidden" value="'.$dbDo.'" />';
 	}
-	else{
+	else {
 		echo '<input name="CatCount" type="hidden" value="'.$cat_count.'" />';
 	}
 	
@@ -278,9 +278,9 @@ if($todo == 'edit'){
 // SAVING
 //=====================================================
 
-if($todo == 'save'){
-	if($new_cat_name == '' || !isset($new_cat_name)){ $new_cat_name = 'Uncategorized'; }
-	if($new_cat_desc == '' || !isset($new_cat_desc)){ $new_cat_desc = ''; }
+if($todo == 'save') {
+	if($new_cat_name == '' || !isset($new_cat_name)) { $new_cat_name = 'Uncategorized'; }
+	if($new_cat_desc == '' || !isset($new_cat_desc)) { $new_cat_desc = ''; }
 	
 	$new_cat_desc = $tcms_main->convertNewlineToHTML($new_cat_desc);
 	
@@ -288,8 +288,8 @@ if($todo == 'save'){
 	$new_cat_name = $tcms_main->encodeText($new_cat_name, '2', $c_charset);
 	$new_cat_desc = $tcms_main->encodeText($new_cat_desc, '2', $c_charset);
 	
-	if($choosenDB == 'xml'){
-		if(!isset($_POST['CatCount']) || $_POST['CatCount'] == '' || empty($_POST['CatCount'])){ $_POST['CatCount'] = 0; }
+	if($choosenDB == 'xml') {
+		if(!isset($_POST['CatCount']) || $_POST['CatCount'] == '' || empty($_POST['CatCount'])) { $_POST['CatCount'] = 0; }
 		$xmluser = new xmlparser(_TCMS_PATH.'/tcms_news_categories/'.$maintag.'.xml', 'w');
 		$xmluser->xml_declaration();
 		$xmluser->xml_section('cat');
@@ -301,11 +301,11 @@ if($todo == 'save'){
 		$xmluser->xml_section_buffer();
 		$xmluser->xml_section_end('cat');
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		
-		switch($dbAction){
+		switch($dbAction) {
 			case 'save':
 				$newSQLData = ''
 				.$tcms_db_prefix.'news_categories.name="'.$new_cat_name.'", '
@@ -315,7 +315,7 @@ if($todo == 'save'){
 				break;
 			
 			case 'next':
-				switch($choosenDB){
+				switch($choosenDB) {
 					case 'mysql':
 						$newSQLColumns = '`name`, `desc`';
 						break;
@@ -345,13 +345,13 @@ if($todo == 'save'){
 // DELETE
 //=====================================================
 
-if($todo == 'delete'){
-	if($choosenDB == 'xml'){
+if($todo == 'delete') {
+	if($choosenDB == 'xml') {
 		unlink(_TCMS_PATH.'/tcms_news_categories/'.$maintag.'.xml');
 	}
-	else{
+	else {
 		$sqlAL = new sqlAbstractionLayer($choosenDB);
-		$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+		$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 		$sqlAL->sqlDeleteOne($tcms_db_prefix.'news_categories', $maintag);
 		$sqlAL->sqlQuery("DELETE FROM ".$tcms_db_prefix."news_to_categories WHERE news_uid = '".$maintag."'");
 	}

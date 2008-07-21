@@ -658,7 +658,7 @@ if($news != ''
 				if(count($arrCommentDC) > 0) {
 					$count = 1;
 					
-					if(!empty($arrCommentDC) && $arrCommentDC != '' && isset($arrCommentDC)) {
+					if($tcms_main->isArray($arrCommentDC)) {
 						foreach($arrCommentDC as $key => $value) {
 							$commentDC = new tcms_dc_comment();
 							$commentDC = $arrCommentDC[$key];

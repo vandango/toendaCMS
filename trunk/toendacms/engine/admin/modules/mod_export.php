@@ -102,31 +102,51 @@ if($todo == 'show') {
 // ----------------------------------------
 
 if($todo == 'wordpressExport') {
-	$tcms_export = new tcms_export(_TCMS_PATH, $c_charset, $tcms_time);
-	
-	$xml = $tcms_export->generateWordpressExportFile($getLang, $seoFolder);
-	
-	$tcms_file2 = new tcms_file();
-	$tcms_file2->open('../../cache/wordpressExportFile.xml', 'w+');
-	$tcms_file2->write($xml);
-	$tcms_file2->close();
-	unset($tcms_file2);
-	
-	echo $tcms_html->bold(_EXPORT_WORDPRESS).'<br />';
-	echo $tcms_html->text(_EXPORT_WORDPRESS_DESC.'<br /><br />', 'left');
-	
-	echo '<div style="padding: 0 0 0 10px;">';
-	
-	
-	// file
-	echo '<input type="submit" name="reset" value="'._TCMS_ADMIN_BACK.'" '
-	.'onclick="document.location=\'admin.php?id_user='.$id_user.'&site=mod_export\';" '
-	.'style="font-size: 16px; font-family: Verdana, arial, sans-serif; font-weight: bold;" />';
-	
-	echo '<input type="submit" name="reset" value="'._TCMS_DOWNLOAD.'" '
-	.'onclick="document.location=\'../../cache/wordpressExportFile.xml\';" '
-	.'style="font-size: 16px; font-family: Verdana, arial, sans-serif; font-weight: bold;" />';
-	
-	
-	echo '</div>';
+	if($choosenDB == 'xml') {
+		echo '<script>'
+		.'alert(\'Sorry, this export is only supported by the SQL database.\');'
+		.'document.location=\'admin.php?id_user='.$id_user.'&site=mod_export\';'
+		.'</script>';
+	}
+	else {
+		$tcms_export = new tcms_export(_TCMS_PATH, $c_charset, $tcms_time);
+		
+		if($tcms_main->isReal($lang)) {
+			$getLang = $tcms_config->getLanguageCodeForTCMS($lang);
+		}
+		else {
+			$getLang = $tcms_front_lang;
+		}
+		
+		$xml = $tcms_export->generateWordpressExportFile($getLang, $seoFolder);
+		
+		$tcms_file2 = new tcms_file();
+		$tcms_file2->open('../../cache/wordpressExportFile.xml', 'w+');
+		$tcms_file2->write($xml);
+		$tcms_file2->close();
+		unset($tcms_file2);
+		
+		echo $tcms_html->bold(_EXPORT_WORDPRESS).'<br />';
+		echo $tcms_html->text(_EXPORT_WORDPRESS_DESC.'<br /><br />', 'left');
+		
+		echo '<div style="padding: 0 0 0 10px;">';
+		
+		
+		// file
+		echo '<input type="submit" name="reset" value="'._TCMS_ADMIN_BACK.'" '
+		.'onclick="document.location=\'admin.php?id_user='.$id_user.'&site=mod_export\';" '
+		.'style="font-size: 16px; font-family: Verdana, arial, sans-serif; font-weight: bold;" />';
+		
+		echo '<input type="submit" name="reset" value="'._TCMS_DOWNLOAD.'" '
+		.'onclick="document.location=\'../../cache/wordpressExportFile.xml\';" '
+		.'style="font-size: 16px; font-family: Verdana, arial, sans-serif; font-weight: bold;" />';
+		
+		echo '<br />'
+		.'<textarea class="tcms_textarea_source" style="overflow: auto !important;">'
+		.$xml
+		.'</textarea>';
+		
+		
+		echo '</div>';
+	}
 }
