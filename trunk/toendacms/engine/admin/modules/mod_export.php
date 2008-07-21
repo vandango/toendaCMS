@@ -104,7 +104,7 @@ if($todo == 'show') {
 if($todo == 'wordpressExport') {
 	$tcms_export = new tcms_export(_TCMS_PATH, $c_charset, $tcms_time);
 	
-	$xml = $tcms_export->generateWordpressExportFile();
+	$xml = $tcms_export->generateWordpressExportFile($getLang, $seoFolder);
 	
 	$tcms_file2 = new tcms_file();
 	$tcms_file2->open('../../cache/wordpressExportFile.xml', 'w+');
