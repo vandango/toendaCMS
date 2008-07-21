@@ -3,7 +3,7 @@
 	<subtitle>... you can see me</subtitle>
 	<desc></desc>
 	<id>domainchecker</id>
-	<enabled>0</enabled>
+	<enabled>1</enabled>
 	<mainCS>1</mainCS>
 	<sideCS>1</sideCS>
 	<sideSort>2</sideSort>
