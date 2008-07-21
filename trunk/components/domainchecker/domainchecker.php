@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This components generates a domainchecker.
  *
- * @version 0.0.3
+ * @version 0.0.4
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Components
@@ -67,7 +67,7 @@ if($_TCMS_CS_ARRAY['domainchecker']['attribute']['dc_subtitle']['ENCODE'] == 1){
 */
 
 if(trim($dc_name) != '') {
-	$wsText = $dc_name.'.'.$dc_domain;
+	$wsText = 'Check for http://www.'.$dc_name.'.'.$dc_domain;
 }
 
 if($show_dc_title == 1) {
