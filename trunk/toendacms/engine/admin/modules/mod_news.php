@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This module is used for the news.
  *
- * @version 1.9.5
+ * @version 1.9.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS-Backend
@@ -993,7 +993,9 @@ if($todo == 'show') {
 		if($minValue > 0) {
 			echo '<a class="tcms_fm" href="admin.php?id_user='.$id_user.'&amp;site=mod_news&amp;thisValue='.$thisValue.'&amp;minValue='.( $minValue - $thisValue ).'&amp;maxValue='.( $maxValue - $thisValue ).'">&#8249; '._TABLE_PREVIOUS.'</a>';
 		}
-		else { echo '&#8249; '._TABLE_PREVIOUS; }
+		else {
+			echo '&#8249; '._TABLE_PREVIOUS;
+		}
 		
 		
 		echo '&nbsp;|&nbsp;';
@@ -1006,14 +1008,16 @@ if($todo == 'show') {
 		if($morePages > $maxValue) {
 			echo '<a class="tcms_fm" href="admin.php?id_user='.$id_user.'&amp;site=mod_news&amp;thisValue='.$thisValue.'&amp;minValue='.( $minValue + $thisValue ).'&amp;maxValue='.( $maxValue + $thisValue ).'">'._TABLE_NEXT.' &#8250;</a>';
 		}
-		else { echo _TABLE_NEXT.' &#8250;'; }
+		else {
+			echo _TABLE_NEXT.' &#8250;';
+		}
 		
 		
 		echo '&nbsp;';
 		
 		
 		if($morePages > $maxValue) {
-			if(strlen($morePages) < 3) {
+			/*if(strlen($morePages) < 3) {
 				$tmpmorePages = $morePages / 10;
 			}
 			elseif(strlen($morePages)== 3) {
@@ -1021,14 +1025,21 @@ if($todo == 'show') {
 			}
 			else {
 				$tmpmorePages = $morePages / 100;
-			}
+			}*/
 			
-			$tmpmorePages = round($tmpmorePages);
-			$tmpmorePages = ( strlen($tmpmorePages) == 1 ? $tmpmorePages.'0' : $tmpmorePages );
+			//$tmpmorePages = round($tmpmorePages);
+			//$tmpmorePages = ( strlen($tmpmorePages) == 1 ? $tmpmorePages.'0' : $tmpmorePages );
 			
-			echo '<a class="tcms_fm" href="admin.php?id_user='.$id_user.'&amp;site=mod_news&amp;thisValue='.$thisValue.'&amp;minValue='.( $tmpmorePages ).'&amp;maxValue='.( $tmpmorePages + $thisValue ).'">'._TABLE_END.' &raquo;</a>';
+			$tmpmorePages = $morePages - $thisValue;
+			
+			echo '<a class="tcms_fm" href="'
+			.'admin.php?id_user='.$id_user.'&amp;site=mod_news&amp;'
+			.'thisValue='.$thisValue.'&amp;minValue='.$tmpmorePages.'&amp;maxValue='.$morePages
+			.'">'._TABLE_END.' &raquo;</a>';
 		}
-		else { echo _TABLE_END.' &raquo;'; }
+		else {
+			echo _TABLE_END.' &raquo;';
+		}
 		
 		echo '</strong></td></tr>';
 	}
