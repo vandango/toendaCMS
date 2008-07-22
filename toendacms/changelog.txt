@@ -31,7 +31,7 @@ Developer Version
 	- 1.9.9 Beta 2
 	- 2.0.0 Stable
 
-Building Steps: 5025
+Building Steps: 5033
 
 
 
@@ -44,6 +44,8 @@ Building Steps: 5025
 
  - bug fixed: Newsmanager "doParsePHP" bug fixed.
  - bug fixed: Newsmanager load news bug fixed.
+ - bug fixed: Newslist in backend has a link "Go to End of list", this
+              link jumps now to the correct üposition.
  - bug fixed: 
 
  - changed: 
