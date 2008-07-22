@@ -457,9 +457,10 @@ class tcms_datacontainer_provider extends tcms_main {
 	 * @param Integer $amount
 	 * @param String $published = '1'
 	 * @param Boolean $withShowOnFrontpage = false
+	 * @param Boolean $all = false
 	 * @return Array
 	 */
-	public function getNewsDCList($language, $usergroup = '', $amount, $published = '1', $withShowOnFrontpage = false) {
+	public function getNewsDCList($language, $usergroup = '', $amount, $published = '1', $withShowOnFrontpage = false, $all = false) {
 		$doFill = false;
 		
 		if($this->m_choosenDB == 'xml') {
@@ -674,8 +675,9 @@ class tcms_datacontainer_provider extends tcms_main {
 			
 			$sqlStr = "SELECT * ".$dbLimitFront
 			." FROM ".$this->m_sqlPrefix."news "
-			." WHERE published = ".$published." "
-			." AND language = '".$language."' "
+			." WHERE "
+			.( trim($published) != '-1' ? "published = ".$published." " : " NOT published IS NULL " )
+			.( trim($language) != '' ? " AND language = '".$language."' " : "" )
 			." AND ( access = 'Public' "
 			.$strAdd
 			.$strAddSOF
@@ -688,77 +690,135 @@ class tcms_datacontainer_provider extends tcms_main {
 			while($sqlObj = $sqlAL->fetchObject($sqlQR)) {
 				$wsPubD = $sqlObj->publish_date;
 				
-				$wsPubD = mktime(substr($wsPubD, 11, 2), substr($wsPubD, 14, 2), 0, substr($wsPubD, 3, 2), substr($wsPubD, 0, 2), substr($wsPubD, 6, 4));
-				
-				if($wsPubD <= time()) {
+				if($all) {
 					$wsSOF   = $sqlObj->show_on_frontpage;
-					if($wsSOF   == NULL) $wsSOF   = 1;
 					
-					if($withShowOnFrontpage) {
-						if($wsSOF == '1') {
-							$doFill = true;
+					$newsDC = new tcms_dc_news();
+					
+					$wsTitle = $sqlObj->title;
+					$wsAutor = $sqlObj->autor;
+					$wsNews  = $sqlObj->newstext;
+					$wsPub   = $sqlObj->published;
+					$wsTime  = $sqlObj->time;
+					$wsDate  = $sqlObj->date;
+					$wsOrder = $sqlObj->uid;
+					$wsStamp = $sqlObj->stamp;
+					$wsCmt   = $sqlObj->comments_enabled;
+					$wsPubD  = $sqlObj->publish_date;
+					$wsImage = $sqlObj->image;
+					$wsAcs   = $sqlObj->access;
+					$wsCat   = $sqlObj->category;
+					
+					if($wsTitle == NULL) $wsTitle = '';
+					if($wsAutor == NULL) $wsAutor = '';
+					if($wsNews  == NULL) $wsNews  = '';
+					if($wsPub   == NULL) $wsPub   = '';
+					if($wsTime  == NULL) $wsTime  = '';
+					if($wsDate  == NULL) $wsDate  = '';
+					if($wsOrder == NULL) $wsOrder = '';
+					if($wsStamp == NULL) $wsStamp = '';
+					if($wsCat   == NULL) $wsCat   = '';
+					if($wsPubD  == NULL) $wsPubD  = '';
+					if($wsCmt   == NULL) $wsCmt   = '';
+					if($wsImage == NULL) $wsImage = '';
+					if($wsAcs   == NULL) $wsAcs   = '';
+					
+					$wsTitle = $this->decodeText($wsTitle, '2', $this->m_CHARSET);
+					$wsAutor = $this->decodeText($wsAutor, '2', $this->m_CHARSET);
+					$wsNews  = $this->decodeText($wsNews, '2', $this->m_CHARSET);
+					
+					$newsDC->setTitle($wsTitle);
+					$newsDC->setAutor($wsAutor);
+					$newsDC->setDate($wsDate);
+					$newsDC->setTime($wsTime);
+					$newsDC->setText($wsNews);
+					$newsDC->setID($wsOrder);
+					$newsDC->setTimestamp($wsStamp);
+					$newsDC->setPublished($wsPub);
+					$newsDC->setPublishDate($wsPubD);
+					$newsDC->setCommentsEnabled($wsCmt);
+					$newsDC->setImage($wsImage);
+					$newsDC->setCategories($wsCat);
+					$newsDC->setAccess($wsAcs);
+					$newsDC->setShowOnFrontpage($wsSOF);
+					
+					$arrReturn[$count] = $newsDC;
+					
+					$count++;
+				}
+				else {
+					$wsPubD = mktime(substr($wsPubD, 11, 2), substr($wsPubD, 14, 2), 0, substr($wsPubD, 3, 2), substr($wsPubD, 0, 2), substr($wsPubD, 6, 4));
+					
+					if($wsPubD <= time()) {
+						$wsSOF   = $sqlObj->show_on_frontpage;
+						if($wsSOF   == NULL) $wsSOF   = 1;
+						
+						if($withShowOnFrontpage) {
+							if($wsSOF == '1') {
+								$doFill = true;
+							}
+							else {
+								$doFill = false;
+							}
 						}
 						else {
-							$doFill = false;
+							$doFill = true;
 						}
-					}
-					else {
-						$doFill = true;
-					}
-					
-					if($doFill) {
-						$newsDC = new tcms_dc_news();
 						
-						$wsTitle = $sqlObj->title;
-						$wsAutor = $sqlObj->autor;
-						$wsNews  = $sqlObj->newstext;
-						$wsPub   = $sqlObj->published;
-						$wsTime  = $sqlObj->time;
-						$wsDate  = $sqlObj->date;
-						$wsOrder = $sqlObj->uid;
-						$wsStamp = $sqlObj->stamp;
-						$wsCmt   = $sqlObj->comments_enabled;
-						$wsPubD  = $sqlObj->publish_date;
-						$wsImage = $sqlObj->image;
-						$wsAcs   = $sqlObj->access;
-						$wsCat   = $sqlObj->category;
-						
-						if($wsTitle == NULL) $wsTitle = '';
-						if($wsAutor == NULL) $wsAutor = '';
-						if($wsNews  == NULL) $wsNews  = '';
-						if($wsPub   == NULL) $wsPub   = '';
-						if($wsTime  == NULL) $wsTime  = '';
-						if($wsDate  == NULL) $wsDate  = '';
-						if($wsOrder == NULL) $wsOrder = '';
-						if($wsStamp == NULL) $wsStamp = '';
-						if($wsCat   == NULL) $wsCat   = '';
-						if($wsPubD  == NULL) $wsPubD  = '';
-						if($wsCmt   == NULL) $wsCmt   = '';
-						if($wsImage == NULL) $wsImage = '';
-						if($wsAcs   == NULL) $wsAcs   = '';
-						
-						$wsTitle = $this->decodeText($wsTitle, '2', $this->m_CHARSET);
-						$wsAutor = $this->decodeText($wsAutor, '2', $this->m_CHARSET);
-						$wsNews  = $this->decodeText($wsNews, '2', $this->m_CHARSET);
-						
-						$newsDC->setTitle($wsTitle);
-						$newsDC->setAutor($wsAutor);
-						$newsDC->setDate($wsDate);
-						$newsDC->setTime($wsTime);
-						$newsDC->setText($wsNews);
-						$newsDC->setID($wsOrder);
-						$newsDC->setTimestamp($wsStamp);
-						$newsDC->setPublished($wsPub);
-						$newsDC->setPublishDate($wsPubD);
-						$newsDC->setCommentsEnabled($wsCmt);
-						$newsDC->setImage($wsImage);
-						$newsDC->setCategories($wsCat);
-						$newsDC->setAccess($wsAcs);
-						$newsDC->setShowOnFrontpage($wsSOF);
-						
-						$arrReturn[$count] = $newsDC;
-						
-						$count++;
+						if($doFill) {
+							$newsDC = new tcms_dc_news();
+							
+							$wsTitle = $sqlObj->title;
+							$wsAutor = $sqlObj->autor;
+							$wsNews  = $sqlObj->newstext;
+							$wsPub   = $sqlObj->published;
+							$wsTime  = $sqlObj->time;
+							$wsDate  = $sqlObj->date;
+							$wsOrder = $sqlObj->uid;
+							$wsStamp = $sqlObj->stamp;
+							$wsCmt   = $sqlObj->comments_enabled;
+							$wsPubD  = $sqlObj->publish_date;
+							$wsImage = $sqlObj->image;
+							$wsAcs   = $sqlObj->access;
+							$wsCat   = $sqlObj->category;
+							
+							if($wsTitle == NULL) $wsTitle = '';
+							if($wsAutor == NULL) $wsAutor = '';
+							if($wsNews  == NULL) $wsNews  = '';
+							if($wsPub   == NULL) $wsPub   = '';
+							if($wsTime  == NULL) $wsTime  = '';
+							if($wsDate  == NULL) $wsDate  = '';
+							if($wsOrder == NULL) $wsOrder = '';
+							if($wsStamp == NULL) $wsStamp = '';
+							if($wsCat   == NULL) $wsCat   = '';
+							if($wsPubD  == NULL) $wsPubD  = '';
+							if($wsCmt   == NULL) $wsCmt   = '';
+							if($wsImage == NULL) $wsImage = '';
+							if($wsAcs   == NULL) $wsAcs   = '';
+							
+							$wsTitle = $this->decodeText($wsTitle, '2', $this->m_CHARSET);
+							$wsAutor = $this->decodeText($wsAutor, '2', $this->m_CHARSET);
+							$wsNews  = $this->decodeText($wsNews, '2', $this->m_CHARSET);
+							
+							$newsDC->setTitle($wsTitle);
+							$newsDC->setAutor($wsAutor);
+							$newsDC->setDate($wsDate);
+							$newsDC->setTime($wsTime);
+							$newsDC->setText($wsNews);
+							$newsDC->setID($wsOrder);
+							$newsDC->setTimestamp($wsStamp);
+							$newsDC->setPublished($wsPub);
+							$newsDC->setPublishDate($wsPubD);
+							$newsDC->setCommentsEnabled($wsCmt);
+							$newsDC->setImage($wsImage);
+							$newsDC->setCategories($wsCat);
+							$newsDC->setAccess($wsAcs);
+							$newsDC->setShowOnFrontpage($wsSOF);
+							
+							$arrReturn[$count] = $newsDC;
+							
+							$count++;
+						}
 					}
 				}
 			}
