@@ -257,20 +257,19 @@ class tcms_export extends tcms_main {
 			$wsDesc = $this->decodeText($sqlObj->desc, '2', $this->m_CHARSET);
 			$wsNice = $this->cleanStringForUrlName($wsName);
 			
-			$xml .= '<wp:category>';
+			$xml .= $this->createCharString(8).'<wp:category>';
 			$xml .= '<wp:category_nicename>'.$wsNice.'</wp:category_nicename>';
 		    $xml .= '<wp:category_parent></wp:category_parent>';
 		    $xml .= '<wp:cat_name><![CDATA['.$wsName.']]></wp:cat_name>';
-		    $xml .= '</wp:category>';
+		    $xml .= '</wp:category>'.chr(13);
 		    
-			$xml2 .= '<wp:tag>';
+			$xml2 .= $this->createCharString(8).'<wp:tag>';
 			$xml2 .= '<wp:tag_slug>'.$wsNice.'</wp:tag_slug>';
 		    $xml2 .= '<wp:tag_name><![CDATA['.$wsName.']]></wp:tag_name>';
-		    $xml2 .= '</wp:tag>';
+		    $xml2 .= '</wp:tag>'.chr(13);
 		}
 		
-		$xml = $this->createCharString(8).$xml.chr(13)
-		.$this->createCharString(8).$xml2.chr(13);
+		$xml = $xml.$xml2;
 		
 		$sqlAL->sqlFreeResult($sqlQR);
 		
@@ -280,7 +279,9 @@ class tcms_export extends tcms_main {
 		/*
 			news
 		*/
-		$arrNewsDC = $_tcms_dc->getNewsDCList($language, 'Administrator', 0, '1', true);
+		$arrNewsDC = $_tcms_dc->getNewsDCList('', 'Administrator', 0, '-1', true, true);
+		
+		//echo count($arrNewsDC);
 		
 		if($this->isArray($arrNewsDC)) {
 			foreach($arrNewsDC as $n_key => $n_value) {
@@ -460,7 +461,7 @@ class tcms_export extends tcms_main {
 							)
 						).'</wp:comment_date_gmt>'.chr(13);
 						
-						$xml .= $this->createCharString(16).'<wp:comment_content>![CDATA['.$commentDC->getText().']]></wp:comment_content>'.chr(13);
+						$xml .= $this->createCharString(16).'<wp:comment_content><![CDATA['.$commentDC->getText().']]></wp:comment_content>'.chr(13);
 						$xml .= $this->createCharString(16).'<wp:comment_approved>1</wp:comment_approved>'.chr(13);
 						$xml .= $this->createCharString(16).'<wp:comment_type></wp:comment_type>'.chr(13);
 						$xml .= $this->createCharString(16).'<wp:comment_parent>0</wp:comment_parent>'.chr(13);

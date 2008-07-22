@@ -120,8 +120,10 @@ if($todo == 'wordpressExport') {
 		
 		$xml = $tcms_export->generateWordpressExportFile($getLang, $seoFolder);
 		
+		$filename = 'wordpress.'.date('Y-m-d').'.xml';
+		
 		$tcms_file2 = new tcms_file();
-		$tcms_file2->open('../../cache/wordpressExportFile.xml', 'w+');
+		$tcms_file2->open('../../cache/'.$filename, 'w+');
 		$tcms_file2->write($xml);
 		$tcms_file2->close();
 		unset($tcms_file2);
@@ -138,7 +140,7 @@ if($todo == 'wordpressExport') {
 		.'style="font-size: 16px; font-family: Verdana, arial, sans-serif; font-weight: bold;" />';
 		
 		echo '<input type="submit" name="reset" value="'._TCMS_DOWNLOAD.'" '
-		.'onclick="document.location=\'../../cache/wordpressExportFile.xml\';" '
+		.'onclick="document.location=\'../../cache/'.$filename.'\';" '
 		.'style="font-size: 16px; font-family: Verdana, arial, sans-serif; font-weight: bold;" />';
 		
 		echo '<br />'
