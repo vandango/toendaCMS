@@ -24,7 +24,7 @@ RewriteEngine On
 #  is not directly related to physical file paths.
 #  Update YourtoendaCMSDirectory (just / for root)
 
-RewriteBase /toendacms_svn/toendacms
+RewriteBase /
 #RewriteBase /toendacms
 
 #
@@ -47,6 +47,6 @@ RewriteRule ^(.*) index.php
 #  This lines sets the file extension for this application
 #  to .php for PHP5 usage.
 
-AddType x-mapp-php5 .php
-AddHandler x-mapp-php5 .php
+#AddType x-mapp-php5 .php
+#AddHandler x-mapp-php5 .php
 
