@@ -94,6 +94,13 @@ if(!defined('_TCMS_DAY_THURSDAY_XS'))          define('_TCMS_DAY_THURSDAY_XS', '
 if(!defined('_TCMS_DAY_FRIDAY_XS'))            define('_TCMS_DAY_FRIDAY_XS', 'Fri');
 if(!defined('_TCMS_DAY_SATURDAY_XS'))          define('_TCMS_DAY_SATURDAY_XS', 'Sat');
 if(!defined('_TCMS_DAY_SUNDAY_XS'))            define('_TCMS_DAY_SUNDAY_XS', 'Sun');
+if(!defined('_TCMS_DAY_MONDAY_XXS'))           define('_TCMS_DAY_MONDAY_XXS', 'M');
+if(!defined('_TCMS_DAY_TUESDAY_XXS'))          define('_TCMS_DAY_TUESDAY_XXS', 'T');
+if(!defined('_TCMS_DAY_WEDNESDAY_XXS'))        define('_TCMS_DAY_WEDNESDAY_XXS', 'W');
+if(!defined('_TCMS_DAY_THURSDAY_XXS'))         define('_TCMS_DAY_THURSDAY_XXS', 'T');
+if(!defined('_TCMS_DAY_FRIDAY_XXS'))           define('_TCMS_DAY_FRIDAY_XXS', 'F');
+if(!defined('_TCMS_DAY_SATURDAY_XXS'))         define('_TCMS_DAY_SATURDAY_XXS', 'S');
+if(!defined('_TCMS_DAY_SUNDAY_XXS'))           define('_TCMS_DAY_SUNDAY_XXS', 'S');
 if(!defined('_TCMS_COLOR'))                    define('_TCMS_COLOR', 'Color');
 if(!defined('_TCMS_TODAY'))                    define('_TCMS_TODAY', 'Today');
 if(!defined('_TCMS_BACKGROUND'))               define('_TCMS_BACKGROUND', 'Background');

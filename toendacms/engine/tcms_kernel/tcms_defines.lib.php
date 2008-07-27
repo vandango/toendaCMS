@@ -143,33 +143,47 @@ $monthName[12] = _TCMS_MONTH_DECEMBER;
 
 $dayName['name'][1] = _TCMS_DAY_MONDAY;
 $dayName['short'][1] = _TCMS_DAY_MONDAY_XS;
+$dayName['veryShort'][1] = _TCMS_DAY_MONDAY_XXS;
 $dayName['name'][2] = _TCMS_DAY_TUESDAY;
 $dayName['short'][2] = _TCMS_DAY_TUESDAY_XS;
+$dayName['veryShort'][2] = _TCMS_DAY_TUESDAY_XXS;
 $dayName['name'][3] = _TCMS_DAY_WEDNESDAY;
 $dayName['short'][3] = _TCMS_DAY_WEDNESDAY_XS;
+$dayName['veryShort'][3] = _TCMS_DAY_WEDNESDAY_XXS;
 $dayName['name'][4] = _TCMS_DAY_THURSDAY;
 $dayName['short'][4] = _TCMS_DAY_THURSDAY_XS;
+$dayName['veryShort'][4] = _TCMS_DAY_THURSDAY_XXS;
 $dayName['name'][5] = _TCMS_DAY_FRIDAY;
 $dayName['short'][5] = _TCMS_DAY_FRIDAY_XS;
+$dayName['veryShort'][5] = _TCMS_DAY_FRIDAY_XXS;
 $dayName['name'][6] = _TCMS_DAY_SATURDAY;
 $dayName['short'][6] = _TCMS_DAY_SATURDAY_XS;
+$dayName['veryShort'][6] = _TCMS_DAY_SATURDAY_XXS;
 $dayName['name'][7] = _TCMS_DAY_SUNDAY;
 $dayName['short'][7] = _TCMS_DAY_SUNDAY_XS;
+$dayName['veryShort'][7] = _TCMS_DAY_SUNDAY_XXS;
 
 $dayName['name']['mon'] = _TCMS_DAY_MONDAY;
 $dayName['short']['mon'] = _TCMS_DAY_MONDAY_XS;
+$dayName['veryShort']['mon'] = _TCMS_DAY_MONDAY_XXS;
 $dayName['name']['tue'] = _TCMS_DAY_TUESDAY;
 $dayName['short']['tue'] = _TCMS_DAY_TUESDAY_XS;
+$dayName['veryShort']['tue'] = _TCMS_DAY_TUESDAY_XXS;
 $dayName['name']['wed'] = _TCMS_DAY_WEDNESDAY;
 $dayName['short']['wed'] = _TCMS_DAY_WEDNESDAY_XS;
+$dayName['veryShort']['wed'] = _TCMS_DAY_WEDNESDAY_XXS;
 $dayName['name']['thu'] = _TCMS_DAY_THURSDAY;
 $dayName['short']['thu'] = _TCMS_DAY_THURSDAY_XS;
+$dayName['veryShort']['thu'] = _TCMS_DAY_THURSDAY_XXS;
 $dayName['name']['fri'] = _TCMS_DAY_FRIDAY;
 $dayName['short']['fri'] = _TCMS_DAY_FRIDAY_XS;
+$dayName['veryShort']['fri'] = _TCMS_DAY_FRIDAY_XXS;
 $dayName['name']['sat'] = _TCMS_DAY_SATURDAY;
 $dayName['short']['sat'] = _TCMS_DAY_SATURDAY_XS;
+$dayName['veryShort']['sat'] = _TCMS_DAY_SATURDAY_XXS;
 $dayName['name']['sun'] = _TCMS_DAY_SUNDAY;
 $dayName['short']['sun'] = _TCMS_DAY_SUNDAY_XS;
+$dayName['veryShort']['sun'] = _TCMS_DAY_SUNDAY_XXS;
 
 
 
