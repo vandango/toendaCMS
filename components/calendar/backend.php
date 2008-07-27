@@ -215,11 +215,11 @@ if($action == 'save'){
 	$new_csDesc     = $tcms_main->encodeText($new_csDesc, '2', $c_charset, true, true);
 	
 	
-	$xmluser = new xmlparser('../../'.$tcms_administer_site.'/components/'.$component.'/calendar.xml', 'w');
+	$xmluser = new xmlparser(_TCMS_PATH.'/components/'.$component.'/calendar.xml', 'w');
 	$xmluser->xmlDeclaration();
 	$xmluser->xmlSection('cs');
 	
-	$xmluser->writeValue_with_attribute('calendar_title', $new_cs_calendar_title, 'encode', $new_cs_decode_title);
+	$xmluser->writeValueWithAttribute('calendar_title', $new_cs_calendar_title, 'encode', $new_cs_decode_title);
 	$xmluser->writeValue('show_calendar_title', $new_cs_show_calendar_title);
 	$xmluser->writeValue('sunday_color', $new_cs_sunday_color);
 	$xmluser->writeValue('saturday_color', $new_cs_saturday_color);
@@ -232,7 +232,8 @@ if($action == 'save'){
 	
 	$xmluser->xmlSectionBuffer();
 	$xmluser->xmlSectionEnd('cs');
-	$xmluser->_xmlparser();
+	
+	unset($xmluser);
 	
 	
 	echo '<script>'

@@ -72,6 +72,11 @@ if(substr($tempMonth, 0, 1) == '0') $tempMonth = substr($tempMonth, 1, 1);
 
 $outDate = lang_date($cal_today, $monthName[$tempMonth], $cal_year, '', '', '');
 
+$t_outDate = substr($outDate, 0, strlen($outDate) - 5);
+$t_outDate = str_replace('.', '. ', $t_outDate);
+$t_outDate .= ' ';
+$t_outDate .= substr($outDate, strlen($outDate) - 4);
+$outDate = $t_outDate;
 
 
 
@@ -211,12 +216,12 @@ while($i <= $cal_mainDate){
 		switch($cs_linked_module){
 			case 'newsmanager':
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=newsmanager&amp;s='.$s.'&amp;date='.$cal_year.( strlen($cal_month) == 1 ? '0'.$cal_month : $cal_month ).( strlen($i) == 1 ? '0'.$i : $i );
-				$link = $tcms_main->urlAmpReplace($link, $seoFormat);
+				$link = $tcms_main->urlConvertToSEO($link, $seoFormat);
 				break;
 			
 			case 'diary':
 				$link = '?'.( isset($session) ? 'session='.$session.'&amp;' : '' ).'id=components&amp;item=diary&amp;s='.$s.'&amp;date='.$cal_uid;
-				$link = $tcms_main->urlAmpReplace($link, $seoFormat);
+				$link = $tcms_main->urlConvertToSEO($link, $seoFormat);
 				break;
 		}
 	}
@@ -243,9 +248,9 @@ while($i <= $cal_mainDate){
 		.'</strong>';
 	}
 	else{
-		echo ( $cal_cnt == 0 ? '' : '<a href="'.$link.'">' )
+		echo ( $cal_cnt == 0 ? '' : '<strong><a href="'.$link.'">' )
 		.$i
-		.( $cal_cnt == '' ? '' : '</a>' );
+		.( $cal_cnt == '' ? '' : '</a></strong>' );
 	}
 	
 	
