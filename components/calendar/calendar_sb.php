@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This components generates a calendar.
  *
- * @version 0.2.3
+ * @version 0.3.0
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Components
@@ -43,14 +43,14 @@ $cs_linked_module        = $_TCMS_CS_ARRAY['calendar']['content']['linked_module
 
 
 if($_TCMS_CS_ARRAY['calendar']['attribute']['calendar_title']['ENCODE'] == 1){
-	$cs_calendar_title = $tcms_main->encode_text_without_crypt($cs_calendar_title, '2', $c_charset);
+	$cs_calendar_title = $tcms_main->decodeText($cs_calendar_title, '2', $c_charset, true, true);
 }
 
 
 
 
 if($cs_show_calendar_title == 1){
-	echo tcms_html::subtitle($cs_calendar_title);
+	echo $tcms_html->subTitle($cs_calendar_title);
 	//echo '<br />';
 }
 else{
@@ -75,10 +75,12 @@ $outDate = lang_date($cal_today, $monthName[$tempMonth], $cal_year, '', '', '');
 
 
 
-if($s == 'kubrick')
-	echo tcms_html::table_head_style('2', '0', '0', '150', 'margin-left: -10px !important;');
-else
-	echo tcms_html::table_head_style('2', '0', '0', '', '');
+if($s == 'kubrick') {
+	echo $tcms_html->tableHeadStyle('2', '0', '0', '150', 'margin-left: -10px !important;');
+}
+else {
+	echo $tcms_html->tableHeadStyle('2', '0', '0', '', '');
+}
 
 echo '<th colspan="7" align="right">'
 .'<span class="text_normal">'.$outDate.'</span>'
@@ -110,17 +112,17 @@ while($i <= $cal_mainDate){
 		switch($cs_linked_module){
 			case 'newsmanager':
 				if($choosenDB == 'xml'){
-					$arr_files = $tcms_main->readdir_ext($tcms_administer_site.'/tcms_news/');
+					$arr_files = $tcms_file->getPathContent($tcms_administer_site.'/tcms_news/');
 					$cal_cnt = 0;
 					
 					if(is_array($arr_files)){
 						foreach($arr_files as $key => $value){
 							if($value != 'index.html'){
 								$menu_xml = new xmlparser($tcms_administer_site.'/tcms_news/'.$value,'r');
-								$is_lang = $menu_xml->read_section('news', 'language');
+								$is_lang = $menu_xml->readSection('news', 'language');
 								
 								if($is_lang == $tcms_config->getLanguageCodeForTCMS($lang)) {
-									$cal_date = $menu_xml->read_value('date');
+									$cal_date = $menu_xml->readValue('date');
 									
 									$checkdate = ( strlen($i) == 1 ? '0'.$i : $i ).".".( strlen($cal_month) == 1 ? '0'.$cal_month : $cal_month ).".".$cal_year;
 									
@@ -138,37 +140,37 @@ while($i <= $cal_mainDate){
 					unset($arr_files);
 				}
 				else{
-					$sqlAL = new sqlAbstractionLayer($choosenDB);
-					$sqlCN = $sqlAL->sqlConnect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
+					$sqlAL = new sqlAbstractionLayer($choosenDB, $tcms_time);
+					$sqlCN = $sqlAL->connect($sqlUser, $sqlPass, $sqlHost, $sqlDB, $sqlPort);
 					
 					
 					$sqlString = "SELECT COUNT(uid) AS count FROM ".$tcms_db_prefix."news"
 					." WHERE date = '".( strlen($i) == 1 ? '0'.$i : $i ).".".( strlen($cal_month) == 1 ? '0'.$cal_month : $cal_month ).".".$cal_year."'"
 					." AND language = '".$tcms_config->getLanguageCodeForTCMS($lang)."'";
 					
-					$sqlQR = $sqlAL->sqlQuery($sqlString);
+					$sqlQR = $sqlAL->query($sqlString);
 					
 					
-					$sqlARR = $sqlAL->sqlFetchArray($sqlQR);
+					$sqlObj = $sqlAL->fetchObject($sqlQR);
 					
-					$cal_cnt = $sqlARR['count'];
+					$cal_cnt = $sqlObj->count;
 					
 					if($cal_cnt == NULL) $cal_cnt = 0;
 				}
 				break;
 			
 			case 'diary':
-				$arr_files = $tcms_main->readdir_ext($tcms_administer_site.'/components/diary/data/');
+				$arr_files = $tcms_file->getPathContent($tcms_administer_site.'/components/diary/data/');
 				$cal_cnt = 0;
 				
 				if(is_array($arr_files)){
 					foreach($arr_files as $key => $value){
 						if($value != 'index.html'){
 							$xml = new xmlparser($tcms_administer_site.'/components/diary/data/'.$value,'r');
-							$pub = $xml->read_section('date', 'published');
+							$pub = $xml->readSection('date', 'published');
 							
 							if($pub == 1){
-								$cal_date = $xml->read_value('timestamp');
+								$cal_date = $xml->readValue('timestamp');
 								$cal_date = substr($cal_date, 0, 10);
 								
 								$checkdate = ( strlen($i) == 1 ? '0'.$i : $i ).'.'.( strlen($cal_month) == 1 ? '0'.$cal_month : $cal_month ).'.'.$cal_year;

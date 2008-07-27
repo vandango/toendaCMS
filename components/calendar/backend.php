@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This components generates a calendar.
  *
- * @version 0.1.2
+ * @version 0.1.3
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage Components
@@ -69,11 +69,11 @@ if($action != 'save'){
 	$cs_day_with_event       = $_TCMS_CS_ARRAY['calendar']['content']['day_with_event'];
 	$cs_day_as_link          = $_TCMS_CS_ARRAY['calendar']['content']['day_as_link'];
 	$cs_linked_module        = $_TCMS_CS_ARRAY['calendar']['content']['linked_module'];
-  $cs_show_current_day     = $_TCMS_CS_ARRAY['calendar']['content']['show_current_day'];
+  	$cs_show_current_day     = $_TCMS_CS_ARRAY['calendar']['content']['show_current_day'];
 	$cs_decode_title         = $_TCMS_CS_ARRAY['calendar']['attribute']['calendar_title']['ENCODE'];
 	
-	if($cs_decode_title == 1){
-		$cs_calendar_title = $tcms_main->encode_text_without_crypt($cs_calendar_title, '2', $c_charset);
+	if($cs_decode_title == 1) {
+		$cs_calendar_title = $tcms_main->decodeText($cs_calendar_title, '2', $c_charset, true, true);
 	}
 	
 	
@@ -210,28 +210,28 @@ if($action == 'save'){
 	
 	
 	// CHARSETS
-	$new_csTitle    = $tcms_main->decode_text_without_crypt($new_csTitle, '2', $c_charset);
-	$new_csSubTitle = $tcms_main->decode_text_without_crypt($new_csSubTitle, '2', $c_charset);
-	$new_csDesc     = $tcms_main->decode_text_without_crypt($new_csDesc, '2', $c_charset);
+	$new_csTitle    = $tcms_main->encodeText($new_csTitle, '2', $c_charset, true, true);
+	$new_csSubTitle = $tcms_main->encodeText($new_csSubTitle, '2', $c_charset, true, true);
+	$new_csDesc     = $tcms_main->encodeText($new_csDesc, '2', $c_charset, true, true);
 	
 	
 	$xmluser = new xmlparser('../../'.$tcms_administer_site.'/components/'.$component.'/calendar.xml', 'w');
-	$xmluser->xml_declaration();
-	$xmluser->xml_section('cs');
+	$xmluser->xmlDeclaration();
+	$xmluser->xmlSection('cs');
 	
-	$xmluser->write_value_with_attribute('calendar_title', $new_cs_calendar_title, 'encode', $new_cs_decode_title);
-	$xmluser->write_value('show_calendar_title', $new_cs_show_calendar_title);
-	$xmluser->write_value('sunday_color', $new_cs_sunday_color);
-	$xmluser->write_value('saturday_color', $new_cs_saturday_color);
-	$xmluser->write_value('currentday_backcolor', $new_cs_currentday_backcolor);
-	$xmluser->write_value('weekday_border', $new_cs_weekday_border);
-	$xmluser->write_value('day_with_event', $new_cs_day_with_event);
-	$xmluser->write_value('day_as_link', $new_cs_day_as_link);
-	$xmluser->write_value('linked_module', $new_cs_linked_module);
-	$xmluser->write_value('show_current_day', $new_show_current_day);
+	$xmluser->writeValue_with_attribute('calendar_title', $new_cs_calendar_title, 'encode', $new_cs_decode_title);
+	$xmluser->writeValue('show_calendar_title', $new_cs_show_calendar_title);
+	$xmluser->writeValue('sunday_color', $new_cs_sunday_color);
+	$xmluser->writeValue('saturday_color', $new_cs_saturday_color);
+	$xmluser->writeValue('currentday_backcolor', $new_cs_currentday_backcolor);
+	$xmluser->writeValue('weekday_border', $new_cs_weekday_border);
+	$xmluser->writeValue('day_with_event', $new_cs_day_with_event);
+	$xmluser->writeValue('day_as_link', $new_cs_day_as_link);
+	$xmluser->writeValue('linked_module', $new_cs_linked_module);
+	$xmluser->writeValue('show_current_day', $new_show_current_day);
 	
-	$xmluser->xml_section_buffer();
-	$xmluser->xml_section_end('cs');
+	$xmluser->xmlSectionBuffer();
+	$xmluser->xmlSectionEnd('cs');
 	$xmluser->_xmlparser();
 	
 	
