@@ -1407,7 +1407,7 @@ if($todo == 'edit') {
 			
 			// table row
 			echo '<td width="210" valign="top">'
-			.'<div style="width: 200px; overflow: auto; border: 0px solid #fff; padding: 3px;">'
+			.'<div style="width: 200px; overflow: auto; height: 500px; border: 1px solid #ccc; padding: 3px;">'
 			.'<fieldset><legend><strong class="tcms_bold">'._TABLE_CATEGORY.'</strong></legend>'
 			.'<br />';
 			
@@ -1437,7 +1437,10 @@ if($todo == 'edit') {
 					echo '<div class="tcms_switchcolor_4" style="margin: 0; padding: 0 0 4px 0;" onmouseover="this.style.background=\''.$arr_farbe[1].'\';" onmouseout="this.style.background=\''.$arr_farbe[0].'\';">'
 					.'<label for="new_cat_'.$key.'">'
 					.'<input type="checkbox" style="margin: 0 0 0px 0 !important;" id="new_cat_'.$key.'" name="new_cat_'.$key.'" value="'.$value.'"'.( $checkME == true ? ' checked="checked"' : '' ).' />'
-					.'&nbsp;'.$arrNewsCat['name'][$key]
+					.'&nbsp;'
+					.'<span>'
+					.$arrNewsCat['name'][$key]
+					.'</span>'
 					.'</label>'
 					.'</div>';
 					
