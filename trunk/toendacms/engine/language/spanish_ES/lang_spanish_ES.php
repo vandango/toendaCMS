@@ -57,6 +57,7 @@ if(!defined('_TCMS_ADMIN_DEV'))                define('_TCMS_ADMIN_DEV', 'desarr
 if(!defined('_TCMS_ADMIN_RIGHT'))              define('_TCMS_ADMIN_RIGHT', 'Todos los derechos reservados.');
 if(!defined('_TCMS_ADMIN_LOGED'))              define('_TCMS_ADMIN_LOGED', 'Abierta sesión como');
 if(!defined('_TCMS_ADMIN_GOTOSITE'))           define('_TCMS_ADMIN_GOTOSITE', 'Visualizar la página web');
+if(!defined('_TCMS_ADMIN_NEW_FILE_BUTTON'))    define('_TCMS_ADMIN_NEW_FILE_BUTTON', 'Crear Archivo');
 if(!defined('_TCMS_TOP_OF_PAGE'))              define('_TCMS_TOP_OF_PAGE', 'Ir al principio de esta página ...');
 if(!defined('_TCMS_PRINT_PAGE'))               define('_TCMS_PRINT_PAGE', 'Imprimir esta página ...');
 if(!defined('_TCMS_PDF_PAGE'))                 define('_TCMS_PDF_PAGE', 'Generar un archivo PDF de esta página ...');
@@ -187,6 +188,8 @@ if(!defined('_TCMS_MENU_SEARCH'))              define('_TCMS_MENU_SEARCH', 'Busc
 if(!defined('_TCMS_MENU_IMPORT'))              define('_TCMS_MENU_IMPORT', 'Importar');
 if(!defined('_TCMS_MENU_CFORM'))               define('_TCMS_MENU_CFORM', 'Formulario Contacto');
 if(!defined('_TCMS_MENU_BOOK'))                define('_TCMS_MENU_BOOK', 'Libro de visitas');
+if(!defined('_TCMS_MENU_SITEMAP'))             define('_TCMS_MENU_SITEMAP', 'Mapa del sitio');
+if(!defined('_TCMS_MENU_LOG'))                 define('_TCMS_MENU_LOG', 'Visor de registro');
 
 
 // MODULES
@@ -236,6 +239,7 @@ define('_MOD_ABOUT_MODULE', 'Descripción de los módulos de toendaCMS');
 define('_MOD_ABOUT', 'Acerca de toendaCMS');
 if(!defined('_MOD_CFORM'))                     define('_MOD_CFORM', 'Configuración Formulario Contacto');
 if(!defined('_MOD_BOOK'))                      define('_MOD_BOOK', 'Configuración Libro de Visitas');
+if(!defined('_MOD_LOG'))                       define('_MOD_LOG', 'Visor de Registro');
 
 
 // TABLES
@@ -367,6 +371,21 @@ define('_TABLE_SORT_DESC', 'Ordenar Descendente');
 define('_TABLE_SORT_ASC', 'Ordenar Ascendente');
 define('_TABLE_VIEW', 'Vista');
 if(!defined('_TABLE_FRONTPAGE'))               define('_TABLE_FRONTPAGE', 'Página de Inicio');
+if(!defined('_TABLE_IMAGES'))                  define('_TABLE_IMAGES', 'Imagenes');
+if(!defined('_TABLE_SHOWONMAINPAGE'))          define('_TABLE_SHOWONMAINPAGE', 'Mostrar en página de inicio');
+if(!defined('_TABLE_PRODUCT'))                 define('_TABLE_PRODUCT', 'Producto');
+if(!defined('_TABLE_THUMBNAIL'))               define('_TABLE_THUMBNAIL', 'Miniatura');
+if(!defined('_TABLE_PRICE_ADD'))               define('_TABLE_PRICE_ADD', '(gross, for clear let Tax rate empty)');
+if(!defined('_TABLE_BROWSE'))                  define('_TABLE_BROWSE', 'Examinar');
+if(!defined('_TABLE_PUBLISHED_ON'))            define('_TABLE_PUBLISHED_ON', 'Publicado en');
+if(!defined('_TABLE_SYS_INFO'))                define('_TABLE_SYS_INFO', 'Información del sistema');
+if(!defined('_TABLE_YOU_ARE_RUNNING'))         define('_TABLE_YOU_ARE_RUNNING', 'Estás ejecutando');
+if(!defined('_TABLE_SITE_STATS'))              define('_TABLE_SITE_STATS', 'Estadísticas del sitio');
+if(!defined('_TABLE_NUM_OF_NEWS'))             define('_TABLE_NUM_OF_NEWS', 'Total de Noticias');
+if(!defined('_TABLE_NUM_OF_YOUR_NEWS'))        define('_TABLE_NUM_OF_YOUR_NEWS', 'Número de tus Noticias');
+if(!defined('_TABLE_NUM_OF_COMMENTS'))         define('_TABLE_NUM_OF_COMMENTS', 'Número de comentarios');
+if(!defined('_TABLE_MODULE'))                  define('_TABLE_MODULE', 'Módulo');
+if(!defined('_TABLE_BOOKMARK'))                define('_TABLE_BOOKMARK', 'Favorito');
 
 
 // MESSAGES
@@ -423,6 +442,16 @@ if(!defined('_MSG_BACKUP_FAILED'))             define('_MSG_BACKUP_FAILED', '¡Co
 if(!defined('_MSG_CHANGES'))                   define('_MSG_CHANGES', 'Has hecho cambios.');
 if(!defined('_MSG_SAVE_NOW'))                  define('_MSG_SAVE_NOW', '¿Deseas guardarlos ahora?');
 if(!defined('_MSG_SEND_FAILED'))               define('_MSG_SEND_FAILED', '¡Error enviando!');
+if(!defined('_MSG_NO_ALBUM_WITH_THIS_ID'))     define('_MSG_NO_ALBUM_WITH_THIS_ID', 'El sistema no encontró ningún album con ese ID!');
+if(!defined('_MSG_CREATE_ALBUM_FIRST'))        define('_MSG_CREATE_ALBUM_FIRST', '* Crear un album primero *');
+if(!defined('_MSG_MAX_POST_SIZE'))             define('_MSG_MAX_POST_SIZE', 'Max tamaño POST');
+
+if(!defined('_MSG_NOUPLOAD_PHP'))              define('_MSG_NOUPLOAD_PHP', 'El archivo no pudo subirse. Puede ser que el tamaño maximo de archivo o el tamaño máximo de post en los ajustes de INI es demasiado pequeño.');
+if(!defined('_MSG_ACTIVATE_NEW_PW_FIRST'))     define('_MSG_ACTIVATE_NEW_PW_FIRST', 'Debes activar tu nueva contraseña haciendo clic en el siguiente enlace:');
+if(!defined('_MSG_SUCCESSFULL_RETRIEVED'))     define('_MSG_SUCCESSFULL_RETRIEVED', 'Has recuperado satisfactoriamente tu nueva contraseña.');
+if(!defined('_MSG_ERROR_ON_RETRIEVING'))       define('_MSG_ERROR_ON_RETRIEVING', 'Error en la validación de la nueva contraseña!');
+if(!defined('_MSG_COMMENT_FOR'))               define('_MSG_COMMENT_FOR', 'Comentario a');
+if(!defined('_MSG_DELETE_ERROR'))              define('_MSG_DELETE_ERROR', '¡No se pudo eliminar!');
 
 
 // LOGIN
@@ -664,6 +693,21 @@ define('_EXT_DOWNLOAD_ID', 'ID');
 define('_EXT_DOWNLOAD_TITLE', 'Título del gestor de descargas');
 define('_EXT_DOWNLOAD_SUBTITLE', 'Subtítulo del gestor de descargas');
 define('_EXT_DOWNLOAD_TEXT', 'Texto del gestor de descarga');
+if(!defined('_EXT_NEWS_SYN_USE_RSS091_IMG'))   define('_EXT_NEWS_SYN_USE_RSS091_IMG', 'Usa imagen por defecto para el enlace a RSS 0.91');
+if(!defined('_EXT_NEWS_SYN_RSS091_TEXT'))      define('_EXT_NEWS_SYN_RSS091_TEXT', 'Enlace de texto a RSS 0.91');
+if(!defined('_EXT_NEWS_SYN_USE_RSS10_IMG'))    define('_EXT_NEWS_SYN_USE_RSS10_IMG', 'Usa imagen por defecto para el enlace a RSS 1.0 ');
+if(!defined('_EXT_NEWS_SYN_RSS10_TEXT'))       define('_EXT_NEWS_SYN_RSS10_TEXT', 'Enlace de texto a RSS 1.0');
+if(!defined('_EXT_NEWS_SYN_USE_RSS20_IMG'))    define('_EXT_NEWS_SYN_USE_RSS20_IMG', 'Usa imagen por defecto para el enlace a RSS 2.0 ');
+if(!defined('_EXT_NEWS_SYN_RSS20_TEXT'))       define('_EXT_NEWS_SYN_RSS20_TEXT', 'Enlace de texto a RSS 2.0');
+if(!defined('_EXT_NEWS_SYN_USE_ATOM03_IMG'))   define('_EXT_NEWS_SYN_USE_ATOM03_IMG', 'Usa imagen por defecto para el enlace a 0.3 ');
+if(!defined('_EXT_NEWS_SYN_ATOM03_TEXT'))      define('_EXT_NEWS_SYN_ATOM03_TEXT', 'Enlace de texto a Atom 0.3');
+if(!defined('_EXT_NEWS_SYN_USE_OPML_IMG'))     define('_EXT_NEWS_SYN_USE_OPML_IMG', 'Usa imagen por defecto para el enlace a Opml ');
+if(!defined('_EXT_NEWS_SYN_OPML_TEXT'))        define('_EXT_NEWS_SYN_OPML_TEXT', 'Enlace de texto a Opml');
+if(!defined('_EXT_NEWS_SYN_USE_CFEED'))        define('_EXT_NEWS_SYN_USE_CFEED', 'Usa feed para los comentarios');
+if(!defined('_EXT_NEWS_SYN_USE_CFEED_IMG'))    define('_EXT_NEWS_SYN_USE_CFEED_IMG', 'Usa una imagen para los enlaces de los comentarios feed');
+if(!defined('_EXT_NEWS_SYN_CFEED_TEXT'))       define('_EXT_NEWS_SYN_CFEED_TEXT', 'Enlace de texto a los comentarios feed');
+if(!defined('_EXT_NEWS_SYN_CFEED_AMOUNT'))     define('_EXT_NEWS_SYN_CFEED_AMOUNT', 'Cantidad de comentarios en un feed');
+if(!defined('_EXT_NEWS_SYN_CFEED_TYPE'))       define('_EXT_NEWS_SYN_CFEED_TYPE', 'Tipo de Feed para los comentarios');
 
 
 // GALLERY
@@ -699,7 +743,7 @@ define('_GALLERY_LAST_SIZE', 'Tamaño de las imágenes');
 define('_GALLERY_LAST_TEXT', 'Texto para las nuevas imágenes');
 define('_GALLERY_LAST_ALIGN', 'Alineación para las nuevas imágenes');
 define('_GALLERY_LIST_NORMAL', 'Lista de imágenes Normal (una bajo la otra con información)');
-define('_GALLERY_LIST_3_THUMB', '3 miniaturas por lado');
+define('_GALLERY_LIST_3_THUMB', 'imágenes en miniatura de lado a lado');
 if(!defined('_GALLERY_MIMETYPE'))              define('_GALLERY_MIMETYPE', 'Mimetype');
 
 
@@ -867,6 +911,8 @@ define('_GLOBAL_SEO', 'SEO URL');
 define('_GLOBAL_SEO_ENABLED', 'SEO habilitado');
 define('_GLOBAL_SEO_FOLDER', 'Directorio de toendaCMS en Servidor');
 define('_GLOBAL_SEO_FORMAT', 'Formato SEO');
+if(!defined('_GLOBAL_SEO_NEWS_TITLE'))         define('_GLOBAL_SEO_NEWS_TITLE', 'También convierte url noticias a título');
+if(!defined('_GLOBAL_SEO_CONTENT_TITLE'))      define('_GLOBAL_SEO_CONTENT_TITLE', 'También convierte url noticias a título');
 define('_GLOBAL_SITE_OFFLINE', 'Sitio Apagado');
 define('_GLOBAL_SITE_OFFLINE_TEXT', 'Texto para sitio apagado');
 define('_GLOBAL_PASTE_FOOTER_TEXT', 'Pegar texto de muestra');
@@ -893,6 +939,11 @@ if(!defined('_GLOBAL_ROBOTSSETTINGS'))         define('_GLOBAL_ROBOTSSETTINGS', 
 if(!defined('_GLOBAL_LAST_CHANGES'))           define('_GLOBAL_LAST_CHANGES', 'ültimos cambios');
 if(!defined('_GLOBAL_USE_CONTENT_LANG'))       define('_GLOBAL_USE_CONTENT_LANG', 'Usa este idioma en el contenido');
 if(!defined('_GLOBAL_VALIDLINKS'))             define('_GLOBAL_VALIDLINKS', 'Mostrar enlaces web Estandar');
+if(!defined('_GLOBAL_MM_VIEW_LIST'))           define('_GLOBAL_MM_VIEW_LIST', 'Vista lista');
+if(!defined('_GLOBAL_MM_VIEW_ICON'))           define('_GLOBAL_MM_VIEW_ICON', 'Vista Iconos');
+if(!defined('_GLOBAL_MM_VIEW'))                define('_GLOBAL_MM_VIEW', 'Ver artículo en gestor de medios');
+if(!defined('_GLOBAL_FOOTER'))                 define('_GLOBAL_FOOTER', 'Pie');
+if(!defined('_GLOBAL_SHOW_BOOKMARK_LINKS'))    define('_GLOBAL_SHOW_BOOKMARK_LINKS', 'Mostrar enlaces favoritos');
 
 // POLL
 if(!defined('_POLL_MAINTITLE'))                define('_POLL_MAINTITLE', 'Módulo de encuestas');
@@ -925,6 +976,7 @@ if(!defined('_PATH_LOSTPW'))                   define('_PATH_LOSTPW', '¿Has perd
 if(!defined('_PATH_SEARCH'))                   define('_PATH_SEARCH', 'Buscar');
 if(!defined('_PATH_LEGAL'))                    define('_PATH_LEGAL', 'Información legal');
 if(!defined('_PATH_LINKS'))                    define('_PATH_LINKS', 'Enlaces');
+if(!defined('_PATH_CONTACTFORM'))              define('_PATH_CONTACTFORM', 'Formulario de Contacto');
 
 
 // LAYOUT
@@ -959,6 +1011,9 @@ define('_LU_DES_NAME', 'Nombre de la plantilla');
 define('_LU_DES_AUTOR', 'Autor');
 define('_LU_DES_URL', 'URL de la web del autor');
 define('_LU_DES_VERSION', 'Versión de tu plantilla');
+if(!defined('_LU_TEMPLATE_FILE'))              define('_LU_TEMPLATE_FILE', 'Archivo de plantilla');
+if(!defined('_LU_TEMPLATE_EDITOR'))            define('_LU_TEMPLATE_EDITOR', 'Editor de plantilla');
+if(!defined('_LU_TEMPLATE_CREATE'))            define('_LU_TEMPLATE_CREATE', 'Crear archivo');
 
 
 // CREDITS
@@ -1069,6 +1124,16 @@ define('_PRODUCTS_INC_TAX', 'Impuestos incluídos');
 define('_PRODUCTS_EX_TAX', 'Impuestos no incluídos');
 define('_PRODUCTS_CATEGORY_TITLE', 'Título de la categoría en la bara lateral');
 define('_PRODUCTS_USE_CATEGORY_TITLE', 'Mostrar el título de la categoría en la barra lateral');
+if(!defined('_PRODUCTS_SHOW_PRICE_ONLY_USERS'))define('_PRODUCTS_SHOW_PRICE_ONLY_USERS', 'Mostrar precios solo a usuarios');
+if(!defined('_PRODUCTS_STARTPAGETITLE'))       define('_PRODUCTS_STARTPAGETITLE', 'Título página inicio');
+if(!defined('_PRODUCTS_ARTICLE'))              define('_PRODUCTS_ARTICLE', 'Artículo');
+if(!defined('_PRODUCTS_CATEGORY'))             define('_PRODUCTS_CATEGORY', 'Categoría');
+if(!defined('_PRODUCTS_CATEGORIES'))           define('_PRODUCTS_CATEGORIES', 'Categorías');
+if(!defined('_PRODUCTS_CATALOGUE'))            define('_PRODUCTS_CATALOGUE', 'Catálogo');
+if(!defined('_PRODUCTS_USESIDEBARCATEGORIES')) define('_PRODUCTS_USESIDEBARCATEGORIES', 'Usar barra lateral de categorías');
+if(!defined('_PRODUCTS_LATEST'))               define('_PRODUCTS_LATEST', 'Últimos artículos');
+if(!defined('_PRODUCTS_AMOUNT_OF_LATEST'))     define('_PRODUCTS_AMOUNT_OF_LATEST', 'Cantidad de últimos artículos en la página de inicio');
+if(!defined('_PRODUCTS_ADD_TO_CART'))          define('_PRODUCTS_ADD_TO_CART', 'Añadir al Carro');
 
 
 // NEWS
@@ -1155,6 +1220,7 @@ if(!defined('_SEARCH_START'))                  define('_SEARCH_NOTFOUND_1', 'Tu 
 if(!defined('_SEARCH_NOTFOUND_1'))             define('_SEARCH_NOTFOUND_2', 'no fue encontrada.');
 if(!defined('_SEARCH_NOTFOUND_2'))             define('_SEARCH_WITH_GOOGLE', 'Buscar con');
 if(!defined('_SEARCH_WITH_GOOGLE'))            define('_SEARCH_WITH_GOOGLE', 'Buscar en la web con');
+if(!defined('_SEARCH_WITH_GOOGLE'))            define('_SEARCH_WEBSEARCH', 'Buscar en la web');
 
 
 // FILESYSTEMS
@@ -1193,6 +1259,8 @@ define('_DB_BACKUP_OPTIMIZATION', 'Optimización de la Base de datos');
 define('_DB_DB', 'Base de datos');
 define('_DB_BACKUP_AS_FILE', '¿Guardar copia de seguridad como archivo?');
 define('_DB_BACKUP_AS_STRUCTURE', '¿Sólo estructura de la base de datos?');
+if(!defined('_DB_CLEAN_UP'))                   define('_DB_CLEAN_UP', 'Limpiar base de datos');
+if(!defined('_DB_START_CLEAN_UP'))             define('_DB_START_CLEAN_UP', 'Iniciar Limpieza');
 
 
 // LINKS
@@ -1230,6 +1298,9 @@ if(!defined('_STATS_RESET'))                   define('_STATS_RESET', 'Resetear 
 if(!defined('_STATS_RESET_TEXT'))              define('_STATS_RESET_TEXT', 'Aquí puedes resetear las estadísticas. <strong>ATENCION!</strong> Después de resetear, no se podrán recuperar las estadísticas.');
 if(!defined('_STATS_RESET_SUCCESS'))           define('_STATS_RESET_SUCCESS', 'Estadísticas reseteadas satisfactoriamente.');
 if(!defined('_STATS_RESET_FAILED'))            define('_STATS_RESET_FAILED', 'Fallo al resetear las Estadísticas.');
+if(!defined('_STATS_LOG_TITLE'))               define('_STATS_LOG_TITLE', 'Visor de Registro');
+if(!defined('_STATS_LOG_TEXT'))                define('_STATS_LOG_TEXT', 'Registro de todas tus actividades');
+if(!defined('_STATS_LOG_TEXT_ADMIN'))          define('_STATS_LOG_TEXT_ADMIN', 'y las actividades de todos los usuarios');
 
 
 // FAQ's
@@ -1259,6 +1330,12 @@ if(!defined('_FOOTER_VALID_XHTML'))            define('_FOOTER_VALID_XHTML', 'Es
 if(!defined('_FOOTER_VALID_CSS'))              define('_FOOTER_VALID_CSS', 'Este sitio toendaCMS fué creado con un CSS válidado.');
 if(!defined('_FOOTER_VALID_ANY_BROWSER'))      define('_FOOTER_VALID_ANY_BROWSER', 'Este sitio toendaCMS se ve perfectamente en cualquier navegador web.');
 
+// SITEMAP
+if(!defined('_SITEMAP_TITLE'))                 define('_SITEMAP_TITLE', 'Mapa del sitio');
+if(!defined('_SITEMAP_SUBTITLE'))              define('_SITEMAP_SUBTITLE', 'Consigue la descripción de yn overview de esta web');
+if(!defined('_SITEMAP_TEXT'))                  define('_SITEMAP_TEXT', '');
+if(!defined('_SITEMAP_SIDEMENU'))              define('_SITEMAP_SIDEMENU', 'Accesible desde el menú lateral:');
+if(!defined('_SITEMAP_TOPMENU'))               define('_SITEMAP_TOPMENU', 'Accesible desde el menú superior:');
 
 // COUNTRY LIST
 if(!defined('_COUNTRY_AFGHANISTAN'))           define('_COUNTRY_AFGHANISTAN', 'Afghanistan');

@@ -58,6 +58,8 @@ if(!defined('_TCMS_DAY_FRIDAY_XXS'))           define('_TCMS_DAY_FRIDAY_XXS', 'F
 if(!defined('_TCMS_DAY_SATURDAY_XXS'))         define('_TCMS_DAY_SATURDAY_XXS', 'S');
 if(!defined('_TCMS_DAY_SUNDAY_XXS'))           define('_TCMS_DAY_SUNDAY_XXS', 'S');
 
+if(!defined('_LANG_GALICIAN'))                 define('_LANG_GALICIAN', 'Galicisch');
+
 *
 *
 **************************
