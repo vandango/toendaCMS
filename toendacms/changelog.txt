@@ -31,7 +31,7 @@ Developer Version
 	- 1.9.9 Beta 2
 	- 2.0.0 Stable
 
-Building Steps: 5033
+Building Steps: 5040
 
 
 
@@ -48,10 +48,12 @@ Building Steps: 5033
               link jumps now to the correct üposition.
  - bug fixed: 
 
+ - changed: Espanol (Spanish) language updated.
  - changed: 
 
  - added: Countrylist completed and added to the contact manager.
  - added: Wordpress Export file exporter.
+ - added: Galician language.
  - added: 
 
 

@@ -24,7 +24,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  * This class is used to provide the global
  * configuration data.
  *
- * @version 0.6.5
+ * @version 0.6.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage tcms_kernel
@@ -364,7 +364,7 @@ class tcms_configuration {
 	 * @return String
 	 */
 	public function getLanguageCode($inLowerCase = false){
-		switch($this->m_frontlang){
+		/*switch($this->m_frontlang){
 			case 'bulgarian_BG': $return = 'BG'; break;
 			case 'dutch_NL': $return = 'NL'; break;
 			case 'english_EN': $return = 'EN'; break;
@@ -378,7 +378,10 @@ class tcms_configuration {
 			case 'slovak_SK': $return = 'SK'; break;
 			case 'spanish_ES': $return = 'ES'; break;
 			case 'swedish_SE': $return = 'SE'; break;
-		}
+			case 'galician_GL': $return = 'GL'; break;
+		}*/
+		
+		$return = strrev(substr(strrev($this->m_frontlang), 0, 2));
 		
 		if($inLowerCase) {
 			return strtolower($return);
@@ -397,7 +400,7 @@ class tcms_configuration {
 	 * @return String
 	 */
 	public function getLanguageCodeByTCMSCode($langCode){
-		switch($langCode){
+		/*switch($langCode){
 			case 'bulgarian_BG': $return = 'bg'; break;
 			case 'dutch_NL': $return = 'nl'; break;
 			case 'english_EN': $return = 'en'; break;
@@ -411,7 +414,10 @@ class tcms_configuration {
 			case 'slovak_SK': $return = 'sk'; break;
 			case 'spanish_ES': $return = 'es'; break;
 			case 'swedish_SE': $return = 'se'; break;
-		}
+			case 'galician_GL': $return = 'gl'; break;
+		}*/
+		
+		$return = strtolower(strrev(substr(strrev($langCode), 0, 2)));
 		
 		return $return;
 	}
@@ -440,6 +446,7 @@ class tcms_configuration {
 			case 'sk': $return = 'slovak_SK'; break;
 			case 'es': $return = 'spanish_ES'; break;
 			case 'se': $return = 'swedish_SE'; break;
+			case 'gl': $return = 'galician_GL'; break;
 		}
 		
 		return $return;

@@ -18,7 +18,7 @@
 /**
  * English Language
  * 
- * @version 0.6.5
+ * @version 0.6.7
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS Backend
@@ -1343,6 +1343,7 @@ if(!defined('_LANG_ROMANIAN'))                 define('_LANG_ROMANIAN', 'Romania
 if(!defined('_LANG_SLOVAK'))                   define('_LANG_SLOVAK', 'Slovak');
 if(!defined('_LANG_SPANISH'))                  define('_LANG_SPANISH', 'Espanol');
 if(!defined('_LANG_SWEDISH'))                  define('_LANG_SWEDISH', 'Swedish');
+if(!defined('_LANG_GALICIAN'))                 define('_LANG_GALICIAN', 'Galician');
 
 
 // FOOTER

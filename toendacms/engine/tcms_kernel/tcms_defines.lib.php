@@ -23,7 +23,7 @@ defined('_TCMS_VALID') or die('Restricted access');
  *
  * This is used for global values
  *
- * @version 0.8.5
+ * @version 0.8.6
  * @author	Jonathan Naumann <jonathan@toenda.com>
  * @package toendaCMS
  * @subpackage toendaCMS
@@ -111,6 +111,10 @@ $languages['fine'][11] = 'es';
 $languages['code'][12] = 'swedish_SE';
 $languages['name'][12] = _LANG_SWEDISH;
 $languages['fine'][12] = 'se';
+
+$languages['code'][13] = 'galician_GL';
+$languages['name'][13] = _LANG_GALICIAN;
+$languages['fine'][13] = 'gl';
 
 
 
