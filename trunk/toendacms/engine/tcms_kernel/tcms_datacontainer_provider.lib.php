@@ -950,7 +950,29 @@ class tcms_datacontainer_provider extends tcms_main {
 				$this->m_sqlPort
 			);
 			
-			$sql = "SELECT uid "
+			switch($this->m_choosenDB) {
+				case 'mysql':
+					$dbLimitFront = "";
+					$dbLimitBack = "LIMIT 0, 1";
+					break;
+				
+				case 'pgsql':
+					$dbLimitFront = "";
+					$dbLimitBack = "LIMIT 0, 1";
+					break;
+				
+				case 'mssql':
+					$dbLimitFront = "TOP 1";
+					$dbLimitBack = "";
+					break;
+				
+				default:
+					$dbLimitFront = "";
+					$dbLimitBack = "";
+					break;
+			}
+			
+			$sql = "SELECT uid ".$dbLimitFront
 			."FROM ".$this->m_sqlPrefix."news "
 			."WHERE language = '".$language."' ";
 			
@@ -963,32 +985,37 @@ class tcms_datacontainer_provider extends tcms_main {
 			
 			foreach($arrTitle as $key => $value) {
 				if($key == 0) {
-					if($this->indexOf($value, "'") || $this->indexOf($value, "\'")) {
-						$sql .= "AND ( (title LIKE '%".$value."%') OR (title LIKE '%".str_replace('\'', '&#039;', $value)."%') ) ";
-						$sqlAddLine .= "%".$value."%";
-						$sqlAddLine .= "%".str_replace('\'', '&#039;', $value)."%";
-					}
-					else {
-						$sql .= "AND (title LIKE '%".$value."%') ";
-						$sqlAddLine .= "%".$value."%";
+					if($this->isReal($value)) {
+						if($this->indexOf($value, "'") || $this->indexOf($value, "\'")) {
+							$sql .= "AND ( (title LIKE '%".$value."%') OR (title LIKE '%".str_replace('\'', '&#039;', $value)."%') ) ";
+							$sqlAddLine .= "%".$value."";
+							$sqlAddLine .= "%".str_replace('\'', '&#039;', $value)."";
+						}
+						else {
+							$sql .= "AND (title LIKE '%".$value."%') ";
+							$sqlAddLine .= "%".$value."";
+						}
 					}
 				}
 				else {
-					if($this->indexOf($value, "'") || $this->indexOf($value, "\'")) {
-						$sql .= "AND ( (title LIKE '%".$value."%') OR (title LIKE '%".str_replace('\'', '&#039;', $value)."%') ) ";
-						$sqlAddLine .= "%".$value."%";
-						$sqlAddLine .= "%".str_replace('\'', '&#039;', $value)."%";
-					}
-					else {
-						$sql .= "AND (title LIKE '%".$value."%') ";
-						$sqlAddLine .= "%".$value."%";
+					if($this->isReal($value)) {
+						if($this->indexOf($value, "'") || $this->indexOf($value, "\'")) {
+							$sql .= "AND ( (title LIKE '%".$value."%') OR (title LIKE '%".str_replace('\'', '&#039;', $value)."%') ) ";
+							$sqlAddLine .= "%".$value."";
+							$sqlAddLine .= "%".str_replace('\'', '&#039;', $value)."";
+						}
+						else {
+							$sql .= "AND (title LIKE '%".$value."%') ";
+							$sqlAddLine .= "%".$value."";
+						}
 					}
 				}
 			}
 			
 			$sql .= " AND (title LIKE '";
 			$sql .= $sqlAddLine;
-			$sql .= "') ";
+			$sql .= "%') ";
+			$sql .= " ORDER BY stamp DESC, date DESC, time DESC ".$dbLimitBack;
 			//AND (title LIKE '%toendacms%2%beta%2%published%')
 			
 			//echo $sql.'<br>';
